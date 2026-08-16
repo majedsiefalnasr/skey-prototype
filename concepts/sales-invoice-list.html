@@ -896,6 +896,159 @@
       .inv-board-group h3 .dot { width: 8px; height: 8px; border-radius: 99px; display: inline-block; }
       .inv-board-card { padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; }
       .inv-board-card:hover { border-color: var(--accent-line); background: var(--accent-soft); }
+
+      /* ============ Advanced search overlay (shared across list concepts) ============
+     Same scrim + centered panel pattern as app-shell.html's own .sscrim/.spanel search,
+     adapted with invoice-relevant example filters instead of the whole-app command palette.
+     Scoped under #adv-search-scrim so it never collides with the decorative, inert
+     .swrap/.spanel search box reproduced in the topbar above. */
+      #adv-search-scrim {
+        position: fixed;
+        inset: 0;
+        background: transparent;
+        z-index: 150;
+        display: none;
+      }
+      #adv-search-scrim.open {
+        display: block;
+      }
+      #adv-search-scrim .box {
+        position: fixed;
+        z-index: 160;
+        inset-inline: 0;
+        margin-inline: auto;
+        inset-block-start: 14px;
+        width: min(620px, 92vw);
+        background: var(--surface);
+        border: 1.5px solid #dedede;
+        border-radius: 9px;
+        box-shadow: 0 18px 44px rgba(16, 24, 40, 0.24);
+        overflow: hidden;
+        display: none;
+        flex-direction: column;
+        max-height: min(600px, 68vh);
+      }
+      #adv-search-scrim.open .box {
+        display: flex;
+      }
+      #adv-search-scrim .as-inp {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--line);
+      }
+      #adv-search-scrim .as-inp input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font: 14px inherit;
+      }
+      #adv-search-scrim .as-fields {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+        background: #fafbfc;
+      }
+      #adv-search-scrim .as-field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      #adv-search-scrim .as-field label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--faint);
+      }
+      #adv-search-scrim .as-field input,
+      #adv-search-scrim .as-field select {
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 6px 8px;
+        font: 13px inherit;
+        color: var(--ink);
+        background: var(--surface);
+      }
+      #adv-search-scrim .as-list {
+        flex: 1;
+        overflow: auto;
+        padding: 6px;
+      }
+      #adv-search-scrim .as-grp {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--faint);
+        padding: 9px 12px 3px;
+      }
+      #adv-search-scrim .as-item {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        gap: 11px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        text-align: start;
+      }
+      #adv-search-scrim .as-item:hover {
+        background: var(--accent-soft);
+      }
+      #adv-search-scrim .as-item .ic {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+        background: #eef1f6;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+      }
+      #adv-search-scrim .as-item:hover .ic {
+        background: var(--surface);
+        color: var(--accent);
+      }
+      #adv-search-scrim .as-item .tx {
+        flex: 1;
+        min-width: 0;
+      }
+      #adv-search-scrim .as-item .t {
+        font-size: 13px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      #adv-search-scrim .as-item .s {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 1px;
+      }
+      #adv-search-scrim .as-foot {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 8px 14px;
+        border-top: 1px solid var(--line);
+        background: #fafbfc;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      #adv-search-scrim .as-foot .k {
+        font:
+          11px ui-monospace,
+          monospace;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 1px 6px;
+        margin-inline-end: 5px;
+      }
+      #adv-search-scrim .adv-search-close {
+        margin-inline-start: auto;
+      }
     </style>
   </head>
   <body>
@@ -910,6 +1063,73 @@
       </div>
     </div>
     <div class="toastwrap" id="toasts" role="status" aria-live="polite" aria-atomic="false"></div>
+
+    <!-- ===== advanced search overlay (shared across list concepts A/B/C) =====
+     Adapted from app-shell.html's own .sscrim/.spanel search: same scrim + centered
+     panel + input + results-list structure, filled with invoice-relevant example
+     filters (Doc No., Customer, Date range, Status, Payment method) instead of the
+     whole-app command palette. Filter rows are static example content, not a working
+     filter system. -->
+    <div id="adv-search-scrim">
+      <div class="box" role="dialog" aria-label="Advanced search" aria-modal="true">
+        <div class="as-inp">
+          <svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg>
+          <input
+            type="text"
+            placeholder="Search by document number, customer, or amount"
+            autocomplete="off" />
+          <span class="kbd-chip" style="margin: 0">Esc</span>
+        </div>
+        <div class="as-fields">
+          <div class="as-field">
+            <label for="as-docno">Doc No.</label>
+            <input id="as-docno" type="text" placeholder="e.g. 126" />
+          </div>
+          <div class="as-field">
+            <label for="as-customer">Customer</label>
+            <input id="as-customer" type="text" placeholder="Customer name or number" />
+          </div>
+          <div class="as-field">
+            <label for="as-date">Date range</label>
+            <input id="as-date" type="text" placeholder="e.g. 01/08/2026 – 13/08/2026" />
+          </div>
+          <div class="as-field">
+            <label for="as-status">Status</label>
+            <select id="as-status">
+              <option>All statuses</option>
+              <option>Posted</option>
+              <option>Pending</option>
+              <option>Open</option>
+            </select>
+          </div>
+          <div class="as-field">
+            <label for="as-pay">Payment method</label>
+            <select id="as-pay">
+              <option>All methods</option>
+              <option>Cash</option>
+              <option>Credit</option>
+            </select>
+          </div>
+        </div>
+        <div class="as-list" role="listbox">
+          <div class="as-grp">Matching invoices</div>
+          <button type="button" class="as-item" role="option">
+            <span class="ic"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg></span>
+            <span class="tx"><span class="t">#126 · محمد احمد</span><span class="s">13/08/2026 · Credit</span></span>
+          </button>
+          <button type="button" class="as-item" role="option">
+            <span class="ic"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg></span>
+            <span class="tx"><span class="t">#140 · العميل الاول</span><span class="s">13/08/2026 · Credit</span></span>
+          </button>
+        </div>
+        <div class="as-foot">
+          <span><span class="k">↑↓</span>Navigate</span><span><span class="k">↵</span>Open</span>
+          <button type="button" class="lbtn out adv-search-close" style="margin-inline-start: auto">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- ===== icon sprite (reproduced verbatim from concepts/app-shell.html) ===== -->
     <svg hidden xmlns="http://www.w3.org/2000/svg">
@@ -1605,6 +1825,23 @@
         toasts.append(t)
         setTimeout(() => t.remove(), ms)
       }
+
+      /* ---- advanced search: shared overlay opened from every list concept's Search trigger ---- */
+      const advSearchScrim = document.getElementById('adv-search-scrim')
+      function openAdvancedSearch() {
+        advSearchScrim.classList.add('open')
+        trapFocus(advSearchScrim.querySelector('.box'))
+      }
+      function closeAdvancedSearch() {
+        advSearchScrim.classList.remove('open')
+        releaseFocus()
+      }
+      advSearchScrim.addEventListener('click', e => {
+        if (e.target === advSearchScrim || e.target.closest('.adv-search-close')) closeAdvancedSearch()
+      })
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && advSearchScrim.classList.contains('open')) closeAdvancedSearch()
+      })
     </script>
 
     <script id="shell-kit-js">
@@ -1943,7 +2180,7 @@
         canvas.innerHTML =
           '<div class="inv-grid-wrap">' +
           '<div class="inv-grid-toolbar">' +
-          '<button class="lbtn out" type="button" onclick="toast({tone:\'ok\',title:\'Search\',body:\'Opens advanced search (see openAdvancedSearch)\'})">' +
+          '<button class="lbtn out" type="button" onclick="openAdvancedSearch()">' +
           '<svg width="15" height="15" aria-hidden="true"><use href="#i-search"/></svg> Search</button>' +
           '<div class="grow"></div>' +
           '<button class="lbtn out" type="button" onclick="toast({tone:\'ok\',title:\'Columns menu is out of scope here\'})">Columns</button>' +
@@ -1965,7 +2202,7 @@
 
       function renderListB(canvas) {
         canvas.innerHTML =
-          '<button type="button" class="inv-cmd-search" onclick="toast({tone:\'ok\',title:\'Opens advanced search\'})" style="width:100%;text-align:start;border:1px solid var(--line);cursor:pointer">' +
+          '<button type="button" class="inv-cmd-search" onclick="openAdvancedSearch()" style="width:100%;text-align:start;border:1px solid var(--line);cursor:pointer">' +
             '<svg width="15" height="15" aria-hidden="true"><use href="#i-search"/></svg> Search or jump to invoice #…' +
           '</button>' +
           '<div class="inv-cmd-chips">' +
