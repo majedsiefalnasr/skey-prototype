@@ -1050,12 +1050,81 @@
         color: var(--danger);
       }
       .rec-field input,
-      .rec-field select {
+      .rec-field select,
+      .rec-field textarea {
         width: 100%;
         padding: 6px 8px;
         border: 1px solid var(--line);
         border-radius: 6px;
         font: inherit;
+      }
+      .rec-field textarea {
+        resize: vertical;
+      }
+
+      /* items grid: reuses the .inv-grid/.inv-grid-wrap pattern from concepts/sales-invoice-list.html */
+      .inv-grid-wrap {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: auto;
+      }
+      .inv-grid {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      .inv-grid th {
+        text-align: start;
+        padding: 8px 12px;
+        background: var(--line-2);
+        color: var(--muted);
+        font-weight: 600;
+        border-bottom: 1px solid var(--line);
+        white-space: nowrap;
+      }
+      .inv-grid td {
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--line-2);
+      }
+      .inv-grid td input {
+        width: 100%;
+        padding: 5px 7px;
+        border: 1px solid var(--line);
+        border-radius: 5px;
+        font: inherit;
+      }
+      .rec-items {
+        margin-bottom: 12px;
+      }
+      .rec-items-hd {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .rec-total-qty {
+        text-align: end;
+        padding: 6px 12px;
+        font-size: 12.5px;
+        color: var(--success);
+        font-weight: 600;
+      }
+      .rec-totals {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px 16px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        margin-bottom: 12px;
+      }
+      .rec-add-payment {
+        display: inline-block;
+        margin-bottom: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--accent);
       }
     </style>
   </head>
@@ -1317,8 +1386,83 @@
             </div>
           </div>
         </div>
-        <!-- payment/other/subledgers/additional panels: built in Task 6 -->
-        <!-- items grid + totals + sales charges: built in Task 6, always visible below rec-tabpanel regardless of active tab -->
+        <div class="rec-tabpanel" data-panel="payment" hidden>
+          <a href="#" class="rec-add-payment" id="add-payment-link">+ Add payment method</a>
+          <div id="payment-rows"></div>
+        </div>
+        <div class="rec-tabpanel" data-panel="other" hidden data-adv-only>
+          <div class="rec-card"><div class="rec-card-body">
+            <div class="rec-field" style="grid-column:1/-1"><label>Statement</label><textarea data-field rows="2"></textarea></div>
+            <div class="rec-field"><label>Ref. No.</label><input data-field></div>
+            <div class="rec-field"><label>Manual No.</label><input data-field></div>
+            <div class="rec-field"><label>No. Of Attach.</label><input data-field></div>
+          </div></div>
+        </div>
+        <div class="rec-tabpanel" data-panel="subledgers" hidden data-adv-only>
+          <div class="rec-card"><div class="rec-card-body">
+            <div class="rec-field"><label>Cost Center No.</label><select data-field><option>—</option></select></div>
+            <div class="rec-field"><label>Sub Ledger2 No.</label><select data-field><option>—</option></select></div>
+            <div class="rec-field"><label>Sub Ledger3 No.</label><select data-field><option>—</option></select></div>
+          </div></div>
+        </div>
+        <div class="rec-tabpanel" data-panel="additional" hidden data-adv-only>
+          <div class="rec-card"><div class="rec-card-body">
+            <div class="rec-field"><label>Salesperson</label><select data-field><option>—</option></select></div>
+            <div class="rec-field"><label>Marketer No.</label><select data-field><option>—</option></select></div>
+            <div class="rec-field"><label>Collector</label><select data-field><option>—</option></select></div>
+            <div class="rec-field"><label>Emp. Code</label><input data-field></div>
+            <div class="rec-field"><label>Driver No.</label><select data-field><option>—</option></select></div>
+            <div class="rec-field"><label>Car No.</label><input data-field></div>
+            <div class="rec-field"><label>Geo. Location</label><select data-field><option>—</option></select></div>
+            <div class="rec-field"><label>Receiver</label><input data-field></div>
+            <div class="rec-field"><label>Tax Invoice Type</label><select data-field><option selected>Tax Invoice</option></select></div>
+            <div class="rec-field"><label>Tax Accruals Type</label><select data-field><option>—</option></select></div>
+            <div class="rec-field"><label>Tax Due Date</label><input data-field type="date"></div>
+            <div class="rec-field"><label>Incoming Date</label><input data-field type="date"></div>
+            <div class="rec-field"><label><input type="checkbox" data-field> Calculate Tax On Free Qty</label></div>
+          </div></div>
+        </div>
+
+        <div class="rec-items">
+          <div class="rec-items-hd">
+            <b>Items</b>
+            <button type="button" class="ibtn" onclick="addItemRow('items-body', 'items-total-qty')" aria-label="Add item"><svg width="15" height="15" aria-hidden="true"><use href="#i-plus"/></svg></button>
+          </div>
+          <div class="inv-grid-wrap">
+            <table class="inv-grid">
+              <thead><tr>
+                <th></th><th>Item</th><th>UoM</th>
+                <th data-adv-only>Expiry Date</th><th data-adv-only>Batch No.</th>
+                <th>Qty.</th>
+                <th data-adv-only>Free Qty</th><th data-adv-only>Available Qty</th>
+                <th>Price</th><th data-adv-only>Discount %</th><th>Tax %</th><th>Tax Amt</th><th>Total</th>
+              </tr></thead>
+              <tbody id="items-body"></tbody>
+            </table>
+          </div>
+          <div class="rec-total-qty">Total Qty.: <b id="items-total-qty">0</b></div>
+        </div>
+
+        <div class="rec-totals">
+          <div class="rec-field"><label>The Amount</label><input data-field disabled value="200"></div>
+          <div class="rec-field" data-adv-only><label>Total Items Discount</label><input data-field disabled value="0"></div>
+          <div class="rec-field" data-adv-only><label>Discount Percent</label><input data-field value="0"></div>
+          <div class="rec-field"><label>Charges Amount</label><input data-field disabled value="0"></div>
+          <div class="rec-field" data-adv-only><label>Discount Including Tax</label><input data-field disabled value="0"></div>
+          <div class="rec-field"><label>Total Discount</label><input data-field disabled value="0"></div>
+          <div class="rec-field"><label>Tax Amt</label><input data-field disabled value="0"></div>
+          <div class="rec-field"><label>Net Amount</label><input data-field disabled value="200"></div>
+        </div>
+        <div class="rec-card" data-adv-only>
+          <button type="button" class="rec-card-hd" aria-expanded="false">Sales Charges</button>
+          <div class="rec-card-body" hidden>
+            <div class="inv-grid-wrap" style="grid-column:1/-1">
+              <table class="inv-grid"><thead><tr><th>Charge</th><th>Amount</th><th></th></tr></thead>
+                <tbody><tr><td><input data-field placeholder="Charge type"></td><td><input data-field value="0"></td><td><button type="button" class="ibtn" aria-label="Remove charge">✕</button></td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="fnav">
@@ -1970,6 +2114,81 @@
       })
 
       /* ================= Concept A — Guided Tabs ================= */
+
+      /* ---- payment method: multiple simultaneous rows, each with its own
+         method-specific extra fields ---- */
+      const PAYMENT_METHODS = ['Cash', 'Bank', 'Credit Card', 'Cheque', 'Transfer']
+      const PAYMENT_EXTRA_FIELDS = {
+        Cash: [{label: 'Cash Code', value: '2001 - Main Cash'}],
+        Bank: [{label: 'Bank Name', value: ''}, {label: 'Account No.', value: ''}],
+        'Credit Card': [{label: 'Card Type', value: ''}, {label: 'Approval No.', value: ''}],
+        Cheque: [{label: 'Cheque No.', value: ''}, {label: 'Bank', value: ''}],
+        Transfer: [{label: 'Transfer Reference', value: ''}],
+      }
+      let paymentRowCount = 0
+
+      /* containerId lets Task 7's Concepts B and C reuse this for their own
+         payment-row containers, since only one concept's canvas is visible
+         at a time but all three exist in the DOM simultaneously */
+      function addPaymentMethodRow(containerId = 'payment-rows', method = 'Cash', amount = '') {
+        const id = paymentRowCount++
+        const row = document.createElement('div')
+        row.className = 'rec-card'
+        row.dataset.paymentRow = id
+        row.innerHTML =
+          '<div class="rec-card-body">' +
+            `<div class="rec-field"><label>Payment Method <span class="req">*</span></label>` +
+            `<select data-field data-payment-method>${PAYMENT_METHODS.map(m => `<option${m===method?' selected':''}>${m}</option>`).join('')}</select></div>` +
+            `<div class="rec-field"><label>The Amount <span class="req">*</span></label><input data-field value="${amount}"></div>` +
+            `<div class="rec-payment-extra"></div>` +
+            `<button type="button" class="ibtn rec-remove-payment" aria-label="Remove payment method">✕</button>` +
+          '</div>'
+        document.getElementById(containerId).appendChild(row)
+        renderPaymentExtraFields(row, method)
+        row.querySelector('[data-payment-method]').addEventListener('change', e => renderPaymentExtraFields(row, e.target.value))
+        row.querySelector('.rec-remove-payment').addEventListener('click', () => row.remove())
+      }
+
+      function renderPaymentExtraFields(row, method) {
+        const extra = row.querySelector('.rec-payment-extra')
+        extra.innerHTML = (PAYMENT_EXTRA_FIELDS[method] || [])
+          .map(f => `<div class="rec-field"><label>${f.label}</label><input data-field value="${f.value}"></div>`)
+          .join('')
+      }
+
+      /* ---- items grid: add/remove rows, recalc total qty ---- */
+      let itemRowCount = 0
+      /* bodyId/totalId let Concepts B and C (Task 7) reuse this for their own items
+         grids, which have their own tbody/total elements since only one concept's
+         canvas is visible at a time but all three exist in the DOM simultaneously */
+      function addItemRow(bodyId, totalId) {
+        const id = itemRowCount++
+        const tr = document.createElement('tr')
+        tr.dataset.itemRow = id
+        tr.innerHTML =
+          '<td><button type="button" class="ibtn rec-remove-item" aria-label="Remove item">✕</button></td>' +
+          '<td><input data-field placeholder="Item"></td>' +
+          '<td><input data-field placeholder="UoM"></td>' +
+          '<td data-adv-only><input data-field placeholder="Expiry"></td>' +
+          '<td data-adv-only><input data-field placeholder="Batch"></td>' +
+          '<td><input data-field type="number" value="1" class="items-qty"></td>' +
+          '<td data-adv-only><input data-field type="number" value="0"></td>' +
+          '<td data-adv-only><input data-field disabled placeholder="—"></td>' +
+          '<td><input data-field type="number" value="0"></td>' +
+          '<td data-adv-only><input data-field type="number" value="0"></td>' +
+          '<td><input data-field disabled value="0"></td>' +
+          '<td><input data-field disabled value="0"></td>' +
+          '<td><input data-field disabled value="0"></td>'
+        document.getElementById(bodyId).appendChild(tr)
+        tr.querySelector('.rec-remove-item').addEventListener('click', () => { tr.remove(); recalcTotalQty(bodyId, totalId) })
+        tr.querySelector('.items-qty').addEventListener('input', () => recalcTotalQty(bodyId, totalId))
+        recalcTotalQty(bodyId, totalId)
+      }
+      function recalcTotalQty(bodyId, totalId) {
+        const qtys = [...document.querySelectorAll(`#${bodyId} .items-qty`)].map(i => Number(i.value) || 0)
+        document.getElementById(totalId).textContent = qtys.reduce((a, b) => a + b, 0)
+      }
+
       let recordAInitialized = false
       function renderRecordA() {
         if (recordAInitialized) return
@@ -1992,6 +2211,13 @@
             hd.nextElementSibling.hidden = open
           })
         })
+
+        document.getElementById('add-payment-link').addEventListener('click', e => {
+          e.preventDefault()
+          addPaymentMethodRow('payment-rows')
+        })
+        addPaymentMethodRow('payment-rows', 'Cash', '200')
+        addItemRow('items-body', 'items-total-qty')
       }
 
       function renderRecord(concept) {
