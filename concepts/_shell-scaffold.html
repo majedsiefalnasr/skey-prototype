@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Skey ERP — Shell Scaffold (temp)</title>
+    <style>
+      :root {
+        /* Atlassian Design System tokens — atlassian.design (color.text, color.background.*, color.border, elevation, spacing) */
+        --ink: #172b4d;
+        --muted: #44546f;
+        --faint: #7a869a;
+        --line: #dcdfe4;
+        --line-2: #f0f2f5;
+        --bg: #f7f8f9;
+        --surface: #fff;
+        --accent: #0c66e4;
+        --accent-soft: #e9f2ff;
+        --accent-line: #cce0ff;
+        --focus: #388bff;
+        --danger: #ae2e24;
+        --success: #216e4e;
+        --st-open-bg: #e9f2ff;
+        --st-open-ink: #0c66e4;
+        --st-pend-bg: #fff7d6;
+        --st-pend-ink: #974f0c;
+        --st-post-bg: #dcfff1;
+        --st-post-ink: #216e4e;
+        --st-retn-bg: #ffecda;
+        --st-retn-ink: #a54800;
+        --st-canc-bg: #f1f2f4;
+        --st-canc-ink: #44546f;
+        --st-inac-bg: #eee5ff;
+        --st-inac-ink: #5e4db2;
+        --shadow-1: 0 1px 1px #091e4226, 0 0 1px #091e424f;
+        --shadow-2: 0 8px 12px #091e4226, 0 0 1px #091e424f;
+        --sidebar-w: 320px;
+        --rail-w: 52px;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      body {
+        font:
+          14px/1.45 system-ui,
+          -apple-system,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+      }
+
+      /* ============ harness ============ */
+      .demo-bar {
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        align-items: center;
+        background: #111827;
+        color: #e5e7eb;
+        padding: 10px 16px;
+        font-size: 13px;
+      }
+      .demo-bar .grp {
+        display: flex;
+        gap: 7px;
+        align-items: center;
+      }
+      .demo-bar label {
+        color: #9ca3af;
+      }
+      .demo-bar select {
+        background: #1f2937;
+        color: #e5e7eb;
+        border: 1px solid #4b5563;
+        border-radius: 6px;
+        padding: 4px 7px;
+      }
+      .demo-bar .tab {
+        padding: 5px 12px;
+        border: 1px solid #4b5563;
+        border-radius: 6px;
+        color: #e5e7eb;
+      }
+      .demo-bar .tab[aria-pressed='true'] {
+        background: #e5e7eb;
+        color: #111827;
+        border-color: #e5e7eb;
+        font-weight: 600;
+      }
+      .demo-bar .sep {
+        width: 1px;
+        align-self: stretch;
+        background: #374151;
+      }
+
+      /* ============ toasts ============ */
+      .toastwrap {
+        position: fixed;
+        inset-block-end: 20px;
+        inset-inline-start: 50%;
+        translate: -50% 0;
+        z-index: 300;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        align-items: center;
+        pointer-events: none;
+      }
+      .toast {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        min-width: 320px;
+        max-width: 520px;
+        pointer-events: auto;
+        background: #111827;
+        color: #f4f6f9;
+        border-radius: 10px;
+        padding: 11px 14px;
+        box-shadow: 0 10px 30px rgba(16, 24, 40, 0.28);
+        font-size: 13px;
+        animation: toastin 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      @keyframes toastin {
+        from {
+          opacity: 0;
+          translate: 0 8px;
+        }
+        to {
+          opacity: 1;
+          translate: 0 0;
+        }
+      }
+      .toast .ic {
+        margin-top: 1px;
+      }
+      .toast.ok .ic {
+        color: #7ee2a1;
+      }
+      .toast.bad {
+        background: #7c1d17;
+      }
+      .toast .bd {
+        flex: 1;
+      }
+      .toast .bd b {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
+      .toast .act {
+        color: #cfe0ff;
+        text-decoration: underline;
+        background: none;
+        font-size: 12.5px;
+        margin-top: 5px;
+        display: inline-block;
+      }
+      .toast .x {
+        color: #cfd6e2;
+        opacity: 0.8;
+      }
+
+      /* ---- floating control panel ---- */
+      #kit {
+        position: fixed;
+        inset-block-end: 14px;
+        inset-inline-start: 14px;
+        z-index: 400;
+        width: 322px;
+        background: #111827;
+        color: #e6e9ef;
+        border: 1px solid #2b3446;
+        border-radius: 12px;
+        box-shadow: 0 18px 44px rgba(8, 12, 20, 0.42);
+        font:
+          13px/1.45 system-ui,
+          -apple-system,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        overflow: hidden;
+        user-select: none;
+        display: flex;
+        flex-direction: column;
+        max-height: calc(100vh - 28px);
+      }
+      #kit .kit-h {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 10px 9px 12px;
+        cursor: grab;
+        background: #161e2c;
+        border-bottom: 1px solid #2b3446;
+      }
+      #kit.dragging .kit-h {
+        cursor: grabbing;
+      }
+      #kit .kit-h b {
+        flex: 1;
+        font-size: 12.5px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+      }
+      #kit .kit-h .grip {
+        color: #5c6779;
+        letter-spacing: -2px;
+        font-size: 15px;
+        margin-inline-end: 2px;
+      }
+      #kit .kit-h button {
+        background: none;
+        border: none;
+        color: #aab3c2;
+        cursor: pointer;
+        padding: 4px 6px;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        font-size: 12px;
+      }
+      #kit .kit-h button:hover {
+        background: #232c3d;
+        color: #fff;
+      }
+      #kit .kit-b {
+        padding: 11px 12px 13px;
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+        flex: 1;
+        min-height: 0;
+        overflow: auto;
+        overscroll-behavior: contain;
+      }
+      #kit.min .kit-b {
+        display: none;
+      }
+      #kit .kit-b .grp {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 7px;
+      }
+      #kit .kit-b label {
+        color: #98a2b3;
+        font-size: 12.5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      #kit .kit-b select {
+        background: #1b2432;
+        color: #e6e9ef;
+        border: 1px solid #33405a;
+        border-radius: 7px;
+        padding: 5px 8px;
+        font: inherit;
+        max-width: 100%;
+      }
+      #kit .kit-b input[type='checkbox'] {
+        accent-color: #6c9bff;
+        width: 14px;
+        height: 14px;
+      }
+      #kit .kit-b .tab,
+      #kit .kit-b .open-btn,
+      #kit .kit-b .mode-tab {
+        background: #1b2432;
+        border: 1px solid #33405a;
+        color: #e6e9ef;
+        border-radius: 7px;
+        padding: 5px 10px;
+        font: inherit;
+        cursor: pointer;
+      }
+      #kit .kit-b .tab[aria-pressed='true'],
+      #kit .kit-b .mode-tab[aria-pressed='true'] {
+        background: #e8ebf1;
+        color: #111827;
+        border-color: #e8ebf1;
+        font-weight: 600;
+      }
+      #kit .kit-b .sep {
+        display: none;
+      }
+      #kit .kit-b hr {
+        border: none;
+        border-top: 1px solid #232c3d;
+        margin: 1px 0;
+      }
+
+      #kit .kit-nav {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 9px 12px;
+        background: #0d1420;
+        border-bottom: 1px solid #232c3d;
+      }
+      #kit .kit-nav label {
+        color: #8d97a8;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      #kit .kit-nav select {
+        flex: 1 1 100%;
+        min-width: 0;
+        background: #1b2432;
+        color: #e6e9ef;
+        border: 1px solid #33405a;
+        border-radius: 7px;
+        padding: 5px 8px;
+        font: inherit;
+        text-overflow: ellipsis;
+      }
+      #kit .kit-nav a {
+        color: #9db6ff;
+        text-decoration: none;
+        font-size: 12px;
+        white-space: nowrap;
+        padding: 4px 2px;
+      }
+      #kit .kit-nav a:hover {
+        text-decoration: underline;
+      }
+      #kit.min .kit-nav {
+        display: none;
+      }
+      #kit-pill {
+        position: fixed;
+        inset-block-end: 14px;
+        inset-inline-start: 14px;
+        z-index: 400;
+        display: none;
+        background: #111827;
+        color: #e6e9ef;
+        border: 1px solid #2b3446;
+        border-radius: 999px;
+        padding: 8px 14px;
+        font:
+          600 12.5px system-ui,
+          sans-serif;
+        cursor: pointer;
+        box-shadow: 0 10px 26px rgba(8, 12, 20, 0.36);
+      }
+      #kit.hidden {
+        display: none;
+      }
+      #kit.hidden ~ #kit-pill {
+        display: inline-flex;
+      }
+
+      /* ---- notes dialog ---- */
+      #kit-notes {
+        position: fixed;
+        inset: 0;
+        z-index: 500;
+        background: rgba(12, 17, 26, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      #kit-notes.open {
+        display: flex;
+      }
+      #kit-notes .box {
+        width: min(720px, 94vw);
+        max-height: 86vh;
+        background: #fff;
+        color: #1b2230;
+        border-radius: 14px;
+        box-shadow: 0 26px 60px rgba(8, 12, 20, 0.34);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      #kit-notes .nh {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px 18px;
+        border-bottom: 1px solid #e4e7ec;
+      }
+      #kit-notes .nh h3 {
+        margin: 0;
+        font-size: 15.5px;
+        font-weight: 620;
+      }
+      #kit-notes .nh button {
+        margin-inline-start: auto;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #5c6673;
+        font-size: 18px;
+        line-height: 1;
+        padding: 4px 8px;
+        border-radius: 6px;
+      }
+      #kit-notes .nh button:hover {
+        background: #f1f3f6;
+        color: #1b2230;
+      }
+      #kit-notes .nb {
+        padding: 6px 20px 20px;
+        overflow: auto;
+      }
+      #kit-notes .nb .n {
+        font-size: 14.5px;
+        line-height: 1.62;
+        color: #4a5462;
+        margin-top: 16px;
+        max-width: 70ch;
+      }
+      #kit-notes .nb .n strong {
+        color: #1b2230;
+      }
+      #kit-notes .nb .n em {
+        color: #39424f;
+      }
+
+      #kit :is(button, select, input, a):focus-visible {
+        outline: 2px solid #9db6ff;
+        outline-offset: 2px;
+        border-radius: 6px;
+      }
+      #kit-pill:focus-visible {
+        outline: 2px solid #9db6ff;
+        outline-offset: 2px;
+      }
+      #kit-notes :is(button, a):focus-visible {
+        outline: 2px solid #1d4ed8;
+        outline-offset: 2px;
+        border-radius: 6px;
+      }
+      @media (max-width: 720px) {
+        #kit {
+          inset-inline: 14px;
+          width: auto;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #kit,
+        #kit-notes {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo-bar">
+      <div class="grp">
+        <label for="placeholder">Placeholder:</label>
+        <select id="placeholder" autocomplete="off">
+          <option value="a">Option A</option>
+        </select>
+      </div>
+    </div>
+    <div class="toastwrap" id="toasts" role="status" aria-live="polite" aria-atomic="false"></div>
+    <div style="padding: 40px; text-align: center; color: var(--faint)">Scaffold body placeholder</div>
+
+    <script>
+      /* ================= shell services: focus, toasts =================
+   Everything that takes time has three visible states — working, done, failed —
+   and every overlay gives the keyboard back where it found it.                */
+
+      /* ---- focus: trap inside an open overlay, restore it on close ---- */
+      let focusReturn = null,
+        trapped = null
+      const FOCUSABLE =
+        'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),summary,[tabindex]:not([tabindex="-1"])'
+      const trapFocus = box => {
+        if (!box) return
+        focusReturn = document.activeElement
+        trapped = box
+        const first = box.querySelector(FOCUSABLE)
+        ;(first || box).focus?.()
+      }
+      const releaseFocus = () => {
+        trapped = null
+        if (focusReturn && document.contains(focusReturn)) focusReturn.focus()
+        focusReturn = null
+      }
+      document.addEventListener(
+        'keydown',
+        e => {
+          if (e.key !== 'Tab' || !trapped) return
+          const items = [...trapped.querySelectorAll(FOCUSABLE)].filter(
+            el => el.offsetParent !== null
+          )
+          if (!items.length) return
+          const first = items[0],
+            last = items[items.length - 1]
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault()
+            last.focus()
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault()
+            first.focus()
+          }
+        },
+        true
+      )
+
+      /* ---- toasts: say what happened, and offer the next step ---- */
+      const toasts = document.getElementById('toasts')
+      const toast = ({tone = 'ok', title, body, action, onAction, ms = 5200}) => {
+        const t = document.createElement('div')
+        t.className = 'toast ' + tone
+        t.innerHTML = `<span class="ic"><svg width="16" height="16"><use href="#${tone === 'ok' ? 'i-check' : 'i-warn'}"/></svg></span>
+    <span class="bd"><b>${title}</b>${body ? body : ''}${action ? `<button class="act">${action}</button>` : ''}</span>
+    <button class="ibtn x" aria-label="Dismiss"><svg width="13" height="13"><use href="#i-x"/></svg></button>`
+        t.querySelector('.x').onclick = () => t.remove()
+        if (action)
+          t.querySelector('.act').onclick = () => {
+            t.remove()
+            onAction && onAction()
+          }
+        toasts.append(t)
+        setTimeout(() => t.remove(), ms)
+      }
+    </script>
+
+    <script id="shell-kit-js">
+      ;(() => {
+        const bar = document.querySelector('.demo-bar')
+        if (!bar) return
+
+        /* ---------- 1. move the harness into a floating panel ---------- */
+        const kit = document.createElement('div')
+        kit.id = 'kit'
+        kit.setAttribute('role', 'region')
+        kit.setAttribute('aria-label', 'Prototype controls')
+        kit.innerHTML =
+          '<div class="kit-h"><span class="grip">⋮⋮</span><b>Prototype controls</b>' +
+          '<button type="button" id="kit-info" title="About this prototype" aria-label="About this prototype">ⓘ About</button>' +
+          '<button type="button" id="kit-min" title="Collapse" aria-label="Collapse">–</button>' +
+          '<button type="button" id="kit-hide" title="Hide" aria-label="Hide">×</button></div>' +
+          '<div class="kit-nav"><span style="flex:1 1 100%">Skey ERP · App Shell</span><a href="../index.html" title="Project overview">Index</a></div>' +
+          '<div class="kit-b"></div>'
+        const body = kit.querySelector('.kit-b')
+        ;[...bar.children].forEach(child => {
+          if (child.classList.contains('sep')) {
+            body.appendChild(document.createElement('hr'))
+            return
+          }
+          body.appendChild(child)
+        })
+        bar.remove()
+        document.body.appendChild(kit)
+
+        const pill = document.createElement('button')
+        pill.id = 'kit-pill'
+        pill.className = 'kit-pill'
+        pill.type = 'button'
+        pill.textContent = 'Prototype controls'
+        document.body.appendChild(pill)
+        /* ---------- shared prototype state, so switching versions keeps your setup ---------- */
+        const STATE_KEY = 'skey-proto-state'
+        const UI_KEY = 'skey-proto-ui'
+        const readJSON = (k, fallback) => {
+          try {
+            return Object.assign({}, fallback, JSON.parse(sessionStorage.getItem(k) || '{}'))
+          } catch {
+            return Object.assign({}, fallback)
+          }
+        }
+        const writeJSON = (k, v) => {
+          try {
+            sessionStorage.setItem(k, JSON.stringify(v))
+          } catch {}
+        }
+
+        /* every harness control, addressed by id, restored and persisted by value */
+        const CONTROL_IDS = [
+          'mode',
+          'st',
+          'pay',
+          'dirty',
+          'failsim',
+          'emptyflow',
+          'rtl',
+          'density',
+          'lang',
+        ]
+
+        const captureState = () => {
+          const s = {}
+          for (const id of CONTROL_IDS) {
+            const el = document.getElementById(id)
+            if (!el) continue
+            s[id] = el.type === 'checkbox' ? el.checked : el.value
+          }
+          const active = kit.querySelector(
+            '.kit-b button.tab.on, .kit-b button.tab[aria-pressed="true"]'
+          )
+          if (active) s.layout = active.textContent.trim()
+          return s
+        }
+
+        /* apply saved values, then fire the events the prototype already listens for */
+        const restoreState = () => {
+          const saved = readJSON(STATE_KEY, null)
+          if (!saved || !Object.keys(saved).length) return
+          for (const id of CONTROL_IDS) {
+            const el = document.getElementById(id)
+            if (!el || !(id in saved)) continue
+            const want = saved[id]
+            if (el.type === 'checkbox') {
+              if (el.checked !== want) {
+                el.checked = want
+                el.dispatchEvent(new Event('change', {bubbles: true}))
+              }
+            } else if ([...(el.options || [])].some(o => o.value === want)) {
+              if (el.value !== want) {
+                el.value = want
+                el.dispatchEvent(new Event('change', {bubbles: true}))
+              }
+            }
+          }
+          if (saved.layout) {
+            const btn = [...kit.querySelectorAll('.kit-b button.tab')].find(
+              b => b.textContent.trim() === saved.layout
+            )
+            if (btn && btn.getAttribute('aria-pressed') !== 'true') btn.click()
+          }
+        }
+
+        restoreState()
+        kit.addEventListener('change', () => writeJSON(STATE_KEY, captureState()))
+        kit.addEventListener('click', e => {
+          if (e.target.closest('.kit-b button.tab'))
+            setTimeout(() => writeJSON(STATE_KEY, captureState()), 0)
+        })
+
+        /* ---------- panel chrome: collapse, hide, drag, all remembered ---------- */
+        const ui = readJSON(UI_KEY, {min: false, hidden: false, left: null, top: null})
+        const minBtn = document.getElementById('kit-min')
+        const saveUI = () => writeJSON(UI_KEY, ui)
+
+        const applyMin = () => {
+          kit.classList.toggle('min', ui.min)
+          minBtn.textContent = ui.min ? '□' : '–'
+          minBtn.title = minBtn.ariaLabel = ui.min ? 'Expand' : 'Collapse'
+          minBtn.setAttribute('aria-expanded', String(!ui.min))
+        }
+        const applyHidden = () => {
+          kit.classList.toggle('hidden', ui.hidden)
+          kit.setAttribute('aria-hidden', String(ui.hidden))
+          pill.setAttribute('aria-expanded', String(!ui.hidden))
+        }
+
+        minBtn.onclick = () => {
+          ui.min = !ui.min
+          applyMin()
+          saveUI()
+        }
+        document.getElementById('kit-hide').onclick = () => {
+          ui.hidden = true
+          applyHidden()
+          saveUI()
+          pill.focus()
+        }
+        pill.onclick = () => {
+          ui.hidden = false
+          applyHidden()
+          saveUI()
+          minBtn.focus()
+        }
+        applyMin()
+        applyHidden()
+
+        /* keep the panel fully on screen; used after drags and on resize */
+        const clamp = () => {
+          if (ui.left == null || ui.top == null) return
+          const w = kit.offsetWidth,
+            h = kit.offsetHeight
+          ui.left = Math.min(Math.max(6, ui.left), Math.max(6, innerWidth - w - 6))
+          ui.top = Math.min(Math.max(6, ui.top), Math.max(6, innerHeight - h - 6))
+          kit.style.inset = 'auto'
+          kit.style.left = ui.left + 'px'
+          kit.style.top = ui.top + 'px'
+        }
+        clamp()
+        addEventListener('resize', clamp)
+
+        const head = kit.querySelector('.kit-h')
+        let sx = 0,
+          sy = 0,
+          ox = 0,
+          oy = 0,
+          dragging = false
+        head.addEventListener('pointerdown', e => {
+          if (e.target.closest('button')) return
+          const r = kit.getBoundingClientRect()
+          kit.style.inset = 'auto'
+          kit.style.left = r.left + 'px'
+          kit.style.top = r.top + 'px'
+          sx = e.clientX
+          sy = e.clientY
+          ox = r.left
+          oy = r.top
+          dragging = true
+          kit.classList.add('dragging')
+          head.setPointerCapture(e.pointerId)
+        })
+        head.addEventListener('pointermove', e => {
+          if (!dragging) return
+          const w = kit.offsetWidth,
+            h = kit.offsetHeight
+          ui.left = Math.min(Math.max(6, ox + e.clientX - sx), innerWidth - w - 6)
+          ui.top = Math.min(Math.max(6, oy + e.clientY - sy), innerHeight - h - 6)
+          kit.style.left = ui.left + 'px'
+          kit.style.top = ui.top + 'px'
+        })
+        const endDrag = e => {
+          if (!dragging) return
+          dragging = false
+          kit.classList.remove('dragging')
+          try {
+            head.releasePointerCapture(e.pointerId)
+          } catch {}
+          saveUI()
+        }
+        head.addEventListener('pointerup', endDrag)
+        head.addEventListener('pointercancel', endDrag)
+
+        /* double-click the header to snap back to the default corner */
+        head.addEventListener('dblclick', e => {
+          if (e.target.closest('button')) return
+          ui.left = ui.top = null
+          saveUI()
+          kit.style.inset = ''
+          kit.style.left = ''
+          kit.style.top = ''
+        })
+
+        /* ---------- 2. the written notes become a dialog ---------- */
+        const notes = [...document.querySelectorAll('.note, .concept-note')].map(n => {
+          const section = n.closest('.design, .concept')
+          return {
+            html: n.outerHTML.replace(/class="[^"]*"/, 'class="n"'),
+            key: section ? section.dataset.design || section.dataset.concept || '' : '',
+          }
+        })
+        document.querySelectorAll('.note, .concept-note').forEach(n => n.remove())
+
+        const dlg = document.createElement('div')
+        dlg.id = 'kit-notes'
+        dlg.innerHTML =
+          '<div class="box" role="dialog" aria-modal="true" aria-labelledby="kit-notes-t">' +
+          '<div class="nh"><h3 id="kit-notes-t">About this prototype</h3>' +
+          '<button type="button" aria-label="Close">×</button></div><div class="nb"></div></div>'
+        document.body.appendChild(dlg)
+        const nb = dlg.querySelector('.nb')
+        const box = dlg.querySelector('.box')
+        const infoBtn = document.getElementById('kit-info')
+        let lastFocus = null
+
+        const closeNotes = () => {
+          if (!dlg.classList.contains('open')) return
+          dlg.classList.remove('open')
+          infoBtn.setAttribute('aria-expanded', 'false')
+          ;(lastFocus || infoBtn).focus()
+        }
+        dlg.querySelector('.nh button').onclick = closeNotes
+        dlg.addEventListener('click', e => {
+          if (e.target === dlg) closeNotes()
+        })
+
+        /* Escape closes, Tab stays inside the dialog while it is open */
+        document.addEventListener('keydown', e => {
+          if (!dlg.classList.contains('open')) return
+          if (e.key === 'Escape') {
+            e.preventDefault()
+            closeNotes()
+            return
+          }
+          if (e.key !== 'Tab') return
+          const f = [
+            ...box.querySelectorAll(
+              'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            ),
+          ].filter(el => el.offsetParent !== null)
+          if (!f.length) return
+          const first = f[0],
+            last = f[f.length - 1]
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault()
+            last.focus()
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault()
+            first.focus()
+          }
+        })
+
+        const activeKey = () => {
+          const a = document.querySelector('.design.active, .concept.active')
+          return a ? a.dataset.design || a.dataset.concept || '' : ''
+        }
+        infoBtn.setAttribute('aria-expanded', 'false')
+        infoBtn.onclick = () => {
+          const k = activeKey()
+          const shown = notes.filter(n => !n.key || n.key === k)
+          nb.innerHTML = (shown.length ? shown : notes).map(n => n.html).join('')
+          lastFocus = document.activeElement
+          dlg.classList.add('open')
+          infoBtn.setAttribute('aria-expanded', 'true')
+          nb.scrollTop = 0
+          dlg.querySelector('.nh button').focus()
+        }
+      })()
+    </script>
+  </body>
+</html>
