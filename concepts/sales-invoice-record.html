@@ -1907,6 +1907,11 @@
       }
 
       function editable() {
+        /* a brand-new invoice has no prior status to be locked by — the demo bar's
+           #st select still shows whatever status was last picked (defaults to
+           "posted"), but that value is meaningless until the record actually has
+           one, so 'create' mode is always editable regardless of it */
+        if (state.mode === 'create') return true
         return state.mode !== 'record' && !['posted', 'canceled', 'inactive'].includes(state.status)
       }
 
