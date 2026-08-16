@@ -2247,15 +2247,20 @@
       }
       function renderListC(canvas) {
         const groups = {posted: LIST_ROWS.slice(0, 2), pending: LIST_ROWS.slice(2)}
-        canvas.innerHTML = Object.entries(groups).map(([key, rows]) => {
-          if (!rows.length) return ''
-          const meta = STATUS_META[key]
-          return `<div class="inv-board-group"><h3><span class="dot" style="background:${meta.color}"></span>${meta.label} (${rows.length})</h3>` +
-            rows.map(r =>
-              `<div class="inv-board-card" onclick="openInvoiceRecord('${r.no}')">` +
-              `<span><b>#${r.no}</b> · ${r.custName}</span><span>${r.pay} · ${r.date}</span></div>`
-            ).join('') + '</div>'
-        }).join('')
+        canvas.innerHTML =
+          '<div class="inv-board-toolbar">' +
+          '<button class="lbtn out" type="button" onclick="openAdvancedSearch()">' +
+          '<svg width="15" height="15" aria-hidden="true"><use href="#i-search"/></svg> Search</button>' +
+          '</div>' +
+          Object.entries(groups).map(([key, rows]) => {
+            if (!rows.length) return ''
+            const meta = STATUS_META[key]
+            return `<div class="inv-board-group"><h3><span class="dot" style="background:${meta.color}"></span>${meta.label} (${rows.length})</h3>` +
+              rows.map(r =>
+                `<div class="inv-board-card" onclick="openInvoiceRecord('${r.no}')">` +
+                `<span><b>#${r.no}</b> · ${r.custName}</span><span>${r.pay} · ${r.date}</span></div>`
+              ).join('') + '</div>'
+          }).join('')
       }
 
       function openInvoiceRecord(no) {
