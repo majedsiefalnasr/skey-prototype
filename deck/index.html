@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>واجهة شاشة فاتورة المبيعات — النسخة 12</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Noto+Sans+Arabic:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a; --disp:#dcdcdc; --ink:#f0f0f1; --mid:#b6bcc4; --dim:#7e858e; --rule:#2a2a2a;
+    --ok:#8fe0a6; --bad:#ff9d92; --warn:#f5d18f;
+    --pad:clamp(34px,4vw,72px);
+    --font:Inter,"Noto Sans Arabic",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box; margin:0}
+  html,body{height:100%}
+  body{font-family:var(--font); background:var(--bg); color:var(--ink);
+    overflow:hidden; -webkit-font-smoothing:antialiased}
+  .deck{position:relative; height:100%}
+  .s{position:absolute; inset:0; display:none; flex-direction:column;
+     padding:var(--pad) var(--pad) calc(var(--pad) + 30px)}
+  .s.on{display:flex}
+
+  /* ---- meta rows ---- */
+  .top{display:flex; align-items:baseline; gap:22px; flex:none;
+    font-size:clamp(15px,1.35vw,21px); font-weight:700; color:var(--dim)}
+  .top .r{margin-inline-start:auto}
+  .foot{margin-top:auto; padding-top:20px; border-top:1px solid var(--rule); flex:none;
+    display:flex; gap:30px; flex-wrap:wrap; font-size:clamp(14px,1.2vw,19px); color:var(--dim)}
+  .foot .r{margin-inline-start:auto}
+
+  /* ---- type ---- */
+  .disp{font-weight:900; color:var(--disp); letter-spacing:-.01em; text-wrap:balance}
+  .huge{font-size:clamp(58px,7.4vw,96px); line-height:1.08}
+  .big{font-size:clamp(38px,5.2vw,72px); line-height:1.14}
+  .mid{font-size:clamp(31px,3.9vw,54px); line-height:1.18}
+  .num{font-size:clamp(74px,10vw,140px); line-height:1; font-weight:900; color:var(--disp); letter-spacing:-.02em}
+  .kick{font-size:clamp(15px,1.3vw,20px); color:var(--dim); font-weight:700; margin-bottom:14px}
+  .lede{font-size:clamp(21px,2.05vw,34px); color:var(--mid); line-height:1.62; max-width:32ch; font-weight:600}
+  p.b{font-size:clamp(19px,1.75vw,28px); color:var(--mid); line-height:1.68; max-width:38ch; margin-top:18px; font-weight:400}
+  .mid-area{flex:1; min-height:0; display:flex; flex-direction:column; justify-content:center;
+    gap:clamp(26px,3vw,46px)}
+  /* a heading belongs to what follows it, so it sits tighter than the block gap */
+  .mid-area > .disp{margin-bottom:clamp(-16px,-1.4vw,-8px)}
+
+  /* ---- grids ---- */
+  .cols{display:grid; grid-template-columns:1.15fr 1fr; gap:clamp(26px,3.4vw,56px); align-items:center}
+  .cols.flip{grid-template-columns:1fr 1.15fr}
+  .shot{border:1px solid var(--rule); border-radius:5px; overflow:hidden; background:#111}
+  .shot img{display:block; width:100%; height:auto}
+
+  ul.pts{list-style:none; display:grid; gap:clamp(14px,1.7vw,26px)}
+  ul.pts li{display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:start;
+    font-size:clamp(20px,1.9vw,30px); line-height:1.5; color:var(--mid)}
+  ul.pts .d{width:9px; height:9px; border-radius:50%; background:var(--disp); margin-top:.55em}
+  ul.pts b{color:var(--ink); font-weight:700; display:block}
+  ul.pts em{font-style:normal; color:var(--dim); font-weight:400; font-size:.84em}
+
+  table{width:100%; border-collapse:collapse; font-size:clamp(18px,1.6vw,26px)}
+  th{text-align:start; font-weight:700; font-size:clamp(14px,1.15vw,19px); letter-spacing:.05em;
+    color:var(--dim); padding:0 20px 14px 0; border-bottom:1px solid var(--rule)}
+  td{padding:20px 20px 20px 0; border-bottom:1px solid var(--rule); vertical-align:top;
+    color:var(--mid); line-height:1.5}
+  td b{color:var(--ink); font-weight:700}
+  td.now{color:var(--bad)}
+  td.new{color:var(--ok)}
+  tr:last-child td{border-bottom:none}
+
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:clamp(14px,1.6vw,22px)}
+  .card{border:1px solid var(--rule); border-radius:5px; padding:clamp(18px,1.8vw,26px)}
+  .card b{display:block; color:var(--disp); font-weight:700; font-size:clamp(22px,2.1vw,32px); margin-bottom:10px}
+  .card span{font-size:clamp(17px,1.5vw,24px); color:var(--mid); line-height:1.58}
+  .card.hl{border-color:#40506b; background:#0e1420}
+
+  .tag{display:inline-block; font-size:clamp(15px,1.25vw,20px); font-weight:700; border-radius:4px;
+    padding:4px 12px; border:1px solid currentColor; white-space:nowrap}
+  .tag.ok{color:var(--ok)} .tag.warn{color:var(--warn)}
+  .en{direction:ltr; unicode-bidi:isolate}
+
+  /* ---- chrome ---- */
+  .bar{position:fixed; inset-block-end:0; inset-inline:0; height:30px; display:flex; align-items:center;
+    gap:14px; padding:0 var(--pad); font-size:14px; color:var(--dim); z-index:10}
+  .bar .t{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .bar button{border:1px solid var(--rule); background:transparent; color:var(--dim); border-radius:3px;
+    width:28px; height:24px; cursor:pointer; font-size:14px; line-height:1}
+  .bar button:hover{color:var(--ink); border-color:#454545}
+  .bar button:focus-visible{outline:2px solid var(--disp); outline-offset:2px; color:var(--ink)}
+  .bar button:active{color:var(--ink); border-color:var(--disp)}
+  .bar .n{font-variant-numeric:tabular-nums; direction:ltr}
+  .prog{position:fixed; inset-block-end:30px; inset-inline:0; height:3px; background:var(--disp); z-index:11;
+    transform-origin:right center; transform:scaleX(0); transition:transform .2s cubic-bezier(.22,1,.36,1)}
+  :dir(ltr) .prog{transform-origin:left center}
+
+  @media print{ .bar,.prog{display:none} .s{display:flex !important; position:static; page-break-after:always; height:100vh} }
+  @media (prefers-reduced-motion:reduce){ .prog,.s{transition:none; animation:none} }
+  @media (max-width:900px){ .cols,.cols.flip{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1 -->
+<section class="s on" data-t="الغلاف">
+  <div class="top"><span>مراجعة تصميم</span><span class="r en">Skey ERP</span></div>
+  <div class="mid-area">
+    <h1 class="disp huge">واجهة شاشة الفاتورة.</h1>
+    <p class="lede">إعادة تصميم شريط الأوامر وأزرار التنقل في شاشة فاتورة المبيعات.</p>
+  </div>
+  <div class="foot"><span>لفريق التطوير ومدير المشروع</span><span class="r en">skey-pi.vercel.app</span></div>
+</section>
+
+<!-- 2 -->
+<section class="s" data-t="التقييم">
+  <div class="top"><span>تقييم الشاشة الحالية</span><span class="r">أربع مشكلات رئيسية</span></div>
+  <div class="mid-area">
+    <div class="cols">
+      <div>
+        <p class="kick">تقييم واجهة الشاشة اليوم</p>
+        <div class="num">9<span style="color:var(--dim)">/20</span></div>
+      </div>
+      <ul class="pts">
+        <li><span class="d"></span><span><b>الموظف لا يعرف وظيفة أزرار التنقل</b><em>أيقونات بلا أسماء، ومعناها يُعرف بالتجربة</em></span></li>
+        <li><span class="d"></span><span><b>لا يعرف موضعه بين الفواتير</b><em>لا يظهر رقم الفاتورة الحالية ولا عددها</em></span></li>
+        <li><span class="d"></span><span><b>لا يميز الفاتورة غير المحفوظة</b><em>تبدو مطابقة للمحفوظة، وقد تضيع دون تنبيه</em></span></li>
+        <li><span class="d"></span><span><b>لا يعرف سبب توقف الأوامر</b><em>أوامر رمادية بلا توضيح لما يلزم لإتاحتها</em></span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>تفاصيل الملاحظات التقنية في آخر الشرائح</span></div>
+</section>
+
+<!-- 3 -->
+<section class="s" data-t="الشاشة اليوم">
+  <div class="top"><span>نقطة البداية</span><span class="r">من النظام الحالي</span></div>
+  <div class="mid-area">
+    <div class="cols">
+      <div class="shot"><img src="img/live.png" alt="الشاشة الحالية"></div>
+      <div>
+        <h2 class="disp mid">هذه هي الشاشة<br>كما هي اليوم</h2>
+        <p class="b">لقطة من النظام الحالي، وكل المقترحات التالية مقارنة بها.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="r en">audit/app-shell-audit.md</span></div>
+</section>
+
+<!-- 4 -->
+<section class="s" data-t="المنهج">
+  <div class="top"><span>طريقة العمل</span><span class="r">بلا مسميات جديدة</span></div>
+  <div class="mid-area">
+    <h2 class="disp big">كل مصطلح هنا<br>مأخوذ من النظام</h2>
+    <div class="cards">
+      <div class="card"><b>راجعنا</b><span>القوائم والحالات وحقول النوافذ، من النظام نفسه ومن ملفات الترجمة.</span></div>
+      <div class="card"><b>صححنا</b><span>ما كنا نسميه «الاعتماد» اسمه في النظام <span class="en">Verification</span>، ولا توجد دورة من خمس مراحل.</span></div>
+      <div class="card hl"><b>لاحظنا</b><span>إجراء <span class="en">Verification</span> لا يُسجَّل من نفذه ولا متى. نقص فعلي في النظام.</span></div>
+    </div>
+  </div>
+  <div class="foot"><span class="r en">source-verification.md</span></div>
+</section>
+
+<!-- 5 -->
+<section class="s" data-t="قبل وبعد 1">
+  <div class="top"><span>قبل وبعد</span><span class="r">1 من 2</span></div>
+  <div class="mid-area">
+    <h2 class="disp mid">ما الذي يتغير فعلًا</h2>
+    <table>
+      <thead><tr><th style="width:24%">الحالة</th><th style="width:34%">الوضع الحالي</th><th>النسخة 12</th></tr></thead>
+      <tbody>
+        <tr><td><b>التنقل بين الفواتير</b></td>
+            <td class="now">أسهم بلا أسماء</td>
+            <td class="new">أزرار بأسماء واضحة، مع «فاتورة 1 من 125»</td></tr>
+        <tr><td><b>فاتورة جديدة</b></td>
+            <td class="now">تبدو كأنها محفوظة، وتضيع دون تنبيه</td>
+            <td class="new">تظهر «غير محفوظة»، والخروج منها يطلب تأكيدًا</td></tr>
+        <tr><td><b>أمر غير متاح</b></td>
+            <td class="now">يظهر رماديًا بلا سبب</td>
+            <td class="new">يوضح سبب عدم إتاحته وما يلزم لإتاحته</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="foot"></div>
+</section>
+
+<!-- 6 -->
+<section class="s" data-t="قبل وبعد 2">
+  <div class="top"><span>قبل وبعد</span><span class="r">2 من 2</span></div>
+  <div class="mid-area">
+    <h2 class="disp mid">وثلاثة فروق أخرى</h2>
+    <table>
+      <thead><tr><th style="width:24%">الحالة</th><th style="width:34%">الوضع الحالي</th><th>النسخة 12</th></tr></thead>
+      <tbody>
+        <tr><td><b>فاتورة مرحلة</b></td>
+            <td class="now">حقول مقفلة بلا تفسير</td>
+            <td class="new">سطر يوضح سبب القفل وكيفية إلغاء الترحيل</td></tr>
+        <tr><td><b>فشل الترحيل</b></td>
+            <td class="now">لا رسالة توضح سبب الفشل</td>
+            <td class="new">الخطأ يظهر داخل النافذة، والبيانات المدخلة تبقى</td></tr>
+        <tr><td><b>سجل حركات الفاتورة</b></td>
+            <td class="now">قائمتان، إحداهما فارغة دائمًا</td>
+            <td class="new">سجل واحد يوضح من قام بالإجراء ومتى</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="foot"><span class="r">يمكنكم تجربتها في النموذج التجريبي</span></div>
+</section>
+
+<!-- 7 -->
+<section class="s" data-t="القرار">
+  <div class="top"><span>المطلوب اختياره</span><span class="r">واحد من أربعة</span></div>
+  <div class="mid-area">
+    <h2 class="disp big">واجهة واحدة،<br>أربعة ترتيبات</h2>
+    <p class="lede" style="max-width:46ch">الأوامر نفسها والمسميات نفسها في الترتيبات الأربعة،
+      والفرق في مكان كل عنصر. الاختيار يعتمد على طريقة عمل موظفيكم.</p>
+  </div>
+  <div class="foot"><span class="r">في الشرائح الأربع التالية</span></div>
+</section>
+
+<!-- 8 -->
+<section class="s" data-t="1 · شريط التنقل">
+  <div class="top"><span>تخطيط 1</span><span class="r">الأقل مخاطرة</span></div>
+  <div class="mid-area">
+    <div class="cols">
+      <div class="shot"><img src="img/l1.png" alt="شريط التنقل بين السجلات"></div>
+      <div>
+        <h2 class="disp mid">شريط التنقل<br>بين السجلات</h2>
+        <ul class="pts" style="margin-top:26px">
+          <li><span class="d"></span><span><b>الأقرب للشاشة الحالية</b><em>لا يحتاج تدريبًا جديدًا</em></span></li>
+          <li><span class="d"></span><span><b>يأخذ سطرين من ارتفاع الشاشة</b><em>على حساب مساحة الفاتورة</em></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="r">تخطيط 1 من 4</span></div>
+</section>
+
+<!-- 9 -->
+<section class="s" data-t="2 · شريط أدوات واحد">
+  <div class="top"><span>تخطيط 2</span><span class="r">الأوفر في المساحة</span></div>
+  <div class="mid-area">
+    <div class="cols">
+      <div class="shot"><img src="img/l2.png" alt="شريط أدوات واحد"></div>
+      <div>
+        <h2 class="disp mid">شريط أدوات<br>واحد</h2>
+        <ul class="pts" style="margin-top:26px">
+          <li><span class="d"></span><span><b>كل الأوامر في سطر واحد</b><em>أكبر مساحة متاحة للفاتورة</em></span></li>
+          <li><span class="d"></span><span><b>مناسب لموظفي الإدخال</b><em>يضيق على الشاشات الأصغر من 1280 بكسل</em></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="r">تخطيط 2 من 4</span></div>
+</section>
+
+<!-- 10 -->
+<section class="s" data-t="3 · ترويسة الفاتورة">
+  <div class="top"><span>تخطيط 3</span><span class="r">الأوضح للمراجعة</span></div>
+  <div class="mid-area">
+    <div class="cols">
+      <div class="shot"><img src="img/l3.png" alt="ترويسة الفاتورة"></div>
+      <div>
+        <h2 class="disp mid">ترويسة<br>الفاتورة</h2>
+        <ul class="pts" style="margin-top:26px">
+          <li><span class="d"></span><span><b>بيانات الفاتورة ظاهرة دائمًا</b><em>العميل والمبلغ والتاريخ والمخزن</em></span></li>
+          <li><span class="d"></span><span><b>مناسب للمراجعة والاعتماد</b><em>يحتاج نقرة إضافية للوصول للقوائم</em></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="r">تخطيط 3 من 4</span></div>
+</section>
+
+<!-- 11 -->
+<section class="s" data-t="4 · لوحة جانبية">
+  <div class="top"><span>تخطيط 4</span><span class="r">للشاشات العريضة</span></div>
+  <div class="mid-area">
+    <div class="cols">
+      <div class="shot"><img src="img/l4.png" alt="لوحة جانبية للتفاصيل"></div>
+      <div>
+        <h2 class="disp mid">لوحة جانبية<br>للتفاصيل</h2>
+        <ul class="pts" style="margin-top:26px">
+          <li><span class="d"></span><span><b>الحالة وسجل الحركات ظاهران معًا</b><em>دون فتح أي نافذة</em></span></li>
+          <li><span class="d"></span><span><b>تأخذ 280 بكسل من العرض</b><em>ولذلك يمكن إخفاؤها</em></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="r">تخطيط 4 من 4</span></div>
+</section>
+
+<!-- 12 -->
+<section class="s" data-t="الحالة تحكم">
+  <div class="top"><span>سلوك مشترك</span><span class="r">مراجَع على فواتير فعلية</span></div>
+  <div class="mid-area">
+    <h2 class="disp mid">حالة الفاتورة تحدد<br>الأوامر المتاحة</h2>
+    <table>
+      <thead><tr><th style="width:34%">الحالة</th><th class="en">Posting</th><th class="en">Receipt Voucher</th><th class="en">Sales Return</th></tr></thead>
+      <tbody>
+        <tr><td><b>معلق · مرحل · مرتجع</b></td><td>متاح</td><td>الآجل فقط</td><td>متاح</td></tr>
+        <tr><td><b>ملغي</b></td><td><span class="tag warn">تعديل مقترح</span></td><td>غير متاح</td><td>غير متاح</td></tr>
+      </tbody>
+    </table>
+    <p class="b" style="max-width:54ch">النظام حاليًا يسمح بترحيل فاتورة ملغاة. أوقفنا ذلك في النموذج ووضعناه كاقتراح، ونحتاج رأيكم فيه.</p>
+  </div>
+  <div class="foot"><span class="r">سند القبض يعتمد على طريقة الدفع، لا على حالة الفاتورة</span></div>
+</section>
+
+<!-- 13 -->
+<section class="s" data-t="الإنشاء">
+  <div class="top"><span>أوضاع الفاتورة</span><span class="r">إضافة · تعديل · عرض</span></div>
+  <div class="mid-area">
+    <div class="cols">
+      <div class="shot"><img src="img/create.png" alt="إضافة فاتورة جديدة"></div>
+      <div>
+        <h2 class="disp mid">إضافة فاتورة<br>غير تعديلها</h2>
+        <ul class="pts" style="margin-top:26px">
+          <li><span class="d"></span><span><b>لا يوجد رقم للفاتورة بعد</b><em>ولا سجل حركات ولا ترتيب ضمن القائمة</em></span></li>
+          <li><span class="d"></span><span><b>بيان بالحقول الناقصة</b><em>يظهر قبل الحفظ لا بعده</em></span></li>
+          <li><span class="d"></span><span><b>لا تضيع البيانات دون تنبيه</b><em>الخروج قبل الحفظ يطلب تأكيدًا</em></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="r">مع زر «حفظ وإضافة فاتورة جديدة» للإدخال المتتابع</span></div>
+</section>
+
+<!-- 14 -->
+<section class="s" data-t="عند فشل الترحيل">
+  <div class="top"><span>سلوك الأوامر</span><span class="r">جارٍ التنفيذ · تم · فشل</span></div>
+  <div class="mid-area">
+    <div class="cols">
+      <div class="shot"><img src="img/fail.png" alt="فشل الترحيل"></div>
+      <div>
+        <h2 class="disp mid">وماذا لو<br>فشل الترحيل؟</h2>
+        <p class="b">رسالة الخطأ تظهر داخل النافذة، وتوضح الفرق بين المدين والدائن، والبيانات المدخلة تبقى كما هي.</p>
+        <p class="b" style="font-size:clamp(17px,1.5vw,24px)">حالة فعلية: النظام يعرض شاشة باسم
+          <span class="en">Sales Invoice - Unbalanced</span>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="r">يمكنكم تجربتها في النموذج</span></div>
+</section>
+
+<!-- 15 -->
+<section class="s" data-t="تفاصيل">
+  <div class="top"><span>تحسينات إضافية</span><span class="r">أربعة بنود</span></div>
+  <div class="mid-area">
+    <div class="cols flip">
+      <div>
+        <ul class="pts">
+          <li><span class="d"></span><span><b>اختصارات لوحة المفاتيح تعمل فعلًا</b><em>كان النظام يعرض ستة، واحد منها فقط يعمل</em></span></li>
+          <li><span class="d"></span><span><b>الجداول الفارغة توضح سبب فراغها</b><em>بدل جدول فارغ بلا تفسير</em></span></li>
+          <li><span class="d"></span><span><b>عدد مرات الطباعة ظاهر</b><em>النظام يحفظ هذا الرقم بالفعل</em></span></li>
+          <li><span class="d"></span><span><b>يعمل بالعربية والإنجليزية</b><em>مع دعم كامل للاتجاه من اليمين لليسار</em></span></li>
+        </ul>
+      </div>
+      <div class="shot"><img src="img/rtl.png" alt="الواجهة في الوضع العربي"></div>
+    </div>
+  </div>
+  <div class="foot"><span class="r">المصطلحات الإنجليزية مقصودة: هي ما يعرضه النظام حاليًا</span></div>
+</section>
+
+<!-- 16 -->
+<section class="s" data-t="طلبات فريق النظام">
+  <div class="top"><span>المطلوب من فريق النظام</span><span class="r">مرتب حسب الأولوية</span></div>
+  <div class="mid-area">
+    <h2 class="disp mid">أربعة طلبات<br>من فريق النظام</h2>
+    <table>
+      <thead><tr><th style="width:34%">المطلوب</th><th style="width:20%">حجم العمل</th><th>السبب</th></tr></thead>
+      <tbody>
+        <tr><td><b>تسجيل بيانات المراجعة</b></td><td><span class="tag ok">بسيط</span></td>
+            <td>النظام حاليًا لا يسجل من راجع الفاتورة ولا متى</td></tr>
+        <tr><td><b>تسجيل سبب الإرجاع</b></td><td><span class="tag ok">بسيط</span></td>
+            <td>لا توجد طريقة لمعرفة سبب إرجاع الفاتورة</td></tr>
+        <tr><td><b>إرجاع رقم الفاتورة بعد الحفظ</b></td><td><span class="tag ok">بسيط جدًا</span></td>
+            <td>لعرض رسالة «تم الحفظ برقم 129»</td></tr>
+        <tr><td><b>إدارة مراحل الفاتورة</b></td><td><span class="tag warn">متوسط</span></td>
+            <td>اختياري: الواجهة تعمل بدونه</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="foot"><span class="r en">lifecycle-backend-proposal.md</span></div>
+</section>
+
+<!-- 17 -->
+<section class="s" data-t="ثلاثة قرارات">
+  <div class="top"><span>الخطوة التالية</span><span class="r">ثم التنفيذ على Figma</span></div>
+  <div class="mid-area">
+    <h2 class="disp big">ثلاثة قرارات</h2>
+    <ul class="pts" style="margin-top:12px">
+      <li><span class="d"></span><span><b>اختيار الترتيب المناسب</b><em>نرشح الأول للإطلاق، والثاني لمن يحتاج مساحة أكبر</em></span></li>
+      <li><span class="d"></span><span><b>تأكيد منع ترحيل الفاتورة الملغاة</b><em>هل يبقى الترحيل متاحًا عليها أم لا؟</em></span></li>
+      <li><span class="d"></span><span><b>الموافقة على الطلبات الثلاثة الأولى</b><em>حجم العمل بسيط في الثلاثة</em></span></li>
+    </ul>
+  </div>
+  <div class="foot"><span class="r en">skey-pi.vercel.app</span></div>
+</section>
+
+<!-- 18 -->
+<section class="s" data-t="ملاحظات تقنية">
+  <div class="top"><span>ملحق</span><span class="r">للفريق التقني</span></div>
+  <div class="mid-area">
+    <h2 class="disp mid">ملاحظات تقنية</h2>
+    <table>
+      <thead><tr><th style="width:30%">الملاحظة</th><th style="width:22%">الوضع الحالي</th><th>المطلوب</th></tr></thead>
+      <tbody>
+        <tr><td><b>وضوح ألوان شريط الحالة</b></td>
+            <td class="now">2.8:1</td>
+            <td class="new">4.5:1 على الأقل، بتغميق لون الشريط</td></tr>
+        <tr><td><b>أوامر لا تعمل بلوحة المفاتيح</b></td>
+            <td class="now">أمران يتجاوزهما زر Tab</td>
+            <td class="new">إتاحتهما بلوحة المفاتيح مع إظهار مؤشر التحديد</td></tr>
+        <tr><td><b>أسماء الأزرار لقارئ الشاشة</b></td>
+            <td class="now">تُنطق «زر» فقط</td>
+            <td class="new">اسم واضح لكل زر</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="foot"><span class="r en">audit/app-shell-audit.md</span></div>
+</section>
+
+<!-- 19 -->
+<section class="s" data-t="شكرًا">
+  <div class="top"><span>مراجعة تصميم</span><span class="r en">Skey ERP</span></div>
+  <div class="mid-area">
+    <h2 class="disp huge">شكرًا.</h2>
+    <p class="lede">النموذج مفتوح للتجربة الآن.</p>
+  </div>
+  <div class="foot"><span class="r en">skey-pi.vercel.app</span></div>
+</section>
+
+</div>
+
+<div class="prog" id="prog"></div>
+<div class="bar">
+  <span class="t" id="title">الغلاف</span>
+  <button id="prev" aria-label="الشريحة السابقة">‹</button>
+  <span class="n"><span id="cur">1</span> / <span id="tot">19</span></span>
+  <button id="next" aria-label="الشريحة التالية">›</button>
+</div>
+
+<script>
+(() => {
+  const slides = [...document.querySelectorAll('.s')];
+  const prog = document.getElementById('prog');
+  const title = document.getElementById('title');
+  const cur = document.getElementById('cur');
+  document.getElementById('tot').textContent = slides.length;
+  let i = Math.max(0, Math.min(slides.length - 1, (+location.hash.slice(1) || 1) - 1));
+  const show = n => {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('on', k === i));
+    prog.style.transform = 'scaleX(' + (i + 1) / slides.length + ')';
+    title.textContent = slides[i].dataset.t || '';
+    cur.textContent = i + 1;
+    history.replaceState(null, '', '#' + (i + 1));
+  };
+  document.getElementById('next').onclick = () => show(i + 1);
+  document.getElementById('prev').onclick = () => show(i - 1);
+  addEventListener('keydown', e => {
+    /* in RTL the left arrow advances */
+    if (['ArrowLeft', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(i + 1); }
+    if (['ArrowRight', 'PageUp'].includes(e.key)) { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+  });
+  addEventListener('hashchange', () => show((+location.hash.slice(1) || 1) - 1));
+  show(i);
+})();
+</script>
+</body>
+</html>

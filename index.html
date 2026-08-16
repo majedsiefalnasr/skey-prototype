@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skey ERP — Sales Invoice app shell · accepted design</title>
+<meta name="description" content="The accepted app-shell redesign for the Skey ERP sales-invoice screen, and the findings that shaped it.">
+<style>
+  :root{
+    --ink:#1b2230; --muted:#5c6673; --faint:#98a1ad; --line:#e2e5ea; --bg:#fbfbfc; --surface:#fff;
+    --accent:#1d4ed8; --accent-soft:#eef3fd;
+    --ok-bg:#e4f3e7; --ok-ink:#12551c;
+  }
+  *{box-sizing:border-box; margin:0}
+  html{scroll-behavior:smooth}
+  body{font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; color:var(--ink); background:var(--bg);
+    -webkit-font-smoothing:antialiased}
+  a{color:var(--accent)}
+  :is(a,button):focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px}
+  .wrap{max-width:960px; margin:0 auto; padding:0 24px}
+
+  header{border-bottom:1px solid var(--line); background:var(--surface)}
+  header .wrap{padding-block:56px 44px}
+  .eyebrow{font-size:13px; color:var(--muted); letter-spacing:.01em}
+  h1{font-size:clamp(28px,4vw,40px); line-height:1.15; font-weight:650; letter-spacing:-.02em; margin:10px 0 16px; text-wrap:balance}
+  .lede{font-size:17px; color:var(--muted); max-width:62ch}
+  .meta{display:flex; flex-wrap:wrap; gap:8px 20px; margin-top:22px; font-size:13.5px; color:var(--muted)}
+  .meta b{color:var(--ink); font-weight:600}
+
+  .latest{margin-top:26px; display:flex; flex-wrap:wrap; align-items:center; gap:14px;
+    background:var(--accent-soft); border:1px solid #d3e0fb; border-radius:12px; padding:16px 18px}
+  .latest .t{flex:1; min-width:240px}
+  .latest .t b{display:block; font-size:15px}
+  .latest .t span{font-size:13.5px; color:var(--muted)}
+  .btn{display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:#fff; text-decoration:none;
+    font-weight:550; font-size:14.5px; padding:10px 18px; border-radius:9px; white-space:nowrap}
+  .btn:hover{background:#1741ad}
+  .btn.ghost{background:var(--surface); color:var(--ink); border:1px solid var(--line); font-weight:500}
+  .btn.ghost:hover{border-color:#c3c9d2}
+
+  section{padding-block:44px}
+  h2{font-size:20px; font-weight:620; letter-spacing:-.01em; margin-bottom:6px}
+  .sub{color:var(--muted); font-size:14.5px; margin-bottom:22px; max-width:62ch}
+
+  ol.versions{list-style:none; counter-reset:v; border-top:1px solid var(--line)}
+  ol.versions li{border-bottom:1px solid var(--line)}
+  .row{display:grid; grid-template-columns:56px 1fr auto; gap:18px; align-items:start;
+    padding:18px 6px; text-decoration:none; color:inherit}
+  .row:hover{background:var(--surface)}
+  .num{font:600 13px ui-monospace,SFMono-Regular,monospace; color:var(--faint); padding-top:3px}
+  .row h3{font-size:16px; font-weight:600; margin-bottom:3px; display:flex; align-items:center; gap:9px; flex-wrap:wrap}
+  .row p{font-size:14px; color:var(--muted); max-width:64ch}
+  .tag{font-size:11px; font-weight:600; letter-spacing:.02em; text-transform:uppercase;
+    border-radius:5px; padding:2px 7px; background:#eef1f5; color:var(--muted)}
+  .tag.now{background:var(--ok-bg); color:var(--ok-ink)}
+  .tag.base{background:#f4ecff; color:#5b2d9b}
+  .go{font-size:13.5px; color:var(--accent); padding-top:4px; white-space:nowrap}
+  .row:hover .go{text-decoration:underline}
+
+  .docs{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px}
+  .doc{display:block; border:1px solid var(--line); border-radius:11px; padding:16px 18px; background:var(--surface); text-decoration:none; color:inherit}
+  .doc:hover{border-color:#c3c9d2}
+  .doc b{display:block; font-size:15px; margin-bottom:4px}
+  .doc span{font-size:13.5px; color:var(--muted)}
+
+  .how{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px 22px}
+  .how ul{list-style:none; display:grid; gap:10px}
+  .how li{display:grid; grid-template-columns:auto 1fr; gap:11px; font-size:14.5px; align-items:baseline}
+  .how kbd{font:12px ui-monospace,monospace; background:#eef1f6; border:1px solid var(--line); border-radius:5px; padding:2px 7px}
+
+  footer{border-top:1px solid var(--line); background:var(--surface); margin-top:20px}
+  footer .wrap{padding-block:26px 40px; font-size:13.5px; color:var(--muted)}
+
+  @media (max-width:640px){
+    .row{grid-template-columns:1fr; gap:6px}
+    .num{padding-top:0}
+    .go{padding-top:2px}
+  }
+  @media (prefers-color-scheme: dark){
+    :root{--ink:#e8ebf0; --muted:#a2abb8; --faint:#6f7885; --line:#2a3040; --bg:#12151c; --surface:#171b24;
+      --accent:#7ea6ff; --accent-soft:#1a2338; --ok-bg:#16301d; --ok-ink:#8ee0a3;}
+    .latest{border-color:#28344d}
+    .tag{background:#232a38}
+    .tag.base{background:#2a2340; color:#c4aaff}
+    .how kbd{background:#232a38}
+    .btn{color:#0f1218}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Skey ERP · Sales Invoice</p>
+    <h1>Redesigning the app shell around what the document is actually doing</h1>
+    <p class="lede">Twelve working prototypes, made in order, each one answering a question the previous one raised —
+      landed on the <b>Record Navigator</b>: identity and status in the page header, the four real menus on their own
+      row, record navigation anchored at the bottom. Runs in the browser, no backend. The vocabulary, the statuses and
+      the action rules were read from the live product, not invented.</p>
+    <div class="meta">
+      <span><b>Scope</b> top bar, record menus, status, navigator, right rail</span>
+      <span><b>Out of scope</b> left menu, invoice form</span>
+      <span><b>Verified against</b> app.skeyerp.com</span>
+    </div>
+
+    <div class="latest">
+      <div class="t">
+        <b>Open the app shell</b>
+        <span>Record Navigator — three record modes, and every action with a working, failing and empty state.</span>
+      </div>
+      <a class="btn" href="concepts/app-shell.html">Open prototype</a>
+      <a class="btn ghost" href="deck/">Review deck</a>
+      <a class="btn ghost" href="audit/app-shell-audit.md">Original audit</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section id="how">
+    <h2>How to read the prototype</h2>
+    <p class="sub">It fills the window like a real application — the top bar stays put, the record navigator sits at the
+      bottom, and the form scrolls between them. A dark <b>Prototype controls</b> panel floats in the corner: drag it by its
+      header, collapse it, or hide it entirely. It is not part of the design; it is there so you can put the shell into any
+      state without a backend. <b>About</b> inside that panel explains what you're looking at.</p>
+    <div class="how">
+      <ul>
+        <li><kbd>Mode</kbd><span>Creating a new invoice, working on a saved one, or reading a locked one.</span></li>
+        <li><kbd>Status</kbd><span>Open, Pending, Posted, Returned, Canceled, Deactivated — the product's real flags.</span></li>
+        <li><kbd>Payment</kbd><span>Credit or cash. Receipt Voucher depends on this, not on status.</span></li>
+        <li><kbd>Fail</kbd><span>Tick it, then post an invoice, to see the failure path.</span></li>
+        <li><kbd>⌘K</kbd><span>Shortcuts are wired for real. Press <kbd>F1</kbd> inside the prototype for the list.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="versions">
+    <h2>The app shell</h2>
+    <p class="sub">Twelve iterations narrowed this down to the Record Navigator layout. Earlier versions and the three
+      runner-up layouts (Command Row, Object Header, Context Panel) are no longer kept here — this is the base going
+      forward.</p>
+
+    <ol class="versions">
+      <li><a class="row" href="concepts/app-shell.html">
+        <span class="num">→</span>
+        <span><h3>Record Navigator — working, failing, empty <span class="tag now">current</span></h3>
+          <p>Identity and status own the page header, the four real menus sit on their own row, and record navigation
+             anchors the bottom next to the documents you can generate. Save, posting, cancellation and printing take time
+             and can fail — including the unbalanced journal entry, a real state in the product. Empty states, wired
+             keyboard shortcuts, focus trapped in every overlay, and the print count in the header.</p></span>
+        <span class="go">Open →</span></a></li>
+    </ol>
+  </section>
+
+  <section id="docs">
+    <h2>The findings behind the prototypes</h2>
+    <p class="sub">Plain-text notes. Each one is the reason a version changed direction.</p>
+    <div class="docs">
+      <a class="doc" href="audit/app-shell-audit.md">
+        <b>App shell audit</b>
+        <span>The original review of the live screen. Scored 9/20 — unnamed pager controls, actions unreachable by keyboard, an invisible draft status.</span></a>
+      <a class="doc" href="concepts/system-action-inventory.md">
+        <b>Verified action inventory</b>
+        <span>Every menu item, rail button, status and dialog field, read from the running product and its shipped dictionaries.</span></a>
+      <a class="doc" href="concepts/source-verification.md">
+        <b>Source verification</b>
+        <span>Each element in the concepts checked against the live system, with the invented parts named and corrected.</span></a>
+      <a class="doc" href="concepts/lifecycle-backend-proposal.md">
+        <b>Lifecycle backend proposal</b>
+        <span>What a document history can show today, what it cannot, and the two tables that would close the gap.</span></a>
+      <a class="doc" href="concepts/sidebar-navigation-audit.md">
+        <b>Sidebar navigation audit</b>
+        <span>The full live left-menu tree — 16 module groups, 397 nodes, up to 4 levels deep — read straight from the DOM.</span></a>
+      <a class="doc" href="concepts/erp-shell-market-notes.md">
+        <b>Market notes</b>
+        <span>How SAP Fiori, Odoo and Dynamics 365 handle the same record-shell problem, and what was worth borrowing.</span></a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    Prototypes for discussion, not production code. The left menu and the invoice form are placeholders throughout —
+    only the shell is under design.
+  </div>
+</footer>
+
+</body>
+</html>
