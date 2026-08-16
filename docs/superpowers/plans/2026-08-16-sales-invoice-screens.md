@@ -24,7 +24,7 @@
 
 **Files:**
 - Create: `concepts/_shell-scaffold.html` (a temporary reference copy, deleted at the end of Task 6 — see Step 5)
-- Read: `concepts/app-shell.html:1-60` (head, `:root`, base reset), `concepts/app-shell.html:4092-4135` (demo-bar shell), `concepts/app-shell.html:5479` (`#toasts`), `concepts/app-shell.html:7918-7990` (focus-trap + toast helpers), `concepts/app-shell.html:9621-10198` (kit widget CSS + JS, About dialog)
+- Read: `concepts/app-shell.html:1-78` (head, `:root`, base reset), `concepts/app-shell.html:4092-4135` (demo-bar shell), `concepts/app-shell.html:5479` (`#toasts`), `concepts/app-shell.html:7918-7990` (focus-trap + toast helpers), `concepts/app-shell.html:9621-10198` (kit widget CSS + JS, About dialog)
 
 **Interfaces:**
 - Produces: a documented, copy-ready scaffold block (head/`:root`/reset CSS, `.demo-bar` skeleton, `#toasts` div, kit-widget CSS, `trapFocus`/`releaseFocus`/`toast()` JS, kit-widget JS, About-dialog JS) that Tasks 2 and 4 both start from.
@@ -45,7 +45,7 @@ Read `concepts/app-shell.html` lines 1-60. Create `concepts/_shell-scaffold.html
     <style>
 ```
 
-Then paste the exact `:root { ... }` block from `concepts/app-shell.html:8-39` (all `--ink`, `--muted`, `--faint`, `--line`, `--line-2`, `--bg`, `--surface`, `--accent`, `--accent-soft`, `--accent-line`, `--focus`, `--danger`, `--success`, `--st-open-*` through `--st-inac-*`, `--shadow-1`, `--shadow-2`, `--sidebar-w`, `--rail-w`), followed by the `* { box-sizing: border-box; margin: 0; }` and `body { ... }` rules from `concepts/app-shell.html:40-53`.
+Then paste the exact `:root { ... }` block from `concepts/app-shell.html:8-39` (all `--ink`, `--muted`, `--faint`, `--line`, `--line-2`, `--bg`, `--surface`, `--accent`, `--accent-soft`, `--accent-line`, `--focus`, `--danger`, `--success`, `--st-open-*` through `--st-inac-*`, `--shadow-1`, `--shadow-2`, `--sidebar-w`, `--rail-w`), followed by the `* { box-sizing: border-box; margin: 0; }` and `body { ... }` rules from `concepts/app-shell.html:40-53`, and — this part matters, don't stop at `body {}` — the `button`, `button:disabled`, `:is(button, a, input, select, [tabindex]):focus-visible`, `svg`, `svg[hidden]`, and `[hidden] { display: none !important; }` rules from `concepts/app-shell.html:54-78`. The `[hidden]` rule especially is load-bearing: without it, any element also styled with an explicit `display` (e.g. `.lockbanner { display: flex; }`) stays visually rendered even when its `hidden` property is `true`, because the browser's own `[hidden] { display: none }` default loses to that more specific author rule.
 
 - [ ] **Step 2: Copy the demo-bar CSS, toasts CSS, and kit-widget CSS**
 
@@ -529,6 +529,11 @@ CSS:
 const state = {mode: 'record', status: 'posted', viewMode: 'simple'};
 
 function editable() {
+  /* a brand-new invoice has no prior status to be locked by — the demo bar's
+     #st select still shows whatever status was last picked (defaults to
+     "posted"), but that value is meaningless until the record actually has
+     one, so 'create' mode is always editable regardless of it */
+  if (state.mode === 'create') return true
   return state.mode !== 'record' && !['posted', 'canceled', 'inactive'].includes(state.status);
 }
 
@@ -695,6 +700,14 @@ playwright-cli eval "document.querySelector('[data-field]').disabled"
 ```
 
 Expected: `false`.
+
+```bash
+playwright-cli select "#mode" create
+playwright-cli eval "document.querySelector('[data-field]').disabled"
+playwright-cli eval "document.getElementById('lockbanner').hidden"
+```
+
+Expected: `false` (fields editable) and `true` (lock banner hidden) — a brand-new invoice is always editable regardless of whatever status `#st` happens to still show, since it has no prior locked status of its own.
 
 ```bash
 pkill -f "http.server 8940" 2>/dev/null
