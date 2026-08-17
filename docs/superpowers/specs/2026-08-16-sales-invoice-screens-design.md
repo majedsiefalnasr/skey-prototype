@@ -30,9 +30,7 @@ Logged into `app.skeyerp.com/sal/sls/sales/salesinvoice/list` (tenant `lastchanc
 
 Two modes, toggled by a **segmented control next to the invoice title** (`Simple | Advanced`), same row as the status pill — confirmed placement.
 
-**Split rule:** use the RM's own Priority column.
-- **Simple mode** = every High-priority field/section from the RM.
-- **Advanced mode** = Simple + every Medium-priority field/section.
+**Split rule:** a UX judgment informed by the RM's Priority column, not a mechanical derivation from it. Most High-priority fields land in Simple and most Medium-priority fields land in Advanced, but priority alone doesn't decide day-to-day frequency — a handful of High-priority fields are advanced *capabilities* rather than fields a clerk touches on every invoice, so they were deliberately placed in Advanced despite their RM priority (see the departures list below).
 
 Concretely, Advanced-only (hidden in Simple):
 - Customer: Mobile No., Address, Beneficiary No., Tax Number.
@@ -43,6 +41,14 @@ Concretely, Advanced-only (hidden in Simple):
 - **Sales Charges** section.
 
 Simple mode keeps: Main Data's General (all fields) + Customer (Customer No., Customer Name only — Mobile No./Address/Beneficiary No./Tax Number move to Advanced) + Currency (Currency, Tax Category only — Exchange Rate/Pricing Level/Method Show Price move to Advanced), the core item columns (Item, UoM, Qty, Price, Tax %, Line Total), the Payment Method tab, and the core totals (Amount, Tax Amt, Net Amount).
+
+**Deliberate departures from RM priority.** Six fields are RM-High-priority but were placed in Advanced anyway, because they're High-priority *capabilities* rather than fields touched on a typical invoice entry — hiding them keeps Simple mode focused on routine, low-friction entry:
+- **Exchange Rate** (SI-CUR-002) — only relevant for foreign-currency invoices.
+- **Method Show Price** (SI-CUR-004) — a pricing-display toggle, not entry data.
+- **Item Discount** (SI-ITEM-011) — a per-line adjustment, not core entry.
+- **Discount Percent** (SI-AMT-004) — a document-level adjustment, not core entry.
+- **Discount Including Tax** (SI-AMT-005) — a derived/adjustment figure, not core entry.
+- **Total Items Discount** (SI-AMT-003) — a derived/adjustment figure, not core entry.
 
 This mode applies **identically across all 3 record concepts** — it's a field-visibility layer, not a concept-specific feature.
 
