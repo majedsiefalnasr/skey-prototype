@@ -783,6 +783,10 @@
         align-items: center;
         gap: 12px;
         padding: 7px 16px;
+        /* clears the floating "Prototype controls" demo bar (#kit, position: fixed,
+           inset-block-end: 14px), which otherwise covers the pager at the bottom
+           of the viewport since .frame is min-height: 100vh */
+        padding-block-end: 180px;
         background: var(--surface);
         border-top: 1px solid var(--line);
         flex-wrap: wrap;

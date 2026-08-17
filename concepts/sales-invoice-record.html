@@ -2257,6 +2257,9 @@
         posted: 'This invoice is posted, so its fields are read-only. Undo the posting to edit it.',
         canceled: 'This invoice is canceled, so its fields are read-only.',
         inactive: 'This invoice is deactivated, so its fields are read-only. Reactivate it to edit.',
+        open: "You're viewing this invoice. Switch to Edit mode to make changes.",
+        pending: "You're viewing this invoice. Switch to Edit mode to make changes.",
+        returned: "You're viewing this invoice. Switch to Edit mode to make changes.",
       }
 
       function editable() {
@@ -2275,7 +2278,7 @@
         const lockbanner = document.getElementById('lockbanner')
         lockbanner.hidden = editable() || state.mode === 'create'
         if (!lockbanner.hidden) {
-          lockbanner.querySelector('span').textContent = LOCK_COPY[state.status] || LOCK_COPY.posted
+          lockbanner.querySelector('span').textContent = LOCK_COPY[state.status]
         }
 
         const pill = document.getElementById('status-pill')
