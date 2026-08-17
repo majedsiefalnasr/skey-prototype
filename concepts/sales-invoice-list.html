@@ -777,6 +777,75 @@
         margin: 12px 16px;
       }
 
+      /* list pagination footer (chrome — renders regardless of active list concept) */
+      .fnav {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 7px 16px;
+        background: var(--surface);
+        border-top: 1px solid var(--line);
+        flex-wrap: wrap;
+      }
+      .fnav .pos {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .fnav .end {
+        margin-inline-start: auto;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .fnav .psize {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .fnav .psize select {
+        min-height: 30px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        font: inherit;
+      }
+      .pager {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 2px;
+        background: var(--surface);
+      }
+      .pager button {
+        min-width: 30px;
+        min-height: 30px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        position: relative;
+      }
+      .pager button:hover:not(:disabled) {
+        background: #eef1f6;
+      }
+      .pager input {
+        width: 52px;
+        min-height: 30px;
+        text-align: center;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        font: inherit;
+      }
+      .pager .tot {
+        color: var(--muted);
+        padding: 0 8px;
+        white-space: nowrap;
+        font-size: 13px;
+      }
+
       /* menus (topbar dropdowns render closed by default; not wired up in this prototype) */
       .menu {
         position: relative;
@@ -878,6 +947,9 @@
       }
       .inv-grid-toolbar .grow {
         flex: 1;
+      }
+      .inv-board-toolbar {
+        margin-bottom: 10px;
       }
       .inv-group-bar {
         padding: 8px 12px;
@@ -1788,6 +1860,34 @@
         </div>
       </div>
       <div class="canvas" id="list-canvas"></div>
+      <div class="fnav">
+        <div class="pager" role="group" aria-label="Page navigation">
+          <button class="pg-f" type="button" aria-label="First page" onclick="toast({tone:'ok',title:'Pagination is a static preview here'})">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-first"/></svg>
+          </button>
+          <button class="pg-p" type="button" aria-label="Previous page" onclick="toast({tone:'ok',title:'Pagination is a static preview here'})">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-prev"/></svg>
+          </button>
+          <input class="pg-i" type="number" min="1" max="14" value="1" aria-label="Page number">
+          <span class="tot">of 14</span>
+          <button class="pg-n" type="button" aria-label="Next page" onclick="toast({tone:'ok',title:'Pagination is a static preview here'})">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-next"/></svg>
+          </button>
+          <button class="pg-l" type="button" aria-label="Last page" onclick="toast({tone:'ok',title:'Pagination is a static preview here'})">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-last"/></svg>
+          </button>
+        </div>
+        <span class="pos" aria-live="polite">1 of 14 pages · 140 items</span>
+        <div class="end">
+          <label class="psize">Rows per page
+            <select aria-label="Rows per page" onchange="toast({tone:'ok',title:'Page size is a static preview here'})">
+              <option value="10" selected>10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+            </select>
+          </label>
+        </div>
+      </div>
     </div>
 
     <script>

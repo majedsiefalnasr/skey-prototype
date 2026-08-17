@@ -1469,7 +1469,7 @@
           <div class="rec-field"><label>Tax Amt</label><input data-field disabled value="0"></div>
           <div class="rec-field"><label>Net Amount</label><input data-field disabled value="200"></div>
         </div>
-        <div class="rec-card" data-adv-only>
+        <div class="rec-card" id="charges-card" data-adv-only>
           <button type="button" class="rec-card-hd" aria-expanded="false">Sales Charges</button>
           <div class="rec-card-body" hidden>
             <div class="inv-grid-wrap" style="grid-column:1/-1">
@@ -1524,12 +1524,6 @@
           <div class="rec-field"><label>Total Discount</label><input data-field disabled value="0"></div>
           <div class="rec-field"><label>Tax Amt</label><input data-field disabled value="0"></div>
           <div class="rec-field"><label>Net Amount</label><input data-field disabled value="200"></div>
-        </div>
-      </div>
-      <div class="recb-popover-scrim" id="recb-popover-scrim">
-        <div class="recb-popover box" role="dialog" aria-modal="true">
-          <div class="recb-popover-hd"><b id="recb-popover-title"></b><button type="button" class="ibtn" aria-label="Close" id="recb-popover-close">✕</button></div>
-          <div class="recb-popover-body" id="recb-popover-body"></div>
         </div>
       </div>
 
@@ -1645,6 +1639,13 @@
       <div class="fnav">
         <span class="pager-mount"></span>
         <span class="pos" aria-live="polite">Record 143 of 143</span>
+      </div>
+    </div>
+
+    <div class="recb-popover-scrim" id="recb-popover-scrim">
+      <div class="recb-popover box" role="dialog" aria-modal="true">
+        <div class="recb-popover-hd"><b id="recb-popover-title"></b><button type="button" class="ibtn" aria-label="Close" id="recb-popover-close">✕</button></div>
+        <div class="recb-popover-body" id="recb-popover-body"></div>
       </div>
     </div>
 
@@ -2252,6 +2253,12 @@
         inactive: 'Deactivated',
       }
 
+      const LOCK_COPY = {
+        posted: 'This invoice is posted, so its fields are read-only. Undo the posting to edit it.',
+        canceled: 'This invoice is canceled, so its fields are read-only.',
+        inactive: 'This invoice is deactivated, so its fields are read-only. Reactivate it to edit.',
+      }
+
       function editable() {
         /* a brand-new invoice has no prior status to be locked by — the demo bar's
            #st select still shows whatever status was last picked (defaults to
@@ -2265,7 +2272,11 @@
         document.querySelectorAll('[data-field]').forEach(el => {
           el.disabled = !editable()
         })
-        document.getElementById('lockbanner').hidden = editable() || state.mode === 'create'
+        const lockbanner = document.getElementById('lockbanner')
+        lockbanner.hidden = editable() || state.mode === 'create'
+        if (!lockbanner.hidden) {
+          lockbanner.querySelector('span').textContent = LOCK_COPY[state.status] || LOCK_COPY.posted
+        }
 
         const pill = document.getElementById('status-pill')
         if (pill) {
@@ -2406,7 +2417,7 @@
         additional: () => document.querySelector('[data-panel="additional"] .rec-card-body').outerHTML,
         /* Concept A's Sales Charges card body starts `hidden` (it's a collapsed
            accordion there) — strip that so the popover shows it immediately */
-        charges: () => document.querySelector('#canvas-root .rec-card[data-adv-only] .rec-card-body').outerHTML.replace(' hidden', ''),
+        charges: () => document.querySelector('#charges-card .rec-card-body').outerHTML.replace(' hidden', ''),
       }
 
       let recordBInitialized = false
@@ -2437,6 +2448,9 @@
           releaseFocus()
         }
         document.getElementById('recb-popover-close').addEventListener('click', closeRecbPopover)
+        document.getElementById('recb-popover-scrim').addEventListener('click', e => {
+          if (e.target === document.getElementById('recb-popover-scrim')) closeRecbPopover()
+        })
         document.addEventListener('keydown', e => {
           if (e.key === 'Escape' && document.getElementById('recb-popover-scrim').classList.contains('open')) {
             closeRecbPopover()
@@ -2464,6 +2478,11 @@
       }
 
       function renderRecord(concept) {
+        const scrim = document.getElementById('recb-popover-scrim')
+        if (scrim && scrim.classList.contains('open')) {
+          scrim.classList.remove('open')
+          releaseFocus()
+        }
         document.getElementById('canvas-root').hidden = true
         document.getElementById('canvas-root-b').hidden = true
         document.getElementById('canvas-root-c').hidden = true
