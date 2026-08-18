@@ -4193,6 +4193,19 @@
         text-align: start;
       }
 
+      /* the record canvas (body-tpl's .canvas — the only other .canvas in the file)
+   has the exact same problem: Record Concept A's tabs/cards/grid/totals are real
+   stacked block content, not a short centered placeholder message. #list-canvas
+   has an id to hang this override on; the record canvas doesn't (Task 5 dropped
+   its id="canvas-root" since only one record concept lives there for now), so
+   scope by exclusion instead — the only other .canvas in the document. */
+      .canvas:not(#list-canvas) {
+        display: block;
+        align-items: normal;
+        justify-content: normal;
+        text-align: start;
+      }
+
       /* ============ Advanced search overlay (shared across list concepts) ============
      Same scrim + centered panel pattern as app-shell.html's own .sscrim/.spanel search,
      adapted with invoice-relevant example filters instead of the whole-app command palette.
