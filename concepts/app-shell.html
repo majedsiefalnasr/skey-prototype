@@ -4193,12 +4193,12 @@
         text-align: start;
       }
 
-      /* the record canvas (body-tpl's .canvas — the only other .canvas in the file)
-   has the exact same problem: Record Concept A's tabs/cards/grid/totals are real
-   stacked block content, not a short centered placeholder message. #list-canvas
-   has an id to hang this override on; the record canvas doesn't (Task 5 dropped
-   its id="canvas-root" since only one record concept lives there for now), so
-   scope by exclusion instead — the only other .canvas in the document. */
+      /* body-tpl's .canvas elements (Record Concepts A/B/C) have the exact same
+   problem: their tabs/cards/grid/totals are real stacked block content, not a
+   short centered placeholder message. #list-canvas has an id to hang this
+   override on; the record canvases don't share one id (A is #canvas-root, B is
+   #canvas-root-b, C is #canvas-root-c), so scope by exclusion instead — every
+   .canvas in the document except #list-canvas. */
       .canvas:not(#list-canvas) {
         display: block;
         align-items: normal;
@@ -4488,6 +4488,14 @@
           <option value="a" selected>A · Data Grid</option>
           <option value="b">B · Command List</option>
           <option value="c">C · Grouped Review Board</option>
+        </select>
+      </div>
+      <div class="grp">
+        <label for="record-concept">Record concept:</label>
+        <select id="record-concept" autocomplete="off">
+          <option value="a" selected>A · Guided Tabs</option>
+          <option value="b">B · Single Flow</option>
+          <option value="c">C · Split View</option>
         </select>
       </div>
       <div class="grp">
@@ -5290,6 +5298,7 @@
           </div>
         </div>
         <div class="canvas">
+        <div id="canvas-root">
           <div class="rec-tabs" role="tablist">
             <button class="rec-tab on" data-tab="main" role="tab" aria-selected="true">Main Data</button>
             <button class="rec-tab" data-tab="payment" role="tab" aria-selected="false">Payment method</button>
@@ -5409,6 +5418,7 @@
               </div>
             </div>
           </div>
+        </div>
         </div>
         <div class="fnav">
           <span class="pager-mount"></span>
