@@ -4173,6 +4173,19 @@
       .inv-board-card { padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; }
       .inv-board-card:hover { border-color: var(--accent-line); background: var(--accent-soft); }
 
+      /* #list-canvas reuses app-shell.html's generic .canvas class (elsewhere a centered
+   dashed placeholder box), but Concepts B/C render multiple block-level children
+   directly into it — .canvas's own display:flex/align-items:center/justify-content:center
+   would lay those out as a centered flex row instead of a stacked list. Scope those three
+   properties off for the real list content, matching sales-invoice-list.html's plain
+   `.canvas { flex:1; margin:...}` (no centering) that Concepts B/C were designed against. */
+      #list-canvas {
+        display: block;
+        align-items: normal;
+        justify-content: normal;
+        text-align: start;
+      }
+
       /* ============ Advanced search overlay (shared across list concepts) ============
      Same scrim + centered panel pattern as app-shell.html's own .sscrim/.spanel search,
      adapted with invoice-relevant example filters instead of the whole-app command palette.
@@ -5218,6 +5231,68 @@
         the cost is two rows of height that the form could have used.
       </p>
     </section>
+
+    <!-- ===== advanced search overlay (shared by all three list concepts' Search trigger) ===== -->
+    <div id="adv-search-scrim">
+      <div class="box" role="dialog" aria-label="Advanced search" aria-modal="true">
+        <div class="as-inp">
+          <svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg>
+          <input
+            type="text"
+            placeholder="Search by document number, customer, or amount"
+            autocomplete="off" />
+          <span class="kbd-chip" style="margin: 0">Esc</span>
+        </div>
+        <div class="as-fields">
+          <div class="as-field">
+            <label for="as-docno">Doc No.</label>
+            <input id="as-docno" type="text" placeholder="e.g. 126" />
+          </div>
+          <div class="as-field">
+            <label for="as-customer">Customer</label>
+            <input id="as-customer" type="text" placeholder="Customer name or number" />
+          </div>
+          <div class="as-field">
+            <label for="as-date">Date range</label>
+            <input id="as-date" type="text" placeholder="e.g. 01/08/2026 – 13/08/2026" />
+          </div>
+          <div class="as-field">
+            <label for="as-status">Status</label>
+            <select id="as-status">
+              <option>All statuses</option>
+              <option>Posted</option>
+              <option>Pending</option>
+              <option>Open</option>
+            </select>
+          </div>
+          <div class="as-field">
+            <label for="as-pay">Payment method</label>
+            <select id="as-pay">
+              <option>All methods</option>
+              <option>Cash</option>
+              <option>Credit</option>
+            </select>
+          </div>
+        </div>
+        <div class="as-list" role="listbox">
+          <div class="as-grp">Matching invoices</div>
+          <button type="button" class="as-item" role="option">
+            <span class="ic"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg></span>
+            <span class="tx"><span class="t">#126 · محمد احمد</span><span class="s">13/08/2026 · Credit</span></span>
+          </button>
+          <button type="button" class="as-item" role="option">
+            <span class="ic"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg></span>
+            <span class="tx"><span class="t">#140 · العميل الاول</span><span class="s">13/08/2026 · Credit</span></span>
+          </button>
+        </div>
+        <div class="as-foot">
+          <span><span class="k">↑↓</span>Navigate</span><span><span class="k">↵</span>Open</span>
+          <button type="button" class="lbtn out adv-search-close" style="margin-inline-start: auto">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- ===== status popover ===== -->
     <div class="stpop" id="stpop" role="dialog" aria-label="Document status">
@@ -9897,17 +9972,77 @@
             '</div>'
         }
 
+        function renderListB(canvas) {
+          canvas.innerHTML =
+            '<button type="button" class="inv-cmd-search" onclick="openAdvancedSearch()" style="width:100%;text-align:start;border:1px solid var(--line);cursor:pointer">' +
+              '<svg width="15" height="15" aria-hidden="true"><use href="#i-search"/></svg> Search or jump to invoice #…' +
+            '</button>' +
+            '<div class="inv-cmd-chips">' +
+              '<span class="badge gray">All statuses</span><span class="badge gray">All customers</span>' +
+            '</div>' +
+            LIST_ROWS.map(r =>
+              `<div class="inv-cmd-row" onclick="openInvoiceRecord('${r.no}')">` +
+              `<span class="l"><b>#${r.no}</b> · ${r.custName} · ${r.pay}</span>` +
+              `<span class="r">${r.date}</span></div>`
+            ).join('')
+        }
+
+        const STATUS_META = {
+          posted: {label: 'Posted', color: 'var(--st-post-ink)'},
+          pending: {label: 'Pending', color: 'var(--st-pend-ink)'},
+          open: {label: 'Open', color: 'var(--st-open-ink)'},
+        }
+        function renderListC(canvas) {
+          const groups = {posted: LIST_ROWS.slice(0, 2), pending: LIST_ROWS.slice(2)}
+          canvas.innerHTML =
+            '<div class="inv-board-toolbar">' +
+            '<button class="lbtn out" type="button" onclick="openAdvancedSearch()">' +
+            '<svg width="15" height="15" aria-hidden="true"><use href="#i-search"/></svg> Search</button>' +
+            '</div>' +
+            Object.entries(groups).map(([key, rows]) => {
+              if (!rows.length) return ''
+              const meta = STATUS_META[key]
+              return `<div class="inv-board-group"><h3><span class="dot" style="background:${meta.color}"></span>${meta.label} (${rows.length})</h3>` +
+                rows.map(r =>
+                  `<div class="inv-board-card" onclick="openInvoiceRecord('${r.no}')">` +
+                  `<span><b>#${r.no}</b> · ${r.custName}</span><span>${r.pay} · ${r.date}</span></div>`
+                ).join('') + '</div>'
+            }).join('')
+        }
+
         function openInvoiceRecord(no) {
           showContentView('record')
         }
         /* referenced from the grid's row onclick (inline, kept verbatim from the
    ported markup) — needs to be reachable outside this IIFE, same as toast. */
         window.openInvoiceRecord = openInvoiceRecord
+
+        /* ---- advanced search: shared overlay opened from every list concept's Search trigger ----
+   (ported from sales-invoice-list.html; trapFocus/releaseFocus already exist in this IIFE) */
+        const advSearchScrim = document.getElementById('adv-search-scrim')
+        function openAdvancedSearch() {
+          advSearchScrim.classList.add('open')
+          trapFocus(advSearchScrim.querySelector('.box'))
+        }
+        function closeAdvancedSearch() {
+          advSearchScrim.classList.remove('open')
+          releaseFocus()
+        }
+        advSearchScrim.addEventListener('click', e => {
+          if (e.target === advSearchScrim || e.target.closest('.adv-search-close')) closeAdvancedSearch()
+        })
+        document.addEventListener('keydown', e => {
+          if (e.key === 'Escape' && advSearchScrim.classList.contains('open')) closeAdvancedSearch()
+        })
+        /* referenced from inline onclick="openAdvancedSearch()" in renderListA/B/C's ported
+   markup — needs to be reachable outside this IIFE, same as openInvoiceRecord. */
+        window.openAdvancedSearch = openAdvancedSearch
+
         function renderList(concept) {
           const canvas = document.getElementById('list-canvas')
           if (concept === 'a') renderListA(canvas)
-          else
-            canvas.innerHTML = `<div style="padding:40px;text-align:center;color:var(--faint)">Concept ${concept.toUpperCase()} not built yet</div>`
+          else if (concept === 'b') renderListB(canvas)
+          else if (concept === 'c') renderListC(canvas)
         }
         document.getElementById('list-concept').addEventListener('change', e => renderList(e.target.value))
         document.getElementById('list-add').addEventListener('click', () => showContentView('record'))
