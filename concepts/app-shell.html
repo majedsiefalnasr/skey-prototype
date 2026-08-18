@@ -4087,10 +4087,256 @@
         color: var(--muted);
         font-size: 13px;
       }
+
+      /* ============ Sales Invoice List — Concept A (Data Grid) ============ */
+      .inv-grid-wrap {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: auto;
+      }
+      .inv-grid {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      .inv-grid th {
+        text-align: start;
+        padding: 8px 12px;
+        background: var(--line-2);
+        color: var(--muted);
+        font-weight: 600;
+        border-bottom: 1px solid var(--line);
+        white-space: nowrap;
+      }
+      .inv-grid td {
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--line-2);
+      }
+      .inv-grid tbody tr:hover {
+        background: var(--accent-soft);
+        cursor: pointer;
+      }
+      .inv-grid-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--line);
+      }
+      .inv-grid-toolbar .grow {
+        flex: 1;
+      }
+      .inv-board-toolbar {
+        margin-bottom: 10px;
+      }
+      .inv-group-bar {
+        padding: 8px 12px;
+        color: var(--faint);
+        font-size: 12.5px;
+        border-bottom: 1px solid var(--line);
+        background: var(--bg);
+      }
+
+      /* ============ Badge ============ */
+      .badge {
+        font-size: 11px;
+        font-weight: 600;
+        border-radius: 5px;
+        padding: 1px 7px;
+      }
+      .badge.ok {
+        background: var(--st-post-bg);
+        color: var(--st-post-ink);
+      }
+      .badge.gray {
+        background: #eceef2;
+        color: var(--muted);
+      }
+      .badge.fix {
+        background: #e7f0ff;
+        color: #12459e;
+      }
+
+      /* ============ Sales Invoice List — Concept B (Command List) ============ */
+      .inv-cmd-search { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); margin-bottom: 10px; color: var(--faint); }
+      .inv-cmd-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); margin-bottom: 6px; cursor: pointer; }
+      .inv-cmd-row:hover { border-color: var(--accent-line); background: var(--accent-soft); }
+      .inv-cmd-row .l { font-size: 13px; }
+      .inv-cmd-row .r { font-size: 12.5px; color: var(--faint); }
+      .inv-cmd-chips { display: flex; gap: 6px; margin-bottom: 10px; }
+
+      /* ============ Sales Invoice List — Concept C (Grouped Review Board) ============ */
+      .inv-board-group { margin-bottom: 16px; }
+      .inv-board-group h3 { font-size: 13px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+      .inv-board-group h3 .dot { width: 8px; height: 8px; border-radius: 99px; display: inline-block; }
+      .inv-board-card { padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; }
+      .inv-board-card:hover { border-color: var(--accent-line); background: var(--accent-soft); }
+
+      /* ============ Advanced search overlay (shared across list concepts) ============
+     Same scrim + centered panel pattern as app-shell.html's own .sscrim/.spanel search,
+     adapted with invoice-relevant example filters instead of the whole-app command palette.
+     Scoped under #adv-search-scrim so it never collides with the decorative, inert
+     .swrap/.spanel search box reproduced in the topbar above. */
+      #adv-search-scrim {
+        position: fixed;
+        inset: 0;
+        background: transparent;
+        z-index: 150;
+        display: none;
+      }
+      #adv-search-scrim.open {
+        display: block;
+      }
+      #adv-search-scrim .box {
+        position: fixed;
+        z-index: 160;
+        inset-inline: 0;
+        margin-inline: auto;
+        inset-block-start: 14px;
+        width: min(620px, 92vw);
+        background: var(--surface);
+        border: 1.5px solid #dedede;
+        border-radius: 9px;
+        box-shadow: 0 18px 44px rgba(16, 24, 40, 0.24);
+        overflow: hidden;
+        display: none;
+        flex-direction: column;
+        max-height: min(600px, 68vh);
+      }
+      #adv-search-scrim.open .box {
+        display: flex;
+      }
+      #adv-search-scrim .as-inp {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--line);
+      }
+      #adv-search-scrim .as-inp input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font: 14px inherit;
+      }
+      #adv-search-scrim .as-fields {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+        background: #fafbfc;
+      }
+      #adv-search-scrim .as-field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      #adv-search-scrim .as-field label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--faint);
+      }
+      #adv-search-scrim .as-field input,
+      #adv-search-scrim .as-field select {
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 6px 8px;
+        font: 13px inherit;
+        color: var(--ink);
+        background: var(--surface);
+      }
+      #adv-search-scrim .as-list {
+        flex: 1;
+        overflow: auto;
+        padding: 6px;
+      }
+      #adv-search-scrim .as-grp {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--faint);
+        padding: 9px 12px 3px;
+      }
+      #adv-search-scrim .as-item {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        gap: 11px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        text-align: start;
+      }
+      #adv-search-scrim .as-item:hover {
+        background: var(--accent-soft);
+      }
+      #adv-search-scrim .as-item .ic {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+        background: #eef1f6;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+      }
+      #adv-search-scrim .as-item:hover .ic {
+        background: var(--surface);
+        color: var(--accent);
+      }
+      #adv-search-scrim .as-item .tx {
+        flex: 1;
+        min-width: 0;
+      }
+      #adv-search-scrim .as-item .t {
+        font-size: 13px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      #adv-search-scrim .as-item .s {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 1px;
+      }
+      #adv-search-scrim .as-foot {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 8px 14px;
+        border-top: 1px solid var(--line);
+        background: #fafbfc;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      #adv-search-scrim .as-foot .k {
+        font:
+          11px ui-monospace,
+          monospace;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 1px 6px;
+        margin-inline-end: 5px;
+      }
+      #adv-search-scrim .adv-search-close {
+        margin-inline-start: auto;
+      }
     </style>
   </head>
   <body>
     <div class="demo-bar">
+      <div class="grp">
+        <label for="list-concept">List concept:</label>
+        <select id="list-concept" autocomplete="off">
+          <option value="a" selected>A · Data Grid</option>
+          <option value="b">B · Command List</option>
+          <option value="c">C · Grouped Review Board</option>
+        </select>
+      </div>
       <div class="grp">
         <label for="mode">Mode:</label>
         <select id="mode" autocomplete="off">
@@ -4929,7 +5175,27 @@
         </div>
       </template>
       <template class="list-tpl">
-        <div class="list-view" hidden></div>
+        <div class="list-view" hidden>
+          <div class="phead">
+            <div class="l">
+              <nav class="crumbs" aria-label="Breadcrumb">
+                <a href="#">Home</a><span class="sep">›</span
+                ><span aria-current="page">Sales Invoice</span>
+              </nav>
+              <div class="tline"><h1>Sales Invoice</h1></div>
+            </div>
+            <div class="r">
+              <button class="lbtn pri" id="list-add" type="button">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Add
+              </button>
+            </div>
+          </div>
+          <div class="canvas" id="list-canvas"></div>
+          <div class="fnav">
+            <span class="list-pager-mount"></span>
+            <span class="pos" aria-live="polite">1 of 14 pages · 140 items</span>
+          </div>
+        </div>
       </template>
       <p class="note" style="margin-top: 22px">
         <strong>One place for the record actions.</strong> Creating, modifying and deleting an
@@ -7198,6 +7464,7 @@
           frame.append(body)
           d.querySelector('.mount').append(frame)
           d.querySelectorAll('.pager-mount').forEach(m => m.append(T('t-pager')))
+          d.querySelectorAll('.list-pager-mount').forEach(m => m.append(T('t-pager')))
           d.querySelectorAll('.pill-mount').forEach(m => m.append(T('t-pill')))
           d.querySelectorAll('.menus-mount').forEach(m => m.append(T('t-menus')))
           d.querySelectorAll('.ctx-mount').forEach(m => m.append(T('t-ctx')))
@@ -7979,6 +8246,11 @@
           toasts.append(t)
           setTimeout(() => t.remove(), ms)
         }
+        /* the List view's ported render functions build their rows via innerHTML
+   with inline onclick attributes (kept verbatim from the standalone prototype
+   this was ported from) — those run in global scope, so toast needs to be
+   reachable there too, unlike everything else in this IIFE. */
+        window.toast = toast
 
         /* ---- one place where slow work is run, so every button behaves the same ---- */
         const failNext = () => document.getElementById('failsim').checked
@@ -9189,10 +9461,10 @@
             info = STATUSES[st]
 
           /* identity — a new invoice has no number to show. Skip anything inside the
-     email view: it reuses .phead/.tline/.crumbs for a consistent look but its
-     breadcrumb and title are its own, not the invoice's. */
+     email view or list view: they reuse .phead/.tline/.crumbs for a consistent
+     look but their breadcrumb and title are their own, not the invoice's. */
           document.querySelectorAll('.d1 .tline h1, .d2 .idty h1').forEach(h => {
-            if (h.closest('.email-view')) return
+            if (h.closest('.email-view') || h.closest('.list-view')) return
             h.textContent = creating ? 'New sales invoice' : 'Sales Invoice 126'
           })
           document
@@ -9212,7 +9484,7 @@
                   : 'Home › Sales Invoice › All')
             )
           document.querySelectorAll('.crumbs [aria-current=page]').forEach(c => {
-            if (c.closest('.d2') || c.closest('.email-view')) return
+            if (c.closest('.d2') || c.closest('.email-view') || c.closest('.list-view')) return
             c.textContent = creating ? 'New' : 'All'
           })
 
@@ -9243,14 +9515,19 @@
           })
           document.querySelectorAll('.backlist').forEach(b => (b.hidden = true))
           document.querySelectorAll('.pos').forEach(el => {
+            if (el.closest('.list-view')) return
             const inp = el.closest('.design')?.querySelector('.pg-i')
             el.textContent = creating
               ? 'Not saved yet — this invoice takes its number and its place in the list when you save'
               : `Record ${inp ? inp.value : 1} of 125`
           })
 
-          /* the form is out of scope, so the canvas stands in for making a change */
+          /* the form is out of scope, so the canvas stands in for making a change.
+     Skip the list view's canvas: it holds the real List Concept A/B/C markup
+     (a data grid, etc.), not invoice-form placeholder text — overwriting it
+     with textContent would destroy the rendered grid. */
           document.querySelectorAll('.canvas').forEach(c => {
+            if (c.closest('.list-view')) return
             const live = state.mode === 'edit' || state.mode === 'create'
             c.style.cursor = live ? 'text' : ''
             if (!c.dataset.wired) {
@@ -9555,6 +9832,86 @@
         })
         /* a reloaded page can restore a different mode in the select — follow it */
         applyMode(modeSel.value || 'record')
+
+        /* ================= Sales Invoice List — concept rendering ================= */
+        const LIST_COLUMNS = [
+          'Doc. Sequence',
+          'Doc No.',
+          'Doc Date',
+          'Doc Sub-type Name',
+          'Payment method',
+          'Customer No.',
+          'Customer Name',
+        ]
+        const LIST_ROWS = [
+          {
+            seq: '001000352026143',
+            no: '143',
+            date: '13/08/2026',
+            subtype: 'عام',
+            pay: 'Cash',
+            custNo: '200002',
+            custName: 'customertest',
+          },
+          {
+            seq: '001000352026142',
+            no: '142',
+            date: '13/08/2026',
+            subtype: 'عام',
+            pay: 'Cash',
+            custNo: '200002',
+            custName: 'customertest',
+          },
+          {
+            seq: '001000352026140',
+            no: '140',
+            date: '13/08/2026',
+            subtype: 'عام',
+            pay: 'Credit',
+            custNo: '200001',
+            custName: 'العميل الاول',
+          },
+        ]
+
+        function renderListA(canvas) {
+          canvas.innerHTML =
+            '<div class="inv-grid-wrap">' +
+            '<div class="inv-grid-toolbar">' +
+            '<button class="lbtn out" type="button" onclick="openAdvancedSearch()">' +
+            '<svg width="15" height="15" aria-hidden="true"><use href="#i-search"/></svg> Search</button>' +
+            '<div class="grow"></div>' +
+            '<button class="lbtn out" type="button" onclick="toast({tone:\'ok\',title:\'Columns menu is out of scope here\'})">Columns</button>' +
+            '<button class="lbtn out" type="button" onclick="toast({tone:\'ok\',title:\'Export is out of scope here\'})">Export</button>' +
+            '</div>' +
+            '<div class="inv-group-bar">Drag a column header here to group</div>' +
+            '<table class="inv-grid"><thead><tr>' +
+            LIST_COLUMNS.map(c => `<th>${c}</th>`).join('') +
+            '</tr></thead><tbody>' +
+            LIST_ROWS.map(
+              r =>
+                `<tr onclick="openInvoiceRecord('${r.no}')">` +
+                `<td>${r.seq}</td><td>${r.no}</td><td>${r.date}</td><td>${r.subtype}</td>` +
+                `<td>${r.pay}</td><td>${r.custNo}</td><td>${r.custName}</td></tr>`
+            ).join('') +
+            '</tbody></table>' +
+            '</div>'
+        }
+
+        function openInvoiceRecord(no) {
+          showContentView('record')
+        }
+        /* referenced from the grid's row onclick (inline, kept verbatim from the
+   ported markup) — needs to be reachable outside this IIFE, same as toast. */
+        window.openInvoiceRecord = openInvoiceRecord
+        function renderList(concept) {
+          const canvas = document.getElementById('list-canvas')
+          if (concept === 'a') renderListA(canvas)
+          else
+            canvas.innerHTML = `<div style="padding:40px;text-align:center;color:var(--faint)">Concept ${concept.toUpperCase()} not built yet</div>`
+        }
+        document.getElementById('list-concept').addEventListener('change', e => renderList(e.target.value))
+        document.getElementById('list-add').addEventListener('click', () => showContentView('record'))
+        renderList('a')
       })()
     </script>
 
