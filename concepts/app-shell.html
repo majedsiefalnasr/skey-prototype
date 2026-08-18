@@ -4928,6 +4928,9 @@
           </div>
         </div>
       </template>
+      <template class="list-tpl">
+        <div class="list-view" hidden></div>
+      </template>
       <p class="note" style="margin-top: 22px">
         <strong>One place for the record actions.</strong> Creating, modifying and deleting an
         invoice now sit together next to Save, instead of being split between a global button and a
@@ -6628,6 +6631,7 @@
         const setNavCurrent = (root, label) => {
           navCurrentLabel = label
           closeEmailView() /* any real navigation leaves the email view, same as it would leave any other page */
+          showContentView(label === 'Sales Invoice' ? 'list' : 'record')
           const frame = root.closest('.frame')
           const lp = frame && frame.querySelector('.lp-view')
           if (lp && !lp.hidden) {
@@ -7189,6 +7193,7 @@
           content.className = 'content'
           content.append(d.querySelector('.body-tpl').content.cloneNode(true))
           content.append(d.querySelector('.email-tpl').content.cloneNode(true))
+          content.append(d.querySelector('.list-tpl').content.cloneNode(true))
           body.append(side, content)
           frame.append(body)
           d.querySelector('.mount').append(frame)
@@ -8837,12 +8842,21 @@
 
         /* ---- email view: opened from Notifications' Email tab, replaces the invoice
    content in place while the real topbar and sidebar stay put ---- */
-        function toggleEmailView(show) {
+        /* .content holds 3 swappable views as direct children: the record page's
+   top-level elements (unwrapped: .arow/.phead/.canvas/.fnav), .email-view,
+   and .list-view. Exactly one is ever un-hidden at a time. */
+        function showContentView(name) {
           const content = document.querySelector('.content')
+          const emailView = content.querySelector('.email-view')
+          const listView = content.querySelector('.list-view')
+          const isEmail = name === 'email'
+          const isList = name === 'list'
+          emailView.hidden = !isEmail
+          listView.hidden = !isList
           ;[...content.children].forEach(el => {
-            if (!el.classList.contains('email-view')) el.hidden = show
+            if (el === emailView || el === listView) return
+            el.hidden = isEmail || isList
           })
-          content.querySelector('.email-view').hidden = !show
         }
         function renderEmailList(query) {
           const scroll = document.getElementById('email-list-scroll')
@@ -8973,13 +8987,13 @@
           })
         }
         function openEmailView(id) {
-          toggleEmailView(true)
+          showContentView('email')
           renderEmailList('')
           selectEmail(id || EMAIL_DATA[0]?.id)
           document.getElementById('email-search-input').value = ''
         }
         function closeEmailView() {
-          toggleEmailView(false)
+          showContentView('record')
         }
         document.querySelectorAll('.email-back').forEach(b =>
           b.addEventListener('click', e => {
