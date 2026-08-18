@@ -5272,7 +5272,7 @@
         <div class="phead">
           <div class="l">
             <nav class="crumbs" aria-label="Breadcrumb">
-              <a href="#">Home</a><span class="sep">›</span><a href="#">Sales Invoice</a
+              <a href="#">Home</a><span class="sep">›</span><a href="#" class="record-back">Sales Invoice</a
               ><span class="sep">›</span><span aria-current="page">All</span>
             </nav>
             <div class="tline">
@@ -9795,6 +9795,12 @@
           b.addEventListener('click', e => {
             e.preventDefault()
             closeEmailView()
+          })
+        )
+        document.querySelectorAll('.record-back').forEach(b =>
+          b.addEventListener('click', e => {
+            e.preventDefault()
+            showContentView('list')
           })
         )
         document.querySelector('.email-compose')?.addEventListener('click', renderComposeNew)
