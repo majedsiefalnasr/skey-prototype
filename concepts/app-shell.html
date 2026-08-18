@@ -5300,13 +5300,13 @@
         <div class="canvas">
         <div id="canvas-root">
           <div class="rec-tabs" role="tablist">
-            <button class="rec-tab on" data-tab="main" role="tab" aria-selected="true">Main Data</button>
-            <button class="rec-tab" data-tab="payment" role="tab" aria-selected="false">Payment method</button>
-            <button class="rec-tab" data-tab="other" role="tab" aria-selected="false" data-adv-only>Other Data</button>
-            <button class="rec-tab" data-tab="subledgers" role="tab" aria-selected="false" data-adv-only>Sub Ledgers</button>
-            <button class="rec-tab" data-tab="additional" role="tab" aria-selected="false" data-adv-only>Additional Data</button>
+            <button class="rec-tab on" data-tab="main" role="tab" aria-selected="true" id="rec-tab-main" aria-controls="rec-panel-main">Main Data</button>
+            <button class="rec-tab" data-tab="payment" role="tab" aria-selected="false" id="rec-tab-payment" aria-controls="rec-panel-payment">Payment method</button>
+            <button class="rec-tab" data-tab="other" role="tab" aria-selected="false" data-adv-only id="rec-tab-other" aria-controls="rec-panel-other">Other Data</button>
+            <button class="rec-tab" data-tab="subledgers" role="tab" aria-selected="false" data-adv-only id="rec-tab-subledgers" aria-controls="rec-panel-subledgers">Sub Ledgers</button>
+            <button class="rec-tab" data-tab="additional" role="tab" aria-selected="false" data-adv-only id="rec-tab-additional" aria-controls="rec-panel-additional">Additional Data</button>
           </div>
-          <div class="rec-tabpanel" data-panel="main">
+          <div class="rec-tabpanel" data-panel="main" role="tabpanel" id="rec-panel-main" aria-labelledby="rec-tab-main">
             <div class="rec-card">
               <button type="button" class="rec-card-hd" aria-expanded="true">General</button>
               <div class="rec-card-body">
@@ -5341,11 +5341,11 @@
               </div>
             </div>
           </div>
-          <div class="rec-tabpanel" data-panel="payment" hidden>
+          <div class="rec-tabpanel" data-panel="payment" hidden role="tabpanel" id="rec-panel-payment" aria-labelledby="rec-tab-payment">
             <a href="#" class="rec-add-payment" id="add-payment-link">+ Add payment method</a>
             <div id="payment-rows"></div>
           </div>
-          <div class="rec-tabpanel" data-panel="other" hidden data-adv-only>
+          <div class="rec-tabpanel" data-panel="other" hidden data-adv-only role="tabpanel" id="rec-panel-other" aria-labelledby="rec-tab-other">
             <div class="rec-card"><div class="rec-card-body">
               <div class="rec-field" style="grid-column:1/-1"><label>Statement</label><textarea data-field rows="2"></textarea></div>
               <div class="rec-field"><label>Ref. No.</label><input data-field></div>
@@ -5353,14 +5353,14 @@
               <div class="rec-field"><label>No. Of Attach.</label><input data-field></div>
             </div></div>
           </div>
-          <div class="rec-tabpanel" data-panel="subledgers" hidden data-adv-only>
+          <div class="rec-tabpanel" data-panel="subledgers" hidden data-adv-only role="tabpanel" id="rec-panel-subledgers" aria-labelledby="rec-tab-subledgers">
             <div class="rec-card"><div class="rec-card-body">
               <div class="rec-field"><label>Cost Center No.</label><select data-field><option>—</option></select></div>
               <div class="rec-field"><label>Sub Ledger2 No.</label><select data-field><option>—</option></select></div>
               <div class="rec-field"><label>Sub Ledger3 No.</label><select data-field><option>—</option></select></div>
             </div></div>
           </div>
-          <div class="rec-tabpanel" data-panel="additional" hidden data-adv-only>
+          <div class="rec-tabpanel" data-panel="additional" hidden data-adv-only role="tabpanel" id="rec-panel-additional" aria-labelledby="rec-tab-additional">
             <div class="rec-card"><div class="rec-card-body">
               <div class="rec-field"><label>Salesperson</label><select data-field><option>—</option></select></div>
               <div class="rec-field"><label>Marketer No.</label><select data-field><option>—</option></select></div>
@@ -6696,8 +6696,12 @@
           missing: 3,
           prints: 2,
           viewMode: 'simple',
+          docNo: '126',
         }
-        const editable = s => !['posted', 'canceled', 'inactive'].includes(s.status)
+        const editable = s =>
+          s.mode === 'create'
+            ? true
+            : s.mode !== 'record' && !['posted', 'canceled', 'inactive'].includes(s.status)
         /* lockbanner copy for every status — ported from sales-invoice-record.html's
    LOCK_COPY map (final-review fix round gave every status its own entry, not
    just posted/canceled/inactive) */
@@ -9642,6 +9646,18 @@
    top-level elements (unwrapped: .arow/.phead/.canvas/.fnav), .email-view,
    and .list-view. Exactly one is ever un-hidden at a time. */
         function showContentView(name) {
+          /* overlays are direct children of <body> (recb-popover-scrim) or siblings
+   outside .content (adv-search-scrim), so switching which .content child is
+   visible doesn't touch them — close them here so they never strand open
+   across an unrelated navigation (e.g. breadcrumb back to the list) */
+          const popoverScrim = document.getElementById('recb-popover-scrim')
+          if (popoverScrim && popoverScrim.classList.contains('open')) {
+            popoverScrim.classList.remove('open')
+            releaseFocus()
+          }
+          const advScrim = document.getElementById('adv-search-scrim')
+          if (advScrim && advScrim.classList.contains('open')) closeAdvancedSearch()
+
           const content = document.querySelector('.content')
           const emailView = content.querySelector('.email-view')
           const listView = content.querySelector('.list-view')
@@ -9995,7 +10011,7 @@
      look but their breadcrumb and title are their own, not the invoice's. */
           document.querySelectorAll('.d1 .tline h1, .d2 .idty h1').forEach(h => {
             if (h.closest('.email-view') || h.closest('.list-view')) return
-            h.textContent = creating ? 'New sales invoice' : 'Sales Invoice 126'
+            h.textContent = creating ? 'New sales invoice' : `Sales Invoice ${state.docNo}`
           })
           document
             .querySelectorAll('.d3 .otitle h1')
@@ -10003,7 +10019,7 @@
               h =>
                 (h.textContent = creating
                   ? 'New sales invoice'
-                  : 'Sales Invoice 126 · 001000352026126')
+                  : `Sales Invoice ${state.docNo} · 001000352026126`)
             )
           document
             .querySelectorAll('.d2 .idty .cr')
@@ -10312,6 +10328,7 @@
           if (!btn) return
           state.viewMode = btn.dataset.view
           document.body.classList.toggle('advanced-on', state.viewMode === 'advanced')
+          applyState()
         })
         document.getElementById('emptyflow').addEventListener('change', e => {
           state.emptyFlow = e.target.checked
@@ -10473,7 +10490,11 @@
         }
 
         function openInvoiceRecord(no) {
+          /* minimal per design spec §4: reflect which row was clicked in the record's
+   title/breadcrumb — not a real invoice data lookup, no backend to query */
+          state.docNo = no
           showContentView('record')
+          applyState()
         }
         /* referenced from the grid's row onclick (inline, kept verbatim from the
    ported markup) — needs to be reachable outside this IIFE, same as toast. */
@@ -10505,6 +10526,7 @@
           if (concept === 'a') renderListA(canvas)
           else if (concept === 'b') renderListB(canvas)
           else if (concept === 'c') renderListC(canvas)
+          // else: unrecognized concept value — the <select> only offers a/b/c, so this is unreachable in practice
         }
         document.getElementById('list-concept').addEventListener('change', e => renderList(e.target.value))
         document.getElementById('list-add').addEventListener('click', () => showContentView('record'))
@@ -10546,6 +10568,10 @@
           renderPaymentExtraFields(row, method)
           row.querySelector('[data-payment-method]').addEventListener('change', e => renderPaymentExtraFields(row, e.target.value))
           row.querySelector('.rec-remove-payment').addEventListener('click', () => row.remove())
+          /* a freshly-added row's [data-field] inputs start enabled by default —
+   sweep the current editable/locked state onto them immediately so they
+   don't escape a locked record */
+          applyState()
         }
 
         function renderPaymentExtraFields(row, method) {
@@ -10582,6 +10608,10 @@
           tr.querySelector('.rec-remove-item').addEventListener('click', () => { tr.remove(); recalcTotalQty(bodyId, totalId) })
           tr.querySelector('.items-qty').addEventListener('input', () => recalcTotalQty(bodyId, totalId))
           recalcTotalQty(bodyId, totalId)
+          /* a freshly-added row's [data-field] inputs start enabled by default —
+   sweep the current editable/locked state onto them immediately so they
+   don't escape a locked record */
+          applyState()
         }
         function recalcTotalQty(bodyId, totalId) {
           const qtys = [...document.querySelectorAll(`#${bodyId} .items-qty`)].map(i => Number(i.value) || 0)
@@ -10707,6 +10737,7 @@
             renderRecordA()
           } else if (concept === 'b') renderRecordB()
           else if (concept === 'c') renderRecordC()
+          // else: unrecognized concept value — the <select> only offers a/b/c, so this is unreachable in practice
           applyState()
         }
         document.getElementById('record-concept').addEventListener('change', e => renderRecord(e.target.value))
