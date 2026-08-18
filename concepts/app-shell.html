@@ -4338,6 +4338,12 @@
       #adv-search-scrim .adv-search-close {
         margin-inline-start: auto;
       }
+      [data-adv-only] {
+        display: none;
+      }
+      body.advanced-on [data-adv-only] {
+        display: revert;
+      }
     </style>
   </head>
   <body>
@@ -5129,6 +5135,10 @@
             </nav>
             <div class="tline">
               <h1>Sales Invoice 126</h1>
+              <div class="segctl" id="mode-toggle" role="group" aria-label="Field detail level">
+                <button type="button" aria-pressed="true" data-view="simple">Simple</button>
+                <button type="button" aria-pressed="false" data-view="advanced">Advanced</button>
+              </div>
               <button class="ibtn fav-toggle" aria-label="Add to Favorites" aria-pressed="false">
                 <svg width="16" height="16" aria-hidden="true"><use href="#i-spark" /></svg
                 ><span class="tip">Add to Favorites</span>
@@ -6258,6 +6268,7 @@
           mode: 'record',
           missing: 3,
           prints: 2,
+          viewMode: 'simple',
         }
         const editable = s => !['posted', 'canceled', 'inactive'].includes(s.status)
         /* A new invoice has no number, no history and nothing to act on until it is saved.
@@ -9850,6 +9861,12 @@
         document.getElementById('dirty').addEventListener('change', e => {
           state.dirty = e.target.checked
           applyState()
+        })
+        document.getElementById('mode-toggle').addEventListener('click', e => {
+          const btn = e.target.closest('button[data-view]')
+          if (!btn) return
+          state.viewMode = btn.dataset.view
+          document.body.classList.toggle('advanced-on', state.viewMode === 'advanced')
         })
         document.getElementById('emptyflow').addEventListener('change', e => {
           state.emptyFlow = e.target.checked
