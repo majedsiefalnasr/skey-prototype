@@ -10589,18 +10589,18 @@
         function renderRecordA() {
           if (recordAInitialized) return
           recordAInitialized = true
-          document.querySelectorAll('.rec-tab').forEach(btn => {
+          document.querySelectorAll('#canvas-root .rec-tab').forEach(btn => {
             btn.addEventListener('click', () => {
-              document.querySelectorAll('.rec-tab').forEach(b => {
+              document.querySelectorAll('#canvas-root .rec-tab').forEach(b => {
                 b.classList.toggle('on', b === btn)
                 b.setAttribute('aria-selected', String(b === btn))
               })
-              document.querySelectorAll('.rec-tabpanel').forEach(p => {
+              document.querySelectorAll('#canvas-root .rec-tabpanel').forEach(p => {
                 p.hidden = p.dataset.panel !== btn.dataset.tab
               })
             })
           })
-          document.querySelectorAll('.rec-card-hd').forEach(hd => {
+          document.querySelectorAll('#canvas-root .rec-card-hd').forEach(hd => {
             hd.addEventListener('click', () => {
               const open = hd.getAttribute('aria-expanded') === 'true'
               hd.setAttribute('aria-expanded', String(!open))
@@ -10615,7 +10615,96 @@
           addPaymentMethodRow('payment-rows', 'Cash', '200')
           addItemRow('items-body', 'items-total-qty')
         }
-        renderRecordA()
+
+        /* ================= Sales Invoice Record — Concept B (Single Flow) =================
+   ported from sales-invoice-record.html:2414-2462 */
+
+        const RECB_POPOVER_CONTENT = {
+          payment: () => `<a href="#" id="recb-add-payment">+ Add payment method</a><div id="recb-payment-rows"></div>`,
+          other: () => document.querySelector('[data-panel="other"] .rec-card-body').outerHTML,
+          subledgers: () => document.querySelector('[data-panel="subledgers"] .rec-card-body').outerHTML,
+          additional: () => document.querySelector('[data-panel="additional"] .rec-card-body').outerHTML,
+          /* Concept A's Sales Charges card body starts `hidden` (it's a collapsed
+             accordion there) — strip that so the popover shows it immediately */
+          charges: () => document.querySelector('#charges-card .rec-card-body').outerHTML.replace(' hidden', ''),
+        }
+
+        let recordBInitialized = false
+        function renderRecordB() {
+          document.getElementById('canvas-root').hidden = true
+          document.getElementById('canvas-root-b').hidden = false
+          if (recordBInitialized) return
+          recordBInitialized = true
+          addItemRow('items-body-b', 'items-total-qty-b')
+          document.querySelectorAll('#canvas-root-b [data-popover]').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const key = btn.dataset.popover
+              document.getElementById('recb-popover-title').textContent = btn.textContent.trim()
+              document.getElementById('recb-popover-body').innerHTML = RECB_POPOVER_CONTENT[key] ? RECB_POPOVER_CONTENT[key]() : ''
+              document.getElementById('recb-popover-scrim').classList.add('open')
+              trapFocus(document.querySelector('.recb-popover'))
+              if (key === 'payment') {
+                addPaymentMethodRow('recb-payment-rows', 'Cash', '200')
+                document.getElementById('recb-add-payment').addEventListener('click', e => {
+                  e.preventDefault()
+                  addPaymentMethodRow('recb-payment-rows')
+                })
+              }
+            })
+          })
+          const closeRecbPopover = () => {
+            document.getElementById('recb-popover-scrim').classList.remove('open')
+            releaseFocus()
+          }
+          document.getElementById('recb-popover-close').addEventListener('click', closeRecbPopover)
+          document.getElementById('recb-popover-scrim').addEventListener('click', e => {
+            if (e.target === document.getElementById('recb-popover-scrim')) closeRecbPopover()
+          })
+          document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && document.getElementById('recb-popover-scrim').classList.contains('open')) {
+              closeRecbPopover()
+            }
+          })
+        }
+
+        /* ================= Sales Invoice Record — Concept C (Split View) =================
+   ported from sales-invoice-record.html:2464-2481 */
+
+        let recordCInitialized = false
+        function renderRecordC() {
+          document.getElementById('canvas-root').hidden = true
+          document.getElementById('canvas-root-c').hidden = false
+          if (recordCInitialized) return
+          recordCInitialized = true
+          addItemRow('items-body-c', 'items-total-qty-c')
+          addPaymentMethodRow('recc-payment-rows', 'Cash', '200')
+          document.querySelectorAll('#canvas-root-c .rec-card-hd').forEach(hd => {
+            hd.addEventListener('click', () => {
+              const open = hd.getAttribute('aria-expanded') === 'true'
+              hd.setAttribute('aria-expanded', String(!open))
+              hd.nextElementSibling.hidden = open
+            })
+          })
+        }
+
+        function renderRecord(concept) {
+          const scrim = document.getElementById('recb-popover-scrim')
+          if (scrim && scrim.classList.contains('open')) {
+            scrim.classList.remove('open')
+            releaseFocus()
+          }
+          document.getElementById('canvas-root').hidden = true
+          document.getElementById('canvas-root-b').hidden = true
+          document.getElementById('canvas-root-c').hidden = true
+          if (concept === 'a') {
+            document.getElementById('canvas-root').hidden = false
+            renderRecordA()
+          } else if (concept === 'b') renderRecordB()
+          else if (concept === 'c') renderRecordC()
+          applyState()
+        }
+        document.getElementById('record-concept').addEventListener('change', e => renderRecord(e.target.value))
+        renderRecord('a')
         /* the payment row and item row just created above are [data-field]
    elements that didn't exist yet for applyMode()'s initial applyState() call
    above — re-run it so their disabled state matches the current status */
