@@ -6512,6 +6512,17 @@
           viewMode: 'simple',
         }
         const editable = s => !['posted', 'canceled', 'inactive'].includes(s.status)
+        /* lockbanner copy for every status — ported from sales-invoice-record.html's
+   LOCK_COPY map (final-review fix round gave every status its own entry, not
+   just posted/canceled/inactive) */
+        const LOCK_COPY = {
+          posted: 'This invoice is posted, so its fields are read-only. Undo the posting to edit it.',
+          canceled: 'This invoice is canceled, so its fields are read-only.',
+          inactive: 'This invoice is deactivated, so its fields are read-only. Reactivate it to edit.',
+          open: "You're viewing this invoice. Switch to Edit mode to make changes.",
+          pending: "You're viewing this invoice. Switch to Edit mode to make changes.",
+          returned: "You're viewing this invoice. Switch to Edit mode to make changes.",
+        }
         /* A new invoice has no number, no history and nothing to act on until it is saved.
    Everything that reads or writes the stored document waits for that first save. */
         const needsSaved = [
@@ -9849,12 +9860,14 @@
               : `Record ${inp ? inp.value : 1} of 125`
           })
 
-          /* the form is out of scope, so the canvas stands in for making a change.
-     Skip the list view's canvas: it holds the real List Concept A/B/C markup
-     (a data grid, etc.), not invoice-form placeholder text — overwriting it
-     with textContent would destroy the rendered grid. */
+          /* the record canvas now holds Record Concept A's real markup, so the old
+     click-anywhere-to-dirty stand-in (which overwrote the canvas's textContent)
+     would destroy the rendered tabs/cards/grid. Skip both it and the list view's
+     canvas (real List Concept A/B/C markup) — every other canvas is either of
+     those two, since only one record concept lives in the DOM until Task 6. */
           document.querySelectorAll('.canvas').forEach(c => {
             if (c.closest('.list-view')) return
+            if (c.querySelector('[data-field]')) return
             const live = state.mode === 'edit' || state.mode === 'create'
             c.style.cursor = live ? 'text' : ''
             if (!c.dataset.wired) {
@@ -9872,6 +9885,11 @@
             }
             const base = c.dataset.base || (c.dataset.base = c.textContent.trim())
             c.textContent = live ? base + ' — click here to stand in for editing a field' : base
+          })
+          /* Record Concept A's real fields: read-only outside an editable status,
+     same rule the rest of the record's chrome already follows via editable(state) */
+          document.querySelectorAll('.canvas [data-field]').forEach(el => {
+            el.disabled = !editable(state)
           })
 
           /* which record actions belong on screen right now */
@@ -9915,17 +9933,11 @@
         <div><div class="n">${c.name}</div><div class="d">${on ? c.when || '—' : creating ? 'Not yet' : 'Not recorded'}</div></div></div>`
             }).join('')
           })
-          /* a locked record should say why, not just look grey */
+          /* a locked record should say why, not just look grey — every status has its
+     own copy, whether it's genuinely locked (posted/canceled/inactive) or just
+     not yet switched into Edit mode (open/pending/returned) */
           document.querySelectorAll('.lockbanner').forEach(b => {
-            const why = creating
-              ? null
-              : st === 'posted'
-                ? 'This invoice is posted, so its fields are read-only. Undo the posting to edit it.'
-                : st === 'canceled'
-                  ? 'This invoice is canceled, so its fields are read-only. Restore it to edit it.'
-                  : st === 'inactive'
-                    ? 'This invoice is deactivated, so its fields are read-only.'
-                    : null
+            const why = creating || (editing && editable(state)) ? null : LOCK_COPY[st]
             b.hidden = !why
             if (why) b.querySelector('span').textContent = why
           })
@@ -10305,6 +10317,123 @@
         document.getElementById('list-concept').addEventListener('change', e => renderList(e.target.value))
         document.getElementById('list-add').addEventListener('click', () => showContentView('record'))
         renderList('a')
+
+        /* ================= Sales Invoice Record — Concept A (Guided Tabs) =================
+   ported from sales-invoice-record.html:2311-2412. Concept B/C's own rendering
+   functions land in Task 6; this section stays Concept A only. */
+
+        /* ---- payment method: multiple simultaneous rows, each with its own
+           method-specific extra fields ---- */
+        const PAYMENT_METHODS = ['Cash', 'Bank', 'Credit Card', 'Cheque', 'Transfer']
+        const PAYMENT_EXTRA_FIELDS = {
+          Cash: [{label: 'Cash Code', value: '2001 - Main Cash'}],
+          Bank: [{label: 'Bank Name', value: ''}, {label: 'Account No.', value: ''}],
+          'Credit Card': [{label: 'Card Type', value: ''}, {label: 'Approval No.', value: ''}],
+          Cheque: [{label: 'Cheque No.', value: ''}, {label: 'Bank', value: ''}],
+          Transfer: [{label: 'Transfer Reference', value: ''}],
+        }
+        let paymentRowCount = 0
+
+        /* containerId lets Task 6's Concepts B and C reuse this for their own
+           payment-row containers, since only one concept's canvas is visible
+           at a time but all three will exist in the DOM simultaneously */
+        function addPaymentMethodRow(containerId = 'payment-rows', method = 'Cash', amount = '') {
+          const id = paymentRowCount++
+          const row = document.createElement('div')
+          row.className = 'rec-card'
+          row.dataset.paymentRow = id
+          row.innerHTML =
+            '<div class="rec-card-body">' +
+              `<div class="rec-field"><label>Payment Method <span class="req">*</span></label>` +
+              `<select data-field data-payment-method>${PAYMENT_METHODS.map(m => `<option${m===method?' selected':''}>${m}</option>`).join('')}</select></div>` +
+              `<div class="rec-field"><label>The Amount <span class="req">*</span></label><input data-field value="${amount}"></div>` +
+              `<div class="rec-payment-extra"></div>` +
+              `<button type="button" class="ibtn rec-remove-payment" aria-label="Remove payment method">✕</button>` +
+            '</div>'
+          document.getElementById(containerId).appendChild(row)
+          renderPaymentExtraFields(row, method)
+          row.querySelector('[data-payment-method]').addEventListener('change', e => renderPaymentExtraFields(row, e.target.value))
+          row.querySelector('.rec-remove-payment').addEventListener('click', () => row.remove())
+        }
+
+        function renderPaymentExtraFields(row, method) {
+          const extra = row.querySelector('.rec-payment-extra')
+          extra.innerHTML = (PAYMENT_EXTRA_FIELDS[method] || [])
+            .map(f => `<div class="rec-field"><label>${f.label}</label><input data-field value="${f.value}"></div>`)
+            .join('')
+        }
+
+        /* ---- items grid: add/remove rows, recalc total qty ---- */
+        let itemRowCount = 0
+        /* bodyId/totalId let Concepts B and C (Task 6) reuse this for their own items
+           grids, which have their own tbody/total elements since only one concept's
+           canvas is visible at a time but all three will exist in the DOM simultaneously */
+        function addItemRow(bodyId, totalId) {
+          const id = itemRowCount++
+          const tr = document.createElement('tr')
+          tr.dataset.itemRow = id
+          tr.innerHTML =
+            '<td><button type="button" class="ibtn rec-remove-item" aria-label="Remove item">✕</button></td>' +
+            '<td><input data-field placeholder="Item"></td>' +
+            '<td><input data-field placeholder="UoM"></td>' +
+            '<td data-adv-only><input data-field placeholder="Expiry"></td>' +
+            '<td data-adv-only><input data-field placeholder="Batch"></td>' +
+            '<td><input data-field type="number" value="1" class="items-qty"></td>' +
+            '<td data-adv-only><input data-field type="number" value="0"></td>' +
+            '<td data-adv-only><input data-field disabled placeholder="—"></td>' +
+            '<td><input data-field type="number" value="0"></td>' +
+            '<td data-adv-only><input data-field type="number" value="0"></td>' +
+            '<td><input data-field disabled value="0"></td>' +
+            '<td><input data-field disabled value="0"></td>' +
+            '<td><input data-field disabled value="0"></td>'
+          document.getElementById(bodyId).appendChild(tr)
+          tr.querySelector('.rec-remove-item').addEventListener('click', () => { tr.remove(); recalcTotalQty(bodyId, totalId) })
+          tr.querySelector('.items-qty').addEventListener('input', () => recalcTotalQty(bodyId, totalId))
+          recalcTotalQty(bodyId, totalId)
+        }
+        function recalcTotalQty(bodyId, totalId) {
+          const qtys = [...document.querySelectorAll(`#${bodyId} .items-qty`)].map(i => Number(i.value) || 0)
+          document.getElementById(totalId).textContent = qtys.reduce((a, b) => a + b, 0)
+        }
+        /* referenced from inline onclick="addItemRow(...)" in the ported Items grid
+   markup — needs to be reachable outside this IIFE, same as openInvoiceRecord. */
+        window.addItemRow = addItemRow
+
+        let recordAInitialized = false
+        function renderRecordA() {
+          if (recordAInitialized) return
+          recordAInitialized = true
+          document.querySelectorAll('.rec-tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+              document.querySelectorAll('.rec-tab').forEach(b => {
+                b.classList.toggle('on', b === btn)
+                b.setAttribute('aria-selected', String(b === btn))
+              })
+              document.querySelectorAll('.rec-tabpanel').forEach(p => {
+                p.hidden = p.dataset.panel !== btn.dataset.tab
+              })
+            })
+          })
+          document.querySelectorAll('.rec-card-hd').forEach(hd => {
+            hd.addEventListener('click', () => {
+              const open = hd.getAttribute('aria-expanded') === 'true'
+              hd.setAttribute('aria-expanded', String(!open))
+              hd.nextElementSibling.hidden = open
+            })
+          })
+
+          document.getElementById('add-payment-link').addEventListener('click', e => {
+            e.preventDefault()
+            addPaymentMethodRow('payment-rows')
+          })
+          addPaymentMethodRow('payment-rows', 'Cash', '200')
+          addItemRow('items-body', 'items-total-qty')
+        }
+        renderRecordA()
+        /* the payment row and item row just created above are [data-field]
+   elements that didn't exist yet for applyMode()'s initial applyState() call
+   above — re-run it so their disabled state matches the current status */
+        applyState()
       })()
     </script>
 
