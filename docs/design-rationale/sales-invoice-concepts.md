@@ -26,9 +26,9 @@ Unlike the list, the record (invoice detail) screen keeps three concepts, becaus
 
 ### Concept C — Split View
 
-**Who it's for:** Managers and reviewers approving invoices someone else entered, not the person doing the data entry.
+**Who it's for:** Anyone working through the full invoice as one long, continuous page — no tabs to click, no popups to open — who wants a fast way to jump between sections instead of scrolling past everything to get to, say, Additional Data.
 
-**Why it's shaped this way:** A reviewer doesn't need to enter data — they need to quickly judge whether an invoice is correct and decide whether to approve it. The left-hand rail stays pinned while the rest of the invoice scrolls, and always shows the customer, payment summary, and running Net Amount, so the reviewer never loses track of the bottom line. Below that, it surfaces the two things a reviewer actually acts on: **exception flags** (for example, a missing tax number, or a discount above the normal threshold) and a pinned **Approve / Return** action. Earlier versions of this concept had the same split layout but no reviewer-specific content in the rail — it was a read-only copy of fields that added a second column without adding a reason to use it. The flags and action are what make the split worth having: they're the reviewer's actual job, kept in view the whole time instead of buried at the bottom of a long scroll.
+**Why it's shaped this way:** Every section (Main Data, Items, Totals, Payment method, and the Advanced-only Other Data / Sub Ledgers / Additional Data / Sales Charges) sits in one continuous scroll on the right, with nothing hidden behind a tab or a popup. The left-hand rail stays pinned while that content scrolls, and holds a **quick-navigation list** of every section — clicking one scrolls straight to it and expands it if it was collapsed, and the current section highlights as you scroll. That's the rail's whole job: fast movement through a long page, not a summary or a reviewer action panel — an earlier draft put read-only customer/payment fields and an Approve/Return action there, but neither was asked for, so both were removed.
 
 ## Simple / Advanced mode
 

@@ -4653,36 +4653,6 @@
         color: var(--accent);
         font-weight: 600;
       }
-      .recc-net {
-        margin-top: 10px;
-        padding-top: 10px;
-        border-top: 1px solid var(--line);
-        font-size: 14px;
-        color: var(--accent);
-      }
-      /* surfaces exceptions worth a reviewer's attention (representative static
-   examples, no live validation) pinned alongside the jump nav */
-      .recc-flags {
-        margin-top: 10px;
-        padding-top: 10px;
-        border-top: 1px solid var(--line);
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-      .recc-flag {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 5px 8px;
-        border-radius: 6px;
-        background: var(--st-pend-bg);
-        color: var(--st-pend-ink);
-        font-size: 12px;
-      }
-      .recc-flag svg {
-        flex: none;
-      }
       .recc-detail {
         flex: 1;
         min-width: 0;
@@ -6015,17 +5985,6 @@
                 <a href="#recc-sec-additional" data-adv-only>Additional Data</a>
                 <a href="#recc-sec-charges" data-adv-only>Sales Charges</a>
               </nav>
-              <div class="recc-net">Net: <b>200 EGP</b></div>
-              <div class="recc-flags" id="recc-flags" aria-label="Review flags">
-                <div class="recc-flag">
-                  <svg width="13" height="13" aria-hidden="true"><use href="#i-warn" /></svg>
-                  Missing tax number
-                </div>
-                <div class="recc-flag">
-                  <svg width="13" height="13" aria-hidden="true"><use href="#i-warn" /></svg>
-                  Discount above threshold
-                </div>
-              </div>
             </aside>
             <div class="recc-detail">
               <div class="rec-card" id="recc-sec-main">
