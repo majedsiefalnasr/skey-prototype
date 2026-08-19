@@ -4354,9 +4354,6 @@
       [data-adv-only] {
         display: none;
       }
-      body.advanced-on [data-adv-only] {
-        display: revert;
-      }
 
       /* ============ Sales Invoice Record — Concept A (Guided Tabs) ============ */
       .rec-tabs {
@@ -4420,6 +4417,13 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 10px 16px;
         padding: 12px;
+      }
+      /* Concept C's Payment method card holds full-width payment rows (each row
+   is its own flex layout, not a form field), not the field grid every other
+   .rec-card-body uses — without this, each row lands in a 1/3-width grid
+   cell and its fields+remove button all get crushed. */
+      .rec-card-body-block {
+        display: block;
       }
       .rec-field label {
         display: block;
@@ -6139,7 +6143,13 @@
                 <button type="button" class="rec-card-hd" aria-expanded="true">
                   Payment method
                 </button>
-                <div class="rec-card-body" id="recc-payment-rows"></div>
+                <div class="rec-card-body rec-card-body-block">
+                  <div id="recc-payment-rows"></div>
+                  <button type="button" class="lbtn out" id="recc-add-payment">
+                    <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Add
+                    payment method
+                  </button>
+                </div>
               </div>
               <div class="rec-card" data-adv-only id="recc-sec-other">
                 <button type="button" class="rec-card-hd" aria-expanded="false">Other Data</button>
@@ -11447,6 +11457,9 @@
           recordCInitialized = true
           addItemRow('items-body-c', 'items-total-qty-c')
           addPaymentMethodRow('recc-payment-rows', 'Cash', '200')
+          document
+            .getElementById('recc-add-payment')
+            .addEventListener('click', () => addPaymentMethodRow('recc-payment-rows'))
           document.querySelectorAll('#canvas-root-c .rec-card-hd').forEach(hd => {
             hd.addEventListener('click', () => {
               const open = hd.getAttribute('aria-expanded') === 'true'
