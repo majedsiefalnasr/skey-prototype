@@ -899,6 +899,13 @@
       .ibtn:hover:not(:disabled) {
         background: #eef1f6;
       }
+      .ibtn.danger {
+        color: var(--muted);
+      }
+      .ibtn.danger:hover:not(:disabled) {
+        background: #fdf2f1;
+        color: var(--danger);
+      }
       .lbtn {
         display: inline-flex;
         align-items: center;
@@ -4088,11 +4095,14 @@
         font-size: 13px;
       }
 
-      /* ============ Sales Invoice List — Concept A (Data Grid) ============ */
+      /* ============ Sales Invoice List — Data Grid ============
+   Matches the shell's real card/panel elevation (--shadow-1, --surface,
+   --line) instead of a flat unstyled table. */
       .inv-grid-wrap {
         background: var(--surface);
         border: 1px solid var(--line);
         border-radius: 8px;
+        box-shadow: var(--shadow-1);
         overflow: auto;
       }
       .inv-grid {
@@ -4112,6 +4122,7 @@
       .inv-grid td {
         padding: 8px 12px;
         border-bottom: 1px solid var(--line-2);
+        color: var(--ink);
       }
       .inv-grid tbody tr:hover {
         background: var(--accent-soft);
@@ -4134,12 +4145,9 @@
       .inv-grid-toolbar .grow {
         flex: 1;
       }
-      .inv-board-toolbar {
-        margin-bottom: 10px;
-      }
       .inv-group-bar {
         padding: 8px 12px;
-        color: var(--faint);
+        color: var(--muted);
         font-size: 12.5px;
         border-bottom: 1px solid var(--line);
         background: var(--bg);
@@ -4164,21 +4172,6 @@
         background: #e7f0ff;
         color: #12459e;
       }
-
-      /* ============ Sales Invoice List — Concept B (Command List) ============ */
-      .inv-cmd-search { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); margin-bottom: 10px; color: var(--faint); }
-      .inv-cmd-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); margin-bottom: 6px; cursor: pointer; }
-      .inv-cmd-row:hover { border-color: var(--accent-line); background: var(--accent-soft); }
-      .inv-cmd-row .l { font-size: 13px; }
-      .inv-cmd-row .r { font-size: 12.5px; color: var(--faint); }
-      .inv-cmd-chips { display: flex; gap: 6px; margin-bottom: 10px; }
-
-      /* ============ Sales Invoice List — Concept C (Grouped Review Board) ============ */
-      .inv-board-group { margin-bottom: 16px; }
-      .inv-board-group h3 { font-size: 13px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
-      .inv-board-group h3 .dot { width: 8px; height: 8px; border-radius: 99px; display: inline-block; }
-      .inv-board-card { padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; }
-      .inv-board-card:hover { border-color: var(--accent-line); background: var(--accent-soft); }
 
       /* #list-canvas reuses app-shell.html's generic .canvas class (elsewhere a centered
    dashed placeholder box), but Concepts B/C render multiple block-level children
@@ -4426,9 +4419,44 @@
         border: 1px solid var(--line);
         border-radius: 6px;
         font: inherit;
+        color: var(--ink);
+        background: var(--surface);
       }
       .rec-field textarea {
         resize: vertical;
+      }
+      .rec-field input:is(:hover, :focus-visible),
+      .rec-field select:is(:hover, :focus-visible),
+      .rec-field textarea:is(:hover, :focus-visible) {
+        border-color: var(--accent-line);
+      }
+      .rec-field input:focus-visible,
+      .rec-field select:focus-visible,
+      .rec-field textarea:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px var(--accent-soft);
+      }
+      .rec-field input:disabled,
+      .rec-field select:disabled,
+      .rec-field textarea:disabled {
+        background: var(--line-2);
+        color: var(--muted);
+      }
+      /* native <select> chrome doesn't match the rest of the field system — swap in
+   the sprite's own caret and hide the browser's default arrow */
+      .rec-field select {
+        appearance: none;
+        -webkit-appearance: none;
+        padding-inline-end: 28px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2344546f' d='M2.5 4.5 6 8l3.5-3.5z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 8px center;
+        background-size: 12px;
+      }
+      [dir='rtl'] .rec-field select {
+        padding-inline-end: 8px;
+        padding-inline-start: 28px;
+        background-position: left 8px center;
       }
       .rec-items {
         margin-bottom: 12px;
@@ -4465,7 +4493,39 @@
 
       /* ---- Concept B: Single Flow (Task 6) ---- */
       .recb-header { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 10px 0; margin-bottom: 12px; border-bottom: 1px solid var(--line); }
-      .recb-popover-triggers { display: flex; gap: 8px; margin: 12px 0; }
+      /* one bordered cluster instead of loose buttons — reads as "more details
+   live here", not five unrelated actions floating between the grid and totals */
+      .recb-popover-triggers {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px;
+        margin: 12px 0;
+        padding: 4px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--bg);
+      }
+      .recb-popover-trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border: 1px solid transparent;
+        border-radius: 6px;
+        background: none;
+        font-size: 12.5px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .recb-popover-trigger:hover:not(:disabled) {
+        background: var(--surface);
+        border-color: var(--line);
+        color: var(--ink);
+      }
+      .recb-popover-trigger svg {
+        flex: none;
+        color: var(--muted);
+      }
       .recb-popover-scrim { position: fixed; inset: 0; background: #0000004d; display: none; align-items: center; justify-content: center; z-index: 90; }
       .recb-popover-scrim.open { display: flex; }
       .recb-popover { width: min(560px, 92vw); max-height: 80vh; overflow: auto; background: var(--surface); border-radius: 10px; box-shadow: var(--shadow-2); }
@@ -4477,19 +4537,44 @@
       .recc-summary { width: 220px; flex: none; position: sticky; top: 0; border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: var(--surface); }
       .recc-readonly { font-size: 13px; padding: 4px 0; }
       .recc-net { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 14px; color: var(--accent); }
+      /* the split view's actual reason to exist: a reviewer needs exceptions and an
+   approve/return action pinned in view, not just a read-only copy of fields
+   that scroll away anyway in a single-column layout */
+      .recc-flags {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid var(--line);
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .recc-flag {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 8px;
+        border-radius: 6px;
+        background: var(--st-pend-bg);
+        color: var(--st-pend-ink);
+        font-size: 12px;
+      }
+      .recc-flag svg {
+        flex: none;
+      }
+      .recc-actions {
+        margin-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .recc-actions .lbtn {
+        justify-content: center;
+      }
       .recc-detail { flex: 1; min-width: 0; }
     </style>
   </head>
   <body>
     <div class="demo-bar">
-      <div class="grp">
-        <label for="list-concept">List concept:</label>
-        <select id="list-concept" autocomplete="off">
-          <option value="a" selected>A · Data Grid</option>
-          <option value="b">B · Command List</option>
-          <option value="c">C · Grouped Review Board</option>
-        </select>
-      </div>
       <div class="grp">
         <label for="record-concept">Record concept:</label>
         <select id="record-concept" autocomplete="off">
@@ -5413,7 +5498,7 @@
             <div class="rec-card-body" hidden>
               <div class="inv-grid-wrap" style="grid-column:1/-1">
                 <table class="inv-grid"><thead><tr><th>Charge</th><th>Amount</th><th></th></tr></thead>
-                  <tbody><tr><td><input data-field placeholder="Charge type"></td><td><input data-field value="0"></td><td><button type="button" class="ibtn" aria-label="Remove charge">✕</button></td></tr></tbody>
+                  <tbody><tr><td><input data-field placeholder="Charge type"></td><td><input data-field value="0"></td><td><button type="button" class="ibtn danger" aria-label="Remove charge"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button></td></tr></tbody>
                 </table>
               </div>
             </div>
@@ -5447,12 +5532,12 @@
             </div>
             <div class="rec-total-qty">Total Qty.: <b id="items-total-qty-b">0</b></div>
           </div>
-          <div class="recb-popover-triggers">
-            <button type="button" class="lbtn out" data-popover="payment">💳 Payment</button>
-            <button type="button" class="lbtn out" data-popover="other" data-adv-only>📋 Other Data</button>
-            <button type="button" class="lbtn out" data-popover="subledgers" data-adv-only>🏷 Sub Ledgers</button>
-            <button type="button" class="lbtn out" data-popover="additional" data-adv-only>➕ Additional Data</button>
-            <button type="button" class="lbtn out" data-popover="charges" data-adv-only>🧾 Sales Charges</button>
+          <div class="recb-popover-triggers" role="group" aria-label="More details">
+            <button type="button" class="recb-popover-trigger" data-popover="payment"><svg width="14" height="14" aria-hidden="true"><use href="#i-post"/></svg> Payment</button>
+            <button type="button" class="recb-popover-trigger" data-popover="other" data-adv-only><svg width="14" height="14" aria-hidden="true"><use href="#i-doc"/></svg> Other Data</button>
+            <button type="button" class="recb-popover-trigger" data-popover="subledgers" data-adv-only><svg width="14" height="14" aria-hidden="true"><use href="#i-clip"/></svg> Sub Ledgers</button>
+            <button type="button" class="recb-popover-trigger" data-popover="additional" data-adv-only><svg width="14" height="14" aria-hidden="true"><use href="#i-sliders"/></svg> Additional Data</button>
+            <button type="button" class="recb-popover-trigger" data-popover="charges" data-adv-only><svg width="14" height="14" aria-hidden="true"><use href="#i-archive"/></svg> Sales Charges</button>
           </div>
           <div class="rec-totals">
             <div class="rec-field"><label>The Amount</label><input data-field disabled value="200"></div>
@@ -5472,6 +5557,20 @@
             <div class="rec-field"><label>Customer</label><div class="recc-readonly">customertest</div></div>
             <div class="rec-field"><label>Payment</label><div class="recc-readonly">Cash · 200 EGP</div></div>
             <div class="recc-net">Net: <b>200 EGP</b></div>
+            <div class="recc-flags" id="recc-flags" aria-label="Review flags">
+              <div class="recc-flag">
+                <svg width="13" height="13" aria-hidden="true"><use href="#i-warn"/></svg>
+                Missing tax number
+              </div>
+              <div class="recc-flag">
+                <svg width="13" height="13" aria-hidden="true"><use href="#i-warn"/></svg>
+                Discount above threshold
+              </div>
+            </div>
+            <div class="recc-actions">
+              <button type="button" class="lbtn pri" onclick="toast({tone:'ok',title:'Approve is out of scope here'})">Approve</button>
+              <button type="button" class="lbtn out danger" onclick="toast({tone:'ok',title:'Return is out of scope here'})">Return</button>
+            </div>
           </aside>
           <div class="recc-detail">
             <div class="rec-card">
@@ -5567,7 +5666,7 @@
               <div class="rec-card-body" hidden>
                 <div class="inv-grid-wrap" style="grid-column:1/-1">
                   <table class="inv-grid"><thead><tr><th>Charge</th><th>Amount</th><th></th></tr></thead>
-                    <tbody><tr><td><input data-field placeholder="Charge type"></td><td><input data-field value="0"></td><td><button type="button" class="ibtn" aria-label="Remove charge">✕</button></td></tr></tbody>
+                    <tbody><tr><td><input data-field placeholder="Charge type"></td><td><input data-field value="0"></td><td><button type="button" class="ibtn danger" aria-label="Remove charge"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button></td></tr></tbody>
                   </table>
                 </div>
               </div>
@@ -5578,7 +5677,7 @@
 
         <div class="recb-popover-scrim" id="recb-popover-scrim">
           <div class="recb-popover box" role="dialog" aria-modal="true">
-            <div class="recb-popover-hd"><b id="recb-popover-title"></b><button type="button" class="ibtn" aria-label="Close" id="recb-popover-close">✕</button></div>
+            <div class="recb-popover-hd"><b id="recb-popover-title"></b><button type="button" class="ibtn" aria-label="Close" id="recb-popover-close"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button></div>
             <div class="recb-popover-body" id="recb-popover-body"></div>
           </div>
         </div>
@@ -7386,6 +7485,12 @@
           return kids.flatMap(leavesOf)
         }
 
+        /* reverse of leavesOf — which top-level NAV_TREE group a given leaf screen
+   lives under. Used to activate the right rail icon before a leaf (like "Sales
+   Invoice") can be highlighted inside its panel — the rail only has icons for
+   top-level groups, not every nested screen. */
+        const findNavGroup = label => NAV_TREE.find(group => leavesOf(group).includes(label))
+
         /* "For You" — the user's own custom groups of screens, built via the
    Customize sidebar dialog. Each group is {name, items: [{label, appLabel}]},
    flat only, no nested groups. The rail's For You icon only appears once at
@@ -7798,7 +7903,17 @@
             const tags = document.createElement('div')
             tags.className = 'lp-tags'
             items.forEach(name =>
-              tags.appendChild(launchpadTag(name, icon, cls, () => setNavCurrent(side, name)))
+              tags.appendChild(
+                launchpadTag(name, icon, cls, () => {
+                  /* the rail only has icons for top-level NAV_TREE groups — a leaf like
+             "Sales Invoice" needs its parent group's icon activated first so the
+             panel renders the leaf, then setNavCurrent highlights the leaf itself
+             and switches the content view, same as clicking it in the panel would */
+                  const group = findNavGroup(name)
+                  if (group) side.querySelector('.nc2').activateByLabel(group[0])
+                  setNavCurrent(side, name)
+                })
+              )
             )
             row.append(lbl, tags)
             return row
@@ -10451,44 +10566,6 @@
             '</div>'
         }
 
-        function renderListB(canvas) {
-          canvas.innerHTML =
-            '<button type="button" class="inv-cmd-search" onclick="openAdvancedSearch()" style="width:100%;text-align:start;border:1px solid var(--line);cursor:pointer">' +
-              '<svg width="15" height="15" aria-hidden="true"><use href="#i-search"/></svg> Search or jump to invoice #…' +
-            '</button>' +
-            '<div class="inv-cmd-chips">' +
-              '<span class="badge gray">All statuses</span><span class="badge gray">All customers</span>' +
-            '</div>' +
-            LIST_ROWS.map(r =>
-              `<div class="inv-cmd-row" onclick="openInvoiceRecord('${r.no}')">` +
-              `<span class="l"><b>#${r.no}</b> · ${r.custName} · ${r.pay}</span>` +
-              `<span class="r">${r.date}</span></div>`
-            ).join('')
-        }
-
-        const STATUS_META = {
-          posted: {label: 'Posted', color: 'var(--st-post-ink)'},
-          pending: {label: 'Pending', color: 'var(--st-pend-ink)'},
-          open: {label: 'Open', color: 'var(--st-open-ink)'},
-        }
-        function renderListC(canvas) {
-          const groups = {posted: LIST_ROWS.slice(0, 2), pending: LIST_ROWS.slice(2)}
-          canvas.innerHTML =
-            '<div class="inv-board-toolbar">' +
-            '<button class="lbtn out" type="button" onclick="openAdvancedSearch()">' +
-            '<svg width="15" height="15" aria-hidden="true"><use href="#i-search"/></svg> Search</button>' +
-            '</div>' +
-            Object.entries(groups).map(([key, rows]) => {
-              if (!rows.length) return ''
-              const meta = STATUS_META[key]
-              return `<div class="inv-board-group"><h3><span class="dot" style="background:${meta.color}"></span>${meta.label} (${rows.length})</h3>` +
-                rows.map(r =>
-                  `<div class="inv-board-card" onclick="openInvoiceRecord('${r.no}')">` +
-                  `<span><b>#${r.no}</b> · ${r.custName}</span><span>${r.pay} · ${r.date}</span></div>`
-                ).join('') + '</div>'
-            }).join('')
-        }
-
         function openInvoiceRecord(no) {
           /* minimal per design spec §4: reflect which row was clicked in the record's
    title/breadcrumb — not a real invoice data lookup, no backend to query */
@@ -10521,16 +10598,8 @@
    markup — needs to be reachable outside this IIFE, same as openInvoiceRecord. */
         window.openAdvancedSearch = openAdvancedSearch
 
-        function renderList(concept) {
-          const canvas = document.getElementById('list-canvas')
-          if (concept === 'a') renderListA(canvas)
-          else if (concept === 'b') renderListB(canvas)
-          else if (concept === 'c') renderListC(canvas)
-          // else: unrecognized concept value — the <select> only offers a/b/c, so this is unreachable in practice
-        }
-        document.getElementById('list-concept').addEventListener('change', e => renderList(e.target.value))
         document.getElementById('list-add').addEventListener('click', () => showContentView('record'))
-        renderList('a')
+        renderListA(document.getElementById('list-canvas'))
 
         /* ================= Sales Invoice Record — Concept A (Guided Tabs) =================
    ported from sales-invoice-record.html:2311-2412. Concept B/C's own rendering
@@ -10562,7 +10631,7 @@
               `<select data-field data-payment-method>${PAYMENT_METHODS.map(m => `<option${m===method?' selected':''}>${m}</option>`).join('')}</select></div>` +
               `<div class="rec-field"><label>The Amount <span class="req">*</span></label><input data-field value="${amount}"></div>` +
               `<div class="rec-payment-extra"></div>` +
-              `<button type="button" class="ibtn rec-remove-payment" aria-label="Remove payment method">✕</button>` +
+              `<button type="button" class="ibtn danger rec-remove-payment" aria-label="Remove payment method"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button>` +
             '</div>'
           document.getElementById(containerId).appendChild(row)
           renderPaymentExtraFields(row, method)
@@ -10591,7 +10660,7 @@
           const tr = document.createElement('tr')
           tr.dataset.itemRow = id
           tr.innerHTML =
-            '<td><button type="button" class="ibtn rec-remove-item" aria-label="Remove item">✕</button></td>' +
+            '<td><button type="button" class="ibtn danger rec-remove-item" aria-label="Remove item"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button></td>' +
             '<td><input data-field placeholder="Item"></td>' +
             '<td><input data-field placeholder="UoM"></td>' +
             '<td data-adv-only><input data-field placeholder="Expiry"></td>' +
