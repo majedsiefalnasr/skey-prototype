@@ -4354,6 +4354,9 @@
       [data-adv-only] {
         display: none;
       }
+      body.advanced-on [data-adv-only] {
+        display: revert;
+      }
 
       /* ============ Sales Invoice Record — Concept A (Guided Tabs) ============ */
       .rec-tabs {
@@ -4557,7 +4560,7 @@
         background: var(--bg);
       }
       .recb-popover-trigger {
-        display: inline-flex;
+        display: inline-flex !important;
         align-items: center;
         gap: 6px;
         padding: 6px 10px;
