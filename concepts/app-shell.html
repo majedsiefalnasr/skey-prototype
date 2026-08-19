@@ -320,7 +320,7 @@
         min-width: 0;
         display: flex;
         flex-direction: column;
-        background: var(--bg);
+        /* background: var(--bg); */
       }
       .content[hidden] {
         display: none;
@@ -981,15 +981,15 @@
       .canvas {
         flex: 1;
         margin: 12px 16px;
-        border: 1px dashed var(--line);
-        border-radius: 9px;
+        /* border: 1px dashed var(--line); */
+        /* border-radius: 9px; */
         display: flex;
         align-items: center;
         justify-content: center;
         color: var(--muted);
-        background: #fdfdfd;
+        /* background: #fdfdfd; */
         text-align: center;
-        padding: 16px;
+        /* padding: 16px; */
         min-height: 90px;
       }
 
@@ -4385,6 +4385,25 @@
         margin-bottom: 12px;
         overflow: hidden;
       }
+      /* Items/Totals/Sales Charges stay on screen no matter which tab is active —
+   without a visible boundary they read as just more tab content, which is
+   the exact confusion this is fixing. A tinted band + a small label makes
+   "this part doesn't change when you click a tab" obvious at a glance. */
+      .rec-pinned {
+        margin-top: 4px;
+        padding: 12px;
+        background: var(--bg);
+        border: 1px dashed var(--line);
+        border-radius: 8px;
+      }
+      .rec-pinned-hd {
+        font-size: 11.5px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
       .rec-card-hd {
         width: 100%;
         text-align: start;
@@ -4458,6 +4477,27 @@
         padding-inline-start: 28px;
         background-position: left 8px center;
       }
+      /* a payment method row has a variable number of fields (Cash has one extra
+   field, Bank/Credit Card/Cheque have two) — a fixed 3-column grid left the
+   remove button wrapping to its own centered row whenever the field count
+   didn't divide evenly. Flex row + a fixed-width trailing slot keeps remove
+   in the same row as the fields, at the end, regardless of field count. */
+      .rec-payment-row {
+        display: flex;
+        align-items: flex-end;
+        gap: 16px;
+        padding: 12px;
+      }
+      .rec-payment-row .rec-field {
+        flex: 1;
+        min-width: 140px;
+      }
+      .rec-payment-row .rec-payment-extra {
+        display: contents;
+      }
+      .rec-remove-payment {
+        flex: none;
+      }
       .rec-items {
         margin-bottom: 12px;
       }
@@ -4492,7 +4532,14 @@
       }
 
       /* ---- Concept B: Single Flow (Task 6) ---- */
-      .recb-header { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 10px 0; margin-bottom: 12px; border-bottom: 1px solid var(--line); }
+      .recb-header {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        padding: 10px 0;
+        margin-bottom: 12px;
+        border-bottom: 1px solid var(--line);
+      }
       /* one bordered cluster instead of loose buttons — reads as "more details
    live here", not five unrelated actions floating between the grid and totals */
       .recb-popover-triggers {
@@ -4526,17 +4573,93 @@
         flex: none;
         color: var(--muted);
       }
-      .recb-popover-scrim { position: fixed; inset: 0; background: #0000004d; display: none; align-items: center; justify-content: center; z-index: 90; }
-      .recb-popover-scrim.open { display: flex; }
-      .recb-popover { width: min(560px, 92vw); max-height: 80vh; overflow: auto; background: var(--surface); border-radius: 10px; box-shadow: var(--shadow-2); }
-      .recb-popover-hd { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--line); }
-      .recb-popover-body { padding: 16px; }
+      .recb-popover-scrim {
+        position: fixed;
+        inset: 0;
+        background: #0000004d;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 90;
+      }
+      .recb-popover-scrim.open {
+        display: flex;
+      }
+      .recb-popover {
+        width: min(560px, 92vw);
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        background: var(--surface);
+        border-radius: 10px;
+        box-shadow: var(--shadow-2);
+      }
+      .recb-popover-hd {
+        flex: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--line);
+      }
+      .recb-popover-body {
+        flex: 1;
+        min-height: 0;
+        overflow: auto;
+        padding: 16px;
+      }
+      .recb-popover .dfoot {
+        flex: none;
+        border-radius: 0 0 10px 10px;
+      }
 
       /* ---- Concept C: Split View (Task 6) ---- */
-      .recc-split { display: flex; gap: 16px; align-items: flex-start; }
-      .recc-summary { width: 220px; flex: none; position: sticky; top: 0; border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: var(--surface); }
-      .recc-readonly { font-size: 13px; padding: 4px 0; }
-      .recc-net { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 14px; color: var(--accent); }
+      .recc-split {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+      }
+      .recc-summary {
+        width: 220px;
+        flex: none;
+        position: sticky;
+        top: 0;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px;
+        background: var(--surface);
+      }
+      /* replaces a read-only copy of Customer/Payment/Net (redundant with the
+   fields two clicks below in .recc-detail) with fast section-to-section
+   jumps — the actual thing a long single-scroll page needs from a rail. */
+      .recc-jump {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .recc-jump a {
+        padding: 6px 8px;
+        border-radius: 6px;
+        font-size: 13px;
+        color: var(--muted);
+        text-decoration: none;
+      }
+      .recc-jump a:hover {
+        background: #091e420f;
+        color: var(--ink);
+      }
+      .recc-jump a.current {
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .recc-net {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid var(--line);
+        font-size: 14px;
+        color: var(--accent);
+      }
       /* the split view's actual reason to exist: a reviewer needs exceptions and an
    approve/return action pinned in view, not just a read-only copy of fields
    that scroll away anyway in a single-column layout */
@@ -4570,7 +4693,10 @@
       .recc-actions .lbtn {
         justify-content: center;
       }
-      .recc-detail { flex: 1; min-width: 0; }
+      .recc-detail {
+        flex: 1;
+        min-width: 0;
+      }
     </style>
   </head>
   <body>
@@ -5357,15 +5483,12 @@
         <div class="phead">
           <div class="l">
             <nav class="crumbs" aria-label="Breadcrumb">
-              <a href="#">Home</a><span class="sep">›</span><a href="#" class="record-back">Sales Invoice</a
-              ><span class="sep">›</span><span aria-current="page">All</span>
+              <a href="#">Home</a><span class="sep">›</span
+              ><a href="#" class="record-back">Sales Invoice</a><span class="sep">›</span
+              ><span aria-current="page">All</span>
             </nav>
             <div class="tline">
               <h1>Sales Invoice 126</h1>
-              <div class="segctl" id="mode-toggle" role="group" aria-label="Field detail level">
-                <button type="button" aria-pressed="true" data-view="simple">Simple</button>
-                <button type="button" aria-pressed="false" data-view="advanced">Advanced</button>
-              </div>
               <button class="ibtn fav-toggle" aria-label="Add to Favorites" aria-pressed="false">
                 <svg width="16" height="16" aria-hidden="true"><use href="#i-spark" /></svg
                 ><span class="tip">Add to Favorites</span>
@@ -5383,308 +5506,842 @@
           </div>
         </div>
         <div class="canvas">
-        <div id="canvas-root">
-          <div class="rec-tabs" role="tablist">
-            <button class="rec-tab on" data-tab="main" role="tab" aria-selected="true" id="rec-tab-main" aria-controls="rec-panel-main">Main Data</button>
-            <button class="rec-tab" data-tab="payment" role="tab" aria-selected="false" id="rec-tab-payment" aria-controls="rec-panel-payment">Payment method</button>
-            <button class="rec-tab" data-tab="other" role="tab" aria-selected="false" data-adv-only id="rec-tab-other" aria-controls="rec-panel-other">Other Data</button>
-            <button class="rec-tab" data-tab="subledgers" role="tab" aria-selected="false" data-adv-only id="rec-tab-subledgers" aria-controls="rec-panel-subledgers">Sub Ledgers</button>
-            <button class="rec-tab" data-tab="additional" role="tab" aria-selected="false" data-adv-only id="rec-tab-additional" aria-controls="rec-panel-additional">Additional Data</button>
-          </div>
-          <div class="rec-tabpanel" data-panel="main" role="tabpanel" id="rec-panel-main" aria-labelledby="rec-tab-main">
-            <div class="rec-card">
-              <button type="button" class="rec-card-hd" aria-expanded="true">General</button>
-              <div class="rec-card-body">
-                <div class="rec-field"><label>Year <span class="req">*</span></label><input data-field disabled value="2026"></div>
-                <div class="rec-field"><label>Operation Unit <span class="req">*</span></label><select data-field><option>2 - lastchance</option></select></div>
-                <div class="rec-field"><label>Doc Sub-Type <span class="req">*</span></label><select data-field><option>1 - عام</option></select></div>
-                <div class="rec-field"><label>Sequence</label><input data-field disabled value="001000352026143"></div>
-                <div class="rec-field"><label>Doc No.</label><input data-field disabled value="143"></div>
-                <div class="rec-field"><label>Doc Date <span class="req">*</span></label><input data-field type="date" value="2026-08-13"></div>
-                <div class="rec-field"><label>WH No. <span class="req">*</span></label><select data-field><option>201 - المخزن الرئيسي</option></select></div>
+          <div id="canvas-root">
+            <div class="rec-tabs" role="tablist">
+              <button
+                class="rec-tab on"
+                data-tab="main"
+                role="tab"
+                aria-selected="true"
+                id="rec-tab-main"
+                aria-controls="rec-panel-main">
+                Main Data
+              </button>
+              <button
+                class="rec-tab"
+                data-tab="payment"
+                role="tab"
+                aria-selected="false"
+                id="rec-tab-payment"
+                aria-controls="rec-panel-payment">
+                Payment method
+              </button>
+              <button
+                class="rec-tab"
+                data-tab="other"
+                role="tab"
+                aria-selected="false"
+                data-adv-only
+                id="rec-tab-other"
+                aria-controls="rec-panel-other">
+                Other Data
+              </button>
+              <button
+                class="rec-tab"
+                data-tab="subledgers"
+                role="tab"
+                aria-selected="false"
+                data-adv-only
+                id="rec-tab-subledgers"
+                aria-controls="rec-panel-subledgers">
+                Sub Ledgers
+              </button>
+              <button
+                class="rec-tab"
+                data-tab="additional"
+                role="tab"
+                aria-selected="false"
+                data-adv-only
+                id="rec-tab-additional"
+                aria-controls="rec-panel-additional">
+                Additional Data
+              </button>
+            </div>
+            <div
+              class="rec-tabpanel"
+              data-panel="main"
+              role="tabpanel"
+              id="rec-panel-main"
+              aria-labelledby="rec-tab-main">
+              <div class="rec-card">
+                <button type="button" class="rec-card-hd" aria-expanded="true">General</button>
+                <div class="rec-card-body">
+                  <div class="rec-field">
+                    <label>Year <span class="req">*</span></label
+                    ><input data-field disabled value="2026" />
+                  </div>
+                  <div class="rec-field">
+                    <label>Operation Unit <span class="req">*</span></label
+                    ><select data-field>
+                      <option>2 - lastchance</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Doc Sub-Type <span class="req">*</span></label
+                    ><select data-field>
+                      <option>1 - عام</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Sequence</label><input data-field disabled value="001000352026143" />
+                  </div>
+                  <div class="rec-field">
+                    <label>Doc No.</label><input data-field disabled value="143" />
+                  </div>
+                  <div class="rec-field">
+                    <label>Doc Date <span class="req">*</span></label
+                    ><input data-field type="date" value="2026-08-13" />
+                  </div>
+                  <div class="rec-field">
+                    <label>WH No. <span class="req">*</span></label
+                    ><select data-field>
+                      <option>201 - المخزن الرئيسي</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="rec-card">
+                <button type="button" class="rec-card-hd" aria-expanded="true">Customer</button>
+                <div class="rec-card-body">
+                  <div class="rec-field">
+                    <label>Customer No. <span class="req">*</span></label
+                    ><select data-field>
+                      <option>10024 - محمد احمد</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Customer Name <span class="req">*</span></label
+                    ><input data-field value="محمد احمد" />
+                  </div>
+                  <div class="rec-field" data-adv-only>
+                    <label>Mobile No.</label><input data-field value="01012345678" />
+                  </div>
+                  <div class="rec-field" data-adv-only>
+                    <label>Address</label><input data-field value="15 شارع الجمهورية، القاهرة" />
+                  </div>
+                  <div class="rec-field" data-adv-only>
+                    <label>Beneficiary No.</label><input data-field value="B-40021" />
+                  </div>
+                  <div class="rec-field" data-adv-only>
+                    <label>Tax Number</label><input data-field value="123-456-789" />
+                  </div>
+                </div>
+              </div>
+              <div class="rec-card">
+                <button type="button" class="rec-card-hd" aria-expanded="true">Currency</button>
+                <div class="rec-card-body">
+                  <div class="rec-field">
+                    <label>Currency <span class="req">*</span></label
+                    ><select data-field>
+                      <option>EGP - جنيه مصري</option>
+                    </select>
+                  </div>
+                  <div class="rec-field" data-adv-only>
+                    <label>Exchange Rate</label><input data-field type="number" value="1.00" />
+                  </div>
+                  <div class="rec-field" data-adv-only>
+                    <label>Pricing Level</label
+                    ><select data-field>
+                      <option>1 - قائمة الأسعار العامة</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Tax Category <span class="req">*</span></label
+                    ><select data-field>
+                      <option>1 - خاضع</option>
+                    </select>
+                  </div>
+                  <div class="rec-field" data-adv-only>
+                    <label>Method Show Price</label
+                    ><select data-field>
+                      <option>Tax Included</option>
+                      <option>Tax Excluded</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="rec-card">
-              <button type="button" class="rec-card-hd" aria-expanded="true">Customer</button>
-              <div class="rec-card-body">
-                <div class="rec-field"><label>Customer No. <span class="req">*</span></label><select data-field><option>10024 - محمد احمد</option></select></div>
-                <div class="rec-field"><label>Customer Name <span class="req">*</span></label><input data-field value="محمد احمد"></div>
-                <div class="rec-field" data-adv-only><label>Mobile No.</label><input data-field value="01012345678"></div>
-                <div class="rec-field" data-adv-only><label>Address</label><input data-field value="15 شارع الجمهورية، القاهرة"></div>
-                <div class="rec-field" data-adv-only><label>Beneficiary No.</label><input data-field value="B-40021"></div>
-                <div class="rec-field" data-adv-only><label>Tax Number</label><input data-field value="123-456-789"></div>
+            <div
+              class="rec-tabpanel"
+              data-panel="payment"
+              hidden
+              role="tabpanel"
+              id="rec-panel-payment"
+              aria-labelledby="rec-tab-payment">
+              <div id="payment-rows"></div>
+              <button type="button" class="lbtn out" id="add-payment-link">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Add payment method
+              </button>
+            </div>
+            <div
+              class="rec-tabpanel"
+              data-panel="other"
+              hidden
+              data-adv-only
+              role="tabpanel"
+              id="rec-panel-other"
+              aria-labelledby="rec-tab-other">
+              <div class="rec-card">
+                <div class="rec-card-body">
+                  <div class="rec-field" style="grid-column: 1/-1">
+                    <label>Statement</label><textarea data-field rows="2"></textarea>
+                  </div>
+                  <div class="rec-field"><label>Ref. No.</label><input data-field /></div>
+                  <div class="rec-field"><label>Manual No.</label><input data-field /></div>
+                  <div class="rec-field"><label>No. Of Attach.</label><input data-field /></div>
+                </div>
               </div>
             </div>
-            <div class="rec-card">
-              <button type="button" class="rec-card-hd" aria-expanded="true">Currency</button>
-              <div class="rec-card-body">
-                <div class="rec-field"><label>Currency <span class="req">*</span></label><select data-field><option>EGP - جنيه مصري</option></select></div>
-                <div class="rec-field" data-adv-only><label>Exchange Rate</label><input data-field type="number" value="1.00"></div>
-                <div class="rec-field" data-adv-only><label>Pricing Level</label><select data-field><option>1 - قائمة الأسعار العامة</option></select></div>
-                <div class="rec-field"><label>Tax Category <span class="req">*</span></label><select data-field><option>1 - خاضع</option></select></div>
-                <div class="rec-field" data-adv-only><label>Method Show Price</label><select data-field><option>Tax Included</option><option>Tax Excluded</option></select></div>
+            <div
+              class="rec-tabpanel"
+              data-panel="subledgers"
+              hidden
+              data-adv-only
+              role="tabpanel"
+              id="rec-panel-subledgers"
+              aria-labelledby="rec-tab-subledgers">
+              <div class="rec-card">
+                <div class="rec-card-body">
+                  <div class="rec-field">
+                    <label>Cost Center No.</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Sub Ledger2 No.</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Sub Ledger3 No.</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="rec-tabpanel" data-panel="payment" hidden role="tabpanel" id="rec-panel-payment" aria-labelledby="rec-tab-payment">
-            <a href="#" class="rec-add-payment" id="add-payment-link">+ Add payment method</a>
-            <div id="payment-rows"></div>
-          </div>
-          <div class="rec-tabpanel" data-panel="other" hidden data-adv-only role="tabpanel" id="rec-panel-other" aria-labelledby="rec-tab-other">
-            <div class="rec-card"><div class="rec-card-body">
-              <div class="rec-field" style="grid-column:1/-1"><label>Statement</label><textarea data-field rows="2"></textarea></div>
-              <div class="rec-field"><label>Ref. No.</label><input data-field></div>
-              <div class="rec-field"><label>Manual No.</label><input data-field></div>
-              <div class="rec-field"><label>No. Of Attach.</label><input data-field></div>
-            </div></div>
-          </div>
-          <div class="rec-tabpanel" data-panel="subledgers" hidden data-adv-only role="tabpanel" id="rec-panel-subledgers" aria-labelledby="rec-tab-subledgers">
-            <div class="rec-card"><div class="rec-card-body">
-              <div class="rec-field"><label>Cost Center No.</label><select data-field><option>—</option></select></div>
-              <div class="rec-field"><label>Sub Ledger2 No.</label><select data-field><option>—</option></select></div>
-              <div class="rec-field"><label>Sub Ledger3 No.</label><select data-field><option>—</option></select></div>
-            </div></div>
-          </div>
-          <div class="rec-tabpanel" data-panel="additional" hidden data-adv-only role="tabpanel" id="rec-panel-additional" aria-labelledby="rec-tab-additional">
-            <div class="rec-card"><div class="rec-card-body">
-              <div class="rec-field"><label>Salesperson</label><select data-field><option>—</option></select></div>
-              <div class="rec-field"><label>Marketer No.</label><select data-field><option>—</option></select></div>
-              <div class="rec-field"><label>Collector</label><select data-field><option>—</option></select></div>
-              <div class="rec-field"><label>Emp. Code</label><input data-field></div>
-              <div class="rec-field"><label>Driver No.</label><select data-field><option>—</option></select></div>
-              <div class="rec-field"><label>Car No.</label><input data-field></div>
-              <div class="rec-field"><label>Geo. Location</label><select data-field><option>—</option></select></div>
-              <div class="rec-field"><label>Receiver</label><input data-field></div>
-              <div class="rec-field"><label>Tax Invoice Type</label><select data-field><option selected>Tax Invoice</option></select></div>
-              <div class="rec-field"><label>Tax Accruals Type</label><select data-field><option>—</option></select></div>
-              <div class="rec-field"><label>Tax Due Date</label><input data-field type="date"></div>
-              <div class="rec-field"><label>Incoming Date</label><input data-field type="date"></div>
-              <div class="rec-field"><label><input type="checkbox" data-field> Calculate Tax On Free Qty</label></div>
-            </div></div>
-          </div>
+            <div
+              class="rec-tabpanel"
+              data-panel="additional"
+              hidden
+              data-adv-only
+              role="tabpanel"
+              id="rec-panel-additional"
+              aria-labelledby="rec-tab-additional">
+              <div class="rec-card">
+                <div class="rec-card-body">
+                  <div class="rec-field">
+                    <label>Salesperson</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Marketer No.</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Collector</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                  <div class="rec-field"><label>Emp. Code</label><input data-field /></div>
+                  <div class="rec-field">
+                    <label>Driver No.</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                  <div class="rec-field"><label>Car No.</label><input data-field /></div>
+                  <div class="rec-field">
+                    <label>Geo. Location</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                  <div class="rec-field"><label>Receiver</label><input data-field /></div>
+                  <div class="rec-field">
+                    <label>Tax Invoice Type</label
+                    ><select data-field>
+                      <option selected>Tax Invoice</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Tax Accruals Type</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Tax Due Date</label><input data-field type="date" />
+                  </div>
+                  <div class="rec-field">
+                    <label>Incoming Date</label><input data-field type="date" />
+                  </div>
+                  <div class="rec-field">
+                    <label><input type="checkbox" data-field /> Calculate Tax On Free Qty</label>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-          <div class="rec-items">
-            <div class="rec-items-hd">
-              <b>Items</b>
-              <button type="button" class="ibtn" onclick="addItemRow('items-body', 'items-total-qty')" aria-label="Add item"><svg width="15" height="15" aria-hidden="true"><use href="#i-plus"/></svg></button>
-            </div>
-            <div class="inv-grid-wrap">
-              <table class="inv-grid">
-                <thead><tr>
-                  <th></th><th>Item</th><th>UoM</th>
-                  <th data-adv-only>Expiry Date</th><th data-adv-only>Batch No.</th>
-                  <th>Qty.</th>
-                  <th data-adv-only>Free Qty</th><th data-adv-only>Available Qty</th>
-                  <th>Price</th><th data-adv-only>Discount %</th><th>Tax %</th><th>Tax Amt</th><th>Total</th>
-                </tr></thead>
-                <tbody id="items-body"></tbody>
-              </table>
-            </div>
-            <div class="rec-total-qty">Total Qty.: <b id="items-total-qty">0</b></div>
-          </div>
-
-          <div class="rec-totals">
-            <div class="rec-field"><label>The Amount</label><input data-field disabled value="200"></div>
-            <div class="rec-field" data-adv-only><label>Total Items Discount</label><input data-field disabled value="0"></div>
-            <div class="rec-field" data-adv-only><label>Discount Percent</label><input data-field value="0"></div>
-            <div class="rec-field"><label>Charges Amount</label><input data-field disabled value="0"></div>
-            <div class="rec-field" data-adv-only><label>Discount Including Tax</label><input data-field disabled value="0"></div>
-            <div class="rec-field"><label>Total Discount</label><input data-field disabled value="0"></div>
-            <div class="rec-field"><label>Tax Amt</label><input data-field disabled value="0"></div>
-            <div class="rec-field"><label>Net Amount</label><input data-field disabled value="200"></div>
-          </div>
-          <div class="rec-card" id="charges-card" data-adv-only>
-            <button type="button" class="rec-card-hd" aria-expanded="false">Sales Charges</button>
-            <div class="rec-card-body" hidden>
-              <div class="inv-grid-wrap" style="grid-column:1/-1">
-                <table class="inv-grid"><thead><tr><th>Charge</th><th>Amount</th><th></th></tr></thead>
-                  <tbody><tr><td><input data-field placeholder="Charge type"></td><td><input data-field value="0"></td><td><button type="button" class="ibtn danger" aria-label="Remove charge"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button></td></tr></tbody>
+            <div class="rec-pinned" aria-label="Always visible, regardless of the selected tab above">
+              <div class="rec-pinned-hd">Items, totals &amp; charges — visible on every tab</div>
+              <div class="rec-items">
+                <div class="rec-items-hd">
+                  <b>Items</b>
+                  <button type="button" class="lbtn out" onclick="addItemRow('items-body', 'items-total-qty')">
+                  <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Add item
+                </button>
+              </div>
+              <div class="inv-grid-wrap">
+                <table class="inv-grid">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>UoM</th>
+                      <th data-adv-only>Expiry Date</th>
+                      <th data-adv-only>Batch No.</th>
+                      <th>Qty.</th>
+                      <th data-adv-only>Free Qty</th>
+                      <th data-adv-only>Available Qty</th>
+                      <th>Price</th>
+                      <th data-adv-only>Discount %</th>
+                      <th>Tax %</th>
+                      <th>Tax Amt</th>
+                      <th>Total</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="items-body"></tbody>
                 </table>
               </div>
+              <div class="rec-total-qty">Total Qty.: <b id="items-total-qty">0</b></div>
             </div>
-          </div>
-        </div>
 
-        <!-- ================= Concept B — Single Flow ================= -->
-        <div id="canvas-root-b" hidden>
-          <div class="recb-header">
-            <div class="rec-field"><label>Customer <span class="req">*</span></label><input data-field placeholder="customertest"></div>
-            <div class="rec-field"><label>Currency <span class="req">*</span></label><select data-field><option>EGP</option></select></div>
-            <div class="rec-field"><label>WH No. <span class="req">*</span></label><select data-field><option>201 - المخزن الرئيسي</option></select></div>
-            <div class="rec-field"><label>Doc Date <span class="req">*</span></label><input data-field type="date" value="2026-08-13"></div>
-          </div>
-          <div class="rec-items">
-            <div class="rec-items-hd">
-              <b>Items</b>
-              <button type="button" class="ibtn" onclick="addItemRow('items-body-b', 'items-total-qty-b')" aria-label="Add item"><svg width="15" height="15" aria-hidden="true"><use href="#i-plus"/></svg></button>
-            </div>
-            <div class="inv-grid-wrap">
-              <table class="inv-grid">
-                <thead><tr>
-                  <th></th><th>Item</th><th>UoM</th>
-                  <th data-adv-only>Expiry Date</th><th data-adv-only>Batch No.</th>
-                  <th>Qty.</th>
-                  <th data-adv-only>Free Qty</th><th data-adv-only>Available Qty</th>
-                  <th>Price</th><th data-adv-only>Discount %</th><th>Tax %</th><th>Tax Amt</th><th>Total</th>
-                </tr></thead>
-                <tbody id="items-body-b"></tbody>
-              </table>
-            </div>
-            <div class="rec-total-qty">Total Qty.: <b id="items-total-qty-b">0</b></div>
-          </div>
-          <div class="recb-popover-triggers" role="group" aria-label="More details">
-            <button type="button" class="recb-popover-trigger" data-popover="payment"><svg width="14" height="14" aria-hidden="true"><use href="#i-post"/></svg> Payment</button>
-            <button type="button" class="recb-popover-trigger" data-popover="other" data-adv-only><svg width="14" height="14" aria-hidden="true"><use href="#i-doc"/></svg> Other Data</button>
-            <button type="button" class="recb-popover-trigger" data-popover="subledgers" data-adv-only><svg width="14" height="14" aria-hidden="true"><use href="#i-clip"/></svg> Sub Ledgers</button>
-            <button type="button" class="recb-popover-trigger" data-popover="additional" data-adv-only><svg width="14" height="14" aria-hidden="true"><use href="#i-sliders"/></svg> Additional Data</button>
-            <button type="button" class="recb-popover-trigger" data-popover="charges" data-adv-only><svg width="14" height="14" aria-hidden="true"><use href="#i-archive"/></svg> Sales Charges</button>
-          </div>
-          <div class="rec-totals">
-            <div class="rec-field"><label>The Amount</label><input data-field disabled value="200"></div>
-            <div class="rec-field" data-adv-only><label>Total Items Discount</label><input data-field disabled value="0"></div>
-            <div class="rec-field" data-adv-only><label>Discount Percent</label><input data-field value="0"></div>
-            <div class="rec-field"><label>Charges Amount</label><input data-field disabled value="0"></div>
-            <div class="rec-field" data-adv-only><label>Discount Including Tax</label><input data-field disabled value="0"></div>
-            <div class="rec-field"><label>Total Discount</label><input data-field disabled value="0"></div>
-            <div class="rec-field"><label>Tax Amt</label><input data-field disabled value="0"></div>
-            <div class="rec-field"><label>Net Amount</label><input data-field disabled value="200"></div>
-          </div>
-        </div>
-
-        <!-- ================= Concept C — Split View ================= -->
-        <div class="recc-split" id="canvas-root-c" hidden>
-          <aside class="recc-summary">
-            <div class="rec-field"><label>Customer</label><div class="recc-readonly">customertest</div></div>
-            <div class="rec-field"><label>Payment</label><div class="recc-readonly">Cash · 200 EGP</div></div>
-            <div class="recc-net">Net: <b>200 EGP</b></div>
-            <div class="recc-flags" id="recc-flags" aria-label="Review flags">
-              <div class="recc-flag">
-                <svg width="13" height="13" aria-hidden="true"><use href="#i-warn"/></svg>
-                Missing tax number
+            <div class="rec-totals">
+              <div class="rec-field">
+                <label>The Amount</label><input data-field disabled value="200" />
               </div>
-              <div class="recc-flag">
-                <svg width="13" height="13" aria-hidden="true"><use href="#i-warn"/></svg>
-                Discount above threshold
+              <div class="rec-field" data-adv-only>
+                <label>Total Items Discount</label><input data-field disabled value="0" />
+              </div>
+              <div class="rec-field" data-adv-only>
+                <label>Discount Percent</label><input data-field value="0" />
+              </div>
+              <div class="rec-field">
+                <label>Charges Amount</label><input data-field disabled value="0" />
+              </div>
+              <div class="rec-field" data-adv-only>
+                <label>Discount Including Tax</label><input data-field disabled value="0" />
+              </div>
+              <div class="rec-field">
+                <label>Total Discount</label><input data-field disabled value="0" />
+              </div>
+              <div class="rec-field">
+                <label>Tax Amt</label><input data-field disabled value="0" />
+              </div>
+              <div class="rec-field">
+                <label>Net Amount</label><input data-field disabled value="200" />
               </div>
             </div>
-            <div class="recc-actions">
-              <button type="button" class="lbtn pri" onclick="toast({tone:'ok',title:'Approve is out of scope here'})">Approve</button>
-              <button type="button" class="lbtn out danger" onclick="toast({tone:'ok',title:'Return is out of scope here'})">Return</button>
+            <div class="rec-card" id="charges-card" data-adv-only>
+              <button type="button" class="rec-card-hd" aria-expanded="false">Sales Charges</button>
+              <div class="rec-card-body" hidden>
+                <div class="inv-grid-wrap" style="grid-column: 1/-1">
+                  <table class="inv-grid">
+                    <thead>
+                      <tr>
+                        <th>Charge</th>
+                        <th>Amount</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><input data-field placeholder="Charge type" /></td>
+                        <td><input data-field value="0" /></td>
+                        <td>
+                          <button type="button" class="ibtn danger" aria-label="Remove charge">
+                            <svg width="14" height="14" aria-hidden="true"><use href="#i-x" /></svg>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-          </aside>
-          <div class="recc-detail">
-            <div class="rec-card">
-              <button type="button" class="rec-card-hd" aria-expanded="true">Main Data</button>
-              <div class="rec-card-body">
-                <div class="rec-field"><label>Year <span class="req">*</span></label><input data-field disabled value="2026"></div>
-                <div class="rec-field"><label>Operation Unit <span class="req">*</span></label><select data-field><option>2 - lastchance</option></select></div>
-                <div class="rec-field"><label>Doc Sub-Type <span class="req">*</span></label><select data-field><option>1 - عام</option></select></div>
-                <div class="rec-field"><label>Sequence</label><input data-field disabled value="001000352026143"></div>
-                <div class="rec-field"><label>Doc No.</label><input data-field disabled value="143"></div>
-                <div class="rec-field"><label>Doc Date <span class="req">*</span></label><input data-field type="date" value="2026-08-13"></div>
-                <div class="rec-field"><label>WH No. <span class="req">*</span></label><select data-field><option>201 - المخزن الرئيسي</option></select></div>
-                <div class="rec-field"><label>Customer No. <span class="req">*</span></label><select data-field><option>10024 - محمد احمد</option></select></div>
-                <div class="rec-field"><label>Customer Name <span class="req">*</span></label><input data-field value="محمد احمد"></div>
-                <div class="rec-field" data-adv-only><label>Mobile No.</label><input data-field value="01012345678"></div>
-                <div class="rec-field" data-adv-only><label>Address</label><input data-field value="15 شارع الجمهورية، القاهرة"></div>
-                <div class="rec-field" data-adv-only><label>Beneficiary No.</label><input data-field value="B-40021"></div>
-                <div class="rec-field" data-adv-only><label>Tax Number</label><input data-field value="123-456-789"></div>
-                <div class="rec-field"><label>Currency <span class="req">*</span></label><select data-field><option>EGP - جنيه مصري</option></select></div>
-                <div class="rec-field" data-adv-only><label>Exchange Rate</label><input data-field type="number" value="1.00"></div>
-                <div class="rec-field" data-adv-only><label>Pricing Level</label><select data-field><option>1 - قائمة الأسعار العامة</option></select></div>
-                <div class="rec-field"><label>Tax Category <span class="req">*</span></label><select data-field><option>1 - خاضع</option></select></div>
-                <div class="rec-field" data-adv-only><label>Method Show Price</label><select data-field><option>Tax Included</option><option>Tax Excluded</option></select></div>
+            </div>
+          </div>
+
+          <!-- ================= Concept B — Single Flow ================= -->
+          <div id="canvas-root-b" hidden>
+            <div class="recb-header">
+              <div class="rec-field">
+                <label>Customer <span class="req">*</span></label
+                ><input data-field placeholder="customertest" />
+              </div>
+              <div class="rec-field">
+                <label>Currency <span class="req">*</span></label
+                ><select data-field>
+                  <option>EGP</option>
+                </select>
+              </div>
+              <div class="rec-field">
+                <label>WH No. <span class="req">*</span></label
+                ><select data-field>
+                  <option>201 - المخزن الرئيسي</option>
+                </select>
+              </div>
+              <div class="rec-field">
+                <label>Doc Date <span class="req">*</span></label
+                ><input data-field type="date" value="2026-08-13" />
               </div>
             </div>
             <div class="rec-items">
               <div class="rec-items-hd">
                 <b>Items</b>
-                <button type="button" class="ibtn" onclick="addItemRow('items-body-c', 'items-total-qty-c')" aria-label="Add item"><svg width="15" height="15" aria-hidden="true"><use href="#i-plus"/></svg></button>
+                <button type="button" class="lbtn out" onclick="addItemRow('items-body-b', 'items-total-qty-b')">
+                  <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Add item
+                </button>
               </div>
               <div class="inv-grid-wrap">
                 <table class="inv-grid">
-                  <thead><tr>
-                    <th></th><th>Item</th><th>UoM</th>
-                    <th data-adv-only>Expiry Date</th><th data-adv-only>Batch No.</th>
-                    <th>Qty.</th>
-                    <th data-adv-only>Free Qty</th><th data-adv-only>Available Qty</th>
-                    <th>Price</th><th data-adv-only>Discount %</th><th>Tax %</th><th>Tax Amt</th><th>Total</th>
-                  </tr></thead>
-                  <tbody id="items-body-c"></tbody>
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>UoM</th>
+                      <th data-adv-only>Expiry Date</th>
+                      <th data-adv-only>Batch No.</th>
+                      <th>Qty.</th>
+                      <th data-adv-only>Free Qty</th>
+                      <th data-adv-only>Available Qty</th>
+                      <th>Price</th>
+                      <th data-adv-only>Discount %</th>
+                      <th>Tax %</th>
+                      <th>Tax Amt</th>
+                      <th>Total</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="items-body-b"></tbody>
                 </table>
               </div>
-              <div class="rec-total-qty">Total Qty.: <b id="items-total-qty-c">0</b></div>
+              <div class="rec-total-qty">Total Qty.: <b id="items-total-qty-b">0</b></div>
+            </div>
+            <div class="recb-popover-triggers" role="group" aria-label="More details">
+              <button type="button" class="recb-popover-trigger" data-popover="payment">
+                <svg width="14" height="14" aria-hidden="true"><use href="#i-post" /></svg> Payment
+              </button>
+              <button type="button" class="recb-popover-trigger" data-popover="other" data-adv-only>
+                <svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg> Other
+                Data
+              </button>
+              <button
+                type="button"
+                class="recb-popover-trigger"
+                data-popover="subledgers"
+                data-adv-only>
+                <svg width="14" height="14" aria-hidden="true"><use href="#i-clip" /></svg> Sub
+                Ledgers
+              </button>
+              <button
+                type="button"
+                class="recb-popover-trigger"
+                data-popover="additional"
+                data-adv-only>
+                <svg width="14" height="14" aria-hidden="true"><use href="#i-sliders" /></svg>
+                Additional Data
+              </button>
+              <button
+                type="button"
+                class="recb-popover-trigger"
+                data-popover="charges"
+                data-adv-only>
+                <svg width="14" height="14" aria-hidden="true"><use href="#i-archive" /></svg> Sales
+                Charges
+              </button>
             </div>
             <div class="rec-totals">
-              <div class="rec-field"><label>The Amount</label><input data-field disabled value="200"></div>
-              <div class="rec-field" data-adv-only><label>Total Items Discount</label><input data-field disabled value="0"></div>
-              <div class="rec-field" data-adv-only><label>Discount Percent</label><input data-field value="0"></div>
-              <div class="rec-field"><label>Charges Amount</label><input data-field disabled value="0"></div>
-              <div class="rec-field" data-adv-only><label>Discount Including Tax</label><input data-field disabled value="0"></div>
-              <div class="rec-field"><label>Total Discount</label><input data-field disabled value="0"></div>
-              <div class="rec-field"><label>Tax Amt</label><input data-field disabled value="0"></div>
-              <div class="rec-field"><label>Net Amount</label><input data-field disabled value="200"></div>
-            </div>
-            <div class="rec-card"><button type="button" class="rec-card-hd" aria-expanded="true">Payment method</button><div class="rec-card-body" id="recc-payment-rows"></div></div>
-            <div class="rec-card" data-adv-only>
-              <button type="button" class="rec-card-hd" aria-expanded="false">Other Data</button>
-              <div class="rec-card-body" hidden>
-                <div class="rec-field" style="grid-column:1/-1"><label>Statement</label><textarea data-field rows="2"></textarea></div>
-                <div class="rec-field"><label>Ref. No.</label><input data-field></div>
-                <div class="rec-field"><label>Manual No.</label><input data-field></div>
-                <div class="rec-field"><label>No. Of Attach.</label><input data-field></div>
+              <div class="rec-field">
+                <label>The Amount</label><input data-field disabled value="200" />
+              </div>
+              <div class="rec-field" data-adv-only>
+                <label>Total Items Discount</label><input data-field disabled value="0" />
+              </div>
+              <div class="rec-field" data-adv-only>
+                <label>Discount Percent</label><input data-field value="0" />
+              </div>
+              <div class="rec-field">
+                <label>Charges Amount</label><input data-field disabled value="0" />
+              </div>
+              <div class="rec-field" data-adv-only>
+                <label>Discount Including Tax</label><input data-field disabled value="0" />
+              </div>
+              <div class="rec-field">
+                <label>Total Discount</label><input data-field disabled value="0" />
+              </div>
+              <div class="rec-field">
+                <label>Tax Amt</label><input data-field disabled value="0" />
+              </div>
+              <div class="rec-field">
+                <label>Net Amount</label><input data-field disabled value="200" />
               </div>
             </div>
-            <div class="rec-card" data-adv-only>
-              <button type="button" class="rec-card-hd" aria-expanded="false">Sub Ledgers</button>
-              <div class="rec-card-body" hidden>
-                <div class="rec-field"><label>Cost Center No.</label><select data-field><option>—</option></select></div>
-                <div class="rec-field"><label>Sub Ledger2 No.</label><select data-field><option>—</option></select></div>
-                <div class="rec-field"><label>Sub Ledger3 No.</label><select data-field><option>—</option></select></div>
+          </div>
+
+          <!-- ================= Concept C — Split View ================= -->
+          <div class="recc-split" id="canvas-root-c" hidden>
+            <aside class="recc-summary">
+              <nav class="recc-jump" aria-label="Jump to section">
+                <a href="#recc-sec-main">Main Data</a>
+                <a href="#recc-sec-items">Items</a>
+                <a href="#recc-sec-totals">Totals</a>
+                <a href="#recc-sec-payment">Payment method</a>
+                <a href="#recc-sec-other" data-adv-only>Other Data</a>
+                <a href="#recc-sec-subledgers" data-adv-only>Sub Ledgers</a>
+                <a href="#recc-sec-additional" data-adv-only>Additional Data</a>
+                <a href="#recc-sec-charges" data-adv-only>Sales Charges</a>
+              </nav>
+              <div class="recc-net">Net: <b>200 EGP</b></div>
+              <div class="recc-flags" id="recc-flags" aria-label="Review flags">
+                <div class="recc-flag">
+                  <svg width="13" height="13" aria-hidden="true"><use href="#i-warn" /></svg>
+                  Missing tax number
+                </div>
+                <div class="recc-flag">
+                  <svg width="13" height="13" aria-hidden="true"><use href="#i-warn" /></svg>
+                  Discount above threshold
+                </div>
               </div>
-            </div>
-            <div class="rec-card" data-adv-only>
-              <button type="button" class="rec-card-hd" aria-expanded="false">Additional Data</button>
-              <div class="rec-card-body" hidden>
-                <div class="rec-field"><label>Salesperson</label><select data-field><option>—</option></select></div>
-                <div class="rec-field"><label>Marketer No.</label><select data-field><option>—</option></select></div>
-                <div class="rec-field"><label>Collector</label><select data-field><option>—</option></select></div>
-                <div class="rec-field"><label>Emp. Code</label><input data-field></div>
-                <div class="rec-field"><label>Driver No.</label><select data-field><option>—</option></select></div>
-                <div class="rec-field"><label>Car No.</label><input data-field></div>
-                <div class="rec-field"><label>Geo. Location</label><select data-field><option>—</option></select></div>
-                <div class="rec-field"><label>Receiver</label><input data-field></div>
-                <div class="rec-field"><label>Tax Invoice Type</label><select data-field><option selected>Tax Invoice</option></select></div>
-                <div class="rec-field"><label>Tax Accruals Type</label><select data-field><option>—</option></select></div>
-                <div class="rec-field"><label>Tax Due Date</label><input data-field type="date"></div>
-                <div class="rec-field"><label>Incoming Date</label><input data-field type="date"></div>
-                <div class="rec-field"><label><input type="checkbox" data-field> Calculate Tax On Free Qty</label></div>
+              <div class="recc-actions">
+                <button
+                  type="button"
+                  class="lbtn pri"
+                  onclick="toast({tone: 'ok', title: 'Approve is out of scope here'})">
+                  Approve
+                </button>
+                <button
+                  type="button"
+                  class="lbtn out danger"
+                  onclick="toast({tone: 'ok', title: 'Return is out of scope here'})">
+                  Return
+                </button>
               </div>
-            </div>
-            <div class="rec-card" data-adv-only>
-              <button type="button" class="rec-card-hd" aria-expanded="false">Sales Charges</button>
-              <div class="rec-card-body" hidden>
-                <div class="inv-grid-wrap" style="grid-column:1/-1">
-                  <table class="inv-grid"><thead><tr><th>Charge</th><th>Amount</th><th></th></tr></thead>
-                    <tbody><tr><td><input data-field placeholder="Charge type"></td><td><input data-field value="0"></td><td><button type="button" class="ibtn danger" aria-label="Remove charge"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button></td></tr></tbody>
+            </aside>
+            <div class="recc-detail">
+              <div class="rec-card" id="recc-sec-main">
+                <button type="button" class="rec-card-hd" aria-expanded="true">Main Data</button>
+                <div class="rec-card-body">
+                  <div class="rec-field">
+                    <label>Year <span class="req">*</span></label
+                    ><input data-field disabled value="2026" />
+                  </div>
+                  <div class="rec-field">
+                    <label>Operation Unit <span class="req">*</span></label
+                    ><select data-field>
+                      <option>2 - lastchance</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Doc Sub-Type <span class="req">*</span></label
+                    ><select data-field>
+                      <option>1 - عام</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Sequence</label><input data-field disabled value="001000352026143" />
+                  </div>
+                  <div class="rec-field">
+                    <label>Doc No.</label><input data-field disabled value="143" />
+                  </div>
+                  <div class="rec-field">
+                    <label>Doc Date <span class="req">*</span></label
+                    ><input data-field type="date" value="2026-08-13" />
+                  </div>
+                  <div class="rec-field">
+                    <label>WH No. <span class="req">*</span></label
+                    ><select data-field>
+                      <option>201 - المخزن الرئيسي</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Customer No. <span class="req">*</span></label
+                    ><select data-field>
+                      <option>10024 - محمد احمد</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Customer Name <span class="req">*</span></label
+                    ><input data-field value="محمد احمد" />
+                  </div>
+                  <div class="rec-field" data-adv-only>
+                    <label>Mobile No.</label><input data-field value="01012345678" />
+                  </div>
+                  <div class="rec-field" data-adv-only>
+                    <label>Address</label><input data-field value="15 شارع الجمهورية، القاهرة" />
+                  </div>
+                  <div class="rec-field" data-adv-only>
+                    <label>Beneficiary No.</label><input data-field value="B-40021" />
+                  </div>
+                  <div class="rec-field" data-adv-only>
+                    <label>Tax Number</label><input data-field value="123-456-789" />
+                  </div>
+                  <div class="rec-field">
+                    <label>Currency <span class="req">*</span></label
+                    ><select data-field>
+                      <option>EGP - جنيه مصري</option>
+                    </select>
+                  </div>
+                  <div class="rec-field" data-adv-only>
+                    <label>Exchange Rate</label><input data-field type="number" value="1.00" />
+                  </div>
+                  <div class="rec-field" data-adv-only>
+                    <label>Pricing Level</label
+                    ><select data-field>
+                      <option>1 - قائمة الأسعار العامة</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Tax Category <span class="req">*</span></label
+                    ><select data-field>
+                      <option>1 - خاضع</option>
+                    </select>
+                  </div>
+                  <div class="rec-field" data-adv-only>
+                    <label>Method Show Price</label
+                    ><select data-field>
+                      <option>Tax Included</option>
+                      <option>Tax Excluded</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="rec-items" id="recc-sec-items">
+                <div class="rec-items-hd">
+                  <b>Items</b>
+                  <button type="button" class="lbtn out" onclick="addItemRow('items-body-c', 'items-total-qty-c')">
+                    <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Add item
+                  </button>
+                </div>
+                <div class="inv-grid-wrap">
+                  <table class="inv-grid">
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>UoM</th>
+                        <th data-adv-only>Expiry Date</th>
+                        <th data-adv-only>Batch No.</th>
+                        <th>Qty.</th>
+                        <th data-adv-only>Free Qty</th>
+                        <th data-adv-only>Available Qty</th>
+                        <th>Price</th>
+                        <th data-adv-only>Discount %</th>
+                        <th>Tax %</th>
+                        <th>Tax Amt</th>
+                        <th>Total</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="items-body-c"></tbody>
                   </table>
+                </div>
+                <div class="rec-total-qty">Total Qty.: <b id="items-total-qty-c">0</b></div>
+              </div>
+              <div class="rec-totals" id="recc-sec-totals">
+                <div class="rec-field">
+                  <label>The Amount</label><input data-field disabled value="200" />
+                </div>
+                <div class="rec-field" data-adv-only>
+                  <label>Total Items Discount</label><input data-field disabled value="0" />
+                </div>
+                <div class="rec-field" data-adv-only>
+                  <label>Discount Percent</label><input data-field value="0" />
+                </div>
+                <div class="rec-field">
+                  <label>Charges Amount</label><input data-field disabled value="0" />
+                </div>
+                <div class="rec-field" data-adv-only>
+                  <label>Discount Including Tax</label><input data-field disabled value="0" />
+                </div>
+                <div class="rec-field">
+                  <label>Total Discount</label><input data-field disabled value="0" />
+                </div>
+                <div class="rec-field">
+                  <label>Tax Amt</label><input data-field disabled value="0" />
+                </div>
+                <div class="rec-field">
+                  <label>Net Amount</label><input data-field disabled value="200" />
+                </div>
+              </div>
+              <div class="rec-card" id="recc-sec-payment">
+                <button type="button" class="rec-card-hd" aria-expanded="true">
+                  Payment method
+                </button>
+                <div class="rec-card-body" id="recc-payment-rows"></div>
+              </div>
+              <div class="rec-card" data-adv-only id="recc-sec-other">
+                <button type="button" class="rec-card-hd" aria-expanded="false">Other Data</button>
+                <div class="rec-card-body" hidden>
+                  <div class="rec-field" style="grid-column: 1/-1">
+                    <label>Statement</label><textarea data-field rows="2"></textarea>
+                  </div>
+                  <div class="rec-field"><label>Ref. No.</label><input data-field /></div>
+                  <div class="rec-field"><label>Manual No.</label><input data-field /></div>
+                  <div class="rec-field"><label>No. Of Attach.</label><input data-field /></div>
+                </div>
+              </div>
+              <div class="rec-card" data-adv-only id="recc-sec-subledgers">
+                <button type="button" class="rec-card-hd" aria-expanded="false">Sub Ledgers</button>
+                <div class="rec-card-body" hidden>
+                  <div class="rec-field">
+                    <label>Cost Center No.</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Sub Ledger2 No.</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Sub Ledger3 No.</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="rec-card" data-adv-only id="recc-sec-additional">
+                <button type="button" class="rec-card-hd" aria-expanded="false">
+                  Additional Data
+                </button>
+                <div class="rec-card-body" hidden>
+                  <div class="rec-field">
+                    <label>Salesperson</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Marketer No.</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Collector</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                  <div class="rec-field"><label>Emp. Code</label><input data-field /></div>
+                  <div class="rec-field">
+                    <label>Driver No.</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                  <div class="rec-field"><label>Car No.</label><input data-field /></div>
+                  <div class="rec-field">
+                    <label>Geo. Location</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                  <div class="rec-field"><label>Receiver</label><input data-field /></div>
+                  <div class="rec-field">
+                    <label>Tax Invoice Type</label
+                    ><select data-field>
+                      <option selected>Tax Invoice</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Tax Accruals Type</label
+                    ><select data-field>
+                      <option>—</option>
+                    </select>
+                  </div>
+                  <div class="rec-field">
+                    <label>Tax Due Date</label><input data-field type="date" />
+                  </div>
+                  <div class="rec-field">
+                    <label>Incoming Date</label><input data-field type="date" />
+                  </div>
+                  <div class="rec-field">
+                    <label><input type="checkbox" data-field /> Calculate Tax On Free Qty</label>
+                  </div>
+                </div>
+              </div>
+              <div class="rec-card" data-adv-only id="recc-sec-charges">
+                <button type="button" class="rec-card-hd" aria-expanded="false">
+                  Sales Charges
+                </button>
+                <div class="rec-card-body" hidden>
+                  <div class="inv-grid-wrap" style="grid-column: 1/-1">
+                    <table class="inv-grid">
+                      <thead>
+                        <tr>
+                          <th>Charge</th>
+                          <th>Amount</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><input data-field placeholder="Charge type" /></td>
+                          <td><input data-field value="0" /></td>
+                          <td>
+                            <button type="button" class="ibtn danger" aria-label="Remove charge">
+                              <svg width="14" height="14" aria-hidden="true">
+                                <use href="#i-x" />
+                              </svg>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        </div>
 
         <div class="recb-popover-scrim" id="recb-popover-scrim">
           <div class="recb-popover box" role="dialog" aria-modal="true">
-            <div class="recb-popover-hd"><b id="recb-popover-title"></b><button type="button" class="ibtn" aria-label="Close" id="recb-popover-close"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+            <div class="recb-popover-hd">
+              <b id="recb-popover-title"></b
+              ><button type="button" class="ibtn" aria-label="Close" id="recb-popover-close">
+                <svg width="14" height="14" aria-hidden="true"><use href="#i-x" /></svg>
+              </button>
+            </div>
             <div class="recb-popover-body" id="recb-popover-body"></div>
+            <div class="dfoot">
+              <span class="end">
+                <button type="button" class="lbtn out" id="recb-popover-cancel">Cancel</button>
+                <button type="button" class="lbtn pri" id="recb-popover-save">Save</button>
+              </span>
+            </div>
           </div>
         </div>
 
         <div class="fnav">
           <span class="pager-mount"></span>
           <span class="pos" aria-live="polite">Record 1 of 125</span>
+          <div class="segctl" id="mode-toggle" role="group" aria-label="Field detail level">
+            <button type="button" aria-pressed="true" data-view="simple">Simple</button>
+            <button type="button" aria-pressed="false" data-view="advanced">Advanced</button>
+          </div>
           <div class="end ctx-mount" role="group" aria-label="Related documents"></div>
         </div>
       </template>
@@ -5813,12 +6470,22 @@
         <div class="as-list" role="listbox">
           <div class="as-grp">Matching invoices</div>
           <button type="button" class="as-item" role="option">
-            <span class="ic"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg></span>
-            <span class="tx"><span class="t">#126 · محمد احمد</span><span class="s">13/08/2026 · Credit</span></span>
+            <span class="ic"
+              ><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg
+            ></span>
+            <span class="tx"
+              ><span class="t">#126 · محمد احمد</span
+              ><span class="s">13/08/2026 · Credit</span></span
+            >
           </button>
           <button type="button" class="as-item" role="option">
-            <span class="ic"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg></span>
-            <span class="tx"><span class="t">#140 · العميل الاول</span><span class="s">13/08/2026 · Credit</span></span>
+            <span class="ic"
+              ><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg
+            ></span>
+            <span class="tx"
+              ><span class="t">#140 · العميل الاول</span
+              ><span class="s">13/08/2026 · Credit</span></span
+            >
           </button>
         </div>
         <div class="as-foot">
@@ -6805,9 +7472,11 @@
    LOCK_COPY map (final-review fix round gave every status its own entry, not
    just posted/canceled/inactive) */
         const LOCK_COPY = {
-          posted: 'This invoice is posted, so its fields are read-only. Undo the posting to edit it.',
+          posted:
+            'This invoice is posted, so its fields are read-only. Undo the posting to edit it.',
           canceled: 'This invoice is canceled, so its fields are read-only.',
-          inactive: 'This invoice is deactivated, so its fields are read-only. Reactivate it to edit.',
+          inactive:
+            'This invoice is deactivated, so its fields are read-only. Reactivate it to edit.',
           open: "You're viewing this invoice. Switch to Edit mode to make changes.",
           pending: "You're viewing this invoice. Switch to Edit mode to make changes.",
           returned: "You're viewing this invoice. Switch to Edit mode to make changes.",
@@ -10589,7 +11258,8 @@
           releaseFocus()
         }
         advSearchScrim.addEventListener('click', e => {
-          if (e.target === advSearchScrim || e.target.closest('.adv-search-close')) closeAdvancedSearch()
+          if (e.target === advSearchScrim || e.target.closest('.adv-search-close'))
+            closeAdvancedSearch()
         })
         document.addEventListener('keydown', e => {
           if (e.key === 'Escape' && advSearchScrim.classList.contains('open')) closeAdvancedSearch()
@@ -10598,7 +11268,9 @@
    markup — needs to be reachable outside this IIFE, same as openInvoiceRecord. */
         window.openAdvancedSearch = openAdvancedSearch
 
-        document.getElementById('list-add').addEventListener('click', () => showContentView('record'))
+        document
+          .getElementById('list-add')
+          .addEventListener('click', () => showContentView('record'))
         renderListA(document.getElementById('list-canvas'))
 
         /* ================= Sales Invoice Record — Concept A (Guided Tabs) =================
@@ -10610,9 +11282,18 @@
         const PAYMENT_METHODS = ['Cash', 'Bank', 'Credit Card', 'Cheque', 'Transfer']
         const PAYMENT_EXTRA_FIELDS = {
           Cash: [{label: 'Cash Code', value: '2001 - Main Cash'}],
-          Bank: [{label: 'Bank Name', value: ''}, {label: 'Account No.', value: ''}],
-          'Credit Card': [{label: 'Card Type', value: ''}, {label: 'Approval No.', value: ''}],
-          Cheque: [{label: 'Cheque No.', value: ''}, {label: 'Bank', value: ''}],
+          Bank: [
+            {label: 'Bank Name', value: ''},
+            {label: 'Account No.', value: ''},
+          ],
+          'Credit Card': [
+            {label: 'Card Type', value: ''},
+            {label: 'Approval No.', value: ''},
+          ],
+          Cheque: [
+            {label: 'Cheque No.', value: ''},
+            {label: 'Bank', value: ''},
+          ],
           Transfer: [{label: 'Transfer Reference', value: ''}],
         }
         let paymentRowCount = 0
@@ -10626,16 +11307,18 @@
           row.className = 'rec-card'
           row.dataset.paymentRow = id
           row.innerHTML =
-            '<div class="rec-card-body">' +
-              `<div class="rec-field"><label>Payment Method <span class="req">*</span></label>` +
-              `<select data-field data-payment-method>${PAYMENT_METHODS.map(m => `<option${m===method?' selected':''}>${m}</option>`).join('')}</select></div>` +
-              `<div class="rec-field"><label>The Amount <span class="req">*</span></label><input data-field value="${amount}"></div>` +
-              `<div class="rec-payment-extra"></div>` +
-              `<button type="button" class="ibtn danger rec-remove-payment" aria-label="Remove payment method"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button>` +
+            '<div class="rec-payment-row">' +
+            `<div class="rec-field"><label>Payment Method <span class="req">*</span></label>` +
+            `<select data-field data-payment-method>${PAYMENT_METHODS.map(m => `<option${m === method ? ' selected' : ''}>${m}</option>`).join('')}</select></div>` +
+            `<div class="rec-field"><label>The Amount <span class="req">*</span></label><input data-field value="${amount}"></div>` +
+            `<div class="rec-payment-extra"></div>` +
+            `<button type="button" class="ibtn danger rec-remove-payment" aria-label="Remove payment method"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button>` +
             '</div>'
           document.getElementById(containerId).appendChild(row)
           renderPaymentExtraFields(row, method)
-          row.querySelector('[data-payment-method]').addEventListener('change', e => renderPaymentExtraFields(row, e.target.value))
+          row
+            .querySelector('[data-payment-method]')
+            .addEventListener('change', e => renderPaymentExtraFields(row, e.target.value))
           row.querySelector('.rec-remove-payment').addEventListener('click', () => row.remove())
           /* a freshly-added row's [data-field] inputs start enabled by default —
    sweep the current editable/locked state onto them immediately so they
@@ -10646,7 +11329,10 @@
         function renderPaymentExtraFields(row, method) {
           const extra = row.querySelector('.rec-payment-extra')
           extra.innerHTML = (PAYMENT_EXTRA_FIELDS[method] || [])
-            .map(f => `<div class="rec-field"><label>${f.label}</label><input data-field value="${f.value}"></div>`)
+            .map(
+              f =>
+                `<div class="rec-field"><label>${f.label}</label><input data-field value="${f.value}"></div>`
+            )
             .join('')
         }
 
@@ -10660,7 +11346,6 @@
           const tr = document.createElement('tr')
           tr.dataset.itemRow = id
           tr.innerHTML =
-            '<td><button type="button" class="ibtn danger rec-remove-item" aria-label="Remove item"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button></td>' +
             '<td><input data-field placeholder="Item"></td>' +
             '<td><input data-field placeholder="UoM"></td>' +
             '<td data-adv-only><input data-field placeholder="Expiry"></td>' +
@@ -10672,10 +11357,16 @@
             '<td data-adv-only><input data-field type="number" value="0"></td>' +
             '<td><input data-field disabled value="0"></td>' +
             '<td><input data-field disabled value="0"></td>' +
-            '<td><input data-field disabled value="0"></td>'
+            '<td><input data-field disabled value="0"></td>' +
+            '<td><button type="button" class="ibtn danger rec-remove-item" aria-label="Remove item"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button></td>'
           document.getElementById(bodyId).appendChild(tr)
-          tr.querySelector('.rec-remove-item').addEventListener('click', () => { tr.remove(); recalcTotalQty(bodyId, totalId) })
-          tr.querySelector('.items-qty').addEventListener('input', () => recalcTotalQty(bodyId, totalId))
+          tr.querySelector('.rec-remove-item').addEventListener('click', () => {
+            tr.remove()
+            recalcTotalQty(bodyId, totalId)
+          })
+          tr.querySelector('.items-qty').addEventListener('input', () =>
+            recalcTotalQty(bodyId, totalId)
+          )
           recalcTotalQty(bodyId, totalId)
           /* a freshly-added row's [data-field] inputs start enabled by default —
    sweep the current editable/locked state onto them immediately so they
@@ -10683,7 +11374,9 @@
           applyState()
         }
         function recalcTotalQty(bodyId, totalId) {
-          const qtys = [...document.querySelectorAll(`#${bodyId} .items-qty`)].map(i => Number(i.value) || 0)
+          const qtys = [...document.querySelectorAll(`#${bodyId} .items-qty`)].map(
+            i => Number(i.value) || 0
+          )
           document.getElementById(totalId).textContent = qtys.reduce((a, b) => a + b, 0)
         }
         /* referenced from inline onclick="addItemRow(...)" in the ported Items grid
@@ -10713,10 +11406,9 @@
             })
           })
 
-          document.getElementById('add-payment-link').addEventListener('click', e => {
-            e.preventDefault()
-            addPaymentMethodRow('payment-rows')
-          })
+          document
+            .getElementById('add-payment-link')
+            .addEventListener('click', () => addPaymentMethodRow('payment-rows'))
           addPaymentMethodRow('payment-rows', 'Cash', '200')
           addItemRow('items-body', 'items-total-qty')
         }
@@ -10725,13 +11417,19 @@
    ported from sales-invoice-record.html:2414-2462 */
 
         const RECB_POPOVER_CONTENT = {
-          payment: () => `<a href="#" id="recb-add-payment">+ Add payment method</a><div id="recb-payment-rows"></div>`,
+          payment: () =>
+            `<div id="recb-payment-rows"></div>` +
+            `<button type="button" class="lbtn out" id="recb-add-payment">` +
+            `<svg width="15" height="15" aria-hidden="true"><use href="#i-plus"/></svg> Add payment method</button>`,
           other: () => document.querySelector('[data-panel="other"] .rec-card-body').outerHTML,
-          subledgers: () => document.querySelector('[data-panel="subledgers"] .rec-card-body').outerHTML,
-          additional: () => document.querySelector('[data-panel="additional"] .rec-card-body').outerHTML,
+          subledgers: () =>
+            document.querySelector('[data-panel="subledgers"] .rec-card-body').outerHTML,
+          additional: () =>
+            document.querySelector('[data-panel="additional"] .rec-card-body').outerHTML,
           /* Concept A's Sales Charges card body starts `hidden` (it's a collapsed
              accordion there) — strip that so the popover shows it immediately */
-          charges: () => document.querySelector('#charges-card .rec-card-body').outerHTML.replace(' hidden', ''),
+          charges: () =>
+            document.querySelector('#charges-card .rec-card-body').outerHTML.replace(' hidden', ''),
         }
 
         let recordBInitialized = false
@@ -10745,15 +11443,16 @@
             btn.addEventListener('click', () => {
               const key = btn.dataset.popover
               document.getElementById('recb-popover-title').textContent = btn.textContent.trim()
-              document.getElementById('recb-popover-body').innerHTML = RECB_POPOVER_CONTENT[key] ? RECB_POPOVER_CONTENT[key]() : ''
+              document.getElementById('recb-popover-body').innerHTML = RECB_POPOVER_CONTENT[key]
+                ? RECB_POPOVER_CONTENT[key]()
+                : ''
               document.getElementById('recb-popover-scrim').classList.add('open')
               trapFocus(document.querySelector('.recb-popover'))
               if (key === 'payment') {
                 addPaymentMethodRow('recb-payment-rows', 'Cash', '200')
-                document.getElementById('recb-add-payment').addEventListener('click', e => {
-                  e.preventDefault()
-                  addPaymentMethodRow('recb-payment-rows')
-                })
+                document
+                  .getElementById('recb-add-payment')
+                  .addEventListener('click', () => addPaymentMethodRow('recb-payment-rows'))
               }
             })
           })
@@ -10761,12 +11460,23 @@
             document.getElementById('recb-popover-scrim').classList.remove('open')
             releaseFocus()
           }
+          /* Escape/backdrop/✕ all discard, same as Cancel — Save is the only path
+     that confirms the entry stuck, so a stray click-outside never reads as
+     having saved something the user didn't mean to */
           document.getElementById('recb-popover-close').addEventListener('click', closeRecbPopover)
+          document.getElementById('recb-popover-cancel').addEventListener('click', closeRecbPopover)
+          document.getElementById('recb-popover-save').addEventListener('click', () => {
+            toast({tone: 'ok', title: 'Saved'})
+            closeRecbPopover()
+          })
           document.getElementById('recb-popover-scrim').addEventListener('click', e => {
             if (e.target === document.getElementById('recb-popover-scrim')) closeRecbPopover()
           })
           document.addEventListener('keydown', e => {
-            if (e.key === 'Escape' && document.getElementById('recb-popover-scrim').classList.contains('open')) {
+            if (
+              e.key === 'Escape' &&
+              document.getElementById('recb-popover-scrim').classList.contains('open')
+            ) {
               closeRecbPopover()
             }
           })
@@ -10790,6 +11500,41 @@
               hd.nextElementSibling.hidden = open
             })
           })
+
+          /* jump links: expand the target section if it's a collapsed accordion
+     card (Other Data/Sub Ledgers/Additional Data/Sales Charges all start
+     closed), then scroll to it — a link that lands on a closed, empty-
+     looking card would be worse than not having the link at all */
+          const jumpLinks = document.querySelectorAll('#canvas-root-c .recc-jump a')
+          jumpLinks.forEach(a => {
+            a.addEventListener('click', e => {
+              e.preventDefault()
+              const target = document.querySelector(a.getAttribute('href'))
+              if (!target) return
+              const hd = target.querySelector(':scope > .rec-card-hd')
+              if (hd && hd.getAttribute('aria-expanded') === 'false') {
+                hd.setAttribute('aria-expanded', 'true')
+                hd.nextElementSibling.hidden = false
+              }
+              target.scrollIntoView({behavior: 'smooth', block: 'start'})
+            })
+          })
+          const jumpTargets = [...jumpLinks]
+            .map(a => document.querySelector(a.getAttribute('href')))
+            .filter(Boolean)
+          if (jumpTargets.length && 'IntersectionObserver' in window) {
+            const setCurrent = id => {
+              jumpLinks.forEach(a => a.classList.toggle('current', a.getAttribute('href') === `#${id}`))
+            }
+            const spy = new IntersectionObserver(
+              entries => {
+                const visible = entries.filter(en => en.isIntersecting)
+                if (visible.length) setCurrent(visible[0].target.id)
+              },
+              {threshold: 0.2}
+            )
+            jumpTargets.forEach(t => spy.observe(t))
+          }
         }
 
         function renderRecord(concept) {
@@ -10809,7 +11554,9 @@
           // else: unrecognized concept value — the <select> only offers a/b/c, so this is unreachable in practice
           applyState()
         }
-        document.getElementById('record-concept').addEventListener('change', e => renderRecord(e.target.value))
+        document
+          .getElementById('record-concept')
+          .addEventListener('change', e => renderRecord(e.target.value))
         renderRecord('a')
         /* the payment row and item row just created above are [data-field]
    elements that didn't exist yet for applyMode()'s initial applyState() call
