@@ -4390,10 +4390,10 @@
    the exact confusion this is fixing. A tinted band + a small label makes
    "this part doesn't change when you click a tab" obvious at a glance. */
       .rec-pinned {
-        margin-top: 4px;
+        margin-top: 20px;
         padding: 12px;
         background: var(--bg);
-        border: 1px dashed var(--line);
+        /* border: 1px dashed var(--line); */
         border-radius: 8px;
       }
       .rec-pinned-hd {
@@ -4660,9 +4660,8 @@
         font-size: 14px;
         color: var(--accent);
       }
-      /* the split view's actual reason to exist: a reviewer needs exceptions and an
-   approve/return action pinned in view, not just a read-only copy of fields
-   that scroll away anyway in a single-column layout */
+      /* surfaces exceptions worth a reviewer's attention (representative static
+   examples, no live validation) pinned alongside the jump nav */
       .recc-flags {
         margin-top: 10px;
         padding-top: 10px;
@@ -4683,15 +4682,6 @@
       }
       .recc-flag svg {
         flex: none;
-      }
-      .recc-actions {
-        margin-top: 12px;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-      .recc-actions .lbtn {
-        justify-content: center;
       }
       .recc-detail {
         flex: 1;
@@ -5670,7 +5660,8 @@
               aria-labelledby="rec-tab-payment">
               <div id="payment-rows"></div>
               <button type="button" class="lbtn out" id="add-payment-link">
-                <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Add payment method
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Add
+                payment method
               </button>
             </div>
             <div
@@ -5791,93 +5782,103 @@
               </div>
             </div>
 
-            <div class="rec-pinned" aria-label="Always visible, regardless of the selected tab above">
+            <div
+              class="rec-pinned"
+              aria-label="Always visible, regardless of the selected tab above">
               <div class="rec-pinned-hd">Items, totals &amp; charges — visible on every tab</div>
               <div class="rec-items">
                 <div class="rec-items-hd">
                   <b>Items</b>
-                  <button type="button" class="lbtn out" onclick="addItemRow('items-body', 'items-total-qty')">
-                  <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Add item
-                </button>
-              </div>
-              <div class="inv-grid-wrap">
-                <table class="inv-grid">
-                  <thead>
-                    <tr>
-                      <th>Item</th>
-                      <th>UoM</th>
-                      <th data-adv-only>Expiry Date</th>
-                      <th data-adv-only>Batch No.</th>
-                      <th>Qty.</th>
-                      <th data-adv-only>Free Qty</th>
-                      <th data-adv-only>Available Qty</th>
-                      <th>Price</th>
-                      <th data-adv-only>Discount %</th>
-                      <th>Tax %</th>
-                      <th>Tax Amt</th>
-                      <th>Total</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody id="items-body"></tbody>
-                </table>
-              </div>
-              <div class="rec-total-qty">Total Qty.: <b id="items-total-qty">0</b></div>
-            </div>
-
-            <div class="rec-totals">
-              <div class="rec-field">
-                <label>The Amount</label><input data-field disabled value="200" />
-              </div>
-              <div class="rec-field" data-adv-only>
-                <label>Total Items Discount</label><input data-field disabled value="0" />
-              </div>
-              <div class="rec-field" data-adv-only>
-                <label>Discount Percent</label><input data-field value="0" />
-              </div>
-              <div class="rec-field">
-                <label>Charges Amount</label><input data-field disabled value="0" />
-              </div>
-              <div class="rec-field" data-adv-only>
-                <label>Discount Including Tax</label><input data-field disabled value="0" />
-              </div>
-              <div class="rec-field">
-                <label>Total Discount</label><input data-field disabled value="0" />
-              </div>
-              <div class="rec-field">
-                <label>Tax Amt</label><input data-field disabled value="0" />
-              </div>
-              <div class="rec-field">
-                <label>Net Amount</label><input data-field disabled value="200" />
-              </div>
-            </div>
-            <div class="rec-card" id="charges-card" data-adv-only>
-              <button type="button" class="rec-card-hd" aria-expanded="false">Sales Charges</button>
-              <div class="rec-card-body" hidden>
-                <div class="inv-grid-wrap" style="grid-column: 1/-1">
+                  <button
+                    type="button"
+                    class="lbtn out"
+                    onclick="addItemRow('items-body', 'items-total-qty')">
+                    <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Add
+                    item
+                  </button>
+                </div>
+                <div class="inv-grid-wrap">
                   <table class="inv-grid">
                     <thead>
                       <tr>
-                        <th>Charge</th>
-                        <th>Amount</th>
+                        <th>Item</th>
+                        <th>UoM</th>
+                        <th data-adv-only>Expiry Date</th>
+                        <th data-adv-only>Batch No.</th>
+                        <th>Qty.</th>
+                        <th data-adv-only>Free Qty</th>
+                        <th data-adv-only>Available Qty</th>
+                        <th>Price</th>
+                        <th data-adv-only>Discount %</th>
+                        <th>Tax %</th>
+                        <th>Tax Amt</th>
+                        <th>Total</th>
                         <th></th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <td><input data-field placeholder="Charge type" /></td>
-                        <td><input data-field value="0" /></td>
-                        <td>
-                          <button type="button" class="ibtn danger" aria-label="Remove charge">
-                            <svg width="14" height="14" aria-hidden="true"><use href="#i-x" /></svg>
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
+                    <tbody id="items-body"></tbody>
                   </table>
                 </div>
+                <div class="rec-total-qty">Total Qty.: <b id="items-total-qty">0</b></div>
               </div>
-            </div>
+
+              <div class="rec-totals">
+                <div class="rec-field">
+                  <label>The Amount</label><input data-field disabled value="200" />
+                </div>
+                <div class="rec-field" data-adv-only>
+                  <label>Total Items Discount</label><input data-field disabled value="0" />
+                </div>
+                <div class="rec-field" data-adv-only>
+                  <label>Discount Percent</label><input data-field value="0" />
+                </div>
+                <div class="rec-field">
+                  <label>Charges Amount</label><input data-field disabled value="0" />
+                </div>
+                <div class="rec-field" data-adv-only>
+                  <label>Discount Including Tax</label><input data-field disabled value="0" />
+                </div>
+                <div class="rec-field">
+                  <label>Total Discount</label><input data-field disabled value="0" />
+                </div>
+                <div class="rec-field">
+                  <label>Tax Amt</label><input data-field disabled value="0" />
+                </div>
+                <div class="rec-field">
+                  <label>Net Amount</label><input data-field disabled value="200" />
+                </div>
+              </div>
+              <div class="rec-card" id="charges-card" data-adv-only>
+                <button type="button" class="rec-card-hd" aria-expanded="false">
+                  Sales Charges
+                </button>
+                <div class="rec-card-body" hidden>
+                  <div class="inv-grid-wrap" style="grid-column: 1/-1">
+                    <table class="inv-grid">
+                      <thead>
+                        <tr>
+                          <th>Charge</th>
+                          <th>Amount</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><input data-field placeholder="Charge type" /></td>
+                          <td><input data-field value="0" /></td>
+                          <td>
+                            <button type="button" class="ibtn danger" aria-label="Remove charge">
+                              <svg width="14" height="14" aria-hidden="true">
+                                <use href="#i-x" />
+                              </svg>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -5908,8 +5909,12 @@
             <div class="rec-items">
               <div class="rec-items-hd">
                 <b>Items</b>
-                <button type="button" class="lbtn out" onclick="addItemRow('items-body-b', 'items-total-qty-b')">
-                  <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Add item
+                <button
+                  type="button"
+                  class="lbtn out"
+                  onclick="addItemRow('items-body-b', 'items-total-qty-b')">
+                  <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Add
+                  item
                 </button>
               </div>
               <div class="inv-grid-wrap">
@@ -6021,20 +6026,6 @@
                   Discount above threshold
                 </div>
               </div>
-              <div class="recc-actions">
-                <button
-                  type="button"
-                  class="lbtn pri"
-                  onclick="toast({tone: 'ok', title: 'Approve is out of scope here'})">
-                  Approve
-                </button>
-                <button
-                  type="button"
-                  class="lbtn out danger"
-                  onclick="toast({tone: 'ok', title: 'Return is out of scope here'})">
-                  Return
-                </button>
-              </div>
             </aside>
             <div class="recc-detail">
               <div class="rec-card" id="recc-sec-main">
@@ -6127,8 +6118,12 @@
               <div class="rec-items" id="recc-sec-items">
                 <div class="rec-items-hd">
                   <b>Items</b>
-                  <button type="button" class="lbtn out" onclick="addItemRow('items-body-c', 'items-total-qty-c')">
-                    <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Add item
+                  <button
+                    type="button"
+                    class="lbtn out"
+                    onclick="addItemRow('items-body-c', 'items-total-qty-c')">
+                    <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Add
+                    item
                   </button>
                 </div>
                 <div class="inv-grid-wrap">
@@ -11524,7 +11519,9 @@
             .filter(Boolean)
           if (jumpTargets.length && 'IntersectionObserver' in window) {
             const setCurrent = id => {
-              jumpLinks.forEach(a => a.classList.toggle('current', a.getAttribute('href') === `#${id}`))
+              jumpLinks.forEach(a =>
+                a.classList.toggle('current', a.getAttribute('href') === `#${id}`)
+              )
             }
             const spy = new IntersectionObserver(
               entries => {
