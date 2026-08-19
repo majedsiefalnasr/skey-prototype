@@ -199,6 +199,27 @@
       .gtop .left .app:hover .tip {
         opacity: 1;
       }
+      /* the launchpad moves this same .app button out of .gtop .left (see
+   showLaunchpad/restoreLaunchpadActions) — .gtop .left .app's rules don't
+   apply once it's outside .gtop, so mirror the bits that still matter
+   (icon/name/badge layout) under its launchpad position instead */
+      .lp-actions-left .app {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        padding: 6px 8px;
+        border-radius: 8px;
+      }
+      .lp-actions-left .app:hover {
+        background: #091e420f;
+      }
+      .lp-actions-left .app svg {
+        flex: none;
+      }
+      .lp-actions-left .app .year-badge {
+        flex: none;
+      }
       .gsearch {
         flex: 1;
         display: flex;
@@ -613,6 +634,13 @@
         display: flex;
         align-items: center;
         gap: 7px;
+      }
+      .lp-actions-left {
+        position: absolute;
+        inset-block-start: 16px;
+        inset-inline-start: 16px;
+        display: flex;
+        align-items: center;
       }
       .lp-hero {
         padding: 200px 24px 8px;
@@ -8472,6 +8500,8 @@
         function restoreLaunchpadActions(frame) {
           const actions = frame.querySelector('.lp-actions .right')
           if (actions) frame.querySelector('.gtop .gsearch').after(actions)
+          const app = frame.querySelector('.lp-actions-left .app')
+          if (app) frame.querySelector('.gtop .left .side-toggle').after(app)
         }
         function showLaunchpad(fbody) {
           closeEmailView()
@@ -8488,6 +8518,11 @@
           }
           lp.hidden = false
           lp.innerHTML = ''
+
+          const actionsLeft = document.createElement('div')
+          actionsLeft.className = 'lp-actions-left'
+          actionsLeft.append(frame.querySelector('.gtop .left .app'))
+          lp.appendChild(actionsLeft)
 
           const actions = document.createElement('div')
           actions.className = 'lp-actions'
@@ -8660,7 +8695,10 @@
    year is active changes what the rest of the shell shows. */
         const ACTIVE_FISCAL_YEAR = '2026'
         function syncTopbarBrand() {
-          document.querySelectorAll('.gtop .app').forEach(el => {
+          /* not scoped to .gtop — the launchpad moves this same button into
+     .lp-actions-left while it's open (see showLaunchpad), and it still
+     needs the year badge/label filled in there too */
+          document.querySelectorAll('.gtop .app, .lp-actions-left .app').forEach(el => {
             el.innerHTML =
               '<svg width="16" height="16" aria-hidden="true"><use href="#i-home"/></svg><span class="app-name"></span><span class="badge gray year-badge"></span><span class="tip"></span>'
             el.querySelector('.app-name').textContent = 'lastchance'
