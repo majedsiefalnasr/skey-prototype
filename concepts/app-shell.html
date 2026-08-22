@@ -4557,49 +4557,79 @@
       }
 
       /* ============ Compact density (prototype control) ============
-   Tightens spacing in page CONTENT only (cards, fields, grid rows) — the
-   shell chrome (topbar/sidebar/footer) is untouched, since the ask was to
-   reclaim wasted whitespace in the record/list content, not shrink the app
-   frame itself. */
+   Tightens spacing in page CONTENT only (cards, fields, buttons, grid rows,
+   payment rows) — the shell chrome (topbar/sidebar/footer) is untouched, so
+   overrides are scoped under .canvas rather than applied to .lbtn/.ibtn
+   globally, since those classes are shared with shell buttons outside the
+   record/list content. */
       body.density-compact .rec-card-body {
-        gap: 6px 10px;
-        padding: 8px;
+        gap: 4px 8px;
+        padding: 6px;
       }
       body.density-compact .rec-card-hd {
-        padding: 6px 10px;
+        padding: 5px 8px;
+        font-size: 12px;
       }
       body.density-compact .rec-card {
-        margin-bottom: 8px;
+        margin-bottom: 6px;
       }
       body.density-compact .rec-field label {
-        margin-bottom: 2px;
-        font-size: 11.5px;
+        margin-bottom: 1px;
+        font-size: 11px;
       }
       body.density-compact .rec-field input,
       body.density-compact .rec-field select,
       body.density-compact .rec-field textarea {
-        padding: 4px 7px;
+        padding: 3px 6px;
       }
       body.density-compact .rec-totals {
-        gap: 6px 10px;
-        padding: 8px;
+        gap: 4px 8px;
+        padding: 6px;
+        margin-bottom: 8px;
       }
       body.density-compact .rec-pinned {
-        margin-top: 12px;
-        padding: 8px;
+        margin-top: 8px;
+        padding: 6px;
+      }
+      body.density-compact .rec-pinned-hd {
+        margin-bottom: 6px;
       }
       body.density-compact .rec-items {
-        margin-bottom: 8px;
+        margin-bottom: 6px;
+      }
+      body.density-compact .rec-items-hd {
+        margin-bottom: 5px;
       }
       body.density-compact .inv-grid th,
       body.density-compact .inv-grid td {
-        padding: 5px 8px;
-      }
-      body.density-compact .inv-grid td input {
         padding: 3px 6px;
       }
+      body.density-compact .inv-grid td input {
+        padding: 2px 5px;
+      }
       body.density-compact .rec-card-flow {
-        gap: 8px;
+        gap: 6px;
+      }
+      body.density-compact .rec-payment-row {
+        gap: 10px;
+        padding: 6px;
+      }
+      body.density-compact .rec-tabs {
+        gap: 0;
+        margin-bottom: 8px;
+      }
+      body.density-compact .rec-tab {
+        padding: 5px 10px;
+        font-size: 12.5px;
+      }
+      body.density-compact .canvas .lbtn {
+        padding: 4px 8px;
+        font-size: 12.5px;
+      }
+      body.density-compact .canvas .ibtn {
+        min-width: 26px;
+        min-height: 26px;
+        padding: 2px 5px;
       }
 
       /* ============ Input style variants (prototype control) ============
@@ -4659,30 +4689,30 @@
         position: relative;
       }
 
-      /* --- odoo: no visible input border/background at rest — reads as plain
-   text with a label beside it, and only gains a bottom rule on focus, the
-   way Odoo's form view treats fields as part of the page rather than boxes
-   on it. Label moves inline (beside the value) instead of above it. */
-      body.style-odoo .rec-card-body {
+      /* --- inline: no visible input border/background at rest — reads as plain
+   text with a label beside it, and only gains a bottom rule on focus. Label
+   moves beside the value instead of above it, and every field in a card uses
+   the same fixed label-column width (grid, not flex/%) so labels and inputs
+   line up into true columns instead of each field's own label length
+   pushing its input to a different starting point. */
+      body.style-inline .rec-card-body {
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       }
-      body.style-odoo .rec-field {
-        display: flex;
+      body.style-inline .rec-field {
+        display: grid;
+        grid-template-columns: 130px 1fr;
         align-items: baseline;
         gap: 8px;
       }
-      body.style-odoo .rec-field label {
-        flex: 0 0 auto;
-        max-width: 45%;
+      body.style-inline .rec-field label {
         margin-bottom: 0;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      body.style-odoo .rec-field input,
-      body.style-odoo .rec-field select,
-      body.style-odoo .rec-field textarea {
-        flex: 1;
+      body.style-inline .rec-field input,
+      body.style-inline .rec-field select,
+      body.style-inline .rec-field textarea {
         min-width: 0;
         padding: 3px 2px;
         border: none;
@@ -4690,21 +4720,38 @@
         border-radius: 0;
         background: none;
       }
-      body.style-odoo .rec-field input:is(:hover, :focus-visible),
-      body.style-odoo .rec-field select:is(:hover, :focus-visible),
-      body.style-odoo .rec-field textarea:is(:hover, :focus-visible) {
+      body.style-inline .rec-field input:is(:hover, :focus-visible),
+      body.style-inline .rec-field select:is(:hover, :focus-visible),
+      body.style-inline .rec-field textarea:is(:hover, :focus-visible) {
         border-bottom-color: var(--line);
       }
-      body.style-odoo .rec-field input:focus-visible,
-      body.style-odoo .rec-field select:focus-visible,
-      body.style-odoo .rec-field textarea:focus-visible {
+      body.style-inline .rec-field input:focus-visible,
+      body.style-inline .rec-field select:focus-visible,
+      body.style-inline .rec-field textarea:focus-visible {
         border-bottom-color: var(--accent);
         box-shadow: none;
       }
-      body.style-odoo .rec-field input:disabled,
-      body.style-odoo .rec-field select:disabled,
-      body.style-odoo .rec-field textarea:disabled {
+      body.style-inline .rec-field input:disabled,
+      body.style-inline .rec-field select:disabled,
+      body.style-inline .rec-field textarea:disabled {
         background: none;
+      }
+      /* --- items grid: plain text look for the invoice line-item table's
+   inputs too — no per-cell box, matching the inline style's borderless
+   fields, so the whole page (form fields and the grid) reads consistently
+   once this style is picked. */
+      body.style-inline .inv-grid td input {
+        border: none;
+        border-radius: 0;
+        background: none;
+        padding: 4px 2px;
+      }
+      body.style-inline .inv-grid td input:is(:hover, :focus-visible) {
+        border-bottom: 1px solid var(--line);
+      }
+      body.style-inline .inv-grid td input:focus-visible {
+        border-bottom: 1px solid var(--accent);
+        box-shadow: none;
       }
 
     </style>
@@ -4721,10 +4768,10 @@
       <div class="grp">
         <label for="input-style">Input style:</label>
         <select id="input-style" autocomplete="off">
-          <option value="default" selected>Default</option>
-          <option value="floated">Floated label</option>
-          <option value="ghost">Ghost label (placeholder)</option>
-          <option value="odoo">Odoo-style (inline, borderless)</option>
+          <option value="default" selected>Standard</option>
+          <option value="floated">Floating label</option>
+          <option value="ghost">Placeholder label</option>
+          <option value="inline">Inline label</option>
         </select>
       </div>
       <div class="grp">
@@ -10684,7 +10731,7 @@
           document.body.classList.toggle('density-compact', e.target.value === 'compact')
         })
         document.getElementById('input-style').addEventListener('change', e => {
-          document.body.classList.remove('style-floated', 'style-ghost', 'style-odoo')
+          document.body.classList.remove('style-floated', 'style-ghost', 'style-inline')
           if (e.target.value !== 'default') document.body.classList.add(`style-${e.target.value}`)
           syncGhostPlaceholders()
         })
