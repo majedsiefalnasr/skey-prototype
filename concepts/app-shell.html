@@ -3483,16 +3483,20 @@
       .backlist:hover {
         background: #eef1f6;
       }
+      /* sits in the footer right after "Record N of N", so it reads as plain
+   text in the same line rather than a boxed pill — a "|" separator (added
+   via ::before) distinguishes it from the record position it follows. */
       .lockbanner {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        padding: 3px 10px;
-        background: #f2f4f7;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        font-size: 12px;
+        font-size: 12.5px;
         color: var(--muted);
+      }
+      .lockbanner::before {
+        content: '|';
+        margin-inline-end: 6px;
+        color: var(--line);
       }
       .lockbanner svg {
         color: var(--faint);
@@ -3706,21 +3710,6 @@
       }
       .empty .cta {
         margin-top: 14px;
-      }
-      /* ===== print count ===== */
-      .printed {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 12px;
-        color: var(--muted);
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        padding: 3px 10px;
-        background: var(--surface);
-      }
-      .printed svg {
-        color: var(--faint);
       }
       /* ===== keyboard shortcuts sheet ===== */
       .kbdsheet {
@@ -7095,17 +7084,6 @@
           pending: "You're viewing this invoice. Switch to Edit mode to make changes.",
           returned: "You're viewing this invoice. Switch to Edit mode to make changes.",
         }
-        /* short chip text for the title row — LOCK_COPY's full sentence is still
-   used as the chip's title/aria-label, so the full reason is one hover or
-   screen-reader announcement away, without needing its own banner row */
-        const LOCK_LABEL = {
-          posted: 'Read-only — posted',
-          canceled: 'Read-only — canceled',
-          inactive: 'Read-only — deactivated',
-          open: 'Read-only — view mode',
-          pending: 'Read-only — view mode',
-          returned: 'Read-only — view mode',
-        }
         /* A new invoice has no number, no history and nothing to act on until it is saved.
    Everything that reads or writes the stored document waits for that first save. */
         const needsSaved = [
@@ -8482,24 +8460,19 @@
             chip.hidden = true
             wrap.parentNode.insertBefore(chip, wrap)
           })
-          /* lives right after the status pill in the title row instead of its own
-     full-width banner above the canvas — same always-visible reason, without
-     spending a whole row on it */
-          d.querySelectorAll('.tline').forEach(t => {
+          /* lives in the footer next to "Record N of N" instead of its own
+     full-width banner above the canvas, or crowding the title row — same
+     always-visible reason, without spending a row on it anywhere. Scoped to
+     the record page's own .fnav (a direct .content child) so it doesn't also
+     attach to the List page's unrelated ".pos" (page count), which lives
+     inside .list-view instead. */
+          d.querySelectorAll('.content > .fnav .pos').forEach(p => {
             const bar = document.createElement('span')
             bar.className = 'lockbanner'
             bar.hidden = true
             bar.innerHTML =
               '<svg width="13" height="13" aria-hidden="true"><use href="#i-lock"/></svg><span></span>'
-            t.append(bar)
-          })
-          d.querySelectorAll('.pill-mount').forEach(m => {
-            const c = document.createElement('span')
-            c.className = 'printed'
-            c.hidden = true
-            c.innerHTML =
-              '<svg width="13" height="13" aria-hidden="true"><use href="#i-print"/></svg><span></span>'
-            m.parentNode.insertBefore(c, m.nextSibling)
+            p.after(bar)
           })
           d.querySelectorAll('.pager-mount').forEach(m => {
             const b = document.createElement('button')
@@ -10562,17 +10535,7 @@
           document.querySelectorAll('.lockbanner').forEach(b => {
             const locked = !(creating || (editing && editable(state)))
             b.hidden = !locked
-            if (locked) {
-              b.querySelector('span').textContent = LOCK_LABEL[st]
-              b.title = LOCK_COPY[st]
-            }
-          })
-
-          /* how many times this invoice has been printed — the product stores it, so show it */
-          document.querySelectorAll('.printed').forEach(el => {
-            el.hidden = creating || !state.prints
-            el.querySelector('span').textContent =
-              state.prints === 1 ? 'Printed once' : `Printed ${state.prints} times`
+            if (locked) b.querySelector('span').textContent = LOCK_COPY[st]
           })
 
           /* design 4 panel: name the section honestly on a draft */
