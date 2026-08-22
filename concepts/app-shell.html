@@ -3484,15 +3484,14 @@
         background: #eef1f6;
       }
       .lockbanner {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 9px;
-        margin: 12px 16px -4px;
-        padding: 9px 12px;
+        gap: 6px;
+        padding: 3px 10px;
         background: #f2f4f7;
         border: 1px solid var(--line);
-        border-radius: 8px;
-        font-size: 12.5px;
+        border-radius: 999px;
+        font-size: 12px;
         color: var(--muted);
       }
       .lockbanner svg {
@@ -7096,6 +7095,17 @@
           pending: "You're viewing this invoice. Switch to Edit mode to make changes.",
           returned: "You're viewing this invoice. Switch to Edit mode to make changes.",
         }
+        /* short chip text for the title row — LOCK_COPY's full sentence is still
+   used as the chip's title/aria-label, so the full reason is one hover or
+   screen-reader announcement away, without needing its own banner row */
+        const LOCK_LABEL = {
+          posted: 'Read-only — posted',
+          canceled: 'Read-only — canceled',
+          inactive: 'Read-only — deactivated',
+          open: 'Read-only — view mode',
+          pending: 'Read-only — view mode',
+          returned: 'Read-only — view mode',
+        }
         /* A new invoice has no number, no history and nothing to act on until it is saved.
    Everything that reads or writes the stored document waits for that first save. */
         const needsSaved = [
@@ -8472,16 +8482,17 @@
             chip.hidden = true
             wrap.parentNode.insertBefore(chip, wrap)
           })
-          /* the record navigator makes no sense before the record exists */
-          const canvas = d.querySelector('.canvas')
-          if (canvas) {
-            const bar = document.createElement('div')
+          /* lives right after the status pill in the title row instead of its own
+     full-width banner above the canvas — same always-visible reason, without
+     spending a whole row on it */
+          d.querySelectorAll('.tline').forEach(t => {
+            const bar = document.createElement('span')
             bar.className = 'lockbanner'
             bar.hidden = true
             bar.innerHTML =
-              '<svg width="14" height="14" aria-hidden="true"><use href="#i-lock"/></svg><span></span>'
-            canvas.parentNode.insertBefore(bar, canvas)
-          }
+              '<svg width="13" height="13" aria-hidden="true"><use href="#i-lock"/></svg><span></span>'
+            t.append(bar)
+          })
           d.querySelectorAll('.pill-mount').forEach(m => {
             const c = document.createElement('span')
             c.className = 'printed'
@@ -10549,9 +10560,12 @@
      own copy, whether it's genuinely locked (posted/canceled/inactive) or just
      not yet switched into Edit mode (open/pending/returned) */
           document.querySelectorAll('.lockbanner').forEach(b => {
-            const why = creating || (editing && editable(state)) ? null : LOCK_COPY[st]
-            b.hidden = !why
-            if (why) b.querySelector('span').textContent = why
+            const locked = !(creating || (editing && editable(state)))
+            b.hidden = !locked
+            if (locked) {
+              b.querySelector('span').textContent = LOCK_LABEL[st]
+              b.title = LOCK_COPY[st]
+            }
           })
 
           /* how many times this invoice has been printed — the product stores it, so show it */
