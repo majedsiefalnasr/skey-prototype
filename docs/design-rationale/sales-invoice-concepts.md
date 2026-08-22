@@ -1,6 +1,6 @@
-# Sales Invoice — Why Each Concept Is Designed the Way It Is
+# Sales Invoice — Why It's Designed the Way It Is
 
-This document explains the reasoning behind the Sales Invoice List and Record screen concepts in the `concepts/app-shell.html` prototype, for discussion with stakeholders. It covers what each concept optimizes for, who it's built for, and why some earlier concepts were dropped.
+This document explains the reasoning behind the Sales Invoice List and Record screens in the `concepts/app-shell.html` prototype, for discussion with stakeholders. It covers what each screen optimizes for and why earlier alternatives were dropped.
 
 ## List: one concept — Data Grid
 
@@ -8,33 +8,39 @@ Earlier drafts explored three list layouts (a dense grid, a card-based command l
 
 **Why:** A grid with sortable/filterable columns is what accountants already use in the current production system — Doc. Sequence, Doc No., Doc Date, Payment method, Customer, and so on, all visible at once, with search/columns/export controls above it. The card-based and grouped-board alternatives didn't offer a strong enough advantage over the grid to justify maintaining three versions of the same screen — for a list of transactional records like invoices, a grid is simply the right tool, and splitting stakeholder attention across three similar options slowed down getting to a decision. One well-built, on-brand grid is more useful to review than three partial ones.
 
-## Record: three concepts, each for a different way of working
+## Record: one concept — Guided Tabs
 
-Unlike the list, the record (invoice detail) screen keeps three concepts, because entering or reviewing an invoice is a more varied task — different people touch it for different reasons, and no single layout serves all of them well.
+Earlier drafts also explored three record layouts: Guided Tabs (mirroring the production app's structure), Single Flow (a popover-driven fast-entry layout), and Split View (a persistent-rail, single-scroll layout). We narrowed this to one as well: **Guided Tabs**.
 
-### Concept A — Guided Tabs
+**Why:** Single Flow and Split View each traded discoverability for a workflow gain (fewer clicks, less scrolling) that only paid off for a narrow slice of users — a high-volume clerk, or someone reviewing a long invoice end-to-end. Guided Tabs is the layout every current user already knows, since its five tabs (Main Data, Payment method, Other Data, Sub Ledgers, Additional Data) mirror the production app's own structure. Maintaining three record layouts meant three places to keep field-parity and interaction fixes in sync, for a benefit that didn't clearly outweigh that cost. The Items grid, Totals, and Sales Charges stay visible below the tabs no matter which tab is open — marked with a labeled band ("Items, totals & charges — visible on every tab") — because those are the numbers a clerk checks constantly while filling in the rest; hiding them behind a tab would mean constant tab-switching just to see the running total.
 
-**Who it's for:** Anyone already familiar with the current production system, or new staff being trained on it.
+## All fields are always visible
 
-**Why it's shaped this way:** Five tabs (Main Data, Payment method, Other Data, Sub Ledgers, Additional Data) mirror the production app's own structure, so nothing has to be relearned. The Items grid, Totals, and Sales Charges stay visible below the tabs no matter which tab is open, because those are the numbers a clerk checks constantly while filling in the rest — hiding them behind a tab would mean constant tab-switching just to see the running total. This is the safest, most discoverable option and the one we'd default to for a broad rollout.
+Earlier drafts also had a Simple/Advanced toggle that hid less-common fields (exchange rate, discounts, Sales Charges, the Other Data / Sub Ledgers / Additional Data tabs) behind an "Advanced" switch. That toggle has been removed — every field is shown all the time, the same set a clerk would see in "Advanced" mode today.
 
-### Concept B — Single Flow
+**Why:** A toggle that hides fields only helps if most users spend most of their time in the reduced set — but invoices routinely need fields from both sides (a return needs a discount field, a wholesale sale needs Sales Charges), so the toggle mostly added an extra click before someone could find the field they needed, without saving much scanning time in exchange. Removing it simplifies the mental model: what you see is what's there, always.
 
-**Who it's for:** High-volume data-entry clerks who process many invoices per shift and want to move fast without hunting through tabs.
+## Wide screens fill their own width
 
-**Why it's shaped this way:** There's no tab strip at all — the customer/currency/date header collapses to one compact row, and the Items grid dominates the screen, since line items are what take the most time to enter. Everything else (Payment, Other Data, Sub Ledgers, Additional Data, Sales Charges) is tucked behind a single, clearly-labeled row of buttons that open a focused popup — present when needed, out of the way otherwise. This trades some discoverability for speed: a new user has to learn where things live once, but afterward can work through an invoice with far less scrolling and clicking than Concept A.
+On a wide screen, the Main Data tab's field-groups (General, Customer, Currency) now flow left-to-right and wrap based on their own natural width, instead of each one always claiming a full-width row. A group with more fields (General) may take a row on its own; smaller groups (Customer, Currency) sit side by side once they fit. The same applies to Other Data / Sub Ledgers / Additional Data.
 
-### Concept C — Split View
+**Why:** The previous one-card-per-row layout left most of a wide monitor empty once a card only had two or three fields — useful screen space was going unused while the page still asked the user to scroll past it. Sizing each card by its own field count (rather than hardcoding "this many cards per row") means the layout adapts if a card gains or loses fields later, without needing a design pass to re-balance rows.
 
-**Who it's for:** Anyone working through the full invoice as one long, continuous page — no tabs to click, no popups to open — who wants a fast way to jump between sections instead of scrolling past everything to get to, say, Additional Data.
+## Prototype controls: Density and Input style
 
-**Why it's shaped this way:** Every section (Main Data, Items, Totals, Payment method, and the Advanced-only Other Data / Sub Ledgers / Additional Data / Sales Charges) sits in one continuous scroll on the right, with nothing hidden behind a tab or a popup. The left-hand rail stays pinned while that content scrolls, and holds a **quick-navigation list** of every section — clicking one scrolls straight to it and expands it if it was collapsed, and the current section highlights as you scroll. That's the rail's whole job: fast movement through a long page, not a summary or a reviewer action panel — an earlier draft put read-only customer/payment fields and an Approve/Return action there, but neither was asked for, so both were removed.
+Two controls in the prototype's top bar exist to compare layout options side by side — they are testing aids, not features going into the product as toggles for end users.
 
-## Simple / Advanced mode
+- **Density** (Default / Compact): Compact tightens the spacing inside cards, fields, and grid rows — smaller padding, tighter gaps — without touching the shell chrome (topbar, sidebar, footer). This is a rough test of "how much more fits on screen if we tighten spacing," to gauge whether the shipped design should default to a tighter rhythm than the current draft uses.
+- **Input style** (Default / Floated label / Ghost label / Odoo-style): Four ways of presenting the same label + field pairing, to compare against each other before committing to one for the real app:
+  - **Default** — label above the field, as used today.
+  - **Floated label** — the label sits inside the field at rest and floats up into a small caption once the field has a value or focus (the familiar "Material" pattern).
+  - **Ghost label** — the label only appears as placeholder text inside an empty field, and disappears once the field is filled; for `<select>` fields (which have no native placeholder) the label appears as a disabled, hidden-once-chosen option instead.
+  - **Odoo-style** — no visible border or background at rest; the field reads as label-beside-value plain text, and only gains a bottom rule when focused.
 
-All three record concepts share the same Simple/Advanced toggle. Simple mode shows the fields used on nearly every invoice (customer, currency, core item columns, core totals); Advanced reveals the rest (exchange rate, discounts, Sales Charges, and the Other Data / Sub Ledgers / Additional Data tabs). This is a field-visibility layer, not a fourth concept — it applies the same way regardless of which of the three record concepts is active, so switching between "fast entry" (B) and "guided" (A) doesn't also mean relearning what's hidden.
+**Why:** these were requested explicitly as a live comparison tool, not a specification for four shipped variants — the intent is to pick one winner for the production design once stakeholders have seen all four against real field data (including RTL, disabled/read-only fields, and long values), not to ship a configurable style switcher.
 
 ## What was cut, and why
 
-- **List Concept B (Command List)** and **List Concept C (Grouped Review Board)** — dropped in favor of the single Data Grid concept, for the reason above: a grid already serves the invoice-list use case well, and comparing near-duplicate layouts wasn't worth the review overhead.
-- Nothing was cut from the Record concepts — all three (A, B, C) remain, because each maps to a genuinely different workflow (guided entry, fast entry, review) rather than being cosmetic variations of the same idea.
+- **List Concept B (Command List)** and **List Concept C (Grouped Review Board)** — dropped in favor of the single Data Grid concept: a grid already serves the invoice-list use case well, and comparing near-duplicate layouts wasn't worth the review overhead.
+- **Record Concept B (Single Flow)** and **Record Concept C (Split View)** — dropped in favor of the single Guided Tabs concept, for the same reason: each mapped to a real but narrow workflow, and maintaining three full record layouts cost more than the workflow-specific gains were worth once the goal narrowed to a single production-ready design.
+- **Simple/Advanced mode** — dropped; see above. All fields are shown all the time now, in every card and tab.
