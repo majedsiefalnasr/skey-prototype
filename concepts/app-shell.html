@@ -4133,6 +4133,17 @@
         background: var(--accent-soft);
         cursor: pointer;
       }
+      .customer-record-link {
+        color: var(--accent);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .customer-record-link:hover {
+        color: #1741ad;
+      }
+      .customer-record-link:focus-visible {
+        outline: 2px solid var(--accent);
+      }
       .inv-grid td input {
         width: 100%;
         padding: 5px 7px;
@@ -10962,7 +10973,7 @@
           const tableRows = rows
             .map(
               row => `<tr data-customer-no="${encodeHtml(row.customerNo)}">
-      <td>${encodeHtml(row.customerNo)}</td>
+      <td><button class="customer-record-link" type="button" aria-label="Open customer ${encodeHtml(row.customerNo)}">${encodeHtml(row.customerNo)}</button></td>
       <td>${encodeHtml(row.customerName)}</td>
       <td>${encodeHtml(row.operationUnit)}</td>
       <td>${encodeHtml(row.customerType)}</td>
@@ -11118,6 +11129,11 @@
           releaseFocus()
         }
         advSearchScrim.addEventListener('click', e => {
+          const customerOption = e.target.closest('.as-item[data-customer-no]')
+          if (customerOption && advSearchScrim.dataset.context === 'customer') {
+            openCustomerRecord(customerOption.dataset.customerNo, 'view')
+            return
+          }
           if (e.target === advSearchScrim || e.target.closest('.adv-search-close'))
             closeAdvancedSearch()
         })
