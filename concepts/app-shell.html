@@ -4694,6 +4694,7 @@
       }
       .customer-record-canvas .customer-section-heading:focus-visible,
       .customer-record-canvas .customer-focused-nav button:focus-visible,
+      .customer-record-canvas .customer-scroll-nav button:focus-visible,
       .customer-record-canvas .customer-guided [role='tab']:focus-visible {
         outline: 2px solid var(--accent);
         outline-offset: -2px;
@@ -4874,6 +4875,68 @@
       .customer-record-canvas .customer-focused-panel {
         min-width: 0;
       }
+      .customer-record-canvas .customer-compact-grid {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .customer-record-canvas .customer-compact-card {
+        min-width: 0;
+        grid-column: span 4;
+      }
+      .customer-record-canvas .customer-compact-card.wide {
+        grid-column: span 8;
+      }
+      .customer-record-canvas .customer-compact-card.full {
+        grid-column: 1 / -1;
+      }
+      .customer-record-canvas .customer-compact-card .customer-section {
+        height: 100%;
+        margin-bottom: 0;
+      }
+      .customer-record-canvas .customer-scroll-layout {
+        display: grid;
+        grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
+        gap: 12px;
+        align-items: start;
+      }
+      .customer-record-canvas .customer-scroll-nav {
+        position: sticky;
+        top: 0;
+        display: grid;
+        gap: 3px;
+        padding: 6px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: var(--shadow-1);
+      }
+      .customer-record-canvas .customer-scroll-nav button {
+        min-height: 36px;
+        padding: 7px 9px;
+        border: 0;
+        border-radius: 6px;
+        color: var(--muted);
+        background: transparent;
+        font: inherit;
+        text-align: start;
+        cursor: pointer;
+      }
+      .customer-record-canvas .customer-scroll-nav button:hover {
+        color: var(--ink);
+        background: var(--line-2);
+      }
+      .customer-record-canvas .customer-scroll-nav button[aria-current='page'] {
+        color: var(--accent);
+        background: var(--accent-soft);
+        font-weight: 600;
+      }
+      .customer-record-canvas .customer-scroll-content {
+        min-width: 0;
+      }
+      .customer-record-canvas [data-customer-scroll-target] {
+        scroll-margin-top: 12px;
+      }
       body.density-compact .customer-record-canvas .customer-field-grid {
         gap: 4px 8px;
         padding: 6px;
@@ -4889,6 +4952,19 @@
         min-height: 30px;
         padding: 4px 7px;
       }
+      body.density-compact .customer-record-canvas .customer-scroll-nav button {
+        min-height: 30px;
+        padding: 4px 7px;
+      }
+      @media (max-width: 1000px) {
+        .customer-record-canvas .customer-compact-card,
+        .customer-record-canvas .customer-compact-card.wide {
+          grid-column: span 6;
+        }
+        .customer-record-canvas .customer-compact-card.full {
+          grid-column: 1 / -1;
+        }
+      }
       @media (max-width: 820px) {
         .customer-record-canvas .customer-focused {
           grid-template-columns: 1fr;
@@ -4896,6 +4972,36 @@
         .customer-record-canvas .customer-focused-nav {
           position: static;
           grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 720px) {
+        body:has(.customer-record-view:not([hidden])) .gsearch {
+          min-width: 0;
+        }
+        .customer-record-canvas .customer-focused,
+        .customer-record-canvas .customer-scroll-layout {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .customer-record-canvas .customer-focused-nav,
+        .customer-record-canvas .customer-scroll-nav {
+          position: sticky;
+          top: 0;
+          z-index: 2;
+          display: flex;
+          overflow-x: auto;
+          white-space: nowrap;
+        }
+        .customer-record-canvas .customer-focused-nav button,
+        .customer-record-canvas .customer-scroll-nav button {
+          flex: none;
+        }
+        .customer-record-canvas .customer-compact-card,
+        .customer-record-canvas .customer-compact-card.wide,
+        .customer-record-canvas .customer-compact-card.full {
+          grid-column: 1 / -1;
+        }
+        .customer-record-canvas .customer-field-grid {
+          grid-template-columns: minmax(0, 1fr);
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -11711,12 +11817,9 @@
         }
 
         function renderCustomerSummaryBand() {
-          return `<div class="customer-summary-band"><b>${encodeHtml(customerData.customerNo || 'New customer')}</b><span class="customer-summary-name">${encodeHtml(customerData.customerName || 'Unnamed customer')}</span><span class="customer-summary-currency">${encodeHtml(customerData.currency || 'No currency')}</span></div>`
+          return `<div class="customer-summary-band"><b>${encodeHtml(customerData.customerNo || 'New customer')}</b><span class="customer-summary-name">${encodeHtml(customerData.customerName || 'Unnamed customer')}</span><span>${encodeHtml(customerData.contactPhone || 'No phone')}</span><span class="customer-summary-currency">${encodeHtml(customerData.currency || 'No currency')}</span></div>`
         }
 
-        function renderCustomerFoundation(name, className) {
-          document.getElementById('customer-record-canvas').innerHTML = `<div class="${encodeHtml(className)}"><div class="customer-summary-band"><b>${encodeHtml(name)}</b><span>${encodeHtml(customerData.customerName || 'Unnamed customer')}</span></div>${renderCustomerSection('identity')}</div>`
-        }
         function renderCustomerGuided() {
           const canvas = document.getElementById('customer-record-canvas')
           const top = CUSTOMER_GUIDED_TOP.map(key =>
@@ -11749,10 +11852,165 @@
     </div>`
         }
         function renderCustomerCompact() {
-          renderCustomerFoundation('Compact Workspace', 'customer-compact-grid')
+          const cards = CUSTOMER_SECTION_ORDER.map(key => {
+            const full = ['identity', 'subLedgers', 'contactDetails'].includes(key)
+            const wide = ['nationalAddress', 'mainData', 'otherData'].includes(key)
+            const spanClass = full ? ' full' : wide ? ' wide' : ''
+            return `<div class="customer-compact-card${spanClass}">${renderCustomerCollapsible(key, 'compact')}</div>`
+          }).join('')
+          document.getElementById('customer-record-canvas').innerHTML = `
+    ${renderCustomerSummaryBand()}
+    <div class="customer-compact-grid">${cards}</div>`
         }
+
+        let customerScrollObserver = null
+        let customerScrollNavigationKey = ''
+        let customerScrollNavigationTimer = 0
+        let customerScrollNavigationId = 0
+
+        function setCustomerScrollActiveSection(key) {
+          if (!CUSTOMER_SECTION_ORDER.includes(key)) return
+          customerState.activeSection = key
+          document.querySelectorAll('.customer-scroll-nav button').forEach(button => {
+            button.setAttribute(
+              'aria-current',
+              button.dataset.customerScrollSection === key ? 'page' : 'false'
+            )
+          })
+        }
+
+        function customerScrollStickyOffset() {
+          if (!matchMedia('(max-width: 720px)').matches) return 12
+          return (
+            document.querySelector('.customer-scroll-nav')?.getBoundingClientRect().height || 0
+          ) + 8
+        }
+
+        function customerScrollContainer() {
+          const canvas = document.getElementById('customer-record-canvas')
+          return canvas.scrollHeight > canvas.clientHeight + 1 ? canvas : document.scrollingElement
+        }
+
+        function customerScrollViewportTop(scroller) {
+          return scroller === document.scrollingElement ? 0 : scroller.getBoundingClientRect().top
+        }
+
+        function syncCustomerScrollActiveSection() {
+          if (customerScrollNavigationKey) return
+          const canvas = document.getElementById('customer-record-canvas')
+          const targets = [...canvas.querySelectorAll('[data-customer-scroll-target]')]
+          if (!targets.length) return
+          const scroller = customerScrollContainer()
+          const anchor = customerScrollViewportTop(scroller) + customerScrollStickyOffset() + 2
+          const activeTarget = targets.reduce((nearest, target) =>
+            Math.abs(target.getBoundingClientRect().top - anchor) <
+            Math.abs(nearest.getBoundingClientRect().top - anchor)
+              ? target
+              : nearest
+          )
+          setCustomerScrollActiveSection(activeTarget.dataset.customerScrollTarget)
+        }
+
+        function stopCustomerScrollNavigation({interrupt = false} = {}) {
+          customerScrollNavigationId += 1
+          window.clearTimeout(customerScrollNavigationTimer)
+          customerScrollNavigationTimer = 0
+          customerScrollNavigationKey = ''
+          if (interrupt) {
+            const scroller = customerScrollContainer()
+            scroller.scrollTo({top: scroller.scrollTop, behavior: 'auto'})
+            syncCustomerScrollActiveSection()
+          }
+        }
+
+        function stopCustomerScrollTracking() {
+          customerScrollObserver?.disconnect()
+          customerScrollObserver = null
+          stopCustomerScrollNavigation()
+        }
+
+        function startCustomerScrollSpy() {
+          customerScrollObserver?.disconnect()
+          customerScrollObserver = null
+          if (!('IntersectionObserver' in window)) return
+          const canvas = document.getElementById('customer-record-canvas')
+          const scroller = customerScrollContainer()
+          const stickyOffset = Math.round(customerScrollStickyOffset())
+          customerScrollObserver = new IntersectionObserver(
+            () => syncCustomerScrollActiveSection(),
+            {
+              root: scroller === document.scrollingElement ? null : scroller,
+              rootMargin: `-${stickyOffset}px 0px -65% 0px`,
+              threshold: [0, 0.1, 0.5],
+            }
+          )
+          canvas
+            .querySelectorAll('[data-customer-scroll-target]')
+            .forEach(section => customerScrollObserver.observe(section))
+        }
+
         function renderCustomerScroll() {
-          renderCustomerFoundation('Scroll Navigator', 'customer-scroll-layout')
+          if (!CUSTOMER_SECTION_ORDER.includes(customerState.activeSection)) {
+            customerState.activeSection = 'identity'
+          }
+          const nav = CUSTOMER_SECTION_ORDER.map(key => {
+            const current = customerState.activeSection === key
+            return `<button type="button" data-customer-scroll-section="${encodeHtml(key)}" aria-controls="customer-section-${encodeHtml(key)}" aria-current="${current ? 'page' : 'false'}">${encodeHtml(CUSTOMER_SECTIONS[key].title)}</button>`
+          }).join('')
+          const sections = CUSTOMER_SECTION_ORDER.map(
+            key =>
+              `<div id="customer-section-${encodeHtml(key)}" data-customer-scroll-target="${encodeHtml(key)}">${renderCustomerCollapsible(key, 'scroll')}</div>`
+          ).join('')
+          document.getElementById('customer-record-canvas').innerHTML = `
+    <div class="customer-scroll-layout">
+      <nav class="customer-scroll-nav" aria-label="Customer sections">${nav}</nav>
+      <div class="customer-scroll-content">${sections}</div>
+    </div>`
+          startCustomerScrollSpy()
+        }
+
+        function activateCustomerScrollSection(key) {
+          if (!CUSTOMER_SECTION_ORDER.includes(key)) return
+          stopCustomerScrollNavigation()
+          const navigationId = customerScrollNavigationId
+          customerScrollNavigationKey = key
+          customerState.expanded.add(key)
+          setCustomerScrollActiveSection(key)
+          const section = document.getElementById(`customer-section-${key}`)
+          if (!section) {
+            stopCustomerScrollNavigation()
+            return
+          }
+          const body = section.querySelector('.customer-section-body')
+          const heading = section.querySelector('.customer-section-heading')
+          body.hidden = false
+          heading.setAttribute('aria-expanded', 'true')
+          const scroller = customerScrollContainer()
+          const targetTop =
+            scroller.scrollTop +
+            section.getBoundingClientRect().top -
+            customerScrollViewportTop(scroller) -
+            customerScrollStickyOffset()
+          const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches
+          scroller.scrollTo({
+            top: Math.max(0, targetTop),
+            behavior: reducedMotion ? 'auto' : 'smooth',
+          })
+          const finishNavigation = () => {
+            if (
+              navigationId !== customerScrollNavigationId ||
+              customerScrollNavigationKey !== key
+            )
+              return
+            window.clearTimeout(customerScrollNavigationTimer)
+            customerScrollNavigationTimer = 0
+            customerScrollNavigationKey = ''
+          }
+          scroller.addEventListener('scrollend', finishNavigation, {once: true})
+          customerScrollNavigationTimer = window.setTimeout(
+            finishNavigation,
+            reducedMotion ? 0 : 1200
+          )
         }
 
         const CUSTOMER_RENDERERS = {
@@ -11765,9 +12023,13 @@
         function renderCustomerRecord({focusSelector = '', preserveScroll = false} = {}) {
           const canvas = document.getElementById('customer-record-canvas')
           const scrollTop = canvas.scrollTop
+          stopCustomerScrollTracking()
           renderCustomerRecordChrome()
           ;(CUSTOMER_RENDERERS[customerState.layout] || renderCustomerGuided)()
           if (preserveScroll) canvas.scrollTop = scrollTop
+          if (customerState.layout === 'scroll') {
+            requestAnimationFrame(syncCustomerScrollActiveSection)
+          }
           if (focusSelector) {
             const target = canvas.querySelector(focusSelector)
             if (target) target.focus({preventScroll: true})
@@ -11791,6 +12053,7 @@
               customerState.expanded.add(firstError.sectionKey)
               if (
                 customerState.layout === 'focused' ||
+                customerState.layout === 'scroll' ||
                 CUSTOMER_GUIDED_TABS.includes(firstError.sectionKey)
               ) {
                 customerState.activeSection = firstError.sectionKey
@@ -12025,6 +12288,11 @@
         customerRecordCanvas.addEventListener('input', updateCustomerField)
         customerRecordCanvas.addEventListener('change', updateCustomerField)
         customerRecordCanvas.addEventListener('click', event => {
+          const scrollLink = event.target.closest('[data-customer-scroll-section]')
+          if (scrollLink) {
+            activateCustomerScrollSection(scrollLink.dataset.customerScrollSection)
+            return
+          }
           const focusedLink = event.target.closest('[data-customer-focus-section]')
           if (focusedLink) {
             customerState.activeSection = focusedLink.dataset.customerFocusSection
@@ -12051,6 +12319,9 @@
             else customerState.expanded.delete(key)
             collapse.setAttribute('aria-expanded', String(expanded))
             collapse.nextElementSibling.hidden = !expanded
+            if (customerState.layout === 'scroll') {
+              requestAnimationFrame(syncCustomerScrollActiveSection)
+            }
             return
           }
           const action = event.target.closest('[data-customer-action]')?.dataset.customerAction
@@ -12062,17 +12333,31 @@
           }
         })
         customerRecordCanvas.addEventListener('keydown', event => {
+          if (
+            customerScrollNavigationKey &&
+            ['ArrowDown', 'ArrowUp', 'End', 'Home', 'PageDown', 'PageUp', ' '].includes(
+              event.key
+            )
+          ) {
+            stopCustomerScrollNavigation({interrupt: true})
+          }
           const focusedLink = event.target.closest('[data-customer-focus-section]')
+          const scrollLink = event.target.closest('[data-customer-scroll-section]')
           const tab = event.target.closest('[data-customer-tab]')
-          const control = focusedLink || tab
+          const control = focusedLink || scrollLink || tab
           if (!control) return
           const controls = [
             ...control.parentElement.querySelectorAll(
-              focusedLink ? '[data-customer-focus-section]' : '[data-customer-tab]'
+              focusedLink
+                ? '[data-customer-focus-section]'
+                : scrollLink
+                  ? '[data-customer-scroll-section]'
+                  : '[data-customer-tab]'
             ),
           ]
-          const previousKey = focusedLink ? 'ArrowUp' : 'ArrowLeft'
-          const nextKey = focusedLink ? 'ArrowDown' : 'ArrowRight'
+          const vertical = focusedLink || scrollLink
+          const previousKey = vertical ? 'ArrowUp' : 'ArrowLeft'
+          const nextKey = vertical ? 'ArrowDown' : 'ArrowRight'
           if (!['Home', 'End', previousKey, nextKey].includes(event.key)) return
           event.preventDefault()
           const index = controls.indexOf(control)
@@ -12086,6 +12371,20 @@
                   : (index + 1) % controls.length
           controls[nextIndex].click()
         })
+        customerRecordCanvas.addEventListener(
+          'wheel',
+          () => {
+            if (customerScrollNavigationKey) stopCustomerScrollNavigation({interrupt: true})
+          },
+          {passive: true}
+        )
+        customerRecordCanvas.addEventListener(
+          'touchstart',
+          () => {
+            if (customerScrollNavigationKey) stopCustomerScrollNavigation({interrupt: true})
+          },
+          {passive: true}
+        )
         document.getElementById('customer-record-chrome').addEventListener('click', event => {
           if (event.target.closest('.customer-back')) {
             showContentView('customers-list')
@@ -12122,6 +12421,19 @@
         document.getElementById('customer-layout').addEventListener('change', event => {
           customerState.layout = event.target.value
           renderCustomerRecord({preserveScroll: true})
+        })
+        let customerScrollResizeFrame = 0
+        window.addEventListener('resize', () => {
+          if (
+            customerState.layout !== 'scroll' ||
+            document.querySelector('.customer-record-view').hidden
+          )
+            return
+          cancelAnimationFrame(customerScrollResizeFrame)
+          customerScrollResizeFrame = requestAnimationFrame(() => {
+            startCustomerScrollSpy()
+            syncCustomerScrollActiveSection()
+          })
         })
         document.getElementById('adv-search-apply').addEventListener('click', () => {
           if (advSearchScrim.dataset.context !== 'customer') return
