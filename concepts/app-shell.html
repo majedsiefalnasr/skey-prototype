@@ -6006,6 +6006,43 @@
           </div>
         </div>
       </template>
+      <template class="customer-list-tpl">
+        <div class="customer-list-view" hidden>
+          <div class="phead">
+            <div class="l">
+              <nav class="crumbs" aria-label="Breadcrumb">
+                <a href="#">Home</a><span class="sep">›</span>
+                <span aria-current="page">Customers</span>
+              </nav>
+              <div class="tline"><h1>Customers</h1></div>
+            </div>
+            <div class="r">
+              <button class="lbtn pri" id="customer-list-add" type="button">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg>
+                Add Customer
+              </button>
+            </div>
+          </div>
+          <div class="canvas" id="customer-list-canvas"></div>
+          <div class="fnav">
+            <span class="customer-list-pager-mount"></span>
+            <span class="pos" aria-live="polite">1 of 8 pages · 72 customers</span>
+          </div>
+        </div>
+      </template>
+
+      <template class="customer-record-tpl">
+        <div class="customer-record-view" hidden>
+          <div id="customer-record-chrome"></div>
+          <div class="canvas customer-record-canvas" id="customer-record-canvas"></div>
+          <div class="fnav">
+            <span class="customer-record-pager-mount"></span>
+            <span class="pos" id="customer-record-position" aria-live="polite"
+              >1 of 72 customers</span
+            >
+          </div>
+        </div>
+      </template>
       <p class="note" style="margin-top: 22px">
         <strong>One place for the record actions.</strong> Creating, modifying and deleting an
         invoice now sit together next to Save, instead of being split between a global button and a
@@ -6093,6 +6130,7 @@
         </div>
         <div class="as-foot">
           <span><span class="k">↑↓</span>Navigate</span><span><span class="k">↵</span>Open</span>
+          <button type="button" class="lbtn pri" id="adv-search-apply" hidden>Apply</button>
           <button type="button" class="lbtn out adv-search-close" style="margin-inline-start: auto">
             Close
           </button>
@@ -7801,7 +7839,11 @@
         const setNavCurrent = (root, label) => {
           navCurrentLabel = label
           closeEmailView() /* any real navigation leaves the email view, same as it would leave any other page */
-          showContentView(label === 'Sales Invoice' ? 'list' : 'record')
+          const viewByNavLabel = {
+            'Sales Invoice': 'list',
+            Customers: 'customers-list',
+          }
+          showContentView(viewByNavLabel[label] || 'record')
           const frame = root.closest('.frame')
           const lp = frame && frame.querySelector('.lp-view')
           if (lp && !lp.hidden) {
@@ -8384,11 +8426,15 @@
           content.append(d.querySelector('.body-tpl').content.cloneNode(true))
           content.append(d.querySelector('.email-tpl').content.cloneNode(true))
           content.append(d.querySelector('.list-tpl').content.cloneNode(true))
+          content.append(d.querySelector('.customer-list-tpl').content.cloneNode(true))
+          content.append(d.querySelector('.customer-record-tpl').content.cloneNode(true))
           body.append(side, content)
           frame.append(body)
           d.querySelector('.mount').append(frame)
           d.querySelectorAll('.pager-mount').forEach(m => m.append(T('t-pager')))
           d.querySelectorAll('.list-pager-mount').forEach(m => m.append(T('t-pager')))
+          d.querySelectorAll('.customer-list-pager-mount').forEach(m => m.append(T('t-pager')))
+          d.querySelectorAll('.customer-record-pager-mount').forEach(m => m.append(T('t-pager')))
           d.querySelectorAll('.pill-mount').forEach(m => m.append(T('t-pill')))
           d.querySelectorAll('.menus-mount').forEach(m => m.append(T('t-menus')))
           d.querySelectorAll('.ctx-mount').forEach(m => m.append(T('t-ctx')))
@@ -10034,9 +10080,8 @@
 
         /* ---- email view: opened from Notifications' Email tab, replaces the invoice
    content in place while the real topbar and sidebar stay put ---- */
-        /* .content holds 3 swappable views as direct children: the record page's
-   top-level elements (unwrapped: .arow/.phead/.canvas/.fnav), .email-view,
-   and .list-view. Exactly one is ever un-hidden at a time. */
+        /* .content holds swappable views as direct children: the record page's
+   top-level elements remain unwrapped while email and list surfaces use wrappers. */
         function showContentView(name) {
           /* adv-search-scrim is a sibling outside .content, so switching which
    .content child is visible doesn't touch it — close it here so it never
@@ -10046,17 +10091,23 @@
           if (advScrim && advScrim.classList.contains('open')) closeAdvancedSearch()
 
           const content = document.querySelector('.content')
-          const emailView = content.querySelector('.email-view')
-          const listView = content.querySelector('.list-view')
-          const isEmail = name === 'email'
-          const isList = name === 'list'
-          emailView.hidden = !isEmail
-          listView.hidden = !isList
-          ;[...content.children].forEach(el => {
-            if (el === emailView || el === listView) return
-            el.hidden = isEmail || isList
+          const namedViews = {
+            email: content.querySelector('.email-view'),
+            list: content.querySelector('.list-view'),
+            'customers-list': content.querySelector('.customer-list-view'),
+            'customer-record': content.querySelector('.customer-record-view'),
+          }
+          const wrappedViews = Object.values(namedViews)
+          wrappedViews.forEach(view => {
+            view.hidden = view !== namedViews[name]
           })
+          ;[...content.children].forEach(el => {
+            if (wrappedViews.includes(el)) return
+            el.hidden = name !== 'record'
+          })
+          syncCustomerPrototypeControls(name)
         }
+        function syncCustomerPrototypeControls() {}
         function renderEmailList(query) {
           const scroll = document.getElementById('email-list-scroll')
           scroll.innerHTML = ''
@@ -10397,7 +10448,12 @@
      email view or list view: they reuse .phead/.tline/.crumbs for a consistent
      look but their breadcrumb and title are their own, not the invoice's. */
           document.querySelectorAll('.d1 .tline h1, .d2 .idty h1').forEach(h => {
-            if (h.closest('.email-view') || h.closest('.list-view')) return
+            if (
+              h.closest(
+                '.email-view, .list-view, .customer-list-view, .customer-record-view'
+              )
+            )
+              return
             h.textContent = creating ? 'New sales invoice' : `Sales Invoice ${state.docNo}`
           })
           document
@@ -10417,7 +10473,12 @@
                   : 'Home › Sales Invoice › All')
             )
           document.querySelectorAll('.crumbs [aria-current=page]').forEach(c => {
-            if (c.closest('.d2') || c.closest('.email-view') || c.closest('.list-view')) return
+            if (
+              c.closest(
+                '.d2, .email-view, .list-view, .customer-list-view, .customer-record-view'
+              )
+            )
+              return
             c.textContent = creating ? 'New' : 'All'
           })
 
@@ -10435,6 +10496,7 @@
           /* the record navigator stays where it is. A draft has no position in the list,
      so the box is blank — and using it asks about the unsaved work first. */
           document.querySelectorAll('.pager').forEach(p => {
+            if (p.closest('.customer-list-view, .customer-record-view')) return
             p.hidden = false
             const inp = p.querySelector('.pg-i')
             inp.readOnly = creating
@@ -10448,20 +10510,18 @@
           })
           document.querySelectorAll('.backlist').forEach(b => (b.hidden = true))
           document.querySelectorAll('.pos').forEach(el => {
-            if (el.closest('.list-view')) return
+            if (el.closest('.list-view, .customer-list-view, .customer-record-view')) return
             const inp = el.closest('.design')?.querySelector('.pg-i')
             el.textContent = creating
               ? 'Not saved yet — this invoice takes its number and its place in the list when you save'
               : `Record ${inp ? inp.value : 1} of 125`
           })
 
-          /* the record canvas now holds Record Concept A's real markup, so the old
-     click-anywhere-to-dirty stand-in (which overwrote the canvas's textContent)
-     would destroy the rendered tabs/cards/grid. Skip both it and the list view's
-     canvas (real List Concept A/B/C markup) — every other canvas is either of
-     those two, since only one record concept lives in the DOM until Task 6. */
+          /* the invoice record and list canvases now hold real markup, so the old
+     click-anywhere-to-dirty stand-in (which overwrote a canvas's textContent)
+     must not touch those or the separately managed Customer views. */
           document.querySelectorAll('.canvas').forEach(c => {
-            if (c.closest('.list-view')) return
+            if (c.closest('.list-view, .customer-list-view, .customer-record-view')) return
             if (c.querySelector('[data-field]')) return
             const live = state.mode === 'edit' || state.mode === 'create'
             c.style.cursor = live ? 'text' : ''
@@ -10841,6 +10901,113 @@
           },
         ]
 
+        const CUSTOMER_COLUMNS = [
+          'Customer No.',
+          'Customer Name',
+          'Operation Unit',
+          'Customer Type',
+          'Customer Group',
+          'Currency',
+          'Country',
+          'Phone',
+          'Active status',
+        ]
+
+        const CUSTOMER_ROWS = [
+          {
+            customerNo: '200010',
+            customerName: 'customer_412',
+            operationUnit: '2 - lastchance',
+            customerType: 'Retail',
+            customerGroup: 'General',
+            currency: 'EGP',
+            country: 'EG - Egypt',
+            phone: '02 2450 1200',
+            active: true,
+          },
+          {
+            customerNo: '200002',
+            customerName: 'customertest',
+            operationUnit: '2 - lastchance',
+            customerType: 'Wholesale',
+            customerGroup: 'Local',
+            currency: 'EGP',
+            country: 'EG - Egypt',
+            phone: '010 2000 2000',
+            active: true,
+          },
+          {
+            customerNo: '200001',
+            customerName: 'العميل الاول',
+            operationUnit: '2 - lastchance',
+            customerType: 'Retail',
+            customerGroup: 'General',
+            currency: 'EGP',
+            country: 'EG - Egypt',
+            phone: '010 1000 1000',
+            active: false,
+          },
+        ]
+
+        const encodeHtml = value =>
+          String(value).replace(
+            /[&<>"']/g,
+            character =>
+              ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[
+                character
+              ]
+          )
+
+        function renderCustomerList(rows = CUSTOMER_ROWS) {
+          const tableRows = rows
+            .map(
+              row => `<tr data-customer-no="${encodeHtml(row.customerNo)}">
+      <td>${encodeHtml(row.customerNo)}</td>
+      <td>${encodeHtml(row.customerName)}</td>
+      <td>${encodeHtml(row.operationUnit)}</td>
+      <td>${encodeHtml(row.customerType)}</td>
+      <td>${encodeHtml(row.customerGroup)}</td>
+      <td>${encodeHtml(row.currency)}</td>
+      <td>${encodeHtml(row.country)}</td>
+      <td>${encodeHtml(row.phone)}</td>
+      <td><span class="badge ${row.active ? 'ok' : 'gray'}">${row.active ? 'Active' : 'Inactive'}</span></td>
+    </tr>`
+            )
+            .join('')
+
+          document.getElementById('customer-list-canvas').innerHTML = `
+    <div class="inv-grid-wrap customer-grid-wrap">
+      <div class="inv-grid-toolbar">
+        <button class="lbtn out" id="customer-search-open" type="button">
+          <svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg> Search
+        </button>
+        <div class="grow"></div>
+        <button class="lbtn out" data-customer-list-action="Columns" type="button">Columns</button>
+        <button class="lbtn out" data-customer-list-action="Export" type="button">Export</button>
+      </div>
+      <div class="inv-group-bar">Drag a column header here to group</div>
+      <table class="inv-grid customer-grid">
+        <thead><tr>${CUSTOMER_COLUMNS.map(column => `<th>${encodeHtml(column)}</th>`).join('')}</tr></thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </div>`
+        }
+
+        const customerState = {mode: 'view', customerNo: '200010'}
+
+        function openCustomerRecord(customerNo, mode) {
+          customerState.mode = mode
+          customerState.customerNo = customerNo || ''
+          const row = CUSTOMER_ROWS.find(customer => customer.customerNo === customerNo)
+          showContentView('customer-record')
+          document.getElementById('customer-record-canvas').innerHTML = `
+    <div class="customer-summary-band">
+      <b>${mode === 'create' ? 'New Customer' : encodeHtml(row.customerNo)}</b>
+      <span>${mode === 'create' ? 'Enter customer details' : encodeHtml(row.customerName)}</span>
+      <button class="lbtn out customer-back" type="button">Back to Customers</button>
+    </div>`
+        }
+
         function renderListA(canvas) {
           canvas.innerHTML =
             '<div class="inv-grid-wrap">' +
@@ -10878,10 +11045,73 @@
 
         /* ---- advanced search: shared overlay opened from every list concept's Search trigger ----
    (ported from sales-invoice-list.html; trapFocus/releaseFocus already exist in this IIFE) */
+        const ADVANCED_SEARCH_FIELDS = {
+          invoice: [
+            {key: 'docno', label: 'Doc No.', placeholder: 'e.g. 126'},
+            {key: 'customer', label: 'Customer', placeholder: 'Customer name or number'},
+            {key: 'date', label: 'Date range', placeholder: 'e.g. 01/08/2026 – 13/08/2026'},
+            {
+              key: 'status',
+              label: 'Status',
+              type: 'select',
+              options: ['All statuses', 'Posted', 'Pending', 'Open'],
+            },
+            {
+              key: 'pay',
+              label: 'Payment method',
+              type: 'select',
+              options: ['All methods', 'Cash', 'Credit'],
+            },
+          ],
+          customer: [
+            {key: 'customerNo', label: 'Customer No.', placeholder: 'e.g. 200010'},
+            {key: 'customerName', label: 'Customer Name', placeholder: 'e.g. customer_412'},
+            {key: 'typeGroup', label: 'Type or Group', placeholder: 'e.g. Retail or General'},
+            {key: 'country', label: 'Country', placeholder: 'e.g. Egypt'},
+            {
+              key: 'status',
+              label: 'Status',
+              type: 'select',
+              options: ['All statuses', 'Active', 'Inactive'],
+            },
+          ],
+        }
+
+        function renderAdvancedSearchFields(context) {
+          const fields = ADVANCED_SEARCH_FIELDS[context]
+          document.querySelector('#adv-search-scrim .as-fields').innerHTML = fields
+            .map(field => {
+              const key = encodeHtml(field.key)
+              const label = encodeHtml(field.label)
+              if (field.type === 'select') {
+                const options = field.options
+                  .map(option => `<option>${encodeHtml(option)}</option>`)
+                  .join('')
+                return `<div class="as-field"><label for="as-${key}">${label}</label><select id="as-${key}" data-advanced-filter="${key}">${options}</select></div>`
+              }
+              return `<div class="as-field"><label for="as-${key}">${label}</label><input id="as-${key}" data-advanced-filter="${key}" type="text" placeholder="${encodeHtml(field.placeholder)}"></div>`
+            })
+            .join('')
+          document.querySelector('#adv-search-scrim .as-inp input').placeholder =
+            context === 'customer'
+              ? 'Search by customer number, name, type, or country'
+              : 'Search by document number, customer, or amount'
+          document.querySelector('#adv-search-scrim .as-list').innerHTML =
+            context === 'customer'
+              ? '<div class="as-grp">Matching customers</div><button type="button" class="as-item" role="option" data-customer-no="200010"><span class="ic"><svg width="14" height="14" aria-hidden="true"><use href="#i-user" /></svg></span><span class="tx"><span class="t">200010 · customer_412</span><span class="s">Retail · Active</span></span></button>'
+              : '<div class="as-grp">Matching invoices</div><button type="button" class="as-item" role="option"><span class="ic"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg></span><span class="tx"><span class="t">#126 · محمد احمد</span><span class="s">13/08/2026 · Credit</span></span></button><button type="button" class="as-item" role="option"><span class="ic"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg></span><span class="tx"><span class="t">#140 · العميل الاول</span><span class="s">13/08/2026 · Credit</span></span></button>'
+          document.getElementById('adv-search-apply').hidden = context !== 'customer'
+        }
+
         const advSearchScrim = document.getElementById('adv-search-scrim')
-        function openAdvancedSearch() {
+        function openAdvancedSearch(context = 'invoice') {
+          advSearchScrim.dataset.context = context
+          renderAdvancedSearchFields(context)
           advSearchScrim.classList.add('open')
           trapFocus(advSearchScrim.querySelector('.box'))
+        }
+        function openCustomerSearch() {
+          openAdvancedSearch('customer')
         }
         function closeAdvancedSearch() {
           advSearchScrim.classList.remove('open')
@@ -10898,10 +11128,55 @@
    markup — needs to be reachable outside this IIFE, same as openInvoiceRecord. */
         window.openAdvancedSearch = openAdvancedSearch
 
+        document.getElementById('customer-list-canvas').addEventListener('click', event => {
+          if (event.target.closest('#customer-search-open')) openCustomerSearch()
+          const row = event.target.closest('[data-customer-no]')
+          if (row) openCustomerRecord(row.dataset.customerNo, 'view')
+          const action = event.target.closest('[data-customer-list-action]')
+          if (action)
+            toast({
+              tone: 'ok',
+              title: `${encodeHtml(action.dataset.customerListAction)} is a prototype`,
+            })
+        })
+        document.getElementById('customer-list-add').addEventListener('click', () =>
+          openCustomerRecord(null, 'create')
+        )
+        document.getElementById('customer-record-canvas').addEventListener('click', event => {
+          if (event.target.closest('.customer-back')) showContentView('customers-list')
+        })
+        document.getElementById('adv-search-apply').addEventListener('click', () => {
+          if (advSearchScrim.dataset.context !== 'customer') return
+          const values = Object.fromEntries(
+            [...advSearchScrim.querySelectorAll('[data-advanced-filter]')].map(control => [
+              control.dataset.advancedFilter,
+              control.value.trim().toLowerCase(),
+            ])
+          )
+          const rows = CUSTOMER_ROWS.filter(row => {
+            const status = row.active ? 'active' : 'inactive'
+            return (
+              (!values.customerNo ||
+                row.customerNo.toLowerCase().includes(values.customerNo)) &&
+              (!values.customerName ||
+                row.customerName.toLowerCase().includes(values.customerName)) &&
+              (!values.typeGroup ||
+                `${row.customerType} ${row.customerGroup}`
+                  .toLowerCase()
+                  .includes(values.typeGroup)) &&
+              (!values.country || row.country.toLowerCase().includes(values.country)) &&
+              (!values.status || values.status === 'all statuses' || values.status === status)
+            )
+          })
+          renderCustomerList(rows)
+          closeAdvancedSearch()
+        })
+
         document
           .getElementById('list-add')
           .addEventListener('click', () => showContentView('record'))
         renderListA(document.getElementById('list-canvas'))
+        renderCustomerList()
 
         /* ================= Sales Invoice Record (Guided Tabs) =================
    ported from sales-invoice-record.html:2311-2412 */
