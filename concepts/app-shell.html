@@ -4773,7 +4773,7 @@
           <option value="inline">Inline label</option>
         </select>
       </div>
-      <div class="grp">
+      <div class="grp" id="invoice-mode-group">
         <label for="mode">Mode:</label>
         <select id="mode" autocomplete="off">
           <option value="create">Creating a new invoice</option>
@@ -4781,7 +4781,7 @@
           <option value="edit">Editing a saved invoice</option>
         </select>
       </div>
-      <div class="grp">
+      <div class="grp" id="invoice-status-group">
         <label for="st">Invoice status:</label>
         <select id="st" autocomplete="off">
           <option value="open">Open — nothing recorded yet</option>
@@ -4792,14 +4792,14 @@
           <option value="inactive">Deactivated (موقف)</option>
         </select>
       </div>
-      <div class="grp">
+      <div class="grp" id="invoice-payment-group">
         <label for="pay">Payment:</label>
         <select id="pay" autocomplete="off">
           <option value="credit" selected>Credit (آجل)</option>
           <option value="cash">Cash (نقد)</option>
         </select>
       </div>
-      <div class="grp">
+      <div class="grp" id="invoice-dirty-group">
         <input type="checkbox" id="dirty" autocomplete="off" /><label for="dirty"
           >Has unsaved edits</label
         >
@@ -4807,10 +4807,27 @@
       <div class="grp">
         <input type="checkbox" id="failsim" /><label for="failsim">Make the next action fail</label>
       </div>
-      <div class="grp">
+      <div class="grp" id="invoice-emptyflow-group">
         <input type="checkbox" id="emptyflow" /><label for="emptyflow"
           >No notes on this invoice</label
         >
+      </div>
+      <div class="grp" id="customer-mode-group" hidden>
+        <label for="customer-mode">Mode:</label>
+        <select id="customer-mode" autocomplete="off">
+          <option value="create">Creating a new customer</option>
+          <option value="view" selected>Viewing a saved customer</option>
+          <option value="edit">Editing a saved customer</option>
+        </select>
+      </div>
+      <div class="grp" id="customer-layout-group" hidden>
+        <label for="customer-layout">Customer layout:</label>
+        <select id="customer-layout" autocomplete="off">
+          <option value="guided" selected>1 · Guided Sections</option>
+          <option value="focused">2 · Focused Navigator</option>
+          <option value="compact">3 · Compact Workspace</option>
+          <option value="scroll">4 · Scroll Navigator</option>
+        </select>
       </div>
       <div class="grp">
         <input type="checkbox" id="rtl" autocomplete="off" /><label for="rtl">RTL</label>
@@ -10118,7 +10135,21 @@
           })
           syncCustomerPrototypeControls(name)
         }
-        function syncCustomerPrototypeControls() {}
+        function syncCustomerPrototypeControls(viewName) {
+          const customerRecord = viewName === 'customer-record'
+          const customerSurface = customerRecord || viewName === 'customers-list'
+          document.getElementById('customer-mode-group').hidden = !customerRecord
+          document.getElementById('customer-layout-group').hidden = !customerRecord
+          ;[
+            'invoice-mode-group',
+            'invoice-status-group',
+            'invoice-payment-group',
+            'invoice-dirty-group',
+            'invoice-emptyflow-group',
+          ].forEach(id => {
+            document.getElementById(id).hidden = customerSurface
+          })
+        }
         function renderEmailList(query) {
           const scroll = document.getElementById('email-list-scroll')
           scroll.innerHTML = ''
@@ -10960,6 +10991,170 @@
           },
         ]
 
+        const customerState = {mode: 'view', customerNo: '200010'}
+        const customerField = (key, label, type = 'text', options = []) => ({
+          key,
+          label,
+          type,
+          options,
+        })
+
+        const CUSTOMER_SECTIONS = {
+          identity: {
+            title: 'Customer',
+            fields: [
+              customerField('customerNo', 'Customer No.'),
+              customerField('customerName', 'Customer Name'),
+              customerField('operationUnit', 'Operation Unit', 'select', ['2 - lastchance']),
+              customerField('customerType', 'Customer Type', 'select', ['Retail', 'Wholesale']),
+              customerField('primeCustomer', 'Prime Customer', 'select', ['']),
+              customerField('accountCode', 'Acc. Code', 'select', ['114001 - Customers']),
+              customerField('customerGroup', 'Customer Group', 'select', ['General', 'Local']),
+              customerField('linkedBeneficiaries', 'Linked To Beneficiaries', 'checkbox'),
+              customerField('currency', 'Currency', 'select', ['EGP - Egyptian Pound']),
+              customerField('photo', 'Customer Photo', 'photo'),
+            ],
+          },
+          deactivation: {
+            title: 'Deactivate',
+            fields: [
+              customerField('deactivationFrom', 'From Deactivation Date', 'date'),
+              customerField('deactivationTo', 'To Deactivation Date', 'date'),
+            ],
+          },
+          nationalAddress: {
+            title: 'National Address',
+            fields: [
+              customerField('nationalStreet', 'Street'),
+              customerField('nationalBuilding', 'Building'),
+              customerField('nationalFlat', 'Flat'),
+              customerField('nationalDistrict', 'District'),
+              customerField('nationalShortAddress', 'Short Address'),
+              customerField('nationalCity', 'City', 'select', ['']),
+              customerField('nationalState', 'State', 'select', ['']),
+              customerField('nationalCountry', 'Country', 'select', ['EG - Egypt']),
+              customerField('nationalPostalCode', 'Postal Code'),
+              customerField('nationalAddOn', 'Add On'),
+              customerField('nationalIdentifierType', 'Identifier Type', 'select', ['']),
+              customerField('nationalIdentifierNo', 'Identifier No.'),
+            ],
+          },
+          defaultContact: {
+            title: 'Default Contact Info.',
+            fields: [
+              customerField('contactAddress', 'Address'),
+              customerField('contactAddressDetails', 'Address Details'),
+              customerField('contactCity', 'City', 'select', ['']),
+              customerField('contactState', 'State', 'select', ['']),
+              customerField('contactCountry', 'Country', 'select', ['EG - Egypt']),
+              customerField('contactPostalCode', 'Postal Code'),
+              customerField('contactPhone', 'Phone'),
+              customerField('contactEmail', 'E-Mail', 'email'),
+              customerField('contactMobile', 'Mobile No.'),
+              customerField('contactWebsite', 'Website', 'url'),
+            ],
+          },
+          mainData: {
+            title: 'Main Data',
+            fields: [
+              customerField('salespersonNo', 'Salesperson', 'select', ['']),
+              customerField('driverNo', 'Driver No.', 'select', ['']),
+              customerField('geoLocation', 'Geo. Location', 'select', ['']),
+              customerField('collector', 'Collector', 'select', ['']),
+              customerField('marketerNo', 'Marketer No.', 'select', ['']),
+              customerField('creditPeriod', 'Credit Period', 'number'),
+              customerField('taxScope', 'Tax Scope', 'select', ['']),
+              customerField('taxCategory', 'Tax Category', 'select', ['']),
+              customerField('methodShowPrice', 'Method Show Price', 'select', ['']),
+              customerField('taxNumber', 'Tax Number'),
+              customerField('permanentAccountNumber', 'Permanent Account Number'),
+              customerField('programNo', 'Program No', 'select', ['']),
+              customerField('activationDate', 'Activation Date', 'date'),
+              customerField('customerBarcode', 'Customer Barcode'),
+            ],
+          },
+          otherData: {
+            title: 'Other Data',
+            fields: [
+              customerField('dealingDate', 'Dealing Date', 'date'),
+              customerField('cashPriceLevel', 'Price Level For Cash', 'select', ['']),
+              customerField('creditPriceLevel', 'Price Level For Credit', 'select', ['']),
+              customerField('otherCountry', 'Country', 'select', ['EG - Egypt']),
+              customerField('language', 'Language', 'select', ['Arabic', 'English']),
+              customerField('paymentType', 'Payment Type', 'select', ['']),
+              customerField('deliveryTerms', 'Delivery Terms', 'select', ['']),
+              customerField('viaPerson', 'Via Person'),
+              customerField('lastConfirmationDate', 'Last Confirmation Date', 'date'),
+              customerField('idNumber', 'ID Number'),
+              customerField('licenseNo', 'License No.'),
+              customerField('licenseOwner', 'License Owner'),
+              customerField('ceoTitle', 'CEO Title', 'select', ['']),
+              customerField('ceoName', 'CEO Name'),
+              customerField('yearEstablished', 'Year Established', 'number'),
+              customerField('vendorCode', 'Vendor Code', 'select', ['']),
+              customerField('blackListReason', 'Black List Reason'),
+              customerField('blackListed', 'Black List', 'checkbox'),
+              customerField('isSalesperson', 'Salesperson', 'checkbox'),
+              customerField('inactiveSalesOrder', 'Inactivation In Sales Order', 'checkbox'),
+              customerField('inactiveInvoice', 'Inactivation In Invoice', 'checkbox'),
+              customerField('remarks', 'Remarks', 'textarea'),
+            ],
+          },
+          subLedgers: {title: 'Sub Ledgers', type: 'subledgers', fields: []},
+          contactDetails: {title: 'Contact Details', type: 'empty', fields: []},
+        }
+
+        const CUSTOMER_REFERENCE = {
+          customerNo: '200010',
+          customerName: 'customer_412',
+          operationUnit: '2 - lastchance',
+          customerType: '',
+          primeCustomer: '',
+          accountCode: '114001 - Customers',
+          customerGroup: '',
+          linkedBeneficiaries: false,
+          currency: 'EGP - Egyptian Pound',
+          photo: '',
+          nationalCountry: 'EG - Egypt',
+          contactCountry: 'EG - Egypt',
+          otherCountry: 'EG - Egypt',
+          blackListed: false,
+          isSalesperson: false,
+          inactiveSalesOrder: false,
+          inactiveInvoice: false,
+          subLedgers: [],
+          contactDetails: [],
+        }
+
+        function createBlankCustomerData() {
+          const data = {}
+          Object.values(CUSTOMER_SECTIONS).forEach(section => {
+            section.fields.forEach(field => {
+              data[field.key] = field.type === 'checkbox' ? false : ''
+            })
+          })
+          data.operationUnit = '2 - lastchance'
+          data.currency = 'EGP - Egyptian Pound'
+          data.subLedgers = []
+          data.contactDetails = []
+          return data
+        }
+
+        let customerData = {...createBlankCustomerData(), ...CUSTOMER_REFERENCE}
+        let customerSavedSnapshot = structuredClone(customerData)
+        Object.assign(customerState, {
+          mode: 'view',
+          layout: 'guided',
+          activeSection: 'identity',
+          expanded: new Set(Object.keys(CUSTOMER_SECTIONS)),
+          dirty: false,
+        })
+        window.customerPrototype = {
+          fieldKeys: Object.values(CUSTOMER_SECTIONS).flatMap(section =>
+            section.fields.map(field => field.key)
+          ),
+        }
+
         const encodeHtml = value =>
           String(value).replace(
             /[&<>"']/g,
@@ -11004,19 +11199,157 @@
     </div>`
         }
 
-        const customerState = {mode: 'view', customerNo: '200010'}
-
         function openCustomerRecord(customerNo, mode) {
           customerState.mode = mode
           customerState.customerNo = customerNo || ''
+          customerState.dirty = false
           const row = CUSTOMER_ROWS.find(customer => customer.customerNo === customerNo)
+          customerData =
+            mode === 'create'
+              ? createBlankCustomerData()
+              : {
+                  ...createBlankCustomerData(),
+                  ...CUSTOMER_REFERENCE,
+                  customerNo: row.customerNo,
+                  customerName: row.customerName,
+                  operationUnit: row.operationUnit,
+                  customerType: row.customerType,
+                  customerGroup: row.customerGroup,
+                  currency: `${row.currency} - Egyptian Pound`,
+                  otherCountry: row.country,
+                  contactPhone: row.phone,
+                  deactivationFrom: row.active ? '' : '2026-08-01',
+                }
+          customerSavedSnapshot = structuredClone(customerData)
+          document.getElementById('customer-mode').value = mode
           showContentView('customer-record')
-          document.getElementById('customer-record-canvas').innerHTML = `
-    <div class="customer-summary-band">
-      <b>${mode === 'create' ? 'New Customer' : encodeHtml(row.customerNo)}</b>
-      <span>${mode === 'create' ? 'Enter customer details' : encodeHtml(row.customerName)}</span>
-      <button class="lbtn out customer-back" type="button">Back to Customers</button>
+          renderCustomerRecord()
+        }
+
+        function escapeCustomerHtml(value) {
+          return String(value ?? '')
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#039;')
+        }
+
+        function renderCustomerField(field) {
+          const value = customerData[field.key]
+          const disabled = customerState.mode === 'view' ? ' disabled' : ''
+          const key = escapeCustomerHtml(field.key)
+          const label = escapeCustomerHtml(field.label)
+          const id = `customer-field-${key}`
+          if (field.type === 'checkbox') {
+            return `<div class="rec-field customer-field customer-check"><label for="${id}"><input id="${id}" type="checkbox" data-customer-field="${key}"${value ? ' checked' : ''}${disabled}> <span>${label}</span></label></div>`
+          }
+          if (field.type === 'photo') {
+            return `<div class="rec-field customer-field customer-photo"><span class="customer-photo-preview"><svg width="24" height="24" aria-hidden="true"><use href="#i-user" /></svg></span><button id="${id}" class="lbtn out" type="button" data-customer-field="${key}" data-customer-action="photo"${disabled}><svg width="15" height="15" aria-hidden="true"><use href="#i-clip" /></svg> Select Photo</button></div>`
+          }
+          if (field.type === 'select') {
+            const options = [...new Set([value, ...field.options])]
+            const optionMarkup = options
+              .map(option => {
+                const optionLabel = option || field.label
+                return `<option value="${escapeCustomerHtml(option)}"${option === value ? ' selected' : ''}>${escapeCustomerHtml(optionLabel)}</option>`
+              })
+              .join('')
+            return `<div class="rec-field customer-field"><label for="${id}">${label}</label><select id="${id}" data-customer-field="${key}"${disabled}>${optionMarkup}</select></div>`
+          }
+          if (field.type === 'textarea') {
+            return `<div class="rec-field customer-field customer-field-wide"><label for="${id}">${label}</label><textarea id="${id}" rows="3" data-customer-field="${key}" placeholder="${label}"${disabled}>${escapeCustomerHtml(value)}</textarea></div>`
+          }
+          return `<div class="rec-field customer-field"><label for="${id}">${label}</label><input id="${id}" type="${escapeCustomerHtml(field.type)}" value="${escapeCustomerHtml(value)}" data-customer-field="${key}" placeholder="${label}"${disabled}></div>`
+        }
+
+        function renderCustomerSectionBody(key) {
+          const section = CUSTOMER_SECTIONS[key]
+          if (section.type === 'subledgers') return renderCustomerSubLedgers()
+          if (section.type === 'empty') {
+            return `<div class="customer-empty-state"><svg width="28" height="28" aria-hidden="true"><use href="#i-user" /></svg><h3>No contact details to display</h3><p>The supplied reference does not define contact-detail fields.</p></div>`
+          }
+          return `<div class="customer-field-grid">${section.fields.map(renderCustomerField).join('')}</div>`
+        }
+
+        function renderCustomerSection(key) {
+          const section = CUSTOMER_SECTIONS[key]
+          return `<section class="customer-section" data-customer-section="${escapeCustomerHtml(key)}"><h2>${escapeCustomerHtml(section.title)}</h2><div class="customer-section-body">${renderCustomerSectionBody(key)}</div></section>`
+        }
+
+        function renderCustomerCollapsible(key, concept) {
+          const section = CUSTOMER_SECTIONS[key]
+          const expanded = customerState.expanded.has(key)
+          return `<section class="customer-section" data-customer-section="${escapeCustomerHtml(key)}" data-customer-concept="${escapeCustomerHtml(concept)}"><button class="customer-section-heading" type="button" data-customer-collapse="${escapeCustomerHtml(key)}" aria-expanded="${expanded}"><span>${escapeCustomerHtml(section.title)}</span><svg width="14" height="14" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="customer-section-body"${expanded ? '' : ' hidden'}>${renderCustomerSectionBody(key)}</div></section>`
+        }
+
+        function renderCustomerSubLedgers() {
+          return `<div class="customer-table-toolbar">
+      <button class="ibtn" type="button" aria-label="Add sub ledger"><svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg></button>
+      <div class="sp"></div>
+      <label class="customer-table-search"><svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg><input type="search" placeholder="Search" aria-label="Search sub ledgers"></label>
+    </div>
+    <div class="inv-grid-wrap">
+      <table class="inv-grid customer-subledger-grid">
+        <thead><tr><th>#</th><th>Sub Ledger Type</th><th>Number</th><th>Default</th><th>Deactivate</th></tr></thead>
+        <tbody><tr><td colspan="5" class="customer-table-empty">No records to display</td></tr></tbody>
+      </table>
+      <div class="customer-table-pager">Display 0 to 0 from 0 inputs</div>
     </div>`
+        }
+
+        function renderCustomerRecordChrome() {
+          const creating = customerState.mode === 'create'
+          const editing = customerState.mode === 'edit' || creating
+          const title = creating
+            ? 'New Customer'
+            : `Customer ${escapeCustomerHtml(customerData.customerNo)}`
+          document.getElementById('customer-record-chrome').innerHTML = `
+    <div class="arow customer-arow" role="toolbar" aria-label="Customer toolbar">
+      <button type="button" class="lbtn out" data-customer-action="record-menu">Record</button>
+      <button type="button" class="lbtn out" data-customer-action="procedure-menu">Procedure</button>
+      <button type="button" class="lbtn out" data-customer-action="more-menu">More</button>
+    </div>
+    <div class="phead">
+      <div class="l">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="#">Home</a><span class="sep">›</span><button class="customer-back" type="button">Customers</button><span class="sep">›</span><span aria-current="page">${creating ? 'New' : 'All'}</span></nav>
+        <div class="tline"><h1>${title}</h1><span class="badge ${customerData.deactivationFrom ? 'gray' : 'ok'}">${customerData.deactivationFrom ? 'Inactive' : 'Active'}</span></div>
+      </div>
+      <div class="r">
+        <button class="lbtn out" type="button" data-customer-action="new"${editing ? ' hidden' : ''}>New</button>
+        <button class="lbtn pri" type="button" data-customer-action="modify"${editing ? ' hidden' : ''}>Modify</button>
+        <button class="lbtn pri" type="button" data-customer-action="save"${editing ? '' : ' hidden'}><svg width="15" height="15" aria-hidden="true"><use href="#i-save" /></svg> Save</button>
+        <button class="lbtn out" type="button" data-customer-action="undo"${editing ? '' : ' hidden'}><svg width="15" height="15" aria-hidden="true"><use href="#i-undo" /></svg> Undo</button>
+      </div>
+    </div>`
+        }
+
+        function renderCustomerFoundation(name, className) {
+          document.getElementById('customer-record-canvas').innerHTML = `<div class="${escapeCustomerHtml(className)}"><div class="customer-summary-band"><b>${escapeCustomerHtml(name)}</b><span>${escapeCustomerHtml(customerData.customerName || 'Unnamed customer')}</span></div>${renderCustomerSection('identity')}</div>`
+        }
+        function renderCustomerGuided() {
+          renderCustomerFoundation('Guided Sections', 'customer-guided')
+        }
+        function renderCustomerFocused() {
+          renderCustomerFoundation('Focused Navigator', 'customer-focused')
+        }
+        function renderCustomerCompact() {
+          renderCustomerFoundation('Compact Workspace', 'customer-compact-grid')
+        }
+        function renderCustomerScroll() {
+          renderCustomerFoundation('Scroll Navigator', 'customer-scroll-layout')
+        }
+
+        const CUSTOMER_RENDERERS = {
+          guided: renderCustomerGuided,
+          focused: renderCustomerFocused,
+          compact: renderCustomerCompact,
+          scroll: renderCustomerScroll,
+        }
+
+        function renderCustomerRecord() {
+          renderCustomerRecordChrome()
+          ;(CUSTOMER_RENDERERS[customerState.layout] || renderCustomerGuided)()
         }
 
         function renderListA(canvas) {
@@ -11158,8 +11491,34 @@
         document.getElementById('customer-list-add').addEventListener('click', () =>
           openCustomerRecord(null, 'create')
         )
-        document.getElementById('customer-record-canvas').addEventListener('click', event => {
+        const customerRecordCanvas = document.getElementById('customer-record-canvas')
+        const updateCustomerField = event => {
+          const control = event.target.closest('[data-customer-field]')
+          if (!control) return
+          customerData[control.dataset.customerField] =
+            control.type === 'checkbox' ? control.checked : control.value
+          customerState.dirty = true
+        }
+        customerRecordCanvas.addEventListener('input', updateCustomerField)
+        customerRecordCanvas.addEventListener('change', updateCustomerField)
+        customerRecordCanvas.addEventListener('click', event => {
+          if (event.target.closest('[data-customer-action="photo"]')) {
+            toast({tone: 'ok', title: 'Photo selection is a prototype'})
+          }
+        })
+        document.getElementById('customer-record-chrome').addEventListener('click', event => {
           if (event.target.closest('.customer-back')) showContentView('customers-list')
+        })
+        document.getElementById('customer-mode').addEventListener('change', event => {
+          const mode = event.target.value
+          if (mode === 'create') customerData = createBlankCustomerData()
+          customerState.mode = mode
+          customerState.dirty = false
+          renderCustomerRecord()
+        })
+        document.getElementById('customer-layout').addEventListener('change', event => {
+          customerState.layout = event.target.value
+          renderCustomerRecord()
         })
         document.getElementById('adv-search-apply').addEventListener('click', () => {
           if (advSearchScrim.dataset.context !== 'customer') return
