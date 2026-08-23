@@ -11140,6 +11140,24 @@
           return data
         }
 
+        function createSavedCustomerData(customerNo = CUSTOMER_REFERENCE.customerNo) {
+          const row =
+            CUSTOMER_ROWS.find(customer => customer.customerNo === customerNo) || CUSTOMER_ROWS[0]
+          return {
+            ...createBlankCustomerData(),
+            ...CUSTOMER_REFERENCE,
+            customerNo: row.customerNo,
+            customerName: row.customerName,
+            operationUnit: row.operationUnit,
+            customerType: row.customerType,
+            customerGroup: row.customerGroup,
+            currency: `${row.currency} - Egyptian Pound`,
+            otherCountry: row.country,
+            contactPhone: row.phone,
+            deactivationFrom: row.active ? '' : '2026-08-01',
+          }
+        }
+
         let customerData = {...createBlankCustomerData(), ...CUSTOMER_REFERENCE}
         let customerSavedSnapshot = structuredClone(customerData)
         Object.assign(customerState, {
@@ -11156,7 +11174,7 @@
         }
 
         const encodeHtml = value =>
-          String(value).replace(
+          String(value ?? '').replace(
             /[&<>"']/g,
             character =>
               ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[
@@ -11203,43 +11221,19 @@
           customerState.mode = mode
           customerState.customerNo = customerNo || ''
           customerState.dirty = false
-          const row = CUSTOMER_ROWS.find(customer => customer.customerNo === customerNo)
           customerData =
-            mode === 'create'
-              ? createBlankCustomerData()
-              : {
-                  ...createBlankCustomerData(),
-                  ...CUSTOMER_REFERENCE,
-                  customerNo: row.customerNo,
-                  customerName: row.customerName,
-                  operationUnit: row.operationUnit,
-                  customerType: row.customerType,
-                  customerGroup: row.customerGroup,
-                  currency: `${row.currency} - Egyptian Pound`,
-                  otherCountry: row.country,
-                  contactPhone: row.phone,
-                  deactivationFrom: row.active ? '' : '2026-08-01',
-                }
+            mode === 'create' ? createBlankCustomerData() : createSavedCustomerData(customerNo)
           customerSavedSnapshot = structuredClone(customerData)
           document.getElementById('customer-mode').value = mode
           showContentView('customer-record')
           renderCustomerRecord()
         }
 
-        function escapeCustomerHtml(value) {
-          return String(value ?? '')
-            .replaceAll('&', '&amp;')
-            .replaceAll('<', '&lt;')
-            .replaceAll('>', '&gt;')
-            .replaceAll('"', '&quot;')
-            .replaceAll("'", '&#039;')
-        }
-
         function renderCustomerField(field) {
           const value = customerData[field.key]
           const disabled = customerState.mode === 'view' ? ' disabled' : ''
-          const key = escapeCustomerHtml(field.key)
-          const label = escapeCustomerHtml(field.label)
+          const key = encodeHtml(field.key)
+          const label = encodeHtml(field.label)
           const id = `customer-field-${key}`
           if (field.type === 'checkbox') {
             return `<div class="rec-field customer-field customer-check"><label for="${id}"><input id="${id}" type="checkbox" data-customer-field="${key}"${value ? ' checked' : ''}${disabled}> <span>${label}</span></label></div>`
@@ -11252,15 +11246,15 @@
             const optionMarkup = options
               .map(option => {
                 const optionLabel = option || field.label
-                return `<option value="${escapeCustomerHtml(option)}"${option === value ? ' selected' : ''}>${escapeCustomerHtml(optionLabel)}</option>`
+                return `<option value="${encodeHtml(option)}"${option === value ? ' selected' : ''}>${encodeHtml(optionLabel)}</option>`
               })
               .join('')
             return `<div class="rec-field customer-field"><label for="${id}">${label}</label><select id="${id}" data-customer-field="${key}"${disabled}>${optionMarkup}</select></div>`
           }
           if (field.type === 'textarea') {
-            return `<div class="rec-field customer-field customer-field-wide"><label for="${id}">${label}</label><textarea id="${id}" rows="3" data-customer-field="${key}" placeholder="${label}"${disabled}>${escapeCustomerHtml(value)}</textarea></div>`
+            return `<div class="rec-field customer-field customer-field-wide"><label for="${id}">${label}</label><textarea id="${id}" rows="3" data-customer-field="${key}" placeholder="${label}"${disabled}>${encodeHtml(value)}</textarea></div>`
           }
-          return `<div class="rec-field customer-field"><label for="${id}">${label}</label><input id="${id}" type="${escapeCustomerHtml(field.type)}" value="${escapeCustomerHtml(value)}" data-customer-field="${key}" placeholder="${label}"${disabled}></div>`
+          return `<div class="rec-field customer-field"><label for="${id}">${label}</label><input id="${id}" type="${encodeHtml(field.type)}" value="${encodeHtml(value)}" data-customer-field="${key}" placeholder="${label}"${disabled}></div>`
         }
 
         function renderCustomerSectionBody(key) {
@@ -11274,18 +11268,18 @@
 
         function renderCustomerSection(key) {
           const section = CUSTOMER_SECTIONS[key]
-          return `<section class="customer-section" data-customer-section="${escapeCustomerHtml(key)}"><h2>${escapeCustomerHtml(section.title)}</h2><div class="customer-section-body">${renderCustomerSectionBody(key)}</div></section>`
+          return `<section class="customer-section" data-customer-section="${encodeHtml(key)}"><h2>${encodeHtml(section.title)}</h2><div class="customer-section-body">${renderCustomerSectionBody(key)}</div></section>`
         }
 
         function renderCustomerCollapsible(key, concept) {
           const section = CUSTOMER_SECTIONS[key]
           const expanded = customerState.expanded.has(key)
-          return `<section class="customer-section" data-customer-section="${escapeCustomerHtml(key)}" data-customer-concept="${escapeCustomerHtml(concept)}"><button class="customer-section-heading" type="button" data-customer-collapse="${escapeCustomerHtml(key)}" aria-expanded="${expanded}"><span>${escapeCustomerHtml(section.title)}</span><svg width="14" height="14" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="customer-section-body"${expanded ? '' : ' hidden'}>${renderCustomerSectionBody(key)}</div></section>`
+          return `<section class="customer-section" data-customer-section="${encodeHtml(key)}" data-customer-concept="${encodeHtml(concept)}"><button class="customer-section-heading" type="button" data-customer-collapse="${encodeHtml(key)}" aria-expanded="${expanded}"><span>${encodeHtml(section.title)}</span><svg width="14" height="14" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="customer-section-body"${expanded ? '' : ' hidden'}>${renderCustomerSectionBody(key)}</div></section>`
         }
 
         function renderCustomerSubLedgers() {
           return `<div class="customer-table-toolbar">
-      <button class="ibtn" type="button" aria-label="Add sub ledger"><svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg></button>
+      <button class="ibtn" type="button" aria-label="Add sub ledger" data-customer-action="add-sub-ledger"><svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg></button>
       <div class="sp"></div>
       <label class="customer-table-search"><svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg><input type="search" placeholder="Search" aria-label="Search sub ledgers"></label>
     </div>
@@ -11303,7 +11297,7 @@
           const editing = customerState.mode === 'edit' || creating
           const title = creating
             ? 'New Customer'
-            : `Customer ${escapeCustomerHtml(customerData.customerNo)}`
+            : `Customer ${encodeHtml(customerData.customerNo)}`
           document.getElementById('customer-record-chrome').innerHTML = `
     <div class="arow customer-arow" role="toolbar" aria-label="Customer toolbar">
       <button type="button" class="lbtn out" data-customer-action="record-menu">Record</button>
@@ -11325,7 +11319,7 @@
         }
 
         function renderCustomerFoundation(name, className) {
-          document.getElementById('customer-record-canvas').innerHTML = `<div class="${escapeCustomerHtml(className)}"><div class="customer-summary-band"><b>${escapeCustomerHtml(name)}</b><span>${escapeCustomerHtml(customerData.customerName || 'Unnamed customer')}</span></div>${renderCustomerSection('identity')}</div>`
+          document.getElementById('customer-record-canvas').innerHTML = `<div class="${encodeHtml(className)}"><div class="customer-summary-band"><b>${encodeHtml(name)}</b><span>${encodeHtml(customerData.customerName || 'Unnamed customer')}</span></div>${renderCustomerSection('identity')}</div>`
         }
         function renderCustomerGuided() {
           renderCustomerFoundation('Guided Sections', 'customer-guided')
@@ -11350,6 +11344,29 @@
         function renderCustomerRecord() {
           renderCustomerRecordChrome()
           ;(CUSTOMER_RENDERERS[customerState.layout] || renderCustomerGuided)()
+        }
+
+        function setCustomerMode(mode) {
+          customerState.mode = mode
+          customerState.dirty = false
+          document.getElementById('customer-mode').value = mode
+          renderCustomerRecord()
+        }
+
+        function saveCustomer() {
+          customerSavedSnapshot = structuredClone(customerData)
+          setCustomerMode('view')
+          toast({tone: 'ok', title: 'Customer saved'})
+        }
+
+        function undoCustomer() {
+          if (customerState.mode === 'create') {
+            customerState.dirty = false
+            showContentView('customers-list')
+            return
+          }
+          customerData = structuredClone(customerSavedSnapshot)
+          setCustomerMode('view')
         }
 
         function renderListA(canvas) {
@@ -11502,19 +11519,53 @@
         customerRecordCanvas.addEventListener('input', updateCustomerField)
         customerRecordCanvas.addEventListener('change', updateCustomerField)
         customerRecordCanvas.addEventListener('click', event => {
-          if (event.target.closest('[data-customer-action="photo"]')) {
+          const action = event.target.closest('[data-customer-action]')?.dataset.customerAction
+          if (action === 'photo') {
             toast({tone: 'ok', title: 'Photo selection is a prototype'})
+          }
+          if (action === 'add-sub-ledger') {
+            toast({tone: 'ok', title: 'Adding a sub ledger is a prototype'})
           }
         })
         document.getElementById('customer-record-chrome').addEventListener('click', event => {
-          if (event.target.closest('.customer-back')) showContentView('customers-list')
+          if (event.target.closest('.customer-back')) {
+            showContentView('customers-list')
+            return
+          }
+          const actionButton = event.target.closest('[data-customer-action]')
+          const action = actionButton?.dataset.customerAction
+          if (action === 'new') openCustomerRecord(null, 'create')
+          if (action === 'modify') {
+            customerSavedSnapshot = structuredClone(customerData)
+            setCustomerMode('edit')
+          }
+          if (action === 'save') saveCustomer()
+          if (action === 'undo') undoCustomer()
+          if (['record-menu', 'procedure-menu', 'more-menu'].includes(action)) {
+            toast({
+              tone: 'ok',
+              title: `${encodeHtml(actionButton.textContent.trim())} actions are a prototype`,
+            })
+          }
         })
         document.getElementById('customer-mode').addEventListener('change', event => {
           const mode = event.target.value
-          if (mode === 'create') customerData = createBlankCustomerData()
-          customerState.mode = mode
-          customerState.dirty = false
-          renderCustomerRecord()
+          if (mode === 'create') {
+            customerState.customerNo = ''
+            customerData = createBlankCustomerData()
+          }
+          if (mode === 'edit') customerSavedSnapshot = structuredClone(customerData)
+          if (mode === 'view') {
+            const customerNo = CUSTOMER_ROWS.some(
+              customer => customer.customerNo === customerState.customerNo
+            )
+              ? customerState.customerNo
+              : CUSTOMER_REFERENCE.customerNo
+            customerState.customerNo = customerNo
+            customerData = createSavedCustomerData(customerNo)
+            customerSavedSnapshot = structuredClone(customerData)
+          }
+          setCustomerMode(mode)
         })
         document.getElementById('customer-layout').addEventListener('change', event => {
           customerState.layout = event.target.value
