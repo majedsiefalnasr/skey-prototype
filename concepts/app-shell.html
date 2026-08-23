@@ -4430,7 +4430,7 @@
       }
       .rec-card-body {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 10px 16px;
         padding: 12px;
       }
@@ -4535,6 +4535,7 @@
         border: 1px solid var(--line);
         border-radius: 8px;
         margin-bottom: 12px;
+        background-color: #ffffff;
       }
       .rec-add-payment {
         display: inline-block;
@@ -4741,7 +4742,6 @@
         border-bottom: 1px solid var(--accent);
         box-shadow: none;
       }
-
     </style>
   </head>
   <body>
@@ -5614,7 +5614,7 @@
               id="rec-panel-main"
               aria-labelledby="rec-tab-main">
               <div class="rec-card-flow">
-                <div class="rec-card" style="--card-cols: 4">
+                <div class="rec-card" style="--card-cols: 6">
                   <button type="button" class="rec-card-hd" aria-expanded="true">General</button>
                   <div class="rec-card-body">
                     <div class="rec-field">
@@ -5940,7 +5940,6 @@
               </div>
             </div>
           </div>
-
         </div>
 
         <div class="fnav">
@@ -10727,7 +10726,9 @@
           ghostPlaceholdersSynced = true
           document.querySelectorAll('.rec-field').forEach(field => {
             const label = field.querySelector(':scope > label')
-            const control = field.querySelector(':scope > input, :scope > select, :scope > textarea')
+            const control = field.querySelector(
+              ':scope > input, :scope > select, :scope > textarea'
+            )
             if (!label || !control) return
             const text = label.textContent.trim()
             if (control.tagName === 'SELECT') {
