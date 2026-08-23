@@ -11369,6 +11369,17 @@
           setCustomerMode('view')
         }
 
+        function restoreCustomerView(previousMode) {
+          if (previousMode !== 'create' && customerSavedSnapshot?.customerNo) {
+            customerData = structuredClone(customerSavedSnapshot)
+            customerState.customerNo = customerData.customerNo
+            return
+          }
+          customerState.customerNo = CUSTOMER_REFERENCE.customerNo
+          customerData = createSavedCustomerData(customerState.customerNo)
+          customerSavedSnapshot = structuredClone(customerData)
+        }
+
         function renderListA(canvas) {
           canvas.innerHTML =
             '<div class="inv-grid-wrap">' +
@@ -11550,21 +11561,13 @@
         })
         document.getElementById('customer-mode').addEventListener('change', event => {
           const mode = event.target.value
+          const previousMode = customerState.mode
           if (mode === 'create') {
             customerState.customerNo = ''
             customerData = createBlankCustomerData()
           }
           if (mode === 'edit') customerSavedSnapshot = structuredClone(customerData)
-          if (mode === 'view') {
-            const customerNo = CUSTOMER_ROWS.some(
-              customer => customer.customerNo === customerState.customerNo
-            )
-              ? customerState.customerNo
-              : CUSTOMER_REFERENCE.customerNo
-            customerState.customerNo = customerNo
-            customerData = createSavedCustomerData(customerNo)
-            customerSavedSnapshot = structuredClone(customerData)
-          }
+          if (mode === 'view') restoreCustomerView(previousMode)
           setCustomerMode(mode)
         })
         document.getElementById('customer-layout').addEventListener('change', event => {
