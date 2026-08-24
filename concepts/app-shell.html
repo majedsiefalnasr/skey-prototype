@@ -346,6 +346,14 @@
       .content[hidden] {
         display: none;
       }
+      body.layout-boxed .content {
+        padding-inline: 16px;
+      }
+      body.layout-boxed .content > :not([hidden]) {
+        width: min(100%, 1440px);
+        box-sizing: border-box;
+        margin-inline: auto;
+      }
 
       /* ---- sidebar collapse controls: topbar toggle + border-hover handle ---- */
       .side-toggle[aria-pressed='true'] {
@@ -4169,6 +4177,512 @@
         background: var(--bg);
       }
 
+      /* ============ Shared ERP record-list toolbar and table ============ */
+      .data-list-shell {
+        position: relative;
+        overflow: visible;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: var(--shadow-1);
+      }
+      .data-list-controls {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      .data-list-toolbar,
+      .data-list-selection-toolbar {
+        display: flex;
+        min-height: 46px;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        padding: 7px 10px;
+        border: 1px solid transparent;
+      }
+      .data-list-selection-toolbar {
+        padding: 7px 10px;
+        border: 1px solid var(--accent-soft);
+        border-radius: 8px;
+      }
+      .data-toolbar-cluster {
+        display: flex;
+        min-width: 0;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+      }
+      .data-toolbar-cluster.end {
+        margin-inline-start: auto;
+      }
+      .data-toolbar-button,
+      .data-menu > summary,
+      .data-page-manage > summary {
+        display: inline-flex;
+        min-height: 32px;
+        gap: 7px;
+        align-items: center;
+        padding: 5px 9px;
+        border: 1px solid transparent;
+        border-radius: 6px;
+        color: var(--ink);
+        background: transparent;
+        font: inherit;
+        font-size: 12.5px;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .data-toolbar-button:hover,
+      .data-menu > summary:hover,
+      .data-menu[open] > summary,
+      .data-page-manage > summary:hover,
+      .data-page-manage[open] > summary {
+        background: var(--line-2);
+      }
+      .data-toolbar-button:disabled {
+        color: var(--muted);
+        cursor: not-allowed;
+        opacity: 0.55;
+      }
+      .data-toolbar-button.danger:not(:disabled) {
+        color: var(--danger);
+      }
+      .data-toolbar-button:focus-visible,
+      .data-menu > summary:focus-visible,
+      .data-page-manage > summary:focus-visible,
+      .data-menu-popover button:focus-visible,
+      .data-menu-popover label:has(input:focus-visible) {
+        outline: 2px solid var(--accent);
+        outline-offset: 1px;
+      }
+      .data-menu,
+      .data-page-manage {
+        position: relative;
+      }
+      .data-menu > summary,
+      .data-page-manage > summary {
+        list-style: none;
+      }
+      .data-menu > summary::-webkit-details-marker,
+      .data-page-manage > summary::-webkit-details-marker {
+        display: none;
+      }
+      .data-menu-popover {
+        position: fixed;
+        z-index: 120;
+        display: grid;
+        min-width: 210px;
+        max-width: min(420px, calc(100vw - 16px));
+        max-height: min(420px, calc(100vh - 16px));
+        gap: 2px;
+        padding: 6px;
+        overflow: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: 0 4px 8px rgba(9, 30, 66, 0.18);
+      }
+      .data-menu.end .data-menu-popover,
+      .data-page-manage .data-menu-popover {
+        inset-inline: auto;
+      }
+      .data-menu-popover button,
+      .data-menu-popover label {
+        display: flex;
+        width: 100%;
+        min-height: 32px;
+        gap: 9px;
+        align-items: center;
+        padding: 6px 8px;
+        border: 0;
+        border-radius: 5px;
+        color: var(--ink);
+        background: transparent;
+        font: inherit;
+        font-size: 12.5px;
+        text-align: start;
+        cursor: pointer;
+      }
+      .data-menu-popover button:hover,
+      .data-menu-popover label:hover,
+      .data-menu-popover button[aria-checked='true'] {
+        background: var(--line-2);
+      }
+      .data-menu-popover input[type='checkbox'] {
+        width: 15px;
+        height: 15px;
+        margin: 0;
+        accent-color: var(--accent);
+      }
+      .data-menu-separator {
+        height: 1px;
+        margin: 4px 2px;
+        background: var(--line);
+      }
+      .data-search {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .data-search svg {
+        position: absolute;
+        inset-inline-start: 9px;
+        color: var(--muted);
+        pointer-events: none;
+      }
+      .data-search input {
+        width: clamp(160px, 18vw, 260px);
+        min-height: 32px;
+        padding: 5px 28px 5px 30px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--surface);
+        color: var(--ink);
+        font: inherit;
+        font-size: 12.5px;
+      }
+      [dir='rtl'] .data-search input {
+        padding: 5px 30px 5px 28px;
+      }
+      .data-search input:focus {
+        border-color: var(--accent);
+        outline: 2px solid var(--accent-soft);
+      }
+      .data-search-clear {
+        position: absolute;
+        inset-inline-end: 4px;
+        display: grid;
+        width: 24px;
+        height: 24px;
+        place-items: center;
+        padding: 0;
+        border: 0;
+        border-radius: 4px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .data-filter-chip {
+        display: inline-flex;
+        min-height: 28px;
+        gap: 6px;
+        align-items: center;
+        padding: 4px 8px;
+        border-radius: 6px;
+        background: #dfe1e6;
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .data-filter-chip > details > summary {
+        min-height: auto;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        font-size: inherit;
+      }
+      .data-filter-chip > details > summary:hover,
+      .data-filter-chip > details[open] > summary {
+        background: transparent;
+      }
+      .data-filter-value {
+        color: var(--accent);
+      }
+      .data-filter-editor-popover {
+        min-width: min(520px, calc(100vw - 16px));
+        padding: 10px;
+      }
+      .data-filter-operators {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 4px;
+        margin-bottom: 6px;
+        overflow-x: auto;
+      }
+      .data-filter-operators button {
+        flex: 0 0 auto;
+        width: auto;
+        min-height: 28px;
+        padding: 4px 8px;
+        white-space: nowrap;
+      }
+      .data-filter-operators button[aria-pressed='true'] {
+        background: var(--line-2);
+        font-weight: 700;
+      }
+      .data-filter-editor-popover input,
+      .data-filter-editor-popover select {
+        width: 100%;
+        min-height: 36px;
+        padding: 6px 9px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--surface);
+        color: var(--ink);
+        font: inherit;
+      }
+      .data-toolbar-separator {
+        width: 1px;
+        height: 24px;
+        margin-inline: 2px;
+        background: var(--line);
+      }
+      .data-filter-chip > button {
+        display: grid;
+        width: 18px;
+        height: 18px;
+        place-items: center;
+        padding: 0;
+        border: 0;
+        border-radius: 4px;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+      }
+      .data-selection-count {
+        display: inline-flex;
+        min-height: 30px;
+        gap: 7px;
+        align-items: center;
+        padding: 4px 9px;
+        border-radius: 6px;
+        background: var(--accent-soft);
+        font-size: 12.5px;
+        font-weight: 700;
+      }
+      .data-selection-count b {
+        display: grid;
+        min-width: 20px;
+        height: 20px;
+        place-items: center;
+        border-radius: 999px;
+        background: var(--line-2);
+        font-size: 11px;
+      }
+      .data-table-scroll {
+        overflow: auto;
+      }
+      .data-list-shell .inv-grid th:first-child,
+      .data-list-shell .inv-grid td:first-child {
+        width: 42px;
+        padding-inline: 12px 4px;
+        text-align: center;
+      }
+      .data-list-shell .inv-grid th.data-row-actions-cell,
+      .data-list-shell .inv-grid td.data-row-actions-cell {
+        width: 48px;
+        padding-inline: 4px 10px;
+        text-align: center;
+      }
+      .data-row-menu > summary {
+        width: 32px;
+        min-height: 32px;
+        justify-content: center;
+        padding: 5px;
+      }
+      .data-row-menu .data-menu-popover {
+        min-width: 190px;
+      }
+      .data-row-menu [data-list-row-action='delete'] {
+        color: var(--danger);
+      }
+      .data-list-shell .inv-grid input[type='checkbox'] {
+        width: 15px;
+        height: 15px;
+        margin: 0;
+        accent-color: var(--accent);
+      }
+      .data-list-shell .inv-grid tbody tr[aria-selected='true'] {
+        background: var(--accent-soft);
+      }
+      .data-sort-button {
+        display: inline-flex;
+        gap: 5px;
+        align-items: center;
+        padding: 0;
+        border: 0;
+        color: inherit;
+        background: transparent;
+        font: inherit;
+        font-weight: inherit;
+        cursor: pointer;
+      }
+      .data-sort-button:hover {
+        color: var(--ink);
+      }
+      .data-sort-indicator {
+        min-width: 10px;
+        color: var(--accent);
+        font-size: 10px;
+      }
+      .data-list-shell .inv-grid.is-compact th,
+      .data-list-shell .inv-grid.is-compact td {
+        padding-block: 5px;
+      }
+      .data-list-shell .inv-grid.borders-none th,
+      .data-list-shell .inv-grid.borders-none td {
+        border: 0;
+      }
+      .data-list-shell .inv-grid.borders-vertical th,
+      .data-list-shell .inv-grid.borders-vertical td,
+      .data-list-shell .inv-grid.borders-both th,
+      .data-list-shell .inv-grid.borders-both td {
+        border-inline-end: 1px solid var(--line);
+      }
+      .data-list-shell .inv-grid.borders-vertical th,
+      .data-list-shell .inv-grid.borders-vertical td {
+        border-bottom: 0;
+      }
+      .data-list-shell [data-frozen='true'] {
+        position: sticky;
+        z-index: 2;
+        background: var(--surface);
+        box-shadow: 1px 0 0 var(--line);
+      }
+      .data-list-shell thead [data-frozen='true'] {
+        z-index: 4;
+        background: var(--line-2);
+      }
+      .data-card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+        gap: 12px;
+        padding: 12px;
+        background: var(--bg);
+      }
+      .data-record-card {
+        display: grid;
+        gap: 12px;
+        min-width: 0;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+      }
+      .data-record-card[aria-selected='true'] {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+      .data-record-card-header,
+      .data-record-card-title,
+      .data-record-card-footer {
+        display: flex;
+        min-width: 0;
+        gap: 9px;
+        align-items: center;
+      }
+      .data-record-card-header {
+        align-items: flex-start;
+      }
+      .data-record-card-title {
+        flex: 1;
+        align-items: flex-start;
+      }
+      .data-record-card-title > div {
+        min-width: 0;
+      }
+      .data-record-card-title strong,
+      .data-record-card-title span {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .data-record-card-title strong {
+        color: var(--ink);
+        font-size: 14px;
+      }
+      .data-record-card-title span {
+        margin-top: 2px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .data-record-avatar {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        flex: 0 0 auto;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--line-2);
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .data-record-card-details {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 14px;
+        margin: 0;
+      }
+      .data-record-card-details div {
+        min-width: 0;
+      }
+      .data-record-card-details dt {
+        margin-bottom: 2px;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .data-record-card-details dd {
+        margin: 0;
+        overflow: hidden;
+        color: var(--ink);
+        font-size: 12.5px;
+        font-weight: 600;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .data-record-card-footer {
+        justify-content: space-between;
+        padding-top: 10px;
+        border-top: 1px solid var(--line);
+      }
+      .data-record-card input[type='checkbox'] {
+        width: 15px;
+        height: 15px;
+        margin: 3px 0 0;
+        accent-color: var(--accent);
+      }
+      .data-list-footer {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 7px 12px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .data-page-manage > summary {
+        border-color: var(--line);
+        background: var(--surface);
+      }
+      .data-page-manage .data-menu-popover {
+        inset-inline: auto;
+      }
+      @media (max-width: 900px) {
+        body.layout-boxed .content {
+          padding-inline: 0;
+        }
+        .data-list-toolbar,
+        .data-list-selection-toolbar {
+          align-items: stretch;
+        }
+        .data-toolbar-cluster.end {
+          width: 100%;
+          margin-inline-start: 0;
+        }
+        .data-search {
+          flex: 1;
+        }
+        .data-search input {
+          width: 100%;
+        }
+      }
+
       /* ============ Badge ============ */
       .badge {
         font-size: 11px;
@@ -5002,31 +5516,8 @@
       }
       .customer-record-canvas .customer-identity-body {
         display: grid;
-        grid-template-columns: minmax(150px, 180px) minmax(0, 1fr);
+        grid-template-columns: minmax(150px, 260px) minmax(0, 1fr);
         align-items: flex-start;
-      }
-      .customer-record-canvas .customer-identity-body > .customer-field-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        width: 100%;
-        max-width: 1560px;
-      }
-      .customer-record-canvas
-        .customer-identity-body
-        > .customer-field-grid
-        > .customer-field:has(> [data-customer-field='customerName']),
-      .customer-record-canvas
-        .customer-identity-body
-        > .customer-field-grid
-        > .customer-field:has(> [data-customer-field='accountCode']),
-      .customer-record-canvas
-        .customer-identity-body
-        > .customer-field-grid
-        > .customer-field:has(> [data-customer-field='customerGroup']),
-      .customer-record-canvas
-        .customer-identity-body
-        > .customer-field-grid
-        > .customer-field:has(> [data-customer-field='currency']) {
-        /* grid-column: span 2; */
       }
       .customer-record-canvas .customer-identity-photo {
         padding: 12px 0 12px 12px;
@@ -5036,18 +5527,13 @@
       }
       .customer-record-canvas .customer-identity-photo .customer-photo {
         height: 100%;
-        min-height: 142px;
+        min-height: 280px;
       }
       .customer-record-canvas .customer-identity-photo .customer-photo label {
         position: relative;
         inset: unset;
         padding: unset;
         font-size: 12px;
-      }
-      @media (max-width: 1100px) {
-        .customer-record-canvas .customer-identity-body > .customer-field-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
       }
       .customer-record-canvas .customer-field [aria-invalid='true'] {
         border-color: var(--danger);
@@ -5490,10 +5976,15 @@
       }
       .customer-unit-workspace {
         min-height: 310px;
+        overflow: visible;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
       }
       .customer-unit-tabs {
-        margin: 0;
-        padding: 0 12px;
+        margin: 0 0 12px;
+        padding: 0;
         overflow-x: auto;
       }
       .customer-unit-tabs .rec-tab {
@@ -5503,6 +5994,9 @@
       }
       .customer-unit-tab-panel {
         padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
       }
       .customer-unit-tab-panel[hidden] {
         display: none;
@@ -5570,7 +6064,8 @@
         background: var(--surface);
       }
       body.cards-fieldset .customer-unit-workspace {
-        padding-top: 10px;
+        margin-top: 0;
+        padding-top: 0;
       }
       body.cards-fieldset .customer-lookup-results {
         overflow: auto;
@@ -6245,15 +6740,12 @@
           min-width: 0;
           margin-bottom: 0;
         }
-        .customer-record-canvas .customer-guided .customer-identity-body {
-          grid-template-columns: minmax(0, 1fr);
-        }
         .customer-record-canvas .customer-guided .customer-identity-photo,
         [dir='rtl'] .customer-record-canvas .customer-guided .customer-identity-photo {
           padding: 12px 12px 0;
         }
         .customer-record-canvas .customer-guided .customer-identity-body > .customer-field-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+          grid-template-columns: repeat(1, minmax(0, 1fr));
         }
         body.style-inline
           .customer-record-canvas
@@ -6267,6 +6759,13 @@
   </head>
   <body>
     <div class="demo-bar">
+      <div class="grp">
+        <label for="content-layout">Layout:</label>
+        <select id="content-layout" autocomplete="off">
+          <option value="fluid" selected>Fluid</option>
+          <option value="boxed">Boxed</option>
+        </select>
+      </div>
       <div class="grp">
         <label for="density">Density:</label>
         <select id="density" autocomplete="off">
@@ -7547,6 +8046,26 @@
               <div class="tline"><h1>Sales Invoice</h1></div>
             </div>
             <div class="r">
+              <details class="data-page-manage">
+                <summary>
+                  Manage
+                  <svg width="11" height="11" aria-hidden="true"><use href="#i-caret" /></svg>
+                </summary>
+                <div class="data-menu-popover" role="menu">
+                  <button type="button" role="menuitem" data-list-manage="Import invoices">
+                    <svg width="15" height="15" aria-hidden="true"><use href="#i-dl" /></svg> Import
+                  </button>
+                  <button type="button" role="menuitem" data-list-manage="Export invoices">
+                    <svg width="15" height="15" aria-hidden="true"><use href="#i-external" /></svg>
+                    Export
+                  </button>
+                  <div class="data-menu-separator"></div>
+                  <button type="button" role="menuitem" data-list-manage="Generate invoice report">
+                    <svg width="15" height="15" aria-hidden="true"><use href="#i-doc" /></svg>
+                    Generate report
+                  </button>
+                </div>
+              </details>
               <button class="lbtn pri" id="list-add" type="button">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Add
               </button>
@@ -7570,6 +8089,26 @@
               <div class="tline"><h1>Customers</h1></div>
             </div>
             <div class="r">
+              <details class="data-page-manage">
+                <summary>
+                  Manage
+                  <svg width="11" height="11" aria-hidden="true"><use href="#i-caret" /></svg>
+                </summary>
+                <div class="data-menu-popover" role="menu">
+                  <button type="button" role="menuitem" data-list-manage="Import customers">
+                    <svg width="15" height="15" aria-hidden="true"><use href="#i-dl" /></svg> Import
+                  </button>
+                  <button type="button" role="menuitem" data-list-manage="Export customers">
+                    <svg width="15" height="15" aria-hidden="true"><use href="#i-external" /></svg>
+                    Export
+                  </button>
+                  <div class="data-menu-separator"></div>
+                  <button type="button" role="menuitem" data-list-manage="Generate customer report">
+                    <svg width="15" height="15" aria-hidden="true"><use href="#i-doc" /></svg>
+                    Generate report
+                  </button>
+                </div>
+              </details>
               <button class="lbtn pri" id="customer-list-add" type="button">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg>
                 Add Customer
@@ -10128,6 +10667,13 @@
           for (let i = 0; i < label.length; i++) h = (h * 31 + label.charCodeAt(i)) % 360
           return h
         }
+        function openLaunchpadListDestination(side, label) {
+          if (!['Customers', 'Sales Invoice'].includes(label)) return false
+          const group = findNavGroup(label)
+          if (group) side.querySelector('.nc2').activateByLabel(group[0])
+          setNavCurrent(side, label)
+          return true
+        }
         function launchpadTile(label, icon, onClick) {
           const tile = document.createElement('button')
           tile.type = 'button'
@@ -10227,9 +10773,11 @@
              "Sales Invoice" needs its parent group's icon activated first so the
              panel renders the leaf, then setNavCurrent highlights the leaf itself
              and switches the content view, same as clicking it in the panel would */
-                  const group = findNavGroup(name)
-                  if (group) side.querySelector('.nc2').activateByLabel(group[0])
-                  setNavCurrent(side, name)
+                  if (!openLaunchpadListDestination(side, name)) {
+                    const group = findNavGroup(name)
+                    if (group) side.querySelector('.nc2').activateByLabel(group[0])
+                    setNavCurrent(side, name)
+                  }
                 })
               )
             )
@@ -10248,9 +10796,10 @@
           appsGrid.className = 'lp-grid'
           visibleGroups().forEach(group =>
             appsGrid.appendChild(
-              launchpadTile(group[0], NAV_ICONS[group[0]] || 'i-doc', () =>
-                side.querySelector('.nc2').activateByLabel(group[0])
-              )
+              launchpadTile(group[0], NAV_ICONS[group[0]] || 'i-doc', () => {
+                if (!openLaunchpadListDestination(side, group[0]))
+                  side.querySelector('.nc2').activateByLabel(group[0])
+              })
             )
           )
           appsSec.appendChild(appsGrid)
@@ -10816,6 +11365,7 @@
 
         /* ================= print dialog ================= */
         const pscrim = document.getElementById('pscrim')
+        let printSettingsContext = 'Sales Invoice 001000352026126'
         const updPrint = () => {
           const dest = document.querySelector('.dcard[aria-pressed=true]').dataset.dest
           document
@@ -10832,14 +11382,25 @@
                 ? `${document.getElementById('p-chan').value} · ${form} · ${lang}`
                 : `Preview · ${form} · ${lang}`
         }
+        const currentPrintSettingsContext = () => {
+          if (!document.querySelector('.customer-record-view')?.hidden)
+            return document.querySelector('#customer-record-chrome h1')?.textContent.trim() || 'Customer'
+          if (!document.querySelector('.customer-list-view')?.hidden) return 'Customers list'
+          if (!document.querySelector('.list-view')?.hidden) return 'Sales invoices list'
+          return document.querySelector('.design.active .phead h1')?.textContent.trim() || 'Sales Invoice'
+        }
+        function openPrintSettings(contextLabel = '') {
+          closeAllMenus()
+          clearInlineError(pscrim.querySelector('.dlg'))
+          printSettingsContext = contextLabel || currentPrintSettingsContext()
+          pscrim.querySelector('.dhd .sub').textContent = printSettingsContext
+          pscrim.classList.add('open')
+          updPrint()
+          trapFocus(pscrim.querySelector('.dlg'))
+        }
         document.addEventListener('click', e => {
-          if (e.target.closest('.p-open') && !e.target.closest('.p-open').disabled) {
-            closeAllMenus()
-            clearInlineError(pscrim.querySelector('.dlg'))
-            pscrim.classList.add('open')
-            updPrint()
-            trapFocus(pscrim.querySelector('.dlg'))
-          }
+          if (e.target.closest('.p-open') && !e.target.closest('.p-open').disabled)
+            openPrintSettings()
           if (e.target.closest('.p-close') || e.target === pscrim) {
             pscrim.classList.remove('open')
             releaseFocus()
@@ -10952,8 +11513,7 @@
           const it = sRows[+el.dataset.i]
           closeSearch()
           if (it.run === 'print') {
-            pscrim.classList.add('open')
-            updPrint()
+            openPrintSettings()
             return
           }
           if (it.run === 'favorite') {
@@ -11355,13 +11915,18 @@
           }
           pscrim.classList.remove('open')
           releaseFocus()
-          state.prints++
-          applyState()
+          const invoicePrint = printSettingsContext.startsWith('Sales Invoice')
+          if (invoicePrint) {
+            state.prints++
+            applyState()
+          }
           toast({
             tone: 'ok',
             title:
               dest === 'save' ? 'File ready' : dest === 'send' ? 'Sent' : 'Opened in the viewer',
-            body: `This invoice has now been printed ${state.prints} times.`,
+            body: invoicePrint
+              ? `This invoice has now been printed ${state.prints} times.`
+              : `${printSettingsContext} is ready.`,
           })
         }
 
@@ -12425,11 +12990,7 @@
               toast({tone: 'bad', title: 'Print is not available', body: why})
               return
             }
-            closeAllMenus()
-            clearInlineError(pscrim.querySelector('.dlg'))
-            pscrim.classList.add('open')
-            updPrint()
-            trapFocus(pscrim.querySelector('.dlg'))
+            openPrintSettings()
             return
           }
           if (mod && k === 'n') {
@@ -12775,6 +13336,9 @@
         document.getElementById('density').addEventListener('change', e => {
           document.body.classList.toggle('density-compact', e.target.value === 'compact')
         })
+        document.getElementById('content-layout').addEventListener('change', e => {
+          document.body.classList.toggle('layout-boxed', e.target.value === 'boxed')
+        })
         document.getElementById('input-style').addEventListener('change', e => {
           document.body.classList.remove('style-floated', 'style-inline')
           if (e.target.value !== 'default') document.body.classList.add(`style-${e.target.value}`)
@@ -12841,15 +13405,6 @@
         applyMode(modeSel.value || 'record')
 
         /* ================= Sales Invoice List — concept rendering ================= */
-        const LIST_COLUMNS = [
-          'Doc. Sequence',
-          'Doc No.',
-          'Doc Date',
-          'Doc Sub-type Name',
-          'Payment method',
-          'Customer No.',
-          'Customer Name',
-        ]
         const LIST_ROWS = [
           {
             seq: '001000352026143',
@@ -12878,18 +13433,6 @@
             custNo: '200001',
             custName: 'العميل الاول',
           },
-        ]
-
-        const CUSTOMER_COLUMNS = [
-          'Customer No.',
-          'Customer Name',
-          'Operation Unit',
-          'Customer Type',
-          'Customer Group',
-          'Currency',
-          'Country',
-          'Phone',
-          'Active status',
         ]
 
         const CUSTOMER_ROWS = [
@@ -12927,6 +13470,127 @@
             active: false,
           },
         ]
+
+        const DATA_LIST_CONFIG = {
+          invoice: {
+            label: 'invoices',
+            singular: 'invoice',
+            key: 'no',
+            rows: LIST_ROWS,
+            columns: [
+              {key: 'seq', label: 'Doc. Sequence'},
+              {key: 'no', label: 'Doc No.'},
+              {key: 'date', label: 'Doc Date'},
+              {key: 'subtype', label: 'Doc Sub-type Name'},
+              {key: 'pay', label: 'Payment method'},
+              {key: 'custNo', label: 'Customer No.'},
+              {key: 'custName', label: 'Customer Name'},
+            ],
+            filters: [
+              {key: 'all', label: 'All invoices', icon: 'i-eye'},
+              {key: 'cash', label: 'Cash invoices', icon: 'i-doc'},
+              {key: 'credit', label: 'Credit invoices', icon: 'i-doc'},
+              {key: 'recent', label: 'Recent invoices', icon: 'i-clock'},
+            ],
+            filterFields: [
+              {key: 'no', label: 'Doc No.', icon: 'i-doc', type: 'text'},
+              {key: 'custName', label: 'Customer', icon: 'i-user', type: 'text'},
+              {
+                key: 'pay',
+                label: 'Payment method',
+                icon: 'i-panel',
+                type: 'select',
+                options: ['Cash', 'Credit'],
+              },
+              {
+                key: 'date',
+                label: 'Doc date',
+                icon: 'i-clock',
+                type: 'select',
+                options: ['13/08/2026', 'This month'],
+              },
+              {
+                key: 'subtype',
+                label: 'Doc Sub-type',
+                icon: 'i-doc',
+                type: 'select',
+                options: ['عام'],
+              },
+            ],
+          },
+          customer: {
+            label: 'customers',
+            singular: 'customer',
+            key: 'customerNo',
+            rows: CUSTOMER_ROWS,
+            columns: [
+              {key: 'customerNo', label: 'Customer No.'},
+              {key: 'customerName', label: 'Customer Name'},
+              {key: 'operationUnit', label: 'Operation Unit'},
+              {key: 'customerType', label: 'Customer Type'},
+              {key: 'customerGroup', label: 'Customer Group'},
+              {key: 'currency', label: 'Currency'},
+              {key: 'country', label: 'Country'},
+              {key: 'phone', label: 'Phone'},
+              {key: 'active', label: 'Active status'},
+            ],
+            filters: [
+              {key: 'all', label: 'All customers', icon: 'i-eye'},
+              {key: 'active', label: 'Active customers', icon: 'i-check'},
+              {key: 'inactive', label: 'Inactive customers', icon: 'i-archive'},
+              {key: 'retail', label: 'Retail customers', icon: 'i-user'},
+            ],
+            filterFields: [
+              {key: 'customerNo', label: 'Customer No.', icon: 'i-doc', type: 'text'},
+              {key: 'customerName', label: 'Customer Name', icon: 'i-user', type: 'text'},
+              {
+                key: 'customerType',
+                label: 'Customer Type',
+                icon: 'i-panel',
+                type: 'select',
+                options: ['Retail', 'Wholesale'],
+              },
+              {
+                key: 'customerGroup',
+                label: 'Customer Group',
+                icon: 'i-grid',
+                type: 'select',
+                options: ['General', 'Local'],
+              },
+              {key: 'country', label: 'Country', icon: 'i-grid', type: 'text'},
+              {
+                key: 'active',
+                label: 'Active status',
+                icon: 'i-check',
+                type: 'select',
+                options: [
+                  {value: 'true', label: 'Active'},
+                  {value: 'false', label: 'Inactive'},
+                ],
+              },
+            ],
+          },
+        }
+        const dataListState = Object.fromEntries(
+          Object.entries(DATA_LIST_CONFIG).map(([key, config]) => [
+            key,
+            {
+              sourceRows: config.rows,
+              selected: new Set(),
+              hiddenColumns: new Set(),
+              search: '',
+              filter: 'all',
+              sortKey: config.key,
+              sortDirection: 'asc',
+              view: 'list',
+              advanced: false,
+              fieldFilters: [],
+              borderMode: 'default',
+              frozenColumns: new Set(),
+              canvas: null,
+            },
+          ])
+        )
 
         const customerState = {mode: 'view', customerNo: '200010'}
         const customerField = (key, label, type = 'text', options = []) => ({
@@ -13269,39 +13933,596 @@
           return `<span class="customer-section-status ${encodeHtml(meta.className)}" data-customer-status="${encodeHtml(key)}">${encodeHtml(meta.text)}</span>`
         }
 
-        function renderCustomerList(rows = CUSTOMER_ROWS) {
-          const tableRows = rows
+        const dataListIcon = (name, size = 15) =>
+          `<svg width="${size}" height="${size}" aria-hidden="true"><use href="#${name}" /></svg>`
+
+        const DATA_FILTER_OPERATORS = [
+          {key: 'contains', label: 'contains'},
+          {key: 'starts', label: 'starts with'},
+          {key: 'equals', label: 'is equal to'},
+          {key: 'not-equals', label: 'is not equal to'},
+        ]
+
+        function dataFilterOptionValue(option) {
+          return typeof option === 'object' ? option.value : option
+        }
+
+        function dataFilterOptionLabel(option) {
+          return typeof option === 'object' ? option.label : option
+        }
+
+        function rowMatchesFieldFilter(row, filter, field) {
+          if (!field || !filter.value) return true
+          if (field.key === 'date' && filter.value === 'This month') return true
+          const raw = String(row[field.key] ?? '').toLowerCase()
+          const expected = String(filter.value).toLowerCase()
+          if (filter.operator === 'starts') return raw.startsWith(expected)
+          if (filter.operator === 'not-equals') return raw !== expected
+          if (filter.operator === 'equals' || field.type === 'select') return raw === expected
+          return raw.includes(expected)
+        }
+
+        function dataListRows(context) {
+          const config = DATA_LIST_CONFIG[context]
+          const listState = dataListState[context]
+          const query = listState.search.trim().toLowerCase()
+          let rows = listState.sourceRows.filter(row => {
+            if (
+              query &&
+              !config.columns.some(column =>
+                String(row[column.key] ?? '')
+                  .toLowerCase()
+                  .includes(query)
+              )
+            )
+              return false
+            if (context === 'customer') {
+              if (listState.filter === 'active' && !row.active) return false
+              if (listState.filter === 'inactive' && row.active) return false
+              if (listState.filter === 'retail' && row.customerType !== 'Retail') return false
+            }
+            if (context === 'invoice') {
+              if (listState.filter === 'cash' && row.pay !== 'Cash') return false
+              if (listState.filter === 'credit' && row.pay !== 'Credit') return false
+            }
+            return listState.fieldFilters.every(filter =>
+              rowMatchesFieldFilter(
+                row,
+                filter,
+                config.filterFields.find(field => field.key === filter.key)
+              )
+            )
+          })
+          const direction = listState.sortDirection === 'asc' ? 1 : -1
+          rows = [...rows].sort(
+            (a, b) =>
+              String(a[listState.sortKey] ?? '').localeCompare(
+                String(b[listState.sortKey] ?? ''),
+                undefined,
+                {numeric: true, sensitivity: 'base'}
+              ) * direction
+          )
+          return rows
+        }
+
+        function renderDataListCell(context, row, column) {
+          const value = row[column.key]
+          if (
+            (context === 'customer' && column.key === 'customerNo') ||
+            (context === 'invoice' && column.key === 'no')
+          ) {
+            return `<button class="customer-record-link" type="button" data-list-open-record="${encodeHtml(String(value))}" aria-label="Open ${context} ${encodeHtml(String(value))}">${encodeHtml(String(value))}</button>`
+          }
+          if (context === 'customer' && column.key === 'active') {
+            return `<span class="badge ${value ? 'ok' : 'gray'}">${value ? 'Active' : 'Inactive'}</span>`
+          }
+          return encodeHtml(String(value ?? ''))
+        }
+
+        function renderDataListFilterButtons(config, listState) {
+          return config.filters
             .map(
-              row => `<tr data-customer-no="${encodeHtml(row.customerNo)}">
-      <td><button class="customer-record-link" type="button" aria-label="Open customer ${encodeHtml(row.customerNo)}">${encodeHtml(row.customerNo)}</button></td>
-      <td>${encodeHtml(row.customerName)}</td>
-      <td>${encodeHtml(row.operationUnit)}</td>
-      <td>${encodeHtml(row.customerType)}</td>
-      <td>${encodeHtml(row.customerGroup)}</td>
-      <td>${encodeHtml(row.currency)}</td>
-      <td>${encodeHtml(row.country)}</td>
-      <td>${encodeHtml(row.phone)}</td>
-      <td><span class="badge ${row.active ? 'ok' : 'gray'}">${row.active ? 'Active' : 'Inactive'}</span></td>
-    </tr>`
+              filter =>
+                `<button type="button" role="menuitemradio" data-list-filter="${encodeHtml(filter.key)}" aria-checked="${filter.key === listState.filter}">${dataListIcon(filter.icon)}<span>${encodeHtml(filter.label)}</span>${filter.key === listState.filter ? dataListIcon('i-check', 13) : ''}</button>`
             )
             .join('')
+        }
 
-          document.getElementById('customer-list-canvas').innerHTML = `
-    <div class="inv-grid-wrap customer-grid-wrap">
-      <div class="inv-grid-toolbar">
-        <button class="lbtn out" id="customer-search-open" type="button">
-          <svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg> Search
-        </button>
-        <div class="grow"></div>
-        <button class="lbtn out" data-customer-list-action="Columns" type="button">Columns</button>
-        <button class="lbtn out" data-customer-list-action="Export" type="button">Export</button>
-      </div>
-      <div class="inv-group-bar">Drag a column header here to group</div>
-      <table class="inv-grid customer-grid">
-        <thead><tr>${CUSTOMER_COLUMNS.map(column => `<th>${encodeHtml(column)}</th>`).join('')}</tr></thead>
-        <tbody>${tableRows}</tbody>
-      </table>
-    </div>`
+        function renderDataListColumnControls(config, listState) {
+          return config.columns
+            .map(
+              column =>
+                `<label><input type="checkbox" data-list-column="${encodeHtml(column.key)}"${listState.hiddenColumns.has(column.key) ? '' : ' checked'}><span>${encodeHtml(column.label)}</span></label>`
+            )
+            .join('')
+        }
+
+        function renderDataListFieldChoices(config, listState) {
+          const activeKeys = new Set(listState.fieldFilters.map(filter => filter.key))
+          const available = config.filterFields.filter(field => !activeKeys.has(field.key))
+          if (!available.length)
+            return `<span class="data-menu-empty">All available filters are applied.</span>`
+          return available
+            .map(
+              field =>
+                `<button type="button" role="menuitem" data-list-add-filter="${encodeHtml(field.key)}">${dataListIcon(field.icon)}<span>${encodeHtml(field.label)}</span></button>`
+            )
+            .join('')
+        }
+
+        function renderDataListFilterEditor(config, filter) {
+          const field = config.filterFields.find(item => item.key === filter.key)
+          if (!field) return ''
+          const operator =
+            DATA_FILTER_OPERATORS.find(item => item.key === filter.operator) ||
+            DATA_FILTER_OPERATORS[0]
+          const valueLabel = field.options
+            ? dataFilterOptionLabel(
+                field.options.find(option => dataFilterOptionValue(option) === filter.value) ||
+                  filter.value
+              )
+            : filter.value
+          const input =
+            field.type === 'select'
+              ? `<select data-list-filter-value="${encodeHtml(field.key)}" aria-label="${encodeHtml(field.label)} filter value">${field.options
+                  .map(
+                    option =>
+                      `<option value="${encodeHtml(String(dataFilterOptionValue(option)))}"${String(dataFilterOptionValue(option)) === filter.value ? ' selected' : ''}>${encodeHtml(String(dataFilterOptionLabel(option)))}</option>`
+                  )
+                  .join('')}</select>`
+              : `<input type="text" data-list-filter-value="${encodeHtml(field.key)}" value="${encodeHtml(filter.value)}" placeholder="Enter ${encodeHtml(field.label.toLowerCase())}" aria-label="${encodeHtml(field.label)} filter value">`
+          const operators =
+            field.type === 'text'
+              ? `<div class="data-filter-operators">${DATA_FILTER_OPERATORS.map(
+                  item =>
+                    `<button type="button" data-list-filter-operator="${encodeHtml(item.key)}" data-list-filter-key="${encodeHtml(field.key)}" aria-pressed="${item.key === filter.operator}">${encodeHtml(item.label)}</button>`
+                ).join('')}</div>`
+              : ''
+          return `<span class="data-filter-chip"><details class="data-menu data-filter-editor data-list-filter-editor" data-filter-editor-key="${encodeHtml(field.key)}"><summary>${dataListIcon(field.icon)}<strong>${encodeHtml(field.label)}:</strong><span class="data-filter-value">${encodeHtml(field.type === 'text' ? `${operator.label} ${valueLabel || '…'}` : valueLabel || 'Choose value')}</span></summary><div class="data-menu-popover data-filter-editor-popover">${operators}${input}</div></details><button type="button" data-list-remove-field-filter="${encodeHtml(field.key)}" aria-label="Remove ${encodeHtml(field.label)} filter">${dataListIcon('i-x', 12)}</button></span>`
+        }
+
+        function renderDataListToolbar(config, listState) {
+          const activeFilter =
+            config.filters.find(filter => filter.key === listState.filter) || config.filters[0]
+          const filterButtons = renderDataListFilterButtons(config, listState)
+          const columnControls = renderDataListColumnControls(config, listState)
+          const isUnsaved = Boolean(listState.fieldFilters.length || listState.advanced)
+          const filterEditors = listState.fieldFilters
+            .map(filter => renderDataListFilterEditor(config, filter))
+            .join('')
+          return `<div class="data-list-toolbar">
+            <div class="data-toolbar-cluster">
+              <details class="data-menu"><summary>${dataListIcon(isUnsaved ? 'i-doc' : activeFilter.icon)}<span>${isUnsaved ? 'Unsaved view' : encodeHtml(activeFilter.label)}</span>${dataListIcon('i-caret', 11)}</summary><div class="data-menu-popover" role="menu">${filterButtons}</div></details>
+              ${filterEditors}
+              ${listState.advanced ? `<span class="data-filter-chip">Advanced filters<button type="button" data-list-clear-advanced aria-label="Clear advanced filters">${dataListIcon('i-x', 12)}</button></span>` : ''}
+              <details class="data-menu"><summary>${dataListIcon('i-plus')}<span>Filter</span></summary><div class="data-menu-popover" role="menu">${renderDataListFieldChoices(config, listState)}<div class="data-menu-separator"></div><button type="button" role="menuitem" data-list-advanced-search>${dataListIcon('i-filter')} Advanced filters</button></div></details>
+              ${isUnsaved ? `<button class="data-toolbar-button" type="button" data-list-save-view>${dataListIcon('i-save')} Save</button>` : ''}
+            </div>
+            <div class="data-toolbar-cluster end">
+              <label class="data-search">${dataListIcon('i-search')}<input type="search" data-list-search value="${encodeHtml(listState.search)}" placeholder="Search ${encodeHtml(config.label)}" aria-label="Search ${encodeHtml(config.label)}"><button class="data-search-clear" type="button" data-list-search-clear aria-label="Clear search"${listState.search ? '' : ' hidden'}>${dataListIcon('i-x', 12)}</button></label>
+              <span class="data-toolbar-separator" aria-hidden="true"></span><button class="data-toolbar-button" type="button" data-list-action="print">${dataListIcon('i-print')} Print list</button>
+              ${listState.view === 'list' ? `<details class="data-menu end"><summary>${dataListIcon('i-sliders')}<span>Borders</span>${dataListIcon('i-caret', 10)}</summary><div class="data-menu-popover" role="menu">${['default', 'both', 'none', 'horizontal', 'vertical'].map(mode => `<button type="button" role="menuitemradio" data-list-border="${mode}" aria-checked="${listState.borderMode === mode}">${dataListIcon('i-grid')} ${mode[0].toUpperCase() + mode.slice(1)}${listState.borderMode === mode ? dataListIcon('i-check', 13) : ''}</button>`).join('')}</div></details><details class="data-menu end"><summary>${dataListIcon('i-lock')}<span>Freeze columns</span>${dataListIcon('i-caret', 10)}</summary><div class="data-menu-popover" role="group" aria-label="Frozen columns">${renderDataListFrozenControls(config, listState)}</div></details><details class="data-menu end"><summary>${dataListIcon('i-sliders')}<span>Columns</span></summary><div class="data-menu-popover" role="group" aria-label="Visible columns">${columnControls}</div></details>` : ''}
+              <details class="data-menu end"><summary>${dataListIcon(listState.view === 'cards' ? 'i-panel' : 'i-grid')}<span>${listState.view === 'cards' ? 'Cards' : 'List'}</span>${dataListIcon('i-caret', 11)}</summary><div class="data-menu-popover" role="menu"><button type="button" role="menuitemradio" data-list-view="list" aria-checked="${listState.view === 'list'}">${dataListIcon('i-grid')} List view${listState.view === 'list' ? dataListIcon('i-check', 13) : ''}</button><button type="button" role="menuitemradio" data-list-view="cards" aria-checked="${listState.view === 'cards'}">${dataListIcon('i-panel')} Cards view${listState.view === 'cards' ? dataListIcon('i-check', 13) : ''}</button></div></details>
+            </div>
+          </div>`
+        }
+
+        function renderDataListFrozenControls(config, listState) {
+          return config.columns
+            .map(
+              column =>
+                `<label><input type="checkbox" data-list-frozen-column="${encodeHtml(column.key)}"${listState.frozenColumns.has(column.key) ? ' checked' : ''}><span>${encodeHtml(column.label)}</span></label>`
+            )
+            .join('')
+        }
+
+        function renderDataListSelectionToolbar(config, selectedCount) {
+          return `<div class="data-list-selection-toolbar" data-list-selection-toolbar aria-label="Selected row actions"><span class="data-selection-count" aria-live="polite"><b>${selectedCount}</b> selected</span><div class="data-toolbar-cluster"><button class="data-toolbar-button danger" type="button" data-list-selection-action="delete">${dataListIcon('i-trash')} Delete</button></div><div class="data-toolbar-cluster end"><button class="data-toolbar-button" type="button" data-list-clear-selection>${dataListIcon('i-x')} Clear selection</button></div></div>`
+        }
+
+        function renderDataListRowActions(context, row, config) {
+          const key = String(row[config.key])
+          const commonActions = `<button type="button" role="menuitem" data-list-row-action="display">${dataListIcon('i-eye')} Display</button><button type="button" role="menuitem" data-list-row-action="modify">${dataListIcon('i-edit')} Modify</button>`
+          const recordActions =
+            context === 'customer'
+              ? `<button type="button" role="menuitem" data-list-row-action="accounts-movement">${dataListIcon('i-flow')} Accounts movement</button><button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? 'Deactivate' : 'Activate'}</button>`
+              : `<button type="button" role="menuitem" data-list-row-action="print">${dataListIcon('i-print')} Print</button><button type="button" role="menuitem" data-list-row-action="user-log">${dataListIcon('i-user')} User log</button><button type="button" role="menuitem" data-list-row-action="documents-flow">${dataListIcon('i-flow')} Documents flow</button>`
+          return `<details class="data-menu end data-row-menu"><summary aria-label="Actions for ${encodeHtml(config.singular)} ${encodeHtml(key)}" title="Record actions">${dataListIcon('i-dots')}</summary><div class="data-menu-popover" role="menu">${commonActions}<div class="data-menu-separator"></div>${recordActions}<div class="data-menu-separator"></div><button type="button" role="menuitem" data-list-row-action="delete">${dataListIcon('i-trash')} Delete</button></div></details>`
+        }
+
+        function renderDataListHeader(visibleColumns, listState) {
+          return visibleColumns
+            .map(column => {
+              const sorted = listState.sortKey === column.key
+              const ariaSort = sorted
+                ? listState.sortDirection === 'asc'
+                  ? 'ascending'
+                  : 'descending'
+                : 'none'
+              const indicator = sorted ? (listState.sortDirection === 'asc' ? '↑' : '↓') : ''
+              return `<th data-col="${encodeHtml(column.key)}" aria-sort="${ariaSort}"><button class="data-sort-button" type="button" data-list-sort="${encodeHtml(column.key)}"><span>${encodeHtml(column.label)}</span><span class="data-sort-indicator" aria-hidden="true">${indicator}</span></button></th>`
+            })
+            .join('')
+        }
+
+        function renderDataListBody(context, rows, visibleColumns, config, listState) {
+          if (!rows.length)
+            return `<tr><td colspan="${visibleColumns.length + 2}"><div class="customer-lookup-empty">No ${encodeHtml(config.label)} match this view.</div></td></tr>`
+          return rows
+            .map(row => {
+              const key = String(row[config.key])
+              const selected = listState.selected.has(key)
+              const cells = visibleColumns
+                .map(
+                  column =>
+                    `<td data-col="${encodeHtml(column.key)}">${renderDataListCell(context, row, column)}</td>`
+                )
+                .join('')
+              return `<tr data-list-row-key="${encodeHtml(key)}" aria-selected="${selected}"><td><input type="checkbox" data-list-row-select value="${encodeHtml(key)}" aria-label="Select ${encodeHtml(config.singular)} ${encodeHtml(key)}"${selected ? ' checked' : ''}></td>${cells}<td class="data-row-actions-cell">${renderDataListRowActions(context, row, config)}</td></tr>`
+            })
+            .join('')
+        }
+
+        function dataRecordInitials(value) {
+          return String(value || '?')
+            .trim()
+            .split(/\s+/)
+            .slice(0, 2)
+            .map(part => part[0] || '')
+            .join('')
+            .toUpperCase()
+        }
+
+        function renderDataListCards(context, rows, config, listState) {
+          if (!rows.length)
+            return `<div class="customer-lookup-empty">No ${encodeHtml(config.label)} match this view.</div>`
+          return `<div class="data-card-grid" role="list" aria-label="${encodeHtml(config.label)} cards">${rows
+            .map(row => {
+              const key = String(row[config.key])
+              const selected = listState.selected.has(key)
+              const isCustomer = context === 'customer'
+              const title = isCustomer ? row.customerName : `Sales Invoice ${row.no}`
+              const subtitle = isCustomer ? `Customer ${row.customerNo}` : row.seq
+              const badge = isCustomer
+                ? `<span class="badge ${row.active ? 'ok' : 'gray'}">${row.active ? 'Active' : 'Inactive'}</span>`
+                : `<span class="badge ${row.pay === 'Credit' ? 'fix' : 'ok'}">${encodeHtml(row.pay)}</span>`
+              const details = isCustomer
+                ? [
+                    ['Customer type', row.customerType],
+                    ['Customer group', row.customerGroup],
+                    ['Operation unit', row.operationUnit],
+                    ['Country', row.country],
+                    ['Phone', row.phone],
+                    ['Currency', row.currency],
+                  ]
+                : [
+                    ['Document date', row.date],
+                    ['Customer', row.custName],
+                    ['Customer No.', row.custNo],
+                    ['Payment method', row.pay],
+                    ['Document subtype', row.subtype],
+                    ['Document No.', row.no],
+                  ]
+              return `<article class="data-record-card" role="listitem" data-list-row-key="${encodeHtml(key)}" aria-selected="${selected}"><header class="data-record-card-header"><input type="checkbox" data-list-row-select value="${encodeHtml(key)}" aria-label="Select ${encodeHtml(config.singular)} ${encodeHtml(key)}"${selected ? ' checked' : ''}><div class="data-record-card-title"><span class="data-record-avatar" aria-hidden="true">${encodeHtml(dataRecordInitials(isCustomer ? row.customerName : row.no))}</span><div><strong>${encodeHtml(title)}</strong><span>${encodeHtml(subtitle)}</span></div></div>${badge}</header><dl class="data-record-card-details">${details.map(([label, value]) => `<div><dt>${encodeHtml(label)}</dt><dd>${encodeHtml(String(value ?? '—'))}</dd></div>`).join('')}</dl><footer class="data-record-card-footer"><span class="muted">${isCustomer ? encodeHtml(row.customerType) : encodeHtml(row.date)}</span><button class="customer-record-link" type="button" data-list-open-record="${encodeHtml(key)}">View ${encodeHtml(config.singular)}</button></footer></article>`
+            })
+            .join('')}</div>`
+        }
+
+        function restoreDataListSearchFocus(canvas) {
+          const search = canvas.querySelector('[data-list-search]')
+          search?.focus({preventScroll: true})
+          search?.setSelectionRange(search.value.length, search.value.length)
+        }
+
+        function restoreDataListFilterFocus(canvas, filterKey) {
+          const editor = canvas.querySelector(`[data-filter-editor-key="${CSS.escape(filterKey)}"]`)
+          const input = editor?.querySelector('[data-list-filter-value]')
+          if (!editor || !input) return
+          editor.open = true
+          input.focus({preventScroll: true})
+          if (input instanceof HTMLInputElement)
+            input.setSelectionRange(input.value.length, input.value.length)
+          requestAnimationFrame(() => positionDataMenu(editor))
+        }
+
+        function positionDataMenu(details) {
+          if (!details?.open) return
+          const summary = details.querySelector(':scope > summary')
+          const popover = details.querySelector(':scope > .data-menu-popover')
+          if (!summary || !popover) return
+          const margin = 8
+          const gap = 6
+          const anchor = summary.getBoundingClientRect()
+          popover.style.left = `${margin}px`
+          popover.style.top = `${margin}px`
+          popover.style.maxHeight = `${Math.max(120, window.innerHeight - margin * 2)}px`
+          const rect = popover.getBoundingClientRect()
+          const alignEnd =
+            details.classList.contains('end') || details.classList.contains('data-page-manage')
+          let left = alignEnd ? anchor.right - rect.width : anchor.left
+          left = Math.max(margin, Math.min(left, window.innerWidth - rect.width - margin))
+          let top = anchor.bottom + gap
+          if (top + rect.height > window.innerHeight - margin)
+            top = Math.max(margin, anchor.top - rect.height - gap)
+          popover.style.left = `${left}px`
+          popover.style.top = `${top}px`
+        }
+
+        function applyFrozenDataListColumns(canvas, visibleColumns, listState) {
+          let offset =
+            canvas.querySelector('.inv-grid th:first-child')?.getBoundingClientRect().width || 0
+          visibleColumns.forEach(column => {
+            if (!listState.frozenColumns.has(column.key)) return
+            const cells = canvas.querySelectorAll(`[data-col="${CSS.escape(column.key)}"]`)
+            cells.forEach(cell => {
+              cell.dataset.frozen = 'true'
+              cell.style.insetInlineStart = `${offset}px`
+            })
+            offset += cells[0]?.getBoundingClientRect().width || 0
+          })
+        }
+
+        function renderDataList(context, {focusSearch = false, focusFilterKey = ''} = {}) {
+          const config = DATA_LIST_CONFIG[context]
+          const listState = dataListState[context]
+          const canvas = listState.canvas
+          if (!canvas) return
+          const rows = dataListRows(context)
+          const visibleColumns = config.columns.filter(
+            column => !listState.hiddenColumns.has(column.key)
+          )
+          const visibleKeys = rows.map(row => String(row[config.key]))
+          const selectedVisible = visibleKeys.filter(key => listState.selected.has(key)).length
+          const allSelected = Boolean(visibleKeys.length) && selectedVisible === visibleKeys.length
+          const toolbar = listState.selected.size
+            ? renderDataListSelectionToolbar(config, listState.selected.size)
+            : renderDataListToolbar(config, listState)
+          const sortedBy =
+            config.columns.find(column => column.key === listState.sortKey)?.label || ''
+          const records =
+            listState.view === 'cards'
+              ? renderDataListCards(context, rows, config, listState)
+              : `<div class="data-table-scroll"><table class="inv-grid borders-${encodeHtml(listState.borderMode)}"><thead><tr><th><input type="checkbox" data-list-select-all aria-label="Select all visible ${encodeHtml(config.label)}"${allSelected ? ' checked' : ''}></th>${renderDataListHeader(visibleColumns, listState)}<th class="data-row-actions-cell" aria-label="Record actions"></th></tr></thead><tbody>${renderDataListBody(context, rows, visibleColumns, config, listState)}</tbody></table></div>`
+          canvas.innerHTML = `<div class="data-list-controls">${toolbar}</div><div class="data-list-shell" data-data-list="${context}">${records}<div class="data-list-footer"><span>Showing ${rows.length} of ${listState.sourceRows.length} ${encodeHtml(config.label)}</span><span>${listState.view === 'cards' ? 'Cards view' : `Sorted by ${encodeHtml(sortedBy)}`}</span></div></div>`
+          const selectAll = canvas.querySelector('[data-list-select-all]')
+          if (selectAll) selectAll.indeterminate = selectedVisible > 0 && !allSelected
+          wireDataList(canvas, context)
+          if (listState.view === 'list')
+            applyFrozenDataListColumns(canvas, visibleColumns, listState)
+          if (focusSearch) restoreDataListSearchFocus(canvas)
+          if (focusFilterKey) restoreDataListFilterFocus(canvas, focusFilterKey)
+        }
+
+        function applyDataListFilterClick(event, context) {
+          const listState = dataListState[context]
+          const config = DATA_LIST_CONFIG[context]
+          const filter = event.target.closest('[data-list-filter]')
+          const addFilter = event.target.closest('[data-list-add-filter]')
+          const removeFilter = event.target.closest('[data-list-remove-field-filter]')
+          const operator = event.target.closest('[data-list-filter-operator]')
+          if (filter) {
+            listState.filter = filter.dataset.listFilter
+            listState.fieldFilters = []
+            listState.advanced = false
+            listState.sourceRows = config.rows
+            listState.selected.clear()
+          } else if (addFilter) {
+            const field = config.filterFields.find(
+              item => item.key === addFilter.dataset.listAddFilter
+            )
+            if (!field) return false
+            listState.fieldFilters.push({
+              key: field.key,
+              operator: field.type === 'text' ? 'contains' : 'equals',
+              value: field.type === 'select' ? String(dataFilterOptionValue(field.options[0])) : '',
+            })
+          } else if (removeFilter) {
+            listState.fieldFilters = listState.fieldFilters.filter(
+              item => item.key !== removeFilter.dataset.listRemoveFieldFilter
+            )
+          } else if (operator) {
+            const item = listState.fieldFilters.find(
+              fieldFilter => fieldFilter.key === operator.dataset.listFilterKey
+            )
+            if (item) item.operator = operator.dataset.listFilterOperator
+          } else if (event.target.closest('[data-list-clear-filter]')) listState.filter = 'all'
+          else if (event.target.closest('[data-list-clear-advanced]')) {
+            listState.advanced = false
+            listState.sourceRows = DATA_LIST_CONFIG[context].rows
+            listState.selected.clear()
+          } else if (event.target.closest('[data-list-advanced-search]')) {
+            openAdvancedSearch(context)
+            return true
+          } else return false
+          renderDataList(context, {
+            focusFilterKey: addFilter
+              ? addFilter.dataset.listAddFilter
+              : operator?.dataset.listFilterKey || '',
+          })
+          return true
+        }
+
+        function applyDataListToolbarClick(event, context) {
+          const listState = dataListState[context]
+          if (event.target.closest('[data-list-search-clear]')) {
+            listState.search = ''
+            renderDataList(context, {focusSearch: true})
+          } else if (event.target.closest('[data-list-clear-selection]')) {
+            listState.selected.clear()
+            renderDataList(context)
+          } else if (event.target.closest('[data-list-save-view]'))
+            toast({tone: 'ok', title: 'View saved for this prototype session'})
+          else return false
+          return true
+        }
+
+        function deleteDataListRecords(context, keys) {
+          const listState = dataListState[context]
+          const config = DATA_LIST_CONFIG[context]
+          const deleted = new Set(keys)
+          for (let index = config.rows.length - 1; index >= 0; index -= 1) {
+            if (deleted.has(String(config.rows[index][config.key]))) config.rows.splice(index, 1)
+          }
+          listState.sourceRows = listState.sourceRows.filter(
+            row => !deleted.has(String(row[config.key]))
+          )
+          deleted.forEach(key => listState.selected.delete(key))
+          renderDataList(context)
+          toast({
+            tone: 'ok',
+            title: `${deleted.size} ${deleted.size === 1 ? config.singular : config.label} deleted`,
+          })
+        }
+
+        function openDataListRecord(context, key, mode) {
+          if (context === 'customer') openCustomerRecord(key, mode)
+          else {
+            openInvoiceRecord(key)
+            const modeControl = document.getElementById('mode')
+            if (modeControl) {
+              modeControl.value = mode === 'view' ? 'record' : mode
+              modeControl.dispatchEvent(new Event('change', {bubbles: true}))
+            }
+          }
+        }
+
+        function toggleCustomerListStatus(row) {
+          row.active = !row.active
+          renderDataList('customer')
+          toast({
+            tone: 'ok',
+            title: `${row.customerName} ${row.active ? 'activated' : 'deactivated'}`,
+          })
+        }
+
+        function applyDataListRowAction(context, rowAction) {
+          const key = rowAction.closest('[data-list-row-key]')?.dataset.listRowKey
+          if (!key) return false
+          const command = rowAction.dataset.listRowAction
+          const config = DATA_LIST_CONFIG[context]
+          const row = config.rows.find(record => String(record[config.key]) === key)
+          if (command === 'display') openDataListRecord(context, key, 'view')
+          else if (command === 'modify') openDataListRecord(context, key, 'edit')
+          else if (command === 'delete') deleteDataListRecords(context, [key])
+          else if (command === 'toggle-status' && row) toggleCustomerListStatus(row)
+          else if (command === 'print')
+            openPrintSettings(
+              `${config.singular[0].toUpperCase() + config.singular.slice(1)} ${key}`
+            )
+          else
+            toast({
+              tone: 'ok',
+              title: `${rowAction.textContent.trim()} for ${config.singular} ${key}`,
+            })
+          return true
+        }
+
+        function applyDataListCommandClick(event, context) {
+          const listState = dataListState[context]
+          const view = event.target.closest('[data-list-view]')
+          const record = event.target.closest('[data-list-open-record]')
+          const action = event.target.closest('[data-list-action]')
+          const rowAction = event.target.closest('[data-list-row-action]')
+          const selectionAction = event.target.closest('[data-list-selection-action]')
+          const border = event.target.closest('[data-list-border]')
+          if (view) {
+            listState.view = view.dataset.listView
+            renderDataList(context)
+          } else if (border) {
+            listState.borderMode = border.dataset.listBorder
+            renderDataList(context)
+          } else if (rowAction) return applyDataListRowAction(context, rowAction)
+          else if (selectionAction?.dataset.listSelectionAction === 'delete') {
+            deleteDataListRecords(context, listState.selected)
+          } else if (action?.dataset.listAction === 'print') {
+            const config = DATA_LIST_CONFIG[context]
+            openPrintSettings(`${config.label[0].toUpperCase() + config.label.slice(1)} list`)
+          }
+          else if (record) {
+            openDataListRecord(context, record.dataset.listOpenRecord, 'view')
+          } else return false
+          return true
+        }
+
+        function applyDataListSortClick(event, context) {
+          const sort = event.target.closest('[data-list-sort]')
+          if (!sort) return false
+          const listState = dataListState[context]
+          const key = sort.dataset.listSort
+          listState.sortDirection =
+            listState.sortKey === key && listState.sortDirection === 'asc' ? 'desc' : 'asc'
+          listState.sortKey = key
+          renderDataList(context)
+          return true
+        }
+
+        function onDataListChange(event, context) {
+          const listState = dataListState[context]
+          const config = DATA_LIST_CONFIG[context]
+          const rowSelect = event.target.closest('[data-list-row-select]')
+          const column = event.target.closest('[data-list-column]')
+          const frozen = event.target.closest('[data-list-frozen-column]')
+          const filterValue = event.target.closest('[data-list-filter-value]')
+          if (rowSelect) {
+            if (rowSelect.checked) listState.selected.add(rowSelect.value)
+            else listState.selected.delete(rowSelect.value)
+          } else if (event.target.closest('[data-list-select-all]'))
+            dataListRows(context).forEach(row => {
+              const key = String(row[config.key])
+              if (event.target.checked) listState.selected.add(key)
+              else listState.selected.delete(key)
+            })
+          else if (column) {
+            if (column.checked) listState.hiddenColumns.delete(column.dataset.listColumn)
+            else listState.hiddenColumns.add(column.dataset.listColumn)
+          } else if (frozen) {
+            if (frozen.checked) listState.frozenColumns.add(frozen.dataset.listFrozenColumn)
+            else listState.frozenColumns.delete(frozen.dataset.listFrozenColumn)
+          } else if (filterValue) {
+            const filter = listState.fieldFilters.find(
+              item => item.key === filterValue.dataset.listFilterValue
+            )
+            if (filter) filter.value = filterValue.value
+          } else return
+          renderDataList(context)
+        }
+
+        function wireDataList(canvas, context) {
+          if (canvas.dataset.dataListWired) return
+          canvas.dataset.dataListWired = 'true'
+          canvas.addEventListener('click', event => {
+            if (applyDataListFilterClick(event, context)) return
+            if (applyDataListToolbarClick(event, context)) return
+            if (applyDataListSortClick(event, context)) return
+            applyDataListCommandClick(event, context)
+          })
+          canvas.addEventListener('change', event => onDataListChange(event, context))
+          canvas.addEventListener('input', event => {
+            const filterValue = event.target.closest('input[data-list-filter-value]')
+            if (filterValue) {
+              const filter = dataListState[context].fieldFilters.find(
+                item => item.key === filterValue.dataset.listFilterValue
+              )
+              if (filter) filter.value = filterValue.value
+              renderDataList(context, {
+                focusFilterKey: filterValue.dataset.listFilterValue,
+              })
+              return
+            }
+            const search = event.target.closest('[data-list-search]')
+            if (!search) return
+            dataListState[context].search = search.value
+            dataListState[context].selected.clear()
+            renderDataList(context, {focusSearch: true})
+          })
+        }
+
+        function renderCustomerList(rows = CUSTOMER_ROWS, {advanced = false} = {}) {
+          const listState = dataListState.customer
+          listState.sourceRows = rows
+          listState.advanced = advanced
+          listState.canvas = document.getElementById('customer-list-canvas')
+          renderDataList('customer')
         }
 
         function openCustomerRecord(customerNo, mode) {
@@ -13852,27 +15073,9 @@
         )
 
         function renderListA(canvas) {
-          canvas.innerHTML =
-            '<div class="inv-grid-wrap">' +
-            '<div class="inv-grid-toolbar">' +
-            '<button class="lbtn out" type="button" onclick="openAdvancedSearch()">' +
-            '<svg width="15" height="15" aria-hidden="true"><use href="#i-search"/></svg> Search</button>' +
-            '<div class="grow"></div>' +
-            '<button class="lbtn out" type="button" onclick="toast({tone:\'ok\',title:\'Columns menu is out of scope here\'})">Columns</button>' +
-            '<button class="lbtn out" type="button" onclick="toast({tone:\'ok\',title:\'Export is out of scope here\'})">Export</button>' +
-            '</div>' +
-            '<div class="inv-group-bar">Drag a column header here to group</div>' +
-            '<table class="inv-grid"><thead><tr>' +
-            LIST_COLUMNS.map(c => `<th>${c}</th>`).join('') +
-            '</tr></thead><tbody>' +
-            LIST_ROWS.map(
-              r =>
-                `<tr onclick="openInvoiceRecord('${r.no}')">` +
-                `<td>${r.seq}</td><td>${r.no}</td><td>${r.date}</td><td>${r.subtype}</td>` +
-                `<td>${r.pay}</td><td>${r.custNo}</td><td>${r.custName}</td></tr>`
-            ).join('') +
-            '</tbody></table>' +
-            '</div>'
+          dataListState.invoice.canvas = canvas
+          dataListState.invoice.sourceRows = LIST_ROWS
+          renderDataList('invoice')
         }
 
         function openInvoiceRecord(no) {
@@ -13976,16 +15179,41 @@
    markup — needs to be reachable outside this IIFE, same as openInvoiceRecord. */
         window.openAdvancedSearch = openAdvancedSearch
 
-        document.getElementById('customer-list-canvas').addEventListener('click', event => {
-          if (event.target.closest('#customer-search-open')) openCustomerSearch()
-          const row = event.target.closest('[data-customer-no]')
-          if (row) openCustomerRecord(row.dataset.customerNo, 'view')
-          const action = event.target.closest('[data-customer-list-action]')
-          if (action)
-            toast({
-              tone: 'ok',
-              title: `${encodeHtml(action.dataset.customerListAction)} is a prototype`,
-            })
+        document.addEventListener(
+          'toggle',
+          event => {
+            const details = event.target.closest?.('.data-menu, .data-page-manage')
+            if (!details?.open) return
+            document
+              .querySelectorAll('.data-menu[open], .data-page-manage[open]')
+              .forEach(openMenu => {
+                if (openMenu !== details && !openMenu.contains(details))
+                  openMenu.removeAttribute('open')
+              })
+            requestAnimationFrame(() => positionDataMenu(details))
+          },
+          true
+        )
+        const repositionOpenDataMenus = () =>
+          document
+            .querySelectorAll('.data-menu[open], .data-page-manage[open]')
+            .forEach(positionDataMenu)
+        window.addEventListener('resize', repositionOpenDataMenus)
+        document.addEventListener('scroll', repositionOpenDataMenus, true)
+
+        document.addEventListener('click', event => {
+          const manage = event.target.closest('[data-list-manage]')
+          if (manage) {
+            toast({tone: 'ok', title: `${manage.dataset.listManage} is ready for integration`})
+            manage.closest('details')?.removeAttribute('open')
+            return
+          }
+          const activeMenu = event.target.closest('.data-menu, .data-page-manage')
+          if (!activeMenu) {
+            document
+              .querySelectorAll('.data-menu[open], .data-page-manage[open]')
+              .forEach(details => details.removeAttribute('open'))
+          }
         })
         document
           .getElementById('customer-list-add')
@@ -14666,6 +15894,8 @@
           if (action === 'save') saveCustomer()
           if (action === 'undo') undoCustomer()
           if (action === 'search') openCustomerSearch()
+          if (action === 'print')
+            openPrintSettings(`Customer ${customerData.customerNo || 'New'}`)
           if (
             [
               'add-from',
@@ -14673,7 +15903,6 @@
               'delete',
               'lock',
               'reports',
-              'print',
               'parameters',
               'help',
               'accounts-movement',
@@ -14743,7 +15972,7 @@
               (!values.status || values.status === 'all statuses' || values.status === status)
             )
           })
-          renderCustomerList(rows)
+          renderCustomerList(rows, {advanced: true})
           closeAdvancedSearch()
         })
 
@@ -15419,6 +16648,7 @@
 
         /* every harness control, addressed by id, restored and persisted by value */
         const CONTROL_IDS = [
+          'content-layout',
           'mode',
           'st',
           'pay',
@@ -15427,7 +16657,10 @@
           'emptyflow',
           'rtl',
           'density',
+          'input-style',
           'section-style',
+          'customer-mode',
+          'customer-layout',
           'lang',
         ]
 
