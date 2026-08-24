@@ -4429,19 +4429,38 @@
         margin-bottom: 10px;
       }
       .rec-card-hd {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
         width: 100%;
         text-align: start;
         padding: 8px 12px;
         font-size: 12.5px;
         font-weight: 700;
-        color: var(--accent);
         background: var(--line-2);
         border: none;
         cursor: pointer;
       }
+      .rec-card-hd::after {
+        content: '';
+        flex: none;
+        width: 5px;
+        height: 5px;
+        border-inline-end: 2px solid currentColor;
+        border-block-end: 2px solid currentColor;
+        transform: rotate(45deg) translateY(-2px);
+        transition: transform 0.18s ease-out;
+      }
+      .rec-card-hd[aria-expanded='false']::after {
+        transform: rotate(-45deg);
+      }
+      [dir='rtl'] .rec-card-hd[aria-expanded='false']::after {
+        transform: rotate(135deg);
+      }
       .rec-card-body {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         gap: 10px 16px;
         padding: 12px;
       }
@@ -4633,9 +4652,34 @@
       }
 
       /* ============ Customer record layouts ============ */
+      .customer-record-view:not([hidden]) {
+        display: flex;
+        flex: 1;
+        min-height: 0;
+        flex-direction: column;
+      }
       .customer-record-canvas {
+        flex: 1;
+        min-height: 0;
         overflow: auto;
         text-align: start;
+      }
+      .customer-record-footer .customer-footer-note {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 12.5px;
+      }
+      .customer-record-footer .customer-footer-note::before {
+        content: '|';
+        margin-inline-end: 4px;
+        color: var(--line);
+      }
+      .customer-record-footer .end {
+        margin-inline-start: auto;
+        display: flex;
+        gap: 6px;
       }
       .customer-record-canvas .customer-summary-band {
         display: flex;
@@ -4666,10 +4710,10 @@
         border-color: var(--danger);
       }
       .customer-record-canvas .customer-section > h2,
-      .customer-record-canvas .customer-section-heading {
+      .customer-record-canvas .customer-section-heading,
+      .customer-record-canvas .customer-section-titlebar {
         width: 100%;
         padding: 8px 12px;
-        color: var(--accent);
         background: var(--line-2);
         font-size: 12.5px;
         font-weight: 700;
@@ -4689,6 +4733,14 @@
         justify-content: space-between;
         align-items: center;
       }
+      .customer-record-canvas .customer-section-titlebar > h2 {
+        display: flex;
+        min-width: 0;
+        gap: 8px;
+        align-items: center;
+        margin: 0;
+        font: inherit;
+      }
       .customer-record-canvas .customer-section-heading:hover {
         background: var(--accent-soft);
       }
@@ -4706,10 +4758,7 @@
       .customer-record-canvas .customer-section-heading[aria-expanded='false'] > svg {
         transform: rotate(-90deg);
       }
-      [dir='rtl']
-        .customer-record-canvas
-        .customer-section-heading[aria-expanded='false']
-        > svg {
+      [dir='rtl'] .customer-record-canvas .customer-section-heading[aria-expanded='false'] > svg {
         transform: rotate(90deg);
       }
       .customer-record-canvas .customer-section-label {
@@ -4733,7 +4782,7 @@
       }
       .customer-record-canvas .customer-field-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         gap: 10px 16px;
         padding: 12px;
       }
@@ -4748,6 +4797,67 @@
       }
       .customer-record-canvas .customer-check input {
         width: auto;
+      }
+      .customer-record-canvas .customer-toggle {
+        flex: none;
+      }
+      .customer-record-canvas .customer-toggle label {
+        min-height: 0;
+        gap: 8px;
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+      .customer-record-canvas .customer-toggle input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+      .customer-record-canvas .customer-toggle-track {
+        position: relative;
+        width: 34px;
+        height: 20px;
+        border-radius: 999px;
+        background: var(--line);
+        transition: background 0.15s ease-out;
+      }
+      .customer-record-canvas .customer-toggle-track::after {
+        position: absolute;
+        top: 3px;
+        inset-inline-start: 3px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--surface);
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.22);
+        content: '';
+        transition: transform 0.15s ease-out;
+      }
+      .customer-record-canvas .customer-toggle input:checked + .customer-toggle-track {
+        background: var(--accent);
+      }
+      .customer-record-canvas .customer-toggle input:checked + .customer-toggle-track::after {
+        transform: translateX(14px);
+      }
+      [dir='rtl']
+        .customer-record-canvas
+        .customer-toggle
+        input:checked
+        + .customer-toggle-track::after {
+        transform: translateX(-14px);
+      }
+      .customer-record-canvas .customer-toggle input:focus-visible + .customer-toggle-track {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .customer-record-canvas .customer-toggle input:disabled + .customer-toggle-track {
+        opacity: 0.6;
       }
       .customer-record-canvas .customer-photo {
         display: grid;
@@ -4767,9 +4877,59 @@
         border-radius: 50%;
         background: var(--line-2);
       }
+      .customer-record-canvas .customer-identity-body {
+        display: grid;
+        grid-template-columns: minmax(150px, 180px) minmax(0, 1fr);
+        align-items: stretch;
+      }
+      .customer-record-canvas .customer-identity-body > .customer-field-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        width: 100%;
+        max-width: 1560px;
+      }
+      .customer-record-canvas
+        .customer-identity-body
+        > .customer-field-grid
+        > .customer-field:has(> [data-customer-field='customerName']),
+      .customer-record-canvas
+        .customer-identity-body
+        > .customer-field-grid
+        > .customer-field:has(> [data-customer-field='accountCode']),
+      .customer-record-canvas
+        .customer-identity-body
+        > .customer-field-grid
+        > .customer-field:has(> [data-customer-field='customerGroup']),
+      .customer-record-canvas
+        .customer-identity-body
+        > .customer-field-grid
+        > .customer-field:has(> [data-customer-field='currency']) {
+        /* grid-column: span 2; */
+      }
+      .customer-record-canvas .customer-identity-photo {
+        padding: 12px 0 12px 12px;
+      }
+      [dir='rtl'] .customer-record-canvas .customer-identity-photo {
+        padding: 12px 12px 12px 0;
+      }
+      .customer-record-canvas .customer-identity-photo .customer-photo {
+        height: 100%;
+        min-height: 142px;
+      }
+      @media (min-width: 1800px) {
+        .customer-record-canvas .customer-identity-body > .customer-field-grid {
+          grid-template-columns: repeat(6, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 1100px) {
+        .customer-record-canvas .customer-identity-body > .customer-field-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
       .customer-record-canvas .customer-field [aria-invalid='true'] {
         border-color: var(--danger);
-        box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--danger);
+        box-shadow:
+          0 0 0 2px var(--surface),
+          0 0 0 4px var(--danger);
       }
       .customer-record-canvas .customer-field-error {
         display: block;
@@ -5003,11 +5163,165 @@
         .customer-record-canvas .customer-field-grid {
           grid-template-columns: minmax(0, 1fr);
         }
+        body .customer-record-canvas .customer-identity-body > .customer-field-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        body
+          .customer-record-canvas
+          .customer-identity-body
+          > .customer-field-grid
+          > .customer-field:has(> [data-customer-field]) {
+          grid-column: span 1;
+        }
+        .customer-record-canvas .customer-identity-body {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .customer-record-canvas .customer-identity-photo,
+        [dir='rtl'] .customer-record-canvas .customer-identity-photo {
+          padding: 12px 12px 0;
+        }
       }
       @media (prefers-reduced-motion: reduce) {
+        .rec-card-hd::after,
         .customer-record-canvas .customer-section-heading > svg {
           transition: none;
         }
+      }
+
+      /* Card appearance variants shared by Invoice and Customer records. */
+      body.cards-fieldset .rec-card,
+      body.cards-fieldset .customer-record-canvas .customer-section {
+        overflow: visible;
+        margin-top: 16px;
+        border-radius: 8px;
+        box-shadow: none;
+      }
+      body.cards-fieldset .rec-card:has(> .rec-card-hd[aria-expanded='false']),
+      body.cards-fieldset
+        .customer-record-canvas
+        .customer-section:has(> .customer-section-heading[aria-expanded='false']) {
+        min-height: 32px;
+      }
+      body.cards-fieldset .rec-card-hd,
+      body.cards-fieldset .customer-record-canvas .customer-section-heading,
+      body.cards-fieldset .customer-record-canvas .customer-section-titlebar {
+        position: relative;
+        top: -11px;
+        width: max-content;
+        max-width: calc(100% - 32px);
+        min-height: 22px;
+        margin: 0 16px -11px;
+        padding: 0 8px;
+        color: var(--ink);
+        background: var(--surface);
+      }
+      body.cards-fieldset .rec-card-hd::after,
+      body.cards-fieldset .customer-record-canvas .customer-section-heading > svg {
+        display: none;
+      }
+      body.cards-fieldset .rec-card-hd::before,
+      body.cards-fieldset .customer-record-canvas .customer-section-heading::before {
+        content: '−';
+        color: var(--muted);
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 1;
+      }
+      body.cards-fieldset .rec-card-hd[aria-expanded='false']::before,
+      body.cards-fieldset
+        .customer-record-canvas
+        .customer-section-heading[aria-expanded='false']::before {
+        content: '+';
+      }
+      body.cards-fieldset .customer-record-canvas .customer-identity-section {
+        position: relative;
+      }
+      body.cards-fieldset
+        .customer-record-canvas
+        .customer-identity-section
+        > .customer-section-titlebar {
+        position: static;
+        width: auto;
+        max-width: none;
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+        background: transparent;
+      }
+      body.cards-fieldset
+        .customer-record-canvas
+        .customer-identity-section
+        > .customer-section-titlebar
+        > h2,
+      body.cards-fieldset
+        .customer-record-canvas
+        .customer-identity-section
+        > .customer-section-titlebar
+        > .customer-toggle {
+        position: absolute;
+        top: -11px;
+        z-index: 1;
+        min-height: 22px;
+        padding: 0 8px;
+        background: var(--surface);
+      }
+      body.cards-fieldset
+        .customer-record-canvas
+        .customer-identity-section
+        > .customer-section-titlebar
+        > h2 {
+        inset-inline-start: 16px;
+      }
+      body.cards-fieldset
+        .customer-record-canvas
+        .customer-identity-section
+        > .customer-section-titlebar
+        > .customer-toggle {
+        inset-inline-end: 16px;
+      }
+      body.cards-panel .rec-card,
+      body.cards-panel .customer-record-canvas .customer-section {
+        border-radius: 8px;
+        box-shadow: none;
+      }
+      body.cards-panel .rec-card-hd,
+      body.cards-panel .customer-record-canvas .customer-section-heading,
+      body.cards-panel .customer-record-canvas .customer-section-titlebar {
+        padding: 8px 12px;
+        color: var(--ink);
+        background: var(--surface);
+        font-size: 14px;
+      }
+      body.cards-panel.density-compact .rec-card-hd,
+      body.cards-panel.density-compact .customer-record-canvas .customer-section-heading,
+      body.cards-panel.density-compact .customer-record-canvas .customer-section-titlebar {
+        padding: 4px 8px;
+      }
+      body.cards-panel .rec-card-hd::after,
+      body.cards-panel .customer-record-canvas .customer-section-heading::after {
+        content: '−';
+        width: auto;
+        height: auto;
+        border: 0;
+        color: var(--muted);
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 1;
+        transform: none;
+      }
+      body.cards-panel .rec-card-hd[aria-expanded='false']::after,
+      body.cards-panel
+        .customer-record-canvas
+        .customer-section-heading[aria-expanded='false']::after {
+        content: '+';
+        transform: none;
+      }
+      body.cards-panel .customer-record-canvas .customer-section-heading > svg {
+        display: none;
+      }
+      body.cards-panel .rec-card-body,
+      body.cards-panel .customer-record-canvas .customer-section-body {
+        border-top: 0;
       }
 
       /* ============ Input style variants (prototype control) ============
@@ -5151,6 +5465,14 @@
           <option value="inline">Inline label</option>
         </select>
       </div>
+      <div class="grp" id="section-style-group">
+        <label for="section-style">Card style:</label>
+        <select id="section-style" autocomplete="off">
+          <option value="standard" selected>Standard</option>
+          <option value="fieldset">Fieldset</option>
+          <option value="panel">Panel</option>
+        </select>
+      </div>
       <div class="grp" id="invoice-mode-group">
         <label for="mode">Mode:</label>
         <select id="mode" autocomplete="off">
@@ -5201,9 +5523,7 @@
       <div class="grp" id="customer-layout-group" hidden>
         <label for="customer-layout">Customer layout:</label>
         <select id="customer-layout" autocomplete="off">
-          <option value="guided" selected>1 · Guided Sections</option>
-          <option value="focused">2 · Focused Navigator</option>
-          <option value="compact">3 · Compact Workspace</option>
+          <option value="guided" selected>1 · Tabbed Customer</option>
           <option value="scroll">4 · Scroll Navigator</option>
         </select>
       </div>
@@ -6441,11 +6761,23 @@
         <div class="customer-record-view" hidden>
           <div id="customer-record-chrome"></div>
           <div class="canvas customer-record-canvas" id="customer-record-canvas"></div>
-          <div class="fnav">
+          <div class="fnav customer-record-footer">
             <span class="customer-record-pager-mount"></span>
-            <span class="pos" id="customer-record-position" aria-live="polite"
-              >1 of 72 customers</span
-            >
+            <span class="pos" id="customer-record-position" aria-live="polite">Record 1 of 72</span>
+            <span class="customer-footer-note" id="customer-footer-note">
+              <svg width="13" height="13" aria-hidden="true"><use href="#i-lock" /></svg>
+              Saved customer. Choose Modify to edit.
+            </span>
+            <span class="end">
+              <button class="ctx" type="button" data-customer-footer-action="statement">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-doc" /></svg>
+                Customer Statement
+              </button>
+              <button class="ctx" type="button" data-customer-footer-action="contact">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-user" /></svg>
+                Add Contact
+              </button>
+            </span>
           </div>
         </div>
       </template>
@@ -7065,6 +7397,28 @@
             </button>
             <button class="lbtn out" id="g-stay">Stay here</button>
             <button class="lbtn pri" id="g-save">Save, then leave</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dscrim" id="customer-gscrim">
+      <div class="guard" role="dialog" aria-modal="true" aria-labelledby="customer-g-title">
+        <div class="gh">
+          <svg width="17" height="17" style="color: #8a5a00" aria-hidden="true">
+            <use href="#i-clock" />
+          </svg>
+          <h3 id="customer-g-title">You have unsaved customer changes</h3>
+        </div>
+        <div class="gb">
+          <span id="customer-g-msg"></span>
+          <div class="lst" id="customer-g-what"></div>
+        </div>
+        <div class="gf">
+          <button class="lbtn out" id="customer-g-discard">Leave without saving</button>
+          <span class="end">
+            <button class="lbtn out" id="customer-g-stay">Stay here</button>
+            <button class="lbtn pri" id="customer-g-save">Save, then leave</button>
           </span>
         </div>
       </div>
@@ -10868,11 +11222,7 @@
      email view or list view: they reuse .phead/.tline/.crumbs for a consistent
      look but their breadcrumb and title are their own, not the invoice's. */
           document.querySelectorAll('.d1 .tline h1, .d2 .idty h1').forEach(h => {
-            if (
-              h.closest(
-                '.email-view, .list-view, .customer-list-view, .customer-record-view'
-              )
-            )
+            if (h.closest('.email-view, .list-view, .customer-list-view, .customer-record-view'))
               return
             h.textContent = creating ? 'New sales invoice' : `Sales Invoice ${state.docNo}`
           })
@@ -10894,9 +11244,7 @@
             )
           document.querySelectorAll('.crumbs [aria-current=page]').forEach(c => {
             if (
-              c.closest(
-                '.d2, .email-view, .list-view, .customer-list-view, .customer-record-view'
-              )
+              c.closest('.d2, .email-view, .list-view, .customer-list-view, .customer-record-view')
             )
               return
             c.textContent = creating ? 'New' : 'All'
@@ -11190,6 +11538,10 @@
           document.body.classList.remove('style-floated', 'style-ghost', 'style-inline')
           if (e.target.value !== 'default') document.body.classList.add(`style-${e.target.value}`)
           syncGhostPlaceholders()
+        })
+        document.getElementById('section-style').addEventListener('change', e => {
+          document.body.classList.remove('cards-fieldset', 'cards-panel')
+          if (e.target.value !== 'standard') document.body.classList.add(`cards-${e.target.value}`)
         })
         /* the ghost variant shows each field's label as its placeholder instead
    of a caption above the field — real <input>/<textarea> get a native
@@ -11556,9 +11908,7 @@
           String(value ?? '').replace(
             /[&<>"']/g,
             character =>
-              ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[
-                character
-              ]
+              ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[character]
           )
 
         const CUSTOMER_SECTION_ORDER = [
@@ -11571,13 +11921,10 @@
           'subLedgers',
           'contactDetails',
         ]
-        const CUSTOMER_GUIDED_TOP = [
-          'identity',
+        const CUSTOMER_GUIDED_TABS = [
           'deactivation',
           'nationalAddress',
           'defaultContact',
-        ]
-        const CUSTOMER_GUIDED_TABS = [
           'mainData',
           'otherData',
           'subLedgers',
@@ -11661,6 +12008,7 @@
 
         function renderCustomerSectionStatus(key) {
           const meta = customerSectionMeta(key)
+          if (!meta.hasErrors) return ''
           return `<span class="customer-section-status ${encodeHtml(meta.className)}" data-customer-status="${encodeHtml(key)}">${encodeHtml(meta.text)}</span>`
         }
 
@@ -11712,7 +12060,7 @@
           renderCustomerRecord()
         }
 
-        function renderCustomerField(field) {
+        function renderCustomerField(field, {asToggle = false} = {}) {
           const value = customerData[field.key]
           const disabled = customerState.mode === 'view' ? ' disabled' : ''
           const key = encodeHtml(field.key)
@@ -11724,17 +12072,18 @@
           const error = customerState.errors.get(field.key) || ''
           const invalid = error ? ' aria-invalid="true"' : ''
           const describedBy = error ? ` aria-describedby="${id}-error"` : ''
-          const requiredMark = required
-            ? '<span class="req" aria-hidden="true">*</span>'
-            : ''
+          const requiredMark = required ? '<span class="req" aria-hidden="true">*</span>' : ''
           const errorMarkup = error
             ? `<span class="customer-field-error" id="${id}-error">${encodeHtml(error)}</span>`
             : ''
           if (field.type === 'checkbox') {
+            if (asToggle) {
+              return `<div class="rec-field customer-field customer-check customer-toggle"><label for="${id}"><span>${label}</span><input id="${id}" type="checkbox" role="switch" data-customer-field="${key}"${value ? ' checked' : ''}${disabled}><span class="customer-toggle-track" aria-hidden="true"></span></label></div>`
+            }
             return `<div class="rec-field customer-field customer-check"><label for="${id}"><input id="${id}" type="checkbox" data-customer-field="${key}"${value ? ' checked' : ''}${disabled}> <span>${label}</span></label></div>`
           }
           if (field.type === 'photo') {
-            return `<div class="rec-field customer-field customer-photo"><span class="customer-photo-preview"><svg width="24" height="24" aria-hidden="true"><use href="#i-user" /></svg></span><button id="${id}" class="lbtn out" type="button" data-customer-field="${key}" data-customer-action="photo"${disabled}><svg width="15" height="15" aria-hidden="true"><use href="#i-clip" /></svg> Select Photo</button></div>`
+            return `<div class="rec-field customer-field customer-photo"><label for="${id}">${label}</label><span class="customer-photo-preview"><svg width="24" height="24" aria-hidden="true"><use href="#i-user" /></svg></span><button id="${id}" class="lbtn out" type="button" data-customer-field="${key}" data-customer-action="photo"${disabled}><svg width="15" height="15" aria-hidden="true"><use href="#i-clip" /></svg> Select Photo</button></div>`
           }
           if (field.type === 'select') {
             const options = [...new Set([value, ...field.options])]
@@ -11754,11 +12103,31 @@
 
         function renderCustomerSectionBody(key) {
           const section = CUSTOMER_SECTIONS[key]
+          if (key === 'identity') {
+            const photo = section.fields.find(field => field.type === 'photo')
+            const identityFields = section.fields.filter(
+              field => field !== photo && field.key !== 'linkedBeneficiaries'
+            )
+            return `<div class="customer-identity-body"><div class="customer-identity-photo">${renderCustomerField(photo)}</div><div class="customer-field-grid">${identityFields.map(renderCustomerField).join('')}</div></div>`
+          }
           if (section.type === 'subledgers') return renderCustomerSubLedgers()
           if (section.type === 'empty') {
             return `<div class="customer-empty-state"><svg width="28" height="28" aria-hidden="true"><use href="#i-user" /></svg><h3>No contact details to display</h3><p>The supplied reference does not define contact-detail fields.</p></div>`
           }
           return `<div class="customer-field-grid">${section.fields.map(renderCustomerField).join('')}</div>`
+        }
+
+        function renderCustomerIdentitySection(concept) {
+          const section = CUSTOMER_SECTIONS.identity
+          const meta = customerSectionMeta('identity')
+          const linked = section.fields.find(field => field.key === 'linkedBeneficiaries')
+          const conceptAttribute = concept ? ` data-customer-concept="${encodeHtml(concept)}"` : ''
+          return `<section class="customer-section customer-identity-section" data-customer-section="identity"${conceptAttribute} data-customer-has-errors="${meta.hasErrors}"><div class="customer-section-titlebar"><h2><span>${encodeHtml(section.title)}</span>${renderCustomerSectionStatus('identity')}</h2>${renderCustomerField(linked, {asToggle: true})}</div><div class="customer-section-body">${renderCustomerSectionBody('identity')}</div></section>`
+        }
+
+        function renderCustomerTabSection(key) {
+          const meta = customerSectionMeta(key)
+          return `<section class="customer-section customer-tab-section" data-customer-section="${encodeHtml(key)}" data-customer-has-errors="${meta.hasErrors}"><div class="customer-section-body">${renderCustomerSectionBody(key)}</div></section>`
         }
 
         function renderCustomerSection(key) {
@@ -11796,45 +12165,89 @@
           const title = creating
             ? 'New Customer'
             : `Customer ${encodeHtml(customerData.customerNo)}`
+          const viewActions = `<button class="lbtn pri" type="button" data-customer-action="modify"><svg width="15" height="15" aria-hidden="true"><use href="#i-edit" /></svg> Modify</button><span class="vsep"></span><span class="newwrap menu"><button class="lbtn out main" type="button" data-customer-action="new"><svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> New</button><button class="car" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Other ways to create a customer"><svg width="11" height="11" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="mlist mend" role="menu"><button role="menuitem" type="button" data-customer-action="add-from">Add From</button><button role="menuitem" type="button" data-customer-action="new-tab">Open in new tab</button></div></span><button class="lbtn out danger" type="button" data-customer-action="delete" disabled><svg width="15" height="15" aria-hidden="true"><use href="#i-trash" /></svg> Delete</button>`
+          const editActions = `<button class="lbtn pri" type="button" data-customer-action="save"><svg width="15" height="15" aria-hidden="true"><use href="#i-save" /></svg> Save</button><button class="lbtn out" type="button" data-customer-action="undo"><svg width="15" height="15" aria-hidden="true"><use href="#i-undo" /></svg> Undo</button>`
           document.getElementById('customer-record-chrome').innerHTML = `
     <div class="arow customer-arow" role="toolbar" aria-label="Customer toolbar">
-      <button type="button" class="lbtn out" data-customer-action="record-menu">Record</button>
-      <button type="button" class="lbtn out" data-customer-action="procedure-menu">Procedure</button>
-      <button type="button" class="lbtn out" data-customer-action="more-menu">More</button>
+      <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">Record <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="mlist" role="menu"><button role="menuitem" type="button" data-customer-action="new"><svg width="14" height="14" aria-hidden="true"><use href="#i-plus" /></svg> New</button><button role="menuitem" type="button" data-customer-action="add-from"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg> Add From</button><button role="menuitem" type="button" data-customer-action="modify"${editing ? ' disabled' : ''}><svg width="14" height="14" aria-hidden="true"><use href="#i-edit" /></svg> Modify</button><button role="menuitem" type="button" data-customer-action="delete"${editing ? ' disabled' : ''}><svg width="14" height="14" aria-hidden="true"><use href="#i-trash" /></svg> Delete</button><button role="menuitem" type="button" data-customer-action="search"><svg width="14" height="14" aria-hidden="true"><use href="#i-search" /></svg> Search</button></div></div>
+      <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">Procedure <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="mlist" role="menu"><button role="menuitem" type="button" data-customer-action="save"${editing ? '' : ' disabled'}><svg width="14" height="14" aria-hidden="true"><use href="#i-save" /></svg> Save</button><button role="menuitem" type="button" data-customer-action="lock"><svg width="14" height="14" aria-hidden="true"><use href="#i-lock" /></svg> Lock Screen</button><button role="menuitem" type="button" data-customer-action="reports"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg> Reports</button><button role="menuitem" type="button" data-customer-action="print"><svg width="14" height="14" aria-hidden="true"><use href="#i-print" /></svg> Print</button><button role="menuitem" type="button" data-customer-action="undo"${editing ? '' : ' disabled'}><svg width="14" height="14" aria-hidden="true"><use href="#i-undo" /></svg> Undo</button></div></div>
+      <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">More <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="mlist" role="menu"><button role="menuitem" type="button" data-customer-action="parameters"><svg width="14" height="14" aria-hidden="true"><use href="#i-sliders" /></svg> Screen Parameters</button><button role="menuitem" type="button" data-customer-action="help"><svg width="14" height="14" aria-hidden="true"><use href="#i-help" /></svg> Help</button></div></div>
+      <div class="sp"></div>
+      <button type="button" class="lbtn" data-customer-action="accounts-movement"><svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg> Accounts Movement</button>
+      <button type="button" class="lbtn" data-customer-action="deactivate"><svg width="15" height="15" aria-hidden="true"><use href="#i-lock" /></svg> Deactivate</button>
     </div>
     <div class="phead">
       <div class="l">
         <nav class="crumbs" aria-label="Breadcrumb"><a href="#">Home</a><span class="sep">›</span><button class="customer-back" type="button">Customers</button><span class="sep">›</span><span aria-current="page">${creating ? 'New' : 'All'}</span></nav>
         <div class="tline"><h1>${title}</h1><span class="badge ${customerData.deactivationFrom ? 'gray' : 'ok'}">${customerData.deactivationFrom ? 'Inactive' : 'Active'}</span></div>
       </div>
-      <div class="r">
-        <button class="lbtn out" type="button" data-customer-action="new"${editing ? ' hidden' : ''}>New</button>
-        <button class="lbtn pri" type="button" data-customer-action="modify"${editing ? ' hidden' : ''}>Modify</button>
-        <button class="lbtn pri" type="button" data-customer-action="save"${editing ? '' : ' hidden'}><svg width="15" height="15" aria-hidden="true"><use href="#i-save" /></svg> Save</button>
-        <button class="lbtn out" type="button" data-customer-action="undo"${editing ? '' : ' hidden'}><svg width="15" height="15" aria-hidden="true"><use href="#i-undo" /></svg> Undo</button>
-      </div>
+      <div class="r"><span class="recacts">${editing ? editActions : viewActions}</span></div>
     </div>`
+          syncCustomerRecordFooter()
         }
 
-        function renderCustomerSummaryBand() {
-          return `<div class="customer-summary-band"><b>${encodeHtml(customerData.customerNo || 'New customer')}</b><span class="customer-summary-name">${encodeHtml(customerData.customerName || 'Unnamed customer')}</span><span>${encodeHtml(customerData.contactPhone || 'No phone')}</span><span class="customer-summary-currency">${encodeHtml(customerData.currency || 'No currency')}</span></div>`
+        function syncCustomerRecordFooter() {
+          const footer = document.querySelector('.customer-record-footer')
+          if (!footer) return
+          const rowIndex = CUSTOMER_ROWS.findIndex(
+            customer => customer.customerNo === customerData.customerNo
+          )
+          const position = Math.max(1, rowIndex + 1)
+          const pager = footer.querySelector('.pager')
+          const input = pager?.querySelector('.pg-i')
+          const total = pager?.querySelector('.tot')
+          if (total) total.textContent = 'of 72'
+          const positionLabel = document.getElementById('customer-record-position')
+          const setPosition = value => {
+            const next = Math.min(72, Math.max(1, Number(value) || 1))
+            input.value = String(next)
+            input.dataset.last = String(next)
+            pager.querySelector('.pg-f').disabled = next === 1
+            pager.querySelector('.pg-p').disabled = next === 1
+            pager.querySelector('.pg-n').disabled = next === 72
+            pager.querySelector('.pg-l').disabled = next === 72
+            positionLabel.textContent = `Record ${next} of 72`
+          }
+          if (input && pager && positionLabel) {
+            input.max = '72'
+            pager.querySelector('.pg-f').onclick = () => setPosition(1)
+            pager.querySelector('.pg-p').onclick = () => setPosition(Number(input.value) - 1)
+            pager.querySelector('.pg-n').onclick = () => setPosition(Number(input.value) + 1)
+            pager.querySelector('.pg-l').onclick = () => setPosition(72)
+            input.onchange = () => setPosition(input.value)
+            setPosition(position)
+            const creating = customerState.mode === 'create'
+            input.readOnly = creating
+            if (creating) {
+              pager.querySelectorAll('button').forEach(button => (button.disabled = true))
+              positionLabel.textContent = 'New customer'
+            }
+          }
+          const note = document.getElementById('customer-footer-note')
+          if (note) {
+            const message =
+              customerState.mode === 'view'
+                ? 'Saved customer. Choose Modify to edit.'
+                : customerState.mode === 'create'
+                  ? 'New customer. Save when complete.'
+                  : 'Editing customer. Save or Undo your changes.'
+            note.lastChild.textContent = ` ${message}`
+          }
         }
 
         function renderCustomerGuided() {
           const canvas = document.getElementById('customer-record-canvas')
-          const top = CUSTOMER_GUIDED_TOP.map(key =>
-            renderCustomerCollapsible(key, 'guided')
-          ).join('')
+          const top = renderCustomerIdentitySection('guided')
           const activeKey = CUSTOMER_GUIDED_TABS.includes(customerState.activeSection)
             ? customerState.activeSection
-            : 'mainData'
+            : 'deactivation'
           customerState.activeSection = activeKey
           const tabs = CUSTOMER_GUIDED_TABS.map(key => {
             const selected = activeKey === key
             const section = CUSTOMER_SECTIONS[key]
             return `<button class="rec-tab${selected ? ' on' : ''}" id="customer-tab-${encodeHtml(key)}" type="button" role="tab" data-customer-tab="${encodeHtml(key)}" aria-controls="customer-guided-panel" aria-selected="${selected}" tabindex="${selected ? '0' : '-1'}"><span>${encodeHtml(section.title)}</span>${renderCustomerSectionStatus(key)}</button>`
           }).join('')
-          canvas.innerHTML = `<div class="customer-guided">${top}<div class="rec-tabs" role="tablist" aria-label="Customer details">${tabs}</div><div class="customer-guided-panel" id="customer-guided-panel" role="tabpanel" aria-labelledby="customer-tab-${encodeHtml(activeKey)}">${renderCustomerSection(activeKey)}</div></div>`
+          canvas.innerHTML = `<div class="customer-guided">${top}<div class="rec-tabs" role="tablist" aria-label="Customer details">${tabs}</div><div class="customer-guided-panel" id="customer-guided-panel" role="tabpanel" aria-labelledby="customer-tab-${encodeHtml(activeKey)}">${renderCustomerTabSection(activeKey)}</div></div>`
         }
         function renderCustomerFocused() {
           if (!CUSTOMER_SECTION_ORDER.includes(customerState.activeSection)) {
@@ -11842,7 +12255,8 @@
           }
           const nav = CUSTOMER_SECTION_ORDER.map(key => {
             const current = customerState.activeSection === key
-            return `<button type="button" id="customer-focused-${encodeHtml(key)}" data-customer-focus-section="${encodeHtml(key)}" aria-controls="customer-focused-panel"${current ? ' aria-current="page"' : ''} tabindex="${current ? '0' : '-1'}"><span>${encodeHtml(CUSTOMER_SECTIONS[key].title)}</span>${renderCustomerSectionStatus(key)}</button>`
+            const label = key === 'identity' ? 'Overview' : CUSTOMER_SECTIONS[key].title
+            return `<button type="button" id="customer-focused-${encodeHtml(key)}" data-customer-focus-section="${encodeHtml(key)}" aria-controls="customer-focused-panel"${current ? ' aria-current="page"' : ''} tabindex="${current ? '0' : '-1'}"><span>${encodeHtml(label)}</span>${renderCustomerSectionStatus(key)}</button>`
           }).join('')
           document.getElementById('customer-record-canvas').innerHTML = `
     ${renderCustomerSummaryBand()}
@@ -11882,8 +12296,9 @@
         function customerScrollStickyOffset() {
           if (!matchMedia('(max-width: 720px)').matches) return 12
           return (
-            document.querySelector('.customer-scroll-nav')?.getBoundingClientRect().height || 0
-          ) + 8
+            (document.querySelector('.customer-scroll-nav')?.getBoundingClientRect().height || 0) +
+            8
+          )
         }
 
         function customerScrollContainer() {
@@ -11957,10 +12372,13 @@
             const current = customerState.activeSection === key
             return `<button type="button" data-customer-scroll-section="${encodeHtml(key)}" aria-controls="customer-section-${encodeHtml(key)}" aria-current="${current ? 'page' : 'false'}">${encodeHtml(CUSTOMER_SECTIONS[key].title)}</button>`
           }).join('')
-          const sections = CUSTOMER_SECTION_ORDER.map(
-            key =>
-              `<div id="customer-section-${encodeHtml(key)}" data-customer-scroll-target="${encodeHtml(key)}">${renderCustomerCollapsible(key, 'scroll')}</div>`
-          ).join('')
+          const sections = CUSTOMER_SECTION_ORDER.map(key => {
+            const section =
+              key === 'identity'
+                ? renderCustomerIdentitySection('scroll')
+                : renderCustomerCollapsible(key, 'scroll')
+            return `<div id="customer-section-${encodeHtml(key)}" data-customer-scroll-target="${encodeHtml(key)}">${section}</div>`
+          }).join('')
           document.getElementById('customer-record-canvas').innerHTML = `
     <div class="customer-scroll-layout">
       <nav class="customer-scroll-nav" aria-label="Customer sections">${nav}</nav>
@@ -11984,7 +12402,7 @@
           const body = section.querySelector('.customer-section-body')
           const heading = section.querySelector('.customer-section-heading')
           body.hidden = false
-          heading.setAttribute('aria-expanded', 'true')
+          heading?.setAttribute('aria-expanded', 'true')
           const scroller = customerScrollContainer()
           const targetTop =
             scroller.scrollTop +
@@ -11997,10 +12415,7 @@
             behavior: reducedMotion ? 'auto' : 'smooth',
           })
           const finishNavigation = () => {
-            if (
-              navigationId !== customerScrollNavigationId ||
-              customerScrollNavigationKey !== key
-            )
+            if (navigationId !== customerScrollNavigationId || customerScrollNavigationKey !== key)
               return
             window.clearTimeout(customerScrollNavigationTimer)
             customerScrollNavigationTimer = 0
@@ -12015,16 +12430,13 @@
 
         const CUSTOMER_RENDERERS = {
           guided: renderCustomerGuided,
-          focused: renderCustomerFocused,
-          compact: renderCustomerCompact,
           scroll: renderCustomerScroll,
         }
 
-        function renderCustomerRecord({focusSelector = '', preserveScroll = false} = {}) {
+        function renderCustomerLayout({focusSelector = '', preserveScroll = false} = {}) {
           const canvas = document.getElementById('customer-record-canvas')
           const scrollTop = canvas.scrollTop
           stopCustomerScrollTracking()
-          renderCustomerRecordChrome()
           ;(CUSTOMER_RENDERERS[customerState.layout] || renderCustomerGuided)()
           if (preserveScroll) canvas.scrollTop = scrollTop
           if (customerState.layout === 'scroll') {
@@ -12034,6 +12446,11 @@
             const target = canvas.querySelector(focusSelector)
             if (target) target.focus({preventScroll: true})
           }
+        }
+
+        function renderCustomerRecord(options) {
+          renderCustomerRecordChrome()
+          renderCustomerLayout(options)
         }
 
         function setCustomerMode(mode) {
@@ -12066,11 +12483,12 @@
                 ?.scrollIntoView({block: 'center'})
             }
             toast({tone: 'bad', title: 'Complete the highlighted customer fields'})
-            return
+            return false
           }
           customerSavedSnapshot = structuredClone(customerData)
           setCustomerMode('view')
           toast({tone: 'ok', title: 'Customer saved'})
+          return true
         }
 
         function undoCustomer() {
@@ -12093,6 +12511,85 @@
           customerData = createSavedCustomerData(customerState.customerNo)
           customerSavedSnapshot = structuredClone(customerData)
         }
+
+        const customerGuardScrim = document.getElementById('customer-gscrim')
+        let customerGuardAfter = null
+        const customerAtRisk = () =>
+          customerState.mode === 'create' || (customerState.mode === 'edit' && customerState.dirty)
+
+        function askCustomerGuard(after, label) {
+          customerGuardAfter = after
+          document.getElementById('customer-g-msg').textContent =
+            customerState.mode === 'create'
+              ? 'This customer has never been saved.'
+              : 'This customer has changes that were never saved.'
+          document.getElementById('customer-g-what').textContent = `You were about to: ${label}.`
+          customerGuardScrim.classList.add('open')
+          setTimeout(() => trapFocus(customerGuardScrim.querySelector('.guard')), 0)
+        }
+
+        function closeCustomerGuard() {
+          customerGuardScrim.classList.remove('open')
+          releaseFocus()
+        }
+
+        document.getElementById('customer-g-stay').addEventListener('click', () => {
+          customerGuardAfter = null
+          closeCustomerGuard()
+        })
+        document.getElementById('customer-g-discard').addEventListener('click', () => {
+          const after = customerGuardAfter
+          customerGuardAfter = null
+          customerState.dirty = false
+          if (customerState.mode === 'edit') {
+            customerData = structuredClone(customerSavedSnapshot)
+          }
+          closeCustomerGuard()
+          after?.()
+        })
+        document.getElementById('customer-g-save').addEventListener('click', () => {
+          const after = customerGuardAfter
+          if (!saveCustomer()) {
+            customerGuardAfter = null
+            closeCustomerGuard()
+            return
+          }
+          customerGuardAfter = null
+          closeCustomerGuard()
+          after?.()
+        })
+        customerGuardScrim.addEventListener('click', event => {
+          if (event.target === customerGuardScrim) {
+            document.getElementById('customer-g-stay').click()
+          }
+        })
+        document.addEventListener('keydown', event => {
+          if (event.key === 'Escape' && customerGuardScrim.classList.contains('open')) {
+            document.getElementById('customer-g-stay').click()
+          }
+        })
+
+        document.addEventListener(
+          'click',
+          event => {
+            const recordView = document.querySelector('.customer-record-view')
+            const destination = event.target.closest(
+              '.customer-back, .nc1-item, [data-label], .customer-record-view .pager button'
+            )
+            if (recordView.hidden || !destination || !customerAtRisk()) return
+            event.preventDefault()
+            event.stopImmediatePropagation()
+            const backToList = destination.classList.contains('customer-back')
+            askCustomerGuard(
+              () => {
+                if (backToList) showContentView('customers-list')
+                else destination.click()
+              },
+              backToList ? 'return to the Customers list' : 'leave this customer record'
+            )
+          },
+          true
+        )
 
         function renderListA(canvas) {
           canvas.innerHTML =
@@ -12230,18 +12727,18 @@
               title: `${encodeHtml(action.dataset.customerListAction)} is a prototype`,
             })
         })
-        document.getElementById('customer-list-add').addEventListener('click', () =>
-          openCustomerRecord(null, 'create')
-        )
+        document
+          .getElementById('customer-list-add')
+          .addEventListener('click', () => openCustomerRecord(null, 'create'))
         const customerRecordCanvas = document.getElementById('customer-record-canvas')
         function refreshCustomerSectionStatus(sectionKey) {
           const meta = customerSectionMeta(sectionKey)
           customerRecordCanvas
             .querySelectorAll(`[data-customer-status="${sectionKey}"]`)
             .forEach(status => {
-              status.textContent = meta.text
+              status.textContent = meta.hasErrors ? meta.text : ''
+              status.hidden = !meta.hasErrors
               status.classList.toggle('is-error', meta.className === 'is-error')
-              status.classList.toggle('is-complete', meta.className === 'is-complete')
             })
           customerRecordCanvas
             .querySelectorAll(`[data-customer-section="${sectionKey}"]`)
@@ -12277,8 +12774,7 @@
           const control = event.target.closest('[data-customer-field]')
           if (!control) return
           const fieldKey = control.dataset.customerField
-          customerData[fieldKey] =
-            control.type === 'checkbox' ? control.checked : control.value
+          customerData[fieldKey] = control.type === 'checkbox' ? control.checked : control.value
           customerState.dirty = true
           const sectionKey = customerSectionKeyForField(fieldKey)
           const field = CUSTOMER_SECTIONS[sectionKey]?.fields.find(item => item.key === fieldKey)
@@ -12335,9 +12831,7 @@
         customerRecordCanvas.addEventListener('keydown', event => {
           if (
             customerScrollNavigationKey &&
-            ['ArrowDown', 'ArrowUp', 'End', 'Home', 'PageDown', 'PageUp', ' '].includes(
-              event.key
-            )
+            ['ArrowDown', 'ArrowUp', 'End', 'Home', 'PageDown', 'PageUp', ' '].includes(event.key)
           ) {
             stopCustomerScrollNavigation({interrupt: true})
           }
@@ -12399,12 +12893,32 @@
           }
           if (action === 'save') saveCustomer()
           if (action === 'undo') undoCustomer()
-          if (['record-menu', 'procedure-menu', 'more-menu'].includes(action)) {
+          if (action === 'search') openCustomerSearch()
+          if (
+            [
+              'add-from',
+              'new-tab',
+              'delete',
+              'lock',
+              'reports',
+              'print',
+              'parameters',
+              'help',
+              'accounts-movement',
+              'deactivate',
+            ].includes(action)
+          ) {
             toast({
               tone: 'ok',
-              title: `${encodeHtml(actionButton.textContent.trim())} actions are a prototype`,
+              title: `${encodeHtml(actionButton.textContent.trim())} is a prototype`,
             })
           }
+          if (action) closeAllMenus()
+        })
+        document.querySelector('.customer-record-footer').addEventListener('click', event => {
+          const action = event.target.closest('[data-customer-footer-action]')
+          if (!action) return
+          toast({tone: 'ok', title: `${encodeHtml(action.textContent.trim())} is a prototype`})
         })
         document.getElementById('customer-mode').addEventListener('change', event => {
           const mode = event.target.value
@@ -12420,7 +12934,7 @@
         })
         document.getElementById('customer-layout').addEventListener('change', event => {
           customerState.layout = event.target.value
-          renderCustomerRecord({preserveScroll: true})
+          renderCustomerLayout({preserveScroll: true})
         })
         let customerScrollResizeFrame = 0
         window.addEventListener('resize', () => {
@@ -12446,8 +12960,7 @@
           const rows = CUSTOMER_ROWS.filter(row => {
             const status = row.active ? 'active' : 'inactive'
             return (
-              (!values.customerNo ||
-                row.customerNo.toLowerCase().includes(values.customerNo)) &&
+              (!values.customerNo || row.customerNo.toLowerCase().includes(values.customerNo)) &&
               (!values.customerName ||
                 row.customerName.toLowerCase().includes(values.customerName)) &&
               (!values.typeGroup ||
@@ -13037,6 +13550,7 @@
           'emptyflow',
           'rtl',
           'density',
+          'section-style',
           'lang',
         ]
 
