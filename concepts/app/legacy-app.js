@@ -9,7 +9,7 @@
 // components per the plan.
 //
 // startLegacyApp(shared) is called once, after the app-shell markup has
-// been assembled into the document (see concepts/app/main.js), with
+// been assembled into the document (see concepts/app/entry.js), with
 // `shared` limited to exactly the finite set of facilities this task
 // isolates — not an arbitrary getter for every remaining legacy binding.
 import {normalizeHexColor, deriveAccentPair} from './core/appearance.js'
@@ -18,15 +18,9 @@ import {encodeHtml} from './core/locale.js'
 export function startLegacyApp(shared) {
         const {t, formatDate: formatLocaleDate, formatCurrency: formatLocaleCurrency, getLocale, setLocale} = shared.locale
         let appLocale = getLocale()
-        const appearance = shared.appearance
         const {trapFocus, releaseFocus} = shared.dialogFocus
         const toast = shared.toast
         const runWork = shared.work
-        const {
-          queue: queueSkeletonForCurrentView,
-          clear: clearSkeletonOverlays,
-          initTickers: initNumberTickers,
-        } = shared.loading
         /* ================================================================
    Localization — scoped to the one complete Arabic workflow the audit asked
    for (Customer record → Sales Invoice record → line entry → validation →
@@ -39,13 +33,14 @@ export function startLegacyApp(shared) {
    so closing the launchpad without a real navigation (e.g. opening a rail-icon
    flyout) can resync the prototype-controls panel to it. */
         let currentContentViewName = 'record'
-        /* the shared loading facility's getContainer callback needs to resolve
-   the currently visible page/view's skeleton host, which depends on
+        /* The loading facility's getContainer callback needs to resolve the
+   currently visible page/view's skeleton host, which depends on
    currentContentViewName above — a binding that does not exist yet at the
-   entry point's composition time (see concepts/app/entry.js). Filling this
-   in here, as the very next thing after currentContentViewName exists,
-   keeps every later loading.queue()/clear() call resolving the correct
-   container from this point on. */
+   entry point's composition time (see concepts/app/entry.js). So `loading`
+   itself is constructed here, as the very next thing after
+   currentContentViewName exists, passing currentSkeletonContainer through
+   createLoading's own getContainer parameter (shared.loading carries the
+   factory and its other constructor params from entry.js). */
         function currentSkeletonContainer() {
           const launchpad = document.querySelector('.lp-view:not([hidden])')
           if (launchpad) return launchpad
@@ -61,9 +56,14 @@ export function startLegacyApp(shared) {
           const selector = selectors[currentContentViewName]
           return selector ? document.querySelector(selector) : null
         }
-        if (shared.loading.resolveContainer) {
-          shared.loading.resolveContainer.current = currentSkeletonContainer
-        }
+        const {
+          queue: queueSkeletonForCurrentView,
+          clear: clearSkeletonOverlays,
+          initTickers: initNumberTickers,
+        } = shared.loading.create({
+          getContainer: currentSkeletonContainer,
+          isSimulationEnabled: shared.loading.isSimulationEnabled,
+        })
         /* ================= verified model =================
    Statuses: real ribbon flags. Actions: real shared.operationMenu labels.
    Action matrix verified by walking live records.                      */
@@ -4620,6 +4620,23 @@ export function startLegacyApp(shared) {
         const systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)')
         const systemContrastQuery = window.matchMedia('(prefers-contrast: more)')
         const highContrastToggle = document.getElementById('high-contrast')
+        /* The appearance facility's onChange callback ultimately needs
+   refreshOpenDataListCharts, which is private to this closure and isn't
+   defined until much later (alongside the rest of the chart code) — but
+   appearance.apply() is called during initial boot below (applyTheme's
+   first call), long before that point. onRefreshCharts is a plain
+   function-reference variable (not a property bolted onto the appearance
+   instance) that starts as a no-op and is reassigned, once, at the exact
+   spot refreshOpenDataListCharts comes into existence; the appearance
+   instance itself is still constructed here, in its original position,
+   via createAppearance's own onChange parameter, matching how loading's
+   getContainer is threaded through createLoading's parameter above. */
+        let onRefreshCharts = () => {}
+        const appearance = shared.appearance.create({
+          root: shared.appearance.root,
+          readControls: shared.appearance.readControls,
+          onChange: () => onRefreshCharts(),
+        })
         function applyTheme(requestedMode) {
           appearance.apply({
             mode: requestedMode,
@@ -7224,9 +7241,7 @@ export function startLegacyApp(shared) {
             if (listState.chartVisible && listState.canvas) refreshDataListForContext(context)
           })
         }
-        if (shared.appearance.resolveChartRefresh) {
-          shared.appearance.resolveChartRefresh.current = refreshOpenDataListCharts
-        }
+        onRefreshCharts = refreshOpenDataListCharts
 
         function renderBalancedStatistics(metrics) {
           return metrics

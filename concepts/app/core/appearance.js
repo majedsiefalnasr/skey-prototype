@@ -189,15 +189,4 @@ export function createAppearance({root, readControls, onChange}) {
   return {apply, getSettings, dispose}
 }
 
-export {
-  normalizeHexColor,
-  hexToRgb,
-  rgbToHex,
-  relativeLuminance,
-  colorContrast,
-  blendHex,
-  accessibleAccent,
-  deriveAccentPair,
-  setAccentTone,
-  applyAppearanceAccent,
-}
+export {normalizeHexColor, deriveAccentPair}
