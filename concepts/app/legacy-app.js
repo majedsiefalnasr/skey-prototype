@@ -97,7 +97,6 @@ import {
   toggleDataListStatus as sharedToggleDataListStatus,
   setDataListRecordsStatus as sharedSetDataListRecordsStatus,
   applyDataListRowAction as sharedApplyDataListRowAction,
-  openNewDataListRecord as sharedOpenNewDataListRecord,
   applyDataListToolbarCommand as sharedApplyDataListToolbarCommand,
   applyDataListCommandClick as sharedApplyDataListCommandClick,
   applyDataListSortClick as sharedApplyDataListSortClick,
@@ -4176,7 +4175,7 @@ export function startLegacyApp(shared) {
             if (manageMenu) renderDataPageManageMenu(manageMenu)
           },
           syncFooterPager: (footer, context, filteredCount) =>
-            syncShellListPager(context, filteredCount),
+            syncShellListPager(context, filteredCount, footer),
           applyFrozenDataListColumns: (canvas, visibleColumns, listState) =>
             applyFrozenDataListColumns(canvas, visibleColumns, listState),
           applyDataListFilterClick,
@@ -4199,8 +4198,8 @@ export function startLegacyApp(shared) {
         // handler below (multi-select "selection actions" content) — not a
         // dataListDeps entry since that handler runs once at the document
         // level, outside any single createDataList instance.
-        function renderDataListSelectionActions(context, listState) {
-          return sharedRenderDataListSelectionActions(context, listState, {t, dataListIcon})
+        function renderDataListSelectionActions(config, listState) {
+          return sharedRenderDataListSelectionActions(config, listState, {t, dataListIcon})
         }
 
         // The ~14 action/command handlers below are thin delegations to
@@ -4854,8 +4853,15 @@ export function startLegacyApp(shared) {
           renderDataList(context, {skipStatsAnimation: true})
         })
 
-        function syncShellListPager(context, filteredCount) {
-          const mount = document.getElementById(DATA_LIST_FNAV_IDS[context])
+        // `footer` lets callers that already hold the footer/pager mount
+        // element (the createDataList render flow, which receives it as an
+        // explicit parameter per the brief) pass it straight through instead
+        // of this function re-querying the DOM for it. Optional and falls
+        // back to the internal getElementById lookup when omitted, since
+        // other callers (keyboard nav, in-pager click/change handlers) only
+        // have `context` in scope.
+        function syncShellListPager(context, filteredCount, footer) {
+          const mount = footer || document.getElementById(DATA_LIST_FNAV_IDS[context])
           if (!mount) return
           const listState = dataListState[context]
           mount.hidden = listState.view === 'kanban'
@@ -10126,7 +10132,7 @@ export function startLegacyApp(shared) {
 
           if (listState.selected.size > 1 && listState.selected.has(key)) {
             event.preventDefault()
-            const actions = renderDataListSelectionActions(context, listState)
+            const actions = renderDataListSelectionActions(config, listState)
             openDataListContextMenu(event.clientX, event.clientY, `${copyEntry}${actions}`, context)
             return
           }

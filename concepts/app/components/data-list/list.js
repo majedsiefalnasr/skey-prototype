@@ -124,7 +124,7 @@ export function renderDataListFilterEditor(config, filter, deps) {
   return `<span class="data-filter-chip"><details class="data-menu data-filter-editor data-list-filter-editor" data-filter-editor-key="${encodeHtml(field.key)}"><summary>${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value">${encodeHtml(`${t(operator.label)} ${valueLabel || '…'}`)}</span></summary><div class="data-menu-popover data-filter-editor-popover">${operators}${input}</div></details>${removeButton}</span>`
 }
 
-export function renderDataListSelectionActions(context, listState, deps) {
+export function renderDataListSelectionActions(config, listState, deps) {
   const {t, dataListIcon} = deps
   const selectedCount = listState.selected.size
   if (!selectedCount) return ''
@@ -132,7 +132,7 @@ export function renderDataListSelectionActions(context, listState, deps) {
     selectedCount === 1
       ? `<button class="data-toolbar-button" type="button" data-list-action="display">${dataListIcon('i-eye')} ${t('Display', 'Display')}</button><button class="data-toolbar-button" type="button" data-list-action="modify">${dataListIcon('i-edit')} ${t('Modify')}</button>`
       : ''
-  const statusActions = ['customer', 'geo'].includes(context)
+  const statusActions = config.supportsActivateDeactivate
     ? `<button class="data-toolbar-button" type="button" data-list-action="activate">${dataListIcon('i-check')} ${t('Activate')}</button><button class="data-toolbar-button" type="button" data-list-action="deactivate">${dataListIcon('i-archive')} ${t('Deactivate')}</button>`
     : ''
   const chartAction = `<button class="data-toolbar-button" type="button" data-list-action="chart" aria-pressed="${listState.chartVisible}">${dataListIcon('i-chart')} ${t('Chart', 'Chart')}</button>`
@@ -155,12 +155,12 @@ export function dataListViewPresentation(view) {
   return {icon: 'i-grid', label: 'List'}
 }
 
-export function renderDataListViewMenu(context, listState, deps) {
+export function renderDataListViewMenu(config, listState, deps) {
   const {t, dataListIcon} = deps
   const current = dataListViewPresentation(listState.view)
   const option = (view, icon, label) =>
     `<button type="button" role="menuitemradio" data-list-view="${view}" aria-checked="${listState.view === view}">${dataListIcon(icon)} ${t(label)}${listState.view === view ? dataListIcon('i-check', 13) : ''}</button>`
-  return `<details class="data-menu end"><summary>${dataListIcon(current.icon)}<span class="data-toolbar-label-text">${t(current.label)}</span>${dataListIcon('i-caret', 11)}</summary><div class="data-menu-popover" role="menu">${option('list', 'i-grid', 'List view')}${option('responsive', 'i-panel', 'Compact view')}${option('adaptive', 'i-panel', 'Adaptive view')}${option('cards', 'i-panel', 'Cards view')}${context === 'invoice' ? option('kanban', 'i-flow', 'Kanban view') : ''}</div></details>`
+  return `<details class="data-menu end"><summary>${dataListIcon(current.icon)}<span class="data-toolbar-label-text">${t(current.label)}</span>${dataListIcon('i-caret', 11)}</summary><div class="data-menu-popover" role="menu">${option('list', 'i-grid', 'List view')}${option('responsive', 'i-panel', 'Compact view')}${option('adaptive', 'i-panel', 'Adaptive view')}${option('cards', 'i-panel', 'Cards view')}${config.supportsKanban ? option('kanban', 'i-flow', 'Kanban view') : ''}</div></details>`
 }
 
 export function renderDataListToolbar(context, config, listState, deps) {
@@ -180,7 +180,7 @@ export function renderDataListToolbar(context, config, listState, deps) {
     .map(filter => renderDataListFilterEditor(config, filter, deps))
     .join('')
   const selectedCount = listState.selected.size
-  const selectionActions = renderDataListSelectionActions(context, listState, deps)
+  const selectionActions = renderDataListSelectionActions(config, listState, deps)
   const filterCount = dataListFilterCount(listState)
   const clearFilterButton = filterCount
     ? `<button class="data-toolbar-button" type="button" data-list-clear-filter aria-label="${t('Clear all filters', 'Clear all filters')}">${dataListIcon('i-x')} ${t('Clear filter', 'Clear filter')}</button>`
@@ -227,7 +227,7 @@ export function renderDataListToolbar(context, config, listState, deps) {
       <span class="data-toolbar-cluster data-toolbar-inline">${printButton}${chartButton}${groupTrigger}</span>
       ${overflowMenu}
       ${listState.view === 'list' && !isAdaptive ? `<details class="data-menu end"><summary>${dataListIcon('i-sliders')}<span class="data-toolbar-label-text">${t('Columns', 'Columns')}</span>${dataListIcon('i-caret', 10)}</summary><div class="data-menu-popover" role="group" aria-label="${t('Visible columns', 'Visible columns')}">${columnControls}</div></details>` : ''}
-      ${renderDataListViewMenu(context, listState, deps)}
+      ${renderDataListViewMenu(config, listState, deps)}
     </div>
   </div>`
 }

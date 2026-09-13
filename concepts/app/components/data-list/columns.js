@@ -26,6 +26,7 @@ export const DATA_LIST_CONFIG = {
     singular: 'invoice',
     key: 'no',
     rows: LIST_ROWS,
+    supportsKanban: true,
     /* group tags the field for Adaptive view's sectioned layout
        (Document / Customer / Financials / Audit trail) — purely a
        presentation hint, unrelated to table-column visibility. */
@@ -123,6 +124,7 @@ export const DATA_LIST_CONFIG = {
     singular: 'customer',
     key: 'customerNo',
     rows: CUSTOMER_ROWS,
+    supportsActivateDeactivate: true,
     columns: [
       {key: 'avatar', label: 'Photo', sortable: false, groupable: false},
       {key: 'customerNo', label: 'Customer No.'},
@@ -176,6 +178,7 @@ export const DATA_LIST_CONFIG = {
     singular: 'location',
     key: 'code',
     rows: GEO_ROWS,
+    supportsActivateDeactivate: true,
     columns: [
       {key: 'code', label: 'Location Code'},
       {key: 'name', label: 'Location Name'},

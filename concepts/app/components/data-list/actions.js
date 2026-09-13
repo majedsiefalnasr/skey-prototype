@@ -99,10 +99,6 @@ export function applyDataListRowAction(context, rowAction, config, deps) {
   return true
 }
 
-export function openNewDataListRecord(deps) {
-  deps.actions.newRecord()
-}
-
 export function applyDataListToolbarCommand(context, command, selectedKey, listState, config, deps) {
   if (['display', 'modify'].includes(command) && selectedKey) {
     deps.actions.openRecord(selectedKey, command === 'display' ? 'view' : 'edit')
