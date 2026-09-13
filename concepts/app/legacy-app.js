@@ -58,6 +58,17 @@ import {
   renderShellPager as renderSharedShellPager,
   renderShellRecordPager as renderSharedShellRecordPager,
 } from './components/data-list/pagination.js'
+import {
+  dataListPercent as sharedDataListPercent,
+  renderDataListStatistics as renderSharedDataListStatistics,
+  renderDataListGroupTrigger as renderSharedDataListGroupTrigger,
+  renderDataListGroupingBar as renderSharedDataListGroupingBar,
+} from './components/data-list/statistics.js'
+import {
+  dataListChartYOptions as sharedDataListChartYOptions,
+  renderDataListChart as renderSharedDataListChart,
+  createListChart,
+} from './components/data-list/charts.js'
 
 export function startLegacyApp(shared) {
         const {t, formatDate: formatLocaleDate, formatCurrency: formatLocaleCurrency, getLocale, setLocale} = shared.locale
@@ -4753,10 +4764,7 @@ export function startLegacyApp(shared) {
           })
         }
 
-        function dataListPercent(value, total) {
-          return total ? Math.round((value / total) * 100) : 0
-        }
-
+        const dataListPercent = sharedDataListPercent
 
         function invoiceListStatistics(rows, config, total) {
           const posted = rows.filter(row => row.status === 'Posted').length
@@ -5000,281 +5008,46 @@ export function startLegacyApp(shared) {
           return DATA_LIST_STATISTICS_FACTORIES[context](rows, config, Math.max(rows.length, 1))
         }
 
-        /* Chart colors read live from the Atlassian Design System's own
-           --ds-chart-categorical-* tokens (already defined per-theme at the
-           top of this file — light/dark/high-contrast — but never actually
-           wired to anything before this). Resolving them at call time via
-           getComputedStyle, rather than hardcoding one theme's hex values,
-           is what makes the chart automatically match whichever theme is
-           active instead of only ever matching dark mode. */
-        function resolveDesignToken(name, fallback) {
-          const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim()
-          return value || fallback
-        }
-
-        function dataListChartColors() {
-          const colors = [1, 2, 3, 4, 5, 6]
-            .map(n => resolveDesignToken(`--ds-chart-categorical-${n}`, ''))
-            .filter(Boolean)
-          return colors.length
-            ? colors
-            : ['#1868DB', '#5B7F24', '#964AC0', '#BD5B00', '#1558BC', '#803FA5']
-        }
-
-        /* ApexCharts does real color math internally (hover states, opacity
-           blends, gridline tints) — it needs resolved hex/rgb strings, not
-           var(--token) references it can't compute with. Every color option
-           below goes through resolveDesignToken() so the chart tracks
-           whichever theme (light/dark/high-contrast) is active, the same
-           way the rest of this app's chrome already does via CSS custom
-           properties — foreColor was silently broken before this (literally
-           passed the string "var(--muted)" into a library that can't parse
-           it), so labels were rendering in the browser's default color. */
-        function dataListChartTheme() {
-          return {
-            text: resolveDesignToken('--ds-text-subtle', '#505258'),
-            border: resolveDesignToken('--ds-border', '#091e4224'),
-            surface: resolveDesignToken('--ds-surface-overlay', '#ffffff'),
-            ink: resolveDesignToken('--ds-text', '#292a2e'),
-          }
-        }
-
-        const DATA_CHART_TYPES = [
-          {key: 'bar', label: 'Bar', icon: 'i-chart'},
-          {key: 'column', label: 'Column', icon: 'i-chart'},
-          {key: 'line', label: 'Line', icon: 'i-chart'},
-          {key: 'donut', label: 'Donut', icon: 'i-donut'},
-          {key: 'polar', label: 'Polar', icon: 'i-donut'},
-        ]
-
-        function dataListChartFields(config) {
-          return [...config.columns, ...(config.extraChartFields || [])]
-        }
-
-        function dataListChartYOptions(config) {
-          return dataListChartFields(config).filter(column => column.plottable)
-        }
-
-        function dataListChartYValue(row, field) {
-          const raw = row[field.key]
-          if (field.valueType === 'number') return Number(String(raw ?? '').replace(/,/g, '')) || 0
-          if (field.valueType === 'date') {
-            const [day, month, year] = String(raw ?? '').split('/')
-            const parsed =
-              day && month && year ? new Date(`${year}-${month}-${day}`) : new Date(raw)
-            return Number.isNaN(parsed.getTime()) ? 0 : parsed.getTime()
-          }
-          return Number(raw) || 0
-        }
-
-        function dataListChartGroups(rows, config, listState) {
-          const allFields = dataListChartFields(config)
-          const field = allFields.find(column => column.key === listState.chartField)
-            ? listState.chartField
-            : config.columns[0].key
-          const yField = dataListChartYOptions(config).find(
-            column => column.key === listState.chartYField
-          )
-          const sourceRows = listState.selected.size
-            ? rows.filter(row => listState.selected.has(String(row[config.key])))
-            : rows
-          if (yField) {
-            const xField = allFields.find(column => column.key === field)
-            const totals = new Map()
-            const xSortValues = new Map()
-            sourceRows.forEach(row => {
-              const label = String(row[field] ?? '—') || '—'
-              totals.set(label, (totals.get(label) || 0) + dataListChartYValue(row, yField))
-              if (!xSortValues.has(label))
-                xSortValues.set(label, xField?.valueType ? dataListChartYValue(row, xField) : label)
-            })
-            const groups = [...totals.entries()].map(([label, count]) => ({label, count}))
-            const sorted =
-              xField?.valueType === 'date'
-                ? groups.sort((left, right) =>
-                    xSortValues.get(left.label) > xSortValues.get(right.label) ? 1 : -1
-                  )
-                : groups.sort((left, right) => right.count - left.count)
-            return {groups: sorted, yValueType: yField.valueType}
-          }
-          const counts = new Map()
-          sourceRows.forEach(row => {
-            const label = String(row[field] ?? '—') || '—'
-            counts.set(label, (counts.get(label) || 0) + 1)
-          })
-          const groups = [...counts.entries()]
-            .map(([label, count]) => ({label, count}))
-            .sort((left, right) => right.count - left.count)
-          return {groups, yValueType: 'count'}
-        }
-
-        /* ApexCharts wants real display strings/numbers, never the raw epoch-
-           ms a date is sorted by internally — that's the bug this formatter
-           exists to prevent (a Doc Date Y-axis was showing 1786838400000
-           instead of a date). Currency-flavored numeric fields get their
-           thousands separators back too, matching how the rest of the app
-           already formats amounts. */
-        function formatDataListChartValue(value, yValueType) {
-          if (yValueType === 'date') {
-            const date = new Date(value)
-            if (Number.isNaN(date.getTime())) return String(value)
-            const pad = n => String(n).padStart(2, '0')
-            return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()}`
-          }
-          if (yValueType === 'number' || yValueType === 'count')
-            return value.toLocaleString(undefined, {maximumFractionDigits: 2})
-          return String(value)
-        }
-
-        /* ================= ApexCharts-backed breakdown chart =================
-           One ApexCharts instance per data-list context, tracked here so a
-           re-render (which always replaces the mount div via innerHTML) can
-           destroy the stale instance before creating the next one — an
-           orphaned instance still bound to a detached node would otherwise
-           leak silently on every render. */
-        const dataListChartInstances = {}
-
-        function dataListChartApexType(chartType) {
-          if (chartType === 'donut') return 'donut'
-          if (chartType === 'polar') return 'polarArea'
-          if (chartType === 'line') return 'line'
-          if (chartType === 'column') return 'bar'
-          return 'bar'
-        }
+        // Chart math/markup (color/theme token resolution, field/group
+        // calculations, value formatting, the chart panel's own markup) moved
+        // to concepts/app/components/data-list/charts.js as part of Task 6.
+        const sharedChartDeps = {t, encodeHtml, dataListIcon}
+        const dataListChartYOptions = sharedDataListChartYOptions
 
         function renderDataListChart(context, rows, config, listState) {
           if (!listState.chartVisible) return ''
-          const yOptions = dataListChartYOptions(config)
-          const yField = yOptions.find(column => column.key === listState.chartYField)
-          const {groups} = dataListChartGroups(rows, config, listState)
-          const total = groups.reduce((sum, group) => sum + group.count, 0)
-          const scopeLabel = listState.selected.size
-            ? `${listState.selected.size} selected`
-            : yField
-              ? `${groups.length} in view`
-              : `${total} in view`
-          const fieldOptions = config.columns
-            .map(
-              column =>
-                `<option value="${encodeHtml(column.key)}"${column.key === listState.chartField ? ' selected' : ''}>${encodeHtml(column.label)}</option>`
-            )
-            .join('')
-          const yFieldOptions = `<option value=""${yField ? '' : ' selected'}>${encodeHtml(t('Count', 'Count'))}</option>${yOptions
-            .map(
-              column =>
-                `<option value="${encodeHtml(column.key)}"${column.key === listState.chartYField ? ' selected' : ''}>${encodeHtml(column.label)}</option>`
-            )
-            .join('')}`
-          const typeButtons = DATA_CHART_TYPES.map(
-            type =>
-              `<button type="button" data-list-chart-type="${type.key}" aria-pressed="${listState.chartType === type.key}">${dataListIcon(type.icon, 15)}<span>${type.label}</span></button>`
-          ).join('')
-          const expanded = listState.chartExpanded !== false
-          const canvasBody = groups.length
-            ? `<div class="data-list-chart-apex" data-chart-mount></div>`
-            : `<p class="data-chart-empty">${t('No data to chart for this view.', 'No data to chart for this view.')}</p>`
-          return `<section class="rec-card data-list-chart" aria-label="${encodeHtml(config.label)} chart">
-            <div class="data-list-chart-hd-row">
-              <button type="button" class="rec-card-hd data-list-chart-hd" data-list-chart-toggle aria-expanded="${expanded}">
-                <span class="data-list-chart-hd-title">${encodeHtml(config.label[0].toUpperCase() + config.label.slice(1))} breakdown</span>
-                <span class="data-list-chart-scope">${encodeHtml(scopeLabel)}</span>
-              </button>
-              <button type="button" class="data-list-chart-close" data-list-chart-close aria-label="Close chart">${dataListIcon('i-x', 13)}</button>
-            </div>
-            <div class="rec-card-body data-list-chart-body"${expanded ? '' : ' hidden'}>
-              <div class="data-list-chart-layout data-list-chart-layout-solo">
-                <div class="data-list-chart-main">
-                  <div class="data-list-chart-toolbar">
-                    <div class="rec-field data-list-chart-field">
-                      <label>${t('X axis', 'X axis')}</label>
-                      <select data-list-chart-field>${fieldOptions}</select>
-                    </div>
-                    ${
-                      yOptions.length
-                        ? `<div class="rec-field data-list-chart-field">
-                      <label>${t('Y axis', 'Y axis')}</label>
-                      <select data-list-chart-y-field>${yFieldOptions}</select>
-                    </div>`
-                        : ''
-                    }
-                    <div class="data-list-chart-type" role="group" aria-label="Chart type">${typeButtons}</div>
-                  </div>
-                  <div class="data-list-chart-canvas">${canvasBody}</div>
-                </div>
-              </div>
-            </div>
-          </section>`
+          return renderSharedDataListChart(context, rows, config, listState, sharedChartDeps)
+        }
+
+        /* ================= ApexCharts-backed breakdown chart =================
+           One createListChart({root, locale}) handle per data-list context,
+           tracked here (still context-keyed at this checkpoint — the full
+           per-instance closure rewrite, replacing this map with state owned
+           by each createDataList(...) call, lands in a later Task 6
+           checkpoint) so a re-render can destroy the stale chart before
+           creating the next one. createListChart itself already guarantees a
+           chart never leaks into another context's slot, since each handle
+           below is a fully independent instance from charts.js — this map
+           only tracks WHICH handle belongs to which context, it holds no
+           chart internals directly. */
+        const dataListChartHandles = {}
+
+        function chartHandleFor(context, canvas) {
+          if (!dataListChartHandles[context]) {
+            dataListChartHandles[context] = createListChart({root: canvas, locale: shared.locale})
+          }
+          return dataListChartHandles[context]
         }
 
         function destroyDataListChartInstance(context) {
-          if (dataListChartInstances[context]) {
-            dataListChartInstances[context].destroy()
-            delete dataListChartInstances[context]
-          }
+          dataListChartHandles[context]?.destroy()
         }
 
         /* Runs after the chart section's HTML lands in the DOM (renderDataList
            already replaced canvas.innerHTML by the time this is called), so
            the mount div is guaranteed to exist when it's not skipped. */
         function initDataListChart(context, canvas, rows, config, listState) {
-          destroyDataListChartInstance(context)
-          if (!listState.chartVisible || listState.chartExpanded === false) return
-          const mount = canvas.querySelector('[data-chart-mount]')
-          if (!mount) return
-          const yOptions = dataListChartYOptions(config)
-          const yField = yOptions.find(column => column.key === listState.chartYField)
-          const {groups, yValueType} = dataListChartGroups(rows, config, listState)
-          if (!groups.length) return
-          const apexType = dataListChartApexType(listState.chartType)
-          const isRadial = apexType === 'donut' || apexType === 'polarArea'
-          const seriesName = yField ? t(yField.label, yField.label) : t('Count', 'Count')
-          const valueFormatter = value => formatDataListChartValue(value, yValueType)
-          const theme = dataListChartTheme()
-          const isDark = document.documentElement.dataset.colorMode === 'dark'
-          const options = {
-            chart: {
-              type: apexType,
-              height: 320,
-              toolbar: {show: false},
-              fontFamily: 'inherit',
-              foreColor: theme.text,
-            },
-            colors: dataListChartColors(),
-            legend: {position: isRadial ? 'bottom' : 'top', labels: {colors: theme.ink}},
-            dataLabels: {enabled: false},
-            grid: {borderColor: theme.border, strokeDashArray: 3},
-            tooltip: {
-              theme: isDark ? 'dark' : 'light',
-              y: {formatter: valueFormatter},
-            },
-            xaxis: {
-              categories: groups.map(group => group.label),
-              labels: {trim: true, hideOverlappingLabels: true},
-              axisBorder: {color: theme.border},
-              axisTicks: {color: theme.border},
-            },
-          }
-          if (isRadial) {
-            options.series = groups.map(group => group.count)
-            options.labels = groups.map(group => group.label)
-          } else {
-            options.series = [{name: seriesName, data: groups.map(group => group.count)}]
-            /* Horizontal bars swap which axis carries the value scale —
-               ApexCharts still puts categories on xaxis either way, but the
-               numeric scale renders via xaxis.labels when horizontal, and
-               yaxis.labels when vertical (column/line). Formatting only the
-               "always yaxis" side was the bug behind the raw-epoch-number
-               screenshot: a horizontal Bar's value axis is xaxis, so that
-               one was left showing unformatted numbers. */
-            const horizontal = listState.chartType === 'bar'
-            if (horizontal) options.xaxis.labels.formatter = valueFormatter
-            else options.yaxis = {labels: {formatter: valueFormatter}}
-            if (apexType === 'bar') options.plotOptions = {bar: {horizontal, borderRadius: 3}}
-            if (apexType === 'line') options.stroke = {curve: 'smooth', width: 3}
-          }
-          const chart = new ApexCharts(mount, options)
-          dataListChartInstances[context] = chart
-          chart.render()
+          chartHandleFor(context, canvas).render(rows, config, listState)
         }
 
         function refreshOpenDataListCharts() {
@@ -5286,72 +5059,13 @@ export function startLegacyApp(shared) {
         }
         onRefreshCharts = refreshOpenDataListCharts
 
-        function renderBalancedStatistics(metrics) {
-          return metrics
-            .map(metric => {
-              const support =
-                appLocale === 'ar' ? metric.supportAr || metric.support : metric.support
-              return `<article class="data-stat-card" data-tone="${metric.tone}"><div class="data-stat-card-head">${dataListIcon(metric.icon, 16)}<span>${encodeHtml(t(metric.label))}</span></div><strong>${encodeHtml(metric.value)}</strong><small>${encodeHtml(support)}</small><div class="data-stat-meter" aria-hidden="true"><span style="--stat-progress:${metric.progress}%"></span></div></article>`
-            })
-            .join('')
-        }
-
-        function renderOperationalStatistics(metrics) {
-          return metrics
-            .map(
-              metric =>
-                `<article class="data-stat-operation" data-tone="${metric.tone}"><span class="data-stat-operation-icon">${dataListIcon(metric.icon, 16)}</span><div class="data-stat-operation-value"><span>${encodeHtml(metric.label)}</span><strong>${encodeHtml(metric.value)}</strong><span>${encodeHtml(metric.support)}</span></div><div class="data-stat-operation-cue"><span>Work cue</span><strong>${encodeHtml(metric.operation)}</strong></div></article>`
-            )
-            .join('')
-        }
-
-        function renderExceptionStatistics(metrics) {
-          const attention = metrics.find(metric => metric.attention) || metrics[0]
-          const supportingMetrics = metrics.filter(metric => metric !== attention)
-          const attentionValue = attention.attentionValue ?? attention.value
-          const attentionLabel = attention.attentionLabel || attention.label
-          const attentionSupport = attention.attentionSupport || attention.support
-          const supportingRows = supportingMetrics
-            .map(
-              metric =>
-                `<div class="data-stat-exception-row" data-tone="${metric.tone}"><span class="data-stat-exception-dot" aria-hidden="true"></span><span class="data-stat-exception-copy"><strong>${encodeHtml(metric.label)}</strong><small>${encodeHtml(metric.support)}</small></span><output>${encodeHtml(metric.value)}</output></div>`
-            )
-            .join('')
-          return `<article class="data-stat-exception-lead"><div class="data-stat-exception-lead-head">${dataListIcon('i-warn', 15)}<span>Needs attention</span></div><strong>${encodeHtml(attentionValue)}</strong><small>${encodeHtml(attentionLabel)} · ${encodeHtml(attentionSupport)}</small><div class="data-stat-exception-focus">${dataListIcon('i-search', 13)}<span>${encodeHtml(attention.operation)}</span></div></article><div class="data-stat-exception-list">${supportingRows}</div>`
-        }
-
-        function statisticsSparklinePoints(trend) {
-          const minimum = Math.min(...trend)
-          const range = Math.max(...trend) - minimum || 1
-          const step = trend.length > 1 ? 120 / (trend.length - 1) : 0
-          return trend
-            .map(
-              (point, index) =>
-                `${Math.round(index * step)},${Math.round(30 - ((point - minimum) / range) * 26)}`
-            )
-            .join(' ')
-        }
-
-        function renderStatisticsSparkline(metric) {
-          const points = statisticsSparklinePoints(metric.trend)
-          return `<svg class="data-stat-sparkline" viewBox="0 0 120 34" preserveAspectRatio="none" role="img" aria-label="${encodeHtml(metric.trendLabel)}"><polygon class="data-stat-sparkline-area" points="0,34 ${points} 120,34"></polygon><polyline class="data-stat-sparkline-line" points="${points}"></polyline></svg>`
-        }
-
-        function renderAnalyticalStatistics(metrics) {
-          return metrics
-            .map(
-              metric =>
-                `<article class="data-stat-analytical" data-tone="${metric.tone}"><div class="data-stat-analytical-head"><span>${encodeHtml(metric.label)}</span>${dataListIcon(metric.icon, 14)}</div><strong>${encodeHtml(metric.value)}</strong>${renderStatisticsSparkline(metric)}<div class="data-stat-analytical-foot"><span>${encodeHtml(metric.benchmark)}</span><span class="data-stat-trend" data-trend-tone="${metric.trendTone}">${encodeHtml(metric.trendLabel)}</span></div></article>`
-            )
-            .join('')
-        }
-
-        const DATA_LIST_STATISTICS_RENDERERS = {
-          balanced: renderBalancedStatistics,
-          operational: renderOperationalStatistics,
-          exceptions: renderExceptionStatistics,
-          analytical: renderAnalyticalStatistics,
-        }
+        // Statistics presentation renderers (balanced/operational/exceptions/
+        // analytical cards, sparklines, the group trigger/bar) moved to
+        // concepts/app/components/data-list/statistics.js as part of Task 6.
+        // sharedStatisticsDeps bundles the small set of helpers those
+        // functions need (t/encodeHtml/dataListIcon/locale) since the shared
+        // module has no closure over this file's top-level bindings.
+        const sharedStatisticsDeps = {t, encodeHtml, dataListIcon, locale: shared.locale}
 
         /* Exceptions & attention is a prototype-only concept for global demo
            switching — the per-table Manage menu only ever offers the three
@@ -5361,48 +5075,26 @@ export function startLegacyApp(shared) {
            Prototype control, same as before this per-table override existed. */
         function renderDataListStatistics(context, rows, config) {
           const listState = dataListState[context]
-          const selectedLayout = resolvedDataListStatisticsConcept(listState.statisticsConcept)
-          const layout = DATA_LIST_STATISTICS_RENDERERS[selectedLayout]
-            ? selectedLayout
-            : 'balanced'
-          const metrics = dataListStatistics(context, rows, config)
-          return `<section class="data-statistics" data-statistics-layout="${layout}" aria-label="${encodeHtml(config.label)} statistics, ${layout} concept">${DATA_LIST_STATISTICS_RENDERERS[layout](metrics)}</section>`
+          const layout = resolvedDataListStatisticsConcept(listState.statisticsConcept)
+          return renderSharedDataListStatistics({
+            rows,
+            config,
+            layout,
+            statisticsFn: (statsRows, statsConfig, total) =>
+              dataListStatistics(context, statsRows, statsConfig, total),
+            deps: sharedStatisticsDeps,
+          })
         }
 
         /* the trigger lives in the main toolbar (between Chart and Columns) so
            picking the first group-by column costs no extra row; the drop-zone/
            chips row below only appears once there's something to show in it */
         function renderDataListGroupTrigger(config, listState) {
-          const availableColumns = config.columns.filter(
-            column => column.groupable !== false && !listState.groupBy.includes(column.key)
-          )
-          if (!availableColumns.length) return ''
-          return `<details class="data-menu" data-list-group-menu><summary aria-label="${t('Choose a column to group by', 'Choose a column to group by')}">${dataListIcon('i-grid', 14)}<span>${t('Group by', 'Group by')}</span>${dataListIcon('i-caret', 10)}</summary><div class="data-menu-popover" role="menu">${availableColumns
-            .map(
-              column =>
-                `<button type="button" role="menuitem" data-list-group-add="${encodeHtml(column.key)}">${dataListIcon('i-grid', 13)}<span>${encodeHtml(t(column.label))}</span></button>`
-            )
-            .join('')}</div></details>`
+          return renderSharedDataListGroupTrigger(config, listState, sharedStatisticsDeps)
         }
 
         function renderDataListGroupingBar(config, listState) {
-          const chips = listState.groupBy
-            .map(key => config.columns.find(column => column.key === key))
-            .filter(Boolean)
-            .map(
-              column =>
-                `<span class="data-group-chip"><span>${encodeHtml(t(column.label))}</span><button type="button" data-list-group-remove="${encodeHtml(column.key)}" aria-label="${t('Remove', 'Remove')} ${encodeHtml(t(column.label))} ${t('grouping', 'grouping')}">${dataListIcon('i-x', 11)}</button></span>`
-            )
-            .join('')
-          if (!chips) return ''
-          const hasMoreColumns = config.columns.some(
-            column => column.groupable !== false && !listState.groupBy.includes(column.key)
-          )
-          const dragHint = hasMoreColumns
-            ? `<span class="data-group-drag-hint">${t('Drag a column header here to add another group', 'Drag a column header here to add another group')}</span>`
-            : ''
-          const clearButton = `<button type="button" class="data-group-clear" data-list-group-clear>${dataListIcon('i-undo', 12)}<span>${t('Reset grouping', 'Reset grouping')}</span></button>`
-          return `<div class="data-group-dropzone" data-list-group-drop aria-label="${t('Row grouping drop zone', 'Row grouping drop zone')}"><span class="data-group-dropzone-label">${dataListIcon('i-grid', 14)}<span>${t('Row groups', 'Row groups')}</span></span>${chips}${dragHint}${clearButton}</div>`
+          return renderSharedDataListGroupingBar(config, listState, sharedStatisticsDeps)
         }
 
 
