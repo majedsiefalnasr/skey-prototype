@@ -52,6 +52,7 @@ import {
 import {
   DATA_LIST_CONFIG,
   DATA_LIST_STATISTICS_CONCEPT_OPTIONS,
+  DATA_LIST_RESPONSIVE_WIDTH,
   responsiveDataListColumns,
 } from './components/data-list/columns.js'
 import {
@@ -86,6 +87,25 @@ import {
   renderDataListColumnHeaderMenu as renderSharedDataListColumnHeaderMenu,
   applyDataListColumnHeaderAction as applySharedDataListColumnHeaderAction,
 } from './components/data-list/menus.js'
+import {
+  createDataList,
+  renderDataListSelectionActions as sharedRenderDataListSelectionActions,
+} from './components/data-list/list.js'
+import {
+  computeDataListLayoutDirty as sharedComputeDataListLayoutDirty,
+  deleteDataListRecords as sharedDeleteDataListRecords,
+  toggleDataListStatus as sharedToggleDataListStatus,
+  setDataListRecordsStatus as sharedSetDataListRecordsStatus,
+  applyDataListRowAction as sharedApplyDataListRowAction,
+  openNewDataListRecord as sharedOpenNewDataListRecord,
+  applyDataListToolbarCommand as sharedApplyDataListToolbarCommand,
+  applyDataListCommandClick as sharedApplyDataListCommandClick,
+  applyDataListSortClick as sharedApplyDataListSortClick,
+  onDataListChange as sharedOnDataListChange,
+  reorderDataListColumn as sharedReorderDataListColumn,
+  saveDataListLayout as sharedSaveDataListLayout,
+  resetDataListLayout as sharedResetDataListLayout,
+} from './components/data-list/actions.js'
 
 export function startLegacyApp(shared) {
         const {t, formatDate: formatLocaleDate, formatCurrency: formatLocaleCurrency, getLocale, setLocale} = shared.locale
@@ -4088,49 +4108,324 @@ export function startLegacyApp(shared) {
           'i-warn',
         ]
 
-        // dataListState/dataListModels — built from the shared data-list model
-        // (concepts/app/components/data-list/model.js's createListModel),
-        // extracted in Task 5. Each context's dataListState[context] IS that
-        // context's model.state object (same reference, not a copy) with the
-        // chart/DOM-only fields the model doesn't own (chartVisible,
-        // chartExpanded, chartField, chartYField, chartType, canvas,
-        // responsiveWidth, responsiveSignature, resizeObserver — a future
-        // chart component's concern, out of Task 5's scope) merged directly
-        // onto it, so every existing `dataListState[context].foo` read/write
-        // throughout this file keeps working unchanged. dataListModels[context]
-        // holds the rest of the model's small interface (rowsInView/
-        // saveLayout/resetLayout) for the call sites that need it.
+        // dataListInstances/dataListState/dataListModels — Task 6's
+        // createDataList({context,config,rows,locale,actions,storage,deps})
+        // factory (concepts/app/components/data-list/list.js) now owns what
+        // used to be built here inline: each context's model (createListModel,
+        // Task 5), chart handle, AbortController-scoped canvas listeners, and
+        // ResizeObserver, all private to that instance's closure. Per the
+        // task-6-report.md continuation plan (the lowest-risk path), this file
+        // still keeps dataListState[context]/dataListModels[context] as real,
+        // populated objects — dataListState[context] IS instance.getState()'s
+        // return value (the instance's private listState, by reference) and
+        // dataListModels[context] IS instance.model — so every one of this
+        // file's ~150 existing `dataListState[context].foo` /
+        // `dataListModels[context].bar` read/write sites below keeps working
+        // completely unchanged, and every existing per-context function below
+        // (openDataListRecord, applyDataListToolbarCommand, wireDataList's own
+        // delegated listeners, etc.) keeps calling `renderDataList(context)` to
+        // re-render — that function is now a one-line call into
+        // `dataListInstances[context].render()`. dataListInstances[context] is
+        // the new lifecycle surface (activate/deactivate/dispose/getLayout/
+        // applyLayout/requestLeave) for future code; nothing here is a
+        // re-introduction of a bare global object literal — it is 3
+        // independent factory closures indexed by a small registry, and only
+        // the two seams the brief calls out (record-open/new, Kanban move) are
+        // rewritten to go through the `actions` contract — every other
+        // existing action/render function is unchanged.
         const dataListStorage = localStorageDataListStorage()
-        const dataListModels = Object.fromEntries(
+
+        // Deps every createDataList(...) instance needs (see list.js's own
+        // createDataList/renderDataList/wireDataList JSDoc for the exact
+        // shape) — almost all of them are this file's own existing functions,
+        // referenced here as thin wrappers only where the shared module's
+        // parameter order/shape differs slightly from the page-local one.
+        const dataListDeps = {
+          t,
+          encodeHtml,
+          // dataListIcon/applyFrozenDataListColumns are declared later in this
+          // file as `const` (not hoisted function declarations, unlike almost
+          // everything else this bundle references) — wrapped in lambdas here
+          // so they're resolved lazily on first call, after both are actually
+          // initialized, rather than read eagerly at this object's own
+          // construction time (which would throw a TDZ ReferenceError).
+          dataListIcon: (...args) => dataListIcon(...args),
+          DATA_FILTER_OPERATORS,
+          dataFilterOptionLabel,
+          dataFilterOptionValue,
+          dateFilterLabel,
+          renderDataListDatePresetOptions,
+          dataListRows,
+          simulatedTotal: context => DATA_LIST_SIMULATED_TOTAL[context],
+          responsiveDataListColumns,
+          responsiveWidthFor: key => DATA_LIST_RESPONSIVE_WIDTH[key],
+          renderDataListGroupTrigger,
+          renderDataListGroupingBar,
+          renderKanban: renderDataListKanban,
+          renderDataListCards,
+          renderDataListAdaptiveRecord,
+          renderDataListHeader,
+          renderDataListBody,
+          renderDataListStatistics,
+          renderDataListChart,
+          initNumberTickers,
+          renderDataPageManageMenus: context => {
+            const manageMenu = document.querySelector(
+              `.data-page-manage[data-list-context="${CSS.escape(context)}"]`
+            )
+            if (manageMenu) renderDataPageManageMenu(manageMenu)
+          },
+          syncFooterPager: (footer, context, filteredCount) =>
+            syncShellListPager(context, filteredCount),
+          applyFrozenDataListColumns: (canvas, visibleColumns, listState) =>
+            applyFrozenDataListColumns(canvas, visibleColumns, listState),
+          applyDataListFilterClick,
+          applyDataListToolbarClick,
+          applyDataListSortClick,
+          applyDataListCommandClick,
+          onDataListChange,
+          positionDataMenu,
+          openQuickView,
+          openGeoRecord,
+          kanbanTransitionAllowed: (fromStatus, toStatus) =>
+            (INVOICE_STATUS_TRANSITIONS[fromStatus] || []).includes(toStatus),
+          computeDataListLayoutDirty,
+          reorderDataListColumn: (context, sourceKey, targetKey) =>
+            reorderDataListColumn(context, sourceKey, targetKey),
+          guardDataListLeave,
+        }
+
+        // Still used directly by the page-level right-click context-menu
+        // handler below (multi-select "selection actions" content) — not a
+        // dataListDeps entry since that handler runs once at the document
+        // level, outside any single createDataList instance.
+        function renderDataListSelectionActions(context, listState) {
+          return sharedRenderDataListSelectionActions(context, listState, {t, dataListIcon})
+        }
+
+        // The ~14 action/command handlers below are thin delegations to
+        // concepts/app/components/data-list/actions.js (Task 6) — every
+        // caller elsewhere in this file keeps its original plain-name,
+        // `(context, ...)`-first call shape (`computeDataListLayoutDirty(listState)`,
+        // `applyDataListToolbarCommand(context, command, selectedKey)`, etc.)
+        // unchanged; only the body now forwards to the shared module with
+        // `dataListState[context]`/`DATA_LIST_CONFIG[context]`/`dataListModels
+        // [context]` resolved here (still the same objects every other call
+        // site in this file already reads/writes) plus the small `sharedActionDeps`
+        // bundle those shared functions need (rerender/toast/etc).
+        const sharedActionDeps = {
+          toast,
+          dataListRows,
+          rerender: (context, options) => renderDataList(context, options),
+          openQuickView,
+          openGeoRecord,
+          openPrintSettings,
+          activeDataListStatisticsConcept,
+          resolvedDataListStatisticsConcept,
+        }
+
+        function computeDataListLayoutDirty(listState) {
+          return sharedComputeDataListLayoutDirty(listState, sharedActionDeps)
+        }
+
+        function deleteDataListRecords(context, keys) {
+          return sharedDeleteDataListRecords(context, keys, DATA_LIST_CONFIG[context], dataListState[context], {
+            ...sharedActionDeps,
+            rerender: () => renderDataList(context),
+          })
+        }
+
+        function toggleDataListStatus(context, row) {
+          return sharedToggleDataListStatus(row, {
+            ...sharedActionDeps,
+            rerender: () => renderDataList(context),
+          })
+        }
+
+        function setDataListRecordsStatus(context, keys, active) {
+          return sharedSetDataListRecordsStatus(keys, active, DATA_LIST_CONFIG[context], {
+            ...sharedActionDeps,
+            rerender: () => renderDataList(context),
+          })
+        }
+
+        function openDataListRecord(context, key, mode) {
+          if (guardDataListLeave(() => openDataListRecord(context, key, mode))) return
+          dataListActions[context].openRecord(key, mode)
+        }
+
+        function applyDataListRowAction(context, rowAction) {
+          return sharedApplyDataListRowAction(context, rowAction, DATA_LIST_CONFIG[context], {
+            ...sharedActionDeps,
+            actions: dataListActions[context],
+            deleteDataListRecords: (ctx, keys) => deleteDataListRecords(context, keys),
+            toggleDataListStatus: row => toggleDataListStatus(context, row),
+          })
+        }
+
+        function openNewDataListRecord(context) {
+          if (context === 'customer') {
+            openCustomerRecord(null, 'create')
+            return
+          }
+          if (context === 'geo') {
+            openGeoRecord(GEO_ROWS[0].code, 'create')
+            return
+          }
+          document.getElementById('mode').value = 'create'
+          showContentView('record')
+          applyMode('create')
+        }
+
+        function applyDataListToolbarCommand(context, command, selectedKey) {
+          return sharedApplyDataListToolbarCommand(
+            context,
+            command,
+            selectedKey,
+            dataListState[context],
+            DATA_LIST_CONFIG[context],
+            {
+              ...sharedActionDeps,
+              actions: dataListActions[context],
+              rerender: () => renderDataList(context),
+              deleteDataListRecords: (ctx, keys) => deleteDataListRecords(context, keys),
+              setDataListRecordsStatus: (keys, active) =>
+                setDataListRecordsStatus(context, keys, active),
+            }
+          )
+        }
+
+        function applyDataListCommandClick(event, context) {
+          return sharedApplyDataListCommandClick(event, context, dataListState[context], {
+            ...sharedActionDeps,
+            actions: dataListActions[context],
+            rerender: () => renderDataList(context),
+            applyDataListRowAction: (ctx, rowAction) => applyDataListRowAction(ctx, rowAction),
+            applyDataListToolbarCommand: (ctx, cmd, key) => applyDataListToolbarCommand(ctx, cmd, key),
+          })
+        }
+
+        function applyDataListSortClick(event, context) {
+          return sharedApplyDataListSortClick(event, dataListState[context], {
+            ...sharedActionDeps,
+            rerender: () => renderDataList(context),
+          })
+        }
+
+        function onDataListChange(event, context) {
+          return sharedOnDataListChange(event, context, dataListState[context], DATA_LIST_CONFIG[context], {
+            ...sharedActionDeps,
+            parseDateFilterValue,
+            rerender: (options = {}) => renderDataList(context, options),
+          })
+        }
+
+        function reorderDataListColumn(context, sourceKey, targetKey) {
+          return sharedReorderDataListColumn(sourceKey, targetKey, dataListState[context], {
+            ...sharedActionDeps,
+            rerender: () => renderDataList(context),
+          })
+        }
+
+        function saveDataListLayout(context) {
+          return sharedSaveDataListLayout(dataListState[context], dataListModels[context], {
+            ...sharedActionDeps,
+            rerender: () => renderDataList(context),
+          })
+        }
+
+        function resetDataListLayout(context) {
+          return sharedResetDataListLayout(dataListModels[context], {
+            ...sharedActionDeps,
+            rerender: () => renderDataList(context),
+          })
+        }
+
+        function invoiceListActions() {
+          return {
+            openRecord: (key, mode) => {
+              openInvoiceRecord(key)
+              const modeControl = document.getElementById('mode')
+              if (modeControl) {
+                modeControl.value = mode === 'view' ? 'record' : mode
+                modeControl.dispatchEvent(new Event('change', {bubbles: true}))
+              }
+            },
+            newRecord: () => openNewDataListRecord('invoice'),
+            run: (command, keys, extra) => {
+              if (command === 'move-kanban') {
+                moveInvoiceKanbanCard('invoice', keys[0], extra.toStatus)
+                return true
+              }
+              return applyDataListToolbarCommand('invoice', command, keys[0])
+            },
+            cardModel: row => dataRecordCardModel('invoice', row),
+            statistics: invoiceListStatistics,
+          }
+        }
+
+        function customerListActions() {
+          return {
+            openRecord: (key, mode) => openCustomerRecord(key, mode),
+            newRecord: () => openNewDataListRecord('customer'),
+            run: (command, keys) => applyDataListToolbarCommand('customer', command, keys[0]),
+            cardModel: row => dataRecordCardModel('customer', row),
+            statistics: customerListStatistics,
+          }
+        }
+
+        function geoListActions() {
+          return {
+            openRecord: (key, mode) => openGeoRecord(key, mode),
+            newRecord: () => openNewDataListRecord('geo'),
+            run: (command, keys) => applyDataListToolbarCommand('geo', command, keys[0]),
+            cardModel: row => dataRecordCardModel('geo', row),
+            statistics: geoListStatistics,
+          }
+        }
+
+        const dataListActionFactories = {
+          invoice: invoiceListActions,
+          customer: customerListActions,
+          geo: geoListActions,
+        }
+
+        // dataListActions — a small context -> actions-object registry,
+        // separate from dataListInstances, since createDataList's returned
+        // instance handle (per the brief's exact contract) does not expose
+        // the `actions` it was constructed with. Wrapper functions below
+        // (openDataListRecord, applyDataListRowAction, etc.) read the
+        // context's actions object from here rather than assuming it hangs
+        // off the instance.
+        const dataListActions = Object.fromEntries(
+          Object.keys(DATA_LIST_CONFIG).map(context => [context, dataListActionFactories[context]()])
+        )
+        const dataListInstances = Object.fromEntries(
           Object.entries(DATA_LIST_CONFIG).map(([context, config]) => [
             context,
-            createListModel({config, rows: config.rows, storage: dataListStorage, context}),
-          ])
-        )
-        const dataListState = Object.fromEntries(
-          Object.entries(dataListModels).map(([context, model]) => [
-            context,
-            Object.assign(model.state, {
-              chartVisible: false,
-              chartExpanded: true,
-              chartField: DATA_LIST_CONFIG[context].columns[0].key,
-              chartYField: '',
-              chartType: 'bar',
-              canvas: null,
-              responsiveWidth: 0,
-              responsiveSignature: '',
-              resizeObserver: null,
-              // AbortController for this context's delegated canvas
-              // listeners (Task 6) — wireDataList registers its listener
-              // set once per canvas via this controller's signal instead of
-              // the previous `canvas.dataset.dataListWired` boolean guard,
-              // so the same controller.abort() call that would back a future
-              // instance dispose() also cleanly removes every listener in
-              // one step (a boolean guard has no such removal path).
-              abortController: null,
+            createDataList({
+              context,
+              config,
+              rows: config.rows,
+              locale: shared.locale,
+              actions: dataListActions[context],
+              storage: dataListStorage,
+              deps: dataListDeps,
             }),
           ])
         )
+        const dataListModels = Object.fromEntries(
+          Object.entries(dataListInstances).map(([context, instance]) => [context, instance.model])
+        )
+        const dataListState = Object.fromEntries(
+          Object.entries(dataListInstances).map(([context, instance]) => [
+            context,
+            instance.getState(),
+          ])
+        )
+        function renderDataList(context, options) {
+          dataListInstances[context].render(options)
+        }
         dataListChartRefreshReady = true
 
         const listLayoutGuard = document.getElementById('list-layout-guard')
@@ -4443,85 +4738,6 @@ export function startLegacyApp(shared) {
           return encodeHtml(String(value ?? ''))
         }
 
-        function renderDataListFilterButtons(config, listState) {
-          const builtIn = config.filters
-            .map(
-              filter =>
-                `<button type="button" role="menuitemradio" data-list-filter="${encodeHtml(filter.key)}" aria-checked="${filter.key === listState.filter && !listState.activeCustomFilterId}">${dataListIcon(filter.icon)}<span>${encodeHtml(t(filter.label))}</span>${filter.key === listState.filter && !listState.activeCustomFilterId ? dataListIcon('i-check', 13) : ''}</button>`
-            )
-            .join('')
-          if (!listState.customFilters.length) return builtIn
-          const customButtons = listState.customFilters
-            .map(custom => {
-              const active = custom.id === listState.activeCustomFilterId
-              return `<button type="button" role="menuitemradio" data-list-custom-filter-apply="${encodeHtml(custom.id)}" aria-checked="${active}">${dataListIcon(custom.icon || 'i-eye')}<span>${encodeHtml(custom.name)}</span>${active ? dataListIcon('i-check', 13) : ''}</button>`
-            })
-            .join('')
-          return `${builtIn}<hr class="data-menu-separator">
-            <div class="data-manage-group-label">${t('Custom filters', 'Custom filters')}</div>
-            ${customButtons}<hr class="data-menu-separator">
-            <button type="button" role="menuitem" data-list-manage-filters>${dataListIcon('i-sliders', 14)}<span>${t('Manage filters…', 'Manage filters…')}</span></button>`
-        }
-
-        function renderDataListColumnControls(config, listState) {
-          return listState.columnOrder
-            .map(key => config.columns.find(column => column.key === key))
-            .filter(Boolean)
-            .map(
-              column =>
-                `<label><input type="checkbox" data-list-column="${encodeHtml(column.key)}"${listState.hiddenColumns.has(column.key) ? '' : ' checked'}><span>${encodeHtml(t(column.label))}</span></label>`
-            )
-            .join('')
-        }
-
-        function renderDataListFieldChoices(config, listState) {
-          const activeKeys = new Set(listState.fieldFilters.map(filter => filter.key))
-          const available = config.filterFields.filter(field => !activeKeys.has(field.key))
-          if (!available.length)
-            return `<span class="data-menu-empty">${t('All available filters are applied.', 'All available filters are applied.')}</span>`
-          return available
-            .map(
-              field =>
-                `<button type="button" role="menuitem" data-list-add-filter="${encodeHtml(field.key)}">${dataListIcon(field.icon)}<span>${encodeHtml(t(field.label))}</span></button>`
-            )
-            .join('')
-        }
-
-        function renderDataListFilterEditor(config, filter) {
-          const field = config.filterFields.find(item => item.key === filter.key)
-          if (!field) return ''
-          const operator =
-            DATA_FILTER_OPERATORS.find(item => item.key === filter.operator) ||
-            DATA_FILTER_OPERATORS[0]
-          const valueLabel = field.options
-            ? dataFilterOptionLabel(
-                field.options.find(option => dataFilterOptionValue(option) === filter.value) ||
-                  filter.value
-              )
-            : filter.value
-          const removeButton = `<button type="button" data-list-remove-field-filter="${encodeHtml(field.key)}" aria-label="${t('Remove', 'Remove')} ${encodeHtml(t(field.label))} ${t('filter', 'filter')}">${dataListIcon('i-x', 12)}</button>`
-          if (field.type === 'select') {
-            const options = field.options
-              .map(option => {
-                const optionValue = String(dataFilterOptionValue(option))
-                const isSelected = optionValue === filter.value
-                return `<button type="button" role="option" aria-selected="${isSelected}" data-list-filter-select-option="${encodeHtml(field.key)}" data-value="${encodeHtml(optionValue)}">${encodeHtml(String(dataFilterOptionLabel(option)))}${isSelected ? dataListIcon('i-check', 13) : ''}</button>`
-              })
-              .join('')
-            return `<span class="data-filter-chip"><details class="data-menu data-filter-editor data-list-filter-editor" data-filter-editor-key="${encodeHtml(field.key)}"><summary>${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value">${encodeHtml(valueLabel || t('Choose value', 'Choose value'))}</span></summary><div class="data-menu-popover data-filter-select-popover" role="listbox" aria-label="${encodeHtml(t(field.label))} ${t('filter value', 'filter value')}">${options}</div></details>${removeButton}</span>`
-          }
-          if (field.type === 'date') {
-            const chipLabel = dateFilterLabel(filter)
-            return `<span class="data-filter-chip"><details class="data-menu data-filter-editor data-list-filter-editor" data-filter-editor-key="${encodeHtml(field.key)}"><summary>${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value">${encodeHtml(chipLabel)}</span></summary><div class="data-menu-popover data-filter-date-popover">${renderDataListDatePresetOptions(field, filter)}</div></details>${removeButton}</span>`
-          }
-          const input = `<input type="text" data-list-filter-value="${encodeHtml(field.key)}" value="${encodeHtml(filter.value)}" placeholder="${t('Enter', 'Enter')} ${encodeHtml(t(field.label).toLowerCase())}" aria-label="${encodeHtml(t(field.label))} ${t('filter value', 'filter value')}">`
-          const operators = `<div class="data-filter-operators">${DATA_FILTER_OPERATORS.map(
-            item =>
-              `<button type="button" data-list-filter-operator="${encodeHtml(item.key)}" data-list-filter-key="${encodeHtml(field.key)}" aria-pressed="${item.key === filter.operator}">${encodeHtml(t(item.label))}</button>`
-          ).join('')}</div>`
-          return `<span class="data-filter-chip"><details class="data-menu data-filter-editor data-list-filter-editor" data-filter-editor-key="${encodeHtml(field.key)}"><summary>${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value">${encodeHtml(`${t(operator.label)} ${valueLabel || '…'}`)}</span></summary><div class="data-menu-popover data-filter-editor-popover">${operators}${input}</div></details>${removeButton}</span>`
-        }
-
         const DATA_DATE_PRESET_LIST = [
           {key: 'today', label: 'Today'},
           {key: 'this-week', label: 'This week'},
@@ -4565,111 +4781,6 @@ export function startLegacyApp(shared) {
               ? `<div class="data-filter-date-range"><input type="date" value="${encodeHtml(dataListDateInputValue(a))}" data-list-date-range-from="${encodeHtml(field.key)}" aria-label="${t('From', 'From')}"><span>${t('to', 'to')}</span><input type="date" value="${encodeHtml(dataListDateInputValue(b))}" data-list-date-range-to="${encodeHtml(field.key)}" aria-label="${t('To', 'To')}"></div>`
               : ''
           return `<div class="data-filter-date-presets" role="listbox">${options}</div>${relativeControls}${specificControls}${rangeControls}`
-        }
-
-        function renderDataListSelectionActions(context, listState) {
-          const selectedCount = listState.selected.size
-          if (!selectedCount) return ''
-          const singleRecordActions =
-            selectedCount === 1
-              ? `<button class="data-toolbar-button" type="button" data-list-action="display">${dataListIcon('i-eye')} ${t('Display', 'Display')}</button><button class="data-toolbar-button" type="button" data-list-action="modify">${dataListIcon('i-edit')} ${t('Modify')}</button>`
-              : ''
-          const statusActions = ['customer', 'geo'].includes(context)
-            ? `<button class="data-toolbar-button" type="button" data-list-action="activate">${dataListIcon('i-check')} ${t('Activate')}</button><button class="data-toolbar-button" type="button" data-list-action="deactivate">${dataListIcon('i-archive')} ${t('Deactivate')}</button>`
-            : ''
-          const chartAction = `<button class="data-toolbar-button" type="button" data-list-action="chart" aria-pressed="${listState.chartVisible}">${dataListIcon('i-chart')} ${t('Chart', 'Chart')}</button>`
-          return `${singleRecordActions}${statusActions}${chartAction}<button class="data-toolbar-button danger" type="button" data-list-action="delete">${dataListIcon('i-trash')} ${t('Delete', 'Delete')}</button>`
-        }
-
-        function dataListFilterCount(listState) {
-          return (
-            (listState.filter !== 'all' ? 1 : 0) +
-            listState.fieldFilters.length +
-            (listState.advanced ? 1 : 0)
-          )
-        }
-
-        function dataListViewPresentation(view) {
-          if (view === 'cards') return {icon: 'i-panel', label: 'Cards'}
-          if (view === 'kanban') return {icon: 'i-flow', label: 'Kanban'}
-          if (view === 'responsive') return {icon: 'i-panel', label: 'Compact'}
-          if (view === 'adaptive') return {icon: 'i-panel', label: 'Adaptive'}
-          return {icon: 'i-grid', label: 'List'}
-        }
-
-        function renderDataListViewMenu(context, listState) {
-          const current = dataListViewPresentation(listState.view)
-          const option = (view, icon, label) =>
-            `<button type="button" role="menuitemradio" data-list-view="${view}" aria-checked="${listState.view === view}">${dataListIcon(icon)} ${t(label)}${listState.view === view ? dataListIcon('i-check', 13) : ''}</button>`
-          return `<details class="data-menu end"><summary>${dataListIcon(current.icon)}<span class="data-toolbar-label-text">${t(current.label)}</span>${dataListIcon('i-caret', 11)}</summary><div class="data-menu-popover" role="menu">${option('list', 'i-grid', 'List view')}${option('responsive', 'i-panel', 'Compact view')}${option('adaptive', 'i-panel', 'Adaptive view')}${option('cards', 'i-panel', 'Cards view')}${context === 'invoice' ? option('kanban', 'i-flow', 'Kanban view') : ''}</div></details>`
-        }
-
-        function renderDataListToolbar(context, config, listState) {
-          const tableView = ['list', 'responsive'].includes(listState.view)
-          const isAdaptive = listState.view === 'adaptive'
-          const activeFilter =
-            config.filters.find(filter => filter.key === listState.filter) || config.filters[0]
-          const activeCustomFilter = listState.customFilters.find(
-            custom => custom.id === listState.activeCustomFilterId
-          )
-          const filterButtons = renderDataListFilterButtons(config, listState)
-          const columnControls = renderDataListColumnControls(config, listState)
-          const isUnsaved =
-            Boolean(listState.fieldFilters.length || listState.advanced) && !activeCustomFilter
-          const filterEditors = listState.fieldFilters
-            .map(filter => renderDataListFilterEditor(config, filter))
-            .join('')
-          const selectedCount = listState.selected.size
-          const selectionActions = renderDataListSelectionActions(context, listState)
-          const filterCount = dataListFilterCount(listState)
-          const clearFilterButton = filterCount
-            ? `<button class="data-toolbar-button" type="button" data-list-clear-filter aria-label="${t('Clear all filters', 'Clear all filters')}">${dataListIcon('i-x')} ${t('Clear filter', 'Clear filter')}</button>`
-            : ''
-          if (selectedCount)
-            return `<div class="data-list-toolbar data-selection-toolbar" role="toolbar" aria-label="${t('Selected', 'Selected')} ${encodeHtml(config.label)} ${t('actions', 'actions')}">
-              <div class="data-toolbar-cluster data-selection-actions">
-                <span class="data-selection-count" aria-live="polite"><b>${selectedCount}</b> ${t('selected', 'selected')}</span>
-                ${selectionActions}
-              </div>
-              <button class="data-toolbar-button data-clear-selection" type="button" data-list-clear-selection>${dataListIcon('i-x')} ${t('Clear selection', 'Clear selection')}</button>
-            </div>
-            `
-          const filterCluster =
-            listState.filterMode === 'modal'
-              ? `<button class="data-toolbar-button" type="button" data-list-open-filters aria-haspopup="dialog">${dataListIcon('i-filter')}<span>${filterCount ? `${t('Filters', 'Filters')} (${filterCount})` : t('Filters', 'Filters')}</span></button>
-              ${clearFilterButton}`
-              : `<details class="data-menu"><summary>${dataListIcon(activeCustomFilter ? activeCustomFilter.icon || 'i-eye' : isUnsaved ? 'i-doc' : activeFilter.icon)}<span>${activeCustomFilter ? encodeHtml(activeCustomFilter.name) : isUnsaved ? t('Unsaved view', 'Unsaved view') : encodeHtml(t(activeFilter.label))}</span>${dataListIcon('i-caret', 11)}</summary><div class="data-menu-popover" role="menu">${filterButtons}</div></details>
-              ${filterEditors}
-              ${listState.advanced ? `<span class="data-filter-chip">${t('Advanced filters', 'Advanced filters')}<button type="button" data-list-clear-advanced aria-label="${t('Clear advanced filters', 'Clear advanced filters')}">${dataListIcon('i-x', 12)}</button></span>` : ''}
-              <details class="data-menu"><summary>${dataListIcon('i-plus')}<span>${t('Filter', 'Filter')}</span></summary><div class="data-menu-popover" role="menu">${renderDataListFieldChoices(config, listState)}</div></details>
-              ${clearFilterButton}
-              ${
-                activeCustomFilter
-                  ? `<button class="data-toolbar-button" type="button" data-list-custom-filter-delete="${encodeHtml(activeCustomFilter.id)}">${dataListIcon('i-trash')} ${t('Delete filter', 'Delete filter')}</button>`
-                  : ''
-              }
-              ${isUnsaved ? `<button class="data-toolbar-button" type="button" data-list-save-view>${dataListIcon('i-save')} ${t('Save filter', 'Save filter')}</button>` : ''}`
-          const printButton = `<button class="data-toolbar-button" type="button" data-list-action="print">${dataListIcon('i-print')}<span>${isAdaptive ? t('Print record', 'Print record') : t('Print list', 'Print list')}</span></button>`
-          const chartButton = isAdaptive
-            ? ''
-            : `<button class="data-toolbar-button" type="button" data-list-action="chart" aria-pressed="${listState.chartVisible}">${dataListIcon('i-chart')}<span>${t('Chart', 'Chart')}</span></button>`
-          const groupTrigger =
-            tableView && !isAdaptive ? renderDataListGroupTrigger(config, listState) : ''
-          const overflowMenu = `<details class="data-menu end data-toolbar-overflow"><summary aria-label="${t('More actions', 'More actions')}" title="${t('More actions', 'More actions')}">${dataListIcon('i-dots')}</summary><div class="data-menu-popover" role="menu">${printButton}${chartButton}${groupTrigger}</div></details>`
-          return `<div class="data-list-toolbar data-browse-toolbar" role="toolbar" aria-label="${encodeHtml(config.label)} ${t('table controls', 'table controls')}">
-            <div class="data-toolbar-cluster data-list-view-controls">
-              ${filterCluster}
-              ${listState.layoutDirty ? `<button class="data-toolbar-button is-active" type="button" data-list-save-layout>${dataListIcon('i-save')} ${t('Save layout', 'Save layout')}</button>` : ''}
-            </div>
-            <div class="data-toolbar-cluster end">
-              <label class="data-search">${dataListIcon('i-search')}<input type="search" data-list-search value="${encodeHtml(listState.search)}" placeholder="${t('Search', 'Search')} ${encodeHtml(config.label)}" aria-label="${t('Search', 'Search')} ${encodeHtml(config.label)}"><button class="data-search-clear" type="button" data-list-search-clear aria-label="${t('Clear search', 'Clear search')}"${listState.search ? '' : ' hidden'}>${dataListIcon('i-x', 12)}</button></label>
-              <span class="data-toolbar-separator data-toolbar-optional" aria-hidden="true"></span>
-              <span class="data-toolbar-cluster data-toolbar-inline">${printButton}${chartButton}${groupTrigger}</span>
-              ${overflowMenu}
-              ${listState.view === 'list' && !isAdaptive ? `<details class="data-menu end"><summary>${dataListIcon('i-sliders')}<span class="data-toolbar-label-text">${t('Columns', 'Columns')}</span>${dataListIcon('i-caret', 10)}</summary><div class="data-menu-popover" role="group" aria-label="${t('Visible columns', 'Visible columns')}">${columnControls}</div></details>` : ''}
-              ${renderDataListViewMenu(context, listState)}
-            </div>
-          </div>`
         }
 
         /* Shell-footer list pager — the single navigator for a paginated list, living
@@ -5651,33 +5762,6 @@ export function startLegacyApp(shared) {
           return `<div class="data-kanban-board">${columns}</div>`
         }
 
-        function restoreDataListSearchFocus(canvas) {
-          const search = canvas.querySelector('[data-list-search]')
-          search?.focus({preventScroll: true})
-          search?.setSelectionRange(search.value.length, search.value.length)
-        }
-
-        function restoreDataListFilterFocus(canvas, filterKey) {
-          const editor = canvas.querySelector(`[data-filter-editor-key="${CSS.escape(filterKey)}"]`)
-          if (!editor) return
-          const input = editor.querySelector('[data-list-filter-value]')
-          if (!input) {
-            editor.open = true
-            const dateControl = editor.querySelector(
-              '[data-list-date-amount], [data-list-date-unit], [data-list-date-specific], [data-list-date-range-from], [data-list-date-range-to]'
-            )
-            const selected = editor.querySelector('[role="option"][aria-selected="true"]')
-            const option = dateControl || selected || editor.querySelector('[role="option"]')
-            option?.focus({preventScroll: true})
-            requestAnimationFrame(() => positionDataMenu(editor))
-            return
-          }
-          editor.open = true
-          input.focus({preventScroll: true})
-          input.setSelectionRange(input.value.length, input.value.length)
-          requestAnimationFrame(() => positionDataMenu(editor))
-        }
-
         function positionDataMenu(details) {
           if (!details?.open) return
           const summary = details.querySelector(':scope > summary')
@@ -5724,168 +5808,6 @@ export function startLegacyApp(shared) {
         }
 
         const applyFrozenDataListColumns = applySharedFrozenDataListColumns
-
-        function observeResponsiveDataList(canvas, context) {
-          const listState = dataListState[context]
-          if (listState.resizeObserver || typeof ResizeObserver === 'undefined') return
-          listState.resizeObserver = new ResizeObserver(entries => {
-            const width = Math.round(entries[0]?.contentRect.width || 0)
-            if (!width) return
-            listState.responsiveWidth = width
-            if (listState.view !== 'responsive') return
-            const signature = responsiveDataListColumns(context, width, listState)
-              .visible.map(column => column.key)
-              .join('|')
-            if (signature === listState.responsiveSignature) return
-            renderDataList(context)
-          })
-          // Tied to the same instance-owned AbortController wireDataList
-          // creates (Task 6) so the observer and the canvas's delegated
-          // listeners share one disposal path — a future instance
-          // dispose() only needs to abort() once to tear down both.
-          listState.abortController?.signal.addEventListener('abort', () => {
-            listState.resizeObserver?.disconnect()
-            listState.resizeObserver = null
-          })
-          listState.resizeObserver.observe(canvas)
-        }
-
-        /* A custom filter stays "active" (shown by name, offering Delete
-           instead of Save) only while the live field filters still match
-           exactly what was saved — any edit silently detaches it back to
-           an ordinary unsaved view, the same way a saved layout goes dirty
-           the moment a column changes. */
-        function customFilterMatchesFieldFilters(custom, fieldFilters) {
-          if (custom.fieldFilters.length !== fieldFilters.length) return false
-          return custom.fieldFilters.every(saved => {
-            const live = fieldFilters.find(item => item.key === saved.key)
-            return live && live.operator === saved.operator && live.value === saved.value
-          })
-        }
-
-        function syncActiveCustomFilter(listState) {
-          if (!listState.activeCustomFilterId) return
-          const active = listState.customFilters.find(
-            custom => custom.id === listState.activeCustomFilterId
-          )
-          if (!active || !customFilterMatchesFieldFilters(active, listState.fieldFilters))
-            listState.activeCustomFilterId = ''
-        }
-
-        function renderDataList(
-          context,
-          {focusSearch = false, focusFilterKey = '', skipStatsAnimation = false} = {}
-        ) {
-          const config = DATA_LIST_CONFIG[context]
-          const listState = dataListState[context]
-          const canvas = listState.canvas
-          if (!canvas) return
-          syncActiveCustomFilter(listState)
-          document.querySelectorAll('body > .data-menu-popover[data-parked]').forEach(popover => {
-            if (canvas.contains(popover.__homeParent) || !document.contains(popover.__homeParent))
-              popover.remove()
-          })
-          const filteredRows = dataListRows(context)
-          const tableView = ['list', 'responsive'].includes(listState.view)
-          const isAdaptive = listState.view === 'adaptive'
-          const totalPages = Math.max(
-            1,
-            Math.ceil(
-              (DATA_LIST_SIMULATED_TOTAL[context] || filteredRows.length) / listState.pageSize
-            )
-          )
-          if (isAdaptive) {
-            if (listState.page > filteredRows.length) listState.page = filteredRows.length
-            if (listState.page < 1) listState.page = 1
-          } else {
-            if (listState.page > totalPages) listState.page = totalPages
-            if (listState.page < 1) listState.page = 1
-          }
-          const pageStart = (listState.page - 1) * listState.pageSize
-          const rows = isAdaptive
-            ? filteredRows.slice(listState.page - 1, listState.page)
-            : tableView
-              ? filteredRows.slice(pageStart, pageStart + listState.pageSize)
-              : filteredRows
-          const standardVisibleColumns = listState.columnOrder
-            .map(key => config.columns.find(column => column.key === key))
-            .filter(column => column && !listState.hiddenColumns.has(column.key))
-          const responsiveColumns = responsiveDataListColumns(
-            context,
-            listState.responsiveWidth || Math.round(canvas.getBoundingClientRect().width),
-            listState
-          )
-          const visibleColumns =
-            listState.view === 'responsive' ? responsiveColumns.visible : standardVisibleColumns
-          const overflowColumns = listState.view === 'responsive' ? responsiveColumns.overflow : []
-          listState.responsiveSignature = responsiveColumns.visible
-            .map(column => column.key)
-            .join('|')
-          const visibleKeys = rows.map(row => String(row[config.key]))
-          const selectedVisible = visibleKeys.filter(key => listState.selected.has(key)).length
-          const allSelected = Boolean(visibleKeys.length) && selectedVisible === visibleKeys.length
-          const toolbar = renderDataListToolbar(context, config, listState)
-          const sortedBy =
-            config.columns.find(column => column.key === listState.sortKey)?.label || ''
-          const groupingBar = tableView ? renderDataListGroupingBar(config, listState) : ''
-          const responsiveColgroup =
-            listState.view === 'responsive'
-              ? `<colgroup><col style="width:42px">${visibleColumns
-                  .map(
-                    column =>
-                      `<col style="width:${DATA_LIST_RESPONSIVE_WIDTH[column.key] || 130}px">`
-                  )
-                  .join('')}<col style="width:76px"></colgroup>`
-              : ''
-          const tableRenderContext = {
-            context,
-            visibleColumns,
-            overflowColumns,
-            config,
-            listState,
-          }
-          const records =
-            listState.view === 'kanban'
-              ? renderDataListKanban(context, rows, config, listState)
-              : listState.view === 'cards'
-                ? renderDataListCards(context, rows, config, listState)
-                : isAdaptive
-                  ? renderDataListAdaptiveRecord(context, rows[0], config, filteredRows.length)
-                  : `<div class="data-table-scroll${listState.view === 'responsive' ? ' data-table-responsive' : ''}"><table class="inv-grid borders-${encodeHtml(listState.borderMode)}">${responsiveColgroup}<thead><tr><th><input type="checkbox" data-list-select-all aria-label="Select all visible ${encodeHtml(config.label)}"${allSelected ? ' checked' : ''}></th>${renderDataListHeader(visibleColumns, listState)}<th class="data-row-actions-cell" aria-label="Record actions"></th></tr></thead><tbody>${renderDataListBody(rows, tableRenderContext)}</tbody></table></div>`
-          const statistics = listState.statisticsVisible
-            ? renderDataListStatistics(context, filteredRows, config)
-            : ''
-          const chart = isAdaptive
-            ? ''
-            : renderDataListChart(context, filteredRows, config, listState)
-          /* Grouping lives in its own card, separate from the table card, so the two
-             ideas ("how rows are organized" vs "the rows themselves") read as
-             distinct pieces of UI rather than one glued block. */
-          const groupingCard = groupingBar
-            ? `<div class="data-group-card">${groupingBar}</div>`
-            : ''
-          canvas.innerHTML = `${statistics}${chart}<div class="data-list-controls">${toolbar}</div>${groupingCard}<div class="data-list-shell" data-data-list="${context}">${records}</div>`
-          /* Paging/record-nav swaps the whole canvas back in via innerHTML,
-             so every stat card is a fresh element — animating on those
-             renders would replay the count-up on each click, reading as the
-             numbers "resetting" rather than the table simply moving on. */
-          if (!skipStatsAnimation) initNumberTickers(canvas)
-          if (isAdaptive) destroyDataListChartInstance(context)
-          else initDataListChart(context, canvas, filteredRows, config, listState)
-          const manageMenu = document.querySelector(
-            `.data-page-manage[data-list-context="${CSS.escape(context)}"]`
-          )
-          if (manageMenu) renderDataPageManageMenu(manageMenu)
-          syncShellListPager(context, filteredRows.length)
-          const selectAll = canvas.querySelector('[data-list-select-all]')
-          if (selectAll) selectAll.indeterminate = selectedVisible > 0 && !allSelected
-          wireDataList(canvas, context)
-          observeResponsiveDataList(canvas, context)
-          if (listState.view === 'list')
-            applyFrozenDataListColumns(canvas, visibleColumns, listState)
-          if (focusSearch) restoreDataListSearchFocus(canvas)
-          if (focusFilterKey) restoreDataListFilterFocus(canvas, focusFilterKey)
-        }
 
         function applyDataListFilterClick(event, context) {
           const listState = dataListState[context]
@@ -5998,59 +5920,6 @@ export function startLegacyApp(shared) {
           else if (event.target.closest('[data-list-save-layout]')) saveDataListLayout(context)
           else return false
           return true
-        }
-
-        function computeDataListLayoutDirty(listState) {
-          const columnsChanged =
-            listState.columnOrder.join('|') !== listState.savedColumnOrder.join('|')
-          const hiddenChanged =
-            listState.hiddenColumns.size !== listState.savedHiddenColumns.size ||
-            [...listState.hiddenColumns].some(key => !listState.savedHiddenColumns.has(key))
-          const viewChanged = listState.view !== listState.savedView
-          const groupsChanged = listState.groupBy.join('|') !== listState.savedGroupBy.join('|')
-          const statisticsVisibilityChanged =
-            listState.statisticsVisible !== listState.savedStatisticsVisible
-          const statisticsConceptChanged =
-            activeDataListStatisticsConcept(listState) !==
-            resolvedDataListStatisticsConcept(listState.savedStatisticsConcept)
-          listState.layoutDirty =
-            columnsChanged ||
-            hiddenChanged ||
-            viewChanged ||
-            groupsChanged ||
-            statisticsVisibilityChanged ||
-            statisticsConceptChanged
-          return listState.layoutDirty
-        }
-
-        // saveDataListLayout/resetDataListLayout now delegate the field
-        // reconciliation + persistence to the shared model's saveLayout()/
-        // resetLayout() (concepts/app/components/data-list/model.js), which
-        // dataListModels[context] already holds — this function keeps only
-        // what the model can't own: the one DOM read
-        // (activeDataListStatisticsConcept reads #statistics-concept, a live
-        // page element) and the toast/re-render side effects.
-        function saveDataListLayout(context) {
-          const listState = dataListState[context]
-          // The model's saveLayout() persists whatever is currently in
-          // listState.statisticsConcept — set it from the DOM first so the
-          // persisted value matches what activeDataListStatisticsConcept()
-          // has always resolved to (falls back to the live #statistics-concept
-          // control, then 'balanced'), exactly as before this extraction.
-          listState.statisticsConcept = activeDataListStatisticsConcept(listState)
-          if (!dataListModels[context].saveLayout()) {
-            toast({tone: 'bad', title: 'Table layout could not be saved in this browser'})
-            return false
-          }
-          renderDataList(context)
-          toast({tone: 'ok', title: 'Table layout saved to your user configuration'})
-          return true
-        }
-
-        function resetDataListLayout(context) {
-          dataListModels[context].resetLayout()
-          renderDataList(context)
-          toast({tone: 'ok', title: 'Default table layout restored'})
         }
 
         function dataManageAction(action, icon, title, support, {disabled = false} = {}) {
@@ -6202,473 +6071,6 @@ export function startLegacyApp(shared) {
             tone: 'ok',
             title: `Exporting ${rows} ${rows === 1 ? config.singular : config.label} (${columnCount} columns) as ${fileName}.${format}`,
           })
-        }
-
-        function deleteDataListRecords(context, keys) {
-          const listState = dataListState[context]
-          const config = DATA_LIST_CONFIG[context]
-          const deleted = new Set(keys)
-          for (let index = config.rows.length - 1; index >= 0; index -= 1) {
-            if (deleted.has(String(config.rows[index][config.key]))) config.rows.splice(index, 1)
-          }
-          listState.sourceRows = listState.sourceRows.filter(
-            row => !deleted.has(String(row[config.key]))
-          )
-          deleted.forEach(key => listState.selected.delete(key))
-          renderDataList(context)
-          toast({
-            tone: 'ok',
-            title: `${deleted.size} ${deleted.size === 1 ? config.singular : config.label} deleted`,
-          })
-        }
-
-        function openDataListRecord(context, key, mode) {
-          if (guardDataListLeave(() => openDataListRecord(context, key, mode))) return
-          if (context === 'customer') openCustomerRecord(key, mode)
-          else if (context === 'geo') openGeoRecord(key, mode)
-          else {
-            openInvoiceRecord(key)
-            const modeControl = document.getElementById('mode')
-            if (modeControl) {
-              modeControl.value = mode === 'view' ? 'record' : mode
-              modeControl.dispatchEvent(new Event('change', {bubbles: true}))
-            }
-          }
-        }
-
-        function toggleDataListStatus(context, row) {
-          row.active = !row.active
-          renderDataList(context)
-          toast({
-            tone: 'ok',
-            title: `${row.customerName || row.name} ${row.active ? 'activated' : 'deactivated'}`,
-          })
-        }
-
-        function setDataListRecordsStatus(context, keys, active) {
-          const config = DATA_LIST_CONFIG[context]
-          const keySet = new Set(keys)
-          const rows = config.rows.filter(row => keySet.has(String(row[config.key])))
-          rows.forEach(row => (row.active = active))
-          renderDataList(context)
-          toast({
-            tone: 'ok',
-            title: `${rows.length} ${rows.length === 1 ? config.singular : config.label} ${active ? 'activated' : 'deactivated'}`,
-          })
-        }
-
-        function applyDataListRowAction(context, rowAction) {
-          const popover = rowAction.closest('.data-menu-popover')
-          const home = popover?.dataset.parked ? popover.__homeParent : null
-          const key =
-            rowAction.closest('[data-list-row-key]')?.dataset.listRowKey ||
-            home?.closest('[data-list-row-key]')?.dataset.listRowKey
-          if (!key) return false
-          const command = rowAction.dataset.listRowAction
-          const config = DATA_LIST_CONFIG[context]
-          const row = config.rows.find(record => String(record[config.key]) === key)
-          if (command === 'quick-view') openQuickView(context, key)
-          else if (command === 'display') openDataListRecord(context, key, 'view')
-          else if (command === 'modify') openDataListRecord(context, key, 'edit')
-          else if (command === 'delete') deleteDataListRecords(context, [key])
-          else if (command === 'toggle-status' && row) toggleDataListStatus(context, row)
-          else if (command === 'view-hierarchy' && row) openGeoRecord(row.code, 'view')
-          else if (command === 'print')
-            openPrintSettings(
-              `${config.singular[0].toUpperCase() + config.singular.slice(1)} ${key}`
-            )
-          else
-            toast({
-              tone: 'ok',
-              title: `${rowAction.textContent.trim()} for ${config.singular} ${key}`,
-            })
-          return true
-        }
-
-        function openNewDataListRecord(context) {
-          if (context === 'customer') {
-            openCustomerRecord(null, 'create')
-            return
-          }
-          if (context === 'geo') {
-            openGeoRecord(GEO_ROWS[0].code, 'create')
-            return
-          }
-          document.getElementById('mode').value = 'create'
-          showContentView('record')
-          applyMode('create')
-        }
-
-        function applyDataListToolbarCommand(context, command, selectedKey) {
-          const listState = dataListState[context]
-          if (['display', 'modify'].includes(command) && selectedKey) {
-            openDataListRecord(context, selectedKey, command === 'display' ? 'view' : 'edit')
-          } else if (command === 'delete' && listState.selected.size) {
-            deleteDataListRecords(context, listState.selected)
-          } else if (['activate', 'deactivate'].includes(command) && listState.selected.size) {
-            setDataListRecordsStatus(context, listState.selected, command === 'activate')
-          } else if (command === 'chart') {
-            listState.chartVisible = !listState.chartVisible
-            renderDataList(context)
-          } else if (command === 'statistics-status') {
-            listState.statisticsVisible = !listState.statisticsVisible
-            computeDataListLayoutDirty(listState)
-            renderDataList(context)
-            toast({
-              tone: 'ok',
-              title: `Statistics ${listState.statisticsVisible ? 'shown' : 'hidden'}`,
-            })
-          } else if (command === 'print') {
-            const config = DATA_LIST_CONFIG[context]
-            if (listState.view === 'adaptive') {
-              const filteredRows = dataListRows(context)
-              const record = filteredRows[listState.page - 1]
-              const recordKey = record ? record[config.key] : ''
-              openPrintSettings(
-                `${config.singular[0].toUpperCase() + config.singular.slice(1)} ${recordKey}`
-              )
-            } else {
-              const label = config.label
-              openPrintSettings(`${label[0].toUpperCase() + label.slice(1)} list`)
-            }
-          } else return false
-          return true
-        }
-
-        function applyDataListCommandClick(event, context) {
-          const listState = dataListState[context]
-          const view = event.target.closest('[data-list-view]')
-          const record = event.target.closest('[data-list-open-record]')
-          const action = event.target.closest('[data-list-action]')
-          const rowAction = event.target.closest('[data-list-row-action]')
-          const rowExpand = event.target.closest('[data-list-row-expand]')
-          const groupToggle = event.target.closest('[data-list-group-toggle]')
-          const groupRemove = event.target.closest('[data-list-group-remove]')
-          const groupAdd = event.target.closest('[data-list-group-add]')
-          const groupClear = event.target.closest('[data-list-group-clear]')
-          const chartClose = event.target.closest('[data-list-chart-close]')
-          const chartType = event.target.closest('[data-list-chart-type]')
-          const chartToggle = event.target.closest('[data-list-chart-toggle]')
-          const selectedKey = [...listState.selected][0]
-          if (chartClose) {
-            listState.chartVisible = false
-            renderDataList(context)
-          } else if (chartToggle) {
-            listState.chartExpanded = !listState.chartExpanded
-            renderDataList(context)
-          } else if (chartType) {
-            listState.chartType = chartType.dataset.listChartType
-            renderDataList(context)
-          } else if (view) {
-            listState.view = view.dataset.listView
-            computeDataListLayoutDirty(listState)
-            renderDataList(context)
-          } else if (rowExpand) {
-            const key = rowExpand.dataset.listRowExpand
-            if (listState.expandedRows.has(key)) listState.expandedRows.delete(key)
-            else listState.expandedRows.add(key)
-            renderDataList(context)
-          } else if (groupToggle) {
-            const groupId = groupToggle.dataset.listGroupToggle
-            if (listState.collapsedGroups.has(groupId)) listState.collapsedGroups.delete(groupId)
-            else listState.collapsedGroups.add(groupId)
-            renderDataList(context)
-          } else if (groupRemove) {
-            listState.groupBy = listState.groupBy.filter(
-              key => key !== groupRemove.dataset.listGroupRemove
-            )
-            listState.collapsedGroups.clear()
-            computeDataListLayoutDirty(listState)
-            renderDataList(context)
-          } else if (groupClear) {
-            listState.groupBy = []
-            listState.collapsedGroups.clear()
-            computeDataListLayoutDirty(listState)
-            renderDataList(context)
-          } else if (groupAdd) {
-            const columnKey = groupAdd.dataset.listGroupAdd
-            if (!listState.groupBy.includes(columnKey)) listState.groupBy.push(columnKey)
-            listState.collapsedGroups.clear()
-            computeDataListLayoutDirty(listState)
-            renderDataList(context)
-          } else if (rowAction) return applyDataListRowAction(context, rowAction)
-          else if (
-            action &&
-            applyDataListToolbarCommand(context, action.dataset.listAction, selectedKey)
-          )
-            return true
-          else if (record) {
-            openDataListRecord(context, record.dataset.listOpenRecord, 'view')
-          } else return false
-          return true
-        }
-
-        function applyDataListSortClick(event, context) {
-          const sort = event.target.closest('[data-list-sort]')
-          if (!sort) return false
-          const listState = dataListState[context]
-          const key = sort.dataset.listSort
-          listState.sortDirection =
-            listState.sortKey === key && listState.sortDirection === 'asc' ? 'desc' : 'asc'
-          listState.sortKey = key
-          renderDataList(context)
-          return true
-        }
-
-        function onDataListChange(event, context) {
-          const listState = dataListState[context]
-          const config = DATA_LIST_CONFIG[context]
-          const rowSelect = event.target.closest('[data-list-row-select]')
-          const column = event.target.closest('[data-list-column]')
-          const filterValue = event.target.closest('[data-list-filter-value]')
-          const chartField = event.target.closest('[data-list-chart-field]')
-          const chartYField = event.target.closest('[data-list-chart-y-field]')
-          const dateAmount = event.target.closest('[data-list-date-amount]')
-          const dateUnit = event.target.closest('[data-list-date-unit]')
-          const dateSpecific = event.target.closest('[data-list-date-specific]')
-          const dateRangeFrom = event.target.closest('[data-list-date-range-from]')
-          const dateRangeTo = event.target.closest('[data-list-date-range-to]')
-          const dateControl =
-            dateAmount?.dataset.listDateAmount ||
-            dateUnit?.dataset.listDateUnit ||
-            dateSpecific?.dataset.listDateSpecific ||
-            dateRangeFrom?.dataset.listDateRangeFrom ||
-            dateRangeTo?.dataset.listDateRangeTo
-          if (dateControl) {
-            const item = listState.fieldFilters.find(fieldFilter => fieldFilter.key === dateControl)
-            if (item) {
-              const {preset, a, b} = parseDateFilterValue(item)
-              if (dateAmount) item.value = `${preset}:${dateAmount.value || 1}:${b || 'day'}`
-              else if (dateUnit) item.value = `${preset}:${a || 1}:${dateUnit.value}`
-              else if (dateSpecific) item.value = `specific:${dateSpecific.value}`
-              else if (dateRangeFrom) item.value = `range:${dateRangeFrom.value}:${b || ''}`
-              else if (dateRangeTo) item.value = `range:${a || ''}:${dateRangeTo.value}`
-            }
-            listState.page = 1
-            renderDataList(context, {focusFilterKey: dateControl})
-          } else if (chartField) {
-            listState.chartField = chartField.value
-          } else if (chartYField) {
-            listState.chartYField = chartYField.value
-          } else if (rowSelect) {
-            if (rowSelect.checked) listState.selected.add(rowSelect.value)
-            else listState.selected.delete(rowSelect.value)
-          } else if (event.target.closest('[data-list-select-all]'))
-            dataListRows(context).forEach(row => {
-              const key = String(row[config.key])
-              if (event.target.checked) listState.selected.add(key)
-              else listState.selected.delete(key)
-            })
-          else if (column) {
-            if (column.checked) listState.hiddenColumns.delete(column.dataset.listColumn)
-            else listState.hiddenColumns.add(column.dataset.listColumn)
-            computeDataListLayoutDirty(listState)
-          } else if (filterValue) {
-            const filter = listState.fieldFilters.find(
-              item => item.key === filterValue.dataset.listFilterValue
-            )
-            if (filter) filter.value = filterValue.value
-          } else return
-          renderDataList(context)
-        }
-
-        function reorderDataListColumn(context, sourceKey, targetKey) {
-          const listState = dataListState[context]
-          if (!sourceKey || !targetKey || sourceKey === targetKey) return
-          const nextOrder = listState.columnOrder.filter(key => key !== sourceKey)
-          const targetIndex = nextOrder.indexOf(targetKey)
-          if (targetIndex < 0) return
-          nextOrder.splice(targetIndex, 0, sourceKey)
-          listState.columnOrder = nextOrder
-          computeDataListLayoutDirty(listState)
-          renderDataList(context)
-        }
-
-        function wireDataList(canvas, context) {
-          const listState = dataListState[context]
-          // Delegated canvas listeners are registered once per instance
-          // (Task 6: replaces the previous `canvas.dataset.dataListWired`
-          // boolean guard) via an instance-owned AbortController — a future
-          // instance dispose() can remove this whole listener set in one
-          // controller.abort() call, which a boolean guard has no path to do.
-          if (listState.abortController) return
-          listState.abortController = new AbortController()
-          const {signal} = listState.abortController
-          canvas.addEventListener(
-            'click',
-            event => {
-              if (applyDataListFilterClick(event, context)) return
-              if (applyDataListToolbarClick(event, context)) return
-              if (applyDataListSortClick(event, context)) return
-              applyDataListCommandClick(event, context)
-            },
-            {signal}
-          )
-          canvas.addEventListener(
-            'dblclick',
-            event => {
-              const row = event.target.closest('.data-list-record-row[data-list-row-key]')
-              if (!row) return
-              if (
-                event.target.closest(
-                  'button, a, input, select, textarea, summary, label, [role="menuitem"]'
-                )
-              )
-                return
-              event.preventDefault()
-              const key = row.dataset.listRowKey
-              if (event.ctrlKey || event.metaKey) openQuickView(context, key)
-              else openDataListRecord(context, key, 'view')
-            },
-            {signal}
-          )
-          canvas.addEventListener('change', event => onDataListChange(event, context), {signal})
-          canvas.addEventListener(
-            'input',
-            event => {
-              const filterValue = event.target.closest('input[data-list-filter-value]')
-              if (filterValue) {
-                const filter = dataListState[context].fieldFilters.find(
-                  item => item.key === filterValue.dataset.listFilterValue
-                )
-                if (filter) filter.value = filterValue.value
-                renderDataList(context, {
-                  focusFilterKey: filterValue.dataset.listFilterValue,
-                })
-                return
-              }
-              const search = event.target.closest('[data-list-search]')
-              if (!search) return
-              dataListState[context].search = search.value
-              dataListState[context].selected.clear()
-              dataListState[context].page = 1
-              renderDataList(context, {focusSearch: true})
-            },
-            {signal}
-          )
-          canvas.addEventListener(
-            'dragstart',
-            event => {
-              const header = event.target.closest('[data-list-column-drag]')
-              if (header) {
-                event.dataTransfer.effectAllowed = 'move'
-                event.dataTransfer.setData('text/plain', header.dataset.listColumnDrag)
-                return
-              }
-              const card = event.target.closest('.data-kanban-card')
-              if (!card) return
-              event.dataTransfer.effectAllowed = 'move'
-              event.dataTransfer.setData('text/plain', card.dataset.listRowKey)
-              card.classList.add('is-dragging')
-            },
-            {signal}
-          )
-          canvas.addEventListener(
-            'dragover',
-            event => {
-              const groupDrop = event.target.closest('[data-list-group-drop]')
-              if (groupDrop) {
-                event.preventDefault()
-                event.dataTransfer.dropEffect = 'move'
-                groupDrop.dataset.dragOver = 'true'
-                return
-              }
-              const header = event.target.closest('[data-list-column-drag]')
-              if (header) {
-                event.preventDefault()
-                event.dataTransfer.dropEffect = 'move'
-                canvas
-                  .querySelectorAll('[data-list-column-drag][data-drag-over="true"]')
-                  .forEach(item => item.removeAttribute('data-drag-over'))
-                header.dataset.dragOver = 'true'
-                return
-              }
-              const drop = event.target.closest('[data-kanban-drop]')
-              if (!drop) return
-              const draggingCard = canvas.querySelector('.data-kanban-card.is-dragging')
-              if (!draggingCard) return
-              event.preventDefault()
-              const fromStatus = draggingCard.dataset.kanbanStatus
-              const toStatus = drop.dataset.kanbanDrop
-              const allowed =
-                fromStatus === toStatus ||
-                (INVOICE_STATUS_TRANSITIONS[fromStatus] || []).includes(toStatus)
-              event.dataTransfer.dropEffect = 'move'
-              canvas
-                .querySelectorAll('.data-kanban-drop.is-drag-over, .data-kanban-drop.is-drag-blocked')
-                .forEach(item => item.classList.remove('is-drag-over', 'is-drag-blocked'))
-              drop.classList.add(allowed ? 'is-drag-over' : 'is-drag-blocked')
-            },
-            {signal}
-          )
-          canvas.addEventListener(
-            'dragleave',
-            event => {
-              const groupDrop = event.target.closest('[data-list-group-drop]')
-              if (groupDrop && !groupDrop.contains(event.relatedTarget)) {
-                groupDrop.removeAttribute('data-drag-over')
-                return
-              }
-              const drop = event.target.closest('[data-kanban-drop]')
-              if (!drop || drop.contains(event.relatedTarget)) return
-              drop.classList.remove('is-drag-over', 'is-drag-blocked')
-            },
-            {signal}
-          )
-          canvas.addEventListener(
-            'drop',
-            event => {
-              const groupDrop = event.target.closest('[data-list-group-drop]')
-              if (groupDrop) {
-                event.preventDefault()
-                groupDrop.removeAttribute('data-drag-over')
-                const sourceKey = event.dataTransfer.getData('text/plain')
-                const dropListState = dataListState[context]
-                const validColumn = DATA_LIST_CONFIG[context].columns.some(
-                  column => column.key === sourceKey && column.groupable !== false
-                )
-                if (validColumn && !dropListState.groupBy.includes(sourceKey)) {
-                  dropListState.groupBy.push(sourceKey)
-                  dropListState.collapsedGroups.clear()
-                  computeDataListLayoutDirty(dropListState)
-                  renderDataList(context)
-                }
-                return
-              }
-              const header = event.target.closest('[data-list-column-drag]')
-              if (header) {
-                event.preventDefault()
-                const sourceKey = event.dataTransfer.getData('text/plain')
-                reorderDataListColumn(context, sourceKey, header.dataset.listColumnDrag)
-                return
-              }
-              const drop = event.target.closest('[data-kanban-drop]')
-              if (!drop) return
-              event.preventDefault()
-              drop.classList.remove('is-drag-over', 'is-drag-blocked')
-              const key = event.dataTransfer.getData('text/plain')
-              moveInvoiceKanbanCard(context, key, drop.dataset.kanbanDrop)
-            },
-            {signal}
-          )
-          canvas.addEventListener(
-            'dragend',
-            () => {
-              canvas
-                .querySelectorAll('[data-list-group-drop][data-drag-over="true"]')
-                .forEach(item => item.removeAttribute('data-drag-over'))
-              canvas
-                .querySelectorAll('[data-list-column-drag][data-drag-over="true"]')
-                .forEach(item => item.removeAttribute('data-drag-over'))
-              canvas
-                .querySelectorAll('.data-kanban-drop.is-drag-over, .data-kanban-drop.is-drag-blocked')
-                .forEach(item => item.classList.remove('is-drag-over', 'is-drag-blocked'))
-              canvas
-                .querySelectorAll('.data-kanban-card.is-dragging')
-                .forEach(item => item.classList.remove('is-dragging'))
-            },
-            {signal}
-          )
         }
 
         function openKanbanBlockedDialog(row, fromStatus, toStatus) {
