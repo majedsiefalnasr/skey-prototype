@@ -26,6 +26,10 @@ Baseline commit: `07f6b8a664e684022a3faf4c9e95392a13134529`.
 Baseline HTML Git blob: `2776f120870c4fdbb6eb80e2777bc4c085ce39f3`.
 All source line references below refer to that baseline; use symbols after extraction changes line numbers.
 
+## Resume status
+
+Task 8 is partially implemented in the existing `worktree-app-shell-components` worktree. See [the resume checkpoint](2026-09-13-app-shell-components-resume.md) for the extracted invoice modules, verification, and remaining work. Tasks 9–13 remain.
+
 ## Execution rules
 
 Use an isolated worktree at execution time. Preserve the untracked audit report and browser snapshot in the original worktree. Commit only task-owned files, never `git add .`. Tasks are sequential because they share the current application initialization and migration script. Independent baseline inspection/review can run alongside implementation; two implementers must not simultaneously rewrite the legacy script.
