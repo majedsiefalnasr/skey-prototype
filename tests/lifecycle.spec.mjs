@@ -45,12 +45,44 @@ test.describe('customer record lifecycle', () => {
     await page.reload();
     await settle(page);
     expect(errors).toEqual([]);
-    await openSurface(page, 'customers-list');
-    await expect(page.locator('.customer-list-view')).toBeVisible();
+    // The no-crash assertion above is necessary but not sufficient: it only
+    // proves the null-root lookup didn't throw, not that the saved 'create'
+    // mode actually got restored. legacy-controls.js's restoreState() sets
+    // #customer-mode's DOM <select> value to 'create' on every boot
+    // regardless of whether anything is listening for its dispatched
+    // 'change' event, so checking the <select>'s value alone would be
+    // tautological — it doesn't prove the customer-record page itself
+    // reflects that mode. The real signal is whether record.js actually
+    // re-rendered: #customer-record-chrome is statically empty markup
+    // (`<div id="customer-record-chrome"></div>`, see
+    // concepts/app/shell/page-templates.html) until renderChrome() runs,
+    // which only happens once record.js's activate() fires. This checks
+    // that chrome DIRECTLY after reload, without navigating anywhere first
+    // — navigating to customers-list (the original assertion) or back to
+    // customer-record via openSurface() would either only prove an
+    // unrelated view renders, or would open a fresh record through the
+    // normal list-click flow (which activates in 'view' mode, not a
+    // restored 'create' mode), masking whether restoration actually
+    // happened rather than revealing it.
+    await expect(page.locator('#customer-record-chrome')).toContainText('New Customer');
   });
 
   test('create mode renders the New Customer chrome with blank required fields', async ({page}) => {
     await boot(page, 'http://127.0.0.1:4173');
+    // This test's own assertion matches the chrome's English label
+    // ("New Customer") — some projects (mobile-rtl) boot with Arabic
+    // already active (see tests/support/browser.mjs boot()'s `wantsRtl`
+    // handling), which translates that label. Force English/ltr first, the
+    // same pattern tests/data-list-component.spec.mjs's "a custom filter
+    // can be saved and re-applied" test and tests/components.spec.mjs's
+    // "Arabic locale switch" test use, since this test's own concern is
+    // create-mode rendering, not locale-specific label text.
+    await page.locator('#rtl').evaluate(element => {
+      if (element.checked) {
+        element.checked = false;
+        element.dispatchEvent(new Event('change', {bubbles: true}));
+      }
+    });
     await openCustomerRecordInMode(page, 'create');
     await expect(page.locator('#customer-record-chrome')).toContainText('New Customer');
     await expect(page.locator('[data-customer-field="customerName"]')).toHaveValue('');
