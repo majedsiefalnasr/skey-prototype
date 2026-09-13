@@ -4426,6 +4426,15 @@ export function startLegacyApp(shared) {
         function renderDataList(context, options) {
           dataListInstances[context].render(options)
         }
+        // Exposed the same way window.customerPrototype is above — a small
+        // diagnostic surface, not a runtime dependency of the app itself.
+        // Lets tests reach each createDataList(...) instance's
+        // activate/deactivate/dispose lifecycle methods directly, since
+        // nothing in the current page navigation flow calls them yet (the
+        // brief's own scoping: they're the new public surface for future
+        // code, not a requirement to migrate every existing call site in
+        // this task).
+        window.dataListInstances = dataListInstances
         dataListChartRefreshReady = true
 
         const listLayoutGuard = document.getElementById('list-layout-guard')

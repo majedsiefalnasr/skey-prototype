@@ -653,6 +653,16 @@ export function createDataList({context, config, rows, locale, actions, storage,
   }
 
   function activate({root, footer} = {}) {
+    // wireDataList only wires a canvas once per abortController (its own
+    // dataset-style guard, Task 6) — if this instance was already active on
+    // a DIFFERENT canvas (or the same canvas element is being re-adopted
+    // after being detached/reattached), that stale controller must be torn
+    // down first so the new/current canvas actually gets wired, rather than
+    // silently staying unwired while the old canvas's now-orphaned listeners
+    // linger until GC. A same-canvas re-activate (root omitted, or passed as
+    // the already-active element) is a no-op here, matching render()'s own
+    // idempotency.
+    if (root && root !== listState.canvas) deactivate()
     if (root) listState.canvas = root
     if (footer) footerEl = footer
     render()

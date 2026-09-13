@@ -374,3 +374,113 @@ test('opening a record and returning to the invoice list does not duplicate row-
   const after = await page.locator('[data-data-list="invoice"] [data-list-row-key]').count();
   expect(after).toBe(before - 1);
 });
+
+// ---------------------------------------------------------------------
+// createDataList(...) instance lifecycle (activate/deactivate/dispose) —
+// Task 6's new public surface. Nothing in the current page navigation
+// flow calls these yet (renderDataList/wireDataList's existing canvas-set
+// + render() path still drives every real navigation), so this exercises
+// them directly through window.dataListInstances (a small diagnostic
+// export, the same pattern as window.customerPrototype). Repeated-render
+// coverage for the EXISTING render() path already lives in the chart and
+// record round-trip tests above; this test is specifically about the new
+// activate()/deactivate()/dispose() methods themselves.
+// ---------------------------------------------------------------------
+test('createDataList instance activate/deactivate/dispose does not duplicate canvas listeners or leak chart instances', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    window.__chartInstances = [];
+    window.ApexCharts = class {
+      constructor(el, options) {
+        this.el = el;
+        this.options = options;
+        this.destroyed = false;
+        window.__chartInstances.push(this);
+      }
+      render() {
+        return Promise.resolve();
+      }
+      destroy() {
+        this.destroyed = true;
+      }
+    };
+  });
+  await boot(page, 'http://127.0.0.1:4173');
+  await openSurface(page, 'list');
+  await settle(page);
+
+  // Re-activate the invoice instance onto a detached canvas a few times —
+  // the real "navigate away and back" scenario for code that has adopted
+  // the lifecycle surface — then confirm: (a) each activate() cycle
+  // registers exactly one new delegated `click` listener on its canvas
+  // (deactivate()'s controller.abort() removes the previous set, so
+  // wireDataList's dataset/abortController guard never lets a second
+  // registration stack on top), and (b) opening the chart, deactivating,
+  // then activating again and reopening the chart never leaves more than
+  // one live (non-destroyed) chart instance.
+  const registrationCounts = await page.evaluate(() => {
+    const instance = window.dataListInstances.invoice;
+    const counts = [];
+    for (let i = 0; i < 3; i += 1) {
+      const canvas = document.createElement('div');
+      document.body.appendChild(canvas);
+      let clickListenerRegistrations = 0;
+      const originalAddEventListener = canvas.addEventListener.bind(canvas);
+      canvas.addEventListener = (type, ...rest) => {
+        if (type === 'click') clickListenerRegistrations += 1;
+        return originalAddEventListener(type, ...rest);
+      };
+      const footer = document.createElement('div');
+      instance.activate({root: canvas, footer});
+      const listState = instance.getState();
+      listState.chartVisible = true;
+      instance.render();
+      counts.push(clickListenerRegistrations);
+      instance.deactivate();
+      canvas.remove();
+    }
+    return counts;
+  });
+  // Exactly one `click` listener registered per activate() cycle — never 0
+  // (wireDataList ran) and never >1 (no stacking across cycles).
+  expect(registrationCounts).toEqual(registrationCounts.map(() => 1));
+
+  const liveChartCount = await page.evaluate(() =>
+    window.__chartInstances.filter(instance => !instance.destroyed).length
+  );
+  expect(liveChartCount).toBeLessThanOrEqual(1);
+
+  // dispose() tears down the chart handle and clears the canvas reference
+  // entirely — a render() call afterward must be a safe no-op, not a
+  // leaked/duplicated wire-up.
+  const disposedState = await page.evaluate(() => {
+    const instance = window.dataListInstances.invoice;
+    const canvas = document.createElement('div');
+    document.body.appendChild(canvas);
+    instance.activate({root: canvas, footer: document.createElement('div')});
+    instance.dispose();
+    const canvasAfterDispose = instance.getState().canvas;
+    instance.render();
+    canvas.remove();
+    return {canvasAfterDispose};
+  });
+  expect(disposedState.canvasAfterDispose).toBeNull();
+
+  const liveChartCountAfterDispose = await page.evaluate(() =>
+    window.__chartInstances.filter(instance => !instance.destroyed).length
+  );
+  expect(liveChartCountAfterDispose).toBe(0);
+
+  // Restore the invoice list back onto its real page canvas so the rest
+  // of this test's page (if inspected) still reflects normal app state —
+  // activate() re-wires it exactly like any other navigation would.
+  await page.evaluate(() => {
+    const instance = window.dataListInstances.invoice;
+    const canvas = document.getElementById('list-canvas');
+    const footer = document.getElementById('list-fnav');
+    instance.activate({root: canvas, footer});
+  });
+  await settle(page);
+  await expect(page.locator('[data-data-list="invoice"]')).toBeVisible();
+});
