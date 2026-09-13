@@ -755,7 +755,7 @@ export function createCustomerRecord({root, deps}) {
             parentUnitDrawerScrim: refs.parentUnitDrawerScrim,
             locationAddScrim: refs.locationAddScrim,
           },
-          deps: {encodeHtml, trapFocus, releaseFocus, applyLookupValue, lookupResults, unitRows},
+          deps: {encodeHtml, trapFocus, releaseFocus, applyLookupValue, lookupResults, unitRows, toast},
         })
       scrollNavigator = createScrollNavigator({root: refs.canvas, sectionOrder: CUSTOMER_SECTION_ORDER, customerState})
       active = true

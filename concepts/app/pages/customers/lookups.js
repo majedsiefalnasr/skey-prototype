@@ -27,6 +27,18 @@
 // re-render — this module never touches `customerData`/`customerState`
 // directly, keeping "shared picker coordination through callbacks" (per
 // the brief) rather than reaching into the record's mutable state itself.
+//
+// Also owns the four drawers' own Save buttons (type-add/unit-drawer/
+// parent-unit-drawer/location-add), since those write into
+// `deps.lookupResults` (CUSTOMER_LOOKUP_RESULTS) and then call back into
+// this module's own `applyLookupValueInternal` — genuinely lookup-owned,
+// not record-owned. `deps.toast` is the page-wide toast facility these save
+// handlers use for confirmation messages. A document-wide Escape listener
+// closes whichever of this module's own four drawers/dialogs is open even
+// when focus sits on a plain button inside them (not one of the elements
+// with their own keydown handler) — scoped to only this module's overlays;
+// geo/kanban/export overlays keep their own Escape handling in
+// legacy-app.js.
 
 export const CUSTOMER_LOOKUP_LABELS = {
   operationUnit: 'Operation Unit',
@@ -70,7 +82,7 @@ export function createLookups({refs, deps}) {
     parentUnitDrawerScrim,
     locationAddScrim,
   } = refs
-  const {encodeHtml, trapFocus, releaseFocus, applyLookupValue, lookupResults, unitRows} = deps
+  const {encodeHtml, trapFocus, releaseFocus, applyLookupValue, lookupResults, unitRows, toast} = deps
 
   const state = {
     fieldKey: '',
@@ -623,6 +635,240 @@ export function createLookups({refs, deps}) {
   }
   typeAddScrim.addEventListener('click', onTypeAddScrimClick)
 
+  const typeAddSaveButton = document.getElementById('customer-type-add-save')
+  const onTypeAddSaveClick = () => {
+    const nameInput = document.getElementById('customer-type-name')
+    const name = nameInput.value.trim()
+    const error = document.getElementById('customer-type-name-error')
+    if (!name) {
+      error.textContent = 'Name is required.'
+      error.hidden = false
+      nameInput.setAttribute('aria-invalid', 'true')
+      nameInput.setAttribute('aria-describedby', error.id)
+      nameInput.focus()
+      return
+    }
+    error.hidden = true
+    nameInput.removeAttribute('aria-invalid')
+    nameInput.removeAttribute('aria-describedby')
+    const inactive = document.getElementById('customer-type-deactivate').checked
+    const existing = lookupResults.customerType.find(
+      item => item.value.toLocaleLowerCase() === name.toLocaleLowerCase()
+    )
+    if (!existing) {
+      lookupResults.customerType.push({
+        value: name,
+        status: inactive ? 'Inactive' : 'Active',
+        order: Number(document.getElementById('customer-type-order').value) || 0,
+        details: document.getElementById('customer-type-remarks').value.trim() || 'No remarks',
+      })
+    }
+    closeTypeAdd()
+    if (inactive) {
+      toast({tone: 'ok', title: 'Customer type added as inactive'})
+    } else {
+      applyLookupValueInternal('customerType', name)
+      toast({tone: 'ok', title: 'Customer type added and selected'})
+    }
+  }
+  typeAddSaveButton.addEventListener('click', onTypeAddSaveClick)
+
+  const onUnitDrawerScrimClick = event => {
+    if (event.target === unitDrawerScrim || event.target.closest('.customer-unit-drawer-close')) {
+      closeUnitDrawer()
+      return
+    }
+    const openPageButton = event.target.closest('.customer-unit-open-page')
+    if (openPageButton) {
+      const pageMode = !unitDrawerScrim.classList.contains('is-page')
+      unitDrawerScrim.classList.toggle('is-page', pageMode)
+      openPageButton.setAttribute('aria-pressed', String(pageMode))
+      openPageButton.setAttribute('aria-label', pageMode ? 'Return to drawer' : 'Open in new tab')
+      openPageButton.querySelector('span').textContent = pageMode ? 'Return to drawer' : 'Open in new tab'
+      openPageButton.title = pageMode ? 'Return to drawer' : 'Open in new tab'
+      document.getElementById('customer-unit-drawer-description').textContent = pageMode
+        ? 'Full page view for creating a new operation unit.'
+        : 'Create the unit here, then use it on this customer.'
+      return
+    }
+    const unitTab = event.target.closest('[data-customer-unit-tab]')
+    if (unitTab) {
+      setUnitTab(unitTab.dataset.customerUnitTab)
+      return
+    }
+    const editorTab = event.target.closest('.customer-unit-editor-tabs button')
+    if (editorTab) {
+      editorTab.parentElement.querySelectorAll('button').forEach(button => {
+        const active = button === editorTab
+        button.setAttribute('aria-pressed', String(active))
+        button.classList.toggle('pri', active)
+        button.classList.toggle('out', !active)
+      })
+    }
+    if (event.target.closest('.customer-unit-photo')) {
+      toast({tone: 'ok', title: 'Unit photo selection is a prototype'})
+    }
+  }
+  unitDrawerScrim.addEventListener('click', onUnitDrawerScrimClick)
+
+  const onUnitDrawerScrimKeydown = event => {
+    const tab = event.target.closest('[data-customer-unit-tab]')
+    if (!tab || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
+    event.preventDefault()
+    const tabs = [...unitDrawerScrim.querySelectorAll('[data-customer-unit-tab]')]
+    const index = tabs.indexOf(tab)
+    const nextIndex =
+      event.key === 'Home'
+        ? 0
+        : event.key === 'End'
+          ? tabs.length - 1
+          : event.key === 'ArrowRight'
+            ? (index + 1) % tabs.length
+            : (index - 1 + tabs.length) % tabs.length
+    setUnitTab(tabs[nextIndex].dataset.customerUnitTab, {focus: true})
+  }
+  unitDrawerScrim.addEventListener('keydown', onUnitDrawerScrimKeydown)
+
+  const unitDrawerSaveButton = document.getElementById('customer-unit-drawer-save')
+  const onUnitDrawerSaveClick = () => {
+    const nameInput = document.getElementById('customer-unit-name')
+    const name = nameInput.value.trim()
+    const error = document.getElementById('customer-unit-name-error')
+    if (!name) {
+      error.textContent = 'Unit Name is required.'
+      error.hidden = false
+      nameInput.setAttribute('aria-invalid', 'true')
+      nameInput.setAttribute('aria-describedby', error.id)
+      nameInput.focus()
+      return
+    }
+    error.hidden = true
+    nameInput.removeAttribute('aria-invalid')
+    nameInput.removeAttribute('aria-describedby')
+    const nextCode = Math.max(...lookupResults.operationUnit.map(item => Number(item.code) || 0)) + 1
+    const value = `${nextCode} - ${name}`
+    lookupResults.operationUnit.push({
+      value,
+      code: String(nextCode),
+      country: document.getElementById('customer-unit-country').value,
+      parent: document.getElementById('customer-unit-parent').value || 'No parent',
+      status: 'Active',
+    })
+    closeUnitDrawer()
+    applyLookupValueInternal('operationUnit', value)
+    toast({tone: 'ok', title: 'Operation unit added and selected'})
+  }
+  unitDrawerSaveButton.addEventListener('click', onUnitDrawerSaveClick)
+
+  const onParentUnitDrawerScrimClick = event => {
+    if (
+      event.target === parentUnitDrawerScrim ||
+      event.target.closest('.customer-parent-unit-drawer-close')
+    ) {
+      closeParentUnitDrawer()
+    }
+  }
+  parentUnitDrawerScrim.addEventListener('click', onParentUnitDrawerScrimClick)
+
+  const parentUnitDrawerSaveButton = document.getElementById('customer-parent-unit-drawer-save')
+  const onParentUnitDrawerSaveClick = () => {
+    const nameInput = document.getElementById('customer-parent-unit-name')
+    const name = nameInput.value.trim()
+    const error = document.getElementById('customer-parent-unit-name-error')
+    if (!name) {
+      error.textContent = 'Unit Name is required.'
+      error.hidden = false
+      nameInput.setAttribute('aria-invalid', 'true')
+      nameInput.setAttribute('aria-describedby', error.id)
+      nameInput.focus()
+      return
+    }
+    error.hidden = true
+    nameInput.removeAttribute('aria-invalid')
+    nameInput.removeAttribute('aria-describedby')
+    const nextCode = Math.max(...lookupResults.operationUnit.map(item => Number(item.code) || 0)) + 1
+    const value = `${nextCode} - ${name}`
+    lookupResults.operationUnit.push({
+      value,
+      code: String(nextCode),
+      country: document.getElementById('customer-parent-unit-country').value,
+      parent: document.getElementById('customer-parent-unit-parent').value || 'No parent',
+      status: 'Active',
+    })
+    const parentSelect = document.getElementById('customer-unit-parent')
+    parentSelect.add(new Option(value, value))
+    parentSelect.value = value
+    closeParentUnitDrawer()
+    toast({tone: 'ok', title: 'Parent unit added and selected'})
+  }
+  parentUnitDrawerSaveButton.addEventListener('click', onParentUnitDrawerSaveClick)
+
+  const onLocationAddScrimClick = event => {
+    if (event.target === locationAddScrim || event.target.closest('.customer-location-add-close')) {
+      closeLocationAdd()
+    }
+  }
+  locationAddScrim.addEventListener('click', onLocationAddScrimClick)
+
+  const locationAddSaveButton = document.getElementById('customer-location-add-save')
+  const onLocationAddSaveClick = () => {
+    const required = ['code', 'name']
+    let firstInvalid = null
+    required.forEach(key => {
+      const input = document.getElementById(`customer-location-${key}`)
+      const error = document.getElementById(`customer-location-${key}-error`)
+      const missing = !input.value.trim()
+      error.textContent = missing ? `${key === 'code' ? 'Location Code' : 'Location Name'} is required.` : ''
+      error.hidden = !missing
+      input.toggleAttribute('aria-invalid', missing)
+      if (missing) input.setAttribute('aria-describedby', error.id)
+      else input.removeAttribute('aria-describedby')
+      if (missing && !firstInvalid) firstInvalid = input
+    })
+    if (firstInvalid) {
+      firstInvalid.focus()
+      return
+    }
+    const code = document.getElementById('customer-location-code').value.trim()
+    const name = document.getElementById('customer-location-name').value.trim()
+    const location = {
+      value: name,
+      code,
+      parent: document.getElementById('customer-location-parent').value || 'No parent',
+      level: document.getElementById('customer-location-level').value || '1',
+      type: document.getElementById('customer-location-type').value,
+      status: 'Active',
+    }
+    const existing = lookupResults.unitLocation.find(
+      item => item.value.toLocaleLowerCase() === name.toLocaleLowerCase()
+    )
+    if (!existing) lookupResults.unitLocation.push(location)
+    const targetId = state.targetSelectId
+    closeLocationAdd()
+    state.source = 'unit'
+    state.targetSelectId = targetId
+    applyLookupValueInternal('unitLocation', name)
+    toast({tone: 'ok', title: 'Geo. Location added and selected'})
+  }
+  locationAddSaveButton.addEventListener('click', onLocationAddSaveClick)
+
+  // Document-wide Escape covers these four drawers/dialogs even when focus
+  // sits on a plain button inside them (not one of the elements with their
+  // own keydown handler above) — same as the original's single consolidated
+  // Escape listener, scoped here to only this module's own overlays; geo/
+  // kanban/export overlays keep their own Escape handling in legacy-app.js.
+  const onDocumentKeydown = event => {
+    if (event.key !== 'Escape') return
+    if (!lookupMenu.hidden) closeLookupMenu({restoreFocus: true})
+    else if (!unitLookupMenu.hidden) closeUnitLookupMenu({restoreFocus: true})
+    else if (locationAddScrim.classList.contains('open')) closeLocationAdd()
+    else if (lookupSearchScrim.classList.contains('open')) closeLookupSearch()
+    else if (parentUnitDrawerScrim.classList.contains('open')) closeParentUnitDrawer()
+    else if (typeAddScrim.classList.contains('open')) closeTypeAdd()
+    else if (unitDrawerScrim.classList.contains('open')) closeUnitDrawer()
+  }
+  document.addEventListener('keydown', onDocumentKeydown)
+
   return {
     openLookupMenu,
     openUnitLookupMenu,
@@ -649,6 +895,15 @@ export function createLookups({refs, deps}) {
       lookupSearchScrim.removeEventListener('dblclick', onSearchDblclick)
       lookupSelectButton.removeEventListener('click', onLookupSelectClick)
       typeAddScrim.removeEventListener('click', onTypeAddScrimClick)
+      typeAddSaveButton.removeEventListener('click', onTypeAddSaveClick)
+      unitDrawerScrim.removeEventListener('click', onUnitDrawerScrimClick)
+      unitDrawerScrim.removeEventListener('keydown', onUnitDrawerScrimKeydown)
+      unitDrawerSaveButton.removeEventListener('click', onUnitDrawerSaveClick)
+      parentUnitDrawerScrim.removeEventListener('click', onParentUnitDrawerScrimClick)
+      parentUnitDrawerSaveButton.removeEventListener('click', onParentUnitDrawerSaveClick)
+      locationAddScrim.removeEventListener('click', onLocationAddScrimClick)
+      locationAddSaveButton.removeEventListener('click', onLocationAddSaveClick)
+      document.removeEventListener('keydown', onDocumentKeydown)
     },
   }
 }

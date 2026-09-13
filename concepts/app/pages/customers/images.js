@@ -5,6 +5,15 @@
 // bindings, so record.js can own exactly one instance of this preview
 // behavior per customer page (there is only ever one
 // #customer-image-popover in the document, matching the original).
+//
+// Wires every original document-delegated listener verbatim, not just
+// hover: pointerover/pointerout (hover-intent open/close), error (fallback
+// to initials), focusin/focusout (keyboard access), click (click-to-pin
+// toggle + the popover's own close button), the popover's own pointerenter/
+// pointerleave (moving the pointer onto the popover itself cancels the
+// close timer) and toggle (native popover dismissal, e.g. Escape, resets
+// trigger/pinned state), plus document-capture scroll (closes the popover)
+// and window resize (repositions it while pinned open).
 
 // Only these two fixture photo sources render a real preview; anything else
 // (including a null/never-set photo) falls back to initials, exactly as
@@ -208,12 +217,61 @@ export function createImagePreview({popover}) {
     const anchorTrigger = event.target.closest?.('[data-customer-image-preview]')
     if (!anchorTrigger || (event.pointerType && event.pointerType !== 'mouse')) return
     if (event.relatedTarget && anchorTrigger.contains(event.relatedTarget)) return
+    if (event.relatedTarget && popover.contains(event.relatedTarget)) return
     scheduleClose()
+  }
+
+  function handleFocusIn(event) {
+    const anchorTrigger = event.target.closest?.('[data-customer-image-preview]')
+    if (anchorTrigger) open(anchorTrigger)
+  }
+
+  function handleFocusOut(event) {
+    const anchorTrigger = event.target.closest?.('[data-customer-image-preview]')
+    if (!anchorTrigger || pinned) return
+    if (event.relatedTarget && popover.contains(event.relatedTarget)) return
+    scheduleClose()
+  }
+
+  function handleClick(event) {
+    if (event.target.closest?.('[data-customer-image-close]')) {
+      close()
+      return
+    }
+    const anchorTrigger = event.target.closest?.('[data-customer-image-preview]')
+    if (!anchorTrigger) return
+    event.preventDefault()
+    if (anchorTrigger === trigger && pinned) close()
+    else open(anchorTrigger, {pinned: true})
+  }
+
+  function handlePopoverPointerEnter() {
+    clearTimeout(closeTimer)
+  }
+
+  function handlePopoverToggle(event) {
+    if (event.newState === 'closed') resetState()
+  }
+
+  function handleScroll() {
+    if (popover.matches(':popover-open')) close()
+  }
+
+  function handleResize() {
+    if (trigger) position(trigger)
   }
 
   document.addEventListener('error', handleImageError, true)
   document.addEventListener('pointerover', handlePointerOver)
   document.addEventListener('pointerout', handlePointerOut)
+  document.addEventListener('focusin', handleFocusIn)
+  document.addEventListener('focusout', handleFocusOut)
+  document.addEventListener('click', handleClick)
+  popover.addEventListener('pointerenter', handlePopoverPointerEnter)
+  popover.addEventListener('pointerleave', scheduleClose)
+  popover.addEventListener('toggle', handlePopoverToggle)
+  document.addEventListener('scroll', handleScroll, true)
+  window.addEventListener('resize', handleResize)
 
   return {
     open,
@@ -225,6 +283,14 @@ export function createImagePreview({popover}) {
       document.removeEventListener('error', handleImageError, true)
       document.removeEventListener('pointerover', handlePointerOver)
       document.removeEventListener('pointerout', handlePointerOut)
+      document.removeEventListener('focusin', handleFocusIn)
+      document.removeEventListener('focusout', handleFocusOut)
+      document.removeEventListener('click', handleClick)
+      popover.removeEventListener('pointerenter', handlePopoverPointerEnter)
+      popover.removeEventListener('pointerleave', scheduleClose)
+      popover.removeEventListener('toggle', handlePopoverToggle)
+      document.removeEventListener('scroll', handleScroll, true)
+      window.removeEventListener('resize', handleResize)
     },
   }
 }
