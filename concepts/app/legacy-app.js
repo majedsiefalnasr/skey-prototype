@@ -14,6 +14,50 @@
 // isolates — not an arbitrary getter for every remaining legacy binding.
 import {normalizeHexColor, deriveAccentPair} from './core/appearance.js'
 import {encodeHtml} from './core/locale.js'
+import {STATUSES, CHAIN, CARDS, RULES, ACTIVITY, LIST_ROWS} from './prototype/fixtures/invoices.js'
+import {
+  CUSTOMER_ROWS,
+  CUSTOMER_SECTIONS,
+  CUSTOMER_REFERENCE,
+  UNIT_ROWS,
+  CUSTOMER_LOOKUP_RESULTS,
+} from './prototype/fixtures/customers.js'
+import {GEO_ROWS} from './prototype/fixtures/geography.js'
+import {
+  NAV_TREE,
+  NAV_FAVORITES,
+  NAV_RECENTS,
+  NAV_ICONS,
+  NAV_APP_META,
+  SCREENS,
+  RECORDS,
+  ACTIONS,
+} from './prototype/fixtures/navigation.js'
+import {EMAIL_DATA, NOTIF_DATA} from './prototype/fixtures/messages.js'
+import {
+  createListModel,
+  DATA_LIST_SIMULATED_TOTAL,
+  DATA_LIST_DEFAULT_PAGE_SIZE,
+  localStorageDataListStorage,
+} from './components/data-list/model.js'
+import {
+  DATA_FILTER_OPERATORS,
+  DATA_DATE_UNITS,
+  dataFilterOptionValue,
+  dataFilterOptionLabel,
+  parseDataListDate,
+  parseDateFilterValue,
+  dataListNextDatePresetValue,
+} from './components/data-list/filters.js'
+import {
+  DATA_LIST_CONFIG,
+  DATA_LIST_STATISTICS_CONCEPT_OPTIONS,
+  responsiveDataListColumns,
+} from './components/data-list/columns.js'
+import {
+  renderShellPager as renderSharedShellPager,
+  renderShellRecordPager as renderSharedShellRecordPager,
+} from './components/data-list/pagination.js'
 
 export function startLegacyApp(shared) {
         const {t, formatDate: formatLocaleDate, formatCurrency: formatLocaleCurrency, getLocale, setLocale} = shared.locale
@@ -67,130 +111,9 @@ export function startLegacyApp(shared) {
         /* ================= verified model =================
    Statuses: real ribbon flags. Actions: real shared.operationMenu labels.
    Action matrix verified by walking live records.                      */
-        const STATUSES = {
-          open: {label: 'Open', short: 'Open'},
-          pending: {label: 'Pending', short: 'Pending'},
-          posted: {label: 'Posted', short: 'Posted'},
-          returned: {label: 'Returned', short: 'Returned'},
-          canceled: {label: 'Canceled', short: 'Canceled'},
-          inactive: {label: 'Deactivated', short: 'Deactivated'},
-        }
         /* the chain shown in the popover: two audit cards that always exist,
    then the status flags in the order the product records them */
-        const CHAIN = [
-          {
-            id: 'entry',
-            name: 'Entry Data',
-            always: true,
-            who: 'Majed Sief Alnasr',
-            when: '22/02/2026 08:25:32',
-            dur: '01:39:12',
-            decision: 'Invoice created',
-          },
-          {
-            id: 'modified',
-            name: 'Modification Data',
-            always: true,
-            who: 'Majed Sief Alnasr',
-            when: '22/02/2026 10:04:18',
-            decision: 'Last update recorded',
-          },
-          {
-            id: 'pending',
-            name: 'Pending',
-            who: 'Sales manager',
-            when: '22/02/2026 09:40:02',
-            decision: 'Pending',
-          },
-          {
-            id: 'posted',
-            name: 'Posted',
-            who: 'System admin',
-            when: '22/02/2026 11:26:17',
-            decision: 'Posted',
-            link: 'Display Journal Entry',
-          },
-          {id: 'returned', name: 'Returned', who: '—', when: '—', decision: 'Returned flag is set'},
-          {
-            id: 'canceled',
-            name: 'Canceled',
-            who: 'Majed Sief Alnasr',
-            when: '23/02/2026 09:00:11',
-            decision: 'Canceled',
-          },
-          {
-            id: 'inactive',
-            name: 'Deactivated',
-            who: 'Majed Sief Alnasr',
-            when: '24/02/2026 14:20:05',
-            decision: 'Deactivated',
-          },
-        ]
         /* audit cards confirmed by the backend team; Returned has no card */
-        const CARDS = [
-          {
-            id: 'entry',
-            name: 'Entry Data',
-            always: true,
-            rows: [
-              ['Entered By', 'Majed Sief Alnasr'],
-              ['Entry Date', '22/02/2026 08:25:32'],
-              ['Entry Start Date', '22/02/2026 06:46:20'],
-              ['Entry Duration', '01:39:12'],
-              ['No. of Prints', '__PRINTS__'],
-            ],
-          },
-          {
-            id: 'modified',
-            name: 'Modification Data',
-            always: true,
-            badge: '3 updates',
-            rows: [
-              ['Last Update By', 'Majed Sief Alnasr'],
-              ['Last Update Date', '22/02/2026 10:04:18'],
-              ['No. of Updates', '3'],
-            ],
-          },
-          {
-            id: 'pending',
-            name: 'Pending-related Data',
-            rows: [
-              ['Pending User', 'Sales manager'],
-              ['Pending Date', '22/02/2026 09:40:02'],
-              ['Reason for Pending', 'Waiting for the customer purchase order'],
-            ],
-          },
-          {
-            id: 'posted',
-            name: 'Posting-related Data',
-            link: 'Display Journal Entry',
-            rows: [
-              ['Last Posting User', 'System admin'],
-              ['Posting Date', '22/02/2026 11:26:17'],
-              ['Posting Description', 'Posted after the price check passed'],
-            ],
-          },
-          {
-            id: 'canceled',
-            name: 'Cancellation Data',
-            rows: [
-              ['Canceled By', 'Majed Sief Alnasr'],
-              ['Cancellation Date', '23/02/2026 09:00:11'],
-              ['Cancellation Statement', 'Duplicate of invoice 127'],
-            ],
-          },
-          {
-            id: 'inactive',
-            name: 'Deactivation Data',
-            badge: '1 deactivation',
-            rows: [
-              ['Deactivating User', 'Majed Sief Alnasr'],
-              ['Deactivation Date', '24/02/2026 14:20:05'],
-              ['Deactivation Reason', 'Suspended pending audit'],
-              ['No. of Deactivations', '1'],
-            ],
-          },
-        ]
 
         const state = {
           status: 'posted',
@@ -238,33 +161,6 @@ export function startLegacyApp(shared) {
         ]
 
         /* verified matrix + the one proposed correction */
-        const RULES = {
-          Save: s => (!s.dirty ? 'Nothing changed yet' : null),
-          /* in edit mode Undo also means "leave the invoice as it was", so it stays live */
-          Undo: s => (s.mode === 'edit' || s.dirty ? null : 'Nothing to undo yet'),
-          /* PROPOSED CORRECTION — the live product still offers Posting on a canceled
-     document, which cannot be right. Blocked here on purpose. */
-          /* Posting stays reachable once posted — it then opens the recorded posting
-     with the reverse action, instead of dead-ending on a disabled button. */
-          Posting: s =>
-            s.status === 'canceled'
-              ? 'A canceled document can\u2019t be posted. Restore it first.'
-              : null,
-          'Display Journal Entry': s =>
-            s.status !== 'posted'
-              ? 'Post the invoice first \u2014 the entry is created at posting'
-              : null,
-          /* likewise, on a canceled document this opens the cancellation record and Restore */
-          'Cancel Document': s => null,
-          'Receipt Voucher': s =>
-            s.status === 'canceled'
-              ? 'A canceled invoice can\u2019t generate documents'
-              : s.pay !== 'credit'
-                ? 'Only credit invoices need a receipt voucher'
-                : null,
-          'Sales Return': s =>
-            s.status === 'canceled' ? 'A canceled invoice can\u2019t generate documents' : null,
-        }
         const blocked = label => {
           /* actions that only make sense on a saved record the user is not already editing */
           if (label === 'Modify') {
@@ -295,111 +191,6 @@ export function startLegacyApp(shared) {
         }
 
         /* ---------- search data (verified) ---------- */
-        const SCREENS = [
-          {t: 'Sales Invoice', s: 'Sales Systems Management', icon: 'i-doc'},
-          {t: 'Sales Return', s: 'Sales Systems Management', icon: 'i-doc'},
-          {t: 'Receipt Voucher', s: 'Finance and Accounting', icon: 'i-doc'},
-          {t: 'Customers', s: 'Enterprise Resource Planning', icon: 'i-user'},
-          {t: 'Vendors', s: 'Enterprise Resource Planning', icon: 'i-user'},
-          {t: 'Inventory Systems Management', s: 'Module', icon: 'i-grid'},
-          {t: 'Purchase Systems Management', s: 'Module', icon: 'i-grid'},
-          {t: 'Finance and Accounting', s: 'Module', icon: 'i-grid'},
-          {t: 'Reports', s: 'Module', icon: 'i-doc'},
-          {t: 'System Administration', s: 'Module', icon: 'i-gear'},
-          {t: 'Screen Parameters', s: 'Sales Invoice', icon: 'i-gear'},
-          {t: 'Dashboard', s: 'Home', icon: 'i-home'},
-        ]
-        const RECORDS = [
-          {
-            t: '001000352026126 · Invoice 126',
-            s: 'العميل الاول · 20,000.00 EGP · Credit',
-            icon: 'i-doc',
-          },
-          {t: '001000352026128 · Invoice 128', s: 'العميل الاول · Cash', icon: 'i-doc'},
-          {t: '0010003520263 · Invoice 3', s: 'Canceled', icon: 'i-doc'},
-          {t: '200001 · العميل الاول', s: 'Customer', icon: 'i-user'},
-          {t: '7603 · keyboard', s: 'Item · UoM حبة · 181 available', icon: 'i-grid'},
-        ]
-        const ACTIONS = [
-          /* this record's own actions first, in the same order as the command row */
-          {t: 'Save', kbd: 'Ctrl+S', icon: 'i-save'},
-          {t: 'Undo', icon: 'i-undo'},
-          {t: 'Modify', icon: 'i-edit'},
-          {t: 'New', kbd: 'Ctrl+N', icon: 'i-plus'},
-          {t: 'Delete', icon: 'i-trash'},
-          /* general actions after */
-          {t: 'Print', kbd: 'Ctrl+P', icon: 'i-print', run: 'print'},
-          {t: 'Add From', icon: 'i-doc'},
-          {t: 'Search', kbd: 'Ctrl+F', icon: 'i-search'},
-          {t: 'Posting', icon: 'i-post'},
-          {t: 'Display Journal Entry', icon: 'i-doc'},
-          {t: 'Cancel Document', icon: 'i-x'},
-          {t: 'Receipt Voucher', icon: 'i-doc'},
-          {t: 'Sales Return', icon: 'i-doc'},
-          {t: 'Reports', icon: 'i-doc'},
-          {t: 'User Log', icon: 'i-user', run: 'stages'},
-          {t: 'Documents Flow', icon: 'i-flow', run: 'activity'},
-          {t: 'Lock Screen', icon: 'i-lock'},
-          {t: 'Screen Parameters', icon: 'i-gear'},
-          {t: 'Help', kbd: 'F1', icon: 'i-help'},
-          {t: 'Add to Favorites', icon: 'i-spark', run: 'favorite'},
-        ]
-        const ACTIVITY = [
-          {
-            day: 'Today · 22 February 2026',
-            items: [
-              {
-                who: 'System admin',
-                ini: 'SA',
-                what: 'posted the invoice',
-                time: '11:26 AM',
-                chg: {l: 'Status', f: 'Open', t: 'Posted'},
-                chips: [
-                  {t: 'Display Journal Entry', i: 'i-doc'},
-                  {t: 'invoice-352.pdf · 86 KB', i: 'i-clip'},
-                ],
-                notes: [
-                  {
-                    who: 'System admin',
-                    ini: 'SA',
-                    txt: 'Posted after the price check passed.',
-                    time: '11:27 AM',
-                  },
-                  {
-                    who: 'General accountant',
-                    ini: 'GA',
-                    tag: 'Internal',
-                    txt: '<span class="mn">@System admin</span> reviewed the entry, the distribution is correct.',
-                    time: '11:41 AM',
-                  },
-                ],
-              },
-              {
-                who: 'System',
-                ini: '',
-                sys: true,
-                auto: true,
-                what: 'locked the invoice fields after posting',
-                time: '11:26 AM',
-                chg: {l: 'Editability', f: 'Allowed', t: 'Locked'},
-              },
-              {
-                who: 'Majed Sief Alnasr',
-                ini: 'MS',
-                what: 'updated the invoice',
-                time: '10:04 AM',
-                chg: {l: 'Qty.', f: '8', t: '10'},
-              },
-              {
-                who: 'Majed Sief Alnasr',
-                ini: 'MS',
-                what: 'created the invoice',
-                time: '8:25 AM',
-                chips: [{t: 'purchase-order-77.pdf · 240 KB', i: 'i-clip'}],
-              },
-            ],
-          },
-        ]
 
         /* ================================================================
    sidebar navigation — 4 structural concepts over the real live tree
@@ -407,533 +198,7 @@ export function startLegacyApp(shared) {
    ================================================================ */
 
         /* entry = string (leaf) | [label, ...children] (branch). Verbatim labels, product typos included. */
-        const NAV_TREE = [
-          ['Dashboard', 'Key Performance Indicators', 'Favorite KPIs'],
-          [
-            'Customers',
-            'Drivers Data',
-            'Customers',
-            'Sales Representatives',
-            'Collectors',
-            'Marketers',
-            'Sub Customers',
-          ],
-          ['Vendors', 'Vendors', 'Pur. Representatives'],
-          [
-            'Inventory Systems Management',
-            'Item Details',
-            'Opening Stock',
-            'Inv. Incoming',
-            'Inv. Outgoing',
-            'Stock Transfer Order',
-            'Receiving Stock Transfer',
-            'Return Stock Transfer',
-            'Items Movement',
-            'Show Items',
-            [
-              'Compound Items',
-              'Components of the compound item',
-              'Assembly orders',
-              'Disassembly orders',
-              ['Reports', 'Reports - Assembly orders'],
-            ],
-            ['Stocktaking System', 'Stocktaking Auto', 'Stocktaking', 'Reports - Stocktaking'],
-          ],
-          [
-            'Sales Systems Management',
-            'Quotations',
-            'Sales Order',
-            'Sales Invoice',
-            'Sales Return',
-            'Bill Outgoing Order',
-            'Item pricing',
-            'Return Incoming Order',
-            [
-              'Online Store',
-              'Store data',
-              'Store Items',
-              'Order synchronization',
-              'Order management',
-              'Store item movement',
-            ],
-            ['Customer loyalty', ['Loyalty points system', 'Points Programs', 'Point Movement']],
-          ],
-          ['Purchase Systems Management', 'Purchase Order', 'Purchase Invoice', 'Purchase Return'],
-          [
-            'POS System Management',
-            'Point of Sale',
-            'POS Invoice',
-            'POS Return',
-            'Cash Receipt Pos',
-            'Cash Payment Pos',
-            'Cash payment for returns',
-            'POS Sales Clearance',
-            [
-              'restaurants operations',
-              'follow delivery orders',
-              'chef display',
-              'waiter display',
-              'customer display',
-            ],
-            ['Document Sync', 'Issue Documents', 'Sync Logs'],
-          ],
-          [
-            'Finance and Accounting',
-            [
-              'Chart of accounts and subledgers',
-              'Chart of Accounts',
-              'Cost Centers',
-              'Sub Ledger2',
-              'Sub Ledger 3',
-              'Opening Balances',
-              'Financial Statement Report Designer',
-              'Accounts Movement',
-              'Financial statistics',
-            ],
-            [
-              'Entries and Vouchers',
-              'Debit Notes',
-              'Credit Notes',
-              'Journal Entry',
-              'Receipt Voucher',
-              'Payment Voucher',
-              'Cash Count',
-              'Posting Docs',
-              'Unposting Docs',
-            ],
-            [
-              'Cash and banks',
-              'Cash Data',
-              'Banks Data',
-              'Credit Card Types',
-              'Cheques Portfolio',
-              'Cheques Signature',
-              'Cheques Cancellation',
-            ],
-            [
-              'Cheques Management',
-              'Cheques Receivable Management',
-              'Cheques Payable Management',
-              'Queries',
-            ],
-          ],
-          [
-            'Fixed Assets System',
-            'Assets Groups',
-            'Asset locations',
-            'Asset data',
-            'Asset increases',
-            'Asset Disposal',
-            'Asset Depreciation',
-          ],
-          [
-            'Manufacturing Resource Planning',
-            'Production Management Dashboard',
-            [
-              'Setup of Production System',
-              'Definition of Production Shop Floor',
-              'Definition of OverHead Cost Articles',
-              'Definition of Work Centers',
-              'Creation of Bill Of Materials and Connecting to Production Stages',
-            ],
-            [
-              'Production Management',
-              'Issue Work Orders',
-              'Actual operating data',
-              'Adoption of production processes',
-            ],
-            ['Queries', 'Monitoring production orders'],
-          ],
-          [
-            'Customer Relations Management',
-            'CRM Dashboard',
-            ['My Workspace', 'My Day', 'My Goals', 'Notification Builder'],
-            ['Sales & Marketing', 'Leads', 'Campaigns', 'Deals', 'Activities', 'Goals Management'],
-            ['Approvals', 'Deal Approvals'],
-            [
-              'Customer Relations Management Settings',
-              'Sales Pipeline',
-              'Customer Relationship Management parameters',
-              'Customer Relationship Management definitions',
-            ],
-          ],
-          [
-            'Hospital Management',
-            [
-              'Configuration',
-              'Departments',
-              'Specialization',
-              'Service Define',
-              'Doctors',
-              'Insurance Company',
-              'Patient Group',
-            ],
-            ['Reception', 'Patients', 'Invoice Medical Services', 'Reports - Patients'],
-            ['Appointments', 'Appointment Type', 'Monthly scheduling', 'Appointments'],
-            ['Clinic', 'Waiting list', 'Consultation', 'Vital Signs'],
-            [
-              'Reports',
-              'Reports - Key Performance Indicators',
-              'Reports - Departments',
-              'Reports - Specialization',
-              'Reports - Service Define',
-              'Reports - Patients',
-              'Reports - Doctors',
-              'Reports - appointment schedule',
-              'Reports - Appointments',
-              'Reports - Invoice Medical Services',
-            ],
-          ],
-          [
-            'Reports',
-            [
-              'Accounting and financial reports',
-              'Reports - Account Statement',
-              'Reports - General Journal',
-              'Reports - Trial Balance',
-              'Reports - Balance Sheet',
-              'Reports - Income Statement',
-              'Reports - Posted and Unposted Docs',
-              'Reports - Cash Data',
-              'Reports - Opening Balances',
-              'Reports - DR/CR Notes',
-              'Reports - Journal Entry',
-              'Reports - Receipt Voucher',
-              'Reports - Payment Voucher',
-              'Reports - Cash Count',
-              'Dynamic Reports',
-              'Reports - Chart of Accounts',
-              'Reports - Cost Centers',
-              'Reports - Sub Ledger2',
-              'Reports - Sub Ledger 3',
-              'Reports - Employees Data',
-            ],
-            [
-              'Cheque reports',
-              'Reports - Banks Data',
-              'Reports - Cheques Portfolio',
-              'Reports - Cheques Management',
-            ],
-            ['Vendors accounts reports', 'Reports - Pur. Representatives', 'Reports - Vendors'],
-            [
-              'Customers accounts reports',
-              'Reports - Sales Representatives',
-              'Reports - Collectors',
-              'Reports - Marketers',
-              'Reports - Customers',
-              'Reports - Sub Customers',
-              'Reports - Debts Age',
-              'Reports - Customer Indebtedness',
-            ],
-            [
-              'Inventory reports',
-              'Reports - Warehouses Data',
-              'Reports - Item Details',
-              'Reports - Opening Stock',
-              'Reports - Inventory movement',
-              'Reports - Inv. Incoming',
-              'Reports - Turnover rate',
-              'Reports - Inv. Outgoing',
-              'Reports - Stock Transfer Order',
-              'Reports - Receiving Stock Transfer',
-              'Reports - Return Stock Transfer',
-            ],
-            [
-              'Purchase reports',
-              'Reports - Purchase Order',
-              'Reports - Purchase Invoice',
-              'Reports - Purchase Return',
-              'Reports - Net Purchase',
-            ],
-            [
-              'Sales reports',
-              'Reports - Item pricing',
-              'Reports - Quotations',
-              'Reports - Sales Order',
-              'Reports - Sales Invoice',
-              'Reports - Sales Return',
-              'Reports - Net Sales',
-              'Reports - Profit Margin',
-              'Reports - Bill Outgoing Order',
-              'Reports - Return Incoming Order',
-            ],
-            ['POS reports', 'Reports - Point of Sale'],
-            [
-              'Fixed assets reports',
-              'Reports - Assets Groups',
-              'Reports - Asset locations',
-              'Reports - Asset data',
-              'Reports - Asset opening balances',
-              'Reports - Asset movements',
-            ],
-            [
-              'Industrial Facilities Management Reports',
-              'Reports - Production Halls',
-              'Reports - Definition of OverHead Cost Articles',
-              'Reports - Operations centers',
-              'Reports - Product Tree',
-              'Reports - Standard Cost',
-              'Reports - Production Order',
-              'Reports - Actual operating data',
-              'Reports - Production quantities',
-              'Reports - Production Cost',
-              'Reports - Raw Materials Consumption',
-              'Reports - Indirect Expenses Cost',
-            ],
-          ],
-          [
-            'System Administration',
-            [
-              'Privileges Management',
-              'Users Groups',
-              'Users Data',
-              'Transactions Privileges',
-              'Screen Privileges',
-              'Input Privileges',
-              'Show Privileges',
-              'Monitoring',
-              'Dynamic Reports',
-            ],
-            [
-              'Reports Management',
-              'Reports Styles',
-              'Reports Data',
-              'Reports Dictionary',
-              'Signatures Setup',
-              'Reports Signatures',
-              'Printing Forms',
-            ],
-            [
-              'Closings and Deactivation',
-              'Deactivating Periods',
-              'Periods Closing',
-              'Unclosing Periods',
-            ],
-            [
-              'Settings and Control',
-              'System Documents Types',
-              'System Screens',
-              'System Dictionary',
-              'Types of Sequence docs',
-              'Transactions Sequences',
-              'System Alerts',
-              'Default data for Transactions',
-            ],
-            ['System Upgrade', 'Backup'],
-          ],
-          [
-            'System Setup',
-            [
-              'Setup of Manufacturing Resource Planning',
-              'General Parameters',
-              'Definition of shifts',
-              'Definition of production classifications',
-            ],
-            [
-              'General Configuration',
-              'General Parameters',
-              'Fiscal Periods',
-              'Currencies',
-              'General Definitions',
-              'Types of Transaction Docs',
-              'Organizational Structure',
-              'Defining Subledgers',
-              'Online gateway',
-              'Payment Methods',
-            ],
-            [
-              'Master Data',
-              'Geographical Structure',
-              'Financial Units',
-              'Employees Data',
-              'Devices Data',
-              'Guarantors',
-              'Committee Members',
-              'News',
-              'Email and Messages Settings',
-              'Email Templates',
-            ],
-            [
-              'Accounts and finance settings',
-              'Account Management Parameters',
-              'General Definitions of Acc Manag.',
-            ],
-            [
-              'Inventory Settings',
-              'Inventory Management Parameters',
-              'Inv. Manag. General Definitions',
-              'Units of Measurement',
-              'Warehouses Group',
-              'Warehouses Data',
-              'Item Groups',
-              'General Items Definitions',
-              'Inventory Accounts',
-              'Barcode generation',
-              'Barcode of weights',
-              'Inventory Expenses',
-              'Electronic scales',
-            ],
-            [
-              'Purchase settings',
-              'Purchase Management Parameters',
-              'General Definitions - Purchase Mgmt.',
-              'Purchase Expenses',
-              'Vendor Price List',
-            ],
-            [
-              'Sales settings',
-              'Sales Management Parameters',
-              'General Definitions - Sales Mgmt.',
-              'Sales Charges',
-              'Sales Outlets',
-              'Pricing Levels',
-            ],
-            [
-              'Tax Configuration',
-              'Tax Slices',
-              'Tax Definition',
-              'Tax Rates',
-              'Category of Taxes',
-              'Types of Taxes',
-              'Electronic Conn. settings',
-              'Electronic document synchronization',
-              'Tax Transactions',
-              'Tax Declaration',
-            ],
-            [
-              'Points of Sale Setting',
-              'POS Management Parameters',
-              'Pos Item Categories',
-              'Types of payment and receipt accounts',
-              'Report Designer',
-              'Sales Outlets',
-              'Points of Sale Setting',
-            ],
-            [
-              'Restaurant Settings',
-              'Order types',
-              'Halls',
-              'Delivery Zone',
-              'Printers',
-              'Preparation Stations',
-              'Modifier groups',
-              'Item notes / cancel reasons',
-              'Restaurant Staff',
-            ],
-            ['Queries', 'Contact Details', 'Countries', 'Dynamic Reports'],
-            [
-              'Asset System Settings',
-              'General Variables for Asset System',
-              'General Coding for Asset System',
-            ],
-            [
-              'Document approval settings',
-              'Approval policy',
-              'Doc Approval Define',
-              'Approval of device registration requests',
-            ],
-          ],
-          [
-            'Help Screens',
-            'Internal Mail',
-            'Calendar',
-            'Schedule Activity',
-            'Notes',
-            'People Data',
-            'Smart Query Engine',
-            'AI Dashboard',
-            'Sales Forecast',
-          ],
-        ]
-        const NAV_FAVORITES = [
-          'Sales Invoice',
-          'Customers',
-          'Geographical Structure',
-          'Purchase Invoice',
-          'Internal Mail',
-        ]
-        const NAV_RECENTS = [
-          'Sales Invoice',
-          'Sales Charges',
-          'Order types',
-          'Sales Order',
-          'Warehouses Group',
-          'Inv. Incoming',
-          'Modifier groups',
-          'Point of Sale',
-          'Preparation Stations',
-          'Printers',
-        ]
         /* icons borrowed from the shared symbol sprite — structure over final icon design, per spec */
-        const NAV_ICONS = {
-          Dashboard: 'i-grid',
-          Customers: 'i-user',
-          Vendors: 'i-doc',
-          'Inventory Systems Management': 'i-panel',
-          'Sales Systems Management': 'i-spark',
-          'Purchase Systems Management': 'i-clip',
-          'POS System Management': 'i-post',
-          'Finance and Accounting': 'i-save',
-          'Fixed Assets System': 'i-lock',
-          'Manufacturing Resource Planning': 'i-gear',
-          'Customer Relations Management': 'i-bell',
-          'Hospital Management': 'i-warn',
-          Reports: 'i-print',
-          'System Administration': 'i-gear',
-          'System Setup': 'i-gear',
-          'Help Screens': 'i-help',
-        }
-        const NAV_APP_META = {
-          Dashboard: {description: 'Overview and key activity', tone: 'overview'},
-          Customers: {description: 'Customer accounts and profiles', tone: 'crm'},
-          Vendors: {description: 'Supplier accounts and profiles', tone: 'purchase'},
-          'Inventory Systems Management': {
-            description: 'Stock, warehouses, and items',
-            tone: 'inventory',
-          },
-          'Sales Systems Management': {
-            description: 'Orders, invoices, and sales',
-            tone: 'sales',
-          },
-          'Purchase Systems Management': {
-            description: 'Purchasing and supplier documents',
-            tone: 'purchase',
-          },
-          'POS System Management': {
-            description: 'Point-of-sale operations',
-            tone: 'sales',
-          },
-          'Finance and Accounting': {
-            description: 'Ledgers, journals, and finance',
-            tone: 'finance',
-          },
-          'Fixed Assets System': {
-            description: 'Assets, depreciation, and custody',
-            tone: 'finance',
-          },
-          'Manufacturing Resource Planning': {
-            description: 'Production, materials, and planning',
-            tone: 'manufacturing',
-          },
-          'Customer Relations Management': {
-            description: 'Leads, activities, and relationships',
-            tone: 'crm',
-          },
-          'Hospital Management': {
-            description: 'Healthcare operations and records',
-            tone: 'health',
-          },
-          Reports: {description: 'Operational and financial reports', tone: 'reports'},
-          'System Administration': {
-            description: 'Users, roles, and permissions',
-            tone: 'administration',
-          },
-          'System Setup': {
-            description: 'Organization and system configuration',
-            tone: 'administration',
-          },
-          'Help Screens': {description: 'Guides and product assistance', tone: 'help'},
-        }
 
         /* the rail always shows every app from NAV_TREE, fixed order — no more
    hide/reorder; that job now belongs to building For You groups instead */
@@ -3619,124 +2884,8 @@ export function startLegacyApp(shared) {
 
         /* ---- topbar menus: Notifications, Help, User — generic .menu/.mlist toggle
    handles open/close; this just wires what each row actually does ---- */
-        const NOTIF_DATA = {
-          direct: [
-            {
-              icon: 'i-post',
-              unread: true,
-              who: 'Majed Sief Alnasr',
-              what: 'posted Sales Invoice 126',
-              time: '2h',
-            },
-            {
-              icon: 'i-warn',
-              unread: true,
-              who: 'System',
-              what: 'flagged an unbalanced journal entry on Invoice 118',
-              time: 'Yesterday',
-            },
-            {
-              icon: 'i-chat',
-              unread: false,
-              who: 'General accountant',
-              what: 'commented on Invoice 126',
-              time: '2d',
-            },
-          ],
-        }
         /* the app's own inbox — separate from system notifications above, so it gets
    its own tab instead of being mixed into "Direct" */
-        const EMAIL_DATA = [
-          {
-            id: 'e1',
-            day: 'Today',
-            from: 'Finance Team',
-            email: 'finance@lastchance.local',
-            subject: 'Payment scheduled for Sales Invoice 126',
-            time: '16:05',
-            unread: true,
-            hue: 258,
-            to: [{name: 'Kathleen', email: 'kathleen@lastchance.local'}],
-            cc: [{name: 'Kane', email: 'kane@lastchance.local'}],
-            body: [
-              'Good morning,',
-              'Your payment for Sales Invoice 126 is scheduled for processing on 29/07/2026, for 20,000.00 EGP on credit terms.',
-              'No action is needed on your side — the receipt voucher will be generated automatically once the payment clears. If the amount or due date looks wrong, reply to this email and Finance will take a look.',
-              'Thanks,\nFinance Team',
-            ],
-            attachments: [{name: 'invoice-126.pdf', size: '214 KB'}],
-          },
-          {
-            id: 'e2',
-            day: 'Today',
-            from: 'Warehouse Ops',
-            email: 'warehouse@lastchance.local',
-            subject: 'Stock check needed before Bill Outgoing Order ships',
-            time: '14:20',
-            unread: true,
-            hue: 189,
-            to: [{name: 'Kathleen', email: 'kathleen@lastchance.local'}],
-            cc: [],
-            body: [
-              'Hi,',
-              'Warehouse 201 shows a stock variance on 3 line items linked to your recent Bill Outgoing Order. Please confirm the counts before the shipment goes out today.',
-              'Thanks.',
-            ],
-            attachments: [],
-          },
-          {
-            id: 'e3',
-            day: 'Today',
-            from: 'System Admin',
-            email: 'admin@lastchance.local',
-            subject: 'Your password expires in 5 days',
-            time: '11:05',
-            unread: false,
-            hue: 18,
-            to: [{name: 'Kathleen', email: 'kathleen@lastchance.local'}],
-            cc: [],
-            body: [
-              'Hello,',
-              'Your password expires in 5 days. Update it from your account settings to avoid being locked out.',
-              'System Admin',
-            ],
-            attachments: [],
-          },
-          {
-            id: 'e4',
-            day: 'Yesterday',
-            from: 'Vendor Portal',
-            email: 'vendors@lastchance.local',
-            subject: 'New quotation received from Al Noor Trading',
-            time: '17:40',
-            unread: false,
-            hue: 142,
-            to: [{name: 'Kathleen', email: 'kathleen@lastchance.local'}],
-            cc: [],
-            body: [
-              'A new quotation for Purchase Order request #884 is ready for your review in the Vendor Portal.',
-              'Please review and approve within 3 business days.',
-            ],
-            attachments: [{name: 'quotation-884.pdf', size: '98 KB'}],
-          },
-          {
-            id: 'e5',
-            day: 'Yesterday',
-            from: 'Finance Team',
-            email: 'finance@lastchance.local',
-            subject: 'Undo request approved on Invoice 118',
-            time: '09:15',
-            unread: false,
-            hue: 258,
-            to: [{name: 'Kathleen', email: 'kathleen@lastchance.local'}],
-            cc: [],
-            body: [
-              'The undo posting request you submitted for Invoice 118 has been approved by the accounting supervisor.',
-              'The invoice is unlocked for editing.',
-            ],
-            attachments: [],
-          },
-        ]
         const emailAvatarTone = hue => (Math.abs(Math.round(Number(hue) / 60)) % 5) + 1
         const unreadOnly = () => document.getElementById('notif-unread-only')?.checked
         const renderEmailTab = body => {
@@ -4869,359 +4018,13 @@ export function startLegacyApp(shared) {
         applyMode(modeSel.value || 'record')
 
         /* ================= Sales Invoice List — concept rendering ================= */
-        const LIST_ROWS = [
-          {
-            seq: '001000352026143',
-            no: '143',
-            date: '13/08/2026',
-            dueDate: '13/09/2026',
-            subtype: 'عام',
-            poRef: 'PO-88213',
-            pay: 'Cash',
-            custNo: '200002',
-            custName: 'customertest',
-            branch: '2 - lastchance',
-            status: 'Posted',
-            currency: 'EGP',
-            priceList: 'Retail 2026',
-            taxAmount: '28.00',
-            discount: '0.00',
-            total: '200.00',
-            salesRep: 'Mona Farouk',
-            warehouse: 'WH-01 Main Store',
-            createdBy: 'mona.farouk',
-            modifiedAt: '13/08/2026',
-          },
-          {
-            seq: '001000352026142',
-            no: '142',
-            date: '13/08/2026',
-            dueDate: '13/09/2026',
-            subtype: 'عام',
-            poRef: 'PO-88190',
-            pay: 'Cash',
-            custNo: '200002',
-            custName: 'customertest',
-            branch: '2 - lastchance',
-            status: 'Posted',
-            currency: 'EGP',
-            priceList: 'Retail 2026',
-            taxAmount: '245.00',
-            discount: '50.00',
-            total: '1,750.00',
-            salesRep: 'Mona Farouk',
-            warehouse: 'WH-01 Main Store',
-            createdBy: 'mona.farouk',
-            modifiedAt: '13/08/2026',
-          },
-          {
-            seq: '001000352026140',
-            no: '140',
-            date: '13/08/2026',
-            dueDate: '12/10/2026',
-            subtype: 'عام',
-            poRef: 'PO-88104',
-            pay: 'Credit',
-            custNo: '200001',
-            custName: 'العميل الاول',
-            branch: '1 - headoffice',
-            status: 'Posted',
-            currency: 'EGP',
-            priceList: 'Wholesale 2026',
-            taxAmount: '784.00',
-            discount: '200.00',
-            total: '5,600.00',
-            salesRep: 'Ahmed Nabil',
-            warehouse: 'WH-02 Central',
-            createdBy: 'ahmed.nabil',
-            modifiedAt: '14/08/2026',
-          },
-          {
-            seq: '001000352026144',
-            no: '144',
-            date: '14/08/2026',
-            dueDate: '14/09/2026',
-            subtype: 'عام',
-            poRef: 'PO-88240',
-            pay: 'Cash',
-            custNo: '200002',
-            custName: 'customertest',
-            branch: '2 - lastchance',
-            status: 'Draft',
-            currency: 'EGP',
-            priceList: 'Retail 2026',
-            taxAmount: '133.00',
-            discount: '0.00',
-            total: '950.00',
-            salesRep: 'Mona Farouk',
-            warehouse: 'WH-01 Main Store',
-            createdBy: 'mona.farouk',
-            modifiedAt: '14/08/2026',
-          },
-          {
-            seq: '001000352026145',
-            no: '145',
-            date: '14/08/2026',
-            dueDate: '13/10/2026',
-            subtype: 'عام',
-            poRef: 'PO-88251',
-            pay: 'Credit',
-            custNo: '200001',
-            custName: 'العميل الاول',
-            branch: '1 - headoffice',
-            status: 'Open',
-            currency: 'EGP',
-            priceList: 'Wholesale 2026',
-            taxAmount: '448.00',
-            discount: '100.00',
-            total: '3,200.00',
-            salesRep: 'Ahmed Nabil',
-            warehouse: 'WH-02 Central',
-            createdBy: 'ahmed.nabil',
-            modifiedAt: '15/08/2026',
-          },
-          {
-            seq: '001000352026146',
-            no: '146',
-            date: '15/08/2026',
-            dueDate: '15/09/2026',
-            subtype: 'عام',
-            poRef: 'PO-88277',
-            pay: 'Cash',
-            custNo: '200002',
-            custName: 'customertest',
-            branch: '2 - lastchance',
-            status: 'Pending',
-            currency: 'EGP',
-            priceList: 'Retail 2026',
-            taxAmount: '157.00',
-            discount: '25.00',
-            total: '1,120.00',
-            salesRep: 'Mona Farouk',
-            warehouse: 'WH-01 Main Store',
-            createdBy: 'mona.farouk',
-            modifiedAt: '15/08/2026',
-          },
-          {
-            seq: '001000352026147',
-            no: '147',
-            date: '15/08/2026',
-            dueDate: '14/10/2026',
-            subtype: 'عام',
-            poRef: 'PO-88283',
-            pay: 'Credit',
-            custNo: '200001',
-            custName: 'العميل الاول',
-            branch: '1 - headoffice',
-            status: 'Returned',
-            currency: 'EGP',
-            priceList: 'Wholesale 2026',
-            taxAmount: '67.00',
-            discount: '0.00',
-            total: '480.00',
-            salesRep: 'Ahmed Nabil',
-            warehouse: 'WH-02 Central',
-            createdBy: 'ahmed.nabil',
-            modifiedAt: '16/08/2026',
-          },
-          {
-            seq: '001000352026148',
-            no: '148',
-            date: '16/08/2026',
-            dueDate: '16/09/2026',
-            subtype: 'عام',
-            poRef: 'PO-88301',
-            pay: 'Cash',
-            custNo: '200002',
-            custName: 'customertest',
-            branch: '2 - lastchance',
-            status: 'Canceled',
-            currency: 'EGP',
-            priceList: 'Retail 2026',
-            taxAmount: '280.00',
-            discount: '0.00',
-            total: '2,000.00',
-            salesRep: 'Mona Farouk',
-            warehouse: 'WH-01 Main Store',
-            createdBy: 'mona.farouk',
-            modifiedAt: '16/08/2026',
-          },
-        ]
 
-        const CUSTOMER_ROWS = [
-          {
-            customerNo: '200010',
-            customerName: 'customer_412',
-            operationUnit: '2 - lastchance',
-            customerType: 'Retail',
-            customerGroup: 'General',
-            currency: 'EGP',
-            country: 'EG - Egypt',
-            phone: '02 2450 1200',
-            active: true,
-            photo: {
-              src: 'assets/customers/customer-200010-portrait.webp',
-              alt: 'Portrait of customer_412',
-              fit: 'cover',
-            },
-          },
-          {
-            customerNo: '200002',
-            customerName: 'customertest',
-            operationUnit: '2 - lastchance',
-            customerType: 'Wholesale',
-            customerGroup: 'Local',
-            currency: 'EGP',
-            country: 'EG - Egypt',
-            phone: '010 2000 2000',
-            active: true,
-            photo: {
-              src: 'assets/customers/customer-200002-organization.webp',
-              alt: 'Organization mark for customertest',
-              fit: 'contain',
-            },
-          },
-          {
-            customerNo: '200001',
-            customerName: 'العميل الاول',
-            operationUnit: '2 - lastchance',
-            customerType: 'Retail',
-            customerGroup: 'General',
-            currency: 'EGP',
-            country: 'EG - Egypt',
-            phone: '010 1000 1000',
-            active: false,
-            photo: null,
-          },
-        ]
 
         const CUSTOMER_IMAGE_SOURCES = new Set([
           'assets/customers/customer-200010-portrait.webp',
           'assets/customers/customer-200002-organization.webp',
         ])
 
-        const GEO_ROWS = [
-          {
-            code: 'EG',
-            name: 'Egypt',
-            parentCode: '',
-            parent: '',
-            type: 'Country',
-            level: 1,
-            active: true,
-            remarks: 'National operating territory',
-          },
-          {
-            code: 'CAI',
-            name: 'Cairo Governorate',
-            parentCode: 'EG',
-            parent: 'EG - Egypt',
-            type: 'Governorate',
-            level: 2,
-            active: true,
-            remarks: 'Greater Cairo sales territory',
-          },
-          {
-            code: 'GIZ',
-            name: 'Giza Governorate',
-            parentCode: 'EG',
-            parent: 'EG - Egypt',
-            type: 'Governorate',
-            level: 2,
-            active: true,
-            remarks: '',
-          },
-          {
-            code: 'ALX',
-            name: 'Alexandria Governorate',
-            parentCode: 'EG',
-            parent: 'EG - Egypt',
-            type: 'Governorate',
-            level: 2,
-            active: true,
-            remarks: 'North coast operations',
-          },
-          {
-            code: 'SUZ',
-            name: 'Suez Governorate',
-            parentCode: 'EG',
-            parent: 'EG - Egypt',
-            type: 'Governorate',
-            level: 2,
-            active: true,
-            remarks: '',
-          },
-          {
-            code: 'NSC',
-            name: 'Nasr City',
-            parentCode: 'CAI',
-            parent: 'CAI - Cairo Governorate',
-            type: 'District',
-            level: 3,
-            active: true,
-            remarks: 'East Cairo service area',
-          },
-          {
-            code: 'HEL',
-            name: 'Heliopolis',
-            parentCode: 'CAI',
-            parent: 'CAI - Cairo Governorate',
-            type: 'District',
-            level: 3,
-            active: true,
-            remarks: '',
-          },
-          {
-            code: 'MAA',
-            name: 'Maadi',
-            parentCode: 'CAI',
-            parent: 'CAI - Cairo Governorate',
-            type: 'District',
-            level: 3,
-            active: true,
-            remarks: '',
-          },
-          {
-            code: 'OCT',
-            name: '6th of October City',
-            parentCode: 'GIZ',
-            parent: 'GIZ - Giza Governorate',
-            type: 'City',
-            level: 3,
-            active: true,
-            remarks: 'West Cairo distribution zone',
-          },
-          {
-            code: 'DOK',
-            name: 'Dokki',
-            parentCode: 'GIZ',
-            parent: 'GIZ - Giza Governorate',
-            type: 'District',
-            level: 3,
-            active: true,
-            remarks: '',
-          },
-          {
-            code: 'MON',
-            name: 'Montaza',
-            parentCode: 'ALX',
-            parent: 'ALX - Alexandria Governorate',
-            type: 'District',
-            level: 3,
-            active: true,
-            remarks: '',
-          },
-          {
-            code: 'AIN',
-            name: 'Ain Sokhna',
-            parentCode: 'SUZ',
-            parent: 'SUZ - Suez Governorate',
-            type: 'City',
-            level: 3,
-            active: false,
-            remarks: 'Seasonal territory currently inactive',
-          },
-        ]
         const geoState = {
           code: 'CAI',
           mode: 'view',
@@ -5232,298 +4035,15 @@ export function startLegacyApp(shared) {
         }
         const geoFlowContentSize = {width: 800, height: 800}
 
-        const DATA_LIST_CONFIG = {
-          invoice: {
-            label: 'invoices',
-            singular: 'invoice',
-            key: 'no',
-            rows: LIST_ROWS,
-            /* group tags the field for Adaptive view's sectioned layout
-               (Document / Customer / Financials / Audit trail) — purely a
-               presentation hint, unrelated to table-column visibility. */
-            columns: [
-              {key: 'seq', label: 'Doc. Sequence', group: 'document'},
-              {key: 'no', label: 'Doc No.', group: 'document'},
-              {key: 'status', label: 'Invoice Status', group: 'document'},
-              {
-                key: 'date',
-                label: 'Doc Date',
-                plottable: true,
-                valueType: 'date',
-                group: 'document',
-              },
-              {
-                key: 'dueDate',
-                label: 'Due Date',
-                plottable: true,
-                valueType: 'date',
-                group: 'document',
-              },
-              {key: 'subtype', label: 'Doc Sub-type Name', group: 'document'},
-              {key: 'poRef', label: 'PO Reference', group: 'document'},
-              {key: 'custNo', label: 'Customer No.', group: 'customer'},
-              {key: 'custName', label: 'Customer Name', group: 'customer'},
-              {key: 'branch', label: 'Branch', group: 'customer'},
-              {key: 'pay', label: 'Payment method', group: 'financials'},
-              {key: 'currency', label: 'Currency', group: 'financials'},
-              {key: 'priceList', label: 'Price List', group: 'financials'},
-              {
-                key: 'taxAmount',
-                label: 'Tax Amount',
-                plottable: true,
-                valueType: 'number',
-                group: 'financials',
-              },
-              {
-                key: 'discount',
-                label: 'Discount',
-                plottable: true,
-                valueType: 'number',
-                group: 'financials',
-              },
-              {
-                key: 'total',
-                label: 'Net Total',
-                plottable: true,
-                valueType: 'number',
-                group: 'financials',
-              },
-              {key: 'salesRep', label: 'Sales Rep', group: 'audit'},
-              {key: 'warehouse', label: 'Warehouse', group: 'audit'},
-              {key: 'createdBy', label: 'Created By', group: 'audit'},
-              {
-                key: 'modifiedAt',
-                label: 'Last Modified',
-                plottable: true,
-                valueType: 'date',
-                group: 'audit',
-              },
-            ],
-            filters: [
-              {key: 'all', label: 'All invoices', icon: 'i-eye'},
-              {key: 'cash', label: 'Cash invoices', icon: 'i-doc'},
-              {key: 'credit', label: 'Credit invoices', icon: 'i-doc'},
-              {key: 'recent', label: 'Recent invoices', icon: 'i-clock'},
-            ],
-            filterFields: [
-              {key: 'no', label: 'Doc No.', icon: 'i-doc', type: 'text'},
-              {key: 'custName', label: 'Customer', icon: 'i-user', type: 'text'},
-              {
-                key: 'pay',
-                label: 'Payment method',
-                icon: 'i-panel',
-                type: 'select',
-                options: ['Cash', 'Credit'],
-              },
-              {
-                key: 'date',
-                label: 'Doc date',
-                icon: 'i-clock',
-                type: 'date',
-              },
-              {
-                key: 'subtype',
-                label: 'Doc Sub-type',
-                icon: 'i-doc',
-                type: 'select',
-                options: ['عام'],
-              },
-            ],
-          },
-          customer: {
-            label: 'customers',
-            singular: 'customer',
-            key: 'customerNo',
-            rows: CUSTOMER_ROWS,
-            columns: [
-              {key: 'avatar', label: 'Photo', sortable: false, groupable: false},
-              {key: 'customerNo', label: 'Customer No.'},
-              {key: 'customerName', label: 'Customer Name'},
-              {key: 'operationUnit', label: 'Operation Unit'},
-              {key: 'customerType', label: 'Customer Type'},
-              {key: 'customerGroup', label: 'Customer Group'},
-              {key: 'currency', label: 'Currency'},
-              {key: 'country', label: 'Country'},
-              {key: 'phone', label: 'Phone'},
-              {key: 'active', label: 'Active status'},
-            ],
-            filters: [
-              {key: 'all', label: 'All customers', icon: 'i-eye'},
-              {key: 'active', label: 'Active customers', icon: 'i-check'},
-              {key: 'inactive', label: 'Inactive customers', icon: 'i-archive'},
-              {key: 'retail', label: 'Retail customers', icon: 'i-user'},
-            ],
-            filterFields: [
-              {key: 'customerNo', label: 'Customer No.', icon: 'i-doc', type: 'text'},
-              {key: 'customerName', label: 'Customer Name', icon: 'i-user', type: 'text'},
-              {
-                key: 'customerType',
-                label: 'Customer Type',
-                icon: 'i-panel',
-                type: 'select',
-                options: ['Retail', 'Wholesale'],
-              },
-              {
-                key: 'customerGroup',
-                label: 'Customer Group',
-                icon: 'i-grid',
-                type: 'select',
-                options: ['General', 'Local'],
-              },
-              {key: 'country', label: 'Country', icon: 'i-grid', type: 'text'},
-              {
-                key: 'active',
-                label: 'Active status',
-                icon: 'i-check',
-                type: 'select',
-                options: [
-                  {value: 'true', label: 'Active'},
-                  {value: 'false', label: 'Inactive'},
-                ],
-              },
-            ],
-          },
-          geo: {
-            label: 'locations',
-            singular: 'location',
-            key: 'code',
-            rows: GEO_ROWS,
-            columns: [
-              {key: 'code', label: 'Location Code'},
-              {key: 'name', label: 'Location Name'},
-              {key: 'parent', label: 'Parent Location'},
-              {key: 'type', label: 'Type'},
-              {key: 'level', label: 'Level', plottable: true, valueType: 'number'},
-              {key: 'active', label: 'Active status'},
-              {key: 'remarks', label: 'Remarks'},
-            ],
-            filters: [
-              {key: 'all', label: 'All locations', icon: 'i-eye'},
-              {key: 'active', label: 'Active locations', icon: 'i-check'},
-              {key: 'root', label: 'Root locations', icon: 'i-flow'},
-              {key: 'inactive', label: 'Inactive locations', icon: 'i-archive'},
-            ],
-            filterFields: [
-              {key: 'code', label: 'Location Code', icon: 'i-doc', type: 'text'},
-              {key: 'name', label: 'Location Name', icon: 'i-flow', type: 'text'},
-              {key: 'parent', label: 'Parent Location', icon: 'i-flow', type: 'text'},
-              {
-                key: 'type',
-                label: 'Type',
-                icon: 'i-grid',
-                type: 'select',
-                options: ['Country', 'Governorate', 'City', 'District'],
-              },
-              {
-                key: 'level',
-                label: 'Level',
-                icon: 'i-panel',
-                type: 'select',
-                options: ['1', '2', '3'],
-              },
-              {
-                key: 'active',
-                label: 'Active status',
-                icon: 'i-check',
-                type: 'select',
-                options: [
-                  {value: 'true', label: 'Active'},
-                  {value: 'false', label: 'Inactive'},
-                ],
-              },
-            ],
-          },
-        }
-        const DATA_LIST_STATISTICS_CONCEPT_OPTIONS = [
-          {key: 'balanced', label: 'Balanced cards'},
-          {key: 'operational', label: 'Operational workspace'},
-          {key: 'analytical', label: 'Analytical KPIs'},
-        ]
-
-        function savedDataListLayout(context, defaultOrder) {
-          const fallback = {
-            columnOrder: defaultOrder,
-            hiddenColumns: [],
-            groupBy: [],
-            view: 'list',
-            statisticsVisible: true,
-            statisticsConcept: '',
-          }
-          try {
-            const stored = JSON.parse(
-              localStorage.getItem(`skey:data-list-layout:${context}`) || 'null'
-            )
-            const storedOrder = Array.isArray(stored) ? stored : stored?.columnOrder
-            if (!Array.isArray(storedOrder)) return fallback
-            const retainedOrder = storedOrder.filter(
-              (columnKey, index, keys) =>
-                defaultOrder.includes(columnKey) && keys.indexOf(columnKey) === index
-            )
-            const columnOrder = [
-              ...retainedOrder,
-              ...defaultOrder.filter(columnKey => !retainedOrder.includes(columnKey)),
-            ]
-            const statisticsConcept = DATA_LIST_STATISTICS_CONCEPT_OPTIONS.some(
-              option => option.key === stored?.statisticsConcept
-            )
-              ? stored.statisticsConcept
-              : ''
-            return {
-              columnOrder,
-              hiddenColumns: Array.isArray(stored?.hiddenColumns) ? stored.hiddenColumns : [],
-              groupBy: Array.isArray(stored?.groupBy) ? stored.groupBy : [],
-              view: typeof stored?.view === 'string' ? stored.view : 'list',
-              statisticsVisible:
-                typeof stored?.statisticsVisible === 'boolean'
-                  ? stored.statisticsVisible
-                  : true,
-              statisticsConcept,
-            }
-          } catch (error) {
-            if (error instanceof SyntaxError || error instanceof DOMException) return fallback
-            throw error
-          }
-        }
-
-        function persistDataListLayout(context, layout) {
-          try {
-            localStorage.setItem(`skey:data-list-layout:${context}`, JSON.stringify(layout))
-            return true
-          } catch (error) {
-            if (error instanceof DOMException) return false
-            throw error
-          }
-        }
-
-        /* Custom (saved) filters — user-named snapshots of the field-filter
-           editor's conditions, stored per table context so invoice/customer/
-           geo each keep their own set, same persistence pattern as layout. */
-        function loadCustomFilters(context) {
-          try {
-            const stored = JSON.parse(
-              localStorage.getItem(`skey:data-list-custom-filters:${context}`) || '[]'
-            )
-            return Array.isArray(stored)
-              ? stored.filter(item => item && typeof item.id === 'string')
-              : []
-          } catch (error) {
-            if (error instanceof SyntaxError || error instanceof DOMException) return []
-            throw error
-          }
-        }
-
+        // persistCustomFilters/loadCustomFilters — thin delegation to the
+        // shared storage contract (concepts/app/components/data-list/model.js's
+        // localStorageDataListStorage(), unchanged key strings), kept as named
+        // functions so the existing call sites below (saveCustomFilter/
+        // deleteCustomFilter/applyCustomFilter) don't need their own edits.
         function persistCustomFilters(context, filters) {
-          try {
-            localStorage.setItem(
-              `skey:data-list-custom-filters:${context}`,
-              JSON.stringify(filters)
-            )
-            return true
-          } catch (error) {
-            if (error instanceof DOMException) return false
-            throw error
-          }
+          return dataListStorage.saveCustomFilters(context, filters)
         }
+
 
         const DATA_CUSTOM_FILTER_ICONS = [
           'i-eye',
@@ -5540,79 +4060,39 @@ export function startLegacyApp(shared) {
           'i-warn',
         ]
 
-        const DATA_LIST_VALID_VIEWS = {
-          invoice: ['list', 'responsive', 'adaptive', 'cards', 'kanban'],
-          customer: ['list', 'responsive', 'adaptive', 'cards'],
-          geo: ['list', 'responsive', 'adaptive', 'cards'],
-        }
-
-        /* Pagination contract: the mocked row arrays only hold a handful of sample
-           records, but the record-navigator pager elsewhere in the UI already claims
-           a simulated dataset size ("Record 1 of 125" etc). List-level pagination
-           must agree with that same simulated total so the two counters never
-           contradict each other. */
-        const DATA_LIST_SIMULATED_TOTAL = {invoice: 125, customer: 72, geo: 12}
-        const DATA_LIST_DEFAULT_PAGE_SIZE = 25
-        const DATA_LIST_PAGE_SIZE_OPTIONS = [10, 25, 50, 100]
-
+        // dataListState/dataListModels — built from the shared data-list model
+        // (concepts/app/components/data-list/model.js's createListModel),
+        // extracted in Task 5. Each context's dataListState[context] IS that
+        // context's model.state object (same reference, not a copy) with the
+        // chart/DOM-only fields the model doesn't own (chartVisible,
+        // chartExpanded, chartField, chartYField, chartType, canvas,
+        // responsiveWidth, responsiveSignature, resizeObserver — a future
+        // chart component's concern, out of Task 5's scope) merged directly
+        // onto it, so every existing `dataListState[context].foo` read/write
+        // throughout this file keeps working unchanged. dataListModels[context]
+        // holds the rest of the model's small interface (rowsInView/
+        // saveLayout/resetLayout) for the call sites that need it.
+        const dataListStorage = localStorageDataListStorage()
+        const dataListModels = Object.fromEntries(
+          Object.entries(DATA_LIST_CONFIG).map(([context, config]) => [
+            context,
+            createListModel({config, rows: config.rows, storage: dataListStorage, context}),
+          ])
+        )
         const dataListState = Object.fromEntries(
-          Object.entries(DATA_LIST_CONFIG).map(([key, config]) => [
-            key,
-            (() => {
-              const defaultOrder = config.columns.map(column => column.key)
-              const saved = savedDataListLayout(key, defaultOrder)
-              const savedView = DATA_LIST_VALID_VIEWS[key].includes(saved.view)
-                ? saved.view
-                : 'list'
-              const savedHiddenColumns = saved.hiddenColumns.filter(columnKey =>
-                defaultOrder.includes(columnKey)
-              )
-              const savedGroupBy = saved.groupBy.filter(
-                (columnKey, index, keys) =>
-                  defaultOrder.includes(columnKey) && keys.indexOf(columnKey) === index
-              )
-              return {
-                sourceRows: config.rows,
-                selected: new Set(),
-                hiddenColumns: new Set(savedHiddenColumns),
-                savedHiddenColumns: new Set(savedHiddenColumns),
-                groupBy: [...savedGroupBy],
-                savedGroupBy: [...savedGroupBy],
-                collapsedGroups: new Set(),
-                expandedRows: new Set(),
-                search: '',
-                filter: 'all',
-                filterMode: 'inline',
-                sortKey: config.key,
-                sortDirection: 'asc',
-                page: 1,
-                pageSize: DATA_LIST_DEFAULT_PAGE_SIZE,
-                view: savedView,
-                savedView,
-                advanced: false,
-                fieldFilters: [],
-                customFilters: loadCustomFilters(key),
-                activeCustomFilterId: '',
-                borderMode: 'default',
-                frozenColumns: new Set(),
-                columnOrder: [...saved.columnOrder],
-                savedColumnOrder: [...saved.columnOrder],
-                layoutDirty: false,
-                statisticsVisible: saved.statisticsVisible,
-                savedStatisticsVisible: saved.statisticsVisible,
-                statisticsConcept: saved.statisticsConcept,
-                savedStatisticsConcept: saved.statisticsConcept,
-                chartVisible: false,
-                chartExpanded: true,
-                chartField: config.columns[0].key,
-                chartYField: '',
-                chartType: 'bar',
-                canvas: null,
-                responsiveWidth: 0,
-                responsiveSignature: '',
-                resizeObserver: null,
-              }
-            })(),
+          Object.entries(dataListModels).map(([context, model]) => [
+            context,
+            Object.assign(model.state, {
+              chartVisible: false,
+              chartExpanded: true,
+              chartField: DATA_LIST_CONFIG[context].columns[0].key,
+              chartYField: '',
+              chartType: 'bar',
+              canvas: null,
+              responsiveWidth: 0,
+              responsiveSignature: '',
+              resizeObserver: null,
+            }),
           ])
         )
         dataListChartRefreshReady = true
@@ -5688,139 +4168,8 @@ export function startLegacyApp(shared) {
         })
 
         const customerState = {mode: 'view', customerNo: '200010'}
-        const customerField = (key, label, type = 'text', options = []) => ({
-          key,
-          label,
-          type,
-          options,
-        })
 
-        const CUSTOMER_SECTIONS = {
-          identity: {
-            title: 'Customer',
-            fields: [
-              customerField('customerNo', 'Customer No.'),
-              customerField('customerName', 'Customer Name'),
-              customerField('operationUnit', 'Operation Unit', 'select', ['2 - lastchance']),
-              customerField('customerType', 'Customer Type', 'select', ['Retail', 'Wholesale']),
-              customerField('primeCustomer', 'Prime Customer', 'select', ['']),
-              customerField('accountCode', 'Acc. Code', 'select', ['114001 - Customers']),
-              customerField('customerGroup', 'Customer Group', 'select', ['General', 'Local']),
-              customerField('linkedBeneficiaries', 'Linked To Beneficiaries', 'checkbox'),
-              customerField('currency', 'Currency', 'select', ['EGP - Egyptian Pound']),
-              customerField('photo', 'Customer Photo', 'photo'),
-            ],
-          },
-          deactivation: {
-            title: 'Deactivate',
-            fields: [
-              customerField('deactivationFrom', 'From Deactivation Date', 'date'),
-              customerField('deactivationTo', 'To Deactivation Date', 'date'),
-            ],
-          },
-          nationalAddress: {
-            title: 'National Address',
-            fields: [
-              customerField('nationalStreet', 'Street'),
-              customerField('nationalBuilding', 'Building'),
-              customerField('nationalFlat', 'Flat'),
-              customerField('nationalDistrict', 'District'),
-              customerField('nationalShortAddress', 'Short Address'),
-              customerField('nationalCity', 'City', 'select', ['']),
-              customerField('nationalState', 'State', 'select', ['']),
-              customerField('nationalCountry', 'Country', 'select', ['EG - Egypt']),
-              customerField('nationalPostalCode', 'Postal Code'),
-              customerField('nationalAddOn', 'Add On'),
-              customerField('nationalIdentifierType', 'Identifier Type', 'select', ['']),
-              customerField('nationalIdentifierNo', 'Identifier No.'),
-            ],
-          },
-          defaultContact: {
-            title: 'Default Contact Info.',
-            fields: [
-              customerField('contactAddress', 'Address'),
-              customerField('contactAddressDetails', 'Address Details'),
-              customerField('contactCity', 'City', 'select', ['']),
-              customerField('contactState', 'State', 'select', ['']),
-              customerField('contactCountry', 'Country', 'select', ['EG - Egypt']),
-              customerField('contactPostalCode', 'Postal Code'),
-              customerField('contactPhone', 'Phone'),
-              customerField('contactEmail', 'E-Mail', 'email'),
-              customerField('contactMobile', 'Mobile No.'),
-              customerField('contactWebsite', 'Website', 'url'),
-            ],
-          },
-          mainData: {
-            title: 'Main Data',
-            fields: [
-              customerField('salespersonNo', 'Salesperson', 'select', ['']),
-              customerField('driverNo', 'Driver No.', 'select', ['']),
-              customerField('geoLocation', 'Geo. Location', 'select', ['']),
-              customerField('collector', 'Collector', 'select', ['']),
-              customerField('marketerNo', 'Marketer No.', 'select', ['']),
-              customerField('creditPeriod', 'Credit Period', 'number'),
-              customerField('taxScope', 'Tax Scope', 'select', ['']),
-              customerField('taxCategory', 'Tax Category', 'select', ['']),
-              customerField('methodShowPrice', 'Method Show Price', 'select', ['']),
-              customerField('taxNumber', 'Tax Number'),
-              customerField('permanentAccountNumber', 'Permanent Account Number'),
-              customerField('programNo', 'Program No', 'select', ['']),
-              customerField('activationDate', 'Activation Date', 'date'),
-              customerField('customerBarcode', 'Customer Barcode'),
-            ],
-          },
-          otherData: {
-            title: 'Other Data',
-            fields: [
-              customerField('dealingDate', 'Dealing Date', 'date'),
-              customerField('cashPriceLevel', 'Price Level For Cash', 'select', ['']),
-              customerField('creditPriceLevel', 'Price Level For Credit', 'select', ['']),
-              customerField('otherCountry', 'Country', 'select', ['EG - Egypt']),
-              customerField('language', 'Language', 'select', ['Arabic', 'English']),
-              customerField('paymentType', 'Payment Type', 'select', ['']),
-              customerField('deliveryTerms', 'Delivery Terms', 'select', ['']),
-              customerField('viaPerson', 'Via Person'),
-              customerField('lastConfirmationDate', 'Last Confirmation Date', 'date'),
-              customerField('idNumber', 'ID Number'),
-              customerField('licenseNo', 'License No.'),
-              customerField('licenseOwner', 'License Owner'),
-              customerField('ceoTitle', 'CEO Title', 'select', ['']),
-              customerField('ceoName', 'CEO Name'),
-              customerField('yearEstablished', 'Year Established', 'number'),
-              customerField('vendorCode', 'Vendor Code', 'select', ['']),
-              customerField('blackListReason', 'Black List Reason'),
-              customerField('blackListed', 'Black List', 'checkbox'),
-              customerField('isSalesperson', 'Salesperson', 'checkbox'),
-              customerField('inactiveSalesOrder', 'Inactivation In Sales Order', 'checkbox'),
-              customerField('inactiveInvoice', 'Inactivation In Invoice', 'checkbox'),
-              customerField('remarks', 'Remarks', 'textarea'),
-            ],
-          },
-          subLedgers: {title: 'Sub Ledgers', type: 'subledgers', fields: []},
-          contactDetails: {title: 'Contact Details', type: 'empty', fields: []},
-        }
 
-        const CUSTOMER_REFERENCE = {
-          customerNo: '200010',
-          customerName: 'customer_412',
-          operationUnit: '2 - lastchance',
-          customerType: '',
-          primeCustomer: '',
-          accountCode: '114001 - Customers',
-          customerGroup: '',
-          linkedBeneficiaries: false,
-          currency: 'EGP - Egyptian Pound',
-          photo: CUSTOMER_ROWS[0].photo,
-          nationalCountry: 'EG - Egypt',
-          contactCountry: 'EG - Egypt',
-          otherCountry: 'EG - Egypt',
-          blackListed: false,
-          isSalesperson: false,
-          inactiveSalesOrder: false,
-          inactiveInvoice: false,
-          subLedgers: [],
-          contactDetails: [],
-        }
 
         function createBlankCustomerData() {
           const data = {}
@@ -5896,82 +4245,6 @@ export function startLegacyApp(shared) {
         ]
         const CUSTOMER_REQUIRED_FIELDS = new Set(['customerNo', 'customerName'])
         const CUSTOMER_LOOKUP_KEYS = new Set(['operationUnit', 'customerType'])
-        const UNIT_ROWS = [
-          {code: '1', name: 'Head Office', parentCode: '', level: 1, status: 'Active'},
-          {code: '2', name: 'lastchance', parentCode: '1', level: 2, status: 'Active'},
-          {code: '3', name: 'Cairo Branch', parentCode: '1', level: 2, status: 'Active'},
-          {code: '4', name: 'Alexandria Branch', parentCode: '1', level: 2, status: 'Active'},
-          {code: '9', name: 'Old Branch', parentCode: '1', level: 2, status: 'Inactive'},
-        ]
-        const CUSTOMER_LOOKUP_RESULTS = {
-          customerType: [
-            {value: 'Retail', status: 'Active', order: 10, details: 'Retail customers'},
-            {value: 'Wholesale', status: 'Active', order: 20, details: 'Wholesale customers'},
-            {value: 'Government', status: 'Active', order: 30, details: 'Public sector'},
-            {
-              value: 'Legacy',
-              status: 'Inactive',
-              order: 90,
-              details: 'Not available for new records',
-            },
-          ],
-          operationUnit: [
-            {
-              value: '2 - lastchance',
-              code: '2',
-              country: 'EG - Egypt',
-              parent: 'Head Office',
-              status: 'Active',
-            },
-            {
-              value: '3 - Cairo Branch',
-              code: '3',
-              country: 'EG - Egypt',
-              parent: 'Head Office',
-              status: 'Active',
-            },
-            {
-              value: '4 - Alexandria Branch',
-              code: '4',
-              country: 'EG - Egypt',
-              parent: 'Head Office',
-              status: 'Active',
-            },
-            {
-              value: '9 - Old Branch',
-              code: '9',
-              country: 'EG - Egypt',
-              parent: 'Head Office',
-              status: 'Inactive',
-            },
-          ],
-          unitLocation: [
-            {
-              value: 'Cairo',
-              code: '2',
-              parent: 'Egypt',
-              level: '2',
-              type: 'Governorate',
-              status: 'Active',
-            },
-            {
-              value: 'Alexandria',
-              code: '3',
-              parent: 'Egypt',
-              level: '2',
-              type: 'Governorate',
-              status: 'Active',
-            },
-            {
-              value: 'Nasr City',
-              code: '21',
-              parent: 'Cairo',
-              level: '3',
-              type: 'District',
-              status: 'Active',
-            },
-          ],
-        }
         const customerLookupState = {
           fieldKey: '',
           trigger: null,
@@ -6069,138 +4342,7 @@ export function startLegacyApp(shared) {
         const dataListIcon = (name, size = 15) =>
           `<svg width="${size}" height="${size}" aria-hidden="true"><use href="#${name}" /></svg>`
 
-        const DATA_FILTER_OPERATORS = [
-          {key: 'contains', label: 'contains'},
-          {key: 'starts', label: 'starts with'},
-          {key: 'equals', label: 'is equal to'},
-          {key: 'not-equals', label: 'is not equal to'},
-        ]
 
-        function dataFilterOptionValue(option) {
-          return typeof option === 'object' ? option.value : option
-        }
-
-        function dataFilterOptionLabel(option) {
-          return typeof option === 'object' ? option.label : option
-        }
-
-        function parseDataListDate(raw) {
-          if (!raw) return null
-          const value = String(raw).trim()
-          let day, month, year
-          if (value.includes('-')) [year, month, day] = value.split('-')
-          else [day, month, year] = value.split('/')
-          if (!day || !month || !year) return null
-          const date = new Date(Number(year), Number(month) - 1, Number(day))
-          return Number.isNaN(date.getTime()) ? null : date
-        }
-
-        function dataListDateOnly(date) {
-          return new Date(date.getFullYear(), date.getMonth(), date.getDate())
-        }
-
-        const DATA_DATE_UNITS = [
-          {key: 'day', label: 'Day(s)'},
-          {key: 'week', label: 'Week(s)'},
-          {key: 'month', label: 'Month(s)'},
-          {key: 'year', label: 'Year(s)'},
-        ]
-
-        function dataListShiftDate(date, amount, unit) {
-          const result = new Date(date)
-          if (unit === 'day') result.setDate(result.getDate() + amount)
-          else if (unit === 'week') result.setDate(result.getDate() + amount * 7)
-          else if (unit === 'month') result.setMonth(result.getMonth() + amount)
-          else if (unit === 'year') result.setFullYear(result.getFullYear() + amount)
-          return result
-        }
-
-        /* filter.value for date fields is a compact string so it stays a plain
-   string like every other filter value (trim/compare code elsewhere treats
-   filter.value as a string): "today" | "this-week" | "this-month" |
-   "this-quarter" | "this-year" | "previous:<n>:<unit>" | "upcoming:<n>:<unit>" |
-   "specific:<yyyy-mm-dd>" | "range:<yyyy-mm-dd>:<yyyy-mm-dd>" */
-        function parseDateFilterValue(filterOrValue) {
-          const raw =
-            typeof filterOrValue === 'string' || filterOrValue == null
-              ? filterOrValue
-              : filterOrValue.value
-          const [preset, a, b] = String(raw || '').split(':')
-          return {preset: preset || 'today', a, b}
-        }
-
-        /* switching the preset resets a/b unless moving between the two presets
-   that share the same "amount + unit" shape (previous <-> upcoming), so a
-   leftover numeric amount never leaks into a date-picker preset (specific,
-   range) as an invalid "undefined" date string */
-        function dataListNextDatePresetValue(item, preset) {
-          const current = parseDateFilterValue(item)
-          if (preset === 'previous' || preset === 'upcoming') {
-            const reusable = current.preset === 'previous' || current.preset === 'upcoming'
-            return `${preset}:${reusable ? current.a || 1 : 1}:${reusable ? current.b || 'day' : 'day'}`
-          }
-          if (preset === 'specific') {
-            const reusable = current.preset === 'specific'
-            return `specific:${reusable ? current.a || '' : ''}`
-          }
-          if (preset === 'range') {
-            const reusable = current.preset === 'range'
-            return `range:${reusable ? current.a || '' : ''}:${reusable ? current.b || '' : ''}`
-          }
-          return preset
-        }
-
-        function dataListQuarterOf(date) {
-          return Math.floor(date.getMonth() / 3)
-        }
-
-        function dateFilterRange(filter, today = dataListDateOnly(new Date())) {
-          const {preset, a, b} = parseDateFilterValue(filter)
-          if (preset === 'today') return {from: today, to: today}
-          if (preset === 'this-week') {
-            const from = new Date(today)
-            from.setDate(from.getDate() - from.getDay())
-            const to = new Date(from)
-            to.setDate(to.getDate() + 6)
-            return {from, to}
-          }
-          if (preset === 'this-month')
-            return {
-              from: new Date(today.getFullYear(), today.getMonth(), 1),
-              to: new Date(today.getFullYear(), today.getMonth() + 1, 0),
-            }
-          if (preset === 'this-quarter') {
-            const quarter = dataListQuarterOf(today)
-            return {
-              from: new Date(today.getFullYear(), quarter * 3, 1),
-              to: new Date(today.getFullYear(), quarter * 3 + 3, 0),
-            }
-          }
-          if (preset === 'this-year')
-            return {
-              from: new Date(today.getFullYear(), 0, 1),
-              to: new Date(today.getFullYear(), 11, 31),
-            }
-          if (preset === 'previous') {
-            const amount = Math.max(1, Number(a) || 1)
-            return {from: dataListShiftDate(today, -amount, b || 'day'), to: today}
-          }
-          if (preset === 'upcoming') {
-            const amount = Math.max(1, Number(a) || 1)
-            return {from: today, to: dataListShiftDate(today, amount, b || 'day')}
-          }
-          if (preset === 'specific') {
-            const date = parseDataListDate(a)
-            return date ? {from: date, to: date} : null
-          }
-          if (preset === 'range') {
-            const from = parseDataListDate(a)
-            const to = parseDataListDate(b)
-            if (!from || !to) return null
-            return from <= to ? {from, to} : {from: to, to: from}
-          }
-          return null
-        }
 
         function formatDateFilterValue(isoDate) {
           if (!isoDate) return ''
@@ -6232,70 +4374,16 @@ export function startLegacyApp(shared) {
           return t('Choose value', 'Choose value')
         }
 
-        function rowMatchesFieldFilter(row, filter, field) {
-          if (!field || !filter.value) return true
-          if (field.type === 'date') {
-            const range = dateFilterRange(filter)
-            if (!range) return true
-            const rowDate = parseDataListDate(row[field.key])
-            if (!rowDate) return false
-            const value = dataListDateOnly(rowDate).getTime()
-            return value >= range.from.getTime() && value <= range.to.getTime()
-          }
-          const raw = String(row[field.key] ?? '').toLowerCase()
-          const expected = String(filter.value).toLowerCase()
-          if (filter.operator === 'starts') return raw.startsWith(expected)
-          if (filter.operator === 'not-equals') return raw !== expected
-          if (filter.operator === 'equals' || field.type === 'select') return raw === expected
-          return raw.includes(expected)
-        }
 
+        // dataListRows(context) now delegates its filter/sort algorithm to
+        // the shared model's rowsInView() (concepts/app/components/data-list/
+        // model.js) — dataListState[context] IS that model's own state
+        // object (see the dataListModels/dataListState construction above),
+        // so every existing read/write into dataListState[context].search /
+        // .filter / .fieldFilters / .sortKey / .sortDirection elsewhere in
+        // this file is already the exact state rowsInView() reads.
         function dataListRows(context) {
-          const config = DATA_LIST_CONFIG[context]
-          const listState = dataListState[context]
-          const query = listState.search.trim().toLowerCase()
-          let rows = listState.sourceRows.filter(row => {
-            if (
-              query &&
-              !config.columns.some(column =>
-                String(row[column.key] ?? '')
-                  .toLowerCase()
-                  .includes(query)
-              )
-            )
-              return false
-            if (context === 'customer') {
-              if (listState.filter === 'active' && !row.active) return false
-              if (listState.filter === 'inactive' && row.active) return false
-              if (listState.filter === 'retail' && row.customerType !== 'Retail') return false
-            }
-            if (context === 'invoice') {
-              if (listState.filter === 'cash' && row.pay !== 'Cash') return false
-              if (listState.filter === 'credit' && row.pay !== 'Credit') return false
-            }
-            if (context === 'geo') {
-              if (listState.filter === 'active' && !row.active) return false
-              if (listState.filter === 'inactive' && row.active) return false
-              if (listState.filter === 'root' && row.parentCode) return false
-            }
-            return listState.fieldFilters.every(filter =>
-              rowMatchesFieldFilter(
-                row,
-                filter,
-                config.filterFields.find(field => field.key === filter.key)
-              )
-            )
-          })
-          const direction = listState.sortDirection === 'asc' ? 1 : -1
-          rows = [...rows].sort(
-            (a, b) =>
-              String(a[listState.sortKey] ?? '').localeCompare(
-                String(b[listState.sortKey] ?? ''),
-                undefined,
-                {numeric: true, sensitivity: 'base'}
-              ) * direction
-          )
-          return rows
+          return dataListModels[context].rowsInView()
         }
 
         function renderDataListCell(context, row, column) {
@@ -6561,43 +4649,14 @@ export function startLegacyApp(shared) {
           geo: 'geo-list-fnav',
         }
 
+        // renderShellPager/renderShellRecordPager now delegate their
+        // page-math + markup to the shared pagination module
+        // (concepts/app/components/data-list/pagination.js), passing
+        // dataListState[context] (the model's own state, see above) plus the
+        // small set of legacy-local render helpers those functions need.
+        const shellPagerDeps = {t, encodeHtml, dataListIcon}
         function renderShellPager(context, filteredCount) {
-          const config = DATA_LIST_CONFIG[context]
-          const listState = dataListState[context]
-          const simulatedTotal = DATA_LIST_SIMULATED_TOTAL[context] || filteredCount
-          const pageSize = listState.pageSize
-          const totalPages = Math.max(1, Math.ceil(simulatedTotal / pageSize))
-          const page = Math.min(Math.max(1, listState.page), totalPages)
-          const rangeStart = filteredCount ? (page - 1) * pageSize + 1 : 0
-          const rangeEnd = Math.min(page * pageSize, filteredCount ? simulatedTotal : 0)
-          const pageNumbers = []
-          for (let n = 1; n <= totalPages; n++) {
-            if (n === 1 || n === totalPages || Math.abs(n - page) <= 1) pageNumbers.push(n)
-            else if (pageNumbers.at(-1) !== '…') pageNumbers.push('…')
-          }
-          const pageButtons = pageNumbers
-            .map(n =>
-              n === '…'
-                ? `<span class="data-pagination-ellipsis" aria-hidden="true">…</span>`
-                : `<button type="button" class="data-pagination-page${n === page ? ' is-current' : ''}" data-list-page="${n}"${n === page ? ' aria-current="page"' : ''} aria-label="${t('Page', 'Page')} ${n}">${n}</button>`
-            )
-            .join('')
-          const sizeOptions = DATA_LIST_PAGE_SIZE_OPTIONS.map(
-            size =>
-              `<option value="${size}"${size === pageSize ? ' selected' : ''}>${size}</option>`
-          ).join('')
-          return `<div class="data-list-pagination" role="navigation" aria-label="${encodeHtml(config.label)} ${t('page navigation', 'page navigation')}">
-            <div class="data-pagination-controls">
-              <button type="button" class="data-pagination-edge" data-list-page="1"${page <= 1 ? ' disabled' : ''} aria-label="${t('First page', 'First page')}">${dataListIcon('i-first', 13)}</button>
-              <button type="button" class="data-pagination-prev" data-list-page="${page - 1}"${page <= 1 ? ' disabled' : ''}>${dataListIcon('i-prev', 12)}</button>
-              ${pageButtons}
-              <button type="button" class="data-pagination-next" data-list-page="${page + 1}"${page >= totalPages ? ' disabled' : ''}>${dataListIcon('i-next', 12)}</button>
-              <button type="button" class="data-pagination-edge" data-list-page="${totalPages}"${page >= totalPages ? ' disabled' : ''} aria-label="${t('Last page', 'Last page')}">${dataListIcon('i-last', 13)}</button>
-              <label class="data-pagination-jump"><span>${t('Go to page', 'Go to page')}</span><input class="data-pagination-jump-input" type="number" min="1" max="${totalPages}" value="${page}" aria-label="${t('Go to page', 'Go to page')}"></label>
-            </div>
-            <span class="data-pagination-summary" aria-live="polite">${t('Showing', 'Showing')} ${rangeStart}–${rangeEnd} ${t('of', 'of')} ${simulatedTotal}</span>
-            <label class="data-pagination-size">${t('Rows per page', 'Rows per page')}<select data-list-page-size aria-label="${t('Rows per page', 'Rows per page')}">${sizeOptions}</select></label>
-          </div>`
+          return renderSharedShellPager(context, filteredCount, dataListState[context], shellPagerDeps)
         }
 
         /* Adaptive view's footer navigator moves between records, one at a
@@ -6606,27 +4665,11 @@ export function startLegacyApp(shared) {
            to the actually-navigable rows rather than the simulated total
            (there's nothing meaningful to jump to past the real sample set). */
         function renderShellRecordPager(context, filteredCount) {
-          const config = DATA_LIST_CONFIG[context]
-          const listState = dataListState[context]
-          const total = Math.max(filteredCount, filteredCount ? 1 : 0)
-          const position = Math.min(Math.max(1, listState.page), total || 1)
-          const atFirst = !total || position <= 1
-          const atLast = !total || position >= total
-          const row = total ? dataListRows(context)[position - 1] : null
-          const actions = row ? renderDataListAdaptiveFooterActions(context, row, config) : ''
-          const searchTerm = listState.search.trim()
-          const searchNote = searchTerm
-            ? `<span class="data-adaptive-search-note">${t('matching', 'matching')} "${encodeHtml(searchTerm)}"</span>`
-            : ''
-          return `<div class="pager" role="group" aria-label="${t('Record navigation', 'Record navigation')}" title="${t('Tip: Alt + Left/Right arrow also moves between records', 'Tip: Alt + Left/Right arrow also moves between records')}">
-            <button type="button" class="pg-f" data-list-record="1"${atFirst ? ' disabled' : ''} aria-label="${t('First record', 'First record')}">${dataListIcon('i-first', 13)}</button>
-            <button type="button" class="pg-p" data-list-record="${position - 1}"${atFirst ? ' disabled' : ''} aria-label="${t('Previous record', 'Previous record')}">${dataListIcon('i-prev', 12)}</button>
-            <input class="pg-i" type="number" min="1" max="${total || 1}" value="${total ? position : 0}" aria-label="${t('Record number', 'Record number')}"${total ? '' : ' disabled'}>
-            <span class="tot">${t('of', 'of')} ${total}</span>
-            ${searchNote}
-            <button type="button" class="pg-n" data-list-record="${position + 1}"${atLast ? ' disabled' : ''} aria-label="${t('Next record', 'Next record')}">${dataListIcon('i-next', 12)}</button>
-            <button type="button" class="pg-l" data-list-record="${total}"${atLast ? ' disabled' : ''} aria-label="${t('Last record', 'Last record')}">${dataListIcon('i-last', 13)}</button>
-          </div>${actions}`
+          return renderSharedShellRecordPager(context, filteredCount, dataListState[context], {
+            ...shellPagerDeps,
+            dataListRows,
+            renderDataListAdaptiveFooterActions,
+          })
         }
 
         /* Keyboard record-nav for Adaptive view: Alt+Left/Right flips records
@@ -7362,62 +5405,6 @@ export function startLegacyApp(shared) {
           return `<div class="data-group-dropzone" data-list-group-drop aria-label="${t('Row grouping drop zone', 'Row grouping drop zone')}"><span class="data-group-dropzone-label">${dataListIcon('i-grid', 14)}<span>${t('Row groups', 'Row groups')}</span></span>${chips}${dragHint}${clearButton}</div>`
         }
 
-        const DATA_LIST_RESPONSIVE_WIDTH = {
-          avatar: 56,
-          seq: 180,
-          no: 92,
-          date: 112,
-          dueDate: 112,
-          subtype: 145,
-          poRef: 110,
-          pay: 130,
-          custNo: 120,
-          custName: 180,
-          branch: 150,
-          priceList: 130,
-          taxAmount: 110,
-          discount: 100,
-          salesRep: 140,
-          warehouse: 150,
-          createdBy: 120,
-          modifiedAt: 112,
-          customerNo: 125,
-          customerName: 165,
-          operationUnit: 160,
-          customerType: 130,
-          customerGroup: 135,
-          currency: 92,
-          country: 105,
-          phone: 140,
-          active: 112,
-          code: 120,
-          name: 170,
-          parent: 220,
-          type: 110,
-          level: 78,
-          remarks: 220,
-        }
-
-        function responsiveDataListColumns(context, width, listState) {
-          const config = DATA_LIST_CONFIG[context]
-          const columns = listState.columnOrder
-            .map(key => config.columns.find(column => column.key === key))
-            .filter(column => column && !listState.hiddenColumns.has(column.key))
-          const available = Math.max(80, width - 42 - 76 - 2)
-          const visible = []
-          let used = 0
-          for (const [index, column] of columns.entries()) {
-            const columnWidth = DATA_LIST_RESPONSIVE_WIDTH[column.key] || 130
-            if (index > 0 && used + columnWidth > available) break
-            visible.push(column)
-            used += columnWidth
-          }
-          const visibleKeys = new Set(visible.map(column => column.key))
-          return {
-            visible,
-            overflow: columns.filter(column => !visibleKeys.has(column.key)),
-          }
-        }
 
         function renderDataListRowActionMenu(config, key, actions, context = '') {
           const contextAttr = context ? ` data-list-context="${encodeHtml(context)}"` : ''
@@ -8449,59 +6436,32 @@ export function startLegacyApp(shared) {
           return listState.layoutDirty
         }
 
+        // saveDataListLayout/resetDataListLayout now delegate the field
+        // reconciliation + persistence to the shared model's saveLayout()/
+        // resetLayout() (concepts/app/components/data-list/model.js), which
+        // dataListModels[context] already holds — this function keeps only
+        // what the model can't own: the one DOM read
+        // (activeDataListStatisticsConcept reads #statistics-concept, a live
+        // page element) and the toast/re-render side effects.
         function saveDataListLayout(context) {
           const listState = dataListState[context]
-          const layout = {
-            columnOrder: listState.columnOrder,
-            hiddenColumns: [...listState.hiddenColumns],
-            groupBy: listState.groupBy,
-            view: listState.view,
-            statisticsVisible: listState.statisticsVisible,
-            statisticsConcept: activeDataListStatisticsConcept(listState),
-          }
-          if (!persistDataListLayout(context, layout)) {
+          // The model's saveLayout() persists whatever is currently in
+          // listState.statisticsConcept — set it from the DOM first so the
+          // persisted value matches what activeDataListStatisticsConcept()
+          // has always resolved to (falls back to the live #statistics-concept
+          // control, then 'balanced'), exactly as before this extraction.
+          listState.statisticsConcept = activeDataListStatisticsConcept(listState)
+          if (!dataListModels[context].saveLayout()) {
             toast({tone: 'bad', title: 'Table layout could not be saved in this browser'})
             return false
           }
-          listState.savedColumnOrder = [...listState.columnOrder]
-          listState.savedHiddenColumns = new Set(listState.hiddenColumns)
-          listState.savedGroupBy = [...listState.groupBy]
-          listState.savedView = listState.view
-          listState.statisticsConcept = layout.statisticsConcept
-          listState.savedStatisticsVisible = listState.statisticsVisible
-          listState.savedStatisticsConcept = layout.statisticsConcept
-          listState.layoutDirty = false
           renderDataList(context)
           toast({tone: 'ok', title: 'Table layout saved to your user configuration'})
           return true
         }
 
         function resetDataListLayout(context) {
-          const config = DATA_LIST_CONFIG[context]
-          const listState = dataListState[context]
-          listState.columnOrder = config.columns.map(column => column.key)
-          listState.savedColumnOrder = [...listState.columnOrder]
-          listState.hiddenColumns.clear()
-          listState.savedHiddenColumns.clear()
-          listState.frozenColumns.clear()
-          listState.groupBy = []
-          listState.savedGroupBy = []
-          listState.collapsedGroups.clear()
-          listState.expandedRows.clear()
-          listState.borderMode = 'default'
-          listState.view = 'list'
-          listState.savedView = 'list'
-          listState.statisticsVisible = true
-          listState.savedStatisticsVisible = true
-          listState.statisticsConcept = ''
-          listState.savedStatisticsConcept = ''
-          listState.page = 1
-          listState.layoutDirty = false
-          try {
-            localStorage.removeItem(`skey:data-list-layout:${context}`)
-          } catch (error) {
-            if (!(error instanceof DOMException)) throw error
-          }
+          dataListModels[context].resetLayout()
           renderDataList(context)
           toast({tone: 'ok', title: 'Default table layout restored'})
         }
