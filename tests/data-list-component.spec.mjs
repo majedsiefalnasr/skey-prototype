@@ -60,7 +60,15 @@ test('selecting a row surfaces bulk actions and delete removes it', async ({page
 // ---------------------------------------------------------------------
 // Saved layout / filter restore
 // ---------------------------------------------------------------------
-test('saved table layout survives navigating away and back', async ({page}) => {
+test('saved table layout survives navigating away and back', async ({page}, testInfo) => {
+  // The Columns menu collapses into the responsive/mobile toolbar layout
+  // below the desktop breakpoint (same CSS breakpoint documented on the
+  // Chart toggle test above — .data-toolbar-optional/.data-toolbar-inline
+  // in legacy-app.css's @media (max-width: 900px) rule).
+  test.skip(
+    testInfo.project.use.viewport?.width < 900,
+    'Columns menu is not reachable in the responsive/mobile toolbar layout.'
+  );
   await boot(page, 'http://127.0.0.1:4173');
   await openSurface(page, 'list');
   await settle(page);
@@ -101,6 +109,19 @@ test('saved table layout survives navigating away and back', async ({page}) => {
 
 test('a custom filter can be saved and re-applied', async ({page}) => {
   await boot(page, 'http://127.0.0.1:4173');
+  // This test's own selectors match the toolbar's English labels
+  // (e.g. "Filter") — some projects (mobile-rtl) boot with Arabic already
+  // active (see tests/support/browser.mjs boot()'s `wantsRtl` handling),
+  // which translates those labels. Force English/ltr first, the same
+  // pattern tests/components.spec.mjs's "Arabic locale switch" test uses,
+  // since this test's own concern is the filter save/apply flow, not
+  // locale-specific label text.
+  await page.locator('#rtl').evaluate(element => {
+    if (element.checked) {
+      element.checked = false;
+      element.dispatchEvent(new Event('change', {bubbles: true}));
+    }
+  });
   await openSurface(page, 'list');
   await settle(page);
 

@@ -4120,6 +4120,14 @@ export function startLegacyApp(shared) {
               responsiveWidth: 0,
               responsiveSignature: '',
               resizeObserver: null,
+              // AbortController for this context's delegated canvas
+              // listeners (Task 6) — wireDataList registers its listener
+              // set once per canvas via this controller's signal instead of
+              // the previous `canvas.dataset.dataListWired` boolean guard,
+              // so the same controller.abort() call that would back a future
+              // instance dispose() also cleanly removes every listener in
+              // one step (a boolean guard has no such removal path).
+              abortController: null,
             }),
           ])
         )
@@ -5731,6 +5739,14 @@ export function startLegacyApp(shared) {
             if (signature === listState.responsiveSignature) return
             renderDataList(context)
           })
+          // Tied to the same instance-owned AbortController wireDataList
+          // creates (Task 6) so the observer and the canvas's delegated
+          // listeners share one disposal path — a future instance
+          // dispose() only needs to abort() once to tear down both.
+          listState.abortController?.signal.addEventListener('abort', () => {
+            listState.resizeObserver?.disconnect()
+            listState.resizeObserver = null
+          })
           listState.resizeObserver.observe(canvas)
         }
 
@@ -6469,151 +6485,190 @@ export function startLegacyApp(shared) {
         }
 
         function wireDataList(canvas, context) {
-          if (canvas.dataset.dataListWired) return
-          canvas.dataset.dataListWired = 'true'
-          canvas.addEventListener('click', event => {
-            if (applyDataListFilterClick(event, context)) return
-            if (applyDataListToolbarClick(event, context)) return
-            if (applyDataListSortClick(event, context)) return
-            applyDataListCommandClick(event, context)
-          })
-          canvas.addEventListener('dblclick', event => {
-            const row = event.target.closest('.data-list-record-row[data-list-row-key]')
-            if (!row) return
-            if (
-              event.target.closest(
-                'button, a, input, select, textarea, summary, label, [role="menuitem"]'
+          const listState = dataListState[context]
+          // Delegated canvas listeners are registered once per instance
+          // (Task 6: replaces the previous `canvas.dataset.dataListWired`
+          // boolean guard) via an instance-owned AbortController — a future
+          // instance dispose() can remove this whole listener set in one
+          // controller.abort() call, which a boolean guard has no path to do.
+          if (listState.abortController) return
+          listState.abortController = new AbortController()
+          const {signal} = listState.abortController
+          canvas.addEventListener(
+            'click',
+            event => {
+              if (applyDataListFilterClick(event, context)) return
+              if (applyDataListToolbarClick(event, context)) return
+              if (applyDataListSortClick(event, context)) return
+              applyDataListCommandClick(event, context)
+            },
+            {signal}
+          )
+          canvas.addEventListener(
+            'dblclick',
+            event => {
+              const row = event.target.closest('.data-list-record-row[data-list-row-key]')
+              if (!row) return
+              if (
+                event.target.closest(
+                  'button, a, input, select, textarea, summary, label, [role="menuitem"]'
+                )
               )
-            )
-              return
-            event.preventDefault()
-            const key = row.dataset.listRowKey
-            if (event.ctrlKey || event.metaKey) openQuickView(context, key)
-            else openDataListRecord(context, key, 'view')
-          })
-          canvas.addEventListener('change', event => onDataListChange(event, context))
-          canvas.addEventListener('input', event => {
-            const filterValue = event.target.closest('input[data-list-filter-value]')
-            if (filterValue) {
-              const filter = dataListState[context].fieldFilters.find(
-                item => item.key === filterValue.dataset.listFilterValue
-              )
-              if (filter) filter.value = filterValue.value
-              renderDataList(context, {
-                focusFilterKey: filterValue.dataset.listFilterValue,
-              })
-              return
-            }
-            const search = event.target.closest('[data-list-search]')
-            if (!search) return
-            dataListState[context].search = search.value
-            dataListState[context].selected.clear()
-            dataListState[context].page = 1
-            renderDataList(context, {focusSearch: true})
-          })
-          canvas.addEventListener('dragstart', event => {
-            const header = event.target.closest('[data-list-column-drag]')
-            if (header) {
+                return
+              event.preventDefault()
+              const key = row.dataset.listRowKey
+              if (event.ctrlKey || event.metaKey) openQuickView(context, key)
+              else openDataListRecord(context, key, 'view')
+            },
+            {signal}
+          )
+          canvas.addEventListener('change', event => onDataListChange(event, context), {signal})
+          canvas.addEventListener(
+            'input',
+            event => {
+              const filterValue = event.target.closest('input[data-list-filter-value]')
+              if (filterValue) {
+                const filter = dataListState[context].fieldFilters.find(
+                  item => item.key === filterValue.dataset.listFilterValue
+                )
+                if (filter) filter.value = filterValue.value
+                renderDataList(context, {
+                  focusFilterKey: filterValue.dataset.listFilterValue,
+                })
+                return
+              }
+              const search = event.target.closest('[data-list-search]')
+              if (!search) return
+              dataListState[context].search = search.value
+              dataListState[context].selected.clear()
+              dataListState[context].page = 1
+              renderDataList(context, {focusSearch: true})
+            },
+            {signal}
+          )
+          canvas.addEventListener(
+            'dragstart',
+            event => {
+              const header = event.target.closest('[data-list-column-drag]')
+              if (header) {
+                event.dataTransfer.effectAllowed = 'move'
+                event.dataTransfer.setData('text/plain', header.dataset.listColumnDrag)
+                return
+              }
+              const card = event.target.closest('.data-kanban-card')
+              if (!card) return
               event.dataTransfer.effectAllowed = 'move'
-              event.dataTransfer.setData('text/plain', header.dataset.listColumnDrag)
-              return
-            }
-            const card = event.target.closest('.data-kanban-card')
-            if (!card) return
-            event.dataTransfer.effectAllowed = 'move'
-            event.dataTransfer.setData('text/plain', card.dataset.listRowKey)
-            card.classList.add('is-dragging')
-          })
-          canvas.addEventListener('dragover', event => {
-            const groupDrop = event.target.closest('[data-list-group-drop]')
-            if (groupDrop) {
+              event.dataTransfer.setData('text/plain', card.dataset.listRowKey)
+              card.classList.add('is-dragging')
+            },
+            {signal}
+          )
+          canvas.addEventListener(
+            'dragover',
+            event => {
+              const groupDrop = event.target.closest('[data-list-group-drop]')
+              if (groupDrop) {
+                event.preventDefault()
+                event.dataTransfer.dropEffect = 'move'
+                groupDrop.dataset.dragOver = 'true'
+                return
+              }
+              const header = event.target.closest('[data-list-column-drag]')
+              if (header) {
+                event.preventDefault()
+                event.dataTransfer.dropEffect = 'move'
+                canvas
+                  .querySelectorAll('[data-list-column-drag][data-drag-over="true"]')
+                  .forEach(item => item.removeAttribute('data-drag-over'))
+                header.dataset.dragOver = 'true'
+                return
+              }
+              const drop = event.target.closest('[data-kanban-drop]')
+              if (!drop) return
+              const draggingCard = canvas.querySelector('.data-kanban-card.is-dragging')
+              if (!draggingCard) return
               event.preventDefault()
+              const fromStatus = draggingCard.dataset.kanbanStatus
+              const toStatus = drop.dataset.kanbanDrop
+              const allowed =
+                fromStatus === toStatus ||
+                (INVOICE_STATUS_TRANSITIONS[fromStatus] || []).includes(toStatus)
               event.dataTransfer.dropEffect = 'move'
-              groupDrop.dataset.dragOver = 'true'
-              return
-            }
-            const header = event.target.closest('[data-list-column-drag]')
-            if (header) {
+              canvas
+                .querySelectorAll('.data-kanban-drop.is-drag-over, .data-kanban-drop.is-drag-blocked')
+                .forEach(item => item.classList.remove('is-drag-over', 'is-drag-blocked'))
+              drop.classList.add(allowed ? 'is-drag-over' : 'is-drag-blocked')
+            },
+            {signal}
+          )
+          canvas.addEventListener(
+            'dragleave',
+            event => {
+              const groupDrop = event.target.closest('[data-list-group-drop]')
+              if (groupDrop && !groupDrop.contains(event.relatedTarget)) {
+                groupDrop.removeAttribute('data-drag-over')
+                return
+              }
+              const drop = event.target.closest('[data-kanban-drop]')
+              if (!drop || drop.contains(event.relatedTarget)) return
+              drop.classList.remove('is-drag-over', 'is-drag-blocked')
+            },
+            {signal}
+          )
+          canvas.addEventListener(
+            'drop',
+            event => {
+              const groupDrop = event.target.closest('[data-list-group-drop]')
+              if (groupDrop) {
+                event.preventDefault()
+                groupDrop.removeAttribute('data-drag-over')
+                const sourceKey = event.dataTransfer.getData('text/plain')
+                const dropListState = dataListState[context]
+                const validColumn = DATA_LIST_CONFIG[context].columns.some(
+                  column => column.key === sourceKey && column.groupable !== false
+                )
+                if (validColumn && !dropListState.groupBy.includes(sourceKey)) {
+                  dropListState.groupBy.push(sourceKey)
+                  dropListState.collapsedGroups.clear()
+                  computeDataListLayoutDirty(dropListState)
+                  renderDataList(context)
+                }
+                return
+              }
+              const header = event.target.closest('[data-list-column-drag]')
+              if (header) {
+                event.preventDefault()
+                const sourceKey = event.dataTransfer.getData('text/plain')
+                reorderDataListColumn(context, sourceKey, header.dataset.listColumnDrag)
+                return
+              }
+              const drop = event.target.closest('[data-kanban-drop]')
+              if (!drop) return
               event.preventDefault()
-              event.dataTransfer.dropEffect = 'move'
+              drop.classList.remove('is-drag-over', 'is-drag-blocked')
+              const key = event.dataTransfer.getData('text/plain')
+              moveInvoiceKanbanCard(context, key, drop.dataset.kanbanDrop)
+            },
+            {signal}
+          )
+          canvas.addEventListener(
+            'dragend',
+            () => {
+              canvas
+                .querySelectorAll('[data-list-group-drop][data-drag-over="true"]')
+                .forEach(item => item.removeAttribute('data-drag-over'))
               canvas
                 .querySelectorAll('[data-list-column-drag][data-drag-over="true"]')
                 .forEach(item => item.removeAttribute('data-drag-over'))
-              header.dataset.dragOver = 'true'
-              return
-            }
-            const drop = event.target.closest('[data-kanban-drop]')
-            if (!drop) return
-            const draggingCard = canvas.querySelector('.data-kanban-card.is-dragging')
-            if (!draggingCard) return
-            event.preventDefault()
-            const fromStatus = draggingCard.dataset.kanbanStatus
-            const toStatus = drop.dataset.kanbanDrop
-            const allowed =
-              fromStatus === toStatus ||
-              (INVOICE_STATUS_TRANSITIONS[fromStatus] || []).includes(toStatus)
-            event.dataTransfer.dropEffect = 'move'
-            canvas
-              .querySelectorAll('.data-kanban-drop.is-drag-over, .data-kanban-drop.is-drag-blocked')
-              .forEach(item => item.classList.remove('is-drag-over', 'is-drag-blocked'))
-            drop.classList.add(allowed ? 'is-drag-over' : 'is-drag-blocked')
-          })
-          canvas.addEventListener('dragleave', event => {
-            const groupDrop = event.target.closest('[data-list-group-drop]')
-            if (groupDrop && !groupDrop.contains(event.relatedTarget)) {
-              groupDrop.removeAttribute('data-drag-over')
-              return
-            }
-            const drop = event.target.closest('[data-kanban-drop]')
-            if (!drop || drop.contains(event.relatedTarget)) return
-            drop.classList.remove('is-drag-over', 'is-drag-blocked')
-          })
-          canvas.addEventListener('drop', event => {
-            const groupDrop = event.target.closest('[data-list-group-drop]')
-            if (groupDrop) {
-              event.preventDefault()
-              groupDrop.removeAttribute('data-drag-over')
-              const sourceKey = event.dataTransfer.getData('text/plain')
-              const listState = dataListState[context]
-              const validColumn = DATA_LIST_CONFIG[context].columns.some(
-                column => column.key === sourceKey && column.groupable !== false
-              )
-              if (validColumn && !listState.groupBy.includes(sourceKey)) {
-                listState.groupBy.push(sourceKey)
-                listState.collapsedGroups.clear()
-                computeDataListLayoutDirty(listState)
-                renderDataList(context)
-              }
-              return
-            }
-            const header = event.target.closest('[data-list-column-drag]')
-            if (header) {
-              event.preventDefault()
-              const sourceKey = event.dataTransfer.getData('text/plain')
-              reorderDataListColumn(context, sourceKey, header.dataset.listColumnDrag)
-              return
-            }
-            const drop = event.target.closest('[data-kanban-drop]')
-            if (!drop) return
-            event.preventDefault()
-            drop.classList.remove('is-drag-over', 'is-drag-blocked')
-            const key = event.dataTransfer.getData('text/plain')
-            moveInvoiceKanbanCard(context, key, drop.dataset.kanbanDrop)
-          })
-          canvas.addEventListener('dragend', () => {
-            canvas
-              .querySelectorAll('[data-list-group-drop][data-drag-over="true"]')
-              .forEach(item => item.removeAttribute('data-drag-over'))
-            canvas
-              .querySelectorAll('[data-list-column-drag][data-drag-over="true"]')
-              .forEach(item => item.removeAttribute('data-drag-over'))
-            canvas
-              .querySelectorAll('.data-kanban-drop.is-drag-over, .data-kanban-drop.is-drag-blocked')
-              .forEach(item => item.classList.remove('is-drag-over', 'is-drag-blocked'))
-            canvas
-              .querySelectorAll('.data-kanban-card.is-dragging')
-              .forEach(item => item.classList.remove('is-dragging'))
-          })
+              canvas
+                .querySelectorAll('.data-kanban-drop.is-drag-over, .data-kanban-drop.is-drag-blocked')
+                .forEach(item => item.classList.remove('is-drag-over', 'is-drag-blocked'))
+              canvas
+                .querySelectorAll('.data-kanban-card.is-dragging')
+                .forEach(item => item.classList.remove('is-dragging'))
+            },
+            {signal}
+          )
         }
 
         function openKanbanBlockedDialog(row, fromStatus, toStatus) {
