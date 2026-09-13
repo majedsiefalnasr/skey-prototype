@@ -69,6 +69,23 @@ import {
   renderDataListChart as renderSharedDataListChart,
   createListChart,
 } from './components/data-list/charts.js'
+import {
+  renderDataListRowActions as renderSharedDataListRowActions,
+  renderDataListRowActionMenu as renderSharedDataListRowActionMenu,
+  renderDataListAdaptiveFooterActions as renderSharedDataListAdaptiveFooterActions,
+  renderDataListHeader as renderSharedDataListHeader,
+  renderDataListRecordRows as renderSharedDataListRecordRows,
+  renderDataListBody as renderSharedDataListBody,
+  renderDataListCards as renderSharedDataListCards,
+  renderDataListAdaptiveRecord as renderSharedDataListAdaptiveRecord,
+  dataListDetailsId as sharedDataListDetailsId,
+} from './components/data-list/views.js'
+import {
+  applyFrozenDataListColumns as applySharedFrozenDataListColumns,
+  createContextMenu,
+  renderDataListColumnHeaderMenu as renderSharedDataListColumnHeaderMenu,
+  applyDataListColumnHeaderAction as applySharedDataListColumnHeaderAction,
+} from './components/data-list/menus.js'
 
 export function startLegacyApp(shared) {
         const {t, formatDate: formatLocaleDate, formatCurrency: formatLocaleCurrency, getLocale, setLocale} = shared.locale
@@ -5098,34 +5115,27 @@ export function startLegacyApp(shared) {
         }
 
 
-        function renderDataListRowActionMenu(config, key, actions, context = '') {
-          const contextAttr = context ? ` data-list-context="${encodeHtml(context)}"` : ''
-          return `<details class="data-menu end data-row-menu"${contextAttr}><summary aria-label="Actions for ${encodeHtml(config.singular)} ${encodeHtml(key)}" title="Record actions">${dataListIcon('i-dots')}</summary><div class="data-menu-popover" role="menu">${actions}</div></details>`
-        }
+        // Row/table/adaptive/group rendering moved to
+        // concepts/app/components/data-list/views.js as part of Task 6. The
+        // context-specific pieces that remain here (rowMenuItems, renderCell,
+        // renderFieldValue, groupValueLabel, renderCard) are the callbacks
+        // the shared views.js module invokes — the shared component never
+        // branches on `context === 'customer' | 'geo' | 'invoice'` itself.
 
-        /* Adaptive view's footer keeps the two most-reached-for actions as
-           buttons (Display, Modify) and tucks everything else — the same
-           per-context set the table row menu already knows about — behind
-           one overflow menu, so the footer doesn't turn into a button wall. */
-        function renderDataListAdaptiveFooterActions(context, row, config) {
-          const key = String(row[config.key])
-          const displayButton = `<button class="ctx" type="button" data-list-row-action="display"><svg width="15" height="15" aria-hidden="true"><use href="#i-external" /></svg><span>${t('Display', 'Display')}</span></button>`
-          const modifyButton = `<button class="ctx" type="button" data-list-row-action="modify"><svg width="15" height="15" aria-hidden="true"><use href="#i-edit" /></svg><span>${t('Modify', 'Modify')}</span></button>`
-          const contextActions =
-            context === 'customer'
-              ? `<button type="button" role="menuitem" data-list-row-action="accounts-movement">${dataListIcon('i-flow')} ${t('Accounts movement', 'Accounts movement')}</button><button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? t('Deactivate', 'Deactivate') : t('Activate', 'Activate')}</button>`
-              : context === 'geo'
-                ? `<button type="button" role="menuitem" data-list-row-action="view-hierarchy">${dataListIcon('i-flow')} ${t('View in hierarchy', 'View in hierarchy')}</button><button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? t('Deactivate', 'Deactivate') : t('Activate', 'Activate')}</button>`
-                : `<button type="button" role="menuitem" data-list-row-action="user-log">${dataListIcon('i-user')} ${t('User log', 'User log')}</button><button type="button" role="menuitem" data-list-row-action="documents-flow">${dataListIcon('i-flow')} ${t('Documents flow', 'Documents flow')}</button>`
-          const deleteAction = `<button type="button" role="menuitem" data-list-row-action="delete">${dataListIcon('i-trash')} ${t('Delete', 'Delete')}</button>`
-          const overflowActions = `${contextActions}<div class="data-menu-separator"></div>${deleteAction}`
-          return `<span class="data-adaptive-footer-actions" data-list-row-key="${encodeHtml(key)}">${displayButton}${modifyButton}${renderDataListRowActionMenu(config, key, overflowActions, context)}</span>`
-        }
-
-        /* Shared by the left-click "..." row menu AND the right-click context
-           menu — one source of truth so the two never drift apart, and so
-           right-click never offers an action the "..." menu doesn't. */
-        function renderDataListRowActionsContent(context, row, config, view = 'list') {
+        /* Shared by the left-click "..." row menu, the adaptive-view footer
+           menu, AND the right-click context menu — one source of truth so
+           none of the three ever drift apart. */
+        function rowMenuItems(context, row, view) {
+          if (view === 'adaptive-footer') {
+            const contextActions =
+              context === 'customer'
+                ? `<button type="button" role="menuitem" data-list-row-action="accounts-movement">${dataListIcon('i-flow')} ${t('Accounts movement', 'Accounts movement')}</button><button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? t('Deactivate', 'Deactivate') : t('Activate', 'Activate')}</button>`
+                : context === 'geo'
+                  ? `<button type="button" role="menuitem" data-list-row-action="view-hierarchy">${dataListIcon('i-flow')} ${t('View in hierarchy', 'View in hierarchy')}</button><button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? t('Deactivate', 'Deactivate') : t('Activate', 'Activate')}</button>`
+                  : `<button type="button" role="menuitem" data-list-row-action="user-log">${dataListIcon('i-user')} ${t('User log', 'User log')}</button><button type="button" role="menuitem" data-list-row-action="documents-flow">${dataListIcon('i-flow')} ${t('Documents flow', 'Documents flow')}</button>`
+            const deleteAction = `<button type="button" role="menuitem" data-list-row-action="delete">${dataListIcon('i-trash')} ${t('Delete', 'Delete')}</button>`
+            return `${contextActions}<div class="data-menu-separator"></div>${deleteAction}`
+          }
           const quickViewDisabled = view === 'kanban'
           const commonActions = `<button type="button" role="menuitem" data-list-row-action="quick-view"${quickViewDisabled ? ' disabled aria-disabled="true" title="Switch out of Kanban to jump to a single record"' : ''}>${dataListIcon('i-panel')} Open in Adaptive view</button><button type="button" role="menuitem" data-list-row-action="display">${dataListIcon('i-external')} Display</button><button type="button" role="menuitem" data-list-row-action="modify">${dataListIcon('i-edit')} Modify</button>`
           const recordActions =
@@ -5138,107 +5148,45 @@ export function startLegacyApp(shared) {
           return `${commonActions}<div class="data-menu-separator"></div>${recordActions}<div class="data-menu-separator"></div>${deleteAction}`
         }
 
-        function renderDataListRowActions(context, row, config, view = 'list') {
-          const actions = renderDataListRowActionsContent(context, row, config, view)
-          return renderDataListRowActionMenu(config, String(row[config.key]), actions)
-        }
-
-        function renderDataListHeader(visibleColumns, listState) {
-          return visibleColumns
-            .map(column => {
-              if (column.sortable === false) {
-                return `<th data-col="${encodeHtml(column.key)}" data-list-column-drag="${encodeHtml(column.key)}" draggable="true" aria-sort="none" title="${t('Drag to reorder', 'Drag to reorder')}"><span class="data-sort-button"><span>${encodeHtml(t(column.label))}</span></span></th>`
-              }
-              const sorted = listState.sortKey === column.key
-              const ariaSort = sorted
-                ? listState.sortDirection === 'asc'
-                  ? 'ascending'
-                  : 'descending'
-                : 'none'
-              const indicator = sorted ? (listState.sortDirection === 'asc' ? '↑' : '↓') : ''
-              return `<th data-col="${encodeHtml(column.key)}" data-list-column-drag="${encodeHtml(column.key)}" draggable="true" aria-sort="${ariaSort}" title="${t('Drag to reorder or add to row groups', 'Drag to reorder or add to row groups')}"><button class="data-sort-button" type="button" data-list-sort="${encodeHtml(column.key)}"><span>${encodeHtml(t(column.label))}</span><span class="data-sort-indicator" aria-hidden="true">${indicator}</span></button></th>`
-            })
-            .join('')
-        }
-
-        function dataListDetailsId(context, key) {
-          return `responsive-details-${context}-${String(key).replace(/[^a-z0-9_-]+/gi, '-')}`
-        }
-
-        function renderResponsiveRowDetails(context, row, overflowColumns) {
-          return `<dl class="data-responsive-details">${overflowColumns
-            .map(
-              column =>
-                `<div><dt>${encodeHtml(column.label)}</dt><dd>${renderQuickViewFieldValue(context, row, column)}</dd></div>`
-            )
-            .join('')}</dl>`
-        }
-
-        function renderDataListExpandButton(context, key, expanded, overflowColumns) {
-          if (!overflowColumns.length) return ''
-          const detailsId = dataListDetailsId(context, key)
-          const label = expanded ? 'Collapse row details' : 'Expand row details'
-          return `<button type="button" class="data-row-expand" data-list-row-expand="${encodeHtml(key)}" aria-controls="${encodeHtml(detailsId)}" aria-expanded="${expanded}" aria-label="${label}" title="${label}">${dataListIcon('i-caret', 12)}</button>`
-        }
-
-        function renderDataListRecordRows(row, tableContext) {
-          const {context, visibleColumns, overflowColumns, config, listState} = tableContext
-          const key = String(row[config.key])
-          const selected = listState.selected.has(key)
-          const expanded = listState.expandedRows.has(key) && overflowColumns.length > 0
-          const cells = visibleColumns
-            .map(column => {
-              const title =
-                column.key === 'avatar'
-                  ? ''
-                  : ` title="${encodeHtml(String(row[column.key] ?? ''))}"`
-              return `<td data-col="${encodeHtml(column.key)}"${title}>${renderDataListCell(context, row, column)}</td>`
-            })
-            .join('')
-          const actionCell = `<td class="data-row-actions-cell"><div class="data-row-actions">${renderDataListExpandButton(context, key, expanded, overflowColumns)}${renderDataListRowActions(context, row, config, listState.view)}</div></td>`
-          const recordRow = `<tr class="data-list-record-row" data-list-row-key="${encodeHtml(key)}" aria-selected="${selected}" title="Double-click to open. Ctrl/Command + double-click for Adaptive view on this record."><td><input type="checkbox" data-list-row-select value="${encodeHtml(key)}" aria-label="Select ${encodeHtml(config.singular)} ${encodeHtml(key)}"${selected ? ' checked' : ''}></td>${cells}${actionCell}</tr>`
-          if (!expanded) return recordRow
-          const detailsId = dataListDetailsId(context, key)
-          return `${recordRow}<tr class="data-responsive-detail-row" id="${encodeHtml(detailsId)}"><td colspan="${visibleColumns.length + 2}">${renderResponsiveRowDetails(context, row, overflowColumns)}</td></tr>`
-        }
-
-        function dataListGroupValue(context, column, groupValue) {
-          if (column.key === 'active' && ['customer', 'geo'].includes(context))
-            return groupValue ? 'Active' : 'Inactive'
+        function groupValueLabel(context, column, groupValue) {
+          if (column.key === 'active') return groupValue ? 'Active' : 'Inactive'
           return String(groupValue ?? 'Not set') || 'Not set'
         }
 
-        function renderDataListGroupedBody(rows, tableContext, depth = 0, path = []) {
-          const {context, visibleColumns, overflowColumns, config, listState} = tableContext
-          if (depth >= listState.groupBy.length)
-            return rows.map(row => renderDataListRecordRows(row, tableContext)).join('')
-          const column = config.columns.find(item => item.key === listState.groupBy[depth])
-          if (!column) return renderDataListGroupedBody(rows, tableContext, depth + 1, path)
-          const groups = new Map()
-          rows.forEach(row => {
-            const value = dataListGroupValue(context, column, row[column.key])
-            if (!groups.has(value)) groups.set(value, [])
-            groups.get(value).push(row)
-          })
-          return [...groups.entries()]
-            .sort(([left], [right]) => left.localeCompare(right, undefined, {numeric: true}))
-            .map(([value, groupRows]) => {
-              const groupPath = [...path, `${column.key}:${value}`]
-              const groupId = groupPath.join('\u001f')
-              const expanded = !listState.collapsedGroups.has(groupId)
-              const children = expanded
-                ? renderDataListGroupedBody(groupRows, tableContext, depth + 1, groupPath)
-                : ''
-              return `<tr class="data-group-row"><td colspan="${visibleColumns.length + 2}"><button type="button" class="data-group-toggle" style="--group-depth:${depth}" data-list-group-toggle="${encodeHtml(groupId)}" aria-expanded="${expanded}">${dataListIcon('i-caret', 11)}<span class="data-group-label">${encodeHtml(column.label)}</span><span class="data-group-value">${encodeHtml(value)}</span><span class="data-group-count">${groupRows.length} ${groupRows.length === 1 ? config.singular : config.label}</span></button></td></tr>${children}`
-            })
-            .join('')
+        const sharedViewDeps = {
+          t,
+          encodeHtml,
+          dataListIcon,
+          renderCell: (context, row, column) => renderDataListCell(context, row, column),
+          renderFieldValue: (context, row, column) => renderQuickViewFieldValue(context, row, column),
+          groupValueLabel,
+          rowMenuItems,
+          renderCard: (context, row, config, listState) =>
+            renderDataRecordCard(context, row, config, listState),
+        }
+
+        function renderDataListAdaptiveFooterActions(context, row, config) {
+          return renderSharedDataListAdaptiveFooterActions(context, row, config, sharedViewDeps)
+        }
+
+        function renderDataListRowActions(context, row, config, view = 'list') {
+          return renderSharedDataListRowActions(context, row, config, view, sharedViewDeps)
+        }
+
+        function renderDataListHeader(visibleColumns, listState) {
+          return renderSharedDataListHeader(visibleColumns, listState, sharedViewDeps)
+        }
+
+        function dataListDetailsId(context, key) {
+          return sharedDataListDetailsId(context, key)
+        }
+
+        function renderDataListRecordRows(row, tableContext) {
+          return renderSharedDataListRecordRows(row, tableContext, sharedViewDeps)
         }
 
         function renderDataListBody(rows, tableContext) {
-          const {config, visibleColumns} = tableContext
-          if (!rows.length)
-            return `<tr><td colspan="${visibleColumns.length + 2}"><div class="customer-lookup-empty">No ${encodeHtml(config.label)} match this view.</div></td></tr>`
-          return renderDataListGroupedBody(rows, tableContext)
+          return renderSharedDataListBody(rows, tableContext, sharedViewDeps)
         }
 
         function dataRecordInitials(value) {
@@ -5412,7 +5360,7 @@ export function startLegacyApp(shared) {
             context === 'invoice'
               ? `${quickView}${display}<button type="button" role="menuitem" data-list-row-action="modify">${dataListIcon('i-edit')} Modify</button><button type="button" role="menuitem" data-list-row-action="user-log">${dataListIcon('i-user')} User log</button><div class="data-menu-separator"></div>${deleteAction}`
               : `${quickView}${display}<button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? 'Deactivate' : 'Activate'}</button><div class="data-menu-separator"></div>${deleteAction}`
-          return renderDataListRowActionMenu(config, String(row[config.key]), actions)
+          return renderSharedDataListRowActionMenu(config, String(row[config.key]), actions, '', sharedViewDeps)
         }
 
         function renderInvoiceSnapshotCard(row, config, listState) {
@@ -5641,76 +5589,19 @@ export function startLegacyApp(shared) {
         })
 
         function renderDataListCards(context, rows, config, listState) {
-          if (!rows.length)
-            return `<div class="customer-lookup-empty">No ${encodeHtml(config.label)} match this view.</div>`
-          return `<div class="data-card-grid" role="list" aria-label="${encodeHtml(config.label)} cards">${rows
-            .map(row => renderDataRecordCard(context, row, config, listState))
-            .join('')}</div>`
+          return renderSharedDataListCards(context, rows, config, listState, sharedViewDeps)
         }
 
-        const DATA_ADAPTIVE_GROUP_LABELS = {
-          document: 'Document',
-          customer: 'Customer',
-          financials: 'Financials',
-          audit: 'Audit trail',
-        }
-
-        function renderDataAdaptiveFieldRow(context, row, column) {
-          const raw = row[column.key]
-          const isEmpty = raw === null || raw === undefined || raw === ''
-          const value = renderQuickViewFieldValue(context, row, column)
-          return `<div class="data-adaptive-row"><span class="data-adaptive-label">${encodeHtml(t(column.label))}</span><span class="data-adaptive-value${isEmpty ? ' data-adaptive-value-empty' : ''}">${value}</span></div>`
-        }
-
-        /* Adaptive view shows one record at a time as a two-column label/value
-           list (every field its own row: label column, value column) with
-           record-by-record navigation replacing page navigation — distinct
-           from the multi-field-per-row .fgrid used in the quick-view drawer.
-           Fields carrying a `group` tag (Document/Customer/Financials/Audit
-           trail) render as separate collapsible sections inside one bordered
-           card — same chevron/label/count header the table's own row
-           grouping already uses (.data-group-toggle), so both grouping
-           concepts read as one visual language instead of two. Tables that
-           don't tag groups (customer, geo) fall back to one flat section so
-           this doesn't force every context to adopt grouping before it's
-           ready. Collapse state reuses listState.collapsedGroups with an
-           "adaptive:" id prefix, kept separate from table row-group ids. */
         function renderDataListAdaptiveRecord(context, row, config, filteredCount = 0) {
-          if (!row) {
-            const message = filteredCount
-              ? t('No record at this position.', 'No record at this position.')
-              : t('No records match this view.', 'No records match this view.')
-            const hint = filteredCount
-              ? t('Try First or Last.', 'Try First or Last.')
-              : t(
-                  'Clear the search or filter to see records again.',
-                  'Clear the search or filter to see records again.'
-                )
-            return `<div class="data-adaptive-empty"><p>${encodeHtml(message)}</p><p class="data-adaptive-empty-hint">${encodeHtml(hint)}</p></div>`
-          }
           const listState = dataListState[context]
-          const fields = config.columns.filter(column => column.key !== 'avatar')
-          const hasGroups = fields.some(column => column.group)
-          const key = String(row[config.key])
-          if (!hasGroups) {
-            return `<div class="rec-card data-adaptive-record" data-list-row-key="${encodeHtml(key)}">${fields
-              .map(column => renderDataAdaptiveFieldRow(context, row, column))
-              .join('')}</div>`
-          }
-          const groupOrder = [...new Set(fields.map(column => column.group || 'details'))]
-          const sections = groupOrder
-            .map(groupKey => {
-              const groupFields = fields.filter(column => (column.group || 'details') === groupKey)
-              const label = DATA_ADAPTIVE_GROUP_LABELS[groupKey] || 'Details'
-              const groupId = `adaptive:${groupKey}`
-              const expanded = !listState.collapsedGroups.has(groupId)
-              const rows = groupFields
-                .map(column => renderDataAdaptiveFieldRow(context, row, column))
-                .join('')
-              return `<section class="data-adaptive-section"><div class="data-group-row"><button type="button" class="data-group-toggle" data-list-group-toggle="${encodeHtml(groupId)}" aria-expanded="${expanded}">${dataListIcon('i-caret', 11)}<span class="data-group-label">${encodeHtml(t(label))}</span><span class="data-group-count">${groupFields.length} ${t('fields', 'fields')}</span></button></div>${expanded ? rows : ''}</section>`
-            })
-            .join('')
-          return `<div class="rec-card data-adaptive-sections" data-list-row-key="${encodeHtml(key)}">${sections}</div>`
+          return renderSharedDataListAdaptiveRecord(
+            context,
+            row,
+            config,
+            listState,
+            filteredCount,
+            sharedViewDeps
+          )
         }
 
         const INVOICE_KANBAN_COLUMNS = [
@@ -5824,19 +5715,7 @@ export function startLegacyApp(shared) {
           popover.style.top = `${top}px`
         }
 
-        function applyFrozenDataListColumns(canvas, visibleColumns, listState) {
-          let offset =
-            canvas.querySelector('.inv-grid th:first-child')?.getBoundingClientRect().width || 0
-          visibleColumns.forEach(column => {
-            if (!listState.frozenColumns.has(column.key)) return
-            const cells = canvas.querySelectorAll(`[data-col="${CSS.escape(column.key)}"]`)
-            cells.forEach(cell => {
-              cell.dataset.frozen = 'true'
-              cell.style.insetInlineStart = `${offset}px`
-            })
-            offset += cells[0]?.getBoundingClientRect().width || 0
-          })
-        }
+        const applyFrozenDataListColumns = applySharedFrozenDataListColumns
 
         function observeResponsiveDataList(canvas, context) {
           const listState = dataListState[context]
@@ -10729,50 +10608,19 @@ export function startLegacyApp(shared) {
           toast({tone: 'ok', title: `Copied "${text}"`})
         }
 
+        const sharedMenuDeps = {t, encodeHtml, dataListIcon}
+
         function renderDataListColumnHeaderMenu(context, column) {
           const listState = dataListState[context]
-          const sorted = listState.sortKey === column.key
-          const pinned = listState.frozenColumns.has(column.key)
-          const canGroup = column.groupable !== false && !listState.groupBy.includes(column.key)
-          const canChart = column.key !== undefined
-          const item = (action, icon, label, disabled = false) =>
-            `<button type="button" role="menuitem" data-context-column-action="${action}"${disabled ? ' disabled' : ''}>${dataListIcon(icon, 13)} ${encodeHtml(t(label, label))}</button>`
-          return `${item('sort-asc', 'i-caret', 'Sort ascending', sorted && listState.sortDirection === 'asc')}
-            ${item('sort-desc', 'i-caret', 'Sort descending', sorted && listState.sortDirection === 'desc')}
-            ${item('clear-sort', 'i-undo', 'Clear sort', !sorted)}
-            <div class="data-menu-separator"></div>
-            ${item(pinned ? 'unpin' : 'pin', 'i-lock', pinned ? 'Unpin column' : 'Pin column')}
-            <div class="data-menu-separator"></div>
-            ${item('hide', 'i-x', 'Hide column')}
-            ${column.groupable !== false ? item('group-by', 'i-grid', 'Group by this column', !canGroup) : ''}
-            <div class="data-menu-separator"></div>
-            ${item('chart-range', 'i-chart', 'Chart range', !canChart)}`
+          return renderSharedDataListColumnHeaderMenu(DATA_LIST_CONFIG[context], column, listState, sharedMenuDeps)
         }
 
         function applyDataListColumnHeaderAction(context, columnKey, action) {
           const listState = dataListState[context]
           const config = DATA_LIST_CONFIG[context]
-          if (action === 'sort-asc' || action === 'sort-desc') {
-            listState.sortKey = columnKey
-            listState.sortDirection = action === 'sort-asc' ? 'asc' : 'desc'
-          } else if (action === 'clear-sort') {
-            listState.sortKey = config.key
-            listState.sortDirection = 'asc'
-          } else if (action === 'pin') {
-            listState.frozenColumns.add(columnKey)
-          } else if (action === 'unpin') {
-            listState.frozenColumns.delete(columnKey)
-          } else if (action === 'hide') {
-            listState.hiddenColumns.add(columnKey)
-            computeDataListLayoutDirty(listState)
-          } else if (action === 'group-by') {
-            if (!listState.groupBy.includes(columnKey)) listState.groupBy.push(columnKey)
-            listState.collapsedGroups.clear()
-            computeDataListLayoutDirty(listState)
-          } else if (action === 'chart-range') {
-            listState.chartField = columnKey
-            listState.chartVisible = true
-          } else return
+          const result = applySharedDataListColumnHeaderAction(listState, config, columnKey, action)
+          if (!result) return
+          if (result.dirty) computeDataListLayoutDirty(listState)
           refreshDataListForContext(context)
         }
 
@@ -10821,7 +10669,7 @@ export function startLegacyApp(shared) {
           if (!row) return
           event.preventDefault()
           const view = rowEl.closest('.data-kanban-card') ? 'kanban' : listState.view
-          const rowActionsHtml = renderDataListRowActionsContent(context, row, config, view)
+          const rowActionsHtml = rowMenuItems(context, row, view)
           openDataListContextMenu(
             event.clientX,
             event.clientY,
