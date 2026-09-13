@@ -108,8 +108,8 @@ export function renderCustomerRecordPhoto(photo, recordIdentity, deps) {
 export function createImagePreview({popover}) {
   const media = popover.querySelector('.customer-image-popover-media')
   const image = media.querySelector('img')
-  const nameEl = document.getElementById('customer-image-popover-name')
-  const numberEl = document.getElementById('customer-image-popover-number')
+  const nameEl = popover.querySelector('#customer-image-popover-name')
+  const numberEl = popover.querySelector('#customer-image-popover-number')
   let trigger = null
   let pinned = false
   let openTimer = 0

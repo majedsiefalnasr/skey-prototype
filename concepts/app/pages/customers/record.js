@@ -79,8 +79,8 @@ function resolveRefs(root) {
     canvas: root.querySelector('#customer-record-canvas'),
     chrome: root.querySelector('#customer-record-chrome'),
     footer: root.querySelector('.customer-record-footer'),
-    footerPositionLabel: document.getElementById('customer-record-position'),
-    footerNote: document.getElementById('customer-footer-note'),
+    footerPositionLabel: root.querySelector('#customer-record-position'),
+    footerNote: root.querySelector('#customer-footer-note'),
     modeSelect: document.getElementById('customer-mode'),
     layoutSelect: document.getElementById('customer-layout'),
     imagePopover: document.getElementById('customer-image-popover'),
@@ -429,7 +429,7 @@ export function createCustomerRecord({root, deps}) {
     if (message) customerState.errors.set(fieldDef.key, message)
     else customerState.errors.delete(fieldDef.key)
     const errorId = `${control.id}-error`
-    let error = document.getElementById(errorId)
+    let error = control.parentElement?.querySelector(`#${CSS.escape(errorId)}`)
     control.toggleAttribute('aria-invalid', Boolean(message))
     if (message) {
       control.setAttribute('aria-describedby', errorId)

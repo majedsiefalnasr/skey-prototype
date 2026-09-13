@@ -207,6 +207,51 @@ test.describe('customer record lifecycle', () => {
     void original;
   });
 
+  test('dirty-leave guard blocks navigation away from an edited record, then discard leaves', async ({page}) => {
+    await boot(page, 'http://127.0.0.1:4173');
+    await openCustomerRecordInMode(page, 'edit');
+    const nameField = page.locator('[data-customer-field="customerName"]');
+    const original = await nameField.inputValue();
+    await nameField.fill(`${original} Dirty`);
+    await nameField.dispatchEvent('change');
+    // Breadcrumb "Customers" is the same trigger the adjacent "event
+    // handlers still work" test below uses in view mode (where the guard
+    // does NOT fire); here the record is dirty in edit mode, so
+    // customerAtRisk() is true and record.js's document-level click
+    // listener (record.js:702-719) intercepts the click, calling
+    // askGuard(...) instead of navigating immediately.
+    await page.locator('.customer-back').click();
+    const guardScrim = page.locator('#customer-gscrim');
+    await expect(guardScrim).toHaveClass(/open/);
+    // Still on the record — the guard blocked the navigation.
+    await expect(page.locator('.customer-list-view')).not.toBeVisible();
+    await expect(nameField).toHaveValue(`${original} Dirty`);
+    // Choosing "Leave without saving" discards the change and completes
+    // the navigation the guard had blocked.
+    await page.locator('#customer-g-discard').click();
+    await settle(page);
+    await expect(guardScrim).not.toHaveClass(/open/);
+    await expect(page.locator('.customer-list-view')).toBeVisible();
+  });
+
+  test('dirty-leave guard "Stay here" cancels navigation and keeps the change', async ({page}) => {
+    await boot(page, 'http://127.0.0.1:4173');
+    await openCustomerRecordInMode(page, 'edit');
+    const nameField = page.locator('[data-customer-field="customerName"]');
+    const original = await nameField.inputValue();
+    await nameField.fill(`${original} Dirty`);
+    await nameField.dispatchEvent('change');
+    await page.locator('.customer-back').click();
+    const guardScrim = page.locator('#customer-gscrim');
+    await expect(guardScrim).toHaveClass(/open/);
+    await page.locator('#customer-g-stay').click();
+    await expect(guardScrim).not.toHaveClass(/open/);
+    // Still on the record, still in edit mode, change intact.
+    await expect(page.locator('.customer-list-view')).not.toBeVisible();
+    await expect(page.locator('#customer-mode')).toHaveValue('edit');
+    await expect(nameField).toHaveValue(`${original} Dirty`);
+  });
+
   test('event handlers still work after navigating away from the record and back', async ({page}) => {
     await boot(page, 'http://127.0.0.1:4173');
     await openSurface(page, 'customer-record');
