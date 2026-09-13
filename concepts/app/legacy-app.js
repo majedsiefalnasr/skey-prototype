@@ -1,5 +1,32 @@
+// Transitional legacy application module. Task 2 extracted this file
+// verbatim from the monolith's inline <script> as a classic script; Task 4
+// converts it into a module and pulls the shared locale/appearance/toast/
+// work/loading/dialog-focus facilities out into their own modules (see
+// concepts/app/core/{locale,appearance,work}.js and
+// concepts/app/components/{dialog,toast,loading}/*.js). Everything else
+// below is still the original single-scope implementation, unchanged,
+// pending later tasks (5-11) that extract data-list/page/navigation
+// components per the plan.
+//
+// startLegacyApp(shared) is called once, after the app-shell markup has
+// been assembled into the document (see concepts/app/main.js), with
+// `shared` limited to exactly the finite set of facilities this task
+// isolates — not an arbitrary getter for every remaining legacy binding.
+import {normalizeHexColor, deriveAccentPair} from './core/appearance.js'
+import {encodeHtml} from './core/locale.js'
 
-      ;(() => {
+export function startLegacyApp(shared) {
+        const {t, formatDate: formatLocaleDate, formatCurrency: formatLocaleCurrency, getLocale, setLocale} = shared.locale
+        let appLocale = getLocale()
+        const appearance = shared.appearance
+        const {trapFocus, releaseFocus} = shared.dialogFocus
+        const toast = shared.toast
+        const runWork = shared.work
+        const {
+          queue: queueSkeletonForCurrentView,
+          clear: clearSkeletonOverlays,
+          initTickers: initNumberTickers,
+        } = shared.loading
         /* ================================================================
    Localization — scoped to the one complete Arabic workflow the audit asked
    for (Customer record → Sales Invoice record → line entry → validation →
@@ -7,364 +34,36 @@
    language, direction, translated copy, and locale-aware date/number/
    currency formatting move together. Declared first because rail/launchpad
    construction during boot already calls t() before anything else runs. */
-        let appLocale = 'en'
-        const encodeHtml = value =>
-          String(value ?? '').replace(
-            /[&<>"']/g,
-            character =>
-              ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[character]
-          )
-        const I18N = {
-          // Customer record
-          Customer: 'العميل',
-          'Customer No.': 'رقم العميل',
-          'Customer Name': 'اسم العميل',
-          'Operation Unit': 'وحدة التشغيل',
-          'Customer Type': 'نوع العميل',
-          'Prime Customer': 'العميل الرئيسي',
-          'Acc. Code': 'رمز الحساب',
-          'Customer Group': 'مجموعة العملاء',
-          'Linked To Beneficiaries': 'مرتبط بالمستفيدين',
-          Currency: 'العملة',
-          'Customer Photo': 'صورة العميل',
-          'Main Data': 'البيانات الرئيسية',
-          Salesperson: 'مندوب المبيعات',
-          'Driver No.': 'رقم السائق',
-          'Geo. Location': 'الموقع الجغرافي',
-          Collector: 'المحصل',
-          'Marketer No.': 'رقم المسوق',
-          'Credit Period': 'فترة الائتمان',
-          'Tax Scope': 'نطاق الضريبة',
-          'Tax Category': 'فئة الضريبة',
-          'Method Show Price': 'طريقة عرض السعر',
-          'Tax Number': 'الرقم الضريبي',
-          'Permanent Account Number': 'رقم الحساب الدائم',
-          'Program No': 'رقم البرنامج',
-          'Activation Date': 'تاريخ التفعيل',
-          'Customer Barcode': 'باركود العميل',
-          Deactivate: 'إلغاء التفعيل',
-          Activate: 'تفعيل',
-          Active: 'نشط',
-          Inactive: 'غير نشط',
-          Modify: 'تعديل',
-          Save: 'حفظ',
-          Undo: 'تراجع',
-          // Sales Invoice record
-          'Sales Invoice': 'فاتورة المبيعات',
-          General: 'عام',
-          Year: 'السنة',
-          'Doc Sub-Type': 'النوع الفرعي للمستند',
-          Sequence: 'التسلسل',
-          'Doc No.': 'رقم المستند',
-          'Doc Date': 'تاريخ المستند',
-          'WH No.': 'رقم المخزن',
-          'Mobile No.': 'رقم الجوال',
-          Address: 'العنوان',
-          'Beneficiary No.': 'رقم المستفيد',
-          'Exchange Rate': 'سعر الصرف',
-          'Pricing Level': 'مستوى التسعير',
-          Items: 'الأصناف',
-          'Add item': 'إضافة صنف',
-          Item: 'الصنف',
-          UoM: 'الوحدة',
-          'Expiry Date': 'تاريخ الانتهاء',
-          'Batch No.': 'رقم الدفعة',
-          'Qty.': 'الكمية',
-          'Free Qty': 'كمية مجانية',
-          'Available Qty': 'الكمية المتاحة',
-          Price: 'السعر',
-          'Discount %': 'نسبة الخصم',
-          'Tax %': 'نسبة الضريبة',
-          'Tax Amt': 'قيمة الضريبة',
-          Total: 'الإجمالي',
-          'Total Qty.': 'إجمالي الكمية',
-          'Invoice charges': 'مصاريف الفاتورة',
-          'Invoice summary': 'ملخص الفاتورة',
-          'Items subtotal': 'إجمالي الأصناف',
-          'required field needs attention': 'حقل مطلوب يحتاج إلى مراجعة',
-          'required fields need attention': 'حقول مطلوبة تحتاج إلى مراجعة',
-          'Item is required.': 'الصنف مطلوب.',
-          'Quantity is required.': 'الكمية مطلوبة.',
-          // Navigation
-          Home: 'الرئيسية',
-          Customers: 'العملاء',
-          All: 'الكل',
-          New: 'جديد',
-          // Shell chrome / navigation
-          Manage: 'إدارة',
-          Add: 'إضافة',
-          'Add Customer': 'إضافة عميل',
-          'Add Location': 'إضافة موقع',
-          'Geographical Structure': 'الهيكل الجغرافي',
-          Search: 'بحث',
-          'Search or run an action': 'ابحث أو نفّذ إجراءً',
-          'Welcome back.': 'مرحباً بعودتك.',
-          'Good to see you,': 'سعدنا برؤيتك،',
-          'Resume recent work or open another Skey app.':
-            'تابع عملك الأخير أو افتح تطبيقاً آخر من Skey.',
-          'Switch app': 'تبديل التطبيق',
-          'Choose another app or return to your current screen.':
-            'اختر تطبيقاً آخر أو عُد إلى شاشتك الحالية.',
-          'Search apps and screens': 'ابحث في التطبيقات والشاشات',
-          'Back to current screen': 'العودة إلى الشاشة الحالية',
-          'Current app': 'التطبيق الحالي',
-          'View all': 'عرض الكل',
-          'Show less': 'عرض أقل',
-          'Overview and key activity': 'نظرة عامة وأهم الأنشطة',
-          'Customer accounts and profiles': 'حسابات العملاء وملفاتهم',
-          'Supplier accounts and profiles': 'حسابات الموردين وملفاتهم',
-          'Stock, warehouses, and items': 'المخزون والمستودعات والأصناف',
-          'Orders, invoices, and sales': 'الطلبات والفواتير والمبيعات',
-          'Purchasing and supplier documents': 'المشتريات ومستندات الموردين',
-          'Point-of-sale operations': 'عمليات نقاط البيع',
-          'Ledgers, journals, and finance': 'دفاتر الأستاذ والقيود والحسابات',
-          'Assets, depreciation, and custody': 'الأصول والإهلاك والعهد',
-          'Production, materials, and planning': 'الإنتاج والمواد والتخطيط',
-          'Leads, activities, and relationships': 'العملاء المحتملون والأنشطة والعلاقات',
-          'Healthcare operations and records': 'العمليات والسجلات الصحية',
-          'Operational and financial reports': 'التقارير التشغيلية والمالية',
-          'Users, roles, and permissions': 'المستخدمون والأدوار والصلاحيات',
-          'Organization and system configuration': 'إعدادات المؤسسة والنظام',
-          'Guides and product assistance': 'الأدلة ومساعدة المنتج',
-          Starred: 'المفضلة',
-          Recent: 'الأخيرة',
-          Apps: 'التطبيقات',
-          Favorites: 'المفضلة',
-          'For You': 'لك',
-          Record: 'السجل',
-          Procedure: 'الإجراء',
-          More: 'المزيد',
-          Delete: 'حذف',
-          'Add From': 'إضافة من',
-          'Open in new tab': 'فتح في تبويب جديد',
-          'Lock Screen': 'قفل الشاشة',
-          Reports: 'التقارير',
-          Print: 'طباعة',
-          'Screen Parameters': 'إعدادات الشاشة',
-          Help: 'مساعدة',
-          'Accounts Movement': 'حركة الحسابات',
-          'New Customer': 'عميل جديد',
-          'New Location': 'موقع جديد',
-          'Saved customer. Choose Modify to edit.': 'تم حفظ العميل. اختر تعديل للتحرير.',
-          'New customer. Save when complete.': 'عميل جديد. احفظ عند الانتهاء.',
-          'Editing customer. Save or Undo your changes.':
-            'جارٍ تعديل العميل. احفظ أو تراجع عن التغييرات.',
-          'Saved location. Choose Modify to edit.': 'تم حفظ الموقع. اختر تعديل للتحرير.',
-          'New location. Save when complete.': 'موقع جديد. احفظ عند الانتهاء.',
-          'Editing location. Save or Undo your changes.':
-            'جارٍ تعديل الموقع. احفظ أو تراجع عن التغييرات.',
-          'Not saved yet — this invoice takes its number and its place in the list when you save':
-            'لم يُحفظ بعد — تأخذ الفاتورة رقمها ومكانها في القائمة عند الحفظ',
-          'Customer Statement': 'كشف حساب العميل',
-          'Add Contact': 'إضافة جهة اتصال',
-          // Data list toolbar / pagination / grouping
-          'Clear all filters': 'إزالة كل الفلاتر',
-          'Clear filter': 'إزالة الفلتر',
-          Selected: 'المحدد',
-          actions: 'إجراءات',
-          selected: 'محدد',
-          'Clear selection': 'إلغاء التحديد',
-          Filters: 'الفلاتر',
-          'Unsaved view': 'عرض غير محفوظ',
-          'Advanced filters': 'فلاتر متقدمة',
-          'Clear advanced filters': 'إزالة الفلاتر المتقدمة',
-          Filter: 'فلتر',
-          'Save filter': 'حفظ الفلتر',
-          'table controls': 'عناصر التحكم بالجدول',
-          'Save layout': 'حفظ التخطيط',
-          'Clear search': 'مسح البحث',
-          'Print list': 'طباعة القائمة',
-          'Print record': 'طباعة السجل',
-          Chart: 'رسم بياني',
-          'X axis': 'المحور السيني',
-          'Y axis': 'المحور الصادي',
-          Count: 'العدد',
-          'record navigation': 'التنقل بين السجلات',
-          'Record navigation': 'التنقل بين السجلات',
-          'First record': 'السجل الأول',
-          'Previous record': 'السجل السابق',
-          'Next record': 'السجل التالي',
-          'Last record': 'السجل الأخير',
-          'Record number': 'رقم السجل',
-          Columns: 'الأعمدة',
-          'Visible columns': 'الأعمدة الظاهرة',
-          Display: 'عرض',
-          'Choose a column to group by': 'اختر عمودًا للتجميع حسبه',
-          'Group by': 'تجميع حسب',
-          'Group by, or drag a column header here': 'تجميع حسب، أو اسحب عنوان عمود هنا',
-          'Row groups': 'مجموعات الصفوف',
-          'Reset grouping': 'إعادة تعيين التجميع',
-          'Row grouping drop zone': 'منطقة إفلات تجميع الصفوف',
-          'Drag a column header here to add another group': 'اسحب عنوان عمود هنا لإضافة تجميع آخر',
-          grouping: 'التجميع',
-          Today: 'اليوم',
-          'This week': 'هذا الأسبوع',
-          'This month': 'هذا الشهر',
-          'This quarter': 'هذا الربع',
-          'This year': 'هذا العام',
-          Upcoming: 'القادم',
-          'Specific date': 'تاريخ محدد',
-          'Date range': 'نطاق تاريخ',
-          'Choose date': 'اختر تاريخًا',
-          Number: 'العدد',
-          Unit: 'الوحدة',
-          From: 'من',
-          To: 'إلى',
-          to: 'إلى',
-          'Day(s)': 'يوم/أيام',
-          'Week(s)': 'أسبوع/أسابيع',
-          'Month(s)': 'شهر/أشهر',
-          'Year(s)': 'سنة/سنوات',
-          Clear: 'مسح',
-          Remove: 'إزالة',
-          'Drag to reorder': 'اسحب لإعادة الترتيب',
-          'Drag to reorder or add to row groups':
-            'اسحب لإعادة الترتيب أو الإضافة إلى مجموعات الصفوف',
-          'filter value': 'قيمة الفلتر',
-          Enter: 'أدخل',
-          'Choose value': 'اختر قيمة',
-          filter: 'فلتر',
-          Page: 'صفحة',
-          'page navigation': 'التنقل بين الصفحات',
-          Showing: 'عرض',
-          of: 'من',
-          'First page': 'الصفحة الأولى',
-          'Last page': 'الصفحة الأخيرة',
-          Previous: 'السابق',
-          Next: 'التالي',
-          'Rows per page': 'صفوف لكل صفحة',
-          'Go to page': 'الانتقال إلى صفحة',
-          matching: 'مطابقة لـ',
-          'No record at this position.': 'لا يوجد سجل في هذا الموضع.',
-          'No records match this view.': 'لا توجد سجلات مطابقة لهذا العرض.',
-          'Try First or Last.': 'جرّب الأول أو الأخير.',
-          'Clear the search or filter to see records again.':
-            'امسح البحث أو الفلتر لرؤية السجلات مجددًا.',
-          'Tip: Alt + Left/Right arrow also moves between records':
-            'تلميح: يمكنك أيضًا استخدام Alt + السهم الأيمن/الأيسر للتنقل بين السجلات',
-          fields: 'حقول',
-          'Sort ascending': 'ترتيب تصاعدي',
-          'Sort descending': 'ترتيب تنازلي',
-          'Clear sort': 'إزالة الترتيب',
-          'Pin column': 'تثبيت العمود',
-          'Unpin column': 'إلغاء تثبيت العمود',
-          'Hide column': 'إخفاء العمود',
-          'Group by this column': 'تجميع حسب هذا العمود',
-          'Chart range': 'نطاق الرسم البياني',
-          'All available filters are applied.': 'تم تطبيق جميع الفلاتر المتاحة.',
-          // List/cards/kanban view names
-          List: 'قائمة',
-          Cards: 'بطاقات',
-          Kanban: 'كانبان',
-          Compact: 'مضغوط',
-          Adaptive: 'متكيف',
-          'List view': 'عرض القائمة',
-          'Compact view': 'عرض مضغوط',
-          'Adaptive view': 'عرض متكيف',
-          'Cards view': 'عرض البطاقات',
-          'Kanban view': 'عرض كانبان',
-          // Data list columns
-          'Doc. Sequence': 'تسلسل المستند',
-          'Invoice Status': 'حالة الفاتورة',
-          'Doc Sub-type Name': 'اسم النوع الفرعي للمستند',
-          'Payment method': 'طريقة الدفع',
-          'Doc date': 'تاريخ المستند',
-          'Doc Sub-type': 'النوع الفرعي للمستند',
-          Photo: 'الصورة',
-          Country: 'الدولة',
-          Phone: 'الهاتف',
-          'Active status': 'حالة التفعيل',
-          'Location Code': 'رمز الموقع',
-          'Location Name': 'اسم الموقع',
-          'Parent Location': 'الموقع الرئيسي',
-          Type: 'النوع',
-          Level: 'المستوى',
-          Remarks: 'ملاحظات',
-          // Filters
-          'All invoices': 'كل الفواتير',
-          'Cash invoices': 'فواتير نقدية',
-          'Credit invoices': 'فواتير آجلة',
-          'Recent invoices': 'فواتير حديثة',
-          'All customers': 'كل العملاء',
-          'Active customers': 'عملاء نشطون',
-          'Inactive customers': 'عملاء غير نشطين',
-          'Retail customers': 'عملاء تجزئة',
-          'All locations': 'كل المواقع',
-          'Active locations': 'مواقع نشطة',
-          'Root locations': 'مواقع رئيسية',
-          'Inactive locations': 'مواقع غير نشطة',
-          // Filter operators
-          contains: 'يحتوي على',
-          'starts with': 'يبدأ بـ',
-          'is equal to': 'يساوي',
-          'is not equal to': 'لا يساوي',
-          // KPI cards
-          'Invoices in view': 'الفواتير المعروضة',
-          Posted: 'مرحّلة',
-          Pending: 'معلقة',
-          'Gross value': 'القيمة الإجمالية',
-          'Customers in view': 'العملاء المعروضون',
-          Retail: 'تجزئة',
-          'Locations in view': 'المواقع المعروضة',
-          'Root locations ': 'مواقع رئيسية',
-          'Hierarchy depth': 'عمق الهيكل',
-          // Top-level modules (launchpad tiles / sidebar rail)
-          Dashboard: 'لوحة التحكم',
-          Vendors: 'الموردون',
-          'Inventory Systems Management': 'إدارة نظم المخزون',
-          'Sales Systems Management': 'إدارة نظم المبيعات',
-          'Purchase Systems Management': 'إدارة نظم المشتريات',
-          'POS System Management': 'إدارة نظام نقاط البيع',
-          'Finance and Accounting': 'المالية والمحاسبة',
-          'Fixed Assets System': 'نظام الأصول الثابتة',
-          'Manufacturing Resource Planning': 'تخطيط موارد التصنيع',
-          'Customer Relations Management': 'إدارة علاقات العملاء',
-          'Hospital Management': 'إدارة المستشفى',
-          'System Administration': 'إدارة النظام',
-          'System Setup': 'إعداد النظام',
-        }
-        const t = (key, fallback = key) => (appLocale === 'ar' ? I18N[key] || fallback : fallback)
-
-        const ARABIC_MONTHS = [
-          'يناير',
-          'فبراير',
-          'مارس',
-          'أبريل',
-          'مايو',
-          'يونيو',
-          'يوليو',
-          'أغسطس',
-          'سبتمبر',
-          'أكتوبر',
-          'نوفمبر',
-          'ديسمبر',
-        ]
-        function formatLocaleDate(isoOrSlashDate) {
-          if (!isoOrSlashDate) return ''
-          let day, month, year
-          if (isoOrSlashDate.includes('-')) [year, month, day] = isoOrSlashDate.split('-')
-          else [day, month, year] = isoOrSlashDate.split('/')
-          if (appLocale !== 'ar') return isoOrSlashDate
-          const monthName = ARABIC_MONTHS[Number(month) - 1] || month
-          const arabicDigits = String(Number(day)).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d])
-          const arabicYear = year.replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d])
-          return `${arabicDigits} ${monthName} ${arabicYear}`
-        }
-        function formatLocaleCurrency(amount, currencyCode = 'EGP') {
-          const value = Number(amount) || 0
-          if (appLocale === 'ar')
-            return new Intl.NumberFormat('ar-EG', {
-              style: 'currency',
-              currency: currencyCode,
-              currencyDisplay: 'code',
-            }).format(value)
-          return `${value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} ${currencyCode}`
-        }
 
         /* tracks which .content view is showing underneath the launchpad overlay,
    so closing the launchpad without a real navigation (e.g. opening a rail-icon
    flyout) can resync the prototype-controls panel to it. */
         let currentContentViewName = 'record'
+        /* the shared loading facility's getContainer callback needs to resolve
+   the currently visible page/view's skeleton host, which depends on
+   currentContentViewName above — a binding that does not exist yet at the
+   entry point's composition time (see concepts/app/entry.js). Filling this
+   in here, as the very next thing after currentContentViewName exists,
+   keeps every later loading.queue()/clear() call resolving the correct
+   container from this point on. */
+        function currentSkeletonContainer() {
+          const launchpad = document.querySelector('.lp-view:not([hidden])')
+          if (launchpad) return launchpad
+          const selectors = {
+            record: '.content',
+            email: '.email-view:not([hidden])',
+            list: '.list-view:not([hidden])',
+            'customers-list': '.customer-list-view:not([hidden])',
+            'customer-record': '.customer-record-view:not([hidden])',
+            'geo-list': '.geo-list-view:not([hidden])',
+            'geo-record': '.geo-record-view:not([hidden])',
+          }
+          const selector = selectors[currentContentViewName]
+          return selector ? document.querySelector(selector) : null
+        }
+        if (shared.loading.resolveContainer) {
+          shared.loading.resolveContainer.current = currentSkeletonContainer
+        }
         /* ================= verified model =================
    Statuses: real ribbon flags. Actions: real shared.operationMenu labels.
    Action matrix verified by walking live records.                      */
@@ -3004,86 +2703,6 @@
    Everything that takes time has three visible states — working, done, failed —
    and every overlay gives the keyboard back where it found it.                */
 
-        /* ---- focus: trap inside an open overlay, restore it on close ---- */
-        let focusReturn = null,
-          trapped = null
-        const FOCUSABLE =
-          'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),summary,[tabindex]:not([tabindex="-1"])'
-        const trapFocus = box => {
-          if (!box) return
-          focusReturn = document.activeElement
-          trapped = box
-          const first = box.querySelector(FOCUSABLE)
-          ;(first || box).focus?.()
-        }
-        const releaseFocus = () => {
-          trapped = null
-          if (focusReturn && document.contains(focusReturn)) focusReturn.focus()
-          focusReturn = null
-        }
-        document.addEventListener(
-          'keydown',
-          e => {
-            if (e.key !== 'Tab' || !trapped) return
-            const items = [...trapped.querySelectorAll(FOCUSABLE)].filter(
-              el => el.offsetParent !== null
-            )
-            if (!items.length) return
-            const first = items[0],
-              last = items[items.length - 1]
-            if (e.shiftKey && document.activeElement === first) {
-              e.preventDefault()
-              last.focus()
-            } else if (!e.shiftKey && document.activeElement === last) {
-              e.preventDefault()
-              first.focus()
-            }
-          },
-          true
-        )
-
-        /* ---- toasts: say what happened, and offer the next step ---- */
-        const toasts = document.getElementById('toasts')
-        const toast = ({tone = 'ok', title, body, action, onAction, ms = 5200}) => {
-          const t = document.createElement('div')
-          t.className = 'toast ' + tone
-          t.innerHTML = `<span class="ic"><svg width="16" height="16"><use href="#${tone === 'ok' ? 'i-check' : 'i-warn'}"/></svg></span>
-    <span class="bd"><b>${title}</b>${body ? body : ''}${action ? `<button class="act">${action}</button>` : ''}</span>
-    <button class="ibtn x" aria-label="Dismiss"><svg width="13" height="13"><use href="#i-x"/></svg></button>`
-          t.querySelector('.x').onclick = () => t.remove()
-          if (action)
-            t.querySelector('.act').onclick = () => {
-              t.remove()
-              onAction && onAction()
-            }
-          toasts.append(t)
-          setTimeout(() => t.remove(), ms)
-        }
-        /* the List view's ported render functions build their rows via innerHTML
-   with inline onclick attributes (kept verbatim from the standalone prototype
-   this was ported from) — those run in global scope, so toast needs to be
-   reachable there too, unlike everything else in this IIFE. */
-        window.toast = toast
-
-        /* ---- one place where slow work is run, so every button behaves the same ---- */
-        const failNext = () => document.getElementById('failsim').checked
-        const runWork = (btn, label, ms = 900) =>
-          new Promise(resolve => {
-            const original = btn ? btn.innerHTML : null
-            if (btn) {
-              btn.setAttribute('aria-busy', 'true')
-              btn.innerHTML = `<svg class="spin" width="15" height="15" aria-hidden="true"><use href="#i-loader"/></svg> ${label}`
-            }
-            setTimeout(() => {
-              if (btn) {
-                btn.removeAttribute('aria-busy')
-                btn.innerHTML = original
-              }
-              const failed = failNext()
-              if (failed) document.getElementById('failsim').checked = false
-              resolve(!failed)
-            }, ms)
-          })
 
         /* ---- failure shown inside the dialog, so nothing typed is lost ---- */
         const showInlineError = (dlg, {title, body, link}) => {
@@ -3783,97 +3402,6 @@
           light: '#1868DB',
           dark: '#669DF1',
           seed: '#1868DB',
-        }
-        function normalizeHexColor(value) {
-          const raw = String(value).trim().replace(/^#/, '')
-          if (/^[0-9a-f]{3}$/i.test(raw)) {
-            return `#${raw
-              .split('')
-              .map(char => char + char)
-              .join('')
-              .toUpperCase()}`
-          }
-          return /^[0-9a-f]{6}$/i.test(raw) ? `#${raw.toUpperCase()}` : null
-        }
-        function hexToRgb(hex) {
-          const normalized = normalizeHexColor(hex)
-          if (!normalized) return null
-          return [
-            Number.parseInt(normalized.slice(1, 3), 16),
-            Number.parseInt(normalized.slice(3, 5), 16),
-            Number.parseInt(normalized.slice(5, 7), 16),
-          ]
-        }
-        function rgbToHex(rgb) {
-          return `#${rgb
-            .map(channel => Math.round(channel).toString(16).padStart(2, '0'))
-            .join('')
-            .toUpperCase()}`
-        }
-        function relativeLuminance(hex) {
-          const rgb = hexToRgb(hex).map(channel => {
-            const value = channel / 255
-            return value <= 0.04045
-              ? value / 12.92
-              : Math.pow((value + 0.055) / 1.055, 2.4)
-          })
-          return 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]
-        }
-        function colorContrast(first, second) {
-          const lighter = Math.max(relativeLuminance(first), relativeLuminance(second))
-          const darker = Math.min(relativeLuminance(first), relativeLuminance(second))
-          return (lighter + 0.05) / (darker + 0.05)
-        }
-        function blendHex(source, target, amount) {
-          const from = hexToRgb(source)
-          const to = hexToRgb(target)
-          return rgbToHex(from.map((channel, index) => channel + (to[index] - channel) * amount))
-        }
-        function accessibleAccent(seed, background, target, minimum = 4.5) {
-          for (let step = 0; step <= 20; step += 1) {
-            const candidate = blendHex(seed, target, step * 0.05)
-            if (colorContrast(candidate, background) >= minimum) return candidate
-          }
-          return normalizeHexColor(target)
-        }
-        function deriveAccentPair(seed) {
-          const normalized = normalizeHexColor(seed)
-          return {
-            light: accessibleAccent(normalized, '#FFFFFF', '#000000'),
-            dark: accessibleAccent(normalized, '#1F1F21', '#FFFFFF'),
-          }
-        }
-        window.normalizeHexColor = normalizeHexColor
-        window.deriveAccentPair = deriveAccentPair
-        window.colorContrast = colorContrast
-        function setAccentTone(hex) {
-          const root = document.documentElement.style
-          const isDark = document.documentElement.dataset.colorMode === 'dark'
-          root.setProperty('--accent', hex)
-          root.setProperty(
-            '--accent-hover',
-            `color-mix(in srgb, ${hex} 82%, ${isDark ? 'white' : 'black'})`
-          )
-          root.setProperty('--accent-soft', `color-mix(in srgb, ${hex} 14%, var(--surface))`)
-          root.setProperty('--accent-line', `color-mix(in srgb, ${hex} 70%, var(--surface))`)
-          root.setProperty('--focus', `color-mix(in srgb, ${hex} 55%, var(--surface))`)
-        }
-        function applyAppearanceAccent() {
-          const isDark = document.documentElement.dataset.colorMode === 'dark'
-          const highContrast = document.documentElement.dataset.contrastMode === 'more'
-          if (highContrast) {
-            const seed = isDark ? appearanceAccentState.dark : appearanceAccentState.light
-            setAccentTone(
-              accessibleAccent(
-                seed,
-                isDark ? '#1F1F21' : '#FFFFFF',
-                isDark ? '#FFFFFF' : '#000000',
-                7
-              )
-            )
-            return
-          }
-          setAccentTone(isDark ? appearanceAccentState.dark : appearanceAccentState.light)
         }
         function clearCustomAccentError() {
           appearanceCustomHex.removeAttribute('aria-invalid')
@@ -5091,31 +4619,27 @@
         })
         const systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)')
         const systemContrastQuery = window.matchMedia('(prefers-contrast: more)')
-        const validThemeModes = new Set(['system', 'light', 'dark'])
         const highContrastToggle = document.getElementById('high-contrast')
+        function applyTheme(requestedMode) {
+          appearance.apply({
+            mode: requestedMode,
+            highContrast: highContrastToggle.checked,
+            accentLight: appearanceAccentState.light,
+            accentDark: appearanceAccentState.dark,
+          })
+        }
+        function applyAppearanceAccent() {
+          appearance.apply({
+            accentLight: appearanceAccentState.light,
+            accentDark: appearanceAccentState.dark,
+          })
+        }
         /* refreshOpenDataListCharts (defined later, alongside the rest of the
            chart code) reads dataListState, which doesn't exist yet the first
            time applyTheme runs during initial setup — this flag, declared
            up here before applyTheme's first call, is what lets that function
            safely no-op until dataListState is actually ready. */
         let dataListChartRefreshReady = false
-        function applyTheme(requestedMode) {
-          const mode = validThemeModes.has(requestedMode) ? requestedMode : 'system'
-          const systemColorMode = systemThemeQuery.matches ? 'dark' : 'light'
-          const colorMode = mode === 'system' ? systemColorMode : mode
-          const resolved = highContrastToggle.checked ? `high-contrast-${colorMode}` : colorMode
-          const root = document.documentElement
-          root.dataset.theme = resolved
-          root.dataset.colorMode = colorMode
-          root.dataset.contrastMode = highContrastToggle.checked ? 'more' : 'standard'
-          if (typeof applyAppearanceAccent === 'function') applyAppearanceAccent()
-          /* Chart colors are resolved from CSS custom properties at draw
-             time (see dataListChartColors/dataListChartTheme), so an open
-             chart needs an explicit re-render on theme change — nothing
-             else in this app currently re-renders data-list canvases just
-             because the theme flipped. */
-          if (typeof refreshOpenDataListCharts === 'function') refreshOpenDataListCharts()
-        }
         const themeSelect = document.getElementById('theme')
         themeSelect.addEventListener('change', e => applyTheme(e.target.value))
         highContrastToggle.addEventListener('change', () => applyTheme(themeSelect.value))
@@ -5167,6 +4691,7 @@
         }
         function applyLocale(locale) {
           appLocale = locale
+          setLocale(locale)
           document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr'
           document.documentElement.lang = locale === 'ar' ? 'ar' : 'en'
           /* re-render whichever view is currently on screen so its dynamic text
@@ -7172,340 +6697,6 @@
           return total ? Math.round((value / total) * 100) : 0
         }
 
-        /* Same idea as MagicUI's NumberTicker: count up from 0 to the
-   rendered value instead of just painting the final number. Works on the
-   already-rendered text (no need to touch each stat renderer's markup) —
-   parses "EGP 15,300.00" / "67%" / "8" into prefix + number + suffix,
-   animates the number with an ease-out curve, then re-applies the exact
-   original formatting (thousands separators, decimal places) each frame. */
-        function animateNumberTicker(el, {duration = 900, delay = 0} = {}) {
-          const raw = el.textContent
-          const match = raw.match(/^(\D*)([\d,]+(?:\.\d+)?)(.*)$/)
-          if (!match) return
-          const [, prefix, numText, suffix] = match
-          const target = Number(numText.replace(/,/g, ''))
-          if (!Number.isFinite(target)) return
-          const decimals = numText.includes('.') ? numText.split('.')[1].length : 0
-          const format = value =>
-            `${prefix}${value.toLocaleString(undefined, {
-              minimumFractionDigits: decimals,
-              maximumFractionDigits: decimals,
-            })}${suffix}`
-          el.textContent = format(0)
-          const start = performance.now() + delay
-          const easeOutExpo = p => (p >= 1 ? 1 : 1 - Math.pow(2, -10 * p))
-          const step = now => {
-            const elapsed = now - start
-            if (elapsed < 0) {
-              requestAnimationFrame(step)
-              return
-            }
-            const progress = Math.min(elapsed / duration, 1)
-            el.textContent = format(target * easeOutExpo(progress))
-            if (progress < 1) requestAnimationFrame(step)
-          }
-          requestAnimationFrame(step)
-        }
-        function initNumberTickers(root) {
-          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-          root
-            .querySelectorAll(
-              '.data-stat-card strong, .data-stat-operation-value strong, .data-stat-analytical > strong, .data-stat-exception-lead strong, .data-stat-exception-row > output'
-            )
-            .forEach((el, index) => animateNumberTicker(el, {delay: index * 60}))
-        }
-
-        /* ---- skeleton loading ----
-   Navigation shows a brief loading state by default. Prototype controls > Debug
-   > Simulate loading holds that state until turned off. Rather than choosing from
-   generic templates, the overlay redraws the current view's visible structure. */
-        const SKELETON_DELAY_MS = 700
-        const activeSkeletons = new Map()
-
-        function simulateLoadingEnabled() {
-          return document.getElementById('simulate-loading')?.checked ?? false
-        }
-
-        function clearSkeletonOverlay(container) {
-          const activeSkeleton = activeSkeletons.get(container)
-          if (!activeSkeleton) return
-          clearTimeout(activeSkeleton.timeout)
-          activeSkeleton.overlay.remove()
-          if (activeSkeleton.addedHostClass) container.classList.remove('skeleton-host')
-          if (activeSkeleton.previousBusy == null) container.removeAttribute('aria-busy')
-          else container.setAttribute('aria-busy', activeSkeleton.previousBusy)
-          activeSkeletons.delete(container)
-        }
-
-        function clearSkeletonOverlays() {
-          ;[...activeSkeletons.keys()].forEach(clearSkeletonOverlay)
-        }
-
-        function clippedSkeletonBox(bounds, rect, widthScale) {
-          const left = Math.max(bounds.left, rect.left)
-          const top = Math.max(bounds.top, rect.top)
-          const right = Math.min(bounds.right, rect.right)
-          const bottom = Math.min(bounds.bottom, rect.bottom)
-          return {
-            left: left - bounds.left,
-            top: top - bounds.top,
-            width: Math.max(0, right - left) * widthScale,
-            height: Math.max(0, bottom - top),
-          }
-        }
-
-        function skeletonShape(
-          overlay,
-          bounds,
-          {rect, kind, radius = 6, widthScale = 1, borderWidths}
-        ) {
-          const box = clippedSkeletonBox(bounds, rect, widthScale)
-          const minimumHeight = kind === 'divider' ? 1 : 4
-          if (box.width < 4 || box.height < minimumHeight) return
-          const shape = document.createElement('span')
-          shape.className = 'skeleton-shape'
-          shape.dataset.skeletonKind = kind
-          Object.assign(shape.style, {
-            left: `${box.left}px`,
-            top: `${box.top}px`,
-            width: `${box.width}px`,
-            height: `${box.height}px`,
-            borderRadius: `${Math.min(radius, box.height / 2)}px`,
-          })
-          if (borderWidths) Object.assign(shape.style, borderWidths)
-          overlay.appendChild(shape)
-        }
-
-        function skeletonTextLines(overlay, bounds, element, rect) {
-          const style = getComputedStyle(element)
-          const fontSize = Number.parseFloat(style.fontSize) || 14
-          const lineHeight = Number.parseFloat(style.lineHeight) || fontSize * 1.35
-          const count = Math.max(1, Math.min(3, Math.round(rect.height / lineHeight)))
-          const blockHeight = Math.max(7, Math.min(14, fontSize * 0.72))
-          for (let index = 0; index < count; index += 1) {
-            const lineTop =
-              rect.top + Math.max(0, (lineHeight - blockHeight) / 2) + index * lineHeight
-            const remainingHeight = rect.bottom - lineTop
-            if (remainingHeight < 4) break
-            const lineRect = {
-              left: rect.left,
-              right: rect.right,
-              top: lineTop,
-              bottom: lineTop + Math.min(blockHeight, remainingHeight),
-            }
-            skeletonShape(overlay, bounds, {
-              rect: lineRect,
-              kind: 'text',
-              radius: blockHeight / 2,
-              widthScale: index === count - 1 && count > 1 ? 0.68 : 0.9,
-            })
-          }
-        }
-
-        function skeletonElementIsVisible(element, bounds) {
-          if (element.closest('.skeleton-overlay')) return false
-          if (element.checkVisibility && !element.checkVisibility({checkVisibilityCSS: true}))
-            return false
-          const closedDetails = element.closest('details:not([open])')
-          if (closedDetails && !element.closest('summary')) return false
-          const style = getComputedStyle(element)
-          if (style.display === 'none' || style.visibility === 'hidden') return false
-          const rect = element.getBoundingClientRect()
-          return (
-            rect.width >= 4 &&
-            rect.height >= 4 &&
-            rect.right > bounds.left &&
-            rect.left < bounds.right &&
-            rect.bottom > bounds.top &&
-            rect.top < bounds.bottom
-          )
-        }
-
-        function skeletonSurfaceElements(container, bounds) {
-          const seenBoxes = new Set()
-          return [...container.querySelectorAll('*')]
-            .filter(element => skeletonElementIsVisible(element, bounds))
-            .filter(
-              element => !element.matches('button, input, select, textarea, summary, th, td, tr')
-            )
-            .filter(element => {
-              const rect = element.getBoundingClientRect()
-              const style = getComputedStyle(element)
-              const hasBorder = ['Top', 'Right', 'Bottom', 'Left'].some(
-                edge => Number.parseFloat(style[`border${edge}Width`]) > 0
-              )
-              if (!hasBorder || rect.width * rect.height < 1800) return false
-              const boxKey = [rect.left, rect.top, rect.width, rect.height]
-                .map(value => Math.round(value))
-                .join(':')
-              if (seenBoxes.has(boxKey)) return false
-              seenBoxes.add(boxKey)
-              return true
-            })
-            .slice(0, 64)
-        }
-
-        function addSkeletonSurfaces(container, overlay, bounds) {
-          skeletonSurfaceElements(container, bounds).forEach(element => {
-            const style = getComputedStyle(element)
-            skeletonShape(overlay, bounds, {
-              rect: element.getBoundingClientRect(),
-              kind: 'surface',
-              radius: Number.parseFloat(style.borderRadius) || 0,
-              borderWidths: {
-                borderTopWidth: style.borderTopWidth,
-                borderRightWidth: style.borderRightWidth,
-                borderBottomWidth: style.borderBottomWidth,
-                borderLeftWidth: style.borderLeftWidth,
-              },
-            })
-          })
-        }
-
-        function addSkeletonTableDividers(container, overlay, bounds) {
-          container.querySelectorAll('tr').forEach(row => {
-            if (!skeletonElementIsVisible(row, bounds)) return
-            const cells = [...row.children]
-            const width = Math.max(
-              0,
-              ...cells.map(cell => Number.parseFloat(getComputedStyle(cell).borderBottomWidth))
-            )
-            if (!width) return
-            const rect = row.getBoundingClientRect()
-            skeletonShape(overlay, bounds, {
-              rect: {
-                left: rect.left,
-                right: rect.right,
-                top: rect.bottom - width,
-                bottom: rect.bottom,
-              },
-              kind: 'divider',
-              radius: 0,
-            })
-          })
-        }
-
-        function addSkeletonTableText(overlay, bounds, rect) {
-          const inset = Math.min(10, rect.width * 0.08)
-          const height = Math.min(12, Math.max(7, rect.height * 0.38))
-          skeletonShape(overlay, bounds, {
-            rect: {
-              left: rect.left + inset,
-              right: rect.right - inset,
-              top: rect.top + (rect.height - height) / 2,
-              bottom: rect.top + (rect.height + height) / 2,
-            },
-            kind: 'text',
-            radius: height / 2,
-            widthScale: 0.82,
-          })
-        }
-
-        function addSkeletonContent(element, overlay, bounds) {
-          const rect = element.getBoundingClientRect()
-          const compositeControl = element.matches('.lp-tile')
-          const control =
-            element.matches('button, input, select, textarea, .badge, .stpill') && !compositeControl
-          const media = element.matches('img, .email-avatar, .customer-photo-preview')
-          const ownerControl = element.closest('button, .badge, .stpill')
-          if (!control && !media && ownerControl && !ownerControl.matches('.lp-tile')) return
-          if (compositeControl) return
-          if (element.matches('label') && element.querySelector('input, select, textarea')) return
-          if (element.matches('th, td')) {
-            addSkeletonTableText(overlay, bounds, rect)
-            return
-          }
-          if (!control && !media) {
-            skeletonTextLines(overlay, bounds, element, rect)
-            return
-          }
-          const kind = media ? 'media' : 'control'
-          skeletonShape(overlay, bounds, {
-            rect,
-            kind,
-            radius: Number.parseFloat(getComputedStyle(element).borderRadius) || (media ? 10 : 6),
-          })
-        }
-
-        function addSkeletonContentShapes(container, overlay, bounds) {
-          const candidates = container.querySelectorAll(
-            'button, input, select, textarea, output, img, h1, h2, h3, h4, p, small, strong, label, legend, th, td, a, .badge, .stpill, .pos, .tm, .email-avatar, .customer-photo-preview, .lp-tile-lbl, .lp-tile-desc'
-          )
-          ;[...candidates]
-            .filter(element => skeletonElementIsVisible(element, bounds))
-            .forEach(element => addSkeletonContent(element, overlay, bounds))
-        }
-
-        function buildSkeletonFromPage(container, overlay) {
-          const bounds = container.getBoundingClientRect()
-          addSkeletonSurfaces(container, overlay, bounds)
-          addSkeletonTableDividers(container, overlay, bounds)
-          addSkeletonContentShapes(container, overlay, bounds)
-        }
-
-        function showSkeletonOverlay(container) {
-          if (!container) return
-          clearSkeletonOverlays()
-          const computedPosition = getComputedStyle(container).position
-          const addedHostClass = computedPosition === 'static'
-          if (addedHostClass) container.classList.add('skeleton-host')
-          const previousBusy = container.getAttribute('aria-busy')
-          container.setAttribute('aria-busy', 'true')
-          const overlay = document.createElement('div')
-          overlay.className = 'skeleton-overlay'
-          overlay.setAttribute('aria-hidden', 'true')
-          buildSkeletonFromPage(container, overlay)
-          container.appendChild(overlay)
-          const activeSkeleton = {
-            overlay,
-            addedHostClass,
-            previousBusy,
-            timeout: 0,
-          }
-          activeSkeletons.set(container, activeSkeleton)
-          if (!simulateLoadingEnabled()) {
-            activeSkeleton.timeout = setTimeout(
-              () => clearSkeletonOverlay(container),
-              SKELETON_DELAY_MS
-            )
-          }
-        }
-
-        function currentSkeletonContainer() {
-          const launchpad = document.querySelector('.lp-view:not([hidden])')
-          if (launchpad) return launchpad
-          const selectors = {
-            record: '.content',
-            email: '.email-view:not([hidden])',
-            list: '.list-view:not([hidden])',
-            'customers-list': '.customer-list-view:not([hidden])',
-            'customer-record': '.customer-record-view:not([hidden])',
-            'geo-list': '.geo-list-view:not([hidden])',
-            'geo-record': '.geo-record-view:not([hidden])',
-          }
-          const selector = selectors[currentContentViewName]
-          return selector ? document.querySelector(selector) : null
-        }
-
-        function showSkeletonForCurrentView() {
-          showSkeletonOverlay(currentSkeletonContainer())
-        }
-
-        function queueSkeletonForCurrentView() {
-          cancelAnimationFrame(queueSkeletonForCurrentView.frame || 0)
-          queueSkeletonForCurrentView.frame = requestAnimationFrame(() => {
-            queueSkeletonForCurrentView.frame = 0
-            showSkeletonForCurrentView()
-          })
-        }
-
-        document.getElementById('simulate-loading')?.addEventListener('change', event => {
-          if (event.target.checked) queueSkeletonForCurrentView()
-          else clearSkeletonOverlays()
-        })
-        addEventListener('resize', () => {
-          if (activeSkeletons.size || simulateLoadingEnabled()) queueSkeletonForCurrentView()
-        })
 
         function invoiceListStatistics(rows, config, total) {
           const posted = rows.filter(row => row.status === 'Posted').length
@@ -8032,6 +7223,9 @@
             const listState = dataListState[context]
             if (listState.chartVisible && listState.canvas) refreshDataListForContext(context)
           })
+        }
+        if (shared.appearance.resolveChartRefresh) {
+          shared.appearance.resolveChartRefresh.current = refreshOpenDataListCharts
         }
 
         function renderBalancedStatistics(metrics) {
@@ -14012,5 +13206,4 @@
         })
         window.addEventListener('scroll', closeDataListContextMenu, true)
         window.addEventListener('resize', closeDataListContextMenu)
-      })()
-    
+}

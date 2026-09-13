@@ -135,16 +135,30 @@ test('assemble: multiple sibling includes in one file all expand, in order', asy
   });
 });
 
-test('assemble: reassembling the real app-shell.html fragments reproduces the pre-fragment-move markup byte-for-byte', async () => {
+test('assemble: reassembling the real app-shell.html fragments reproduces the pre-fragment-move markup byte-for-byte, plus only this task\'s own intentional entry-point edits', async () => {
   // ddd8569 is the Task 2 mechanical-extraction checkpoint commit — the last
   // point where concepts/app-shell.html held the complete markup inline,
   // before Task 3 moved templates/overlays out into concepts/app/shell/
   // fragments. Re-assembling the fragmented source must reproduce that
-  // exact content: the fragment move is a pure "cut into files, reference
-  // via includes" operation, never a markup rewrite.
-  const {stdout} = await execFileAsync('git', ['show', 'ddd8569:concepts/app-shell.html']);
+  // exact content except for the two lines Task 4 intentionally changes:
+  // the classic-script entry point becomes a module entry point
+  // (app/entry.js), and the prototype-controls classic script gains
+  // `defer` so it keeps executing after the now-deferred module script
+  // (see concepts/app/entry.js and the Task 4 report for why). Any OTHER
+  // difference here means the fragment-assembly mechanism itself changed
+  // markup it shouldn't have — that's still a real regression to catch.
+  const {stdout: baseline} = await execFileAsync('git', ['show', 'ddd8569:concepts/app-shell.html']);
+  const expected = baseline
+    .replace(
+      '    <script src="app/legacy-app.js"></script>',
+      '    <script type="module" src="app/entry.js"></script>'
+    )
+    .replace(
+      '    <script id="shell-kit-js" src="app/prototype/legacy-controls.js"></script>',
+      '    <script id="shell-kit-js" src="app/prototype/legacy-controls.js" defer></script>'
+    );
   const assembled = await assemble(path.resolve('concepts/app-shell.html'));
-  assert.equal(assembled, stdout);
+  assert.equal(assembled, expected);
 });
 
 test('build: produces dist/concepts/app-shell.html with no unresolved include directives', async () => {
