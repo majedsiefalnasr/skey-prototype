@@ -1,0 +1,14016 @@
+
+      ;(() => {
+        /* ================================================================
+   Localization — scoped to the one complete Arabic workflow the audit asked
+   for (Customer record → Sales Invoice record → line entry → validation →
+   save), not a full-app translation. Real locale, not a visual RTL mirror:
+   language, direction, translated copy, and locale-aware date/number/
+   currency formatting move together. Declared first because rail/launchpad
+   construction during boot already calls t() before anything else runs. */
+        let appLocale = 'en'
+        const encodeHtml = value =>
+          String(value ?? '').replace(
+            /[&<>"']/g,
+            character =>
+              ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[character]
+          )
+        const I18N = {
+          // Customer record
+          Customer: 'العميل',
+          'Customer No.': 'رقم العميل',
+          'Customer Name': 'اسم العميل',
+          'Operation Unit': 'وحدة التشغيل',
+          'Customer Type': 'نوع العميل',
+          'Prime Customer': 'العميل الرئيسي',
+          'Acc. Code': 'رمز الحساب',
+          'Customer Group': 'مجموعة العملاء',
+          'Linked To Beneficiaries': 'مرتبط بالمستفيدين',
+          Currency: 'العملة',
+          'Customer Photo': 'صورة العميل',
+          'Main Data': 'البيانات الرئيسية',
+          Salesperson: 'مندوب المبيعات',
+          'Driver No.': 'رقم السائق',
+          'Geo. Location': 'الموقع الجغرافي',
+          Collector: 'المحصل',
+          'Marketer No.': 'رقم المسوق',
+          'Credit Period': 'فترة الائتمان',
+          'Tax Scope': 'نطاق الضريبة',
+          'Tax Category': 'فئة الضريبة',
+          'Method Show Price': 'طريقة عرض السعر',
+          'Tax Number': 'الرقم الضريبي',
+          'Permanent Account Number': 'رقم الحساب الدائم',
+          'Program No': 'رقم البرنامج',
+          'Activation Date': 'تاريخ التفعيل',
+          'Customer Barcode': 'باركود العميل',
+          Deactivate: 'إلغاء التفعيل',
+          Activate: 'تفعيل',
+          Active: 'نشط',
+          Inactive: 'غير نشط',
+          Modify: 'تعديل',
+          Save: 'حفظ',
+          Undo: 'تراجع',
+          // Sales Invoice record
+          'Sales Invoice': 'فاتورة المبيعات',
+          General: 'عام',
+          Year: 'السنة',
+          'Doc Sub-Type': 'النوع الفرعي للمستند',
+          Sequence: 'التسلسل',
+          'Doc No.': 'رقم المستند',
+          'Doc Date': 'تاريخ المستند',
+          'WH No.': 'رقم المخزن',
+          'Mobile No.': 'رقم الجوال',
+          Address: 'العنوان',
+          'Beneficiary No.': 'رقم المستفيد',
+          'Exchange Rate': 'سعر الصرف',
+          'Pricing Level': 'مستوى التسعير',
+          Items: 'الأصناف',
+          'Add item': 'إضافة صنف',
+          Item: 'الصنف',
+          UoM: 'الوحدة',
+          'Expiry Date': 'تاريخ الانتهاء',
+          'Batch No.': 'رقم الدفعة',
+          'Qty.': 'الكمية',
+          'Free Qty': 'كمية مجانية',
+          'Available Qty': 'الكمية المتاحة',
+          Price: 'السعر',
+          'Discount %': 'نسبة الخصم',
+          'Tax %': 'نسبة الضريبة',
+          'Tax Amt': 'قيمة الضريبة',
+          Total: 'الإجمالي',
+          'Total Qty.': 'إجمالي الكمية',
+          'Invoice charges': 'مصاريف الفاتورة',
+          'Invoice summary': 'ملخص الفاتورة',
+          'Items subtotal': 'إجمالي الأصناف',
+          'required field needs attention': 'حقل مطلوب يحتاج إلى مراجعة',
+          'required fields need attention': 'حقول مطلوبة تحتاج إلى مراجعة',
+          'Item is required.': 'الصنف مطلوب.',
+          'Quantity is required.': 'الكمية مطلوبة.',
+          // Navigation
+          Home: 'الرئيسية',
+          Customers: 'العملاء',
+          All: 'الكل',
+          New: 'جديد',
+          // Shell chrome / navigation
+          Manage: 'إدارة',
+          Add: 'إضافة',
+          'Add Customer': 'إضافة عميل',
+          'Add Location': 'إضافة موقع',
+          'Geographical Structure': 'الهيكل الجغرافي',
+          Search: 'بحث',
+          'Search or run an action': 'ابحث أو نفّذ إجراءً',
+          'Welcome back.': 'مرحباً بعودتك.',
+          'Good to see you,': 'سعدنا برؤيتك،',
+          'Resume recent work or open another Skey app.':
+            'تابع عملك الأخير أو افتح تطبيقاً آخر من Skey.',
+          'Switch app': 'تبديل التطبيق',
+          'Choose another app or return to your current screen.':
+            'اختر تطبيقاً آخر أو عُد إلى شاشتك الحالية.',
+          'Search apps and screens': 'ابحث في التطبيقات والشاشات',
+          'Back to current screen': 'العودة إلى الشاشة الحالية',
+          'Current app': 'التطبيق الحالي',
+          'View all': 'عرض الكل',
+          'Show less': 'عرض أقل',
+          'Overview and key activity': 'نظرة عامة وأهم الأنشطة',
+          'Customer accounts and profiles': 'حسابات العملاء وملفاتهم',
+          'Supplier accounts and profiles': 'حسابات الموردين وملفاتهم',
+          'Stock, warehouses, and items': 'المخزون والمستودعات والأصناف',
+          'Orders, invoices, and sales': 'الطلبات والفواتير والمبيعات',
+          'Purchasing and supplier documents': 'المشتريات ومستندات الموردين',
+          'Point-of-sale operations': 'عمليات نقاط البيع',
+          'Ledgers, journals, and finance': 'دفاتر الأستاذ والقيود والحسابات',
+          'Assets, depreciation, and custody': 'الأصول والإهلاك والعهد',
+          'Production, materials, and planning': 'الإنتاج والمواد والتخطيط',
+          'Leads, activities, and relationships': 'العملاء المحتملون والأنشطة والعلاقات',
+          'Healthcare operations and records': 'العمليات والسجلات الصحية',
+          'Operational and financial reports': 'التقارير التشغيلية والمالية',
+          'Users, roles, and permissions': 'المستخدمون والأدوار والصلاحيات',
+          'Organization and system configuration': 'إعدادات المؤسسة والنظام',
+          'Guides and product assistance': 'الأدلة ومساعدة المنتج',
+          Starred: 'المفضلة',
+          Recent: 'الأخيرة',
+          Apps: 'التطبيقات',
+          Favorites: 'المفضلة',
+          'For You': 'لك',
+          Record: 'السجل',
+          Procedure: 'الإجراء',
+          More: 'المزيد',
+          Delete: 'حذف',
+          'Add From': 'إضافة من',
+          'Open in new tab': 'فتح في تبويب جديد',
+          'Lock Screen': 'قفل الشاشة',
+          Reports: 'التقارير',
+          Print: 'طباعة',
+          'Screen Parameters': 'إعدادات الشاشة',
+          Help: 'مساعدة',
+          'Accounts Movement': 'حركة الحسابات',
+          'New Customer': 'عميل جديد',
+          'New Location': 'موقع جديد',
+          'Saved customer. Choose Modify to edit.': 'تم حفظ العميل. اختر تعديل للتحرير.',
+          'New customer. Save when complete.': 'عميل جديد. احفظ عند الانتهاء.',
+          'Editing customer. Save or Undo your changes.':
+            'جارٍ تعديل العميل. احفظ أو تراجع عن التغييرات.',
+          'Saved location. Choose Modify to edit.': 'تم حفظ الموقع. اختر تعديل للتحرير.',
+          'New location. Save when complete.': 'موقع جديد. احفظ عند الانتهاء.',
+          'Editing location. Save or Undo your changes.':
+            'جارٍ تعديل الموقع. احفظ أو تراجع عن التغييرات.',
+          'Not saved yet — this invoice takes its number and its place in the list when you save':
+            'لم يُحفظ بعد — تأخذ الفاتورة رقمها ومكانها في القائمة عند الحفظ',
+          'Customer Statement': 'كشف حساب العميل',
+          'Add Contact': 'إضافة جهة اتصال',
+          // Data list toolbar / pagination / grouping
+          'Clear all filters': 'إزالة كل الفلاتر',
+          'Clear filter': 'إزالة الفلتر',
+          Selected: 'المحدد',
+          actions: 'إجراءات',
+          selected: 'محدد',
+          'Clear selection': 'إلغاء التحديد',
+          Filters: 'الفلاتر',
+          'Unsaved view': 'عرض غير محفوظ',
+          'Advanced filters': 'فلاتر متقدمة',
+          'Clear advanced filters': 'إزالة الفلاتر المتقدمة',
+          Filter: 'فلتر',
+          'Save filter': 'حفظ الفلتر',
+          'table controls': 'عناصر التحكم بالجدول',
+          'Save layout': 'حفظ التخطيط',
+          'Clear search': 'مسح البحث',
+          'Print list': 'طباعة القائمة',
+          'Print record': 'طباعة السجل',
+          Chart: 'رسم بياني',
+          'X axis': 'المحور السيني',
+          'Y axis': 'المحور الصادي',
+          Count: 'العدد',
+          'record navigation': 'التنقل بين السجلات',
+          'Record navigation': 'التنقل بين السجلات',
+          'First record': 'السجل الأول',
+          'Previous record': 'السجل السابق',
+          'Next record': 'السجل التالي',
+          'Last record': 'السجل الأخير',
+          'Record number': 'رقم السجل',
+          Columns: 'الأعمدة',
+          'Visible columns': 'الأعمدة الظاهرة',
+          Display: 'عرض',
+          'Choose a column to group by': 'اختر عمودًا للتجميع حسبه',
+          'Group by': 'تجميع حسب',
+          'Group by, or drag a column header here': 'تجميع حسب، أو اسحب عنوان عمود هنا',
+          'Row groups': 'مجموعات الصفوف',
+          'Reset grouping': 'إعادة تعيين التجميع',
+          'Row grouping drop zone': 'منطقة إفلات تجميع الصفوف',
+          'Drag a column header here to add another group': 'اسحب عنوان عمود هنا لإضافة تجميع آخر',
+          grouping: 'التجميع',
+          Today: 'اليوم',
+          'This week': 'هذا الأسبوع',
+          'This month': 'هذا الشهر',
+          'This quarter': 'هذا الربع',
+          'This year': 'هذا العام',
+          Upcoming: 'القادم',
+          'Specific date': 'تاريخ محدد',
+          'Date range': 'نطاق تاريخ',
+          'Choose date': 'اختر تاريخًا',
+          Number: 'العدد',
+          Unit: 'الوحدة',
+          From: 'من',
+          To: 'إلى',
+          to: 'إلى',
+          'Day(s)': 'يوم/أيام',
+          'Week(s)': 'أسبوع/أسابيع',
+          'Month(s)': 'شهر/أشهر',
+          'Year(s)': 'سنة/سنوات',
+          Clear: 'مسح',
+          Remove: 'إزالة',
+          'Drag to reorder': 'اسحب لإعادة الترتيب',
+          'Drag to reorder or add to row groups':
+            'اسحب لإعادة الترتيب أو الإضافة إلى مجموعات الصفوف',
+          'filter value': 'قيمة الفلتر',
+          Enter: 'أدخل',
+          'Choose value': 'اختر قيمة',
+          filter: 'فلتر',
+          Page: 'صفحة',
+          'page navigation': 'التنقل بين الصفحات',
+          Showing: 'عرض',
+          of: 'من',
+          'First page': 'الصفحة الأولى',
+          'Last page': 'الصفحة الأخيرة',
+          Previous: 'السابق',
+          Next: 'التالي',
+          'Rows per page': 'صفوف لكل صفحة',
+          'Go to page': 'الانتقال إلى صفحة',
+          matching: 'مطابقة لـ',
+          'No record at this position.': 'لا يوجد سجل في هذا الموضع.',
+          'No records match this view.': 'لا توجد سجلات مطابقة لهذا العرض.',
+          'Try First or Last.': 'جرّب الأول أو الأخير.',
+          'Clear the search or filter to see records again.':
+            'امسح البحث أو الفلتر لرؤية السجلات مجددًا.',
+          'Tip: Alt + Left/Right arrow also moves between records':
+            'تلميح: يمكنك أيضًا استخدام Alt + السهم الأيمن/الأيسر للتنقل بين السجلات',
+          fields: 'حقول',
+          'Sort ascending': 'ترتيب تصاعدي',
+          'Sort descending': 'ترتيب تنازلي',
+          'Clear sort': 'إزالة الترتيب',
+          'Pin column': 'تثبيت العمود',
+          'Unpin column': 'إلغاء تثبيت العمود',
+          'Hide column': 'إخفاء العمود',
+          'Group by this column': 'تجميع حسب هذا العمود',
+          'Chart range': 'نطاق الرسم البياني',
+          'All available filters are applied.': 'تم تطبيق جميع الفلاتر المتاحة.',
+          // List/cards/kanban view names
+          List: 'قائمة',
+          Cards: 'بطاقات',
+          Kanban: 'كانبان',
+          Compact: 'مضغوط',
+          Adaptive: 'متكيف',
+          'List view': 'عرض القائمة',
+          'Compact view': 'عرض مضغوط',
+          'Adaptive view': 'عرض متكيف',
+          'Cards view': 'عرض البطاقات',
+          'Kanban view': 'عرض كانبان',
+          // Data list columns
+          'Doc. Sequence': 'تسلسل المستند',
+          'Invoice Status': 'حالة الفاتورة',
+          'Doc Sub-type Name': 'اسم النوع الفرعي للمستند',
+          'Payment method': 'طريقة الدفع',
+          'Doc date': 'تاريخ المستند',
+          'Doc Sub-type': 'النوع الفرعي للمستند',
+          Photo: 'الصورة',
+          Country: 'الدولة',
+          Phone: 'الهاتف',
+          'Active status': 'حالة التفعيل',
+          'Location Code': 'رمز الموقع',
+          'Location Name': 'اسم الموقع',
+          'Parent Location': 'الموقع الرئيسي',
+          Type: 'النوع',
+          Level: 'المستوى',
+          Remarks: 'ملاحظات',
+          // Filters
+          'All invoices': 'كل الفواتير',
+          'Cash invoices': 'فواتير نقدية',
+          'Credit invoices': 'فواتير آجلة',
+          'Recent invoices': 'فواتير حديثة',
+          'All customers': 'كل العملاء',
+          'Active customers': 'عملاء نشطون',
+          'Inactive customers': 'عملاء غير نشطين',
+          'Retail customers': 'عملاء تجزئة',
+          'All locations': 'كل المواقع',
+          'Active locations': 'مواقع نشطة',
+          'Root locations': 'مواقع رئيسية',
+          'Inactive locations': 'مواقع غير نشطة',
+          // Filter operators
+          contains: 'يحتوي على',
+          'starts with': 'يبدأ بـ',
+          'is equal to': 'يساوي',
+          'is not equal to': 'لا يساوي',
+          // KPI cards
+          'Invoices in view': 'الفواتير المعروضة',
+          Posted: 'مرحّلة',
+          Pending: 'معلقة',
+          'Gross value': 'القيمة الإجمالية',
+          'Customers in view': 'العملاء المعروضون',
+          Retail: 'تجزئة',
+          'Locations in view': 'المواقع المعروضة',
+          'Root locations ': 'مواقع رئيسية',
+          'Hierarchy depth': 'عمق الهيكل',
+          // Top-level modules (launchpad tiles / sidebar rail)
+          Dashboard: 'لوحة التحكم',
+          Vendors: 'الموردون',
+          'Inventory Systems Management': 'إدارة نظم المخزون',
+          'Sales Systems Management': 'إدارة نظم المبيعات',
+          'Purchase Systems Management': 'إدارة نظم المشتريات',
+          'POS System Management': 'إدارة نظام نقاط البيع',
+          'Finance and Accounting': 'المالية والمحاسبة',
+          'Fixed Assets System': 'نظام الأصول الثابتة',
+          'Manufacturing Resource Planning': 'تخطيط موارد التصنيع',
+          'Customer Relations Management': 'إدارة علاقات العملاء',
+          'Hospital Management': 'إدارة المستشفى',
+          'System Administration': 'إدارة النظام',
+          'System Setup': 'إعداد النظام',
+        }
+        const t = (key, fallback = key) => (appLocale === 'ar' ? I18N[key] || fallback : fallback)
+
+        const ARABIC_MONTHS = [
+          'يناير',
+          'فبراير',
+          'مارس',
+          'أبريل',
+          'مايو',
+          'يونيو',
+          'يوليو',
+          'أغسطس',
+          'سبتمبر',
+          'أكتوبر',
+          'نوفمبر',
+          'ديسمبر',
+        ]
+        function formatLocaleDate(isoOrSlashDate) {
+          if (!isoOrSlashDate) return ''
+          let day, month, year
+          if (isoOrSlashDate.includes('-')) [year, month, day] = isoOrSlashDate.split('-')
+          else [day, month, year] = isoOrSlashDate.split('/')
+          if (appLocale !== 'ar') return isoOrSlashDate
+          const monthName = ARABIC_MONTHS[Number(month) - 1] || month
+          const arabicDigits = String(Number(day)).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d])
+          const arabicYear = year.replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d])
+          return `${arabicDigits} ${monthName} ${arabicYear}`
+        }
+        function formatLocaleCurrency(amount, currencyCode = 'EGP') {
+          const value = Number(amount) || 0
+          if (appLocale === 'ar')
+            return new Intl.NumberFormat('ar-EG', {
+              style: 'currency',
+              currency: currencyCode,
+              currencyDisplay: 'code',
+            }).format(value)
+          return `${value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} ${currencyCode}`
+        }
+
+        /* tracks which .content view is showing underneath the launchpad overlay,
+   so closing the launchpad without a real navigation (e.g. opening a rail-icon
+   flyout) can resync the prototype-controls panel to it. */
+        let currentContentViewName = 'record'
+        /* ================= verified model =================
+   Statuses: real ribbon flags. Actions: real shared.operationMenu labels.
+   Action matrix verified by walking live records.                      */
+        const STATUSES = {
+          open: {label: 'Open', short: 'Open'},
+          pending: {label: 'Pending', short: 'Pending'},
+          posted: {label: 'Posted', short: 'Posted'},
+          returned: {label: 'Returned', short: 'Returned'},
+          canceled: {label: 'Canceled', short: 'Canceled'},
+          inactive: {label: 'Deactivated', short: 'Deactivated'},
+        }
+        /* the chain shown in the popover: two audit cards that always exist,
+   then the status flags in the order the product records them */
+        const CHAIN = [
+          {
+            id: 'entry',
+            name: 'Entry Data',
+            always: true,
+            who: 'Majed Sief Alnasr',
+            when: '22/02/2026 08:25:32',
+            dur: '01:39:12',
+            decision: 'Invoice created',
+          },
+          {
+            id: 'modified',
+            name: 'Modification Data',
+            always: true,
+            who: 'Majed Sief Alnasr',
+            when: '22/02/2026 10:04:18',
+            decision: 'Last update recorded',
+          },
+          {
+            id: 'pending',
+            name: 'Pending',
+            who: 'Sales manager',
+            when: '22/02/2026 09:40:02',
+            decision: 'Pending',
+          },
+          {
+            id: 'posted',
+            name: 'Posted',
+            who: 'System admin',
+            when: '22/02/2026 11:26:17',
+            decision: 'Posted',
+            link: 'Display Journal Entry',
+          },
+          {id: 'returned', name: 'Returned', who: '—', when: '—', decision: 'Returned flag is set'},
+          {
+            id: 'canceled',
+            name: 'Canceled',
+            who: 'Majed Sief Alnasr',
+            when: '23/02/2026 09:00:11',
+            decision: 'Canceled',
+          },
+          {
+            id: 'inactive',
+            name: 'Deactivated',
+            who: 'Majed Sief Alnasr',
+            when: '24/02/2026 14:20:05',
+            decision: 'Deactivated',
+          },
+        ]
+        /* audit cards confirmed by the backend team; Returned has no card */
+        const CARDS = [
+          {
+            id: 'entry',
+            name: 'Entry Data',
+            always: true,
+            rows: [
+              ['Entered By', 'Majed Sief Alnasr'],
+              ['Entry Date', '22/02/2026 08:25:32'],
+              ['Entry Start Date', '22/02/2026 06:46:20'],
+              ['Entry Duration', '01:39:12'],
+              ['No. of Prints', '__PRINTS__'],
+            ],
+          },
+          {
+            id: 'modified',
+            name: 'Modification Data',
+            always: true,
+            badge: '3 updates',
+            rows: [
+              ['Last Update By', 'Majed Sief Alnasr'],
+              ['Last Update Date', '22/02/2026 10:04:18'],
+              ['No. of Updates', '3'],
+            ],
+          },
+          {
+            id: 'pending',
+            name: 'Pending-related Data',
+            rows: [
+              ['Pending User', 'Sales manager'],
+              ['Pending Date', '22/02/2026 09:40:02'],
+              ['Reason for Pending', 'Waiting for the customer purchase order'],
+            ],
+          },
+          {
+            id: 'posted',
+            name: 'Posting-related Data',
+            link: 'Display Journal Entry',
+            rows: [
+              ['Last Posting User', 'System admin'],
+              ['Posting Date', '22/02/2026 11:26:17'],
+              ['Posting Description', 'Posted after the price check passed'],
+            ],
+          },
+          {
+            id: 'canceled',
+            name: 'Cancellation Data',
+            rows: [
+              ['Canceled By', 'Majed Sief Alnasr'],
+              ['Cancellation Date', '23/02/2026 09:00:11'],
+              ['Cancellation Statement', 'Duplicate of invoice 127'],
+            ],
+          },
+          {
+            id: 'inactive',
+            name: 'Deactivation Data',
+            badge: '1 deactivation',
+            rows: [
+              ['Deactivating User', 'Majed Sief Alnasr'],
+              ['Deactivation Date', '24/02/2026 14:20:05'],
+              ['Deactivation Reason', 'Suspended pending audit'],
+              ['No. of Deactivations', '1'],
+            ],
+          },
+        ]
+
+        const state = {
+          status: 'posted',
+          pay: 'credit',
+          dirty: false,
+          design: '1',
+          mode: 'record',
+          missing: 3,
+          prints: 2,
+          docNo: '126',
+        }
+        const editable = s =>
+          s.mode === 'create'
+            ? true
+            : s.mode !== 'record' && !['posted', 'canceled', 'inactive'].includes(s.status)
+        /* lockbanner copy for every status — ported from sales-invoice-record.html's
+   LOCK_COPY map (final-review fix round gave every status its own entry, not
+   just posted/canceled/inactive) */
+        const LOCK_COPY = {
+          posted:
+            'This invoice is posted, so its fields are read-only. Undo the posting to edit it.',
+          canceled: 'This invoice is canceled, so its fields are read-only.',
+          inactive:
+            'This invoice is deactivated, so its fields are read-only. Reactivate it to edit.',
+          open: "You're viewing this invoice. Switch to Edit mode to make changes.",
+          pending: "You're viewing this invoice. Switch to Edit mode to make changes.",
+          returned: "You're viewing this invoice. Switch to Edit mode to make changes.",
+        }
+        /* A new invoice has no number, no history and nothing to act on until it is saved.
+   Everything that reads or writes the stored document waits for that first save. */
+        const needsSaved = [
+          'Print',
+          'Posting',
+          'Display Journal Entry',
+          'Cancel Document',
+          'Receipt Voucher',
+          'Sales Return',
+          'User Log',
+          'Documents Flow',
+          'Reports',
+          'Search',
+          'Add From',
+          'Modify',
+          'Delete',
+        ]
+
+        /* verified matrix + the one proposed correction */
+        const RULES = {
+          Save: s => (!s.dirty ? 'Nothing changed yet' : null),
+          /* in edit mode Undo also means "leave the invoice as it was", so it stays live */
+          Undo: s => (s.mode === 'edit' || s.dirty ? null : 'Nothing to undo yet'),
+          /* PROPOSED CORRECTION — the live product still offers Posting on a canceled
+     document, which cannot be right. Blocked here on purpose. */
+          /* Posting stays reachable once posted — it then opens the recorded posting
+     with the reverse action, instead of dead-ending on a disabled button. */
+          Posting: s =>
+            s.status === 'canceled'
+              ? 'A canceled document can\u2019t be posted. Restore it first.'
+              : null,
+          'Display Journal Entry': s =>
+            s.status !== 'posted'
+              ? 'Post the invoice first \u2014 the entry is created at posting'
+              : null,
+          /* likewise, on a canceled document this opens the cancellation record and Restore */
+          'Cancel Document': s => null,
+          'Receipt Voucher': s =>
+            s.status === 'canceled'
+              ? 'A canceled invoice can\u2019t generate documents'
+              : s.pay !== 'credit'
+                ? 'Only credit invoices need a receipt voucher'
+                : null,
+          'Sales Return': s =>
+            s.status === 'canceled' ? 'A canceled invoice can\u2019t generate documents' : null,
+        }
+        const blocked = label => {
+          /* actions that only make sense on a saved record the user is not already editing */
+          if (label === 'Modify') {
+            if (state.mode === 'edit') return 'You are already editing this invoice'
+            if (state.status === 'posted')
+              return 'A posted invoice cannot be modified. Undo the posting first.'
+            if (state.status === 'canceled')
+              return 'A canceled invoice cannot be modified. Restore it first.'
+            if (state.status === 'inactive') return 'A deactivated invoice cannot be modified'
+          }
+          if (label === 'Delete') {
+            if (state.status === 'posted')
+              return 'A posted invoice cannot be deleted. Undo the posting first.'
+            if (state.status === 'canceled')
+              return 'A canceled invoice is kept in the records — it cannot be deleted'
+            if (state.status === 'inactive') return 'A deactivated invoice cannot be deleted'
+          }
+          if (state.mode === 'create') {
+            if (label === 'Save')
+              return state.missing
+                ? `${state.missing} required ${state.missing === 1 ? 'field' : 'fields'} still empty`
+                : null
+            if (label === 'Undo') return state.dirty ? null : 'Nothing to undo yet'
+            if (needsSaved.includes(label)) return 'Save the invoice first — it has no number yet'
+            return null
+          }
+          return RULES[label] ? RULES[label](state) : null
+        }
+
+        /* ---------- search data (verified) ---------- */
+        const SCREENS = [
+          {t: 'Sales Invoice', s: 'Sales Systems Management', icon: 'i-doc'},
+          {t: 'Sales Return', s: 'Sales Systems Management', icon: 'i-doc'},
+          {t: 'Receipt Voucher', s: 'Finance and Accounting', icon: 'i-doc'},
+          {t: 'Customers', s: 'Enterprise Resource Planning', icon: 'i-user'},
+          {t: 'Vendors', s: 'Enterprise Resource Planning', icon: 'i-user'},
+          {t: 'Inventory Systems Management', s: 'Module', icon: 'i-grid'},
+          {t: 'Purchase Systems Management', s: 'Module', icon: 'i-grid'},
+          {t: 'Finance and Accounting', s: 'Module', icon: 'i-grid'},
+          {t: 'Reports', s: 'Module', icon: 'i-doc'},
+          {t: 'System Administration', s: 'Module', icon: 'i-gear'},
+          {t: 'Screen Parameters', s: 'Sales Invoice', icon: 'i-gear'},
+          {t: 'Dashboard', s: 'Home', icon: 'i-home'},
+        ]
+        const RECORDS = [
+          {
+            t: '001000352026126 · Invoice 126',
+            s: 'العميل الاول · 20,000.00 EGP · Credit',
+            icon: 'i-doc',
+          },
+          {t: '001000352026128 · Invoice 128', s: 'العميل الاول · Cash', icon: 'i-doc'},
+          {t: '0010003520263 · Invoice 3', s: 'Canceled', icon: 'i-doc'},
+          {t: '200001 · العميل الاول', s: 'Customer', icon: 'i-user'},
+          {t: '7603 · keyboard', s: 'Item · UoM حبة · 181 available', icon: 'i-grid'},
+        ]
+        const ACTIONS = [
+          /* this record's own actions first, in the same order as the command row */
+          {t: 'Save', kbd: 'Ctrl+S', icon: 'i-save'},
+          {t: 'Undo', icon: 'i-undo'},
+          {t: 'Modify', icon: 'i-edit'},
+          {t: 'New', kbd: 'Ctrl+N', icon: 'i-plus'},
+          {t: 'Delete', icon: 'i-trash'},
+          /* general actions after */
+          {t: 'Print', kbd: 'Ctrl+P', icon: 'i-print', run: 'print'},
+          {t: 'Add From', icon: 'i-doc'},
+          {t: 'Search', kbd: 'Ctrl+F', icon: 'i-search'},
+          {t: 'Posting', icon: 'i-post'},
+          {t: 'Display Journal Entry', icon: 'i-doc'},
+          {t: 'Cancel Document', icon: 'i-x'},
+          {t: 'Receipt Voucher', icon: 'i-doc'},
+          {t: 'Sales Return', icon: 'i-doc'},
+          {t: 'Reports', icon: 'i-doc'},
+          {t: 'User Log', icon: 'i-user', run: 'stages'},
+          {t: 'Documents Flow', icon: 'i-flow', run: 'activity'},
+          {t: 'Lock Screen', icon: 'i-lock'},
+          {t: 'Screen Parameters', icon: 'i-gear'},
+          {t: 'Help', kbd: 'F1', icon: 'i-help'},
+          {t: 'Add to Favorites', icon: 'i-spark', run: 'favorite'},
+        ]
+        const ACTIVITY = [
+          {
+            day: 'Today · 22 February 2026',
+            items: [
+              {
+                who: 'System admin',
+                ini: 'SA',
+                what: 'posted the invoice',
+                time: '11:26 AM',
+                chg: {l: 'Status', f: 'Open', t: 'Posted'},
+                chips: [
+                  {t: 'Display Journal Entry', i: 'i-doc'},
+                  {t: 'invoice-352.pdf · 86 KB', i: 'i-clip'},
+                ],
+                notes: [
+                  {
+                    who: 'System admin',
+                    ini: 'SA',
+                    txt: 'Posted after the price check passed.',
+                    time: '11:27 AM',
+                  },
+                  {
+                    who: 'General accountant',
+                    ini: 'GA',
+                    tag: 'Internal',
+                    txt: '<span class="mn">@System admin</span> reviewed the entry, the distribution is correct.',
+                    time: '11:41 AM',
+                  },
+                ],
+              },
+              {
+                who: 'System',
+                ini: '',
+                sys: true,
+                auto: true,
+                what: 'locked the invoice fields after posting',
+                time: '11:26 AM',
+                chg: {l: 'Editability', f: 'Allowed', t: 'Locked'},
+              },
+              {
+                who: 'Majed Sief Alnasr',
+                ini: 'MS',
+                what: 'updated the invoice',
+                time: '10:04 AM',
+                chg: {l: 'Qty.', f: '8', t: '10'},
+              },
+              {
+                who: 'Majed Sief Alnasr',
+                ini: 'MS',
+                what: 'created the invoice',
+                time: '8:25 AM',
+                chips: [{t: 'purchase-order-77.pdf · 240 KB', i: 'i-clip'}],
+              },
+            ],
+          },
+        ]
+
+        /* ================================================================
+   sidebar navigation — 4 structural concepts over the real live tree
+   (read from app.skeyerp.com, see concepts/sidebar-navigation-audit.md)
+   ================================================================ */
+
+        /* entry = string (leaf) | [label, ...children] (branch). Verbatim labels, product typos included. */
+        const NAV_TREE = [
+          ['Dashboard', 'Key Performance Indicators', 'Favorite KPIs'],
+          [
+            'Customers',
+            'Drivers Data',
+            'Customers',
+            'Sales Representatives',
+            'Collectors',
+            'Marketers',
+            'Sub Customers',
+          ],
+          ['Vendors', 'Vendors', 'Pur. Representatives'],
+          [
+            'Inventory Systems Management',
+            'Item Details',
+            'Opening Stock',
+            'Inv. Incoming',
+            'Inv. Outgoing',
+            'Stock Transfer Order',
+            'Receiving Stock Transfer',
+            'Return Stock Transfer',
+            'Items Movement',
+            'Show Items',
+            [
+              'Compound Items',
+              'Components of the compound item',
+              'Assembly orders',
+              'Disassembly orders',
+              ['Reports', 'Reports - Assembly orders'],
+            ],
+            ['Stocktaking System', 'Stocktaking Auto', 'Stocktaking', 'Reports - Stocktaking'],
+          ],
+          [
+            'Sales Systems Management',
+            'Quotations',
+            'Sales Order',
+            'Sales Invoice',
+            'Sales Return',
+            'Bill Outgoing Order',
+            'Item pricing',
+            'Return Incoming Order',
+            [
+              'Online Store',
+              'Store data',
+              'Store Items',
+              'Order synchronization',
+              'Order management',
+              'Store item movement',
+            ],
+            ['Customer loyalty', ['Loyalty points system', 'Points Programs', 'Point Movement']],
+          ],
+          ['Purchase Systems Management', 'Purchase Order', 'Purchase Invoice', 'Purchase Return'],
+          [
+            'POS System Management',
+            'Point of Sale',
+            'POS Invoice',
+            'POS Return',
+            'Cash Receipt Pos',
+            'Cash Payment Pos',
+            'Cash payment for returns',
+            'POS Sales Clearance',
+            [
+              'restaurants operations',
+              'follow delivery orders',
+              'chef display',
+              'waiter display',
+              'customer display',
+            ],
+            ['Document Sync', 'Issue Documents', 'Sync Logs'],
+          ],
+          [
+            'Finance and Accounting',
+            [
+              'Chart of accounts and subledgers',
+              'Chart of Accounts',
+              'Cost Centers',
+              'Sub Ledger2',
+              'Sub Ledger 3',
+              'Opening Balances',
+              'Financial Statement Report Designer',
+              'Accounts Movement',
+              'Financial statistics',
+            ],
+            [
+              'Entries and Vouchers',
+              'Debit Notes',
+              'Credit Notes',
+              'Journal Entry',
+              'Receipt Voucher',
+              'Payment Voucher',
+              'Cash Count',
+              'Posting Docs',
+              'Unposting Docs',
+            ],
+            [
+              'Cash and banks',
+              'Cash Data',
+              'Banks Data',
+              'Credit Card Types',
+              'Cheques Portfolio',
+              'Cheques Signature',
+              'Cheques Cancellation',
+            ],
+            [
+              'Cheques Management',
+              'Cheques Receivable Management',
+              'Cheques Payable Management',
+              'Queries',
+            ],
+          ],
+          [
+            'Fixed Assets System',
+            'Assets Groups',
+            'Asset locations',
+            'Asset data',
+            'Asset increases',
+            'Asset Disposal',
+            'Asset Depreciation',
+          ],
+          [
+            'Manufacturing Resource Planning',
+            'Production Management Dashboard',
+            [
+              'Setup of Production System',
+              'Definition of Production Shop Floor',
+              'Definition of OverHead Cost Articles',
+              'Definition of Work Centers',
+              'Creation of Bill Of Materials and Connecting to Production Stages',
+            ],
+            [
+              'Production Management',
+              'Issue Work Orders',
+              'Actual operating data',
+              'Adoption of production processes',
+            ],
+            ['Queries', 'Monitoring production orders'],
+          ],
+          [
+            'Customer Relations Management',
+            'CRM Dashboard',
+            ['My Workspace', 'My Day', 'My Goals', 'Notification Builder'],
+            ['Sales & Marketing', 'Leads', 'Campaigns', 'Deals', 'Activities', 'Goals Management'],
+            ['Approvals', 'Deal Approvals'],
+            [
+              'Customer Relations Management Settings',
+              'Sales Pipeline',
+              'Customer Relationship Management parameters',
+              'Customer Relationship Management definitions',
+            ],
+          ],
+          [
+            'Hospital Management',
+            [
+              'Configuration',
+              'Departments',
+              'Specialization',
+              'Service Define',
+              'Doctors',
+              'Insurance Company',
+              'Patient Group',
+            ],
+            ['Reception', 'Patients', 'Invoice Medical Services', 'Reports - Patients'],
+            ['Appointments', 'Appointment Type', 'Monthly scheduling', 'Appointments'],
+            ['Clinic', 'Waiting list', 'Consultation', 'Vital Signs'],
+            [
+              'Reports',
+              'Reports - Key Performance Indicators',
+              'Reports - Departments',
+              'Reports - Specialization',
+              'Reports - Service Define',
+              'Reports - Patients',
+              'Reports - Doctors',
+              'Reports - appointment schedule',
+              'Reports - Appointments',
+              'Reports - Invoice Medical Services',
+            ],
+          ],
+          [
+            'Reports',
+            [
+              'Accounting and financial reports',
+              'Reports - Account Statement',
+              'Reports - General Journal',
+              'Reports - Trial Balance',
+              'Reports - Balance Sheet',
+              'Reports - Income Statement',
+              'Reports - Posted and Unposted Docs',
+              'Reports - Cash Data',
+              'Reports - Opening Balances',
+              'Reports - DR/CR Notes',
+              'Reports - Journal Entry',
+              'Reports - Receipt Voucher',
+              'Reports - Payment Voucher',
+              'Reports - Cash Count',
+              'Dynamic Reports',
+              'Reports - Chart of Accounts',
+              'Reports - Cost Centers',
+              'Reports - Sub Ledger2',
+              'Reports - Sub Ledger 3',
+              'Reports - Employees Data',
+            ],
+            [
+              'Cheque reports',
+              'Reports - Banks Data',
+              'Reports - Cheques Portfolio',
+              'Reports - Cheques Management',
+            ],
+            ['Vendors accounts reports', 'Reports - Pur. Representatives', 'Reports - Vendors'],
+            [
+              'Customers accounts reports',
+              'Reports - Sales Representatives',
+              'Reports - Collectors',
+              'Reports - Marketers',
+              'Reports - Customers',
+              'Reports - Sub Customers',
+              'Reports - Debts Age',
+              'Reports - Customer Indebtedness',
+            ],
+            [
+              'Inventory reports',
+              'Reports - Warehouses Data',
+              'Reports - Item Details',
+              'Reports - Opening Stock',
+              'Reports - Inventory movement',
+              'Reports - Inv. Incoming',
+              'Reports - Turnover rate',
+              'Reports - Inv. Outgoing',
+              'Reports - Stock Transfer Order',
+              'Reports - Receiving Stock Transfer',
+              'Reports - Return Stock Transfer',
+            ],
+            [
+              'Purchase reports',
+              'Reports - Purchase Order',
+              'Reports - Purchase Invoice',
+              'Reports - Purchase Return',
+              'Reports - Net Purchase',
+            ],
+            [
+              'Sales reports',
+              'Reports - Item pricing',
+              'Reports - Quotations',
+              'Reports - Sales Order',
+              'Reports - Sales Invoice',
+              'Reports - Sales Return',
+              'Reports - Net Sales',
+              'Reports - Profit Margin',
+              'Reports - Bill Outgoing Order',
+              'Reports - Return Incoming Order',
+            ],
+            ['POS reports', 'Reports - Point of Sale'],
+            [
+              'Fixed assets reports',
+              'Reports - Assets Groups',
+              'Reports - Asset locations',
+              'Reports - Asset data',
+              'Reports - Asset opening balances',
+              'Reports - Asset movements',
+            ],
+            [
+              'Industrial Facilities Management Reports',
+              'Reports - Production Halls',
+              'Reports - Definition of OverHead Cost Articles',
+              'Reports - Operations centers',
+              'Reports - Product Tree',
+              'Reports - Standard Cost',
+              'Reports - Production Order',
+              'Reports - Actual operating data',
+              'Reports - Production quantities',
+              'Reports - Production Cost',
+              'Reports - Raw Materials Consumption',
+              'Reports - Indirect Expenses Cost',
+            ],
+          ],
+          [
+            'System Administration',
+            [
+              'Privileges Management',
+              'Users Groups',
+              'Users Data',
+              'Transactions Privileges',
+              'Screen Privileges',
+              'Input Privileges',
+              'Show Privileges',
+              'Monitoring',
+              'Dynamic Reports',
+            ],
+            [
+              'Reports Management',
+              'Reports Styles',
+              'Reports Data',
+              'Reports Dictionary',
+              'Signatures Setup',
+              'Reports Signatures',
+              'Printing Forms',
+            ],
+            [
+              'Closings and Deactivation',
+              'Deactivating Periods',
+              'Periods Closing',
+              'Unclosing Periods',
+            ],
+            [
+              'Settings and Control',
+              'System Documents Types',
+              'System Screens',
+              'System Dictionary',
+              'Types of Sequence docs',
+              'Transactions Sequences',
+              'System Alerts',
+              'Default data for Transactions',
+            ],
+            ['System Upgrade', 'Backup'],
+          ],
+          [
+            'System Setup',
+            [
+              'Setup of Manufacturing Resource Planning',
+              'General Parameters',
+              'Definition of shifts',
+              'Definition of production classifications',
+            ],
+            [
+              'General Configuration',
+              'General Parameters',
+              'Fiscal Periods',
+              'Currencies',
+              'General Definitions',
+              'Types of Transaction Docs',
+              'Organizational Structure',
+              'Defining Subledgers',
+              'Online gateway',
+              'Payment Methods',
+            ],
+            [
+              'Master Data',
+              'Geographical Structure',
+              'Financial Units',
+              'Employees Data',
+              'Devices Data',
+              'Guarantors',
+              'Committee Members',
+              'News',
+              'Email and Messages Settings',
+              'Email Templates',
+            ],
+            [
+              'Accounts and finance settings',
+              'Account Management Parameters',
+              'General Definitions of Acc Manag.',
+            ],
+            [
+              'Inventory Settings',
+              'Inventory Management Parameters',
+              'Inv. Manag. General Definitions',
+              'Units of Measurement',
+              'Warehouses Group',
+              'Warehouses Data',
+              'Item Groups',
+              'General Items Definitions',
+              'Inventory Accounts',
+              'Barcode generation',
+              'Barcode of weights',
+              'Inventory Expenses',
+              'Electronic scales',
+            ],
+            [
+              'Purchase settings',
+              'Purchase Management Parameters',
+              'General Definitions - Purchase Mgmt.',
+              'Purchase Expenses',
+              'Vendor Price List',
+            ],
+            [
+              'Sales settings',
+              'Sales Management Parameters',
+              'General Definitions - Sales Mgmt.',
+              'Sales Charges',
+              'Sales Outlets',
+              'Pricing Levels',
+            ],
+            [
+              'Tax Configuration',
+              'Tax Slices',
+              'Tax Definition',
+              'Tax Rates',
+              'Category of Taxes',
+              'Types of Taxes',
+              'Electronic Conn. settings',
+              'Electronic document synchronization',
+              'Tax Transactions',
+              'Tax Declaration',
+            ],
+            [
+              'Points of Sale Setting',
+              'POS Management Parameters',
+              'Pos Item Categories',
+              'Types of payment and receipt accounts',
+              'Report Designer',
+              'Sales Outlets',
+              'Points of Sale Setting',
+            ],
+            [
+              'Restaurant Settings',
+              'Order types',
+              'Halls',
+              'Delivery Zone',
+              'Printers',
+              'Preparation Stations',
+              'Modifier groups',
+              'Item notes / cancel reasons',
+              'Restaurant Staff',
+            ],
+            ['Queries', 'Contact Details', 'Countries', 'Dynamic Reports'],
+            [
+              'Asset System Settings',
+              'General Variables for Asset System',
+              'General Coding for Asset System',
+            ],
+            [
+              'Document approval settings',
+              'Approval policy',
+              'Doc Approval Define',
+              'Approval of device registration requests',
+            ],
+          ],
+          [
+            'Help Screens',
+            'Internal Mail',
+            'Calendar',
+            'Schedule Activity',
+            'Notes',
+            'People Data',
+            'Smart Query Engine',
+            'AI Dashboard',
+            'Sales Forecast',
+          ],
+        ]
+        const NAV_FAVORITES = [
+          'Sales Invoice',
+          'Customers',
+          'Geographical Structure',
+          'Purchase Invoice',
+          'Internal Mail',
+        ]
+        const NAV_RECENTS = [
+          'Sales Invoice',
+          'Sales Charges',
+          'Order types',
+          'Sales Order',
+          'Warehouses Group',
+          'Inv. Incoming',
+          'Modifier groups',
+          'Point of Sale',
+          'Preparation Stations',
+          'Printers',
+        ]
+        /* icons borrowed from the shared symbol sprite — structure over final icon design, per spec */
+        const NAV_ICONS = {
+          Dashboard: 'i-grid',
+          Customers: 'i-user',
+          Vendors: 'i-doc',
+          'Inventory Systems Management': 'i-panel',
+          'Sales Systems Management': 'i-spark',
+          'Purchase Systems Management': 'i-clip',
+          'POS System Management': 'i-post',
+          'Finance and Accounting': 'i-save',
+          'Fixed Assets System': 'i-lock',
+          'Manufacturing Resource Planning': 'i-gear',
+          'Customer Relations Management': 'i-bell',
+          'Hospital Management': 'i-warn',
+          Reports: 'i-print',
+          'System Administration': 'i-gear',
+          'System Setup': 'i-gear',
+          'Help Screens': 'i-help',
+        }
+        const NAV_APP_META = {
+          Dashboard: {description: 'Overview and key activity', tone: 'overview'},
+          Customers: {description: 'Customer accounts and profiles', tone: 'crm'},
+          Vendors: {description: 'Supplier accounts and profiles', tone: 'purchase'},
+          'Inventory Systems Management': {
+            description: 'Stock, warehouses, and items',
+            tone: 'inventory',
+          },
+          'Sales Systems Management': {
+            description: 'Orders, invoices, and sales',
+            tone: 'sales',
+          },
+          'Purchase Systems Management': {
+            description: 'Purchasing and supplier documents',
+            tone: 'purchase',
+          },
+          'POS System Management': {
+            description: 'Point-of-sale operations',
+            tone: 'sales',
+          },
+          'Finance and Accounting': {
+            description: 'Ledgers, journals, and finance',
+            tone: 'finance',
+          },
+          'Fixed Assets System': {
+            description: 'Assets, depreciation, and custody',
+            tone: 'finance',
+          },
+          'Manufacturing Resource Planning': {
+            description: 'Production, materials, and planning',
+            tone: 'manufacturing',
+          },
+          'Customer Relations Management': {
+            description: 'Leads, activities, and relationships',
+            tone: 'crm',
+          },
+          'Hospital Management': {
+            description: 'Healthcare operations and records',
+            tone: 'health',
+          },
+          Reports: {description: 'Operational and financial reports', tone: 'reports'},
+          'System Administration': {
+            description: 'Users, roles, and permissions',
+            tone: 'administration',
+          },
+          'System Setup': {
+            description: 'Organization and system configuration',
+            tone: 'administration',
+          },
+          'Help Screens': {description: 'Guides and product assistance', tone: 'help'},
+        }
+
+        /* the rail always shows every app from NAV_TREE, fixed order — no more
+   hide/reorder; that job now belongs to building For You groups instead */
+        const visibleGroups = () => NAV_TREE
+        const childrenOf = entry => (Array.isArray(entry) ? entry.slice(1) : [])
+
+        /* every leaf screen under a NAV_TREE entry, however deep — used both to list
+   an app's screens in the customizer's left tree and to flatten a whole app
+   dropped into a For You group down to its individual screens */
+        const leavesOf = entry => {
+          const kids = childrenOf(entry)
+          if (!kids.length) return [Array.isArray(entry) ? entry[0] : entry]
+          return kids.flatMap(leavesOf)
+        }
+
+        /* reverse of leavesOf — which top-level NAV_TREE group a given leaf screen
+   lives under. Used to activate the right rail icon before a leaf (like "Sales
+   Invoice") can be highlighted inside its panel — the rail only has icons for
+   top-level groups, not every nested screen. */
+        const findNavGroup = label => NAV_TREE.find(group => leavesOf(group).includes(label))
+
+        /* "For You" — the user's own custom groups of screens, built via the
+   Customize sidebar dialog. Each group is {name, items: [{label, appLabel}]},
+   flat only, no nested groups. The rail's For You icon only appears once at
+   least one group exists. Pre-seeded with 3 groups for testing — remove or
+   reset to [] to try the empty-state (no For You icon) flow. */
+        let forYouGroups = [
+          {
+            name: 'Daily sales',
+            items: [
+              {label: 'Sales Invoice', appLabel: 'Sales Systems Management'},
+              {label: 'Sales Order', appLabel: 'Sales Systems Management'},
+              {label: 'Sales Return', appLabel: 'Sales Systems Management'},
+              {label: 'Customers', appLabel: 'Customers'},
+            ],
+          },
+          {
+            name: 'Finance',
+            items: [
+              {label: 'Receipt Voucher', appLabel: 'Finance and Accounting'},
+              {label: 'Payment Voucher', appLabel: 'Finance and Accounting'},
+              {label: 'Journal Entry', appLabel: 'Finance and Accounting'},
+              {label: 'Chart of Accounts', appLabel: 'Finance and Accounting'},
+            ],
+          },
+          {
+            name: 'Admin & reports',
+            items: [
+              {label: 'Key Performance Indicators', appLabel: 'Dashboard'},
+              {label: 'Financial statistics', appLabel: 'Finance and Accounting'},
+              {label: 'Vendors', appLabel: 'Vendors'},
+            ],
+          },
+        ]
+
+        /* current-selection highlight shared across all 4 concepts */
+        let navCurrentLabel = 'Sales Invoice'
+        let currentAppLabel = findNavGroup(navCurrentLabel)?.[0] || navCurrentLabel
+        const setNavCurrent = (root, label, {skipListLayoutGuard = false} = {}) => {
+          const targetListContext =
+            label === 'Sales Invoice' ? 'invoice' : label === 'Customers' ? 'customer' : ''
+          if (
+            !skipListLayoutGuard &&
+            visibleDirtyDataListContext() !== targetListContext &&
+            guardDataListLeave(() => setNavCurrent(root, label, {skipListLayoutGuard: true}))
+          )
+            return
+          navCurrentLabel = label
+          currentAppLabel = findNavGroup(label)?.[0] || label
+          closeEmailView() /* any real navigation leaves the email view, same as it would leave any other page */
+          const viewByNavLabel = {
+            'Sales Invoice': 'list',
+            Customers: 'customers-list',
+            'Geographical Structure': 'geo-list',
+          }
+          showContentView(viewByNavLabel[label] || 'record')
+          const frame = root.closest('.frame')
+          const lp = frame && frame.querySelector('.lp-view')
+          if (lp && !lp.hidden) {
+            hideLaunchpad(frame)
+          }
+          root.querySelectorAll('.current').forEach(el => el.classList.remove('current'))
+          root.querySelectorAll('.on-path').forEach(el => el.classList.remove('on-path'))
+          root.querySelectorAll('.nc1-item').forEach(el => {
+            if (el.dataset.label !== label) return
+            el.classList.add('current')
+            let n = el.closest('.nc1-node')
+            while (n) {
+              n.classList.add('open', 'on-path')
+              n = n.parentElement.closest('.nc1-node')
+            }
+          })
+        }
+        /* the click that collapses/expands the sidebar shouldn't also register as "clicked outside" for whatever flyout is open */
+        const clickedCollapseToggle = e =>
+          e
+            .composedPath()
+            .some(
+              el =>
+                el instanceof Element &&
+                (el.classList.contains('side-toggle') || el.classList.contains('side-handle'))
+            )
+
+        /* ---- recursive item builder: label + chevron(if branch), no icon —
+   pinned-panel rows never carry one, only rail icons and the customizer's
+   tree do ---- */
+        function ncBuildItem(entry, depth, root) {
+          const isBranch = Array.isArray(entry)
+          const label = isBranch ? entry[0] : entry
+          const node = document.createElement('div')
+          node.className = 'nc1-node'
+          const btn = document.createElement('button')
+          btn.type = 'button'
+          btn.className = 'nc1-item'
+          btn.dataset.label = label
+          btn.innerHTML =
+            '<span class="nc1-lbl"></span>' +
+            (isBranch
+              ? '<svg class="nc1-chev" width="12" height="12" aria-hidden="true"><use href="#i-caret"/></svg>'
+              : '')
+          btn.querySelector('.nc1-lbl').textContent = t(label)
+          node.appendChild(btn)
+          if (isBranch) {
+            const sub = document.createElement('div')
+            sub.className = 'nc1-sub'
+            childrenOf(entry).forEach(child => sub.appendChild(ncBuildItem(child, depth + 1, root)))
+            node.appendChild(sub)
+            btn.setAttribute('aria-expanded', 'false')
+            btn.addEventListener('click', () => {
+              const open = node.classList.toggle('open')
+              btn.setAttribute('aria-expanded', String(open))
+            })
+          } else {
+            btn.addEventListener('click', () => setNavCurrent(root, label))
+          }
+          return node
+        }
+
+        /* ---- a group's title + its tree, with Favorites pinned on top.
+   The rail pins one of these open permanently as its flyout. ---- */
+        function makeGroupPanel(root, {showFavs = true} = {}) {
+          const panel = document.createElement('div')
+          panel.className = 'nc3-panel'
+          if (showFavs) {
+            const favs = document.createElement('div')
+            favs.className = 'nc3-favs'
+            const favLbl = document.createElement('div')
+            favLbl.className = 'nc-group-lbl'
+            favLbl.textContent = t('Favorites')
+            favs.appendChild(favLbl)
+            NAV_FAVORITES.forEach(f => {
+              const b = document.createElement('button')
+              b.type = 'button'
+              b.className = 'nc-fav'
+              b.dataset.label = f
+              b.innerHTML =
+                '<svg width="13" height="13" aria-hidden="true"><use href="#i-spark"/></svg><span></span>'
+              b.querySelector('span').textContent = t(f)
+              b.addEventListener('click', () => setNavCurrent(root, f))
+              favs.appendChild(b)
+            })
+            panel.appendChild(favs)
+          }
+          const body = document.createElement('div')
+          body.className = 'nc-scroll nc3-body'
+          panel.appendChild(body)
+          const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches
+          /* the For You rail icon renders forYouGroups instead of a NAV_TREE branch —
+     one flat, unlabeled-depth list of screens per user-made group, each group
+     getting its own title row instead of the single app title an ordinary
+     panel shows */
+          const fillForYou = () => {
+            body.innerHTML = ''
+            const title = document.createElement('div')
+            title.className = 'nc3-title'
+            title.textContent = t('For You')
+            body.appendChild(title)
+            forYouGroups.forEach(g => {
+              const lbl = document.createElement('div')
+              lbl.className = 'nc-group-lbl'
+              lbl.textContent = g.name
+              body.appendChild(lbl)
+              g.items.forEach(item => body.appendChild(ncBuildItem(item.label, 0, root)))
+            })
+          }
+          const fill = (group, withForYou) => {
+            if (group === 'for-you') {
+              fillForYou()
+              return
+            }
+            body.innerHTML = ''
+            const title = document.createElement('div')
+            title.className = 'nc3-title'
+            title.textContent = group[0]
+            body.appendChild(title)
+            if (withForYou) body.appendChild(ncBuildItem('For you', 0, root))
+            childrenOf(group).forEach(entry => body.appendChild(ncBuildItem(entry, 0, root)))
+          }
+          /* a plain innerHTML swap reads as a hard cut when you're clicking rail icons in
+     quick succession — a short crossfade makes the panel feel like it's updating
+     in place instead of flickering */
+          const show = (group, {withForYou = false} = {}) => {
+            if (reduceMotion() || !body.children.length) {
+              fill(group, withForYou)
+              return
+            }
+            body.classList.add('swap-out')
+            setTimeout(() => {
+              fill(group, withForYou)
+              body.classList.remove('swap-out')
+            }, 100)
+          }
+          return {el: panel, show}
+        }
+
+        /* ---- the icon rail + a pinned panel that never goes away. Handles its own
+   collapse: the panel just switches from a pinned sibling to an overlay next
+   to the rail (CSS only, same DOM, same favorites, same items) — see
+   ".side.collapsed .nc3-panel" in the stylesheet. Also exposes activateByLabel
+   so the topbar app-switcher and the launchpad's own tiles can select a rail
+   icon the same way clicking it directly would. ---- */
+        function buildRailAndPanel(fbody, side) {
+          const root = document.createElement('div')
+          root.className = 'nc nc2'
+          const rail = document.createElement('div')
+          rail.className = 'nc2-rail'
+          const {el: panel, show} = makeGroupPanel(root, {
+            showFavs: false,
+          }) /* Starred now lives in the rail itself */
+
+          /* every rail icon — Starred, Recent, and each app — feeds the same pinned
+     panel the same way, so switching between them never changes behaviour.
+     Any of them also leaves the launchpad, same as picking a page would. */
+          const activate = (btn, group, opts) => {
+            const collapsed = side.classList.contains('collapsed')
+            if (collapsed && btn.classList.contains('active') && !panel.hidden) {
+              panel.hidden = true
+              btn.classList.remove('active')
+              return
+            }
+            const frame = fbody.closest('.frame')
+            const lp = frame.querySelector('.lp-view')
+            if (lp && !lp.hidden) {
+              hideLaunchpad(frame)
+            }
+            rail.querySelectorAll('.active').forEach(b => b.classList.remove('active'))
+            btn.classList.add('active')
+            show(group, opts)
+            panel.hidden = false
+          }
+          const railIcon = (label, icon, group, opts) => {
+            const btn = document.createElement('button')
+            btn.type = 'button'
+            btn.className = 'nc2-icn'
+            btn.setAttribute('aria-label', t(label))
+            btn.innerHTML = `<svg width="18" height="18" aria-hidden="true"><use href="#${icon}"/></svg><span class="nc2-lbl">${encodeHtml(t(label))}</span>`
+            /* a mouse click leaves focus sitting on the button, which keeps
+       ":focus-within" (and so the hover-expanded rail) engaged until an
+       unrelated outside click knocks it loose — blur right away so the rail
+       collapses as soon as the pointer actually leaves it. event.detail is 0
+       for a keyboard-triggered click, so keyboard users keep their focus ring
+       (and the rail stays open for them to keep navigating). */
+            btn.addEventListener('click', e => {
+              activate(btn, group, opts)
+              if (e.detail > 0) btn.blur()
+            })
+            return btn
+          }
+
+          /* the For You icon only earns its place once the user has actually built a
+     group — an empty pin at the top of every rail, forever, isn't worth it */
+          if (forYouGroups.length) {
+            const forYouSep = document.createElement('div')
+            forYouSep.className = 'nc2-rail-sep'
+            rail.append(railIcon('For You', 'i-user', 'for-you'), forYouSep)
+          }
+
+          const railSep = document.createElement('div')
+          railSep.className = 'nc2-rail-sep'
+          rail.append(
+            railIcon('Starred', 'i-spark', ['Starred', ...NAV_FAVORITES]),
+            railIcon('Recent', 'i-clock', ['Recent', ...NAV_RECENTS]),
+            railSep
+          )
+
+          const groups = visibleGroups()
+          const iconByLabel = new Map()
+          groups.forEach(group => {
+            const label = group[0]
+            const btn = railIcon(label, NAV_ICONS[label] || 'i-doc', group, {withForYou: true})
+            iconByLabel.set(label, btn)
+            rail.appendChild(btn)
+          })
+          document.addEventListener('click', e => {
+            if (
+              side.classList.contains('collapsed') &&
+              !panel.hidden &&
+              !clickedCollapseToggle(e)
+            ) {
+              const p = e.composedPath()
+              if (!p.includes(root)) {
+                panel.hidden = true
+                rail.querySelectorAll('.active').forEach(b => b.classList.remove('active'))
+              }
+            }
+          })
+          /* roving focus: with 18+ icons and no text labels, Tabbing through every one
+     to reach the bottom of the rail is slow — arrow keys move focus directly */
+          rail.addEventListener('keydown', e => {
+            if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key)) return
+            const icons = [...rail.querySelectorAll('.nc2-icn')]
+            const i = icons.indexOf(document.activeElement)
+            if (i === -1) return
+            e.preventDefault()
+            const next =
+              e.key === 'ArrowDown'
+                ? icons[(i + 1) % icons.length]
+                : e.key === 'ArrowUp'
+                  ? icons[(i - 1 + icons.length) % icons.length]
+                  : e.key === 'Home'
+                    ? icons[0]
+                    : icons[icons.length - 1]
+            next.focus()
+          })
+          root.append(rail, panel)
+          /* selects an app's rail icon + opens its panel from outside the rail itself —
+     used by the topbar app-switcher and by the launchpad tiles */
+          root.activateByLabel = label => {
+            currentAppLabel = label
+            const btn = iconByLabel.get(label)
+            if (btn) {
+              side.classList.toggle('collapsed', compactShell.matches)
+              updateSideWidth(side)
+              activate(
+                btn,
+                groups.find(g => g[0] === label),
+                {withForYou: true}
+              )
+              if (compactShell.matches) panel.hidden = true
+            }
+          }
+          return root
+        }
+
+        /* ---- boots into a Spotlight-style launchpad screen. Picking an app selects
+   it in the rail exactly like clicking the rail icon would. The topbar's
+   app-switcher button reopens it later — renderSide (not this builder)
+   decides whether a given rebuild should land back on the launchpad, so
+   re-rendering the sidebar (e.g. after saving Customize sidebar) doesn't
+   yank the user there. ---- */
+        function buildNavLaunchpad(fbody) {
+          const side = fbody.querySelector('.side')
+          return buildRailAndPanel(fbody, side)
+        }
+
+        function openLaunchpadListDestination(side, label) {
+          if (!['Customers', 'Sales Invoice', 'Geographical Structure'].includes(label))
+            return false
+          const group = findNavGroup(label)
+          if (group) side.querySelector('.nc2').activateByLabel(group[0])
+          setNavCurrent(side, label)
+          return true
+        }
+        function launchpadTile(label, icon, onClick, {current = false} = {}) {
+          const meta = NAV_APP_META[label] || {description: '', tone: 'overview'}
+          const tile = document.createElement('button')
+          tile.type = 'button'
+          tile.className = 'lp-tile'
+          tile.dataset.tone = meta.tone
+          tile.dataset.i18nOriginal = label
+          tile.innerHTML =
+            `<span class="lp-tile-ic"><svg width="20" height="20" aria-hidden="true"><use href="#${icon}"/></svg></span>` +
+            '<span class="lp-tile-copy"><span class="lp-tile-lbl"></span><span class="lp-tile-desc"></span><span class="lp-current" hidden></span></span>' +
+            '<svg class="lp-tile-go" width="14" height="14" aria-hidden="true"><use href="#i-next"/></svg>'
+          const tileLabel = tile.querySelector('.lp-tile-lbl')
+          const tileDescription = tile.querySelector('.lp-tile-desc')
+          tileLabel.dataset.i18nOriginal = label
+          tileLabel.textContent = t(label)
+          tileDescription.dataset.i18nOriginal = meta.description
+          tileDescription.textContent = t(meta.description)
+          if (current) {
+            tile.classList.add('is-current')
+            tile.setAttribute('aria-current', 'page')
+            const currentLabel = tile.querySelector('.lp-current')
+            currentLabel.hidden = false
+            currentLabel.textContent = t('Current app')
+          }
+          tile.addEventListener('click', onClick)
+          return tile
+        }
+        function launchpadTag(label, icon, cls, onClick) {
+          const tag = document.createElement('button')
+          tag.type = 'button'
+          tag.className = 'lp-tag ' + cls
+          tag.innerHTML = `<svg width="13" height="13" aria-hidden="true"><use href="#${icon}"/></svg><span></span>`
+          tag.querySelector('span').textContent = t(label)
+          tag.addEventListener('click', onClick)
+          return tag
+        }
+
+        /* the launchpad covers the ENTIRE frame — rail, topbar search, app switcher,
+   everything — since it's a start screen, not a page. The only chrome kept on
+   screen is the live topbar's own action cluster (AI Assistant, notifications,
+   help, avatar) — MOVED in, not cloned, so its ids and wired popovers stay
+   singular; restoreLaunchpadActions() below puts it back in the topbar. */
+        function restoreLaunchpadActions(frame) {
+          const skipLink = frame.querySelector('.lp-view .skip-link')
+          if (skipLink) frame.ownerDocument.body.prepend(skipLink)
+          const actions = frame.querySelector('.lp-actions .right')
+          if (actions) frame.querySelector('.gtop .gsearch').after(actions)
+          const app = frame.querySelector('.lp-actions-left .app')
+          if (app) frame.querySelector('.gtop .left .side-toggle').after(app)
+          setLaunchpadShellInert(frame, false)
+        }
+        function setLaunchpadShellInert(frame, inert) {
+          ;[frame.querySelector('.gtop'), frame.querySelector('.fbody')].forEach(region => {
+            if (!region) return
+            region.inert = inert
+            if (inert) region.setAttribute('aria-hidden', 'true')
+            else region.removeAttribute('aria-hidden')
+          })
+        }
+        let launchpadReturnFocus = null
+        const searchTypingAnimations = new WeakMap()
+        const searchTypingSuffixes = ['apps', 'screens', 'actions']
+        const SEARCH_TYPING_START_DELAY_MS = 700
+        const SEARCH_TYPING_TYPE_DELAY_MS = 70
+        const SEARCH_TYPING_HOLD_DELAY_MS = 1100
+        const SEARCH_TYPING_ERASE_DELAY_MS = 40
+        const SEARCH_TYPING_NEXT_WORD_DELAY_MS = 180
+
+        function waitForSearchTyping(delay, signal) {
+          return new Promise(resolve => {
+            if (signal.aborted) {
+              resolve(false)
+              return
+            }
+            const stop = () => {
+              clearTimeout(timeout)
+              resolve(false)
+            }
+            const timeout = setTimeout(() => {
+              signal.removeEventListener('abort', stop)
+              resolve(true)
+            }, delay)
+            signal.addEventListener('abort', stop, {once: true})
+          })
+        }
+
+        function searchTypingLabelIsVisible(label) {
+          const region = label.closest('.lp-view, .gtop')
+          return label.isConnected && !!region && !region.hidden && !region.inert
+        }
+
+        function searchTypingHasStopped(label, signal) {
+          return signal.aborted || !searchTypingLabelIsVisible(label)
+        }
+
+        async function typeSearchCharacters(label, text, signal) {
+          /* Character boundaries: empty text does nothing; one or many append in order. */
+          for (const character of text) {
+            if (!(await waitForSearchTyping(SEARCH_TYPING_TYPE_DELAY_MS, signal))) return
+            if (!searchTypingLabelIsVisible(label)) return
+            label.textContent += character
+          }
+        }
+
+        async function eraseSearchSuffix(label, suffix, signal) {
+          /* Character boundaries: remove exactly the suffix length and preserve the prefix. */
+          for (let index = suffix.length; index > 0; index -= 1) {
+            if (!(await waitForSearchTyping(SEARCH_TYPING_ERASE_DELAY_MS, signal))) return
+            if (!searchTypingLabelIsVisible(label)) return
+            label.textContent = label.textContent.slice(0, -1)
+          }
+        }
+
+        function stopSearchTyping(region) {
+          const label = region.querySelector('.search-typing-label')
+          if (!label) return
+          searchTypingAnimations.get(label)?.abort()
+          searchTypingAnimations.delete(label)
+          label.classList.remove('is-typing')
+        }
+
+        async function animateSearchSuffix(label, suffix, signal) {
+          await typeSearchCharacters(label, suffix, signal)
+          if (searchTypingHasStopped(label, signal)) return
+          if (!(await waitForSearchTyping(SEARCH_TYPING_HOLD_DELAY_MS, signal))) return
+          await eraseSearchSuffix(label, suffix, signal)
+          if (searchTypingHasStopped(label, signal)) return
+          await waitForSearchTyping(SEARCH_TYPING_NEXT_WORD_DELAY_MS, signal)
+        }
+
+        async function runSearchTyping(label, signal) {
+          if (!(await waitForSearchTyping(SEARCH_TYPING_START_DELAY_MS, signal))) return
+          if (!searchTypingLabelIsVisible(label)) return
+          label.textContent = ''
+          await typeSearchCharacters(label, 'Search ', signal)
+          if (searchTypingHasStopped(label, signal)) return
+
+          while (!signal.aborted && searchTypingLabelIsVisible(label)) {
+            for (const suffix of searchTypingSuffixes) {
+              await animateSearchSuffix(label, suffix, signal)
+              if (searchTypingHasStopped(label, signal)) return
+            }
+          }
+        }
+
+        async function startSearchTyping(label) {
+          searchTypingAnimations.get(label)?.abort()
+          label.textContent = t(label.dataset.searchStatic)
+          if (
+            appLocale !== 'en' ||
+            !searchTypingLabelIsVisible(label) ||
+            matchMedia('(prefers-reduced-motion: reduce)').matches
+          ) {
+            label.classList.remove('is-typing')
+            return
+          }
+
+          const controller = new AbortController()
+          searchTypingAnimations.set(label, controller)
+          label.classList.add('is-typing')
+          await runSearchTyping(label, controller.signal)
+          if (searchTypingAnimations.get(label) !== controller) return
+          searchTypingAnimations.delete(label)
+          label.classList.remove('is-typing')
+        }
+
+        function hideLaunchpad(frame, {restoreFocus = false} = {}) {
+          const lp = frame?.querySelector('.lp-view')
+          if (!lp || lp.hidden) return false
+          stopSearchTyping(lp)
+          lp.hidden = true
+          restoreLaunchpadActions(frame)
+          startSearchTyping(frame.querySelector('.shell-search-label'))
+          syncCustomerPrototypeControls(currentContentViewName)
+          if (restoreFocus && launchpadReturnFocus?.isConnected) {
+            const focusTarget = launchpadReturnFocus
+            requestAnimationFrame(() => focusTarget.focus())
+          }
+          launchpadReturnFocus = null
+          queueSkeletonForCurrentView()
+          return true
+        }
+
+        function getLaunchpadUserName() {
+          const fullName = document.querySelector('.user-card b')?.textContent.trim() || ''
+          return fullName.split(/\s+/)[0]
+        }
+
+        /* Wraps each word of an element's content in a .lp-word span (element
+   children, like the user-name <bdi>, are kept whole as one "word") and
+   stamps --lp-i on each so the lp-reveal-up stagger in CSS can animate
+   them one after another — the same "by word" idea as MagicUI's
+   TextAnimate, done without a framer-motion dependency. */
+        function animateLaunchpadWords(el) {
+          const nodes = Array.from(el.childNodes)
+          el.innerHTML = ''
+          let i = 0
+          const appendWord = node => {
+            const span = document.createElement('span')
+            span.className = 'lp-word'
+            span.style.setProperty('--lp-i', i++)
+            span.appendChild(node)
+            el.appendChild(span)
+          }
+          nodes.forEach(node => {
+            if (node.nodeType === Node.TEXT_NODE) {
+              const parts = node.textContent.split(/(\s+)/).filter(Boolean)
+              parts.forEach(part => {
+                if (/^\s+$/.test(part)) {
+                  el.appendChild(document.createTextNode(part))
+                } else {
+                  appendWord(document.createTextNode(part))
+                }
+              })
+            } else {
+              appendWord(node)
+            }
+          })
+        }
+
+        function showLaunchpad(fbody, {mode = 'home', returnFocus = null} = {}) {
+          closeEmailView()
+          const frame = fbody.closest('.frame')
+          launchpadReturnFocus = mode === 'switcher' ? returnFocus : null
+          const focusWasInShell = [frame.querySelector('.gtop'), fbody].some(region =>
+            region?.contains(document.activeElement)
+          )
+          const side = fbody.querySelector('.side')
+          side.querySelectorAll('.nc2-icn.active').forEach(b => b.classList.remove('active'))
+          const panel = side.querySelector('.nc3-panel')
+          if (panel) panel.hidden = true
+          let lp = frame.querySelector('.lp-view')
+          if (!lp) {
+            lp = document.createElement('div')
+            lp.className = 'lp-view'
+            frame.appendChild(lp)
+          }
+          lp.dataset.mode = mode
+          lp.setAttribute('role', 'main')
+          lp.setAttribute('aria-labelledby', 'launchpad-title')
+          lp.hidden = false
+          lp.scrollTop = 0
+          requestAnimationFrame(() => lp.scrollTo({top: 0, behavior: 'auto'}))
+          stopSearchTyping(frame.querySelector('.gtop'))
+          stopSearchTyping(lp)
+          lp.innerHTML = ''
+          const orbs = document.createElement('div')
+          orbs.className = 'lp-orbs'
+          orbs.setAttribute('aria-hidden', 'true')
+          orbs.innerHTML =
+            '<span class="lp-orb lp-orb--sm lp-orb-1"></span>' +
+            '<span class="lp-orb lp-orb--lg lp-orb-2"></span>' +
+            '<span class="lp-orb lp-orb--sm lp-orb-3"></span>' +
+            '<span class="lp-orb lp-orb--lg lp-orb-4"></span>' +
+            '<span class="lp-orb lp-orb--lg lp-orb-5"></span>' +
+            '<span class="lp-orb lp-orb--sm lp-orb-6"></span>' +
+            '<span class="lp-orb lp-orb--sm lp-orb-7"></span>'
+          lp.appendChild(orbs)
+          const content = document.createElement('div')
+          content.className = 'lp-content'
+          lp.appendChild(content)
+          const skipLink = frame.ownerDocument.querySelector('.skip-link')
+          if (skipLink) lp.prepend(skipLink)
+          syncCustomerPrototypeControls('launchpad')
+
+          const actionsLeft = document.createElement('div')
+          actionsLeft.className = 'lp-actions-left'
+          actionsLeft.append(frame.querySelector('.gtop .left .app'))
+          if (mode === 'switcher') {
+            const close = document.createElement('button')
+            close.type = 'button'
+            close.className = 'ibtn lp-close'
+            close.setAttribute('aria-label', t('Back to current screen'))
+            close.innerHTML =
+              '<svg width="16" height="16" aria-hidden="true"><use href="#i-x" /></svg>' +
+              `<span class="tip">${t('Back to current screen')}</span>`
+            close.addEventListener('click', () => hideLaunchpad(frame, {restoreFocus: true}))
+            actionsLeft.prepend(close)
+          }
+          const actions = document.createElement('div')
+          actions.className = 'lp-actions'
+          actions.append(frame.querySelector('.gtop .right'))
+          const chrome = document.createElement('div')
+          chrome.className = 'lp-chrome'
+          chrome.append(actionsLeft, actions)
+          content.appendChild(chrome)
+          setLaunchpadShellInert(frame, true)
+
+          const hero = document.createElement('div')
+          hero.className = 'lp-hero'
+          hero.innerHTML =
+            '<img class="lp-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAABQCAYAAAAnSfh8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAALN1JREFUeAHtXQl8VNW5/85dZs9M9oQkhAQCIWyikSKKVhZFxH0DBTfEqrUWn7Zq1T6tVFuXutWtfVirFRVxQ1EBRdEiIoiyJ4FAQkhC9m0y293OO+dOAkmYuffOJCSpnf/vd8lw77nnbuc73/4dBMeCJZucnnftFTbnqMWcKX48INZK9iH4LwJ5WFlRhGbBX7+htWHzkpaqNduh491ADDEMEqCev3Mn/v7OuOTJj/s9lQoAZiAGzDBmzFkSpMNFL57QWL22lOyTIIYYBgFQl7947PQVe0Vv4whAMcI9FljhzIlI8Nf9rnTTr/8CMSKOYRCA7fwxdto7ZYKvNhchFCPekEBIkf2I5ezTXOmnNTZXfbaV7MQQQwwDCEqszMjJTz0t+uuyEWJjxKsDQsSsxZ77bHr66YkQfH8xxDBgoANQsdiHLSYcJjYYDUL01ytJBb/aCTEOHMMAg8k+4Z4/B7w1CsQQARCDZSk1Le3UFIghhgEEY3MMvxJiem/EkEQ38EmT/wf+y9xrMQwuEMJFGRBDFMDI5hpxPsTE6BgGEIyiyCzEEBU43hkToWMYUBAOjHvFQRBGx81tjBREGR30NegTS5JC/vaOeSpKzHQQw8CCgyigRn00OkA+qQJgdI0qQ6KiIcD9OBRwipuM7OiJDpHOcLMd5CllgIfXAwgcMKRftjQFcHJ71H0jcprPL4HXHYCbriuEieNSoabOC6+9tQP2H2iE1AwnIciYNBxDSHBpE9LMcMGwX2CfGE8G6TEDBTEMh9uFT+pe2PUdBMNteSgshPRz0E2KIKcc5RYMIBZJokfa0vTc9jXQ4Qnq0pUarpt6x0kLgMOjQMFK53kMA1gRYKdtW9Mn5evLRdoOjZryogwR+DNRuwXEc3YDvmwzoCYHYWUdp3Iy4EQvMI+dC9yheMBs5NwJeU0gTdsHypUbATXEHSVWswjYJgL32ytoOEXEXJkSb3VFC7yx9FI4b9ZIlQOjji4o0ba0+iF34l8hKzseJNn4fTOsta54w3VpEMNPG4WF/Ji3xgqBoiZMBk7YwcfnOqF43LIjx8ceuBb7djViFOocBgGfaQf/7qZ7yueveQK6xNgX7JrfFihz21GoUGayh0uxgtwcWFY6a+XVEcm+SGZAvOJ7QNP2AKp1EocoEzTh0E1kyb44wLetBSmvHiK17SByvnjJj4DP2R7sW0ZH+/bzgBoJV376DUJ85JpMZH031Hlgw+qFMPusvOC1urxOhrzIeJcZWg/eBeVlTeS9xozKMXRH+mzm1/6iJjoUCe9VMLKSsW7psZlZYPij5JR8y4QL/EXN9Cc5B+NubTlCmjRVpoJ4MobYH0lbXHgydDDRuDMzkqVmPyEkhVHIxbqdZyIsWMaKWOMFRVLmZT11+q8iEqGxxwwwcxfg+rjwjdqsgG8nksFVNwFQcdoICM0oLHk90/cANNvCtCHHa5wgPbEcTNcvBJzUDkZAxA648Nx8GFeQrBJr6DaMqs8WbboFJp/9CjjjLRBDDJ1QfJJTnfWJ6KZ45B1NL+66nph+uw8SxLKMIu2GoFoqgV+2ow4eRATkiobHtlwkmzma1QfWNAfjvHLUKtktOuV2ATnmDH279pmtw+gxXgHCXoMMinOZmIYnt02QZNmhXsJqlpOvzv8/QtxjCL/mLGMTH4qIgOVZ5P4aHPoND8eDeO8nYHp4DmCeSgZaHJMYwYieK77wLyKS24OEGr4pEeFNII+qA6bRBkZQW9MOf/nDTJVItUCPZ2e5iMoR04Nj6AF0dFCKlZ5PWj49uA30REzm6HG52f99y2dV2zr/T9gaU7elIWvUC6e3S01+4JymIUfOCxy9FhZwY/PKAzu73knbir0n5G+dh8WqdnrcaZiAUYADPL7SmP5J7gEluUF4dSmZiwx4qViZiMgOY6KxwAOeeAjg89HaxN6BALE2x0fAUaefkQs/7KyBGGIIBcRgAcITLwp5DEFPIlBgR20AOkRujEO7cQgH70lsQYYekP3kjwUrCjLOgempXGSGKdRORG4jxiwvb1yvpVZqk/FMvkgdXFZzVIb5GP5LYM5PvHPkF5fc0I1OGcQoAWX//lkfnBHyJI45Rt/LeWv2y1KtV3XggKi0gTGoEwTDMRYq1yKWwYZHKzaRUyoSAcZ59IMHCZfGCR5gHz9XNUDptYWUNlBu+QKgxYBYTCYEVJ5kiPtSUHVCFGXgeX1JgPa4dfthGATofMM4OT85TjktfYol33W+eVjcyWyiJZsxs3Fk9qYvNjg/EdO84hX92Cc1Sg2+MqG8/Stxd8unDVC8DVYcsW6G5g5a1y8s5OJqWKcikome2FPYgEdoa9vTBMe6Pnr1jCkpYx1e5LB3O0quZ8VtnoaGEmpICeqVgwCE6zmI3nqMHsln2GlEY8iKLVyyZf7orXMX4I4jxI0EQmU7fX+EUIiKva3xeQjxfQintWY9OfVPZBCr1yOcmnWcnrlIrG4XyTfngWUOGWc3hEOyH00EeWoJQKsOocV7gL/jStX9Y8hv600C/PxMwNf9W7Vma4JODJtyAVw+MIKM9Dh47+MSuPyCgrBGLAp1KiT/lJc1QnpWPAwQ6A2ijMIMC7Nw1KOOyWkLFVGxyS0BwJKi3qRCfNl0CwGqJ8QTAh9hTbLOtJ2aviQp4QRiUFTafD/UvtH64oH72vZUtoKxkkB49Omvbud4xwTZTqW1IK3SkHmGtYHkb3izeOONCyB6IlYJMm/yX9dZ7UOnK0qAGBGFYxohxgQZpnj/jrWzrDBIwFg4YBPNx0yF5L3TdxHy3WJBQUKVp/tORF8no/BZ9qYDF676fcjzJMVqGplwT9eLifU+VbZmE8xK84q910YkLzICA9KeoYCyGjXncqU4i7icEJ1EwRBIX9yOTAhQD5Gi/hOyGSUw5buRgOwBw6yEJbPdtTd/AHMvGqNamsMas4jxasZFr0NGduJARVipg3r4itlvEH/iPLHKowjVnuhC3MizYELk4mGV0J18tvOmIf+YcnNKi/jm/nM+0CW87LF33qVI3nGC5A1xtI0QsWXukOGXPnn4wLvfQ+Tg4nPOdAwbdXez131ADvg0JB6sSLLYSgsnRCI9HFcESpruP3Tb1w/32N15fyElBUKoArIwfsSxFqk5wCKWDMs4E2pdtf+yur9sfw/CSTQIFDJhMF0fnbFygOJMcvvHZRc1/HXnNxENEGyWwPT0DMANxE9LiKibQYv+tgqgNMeB+UnCTa1iJF2rQSDmWxeAQs+jluuun4v2bSN9iyYwvXQG4Ah18eEjkyFp+OMq8fY0Mnf+/+bffAplh90DR7wPglKwe76MefZysVpVU/ouPpXM9mKdj0atzE37n4nng44SZIkbcRVomA8U2c/w9uHXQOSgA1zJHnlXs7etjEzvTHhxi8xBFkcOV/LNL6bCIAK1/Iba3fE3pGgkNXrfKZ35gWvfme+aLaNcaviy3C7KtnFpEyAodoccdIyFbWv4y4+5LS8U56vb34tG196zObHkhDe4qnu//YR2HbHFBid6wPTUDJBTPSDf/yGg1qB0Q3VebsmFwNc5iI/WE/l8SSXE1DYw3z4P5BMrQLmQWN2T3cFIr/IUYN/+GTD1tqj6lmUF0jJdYB3yCNxzx+lw4zUTISneCoKowFcbD8L1t66EhBQH8NyAZFVSYpIKrrwaE8e/TKTU45ZcgkWFsU5OJyIZrNRsB5ILgY7tAphII9DU5xw/80PZ114uI4Q0n5O3JqPqbY9kwiDSfynIrENl4cgkAgydOifX8vz2sY65+bvk1gBrHpvwgGtO9jOtH1dQ1eYYIqYidsvq8vIwvartozK5YrsAjI+w8ruuAPlPK9R9/F1zVXcQJpwyamGHWpjjvcCUJwP7yGwy2/FBlxTpkxrR6HWj7ZsScXZuIrzx/m547uXvwecXgWMZSEq2QVKqAwbQ/YtGrr90Z6CoSUIMOr4mcOpHNzHpBhrqvg3elGSGCDH6jNe2BjyHKOfVfE6WMUve1qLrGxq+of68Ac8Y6TrZ2MYl/WH4O+fOhZ7fiky8ikdcVz5/7c0QfpRKh1/YVTL8rJzVRKicRSQtlL7ktDJCwFEbXaJnOeQzIB8hMOrSoRZqr6lXSQzdQAnZRkRpQszUWIV7itS9RGKiFTIznJCW5lCJeCCJN/HS7AKs4AI43sTbCYz66Gkjyvzg8k/726NY8hKRUZt4MaZKjPR+2Q//+xYMAuKlwKK8lZBw0AdLDYgmZgxwaFS3jUEjLAVJv4DOkSof9e2i7tZT5cDFq+ZYRrpYYhhGYqXbkfPK2Q9CR4FJzB89Dxso69wrmVFVgTEaJOaF/0zELxj/d8UtQL+BOQ75mdpgswtuncYwtjuJG0RnklIkky21mei9V8AgKqBf9/S2D9h4y3aafEATCfgQG92PrOwR1wiy8RVcFlHL0u0gtwmlPbpkm5dszbXkJyJyHuuYPfSBlLEpqi7KNYtNplwXcT1ZqcW7Qu/eYlELAwvMZzlOFQ979BsSfyFr4xg2wUJ1WZHoBH7FJ0tEvMOI+oR5ZEIm1qy6mrzE1URcharrqTu5YvArVdB/4DIyCk3OITPXCj6d6LYOo9WOz+ckQ9/4mfsSzN5TV5xE/qK8vLyQxgEpS0Ll68upz03V2etf2L6pfk8Cn1Nezh0qLw/0aC7XvFV8iGwo58wci1LJ4frSevV563fX++uHvaLu7+hP813ECHggkZVlBWPpixIXx++vf7bonJYPist12jL2STmp1pMdhfaTU2+2jE8+B8vAUS7PJltQw4s7aR2v/iAQ1WiVNOYPor+9QtGrN06NVlU//jELBpnRqgOd7wqXlpYGQrY4ymOlI3/Xr4fy8M+iShgdRNoVUo/9mt8pRsADiPg8KU3x60iKhKMyZnbvvunvjwVjKo/i2VJe49kCnzQAUFcDTpuQZhfGxo+Q2t3V7o+qW6B/uBseM215WcBTTqQEVt9o1bJnYWPjt4d7eW9HI9iST8tg4zILOVPiRIaLG86bXS7EmBjRX+OWsVwuis0/BFoObG+t23Cg4zwU4bW1LNF96bfWvE6MgAcQzJBEOxa0xwzNAW1+d+9iiJxrHvnotTtqPbCjdgf0H7hRp/7tH5KvMRt0FgvANMEWpJVlPz7wBkRHvEeIL2v0LxfFpf5sCcvFpcmSh/qraTBIt9JJLB/XkZPPEEfYDBg67g6QxLZyd+OWu6v2PP82GCM+zpU9NS457cJ3GM6ex/NxDNEAkCy1S4rkq/I273qget8rX0Lv9XguNffKMXFJJz7N8o7hHB/H0utIUruMJV9l/cGVC2IEPIBgFOLL0jUpEaeLR9LKgBlsYHJO/P1lhKteKWOfjsSgGq3adn9x+WWgH2EfCqq4nVv48DOO+HG3BbzViiz6GLJpnhQkaBlkyatuBDkO1/g3x8/8aHl74w+LyGTyMmhPmNKw/HubfO5y6othJLEzV4GGptiGOdPOWG1LmrikdNPiP0L0RIxyJz00z2Id/qosutVJqvM6NEkJsdaszNE374/Vgx5ABBoCjbSSgxawIIPzivw/QHQDvL/BJWVNGeKIP+FNWfZpMwdqtLLncIR4kyBILJFOUCzlguPPWiVzpoRfEuIF6IVXhbpsAp5KMFnTXxo77a39ECTecB8HKbIPwun1dPkdqy3nQejdpIvjnBP/RYiXXiPEtycTh9DSR+F66D+FOQwuuNdVNRHLsnYjpLokzsh+ZeatEBxQg5WQ6ViSMgvurxR8dbqiMDVaVf7waDZ0hFdCZGDTcy4aOnTkXU1+d4XKj6CPQCR6TvQ3ZI+fsZKy8XD14gi9Y01Dm+CvxUNGzL8QokTysFknCYEmzffCIJMYPQGjjkIFNHhD6khAYPqIkFGwpCwNFKGFBPoUKFjbS+1bGHANAss+uUWvEZG0GVOG/cnhH1+wFoKz+mCUnJSx05bX+NvLJL2VPljGJPk9B65ravqaurQitTgTYn0Qp+TdUCZ4K5Xjs5omywW8ldyYny/bHa4FIdBSrR4wlpE14YSbIUrYXSctUmSvtv1AkcqjenhEM4Za7CA98m4wtbDNBuKj7wA021XiiBqUuPxcsEbeRdtBuHsNCIvXgXTqgfC1siLp220FxekD8arNELhnNYi3rAf5xEq1uuYAsTXk2VjzDM0J1WuoBGSOGLx+PnrHVXjosz+f27F7sBTlZ0ac/Oe7RH9TCh38Wg1ppBUG9OH+zXe/DtEZreSx08ccDngqpOO7IB/DyZJvdNaom86BYydMRKzm/9QTPa327FMhSlji8mZrC1sYfJ6KLyN+AchjAnF6MUgvvxzkvAgH45UJ4UlLXwHx7CLSJuIw2SCBNdpB+OXXIP+JTAZjDwGyEz0jgSjuZ+4B8bWXQR7eSDT5KL4Zvb86Jwh/fgeUO1cD5NYCYyMWytRWwLO3kb6XgnhCFeHI/U4PuPrTDX/khzoMPRRNQxPK24Af4fzX6O/nup3nDR8Og0OsVqzO0Y+CrmQgS2ZrWmvxNwsvheiIlxky+sZZktCWpBeS2QlqcWYYEzEumWkaJPkdQREaRWQShs55L8S9Yk9ryZssZ9V874jhaCJ+VGIeb0rI0TrOMDz423a/FllZWcJ5xTm7AM4oBqCVKbtOQPQ3LXh3WgmI5++IOC6aFqsT7vuEmPaJRNnaI3+brv5Q4wRY9CXIQ1siFtVpjWlh6T8J8dPq7qbuw51GFtaSZ7niO5Az2vpODTCK9YADe5qepenbhs+RMStUeW1pd51YkvfJBetgYMVqNPykh54XfNV6BIktjlxu15eXda6rHM2LVhLTZryBZe2qD0RBlXlLMiFerqS9adtvmg69M7WuYsXY2oNvjm86/NlZPve+JzhTXC3L2RXVz6QBog+bUjLPnQg9Jsnm6s8rqEtKC3QBvMTsGaMgQqSlTUilRjItsCYX1B2s3BJZPrCfDP7zf9CumkGPzdlGLDQ248RA2inpbkCZtPZu+HMwEYHluz8GVGU8eUMNBzp3FzBuk/b9tJtBvmMNME126GfI5QvWLjblxos0j8/wWQgzcksAKYJ82ugfr8RDXznrno4j/S1GYFv8uFv0xFnOHI8qS56jwSjRGK1UxGWOTqIJrVptEJYlkymxtbnkz/aSjTcWVBW/9Je6ik+/aar4dE/zobW76g68/fmhXU/+ds9XC9IPVbw2zmzLpD7csK4eRfEjV8b0xyDEhEN8zQ1a96LIAWyPm3AlRCYhIdY1aTrx9Wo3wlgE2BqBEYvcvnweIcyGOP22hDuLT71JiMJCZA2yecNvahuFBem+j1Qi0gPlxMJDK8kEYdXsV+2bEny8D/AlW4jupf8OaYEi2eWHAQBbPH6Z3TIqniP8IDK/IYM44ZAb+ETLktHbr8KpN43/GQQ5XL9w5Pj4ifFYDmi+XBqsEfDWPEaIqASiD5NE8c7p14hCq2YjzjaE2f3VvKTq6q30Q2pykPaDn+9rLHrIbrKkakx6CMyOYaeHOuB17/0QNIGR1VUwDyKUNqyu/EUac4oKn6dqM0QSiUUttkp+rbGppFMnfmYZGZp6947VUrGIFrQz4o6iurLLC9LzrxkYojiY5thsN9Y3sUzj3Ppg0bz+Bf1a3J7/fZ0reHC+5N/bIiM2QtcI4chUP467LG+D84qRRaVPvFcIn6rEclyzejhn5ghZR9wzWZLw7vVz74beAVtcBVdr0QLROXFD5XtnQ5jiciEgEUJXrJn732Y55xUa7Qg3KOQpx+t6P+66XUutOdkLFSX8nMRbkoZDZMAWW/YUUWgO34Lo9d7WHX+jP/thlsY6G0WkEhXuEEqM9A1geAJER/4ZCEiwAlDR2GWIc5m3IzOtjgCRgWZ2+kRGbg+Mzn9orj/3rXOe7Thy3MRqIkZa9d6Z3132NfTBi+XNSQVaxznehWr3FtNrRTJpKU21659lmPAVSIgoDMnJlmOWkm2q2vkDa9JR5+QAk5iY5wTjII4xXtPlwnFxILd8r7oUIyory+xNA/wzA0ua0LKyHAZ+8QLiVgLtT0eMXYpdAPnx5cQ1ZdX/zDTZvykO+HsvDy50ptGeFtVTslpAvm8l4fAGdFtbAJj9KWplkQECncrRvunvTRpy98/Ocl2Vt1ooa8WRLthEK0ioKYoW7mYiVt9c94vNCU3fldIP1+dJDCbeVKXnirU6806B6IxW3UCsydoV+lWhZWtkxdiAljvna4Pnhj6VWKPJeLbQ8j7V3Y+omUk0FjMswdHwRz7xpJ9DU+lHYAAJWeeMl0TtMtEMZ4G6ul216r2DURARlFk9HuRZO4IiqRZSiavjhoVqRQ0j1S4QLVm75EJQfreK6MwmzbY4vQ1Mi+cDzmgx1DfTZga84hTAZ+/UHkJ00vGbVTcZdhorWXucoIoPhx/dvI5saNjrZz9rKUi8jei5MmIiE6tpFVihrE1JeaGw1fJF+gXVv93wKfRxql7twbUVKSNu6owpDgnRX8vnn/r3FSUbf0H1wahjg/UaYMUHqdmXn0UmvIgskZwpPlnLCUDtRYx9SEi9yucu28jxjpnhbg8TXdbmHHctwNurwMAkZosvmKsmYWhAEhr3df6OrKwszRvZmwEouTX86+TJi/iwEFCcz3ipGlolqd4O0qEkQIkaC6IRwmL/fD4h3maIZIlRbs0YCFzyPTDUPRWqZC3tK70F+FuuA0zrTQ+OyFB1RB1csPZ28uf2vM8v3kJY60TFI3Rm3xgDIWKxygP2yekfZP1t+k2VN33xT+hbIlZk0U2z9dPC3ReZ+jky91ySM/5355fv/NOqKK/PYZ0PIwXcOGHo2Wsj/37EC6JIwVUSQkBd4UQSQx7zNO98OT5t6kys4Y2yOkbMAIOjyuEcfQnW9myBp6VoRefvyMvKPn424AYX4fXHzrh0cW/89RjgPx4LOEJ/Ki2GZ/7TbMBVxEtAjFRdH1dd5Y1wXvTSDGCrnBERb/C+2sF843VB+bFH0b1g363A3nEVIGtgsBBvV9DbxqUz359U/0rRJD7TQQ0AEYvCcoufsY5N/FvqfZOolbovdWLUWvP5NUjHHqooAhOXMul9moAAUQU3jEU6LluV0jAxKNEw5cg2OXh2WBCjLItDytf+hrI1ev5gIvIa9nsSPX+0Tl/Q3rr7zSP/hwiBCeGanjsTuNvJgN8yAnCLIxhC+V0e8DddB6Yv8oPVI6OAQkvW/t/pwN09F2BXNkCbPViDet1Y4K9eBFxFQlQLhx8pWXv/xcA8Oufo5MMpgMl9m+bfpLqQcF8V5et70GlFaX29aHtJ4VtEv3X/2pTjpJ6GiMRRudHPJM0b+Q0Exdi+elilet/rn/GWZA/osMiAr0YZlv87ujQL5cD/OZlwiBi4hLa6UIdaWzc0M6xVc1ASCQXic6cPAx0kJBS6tCzaFBzvBOrP7vx/VC8RW2hlPhHYzwrUQu/8MzOBW0cmDrufcN7e2Ukol6cMhv9wAvB/mQmm56cBuykHgBB3r6pHUuNXnB+YdqJjf3SSqtNj4uIyvV1IOHRb31XUPL5QCfbQTetfLJ7wBmIY/BmXaKETlLGXTh7Rv79NyX179ofQt+Z2pr7qjQk0OkjnBhh/e7k05sxlVIcbfLJOGNBQTBw4VBfuuKiT2CDLfmwzj74ctN85MicUTJUlbQMW0Y+7+Zd6NwtSIiAEp259nFJIRXA6UagrEfYxbaE2S9Dl0m6OeAWJQQJ1Yaz9F358XsO9G7P5THs70QUMcWNq2DKPjD8f+hZKbcmKCjFQ/wJ5rzr3wXCS0JY7cvJfaXTTYEnG0AT16tTX7w5XlQ+1txS9qhlogDFyuArmg86kZXWNuhHrcGC/e/+X0IUi/jsT+rvFQsN/KtSyEk1fV1eXTFruUrzi72kpUjAgp4jV7ZB8y8TZ0LeQS79b/CvenFhDK21otiROB2L5vSMj/2bqXhrcRIxlRQo0fwXhaQV7fPuWsZxFk82Y7BljQOdKVufwM7S4FcOw0N5S/GK3fRDDfzqC1Q3nrn6s6aWd+fwQh25NJyxjsJ6YeAP0PZjdX87NouVhsY4pVZbamaSs2RsgJ4dGUBgwagX0ZTwaB21NA5MlpfebNRV4S0pAUQIfFm9YeCZovNOWsk8Osrx2rAbRbU2QNkHTvcUw1gSt4yzvgroDGzd0vZdYTayfDuSG14r3c0nmyY7ZuZvCLEF6BKZMRyH0PSjRcrUHlqalZF9VK/g1Y/0h4KlUxuU907qr/EIaBK8z8ZQqjE7AiMmWye364uK+NmZ0uu0054+OxIbksMfFNki2Dp/UADvWhzruTJk8UjeBATFksu5ehjbGgX9akGue2r6ZdZq8eg2RiTleiyBLtfvfb/S07LiWYU3a+jAxwwXaD7EFp7+2CfQtHaLecO1g+n1NwD3jckMB+dqKP9bshGgVjvgJ10Ho+0OupEkXKpJ2AJHfe3hrz/NjBPwThNwuNOm1IUR+PKUvuezHJa+Dglfr6cMIsaysBE7Om/TYXaAjERJDqaZYrsgeSE8/nXLB/nYpYE/TjqV6xQKscSPOhdCTAbbE51+lPU8g8LcWvdxzb4yAf4Jg4syZem3kNiEAxxdK8cZF55ltGR5do5YisSbb0Ecycq7MAw0ixpJPM5dQFttxXO5VNMih332C9czO7/XcaERPTgl3zGRLPwE0z3WAt+4btVB/1/0xAh44qIMs438n35rx2NQnkm4cPxMKC/mux6Lojxm6dOZCuVE/llvxyXVw/MHsXHdxPDVqgY4YSkukJo9cUAQaQR7Eh/yNDpdCLMOfOfKUZ+/tvD70Hsa+RXm5HyGkqbrIkhtSUyeHWFc5w0asXNqFADkbNDXtqOy5/7/TiEXfVWfq4ACWxB3+3rnvAs9eRL3e1nGJdyYvshA9boQgHnT/4NtZ/560z7NOLq3Z37y1WTuL/UzgklNyRzgXjHkZ2UxTaEqhZnuagl3VtgWOP1SjVsPBfxTED7lsDyVSDSC/u1waP+P9Fkr0oRq0tmx/OnnIrPO0fKWKIrKIMT84Ztry21sOrb2+2rVtNWzVz1DKyppi9SuubJMja6bVlX+5yZpxItHhzZ7mPXeXb3vgOTCQhOFzH/yWENqMcDQvix7sGHr+g3V139ESwZ3qAJMzceFiMdAIWnMFcWWVh9ofNQHTGGK3W4DWNr96WUecGeKd5shWjdXqnybi05KydChaA4DNfbNGMC1ch3OIwVBGwcQJWlWzFwuH9wKYH2K/QKwPrl5AVxIUa9UJ3IQs7Cn2yUNOgTNYYG1jIbWj+DsWZPIiQFR8okJXLGGsHEcmAEr1jNzsp1xV0SVeAsbCYO/3TS9A/0Cq3vvuPptr8r0sn7AEYyn8mEMMF/BW20dPXbqqeMOiC6BH+mPjgXfWZeReDR1F3MMDK6zkb0qKS528cqx5FoLpjCKL3kZFaG0GhvUijBQFiXaWc7o4xuKkkRqY0KdD8hBPlKAaw6jVWCZkH5c08WnSI31XugTc3vzDX+PTfj4DK2FVdWRxjLg5c9QN71TtfZnWMoP0nIuy7QkTHhH9jRo9Y/C6960MdSRiAqaE29zkg5PGp8Mzj8yCYUOdauW/A+XNsPj+z+CHHTWQlGSNLuyRCVaPlKaXAD5rF+AETzDEsSwFuNdOA8bPBhf7jgadfV+4HWDyPgCPWS0zKyx5H/jHzgXk8PU/DXNhSrAiCC7/QVxBUnd3kLljA3VpkHax53mGREYuzYGa/rHzW+g/yKVb7nqs4PRXL5KkwMkIWI3gDWoJQufkTvj9grIdS5ZBd8JhvC2732b4+MuM1IOmtZk7CIO2TSFdqzoozYVBwAO1+gqgrW7QOObExAlpocTXnqiVNq5JNl1MC+GFbUOlkLiU0z4bl3mumuRE9HYQfA2a9a1pRU1vw4+vhTwGEYASb9XBFvh0+ZXwyfJ5MHJEIpjNHJhMLOSPTIZP35oHa8ixStImYiWOhk6SyVn41/8FC+fxopqbqxZgT2sF+eEVIF60LbqStTQzqsUOwut/B3zGHpV4gyBE7fSBtPQfII2q611N66gwAOI7Jox6Wx0VCfvdUlv072tPsdiHylin4JMiC6w9acKraWkX0xzcrpOcsn/rvfNIH/32oRRFACY+y1hR8vLyAJk0GvT7DCDBX0cIt07No9abjFg+Hhqq1/wY6lhEL6K1TYBVhEAnjktXuW7XOhH0N8MgmDg+FT5feTW42yMzcqrc8ellgGqdwaygrsOL6qlU1C0sA3FGMUQM0rf4z6WAaqiVsMe4pX2Ta8LCr0FO8vZvWdl+JiEiGSrmkS7m4HWf3wa9nD3ImIv07un1uJ2li10WWyarZ3wQ/A04bcIiWnWip1GLaav96jyWtfXHEqkRo63263twFOmeWsCKQCM8Qr6viAg4xWGCn582jBBq+DYMOTj5pAxIdFrAMKgoceZeYJoc2t+VlqydtwnQ4XjDd47IOdL13wCqdmnHm7daQb73I0C0tnU/Acu430p/EIlctoxyMb5ffkMDpvUWZNIlzoC/NprynRLhUmJj5adTWd6uGxyhZi5NW06XX+lKEPLBXU+sEYWmJQxnOe61j2gmktRUbTQ/FlcWvfCy1ZbRpxKCv/0gjcUO+U0MX0iWFfjD/WcaNFIhePj+aSBJBrPciMFKPpvovLKBSZ1wUeGl10BxEKONQ9DerBKI0/YSnbfUELejBi4lzQ39BOTb1fgPOM5VI1UQm4xlpAu7b/jKVr6+nF5P0y9LjDgNOu4ajDAuh+ggV5e8tEkRmh9hGE6nMgdp4G9Ky5v89FPQPelBKt38P38UPBXXmmxDQE8k7w0Yzg4tLdsORXAK29qw5U5Qwx57D8Sw4G0rejHcccNGLI9XgnEFqWBEcKLz9wTS1uMTwBVngBPTJU2owcrLG+gcqwueKXesNibu0mL0RvVm0i8e2gzoQL+UlcWHblj3q+EfnZfOZzoulaqIBVTBfSdWqwVikGIa5mC8W+qeO3DRKlqax0i5VeRp2f1MXFLhq4QuQk7wnCkempt/fAWih1yy6dcP5E992clyjtuIfxRD+MLwLBG5b3dlT32otWJD11xY6cAPD9CgjbdGn/7KZiJSn0QMVgr03WJnGDE8Ju6d9yEyyAe3L3lq7Jlv3igEmkbSFYOhF6AJ/DXNm76G3orQLIvA7zdeysgbEFVx2hDU9dUjGLmMAtgmqhU1dDe1PI/Bvmmzfl4f6cD5q64oOektxr3x8DXAop18hgO4JAvxbDBGJNluUNcBshLPEumDdZoa/Nvqbis+4U1UsWjdnRB8OiNcAR8u+dsyLPv/abKmYpM1hWblBDf1d2rA27bnVnf1l/uhd1BKNtxw5+EDy09kGEtRMAOoy7WObKmAOBsxGDeHmoWpiKcU//v6SZU//jaRGIZeNZmTRd6cFNEaSJ2gtE8DJszWdEJ2/CF33TezSr5ZdAVEXs0T7V5/ZQHDmdfwtOwsjr4UBaJ1DBtKwoqFaNSUF8OtgXoMrr1iAtyzeIqhKqePPfctLF223dgYJK5L6YaNABmN+hyIEu/mkWBa9jNiqdYfj4Rfg/j3fwJqseq2pVU0udvnE0eNMZWHYa11xRuuS4O+QeeTY9d4VwI/KX0in5Mwnc+yT+YSrdmsy5RI/MM2mksLnavHE6cqDsh+uU1oEOv8JVJZ+/rAnsa1TabSElhxZNBFO3iC1zj6G3r8v68MNZ3rJOEu/++KzuvoSQ9H3l9WVpZV5qeezNrS55isQ6bw5vgsQKZEnrOZMe2fLtOBkEyswbQglkcWW+sItywSvBWf+d2Va5uq1x7q2h9ED9aeMjYlJeOShy2O7JksH5dCrseRiUKSJG+zInmID5bVNLpgRd6277tfnRjueEQEXF3RAu7Ke4w0BdvQR2HoUL0SK0eBMQPy429pl6ylpV8T28G0cCHgZAP1qSmIyK1ktwC+7mvAWusBd9SyNt19qVp6xwj6mIBj6FvopgD2E8Lex7jp72PBV6N5qqd5281VxS/9HfrCCp2VkwBX/eJ9zSANKi1c88uVMGyYceJVb4ROI5+PBzCFEdPV0q+twP1mHuDUCAxN5Dx29xBQGp2abWhZWe6h8wE7B2RtpBj6HoOl1kqo+2CzRt04W/TXa94jFb89NauXg8azRETAdGnmTT8ehgvmLw/eWYhuL73mHfj3lkpQIhSwMNFX+Q9OAPj4RLWCJLAdqy5Q149ZVIvasYvnE64nR1yADhOLtWnJHIDiDIBkd9D41dm3TVBrQTN3zyN6kzJ4PnsMP2XI8VnnfIJ13S7I29JSrhlAHrGmzxPjSikRpS2Zf4bzZuXBnJkj1f2ffrEfPvq4BHJHJIKJj84QRGtD899nA/5sNCiTKgCPqCeWYRbQtmxgiWWYis3Rln6l5XD5FYWA/zUF5CkHADLJe3GbgdlK/NqHnYCTPDHajaE/wOaf8sJrgq9WAc0lWTG0NW99BHRUgYh04GNOpgEYcrBvhomOsDT774jIwschY4j2jTu5cJSI6cAxRACVQPKnPP8YYiy3K4qgyTxNxBJupDwQB73wPFIR+ngQ7pH+j2NYY1/0bdhNFsN/M1QCSUycHJc2/vZtitg6VI94MSb2cc+hz8CAtZ9jGF5SFNFABEUMPSEIrbUQQwzHQiW8NFqF0l4wLSHj7CdYzpEv+GnWkf6sb7ZlMIT7Gir7yxFqp5UZdEuwxHAMsNBetgpiiKE7uMyC22clDDnjbaxINklsodlVxJ3bBEaIl5bj9bv306L3aniTXnvG377/Vb0avjEcC84Uj3y1a56FGGLoAkfahMT49KmriJHKRqtsEMqluw3qmbJktqa6S7f85ndgMFCGObhj1R8s9oyYMhcB1AkPQ0V9/e6YCB1DN9i4IUNkoS3i82hChiUuj9v15WW0nJBheiQNd0s+d+kj+mvaxNAJkzWFOVT6BC2M3t9J8TEMcojehnKWMxC22w1E1o4bzvKN99HV7amBy7BErCrbpZt/c5/JnFyBQYkRsQ4Y1iL72g7e4q7eSjNjYqpHDN3Q3Ly1lWHNxumIME6TLb1t+9pz0NatW6lrJKLFzztZNbPry8uH8+bEIoRQX67e/tMBkXF4UwKWhKa7Dmz9zVKAmMQSQ2gEfDVloBvThxWzPQsEz+H7dq27lOavUlqMmPY6Q6boxZj68ndfcKWe0miNy5ujSB5sPA/vJw1Mi4rxlmR3Vc27BdXbn6T+udgkF0M4IIs9q9pszbisJ/3QwCeOd2LO5Ap4Wose3vftrdNaar+iy8p0zcaK7GJh9uG0vKvPtztH/5blneMZhrPjgSygPBBA1FQlNgrew1+1t+16qLH8I1qMy0hCfAwxoLyTH3+b5R0XEbqRFNlfLwrN2wPu0ne8gQMftVV+S5e+6ZOUzP8Hq/XvPFDHgd8AAAAASUVORK5CYII=" alt="Skey ERP" width="240" height="80">'
+          const heading = document.createElement('h1')
+          heading.id = 'launchpad-title'
+          heading.className = 'lp-title'
+          const subtitle = document.createElement('p')
+          subtitle.className = 'lp-subtitle'
+
+          if (mode === 'home') {
+            const userName = getLaunchpadUserName()
+            if (userName) {
+              heading.append(`${t('Good to see you,')} `)
+              const name = document.createElement('bdi')
+              name.className = 'lp-user-name'
+              name.textContent = userName
+              name.setAttribute('data-text', userName)
+              heading.append(name, '.')
+            } else {
+              heading.textContent = t('Welcome back.')
+            }
+            subtitle.textContent = t('Resume recent work or open another Skey app.')
+          } else {
+            heading.textContent = t('Switch app')
+            subtitle.textContent = t('Choose another app or return to your current screen.')
+          }
+
+          hero.append(heading, subtitle)
+          animateLaunchpadWords(heading)
+          content.appendChild(hero)
+
+          const body = document.createElement('div')
+          body.className = 'lp-body'
+
+          /* the same "Search or run an action" panel every other page opens — .s-open
+     is the topbar's own wiring; the launchpad just gives it a bar of its own */
+          const search = document.createElement('button')
+          search.type = 'button'
+          search.className = 'lp-search s-open'
+          search.innerHTML =
+            `<svg width="15" height="15" aria-hidden="true"><use href="#i-search"/></svg>` +
+            `<span class="lp-search-label search-typing-label" data-search-static="Search apps and screens">${t('Search apps and screens')}</span>` +
+            '<span class="kbd-chip lp-keyboard-hint">⌘K</span>'
+          search.setAttribute('aria-label', t('Search apps and screens'))
+
+          const sections = document.createElement('div')
+          sections.className = 'lp-sections'
+
+          /* Starred/Recent are quick-access shortcuts, not primary content — one light
+     cluster with inline micro-labels, not two more copies of the same loud
+     section-heading treatment the Apps grid below needs to stand apart from */
+          const quick = document.createElement('div')
+          quick.className = 'lp-quick'
+          const quickRow = (label, icon, cls, items, rowIndex) => {
+            const row = document.createElement('section')
+            row.className = 'lp-quick-row'
+            row.style.setProperty('--lp-i', rowIndex)
+            const labelId = `launchpad-${label.toLowerCase()}-title`
+            row.setAttribute('aria-labelledby', labelId)
+            const lbl = document.createElement('h2')
+            lbl.id = labelId
+            lbl.className = 'lp-quick-lbl'
+            lbl.textContent = t(label)
+            const tags = document.createElement('div')
+            tags.className = 'lp-tags'
+            items.forEach((name, index) => {
+              const tag = launchpadTag(name, icon, cls, () => {
+                /* the rail only has icons for top-level NAV_TREE groups — a leaf like
+             "Sales Invoice" needs its parent group's icon activated first so the
+             panel renders the leaf, then setNavCurrent highlights the leaf itself
+             and switches the content view, same as clicking it in the panel would */
+                if (!openLaunchpadListDestination(side, name)) {
+                  const group = findNavGroup(name)
+                  if (group) side.querySelector('.nc2').activateByLabel(group[0])
+                  setNavCurrent(side, name)
+                }
+              })
+              if (index > 2) tag.classList.add('lp-mobile-extra')
+              tags.appendChild(tag)
+            })
+            const viewAll = document.createElement('button')
+            viewAll.type = 'button'
+            viewAll.className = 'lp-view-all'
+            viewAll.setAttribute('aria-expanded', 'false')
+            viewAll.textContent = t('View all')
+            viewAll.addEventListener('click', () => {
+              const expanded = row.classList.toggle('is-expanded')
+              viewAll.setAttribute('aria-expanded', String(expanded))
+              viewAll.textContent = t(expanded ? 'Show less' : 'View all')
+            })
+            row.append(lbl, tags, viewAll)
+            return row
+          }
+          quick.append(
+            quickRow('Starred', 'i-spark', 'starred', NAV_FAVORITES, 0),
+            quickRow('Recent', 'i-clock', 'recent', NAV_RECENTS.slice(0, 5), 1)
+          )
+
+          const appsSec = document.createElement('section')
+          appsSec.setAttribute('aria-labelledby', 'launchpad-apps-title')
+          appsSec.innerHTML = `<div class="lp-section-hd"><h2 id="launchpad-apps-title" class="lp-section-title">${t('Apps')}</h2></div>`
+          const appsGrid = document.createElement('div')
+          appsGrid.className = 'lp-grid'
+          visibleGroups().forEach((group, index) => {
+            const tile = launchpadTile(
+              group[0],
+              NAV_ICONS[group[0]] || 'i-doc',
+              () => {
+                if (!openLaunchpadListDestination(side, group[0]))
+                  side.querySelector('.nc2').activateByLabel(group[0])
+              },
+              {current: mode === 'switcher' && group[0] === currentAppLabel}
+            )
+            tile.style.setProperty('--lp-i', index)
+            appsGrid.appendChild(tile)
+          })
+          appsSec.appendChild(appsGrid)
+
+          sections.append(quick, appsSec)
+          body.append(search, sections)
+          content.appendChild(body)
+          startSearchTyping(search.querySelector('.lp-search-label'))
+          if (focusWasInShell) requestAnimationFrame(() => search.focus())
+          queueSkeletonForCurrentView()
+        }
+
+        /* ---- the topbar's app-grid icon becomes the actual app switcher, rebuilt whenever
+   the sidebar customization changes what's visible or its order ---- */
+        function setupAppSwitcher(listEl) {
+          listEl.innerHTML = ''
+          const filterWrap = document.createElement('div')
+          filterWrap.className = 'app-switcher-filter'
+          filterWrap.innerHTML =
+            '<svg width="13" height="13" aria-hidden="true"><use href="#i-search"/></svg>' +
+            '<input type="search" placeholder="Filter apps…" aria-label="Filter apps" autocomplete="off">'
+          const rows = document.createElement('div')
+          rows.className = 'app-switcher-rows'
+          listEl.append(filterWrap, rows)
+
+          const side = listEl.closest('.design').querySelector('.side')
+          const groups = visibleGroups()
+          groups.forEach(group => {
+            const label = group[0]
+            const row = document.createElement('button')
+            row.type = 'button'
+            row.setAttribute('role', 'menuitem')
+            row.className = 'app-switcher-row'
+            row.dataset.label = label
+            row.innerHTML = `<span class="sq"><svg width="16" height="16" aria-hidden="true"><use href="#${NAV_ICONS[label] || 'i-doc'}"/></svg></span><span></span>`
+            row.querySelector('span:last-child').textContent = label
+            row.addEventListener('click', () => {
+              side.querySelector('.nc2').activateByLabel(label)
+              rows
+                .querySelectorAll('.app-switcher-row')
+                .forEach(r => r.classList.toggle('active', r.dataset.label === label))
+              closeAllMenus()
+            })
+            rows.appendChild(row)
+          })
+          const activeIcon = side.querySelector('.nc2-icn.active')
+          const activeLabel = activeIcon ? activeIcon.getAttribute('aria-label') : null
+          rows
+            .querySelectorAll('.app-switcher-row')
+            .forEach(r => r.classList.toggle('active', r.dataset.label === activeLabel))
+
+          const input = filterWrap.querySelector('input')
+          input.value = ''
+          input.addEventListener('input', () => {
+            const q = input.value.trim().toLowerCase()
+            rows.querySelectorAll('.app-switcher-row').forEach(r => {
+              r.hidden = !!q && !r.dataset.label.toLowerCase().includes(q)
+            })
+          })
+          input.addEventListener('click', e => e.stopPropagation())
+        }
+
+        /* ---- global collapse: pure CSS + a class toggle, no rebuild. The nav
+   already carries both its expanded markup and its collapsed rail/panel
+   in the same DOM; ".side.collapsed" just switches which half is visible. ---- */
+        const compactShell = matchMedia('(max-width: 900px)')
+        let sideCollapsed = compactShell.matches
+        function updateSideWidth(side) {
+          side.classList.toggle('wide', !sideCollapsed)
+        }
+        /* bootToLaunchpad: whether this rebuild should land on the launchpad —
+   true for a fresh mount, false for a rebuild that should leave the user
+   exactly where they were (e.g. after saving Customize sidebar, which just
+   needs the rail's contents refreshed) */
+        function renderSide(side, {bootToLaunchpad = true} = {}) {
+          const fbody = side.parentElement
+          const frame = fbody.closest('.frame')
+          const wasShowingLaunchpad = !!frame.querySelector('.lp-view:not([hidden])')
+          const nav = side.querySelector('.nc')
+          if (nav) nav.remove()
+          const lp = frame.querySelector('.lp-view')
+          if (lp) {
+            stopSearchTyping(lp)
+            restoreLaunchpadActions(frame)
+            lp.remove()
+          }
+          side.classList.remove('collapsed')
+          const built = buildNavLaunchpad(fbody)
+          side.prepend(built)
+          if (bootToLaunchpad || wasShowingLaunchpad) {
+            showLaunchpad(fbody, {mode: 'home'})
+          } else {
+            setNavCurrent(side, navCurrentLabel)
+          }
+          if (sideCollapsed) side.classList.add('collapsed')
+          updateSideWidth(side)
+        }
+        /* the topbar app switcher just selects a rail icon; the collapse toggle
+   jumps to the front of the topbar once collapsed, same as the reference —
+   it's the primary way back at that point */
+        /* the topbar keeps the tenant as its identity, not a single app — the rail
+   and launchpad already carry app identity. */
+        /* the active fiscal year rides next to the tenant name so it's always visible,
+   not tucked in a menu — every posted document is scoped to one, so which
+   year is active changes what the rest of the shell shows. */
+        const ACTIVE_FISCAL_YEAR = '2026'
+        function syncTopbarBrand() {
+          /* not scoped to .gtop — the launchpad moves this same button into
+     .lp-actions-left while it's open (see showLaunchpad), and it still
+     needs the year badge/label filled in there too */
+          document.querySelectorAll('.gtop .app, .lp-actions-left .app').forEach(el => {
+            el.innerHTML =
+              '<svg width="16" height="16" aria-hidden="true"><use href="#i-home"/></svg><span class="app-name"></span><span class="badge gray year-badge"></span><span class="tip"></span>'
+            el.querySelector('.app-name').textContent = 'lastchance'
+            el.querySelector('.year-badge').textContent = ACTIVE_FISCAL_YEAR
+            el.querySelector('.tip').textContent = 'lastchance'
+            el.setAttribute('aria-label', `lastchance, fiscal year ${ACTIVE_FISCAL_YEAR}`)
+          })
+        }
+        /* clicking the topbar's tenant identity has nothing app-scoped to go "home" to;
+   the Home rail icon covers that job instead. */
+        function goToForYou() {}
+        function syncTopbarChrome() {
+          document.querySelectorAll('.app-switcher-menu').forEach(m => {
+            m.hidden = false
+            m.style.order = '1'
+          })
+          document.querySelectorAll('.gtop .app').forEach(a => {
+            a.style.order = '2'
+          })
+          document.querySelectorAll('.side-toggle').forEach(b => {
+            b.style.order = sideCollapsed ? '-1' : '3'
+            b.classList.toggle('rail-aligned', sideCollapsed)
+            b.setAttribute('aria-pressed', String(sideCollapsed))
+            b.setAttribute('aria-label', sideCollapsed ? 'Expand sidebar' : 'Collapse sidebar')
+            b.querySelector('.tip').textContent = sideCollapsed
+              ? 'Expand sidebar'
+              : 'Collapse sidebar'
+          })
+          syncTopbarBrand()
+        }
+        function applySideCollapsedState() {
+          document.querySelectorAll('.side').forEach(side => {
+            side.classList.toggle('collapsed', sideCollapsed)
+            updateSideWidth(side)
+            /* the panel is pinned open whenever the sidebar is expanded, and is
+       an on-demand flyout once collapsed — collapsing should close it right
+       away instead of leaving it floating until a separate outside click */
+            const panel = side.querySelector('.nc3-panel')
+            if (panel) panel.hidden = sideCollapsed
+            const handle = side.querySelector('.side-handle')
+            if (handle)
+              handle.setAttribute(
+                'aria-label',
+                sideCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
+              )
+          })
+          syncTopbarChrome()
+        }
+        function toggleSideCollapse() {
+          sideCollapsed = !sideCollapsed
+          applySideCollapsedState()
+        }
+        compactShell.addEventListener('change', event => {
+          sideCollapsed = event.matches
+          applySideCollapsedState()
+        })
+
+        const deferredContentViews = new Map()
+        const initializedContentViews = new Set()
+        let contentViewDeferralReady = false
+        let ensureContentViewRendered = () => {}
+
+        /* ================= mount designs ================= */
+        const T = id => document.getElementById(id).content.cloneNode(true)
+        document.querySelectorAll('.design.active').forEach(d => {
+          const frame = document.createElement('div')
+          frame.className = 'frame'
+          frame.append(T('t-top'))
+          const body = document.createElement('div')
+          body.className = 'fbody'
+          const side = document.createElement('nav')
+          side.className = 'side'
+          side.setAttribute('aria-label', 'Primary navigation')
+          const handle = document.createElement('button')
+          handle.type = 'button'
+          handle.className = 'side-handle'
+          handle.setAttribute('aria-label', 'Collapse sidebar')
+          handle.addEventListener('click', toggleSideCollapse)
+          side.appendChild(handle)
+          const content = document.createElement('main')
+          content.className = 'content'
+          content.id = 'app-main'
+          content.tabIndex = -1
+          content.append(d.querySelector('.body-tpl').content.cloneNode(true))
+          content.append(d.querySelector('.email-tpl').content.cloneNode(true))
+          content.append(d.querySelector('.list-tpl').content.cloneNode(true))
+          content.append(d.querySelector('.customer-list-tpl').content.cloneNode(true))
+          content.append(d.querySelector('.customer-record-tpl').content.cloneNode(true))
+          content.append(d.querySelector('.geo-list-tpl').content.cloneNode(true))
+          content.append(d.querySelector('.geo-record-tpl').content.cloneNode(true))
+          body.append(side, content)
+          frame.append(body)
+          d.querySelector('.mount').append(frame)
+          d.querySelectorAll('.pager-mount').forEach(m => m.append(T('t-pager')))
+          d.querySelectorAll('.customer-record-pager-mount').forEach(m => m.append(T('t-pager')))
+          d.querySelectorAll('.geo-record-pager-mount').forEach(m => m.append(T('t-pager')))
+          d.querySelectorAll('.pill-mount').forEach(m => m.append(T('t-pill')))
+          d.querySelectorAll('.menus-mount').forEach(m => m.append(T('t-menus')))
+          d.querySelectorAll('.ctx-mount').forEach(m => m.append(T('t-ctx')))
+          d.querySelectorAll('.crumbs .sep').forEach(separator => {
+            separator.setAttribute('aria-hidden', 'true')
+          })
+          d.querySelectorAll('.side-toggle').forEach(b =>
+            b.addEventListener('click', toggleSideCollapse)
+          )
+          d.querySelectorAll('.gtop .app').forEach(b => b.addEventListener('click', goToForYou))
+          renderSide(side)
+          d.querySelectorAll('.app-switcher-list').forEach(setupAppSwitcher)
+          applySideCollapsedState()
+        })
+        /* ========== create-mode controls, added once per design ========== */
+        document.querySelectorAll('.design.active').forEach(d => {
+          /* this record's own actions come first, the general ones after them */
+          d.querySelectorAll('.lbtn[data-act="Save"]').forEach(btn => {
+            const modify = document.createElement('button')
+            modify.className = 'lbtn pri'
+            modify.dataset.act = 'Modify'
+            modify.innerHTML =
+              '<svg width="15" height="15" aria-hidden="true"><use href="#i-edit"/></svg> Modify'
+            btn.parentNode.insertBefore(modify, btn)
+          })
+
+          /* the general actions sit behind whatever this record is doing */
+          d.querySelectorAll('.lbtn[data-act="Save"]').forEach(btn => {
+            const row = btn.parentNode
+            const host = document.createElement('span')
+            host.className = 'recacts'
+            host.innerHTML =
+              '<span class="vsep" data-role="gensep"></span>' +
+              '<span class="newwrap menu">' +
+              '<button class="lbtn out main" data-act="New"><svg width="15" height="15" aria-hidden="true"><use href="#i-plus"/></svg> New</button>' +
+              '<button class="car" aria-haspopup="menu" aria-expanded="false" aria-label="Other things to create">' +
+              '<svg width="11" height="11" aria-hidden="true"><use href="#i-caret"/></svg></button>' +
+              '<div class="mlist mend" role="menu" style="min-width:230px">' +
+              '<div class="grp-lbl">This screen</div>' +
+              '<button role="menuitem" data-act="Add From">Add From</button>' +
+              '<button role="menuitem" data-act="New in new tab"><svg width="14" height="14" aria-hidden="true"><use href="#i-next"/></svg> Open in new tab</button>' +
+              '</div>' +
+              '</span>' +
+              '<button class="lbtn out danger" data-act="Delete"><svg width="15" height="15" aria-hidden="true"><use href="#i-trash"/></svg> Delete</button>'
+            const undo = row.querySelector('[data-act="Undo"]')
+            ;(undo || btn).after(host)
+          })
+          d.querySelectorAll('.lbtn[data-act="Save"]').forEach(btn => {
+            const wrap = document.createElement('span')
+            wrap.className = 'savewrap menu'
+            btn.parentNode.insertBefore(wrap, btn)
+            wrap.appendChild(btn)
+            btn.classList.add('main')
+            const car = document.createElement('button')
+            car.className = 'car'
+            car.setAttribute('aria-haspopup', 'menu')
+            car.setAttribute('aria-expanded', 'false')
+            car.setAttribute('aria-label', 'Other ways to save')
+            car.innerHTML =
+              '<svg width="11" height="11" aria-hidden="true"><use href="#i-caret"/></svg>'
+            const list = document.createElement('div')
+            list.className = 'mlist mend'
+            list.setAttribute('role', 'menu')
+            list.style.minWidth = '210px'
+            list.innerHTML =
+              '<button role="menuitem" data-save="new">Save and start another</button>' +
+              '<button role="menuitem" data-save="close">Save and go to the list</button>'
+            wrap.append(car, list)
+            const chip = document.createElement('span')
+            chip.className = 'reqchip'
+            chip.hidden = true
+            wrap.parentNode.insertBefore(chip, wrap)
+          })
+          /* lives in the footer next to "Record N of N" instead of its own
+     full-width banner above the canvas, or crowding the title row — same
+     always-visible reason, without spending a row on it anywhere. Scoped to
+     the record page's own .fnav (a direct .content child) so it doesn't also
+     attach to the List page's unrelated ".pos" (page count), which lives
+     inside .list-view instead. */
+          d.querySelectorAll('.content > .fnav .pos').forEach(p => {
+            const bar = document.createElement('span')
+            bar.className = 'lockbanner'
+            bar.hidden = true
+            bar.innerHTML =
+              '<svg width="13" height="13" aria-hidden="true"><use href="#i-lock"/></svg><span></span>'
+            p.after(bar)
+          })
+          d.querySelectorAll('.pager-mount').forEach(m => {
+            const b = document.createElement('button')
+            b.className = 'backlist'
+            b.hidden = true
+            b.innerHTML =
+              '<svg width="14" height="14" aria-hidden="true"><use href="#i-prev"/></svg> Back to the invoice list'
+            m.parentNode.insertBefore(b, m.nextSibling)
+          })
+        })
+
+        /* ================= menus ================= */
+        const closeAllMenus = except =>
+          document.querySelectorAll('.menu > button[aria-expanded="true"]').forEach(b => {
+            if (b !== except) {
+              b.setAttribute('aria-expanded', 'false')
+              b.parentElement.querySelector('.mlist').classList.remove('open')
+            }
+          })
+        const enabledMenuItems = list =>
+          [...list.querySelectorAll('[role^="menuitem"]')].filter(item => !item.disabled)
+        function openMenuFromKeyboard(trigger, edge) {
+          const list = trigger.parentElement.querySelector('.mlist')
+          closeAllMenus(trigger)
+          trigger.setAttribute('aria-expanded', 'true')
+          list.classList.add('open')
+          if (list.classList.contains('app-switcher-list')) positionFixedMenu(trigger, list)
+          const items = enabledMenuItems(list)
+          items.forEach(item => (item.tabIndex = -1))
+          ;(edge === 'last' ? items.at(-1) : items[0])?.focus()
+        }
+        function closeMenuAndRestoreFocus(trigger) {
+          trigger.setAttribute('aria-expanded', 'false')
+          trigger.parentElement.querySelector('.mlist').classList.remove('open')
+          trigger.focus()
+        }
+        document.addEventListener('keydown', event => {
+          const trigger = event.target.closest('.menu > button[aria-haspopup="menu"]')
+          if (trigger && ['ArrowDown', 'ArrowUp'].includes(event.key)) {
+            event.preventDefault()
+            openMenuFromKeyboard(trigger, event.key === 'ArrowUp' ? 'last' : 'first')
+            return
+          }
+          const list = event.target.closest('.mlist[role="menu"]')
+          if (!list) return
+          const owner = list.parentElement.querySelector(':scope > button[aria-haspopup="menu"]')
+          if (event.key === 'Escape') {
+            event.preventDefault()
+            closeMenuAndRestoreFocus(owner)
+            return
+          }
+          if (event.key === 'Tab') {
+            owner.setAttribute('aria-expanded', 'false')
+            list.classList.remove('open')
+            return
+          }
+          const items = enabledMenuItems(list)
+          if (!items.length) return
+          const current = items.indexOf(document.activeElement)
+          let next = current
+          if (event.key === 'ArrowDown') next = (current + 1) % items.length
+          else if (event.key === 'ArrowUp') next = (current - 1 + items.length) % items.length
+          else if (event.key === 'Home') next = 0
+          else if (event.key === 'End') next = items.length - 1
+          else return
+          event.preventDefault()
+          items[next]?.focus()
+        })
+        document.addEventListener('click', e => {
+          const switcherBtn = e.target.closest('.app-switcher-menu > button')
+          if (switcherBtn) {
+            const fbody = switcherBtn.closest('.design').querySelector('.fbody')
+            showLaunchpad(fbody, {mode: 'switcher', returnFocus: switcherBtn})
+            return
+          }
+          const trg = e.target.closest('.menu > button[aria-haspopup]')
+          if (trg) {
+            const l = trg.parentElement.querySelector('.mlist')
+            const open = trg.getAttribute('aria-expanded') === 'true'
+            closeAllMenus(trg)
+            trg.setAttribute('aria-expanded', String(!open))
+            l.classList.toggle('open', !open)
+            if (!open && l.classList.contains('app-switcher-list')) positionFixedMenu(trg, l)
+            return
+          }
+          if (!e.target.closest('.menu')) closeAllMenus()
+        })
+        /* the app switcher's trigger sits inside the sidebar's own stacking context, so a
+   plain position:absolute popover gets visually clipped/buried under the rail and
+   panel — anchoring it with position:fixed from the trigger's own rect escapes that entirely */
+        function positionFixedMenu(trigger, list) {
+          const r = trigger.getBoundingClientRect()
+          list.style.position = 'fixed'
+          list.style.insetInlineStart = r.left + 'px'
+          list.style.insetInlineEnd = 'auto'
+          list.style.top = r.bottom + 4 + 'px'
+        }
+
+        /* ================= pagers ================= */
+        document.querySelectorAll('.pager').forEach(p => {
+          const inp = p.querySelector('.pg-i'),
+            max = +inp.max
+          inp.dir = 'ltr'
+          const b = {
+            f: p.querySelector('.pg-f'),
+            p: p.querySelector('.pg-p'),
+            n: p.querySelector('.pg-n'),
+            l: p.querySelector('.pg-l'),
+          }
+          const pos = p.closest('.design')?.querySelector('.pos')
+          const set = v => {
+            v = Math.min(max, Math.max(1, v || 1))
+            inp.value = v
+            inp.dataset.last = v
+            b.f.disabled = b.p.disabled = v === 1
+            b.n.disabled = b.l.disabled = v === max
+            if (pos) pos.textContent = `Record ${v} of ${max}`
+          }
+          b.f.onclick = () => set(1)
+          b.p.onclick = () => set(+inp.value - 1)
+          b.n.onclick = () => set(+inp.value + 1)
+          b.l.onclick = () => set(max)
+          inp.onchange = () => set(+inp.value)
+          set(1)
+        })
+
+        /* ================= status popover ================= */
+        const pop = document.getElementById('stpop')
+        const reached = id =>
+          state.mode === 'create'
+            ? false
+            : id === 'entry' || id === 'modified' || id === state.status
+        const renderPop = () => {
+          const creating = state.mode === 'create'
+          const n = CHAIN.filter(c => reached(c.id)).length
+          pop.querySelector('h4').textContent = creating
+            ? 'Nothing recorded yet'
+            : 'Document status'
+          pop.querySelector('.sub').textContent = creating
+            ? 'Starts when you save'
+            : `${n} of ${CHAIN.length} steps recorded`
+          let lead = pop.querySelector('.poplead')
+          if (!lead) {
+            lead = document.createElement('p')
+            lead.className = 'poplead'
+            pop.querySelector('.rows').before(lead)
+          }
+          lead.hidden = !creating
+          lead.textContent =
+            'This invoice has never been saved, so the system has recorded nothing about it. Saving writes the first line — who entered it and when — and the rest follows as the invoice moves.'
+          /* the full history is a stored thing; there is none yet */
+          const histBtn = pop.querySelector('.ft button')
+          histBtn.disabled = creating
+          histBtn.title = creating ? 'Save the invoice first — it has no history yet' : ''
+          pop.querySelector('.rows').innerHTML = CHAIN.map(c => {
+            const on = reached(c.id),
+              cur = !creating && c.id === state.status
+            const cls = on ? (cur ? 'cur' : 'done') : 'off'
+            const icon =
+              on && !cur ? '<svg width="11" height="11"><use href="#i-check"/></svg>' : ''
+            const badge = cur ? '<span class="badge ok">Current</span>' : ''
+            const meta = on
+              ? `${c.who} · ${c.when}${c.dur ? ' · took ' + c.dur : ''}`
+              : creating
+                ? 'Not yet'
+                : 'Never happened on this invoice'
+            const link = on && c.link ? `<a class="lnk" href="#">${c.link} →</a>` : ''
+            return `<div class="strow ${cls}"><span class="stdot2">${icon}</span>
+      <div><div class="t">${c.name}${badge}<span class="tag-derived">derived</span></div>
+      <div class="m">${meta}</div>${link}</div></div>`
+          }).join('')
+        }
+        const closePop = () => {
+          pop.classList.remove('open')
+          document
+            .querySelectorAll('.stpill[aria-expanded="true"]')
+            .forEach(b => b.setAttribute('aria-expanded', 'false'))
+        }
+        document.addEventListener('click', e => {
+          const pill = e.target.closest('.stpill')
+          if (pill) {
+            const open = pop.classList.contains('open')
+            closePop()
+            if (!open) {
+              renderPop()
+              pop.classList.add('open')
+              pill.setAttribute('aria-expanded', 'true')
+              const r = pill.getBoundingClientRect(),
+                h = pop.offsetHeight
+              pop.style.top =
+                (r.bottom + 8 + h <= innerHeight - 12
+                  ? r.bottom + 8
+                  : Math.max(12, r.top - h - 8)) + 'px'
+              pop.style.left = Math.max(12, Math.min(innerWidth - 364, r.left)) + 'px'
+            }
+            e.stopPropagation()
+          } else if (!e.target.closest('#stpop')) closePop()
+        })
+
+        /* ================= drawer ================= */
+        const drawer = document.getElementById('drawer'),
+          drscrim = document.getElementById('drscrim')
+        const EMPTY = ({icon, title, body, cta}) => `<div class="empty">
+    <span class="ic"><svg width="18" height="18"><use href="#${icon}"/></svg></span>
+    <h4>${title}</h4><p>${body}</p>${cta ? `<div class="cta">${cta}</div>` : ''}</div>`
+
+        const renderCards = () => {
+          /* a draft has no record to describe yet */
+          if (state.mode === 'create') {
+            document.querySelector('.drtab[data-tab=stages] .n').textContent = '0'
+            document.querySelector('[data-panel=stages]').innerHTML = EMPTY({
+              icon: 'i-clock',
+              title: 'Nothing has happened yet',
+              body: 'The log starts the moment you save this invoice. It will show who entered it, who changed it, and every posting or cancellation after that.',
+            })
+            document
+              .querySelectorAll('.cur-name,.cur-badge')
+              .forEach(e => (e.textContent = 'Draft'))
+            return
+          }
+          const list = CARDS.filter(c => c.always || c.id === state.status)
+          document.querySelector('.drtab[data-tab=stages] .n').textContent = list.length
+          const noCard =
+            state.status === 'returned'
+              ? `<div class="drnote">The <b>Returned</b> flag records nothing else \u2014 no user, no date, no reason. Only the flag itself is stored.</div>`
+              : ''
+          document.querySelector('[data-panel=stages]').innerHTML =
+            list
+              .map(
+                c => `
+    <div class="card"><div class="mk"><span class="dot"><svg width="11" height="11"><use href="#i-check"/></svg></span></div>
+      <div class="main"><div class="t">${c.name}${c.badge ? `<span class="badge gray">${c.badge}</span>` : ''}</div>
+        <div class="grid" style="grid-template-columns:repeat(${Math.min(c.rows.length, 4)},1fr)">
+          ${c.rows.map(r => `<div><div class="k">${r[0]}</div><div>${String(r[1]).replace('__PRINTS__', state.prints)}</div></div>`).join('')}</div>
+        ${c.link ? `<a class="lnk" href="#">${c.link} →</a>` : ''}</div></div>`
+              )
+              .join('') +
+            noCard +
+            `<div class="drnote">Only the cards this invoice actually has are listed, each showing its most recent state.</div>`
+          document
+            .querySelectorAll('.cur-name,.cur-badge')
+            .forEach(
+              e =>
+                (e.textContent = state.mode === 'create' ? 'Draft' : STATUSES[state.status].short)
+            )
+        }
+        const renderActivity = () => {
+          /* the live product returns nothing here on most invoices — design for that first */
+          if (state.mode === 'create' || !ACTIVITY.length || state.emptyFlow) {
+            document.querySelector('.drtab[data-tab=activity] .n').textContent = '0'
+            document.querySelector('[data-panel=activity]').innerHTML = EMPTY({
+              icon: 'i-chat',
+              title:
+                state.mode === 'create'
+                  ? 'No conversation yet'
+                  : 'Nothing has been written about this invoice',
+              body:
+                state.mode === 'create'
+                  ? 'Once the invoice is saved, anyone who works on it can leave a note here, attach a file, or mention a colleague.'
+                  : 'Notes and messages left here stay with the invoice, so the next person sees why it looks the way it does.',
+              cta:
+                state.mode === 'create'
+                  ? ''
+                  : '<button class="lbtn out" id="first-note">Write the first note</button>',
+            })
+            return
+          }
+          document.querySelector('.drtab[data-tab=activity] .n').textContent = String(
+            ACTIVITY.reduce((n, g) => n + g.items.length, 0)
+          )
+          document.querySelector('[data-panel=activity]').innerHTML = ACTIVITY.map(
+            g =>
+              `<div class="daysep">${g.day}</div>` +
+              g.items
+                .map(it => {
+                  const chips = it.chips
+                    ? `<div class="chips">${it.chips.map(c => `<span class="chip"><svg width="13" height="13"><use href="#${c.i}"/></svg> ${c.t}</span>`).join('')}</div>`
+                    : ''
+                  const chg = it.chg
+                    ? `<div class="chg">${it.chg.l} <s>${it.chg.f}</s> → <b>${it.chg.t}</b></div>`
+                    : ''
+                  const notes = it.notes
+                    ? `<div class="tg"><button class="ntg" aria-expanded="false"><svg width="13" height="13"><use href="#i-caret"/></svg> ${it.notes.length} notes</button></div>
+        <div class="notes">${it.notes
+          .map(
+            n => `<div class="note-i"><span class="av2">${n.ini}</span><div>
+          <div class="who">${n.who} ${n.tag ? `<span class="badge gray">${n.tag}</span>` : ''} <span class="tm">${n.time}</span></div>
+          <div class="txt">${n.txt}</div></div></div>`
+          )
+          .join('')}</div>`
+                    : ''
+                  return `<div class="act"><span class="av ${it.sys ? 'sys' : ''}">${it.sys ? '<svg width="13" height="13"><use href="#i-gear"/></svg>' : it.ini}</span>
+        <div class="main"><div class="line"><b>${it.who}</b> ${it.auto ? '<span class="badge gray">Automatic</span> ' : ''}${it.what}<span class="tm">${it.time}</span></div>
+        ${chg}${chips}${notes}</div></div>`
+                })
+                .join('')
+          ).join('')
+        }
+        const selectTab = name => {
+          document
+            .querySelectorAll('.drtab')
+            .forEach(t => t.setAttribute('aria-selected', String(t.dataset.tab === name)))
+          document
+            .querySelectorAll('[data-panel]')
+            .forEach(p => (p.hidden = p.dataset.panel !== name))
+          document.querySelectorAll('[data-for]').forEach(b => (b.hidden = b.dataset.for !== name))
+        }
+        const openDrawer = tab => {
+          renderCards()
+          renderActivity()
+          drawer.classList.add('open')
+          drscrim.classList.add('open')
+          selectTab(tab || 'stages')
+          trapFocus(drawer)
+        }
+        const closeDrawer = () => {
+          if (drawer.classList.contains('open')) {
+            drawer.classList.remove('open')
+            drscrim.classList.remove('open')
+            releaseFocus()
+          }
+        }
+        document
+          .querySelectorAll('.drtab')
+          .forEach(t => t.addEventListener('click', () => selectTab(t.dataset.tab)))
+        document.addEventListener('click', e => {
+          if (e.target.closest('#first-note')) drawer.querySelector('.drfoot textarea')?.focus()
+        })
+        document.addEventListener('click', e => {
+          const o = e.target.closest('.dr-open')
+          if (o && !o.disabled) {
+            closePop()
+            closeAllMenus()
+            openDrawer(o.dataset.tab)
+          }
+          if (e.target.closest('.dr-close') || e.target === drscrim) closeDrawer()
+          const ntg = e.target.closest('.ntg')
+          if (ntg) {
+            const box = ntg.closest('.main').querySelector('.notes')
+            ntg.setAttribute('aria-expanded', String(box.classList.toggle('open')))
+          }
+          const seg = e.target.closest('.segctl button')
+          if (seg)
+            seg.parentElement
+              .querySelectorAll('button')
+              .forEach(x => x.setAttribute('aria-pressed', String(x === seg)))
+        })
+
+        /* ================= print dialog ================= */
+        const pscrim = document.getElementById('pscrim')
+        let printSettingsContext = 'Sales Invoice 001000352026126'
+        const updPrint = () => {
+          const dest = document.querySelector('.dcard[aria-pressed=true]').dataset.dest
+          document
+            .querySelectorAll('[data-when]')
+            .forEach(f => (f.hidden = f.dataset.when !== dest))
+          const form = document.getElementById('p-form').value.replace(/^\d+ - /, '')
+          const lang = document.getElementById('p-lang').value.split(' - ')[1]
+          const fmt = document.getElementById('p-fmt').value.replace(/^\d+ - /, '')
+          const cop = document.getElementById('p-cop')?.value || '1'
+          document.querySelector('.dfoot .sum').textContent =
+            dest === 'save'
+              ? `${fmt} · ${form} · ${lang}`
+              : dest === 'send'
+                ? `${document.getElementById('p-chan').value} · ${form} · ${lang}`
+                : `Preview · ${form} · ${lang}`
+        }
+        const currentPrintSettingsContext = () => {
+          if (document.querySelector('.customer-record-view')?.hidden === false)
+            return (
+              document.querySelector('#customer-record-chrome h1')?.textContent.trim() || 'Customer'
+            )
+          if (document.querySelector('.customer-list-view')?.hidden === false)
+            return 'Customers list'
+          if (document.querySelector('.list-view')?.hidden === false) return 'Sales invoices list'
+          return (
+            document.querySelector('.design.active .phead h1')?.textContent.trim() ||
+            'Sales Invoice'
+          )
+        }
+        function openPrintSettings(contextLabel = '') {
+          closeAllMenus()
+          clearInlineError(pscrim.querySelector('.dlg'))
+          printSettingsContext = contextLabel || currentPrintSettingsContext()
+          pscrim.querySelector('.dhd .sub').textContent = printSettingsContext
+          pscrim.classList.add('open')
+          updPrint()
+          trapFocus(pscrim.querySelector('.dlg'))
+        }
+        document.addEventListener('click', e => {
+          if (e.target.closest('.p-open') && !e.target.closest('.p-open').disabled)
+            openPrintSettings()
+          if (e.target.closest('.p-close') || e.target === pscrim) {
+            pscrim.classList.remove('open')
+            releaseFocus()
+          }
+          const dc = e.target.closest('.dcard')
+          if (dc) {
+            dc.parentElement
+              .querySelectorAll('.dcard')
+              .forEach(x => x.setAttribute('aria-pressed', String(x === dc)))
+            updPrint()
+          }
+        })
+        document.querySelector('.dbody').addEventListener('change', updPrint)
+
+        /* ================= search ================= */
+        let sScope = 'all',
+          sSel = 0,
+          sRows = [],
+          sScreensLocked = false
+        const esc = s => s.replace(/[&<>]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;'})[c])
+        const hi = (t, q) => {
+          if (!q) return esc(t)
+          const i = t.toLowerCase().indexOf(q)
+          return i < 0
+            ? esc(t)
+            : esc(t.slice(0, i)) +
+                '<mark>' +
+                esc(t.slice(i, i + q.length)) +
+                '</mark>' +
+                esc(t.slice(i + q.length))
+        }
+        const activePanel = () => document.querySelector('.design.active .spanel')
+        const activeInput = () => activePanel().querySelector('input')
+        const activeList = () => activePanel().querySelector('.slist')
+        const renderSearch = () => {
+          document.querySelectorAll('.sctx').forEach(c => {
+            const b = c.querySelector('b')
+            if (!b) return
+            b.nextSibling &&
+              (b.nextSibling.textContent =
+                state.mode === 'create' ? ' · new invoice, not saved yet' : ' · 001000352026126')
+          })
+          const q = activeInput().value.trim().toLowerCase()
+          const m = x =>
+            !q || x.t.toLowerCase().includes(q) || (x.s || '').toLowerCase().includes(q)
+          /* the command row doesn't grey these out, it removes them — the palette matches:
+     Modify only while reading, Save/Undo only while writing, same as .recacts */
+          const showSave = state.mode === 'create' || state.mode === 'edit'
+          const inMode = x => {
+            if (x.t === 'Modify') return !showSave
+            if (x.t === 'Save' || x.t === 'Undo') return showSave
+            if (x.t === 'Delete') return state.mode !== 'create'
+            return true
+          }
+          const groups = []
+          if (sScope === 'all' || sScope === 'actions') {
+            const acts = ACTIONS.filter(m)
+              .filter(inMode)
+              .map(a => ({...a, kind: 'action', off: blocked(a.t)}))
+            const on = acts.filter(a => !a.off),
+              off = acts.filter(a => a.off)
+            if (on.length)
+              groups.push({g: 'Do on this invoice', items: on.slice(0, sScope === 'all' ? 5 : 99)})
+            if (off.length && (q || sScope === 'actions'))
+              groups.push({g: 'Unavailable right now', items: off, dim: true})
+          }
+          if (sScope === 'all' || sScope === 'screens') {
+            const it = SCREENS.filter(m).map(x => ({...x, kind: 'screen'}))
+            if (it.length)
+              groups.push({g: 'Go to screen', items: it.slice(0, sScope === 'all' ? 5 : 99)})
+          }
+          if (sScope === 'all' || sScope === 'records') {
+            const it = RECORDS.filter(m).map(x => ({...x, kind: 'record'}))
+            if (it.length)
+              groups.push({g: 'Open record', items: it.slice(0, sScope === 'all' ? 4 : 99)})
+          }
+          sRows = []
+          const list = activeList()
+          if (!groups.length) {
+            list.innerHTML = `<div class="sempty"><b>Nothing matches “${esc(activeInput().value)}”</b>Try a document number, a customer name, or an action such as “Posting”.</div>`
+            return
+          }
+          list.innerHTML = groups
+            .map(gr => {
+              const rows = gr.items
+                .map(it => {
+                  const i = sRows.push(it) - 1
+                  return `<button class="sitem" role="option" data-i="${i}" ${gr.dim ? 'disabled' : ''}>
+        <span class="ic"><svg width="14" height="14"><use href="#${it.icon}"/></svg></span>
+        <span class="tx"><span class="t">${hi(it.t, q)}</span>
+        ${gr.dim ? `<span class="why">${it.off}</span>` : it.s ? `<span class="s">${hi(it.s, q)}</span>` : ''}</span>
+        ${it.kbd && !gr.dim ? `<span class="kbd">${it.kbd}</span>` : ''}</button>`
+                })
+                .join('')
+              return `<div class="sgrp">${gr.g}<span class="c">${gr.items.length}</span></div>${rows}`
+            })
+            .join('')
+          sSel = 0
+          markSel()
+        }
+        const markSel = () => {
+          const items = [...activeList().querySelectorAll('.sitem:not(:disabled)')]
+          items.forEach((el, i) => el.classList.toggle('sel', i === sSel))
+          items[sSel]?.scrollIntoView({block: 'nearest'})
+        }
+        const runSearch = () => {
+          const items = [...activeList().querySelectorAll('.sitem:not(:disabled)')]
+          const el = items[sSel]
+          if (!el) return
+          const it = sRows[+el.dataset.i]
+          closeSearch()
+          if (it.run === 'print') {
+            openPrintSettings()
+            return
+          }
+          if (it.run === 'favorite') {
+            document.querySelector('.fav-toggle')?.click()
+            return
+          }
+          if (it.run === 'stages' || it.run === 'activity') {
+            openDrawer(it.run)
+            return
+          }
+          if (ACT_DLG[it.t]) {
+            openRDlg(ACT_DLG[it.t])
+            return
+          }
+          if (it.kind === 'action') runAction(it.t)
+          /* screens/records: opening them is out of scope for this shell prototype */ else
+            toast({
+              tone: 'ok',
+              title: it.t,
+              body: 'Opening this is out of scope for the app-shell prototype.',
+            })
+        }
+        const openSearch = (screensOnly = false) => {
+          document.querySelectorAll('.search-typing-label').forEach(label => {
+            stopSearchTyping(label.closest('.lp-view, .gtop'))
+          })
+          const p = activePanel()
+          p.classList.add('open')
+          p.classList.toggle('screens-only', screensOnly)
+          p.closest('.swrap').classList.add('open')
+          document.getElementById('sscrim').classList.add('open')
+          activeInput().value = ''
+          sScope = screensOnly ? 'screens' : 'all'
+          sScreensLocked = screensOnly
+          p.querySelectorAll('.sscope button').forEach(b =>
+            b.setAttribute('aria-pressed', String(b.dataset.scope === sScope))
+          )
+          renderSearch()
+          activeInput().focus()
+        }
+        const closeSearch = () => {
+          document.querySelectorAll('.spanel.open').forEach(p => {
+            p.classList.remove('open')
+            p.closest('.swrap').classList.remove('open')
+          })
+          document.getElementById('sscrim').classList.remove('open')
+          document.querySelectorAll('.search-typing-label').forEach(startSearchTyping)
+        }
+        const sscrim = document.createElement('div')
+        sscrim.className = 'sscrim'
+        sscrim.id = 'sscrim'
+        document.body.append(sscrim)
+        sscrim.addEventListener('click', closeSearch)
+        document.addEventListener('click', e => {
+          const opener = e.target.closest('.s-open')
+          if (opener) openSearch(opener.classList.contains('lp-search'))
+          const it = e.target.closest('.sitem:not(:disabled)')
+          if (it) {
+            sSel = [...activeList().querySelectorAll('.sitem:not(:disabled)')].indexOf(it)
+            runSearch()
+          }
+        })
+        document.addEventListener('mouseover', e => {
+          const it = e.target.closest('.sitem:not(:disabled)')
+          if (!it) return
+          const items = [...activeList().querySelectorAll('.sitem:not(:disabled)')]
+          const i = items.indexOf(it)
+          if (i < 0 || i === sSel) return
+          sSel = i
+          markSel()
+        })
+        document
+          .querySelectorAll('.spanel input')
+          .forEach(i => i.addEventListener('input', renderSearch))
+        document.querySelectorAll('.sscope button').forEach(b =>
+          b.addEventListener('click', () => {
+            sScope = b.dataset.scope
+            b.parentElement
+              .querySelectorAll('button')
+              .forEach(x => x.setAttribute('aria-pressed', String(x === b)))
+            renderSearch()
+            activeInput().focus()
+          })
+        )
+        document.querySelectorAll('.spanel input').forEach(inp =>
+          inp.addEventListener('keydown', e => {
+            const n = activeList().querySelectorAll('.sitem:not(:disabled)').length
+            if (e.key === 'ArrowDown') {
+              e.preventDefault()
+              sSel = (sSel + 1) % n
+              markSel()
+            }
+            if (e.key === 'ArrowUp') {
+              e.preventDefault()
+              sSel = (sSel - 1 + n) % n
+              markSel()
+            }
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              runSearch()
+            }
+            if (e.key === 'Tab' && !sScreensLocked) {
+              e.preventDefault()
+              const o = ['all', 'screens', 'records', 'actions']
+              activePanel()
+                .querySelector(`.sscope button[data-scope=${o[(o.indexOf(sScope) + 1) % 4]}]`)
+                .click()
+            }
+          })
+        )
+
+        /* ================= design 4 panel toggle ================= */
+        document.querySelectorAll('.panel-toggle').forEach(t =>
+          t.addEventListener('click', () => {
+            const d = t.closest('.design')
+            const c = d.classList.toggle('collapsed')
+            t.setAttribute('aria-expanded', String(!c))
+            t.setAttribute('aria-label', c ? 'Show context panel' : 'Hide context panel')
+          })
+        )
+
+        /* ================= record dialogs ================= */
+        const rscrim = document.getElementById('rscrim')
+        const ACT_DLG = {
+          Posting: 'posting',
+          'Display Journal Entry': 'journal',
+          'Cancel Document': 'cancel',
+        }
+        const openRDlg = kind => {
+          rscrim.querySelectorAll('.rdlg').forEach(d => {
+            d.hidden = d.dataset.dlg !== kind
+            clearInlineError(d)
+          })
+          rscrim.classList.add('open')
+          trapFocus(rscrim.querySelector('.rdlg:not([hidden])'))
+          const dlg = rscrim.querySelector(`.rdlg[data-dlg="${kind}"]`)
+          if (!dlg) return
+          /* the dialog shows either the operation to perform, or the record of it —
+     never a toggle that re-asks for an intent the user already declared */
+          const done =
+            (kind === 'posting' && state.status === 'posted') ||
+            (kind === 'cancel' && state.status === 'canceled')
+          dlg
+            .querySelectorAll('[data-state]')
+            .forEach(el => (el.hidden = (el.dataset.state === 'done') !== done))
+          const title = dlg.querySelector('.rhd h3')
+          if (kind === 'posting')
+            title.textContent = done ? 'Posting details · invoice 126' : 'Post invoice 126'
+          if (kind === 'cancel')
+            title.textContent = done ? 'Cancellation details · document 126' : 'Cancel document 126'
+          if (kind === 'delete') {
+            const warn = document.getElementById('del-unsaved')
+            if (warn) warn.hidden = !state.dirty
+          }
+          if (kind === 'cancel' && !done) {
+            const t = document.getElementById('cf-dsc')
+            if (t) t.value = ''
+          }
+          if (kind === 'posting' && !done) {
+            const t = document.getElementById('pf-dsc')
+            if (t) t.value = ''
+          }
+          ;['cf-rev', 'pf-rev'].forEach(id => {
+            const t = document.getElementById(id)
+            if (t) t.value = ''
+          })
+          validateOps()
+        }
+        const closeRDlg = () => {
+          if (rscrim.classList.contains('open')) {
+            rscrim.classList.remove('open')
+            releaseFocus()
+          }
+        }
+        /* every destructive or reversing step needs its reason before it can run */
+        const validateOps = () => {
+          const pair = [
+            ['cf-dsc', 'cf-save'],
+            ['cf-rev', 'cf-restore'],
+            ['pf-rev', 'pf-unpost'],
+          ]
+          pair.forEach(([src, btn]) => {
+            const t = document.getElementById(src),
+              b = document.getElementById(btn)
+            if (t && b) b.disabled = !t.value.trim()
+          })
+        }
+        document.addEventListener('input', e => {
+          if (['cf-dsc', 'cf-rev', 'pf-rev'].includes(e.target.id)) validateOps()
+        })
+        document.addEventListener('click', e => {
+          const act = e.target.closest('[data-act]')
+          if (act && !act.disabled && ACT_DLG[act.dataset.act]) {
+            closeAllMenus()
+            closeSearch()
+            openRDlg(ACT_DLG[act.dataset.act])
+            return
+          }
+          if (e.target.closest('.r-close') || e.target === rscrim) closeRDlg()
+        })
+
+        /* ================= shell services: focus, toasts, async work =================
+   Everything that takes time has three visible states — working, done, failed —
+   and every overlay gives the keyboard back where it found it.                */
+
+        /* ---- focus: trap inside an open overlay, restore it on close ---- */
+        let focusReturn = null,
+          trapped = null
+        const FOCUSABLE =
+          'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),summary,[tabindex]:not([tabindex="-1"])'
+        const trapFocus = box => {
+          if (!box) return
+          focusReturn = document.activeElement
+          trapped = box
+          const first = box.querySelector(FOCUSABLE)
+          ;(first || box).focus?.()
+        }
+        const releaseFocus = () => {
+          trapped = null
+          if (focusReturn && document.contains(focusReturn)) focusReturn.focus()
+          focusReturn = null
+        }
+        document.addEventListener(
+          'keydown',
+          e => {
+            if (e.key !== 'Tab' || !trapped) return
+            const items = [...trapped.querySelectorAll(FOCUSABLE)].filter(
+              el => el.offsetParent !== null
+            )
+            if (!items.length) return
+            const first = items[0],
+              last = items[items.length - 1]
+            if (e.shiftKey && document.activeElement === first) {
+              e.preventDefault()
+              last.focus()
+            } else if (!e.shiftKey && document.activeElement === last) {
+              e.preventDefault()
+              first.focus()
+            }
+          },
+          true
+        )
+
+        /* ---- toasts: say what happened, and offer the next step ---- */
+        const toasts = document.getElementById('toasts')
+        const toast = ({tone = 'ok', title, body, action, onAction, ms = 5200}) => {
+          const t = document.createElement('div')
+          t.className = 'toast ' + tone
+          t.innerHTML = `<span class="ic"><svg width="16" height="16"><use href="#${tone === 'ok' ? 'i-check' : 'i-warn'}"/></svg></span>
+    <span class="bd"><b>${title}</b>${body ? body : ''}${action ? `<button class="act">${action}</button>` : ''}</span>
+    <button class="ibtn x" aria-label="Dismiss"><svg width="13" height="13"><use href="#i-x"/></svg></button>`
+          t.querySelector('.x').onclick = () => t.remove()
+          if (action)
+            t.querySelector('.act').onclick = () => {
+              t.remove()
+              onAction && onAction()
+            }
+          toasts.append(t)
+          setTimeout(() => t.remove(), ms)
+        }
+        /* the List view's ported render functions build their rows via innerHTML
+   with inline onclick attributes (kept verbatim from the standalone prototype
+   this was ported from) — those run in global scope, so toast needs to be
+   reachable there too, unlike everything else in this IIFE. */
+        window.toast = toast
+
+        /* ---- one place where slow work is run, so every button behaves the same ---- */
+        const failNext = () => document.getElementById('failsim').checked
+        const runWork = (btn, label, ms = 900) =>
+          new Promise(resolve => {
+            const original = btn ? btn.innerHTML : null
+            if (btn) {
+              btn.setAttribute('aria-busy', 'true')
+              btn.innerHTML = `<svg class="spin" width="15" height="15" aria-hidden="true"><use href="#i-loader"/></svg> ${label}`
+            }
+            setTimeout(() => {
+              if (btn) {
+                btn.removeAttribute('aria-busy')
+                btn.innerHTML = original
+              }
+              const failed = failNext()
+              if (failed) document.getElementById('failsim').checked = false
+              resolve(!failed)
+            }, ms)
+          })
+
+        /* ---- failure shown inside the dialog, so nothing typed is lost ---- */
+        const showInlineError = (dlg, {title, body, link}) => {
+          clearInlineError(dlg)
+          const box = document.createElement('div')
+          box.className = 'inlineerr'
+          box.setAttribute('role', 'alert')
+          box.innerHTML = `<svg width="15" height="15"><use href="#i-warn"/></svg>
+    <span><b>${title}</b>${body}${link ? ` <a href="#">${link}</a>` : ''}</span>`
+          const body_ = dlg.querySelector('.rbody, .dbody')
+          body_.prepend(box)
+          box.scrollIntoView({block: 'nearest'})
+        }
+        const clearInlineError = dlg => dlg?.querySelectorAll('.inlineerr').forEach(b => b.remove())
+
+        /* Invoice line validation — every column with a visible header gets a real
+           check here, so an invalid cell can be marked and focused, not just
+           reported as an abstract count. Item and Quantity are the two columns a
+           line cannot be posted without. */
+        function validateInvoiceLines() {
+          const rows = [...document.querySelectorAll('#items-body tr[data-item-row]')]
+          const problems = []
+          rows.forEach((row, index) => {
+            const itemField = row.querySelector('[aria-label="Item"]')
+            const qtyField = row.querySelector('[aria-label="Quantity"]')
+            const rowInvalid = []
+            if (itemField && !itemField.value.trim())
+              rowInvalid.push([itemField, t('Item is required.', 'Item is required.')])
+            if (qtyField && (!qtyField.value || Number(qtyField.value) <= 0))
+              rowInvalid.push([qtyField, t('Quantity is required.', 'Quantity is required.')])
+            rowInvalid.forEach(([field, message]) => {
+              field.setAttribute('aria-invalid', 'true')
+              const lineLabel = appLocale === 'ar' ? `السطر ${index + 1}` : `Line ${index + 1}`
+              problems.push({field, message: `${lineLabel}: ${message}`})
+            })
+          })
+          return problems
+        }
+
+        function clearInvoiceLineValidation() {
+          document
+            .querySelectorAll('#items-body [aria-invalid="true"]')
+            .forEach(field => field.removeAttribute('aria-invalid'))
+          const summary = document.getElementById('items-error-summary')
+          if (summary) {
+            summary.hidden = true
+            summary.innerHTML = ''
+          }
+        }
+
+        function showInvoiceLineErrors(problems) {
+          const summary = document.getElementById('items-error-summary')
+          if (!summary) return
+          summary.hidden = false
+          const headline =
+            appLocale === 'ar'
+              ? `${problems.length} ${t(problems.length === 1 ? 'required field needs attention' : 'required fields need attention')}`
+              : `${problems.length} required ${problems.length === 1 ? 'field needs' : 'fields need'} attention`
+          summary.innerHTML = `<svg width="16" height="16" aria-hidden="true"><use href="#i-warn"/></svg><span><b>${encodeHtml(headline)}</b><ul>${problems.map(p => `<li>${encodeHtml(p.message)}</li>`).join('')}</ul></span>`
+          const first = problems[0].field
+          first.scrollIntoView({block: 'center'})
+          first.focus()
+        }
+
+        /* clear a cell's invalid state as soon as it has a value, instead of making
+           the user save again just to see the marker go away */
+        document.addEventListener('input', event => {
+          const field = event.target.closest('#items-body [aria-invalid="true"]')
+          if (!field) return
+          const hasValue =
+            field.tagName === 'INPUT' && field.type === 'number'
+              ? Number(field.value) > 0
+              : Boolean(field.value.trim())
+          if (!hasValue) return
+          field.removeAttribute('aria-invalid')
+          if (!document.querySelector('#items-body [aria-invalid="true"]'))
+            clearInvoiceLineValidation()
+        })
+
+        /* ================= the three operations that take time ================= */
+        let nextInvoiceNo = 129
+
+        /* Save — the moment a draft becomes a record with a number */
+        const doSave = async (btn, after) => {
+          if (blocked('Save')) return
+          const creating = state.mode === 'create'
+          const lineProblems = document.getElementById('items-body') ? validateInvoiceLines() : []
+          if (lineProblems.length) {
+            showInvoiceLineErrors(lineProblems)
+            toast({
+              tone: 'bad',
+              title: 'Could not save the invoice',
+              body: `${lineProblems.length} line ${lineProblems.length === 1 ? 'field needs' : 'fields need'} attention before saving.`,
+            })
+            return
+          }
+          clearInvoiceLineValidation()
+          const ok = await runWork(btn, creating ? 'Saving…' : 'Saving…')
+          if (!ok) {
+            toast({
+              tone: 'bad',
+              title: 'Could not save the invoice',
+              body: 'The warehouse rejected the quantity on line 1. Fix it and try again.',
+            })
+            return
+          }
+          const no = nextInvoiceNo
+          if (creating) {
+            nextInvoiceNo++
+            modeSel.value = 'record'
+            applyMode('record')
+          } else {
+            state.dirty = false
+            document.getElementById('dirty').checked = false
+            if (state.mode === 'edit') {
+              modeSel.value = 'record'
+              applyMode('record')
+            } else applyState()
+          }
+          toast({
+            tone: 'ok',
+            title: creating ? `Saved as invoice ${no}` : 'Changes saved',
+            body: creating ? 'It now has a number and a place in the list.' : '',
+            action: creating ? 'Open it' : null,
+          })
+          after && after()
+        }
+
+        /* Posting — the one that can genuinely fail, and says how */
+        const doPost = async btn => {
+          const dlg = rscrim.querySelector('.rdlg[data-dlg=posting]')
+          const ok = await runWork(btn, 'Posting…', 1100)
+          if (!ok) {
+            showInlineError(dlg, {
+              title: 'The journal entry did not balance',
+              body: 'Debit 29,780.00 against credit 20,000.00. Nothing was posted and the invoice is unchanged.',
+              link: 'Display Journal Entry ( Sales Invoice - Unbalanced )',
+            })
+            return
+          }
+          closeRDlg()
+          document.getElementById('st').value = 'posted'
+          state.status = 'posted'
+          applyState()
+          toast({
+            tone: 'ok',
+            title: 'Invoice 126 posted',
+            body: 'Journal entry 4521 was created.',
+            action: 'Display Journal Entry',
+            onAction: () => openRDlg('journal'),
+          })
+        }
+
+        /* Cancel — destructive, so the confirmation carries the reason */
+        const doCancel = async btn => {
+          const dlg = rscrim.querySelector('.rdlg[data-dlg=cancel]')
+          const ok = await runWork(btn, 'Canceling…')
+          if (!ok) {
+            showInlineError(dlg, {
+              title: 'Could not cancel the document',
+              body: 'A receipt voucher is already linked to this invoice. Cancel the voucher first.',
+            })
+            return
+          }
+          closeRDlg()
+          document.getElementById('st').value = 'canceled'
+          state.status = 'canceled'
+          applyState()
+          toast({
+            tone: 'ok',
+            title: 'Document 126 canceled',
+            body: 'Your reason is kept in the Cancellation Data card.',
+            action: 'See the record',
+            onAction: () => openRDlg('cancel'),
+          })
+        }
+
+        /* Print — and the count the product already stores */
+        const doPrint = async btn => {
+          const dest = document.querySelector('.dcard[aria-pressed=true]').dataset.dest
+          const ok = await runWork(
+            btn,
+            dest === 'save' ? 'Preparing the file…' : 'Preparing…',
+            1000
+          )
+          const dlg = pscrim.querySelector('.dlg')
+          if (!ok) {
+            showInlineError(dlg, {
+              title: 'The print form could not be generated',
+              body: 'Form 3 - Arabic\\English Form is missing a template for this document type.',
+            })
+            return
+          }
+          pscrim.classList.remove('open')
+          releaseFocus()
+          const invoicePrint = printSettingsContext.startsWith('Sales Invoice')
+          if (invoicePrint) {
+            state.prints++
+            applyState()
+          }
+          toast({
+            tone: 'ok',
+            title:
+              dest === 'save' ? 'File ready' : dest === 'send' ? 'Sent' : 'Opened in the viewer',
+            body: invoicePrint
+              ? `This invoice has now been printed ${state.prints} times.`
+              : `${printSettingsContext} is ready.`,
+          })
+        }
+
+        /* wire the primary buttons of each dialog */
+        document.addEventListener('click', e => {
+          const b = e.target.closest('button')
+          if (!b || b.disabled) return
+          const label = b.textContent.trim()
+          if (b.classList.contains('okfill') && label.startsWith('Post')) {
+            doPost(b)
+            return
+          }
+          if (b.id === 'cf-save') {
+            doCancel(b)
+            return
+          }
+          if (b.id === 'del-go') {
+            doDelete(b)
+            return
+          }
+          if (b.closest('.dfoot') && label === 'Apply') {
+            doPrint(b)
+            return
+          }
+          if (b.dataset.act === 'Save') {
+            doSave(b)
+            return
+          }
+          if (b.dataset.save === 'new') {
+            doSave(b, () => {
+              modeSel.value = 'create'
+              applyMode('create')
+            })
+            return
+          }
+          if (b.dataset.save === 'close') {
+            doSave(b)
+            return
+          }
+        })
+
+        /* ---- nothing on this shell is a dead click ---- */
+        const startCreate = why => {
+          const go = () => {
+            modeSel.value = 'create'
+            applyMode('create')
+            toast({
+              tone: 'ok',
+              title: why || 'New invoice started',
+              body: 'It takes its number when you save it.',
+            })
+          }
+          if (atRisk()) askGuard(go, why ? 'copy from another invoice' : 'start another invoice')
+          else go()
+        }
+        const NOT_BUILT = {
+          Reports: 'Reports open the reporting screen in the real product.',
+          'Lock Screen': 'Locking the screen is part of the session, not this prototype.',
+          'Screen Parameters': 'Screen parameters open the configuration screen.',
+          Clear: 'Clearing empties the form without leaving the record.',
+        }
+        /* shared so the command row and the search palette trigger the same behaviour */
+        const runAction = act => {
+          if (act === 'New') {
+            startCreate()
+            return
+          }
+          if (act === 'Add From') {
+            startCreate('Copied from another invoice')
+            return
+          }
+          if (act === 'New in new tab') {
+            closeAllMenus()
+            window.open(location.href, '_blank')
+            toast({
+              tone: 'ok',
+              title: 'Opened in a new tab',
+              body: 'This invoice stays exactly as it was here.',
+            })
+            return
+          }
+          if (act === 'Search') {
+            closeAllMenus()
+            openSearch()
+            return
+          }
+          if (act === 'Receipt Voucher' || act === 'Sales Return') {
+            closeAllMenus()
+            toast({
+              tone: 'ok',
+              title: `${act} started from invoice 126`,
+              body: 'The new document opens with the invoice already filled in.',
+            })
+            return
+          }
+          if (NOT_BUILT[act]) {
+            closeAllMenus()
+            toast({tone: 'ok', title: `${act} is out of scope here`, body: NOT_BUILT[act]})
+            return
+          }
+          if (act === 'Modify') {
+            modeSel.value = 'edit'
+            applyMode('edit')
+            toast({
+              tone: 'ok',
+              title: 'You can edit this invoice now',
+              body: 'Change something in the form, then Save. Undo leaves it as it was.',
+            })
+            return
+          }
+          if (act === 'Delete') {
+            openRDlg('delete')
+            return
+          }
+          if (act === 'Undo' && state.mode === 'edit') {
+            state.dirty = false
+            document.getElementById('dirty').checked = false
+            modeSel.value = 'record'
+            applyMode('record')
+            toast({
+              tone: 'ok',
+              title: 'Changes discarded',
+              body: 'The invoice is back to its saved version.',
+            })
+          }
+          if (act === 'Undo' && state.mode === 'create') {
+            state.dirty = false
+            document.getElementById('dirty').checked = false
+            modeSel.value = 'record'
+            applyMode('record')
+            toast({
+              tone: 'ok',
+              title: 'New invoice discarded',
+              body: 'Nothing was saved, so nothing was kept.',
+            })
+          }
+        }
+        document.addEventListener('click', e => {
+          const b = e.target.closest('[data-act]')
+          if (!b || b.disabled) return
+          runAction(b.dataset.act)
+        })
+
+        /* ---- deleting asks first, and says what cannot be undone ---- */
+        const doDelete = async btn => {
+          const dlg = rscrim.querySelector('.rdlg[data-dlg=delete]')
+          const ok = await runWork(btn, 'Deleting…')
+          if (!ok) {
+            showInlineError(dlg, {
+              title: 'Could not delete the invoice',
+              body: 'A stock movement is already linked to it. Cancel the movement first.',
+            })
+            return
+          }
+          closeRDlg()
+          const hadEdits = state.dirty
+          state.dirty = false
+          document.getElementById('dirty').checked = false
+          modeSel.value = 'record'
+          applyMode('record')
+          toast({
+            tone: 'ok',
+            title: 'Invoice 126 deleted',
+            body: hadEdits
+              ? 'It no longer appears in the list, and the unsaved changes went with it.'
+              : 'It no longer appears in the list.',
+          })
+        }
+
+        /* ================= keyboard: the shortcuts we advertise actually run ================= */
+        const kscrim = document.getElementById('kscrim')
+        const openKbd = () => {
+          kscrim.classList.add('open')
+          trapFocus(kscrim.querySelector('.kbdsheet'))
+        }
+        const closeKbd = () => {
+          if (kscrim.classList.contains('open')) {
+            kscrim.classList.remove('open')
+            releaseFocus()
+          }
+        }
+        kscrim.addEventListener('click', e => {
+          if (e.target === kscrim || e.target.closest('.k-close')) closeKbd()
+        })
+        document.addEventListener('click', e => {
+          if (e.target.closest('[data-act="Help"]')) {
+            closeAllMenus()
+            openKbd()
+          }
+        })
+
+        /* ---- "Customize your sidebar": build "For You" groups by dragging screens
+   (or whole apps, flattened to their screens) from the left tree into groups
+   on the right — edits a draft, only Save commits it to forYouGroups ---- */
+        const cscrim = document.getElementById('cscrim')
+        const csTree = document.getElementById('cs-tree')
+        const csGroupsEl = document.getElementById('cs-groups')
+        const csCount = document.getElementById('cs-count')
+        /* draft shape mirrors forYouGroups: [{name, items:[{label, appLabel}]}] */
+        let csDraft = []
+        let csGroupSeq = 0
+        const csSyncCount = () => {
+          const n = csDraft.reduce((sum, g) => sum + g.items.length, 0)
+          csCount.textContent = `${csDraft.length} group${csDraft.length === 1 ? '' : 's'}, ${n} screen${n === 1 ? '' : 's'}`
+        }
+
+        /* ---- left column: read-only tree, every row a drag source. Rows whose
+   screens are already in some group are disabled — a screen can only live in
+   one group at a time, so re-dragging it in isn't a choice worth offering. */
+        let csTreeRows = [] /* {el, screens} for every row, refreshed on each tree build */
+        const csTreeRow = (label, depth, icon, dragPayload) => {
+          const li = document.createElement('li')
+          li.className = 'cs-tree-row'
+          li.dataset.depth = depth
+          li.draggable = true
+          li.innerHTML =
+            (depth === 0
+              ? `<span class="cs-icn"><svg width="14" height="14" aria-hidden="true"><use href="#${icon}"/></svg></span>`
+              : '<span class="cs-expand-spacer"></span>') + '<span class="cs-lbl"></span>'
+          li.querySelector('.cs-lbl').textContent = label
+          li.addEventListener('dragstart', e => {
+            if (li.classList.contains('disabled')) {
+              e.preventDefault()
+              return
+            }
+            e.dataTransfer.effectAllowed = 'copy'
+            e.dataTransfer.setData('application/json', JSON.stringify(dragPayload))
+            requestAnimationFrame(() => li.classList.add('dragging'))
+          })
+          li.addEventListener('dragend', () => li.classList.remove('dragging'))
+          csTreeRows.push({el: li, screens: dragPayload.screens})
+          return li
+        }
+        /* a row is disabled once every screen it represents is already used —
+   a single unused screen inside an otherwise-placed app keeps that app's own
+   row draggable, since dropping it would still add something new */
+        const csSyncTreeDisabled = () => {
+          const used = new Set(csDraft.flatMap(g => g.items.map(it => it.label)))
+          csTreeRows.forEach(({el, screens}) => {
+            const allUsed = screens.every(s => used.has(s))
+            el.classList.toggle('disabled', allUsed)
+            el.draggable = !allUsed
+          })
+        }
+        const csRenderTree = () => {
+          csTree.innerHTML = ''
+          csTreeRows = []
+          NAV_TREE.forEach(group => {
+            const appLabel = group[0]
+            const kids = childrenOf(group)
+            const row = csTreeRow(appLabel, 0, NAV_ICONS[appLabel] || 'i-doc', {
+              appLabel,
+              screens: leavesOf(group),
+            })
+            const li = document.createElement('li')
+            li.appendChild(row)
+            if (kids.length) {
+              const expand = document.createElement('button')
+              expand.type = 'button'
+              expand.className = 'cs-expand'
+              expand.setAttribute('aria-expanded', 'false')
+              expand.setAttribute('aria-label', 'Show screens')
+              expand.innerHTML =
+                '<svg width="11" height="11" aria-hidden="true"><use href="#i-caret"/></svg>'
+              row.insertBefore(expand, row.firstChild)
+              const sub = document.createElement('ul')
+              sub.className = 'cs-tree-sub'
+              sub.hidden = true
+              const addLeaves = (entry, depth) => {
+                const entryLabel = Array.isArray(entry) ? entry[0] : entry
+                const entryKids = childrenOf(entry)
+                if (!entryKids.length) {
+                  sub.appendChild(
+                    csTreeRow(entryLabel, depth, null, {appLabel, screens: [entryLabel]})
+                  )
+                } else {
+                  sub.appendChild(
+                    csTreeRow(entryLabel, depth, null, {appLabel, screens: leavesOf(entry)})
+                  )
+                  entryKids.forEach(k => addLeaves(k, depth + 1))
+                }
+              }
+              kids.forEach(k => addLeaves(k, 1))
+              expand.addEventListener('click', () => {
+                sub.hidden = !sub.hidden
+                expand.setAttribute('aria-expanded', String(!sub.hidden))
+              })
+              csTree.append(li, sub)
+            } else {
+              csTree.appendChild(li)
+            }
+          })
+          csSyncTreeDisabled()
+        }
+
+        /* ---- right column: the user's groups — name, drag-reorderable items, drag-reorderable groups ---- */
+        let csItemDragSrc =
+          null /* {group, index} while dragging an existing item within/between groups */
+        let csGroupDragLabel = null /* group id while dragging a group card to reorder */
+
+        const csRenderItem = (group, item, index) => {
+          const li = document.createElement('li')
+          li.className = 'cs-group-item'
+          li.draggable = true
+          li.innerHTML = `<span class="cs-grip">⋮⋮</span><span class="cs-item-lbl"></span><span class="cs-item-app"></span><button type="button" class="cs-item-del" aria-label="Remove"><svg width="11" height="11" aria-hidden="true"><use href="#i-x"/></svg></button>`
+          li.querySelector('.cs-item-lbl').textContent = item.label
+          li.querySelector('.cs-item-app').textContent = item.appLabel
+          li.querySelector('.cs-item-del').addEventListener('click', () => {
+            group.items.splice(index, 1)
+            csRenderGroups()
+          })
+          li.addEventListener('dragstart', e => {
+            e.stopPropagation()
+            csItemDragSrc = {group, index}
+            e.dataTransfer.effectAllowed = 'move'
+            requestAnimationFrame(() => li.classList.add('dragging'))
+          })
+          li.addEventListener('dragend', () => {
+            csItemDragSrc = null
+            li.classList.remove('dragging')
+          })
+          /* dropping directly on another item inserts at that item's position,
+     instead of falling through to the group-level drop which only appends —
+     this is what actually lets items be reordered within a group */
+          li.addEventListener('dragover', e => {
+            if (csGroupDragLabel) return
+            e.preventDefault()
+            e.stopPropagation()
+          })
+          li.addEventListener('drop', e => {
+            if (csGroupDragLabel) return
+            e.preventDefault()
+            e.stopPropagation()
+            const targetIndex = group.items.indexOf(item)
+            if (csItemDragSrc) {
+              const {group: srcGroup, index: srcIndex} = csItemDragSrc
+              const [moved] = srcGroup.items.splice(srcIndex, 1)
+              /* removing the dragged item from its own group can shift the target's
+         position left by one — reorder relative to where the target item now sits */
+              const insertAt =
+                srcGroup === group && srcIndex < targetIndex ? targetIndex - 1 : targetIndex
+              group.items.splice(insertAt, 0, moved)
+              csItemDragSrc = null
+            } else {
+              const json = e.dataTransfer.getData('application/json')
+              if (!json) return
+              const {appLabel, screens} = JSON.parse(json)
+              const existing = new Set(group.items.map(it => it.label))
+              const fresh = screens.filter(label => !existing.has(label))
+              group.items.splice(targetIndex, 0, ...fresh.map(label => ({label, appLabel})))
+            }
+            csRenderGroups()
+          })
+          return li
+        }
+
+        /* groups collapsed by the user stay collapsed across a re-render — keyed by
+   id since a plain index would drift as groups are added/removed/reordered */
+        let csCollapsedGroups = new Set()
+
+        const csRenderGroups = () => {
+          csGroupsEl.innerHTML = ''
+          csDraft.forEach(group => {
+            const li = document.createElement('li')
+            li.className = 'cs-group'
+            li.dataset.gid = group.id
+            const collapsed = csCollapsedGroups.has(group.id)
+            const hd = document.createElement('div')
+            hd.className = 'cs-group-hd'
+            hd.innerHTML =
+              `<span class="cs-grip">⋮⋮</span>` +
+              `<button type="button" class="cs-group-expand" aria-expanded="${!collapsed}" aria-label="${collapsed ? 'Expand' : 'Collapse'} group"><svg width="11" height="11" aria-hidden="true"><use href="#i-caret"/></svg></button>` +
+              `<input class="cs-group-name" type="text" aria-label="Group name">` +
+              `<span class="cs-group-tally"></span>` +
+              `<button type="button" class="cs-group-del" aria-label="Delete group"><svg width="12" height="12" aria-hidden="true"><use href="#i-x"/></svg></button>`
+            const nameInput = hd.querySelector('.cs-group-name')
+            nameInput.value = group.name
+            nameInput.addEventListener('input', () => (group.name = nameInput.value))
+            hd.querySelector('.cs-group-tally').textContent = group.items.length
+            hd.querySelector('.cs-group-del').addEventListener('click', () => {
+              csDraft = csDraft.filter(g => g.id !== group.id)
+              csRenderGroups()
+            })
+            hd.querySelector('.cs-grip').draggable = true
+            hd.querySelector('.cs-grip').addEventListener('dragstart', e => {
+              csGroupDragLabel = group.id
+              e.dataTransfer.effectAllowed = 'move'
+              requestAnimationFrame(() => li.classList.add('dragging'))
+            })
+            hd.querySelector('.cs-grip').addEventListener('dragend', () => {
+              csGroupDragLabel = null
+              li.classList.remove('dragging')
+              /* the live DOM moves during dragover only reordered elements — commit
+         that final order back into csDraft once, instead of on every tick */
+              csDraft = [...csGroupsEl.querySelectorAll('.cs-group')]
+                .map(el => csDraft.find(g => g.id === el.dataset.gid))
+                .filter(Boolean)
+              csSyncTreeDisabled()
+            })
+
+            const itemsList = document.createElement('ul')
+            itemsList.className = 'cs-group-items'
+            itemsList.hidden = collapsed
+            group.items.forEach((item, i) => itemsList.appendChild(csRenderItem(group, item, i)))
+
+            hd.querySelector('.cs-group-expand').addEventListener('click', () => {
+              const nowCollapsed = !itemsList.hidden
+              itemsList.hidden = nowCollapsed
+              hd.querySelector('.cs-group-expand').setAttribute(
+                'aria-expanded',
+                String(!nowCollapsed)
+              )
+              hd.querySelector('.cs-group-expand').setAttribute(
+                'aria-label',
+                (nowCollapsed ? 'Expand' : 'Collapse') + ' group'
+              )
+              if (nowCollapsed) csCollapsedGroups.add(group.id)
+              else csCollapsedGroups.delete(group.id)
+            })
+
+            /* drop target: a screen dragged from the left tree, or an existing item
+       being moved from another group (or reordered within this one) */
+            li.addEventListener('dragover', e => {
+              if (!csGroupDragLabel) e.preventDefault()
+              li.classList.add('drop-target')
+            })
+            li.addEventListener('dragleave', () => li.classList.remove('drop-target'))
+            li.addEventListener('drop', e => {
+              li.classList.remove('drop-target')
+              if (csGroupDragLabel)
+                return /* group cards are reordered by the outer list, not dropped into one another */
+              e.preventDefault()
+              if (csItemDragSrc) {
+                const [moved] = csItemDragSrc.group.items.splice(csItemDragSrc.index, 1)
+                group.items.push(moved)
+                csItemDragSrc = null
+              } else {
+                const json = e.dataTransfer.getData('application/json')
+                if (!json) return
+                const {appLabel, screens} = JSON.parse(json)
+                const existing = new Set(group.items.map(it => it.label))
+                screens
+                  .filter(label => !existing.has(label))
+                  .forEach(label => group.items.push({label, appLabel}))
+              }
+              csRenderGroups()
+            })
+
+            li.append(hd, itemsList)
+            csGroupsEl.appendChild(li)
+          })
+          csSyncCount()
+          csSyncTreeDisabled()
+        }
+        /* group-card reordering moves the dragged element directly in the DOM as the
+   pointer passes over a neighbor — the same lightweight, no-rebuild feel as
+   dragging an item within a group — and only reconciles csDraft's order once,
+   on dragend (see the .cs-grip dragend handler above) */
+        csGroupsEl.addEventListener('dragover', e => {
+          if (!csGroupDragLabel) return
+          e.preventDefault()
+          const dragging = csGroupsEl.querySelector('.cs-group.dragging')
+          const over = e.target.closest('.cs-group')
+          if (!dragging || !over || over === dragging) return
+          const rect = over.getBoundingClientRect()
+          const before = e.clientY < rect.top + rect.height / 2
+          over.parentElement.insertBefore(dragging, before ? over : over.nextSibling)
+        })
+
+        document.getElementById('cs-add-group').addEventListener('click', () => {
+          csGroupSeq += 1
+          csDraft.push({id: 'g' + csGroupSeq, name: 'New group', items: []})
+          csRenderGroups()
+          csGroupsEl.querySelector('.cs-group:last-child .cs-group-name')?.select()
+        })
+
+        /* ---- Appearance dialog: drives the same real controls as the
+           Prototype controls panel (#theme, #high-contrast, #density,
+           #content-layout) so every existing theme/chart-refresh/density
+           behavior fires unchanged — this dialog holds no parallel state. */
+        const appearanceScrim = document.getElementById('appearance-scrim')
+        const appearanceHighContrast = document.getElementById('appearance-high-contrast')
+        const appearanceCustomColor = document.getElementById('appearance-custom-color')
+        const appearanceCustomHex = document.getElementById('appearance-custom-hex')
+        const appearanceCustomError = document.getElementById('appearance-custom-error')
+        const appearanceCustomGroup = document.querySelector('[data-custom-accent]')
+        const appearanceReset = document.getElementById('appearance-reset')
+        const appearanceAccentState = {
+          kind: 'preset',
+          light: '#1868DB',
+          dark: '#669DF1',
+          seed: '#1868DB',
+        }
+        function normalizeHexColor(value) {
+          const raw = String(value).trim().replace(/^#/, '')
+          if (/^[0-9a-f]{3}$/i.test(raw)) {
+            return `#${raw
+              .split('')
+              .map(char => char + char)
+              .join('')
+              .toUpperCase()}`
+          }
+          return /^[0-9a-f]{6}$/i.test(raw) ? `#${raw.toUpperCase()}` : null
+        }
+        function hexToRgb(hex) {
+          const normalized = normalizeHexColor(hex)
+          if (!normalized) return null
+          return [
+            Number.parseInt(normalized.slice(1, 3), 16),
+            Number.parseInt(normalized.slice(3, 5), 16),
+            Number.parseInt(normalized.slice(5, 7), 16),
+          ]
+        }
+        function rgbToHex(rgb) {
+          return `#${rgb
+            .map(channel => Math.round(channel).toString(16).padStart(2, '0'))
+            .join('')
+            .toUpperCase()}`
+        }
+        function relativeLuminance(hex) {
+          const rgb = hexToRgb(hex).map(channel => {
+            const value = channel / 255
+            return value <= 0.04045
+              ? value / 12.92
+              : Math.pow((value + 0.055) / 1.055, 2.4)
+          })
+          return 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]
+        }
+        function colorContrast(first, second) {
+          const lighter = Math.max(relativeLuminance(first), relativeLuminance(second))
+          const darker = Math.min(relativeLuminance(first), relativeLuminance(second))
+          return (lighter + 0.05) / (darker + 0.05)
+        }
+        function blendHex(source, target, amount) {
+          const from = hexToRgb(source)
+          const to = hexToRgb(target)
+          return rgbToHex(from.map((channel, index) => channel + (to[index] - channel) * amount))
+        }
+        function accessibleAccent(seed, background, target, minimum = 4.5) {
+          for (let step = 0; step <= 20; step += 1) {
+            const candidate = blendHex(seed, target, step * 0.05)
+            if (colorContrast(candidate, background) >= minimum) return candidate
+          }
+          return normalizeHexColor(target)
+        }
+        function deriveAccentPair(seed) {
+          const normalized = normalizeHexColor(seed)
+          return {
+            light: accessibleAccent(normalized, '#FFFFFF', '#000000'),
+            dark: accessibleAccent(normalized, '#1F1F21', '#FFFFFF'),
+          }
+        }
+        window.normalizeHexColor = normalizeHexColor
+        window.deriveAccentPair = deriveAccentPair
+        window.colorContrast = colorContrast
+        function setAccentTone(hex) {
+          const root = document.documentElement.style
+          const isDark = document.documentElement.dataset.colorMode === 'dark'
+          root.setProperty('--accent', hex)
+          root.setProperty(
+            '--accent-hover',
+            `color-mix(in srgb, ${hex} 82%, ${isDark ? 'white' : 'black'})`
+          )
+          root.setProperty('--accent-soft', `color-mix(in srgb, ${hex} 14%, var(--surface))`)
+          root.setProperty('--accent-line', `color-mix(in srgb, ${hex} 70%, var(--surface))`)
+          root.setProperty('--focus', `color-mix(in srgb, ${hex} 55%, var(--surface))`)
+        }
+        function applyAppearanceAccent() {
+          const isDark = document.documentElement.dataset.colorMode === 'dark'
+          const highContrast = document.documentElement.dataset.contrastMode === 'more'
+          if (highContrast) {
+            const seed = isDark ? appearanceAccentState.dark : appearanceAccentState.light
+            setAccentTone(
+              accessibleAccent(
+                seed,
+                isDark ? '#1F1F21' : '#FFFFFF',
+                isDark ? '#FFFFFF' : '#000000',
+                7
+              )
+            )
+            return
+          }
+          setAccentTone(isDark ? appearanceAccentState.dark : appearanceAccentState.light)
+        }
+        function clearCustomAccentError() {
+          appearanceCustomHex.removeAttribute('aria-invalid')
+          appearanceCustomError.textContent = ''
+        }
+        function commitCustomAccent(value) {
+          const seed = normalizeHexColor(value)
+          if (!seed) {
+            appearanceCustomHex.setAttribute('aria-invalid', 'true')
+            appearanceCustomError.textContent = 'Enter a 3- or 6-digit hex color.'
+            return false
+          }
+          const pair = deriveAccentPair(seed)
+          Object.assign(appearanceAccentState, {kind: 'custom', seed, ...pair})
+          clearCustomAccentError()
+          applyAppearanceAccent()
+          syncAppearanceDialog()
+          return true
+        }
+        function syncAppearanceChoices(selector, dataKey, selectedValue) {
+          document.querySelectorAll(selector).forEach(card => {
+            const selected = card.dataset[dataKey] === selectedValue
+            card.setAttribute('aria-checked', String(selected))
+            card.tabIndex = selected ? 0 : -1
+          })
+        }
+        function syncAppearanceDialog() {
+          const isDark = document.documentElement.dataset.colorMode === 'dark'
+          document.querySelectorAll('.accent-swatch').forEach((swatch, index) => {
+            const hex = isDark ? swatch.dataset.accentDark : swatch.dataset.accent
+            swatch.style.setProperty('--sw', hex)
+            const selected =
+              appearanceAccentState.kind === 'preset' &&
+              swatch.dataset.accent.toUpperCase() === appearanceAccentState.light
+            swatch.setAttribute(
+              'aria-checked',
+              String(selected)
+            )
+            swatch.tabIndex = selected || (appearanceAccentState.kind === 'custom' && index === 0) ? 0 : -1
+          })
+          appearanceCustomColor.value = appearanceAccentState.seed.toLowerCase()
+          if (!appearanceCustomHex.hasAttribute('aria-invalid')) {
+            appearanceCustomHex.value = appearanceAccentState.seed
+          }
+          appearanceCustomGroup.style.setProperty('--custom-accent', appearanceAccentState.seed)
+          appearanceCustomGroup.dataset.selected = String(appearanceAccentState.kind === 'custom')
+          syncAppearanceChoices('[data-appearance-theme]', 'appearanceTheme', themeSelect.value)
+          syncAppearanceChoices(
+            '[data-appearance-layout]',
+            'appearanceLayout',
+            document.getElementById('content-layout').value
+          )
+          syncAppearanceChoices(
+            '[data-appearance-density]',
+            'appearanceDensity',
+            document.getElementById('density').value
+          )
+          appearanceHighContrast.checked = highContrastToggle.checked
+        }
+        const openAppearance = () => {
+          syncAppearanceDialog()
+          appearanceScrim.classList.add('open')
+          trapFocus(appearanceScrim.querySelector('.dlg'))
+        }
+        const closeAppearance = () => {
+          if (appearanceScrim.classList.contains('open')) {
+            appearanceScrim.classList.remove('open')
+            releaseFocus()
+          }
+        }
+        appearanceScrim.addEventListener('click', e => {
+          if (e.target === appearanceScrim || e.target.closest('.c-close')) closeAppearance()
+        })
+        document.querySelectorAll('.accent-swatch').forEach(swatch =>
+          swatch.addEventListener('click', () => {
+            Object.assign(appearanceAccentState, {
+              kind: 'preset',
+              seed: swatch.dataset.accent.toUpperCase(),
+              light: swatch.dataset.accent.toUpperCase(),
+              dark: swatch.dataset.accentDark.toUpperCase(),
+            })
+            clearCustomAccentError()
+            applyAppearanceAccent()
+            syncAppearanceDialog()
+          })
+        )
+        appearanceCustomColor.addEventListener('input', e => commitCustomAccent(e.target.value))
+        appearanceCustomHex.addEventListener('change', e => commitCustomAccent(e.target.value))
+        appearanceCustomHex.addEventListener('keydown', e => {
+          if (e.key === 'Enter') {
+            e.preventDefault()
+            commitCustomAccent(e.currentTarget.value)
+          }
+          if (e.key === 'Escape') {
+            e.preventDefault()
+            e.currentTarget.value = appearanceAccentState.seed
+            clearCustomAccentError()
+          }
+        })
+        document.querySelectorAll('[data-appearance-theme]').forEach(card =>
+          card.addEventListener('click', () => {
+            themeSelect.value = card.dataset.appearanceTheme
+            themeSelect.dispatchEvent(new Event('change'))
+            syncAppearanceDialog()
+          })
+        )
+        function bindAppearanceRadioKeys(group, selector) {
+          group.addEventListener('keydown', e => {
+            if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) return
+            const current = e.target.closest(selector)
+            if (!current) return
+            e.preventDefault()
+            const items = [...group.querySelectorAll(selector)]
+            const direction = e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 1
+            const next = items[(items.indexOf(current) + direction + items.length) % items.length]
+            next.focus()
+            next.click()
+          })
+        }
+        bindAppearanceRadioKeys(
+          document.querySelector('.appearance-theme-grid'),
+          '[data-appearance-theme]'
+        )
+        bindAppearanceRadioKeys(
+          document.querySelector('.accent-swatches'),
+          '.accent-swatch[role="radio"]'
+        )
+        bindAppearanceRadioKeys(
+          document.querySelector('.appearance-layout-grid'),
+          '[data-appearance-layout]'
+        )
+        bindAppearanceRadioKeys(
+          document.querySelector('.appearance-density-grid'),
+          '[data-appearance-density]'
+        )
+        document.querySelectorAll('[data-appearance-layout]').forEach(card =>
+          card.addEventListener('click', () => {
+            const layoutSelect = document.getElementById('content-layout')
+            layoutSelect.value = card.dataset.appearanceLayout
+            layoutSelect.dispatchEvent(new Event('change'))
+            syncAppearanceDialog()
+          })
+        )
+        document.querySelectorAll('[data-appearance-density]').forEach(card =>
+          card.addEventListener('click', () => {
+            const densitySelect = document.getElementById('density')
+            densitySelect.value = card.dataset.appearanceDensity
+            densitySelect.dispatchEvent(new Event('change'))
+            syncAppearanceDialog()
+          })
+        )
+        appearanceHighContrast.addEventListener('change', e => {
+          highContrastToggle.checked = e.target.checked
+          highContrastToggle.dispatchEvent(new Event('change'))
+          syncAppearanceDialog()
+        })
+        appearanceReset.addEventListener('click', () => {
+          Object.assign(appearanceAccentState, {
+            kind: 'preset',
+            light: '#1868DB',
+            dark: '#669DF1',
+            seed: '#1868DB',
+          })
+          clearCustomAccentError()
+          themeSelect.value = 'system'
+          highContrastToggle.checked = systemContrastQuery.matches
+          const layoutSelect = document.getElementById('content-layout')
+          const densitySelect = document.getElementById('density')
+          layoutSelect.value = 'fluid'
+          densitySelect.value = 'default'
+          themeSelect.dispatchEvent(new Event('change'))
+          highContrastToggle.dispatchEvent(new Event('change'))
+          layoutSelect.dispatchEvent(new Event('change'))
+          densitySelect.dispatchEvent(new Event('change'))
+          syncAppearanceDialog()
+        })
+
+        const openCustomize = () => {
+          csGroupSeq = 0
+          csCollapsedGroups = new Set()
+          csDraft = forYouGroups.map(g => {
+            csGroupSeq += 1
+            return {id: 'g' + csGroupSeq, name: g.name, items: g.items.map(it => ({...it}))}
+          })
+          csRenderTree()
+          csRenderGroups()
+          cscrim.classList.add('open')
+          trapFocus(cscrim.querySelector('.dlg'))
+        }
+        const closeCustomize = () => {
+          if (cscrim.classList.contains('open')) {
+            cscrim.classList.remove('open')
+            releaseFocus()
+          }
+        }
+        cscrim.addEventListener('click', e => {
+          if (e.target === cscrim || e.target.closest('.c-close')) closeCustomize()
+        })
+        document.getElementById('cs-save').addEventListener('click', () => {
+          forYouGroups = csDraft
+            .filter(g => g.items.length)
+            .map(g => ({name: g.name.trim() || 'Untitled group', items: g.items}))
+          document
+            .querySelectorAll('.side')
+            .forEach(side => renderSide(side, {bootToLaunchpad: false}))
+          toast({
+            tone: 'ok',
+            title: 'Sidebar updated',
+            body: forYouGroups.length
+              ? `For You now has ${forYouGroups.length} group${forYouGroups.length === 1 ? '' : 's'}`
+              : 'For You is empty — the icon is hidden until you add a group',
+          })
+          closeCustomize()
+        })
+
+        /* ---- topbar menus: Notifications, Help, User — generic .menu/.mlist toggle
+   handles open/close; this just wires what each row actually does ---- */
+        const NOTIF_DATA = {
+          direct: [
+            {
+              icon: 'i-post',
+              unread: true,
+              who: 'Majed Sief Alnasr',
+              what: 'posted Sales Invoice 126',
+              time: '2h',
+            },
+            {
+              icon: 'i-warn',
+              unread: true,
+              who: 'System',
+              what: 'flagged an unbalanced journal entry on Invoice 118',
+              time: 'Yesterday',
+            },
+            {
+              icon: 'i-chat',
+              unread: false,
+              who: 'General accountant',
+              what: 'commented on Invoice 126',
+              time: '2d',
+            },
+          ],
+        }
+        /* the app's own inbox — separate from system notifications above, so it gets
+   its own tab instead of being mixed into "Direct" */
+        const EMAIL_DATA = [
+          {
+            id: 'e1',
+            day: 'Today',
+            from: 'Finance Team',
+            email: 'finance@lastchance.local',
+            subject: 'Payment scheduled for Sales Invoice 126',
+            time: '16:05',
+            unread: true,
+            hue: 258,
+            to: [{name: 'Kathleen', email: 'kathleen@lastchance.local'}],
+            cc: [{name: 'Kane', email: 'kane@lastchance.local'}],
+            body: [
+              'Good morning,',
+              'Your payment for Sales Invoice 126 is scheduled for processing on 29/07/2026, for 20,000.00 EGP on credit terms.',
+              'No action is needed on your side — the receipt voucher will be generated automatically once the payment clears. If the amount or due date looks wrong, reply to this email and Finance will take a look.',
+              'Thanks,\nFinance Team',
+            ],
+            attachments: [{name: 'invoice-126.pdf', size: '214 KB'}],
+          },
+          {
+            id: 'e2',
+            day: 'Today',
+            from: 'Warehouse Ops',
+            email: 'warehouse@lastchance.local',
+            subject: 'Stock check needed before Bill Outgoing Order ships',
+            time: '14:20',
+            unread: true,
+            hue: 189,
+            to: [{name: 'Kathleen', email: 'kathleen@lastchance.local'}],
+            cc: [],
+            body: [
+              'Hi,',
+              'Warehouse 201 shows a stock variance on 3 line items linked to your recent Bill Outgoing Order. Please confirm the counts before the shipment goes out today.',
+              'Thanks.',
+            ],
+            attachments: [],
+          },
+          {
+            id: 'e3',
+            day: 'Today',
+            from: 'System Admin',
+            email: 'admin@lastchance.local',
+            subject: 'Your password expires in 5 days',
+            time: '11:05',
+            unread: false,
+            hue: 18,
+            to: [{name: 'Kathleen', email: 'kathleen@lastchance.local'}],
+            cc: [],
+            body: [
+              'Hello,',
+              'Your password expires in 5 days. Update it from your account settings to avoid being locked out.',
+              'System Admin',
+            ],
+            attachments: [],
+          },
+          {
+            id: 'e4',
+            day: 'Yesterday',
+            from: 'Vendor Portal',
+            email: 'vendors@lastchance.local',
+            subject: 'New quotation received from Al Noor Trading',
+            time: '17:40',
+            unread: false,
+            hue: 142,
+            to: [{name: 'Kathleen', email: 'kathleen@lastchance.local'}],
+            cc: [],
+            body: [
+              'A new quotation for Purchase Order request #884 is ready for your review in the Vendor Portal.',
+              'Please review and approve within 3 business days.',
+            ],
+            attachments: [{name: 'quotation-884.pdf', size: '98 KB'}],
+          },
+          {
+            id: 'e5',
+            day: 'Yesterday',
+            from: 'Finance Team',
+            email: 'finance@lastchance.local',
+            subject: 'Undo request approved on Invoice 118',
+            time: '09:15',
+            unread: false,
+            hue: 258,
+            to: [{name: 'Kathleen', email: 'kathleen@lastchance.local'}],
+            cc: [],
+            body: [
+              'The undo posting request you submitted for Invoice 118 has been approved by the accounting supervisor.',
+              'The invoice is unlocked for editing.',
+            ],
+            attachments: [],
+          },
+        ]
+        const emailAvatarTone = hue => (Math.abs(Math.round(Number(hue) / 60)) % 5) + 1
+        const unreadOnly = () => document.getElementById('notif-unread-only')?.checked
+        const renderEmailTab = body => {
+          const messages = unreadOnly() ? EMAIL_DATA.filter(message => message.unread) : EMAIL_DATA
+          if (!messages.length) {
+            body.innerHTML = `<div class="notif-empty"><svg width="34" height="34" aria-hidden="true"><use href="#i-mail"/></svg><p>No email yet.</p></div>`
+            return
+          }
+          body.innerHTML = ''
+          let lastDay = null
+          messages.forEach(m => {
+            if (m.day !== lastDay) {
+              body.appendChild(
+                Object.assign(document.createElement('div'), {
+                  className: 'nc-group-lbl',
+                  textContent: m.day,
+                })
+              )
+              lastDay = m.day
+            }
+            const row = document.createElement('button')
+            row.type = 'button'
+            row.className = 'notif-row' + (m.unread ? ' unread' : '')
+            row.innerHTML = `<span class="notif-icn email-avatar" data-avatar-tone="${emailAvatarTone(m.hue)}"></span>
+      <span class="notif-txt">${m.unread ? '<span class="visually-hidden">Unread. </span>' : ''}<b></b> <span class="notif-what"></span></span>
+      <span class="notif-time"></span>`
+            row.querySelector('.email-avatar').textContent = m.from.charAt(0)
+            row.querySelector('b').textContent = m.from
+            row.querySelector('.notif-what').textContent = m.subject
+            row.querySelector('.notif-time').textContent = m.time
+            row.addEventListener('click', () => {
+              closeAllMenus()
+              openEmailView(m.id)
+            })
+            body.appendChild(row)
+          })
+        }
+        const renderNotif = tab => {
+          const body = document.getElementById('notif-body')
+          if (tab === 'email') {
+            renderEmailTab(body)
+            return
+          }
+          const allItems = NOTIF_DATA[tab] || []
+          const items = unreadOnly() ? allItems.filter(item => item.unread) : allItems
+          if (!items.length) {
+            body.innerHTML = `<div class="notif-empty"><svg width="34" height="34" aria-hidden="true"><use href="#i-bell"/></svg>
+      <p>You're all caught up — no notifications yet.</p></div>`
+            return
+          }
+          body.innerHTML = ''
+          items.forEach(n => {
+            const row = document.createElement('div')
+            row.className = 'notif-row' + (n.unread ? ' unread' : '')
+            row.innerHTML = `<span class="notif-icn"><svg width="15" height="15" aria-hidden="true"><use href="#${n.icon}"/></svg></span>
+      <span class="notif-txt">${n.unread ? '<span class="visually-hidden">Unread. </span>' : ''}<b></b> <span class="notif-what"></span></span>
+      <span class="notif-time"></span>`
+            row.querySelector('b').textContent = n.who
+            row.querySelector('.notif-what').textContent = n.what
+            row.querySelector('.notif-time').textContent = n.time
+            body.appendChild(row)
+          })
+        }
+        function selectNotificationTab(tab) {
+          tab
+            .closest('.notif-tabs')
+            .querySelectorAll('button')
+            .forEach(button => {
+              const selected = button === tab
+              button.setAttribute('aria-selected', String(selected))
+              button.tabIndex = selected ? 0 : -1
+            })
+          renderNotif(tab.dataset.tab)
+        }
+        document.querySelectorAll('.notif-tabs button').forEach(tab => {
+          tab.addEventListener('click', () => selectNotificationTab(tab))
+          tab.addEventListener('keydown', event => {
+            const tabs = [...event.currentTarget.closest('.notif-tabs').querySelectorAll('button')]
+            const current = tabs.indexOf(event.currentTarget)
+            let next = current
+            if (event.key === 'ArrowRight') next += 1
+            else if (event.key === 'ArrowLeft') next -= 1
+            else if (event.key === 'Home') next = 0
+            else if (event.key === 'End') next = tabs.length - 1
+            else return
+            event.preventDefault()
+            const target = tabs[(next + tabs.length) % tabs.length]
+            selectNotificationTab(target)
+            target.focus()
+          })
+        })
+        document.getElementById('notif-unread-only').addEventListener('change', () => {
+          const selectedTab = document.querySelector('.notif-tabs [aria-selected="true"]')
+          renderNotif(selectedTab?.dataset.tab || 'direct')
+        })
+        const notificationsTrigger = document.querySelector(
+          '[aria-controls="notifications-popover"]'
+        )
+        document.getElementById('notifications-popover').addEventListener('keydown', event => {
+          if (event.key !== 'Escape') return
+          event.preventDefault()
+          closeMenuAndRestoreFocus(notificationsTrigger)
+        })
+        renderNotif('direct')
+        function syncNotifBadge() {
+          const count =
+            Object.values(NOTIF_DATA)
+              .flat()
+              .filter(n => n.unread).length + EMAIL_DATA.filter(m => m.unread).length
+          const badge = document.getElementById('notif-badge')
+          badge.textContent = count
+          badge.hidden = !count
+        }
+        syncNotifBadge()
+
+        /* ---- email view: opened from Notifications' Email tab, replaces the invoice
+   content in place while the real topbar and sidebar stay put ---- */
+        /* .content holds swappable views as direct children: the record page's
+   top-level elements remain unwrapped while email and list surfaces use wrappers. */
+        function showContentView(name) {
+          /* adv-search-scrim is a sibling outside .content, so switching which
+   .content child is visible doesn't touch it — close it here so it never
+   strands open across an unrelated navigation (e.g. breadcrumb back to the
+   list) */
+          const advScrim = document.getElementById('adv-search-scrim')
+          if (advScrim && advScrim.classList.contains('open')) closeAdvancedSearch()
+
+          const content = document.querySelector('.content')
+          const viewSelectors = {
+            email: '.email-view',
+            list: '.list-view',
+            'customers-list': '.customer-list-view',
+            'customer-record': '.customer-record-view',
+            'geo-list': '.geo-list-view',
+            'geo-record': '.geo-record-view',
+          }
+          const namedViews = Object.fromEntries(
+            Object.entries(viewSelectors).map(([key, selector]) => {
+              const view = content.querySelector(selector) || deferredContentViews.get(key)
+              if (view) deferredContentViews.set(key, view)
+              return [key, view]
+            })
+          )
+          const targetView = namedViews[name]
+          if (contentViewDeferralReady && targetView && !targetView.isConnected)
+            content.appendChild(targetView)
+          ensureContentViewRendered(name)
+          const wrappedViews = Object.values(namedViews)
+          wrappedViews.forEach(view => {
+            if (!view) return
+            view.hidden = view !== targetView
+            if (contentViewDeferralReady && view !== targetView) view.remove()
+          })
+          ;[...content.children].forEach(el => {
+            if (wrappedViews.includes(el)) return
+            el.hidden = name !== 'record'
+          })
+          currentContentViewName = name
+          syncCustomerPrototypeControls(name)
+          queueSkeletonForCurrentView()
+        }
+        function syncCustomerPrototypeControls(viewName) {
+          /* the #kit prototype-controls panel is built by a later <script> tag, so on
+   the very first showLaunchpad() call during boot its elements don't exist yet —
+   skip until it's there; every later call (post-boot navigation) runs after #kit
+   is built. */
+          if (!document.getElementById('table-group-heading')) return
+          const isLaunchpad = viewName === 'launchpad'
+          const prototypeKit = document.getElementById('kit')
+          if (isLaunchpad && prototypeKit && !prototypeKit.classList.contains('hidden'))
+            document.getElementById('kit-hide')?.click()
+          const customerRecord = viewName === 'customer-record'
+          const nonInvoiceSurface = viewName !== 'record'
+          const isTablePage = ['list', 'customers-list', 'geo-list'].includes(viewName)
+          const hasCardSections =
+            !isLaunchpad && (viewName === 'record' || customerRecord || isTablePage)
+          document.getElementById('input-style-group').hidden = isLaunchpad
+          document.getElementById('customer-group-heading').hidden = !customerRecord
+          document.getElementById('customer-mode-group').hidden = !customerRecord
+          document.getElementById('customer-layout-group').hidden = !customerRecord
+          document.getElementById('section-style-group').hidden = !hasCardSections
+          document.getElementById('table-group-heading').hidden = !isTablePage
+          document.getElementById('filter-mode-group').hidden = !isTablePage
+          document.getElementById('statistics-concept-group').hidden = !isTablePage
+          ;[
+            'invoice-group-heading',
+            'invoice-mode-group',
+            'invoice-status-group',
+            'invoice-payment-group',
+            'invoice-dirty-group',
+            'invoice-emptyflow-group',
+          ].forEach(id => {
+            document.getElementById(id).hidden = nonInvoiceSurface
+          })
+        }
+        function renderEmailList(query) {
+          const scroll = document.getElementById('email-list-scroll')
+          scroll.innerHTML = ''
+          const q = (query || '').trim().toLowerCase()
+          const matches = EMAIL_DATA.filter(
+            m => !q || m.from.toLowerCase().includes(q) || m.subject.toLowerCase().includes(q)
+          )
+          if (!matches.length) {
+            const empty = document.createElement('div')
+            empty.className = 'notif-empty'
+            empty.innerHTML =
+              '<svg width="30" height="30" aria-hidden="true"><use href="#i-search"/></svg><p></p>'
+            empty.querySelector('p').textContent = `No email matches "${query.trim()}".`
+            scroll.appendChild(empty)
+            return
+          }
+          let lastDay = null
+          matches.forEach(m => {
+            if (m.day !== lastDay) {
+              scroll.appendChild(
+                Object.assign(document.createElement('div'), {
+                  className: 'nc-group-lbl',
+                  textContent: m.day,
+                })
+              )
+              lastDay = m.day
+            }
+            const row = document.createElement('button')
+            row.type = 'button'
+            row.className = 'email-list-row' + (m.unread ? ' unread' : '')
+            row.dataset.id = m.id
+            row.innerHTML = `<span class="email-avatar" style="--hue:${m.hue}"></span>
+      <span class="email-list-txt"><span class="email-list-top"><b></b><span class="email-list-time"></span></span>
+      <span class="email-list-subj"></span></span>`
+            row.querySelector('.email-avatar').textContent = m.from.charAt(0)
+            row.querySelector('b').textContent = m.from
+            row.querySelector('.email-list-time').textContent = m.time
+            row.querySelector('.email-list-subj').textContent = m.subject
+            row.addEventListener('click', () => selectEmail(m.id))
+            scroll.appendChild(row)
+          })
+          document
+            .querySelectorAll('.email-list-row')
+            .forEach(r => r.classList.toggle('active', r.dataset.id === currentEmailId))
+        }
+        let currentEmailId = null
+        function selectEmail(id) {
+          const m = EMAIL_DATA.find(x => x.id === id)
+          if (!m) return
+          currentEmailId = id
+          m.unread = false
+          document.querySelectorAll('.email-list-row').forEach(r => {
+            r.classList.toggle('active', r.dataset.id === id)
+            if (r.dataset.id === id) r.classList.remove('unread')
+          })
+          renderEmailReading(m)
+          syncNotifBadge()
+        }
+        /* the composer footer is shared by "reply to an existing email" and "compose
+   new" — it always sits outside the pane's own scroll area, pinned to the
+   bottom of the reading pane like a real inbox's reply box */
+        function composerMarkup(toLine, placeholder, sendLabel) {
+          return `<div class="email-composer">
+      ${toLine}
+      <textarea class="email-composer-input" placeholder="${placeholder}"></textarea>
+      <div class="email-composer-toolbar">
+        <button type="button" class="ibtn" aria-label="Bold"><svg width="14" height="14" aria-hidden="true"><use href="#i-bold"/></svg></button>
+        <button type="button" class="ibtn" aria-label="Italic"><svg width="14" height="14" aria-hidden="true"><use href="#i-italic"/></svg></button>
+        <button type="button" class="ibtn" aria-label="Underline"><svg width="14" height="14" aria-hidden="true"><use href="#i-underline"/></svg></button>
+        <button type="button" class="ibtn" aria-label="Strikethrough"><svg width="14" height="14" aria-hidden="true"><use href="#i-strike"/></svg></button>
+        <button type="button" class="ibtn" aria-label="Attach file"><svg width="14" height="14" aria-hidden="true"><use href="#i-clip"/></svg></button>
+        <span class="sp"></span>
+        <button type="button" class="lbtn pri email-send"><svg width="14" height="14" aria-hidden="true"><use href="#i-reply"/></svg> ${sendLabel}</button>
+      </div>
+    </div>`
+        }
+        function wireComposer(pane, describe) {
+          pane.querySelector('.email-send').addEventListener('click', () => {
+            const input = pane.querySelector('.email-composer-input')
+            if (!input.value.trim()) return
+            input.value = ''
+            toast({
+              tone: 'ok',
+              title: 'Message sent',
+              body: `${describe()} This is a UI proposal — nothing is actually delivered.`,
+            })
+          })
+        }
+        function renderEmailReading(m) {
+          const pane = document.getElementById('email-reading')
+          const toChips = m.to.map(p => `<span class="email-chip">${p.name}</span>`).join('')
+          const ccField = m.cc.length
+            ? `<div class="email-field"><span>Cc</span>${m.cc.map(p => `<span class="email-chip">${p.name}</span>`).join('')}</div>`
+            : ''
+          const attach = m.attachments.length
+            ? `<div class="email-attachments">${m.attachments
+                .map(
+                  a =>
+                    `<span class="email-attach"><svg width="14" height="14" aria-hidden="true"><use href="#i-clip"/></svg><span>${a.name}</span><small>${a.size}</small></span>`
+                )
+                .join('')}</div>`
+            : ''
+          pane.innerHTML = `
+    <div class="email-reading-scroll nc-scroll">
+      <div class="email-reading-hd">
+        <span class="email-avatar lg" style="--hue:${m.hue}">${m.from.charAt(0)}</span>
+        <div class="email-reading-who"><b>${m.from}</b><span>${m.email}</span></div>
+        <span class="email-reading-time">${m.day}, ${m.time}</span>
+      </div>
+      <h2 class="email-reading-subject">${m.subject}</h2>
+      <div class="email-field"><span>To</span>${toChips}</div>
+      ${ccField}
+      <div class="email-reading-body">${m.body.map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('')}</div>
+      ${attach}
+    </div>
+    ${composerMarkup(`<div class="email-composer-to">Reply to <b>${m.from}</b></div>`, 'Write a reply…', 'Reply')}`
+          wireComposer(pane, () => `Your reply to ${m.from} was sent.`)
+        }
+        function renderComposeNew() {
+          const pane = document.getElementById('email-reading')
+          document.querySelectorAll('.email-list-row').forEach(r => r.classList.remove('active'))
+          pane.innerHTML = `
+    <div class="email-reading-scroll nc-scroll">
+      <h2 class="email-reading-subject">New message</h2>
+      <div class="email-compose-row"><label for="email-compose-to">To</label><input type="text" id="email-compose-to" placeholder="Recipient email…"></div>
+      <div class="email-compose-row"><label for="email-compose-subject">Subject</label><input type="text" id="email-compose-subject" placeholder="Subject…"></div>
+    </div>
+    ${composerMarkup('', 'Write your message…', 'Send')}`
+          wireComposer(pane, () => {
+            const to = pane.querySelector('#email-compose-to').value.trim()
+            return `Your message${to ? ` to ${to}` : ''} was sent.`
+          })
+        }
+        function openEmailView(id) {
+          showContentView('email')
+          renderEmailList('')
+          selectEmail(id || EMAIL_DATA[0]?.id)
+          document.getElementById('email-search-input').value = ''
+        }
+        function closeEmailView() {
+          showContentView('record')
+        }
+        document.querySelectorAll('.email-back').forEach(b =>
+          b.addEventListener('click', e => {
+            e.preventDefault()
+            closeEmailView()
+          })
+        )
+        document.querySelectorAll('.record-back').forEach(b =>
+          b.addEventListener('click', e => {
+            e.preventDefault()
+            showContentView('list')
+          })
+        )
+        document.querySelector('.email-compose')?.addEventListener('click', renderComposeNew)
+        document
+          .getElementById('email-search-input')
+          .addEventListener('input', e => renderEmailList(e.target.value))
+        document.querySelectorAll('.help-kbd').forEach(b =>
+          b.addEventListener('click', () => {
+            closeAllMenus()
+            openKbd()
+          })
+        )
+        document.querySelectorAll('.side-customize-menu').forEach(b =>
+          b.addEventListener('click', () => {
+            closeAllMenus()
+            openCustomize()
+          })
+        )
+        document.querySelectorAll('.appearance-menu').forEach(b =>
+          b.addEventListener('click', () => {
+            closeAllMenus()
+            openAppearance()
+          })
+        )
+        document.querySelectorAll('.fav-toggle-menu').forEach(b =>
+          b.addEventListener('click', () => {
+            closeAllMenus()
+            document.querySelector('.fav-toggle')?.click()
+          })
+        )
+        document.querySelectorAll('.mlist').forEach(list =>
+          list.addEventListener('click', e => {
+            if (
+              e.target.closest('button[role="menuitem"]') &&
+              !e.target.closest('.help-kbd, .side-customize-menu, .fav-toggle-menu, .appearance-menu')
+            )
+              closeAllMenus()
+          })
+        )
+
+        /* ---- AI Assistant dialog (proposal) — a structural mock, no live model behind it ---- */
+        const aiscrim = document.getElementById('aiscrim')
+        const aiThread = document.getElementById('ai-thread')
+        const aiInput = document.getElementById('ai-input')
+        const openAI = () => {
+          aiscrim.classList.add('open')
+          trapFocus(aiscrim.querySelector('.ai-drawer'))
+          aiInput.focus()
+        }
+        const closeAI = () => {
+          if (aiscrim.classList.contains('open')) {
+            aiscrim.classList.remove('open')
+            releaseFocus()
+          }
+        }
+        /* four grounded scenarios, keyed to the suggestion chips — real numbers from
+   this invoice (see design 3's header facts), not generic filler. Anything
+   typed free-form falls back to the honest "no model wired up" disclaimer. */
+        const AI_SCENARIOS = {
+          'Summarize this invoice':
+            "Sales Invoice 126 · Posted · Credit\n\nCustomer 200001 (العميل الاول) — net amount 20,000.00 EGP, dated 29/07/2026 from Warehouse 201. Printed twice, no pending notes. It's read-only now that it's posted — Undo the posting first if it needs a change.",
+          "Why can't I modify this invoice?":
+            "It's Posted, and posted invoices lock by design — editing one after the fact would break the tie between the paper trail and the ledger entry it created. Undo the posting (Procedure → Undo) to unlock it, make the change, then post again.",
+          'Draft a follow-up email to the customer':
+            'Subject: Sales Invoice 126 — Payment Reminder\n\nHi there,\n\nJust a reminder that Invoice 126, dated 29/07/2026 for 20,000.00 EGP, is on credit terms. Let us know if you have any questions about the balance.\n\nThanks!',
+          'What changed since it was posted?':
+            "Since posting: the record locked for editing, and it's been printed 2 times. Nothing else has moved — posted invoices can't be edited directly, only reversed with Undo.",
+        }
+        const AI_FALLBACK =
+          "This is a UI proposal — there is no model wired up yet. In a real build, this would answer using the invoice's own data."
+        const aiAsk = text => {
+          if (!text.trim()) return
+          if (aiThread.querySelector('.ai-empty')) aiThread.innerHTML = ''
+          const me = document.createElement('div')
+          me.className = 'ai-msg me'
+          me.textContent = text
+          aiThread.appendChild(me)
+          aiInput.value = ''
+          aiThread.scrollTop = aiThread.scrollHeight
+
+          const thinking = document.createElement('div')
+          thinking.className = 'ai-msg bot ai-thinking'
+          thinking.innerHTML =
+            '<span class="ai-orb"></span><span>Thinking<span class="ai-dots"><i></i><i></i><i></i></span></span>'
+          aiThread.appendChild(thinking)
+          aiThread.scrollTop = aiThread.scrollHeight
+
+          const answer = AI_SCENARIOS[text] || AI_FALLBACK
+          setTimeout(
+            () => {
+              thinking.remove()
+              const bot = document.createElement('div')
+              bot.className = 'ai-msg bot'
+              aiThread.appendChild(bot)
+              let i = 0
+              const step = () => {
+                i = Math.min(i + 3, answer.length)
+                bot.textContent = answer.slice(0, i)
+                aiThread.scrollTop = aiThread.scrollHeight
+                if (i < answer.length) setTimeout(step, 12)
+              }
+              step()
+            },
+            1000 + Math.random() * 500
+          )
+        }
+        aiscrim.addEventListener('click', e => {
+          if (e.target === aiscrim || e.target.closest('.ai-close')) closeAI()
+        })
+        document
+          .querySelectorAll('.ai-chip')
+          .forEach(c => c.addEventListener('click', () => aiAsk(c.dataset.ai)))
+        document.getElementById('ai-send').addEventListener('click', () => aiAsk(aiInput.value))
+        aiInput.addEventListener('keydown', e => {
+          if (e.key === 'Enter') aiAsk(aiInput.value)
+        })
+        /* not scoped to .gtop: the launchpad boot (showLaunchpad, called during the
+   mount loop above) already moved this cluster into .lp-actions by the time
+   this wiring runs, so a ".gtop .right" selector would silently match nothing */
+        document
+          .querySelectorAll('.right button.chip')
+          .forEach(b => b.addEventListener('click', openAI))
+        /* "/" reuses the same suggestions as the chips above the thread — one list, two entry points */
+        const aiSlashList = document.getElementById('ai-slash-list')
+        document.querySelectorAll('.ai-chip').forEach(c => {
+          const row = document.createElement('button')
+          row.type = 'button'
+          row.setAttribute('role', 'menuitem')
+          row.textContent = c.textContent
+          row.addEventListener('click', () => aiAsk(c.dataset.ai))
+          aiSlashList.appendChild(row)
+        })
+        document.querySelectorAll('[data-ai-attach]').forEach(b =>
+          b.addEventListener('click', () => {
+            closeAllMenus()
+            toast({
+              tone: 'ok',
+              title: b.dataset.aiAttach === 'image' ? 'Attach image' : 'Attach file',
+              body: 'This is a UI mock — nothing is actually uploaded.',
+            })
+          })
+        )
+
+        const firstEnabled = sel =>
+          [...document.querySelectorAll('.design.active ' + sel)].find(b => !b.disabled)
+        document.addEventListener('keydown', e => {
+          const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)
+          const mod = e.metaKey || e.ctrlKey
+          const k = e.key.toLowerCase()
+          if (mod && k === 's') {
+            e.preventDefault()
+            const b = firstEnabled('[data-act="Save"]')
+            b
+              ? doSave(b)
+              : toast({tone: 'bad', title: 'Nothing to save', body: blocked('Save') || ''})
+            return
+          }
+          if (mod && k === 'p') {
+            e.preventDefault()
+            const why = blocked('Print')
+            if (why) {
+              toast({tone: 'bad', title: 'Print is not available', body: why})
+              return
+            }
+            openPrintSettings()
+            return
+          }
+          if (mod && k === 'n') {
+            e.preventDefault()
+            if (atRisk()) askGuard(null, 'start another invoice')
+            else {
+              modeSel.value = 'create'
+              applyMode('create')
+              toast({tone: 'ok', title: 'New invoice started'})
+            }
+            return
+          }
+          if (e.key === 'F1') {
+            e.preventDefault()
+            openKbd()
+            return
+          }
+          if (typing && !mod) return
+        })
+
+        /* ================= apply state ================= */
+        const applyState = () => {
+          const creating = state.mode === 'create'
+          const st = state.status,
+            info = STATUSES[st]
+
+          /* identity — a new invoice has no number to show. Skip anything inside the
+     email view or list view: they reuse .phead/.tline/.crumbs for a consistent
+     look but their breadcrumb and title are their own, not the invoice's. */
+          document.querySelectorAll('.d1 .tline h1, .d2 .idty h1').forEach(h => {
+            if (
+              h.closest(
+                '.email-view, .list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view'
+              )
+            )
+              return
+            h.textContent = creating ? 'New sales invoice' : `Sales Invoice ${state.docNo}`
+          })
+          document
+            .querySelectorAll('.d3 .otitle h1')
+            .forEach(
+              h =>
+                (h.textContent = creating
+                  ? 'New sales invoice'
+                  : `Sales Invoice ${state.docNo} · 001000352026126`)
+            )
+          document
+            .querySelectorAll('.d2 .idty .cr')
+            .forEach(
+              c =>
+                (c.textContent = creating
+                  ? 'Home › Sales Invoice › New'
+                  : 'Home › Sales Invoice › All')
+            )
+          document.querySelectorAll('.crumbs [aria-current=page]').forEach(c => {
+            if (
+              c.closest(
+                '.d2, .email-view, .list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view'
+              )
+            )
+              return
+            c.textContent = creating ? t('New') : t('All')
+          })
+
+          /* status chip — a draft is not the same thing as a saved invoice with no flags */
+          document.querySelectorAll('.stpill').forEach(p => {
+            p.dataset.s = creating ? 'draft' : st
+            p.querySelector('.nm').textContent = creating ? 'Draft — not saved yet' : info.short
+            const n = CHAIN.filter(c => reached(c.id)).length
+            p.querySelector('.segs').innerHTML = creating
+              ? ''
+              : CHAIN.map(c => `<i class="seg${reached(c.id) ? ' on' : ''}"></i>`).join('')
+            p.querySelector('.cnt').textContent = creating ? '' : `${n} of ${CHAIN.length}`
+          })
+
+          /* the record navigator stays where it is. A draft has no position in the list,
+     so the box is blank — and using it asks about the unsaved work first. */
+          document.querySelectorAll('.pager').forEach(p => {
+            if (
+              p.closest(
+                '.customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view'
+              )
+            )
+              return
+            p.hidden = false
+            const inp = p.querySelector('.pg-i')
+            inp.readOnly = creating
+            inp.value = creating ? '' : inp.dataset.last || '1'
+            inp.placeholder = creating ? '—' : ''
+            inp.title = creating ? 'This invoice has no number until you save it' : ''
+            /* keep every arrow clickable in create mode so the guard can catch it */
+            p.querySelectorAll('button').forEach(b => {
+              if (creating) b.disabled = false
+            })
+          })
+          document.querySelectorAll('.backlist').forEach(b => (b.hidden = true))
+          document.querySelectorAll('.pos').forEach(el => {
+            if (
+              el.closest(
+                '.list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view'
+              )
+            )
+              return
+            const inp = el.closest('.design')?.querySelector('.pg-i')
+            el.textContent = creating
+              ? t(
+                  'Not saved yet — this invoice takes its number and its place in the list when you save'
+                )
+              : `${t('Record', 'Record')} ${inp ? inp.value : 1} ${t('of', 'of')} 125`
+          })
+
+          /* the invoice record and list canvases now hold real markup, so the old
+     click-anywhere-to-dirty stand-in (which overwrote a canvas's textContent)
+     must not touch those or the separately managed Customer views. */
+          document.querySelectorAll('.canvas').forEach(c => {
+            if (
+              c.closest(
+                '.list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view'
+              )
+            )
+              return
+            if (c.querySelector('[data-field]')) return
+            const live = state.mode === 'edit' || state.mode === 'create'
+            c.style.cursor = live ? 'text' : ''
+            if (!c.dataset.wired) {
+              c.dataset.wired = '1'
+              c.addEventListener('click', () => {
+                if (state.mode !== 'edit' && state.mode !== 'create') return
+                if (state.dirty && state.missing === 0) return
+                state.dirty = true
+                document.getElementById('dirty').checked = true
+                /* standing in for a field edit also stands in for filling the required ones */
+                if (state.mode === 'create') state.missing = 0
+                applyState()
+                toast({tone: 'ok', title: 'Field changed', body: 'Save and Undo are live now.'})
+              })
+            }
+            const base = c.dataset.base || (c.dataset.base = c.textContent.trim())
+            c.textContent = live ? base + ' — click here to stand in for editing a field' : base
+          })
+          /* Record Concept A's real fields: read-only outside an editable status,
+     same rule the rest of the record's chrome already follows via editable(state) */
+          document.querySelectorAll('.canvas [data-field]').forEach(el => {
+            el.disabled = !editable(state)
+          })
+          document.querySelectorAll('.canvas [data-field-action]').forEach(el => {
+            el.disabled = !editable(state)
+          })
+
+          /* which record actions belong on screen right now */
+          const editing = state.mode === 'edit'
+          const showSave = creating || editing
+          document.querySelectorAll('[data-act="Modify"]').forEach(b => (b.hidden = showSave))
+          /* exactly one primary at a time: Modify while reading, Save while writing.
+     Delete is destructive, so it never carries the primary colour. */
+          document.querySelectorAll('[data-act="Delete"]').forEach(b => (b.hidden = creating))
+          document
+            .querySelectorAll('.savewrap, [data-act="Undo"], .reqchip')
+            .forEach(el => (el.hidden = !showSave))
+          document
+            .querySelectorAll('.d3 .fbar [data-act="Save"], .d3 .fbar [data-act="Undo"]')
+            .forEach(b => (b.hidden = false))
+
+          /* save split button and the count of what is still missing */
+          document.querySelectorAll('.savewrap .car').forEach(c => {
+            c.hidden = !creating
+            c.disabled = !!blocked('Save')
+          })
+          document.querySelectorAll('.reqchip').forEach(ch => {
+            ch.hidden = !creating
+            ch.classList.toggle('ok', state.missing === 0)
+            ch.textContent = state.missing
+              ? `${state.missing} required ${state.missing === 1 ? 'field' : 'fields'} still empty`
+              : 'All required fields filled'
+          })
+          /* every labelled action */
+          document.querySelectorAll('[data-act]').forEach(b => {
+            const why = blocked(b.dataset.act)
+            b.disabled = !!why
+            b.title = why || ''
+          })
+          /* design 4 mini chain */
+          document.querySelectorAll('.cp-mini-mount').forEach(m => {
+            m.innerHTML = CHAIN.map(c => {
+              const on = reached(c.id),
+                cur = !creating && c.id === st
+              return `<div class="cp-mini ${on ? (cur ? 'cur' : 'done') : 'off'}"><span class="cp-dot">${on && !cur ? '<svg width="9" height="9"><use href="#i-check"/></svg>' : ''}</span>
+        <div><div class="n">${c.name}</div><div class="d">${on ? c.when || '—' : creating ? 'Not yet' : 'Not recorded'}</div></div></div>`
+            }).join('')
+          })
+          /* a locked record should say why, not just look grey — every status has its
+     own copy, whether it's genuinely locked (posted/canceled/inactive) or just
+     not yet switched into Edit mode (open/pending/returned) */
+          document.querySelectorAll('.lockbanner').forEach(b => {
+            const locked = !(creating || (editing && editable(state)))
+            b.hidden = !locked
+            if (locked) b.querySelector('span').textContent = LOCK_COPY[st]
+          })
+
+          /* design 4 panel: name the section honestly on a draft */
+          document.querySelectorAll('.d4 .cp-sec h4').forEach(h => {
+            if (!h.dataset.full) h.dataset.full = h.textContent
+            if (h.dataset.full === 'Status')
+              h.textContent = creating ? 'Status — nothing recorded yet' : 'Status'
+          })
+
+          /* design 3 footer bar + key facts — a draft has nothing in them yet */
+          document
+            .querySelectorAll('.d3 .fbar')
+            .forEach(f => f.classList.toggle('show', state.dirty || creating))
+          document.querySelectorAll('.d3 .facts .f b').forEach((b, i) => {
+            if (!b.dataset.full) b.dataset.full = b.textContent
+            b.textContent = creating ? '—' : b.dataset.full
+            b.style.color = creating ? 'var(--faint)' : ''
+          })
+          document.querySelectorAll('.pay-fact').forEach(f => {
+            f.dataset.full = state.pay === 'credit' ? 'Credit (آجل)' : 'Cash (نقد)'
+            f.textContent = creating ? '—' : f.dataset.full
+          })
+          /* design 2 split button primary follows what is available */
+          document.querySelectorAll('.d2 .genbtn .main').forEach(b => {
+            const rvOk = !blocked('Receipt Voucher')
+            b.dataset.act = rvOk ? 'Receipt Voucher' : 'Sales Return'
+            b.lastChild.textContent = ' ' + b.dataset.act
+            const why = blocked(b.dataset.act)
+            b.disabled = !!why
+            b.title = why || ''
+          })
+          if (pop.classList.contains('open')) renderPop()
+          if (drawer.classList.contains('open')) renderCards()
+          if (document.querySelector('.spanel.open')) renderSearch()
+        }
+
+        /* ========== unsaved-work guard ========== */
+        const gscrim = document.getElementById('gscrim')
+        let guardAfter = null
+        const atRisk = () => state.mode === 'create' || (state.mode === 'edit' && state.dirty)
+        const askGuard = (whatNext, label) => {
+          guardAfter = whatNext
+          setTimeout(() => trapFocus(gscrim.querySelector('.guard')), 0)
+          document.getElementById('g-msg').textContent =
+            state.mode === 'create'
+              ? 'This invoice has never been saved. It gets its number only when you save it.'
+              : 'This invoice has changes that were never saved.'
+          document.getElementById('g-what').textContent = label
+            ? `You were about to: ${label}.`
+            : ''
+          gscrim.classList.add('open')
+        }
+        const runGuarded = fn => {
+          if (atRisk()) askGuard(fn, null)
+          else fn()
+        }
+        document.getElementById('g-stay').onclick = () => {
+          gscrim.classList.remove('open')
+          guardAfter = null
+          releaseFocus()
+        }
+        document.getElementById('g-newtab').onclick = () => {
+          window.open(location.href, '_blank')
+          gscrim.classList.remove('open')
+          guardAfter = null
+          releaseFocus()
+          toast({
+            tone: 'ok',
+            title: 'Opened in a new tab',
+            body: 'This invoice stays exactly as it was here.',
+          })
+        }
+        document.getElementById('g-discard').onclick = () => {
+          gscrim.classList.remove('open')
+          releaseFocus()
+          const f = guardAfter
+          guardAfter = null
+          if (f) f()
+          else if (state.mode === 'create') {
+            modeSel.value = 'record'
+            applyMode('record')
+          } else {
+            state.dirty = false
+            document.getElementById('dirty').checked = false
+            applyState()
+          }
+        }
+        document.getElementById('g-save').onclick = () => {
+          gscrim.classList.remove('open')
+          releaseFocus()
+          const f = guardAfter
+          guardAfter = null
+          modeSel.value = 'record'
+          applyMode('record')
+          f && f()
+        }
+        gscrim.addEventListener('click', e => {
+          if (e.target === gscrim) document.getElementById('g-stay').click()
+        })
+
+        /* anything that would walk away from unsaved work asks first */
+        document.addEventListener(
+          'click',
+          e => {
+            const nav = e.target.closest('.pager button, .backlist')
+            if (nav && atRisk()) {
+              e.preventDefault()
+              e.stopPropagation()
+              askGuard(
+                null,
+                nav.classList.contains('backlist')
+                  ? 'go back to the invoice list'
+                  : 'move to another record'
+              )
+              return
+            }
+            const nw = e.target.closest('[data-act="New"]')
+            if (nw && !nw.disabled && atRisk()) {
+              e.preventDefault()
+              e.stopPropagation()
+              askGuard(null, 'start another invoice')
+            }
+          },
+          true
+        )
+
+        const modeSel = document.getElementById('mode')
+        const applyMode = m => {
+          state.mode = m
+          /* every header field in this template already carries a value, so there is
+             no real "still empty" header state to simulate — Save's real gate is the
+             line-item validation that runs when Save is actually clicked. */
+          state.missing = 0
+          /* only an editable document can be in edit mode */
+          if (m === 'edit' && !editable(state)) {
+            state.status = 'open'
+            document.getElementById('st').value = 'open'
+          }
+          if (m === 'record') state.dirty = false
+          document.getElementById('dirty').checked = state.dirty
+          document.getElementById('st').disabled = m === 'create'
+          applyState()
+        }
+        modeSel.addEventListener('change', e => {
+          const next = e.target.value
+          /* leaving a draft or an edit with unsaved work is the same risk, whatever route you take */
+          if (state.mode !== next && atRisk()) {
+            e.target.value = state.mode
+            askGuard(
+              () => {
+                modeSel.value = next
+                applyMode(next)
+              },
+              next === 'create' ? 'start a new invoice' : 'leave this invoice'
+            )
+            return
+          }
+          applyMode(next)
+        })
+        document.getElementById('st').addEventListener('change', e => {
+          state.status = e.target.value
+          applyState()
+        })
+        document.getElementById('pay').addEventListener('change', e => {
+          state.pay = e.target.value
+          applyState()
+        })
+        document.getElementById('dirty').addEventListener('change', e => {
+          state.dirty = e.target.checked
+          applyState()
+        })
+        const systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)')
+        const systemContrastQuery = window.matchMedia('(prefers-contrast: more)')
+        const validThemeModes = new Set(['system', 'light', 'dark'])
+        const highContrastToggle = document.getElementById('high-contrast')
+        /* refreshOpenDataListCharts (defined later, alongside the rest of the
+           chart code) reads dataListState, which doesn't exist yet the first
+           time applyTheme runs during initial setup — this flag, declared
+           up here before applyTheme's first call, is what lets that function
+           safely no-op until dataListState is actually ready. */
+        let dataListChartRefreshReady = false
+        function applyTheme(requestedMode) {
+          const mode = validThemeModes.has(requestedMode) ? requestedMode : 'system'
+          const systemColorMode = systemThemeQuery.matches ? 'dark' : 'light'
+          const colorMode = mode === 'system' ? systemColorMode : mode
+          const resolved = highContrastToggle.checked ? `high-contrast-${colorMode}` : colorMode
+          const root = document.documentElement
+          root.dataset.theme = resolved
+          root.dataset.colorMode = colorMode
+          root.dataset.contrastMode = highContrastToggle.checked ? 'more' : 'standard'
+          if (typeof applyAppearanceAccent === 'function') applyAppearanceAccent()
+          /* Chart colors are resolved from CSS custom properties at draw
+             time (see dataListChartColors/dataListChartTheme), so an open
+             chart needs an explicit re-render on theme change — nothing
+             else in this app currently re-renders data-list canvases just
+             because the theme flipped. */
+          if (typeof refreshOpenDataListCharts === 'function') refreshOpenDataListCharts()
+        }
+        const themeSelect = document.getElementById('theme')
+        themeSelect.addEventListener('change', e => applyTheme(e.target.value))
+        highContrastToggle.addEventListener('change', () => applyTheme(themeSelect.value))
+        const syncSystemTheme = () => {
+          if (themeSelect.value === 'system') applyTheme('system')
+        }
+        systemThemeQuery.addEventListener('change', syncSystemTheme)
+        systemContrastQuery.addEventListener('change', () => {
+          highContrastToggle.checked = systemContrastQuery.matches
+          applyTheme(themeSelect.value)
+        })
+        highContrastToggle.checked = systemContrastQuery.matches
+        applyTheme(document.getElementById('theme').value)
+        document.getElementById('density').addEventListener('change', e => {
+          document.body.classList.toggle('density-compact', e.target.value === 'compact')
+        })
+        document.getElementById('content-layout').addEventListener('change', e => {
+          document.body.classList.toggle('layout-boxed', e.target.value === 'boxed')
+        })
+        document.getElementById('input-style').addEventListener('change', e => {
+          document.body.classList.remove('style-floated', 'style-inline')
+          if (e.target.value !== 'default') document.body.classList.add(`style-${e.target.value}`)
+        })
+        document.getElementById('section-style').addEventListener('change', e => {
+          document.body.classList.toggle('cards-fieldset', e.target.value === 'fieldset')
+        })
+        document.getElementById('filter-mode').addEventListener('change', e => {
+          Object.keys(DATA_LIST_CONFIG).forEach(context => {
+            dataListState[context].filterMode = e.target.value
+            if (dataListState[context].canvas) refreshDataListForContext(context)
+          })
+        })
+        document.getElementById('statistics-concept').addEventListener('change', () => {
+          Object.keys(DATA_LIST_CONFIG).forEach(context => {
+            if (dataListState[context].canvas) refreshDataListForContext(context)
+          })
+        })
+        document.getElementById('emptyflow').addEventListener('change', e => {
+          state.emptyFlow = e.target.checked
+          renderActivity()
+        })
+        /* every static data-i18n node currently in the document — called after the
+           locale changes, and again whenever a lazily-rendered view (a list, on
+           its first visit) adds new data-i18n nodes that missed the last pass */
+        function applyDataI18n() {
+          document.querySelectorAll('[data-i18n]').forEach(node => {
+            node.textContent = t(node.dataset.i18n)
+          })
+        }
+        function applyLocale(locale) {
+          appLocale = locale
+          document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr'
+          document.documentElement.lang = locale === 'ar' ? 'ar' : 'en'
+          /* re-render whichever view is currently on screen so its dynamic text
+             (breadcrumb tail, KPI cards, record position, toolbar) picks up the
+             new language too — data-i18n only covers static markup, and a list
+             view rendered here for the first time only just gained its
+             data-i18n nodes, so the walk below must run after this, not before */
+          if (currentContentViewName === 'record') applyState()
+          else if (currentContentViewName === 'customer-record') renderCustomerRecord()
+          else if (currentContentViewName === 'geo-record') renderGeoRecord()
+          else if (currentContentViewName === 'list' && dataListState.invoice.canvas)
+            renderDataList('invoice')
+          else if (currentContentViewName === 'customers-list' && dataListState.customer.canvas)
+            renderDataList('customer')
+          else if (currentContentViewName === 'geo-list' && dataListState.geo.canvas)
+            renderDataList('geo')
+          applyDataI18n()
+          const topbarSearch = document.querySelector('.gtop .sbox')
+          const topbarSearchLabel = topbarSearch?.querySelector('.shell-search-label')
+          if (topbarSearchLabel) {
+            stopSearchTyping(topbarSearchLabel.closest('.gtop'))
+            startSearchTyping(topbarSearchLabel)
+            topbarSearch.setAttribute('aria-label', t('Search or run an action'))
+          }
+          const netAmount = document.getElementById('invoice-summary-net')
+          if (netAmount) {
+            const amount = parseFloat(netAmount.textContent) || 0
+            netAmount.textContent = formatLocaleCurrency(amount)
+          }
+          /* re-invoking showLaunchpad() here would move the shared topbar action
+             cluster out of its live location a second time and lose it — relabel
+             the already-built launchpad DOM in place instead */
+          const activeLaunchpad = document.querySelector('.lp-view:not([hidden])')
+          if (activeLaunchpad) {
+            const launchpadMode = activeLaunchpad.dataset.mode || 'home'
+            const heading = activeLaunchpad.querySelector('.lp-title')
+            const subtitle = activeLaunchpad.querySelector('.lp-subtitle')
+            if (launchpadMode === 'switcher') {
+              heading.textContent = t('Switch app')
+              subtitle.textContent = t('Choose another app or return to your current screen.')
+            } else {
+              const userName = getLaunchpadUserName()
+              heading.replaceChildren()
+              if (userName) {
+                heading.append(`${t('Good to see you,')} `)
+                const name = document.createElement('bdi')
+                name.className = 'lp-user-name'
+                name.textContent = userName
+                name.setAttribute('data-text', userName)
+                heading.append(name, '.')
+              } else {
+                heading.textContent = t('Welcome back.')
+              }
+              subtitle.textContent = t('Resume recent work or open another Skey app.')
+            }
+
+            activeLaunchpad.querySelectorAll('.lp-quick-lbl').forEach(node => {
+              if (!node.dataset.i18nOriginal) node.dataset.i18nOriginal = node.textContent
+              node.textContent = t(node.dataset.i18nOriginal)
+            })
+            activeLaunchpad.querySelectorAll('.lp-tag span').forEach(node => {
+              if (!node.dataset.i18nOriginal) node.dataset.i18nOriginal = node.textContent
+              node.textContent = t(node.dataset.i18nOriginal)
+            })
+            const search = activeLaunchpad.querySelector('.lp-search')
+            const searchLabel = search?.querySelector('.lp-search-label')
+            if (searchLabel) {
+              stopSearchTyping(activeLaunchpad)
+              startSearchTyping(searchLabel)
+            }
+            if (search) search.setAttribute('aria-label', t('Search apps and screens'))
+            activeLaunchpad.querySelectorAll('.lp-view-all').forEach(button => {
+              button.textContent = t(
+                button.getAttribute('aria-expanded') === 'true' ? 'Show less' : 'View all'
+              )
+            })
+            const currentLabel = activeLaunchpad.querySelector('.lp-current:not([hidden])')
+            if (currentLabel) currentLabel.textContent = t('Current app')
+            const close = activeLaunchpad.querySelector('.lp-close')
+            if (close) {
+              close.setAttribute('aria-label', t('Back to current screen'))
+              const tip = close.querySelector('.tip')
+              if (tip) tip.textContent = t('Back to current screen')
+            }
+            activeLaunchpad.querySelectorAll('.lp-tile').forEach(tile => {
+              const label = tile.querySelector('.lp-tile-lbl')
+              const description = tile.querySelector('.lp-tile-desc')
+              if (label) label.textContent = t(label.dataset.i18nOriginal || '')
+              if (description) description.textContent = t(description.dataset.i18nOriginal || '')
+            })
+            const appsTitle = activeLaunchpad.querySelector('#launchpad-apps-title')
+            if (appsTitle) appsTitle.textContent = t('Apps')
+          }
+          /* relabel the persistent sidebar rail in place — its buttons key off the
+             English label internally (data-label, activateByLabel lookups), so
+             only the visible text is retranslated, not the whole nav rebuilt */
+          document.querySelectorAll('.nc1-item').forEach(btn => {
+            const lbl = btn.querySelector('.nc1-lbl')
+            if (lbl && btn.dataset.label) lbl.textContent = t(btn.dataset.label)
+          })
+          document.querySelectorAll('.nc2-icn[aria-label]').forEach(btn => {
+            const original = btn.dataset.i18nOriginal || btn.getAttribute('aria-label')
+            btn.dataset.i18nOriginal = original
+            btn.setAttribute('aria-label', t(original))
+            const lbl = btn.querySelector('.nc2-lbl')
+            if (lbl) lbl.textContent = t(original)
+          })
+          document.querySelectorAll('.nc-fav[data-label]').forEach(btn => {
+            const lbl = btn.querySelector('span')
+            if (lbl) lbl.textContent = t(btn.dataset.label)
+          })
+        }
+        document.getElementById('rtl').addEventListener('change', e => {
+          applyLocale(e.target.checked ? 'ar' : 'en')
+        })
+        document.addEventListener('keydown', e => {
+          if (e.key === 'Escape') {
+            const switcher = document.querySelector('.lp-view[data-mode="switcher"]:not([hidden])')
+            if (switcher) {
+              e.preventDefault()
+              hideLaunchpad(switcher.closest('.frame'), {restoreFocus: true})
+              return
+            }
+            closeAllMenus()
+            closePop()
+            closeDrawer()
+            closeSearch()
+            closeRDlg()
+            closeKbd()
+            closeCustomize()
+            closeAI()
+            if (pscrim.classList.contains('open')) {
+              pscrim.classList.remove('open')
+              releaseFocus()
+            }
+            if (gscrim.classList.contains('open')) document.getElementById('g-stay').click()
+          }
+          if (e.key.toLowerCase() === 'k' && (e.metaKey || e.ctrlKey)) {
+            e.preventDefault()
+            openSearch()
+          }
+        })
+
+        document.getElementById('st').disabled = state.mode === 'create'
+        renderActivity()
+        document.querySelectorAll('.fav-toggle').forEach(btn => {
+          btn.onclick = () => {
+            const on = btn.getAttribute('aria-pressed') !== 'true'
+            btn.setAttribute('aria-pressed', String(on))
+            btn.setAttribute('aria-label', on ? 'Remove from Favorites' : 'Add to Favorites')
+            btn.querySelector('.tip').textContent = on
+              ? 'Remove from Favorites'
+              : 'Add to Favorites'
+            toast({tone: 'ok', title: on ? 'Added to Favorites' : 'Removed from Favorites'})
+          }
+        })
+        /* a reloaded page can restore a different mode in the select — follow it */
+        applyMode(modeSel.value || 'record')
+
+        /* ================= Sales Invoice List — concept rendering ================= */
+        const LIST_ROWS = [
+          {
+            seq: '001000352026143',
+            no: '143',
+            date: '13/08/2026',
+            dueDate: '13/09/2026',
+            subtype: 'عام',
+            poRef: 'PO-88213',
+            pay: 'Cash',
+            custNo: '200002',
+            custName: 'customertest',
+            branch: '2 - lastchance',
+            status: 'Posted',
+            currency: 'EGP',
+            priceList: 'Retail 2026',
+            taxAmount: '28.00',
+            discount: '0.00',
+            total: '200.00',
+            salesRep: 'Mona Farouk',
+            warehouse: 'WH-01 Main Store',
+            createdBy: 'mona.farouk',
+            modifiedAt: '13/08/2026',
+          },
+          {
+            seq: '001000352026142',
+            no: '142',
+            date: '13/08/2026',
+            dueDate: '13/09/2026',
+            subtype: 'عام',
+            poRef: 'PO-88190',
+            pay: 'Cash',
+            custNo: '200002',
+            custName: 'customertest',
+            branch: '2 - lastchance',
+            status: 'Posted',
+            currency: 'EGP',
+            priceList: 'Retail 2026',
+            taxAmount: '245.00',
+            discount: '50.00',
+            total: '1,750.00',
+            salesRep: 'Mona Farouk',
+            warehouse: 'WH-01 Main Store',
+            createdBy: 'mona.farouk',
+            modifiedAt: '13/08/2026',
+          },
+          {
+            seq: '001000352026140',
+            no: '140',
+            date: '13/08/2026',
+            dueDate: '12/10/2026',
+            subtype: 'عام',
+            poRef: 'PO-88104',
+            pay: 'Credit',
+            custNo: '200001',
+            custName: 'العميل الاول',
+            branch: '1 - headoffice',
+            status: 'Posted',
+            currency: 'EGP',
+            priceList: 'Wholesale 2026',
+            taxAmount: '784.00',
+            discount: '200.00',
+            total: '5,600.00',
+            salesRep: 'Ahmed Nabil',
+            warehouse: 'WH-02 Central',
+            createdBy: 'ahmed.nabil',
+            modifiedAt: '14/08/2026',
+          },
+          {
+            seq: '001000352026144',
+            no: '144',
+            date: '14/08/2026',
+            dueDate: '14/09/2026',
+            subtype: 'عام',
+            poRef: 'PO-88240',
+            pay: 'Cash',
+            custNo: '200002',
+            custName: 'customertest',
+            branch: '2 - lastchance',
+            status: 'Draft',
+            currency: 'EGP',
+            priceList: 'Retail 2026',
+            taxAmount: '133.00',
+            discount: '0.00',
+            total: '950.00',
+            salesRep: 'Mona Farouk',
+            warehouse: 'WH-01 Main Store',
+            createdBy: 'mona.farouk',
+            modifiedAt: '14/08/2026',
+          },
+          {
+            seq: '001000352026145',
+            no: '145',
+            date: '14/08/2026',
+            dueDate: '13/10/2026',
+            subtype: 'عام',
+            poRef: 'PO-88251',
+            pay: 'Credit',
+            custNo: '200001',
+            custName: 'العميل الاول',
+            branch: '1 - headoffice',
+            status: 'Open',
+            currency: 'EGP',
+            priceList: 'Wholesale 2026',
+            taxAmount: '448.00',
+            discount: '100.00',
+            total: '3,200.00',
+            salesRep: 'Ahmed Nabil',
+            warehouse: 'WH-02 Central',
+            createdBy: 'ahmed.nabil',
+            modifiedAt: '15/08/2026',
+          },
+          {
+            seq: '001000352026146',
+            no: '146',
+            date: '15/08/2026',
+            dueDate: '15/09/2026',
+            subtype: 'عام',
+            poRef: 'PO-88277',
+            pay: 'Cash',
+            custNo: '200002',
+            custName: 'customertest',
+            branch: '2 - lastchance',
+            status: 'Pending',
+            currency: 'EGP',
+            priceList: 'Retail 2026',
+            taxAmount: '157.00',
+            discount: '25.00',
+            total: '1,120.00',
+            salesRep: 'Mona Farouk',
+            warehouse: 'WH-01 Main Store',
+            createdBy: 'mona.farouk',
+            modifiedAt: '15/08/2026',
+          },
+          {
+            seq: '001000352026147',
+            no: '147',
+            date: '15/08/2026',
+            dueDate: '14/10/2026',
+            subtype: 'عام',
+            poRef: 'PO-88283',
+            pay: 'Credit',
+            custNo: '200001',
+            custName: 'العميل الاول',
+            branch: '1 - headoffice',
+            status: 'Returned',
+            currency: 'EGP',
+            priceList: 'Wholesale 2026',
+            taxAmount: '67.00',
+            discount: '0.00',
+            total: '480.00',
+            salesRep: 'Ahmed Nabil',
+            warehouse: 'WH-02 Central',
+            createdBy: 'ahmed.nabil',
+            modifiedAt: '16/08/2026',
+          },
+          {
+            seq: '001000352026148',
+            no: '148',
+            date: '16/08/2026',
+            dueDate: '16/09/2026',
+            subtype: 'عام',
+            poRef: 'PO-88301',
+            pay: 'Cash',
+            custNo: '200002',
+            custName: 'customertest',
+            branch: '2 - lastchance',
+            status: 'Canceled',
+            currency: 'EGP',
+            priceList: 'Retail 2026',
+            taxAmount: '280.00',
+            discount: '0.00',
+            total: '2,000.00',
+            salesRep: 'Mona Farouk',
+            warehouse: 'WH-01 Main Store',
+            createdBy: 'mona.farouk',
+            modifiedAt: '16/08/2026',
+          },
+        ]
+
+        const CUSTOMER_ROWS = [
+          {
+            customerNo: '200010',
+            customerName: 'customer_412',
+            operationUnit: '2 - lastchance',
+            customerType: 'Retail',
+            customerGroup: 'General',
+            currency: 'EGP',
+            country: 'EG - Egypt',
+            phone: '02 2450 1200',
+            active: true,
+            photo: {
+              src: 'assets/customers/customer-200010-portrait.webp',
+              alt: 'Portrait of customer_412',
+              fit: 'cover',
+            },
+          },
+          {
+            customerNo: '200002',
+            customerName: 'customertest',
+            operationUnit: '2 - lastchance',
+            customerType: 'Wholesale',
+            customerGroup: 'Local',
+            currency: 'EGP',
+            country: 'EG - Egypt',
+            phone: '010 2000 2000',
+            active: true,
+            photo: {
+              src: 'assets/customers/customer-200002-organization.webp',
+              alt: 'Organization mark for customertest',
+              fit: 'contain',
+            },
+          },
+          {
+            customerNo: '200001',
+            customerName: 'العميل الاول',
+            operationUnit: '2 - lastchance',
+            customerType: 'Retail',
+            customerGroup: 'General',
+            currency: 'EGP',
+            country: 'EG - Egypt',
+            phone: '010 1000 1000',
+            active: false,
+            photo: null,
+          },
+        ]
+
+        const CUSTOMER_IMAGE_SOURCES = new Set([
+          'assets/customers/customer-200010-portrait.webp',
+          'assets/customers/customer-200002-organization.webp',
+        ])
+
+        const GEO_ROWS = [
+          {
+            code: 'EG',
+            name: 'Egypt',
+            parentCode: '',
+            parent: '',
+            type: 'Country',
+            level: 1,
+            active: true,
+            remarks: 'National operating territory',
+          },
+          {
+            code: 'CAI',
+            name: 'Cairo Governorate',
+            parentCode: 'EG',
+            parent: 'EG - Egypt',
+            type: 'Governorate',
+            level: 2,
+            active: true,
+            remarks: 'Greater Cairo sales territory',
+          },
+          {
+            code: 'GIZ',
+            name: 'Giza Governorate',
+            parentCode: 'EG',
+            parent: 'EG - Egypt',
+            type: 'Governorate',
+            level: 2,
+            active: true,
+            remarks: '',
+          },
+          {
+            code: 'ALX',
+            name: 'Alexandria Governorate',
+            parentCode: 'EG',
+            parent: 'EG - Egypt',
+            type: 'Governorate',
+            level: 2,
+            active: true,
+            remarks: 'North coast operations',
+          },
+          {
+            code: 'SUZ',
+            name: 'Suez Governorate',
+            parentCode: 'EG',
+            parent: 'EG - Egypt',
+            type: 'Governorate',
+            level: 2,
+            active: true,
+            remarks: '',
+          },
+          {
+            code: 'NSC',
+            name: 'Nasr City',
+            parentCode: 'CAI',
+            parent: 'CAI - Cairo Governorate',
+            type: 'District',
+            level: 3,
+            active: true,
+            remarks: 'East Cairo service area',
+          },
+          {
+            code: 'HEL',
+            name: 'Heliopolis',
+            parentCode: 'CAI',
+            parent: 'CAI - Cairo Governorate',
+            type: 'District',
+            level: 3,
+            active: true,
+            remarks: '',
+          },
+          {
+            code: 'MAA',
+            name: 'Maadi',
+            parentCode: 'CAI',
+            parent: 'CAI - Cairo Governorate',
+            type: 'District',
+            level: 3,
+            active: true,
+            remarks: '',
+          },
+          {
+            code: 'OCT',
+            name: '6th of October City',
+            parentCode: 'GIZ',
+            parent: 'GIZ - Giza Governorate',
+            type: 'City',
+            level: 3,
+            active: true,
+            remarks: 'West Cairo distribution zone',
+          },
+          {
+            code: 'DOK',
+            name: 'Dokki',
+            parentCode: 'GIZ',
+            parent: 'GIZ - Giza Governorate',
+            type: 'District',
+            level: 3,
+            active: true,
+            remarks: '',
+          },
+          {
+            code: 'MON',
+            name: 'Montaza',
+            parentCode: 'ALX',
+            parent: 'ALX - Alexandria Governorate',
+            type: 'District',
+            level: 3,
+            active: true,
+            remarks: '',
+          },
+          {
+            code: 'AIN',
+            name: 'Ain Sokhna',
+            parentCode: 'SUZ',
+            parent: 'SUZ - Suez Governorate',
+            type: 'City',
+            level: 3,
+            active: false,
+            remarks: 'Seasonal territory currently inactive',
+          },
+        ]
+        const geoState = {
+          code: 'CAI',
+          mode: 'view',
+          expanded: new Set(['EG', 'CAI']),
+          hierarchyView: 'tree',
+          treeQuery: '',
+          flowScale: 1,
+        }
+        const geoFlowContentSize = {width: 800, height: 800}
+
+        const DATA_LIST_CONFIG = {
+          invoice: {
+            label: 'invoices',
+            singular: 'invoice',
+            key: 'no',
+            rows: LIST_ROWS,
+            /* group tags the field for Adaptive view's sectioned layout
+               (Document / Customer / Financials / Audit trail) — purely a
+               presentation hint, unrelated to table-column visibility. */
+            columns: [
+              {key: 'seq', label: 'Doc. Sequence', group: 'document'},
+              {key: 'no', label: 'Doc No.', group: 'document'},
+              {key: 'status', label: 'Invoice Status', group: 'document'},
+              {
+                key: 'date',
+                label: 'Doc Date',
+                plottable: true,
+                valueType: 'date',
+                group: 'document',
+              },
+              {
+                key: 'dueDate',
+                label: 'Due Date',
+                plottable: true,
+                valueType: 'date',
+                group: 'document',
+              },
+              {key: 'subtype', label: 'Doc Sub-type Name', group: 'document'},
+              {key: 'poRef', label: 'PO Reference', group: 'document'},
+              {key: 'custNo', label: 'Customer No.', group: 'customer'},
+              {key: 'custName', label: 'Customer Name', group: 'customer'},
+              {key: 'branch', label: 'Branch', group: 'customer'},
+              {key: 'pay', label: 'Payment method', group: 'financials'},
+              {key: 'currency', label: 'Currency', group: 'financials'},
+              {key: 'priceList', label: 'Price List', group: 'financials'},
+              {
+                key: 'taxAmount',
+                label: 'Tax Amount',
+                plottable: true,
+                valueType: 'number',
+                group: 'financials',
+              },
+              {
+                key: 'discount',
+                label: 'Discount',
+                plottable: true,
+                valueType: 'number',
+                group: 'financials',
+              },
+              {
+                key: 'total',
+                label: 'Net Total',
+                plottable: true,
+                valueType: 'number',
+                group: 'financials',
+              },
+              {key: 'salesRep', label: 'Sales Rep', group: 'audit'},
+              {key: 'warehouse', label: 'Warehouse', group: 'audit'},
+              {key: 'createdBy', label: 'Created By', group: 'audit'},
+              {
+                key: 'modifiedAt',
+                label: 'Last Modified',
+                plottable: true,
+                valueType: 'date',
+                group: 'audit',
+              },
+            ],
+            filters: [
+              {key: 'all', label: 'All invoices', icon: 'i-eye'},
+              {key: 'cash', label: 'Cash invoices', icon: 'i-doc'},
+              {key: 'credit', label: 'Credit invoices', icon: 'i-doc'},
+              {key: 'recent', label: 'Recent invoices', icon: 'i-clock'},
+            ],
+            filterFields: [
+              {key: 'no', label: 'Doc No.', icon: 'i-doc', type: 'text'},
+              {key: 'custName', label: 'Customer', icon: 'i-user', type: 'text'},
+              {
+                key: 'pay',
+                label: 'Payment method',
+                icon: 'i-panel',
+                type: 'select',
+                options: ['Cash', 'Credit'],
+              },
+              {
+                key: 'date',
+                label: 'Doc date',
+                icon: 'i-clock',
+                type: 'date',
+              },
+              {
+                key: 'subtype',
+                label: 'Doc Sub-type',
+                icon: 'i-doc',
+                type: 'select',
+                options: ['عام'],
+              },
+            ],
+          },
+          customer: {
+            label: 'customers',
+            singular: 'customer',
+            key: 'customerNo',
+            rows: CUSTOMER_ROWS,
+            columns: [
+              {key: 'avatar', label: 'Photo', sortable: false, groupable: false},
+              {key: 'customerNo', label: 'Customer No.'},
+              {key: 'customerName', label: 'Customer Name'},
+              {key: 'operationUnit', label: 'Operation Unit'},
+              {key: 'customerType', label: 'Customer Type'},
+              {key: 'customerGroup', label: 'Customer Group'},
+              {key: 'currency', label: 'Currency'},
+              {key: 'country', label: 'Country'},
+              {key: 'phone', label: 'Phone'},
+              {key: 'active', label: 'Active status'},
+            ],
+            filters: [
+              {key: 'all', label: 'All customers', icon: 'i-eye'},
+              {key: 'active', label: 'Active customers', icon: 'i-check'},
+              {key: 'inactive', label: 'Inactive customers', icon: 'i-archive'},
+              {key: 'retail', label: 'Retail customers', icon: 'i-user'},
+            ],
+            filterFields: [
+              {key: 'customerNo', label: 'Customer No.', icon: 'i-doc', type: 'text'},
+              {key: 'customerName', label: 'Customer Name', icon: 'i-user', type: 'text'},
+              {
+                key: 'customerType',
+                label: 'Customer Type',
+                icon: 'i-panel',
+                type: 'select',
+                options: ['Retail', 'Wholesale'],
+              },
+              {
+                key: 'customerGroup',
+                label: 'Customer Group',
+                icon: 'i-grid',
+                type: 'select',
+                options: ['General', 'Local'],
+              },
+              {key: 'country', label: 'Country', icon: 'i-grid', type: 'text'},
+              {
+                key: 'active',
+                label: 'Active status',
+                icon: 'i-check',
+                type: 'select',
+                options: [
+                  {value: 'true', label: 'Active'},
+                  {value: 'false', label: 'Inactive'},
+                ],
+              },
+            ],
+          },
+          geo: {
+            label: 'locations',
+            singular: 'location',
+            key: 'code',
+            rows: GEO_ROWS,
+            columns: [
+              {key: 'code', label: 'Location Code'},
+              {key: 'name', label: 'Location Name'},
+              {key: 'parent', label: 'Parent Location'},
+              {key: 'type', label: 'Type'},
+              {key: 'level', label: 'Level', plottable: true, valueType: 'number'},
+              {key: 'active', label: 'Active status'},
+              {key: 'remarks', label: 'Remarks'},
+            ],
+            filters: [
+              {key: 'all', label: 'All locations', icon: 'i-eye'},
+              {key: 'active', label: 'Active locations', icon: 'i-check'},
+              {key: 'root', label: 'Root locations', icon: 'i-flow'},
+              {key: 'inactive', label: 'Inactive locations', icon: 'i-archive'},
+            ],
+            filterFields: [
+              {key: 'code', label: 'Location Code', icon: 'i-doc', type: 'text'},
+              {key: 'name', label: 'Location Name', icon: 'i-flow', type: 'text'},
+              {key: 'parent', label: 'Parent Location', icon: 'i-flow', type: 'text'},
+              {
+                key: 'type',
+                label: 'Type',
+                icon: 'i-grid',
+                type: 'select',
+                options: ['Country', 'Governorate', 'City', 'District'],
+              },
+              {
+                key: 'level',
+                label: 'Level',
+                icon: 'i-panel',
+                type: 'select',
+                options: ['1', '2', '3'],
+              },
+              {
+                key: 'active',
+                label: 'Active status',
+                icon: 'i-check',
+                type: 'select',
+                options: [
+                  {value: 'true', label: 'Active'},
+                  {value: 'false', label: 'Inactive'},
+                ],
+              },
+            ],
+          },
+        }
+        const DATA_LIST_STATISTICS_CONCEPT_OPTIONS = [
+          {key: 'balanced', label: 'Balanced cards'},
+          {key: 'operational', label: 'Operational workspace'},
+          {key: 'analytical', label: 'Analytical KPIs'},
+        ]
+
+        function savedDataListLayout(context, defaultOrder) {
+          const fallback = {
+            columnOrder: defaultOrder,
+            hiddenColumns: [],
+            groupBy: [],
+            view: 'list',
+            statisticsVisible: true,
+            statisticsConcept: '',
+          }
+          try {
+            const stored = JSON.parse(
+              localStorage.getItem(`skey:data-list-layout:${context}`) || 'null'
+            )
+            const storedOrder = Array.isArray(stored) ? stored : stored?.columnOrder
+            if (!Array.isArray(storedOrder)) return fallback
+            const retainedOrder = storedOrder.filter(
+              (columnKey, index, keys) =>
+                defaultOrder.includes(columnKey) && keys.indexOf(columnKey) === index
+            )
+            const columnOrder = [
+              ...retainedOrder,
+              ...defaultOrder.filter(columnKey => !retainedOrder.includes(columnKey)),
+            ]
+            const statisticsConcept = DATA_LIST_STATISTICS_CONCEPT_OPTIONS.some(
+              option => option.key === stored?.statisticsConcept
+            )
+              ? stored.statisticsConcept
+              : ''
+            return {
+              columnOrder,
+              hiddenColumns: Array.isArray(stored?.hiddenColumns) ? stored.hiddenColumns : [],
+              groupBy: Array.isArray(stored?.groupBy) ? stored.groupBy : [],
+              view: typeof stored?.view === 'string' ? stored.view : 'list',
+              statisticsVisible:
+                typeof stored?.statisticsVisible === 'boolean'
+                  ? stored.statisticsVisible
+                  : true,
+              statisticsConcept,
+            }
+          } catch (error) {
+            if (error instanceof SyntaxError || error instanceof DOMException) return fallback
+            throw error
+          }
+        }
+
+        function persistDataListLayout(context, layout) {
+          try {
+            localStorage.setItem(`skey:data-list-layout:${context}`, JSON.stringify(layout))
+            return true
+          } catch (error) {
+            if (error instanceof DOMException) return false
+            throw error
+          }
+        }
+
+        /* Custom (saved) filters — user-named snapshots of the field-filter
+           editor's conditions, stored per table context so invoice/customer/
+           geo each keep their own set, same persistence pattern as layout. */
+        function loadCustomFilters(context) {
+          try {
+            const stored = JSON.parse(
+              localStorage.getItem(`skey:data-list-custom-filters:${context}`) || '[]'
+            )
+            return Array.isArray(stored)
+              ? stored.filter(item => item && typeof item.id === 'string')
+              : []
+          } catch (error) {
+            if (error instanceof SyntaxError || error instanceof DOMException) return []
+            throw error
+          }
+        }
+
+        function persistCustomFilters(context, filters) {
+          try {
+            localStorage.setItem(
+              `skey:data-list-custom-filters:${context}`,
+              JSON.stringify(filters)
+            )
+            return true
+          } catch (error) {
+            if (error instanceof DOMException) return false
+            throw error
+          }
+        }
+
+        const DATA_CUSTOM_FILTER_ICONS = [
+          'i-eye',
+          'i-spark',
+          'i-clock',
+          'i-check',
+          'i-archive',
+          'i-doc',
+          'i-grid',
+          'i-flow',
+          'i-user',
+          'i-panel',
+          'i-location',
+          'i-warn',
+        ]
+
+        const DATA_LIST_VALID_VIEWS = {
+          invoice: ['list', 'responsive', 'adaptive', 'cards', 'kanban'],
+          customer: ['list', 'responsive', 'adaptive', 'cards'],
+          geo: ['list', 'responsive', 'adaptive', 'cards'],
+        }
+
+        /* Pagination contract: the mocked row arrays only hold a handful of sample
+           records, but the record-navigator pager elsewhere in the UI already claims
+           a simulated dataset size ("Record 1 of 125" etc). List-level pagination
+           must agree with that same simulated total so the two counters never
+           contradict each other. */
+        const DATA_LIST_SIMULATED_TOTAL = {invoice: 125, customer: 72, geo: 12}
+        const DATA_LIST_DEFAULT_PAGE_SIZE = 25
+        const DATA_LIST_PAGE_SIZE_OPTIONS = [10, 25, 50, 100]
+
+        const dataListState = Object.fromEntries(
+          Object.entries(DATA_LIST_CONFIG).map(([key, config]) => [
+            key,
+            (() => {
+              const defaultOrder = config.columns.map(column => column.key)
+              const saved = savedDataListLayout(key, defaultOrder)
+              const savedView = DATA_LIST_VALID_VIEWS[key].includes(saved.view)
+                ? saved.view
+                : 'list'
+              const savedHiddenColumns = saved.hiddenColumns.filter(columnKey =>
+                defaultOrder.includes(columnKey)
+              )
+              const savedGroupBy = saved.groupBy.filter(
+                (columnKey, index, keys) =>
+                  defaultOrder.includes(columnKey) && keys.indexOf(columnKey) === index
+              )
+              return {
+                sourceRows: config.rows,
+                selected: new Set(),
+                hiddenColumns: new Set(savedHiddenColumns),
+                savedHiddenColumns: new Set(savedHiddenColumns),
+                groupBy: [...savedGroupBy],
+                savedGroupBy: [...savedGroupBy],
+                collapsedGroups: new Set(),
+                expandedRows: new Set(),
+                search: '',
+                filter: 'all',
+                filterMode: 'inline',
+                sortKey: config.key,
+                sortDirection: 'asc',
+                page: 1,
+                pageSize: DATA_LIST_DEFAULT_PAGE_SIZE,
+                view: savedView,
+                savedView,
+                advanced: false,
+                fieldFilters: [],
+                customFilters: loadCustomFilters(key),
+                activeCustomFilterId: '',
+                borderMode: 'default',
+                frozenColumns: new Set(),
+                columnOrder: [...saved.columnOrder],
+                savedColumnOrder: [...saved.columnOrder],
+                layoutDirty: false,
+                statisticsVisible: saved.statisticsVisible,
+                savedStatisticsVisible: saved.statisticsVisible,
+                statisticsConcept: saved.statisticsConcept,
+                savedStatisticsConcept: saved.statisticsConcept,
+                chartVisible: false,
+                chartExpanded: true,
+                chartField: config.columns[0].key,
+                chartYField: '',
+                chartType: 'bar',
+                canvas: null,
+                responsiveWidth: 0,
+                responsiveSignature: '',
+                resizeObserver: null,
+              }
+            })(),
+          ])
+        )
+        dataListChartRefreshReady = true
+
+        const listLayoutGuard = document.getElementById('list-layout-guard')
+        let listLayoutGuardContext = ''
+        let listLayoutGuardAfter = null
+
+        function visibleDirtyDataListContext() {
+          if (
+            document.querySelector('.list-view')?.hidden === false &&
+            dataListState.invoice.layoutDirty
+          )
+            return 'invoice'
+          if (
+            document.querySelector('.customer-list-view')?.hidden === false &&
+            dataListState.customer.layoutDirty
+          )
+            return 'customer'
+          if (
+            document.querySelector('.geo-list-view')?.hidden === false &&
+            dataListState.geo.layoutDirty
+          )
+            return 'geo'
+          return ''
+        }
+
+        function askListLayoutGuard(context, after) {
+          listLayoutGuardContext = context
+          listLayoutGuardAfter = after
+          listLayoutGuard.classList.add('open')
+          setTimeout(() => trapFocus(listLayoutGuard.querySelector('.guard')), 0)
+        }
+
+        function guardDataListLeave(after) {
+          const context = visibleDirtyDataListContext()
+          if (!context) return false
+          askListLayoutGuard(context, after)
+          return true
+        }
+
+        function closeListLayoutGuard() {
+          listLayoutGuard.classList.remove('open')
+          listLayoutGuardContext = ''
+          listLayoutGuardAfter = null
+          releaseFocus()
+        }
+
+        document.getElementById('list-layout-stay').addEventListener('click', closeListLayoutGuard)
+        document.getElementById('list-layout-discard').addEventListener('click', () => {
+          const context = listLayoutGuardContext
+          const after = listLayoutGuardAfter
+          const listState = dataListState[context]
+          listState.columnOrder = [...listState.savedColumnOrder]
+          listState.hiddenColumns = new Set(listState.savedHiddenColumns)
+          listState.groupBy = [...listState.savedGroupBy]
+          listState.view = listState.savedView
+          listState.statisticsVisible = listState.savedStatisticsVisible
+          listState.statisticsConcept = listState.savedStatisticsConcept
+          listState.layoutDirty = false
+          closeListLayoutGuard()
+          after?.()
+        })
+        document.getElementById('list-layout-save').addEventListener('click', () => {
+          const context = listLayoutGuardContext
+          const after = listLayoutGuardAfter
+          if (!saveDataListLayout(context)) return
+          closeListLayoutGuard()
+          after?.()
+        })
+        listLayoutGuard.addEventListener('click', event => {
+          if (event.target === listLayoutGuard) closeListLayoutGuard()
+        })
+
+        const customerState = {mode: 'view', customerNo: '200010'}
+        const customerField = (key, label, type = 'text', options = []) => ({
+          key,
+          label,
+          type,
+          options,
+        })
+
+        const CUSTOMER_SECTIONS = {
+          identity: {
+            title: 'Customer',
+            fields: [
+              customerField('customerNo', 'Customer No.'),
+              customerField('customerName', 'Customer Name'),
+              customerField('operationUnit', 'Operation Unit', 'select', ['2 - lastchance']),
+              customerField('customerType', 'Customer Type', 'select', ['Retail', 'Wholesale']),
+              customerField('primeCustomer', 'Prime Customer', 'select', ['']),
+              customerField('accountCode', 'Acc. Code', 'select', ['114001 - Customers']),
+              customerField('customerGroup', 'Customer Group', 'select', ['General', 'Local']),
+              customerField('linkedBeneficiaries', 'Linked To Beneficiaries', 'checkbox'),
+              customerField('currency', 'Currency', 'select', ['EGP - Egyptian Pound']),
+              customerField('photo', 'Customer Photo', 'photo'),
+            ],
+          },
+          deactivation: {
+            title: 'Deactivate',
+            fields: [
+              customerField('deactivationFrom', 'From Deactivation Date', 'date'),
+              customerField('deactivationTo', 'To Deactivation Date', 'date'),
+            ],
+          },
+          nationalAddress: {
+            title: 'National Address',
+            fields: [
+              customerField('nationalStreet', 'Street'),
+              customerField('nationalBuilding', 'Building'),
+              customerField('nationalFlat', 'Flat'),
+              customerField('nationalDistrict', 'District'),
+              customerField('nationalShortAddress', 'Short Address'),
+              customerField('nationalCity', 'City', 'select', ['']),
+              customerField('nationalState', 'State', 'select', ['']),
+              customerField('nationalCountry', 'Country', 'select', ['EG - Egypt']),
+              customerField('nationalPostalCode', 'Postal Code'),
+              customerField('nationalAddOn', 'Add On'),
+              customerField('nationalIdentifierType', 'Identifier Type', 'select', ['']),
+              customerField('nationalIdentifierNo', 'Identifier No.'),
+            ],
+          },
+          defaultContact: {
+            title: 'Default Contact Info.',
+            fields: [
+              customerField('contactAddress', 'Address'),
+              customerField('contactAddressDetails', 'Address Details'),
+              customerField('contactCity', 'City', 'select', ['']),
+              customerField('contactState', 'State', 'select', ['']),
+              customerField('contactCountry', 'Country', 'select', ['EG - Egypt']),
+              customerField('contactPostalCode', 'Postal Code'),
+              customerField('contactPhone', 'Phone'),
+              customerField('contactEmail', 'E-Mail', 'email'),
+              customerField('contactMobile', 'Mobile No.'),
+              customerField('contactWebsite', 'Website', 'url'),
+            ],
+          },
+          mainData: {
+            title: 'Main Data',
+            fields: [
+              customerField('salespersonNo', 'Salesperson', 'select', ['']),
+              customerField('driverNo', 'Driver No.', 'select', ['']),
+              customerField('geoLocation', 'Geo. Location', 'select', ['']),
+              customerField('collector', 'Collector', 'select', ['']),
+              customerField('marketerNo', 'Marketer No.', 'select', ['']),
+              customerField('creditPeriod', 'Credit Period', 'number'),
+              customerField('taxScope', 'Tax Scope', 'select', ['']),
+              customerField('taxCategory', 'Tax Category', 'select', ['']),
+              customerField('methodShowPrice', 'Method Show Price', 'select', ['']),
+              customerField('taxNumber', 'Tax Number'),
+              customerField('permanentAccountNumber', 'Permanent Account Number'),
+              customerField('programNo', 'Program No', 'select', ['']),
+              customerField('activationDate', 'Activation Date', 'date'),
+              customerField('customerBarcode', 'Customer Barcode'),
+            ],
+          },
+          otherData: {
+            title: 'Other Data',
+            fields: [
+              customerField('dealingDate', 'Dealing Date', 'date'),
+              customerField('cashPriceLevel', 'Price Level For Cash', 'select', ['']),
+              customerField('creditPriceLevel', 'Price Level For Credit', 'select', ['']),
+              customerField('otherCountry', 'Country', 'select', ['EG - Egypt']),
+              customerField('language', 'Language', 'select', ['Arabic', 'English']),
+              customerField('paymentType', 'Payment Type', 'select', ['']),
+              customerField('deliveryTerms', 'Delivery Terms', 'select', ['']),
+              customerField('viaPerson', 'Via Person'),
+              customerField('lastConfirmationDate', 'Last Confirmation Date', 'date'),
+              customerField('idNumber', 'ID Number'),
+              customerField('licenseNo', 'License No.'),
+              customerField('licenseOwner', 'License Owner'),
+              customerField('ceoTitle', 'CEO Title', 'select', ['']),
+              customerField('ceoName', 'CEO Name'),
+              customerField('yearEstablished', 'Year Established', 'number'),
+              customerField('vendorCode', 'Vendor Code', 'select', ['']),
+              customerField('blackListReason', 'Black List Reason'),
+              customerField('blackListed', 'Black List', 'checkbox'),
+              customerField('isSalesperson', 'Salesperson', 'checkbox'),
+              customerField('inactiveSalesOrder', 'Inactivation In Sales Order', 'checkbox'),
+              customerField('inactiveInvoice', 'Inactivation In Invoice', 'checkbox'),
+              customerField('remarks', 'Remarks', 'textarea'),
+            ],
+          },
+          subLedgers: {title: 'Sub Ledgers', type: 'subledgers', fields: []},
+          contactDetails: {title: 'Contact Details', type: 'empty', fields: []},
+        }
+
+        const CUSTOMER_REFERENCE = {
+          customerNo: '200010',
+          customerName: 'customer_412',
+          operationUnit: '2 - lastchance',
+          customerType: '',
+          primeCustomer: '',
+          accountCode: '114001 - Customers',
+          customerGroup: '',
+          linkedBeneficiaries: false,
+          currency: 'EGP - Egyptian Pound',
+          photo: CUSTOMER_ROWS[0].photo,
+          nationalCountry: 'EG - Egypt',
+          contactCountry: 'EG - Egypt',
+          otherCountry: 'EG - Egypt',
+          blackListed: false,
+          isSalesperson: false,
+          inactiveSalesOrder: false,
+          inactiveInvoice: false,
+          subLedgers: [],
+          contactDetails: [],
+        }
+
+        function createBlankCustomerData() {
+          const data = {}
+          Object.values(CUSTOMER_SECTIONS).forEach(section => {
+            section.fields.forEach(field => {
+              data[field.key] = field.type === 'checkbox' ? false : ''
+            })
+          })
+          data.operationUnit = '2 - lastchance'
+          data.currency = 'EGP - Egyptian Pound'
+          data.photo = null
+          data.subLedgers = []
+          data.contactDetails = []
+          return data
+        }
+
+        function createSavedCustomerData(customerNo = CUSTOMER_REFERENCE.customerNo) {
+          const row =
+            CUSTOMER_ROWS.find(customer => customer.customerNo === customerNo) || CUSTOMER_ROWS[0]
+          return {
+            ...createBlankCustomerData(),
+            ...CUSTOMER_REFERENCE,
+            customerNo: row.customerNo,
+            customerName: row.customerName,
+            operationUnit: row.operationUnit,
+            customerType: row.customerType,
+            customerGroup: row.customerGroup,
+            currency: `${row.currency} - Egyptian Pound`,
+            otherCountry: row.country,
+            contactPhone: row.phone,
+            deactivationFrom: row.active ? '' : '2026-08-01',
+            photo: row.photo,
+          }
+        }
+
+        let customerData = {...createBlankCustomerData(), ...CUSTOMER_REFERENCE}
+        let customerSavedSnapshot = structuredClone(customerData)
+        Object.assign(customerState, {
+          mode: 'view',
+          layout: 'guided',
+          activeSection: 'identity',
+          expanded: new Set(Object.keys(CUSTOMER_SECTIONS)),
+          errors: new Map(),
+          dirty: false,
+        })
+        window.customerPrototype = {
+          fieldKeys: Object.values(CUSTOMER_SECTIONS).flatMap(section =>
+            section.fields.map(field => field.key)
+          ),
+        }
+
+        const CUSTOMER_SECTION_ORDER = [
+          'identity',
+          'deactivation',
+          'nationalAddress',
+          'defaultContact',
+          'mainData',
+          'otherData',
+          'subLedgers',
+          'contactDetails',
+        ]
+        /* Record contract: the default tab must represent the record's normal
+           purpose. Main Data leads; Deactivate is a secondary/destructive action
+           and must never be the tab a user lands on when opening a customer. */
+        const CUSTOMER_GUIDED_TABS = [
+          'mainData',
+          'nationalAddress',
+          'defaultContact',
+          'otherData',
+          'subLedgers',
+          'contactDetails',
+          'deactivation',
+        ]
+        const CUSTOMER_REQUIRED_FIELDS = new Set(['customerNo', 'customerName'])
+        const CUSTOMER_LOOKUP_KEYS = new Set(['operationUnit', 'customerType'])
+        const UNIT_ROWS = [
+          {code: '1', name: 'Head Office', parentCode: '', level: 1, status: 'Active'},
+          {code: '2', name: 'lastchance', parentCode: '1', level: 2, status: 'Active'},
+          {code: '3', name: 'Cairo Branch', parentCode: '1', level: 2, status: 'Active'},
+          {code: '4', name: 'Alexandria Branch', parentCode: '1', level: 2, status: 'Active'},
+          {code: '9', name: 'Old Branch', parentCode: '1', level: 2, status: 'Inactive'},
+        ]
+        const CUSTOMER_LOOKUP_RESULTS = {
+          customerType: [
+            {value: 'Retail', status: 'Active', order: 10, details: 'Retail customers'},
+            {value: 'Wholesale', status: 'Active', order: 20, details: 'Wholesale customers'},
+            {value: 'Government', status: 'Active', order: 30, details: 'Public sector'},
+            {
+              value: 'Legacy',
+              status: 'Inactive',
+              order: 90,
+              details: 'Not available for new records',
+            },
+          ],
+          operationUnit: [
+            {
+              value: '2 - lastchance',
+              code: '2',
+              country: 'EG - Egypt',
+              parent: 'Head Office',
+              status: 'Active',
+            },
+            {
+              value: '3 - Cairo Branch',
+              code: '3',
+              country: 'EG - Egypt',
+              parent: 'Head Office',
+              status: 'Active',
+            },
+            {
+              value: '4 - Alexandria Branch',
+              code: '4',
+              country: 'EG - Egypt',
+              parent: 'Head Office',
+              status: 'Active',
+            },
+            {
+              value: '9 - Old Branch',
+              code: '9',
+              country: 'EG - Egypt',
+              parent: 'Head Office',
+              status: 'Inactive',
+            },
+          ],
+          unitLocation: [
+            {
+              value: 'Cairo',
+              code: '2',
+              parent: 'Egypt',
+              level: '2',
+              type: 'Governorate',
+              status: 'Active',
+            },
+            {
+              value: 'Alexandria',
+              code: '3',
+              parent: 'Egypt',
+              level: '2',
+              type: 'Governorate',
+              status: 'Active',
+            },
+            {
+              value: 'Nasr City',
+              code: '21',
+              parent: 'Cairo',
+              level: '3',
+              type: 'District',
+              status: 'Active',
+            },
+          ],
+        }
+        const customerLookupState = {
+          fieldKey: '',
+          trigger: null,
+          source: 'customer',
+          targetSelectId: '',
+          selectedValue: '',
+          matchModes: {
+            operationUnit: 'contains',
+            customerType: 'contains',
+            unitParent: 'contains',
+            unitLocation: 'contains',
+          },
+        }
+
+        function customerSectionKeyForField(fieldKey) {
+          return CUSTOMER_SECTION_ORDER.find(key =>
+            CUSTOMER_SECTIONS[key].fields.some(field => field.key === fieldKey)
+          )
+        }
+
+        function validateCustomerField(field) {
+          const value = String(customerData[field.key] ?? '').trim()
+          if (CUSTOMER_REQUIRED_FIELDS.has(field.key) && !value) {
+            return `${field.label} is required.`
+          }
+          if (!value) return ''
+          if (field.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+            return `Enter a valid ${field.label}.`
+          }
+          if (field.type === 'url') {
+            try {
+              const url = new URL(value)
+              if (!['http:', 'https:'].includes(url.protocol)) {
+                return `Enter a valid ${field.label}.`
+              }
+            } catch {
+              return `Enter a valid ${field.label}.`
+            }
+          }
+          return ''
+        }
+
+        function validateCustomerRecord() {
+          customerState.errors.clear()
+          CUSTOMER_SECTION_ORDER.forEach(sectionKey => {
+            CUSTOMER_SECTIONS[sectionKey].fields.forEach(field => {
+              const message = validateCustomerField(field)
+              if (message) customerState.errors.set(field.key, message)
+            })
+          })
+          return customerState.errors.size === 0
+        }
+
+        function customerSectionMeta(key) {
+          const section = CUSTOMER_SECTIONS[key]
+          const errorCount = section.fields.filter(field =>
+            customerState.errors.has(field.key)
+          ).length
+          if (errorCount) {
+            return {
+              text: `${errorCount} ${errorCount === 1 ? 'error' : 'errors'}`,
+              className: 'is-error',
+              hasErrors: true,
+            }
+          }
+          if (section.type === 'subledgers') {
+            const count = customerData.subLedgers.length
+            return {
+              text: `${count} ${count === 1 ? 'record' : 'records'}`,
+              className: count ? 'is-complete' : '',
+              hasErrors: false,
+            }
+          }
+          if (section.type === 'empty') {
+            return {text: 'Not defined', className: '', hasErrors: false}
+          }
+          const populated = section.fields.filter(field => {
+            if (field.type === 'checkbox') return true
+            return String(customerData[field.key] ?? '').trim() !== ''
+          }).length
+          const complete = populated === section.fields.length
+          return {
+            text: complete ? 'Complete' : `${populated} of ${section.fields.length}`,
+            className: complete ? 'is-complete' : '',
+            hasErrors: false,
+          }
+        }
+
+        function renderCustomerSectionStatus(key) {
+          const meta = customerSectionMeta(key)
+          if (!meta.hasErrors) return ''
+          return `<span class="customer-section-status ${encodeHtml(meta.className)}" data-customer-status="${encodeHtml(key)}">${encodeHtml(meta.text)}</span>`
+        }
+
+        const dataListIcon = (name, size = 15) =>
+          `<svg width="${size}" height="${size}" aria-hidden="true"><use href="#${name}" /></svg>`
+
+        const DATA_FILTER_OPERATORS = [
+          {key: 'contains', label: 'contains'},
+          {key: 'starts', label: 'starts with'},
+          {key: 'equals', label: 'is equal to'},
+          {key: 'not-equals', label: 'is not equal to'},
+        ]
+
+        function dataFilterOptionValue(option) {
+          return typeof option === 'object' ? option.value : option
+        }
+
+        function dataFilterOptionLabel(option) {
+          return typeof option === 'object' ? option.label : option
+        }
+
+        function parseDataListDate(raw) {
+          if (!raw) return null
+          const value = String(raw).trim()
+          let day, month, year
+          if (value.includes('-')) [year, month, day] = value.split('-')
+          else [day, month, year] = value.split('/')
+          if (!day || !month || !year) return null
+          const date = new Date(Number(year), Number(month) - 1, Number(day))
+          return Number.isNaN(date.getTime()) ? null : date
+        }
+
+        function dataListDateOnly(date) {
+          return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+        }
+
+        const DATA_DATE_UNITS = [
+          {key: 'day', label: 'Day(s)'},
+          {key: 'week', label: 'Week(s)'},
+          {key: 'month', label: 'Month(s)'},
+          {key: 'year', label: 'Year(s)'},
+        ]
+
+        function dataListShiftDate(date, amount, unit) {
+          const result = new Date(date)
+          if (unit === 'day') result.setDate(result.getDate() + amount)
+          else if (unit === 'week') result.setDate(result.getDate() + amount * 7)
+          else if (unit === 'month') result.setMonth(result.getMonth() + amount)
+          else if (unit === 'year') result.setFullYear(result.getFullYear() + amount)
+          return result
+        }
+
+        /* filter.value for date fields is a compact string so it stays a plain
+   string like every other filter value (trim/compare code elsewhere treats
+   filter.value as a string): "today" | "this-week" | "this-month" |
+   "this-quarter" | "this-year" | "previous:<n>:<unit>" | "upcoming:<n>:<unit>" |
+   "specific:<yyyy-mm-dd>" | "range:<yyyy-mm-dd>:<yyyy-mm-dd>" */
+        function parseDateFilterValue(filterOrValue) {
+          const raw =
+            typeof filterOrValue === 'string' || filterOrValue == null
+              ? filterOrValue
+              : filterOrValue.value
+          const [preset, a, b] = String(raw || '').split(':')
+          return {preset: preset || 'today', a, b}
+        }
+
+        /* switching the preset resets a/b unless moving between the two presets
+   that share the same "amount + unit" shape (previous <-> upcoming), so a
+   leftover numeric amount never leaks into a date-picker preset (specific,
+   range) as an invalid "undefined" date string */
+        function dataListNextDatePresetValue(item, preset) {
+          const current = parseDateFilterValue(item)
+          if (preset === 'previous' || preset === 'upcoming') {
+            const reusable = current.preset === 'previous' || current.preset === 'upcoming'
+            return `${preset}:${reusable ? current.a || 1 : 1}:${reusable ? current.b || 'day' : 'day'}`
+          }
+          if (preset === 'specific') {
+            const reusable = current.preset === 'specific'
+            return `specific:${reusable ? current.a || '' : ''}`
+          }
+          if (preset === 'range') {
+            const reusable = current.preset === 'range'
+            return `range:${reusable ? current.a || '' : ''}:${reusable ? current.b || '' : ''}`
+          }
+          return preset
+        }
+
+        function dataListQuarterOf(date) {
+          return Math.floor(date.getMonth() / 3)
+        }
+
+        function dateFilterRange(filter, today = dataListDateOnly(new Date())) {
+          const {preset, a, b} = parseDateFilterValue(filter)
+          if (preset === 'today') return {from: today, to: today}
+          if (preset === 'this-week') {
+            const from = new Date(today)
+            from.setDate(from.getDate() - from.getDay())
+            const to = new Date(from)
+            to.setDate(to.getDate() + 6)
+            return {from, to}
+          }
+          if (preset === 'this-month')
+            return {
+              from: new Date(today.getFullYear(), today.getMonth(), 1),
+              to: new Date(today.getFullYear(), today.getMonth() + 1, 0),
+            }
+          if (preset === 'this-quarter') {
+            const quarter = dataListQuarterOf(today)
+            return {
+              from: new Date(today.getFullYear(), quarter * 3, 1),
+              to: new Date(today.getFullYear(), quarter * 3 + 3, 0),
+            }
+          }
+          if (preset === 'this-year')
+            return {
+              from: new Date(today.getFullYear(), 0, 1),
+              to: new Date(today.getFullYear(), 11, 31),
+            }
+          if (preset === 'previous') {
+            const amount = Math.max(1, Number(a) || 1)
+            return {from: dataListShiftDate(today, -amount, b || 'day'), to: today}
+          }
+          if (preset === 'upcoming') {
+            const amount = Math.max(1, Number(a) || 1)
+            return {from: today, to: dataListShiftDate(today, amount, b || 'day')}
+          }
+          if (preset === 'specific') {
+            const date = parseDataListDate(a)
+            return date ? {from: date, to: date} : null
+          }
+          if (preset === 'range') {
+            const from = parseDataListDate(a)
+            const to = parseDataListDate(b)
+            if (!from || !to) return null
+            return from <= to ? {from, to} : {from: to, to: from}
+          }
+          return null
+        }
+
+        function formatDateFilterValue(isoDate) {
+          if (!isoDate) return ''
+          if (appLocale === 'ar') return formatLocaleDate(isoDate)
+          const [year, month, day] = isoDate.split('-')
+          return `${day}/${month}/${year}`
+        }
+
+        function dateFilterLabel(filter) {
+          const {preset, a, b} = parseDateFilterValue(filter)
+          const unitLabel = key =>
+            (DATA_DATE_UNITS.find(item => item.key === key) || DATA_DATE_UNITS[0]).label.replace(
+              '(s)',
+              Number(a) === 1 ? '' : 's'
+            )
+          if (preset === 'today') return t('Today', 'Today')
+          if (preset === 'this-week') return t('This week', 'This week')
+          if (preset === 'this-month') return t('This month', 'This month')
+          if (preset === 'this-quarter') return t('This quarter', 'This quarter')
+          if (preset === 'this-year') return t('This year', 'This year')
+          if (preset === 'previous') return `${t('Previous', 'Previous')} ${a || 1} ${unitLabel(b)}`
+          if (preset === 'upcoming') return `${t('Upcoming', 'Upcoming')} ${a || 1} ${unitLabel(b)}`
+          if (preset === 'specific')
+            return a ? formatDateFilterValue(a) : t('Choose value', 'Choose value')
+          if (preset === 'range')
+            return a && b
+              ? `${formatDateFilterValue(a)} – ${formatDateFilterValue(b)}`
+              : t('Choose value', 'Choose value')
+          return t('Choose value', 'Choose value')
+        }
+
+        function rowMatchesFieldFilter(row, filter, field) {
+          if (!field || !filter.value) return true
+          if (field.type === 'date') {
+            const range = dateFilterRange(filter)
+            if (!range) return true
+            const rowDate = parseDataListDate(row[field.key])
+            if (!rowDate) return false
+            const value = dataListDateOnly(rowDate).getTime()
+            return value >= range.from.getTime() && value <= range.to.getTime()
+          }
+          const raw = String(row[field.key] ?? '').toLowerCase()
+          const expected = String(filter.value).toLowerCase()
+          if (filter.operator === 'starts') return raw.startsWith(expected)
+          if (filter.operator === 'not-equals') return raw !== expected
+          if (filter.operator === 'equals' || field.type === 'select') return raw === expected
+          return raw.includes(expected)
+        }
+
+        function dataListRows(context) {
+          const config = DATA_LIST_CONFIG[context]
+          const listState = dataListState[context]
+          const query = listState.search.trim().toLowerCase()
+          let rows = listState.sourceRows.filter(row => {
+            if (
+              query &&
+              !config.columns.some(column =>
+                String(row[column.key] ?? '')
+                  .toLowerCase()
+                  .includes(query)
+              )
+            )
+              return false
+            if (context === 'customer') {
+              if (listState.filter === 'active' && !row.active) return false
+              if (listState.filter === 'inactive' && row.active) return false
+              if (listState.filter === 'retail' && row.customerType !== 'Retail') return false
+            }
+            if (context === 'invoice') {
+              if (listState.filter === 'cash' && row.pay !== 'Cash') return false
+              if (listState.filter === 'credit' && row.pay !== 'Credit') return false
+            }
+            if (context === 'geo') {
+              if (listState.filter === 'active' && !row.active) return false
+              if (listState.filter === 'inactive' && row.active) return false
+              if (listState.filter === 'root' && row.parentCode) return false
+            }
+            return listState.fieldFilters.every(filter =>
+              rowMatchesFieldFilter(
+                row,
+                filter,
+                config.filterFields.find(field => field.key === filter.key)
+              )
+            )
+          })
+          const direction = listState.sortDirection === 'asc' ? 1 : -1
+          rows = [...rows].sort(
+            (a, b) =>
+              String(a[listState.sortKey] ?? '').localeCompare(
+                String(b[listState.sortKey] ?? ''),
+                undefined,
+                {numeric: true, sensitivity: 'base'}
+              ) * direction
+          )
+          return rows
+        }
+
+        function renderDataListCell(context, row, column) {
+          const value = row[column.key]
+          if (context === 'customer' && column.key === 'avatar') {
+            return renderCustomerAvatar(row)
+          }
+          if (
+            (context === 'customer' && column.key === 'customerNo') ||
+            (context === 'invoice' && column.key === 'no') ||
+            (context === 'geo' && column.key === 'code')
+          ) {
+            return `<button class="customer-record-link" type="button" data-list-open-record="${encodeHtml(String(value))}" aria-label="Open ${context} ${encodeHtml(String(value))}">${encodeHtml(String(value))}</button>`
+          }
+          if (['customer', 'geo'].includes(context) && column.key === 'active') {
+            return `<span class="badge ${value ? 'ok' : 'gray'}">${value ? 'Active' : 'Inactive'}</span>`
+          }
+          if (context === 'invoice' && column.key === 'status') {
+            return invoiceStatusBadge(value)
+          }
+          return encodeHtml(String(value ?? ''))
+        }
+
+        function renderDataListFilterButtons(config, listState) {
+          const builtIn = config.filters
+            .map(
+              filter =>
+                `<button type="button" role="menuitemradio" data-list-filter="${encodeHtml(filter.key)}" aria-checked="${filter.key === listState.filter && !listState.activeCustomFilterId}">${dataListIcon(filter.icon)}<span>${encodeHtml(t(filter.label))}</span>${filter.key === listState.filter && !listState.activeCustomFilterId ? dataListIcon('i-check', 13) : ''}</button>`
+            )
+            .join('')
+          if (!listState.customFilters.length) return builtIn
+          const customButtons = listState.customFilters
+            .map(custom => {
+              const active = custom.id === listState.activeCustomFilterId
+              return `<button type="button" role="menuitemradio" data-list-custom-filter-apply="${encodeHtml(custom.id)}" aria-checked="${active}">${dataListIcon(custom.icon || 'i-eye')}<span>${encodeHtml(custom.name)}</span>${active ? dataListIcon('i-check', 13) : ''}</button>`
+            })
+            .join('')
+          return `${builtIn}<hr class="data-menu-separator">
+            <div class="data-manage-group-label">${t('Custom filters', 'Custom filters')}</div>
+            ${customButtons}<hr class="data-menu-separator">
+            <button type="button" role="menuitem" data-list-manage-filters>${dataListIcon('i-sliders', 14)}<span>${t('Manage filters…', 'Manage filters…')}</span></button>`
+        }
+
+        function renderDataListColumnControls(config, listState) {
+          return listState.columnOrder
+            .map(key => config.columns.find(column => column.key === key))
+            .filter(Boolean)
+            .map(
+              column =>
+                `<label><input type="checkbox" data-list-column="${encodeHtml(column.key)}"${listState.hiddenColumns.has(column.key) ? '' : ' checked'}><span>${encodeHtml(t(column.label))}</span></label>`
+            )
+            .join('')
+        }
+
+        function renderDataListFieldChoices(config, listState) {
+          const activeKeys = new Set(listState.fieldFilters.map(filter => filter.key))
+          const available = config.filterFields.filter(field => !activeKeys.has(field.key))
+          if (!available.length)
+            return `<span class="data-menu-empty">${t('All available filters are applied.', 'All available filters are applied.')}</span>`
+          return available
+            .map(
+              field =>
+                `<button type="button" role="menuitem" data-list-add-filter="${encodeHtml(field.key)}">${dataListIcon(field.icon)}<span>${encodeHtml(t(field.label))}</span></button>`
+            )
+            .join('')
+        }
+
+        function renderDataListFilterEditor(config, filter) {
+          const field = config.filterFields.find(item => item.key === filter.key)
+          if (!field) return ''
+          const operator =
+            DATA_FILTER_OPERATORS.find(item => item.key === filter.operator) ||
+            DATA_FILTER_OPERATORS[0]
+          const valueLabel = field.options
+            ? dataFilterOptionLabel(
+                field.options.find(option => dataFilterOptionValue(option) === filter.value) ||
+                  filter.value
+              )
+            : filter.value
+          const removeButton = `<button type="button" data-list-remove-field-filter="${encodeHtml(field.key)}" aria-label="${t('Remove', 'Remove')} ${encodeHtml(t(field.label))} ${t('filter', 'filter')}">${dataListIcon('i-x', 12)}</button>`
+          if (field.type === 'select') {
+            const options = field.options
+              .map(option => {
+                const optionValue = String(dataFilterOptionValue(option))
+                const isSelected = optionValue === filter.value
+                return `<button type="button" role="option" aria-selected="${isSelected}" data-list-filter-select-option="${encodeHtml(field.key)}" data-value="${encodeHtml(optionValue)}">${encodeHtml(String(dataFilterOptionLabel(option)))}${isSelected ? dataListIcon('i-check', 13) : ''}</button>`
+              })
+              .join('')
+            return `<span class="data-filter-chip"><details class="data-menu data-filter-editor data-list-filter-editor" data-filter-editor-key="${encodeHtml(field.key)}"><summary>${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value">${encodeHtml(valueLabel || t('Choose value', 'Choose value'))}</span></summary><div class="data-menu-popover data-filter-select-popover" role="listbox" aria-label="${encodeHtml(t(field.label))} ${t('filter value', 'filter value')}">${options}</div></details>${removeButton}</span>`
+          }
+          if (field.type === 'date') {
+            const chipLabel = dateFilterLabel(filter)
+            return `<span class="data-filter-chip"><details class="data-menu data-filter-editor data-list-filter-editor" data-filter-editor-key="${encodeHtml(field.key)}"><summary>${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value">${encodeHtml(chipLabel)}</span></summary><div class="data-menu-popover data-filter-date-popover">${renderDataListDatePresetOptions(field, filter)}</div></details>${removeButton}</span>`
+          }
+          const input = `<input type="text" data-list-filter-value="${encodeHtml(field.key)}" value="${encodeHtml(filter.value)}" placeholder="${t('Enter', 'Enter')} ${encodeHtml(t(field.label).toLowerCase())}" aria-label="${encodeHtml(t(field.label))} ${t('filter value', 'filter value')}">`
+          const operators = `<div class="data-filter-operators">${DATA_FILTER_OPERATORS.map(
+            item =>
+              `<button type="button" data-list-filter-operator="${encodeHtml(item.key)}" data-list-filter-key="${encodeHtml(field.key)}" aria-pressed="${item.key === filter.operator}">${encodeHtml(t(item.label))}</button>`
+          ).join('')}</div>`
+          return `<span class="data-filter-chip"><details class="data-menu data-filter-editor data-list-filter-editor" data-filter-editor-key="${encodeHtml(field.key)}"><summary>${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value">${encodeHtml(`${t(operator.label)} ${valueLabel || '…'}`)}</span></summary><div class="data-menu-popover data-filter-editor-popover">${operators}${input}</div></details>${removeButton}</span>`
+        }
+
+        const DATA_DATE_PRESET_LIST = [
+          {key: 'today', label: 'Today'},
+          {key: 'this-week', label: 'This week'},
+          {key: 'this-month', label: 'This month'},
+          {key: 'this-quarter', label: 'This quarter'},
+          {key: 'this-year', label: 'This year'},
+          {key: 'previous', label: 'Previous'},
+          {key: 'upcoming', label: 'Upcoming'},
+          {key: 'specific', label: 'Specific date'},
+          {key: 'range', label: 'Date range'},
+        ]
+
+        function dataListDateInputValue(raw) {
+          const date = parseDataListDate(raw)
+          if (!date) return ''
+          const pad = n => String(n).padStart(2, '0')
+          return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+        }
+
+        function renderDataListDatePresetOptions(field, filter) {
+          const {preset, a, b} = parseDateFilterValue(filter)
+          const options = DATA_DATE_PRESET_LIST.map(
+            item =>
+              `<button type="button" role="option" aria-selected="${preset === item.key}" data-list-date-preset="${encodeHtml(field.key)}" data-preset="${item.key}">${encodeHtml(t(item.label))}${preset === item.key ? dataListIcon('i-check', 13) : ''}</button>`
+          ).join('')
+          const unitOptions = selectedUnit =>
+            DATA_DATE_UNITS.map(
+              unit =>
+                `<option value="${unit.key}"${unit.key === selectedUnit ? ' selected' : ''}>${encodeHtml(t(unit.label))}</option>`
+            ).join('')
+          const relativeControls =
+            preset === 'previous' || preset === 'upcoming'
+              ? `<div class="data-filter-date-relative"><input type="number" min="1" value="${encodeHtml(a || '1')}" data-list-date-amount="${encodeHtml(field.key)}" aria-label="${t('Number', 'Number')}"><select data-list-date-unit="${encodeHtml(field.key)}" aria-label="${t('Unit', 'Unit')}">${unitOptions(b || 'day')}</select></div>`
+              : ''
+          const specificControls =
+            preset === 'specific'
+              ? `<input type="date" class="data-filter-date-input" value="${encodeHtml(dataListDateInputValue(a))}" data-list-date-specific="${encodeHtml(field.key)}" aria-label="${t('Choose date', 'Choose date')}">`
+              : ''
+          const rangeControls =
+            preset === 'range'
+              ? `<div class="data-filter-date-range"><input type="date" value="${encodeHtml(dataListDateInputValue(a))}" data-list-date-range-from="${encodeHtml(field.key)}" aria-label="${t('From', 'From')}"><span>${t('to', 'to')}</span><input type="date" value="${encodeHtml(dataListDateInputValue(b))}" data-list-date-range-to="${encodeHtml(field.key)}" aria-label="${t('To', 'To')}"></div>`
+              : ''
+          return `<div class="data-filter-date-presets" role="listbox">${options}</div>${relativeControls}${specificControls}${rangeControls}`
+        }
+
+        function renderDataListSelectionActions(context, listState) {
+          const selectedCount = listState.selected.size
+          if (!selectedCount) return ''
+          const singleRecordActions =
+            selectedCount === 1
+              ? `<button class="data-toolbar-button" type="button" data-list-action="display">${dataListIcon('i-eye')} ${t('Display', 'Display')}</button><button class="data-toolbar-button" type="button" data-list-action="modify">${dataListIcon('i-edit')} ${t('Modify')}</button>`
+              : ''
+          const statusActions = ['customer', 'geo'].includes(context)
+            ? `<button class="data-toolbar-button" type="button" data-list-action="activate">${dataListIcon('i-check')} ${t('Activate')}</button><button class="data-toolbar-button" type="button" data-list-action="deactivate">${dataListIcon('i-archive')} ${t('Deactivate')}</button>`
+            : ''
+          const chartAction = `<button class="data-toolbar-button" type="button" data-list-action="chart" aria-pressed="${listState.chartVisible}">${dataListIcon('i-chart')} ${t('Chart', 'Chart')}</button>`
+          return `${singleRecordActions}${statusActions}${chartAction}<button class="data-toolbar-button danger" type="button" data-list-action="delete">${dataListIcon('i-trash')} ${t('Delete', 'Delete')}</button>`
+        }
+
+        function dataListFilterCount(listState) {
+          return (
+            (listState.filter !== 'all' ? 1 : 0) +
+            listState.fieldFilters.length +
+            (listState.advanced ? 1 : 0)
+          )
+        }
+
+        function dataListViewPresentation(view) {
+          if (view === 'cards') return {icon: 'i-panel', label: 'Cards'}
+          if (view === 'kanban') return {icon: 'i-flow', label: 'Kanban'}
+          if (view === 'responsive') return {icon: 'i-panel', label: 'Compact'}
+          if (view === 'adaptive') return {icon: 'i-panel', label: 'Adaptive'}
+          return {icon: 'i-grid', label: 'List'}
+        }
+
+        function renderDataListViewMenu(context, listState) {
+          const current = dataListViewPresentation(listState.view)
+          const option = (view, icon, label) =>
+            `<button type="button" role="menuitemradio" data-list-view="${view}" aria-checked="${listState.view === view}">${dataListIcon(icon)} ${t(label)}${listState.view === view ? dataListIcon('i-check', 13) : ''}</button>`
+          return `<details class="data-menu end"><summary>${dataListIcon(current.icon)}<span class="data-toolbar-label-text">${t(current.label)}</span>${dataListIcon('i-caret', 11)}</summary><div class="data-menu-popover" role="menu">${option('list', 'i-grid', 'List view')}${option('responsive', 'i-panel', 'Compact view')}${option('adaptive', 'i-panel', 'Adaptive view')}${option('cards', 'i-panel', 'Cards view')}${context === 'invoice' ? option('kanban', 'i-flow', 'Kanban view') : ''}</div></details>`
+        }
+
+        function renderDataListToolbar(context, config, listState) {
+          const tableView = ['list', 'responsive'].includes(listState.view)
+          const isAdaptive = listState.view === 'adaptive'
+          const activeFilter =
+            config.filters.find(filter => filter.key === listState.filter) || config.filters[0]
+          const activeCustomFilter = listState.customFilters.find(
+            custom => custom.id === listState.activeCustomFilterId
+          )
+          const filterButtons = renderDataListFilterButtons(config, listState)
+          const columnControls = renderDataListColumnControls(config, listState)
+          const isUnsaved =
+            Boolean(listState.fieldFilters.length || listState.advanced) && !activeCustomFilter
+          const filterEditors = listState.fieldFilters
+            .map(filter => renderDataListFilterEditor(config, filter))
+            .join('')
+          const selectedCount = listState.selected.size
+          const selectionActions = renderDataListSelectionActions(context, listState)
+          const filterCount = dataListFilterCount(listState)
+          const clearFilterButton = filterCount
+            ? `<button class="data-toolbar-button" type="button" data-list-clear-filter aria-label="${t('Clear all filters', 'Clear all filters')}">${dataListIcon('i-x')} ${t('Clear filter', 'Clear filter')}</button>`
+            : ''
+          if (selectedCount)
+            return `<div class="data-list-toolbar data-selection-toolbar" role="toolbar" aria-label="${t('Selected', 'Selected')} ${encodeHtml(config.label)} ${t('actions', 'actions')}">
+              <div class="data-toolbar-cluster data-selection-actions">
+                <span class="data-selection-count" aria-live="polite"><b>${selectedCount}</b> ${t('selected', 'selected')}</span>
+                ${selectionActions}
+              </div>
+              <button class="data-toolbar-button data-clear-selection" type="button" data-list-clear-selection>${dataListIcon('i-x')} ${t('Clear selection', 'Clear selection')}</button>
+            </div>
+            `
+          const filterCluster =
+            listState.filterMode === 'modal'
+              ? `<button class="data-toolbar-button" type="button" data-list-open-filters aria-haspopup="dialog">${dataListIcon('i-filter')}<span>${filterCount ? `${t('Filters', 'Filters')} (${filterCount})` : t('Filters', 'Filters')}</span></button>
+              ${clearFilterButton}`
+              : `<details class="data-menu"><summary>${dataListIcon(activeCustomFilter ? activeCustomFilter.icon || 'i-eye' : isUnsaved ? 'i-doc' : activeFilter.icon)}<span>${activeCustomFilter ? encodeHtml(activeCustomFilter.name) : isUnsaved ? t('Unsaved view', 'Unsaved view') : encodeHtml(t(activeFilter.label))}</span>${dataListIcon('i-caret', 11)}</summary><div class="data-menu-popover" role="menu">${filterButtons}</div></details>
+              ${filterEditors}
+              ${listState.advanced ? `<span class="data-filter-chip">${t('Advanced filters', 'Advanced filters')}<button type="button" data-list-clear-advanced aria-label="${t('Clear advanced filters', 'Clear advanced filters')}">${dataListIcon('i-x', 12)}</button></span>` : ''}
+              <details class="data-menu"><summary>${dataListIcon('i-plus')}<span>${t('Filter', 'Filter')}</span></summary><div class="data-menu-popover" role="menu">${renderDataListFieldChoices(config, listState)}</div></details>
+              ${clearFilterButton}
+              ${
+                activeCustomFilter
+                  ? `<button class="data-toolbar-button" type="button" data-list-custom-filter-delete="${encodeHtml(activeCustomFilter.id)}">${dataListIcon('i-trash')} ${t('Delete filter', 'Delete filter')}</button>`
+                  : ''
+              }
+              ${isUnsaved ? `<button class="data-toolbar-button" type="button" data-list-save-view>${dataListIcon('i-save')} ${t('Save filter', 'Save filter')}</button>` : ''}`
+          const printButton = `<button class="data-toolbar-button" type="button" data-list-action="print">${dataListIcon('i-print')}<span>${isAdaptive ? t('Print record', 'Print record') : t('Print list', 'Print list')}</span></button>`
+          const chartButton = isAdaptive
+            ? ''
+            : `<button class="data-toolbar-button" type="button" data-list-action="chart" aria-pressed="${listState.chartVisible}">${dataListIcon('i-chart')}<span>${t('Chart', 'Chart')}</span></button>`
+          const groupTrigger =
+            tableView && !isAdaptive ? renderDataListGroupTrigger(config, listState) : ''
+          const overflowMenu = `<details class="data-menu end data-toolbar-overflow"><summary aria-label="${t('More actions', 'More actions')}" title="${t('More actions', 'More actions')}">${dataListIcon('i-dots')}</summary><div class="data-menu-popover" role="menu">${printButton}${chartButton}${groupTrigger}</div></details>`
+          return `<div class="data-list-toolbar data-browse-toolbar" role="toolbar" aria-label="${encodeHtml(config.label)} ${t('table controls', 'table controls')}">
+            <div class="data-toolbar-cluster data-list-view-controls">
+              ${filterCluster}
+              ${listState.layoutDirty ? `<button class="data-toolbar-button is-active" type="button" data-list-save-layout>${dataListIcon('i-save')} ${t('Save layout', 'Save layout')}</button>` : ''}
+            </div>
+            <div class="data-toolbar-cluster end">
+              <label class="data-search">${dataListIcon('i-search')}<input type="search" data-list-search value="${encodeHtml(listState.search)}" placeholder="${t('Search', 'Search')} ${encodeHtml(config.label)}" aria-label="${t('Search', 'Search')} ${encodeHtml(config.label)}"><button class="data-search-clear" type="button" data-list-search-clear aria-label="${t('Clear search', 'Clear search')}"${listState.search ? '' : ' hidden'}>${dataListIcon('i-x', 12)}</button></label>
+              <span class="data-toolbar-separator data-toolbar-optional" aria-hidden="true"></span>
+              <span class="data-toolbar-cluster data-toolbar-inline">${printButton}${chartButton}${groupTrigger}</span>
+              ${overflowMenu}
+              ${listState.view === 'list' && !isAdaptive ? `<details class="data-menu end"><summary>${dataListIcon('i-sliders')}<span class="data-toolbar-label-text">${t('Columns', 'Columns')}</span>${dataListIcon('i-caret', 10)}</summary><div class="data-menu-popover" role="group" aria-label="${t('Visible columns', 'Visible columns')}">${columnControls}</div></details>` : ''}
+              ${renderDataListViewMenu(context, listState)}
+            </div>
+          </div>`
+        }
+
+        /* Shell-footer list pager — the single navigator for a paginated list, living
+           in the page footer (.fnav) rather than glued under the table, matching
+           where every record view already puts its own navigator. Deliberately
+           worded and structured differently from the in-record "Record N of N"
+           pager so the two navigation ideas are never mistaken for each other:
+           this one moves between pages of a list, that one moves between records
+           inside an open record. */
+        const DATA_LIST_FNAV_IDS = {
+          invoice: 'list-fnav',
+          customer: 'customer-list-fnav',
+          geo: 'geo-list-fnav',
+        }
+
+        function renderShellPager(context, filteredCount) {
+          const config = DATA_LIST_CONFIG[context]
+          const listState = dataListState[context]
+          const simulatedTotal = DATA_LIST_SIMULATED_TOTAL[context] || filteredCount
+          const pageSize = listState.pageSize
+          const totalPages = Math.max(1, Math.ceil(simulatedTotal / pageSize))
+          const page = Math.min(Math.max(1, listState.page), totalPages)
+          const rangeStart = filteredCount ? (page - 1) * pageSize + 1 : 0
+          const rangeEnd = Math.min(page * pageSize, filteredCount ? simulatedTotal : 0)
+          const pageNumbers = []
+          for (let n = 1; n <= totalPages; n++) {
+            if (n === 1 || n === totalPages || Math.abs(n - page) <= 1) pageNumbers.push(n)
+            else if (pageNumbers.at(-1) !== '…') pageNumbers.push('…')
+          }
+          const pageButtons = pageNumbers
+            .map(n =>
+              n === '…'
+                ? `<span class="data-pagination-ellipsis" aria-hidden="true">…</span>`
+                : `<button type="button" class="data-pagination-page${n === page ? ' is-current' : ''}" data-list-page="${n}"${n === page ? ' aria-current="page"' : ''} aria-label="${t('Page', 'Page')} ${n}">${n}</button>`
+            )
+            .join('')
+          const sizeOptions = DATA_LIST_PAGE_SIZE_OPTIONS.map(
+            size =>
+              `<option value="${size}"${size === pageSize ? ' selected' : ''}>${size}</option>`
+          ).join('')
+          return `<div class="data-list-pagination" role="navigation" aria-label="${encodeHtml(config.label)} ${t('page navigation', 'page navigation')}">
+            <div class="data-pagination-controls">
+              <button type="button" class="data-pagination-edge" data-list-page="1"${page <= 1 ? ' disabled' : ''} aria-label="${t('First page', 'First page')}">${dataListIcon('i-first', 13)}</button>
+              <button type="button" class="data-pagination-prev" data-list-page="${page - 1}"${page <= 1 ? ' disabled' : ''}>${dataListIcon('i-prev', 12)}</button>
+              ${pageButtons}
+              <button type="button" class="data-pagination-next" data-list-page="${page + 1}"${page >= totalPages ? ' disabled' : ''}>${dataListIcon('i-next', 12)}</button>
+              <button type="button" class="data-pagination-edge" data-list-page="${totalPages}"${page >= totalPages ? ' disabled' : ''} aria-label="${t('Last page', 'Last page')}">${dataListIcon('i-last', 13)}</button>
+              <label class="data-pagination-jump"><span>${t('Go to page', 'Go to page')}</span><input class="data-pagination-jump-input" type="number" min="1" max="${totalPages}" value="${page}" aria-label="${t('Go to page', 'Go to page')}"></label>
+            </div>
+            <span class="data-pagination-summary" aria-live="polite">${t('Showing', 'Showing')} ${rangeStart}–${rangeEnd} ${t('of', 'of')} ${simulatedTotal}</span>
+            <label class="data-pagination-size">${t('Rows per page', 'Rows per page')}<select data-list-page-size aria-label="${t('Rows per page', 'Rows per page')}">${sizeOptions}</select></label>
+          </div>`
+        }
+
+        /* Adaptive view's footer navigator moves between records, one at a
+           time, instead of between pages — same First/Prev/[N]/Next/Last
+           shape as the in-record "Record N of N" pager elsewhere, but scoped
+           to the actually-navigable rows rather than the simulated total
+           (there's nothing meaningful to jump to past the real sample set). */
+        function renderShellRecordPager(context, filteredCount) {
+          const config = DATA_LIST_CONFIG[context]
+          const listState = dataListState[context]
+          const total = Math.max(filteredCount, filteredCount ? 1 : 0)
+          const position = Math.min(Math.max(1, listState.page), total || 1)
+          const atFirst = !total || position <= 1
+          const atLast = !total || position >= total
+          const row = total ? dataListRows(context)[position - 1] : null
+          const actions = row ? renderDataListAdaptiveFooterActions(context, row, config) : ''
+          const searchTerm = listState.search.trim()
+          const searchNote = searchTerm
+            ? `<span class="data-adaptive-search-note">${t('matching', 'matching')} "${encodeHtml(searchTerm)}"</span>`
+            : ''
+          return `<div class="pager" role="group" aria-label="${t('Record navigation', 'Record navigation')}" title="${t('Tip: Alt + Left/Right arrow also moves between records', 'Tip: Alt + Left/Right arrow also moves between records')}">
+            <button type="button" class="pg-f" data-list-record="1"${atFirst ? ' disabled' : ''} aria-label="${t('First record', 'First record')}">${dataListIcon('i-first', 13)}</button>
+            <button type="button" class="pg-p" data-list-record="${position - 1}"${atFirst ? ' disabled' : ''} aria-label="${t('Previous record', 'Previous record')}">${dataListIcon('i-prev', 12)}</button>
+            <input class="pg-i" type="number" min="1" max="${total || 1}" value="${total ? position : 0}" aria-label="${t('Record number', 'Record number')}"${total ? '' : ' disabled'}>
+            <span class="tot">${t('of', 'of')} ${total}</span>
+            ${searchNote}
+            <button type="button" class="pg-n" data-list-record="${position + 1}"${atLast ? ' disabled' : ''} aria-label="${t('Next record', 'Next record')}">${dataListIcon('i-next', 12)}</button>
+            <button type="button" class="pg-l" data-list-record="${total}"${atLast ? ' disabled' : ''} aria-label="${t('Last record', 'Last record')}">${dataListIcon('i-last', 13)}</button>
+          </div>${actions}`
+        }
+
+        /* Keyboard record-nav for Adaptive view: Alt+Left/Right flips records
+           without reaching for the pager buttons. Alt- (not plain arrow keys)
+           keeps this from hijacking normal text-field caret movement or list
+           scrolling; only fires for whichever table is actually on screen
+           and currently in Adaptive view. */
+        function activeAdaptiveListContext() {
+          return Object.keys(dataListState).find(context => {
+            const listState = dataListState[context]
+            return listState.view === 'adaptive' && listState.canvas?.offsetParent
+          })
+        }
+        document.addEventListener('keydown', event => {
+          if (!event.altKey || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight')) return
+          const target = event.target
+          if (target?.closest?.('input, textarea, select, [contenteditable="true"]')) return
+          const context = activeAdaptiveListContext()
+          if (!context) return
+          const listState = dataListState[context]
+          const filteredCount = dataListRows(context).length
+          const nextPage = event.key === 'ArrowRight' ? listState.page + 1 : listState.page - 1
+          if (nextPage < 1 || nextPage > filteredCount) return
+          event.preventDefault()
+          listState.page = nextPage
+          renderDataList(context, {skipStatsAnimation: true})
+        })
+
+        function syncShellListPager(context, filteredCount) {
+          const mount = document.getElementById(DATA_LIST_FNAV_IDS[context])
+          if (!mount) return
+          const listState = dataListState[context]
+          mount.hidden = listState.view === 'kanban'
+          if (mount.hidden) return
+          mount.innerHTML =
+            listState.view === 'adaptive'
+              ? renderShellRecordPager(context, filteredCount)
+              : renderShellPager(context, filteredCount)
+          if (mount.dataset.wired) return
+          mount.dataset.wired = 'true'
+          mount.addEventListener('click', event => {
+            const recordButton = event.target.closest('[data-list-record]')
+            if (recordButton) {
+              if (recordButton.disabled) return
+              listState.page = Number(recordButton.dataset.listRecord) || 1
+              renderDataList(context, {skipStatsAnimation: true})
+              return
+            }
+            const pageButton = event.target.closest('[data-list-page]')
+            if (pageButton) {
+              if (pageButton.disabled) return
+              listState.page = Number(pageButton.dataset.listPage) || 1
+              renderDataList(context, {skipStatsAnimation: true})
+              return
+            }
+            const rowAction = event.target.closest('[data-list-row-action]')
+            if (rowAction) applyDataListRowAction(context, rowAction)
+          })
+          mount.addEventListener('change', event => {
+            const recordInput = event.target.closest('.pg-i')
+            if (recordInput) {
+              const mountEl = event.currentTarget
+              const total = Number(recordInput.max) || 1
+              const next = Math.min(Math.max(1, Number(recordInput.value) || 1), total)
+              listState.page = next
+              renderDataList(context, {skipStatsAnimation: true})
+              return
+            }
+            const jumpInput = event.target.closest('.data-pagination-jump-input')
+            if (jumpInput) {
+              const totalPages = Number(jumpInput.max) || 1
+              listState.page = Math.min(Math.max(1, Number(jumpInput.value) || 1), totalPages)
+              renderDataList(context, {skipStatsAnimation: true})
+              return
+            }
+            const sizeSelect = event.target.closest('[data-list-page-size]')
+            if (!sizeSelect) return
+            listState.pageSize = Number(sizeSelect.value) || DATA_LIST_DEFAULT_PAGE_SIZE
+            listState.page = 1
+            renderDataList(context, {skipStatsAnimation: true})
+          })
+        }
+
+        function dataListPercent(value, total) {
+          return total ? Math.round((value / total) * 100) : 0
+        }
+
+        /* Same idea as MagicUI's NumberTicker: count up from 0 to the
+   rendered value instead of just painting the final number. Works on the
+   already-rendered text (no need to touch each stat renderer's markup) —
+   parses "EGP 15,300.00" / "67%" / "8" into prefix + number + suffix,
+   animates the number with an ease-out curve, then re-applies the exact
+   original formatting (thousands separators, decimal places) each frame. */
+        function animateNumberTicker(el, {duration = 900, delay = 0} = {}) {
+          const raw = el.textContent
+          const match = raw.match(/^(\D*)([\d,]+(?:\.\d+)?)(.*)$/)
+          if (!match) return
+          const [, prefix, numText, suffix] = match
+          const target = Number(numText.replace(/,/g, ''))
+          if (!Number.isFinite(target)) return
+          const decimals = numText.includes('.') ? numText.split('.')[1].length : 0
+          const format = value =>
+            `${prefix}${value.toLocaleString(undefined, {
+              minimumFractionDigits: decimals,
+              maximumFractionDigits: decimals,
+            })}${suffix}`
+          el.textContent = format(0)
+          const start = performance.now() + delay
+          const easeOutExpo = p => (p >= 1 ? 1 : 1 - Math.pow(2, -10 * p))
+          const step = now => {
+            const elapsed = now - start
+            if (elapsed < 0) {
+              requestAnimationFrame(step)
+              return
+            }
+            const progress = Math.min(elapsed / duration, 1)
+            el.textContent = format(target * easeOutExpo(progress))
+            if (progress < 1) requestAnimationFrame(step)
+          }
+          requestAnimationFrame(step)
+        }
+        function initNumberTickers(root) {
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+          root
+            .querySelectorAll(
+              '.data-stat-card strong, .data-stat-operation-value strong, .data-stat-analytical > strong, .data-stat-exception-lead strong, .data-stat-exception-row > output'
+            )
+            .forEach((el, index) => animateNumberTicker(el, {delay: index * 60}))
+        }
+
+        /* ---- skeleton loading ----
+   Navigation shows a brief loading state by default. Prototype controls > Debug
+   > Simulate loading holds that state until turned off. Rather than choosing from
+   generic templates, the overlay redraws the current view's visible structure. */
+        const SKELETON_DELAY_MS = 700
+        const activeSkeletons = new Map()
+
+        function simulateLoadingEnabled() {
+          return document.getElementById('simulate-loading')?.checked ?? false
+        }
+
+        function clearSkeletonOverlay(container) {
+          const activeSkeleton = activeSkeletons.get(container)
+          if (!activeSkeleton) return
+          clearTimeout(activeSkeleton.timeout)
+          activeSkeleton.overlay.remove()
+          if (activeSkeleton.addedHostClass) container.classList.remove('skeleton-host')
+          if (activeSkeleton.previousBusy == null) container.removeAttribute('aria-busy')
+          else container.setAttribute('aria-busy', activeSkeleton.previousBusy)
+          activeSkeletons.delete(container)
+        }
+
+        function clearSkeletonOverlays() {
+          ;[...activeSkeletons.keys()].forEach(clearSkeletonOverlay)
+        }
+
+        function clippedSkeletonBox(bounds, rect, widthScale) {
+          const left = Math.max(bounds.left, rect.left)
+          const top = Math.max(bounds.top, rect.top)
+          const right = Math.min(bounds.right, rect.right)
+          const bottom = Math.min(bounds.bottom, rect.bottom)
+          return {
+            left: left - bounds.left,
+            top: top - bounds.top,
+            width: Math.max(0, right - left) * widthScale,
+            height: Math.max(0, bottom - top),
+          }
+        }
+
+        function skeletonShape(
+          overlay,
+          bounds,
+          {rect, kind, radius = 6, widthScale = 1, borderWidths}
+        ) {
+          const box = clippedSkeletonBox(bounds, rect, widthScale)
+          const minimumHeight = kind === 'divider' ? 1 : 4
+          if (box.width < 4 || box.height < minimumHeight) return
+          const shape = document.createElement('span')
+          shape.className = 'skeleton-shape'
+          shape.dataset.skeletonKind = kind
+          Object.assign(shape.style, {
+            left: `${box.left}px`,
+            top: `${box.top}px`,
+            width: `${box.width}px`,
+            height: `${box.height}px`,
+            borderRadius: `${Math.min(radius, box.height / 2)}px`,
+          })
+          if (borderWidths) Object.assign(shape.style, borderWidths)
+          overlay.appendChild(shape)
+        }
+
+        function skeletonTextLines(overlay, bounds, element, rect) {
+          const style = getComputedStyle(element)
+          const fontSize = Number.parseFloat(style.fontSize) || 14
+          const lineHeight = Number.parseFloat(style.lineHeight) || fontSize * 1.35
+          const count = Math.max(1, Math.min(3, Math.round(rect.height / lineHeight)))
+          const blockHeight = Math.max(7, Math.min(14, fontSize * 0.72))
+          for (let index = 0; index < count; index += 1) {
+            const lineTop =
+              rect.top + Math.max(0, (lineHeight - blockHeight) / 2) + index * lineHeight
+            const remainingHeight = rect.bottom - lineTop
+            if (remainingHeight < 4) break
+            const lineRect = {
+              left: rect.left,
+              right: rect.right,
+              top: lineTop,
+              bottom: lineTop + Math.min(blockHeight, remainingHeight),
+            }
+            skeletonShape(overlay, bounds, {
+              rect: lineRect,
+              kind: 'text',
+              radius: blockHeight / 2,
+              widthScale: index === count - 1 && count > 1 ? 0.68 : 0.9,
+            })
+          }
+        }
+
+        function skeletonElementIsVisible(element, bounds) {
+          if (element.closest('.skeleton-overlay')) return false
+          if (element.checkVisibility && !element.checkVisibility({checkVisibilityCSS: true}))
+            return false
+          const closedDetails = element.closest('details:not([open])')
+          if (closedDetails && !element.closest('summary')) return false
+          const style = getComputedStyle(element)
+          if (style.display === 'none' || style.visibility === 'hidden') return false
+          const rect = element.getBoundingClientRect()
+          return (
+            rect.width >= 4 &&
+            rect.height >= 4 &&
+            rect.right > bounds.left &&
+            rect.left < bounds.right &&
+            rect.bottom > bounds.top &&
+            rect.top < bounds.bottom
+          )
+        }
+
+        function skeletonSurfaceElements(container, bounds) {
+          const seenBoxes = new Set()
+          return [...container.querySelectorAll('*')]
+            .filter(element => skeletonElementIsVisible(element, bounds))
+            .filter(
+              element => !element.matches('button, input, select, textarea, summary, th, td, tr')
+            )
+            .filter(element => {
+              const rect = element.getBoundingClientRect()
+              const style = getComputedStyle(element)
+              const hasBorder = ['Top', 'Right', 'Bottom', 'Left'].some(
+                edge => Number.parseFloat(style[`border${edge}Width`]) > 0
+              )
+              if (!hasBorder || rect.width * rect.height < 1800) return false
+              const boxKey = [rect.left, rect.top, rect.width, rect.height]
+                .map(value => Math.round(value))
+                .join(':')
+              if (seenBoxes.has(boxKey)) return false
+              seenBoxes.add(boxKey)
+              return true
+            })
+            .slice(0, 64)
+        }
+
+        function addSkeletonSurfaces(container, overlay, bounds) {
+          skeletonSurfaceElements(container, bounds).forEach(element => {
+            const style = getComputedStyle(element)
+            skeletonShape(overlay, bounds, {
+              rect: element.getBoundingClientRect(),
+              kind: 'surface',
+              radius: Number.parseFloat(style.borderRadius) || 0,
+              borderWidths: {
+                borderTopWidth: style.borderTopWidth,
+                borderRightWidth: style.borderRightWidth,
+                borderBottomWidth: style.borderBottomWidth,
+                borderLeftWidth: style.borderLeftWidth,
+              },
+            })
+          })
+        }
+
+        function addSkeletonTableDividers(container, overlay, bounds) {
+          container.querySelectorAll('tr').forEach(row => {
+            if (!skeletonElementIsVisible(row, bounds)) return
+            const cells = [...row.children]
+            const width = Math.max(
+              0,
+              ...cells.map(cell => Number.parseFloat(getComputedStyle(cell).borderBottomWidth))
+            )
+            if (!width) return
+            const rect = row.getBoundingClientRect()
+            skeletonShape(overlay, bounds, {
+              rect: {
+                left: rect.left,
+                right: rect.right,
+                top: rect.bottom - width,
+                bottom: rect.bottom,
+              },
+              kind: 'divider',
+              radius: 0,
+            })
+          })
+        }
+
+        function addSkeletonTableText(overlay, bounds, rect) {
+          const inset = Math.min(10, rect.width * 0.08)
+          const height = Math.min(12, Math.max(7, rect.height * 0.38))
+          skeletonShape(overlay, bounds, {
+            rect: {
+              left: rect.left + inset,
+              right: rect.right - inset,
+              top: rect.top + (rect.height - height) / 2,
+              bottom: rect.top + (rect.height + height) / 2,
+            },
+            kind: 'text',
+            radius: height / 2,
+            widthScale: 0.82,
+          })
+        }
+
+        function addSkeletonContent(element, overlay, bounds) {
+          const rect = element.getBoundingClientRect()
+          const compositeControl = element.matches('.lp-tile')
+          const control =
+            element.matches('button, input, select, textarea, .badge, .stpill') && !compositeControl
+          const media = element.matches('img, .email-avatar, .customer-photo-preview')
+          const ownerControl = element.closest('button, .badge, .stpill')
+          if (!control && !media && ownerControl && !ownerControl.matches('.lp-tile')) return
+          if (compositeControl) return
+          if (element.matches('label') && element.querySelector('input, select, textarea')) return
+          if (element.matches('th, td')) {
+            addSkeletonTableText(overlay, bounds, rect)
+            return
+          }
+          if (!control && !media) {
+            skeletonTextLines(overlay, bounds, element, rect)
+            return
+          }
+          const kind = media ? 'media' : 'control'
+          skeletonShape(overlay, bounds, {
+            rect,
+            kind,
+            radius: Number.parseFloat(getComputedStyle(element).borderRadius) || (media ? 10 : 6),
+          })
+        }
+
+        function addSkeletonContentShapes(container, overlay, bounds) {
+          const candidates = container.querySelectorAll(
+            'button, input, select, textarea, output, img, h1, h2, h3, h4, p, small, strong, label, legend, th, td, a, .badge, .stpill, .pos, .tm, .email-avatar, .customer-photo-preview, .lp-tile-lbl, .lp-tile-desc'
+          )
+          ;[...candidates]
+            .filter(element => skeletonElementIsVisible(element, bounds))
+            .forEach(element => addSkeletonContent(element, overlay, bounds))
+        }
+
+        function buildSkeletonFromPage(container, overlay) {
+          const bounds = container.getBoundingClientRect()
+          addSkeletonSurfaces(container, overlay, bounds)
+          addSkeletonTableDividers(container, overlay, bounds)
+          addSkeletonContentShapes(container, overlay, bounds)
+        }
+
+        function showSkeletonOverlay(container) {
+          if (!container) return
+          clearSkeletonOverlays()
+          const computedPosition = getComputedStyle(container).position
+          const addedHostClass = computedPosition === 'static'
+          if (addedHostClass) container.classList.add('skeleton-host')
+          const previousBusy = container.getAttribute('aria-busy')
+          container.setAttribute('aria-busy', 'true')
+          const overlay = document.createElement('div')
+          overlay.className = 'skeleton-overlay'
+          overlay.setAttribute('aria-hidden', 'true')
+          buildSkeletonFromPage(container, overlay)
+          container.appendChild(overlay)
+          const activeSkeleton = {
+            overlay,
+            addedHostClass,
+            previousBusy,
+            timeout: 0,
+          }
+          activeSkeletons.set(container, activeSkeleton)
+          if (!simulateLoadingEnabled()) {
+            activeSkeleton.timeout = setTimeout(
+              () => clearSkeletonOverlay(container),
+              SKELETON_DELAY_MS
+            )
+          }
+        }
+
+        function currentSkeletonContainer() {
+          const launchpad = document.querySelector('.lp-view:not([hidden])')
+          if (launchpad) return launchpad
+          const selectors = {
+            record: '.content',
+            email: '.email-view:not([hidden])',
+            list: '.list-view:not([hidden])',
+            'customers-list': '.customer-list-view:not([hidden])',
+            'customer-record': '.customer-record-view:not([hidden])',
+            'geo-list': '.geo-list-view:not([hidden])',
+            'geo-record': '.geo-record-view:not([hidden])',
+          }
+          const selector = selectors[currentContentViewName]
+          return selector ? document.querySelector(selector) : null
+        }
+
+        function showSkeletonForCurrentView() {
+          showSkeletonOverlay(currentSkeletonContainer())
+        }
+
+        function queueSkeletonForCurrentView() {
+          cancelAnimationFrame(queueSkeletonForCurrentView.frame || 0)
+          queueSkeletonForCurrentView.frame = requestAnimationFrame(() => {
+            queueSkeletonForCurrentView.frame = 0
+            showSkeletonForCurrentView()
+          })
+        }
+
+        document.getElementById('simulate-loading')?.addEventListener('change', event => {
+          if (event.target.checked) queueSkeletonForCurrentView()
+          else clearSkeletonOverlays()
+        })
+        addEventListener('resize', () => {
+          if (activeSkeletons.size || simulateLoadingEnabled()) queueSkeletonForCurrentView()
+        })
+
+        function invoiceListStatistics(rows, config, total) {
+          const posted = rows.filter(row => row.status === 'Posted').length
+          const pending = rows.filter(row => row.status === 'Pending').length
+          const postedRate = dataListPercent(posted, total)
+          const pendingRate = dataListPercent(pending, total)
+          const gross = rows.reduce(
+            (sum, row) => sum + Number(String(row.total).replace(/,/g, '') || 0),
+            0
+          )
+          const average = gross / total
+          return [
+            {
+              label: 'Invoices in view',
+              value: rows.length,
+              support: `of ${config.rows.length} total invoices`,
+              supportAr: `من إجمالي ${config.rows.length} فاتورة`,
+              icon: 'i-doc',
+              tone: 'information',
+              progress: dataListPercent(rows.length, config.rows.length),
+              operation: 'Review the current invoice queue',
+              benchmark: `${dataListPercent(rows.length, config.rows.length)}% of all invoices`,
+              trend: [48, 55, 51, 64, 69, 76],
+              trendLabel: 'Current filtered scope',
+              trendTone: 'neutral',
+            },
+            {
+              label: 'Posted',
+              value: posted,
+              support: `${postedRate}% of this view`,
+              supportAr: `${postedRate}% من هذا العرض`,
+              icon: 'i-check',
+              tone: 'success',
+              progress: postedRate,
+              operation: 'Review posted documents',
+              benchmark: 'Target 75%',
+              trend: [52, 58, 61, 66, 72, postedRate],
+              trendLabel:
+                postedRate >= 75
+                  ? `${postedRate - 75} pts above target`
+                  : `${75 - postedRate} pts to target`,
+              trendTone: postedRate >= 75 ? 'success' : 'warning',
+            },
+            {
+              label: 'Pending',
+              value: pending,
+              support: `${pendingRate}% need attention`,
+              supportAr: `${pendingRate}% تحتاج إلى مراجعة`,
+              icon: 'i-clock',
+              tone: 'warning',
+              progress: pendingRate,
+              operation: 'Review pending invoices',
+              benchmark: 'Threshold 15%',
+              trend: [30, 27, 24, 21, 18, pendingRate],
+              trendLabel:
+                pendingRate <= 15 ? 'Within threshold' : `${pendingRate - 15} pts above threshold`,
+              trendTone: pendingRate <= 15 ? 'success' : 'warning',
+              attention: true,
+              attentionLabel: 'Pending invoices',
+              attentionValue: pending,
+              attentionSupport: `${pendingRate}% of the current view needs review`,
+            },
+            {
+              label: 'Gross value',
+              value: `EGP ${gross.toLocaleString(undefined, {minimumFractionDigits: 2})}`,
+              support: 'Across the current view',
+              supportAr: 'عبر العرض الحالي',
+              icon: 'i-grid',
+              tone: 'neutral',
+              progress: 100,
+              operation: 'Review invoice value distribution',
+              benchmark: `Average EGP ${average.toLocaleString(undefined, {maximumFractionDigits: 0})}`,
+              trend: [42, 49, 47, 58, 71, 78],
+              trendLabel: 'Six-period value pattern',
+              trendTone: 'neutral',
+            },
+          ]
+        }
+
+        function customerListStatistics(rows, config, total) {
+          const active = rows.filter(row => row.active).length
+          const inactive = rows.length - active
+          const retail = rows.filter(row => row.customerType === 'Retail').length
+          const activeRate = dataListPercent(active, total)
+          const inactiveRate = dataListPercent(inactive, total)
+          const retailRate = dataListPercent(retail, total)
+          return [
+            {
+              label: 'Customers in view',
+              value: rows.length,
+              support: `of ${config.rows.length} total customers`,
+              supportAr: `من إجمالي ${config.rows.length} عميل`,
+              icon: 'i-user',
+              tone: 'information',
+              progress: dataListPercent(rows.length, config.rows.length),
+              operation: 'Review the current customer portfolio',
+              benchmark: `${dataListPercent(rows.length, config.rows.length)}% of all customers`,
+              trend: [43, 49, 57, 61, 69, 75],
+              trendLabel: 'Current filtered scope',
+              trendTone: 'neutral',
+            },
+            {
+              label: 'Active',
+              value: active,
+              support: `${activeRate}% of this view`,
+              supportAr: `${activeRate}% من هذا العرض`,
+              icon: 'i-check',
+              tone: 'success',
+              progress: activeRate,
+              operation: 'Review active accounts',
+              benchmark: 'Target 90%',
+              trend: [76, 79, 82, 84, 87, activeRate],
+              trendLabel:
+                activeRate >= 90
+                  ? `${activeRate - 90} pts above target`
+                  : `${90 - activeRate} pts to target`,
+              trendTone: activeRate >= 90 ? 'success' : 'warning',
+            },
+            {
+              label: 'Inactive',
+              value: inactive,
+              support: inactive ? 'Review account availability' : 'No inactive accounts',
+              supportAr: inactive ? 'راجع توفر الحساب' : 'لا يوجد حسابات غير نشطة',
+              icon: 'i-archive',
+              tone: inactive ? 'warning' : 'neutral',
+              progress: inactiveRate,
+              operation: 'Review inactive customer accounts',
+              benchmark: 'Threshold 10%',
+              trend: [22, 20, 18, 16, 13, inactiveRate],
+              trendLabel:
+                inactiveRate <= 10
+                  ? 'Within threshold'
+                  : `${inactiveRate - 10} pts above threshold`,
+              trendTone: inactiveRate <= 10 ? 'success' : 'warning',
+              attention: true,
+              attentionLabel: 'Inactive customers',
+              attentionValue: inactive,
+              attentionSupport: inactive
+                ? `${inactiveRate}% of the current view may need follow-up`
+                : 'No customer accounts need follow-up',
+            },
+            {
+              label: 'Retail',
+              value: retail,
+              support: `${retailRate}% of this view`,
+              supportAr: `${retailRate}% من هذا العرض`,
+              icon: 'i-panel',
+              tone: 'neutral',
+              progress: retailRate,
+              operation: 'Review customer type mix',
+              benchmark: 'Portfolio mix',
+              trend: [46, 49, 51, 50, 53, retailRate],
+              trendLabel: 'Six-period portfolio mix',
+              trendTone: 'neutral',
+            },
+          ]
+        }
+
+        function geoListStatistics(rows, config, total) {
+          const active = rows.filter(row => row.active).length
+          const inactive = rows.length - active
+          const roots = rows.filter(row => !row.parentCode).length
+          const levels = rows.reduce((maximum, row) => Math.max(maximum, Number(row.level)), 0)
+          const activeRate = dataListPercent(active, total)
+          return [
+            {
+              label: 'Locations in view',
+              value: rows.length,
+              support: `of ${config.rows.length} total locations`,
+              supportAr: `من إجمالي ${config.rows.length} موقع`,
+              icon: 'i-flow',
+              tone: 'information',
+              progress: dataListPercent(rows.length, config.rows.length),
+              operation: 'Review the current location scope',
+              benchmark: `${dataListPercent(rows.length, config.rows.length)}% of all locations`,
+              trend: [40, 46, 52, 61, 68, 74],
+              trendLabel: 'Current filtered scope',
+              trendTone: 'neutral',
+            },
+            {
+              label: 'Active',
+              value: active,
+              support: `${activeRate}% of this view`,
+              supportAr: `${activeRate}% من هذا العرض`,
+              icon: 'i-check',
+              tone: 'success',
+              progress: activeRate,
+              operation: 'Review location availability',
+              benchmark: 'Target 95%',
+              trend: [78, 82, 84, 87, 91, activeRate],
+              trendLabel:
+                activeRate >= 95
+                  ? `${activeRate - 95} pts above target`
+                  : `${95 - activeRate} pts to target`,
+              trendTone: activeRate >= 95 ? 'success' : 'warning',
+              attention: true,
+              attentionLabel: 'Inactive locations',
+              attentionValue: inactive,
+              attentionSupport: inactive
+                ? `${dataListPercent(inactive, total)}% of the current view is unavailable`
+                : 'All locations in this view are active',
+            },
+            {
+              label: 'Root locations',
+              value: roots,
+              support: 'Top-level hierarchy nodes',
+              supportAr: 'عقد الهيكل الرئيسية',
+              icon: 'i-grid',
+              tone: 'neutral',
+              progress: dataListPercent(roots, total),
+              operation: 'Review top-level ownership',
+              benchmark: 'Hierarchy structure',
+              trend: [18, 20, 20, 22, 24, dataListPercent(roots, total)],
+              trendLabel: 'Six-period structural mix',
+              trendTone: 'neutral',
+            },
+            {
+              label: 'Hierarchy depth',
+              value: `${levels} levels`,
+              support: 'Deepest level in this view',
+              supportAr: 'أعمق مستوى في هذا العرض',
+              icon: 'i-panel',
+              tone: 'neutral',
+              progress: dataListPercent(levels, 4),
+              operation: 'Review hierarchy complexity',
+              benchmark: 'Policy limit 4 levels',
+              trend: [2, 2, 3, 3, 4, levels],
+              trendLabel: levels <= 4 ? 'Within policy' : `${levels - 4} levels above policy`,
+              trendTone: levels <= 4 ? 'success' : 'warning',
+            },
+          ]
+        }
+
+        const DATA_LIST_STATISTICS_FACTORIES = {
+          invoice: invoiceListStatistics,
+          customer: customerListStatistics,
+          geo: geoListStatistics,
+        }
+
+        function dataListStatistics(context, rows, config) {
+          return DATA_LIST_STATISTICS_FACTORIES[context](rows, config, Math.max(rows.length, 1))
+        }
+
+        /* Chart colors read live from the Atlassian Design System's own
+           --ds-chart-categorical-* tokens (already defined per-theme at the
+           top of this file — light/dark/high-contrast — but never actually
+           wired to anything before this). Resolving them at call time via
+           getComputedStyle, rather than hardcoding one theme's hex values,
+           is what makes the chart automatically match whichever theme is
+           active instead of only ever matching dark mode. */
+        function resolveDesignToken(name, fallback) {
+          const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+          return value || fallback
+        }
+
+        function dataListChartColors() {
+          const colors = [1, 2, 3, 4, 5, 6]
+            .map(n => resolveDesignToken(`--ds-chart-categorical-${n}`, ''))
+            .filter(Boolean)
+          return colors.length
+            ? colors
+            : ['#1868DB', '#5B7F24', '#964AC0', '#BD5B00', '#1558BC', '#803FA5']
+        }
+
+        /* ApexCharts does real color math internally (hover states, opacity
+           blends, gridline tints) — it needs resolved hex/rgb strings, not
+           var(--token) references it can't compute with. Every color option
+           below goes through resolveDesignToken() so the chart tracks
+           whichever theme (light/dark/high-contrast) is active, the same
+           way the rest of this app's chrome already does via CSS custom
+           properties — foreColor was silently broken before this (literally
+           passed the string "var(--muted)" into a library that can't parse
+           it), so labels were rendering in the browser's default color. */
+        function dataListChartTheme() {
+          return {
+            text: resolveDesignToken('--ds-text-subtle', '#505258'),
+            border: resolveDesignToken('--ds-border', '#091e4224'),
+            surface: resolveDesignToken('--ds-surface-overlay', '#ffffff'),
+            ink: resolveDesignToken('--ds-text', '#292a2e'),
+          }
+        }
+
+        const DATA_CHART_TYPES = [
+          {key: 'bar', label: 'Bar', icon: 'i-chart'},
+          {key: 'column', label: 'Column', icon: 'i-chart'},
+          {key: 'line', label: 'Line', icon: 'i-chart'},
+          {key: 'donut', label: 'Donut', icon: 'i-donut'},
+          {key: 'polar', label: 'Polar', icon: 'i-donut'},
+        ]
+
+        function dataListChartFields(config) {
+          return [...config.columns, ...(config.extraChartFields || [])]
+        }
+
+        function dataListChartYOptions(config) {
+          return dataListChartFields(config).filter(column => column.plottable)
+        }
+
+        function dataListChartYValue(row, field) {
+          const raw = row[field.key]
+          if (field.valueType === 'number') return Number(String(raw ?? '').replace(/,/g, '')) || 0
+          if (field.valueType === 'date') {
+            const [day, month, year] = String(raw ?? '').split('/')
+            const parsed =
+              day && month && year ? new Date(`${year}-${month}-${day}`) : new Date(raw)
+            return Number.isNaN(parsed.getTime()) ? 0 : parsed.getTime()
+          }
+          return Number(raw) || 0
+        }
+
+        function dataListChartGroups(rows, config, listState) {
+          const allFields = dataListChartFields(config)
+          const field = allFields.find(column => column.key === listState.chartField)
+            ? listState.chartField
+            : config.columns[0].key
+          const yField = dataListChartYOptions(config).find(
+            column => column.key === listState.chartYField
+          )
+          const sourceRows = listState.selected.size
+            ? rows.filter(row => listState.selected.has(String(row[config.key])))
+            : rows
+          if (yField) {
+            const xField = allFields.find(column => column.key === field)
+            const totals = new Map()
+            const xSortValues = new Map()
+            sourceRows.forEach(row => {
+              const label = String(row[field] ?? '—') || '—'
+              totals.set(label, (totals.get(label) || 0) + dataListChartYValue(row, yField))
+              if (!xSortValues.has(label))
+                xSortValues.set(label, xField?.valueType ? dataListChartYValue(row, xField) : label)
+            })
+            const groups = [...totals.entries()].map(([label, count]) => ({label, count}))
+            const sorted =
+              xField?.valueType === 'date'
+                ? groups.sort((left, right) =>
+                    xSortValues.get(left.label) > xSortValues.get(right.label) ? 1 : -1
+                  )
+                : groups.sort((left, right) => right.count - left.count)
+            return {groups: sorted, yValueType: yField.valueType}
+          }
+          const counts = new Map()
+          sourceRows.forEach(row => {
+            const label = String(row[field] ?? '—') || '—'
+            counts.set(label, (counts.get(label) || 0) + 1)
+          })
+          const groups = [...counts.entries()]
+            .map(([label, count]) => ({label, count}))
+            .sort((left, right) => right.count - left.count)
+          return {groups, yValueType: 'count'}
+        }
+
+        /* ApexCharts wants real display strings/numbers, never the raw epoch-
+           ms a date is sorted by internally — that's the bug this formatter
+           exists to prevent (a Doc Date Y-axis was showing 1786838400000
+           instead of a date). Currency-flavored numeric fields get their
+           thousands separators back too, matching how the rest of the app
+           already formats amounts. */
+        function formatDataListChartValue(value, yValueType) {
+          if (yValueType === 'date') {
+            const date = new Date(value)
+            if (Number.isNaN(date.getTime())) return String(value)
+            const pad = n => String(n).padStart(2, '0')
+            return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()}`
+          }
+          if (yValueType === 'number' || yValueType === 'count')
+            return value.toLocaleString(undefined, {maximumFractionDigits: 2})
+          return String(value)
+        }
+
+        /* ================= ApexCharts-backed breakdown chart =================
+           One ApexCharts instance per data-list context, tracked here so a
+           re-render (which always replaces the mount div via innerHTML) can
+           destroy the stale instance before creating the next one — an
+           orphaned instance still bound to a detached node would otherwise
+           leak silently on every render. */
+        const dataListChartInstances = {}
+
+        function dataListChartApexType(chartType) {
+          if (chartType === 'donut') return 'donut'
+          if (chartType === 'polar') return 'polarArea'
+          if (chartType === 'line') return 'line'
+          if (chartType === 'column') return 'bar'
+          return 'bar'
+        }
+
+        function renderDataListChart(context, rows, config, listState) {
+          if (!listState.chartVisible) return ''
+          const yOptions = dataListChartYOptions(config)
+          const yField = yOptions.find(column => column.key === listState.chartYField)
+          const {groups} = dataListChartGroups(rows, config, listState)
+          const total = groups.reduce((sum, group) => sum + group.count, 0)
+          const scopeLabel = listState.selected.size
+            ? `${listState.selected.size} selected`
+            : yField
+              ? `${groups.length} in view`
+              : `${total} in view`
+          const fieldOptions = config.columns
+            .map(
+              column =>
+                `<option value="${encodeHtml(column.key)}"${column.key === listState.chartField ? ' selected' : ''}>${encodeHtml(column.label)}</option>`
+            )
+            .join('')
+          const yFieldOptions = `<option value=""${yField ? '' : ' selected'}>${encodeHtml(t('Count', 'Count'))}</option>${yOptions
+            .map(
+              column =>
+                `<option value="${encodeHtml(column.key)}"${column.key === listState.chartYField ? ' selected' : ''}>${encodeHtml(column.label)}</option>`
+            )
+            .join('')}`
+          const typeButtons = DATA_CHART_TYPES.map(
+            type =>
+              `<button type="button" data-list-chart-type="${type.key}" aria-pressed="${listState.chartType === type.key}">${dataListIcon(type.icon, 15)}<span>${type.label}</span></button>`
+          ).join('')
+          const expanded = listState.chartExpanded !== false
+          const canvasBody = groups.length
+            ? `<div class="data-list-chart-apex" data-chart-mount></div>`
+            : `<p class="data-chart-empty">${t('No data to chart for this view.', 'No data to chart for this view.')}</p>`
+          return `<section class="rec-card data-list-chart" aria-label="${encodeHtml(config.label)} chart">
+            <div class="data-list-chart-hd-row">
+              <button type="button" class="rec-card-hd data-list-chart-hd" data-list-chart-toggle aria-expanded="${expanded}">
+                <span class="data-list-chart-hd-title">${encodeHtml(config.label[0].toUpperCase() + config.label.slice(1))} breakdown</span>
+                <span class="data-list-chart-scope">${encodeHtml(scopeLabel)}</span>
+              </button>
+              <button type="button" class="data-list-chart-close" data-list-chart-close aria-label="Close chart">${dataListIcon('i-x', 13)}</button>
+            </div>
+            <div class="rec-card-body data-list-chart-body"${expanded ? '' : ' hidden'}>
+              <div class="data-list-chart-layout data-list-chart-layout-solo">
+                <div class="data-list-chart-main">
+                  <div class="data-list-chart-toolbar">
+                    <div class="rec-field data-list-chart-field">
+                      <label>${t('X axis', 'X axis')}</label>
+                      <select data-list-chart-field>${fieldOptions}</select>
+                    </div>
+                    ${
+                      yOptions.length
+                        ? `<div class="rec-field data-list-chart-field">
+                      <label>${t('Y axis', 'Y axis')}</label>
+                      <select data-list-chart-y-field>${yFieldOptions}</select>
+                    </div>`
+                        : ''
+                    }
+                    <div class="data-list-chart-type" role="group" aria-label="Chart type">${typeButtons}</div>
+                  </div>
+                  <div class="data-list-chart-canvas">${canvasBody}</div>
+                </div>
+              </div>
+            </div>
+          </section>`
+        }
+
+        function destroyDataListChartInstance(context) {
+          if (dataListChartInstances[context]) {
+            dataListChartInstances[context].destroy()
+            delete dataListChartInstances[context]
+          }
+        }
+
+        /* Runs after the chart section's HTML lands in the DOM (renderDataList
+           already replaced canvas.innerHTML by the time this is called), so
+           the mount div is guaranteed to exist when it's not skipped. */
+        function initDataListChart(context, canvas, rows, config, listState) {
+          destroyDataListChartInstance(context)
+          if (!listState.chartVisible || listState.chartExpanded === false) return
+          const mount = canvas.querySelector('[data-chart-mount]')
+          if (!mount) return
+          const yOptions = dataListChartYOptions(config)
+          const yField = yOptions.find(column => column.key === listState.chartYField)
+          const {groups, yValueType} = dataListChartGroups(rows, config, listState)
+          if (!groups.length) return
+          const apexType = dataListChartApexType(listState.chartType)
+          const isRadial = apexType === 'donut' || apexType === 'polarArea'
+          const seriesName = yField ? t(yField.label, yField.label) : t('Count', 'Count')
+          const valueFormatter = value => formatDataListChartValue(value, yValueType)
+          const theme = dataListChartTheme()
+          const isDark = document.documentElement.dataset.colorMode === 'dark'
+          const options = {
+            chart: {
+              type: apexType,
+              height: 320,
+              toolbar: {show: false},
+              fontFamily: 'inherit',
+              foreColor: theme.text,
+            },
+            colors: dataListChartColors(),
+            legend: {position: isRadial ? 'bottom' : 'top', labels: {colors: theme.ink}},
+            dataLabels: {enabled: false},
+            grid: {borderColor: theme.border, strokeDashArray: 3},
+            tooltip: {
+              theme: isDark ? 'dark' : 'light',
+              y: {formatter: valueFormatter},
+            },
+            xaxis: {
+              categories: groups.map(group => group.label),
+              labels: {trim: true, hideOverlappingLabels: true},
+              axisBorder: {color: theme.border},
+              axisTicks: {color: theme.border},
+            },
+          }
+          if (isRadial) {
+            options.series = groups.map(group => group.count)
+            options.labels = groups.map(group => group.label)
+          } else {
+            options.series = [{name: seriesName, data: groups.map(group => group.count)}]
+            /* Horizontal bars swap which axis carries the value scale —
+               ApexCharts still puts categories on xaxis either way, but the
+               numeric scale renders via xaxis.labels when horizontal, and
+               yaxis.labels when vertical (column/line). Formatting only the
+               "always yaxis" side was the bug behind the raw-epoch-number
+               screenshot: a horizontal Bar's value axis is xaxis, so that
+               one was left showing unformatted numbers. */
+            const horizontal = listState.chartType === 'bar'
+            if (horizontal) options.xaxis.labels.formatter = valueFormatter
+            else options.yaxis = {labels: {formatter: valueFormatter}}
+            if (apexType === 'bar') options.plotOptions = {bar: {horizontal, borderRadius: 3}}
+            if (apexType === 'line') options.stroke = {curve: 'smooth', width: 3}
+          }
+          const chart = new ApexCharts(mount, options)
+          dataListChartInstances[context] = chart
+          chart.render()
+        }
+
+        function refreshOpenDataListCharts() {
+          if (!dataListChartRefreshReady) return
+          Object.keys(dataListState).forEach(context => {
+            const listState = dataListState[context]
+            if (listState.chartVisible && listState.canvas) refreshDataListForContext(context)
+          })
+        }
+
+        function renderBalancedStatistics(metrics) {
+          return metrics
+            .map(metric => {
+              const support =
+                appLocale === 'ar' ? metric.supportAr || metric.support : metric.support
+              return `<article class="data-stat-card" data-tone="${metric.tone}"><div class="data-stat-card-head">${dataListIcon(metric.icon, 16)}<span>${encodeHtml(t(metric.label))}</span></div><strong>${encodeHtml(metric.value)}</strong><small>${encodeHtml(support)}</small><div class="data-stat-meter" aria-hidden="true"><span style="--stat-progress:${metric.progress}%"></span></div></article>`
+            })
+            .join('')
+        }
+
+        function renderOperationalStatistics(metrics) {
+          return metrics
+            .map(
+              metric =>
+                `<article class="data-stat-operation" data-tone="${metric.tone}"><span class="data-stat-operation-icon">${dataListIcon(metric.icon, 16)}</span><div class="data-stat-operation-value"><span>${encodeHtml(metric.label)}</span><strong>${encodeHtml(metric.value)}</strong><span>${encodeHtml(metric.support)}</span></div><div class="data-stat-operation-cue"><span>Work cue</span><strong>${encodeHtml(metric.operation)}</strong></div></article>`
+            )
+            .join('')
+        }
+
+        function renderExceptionStatistics(metrics) {
+          const attention = metrics.find(metric => metric.attention) || metrics[0]
+          const supportingMetrics = metrics.filter(metric => metric !== attention)
+          const attentionValue = attention.attentionValue ?? attention.value
+          const attentionLabel = attention.attentionLabel || attention.label
+          const attentionSupport = attention.attentionSupport || attention.support
+          const supportingRows = supportingMetrics
+            .map(
+              metric =>
+                `<div class="data-stat-exception-row" data-tone="${metric.tone}"><span class="data-stat-exception-dot" aria-hidden="true"></span><span class="data-stat-exception-copy"><strong>${encodeHtml(metric.label)}</strong><small>${encodeHtml(metric.support)}</small></span><output>${encodeHtml(metric.value)}</output></div>`
+            )
+            .join('')
+          return `<article class="data-stat-exception-lead"><div class="data-stat-exception-lead-head">${dataListIcon('i-warn', 15)}<span>Needs attention</span></div><strong>${encodeHtml(attentionValue)}</strong><small>${encodeHtml(attentionLabel)} · ${encodeHtml(attentionSupport)}</small><div class="data-stat-exception-focus">${dataListIcon('i-search', 13)}<span>${encodeHtml(attention.operation)}</span></div></article><div class="data-stat-exception-list">${supportingRows}</div>`
+        }
+
+        function statisticsSparklinePoints(trend) {
+          const minimum = Math.min(...trend)
+          const range = Math.max(...trend) - minimum || 1
+          const step = trend.length > 1 ? 120 / (trend.length - 1) : 0
+          return trend
+            .map(
+              (point, index) =>
+                `${Math.round(index * step)},${Math.round(30 - ((point - minimum) / range) * 26)}`
+            )
+            .join(' ')
+        }
+
+        function renderStatisticsSparkline(metric) {
+          const points = statisticsSparklinePoints(metric.trend)
+          return `<svg class="data-stat-sparkline" viewBox="0 0 120 34" preserveAspectRatio="none" role="img" aria-label="${encodeHtml(metric.trendLabel)}"><polygon class="data-stat-sparkline-area" points="0,34 ${points} 120,34"></polygon><polyline class="data-stat-sparkline-line" points="${points}"></polyline></svg>`
+        }
+
+        function renderAnalyticalStatistics(metrics) {
+          return metrics
+            .map(
+              metric =>
+                `<article class="data-stat-analytical" data-tone="${metric.tone}"><div class="data-stat-analytical-head"><span>${encodeHtml(metric.label)}</span>${dataListIcon(metric.icon, 14)}</div><strong>${encodeHtml(metric.value)}</strong>${renderStatisticsSparkline(metric)}<div class="data-stat-analytical-foot"><span>${encodeHtml(metric.benchmark)}</span><span class="data-stat-trend" data-trend-tone="${metric.trendTone}">${encodeHtml(metric.trendLabel)}</span></div></article>`
+            )
+            .join('')
+        }
+
+        const DATA_LIST_STATISTICS_RENDERERS = {
+          balanced: renderBalancedStatistics,
+          operational: renderOperationalStatistics,
+          exceptions: renderExceptionStatistics,
+          analytical: renderAnalyticalStatistics,
+        }
+
+        /* Exceptions & attention is a prototype-only concept for global demo
+           switching — the per-table Manage menu only ever offers the three
+           concepts meant to ship as real, everyday statistics presentations. */
+        /* Statistics concept: a per-table choice (set from that table's Manage
+           dropdown) wins when present; otherwise it falls back to the global
+           Prototype control, same as before this per-table override existed. */
+        function renderDataListStatistics(context, rows, config) {
+          const listState = dataListState[context]
+          const selectedLayout = resolvedDataListStatisticsConcept(listState.statisticsConcept)
+          const layout = DATA_LIST_STATISTICS_RENDERERS[selectedLayout]
+            ? selectedLayout
+            : 'balanced'
+          const metrics = dataListStatistics(context, rows, config)
+          return `<section class="data-statistics" data-statistics-layout="${layout}" aria-label="${encodeHtml(config.label)} statistics, ${layout} concept">${DATA_LIST_STATISTICS_RENDERERS[layout](metrics)}</section>`
+        }
+
+        /* the trigger lives in the main toolbar (between Chart and Columns) so
+           picking the first group-by column costs no extra row; the drop-zone/
+           chips row below only appears once there's something to show in it */
+        function renderDataListGroupTrigger(config, listState) {
+          const availableColumns = config.columns.filter(
+            column => column.groupable !== false && !listState.groupBy.includes(column.key)
+          )
+          if (!availableColumns.length) return ''
+          return `<details class="data-menu" data-list-group-menu><summary aria-label="${t('Choose a column to group by', 'Choose a column to group by')}">${dataListIcon('i-grid', 14)}<span>${t('Group by', 'Group by')}</span>${dataListIcon('i-caret', 10)}</summary><div class="data-menu-popover" role="menu">${availableColumns
+            .map(
+              column =>
+                `<button type="button" role="menuitem" data-list-group-add="${encodeHtml(column.key)}">${dataListIcon('i-grid', 13)}<span>${encodeHtml(t(column.label))}</span></button>`
+            )
+            .join('')}</div></details>`
+        }
+
+        function renderDataListGroupingBar(config, listState) {
+          const chips = listState.groupBy
+            .map(key => config.columns.find(column => column.key === key))
+            .filter(Boolean)
+            .map(
+              column =>
+                `<span class="data-group-chip"><span>${encodeHtml(t(column.label))}</span><button type="button" data-list-group-remove="${encodeHtml(column.key)}" aria-label="${t('Remove', 'Remove')} ${encodeHtml(t(column.label))} ${t('grouping', 'grouping')}">${dataListIcon('i-x', 11)}</button></span>`
+            )
+            .join('')
+          if (!chips) return ''
+          const hasMoreColumns = config.columns.some(
+            column => column.groupable !== false && !listState.groupBy.includes(column.key)
+          )
+          const dragHint = hasMoreColumns
+            ? `<span class="data-group-drag-hint">${t('Drag a column header here to add another group', 'Drag a column header here to add another group')}</span>`
+            : ''
+          const clearButton = `<button type="button" class="data-group-clear" data-list-group-clear>${dataListIcon('i-undo', 12)}<span>${t('Reset grouping', 'Reset grouping')}</span></button>`
+          return `<div class="data-group-dropzone" data-list-group-drop aria-label="${t('Row grouping drop zone', 'Row grouping drop zone')}"><span class="data-group-dropzone-label">${dataListIcon('i-grid', 14)}<span>${t('Row groups', 'Row groups')}</span></span>${chips}${dragHint}${clearButton}</div>`
+        }
+
+        const DATA_LIST_RESPONSIVE_WIDTH = {
+          avatar: 56,
+          seq: 180,
+          no: 92,
+          date: 112,
+          dueDate: 112,
+          subtype: 145,
+          poRef: 110,
+          pay: 130,
+          custNo: 120,
+          custName: 180,
+          branch: 150,
+          priceList: 130,
+          taxAmount: 110,
+          discount: 100,
+          salesRep: 140,
+          warehouse: 150,
+          createdBy: 120,
+          modifiedAt: 112,
+          customerNo: 125,
+          customerName: 165,
+          operationUnit: 160,
+          customerType: 130,
+          customerGroup: 135,
+          currency: 92,
+          country: 105,
+          phone: 140,
+          active: 112,
+          code: 120,
+          name: 170,
+          parent: 220,
+          type: 110,
+          level: 78,
+          remarks: 220,
+        }
+
+        function responsiveDataListColumns(context, width, listState) {
+          const config = DATA_LIST_CONFIG[context]
+          const columns = listState.columnOrder
+            .map(key => config.columns.find(column => column.key === key))
+            .filter(column => column && !listState.hiddenColumns.has(column.key))
+          const available = Math.max(80, width - 42 - 76 - 2)
+          const visible = []
+          let used = 0
+          for (const [index, column] of columns.entries()) {
+            const columnWidth = DATA_LIST_RESPONSIVE_WIDTH[column.key] || 130
+            if (index > 0 && used + columnWidth > available) break
+            visible.push(column)
+            used += columnWidth
+          }
+          const visibleKeys = new Set(visible.map(column => column.key))
+          return {
+            visible,
+            overflow: columns.filter(column => !visibleKeys.has(column.key)),
+          }
+        }
+
+        function renderDataListRowActionMenu(config, key, actions, context = '') {
+          const contextAttr = context ? ` data-list-context="${encodeHtml(context)}"` : ''
+          return `<details class="data-menu end data-row-menu"${contextAttr}><summary aria-label="Actions for ${encodeHtml(config.singular)} ${encodeHtml(key)}" title="Record actions">${dataListIcon('i-dots')}</summary><div class="data-menu-popover" role="menu">${actions}</div></details>`
+        }
+
+        /* Adaptive view's footer keeps the two most-reached-for actions as
+           buttons (Display, Modify) and tucks everything else — the same
+           per-context set the table row menu already knows about — behind
+           one overflow menu, so the footer doesn't turn into a button wall. */
+        function renderDataListAdaptiveFooterActions(context, row, config) {
+          const key = String(row[config.key])
+          const displayButton = `<button class="ctx" type="button" data-list-row-action="display"><svg width="15" height="15" aria-hidden="true"><use href="#i-external" /></svg><span>${t('Display', 'Display')}</span></button>`
+          const modifyButton = `<button class="ctx" type="button" data-list-row-action="modify"><svg width="15" height="15" aria-hidden="true"><use href="#i-edit" /></svg><span>${t('Modify', 'Modify')}</span></button>`
+          const contextActions =
+            context === 'customer'
+              ? `<button type="button" role="menuitem" data-list-row-action="accounts-movement">${dataListIcon('i-flow')} ${t('Accounts movement', 'Accounts movement')}</button><button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? t('Deactivate', 'Deactivate') : t('Activate', 'Activate')}</button>`
+              : context === 'geo'
+                ? `<button type="button" role="menuitem" data-list-row-action="view-hierarchy">${dataListIcon('i-flow')} ${t('View in hierarchy', 'View in hierarchy')}</button><button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? t('Deactivate', 'Deactivate') : t('Activate', 'Activate')}</button>`
+                : `<button type="button" role="menuitem" data-list-row-action="user-log">${dataListIcon('i-user')} ${t('User log', 'User log')}</button><button type="button" role="menuitem" data-list-row-action="documents-flow">${dataListIcon('i-flow')} ${t('Documents flow', 'Documents flow')}</button>`
+          const deleteAction = `<button type="button" role="menuitem" data-list-row-action="delete">${dataListIcon('i-trash')} ${t('Delete', 'Delete')}</button>`
+          const overflowActions = `${contextActions}<div class="data-menu-separator"></div>${deleteAction}`
+          return `<span class="data-adaptive-footer-actions" data-list-row-key="${encodeHtml(key)}">${displayButton}${modifyButton}${renderDataListRowActionMenu(config, key, overflowActions, context)}</span>`
+        }
+
+        /* Shared by the left-click "..." row menu AND the right-click context
+           menu — one source of truth so the two never drift apart, and so
+           right-click never offers an action the "..." menu doesn't. */
+        function renderDataListRowActionsContent(context, row, config, view = 'list') {
+          const quickViewDisabled = view === 'kanban'
+          const commonActions = `<button type="button" role="menuitem" data-list-row-action="quick-view"${quickViewDisabled ? ' disabled aria-disabled="true" title="Switch out of Kanban to jump to a single record"' : ''}>${dataListIcon('i-panel')} Open in Adaptive view</button><button type="button" role="menuitem" data-list-row-action="display">${dataListIcon('i-external')} Display</button><button type="button" role="menuitem" data-list-row-action="modify">${dataListIcon('i-edit')} Modify</button>`
+          const recordActions =
+            context === 'customer'
+              ? `<button type="button" role="menuitem" data-list-row-action="accounts-movement">${dataListIcon('i-flow')} Accounts movement</button><button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? 'Deactivate' : 'Activate'}</button>`
+              : context === 'geo'
+                ? `<button type="button" role="menuitem" data-list-row-action="view-hierarchy">${dataListIcon('i-flow')} View in hierarchy</button><button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? 'Deactivate' : 'Activate'}</button>`
+                : `<button type="button" role="menuitem" data-list-row-action="print">${dataListIcon('i-print')} Print</button><button type="button" role="menuitem" data-list-row-action="user-log">${dataListIcon('i-user')} User log</button><button type="button" role="menuitem" data-list-row-action="documents-flow">${dataListIcon('i-flow')} Documents flow</button>`
+          const deleteAction = `<button type="button" role="menuitem" data-list-row-action="delete">${dataListIcon('i-trash')} Delete</button>`
+          return `${commonActions}<div class="data-menu-separator"></div>${recordActions}<div class="data-menu-separator"></div>${deleteAction}`
+        }
+
+        function renderDataListRowActions(context, row, config, view = 'list') {
+          const actions = renderDataListRowActionsContent(context, row, config, view)
+          return renderDataListRowActionMenu(config, String(row[config.key]), actions)
+        }
+
+        function renderDataListHeader(visibleColumns, listState) {
+          return visibleColumns
+            .map(column => {
+              if (column.sortable === false) {
+                return `<th data-col="${encodeHtml(column.key)}" data-list-column-drag="${encodeHtml(column.key)}" draggable="true" aria-sort="none" title="${t('Drag to reorder', 'Drag to reorder')}"><span class="data-sort-button"><span>${encodeHtml(t(column.label))}</span></span></th>`
+              }
+              const sorted = listState.sortKey === column.key
+              const ariaSort = sorted
+                ? listState.sortDirection === 'asc'
+                  ? 'ascending'
+                  : 'descending'
+                : 'none'
+              const indicator = sorted ? (listState.sortDirection === 'asc' ? '↑' : '↓') : ''
+              return `<th data-col="${encodeHtml(column.key)}" data-list-column-drag="${encodeHtml(column.key)}" draggable="true" aria-sort="${ariaSort}" title="${t('Drag to reorder or add to row groups', 'Drag to reorder or add to row groups')}"><button class="data-sort-button" type="button" data-list-sort="${encodeHtml(column.key)}"><span>${encodeHtml(t(column.label))}</span><span class="data-sort-indicator" aria-hidden="true">${indicator}</span></button></th>`
+            })
+            .join('')
+        }
+
+        function dataListDetailsId(context, key) {
+          return `responsive-details-${context}-${String(key).replace(/[^a-z0-9_-]+/gi, '-')}`
+        }
+
+        function renderResponsiveRowDetails(context, row, overflowColumns) {
+          return `<dl class="data-responsive-details">${overflowColumns
+            .map(
+              column =>
+                `<div><dt>${encodeHtml(column.label)}</dt><dd>${renderQuickViewFieldValue(context, row, column)}</dd></div>`
+            )
+            .join('')}</dl>`
+        }
+
+        function renderDataListExpandButton(context, key, expanded, overflowColumns) {
+          if (!overflowColumns.length) return ''
+          const detailsId = dataListDetailsId(context, key)
+          const label = expanded ? 'Collapse row details' : 'Expand row details'
+          return `<button type="button" class="data-row-expand" data-list-row-expand="${encodeHtml(key)}" aria-controls="${encodeHtml(detailsId)}" aria-expanded="${expanded}" aria-label="${label}" title="${label}">${dataListIcon('i-caret', 12)}</button>`
+        }
+
+        function renderDataListRecordRows(row, tableContext) {
+          const {context, visibleColumns, overflowColumns, config, listState} = tableContext
+          const key = String(row[config.key])
+          const selected = listState.selected.has(key)
+          const expanded = listState.expandedRows.has(key) && overflowColumns.length > 0
+          const cells = visibleColumns
+            .map(column => {
+              const title =
+                column.key === 'avatar'
+                  ? ''
+                  : ` title="${encodeHtml(String(row[column.key] ?? ''))}"`
+              return `<td data-col="${encodeHtml(column.key)}"${title}>${renderDataListCell(context, row, column)}</td>`
+            })
+            .join('')
+          const actionCell = `<td class="data-row-actions-cell"><div class="data-row-actions">${renderDataListExpandButton(context, key, expanded, overflowColumns)}${renderDataListRowActions(context, row, config, listState.view)}</div></td>`
+          const recordRow = `<tr class="data-list-record-row" data-list-row-key="${encodeHtml(key)}" aria-selected="${selected}" title="Double-click to open. Ctrl/Command + double-click for Adaptive view on this record."><td><input type="checkbox" data-list-row-select value="${encodeHtml(key)}" aria-label="Select ${encodeHtml(config.singular)} ${encodeHtml(key)}"${selected ? ' checked' : ''}></td>${cells}${actionCell}</tr>`
+          if (!expanded) return recordRow
+          const detailsId = dataListDetailsId(context, key)
+          return `${recordRow}<tr class="data-responsive-detail-row" id="${encodeHtml(detailsId)}"><td colspan="${visibleColumns.length + 2}">${renderResponsiveRowDetails(context, row, overflowColumns)}</td></tr>`
+        }
+
+        function dataListGroupValue(context, column, groupValue) {
+          if (column.key === 'active' && ['customer', 'geo'].includes(context))
+            return groupValue ? 'Active' : 'Inactive'
+          return String(groupValue ?? 'Not set') || 'Not set'
+        }
+
+        function renderDataListGroupedBody(rows, tableContext, depth = 0, path = []) {
+          const {context, visibleColumns, overflowColumns, config, listState} = tableContext
+          if (depth >= listState.groupBy.length)
+            return rows.map(row => renderDataListRecordRows(row, tableContext)).join('')
+          const column = config.columns.find(item => item.key === listState.groupBy[depth])
+          if (!column) return renderDataListGroupedBody(rows, tableContext, depth + 1, path)
+          const groups = new Map()
+          rows.forEach(row => {
+            const value = dataListGroupValue(context, column, row[column.key])
+            if (!groups.has(value)) groups.set(value, [])
+            groups.get(value).push(row)
+          })
+          return [...groups.entries()]
+            .sort(([left], [right]) => left.localeCompare(right, undefined, {numeric: true}))
+            .map(([value, groupRows]) => {
+              const groupPath = [...path, `${column.key}:${value}`]
+              const groupId = groupPath.join('\u001f')
+              const expanded = !listState.collapsedGroups.has(groupId)
+              const children = expanded
+                ? renderDataListGroupedBody(groupRows, tableContext, depth + 1, groupPath)
+                : ''
+              return `<tr class="data-group-row"><td colspan="${visibleColumns.length + 2}"><button type="button" class="data-group-toggle" style="--group-depth:${depth}" data-list-group-toggle="${encodeHtml(groupId)}" aria-expanded="${expanded}">${dataListIcon('i-caret', 11)}<span class="data-group-label">${encodeHtml(column.label)}</span><span class="data-group-value">${encodeHtml(value)}</span><span class="data-group-count">${groupRows.length} ${groupRows.length === 1 ? config.singular : config.label}</span></button></td></tr>${children}`
+            })
+            .join('')
+        }
+
+        function renderDataListBody(rows, tableContext) {
+          const {config, visibleColumns} = tableContext
+          if (!rows.length)
+            return `<tr><td colspan="${visibleColumns.length + 2}"><div class="customer-lookup-empty">No ${encodeHtml(config.label)} match this view.</div></td></tr>`
+          return renderDataListGroupedBody(rows, tableContext)
+        }
+
+        function dataRecordInitials(value) {
+          return String(value || '?')
+            .trim()
+            .split(/\s+/)
+            .slice(0, 2)
+            .map(part => part[0] || '')
+            .join('')
+            .toUpperCase()
+        }
+
+        function customerImageData(photo) {
+          if (!photo || !CUSTOMER_IMAGE_SOURCES.has(photo.src)) return null
+          return {
+            src: photo.src,
+            alt: String(photo.alt || 'Customer image'),
+            fit: photo.fit === 'contain' ? 'contain' : 'cover',
+          }
+        }
+
+        function customerImagePreviewAttributes(row, image) {
+          return `data-customer-image-preview data-customer-image-src="${encodeHtml(image.src)}" data-customer-image-alt="${encodeHtml(image.alt)}" data-customer-image-fit="${image.fit}" data-customer-image-name="${encodeHtml(row.customerName)}" data-customer-image-number="${encodeHtml(row.customerNo)}" aria-controls="customer-image-popover" aria-haspopup="dialog" aria-expanded="false" aria-label="Preview image for ${encodeHtml(row.customerName)}"`
+        }
+
+        function renderCustomerAvatar(row) {
+          const initials = encodeHtml(dataRecordInitials(row.customerName))
+          const image = customerImageData(row.photo)
+          const fallback = `<span class="data-record-avatar customer-avatar-fallback" aria-hidden="true">${initials}</span>`
+          if (!image) return fallback
+          return `<button type="button" class="data-record-avatar customer-avatar-trigger image-fit-${image.fit}" ${customerImagePreviewAttributes(row, image)}><img src="${encodeHtml(image.src)}" alt="" data-customer-image><span class="data-record-avatar customer-avatar-fallback" aria-hidden="true" hidden>${initials}</span></button>`
+        }
+
+        function renderCustomerRecordPhoto(photo) {
+          const row = {
+            customerName: customerData.customerName || 'New customer',
+            customerNo: customerData.customerNo || 'Unsaved',
+          }
+          const initials = encodeHtml(dataRecordInitials(row.customerName))
+          const image = customerImageData(photo)
+          if (!image)
+            return `<span class="customer-photo-preview customer-avatar-fallback" aria-hidden="true">${initials}</span>`
+          return `<button type="button" class="customer-photo-preview customer-avatar-trigger image-fit-${image.fit}" ${customerImagePreviewAttributes(row, image)}><img src="${encodeHtml(image.src)}" alt="${encodeHtml(image.alt)}" data-customer-image><span class="customer-photo-preview customer-avatar-fallback" aria-hidden="true" hidden>${initials}</span></button>`
+        }
+
+        function recordStatusBadge(active) {
+          return `<span class="badge ${active ? 'ok' : 'gray'}">${active ? 'Active' : 'Inactive'}</span>`
+        }
+
+        function invoiceStatusBadge(status) {
+          return `<span class="badge invoice-status" data-s="${encodeHtml(invoiceStatusKey(status))}">${encodeHtml(status)}</span>`
+        }
+
+        function customerRecordCardModel(row) {
+          return {
+            title: row.customerName,
+            subtitle: `${row.customerNo}`,
+            badge: recordStatusBadge(row.active),
+            factMap: {
+              type: ['Customer type', row.customerType],
+              group: ['Customer group', row.customerGroup],
+              operation: ['Operation unit', row.operationUnit],
+              currency: ['Account currency', row.currency],
+              location: ['Location', row.country],
+              phone: ['Phone', row.phone],
+            },
+          }
+        }
+
+        function invoiceRecordCardModel(row) {
+          return {
+            title: `Sales Invoice ${row.no}`,
+            subtitle: row.seq,
+            avatar: dataListIcon('i-doc', 18),
+            badge: invoiceStatusBadge(row.status),
+            factMap: {
+              total: ['Total', `${row.currency} ${row.total}`],
+              customer: ['Customer', row.custName],
+              date: ['Document date', row.date],
+              payment: ['Payment', row.pay],
+              subtype: ['Sub-type', row.subtype],
+            },
+          }
+        }
+
+        function geoRecordCardModel(row) {
+          const hierarchyPath = row.parent
+            ? `${row.parent} › ${row.code} - ${row.name}`
+            : `Root › ${row.code} - ${row.name}`
+          return {
+            title: row.name,
+            subtitle: `Location ${row.code}`,
+            avatar: dataListIcon('i-flow', 18),
+            badge: recordStatusBadge(row.active),
+            factMap: {
+              hierarchy: ['Hierarchy path', hierarchyPath],
+              type: ['Location type', row.type],
+              level: ['Level', row.level],
+              code: ['Code', row.code],
+              remarks: ['Remarks', row.remarks || 'No remarks'],
+            },
+          }
+        }
+
+        function dataRecordCardModel(context, row) {
+          return context === 'customer'
+            ? customerRecordCardModel(row)
+            : context === 'geo'
+              ? geoRecordCardModel(row)
+              : invoiceRecordCardModel(row)
+        }
+
+        function dataRecordCardFactMarkup([label, value]) {
+          const wide = label === 'Hierarchy path' ? ' class="wide"' : ''
+          return `<div${wide}><dt>${encodeHtml(label)}</dt><dd>${encodeHtml(String(value ?? '—'))}</dd></div>`
+        }
+
+        function dataRecordCardSelectMarkup(config, key, selected) {
+          return `<label class="data-record-card-select"><input type="checkbox" data-list-row-select value="${encodeHtml(key)}" aria-label="Select ${encodeHtml(config.singular)} ${encodeHtml(key)}"${selected ? ' checked' : ''}></label>`
+        }
+
+        function dataRecordCardContext(context, row, config, listState) {
+          const key = String(row[config.key])
+          return {
+            key,
+            selected: listState.selected.has(key),
+            model: dataRecordCardModel(context, row),
+          }
+        }
+
+        function renderSnapshotCardHeader(context, row, config, card) {
+          const avatar =
+            context === 'customer'
+              ? renderCustomerAvatar(row)
+              : `<span class="data-record-avatar" aria-hidden="true">${card.model.avatar}</span>`
+          return `<header class="data-record-card-header">${dataRecordCardSelectMarkup(config, card.key, card.selected)}${avatar}<button class="data-record-card-identity" type="button" data-list-open-record="${encodeHtml(card.key)}" aria-label="Open ${encodeHtml(config.singular)} ${encodeHtml(card.key)}"><div><strong>${encodeHtml(card.model.title)}</strong><span>${encodeHtml(card.model.subtitle)}</span></div></button>${card.model.badge}</header>`
+        }
+
+        function dataRecordActionButton(action, icon, label) {
+          return `<button type="button" class="data-toolbar-button" data-list-row-action="${action}" title="${encodeHtml(label)}">${dataListIcon(icon)}<span class="data-toolbar-button-label">${encodeHtml(label)}</span></button>`
+        }
+
+        function renderContextCardActions(context) {
+          const actions =
+            context === 'invoice'
+              ? [
+                  ['print', 'i-print', 'Print'],
+                  ['documents-flow', 'i-flow', 'Documents flow'],
+                ]
+              : context === 'customer'
+                ? [
+                    ['modify', 'i-edit', 'Modify'],
+                    ['accounts-movement', 'i-flow', 'Accounts movement'],
+                  ]
+                : [
+                    ['view-hierarchy', 'i-flow', 'View hierarchy'],
+                    ['modify', 'i-edit', 'Modify'],
+                  ]
+          return actions.map(action => dataRecordActionButton(...action)).join('')
+        }
+
+        function renderCardFooterEndActions(context, row, config) {
+          return `<div class="data-record-card-footer-end">${renderOperationsOverflowActions(context, row, config)}</div>`
+        }
+
+        function renderOperationsOverflowActions(context, row, config) {
+          const quickView = `<button type="button" role="menuitem" data-list-row-action="quick-view">${dataListIcon('i-panel')} Open in Adaptive view</button>`
+          const display = `<button type="button" role="menuitem" data-list-row-action="display">${dataListIcon('i-external')} Display</button>`
+          const deleteAction = `<button type="button" role="menuitem" data-list-row-action="delete">${dataListIcon('i-trash')} Delete</button>`
+          const actions =
+            context === 'invoice'
+              ? `${quickView}${display}<button type="button" role="menuitem" data-list-row-action="modify">${dataListIcon('i-edit')} Modify</button><button type="button" role="menuitem" data-list-row-action="user-log">${dataListIcon('i-user')} User log</button><div class="data-menu-separator"></div>${deleteAction}`
+              : `${quickView}${display}<button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? 'Deactivate' : 'Activate'}</button><div class="data-menu-separator"></div>${deleteAction}`
+          return renderDataListRowActionMenu(config, String(row[config.key]), actions)
+        }
+
+        function renderInvoiceSnapshotCard(row, config, listState) {
+          const card = dataRecordCardContext('invoice', row, config, listState)
+          return `<article class="data-record-card data-record-card-snapshot-layout data-record-card-invoice" role="listitem" data-list-row-key="${encodeHtml(card.key)}" aria-selected="${card.selected}">${renderSnapshotCardHeader('invoice', row, config, card)}<div class="data-record-card-snapshot"><div><span>Customer</span><strong>${encodeHtml(row.custName)}</strong><small>${encodeHtml(row.custNo)}</small></div><div class="data-record-card-snapshot-value"><span>Total</span><strong>${encodeHtml(row.currency)} ${encodeHtml(row.total)}</strong></div></div><dl class="data-record-card-meta">${[
+            ['Document date', row.date],
+            ['Payment', row.pay],
+            ['Sub-type', row.subtype],
+          ]
+            .map(dataRecordCardFactMarkup)
+            .join(
+              ''
+            )}</dl><footer class="data-record-card-operations-actions">${renderContextCardActions('invoice')}${renderCardFooterEndActions('invoice', row, config)}</footer></article>`
+        }
+
+        function renderCustomerSnapshotCard(row, config, listState) {
+          const card = dataRecordCardContext('customer', row, config, listState)
+          return `<article class="data-record-card data-record-card-snapshot-layout data-record-card-customer" role="listitem" data-list-row-key="${encodeHtml(card.key)}" aria-selected="${card.selected}">${renderSnapshotCardHeader('customer', row, config, card)}<div class="data-record-card-snapshot"><div><span>Customer profile</span><strong>${encodeHtml(row.customerType)} customer</strong><small>${encodeHtml(row.customerGroup)} group</small></div><div class="data-record-card-snapshot-value data-record-card-snapshot-contact"><span>Phone</span><strong>${encodeHtml(row.phone)}</strong></div></div><dl class="data-record-card-meta">${[
+            ['Operation unit', row.operationUnit],
+            ['Account currency', row.currency],
+            ['Location', row.country],
+          ]
+            .map(dataRecordCardFactMarkup)
+            .join(
+              ''
+            )}</dl><footer class="data-record-card-operations-actions">${renderContextCardActions('customer')}${renderCardFooterEndActions('customer', row, config)}</footer></article>`
+        }
+
+        function renderGeoSnapshotCard(row, config, listState) {
+          const card = dataRecordCardContext('geo', row, config, listState)
+          return `<article class="data-record-card data-record-card-snapshot-layout data-record-card-geo" role="listitem" data-list-row-key="${encodeHtml(card.key)}" aria-selected="${card.selected}">${renderSnapshotCardHeader('geo', row, config, card)}<div class="data-record-card-hierarchy"><span>Hierarchy path</span><strong>${encodeHtml(card.model.factMap.hierarchy[1])}</strong></div><div class="data-record-card-classification"><div><span>Type</span><strong>${encodeHtml(row.type)}</strong></div><div><span>Level</span><strong>${encodeHtml(row.level)}</strong></div><div><span>Code</span><strong>${encodeHtml(row.code)}</strong></div></div><dl class="data-record-card-meta">${dataRecordCardFactMarkup(['Remarks', row.remarks || 'No remarks'])}</dl><footer class="data-record-card-operations-actions">${renderContextCardActions('geo')}${renderCardFooterEndActions('geo', row, config)}</footer></article>`
+        }
+
+        function renderDataRecordCard(context, row, config, listState) {
+          if (context === 'customer') return renderCustomerSnapshotCard(row, config, listState)
+          if (context === 'geo') return renderGeoSnapshotCard(row, config, listState)
+          return renderInvoiceSnapshotCard(row, config, listState)
+        }
+
+        /* ================= quick view: jump into adaptive view on this record =================
+           Quick view used to open a read-only drawer duplicating what Adaptive
+           view already shows. Instead it now switches the table itself into
+           Adaptive view, positioned at this record — same destination as
+           navigating there by hand, no separate dialog to keep in sync. */
+        function renderQuickViewFieldValue(context, row, column) {
+          const value = row[column.key]
+          if (context === 'customer' && column.key === 'avatar') return renderCustomerAvatar(row)
+          if (['customer', 'geo'].includes(context) && column.key === 'active')
+            return `<span class="badge ${value ? 'ok' : 'gray'}">${value ? 'Active' : 'Inactive'}</span>`
+          return encodeHtml(String(value === '' || value == null ? '—' : value))
+        }
+
+        function openQuickView(context, key) {
+          const listState = dataListState[context]
+          const filteredRows = dataListRows(context)
+          const config = DATA_LIST_CONFIG[context]
+          const index = filteredRows.findIndex(row => String(row[config.key]) === key)
+          if (index < 0) return
+          listState.view = 'adaptive'
+          listState.page = index + 1
+          computeDataListLayoutDirty(listState)
+          refreshDataListForContext(context)
+        }
+
+        const customerImagePopover = document.getElementById('customer-image-popover')
+        const customerImagePopoverMedia = customerImagePopover.querySelector(
+          '.customer-image-popover-media'
+        )
+        const customerImagePopoverImage = customerImagePopoverMedia.querySelector('img')
+        const customerImagePopoverName = document.getElementById('customer-image-popover-name')
+        const customerImagePopoverNumber = document.getElementById('customer-image-popover-number')
+        let customerImagePreviewTrigger = null
+        let customerImagePreviewPinned = false
+        let customerImagePreviewOpenTimer = 0
+        let customerImagePreviewCloseTimer = 0
+
+        function clearCustomerImagePreviewTimers() {
+          clearTimeout(customerImagePreviewOpenTimer)
+          clearTimeout(customerImagePreviewCloseTimer)
+          customerImagePreviewOpenTimer = 0
+          customerImagePreviewCloseTimer = 0
+        }
+
+        function positionCustomerImagePreview(trigger) {
+          if (!trigger?.isConnected || !customerImagePopover.matches(':popover-open')) return
+          const margin = 8
+          const gap = 8
+          const anchor = trigger.getBoundingClientRect()
+          const preview = customerImagePopover.getBoundingClientRect()
+          const rtl = document.documentElement.dir === 'rtl'
+          const after = anchor.right + gap
+          const before = anchor.left - preview.width - gap
+          const afterFits = after + preview.width <= window.innerWidth - margin
+          const beforeFits = before >= margin
+          let left = rtl
+            ? beforeFits
+              ? before
+              : afterFits
+                ? after
+                : anchor.right - preview.width
+            : afterFits
+              ? after
+              : beforeFits
+                ? before
+                : anchor.left
+          left = Math.max(margin, Math.min(left, window.innerWidth - preview.width - margin))
+          const centeredTop = anchor.top + (anchor.height - preview.height) / 2
+          const top = Math.max(
+            margin,
+            Math.min(centeredTop, window.innerHeight - preview.height - margin)
+          )
+          customerImagePopover.style.left = `${Math.round(left)}px`
+          customerImagePopover.style.top = `${Math.round(top)}px`
+        }
+
+        function resetCustomerImagePreviewState() {
+          customerImagePreviewTrigger?.setAttribute('aria-expanded', 'false')
+          customerImagePreviewTrigger = null
+          customerImagePreviewPinned = false
+          clearCustomerImagePreviewTimers()
+        }
+
+        function openCustomerImagePreview(trigger, {pinned = false} = {}) {
+          const src = trigger?.dataset.customerImageSrc
+          if (!CUSTOMER_IMAGE_SOURCES.has(src)) return
+          clearCustomerImagePreviewTimers()
+          if (customerImagePreviewTrigger !== trigger)
+            customerImagePreviewTrigger?.setAttribute('aria-expanded', 'false')
+          customerImagePreviewTrigger = trigger
+          customerImagePreviewPinned = pinned
+          trigger.setAttribute('aria-expanded', 'true')
+          customerImagePopoverImage.src = src
+          customerImagePopoverImage.alt = trigger.dataset.customerImageAlt || 'Customer image'
+          customerImagePopoverMedia.dataset.fit =
+            trigger.dataset.customerImageFit === 'contain' ? 'contain' : 'cover'
+          customerImagePopoverName.textContent = trigger.dataset.customerImageName || 'Customer'
+          customerImagePopoverNumber.textContent = trigger.dataset.customerImageNumber || ''
+          if (!customerImagePopover.matches(':popover-open')) customerImagePopover.showPopover()
+          requestAnimationFrame(() => positionCustomerImagePreview(trigger))
+        }
+
+        function closeCustomerImagePreview() {
+          clearCustomerImagePreviewTimers()
+          if (customerImagePopover.matches(':popover-open')) customerImagePopover.hidePopover()
+          resetCustomerImagePreviewState()
+        }
+
+        function scheduleCustomerImagePreviewOpen(trigger) {
+          clearTimeout(customerImagePreviewCloseTimer)
+          if (customerImagePreviewPinned) return
+          clearTimeout(customerImagePreviewOpenTimer)
+          customerImagePreviewOpenTimer = setTimeout(() => openCustomerImagePreview(trigger), 120)
+        }
+
+        function scheduleCustomerImagePreviewClose() {
+          clearTimeout(customerImagePreviewOpenTimer)
+          if (customerImagePreviewPinned) return
+          clearTimeout(customerImagePreviewCloseTimer)
+          customerImagePreviewCloseTimer = setTimeout(closeCustomerImagePreview, 160)
+        }
+
+        function handleCustomerImageError(event) {
+          const image = event.target
+          if (!(image instanceof HTMLImageElement) || !image.matches('[data-customer-image]'))
+            return
+          const trigger = image.closest('[data-customer-image-preview]')
+          const fallback = trigger?.querySelector('.customer-avatar-fallback')
+          if (!trigger || !fallback) return
+          if (trigger === customerImagePreviewTrigger) closeCustomerImagePreview()
+          fallback.hidden = false
+          trigger.replaceWith(fallback)
+        }
+
+        document.addEventListener('error', handleCustomerImageError, true)
+        document.addEventListener('pointerover', event => {
+          const trigger = event.target.closest?.('[data-customer-image-preview]')
+          if (!trigger || (event.pointerType && event.pointerType !== 'mouse')) return
+          if (event.relatedTarget && trigger.contains(event.relatedTarget)) return
+          scheduleCustomerImagePreviewOpen(trigger)
+        })
+        document.addEventListener('pointerout', event => {
+          const trigger = event.target.closest?.('[data-customer-image-preview]')
+          if (!trigger || (event.pointerType && event.pointerType !== 'mouse')) return
+          if (event.relatedTarget && trigger.contains(event.relatedTarget)) return
+          if (event.relatedTarget && customerImagePopover.contains(event.relatedTarget)) return
+          scheduleCustomerImagePreviewClose()
+        })
+        document.addEventListener('focusin', event => {
+          const trigger = event.target.closest?.('[data-customer-image-preview]')
+          if (trigger) openCustomerImagePreview(trigger)
+        })
+        document.addEventListener('focusout', event => {
+          const trigger = event.target.closest?.('[data-customer-image-preview]')
+          if (!trigger || customerImagePreviewPinned) return
+          if (event.relatedTarget && customerImagePopover.contains(event.relatedTarget)) return
+          scheduleCustomerImagePreviewClose()
+        })
+        document.addEventListener('click', event => {
+          if (event.target.closest?.('[data-customer-image-close]')) {
+            closeCustomerImagePreview()
+            return
+          }
+          const trigger = event.target.closest?.('[data-customer-image-preview]')
+          if (!trigger) return
+          event.preventDefault()
+          if (trigger === customerImagePreviewTrigger && customerImagePreviewPinned)
+            closeCustomerImagePreview()
+          else openCustomerImagePreview(trigger, {pinned: true})
+        })
+        customerImagePopover.addEventListener('pointerenter', () => {
+          clearTimeout(customerImagePreviewCloseTimer)
+        })
+        customerImagePopover.addEventListener('pointerleave', scheduleCustomerImagePreviewClose)
+        customerImagePopover.addEventListener('toggle', event => {
+          if (event.newState === 'closed') resetCustomerImagePreviewState()
+        })
+        document.addEventListener(
+          'scroll',
+          () => {
+            if (customerImagePopover.matches(':popover-open')) closeCustomerImagePreview()
+          },
+          true
+        )
+        window.addEventListener('resize', () => {
+          if (customerImagePreviewTrigger) positionCustomerImagePreview(customerImagePreviewTrigger)
+        })
+
+        function renderDataListCards(context, rows, config, listState) {
+          if (!rows.length)
+            return `<div class="customer-lookup-empty">No ${encodeHtml(config.label)} match this view.</div>`
+          return `<div class="data-card-grid" role="list" aria-label="${encodeHtml(config.label)} cards">${rows
+            .map(row => renderDataRecordCard(context, row, config, listState))
+            .join('')}</div>`
+        }
+
+        const DATA_ADAPTIVE_GROUP_LABELS = {
+          document: 'Document',
+          customer: 'Customer',
+          financials: 'Financials',
+          audit: 'Audit trail',
+        }
+
+        function renderDataAdaptiveFieldRow(context, row, column) {
+          const raw = row[column.key]
+          const isEmpty = raw === null || raw === undefined || raw === ''
+          const value = renderQuickViewFieldValue(context, row, column)
+          return `<div class="data-adaptive-row"><span class="data-adaptive-label">${encodeHtml(t(column.label))}</span><span class="data-adaptive-value${isEmpty ? ' data-adaptive-value-empty' : ''}">${value}</span></div>`
+        }
+
+        /* Adaptive view shows one record at a time as a two-column label/value
+           list (every field its own row: label column, value column) with
+           record-by-record navigation replacing page navigation — distinct
+           from the multi-field-per-row .fgrid used in the quick-view drawer.
+           Fields carrying a `group` tag (Document/Customer/Financials/Audit
+           trail) render as separate collapsible sections inside one bordered
+           card — same chevron/label/count header the table's own row
+           grouping already uses (.data-group-toggle), so both grouping
+           concepts read as one visual language instead of two. Tables that
+           don't tag groups (customer, geo) fall back to one flat section so
+           this doesn't force every context to adopt grouping before it's
+           ready. Collapse state reuses listState.collapsedGroups with an
+           "adaptive:" id prefix, kept separate from table row-group ids. */
+        function renderDataListAdaptiveRecord(context, row, config, filteredCount = 0) {
+          if (!row) {
+            const message = filteredCount
+              ? t('No record at this position.', 'No record at this position.')
+              : t('No records match this view.', 'No records match this view.')
+            const hint = filteredCount
+              ? t('Try First or Last.', 'Try First or Last.')
+              : t(
+                  'Clear the search or filter to see records again.',
+                  'Clear the search or filter to see records again.'
+                )
+            return `<div class="data-adaptive-empty"><p>${encodeHtml(message)}</p><p class="data-adaptive-empty-hint">${encodeHtml(hint)}</p></div>`
+          }
+          const listState = dataListState[context]
+          const fields = config.columns.filter(column => column.key !== 'avatar')
+          const hasGroups = fields.some(column => column.group)
+          const key = String(row[config.key])
+          if (!hasGroups) {
+            return `<div class="rec-card data-adaptive-record" data-list-row-key="${encodeHtml(key)}">${fields
+              .map(column => renderDataAdaptiveFieldRow(context, row, column))
+              .join('')}</div>`
+          }
+          const groupOrder = [...new Set(fields.map(column => column.group || 'details'))]
+          const sections = groupOrder
+            .map(groupKey => {
+              const groupFields = fields.filter(column => (column.group || 'details') === groupKey)
+              const label = DATA_ADAPTIVE_GROUP_LABELS[groupKey] || 'Details'
+              const groupId = `adaptive:${groupKey}`
+              const expanded = !listState.collapsedGroups.has(groupId)
+              const rows = groupFields
+                .map(column => renderDataAdaptiveFieldRow(context, row, column))
+                .join('')
+              return `<section class="data-adaptive-section"><div class="data-group-row"><button type="button" class="data-group-toggle" data-list-group-toggle="${encodeHtml(groupId)}" aria-expanded="${expanded}">${dataListIcon('i-caret', 11)}<span class="data-group-label">${encodeHtml(t(label))}</span><span class="data-group-count">${groupFields.length} ${t('fields', 'fields')}</span></button></div>${expanded ? rows : ''}</section>`
+            })
+            .join('')
+          return `<div class="rec-card data-adaptive-sections" data-list-row-key="${encodeHtml(key)}">${sections}</div>`
+        }
+
+        const INVOICE_KANBAN_COLUMNS = [
+          'Draft',
+          'Open',
+          'Pending',
+          'Posted',
+          'Returned',
+          'Canceled',
+        ]
+        const INVOICE_STATUS_TRANSITIONS = {
+          Draft: ['Open', 'Canceled'],
+          Open: ['Pending', 'Canceled'],
+          Pending: ['Open', 'Posted'],
+          Posted: ['Pending', 'Returned', 'Canceled'],
+          Returned: [],
+          Canceled: [],
+        }
+
+        function invoiceStatusKey(status) {
+          return String(status || '').toLowerCase()
+        }
+
+        function renderDataListKanbanCard(row, config, listState) {
+          const key = String(row[config.key])
+          const selected = listState.selected.has(key)
+          return `<article class="data-kanban-card" role="listitem" draggable="true" data-list-row-key="${encodeHtml(key)}" data-kanban-status="${encodeHtml(row.status)}" aria-selected="${selected}"><header><button class="data-record-card-identity" type="button" data-list-open-record="${encodeHtml(key)}" aria-label="Open ${encodeHtml(config.singular)} ${encodeHtml(key)}"><div><strong>Sales Invoice ${encodeHtml(row.no)}</strong><span>${encodeHtml(row.seq)}</span></div></button>${renderDataListRowActions('invoice', row, config, 'kanban')}</header><div class="data-kanban-card-total">${encodeHtml(row.currency)} ${encodeHtml(row.total)}</div><dl class="data-kanban-card-meta"><div><dt>Customer</dt><dd>${encodeHtml(row.custName)}</dd></div><div><dt>Date</dt><dd>${encodeHtml(row.date)}</dd></div><div><dt>Payment</dt><dd>${encodeHtml(row.pay)}</dd></div></dl></article>`
+        }
+
+        function renderDataListKanban(context, rows, config, listState) {
+          if (context !== 'invoice') return ''
+          const columns = INVOICE_KANBAN_COLUMNS.map(status => {
+            const columnRows = rows.filter(row => row.status === status)
+            const cards = columnRows
+              .map(row => renderDataListKanbanCard(row, config, listState))
+              .join('')
+            return `<div class="data-kanban-column" data-kanban-column="${encodeHtml(status)}"><header class="data-kanban-column-header" data-s="${invoiceStatusKey(status)}"><span class="stdot"></span><strong>${encodeHtml(status)}</strong><span class="data-kanban-count">${columnRows.length}</span></header><div class="data-kanban-drop" data-kanban-drop="${encodeHtml(status)}" role="list" aria-label="${encodeHtml(status)} invoices">${cards || `<p class="data-kanban-empty">No invoices</p>`}</div></div>`
+          }).join('')
+          return `<div class="data-kanban-board">${columns}</div>`
+        }
+
+        function restoreDataListSearchFocus(canvas) {
+          const search = canvas.querySelector('[data-list-search]')
+          search?.focus({preventScroll: true})
+          search?.setSelectionRange(search.value.length, search.value.length)
+        }
+
+        function restoreDataListFilterFocus(canvas, filterKey) {
+          const editor = canvas.querySelector(`[data-filter-editor-key="${CSS.escape(filterKey)}"]`)
+          if (!editor) return
+          const input = editor.querySelector('[data-list-filter-value]')
+          if (!input) {
+            editor.open = true
+            const dateControl = editor.querySelector(
+              '[data-list-date-amount], [data-list-date-unit], [data-list-date-specific], [data-list-date-range-from], [data-list-date-range-to]'
+            )
+            const selected = editor.querySelector('[role="option"][aria-selected="true"]')
+            const option = dateControl || selected || editor.querySelector('[role="option"]')
+            option?.focus({preventScroll: true})
+            requestAnimationFrame(() => positionDataMenu(editor))
+            return
+          }
+          editor.open = true
+          input.focus({preventScroll: true})
+          input.setSelectionRange(input.value.length, input.value.length)
+          requestAnimationFrame(() => positionDataMenu(editor))
+        }
+
+        function positionDataMenu(details) {
+          if (!details?.open) return
+          const summary = details.querySelector(':scope > summary')
+          const popover =
+            details.querySelector(':scope > .data-menu-popover') ||
+            [...document.body.children].find(child => child.__homeParent === details)
+          if (!summary || !popover) return
+          const margin = 8
+          const gap = 4
+          const anchor = summary.getBoundingClientRect()
+          popover.style.left = `${margin}px`
+          popover.style.top = `${margin}px`
+          popover.style.maxHeight = `${Math.max(120, window.innerHeight - margin * 2)}px`
+          const rect = popover.getBoundingClientRect()
+          if (details.classList.contains('data-manage-submenu')) {
+            const rtl = document.documentElement.dir === 'rtl'
+            const fitsEnd = rtl
+              ? anchor.left - gap - rect.width >= margin
+              : anchor.right + gap + rect.width <= window.innerWidth - margin
+            let left = rtl
+              ? fitsEnd
+                ? anchor.left - gap - rect.width
+                : anchor.right + gap
+              : fitsEnd
+                ? anchor.right + gap
+                : anchor.left - gap - rect.width
+            left = Math.max(margin, Math.min(left, window.innerWidth - rect.width - margin))
+            let top = anchor.top
+            if (top + rect.height > window.innerHeight - margin)
+              top = Math.max(margin, window.innerHeight - margin - rect.height)
+            popover.style.left = `${left}px`
+            popover.style.top = `${top}px`
+            return
+          }
+          const alignEnd =
+            details.classList.contains('end') || details.classList.contains('data-page-manage')
+          let left = alignEnd ? anchor.right - rect.width : anchor.left
+          left = Math.max(margin, Math.min(left, window.innerWidth - rect.width - margin))
+          let top = anchor.bottom + gap
+          if (top + rect.height > window.innerHeight - margin)
+            top = Math.max(margin, anchor.top - rect.height - gap)
+          popover.style.left = `${left}px`
+          popover.style.top = `${top}px`
+        }
+
+        function applyFrozenDataListColumns(canvas, visibleColumns, listState) {
+          let offset =
+            canvas.querySelector('.inv-grid th:first-child')?.getBoundingClientRect().width || 0
+          visibleColumns.forEach(column => {
+            if (!listState.frozenColumns.has(column.key)) return
+            const cells = canvas.querySelectorAll(`[data-col="${CSS.escape(column.key)}"]`)
+            cells.forEach(cell => {
+              cell.dataset.frozen = 'true'
+              cell.style.insetInlineStart = `${offset}px`
+            })
+            offset += cells[0]?.getBoundingClientRect().width || 0
+          })
+        }
+
+        function observeResponsiveDataList(canvas, context) {
+          const listState = dataListState[context]
+          if (listState.resizeObserver || typeof ResizeObserver === 'undefined') return
+          listState.resizeObserver = new ResizeObserver(entries => {
+            const width = Math.round(entries[0]?.contentRect.width || 0)
+            if (!width) return
+            listState.responsiveWidth = width
+            if (listState.view !== 'responsive') return
+            const signature = responsiveDataListColumns(context, width, listState)
+              .visible.map(column => column.key)
+              .join('|')
+            if (signature === listState.responsiveSignature) return
+            renderDataList(context)
+          })
+          listState.resizeObserver.observe(canvas)
+        }
+
+        /* A custom filter stays "active" (shown by name, offering Delete
+           instead of Save) only while the live field filters still match
+           exactly what was saved — any edit silently detaches it back to
+           an ordinary unsaved view, the same way a saved layout goes dirty
+           the moment a column changes. */
+        function customFilterMatchesFieldFilters(custom, fieldFilters) {
+          if (custom.fieldFilters.length !== fieldFilters.length) return false
+          return custom.fieldFilters.every(saved => {
+            const live = fieldFilters.find(item => item.key === saved.key)
+            return live && live.operator === saved.operator && live.value === saved.value
+          })
+        }
+
+        function syncActiveCustomFilter(listState) {
+          if (!listState.activeCustomFilterId) return
+          const active = listState.customFilters.find(
+            custom => custom.id === listState.activeCustomFilterId
+          )
+          if (!active || !customFilterMatchesFieldFilters(active, listState.fieldFilters))
+            listState.activeCustomFilterId = ''
+        }
+
+        function renderDataList(
+          context,
+          {focusSearch = false, focusFilterKey = '', skipStatsAnimation = false} = {}
+        ) {
+          const config = DATA_LIST_CONFIG[context]
+          const listState = dataListState[context]
+          const canvas = listState.canvas
+          if (!canvas) return
+          syncActiveCustomFilter(listState)
+          document.querySelectorAll('body > .data-menu-popover[data-parked]').forEach(popover => {
+            if (canvas.contains(popover.__homeParent) || !document.contains(popover.__homeParent))
+              popover.remove()
+          })
+          const filteredRows = dataListRows(context)
+          const tableView = ['list', 'responsive'].includes(listState.view)
+          const isAdaptive = listState.view === 'adaptive'
+          const totalPages = Math.max(
+            1,
+            Math.ceil(
+              (DATA_LIST_SIMULATED_TOTAL[context] || filteredRows.length) / listState.pageSize
+            )
+          )
+          if (isAdaptive) {
+            if (listState.page > filteredRows.length) listState.page = filteredRows.length
+            if (listState.page < 1) listState.page = 1
+          } else {
+            if (listState.page > totalPages) listState.page = totalPages
+            if (listState.page < 1) listState.page = 1
+          }
+          const pageStart = (listState.page - 1) * listState.pageSize
+          const rows = isAdaptive
+            ? filteredRows.slice(listState.page - 1, listState.page)
+            : tableView
+              ? filteredRows.slice(pageStart, pageStart + listState.pageSize)
+              : filteredRows
+          const standardVisibleColumns = listState.columnOrder
+            .map(key => config.columns.find(column => column.key === key))
+            .filter(column => column && !listState.hiddenColumns.has(column.key))
+          const responsiveColumns = responsiveDataListColumns(
+            context,
+            listState.responsiveWidth || Math.round(canvas.getBoundingClientRect().width),
+            listState
+          )
+          const visibleColumns =
+            listState.view === 'responsive' ? responsiveColumns.visible : standardVisibleColumns
+          const overflowColumns = listState.view === 'responsive' ? responsiveColumns.overflow : []
+          listState.responsiveSignature = responsiveColumns.visible
+            .map(column => column.key)
+            .join('|')
+          const visibleKeys = rows.map(row => String(row[config.key]))
+          const selectedVisible = visibleKeys.filter(key => listState.selected.has(key)).length
+          const allSelected = Boolean(visibleKeys.length) && selectedVisible === visibleKeys.length
+          const toolbar = renderDataListToolbar(context, config, listState)
+          const sortedBy =
+            config.columns.find(column => column.key === listState.sortKey)?.label || ''
+          const groupingBar = tableView ? renderDataListGroupingBar(config, listState) : ''
+          const responsiveColgroup =
+            listState.view === 'responsive'
+              ? `<colgroup><col style="width:42px">${visibleColumns
+                  .map(
+                    column =>
+                      `<col style="width:${DATA_LIST_RESPONSIVE_WIDTH[column.key] || 130}px">`
+                  )
+                  .join('')}<col style="width:76px"></colgroup>`
+              : ''
+          const tableRenderContext = {
+            context,
+            visibleColumns,
+            overflowColumns,
+            config,
+            listState,
+          }
+          const records =
+            listState.view === 'kanban'
+              ? renderDataListKanban(context, rows, config, listState)
+              : listState.view === 'cards'
+                ? renderDataListCards(context, rows, config, listState)
+                : isAdaptive
+                  ? renderDataListAdaptiveRecord(context, rows[0], config, filteredRows.length)
+                  : `<div class="data-table-scroll${listState.view === 'responsive' ? ' data-table-responsive' : ''}"><table class="inv-grid borders-${encodeHtml(listState.borderMode)}">${responsiveColgroup}<thead><tr><th><input type="checkbox" data-list-select-all aria-label="Select all visible ${encodeHtml(config.label)}"${allSelected ? ' checked' : ''}></th>${renderDataListHeader(visibleColumns, listState)}<th class="data-row-actions-cell" aria-label="Record actions"></th></tr></thead><tbody>${renderDataListBody(rows, tableRenderContext)}</tbody></table></div>`
+          const statistics = listState.statisticsVisible
+            ? renderDataListStatistics(context, filteredRows, config)
+            : ''
+          const chart = isAdaptive
+            ? ''
+            : renderDataListChart(context, filteredRows, config, listState)
+          /* Grouping lives in its own card, separate from the table card, so the two
+             ideas ("how rows are organized" vs "the rows themselves") read as
+             distinct pieces of UI rather than one glued block. */
+          const groupingCard = groupingBar
+            ? `<div class="data-group-card">${groupingBar}</div>`
+            : ''
+          canvas.innerHTML = `${statistics}${chart}<div class="data-list-controls">${toolbar}</div>${groupingCard}<div class="data-list-shell" data-data-list="${context}">${records}</div>`
+          /* Paging/record-nav swaps the whole canvas back in via innerHTML,
+             so every stat card is a fresh element — animating on those
+             renders would replay the count-up on each click, reading as the
+             numbers "resetting" rather than the table simply moving on. */
+          if (!skipStatsAnimation) initNumberTickers(canvas)
+          if (isAdaptive) destroyDataListChartInstance(context)
+          else initDataListChart(context, canvas, filteredRows, config, listState)
+          const manageMenu = document.querySelector(
+            `.data-page-manage[data-list-context="${CSS.escape(context)}"]`
+          )
+          if (manageMenu) renderDataPageManageMenu(manageMenu)
+          syncShellListPager(context, filteredRows.length)
+          const selectAll = canvas.querySelector('[data-list-select-all]')
+          if (selectAll) selectAll.indeterminate = selectedVisible > 0 && !allSelected
+          wireDataList(canvas, context)
+          observeResponsiveDataList(canvas, context)
+          if (listState.view === 'list')
+            applyFrozenDataListColumns(canvas, visibleColumns, listState)
+          if (focusSearch) restoreDataListSearchFocus(canvas)
+          if (focusFilterKey) restoreDataListFilterFocus(canvas, focusFilterKey)
+        }
+
+        function applyDataListFilterClick(event, context) {
+          const listState = dataListState[context]
+          const config = DATA_LIST_CONFIG[context]
+          if (event.target.closest('[data-list-open-filters]')) {
+            openDataFilterModal(context)
+            return true
+          }
+          const applyCustom = event.target.closest('[data-list-custom-filter-apply]')
+          if (applyCustom) {
+            applyCustomFilter(context, applyCustom.dataset.listCustomFilterApply)
+            return true
+          }
+          const deleteCustom = event.target.closest('[data-list-custom-filter-delete]')
+          if (deleteCustom) {
+            deleteCustomFilter(context, deleteCustom.dataset.listCustomFilterDelete)
+            return true
+          }
+          if (event.target.closest('[data-list-manage-filters]')) {
+            openManageFiltersDialog(context)
+            return true
+          }
+          const filter = event.target.closest('[data-list-filter]')
+          const addFilter = event.target.closest('[data-list-add-filter]')
+          const removeFilter = event.target.closest('[data-list-remove-field-filter]')
+          const operator = event.target.closest('[data-list-filter-operator]')
+          const selectOption = event.target.closest('[data-list-filter-select-option]')
+          if (selectOption) {
+            const item = listState.fieldFilters.find(
+              fieldFilter => fieldFilter.key === selectOption.dataset.listFilterSelectOption
+            )
+            if (item) item.value = selectOption.dataset.value
+            listState.page = 1
+            renderDataList(context)
+            return true
+          }
+          const datePreset = event.target.closest('[data-list-date-preset]')
+          if (datePreset) {
+            const item = listState.fieldFilters.find(
+              fieldFilter => fieldFilter.key === datePreset.dataset.listDatePreset
+            )
+            if (item) item.value = dataListNextDatePresetValue(item, datePreset.dataset.preset)
+            listState.page = 1
+            renderDataList(context, {
+              focusFilterKey: datePreset.dataset.listDatePreset,
+            })
+            return true
+          }
+          if (filter) {
+            listState.filter = filter.dataset.listFilter
+            listState.fieldFilters = []
+            listState.advanced = false
+            listState.sourceRows = config.rows
+            listState.selected.clear()
+          } else if (addFilter) {
+            const field = config.filterFields.find(
+              item => item.key === addFilter.dataset.listAddFilter
+            )
+            if (!field) return false
+            listState.fieldFilters.push({
+              key: field.key,
+              operator: field.type === 'text' ? 'contains' : 'equals',
+              value:
+                field.type === 'select'
+                  ? String(dataFilterOptionValue(field.options[0]))
+                  : field.type === 'date'
+                    ? 'today'
+                    : '',
+            })
+          } else if (removeFilter) {
+            listState.fieldFilters = listState.fieldFilters.filter(
+              item => item.key !== removeFilter.dataset.listRemoveFieldFilter
+            )
+          } else if (operator) {
+            const item = listState.fieldFilters.find(
+              fieldFilter => fieldFilter.key === operator.dataset.listFilterKey
+            )
+            if (item) item.operator = operator.dataset.listFilterOperator
+          } else if (event.target.closest('[data-list-clear-filter]')) {
+            listState.filter = 'all'
+            listState.fieldFilters = []
+            listState.advanced = false
+            listState.activeCustomFilterId = ''
+            listState.sourceRows = config.rows
+            listState.selected.clear()
+          } else if (event.target.closest('[data-list-clear-advanced]')) {
+            listState.advanced = false
+            listState.sourceRows = DATA_LIST_CONFIG[context].rows
+            listState.selected.clear()
+          } else return false
+          listState.page = 1
+          renderDataList(context, {
+            focusFilterKey: addFilter
+              ? addFilter.dataset.listAddFilter
+              : operator?.dataset.listFilterKey || '',
+          })
+          return true
+        }
+
+        function applyDataListToolbarClick(event, context) {
+          const listState = dataListState[context]
+          if (event.target.closest('[data-list-search-clear]')) {
+            listState.search = ''
+            listState.page = 1
+            renderDataList(context, {focusSearch: true})
+          } else if (event.target.closest('[data-list-clear-selection]')) {
+            listState.selected.clear()
+            renderDataList(context)
+          } else if (event.target.closest('[data-list-save-view]')) openSaveFilterDialog(context)
+          else if (event.target.closest('[data-list-save-layout]')) saveDataListLayout(context)
+          else return false
+          return true
+        }
+
+        function computeDataListLayoutDirty(listState) {
+          const columnsChanged =
+            listState.columnOrder.join('|') !== listState.savedColumnOrder.join('|')
+          const hiddenChanged =
+            listState.hiddenColumns.size !== listState.savedHiddenColumns.size ||
+            [...listState.hiddenColumns].some(key => !listState.savedHiddenColumns.has(key))
+          const viewChanged = listState.view !== listState.savedView
+          const groupsChanged = listState.groupBy.join('|') !== listState.savedGroupBy.join('|')
+          const statisticsVisibilityChanged =
+            listState.statisticsVisible !== listState.savedStatisticsVisible
+          const statisticsConceptChanged =
+            activeDataListStatisticsConcept(listState) !==
+            resolvedDataListStatisticsConcept(listState.savedStatisticsConcept)
+          listState.layoutDirty =
+            columnsChanged ||
+            hiddenChanged ||
+            viewChanged ||
+            groupsChanged ||
+            statisticsVisibilityChanged ||
+            statisticsConceptChanged
+          return listState.layoutDirty
+        }
+
+        function saveDataListLayout(context) {
+          const listState = dataListState[context]
+          const layout = {
+            columnOrder: listState.columnOrder,
+            hiddenColumns: [...listState.hiddenColumns],
+            groupBy: listState.groupBy,
+            view: listState.view,
+            statisticsVisible: listState.statisticsVisible,
+            statisticsConcept: activeDataListStatisticsConcept(listState),
+          }
+          if (!persistDataListLayout(context, layout)) {
+            toast({tone: 'bad', title: 'Table layout could not be saved in this browser'})
+            return false
+          }
+          listState.savedColumnOrder = [...listState.columnOrder]
+          listState.savedHiddenColumns = new Set(listState.hiddenColumns)
+          listState.savedGroupBy = [...listState.groupBy]
+          listState.savedView = listState.view
+          listState.statisticsConcept = layout.statisticsConcept
+          listState.savedStatisticsVisible = listState.statisticsVisible
+          listState.savedStatisticsConcept = layout.statisticsConcept
+          listState.layoutDirty = false
+          renderDataList(context)
+          toast({tone: 'ok', title: 'Table layout saved to your user configuration'})
+          return true
+        }
+
+        function resetDataListLayout(context) {
+          const config = DATA_LIST_CONFIG[context]
+          const listState = dataListState[context]
+          listState.columnOrder = config.columns.map(column => column.key)
+          listState.savedColumnOrder = [...listState.columnOrder]
+          listState.hiddenColumns.clear()
+          listState.savedHiddenColumns.clear()
+          listState.frozenColumns.clear()
+          listState.groupBy = []
+          listState.savedGroupBy = []
+          listState.collapsedGroups.clear()
+          listState.expandedRows.clear()
+          listState.borderMode = 'default'
+          listState.view = 'list'
+          listState.savedView = 'list'
+          listState.statisticsVisible = true
+          listState.savedStatisticsVisible = true
+          listState.statisticsConcept = ''
+          listState.savedStatisticsConcept = ''
+          listState.page = 1
+          listState.layoutDirty = false
+          try {
+            localStorage.removeItem(`skey:data-list-layout:${context}`)
+          } catch (error) {
+            if (!(error instanceof DOMException)) throw error
+          }
+          renderDataList(context)
+          toast({tone: 'ok', title: 'Default table layout restored'})
+        }
+
+        function dataManageAction(action, icon, title, support, {disabled = false} = {}) {
+          return `<button type="button" role="menuitem" data-list-manage-action="${action}"${disabled ? ' disabled' : ''}>${dataListIcon(icon)}<span class="data-manage-copy"><strong>${title}</strong><small>${support}</small></span></button>`
+        }
+
+        const DATA_BORDER_MODES = ['default', 'both', 'none', 'horizontal', 'vertical']
+
+        function renderDataManageBorderControls(context, listState) {
+          return DATA_BORDER_MODES.map(
+            mode =>
+              `<label class="data-manage-radio"><input type="radio" name="${encodeHtml(context)}-border" data-list-manage-border="${mode}"${listState.borderMode === mode ? ' checked' : ''}><span>${mode[0].toUpperCase() + mode.slice(1)}</span></label>`
+          ).join('')
+        }
+
+        function resolvedDataListStatisticsConcept(statisticsConcept) {
+          return (
+            statisticsConcept || document.getElementById('statistics-concept')?.value || 'balanced'
+          )
+        }
+
+        function activeDataListStatisticsConcept(listState) {
+          return resolvedDataListStatisticsConcept(listState.statisticsConcept)
+        }
+
+        function renderDataManageStatisticsControls(context, listState) {
+          const active = activeDataListStatisticsConcept(listState)
+          return DATA_LIST_STATISTICS_CONCEPT_OPTIONS.map(
+            option =>
+              `<label class="data-manage-radio"><input type="radio" name="${encodeHtml(context)}-statistics-concept" data-list-manage-statistics-concept="${option.key}"${active === option.key ? ' checked' : ''}><span>${encodeHtml(t(option.label))}</span></label>`
+          ).join('')
+        }
+
+        function renderDataManageFrozenControls(config, listState) {
+          const columns = listState.columnOrder
+            .map(key => config.columns.find(column => column.key === key))
+            .filter(Boolean)
+          if (!columns.length) return `<p class="data-manage-empty">No columns to freeze.</p>`
+          return columns
+            .map(
+              column =>
+                `<label><input type="checkbox" data-list-manage-frozen="${encodeHtml(column.key)}"${listState.frozenColumns.has(column.key) ? ' checked' : ''}><span>${encodeHtml(column.label)}</span></label>`
+            )
+            .join('')
+        }
+
+        function renderDataPageManageMenu(details) {
+          const context = details.dataset.listContext
+          const config = DATA_LIST_CONFIG[context]
+          const listState = dataListState[context]
+          const popover = details.querySelector('.data-menu-popover')
+          if (!config || !listState || !popover) return
+          const singular = config.singular[0].toUpperCase() + config.singular.slice(1)
+          const borderLabel = DATA_BORDER_MODES.includes(listState.borderMode)
+            ? listState.borderMode[0].toUpperCase() + listState.borderMode.slice(1)
+            : 'Default'
+          const statisticsConceptLabel =
+            DATA_LIST_STATISTICS_CONCEPT_OPTIONS.find(
+              option => option.key === activeDataListStatisticsConcept(listState)
+            )?.label || 'Balanced cards'
+          const tablePrefs =
+            listState.view === 'list'
+              ? `<div class="data-manage-group-label">Table preferences</div>
+            ${dataManageAction('save-layout', 'i-save', 'Save table layout', 'Keep columns, grouping, view and statistics', {disabled: !listState.layoutDirty})}
+            ${dataManageAction('reset-layout', 'i-undo', 'Reset table layout', 'Restore the system default')}
+            <details class="data-menu data-manage-submenu"><summary>${dataListIcon('i-sliders')}<span class="data-manage-copy"><strong>Borders</strong><small>${borderLabel}</small></span>${dataListIcon('i-next', 10)}</summary><div class="data-menu-popover" role="radiogroup" aria-label="Table borders">${renderDataManageBorderControls(context, listState)}</div></details>
+            <details class="data-menu data-manage-submenu"><summary>${dataListIcon('i-lock')}<span class="data-manage-copy"><strong>Freeze columns</strong><small>${listState.frozenColumns.size ? `${listState.frozenColumns.size} frozen` : 'None'}</small></span>${dataListIcon('i-next', 10)}</summary><div class="data-menu-popover" role="group" aria-label="Frozen columns">${renderDataManageFrozenControls(config, listState)}</div></details>`
+              : `<div class="data-manage-group-label">Table preferences</div>
+            ${dataManageAction('save-layout', 'i-save', 'Save table layout', 'Keep columns, grouping, view and statistics', {disabled: !listState.layoutDirty})}
+            ${dataManageAction('reset-layout', 'i-undo', 'Reset table layout', 'Restore the system default')}`
+          popover.innerHTML = `
+            <div class="data-manage-group-label">Data exchange</div>
+            ${dataManageAction('export', 'i-external', 'Export', 'Excel, PDF, CSV or Word')}
+            <div class="data-menu-separator"></div>
+            <div class="data-manage-group-label">Analysis</div>
+            ${dataManageAction('statistics-status', 'i-grid', listState.statisticsVisible ? 'Hide statistics' : 'Show statistics', 'Toggle the statistics summary for this view')}
+            <details class="data-menu data-manage-submenu"><summary>${dataListIcon('i-chart')}<span class="data-manage-copy"><strong>Statistics style</strong><small>${encodeHtml(t(statisticsConceptLabel))}</small></span>${dataListIcon('i-next', 10)}</summary><div class="data-menu-popover" role="radiogroup" aria-label="Statistics style">${renderDataManageStatisticsControls(context, listState)}</div></details>
+            <div class="data-menu-separator"></div>
+            <div class="data-manage-group-label">Reporting</div>
+            ${dataManageAction('report', 'i-doc', `${singular} report`, 'Create a configurable report')}
+            <div class="data-menu-separator"></div>
+            ${tablePrefs}`
+        }
+
+        function renderDataPageManageMenus() {
+          document
+            .querySelectorAll('.data-page-manage[data-list-context]')
+            .forEach(renderDataPageManageMenu)
+        }
+
+        let dataExportContext = ''
+
+        function renderDataExportColumns(config, listState) {
+          const columns = listState.columnOrder
+            .map(key => config.columns.find(column => column.key === key))
+            .filter(Boolean)
+          return columns
+            .map(
+              column =>
+                `<label><input type="checkbox" data-export-column="${encodeHtml(column.key)}"${listState.hiddenColumns.has(column.key) ? '' : ' checked'}><span>${encodeHtml(column.label)}</span></label>`
+            )
+            .join('')
+        }
+
+        function openDataExport(context) {
+          dataExportContext = context
+          const config = DATA_LIST_CONFIG[context]
+          const listState = dataListState[context]
+          dataExportScrim
+            .querySelectorAll('[data-export-format]')
+            .forEach(button =>
+              button.setAttribute('aria-checked', String(button.dataset.exportFormat === 'xlsx'))
+            )
+          document.getElementById('data-export-scope').value = 'visible'
+          document.getElementById('data-export-filename').value =
+            `${config.label[0].toUpperCase() + config.label.slice(1)} - ${new Date().toISOString().slice(0, 10)}`
+          document.getElementById('data-export-columns').innerHTML = renderDataExportColumns(
+            config,
+            listState
+          )
+          dataExportScrim.classList.add('open')
+          trapFocus(dataExportScrim.querySelector('.customer-modal'))
+        }
+
+        function closeDataExport() {
+          dataExportScrim.classList.remove('open')
+          releaseFocus()
+        }
+
+        function runDataExport() {
+          const config = DATA_LIST_CONFIG[dataExportContext]
+          const listState = dataListState[dataExportContext]
+          const format = dataExportScrim.querySelector('[data-export-format][aria-checked="true"]')
+            ?.dataset.exportFormat
+          const scope = document.getElementById('data-export-scope').value
+          const rows =
+            scope === 'selected'
+              ? listState.selected.size
+              : scope === 'all'
+                ? config.rows.length
+                : dataListRows(dataExportContext).length
+          const columnCount = dataExportScrim.querySelectorAll(
+            '[data-export-column]:checked'
+          ).length
+          const fileName =
+            document.getElementById('data-export-filename').value.trim() || config.label
+          closeDataExport()
+          toast({
+            tone: 'ok',
+            title: `Exporting ${rows} ${rows === 1 ? config.singular : config.label} (${columnCount} columns) as ${fileName}.${format}`,
+          })
+        }
+
+        function deleteDataListRecords(context, keys) {
+          const listState = dataListState[context]
+          const config = DATA_LIST_CONFIG[context]
+          const deleted = new Set(keys)
+          for (let index = config.rows.length - 1; index >= 0; index -= 1) {
+            if (deleted.has(String(config.rows[index][config.key]))) config.rows.splice(index, 1)
+          }
+          listState.sourceRows = listState.sourceRows.filter(
+            row => !deleted.has(String(row[config.key]))
+          )
+          deleted.forEach(key => listState.selected.delete(key))
+          renderDataList(context)
+          toast({
+            tone: 'ok',
+            title: `${deleted.size} ${deleted.size === 1 ? config.singular : config.label} deleted`,
+          })
+        }
+
+        function openDataListRecord(context, key, mode) {
+          if (guardDataListLeave(() => openDataListRecord(context, key, mode))) return
+          if (context === 'customer') openCustomerRecord(key, mode)
+          else if (context === 'geo') openGeoRecord(key, mode)
+          else {
+            openInvoiceRecord(key)
+            const modeControl = document.getElementById('mode')
+            if (modeControl) {
+              modeControl.value = mode === 'view' ? 'record' : mode
+              modeControl.dispatchEvent(new Event('change', {bubbles: true}))
+            }
+          }
+        }
+
+        function toggleDataListStatus(context, row) {
+          row.active = !row.active
+          renderDataList(context)
+          toast({
+            tone: 'ok',
+            title: `${row.customerName || row.name} ${row.active ? 'activated' : 'deactivated'}`,
+          })
+        }
+
+        function setDataListRecordsStatus(context, keys, active) {
+          const config = DATA_LIST_CONFIG[context]
+          const keySet = new Set(keys)
+          const rows = config.rows.filter(row => keySet.has(String(row[config.key])))
+          rows.forEach(row => (row.active = active))
+          renderDataList(context)
+          toast({
+            tone: 'ok',
+            title: `${rows.length} ${rows.length === 1 ? config.singular : config.label} ${active ? 'activated' : 'deactivated'}`,
+          })
+        }
+
+        function applyDataListRowAction(context, rowAction) {
+          const popover = rowAction.closest('.data-menu-popover')
+          const home = popover?.dataset.parked ? popover.__homeParent : null
+          const key =
+            rowAction.closest('[data-list-row-key]')?.dataset.listRowKey ||
+            home?.closest('[data-list-row-key]')?.dataset.listRowKey
+          if (!key) return false
+          const command = rowAction.dataset.listRowAction
+          const config = DATA_LIST_CONFIG[context]
+          const row = config.rows.find(record => String(record[config.key]) === key)
+          if (command === 'quick-view') openQuickView(context, key)
+          else if (command === 'display') openDataListRecord(context, key, 'view')
+          else if (command === 'modify') openDataListRecord(context, key, 'edit')
+          else if (command === 'delete') deleteDataListRecords(context, [key])
+          else if (command === 'toggle-status' && row) toggleDataListStatus(context, row)
+          else if (command === 'view-hierarchy' && row) openGeoRecord(row.code, 'view')
+          else if (command === 'print')
+            openPrintSettings(
+              `${config.singular[0].toUpperCase() + config.singular.slice(1)} ${key}`
+            )
+          else
+            toast({
+              tone: 'ok',
+              title: `${rowAction.textContent.trim()} for ${config.singular} ${key}`,
+            })
+          return true
+        }
+
+        function openNewDataListRecord(context) {
+          if (context === 'customer') {
+            openCustomerRecord(null, 'create')
+            return
+          }
+          if (context === 'geo') {
+            openGeoRecord(GEO_ROWS[0].code, 'create')
+            return
+          }
+          document.getElementById('mode').value = 'create'
+          showContentView('record')
+          applyMode('create')
+        }
+
+        function applyDataListToolbarCommand(context, command, selectedKey) {
+          const listState = dataListState[context]
+          if (['display', 'modify'].includes(command) && selectedKey) {
+            openDataListRecord(context, selectedKey, command === 'display' ? 'view' : 'edit')
+          } else if (command === 'delete' && listState.selected.size) {
+            deleteDataListRecords(context, listState.selected)
+          } else if (['activate', 'deactivate'].includes(command) && listState.selected.size) {
+            setDataListRecordsStatus(context, listState.selected, command === 'activate')
+          } else if (command === 'chart') {
+            listState.chartVisible = !listState.chartVisible
+            renderDataList(context)
+          } else if (command === 'statistics-status') {
+            listState.statisticsVisible = !listState.statisticsVisible
+            computeDataListLayoutDirty(listState)
+            renderDataList(context)
+            toast({
+              tone: 'ok',
+              title: `Statistics ${listState.statisticsVisible ? 'shown' : 'hidden'}`,
+            })
+          } else if (command === 'print') {
+            const config = DATA_LIST_CONFIG[context]
+            if (listState.view === 'adaptive') {
+              const filteredRows = dataListRows(context)
+              const record = filteredRows[listState.page - 1]
+              const recordKey = record ? record[config.key] : ''
+              openPrintSettings(
+                `${config.singular[0].toUpperCase() + config.singular.slice(1)} ${recordKey}`
+              )
+            } else {
+              const label = config.label
+              openPrintSettings(`${label[0].toUpperCase() + label.slice(1)} list`)
+            }
+          } else return false
+          return true
+        }
+
+        function applyDataListCommandClick(event, context) {
+          const listState = dataListState[context]
+          const view = event.target.closest('[data-list-view]')
+          const record = event.target.closest('[data-list-open-record]')
+          const action = event.target.closest('[data-list-action]')
+          const rowAction = event.target.closest('[data-list-row-action]')
+          const rowExpand = event.target.closest('[data-list-row-expand]')
+          const groupToggle = event.target.closest('[data-list-group-toggle]')
+          const groupRemove = event.target.closest('[data-list-group-remove]')
+          const groupAdd = event.target.closest('[data-list-group-add]')
+          const groupClear = event.target.closest('[data-list-group-clear]')
+          const chartClose = event.target.closest('[data-list-chart-close]')
+          const chartType = event.target.closest('[data-list-chart-type]')
+          const chartToggle = event.target.closest('[data-list-chart-toggle]')
+          const selectedKey = [...listState.selected][0]
+          if (chartClose) {
+            listState.chartVisible = false
+            renderDataList(context)
+          } else if (chartToggle) {
+            listState.chartExpanded = !listState.chartExpanded
+            renderDataList(context)
+          } else if (chartType) {
+            listState.chartType = chartType.dataset.listChartType
+            renderDataList(context)
+          } else if (view) {
+            listState.view = view.dataset.listView
+            computeDataListLayoutDirty(listState)
+            renderDataList(context)
+          } else if (rowExpand) {
+            const key = rowExpand.dataset.listRowExpand
+            if (listState.expandedRows.has(key)) listState.expandedRows.delete(key)
+            else listState.expandedRows.add(key)
+            renderDataList(context)
+          } else if (groupToggle) {
+            const groupId = groupToggle.dataset.listGroupToggle
+            if (listState.collapsedGroups.has(groupId)) listState.collapsedGroups.delete(groupId)
+            else listState.collapsedGroups.add(groupId)
+            renderDataList(context)
+          } else if (groupRemove) {
+            listState.groupBy = listState.groupBy.filter(
+              key => key !== groupRemove.dataset.listGroupRemove
+            )
+            listState.collapsedGroups.clear()
+            computeDataListLayoutDirty(listState)
+            renderDataList(context)
+          } else if (groupClear) {
+            listState.groupBy = []
+            listState.collapsedGroups.clear()
+            computeDataListLayoutDirty(listState)
+            renderDataList(context)
+          } else if (groupAdd) {
+            const columnKey = groupAdd.dataset.listGroupAdd
+            if (!listState.groupBy.includes(columnKey)) listState.groupBy.push(columnKey)
+            listState.collapsedGroups.clear()
+            computeDataListLayoutDirty(listState)
+            renderDataList(context)
+          } else if (rowAction) return applyDataListRowAction(context, rowAction)
+          else if (
+            action &&
+            applyDataListToolbarCommand(context, action.dataset.listAction, selectedKey)
+          )
+            return true
+          else if (record) {
+            openDataListRecord(context, record.dataset.listOpenRecord, 'view')
+          } else return false
+          return true
+        }
+
+        function applyDataListSortClick(event, context) {
+          const sort = event.target.closest('[data-list-sort]')
+          if (!sort) return false
+          const listState = dataListState[context]
+          const key = sort.dataset.listSort
+          listState.sortDirection =
+            listState.sortKey === key && listState.sortDirection === 'asc' ? 'desc' : 'asc'
+          listState.sortKey = key
+          renderDataList(context)
+          return true
+        }
+
+        function onDataListChange(event, context) {
+          const listState = dataListState[context]
+          const config = DATA_LIST_CONFIG[context]
+          const rowSelect = event.target.closest('[data-list-row-select]')
+          const column = event.target.closest('[data-list-column]')
+          const filterValue = event.target.closest('[data-list-filter-value]')
+          const chartField = event.target.closest('[data-list-chart-field]')
+          const chartYField = event.target.closest('[data-list-chart-y-field]')
+          const dateAmount = event.target.closest('[data-list-date-amount]')
+          const dateUnit = event.target.closest('[data-list-date-unit]')
+          const dateSpecific = event.target.closest('[data-list-date-specific]')
+          const dateRangeFrom = event.target.closest('[data-list-date-range-from]')
+          const dateRangeTo = event.target.closest('[data-list-date-range-to]')
+          const dateControl =
+            dateAmount?.dataset.listDateAmount ||
+            dateUnit?.dataset.listDateUnit ||
+            dateSpecific?.dataset.listDateSpecific ||
+            dateRangeFrom?.dataset.listDateRangeFrom ||
+            dateRangeTo?.dataset.listDateRangeTo
+          if (dateControl) {
+            const item = listState.fieldFilters.find(fieldFilter => fieldFilter.key === dateControl)
+            if (item) {
+              const {preset, a, b} = parseDateFilterValue(item)
+              if (dateAmount) item.value = `${preset}:${dateAmount.value || 1}:${b || 'day'}`
+              else if (dateUnit) item.value = `${preset}:${a || 1}:${dateUnit.value}`
+              else if (dateSpecific) item.value = `specific:${dateSpecific.value}`
+              else if (dateRangeFrom) item.value = `range:${dateRangeFrom.value}:${b || ''}`
+              else if (dateRangeTo) item.value = `range:${a || ''}:${dateRangeTo.value}`
+            }
+            listState.page = 1
+            renderDataList(context, {focusFilterKey: dateControl})
+          } else if (chartField) {
+            listState.chartField = chartField.value
+          } else if (chartYField) {
+            listState.chartYField = chartYField.value
+          } else if (rowSelect) {
+            if (rowSelect.checked) listState.selected.add(rowSelect.value)
+            else listState.selected.delete(rowSelect.value)
+          } else if (event.target.closest('[data-list-select-all]'))
+            dataListRows(context).forEach(row => {
+              const key = String(row[config.key])
+              if (event.target.checked) listState.selected.add(key)
+              else listState.selected.delete(key)
+            })
+          else if (column) {
+            if (column.checked) listState.hiddenColumns.delete(column.dataset.listColumn)
+            else listState.hiddenColumns.add(column.dataset.listColumn)
+            computeDataListLayoutDirty(listState)
+          } else if (filterValue) {
+            const filter = listState.fieldFilters.find(
+              item => item.key === filterValue.dataset.listFilterValue
+            )
+            if (filter) filter.value = filterValue.value
+          } else return
+          renderDataList(context)
+        }
+
+        function reorderDataListColumn(context, sourceKey, targetKey) {
+          const listState = dataListState[context]
+          if (!sourceKey || !targetKey || sourceKey === targetKey) return
+          const nextOrder = listState.columnOrder.filter(key => key !== sourceKey)
+          const targetIndex = nextOrder.indexOf(targetKey)
+          if (targetIndex < 0) return
+          nextOrder.splice(targetIndex, 0, sourceKey)
+          listState.columnOrder = nextOrder
+          computeDataListLayoutDirty(listState)
+          renderDataList(context)
+        }
+
+        function wireDataList(canvas, context) {
+          if (canvas.dataset.dataListWired) return
+          canvas.dataset.dataListWired = 'true'
+          canvas.addEventListener('click', event => {
+            if (applyDataListFilterClick(event, context)) return
+            if (applyDataListToolbarClick(event, context)) return
+            if (applyDataListSortClick(event, context)) return
+            applyDataListCommandClick(event, context)
+          })
+          canvas.addEventListener('dblclick', event => {
+            const row = event.target.closest('.data-list-record-row[data-list-row-key]')
+            if (!row) return
+            if (
+              event.target.closest(
+                'button, a, input, select, textarea, summary, label, [role="menuitem"]'
+              )
+            )
+              return
+            event.preventDefault()
+            const key = row.dataset.listRowKey
+            if (event.ctrlKey || event.metaKey) openQuickView(context, key)
+            else openDataListRecord(context, key, 'view')
+          })
+          canvas.addEventListener('change', event => onDataListChange(event, context))
+          canvas.addEventListener('input', event => {
+            const filterValue = event.target.closest('input[data-list-filter-value]')
+            if (filterValue) {
+              const filter = dataListState[context].fieldFilters.find(
+                item => item.key === filterValue.dataset.listFilterValue
+              )
+              if (filter) filter.value = filterValue.value
+              renderDataList(context, {
+                focusFilterKey: filterValue.dataset.listFilterValue,
+              })
+              return
+            }
+            const search = event.target.closest('[data-list-search]')
+            if (!search) return
+            dataListState[context].search = search.value
+            dataListState[context].selected.clear()
+            dataListState[context].page = 1
+            renderDataList(context, {focusSearch: true})
+          })
+          canvas.addEventListener('dragstart', event => {
+            const header = event.target.closest('[data-list-column-drag]')
+            if (header) {
+              event.dataTransfer.effectAllowed = 'move'
+              event.dataTransfer.setData('text/plain', header.dataset.listColumnDrag)
+              return
+            }
+            const card = event.target.closest('.data-kanban-card')
+            if (!card) return
+            event.dataTransfer.effectAllowed = 'move'
+            event.dataTransfer.setData('text/plain', card.dataset.listRowKey)
+            card.classList.add('is-dragging')
+          })
+          canvas.addEventListener('dragover', event => {
+            const groupDrop = event.target.closest('[data-list-group-drop]')
+            if (groupDrop) {
+              event.preventDefault()
+              event.dataTransfer.dropEffect = 'move'
+              groupDrop.dataset.dragOver = 'true'
+              return
+            }
+            const header = event.target.closest('[data-list-column-drag]')
+            if (header) {
+              event.preventDefault()
+              event.dataTransfer.dropEffect = 'move'
+              canvas
+                .querySelectorAll('[data-list-column-drag][data-drag-over="true"]')
+                .forEach(item => item.removeAttribute('data-drag-over'))
+              header.dataset.dragOver = 'true'
+              return
+            }
+            const drop = event.target.closest('[data-kanban-drop]')
+            if (!drop) return
+            const draggingCard = canvas.querySelector('.data-kanban-card.is-dragging')
+            if (!draggingCard) return
+            event.preventDefault()
+            const fromStatus = draggingCard.dataset.kanbanStatus
+            const toStatus = drop.dataset.kanbanDrop
+            const allowed =
+              fromStatus === toStatus ||
+              (INVOICE_STATUS_TRANSITIONS[fromStatus] || []).includes(toStatus)
+            event.dataTransfer.dropEffect = 'move'
+            canvas
+              .querySelectorAll('.data-kanban-drop.is-drag-over, .data-kanban-drop.is-drag-blocked')
+              .forEach(item => item.classList.remove('is-drag-over', 'is-drag-blocked'))
+            drop.classList.add(allowed ? 'is-drag-over' : 'is-drag-blocked')
+          })
+          canvas.addEventListener('dragleave', event => {
+            const groupDrop = event.target.closest('[data-list-group-drop]')
+            if (groupDrop && !groupDrop.contains(event.relatedTarget)) {
+              groupDrop.removeAttribute('data-drag-over')
+              return
+            }
+            const drop = event.target.closest('[data-kanban-drop]')
+            if (!drop || drop.contains(event.relatedTarget)) return
+            drop.classList.remove('is-drag-over', 'is-drag-blocked')
+          })
+          canvas.addEventListener('drop', event => {
+            const groupDrop = event.target.closest('[data-list-group-drop]')
+            if (groupDrop) {
+              event.preventDefault()
+              groupDrop.removeAttribute('data-drag-over')
+              const sourceKey = event.dataTransfer.getData('text/plain')
+              const listState = dataListState[context]
+              const validColumn = DATA_LIST_CONFIG[context].columns.some(
+                column => column.key === sourceKey && column.groupable !== false
+              )
+              if (validColumn && !listState.groupBy.includes(sourceKey)) {
+                listState.groupBy.push(sourceKey)
+                listState.collapsedGroups.clear()
+                computeDataListLayoutDirty(listState)
+                renderDataList(context)
+              }
+              return
+            }
+            const header = event.target.closest('[data-list-column-drag]')
+            if (header) {
+              event.preventDefault()
+              const sourceKey = event.dataTransfer.getData('text/plain')
+              reorderDataListColumn(context, sourceKey, header.dataset.listColumnDrag)
+              return
+            }
+            const drop = event.target.closest('[data-kanban-drop]')
+            if (!drop) return
+            event.preventDefault()
+            drop.classList.remove('is-drag-over', 'is-drag-blocked')
+            const key = event.dataTransfer.getData('text/plain')
+            moveInvoiceKanbanCard(context, key, drop.dataset.kanbanDrop)
+          })
+          canvas.addEventListener('dragend', () => {
+            canvas
+              .querySelectorAll('[data-list-group-drop][data-drag-over="true"]')
+              .forEach(item => item.removeAttribute('data-drag-over'))
+            canvas
+              .querySelectorAll('[data-list-column-drag][data-drag-over="true"]')
+              .forEach(item => item.removeAttribute('data-drag-over'))
+            canvas
+              .querySelectorAll('.data-kanban-drop.is-drag-over, .data-kanban-drop.is-drag-blocked')
+              .forEach(item => item.classList.remove('is-drag-over', 'is-drag-blocked'))
+            canvas
+              .querySelectorAll('.data-kanban-card.is-dragging')
+              .forEach(item => item.classList.remove('is-dragging'))
+          })
+        }
+
+        function openKanbanBlockedDialog(row, fromStatus, toStatus) {
+          const allowedFrom = INVOICE_STATUS_TRANSITIONS[fromStatus] || []
+          document.getElementById('kanban-blocked-body').textContent =
+            `Sales Invoice ${row.no} is ${fromStatus} and can't move directly to ${toStatus}. It must follow the document status flow.`
+          const allowedBlock = document.getElementById('kanban-blocked-allowed')
+          const allowedList = document.getElementById('kanban-blocked-allowed-list')
+          if (allowedFrom.length) {
+            allowedList.innerHTML = allowedFrom
+              .map(
+                status =>
+                  `<span class="stpill" data-s="${invoiceStatusKey(status)}"><span class="stdot"></span><span class="nm">${encodeHtml(status)}</span></span>`
+              )
+              .join('')
+            allowedBlock.hidden = false
+          } else {
+            allowedList.innerHTML = ''
+            allowedBlock.hidden = true
+          }
+          kanbanBlockedScrim.classList.add('open')
+          trapFocus(kanbanBlockedScrim.querySelector('.customer-modal'))
+        }
+
+        function closeKanbanBlockedDialog() {
+          kanbanBlockedScrim.classList.remove('open')
+          releaseFocus()
+        }
+
+        function moveInvoiceKanbanCard(context, key, toStatus) {
+          const config = DATA_LIST_CONFIG[context]
+          const row = config.rows.find(record => String(record[config.key]) === key)
+          if (!row) return
+          const fromStatus = row.status
+          if (fromStatus === toStatus) return
+          const allowed = (INVOICE_STATUS_TRANSITIONS[fromStatus] || []).includes(toStatus)
+          if (!allowed) {
+            openKanbanBlockedDialog(row, fromStatus, toStatus)
+            return
+          }
+          row.status = toStatus
+          renderDataList(context)
+          toast({tone: 'ok', title: `Sales Invoice ${row.no} moved to ${toStatus}`})
+        }
+
+        function renderCustomerList(rows = CUSTOMER_ROWS, {advanced = false} = {}) {
+          const listState = dataListState.customer
+          listState.sourceRows = rows
+          listState.advanced = advanced
+          listState.canvas = document.getElementById('customer-list-canvas')
+          renderDataList('customer')
+        }
+
+        function renderGeoList() {
+          const listState = dataListState.geo
+          listState.sourceRows = GEO_ROWS
+          listState.canvas = document.getElementById('geo-list-canvas')
+          renderDataList('geo')
+        }
+
+        let activeFilterModalContext = null
+
+        function refreshDataListForContext(context) {
+          if (context === 'geo') renderGeoList()
+          else renderDataList(context)
+        }
+
+        function renderDataFilterModal(context) {
+          const config = DATA_LIST_CONFIG[context]
+          const listState = dataListState[context]
+          document.getElementById('geo-filter-title').textContent = `Filter ${config.label}`
+          const quick = document.querySelector('#geo-filter-scrim .geo-filter-quick')
+          const fields = document.querySelector('#geo-filter-scrim .geo-filter-fields')
+          quick.innerHTML = config.filters
+            .map(
+              filter =>
+                `<button type="button" role="radio" data-geo-filter-quick="${encodeHtml(filter.key)}" aria-checked="${filter.key === listState.filter}">${dataListIcon(filter.icon)}<span>${encodeHtml(filter.label)}</span></button>`
+            )
+            .join('')
+          fields.innerHTML = config.filterFields
+            .map(field => {
+              const existing = listState.fieldFilters.find(item => item.key === field.key)
+              const value = existing?.value ?? ''
+              if (field.type === 'date') {
+                const activeFilter = existing || {
+                  key: field.key,
+                  operator: 'equals',
+                  value: 'today',
+                }
+                const clearButton = existing
+                  ? `<button type="button" class="data-filter-modal-clear" data-geo-filter-clear-field="${encodeHtml(field.key)}" aria-label="${t('Clear', 'Clear')} ${encodeHtml(t(field.label))}" title="${t('Clear', 'Clear')}">${dataListIcon('i-x', 13)}</button>`
+                  : ''
+                return `<div class="rec-field data-filter-modal-date"><span>${encodeHtml(t(field.label))}</span>${renderDataFilterModalDateField(field, activeFilter, clearButton)}</div>`
+              }
+              if (field.type === 'select') {
+                const input = `<select data-geo-filter-field="${encodeHtml(field.key)}"><option value="">Any</option>${field.options
+                  .map(
+                    option =>
+                      `<option value="${encodeHtml(String(dataFilterOptionValue(option)))}"${String(dataFilterOptionValue(option)) === value ? ' selected' : ''}>${encodeHtml(String(dataFilterOptionLabel(option)))}</option>`
+                  )
+                  .join('')}</select>`
+                return `<label class="rec-field"><span>${encodeHtml(t(field.label))}</span>${input}</label>`
+              }
+              const operator =
+                DATA_FILTER_OPERATORS.find(item => item.key === existing?.operator) ||
+                DATA_FILTER_OPERATORS[0]
+              const operatorSelect = `<select class="data-filter-modal-operator" data-geo-filter-operator-select data-geo-filter-operator-key="${encodeHtml(field.key)}">${DATA_FILTER_OPERATORS.map(
+                item =>
+                  `<option value="${encodeHtml(item.key)}"${item.key === operator.key ? ' selected' : ''}>${encodeHtml(t(item.label))}</option>`
+              ).join('')}</select>`
+              const input = `<input type="text" data-geo-filter-field="${encodeHtml(field.key)}" value="${encodeHtml(value)}" placeholder="Enter ${encodeHtml(field.label.toLowerCase())}" />`
+              return `<label class="rec-field"><span>${encodeHtml(t(field.label))}</span><div class="data-filter-modal-row">${operatorSelect}${input}</div></label>`
+            })
+            .join('')
+        }
+
+        function renderDataFilterModalDateField(field, filter, clearButton = '') {
+          const {preset, a, b} = parseDateFilterValue(filter)
+          const presetSelect = `<select class="data-filter-modal-operator" data-list-date-preset-select data-list-date-preset="${encodeHtml(field.key)}">${DATA_DATE_PRESET_LIST.map(
+            item =>
+              `<option value="${item.key}"${item.key === preset ? ' selected' : ''}>${encodeHtml(t(item.label))}</option>`
+          ).join('')}</select>`
+          const unitOptions = selectedUnit =>
+            DATA_DATE_UNITS.map(
+              unit =>
+                `<option value="${unit.key}"${unit.key === selectedUnit ? ' selected' : ''}>${encodeHtml(t(unit.label))}</option>`
+            ).join('')
+          if (preset === 'specific') {
+            const specificInput = `<input type="date" value="${encodeHtml(dataListDateInputValue(a))}" data-list-date-specific="${encodeHtml(field.key)}" aria-label="${t('Choose date', 'Choose date')}">`
+            return `<div class="data-filter-modal-row">${presetSelect}${specificInput}${clearButton}</div>`
+          }
+          if (preset === 'previous' || preset === 'upcoming') {
+            const relativeControls = `<div class="data-filter-date-relative"><input type="number" min="1" value="${encodeHtml(a || '1')}" data-list-date-amount="${encodeHtml(field.key)}" aria-label="${t('Number', 'Number')}"><select data-list-date-unit="${encodeHtml(field.key)}" aria-label="${t('Unit', 'Unit')}">${unitOptions(b || 'day')}</select></div>`
+            return `<div class="data-filter-modal-row">${presetSelect}${clearButton}</div>${relativeControls}`
+          }
+          if (preset === 'range') {
+            const rangeControls = `<div class="data-filter-date-range"><input type="date" value="${encodeHtml(dataListDateInputValue(a))}" data-list-date-range-from="${encodeHtml(field.key)}" aria-label="${t('From', 'From')}"><span>${t('to', 'to')}</span><input type="date" value="${encodeHtml(dataListDateInputValue(b))}" data-list-date-range-to="${encodeHtml(field.key)}" aria-label="${t('To', 'To')}"></div>`
+            return `<div class="data-filter-modal-row">${presetSelect}${clearButton}</div>${rangeControls}`
+          }
+          return `<div class="data-filter-modal-row">${presetSelect}${clearButton}</div>`
+        }
+
+        const geoParentPickerState = {view: 'tree', expanded: new Set(), excluded: new Set()}
+
+        function renderGeoParentPickerBranch(parentCode = '', level = 1) {
+          return GEO_ROWS.filter(row => row.parentCode === parentCode)
+            .map(row => {
+              const hasChildren = GEO_ROWS.some(child => child.parentCode === row.code)
+              const expanded = geoParentPickerState.expanded.has(row.code)
+              const disabled = geoParentPickerState.excluded.has(row.code)
+              const children =
+                hasChildren && expanded
+                  ? `<div class="geo-tree-children" role="group">${renderGeoParentPickerBranch(row.code, level + 1)}</div>`
+                  : ''
+              const chevronTitle = hasChildren
+                ? (expanded ? 'Collapse' : 'Expand') + ` ${row.name}`
+                : ''
+              const chevron = hasChildren
+                ? `<button type="button" class="geo-parent-picker-chevron" data-geo-parent-toggle="${encodeHtml(row.code)}" aria-expanded="${expanded}" aria-label="${encodeHtml(chevronTitle)}" title="${encodeHtml(chevronTitle)}">${dataListIcon('i-caret', 11).replace('<svg', '<svg class="geo-node-chevron"')}</button>`
+                : '<span aria-hidden="true" style="width:11px"></span>'
+              return `<div class="geo-tree-branch"><span class="geo-tree-node" role="treeitem" aria-level="${level}"${hasChildren ? ` aria-expanded="${expanded}"` : ''}>${chevron}<button type="button" class="geo-parent-picker-row" data-geo-parent-pick="${encodeHtml(row.code)}"${disabled ? ' disabled aria-disabled="true" title="Cannot choose a location’s own descendant as its parent"' : ''}><span class="geo-node-copy"><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button></span>${children}</div>`
+            })
+            .join('')
+        }
+
+        function renderGeoParentPickerTree() {
+          const tree = document.getElementById('geo-parent-picker-tree')
+          tree.innerHTML =
+            renderGeoParentPickerBranch() ||
+            `<div class="geo-hierarchy-empty">No locations available.</div>`
+        }
+
+        function renderGeoParentPickerFlow() {
+          const canvas = document.getElementById('geo-parent-picker-flow-canvas')
+          if (!canvas) return
+          const nodeWidth = 156
+          const nodeHeight = 58
+          const slotWidth = 190
+          const levelHeight = 164
+          const maxLevel = GEO_ROWS.reduce((max, row) => Math.max(max, row.level), 1)
+          const {positions, slotCount} = layoutGeoFlowPositions(
+            nodeWidth,
+            nodeHeight,
+            slotWidth,
+            levelHeight
+          )
+          const width = Math.max(900, slotCount * slotWidth)
+          const height = Math.max(500, 24 + maxLevel * levelHeight + nodeHeight + 24)
+          const connectors = GEO_ROWS.filter(row => row.parentCode)
+            .map(row => {
+              const parent = positions.get(row.parentCode)
+              const child = positions.get(row.code)
+              if (!parent || !child) return ''
+              const fromX = parent.x + nodeWidth / 2
+              const fromY = parent.y + nodeHeight
+              const toX = child.x + nodeWidth / 2
+              const toY = child.y
+              const middleY = Math.round((fromY + toY) / 2)
+              return `<path d="M ${fromX} ${fromY} C ${fromX} ${middleY}, ${toX} ${middleY}, ${toX} ${toY}" />`
+            })
+            .join('')
+          const nodes = GEO_ROWS.map(row => {
+            const position = positions.get(row.code)
+            const disabled = geoParentPickerState.excluded.has(row.code)
+            return `<button class="geo-flow-node" type="button" data-geo-parent-pick="${encodeHtml(row.code)}"${disabled ? ' disabled aria-disabled="true" title="Cannot choose a location’s own descendant as its parent"' : ''} style="left:${position.x}px;top:${position.y}px" aria-label="Choose ${encodeHtml(row.name)} as parent">${geoLocationIcon(row.type, 16)}<span><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>`
+          }).join('')
+          canvas.style.width = `${width}px`
+          canvas.style.height = `${height}px`
+          canvas.innerHTML = `<div class="geo-flow-surface" style="--geo-flow-scale:1;width:${width}px;height:${height}px"><svg class="geo-flow-connectors" style="width:${width}px;height:${height}px" viewBox="0 0 ${width} ${height}" aria-hidden="true">${connectors}</svg>${nodes}</div>`
+        }
+
+        function setGeoParentPickerView(view) {
+          if (!['tree', 'flow'].includes(view)) return
+          geoParentPickerState.view = view
+          document.querySelectorAll('[data-geo-parent-picker-view]').forEach(tab => {
+            const active = tab.dataset.geoParentPickerView === view
+            tab.setAttribute('aria-selected', String(active))
+          })
+          document.getElementById('geo-parent-picker-tree-pane').hidden = view !== 'tree'
+          document.getElementById('geo-parent-picker-flow-pane').hidden = view !== 'flow'
+          if (view === 'flow') renderGeoParentPickerFlow()
+        }
+
+        let geoHierarchyDialogHome = null
+        let geoHierarchyRefreshHome = null
+        let geoHierarchyTitleHome = null
+
+        function openGeoHierarchyDialog() {
+          const panel = document.getElementById('geo-hierarchy-panel')
+          const mount = document.getElementById('geo-hierarchy-dialog-mount')
+          const refresh = panel?.querySelector('.geo-tree-refresh')
+          const actionsMount = document.getElementById('geo-hierarchy-dialog-actions-mount')
+          const title = panel?.querySelector('.geo-tree-header > div:first-child')
+          const titleMount = document.getElementById('geo-hierarchy-dialog-title-mount')
+          if (!panel || !mount) return
+          geoHierarchyDialogHome = {parent: panel.parentElement, next: panel.nextSibling}
+          mount.appendChild(panel)
+          if (refresh && actionsMount) {
+            geoHierarchyRefreshHome = {parent: refresh.parentElement, next: refresh.nextSibling}
+            actionsMount.appendChild(refresh)
+          }
+          if (title && titleMount) {
+            geoHierarchyTitleHome = {parent: title.parentElement, next: title.nextSibling}
+            titleMount.appendChild(title)
+          }
+          geoHierarchyScrim.classList.add('open')
+          trapFocus(geoHierarchyScrim.querySelector('.customer-modal'))
+        }
+
+        function closeGeoHierarchyDialog() {
+          const panel = document.getElementById('geo-hierarchy-panel')
+          const refresh = document.getElementById(
+            'geo-hierarchy-dialog-actions-mount'
+          )?.firstElementChild
+          if (refresh && geoHierarchyRefreshHome) {
+            geoHierarchyRefreshHome.parent.insertBefore(refresh, geoHierarchyRefreshHome.next)
+          }
+          geoHierarchyRefreshHome = null
+          const title = document.getElementById(
+            'geo-hierarchy-dialog-title-mount'
+          )?.firstElementChild
+          if (title && geoHierarchyTitleHome) {
+            geoHierarchyTitleHome.parent.insertBefore(title, geoHierarchyTitleHome.next)
+          }
+          geoHierarchyTitleHome = null
+          if (panel && geoHierarchyDialogHome) {
+            geoHierarchyDialogHome.parent.insertBefore(panel, geoHierarchyDialogHome.next)
+          }
+          geoHierarchyDialogHome = null
+          geoHierarchyScrim.classList.remove('open')
+          releaseFocus()
+        }
+
+        function openGeoParentPicker() {
+          const currentCode = document.getElementById('geo-field-code').value
+          geoParentPickerState.excluded = currentCode
+            ? new Set([currentCode, ...geoDescendantCodes(currentCode)])
+            : new Set()
+          geoParentPickerState.expanded = new Set(
+            GEO_ROWS.map(row => row.parentCode).filter(Boolean)
+          )
+          setGeoParentPickerView('tree')
+          renderGeoParentPickerTree()
+          geoParentPickerScrim.classList.add('open')
+          trapFocus(geoParentPickerScrim.querySelector('.customer-modal'))
+        }
+
+        function closeGeoParentPicker() {
+          geoParentPickerScrim.classList.remove('open')
+          releaseFocus()
+        }
+
+        function chooseGeoParent(code) {
+          const select = document.getElementById('geo-field-parent')
+          select.value = code || ''
+          select.dispatchEvent(new Event('change', {bubbles: true}))
+          closeGeoParentPicker()
+        }
+
+        const unitPickerState = {view: 'tree', expanded: new Set(), targetSelectId: ''}
+
+        function renderUnitPickerBranch(parentCode = '', level = 1) {
+          return UNIT_ROWS.filter(row => row.parentCode === parentCode)
+            .map(row => {
+              const hasChildren = UNIT_ROWS.some(child => child.parentCode === row.code)
+              const expanded = unitPickerState.expanded.has(row.code)
+              const children =
+                hasChildren && expanded
+                  ? `<div class="geo-tree-children" role="group">${renderUnitPickerBranch(row.code, level + 1)}</div>`
+                  : ''
+              const chevronTitle = hasChildren
+                ? (expanded ? 'Collapse' : 'Expand') + ` ${row.name}`
+                : ''
+              const chevron = hasChildren
+                ? `<button type="button" class="geo-parent-picker-chevron" data-unit-toggle="${encodeHtml(row.code)}" aria-expanded="${expanded}" aria-label="${encodeHtml(chevronTitle)}" title="${encodeHtml(chevronTitle)}">${dataListIcon('i-caret', 11).replace('<svg', '<svg class="geo-node-chevron"')}</button>`
+                : '<span aria-hidden="true" style="width:11px"></span>'
+              return `<div class="geo-tree-branch"><span class="geo-tree-node" role="treeitem" aria-level="${level}"${hasChildren ? ` aria-expanded="${expanded}"` : ''}>${chevron}<button type="button" class="geo-parent-picker-row" data-unit-pick="${encodeHtml(row.code)}"><span class="geo-node-copy"><strong>${encodeHtml(row.name)}</strong><small>${row.status}</small></span></button></span>${children}</div>`
+            })
+            .join('')
+        }
+
+        function renderUnitPickerTree() {
+          const tree = document.getElementById('unit-picker-tree')
+          tree.innerHTML =
+            renderUnitPickerBranch() || `<div class="geo-hierarchy-empty">No units available.</div>`
+        }
+
+        function layoutUnitFlowPositions(rows, nodeWidth, slotWidth, levelHeight) {
+          const childrenByParent = new Map()
+          rows.forEach(row => {
+            const key = row.parentCode || ''
+            const siblings = childrenByParent.get(key) || []
+            siblings.push(row)
+            childrenByParent.set(key, siblings)
+          })
+          const roots = childrenByParent.get('') || []
+          const positions = new Map()
+          let nextSlot = 0
+          const place = (row, level) => {
+            const children = childrenByParent.get(row.code) || []
+            let centerSlot
+            if (children.length) {
+              const firstSlot = nextSlot
+              children.forEach(child => place(child, level + 1))
+              const lastSlot = nextSlot - 1
+              centerSlot = (firstSlot + lastSlot) / 2
+            } else {
+              centerSlot = nextSlot
+              nextSlot += 1
+            }
+            positions.set(row.code, {
+              x: Math.round(centerSlot * slotWidth + slotWidth / 2 - nodeWidth / 2),
+              y: 24 + level * levelHeight,
+            })
+            return centerSlot
+          }
+          roots.forEach(row => place(row, 0))
+          return {positions, slotCount: Math.max(nextSlot, 1)}
+        }
+
+        function renderUnitPickerFlow() {
+          const canvas = document.getElementById('unit-picker-flow-canvas')
+          if (!canvas) return
+          const nodeWidth = 156
+          const nodeHeight = 58
+          const slotWidth = 190
+          const levelHeight = 164
+          const maxLevel = UNIT_ROWS.reduce((max, row) => Math.max(max, row.level), 1)
+          const {positions, slotCount} = layoutUnitFlowPositions(
+            UNIT_ROWS,
+            nodeWidth,
+            slotWidth,
+            levelHeight
+          )
+          const width = Math.max(900, slotCount * slotWidth)
+          const height = Math.max(500, 24 + maxLevel * levelHeight + nodeHeight + 24)
+          const connectors = UNIT_ROWS.filter(row => row.parentCode)
+            .map(row => {
+              const parent = positions.get(row.parentCode)
+              const child = positions.get(row.code)
+              if (!parent || !child) return ''
+              const fromX = parent.x + nodeWidth / 2
+              const fromY = parent.y + nodeHeight
+              const toX = child.x + nodeWidth / 2
+              const toY = child.y
+              const middleY = Math.round((fromY + toY) / 2)
+              return `<path d="M ${fromX} ${fromY} C ${fromX} ${middleY}, ${toX} ${middleY}, ${toX} ${toY}" />`
+            })
+            .join('')
+          const nodes = UNIT_ROWS.map(row => {
+            const position = positions.get(row.code)
+            return `<button class="geo-flow-node" type="button" data-unit-pick="${encodeHtml(row.code)}" style="left:${position.x}px;top:${position.y}px" aria-label="Choose ${encodeHtml(row.name)}">${dataListIcon('i-flow', 16)}<span><strong>${encodeHtml(row.name)}</strong><small>${row.status}</small></span></button>`
+          }).join('')
+          canvas.style.width = `${width}px`
+          canvas.style.height = `${height}px`
+          canvas.innerHTML = `<div class="geo-flow-surface" style="--geo-flow-scale:1;width:${width}px;height:${height}px"><svg class="geo-flow-connectors" style="width:${width}px;height:${height}px" viewBox="0 0 ${width} ${height}" aria-hidden="true">${connectors}</svg>${nodes}</div>`
+        }
+
+        function setUnitPickerView(view) {
+          if (!['tree', 'flow'].includes(view)) return
+          unitPickerState.view = view
+          document.querySelectorAll('[data-unit-picker-view]').forEach(tab => {
+            const active = tab.dataset.unitPickerView === view
+            tab.setAttribute('aria-selected', String(active))
+          })
+          document.getElementById('unit-picker-tree-pane').hidden = view !== 'tree'
+          document.getElementById('unit-picker-flow-pane').hidden = view !== 'flow'
+          if (view === 'flow') renderUnitPickerFlow()
+        }
+
+        function openUnitPicker(targetSelectId) {
+          unitPickerState.targetSelectId = targetSelectId
+          unitPickerState.expanded = new Set(UNIT_ROWS.map(row => row.parentCode).filter(Boolean))
+          setUnitPickerView('tree')
+          renderUnitPickerTree()
+          unitPickerScrim.classList.add('open')
+          trapFocus(unitPickerScrim.querySelector('.customer-modal'))
+        }
+
+        function closeUnitPicker() {
+          unitPickerScrim.classList.remove('open')
+          releaseFocus()
+        }
+
+        function chooseUnit(code) {
+          const select = document.getElementById(unitPickerState.targetSelectId)
+          if (select) {
+            const unit = UNIT_ROWS.find(row => row.code === code)
+            const value = unit ? `${unit.code} - ${unit.name}` : ''
+            if (value && ![...select.options].some(option => option.value === value)) {
+              select.add(new Option(value, value))
+            }
+            select.value = value
+            select.dispatchEvent(new Event('change', {bubbles: true}))
+          }
+          closeUnitPicker()
+        }
+
+        function openDataFilterModal(context) {
+          activeFilterModalContext = context
+          renderDataFilterModal(context)
+          geoFilterScrim.classList.add('open')
+          trapFocus(geoFilterScrim.querySelector('.customer-modal'))
+        }
+
+        function closeDataFilterModal() {
+          geoFilterScrim.classList.remove('open')
+          releaseFocus()
+          activeFilterModalContext = null
+        }
+
+        /* ================= custom (saved) filters: save dialog ================= */
+        let activeSaveFilterContext = null
+
+        function dataListFilterConditionSummary(config, fieldFilter) {
+          const field = config.filterFields.find(item => item.key === fieldFilter.key)
+          if (!field) return ''
+          if (field.type === 'date') return `${field.label}: ${dateFilterLabel(fieldFilter)}`
+          if (field.type === 'select') {
+            const optionLabel = dataFilterOptionLabel(
+              field.options.find(option => dataFilterOptionValue(option) === fieldFilter.value) ||
+                fieldFilter.value
+            )
+            return `${field.label}: ${optionLabel}`
+          }
+          const operator =
+            DATA_FILTER_OPERATORS.find(item => item.key === fieldFilter.operator) ||
+            DATA_FILTER_OPERATORS[0]
+          return `${field.label} ${t(operator.label).toLowerCase()} "${fieldFilter.value}"`
+        }
+
+        function renderIconPicker(mount, selectedIcon, onPick) {
+          mount.innerHTML = DATA_CUSTOM_FILTER_ICONS.map(
+            icon =>
+              `<button type="button" class="data-icon-picker-option" data-icon="${icon}" aria-checked="${icon === selectedIcon}" aria-label="${icon}">${dataListIcon(icon, 16)}</button>`
+          ).join('')
+          mount.querySelectorAll('[data-icon]').forEach(button => {
+            button.addEventListener('click', () => {
+              mount
+                .querySelectorAll('[data-icon]')
+                .forEach(other => other.setAttribute('aria-checked', 'false'))
+              button.setAttribute('aria-checked', 'true')
+              onPick(button.dataset.icon)
+            })
+          })
+        }
+
+        function renderSaveFilterDialog(context) {
+          const config = DATA_LIST_CONFIG[context]
+          const listState = dataListState[context]
+          document.getElementById('save-filter-name').value = ''
+          const conditions = document.getElementById('save-filter-conditions')
+          conditions.innerHTML = listState.fieldFilters
+            .map(
+              fieldFilter =>
+                `<li>${encodeHtml(dataListFilterConditionSummary(config, fieldFilter))}</li>`
+            )
+            .join('')
+          saveFilterState.icon = DATA_CUSTOM_FILTER_ICONS[0]
+          renderIconPicker(
+            document.getElementById('save-filter-icon-picker'),
+            saveFilterState.icon,
+            icon => (saveFilterState.icon = icon)
+          )
+        }
+
+        const saveFilterState = {icon: DATA_CUSTOM_FILTER_ICONS[0]}
+        const saveFilterScrim = document.getElementById('save-filter-scrim')
+
+        function openSaveFilterDialog(context) {
+          activeSaveFilterContext = context
+          renderSaveFilterDialog(context)
+          saveFilterScrim.classList.add('open')
+          trapFocus(saveFilterScrim.querySelector('.customer-modal'))
+          document.getElementById('save-filter-name').focus({preventScroll: true})
+        }
+
+        function closeSaveFilterDialog() {
+          saveFilterScrim.classList.remove('open')
+          releaseFocus()
+          activeSaveFilterContext = null
+        }
+
+        function confirmSaveFilter() {
+          const context = activeSaveFilterContext
+          if (!context) return
+          const name = document.getElementById('save-filter-name').value.trim()
+          if (!name) {
+            document.getElementById('save-filter-name').focus()
+            return
+          }
+          const listState = dataListState[context]
+          const customFilter = {
+            id: `cf-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`,
+            name,
+            icon: saveFilterState.icon,
+            fieldFilters: listState.fieldFilters.map(item => ({...item})),
+          }
+          listState.customFilters = [...listState.customFilters, customFilter]
+          persistCustomFilters(context, listState.customFilters)
+          listState.activeCustomFilterId = customFilter.id
+          closeSaveFilterDialog()
+          toast({tone: 'ok', title: `Filter "${name}" saved`})
+          refreshDataListForContext(context)
+        }
+
+        saveFilterScrim.addEventListener('click', event => {
+          if (event.target === saveFilterScrim || event.target.closest('.save-filter-close')) {
+            closeSaveFilterDialog()
+            return
+          }
+          if (event.target.closest('#save-filter-confirm')) confirmSaveFilter()
+        })
+        saveFilterScrim.addEventListener('keydown', event => {
+          if (event.key === 'Enter' && event.target.id === 'save-filter-name') {
+            event.preventDefault()
+            confirmSaveFilter()
+          }
+        })
+
+        /* ================= custom (saved) filters: manage dialog =================
+           Edits happen on a draft copy of the selected filter's fields — the
+           live table and its stored localStorage entry are only touched by
+           Save changes, the same "commit on save" contract as the rest of
+           this dialog's name/icon fields. Switching to a different saved
+           filter in the list re-seeds the draft, discarding unsaved edits. */
+        let activeManageFiltersContext = null
+        let activeManageFilterId = ''
+        let manageFilterDraft = null
+        const manageFiltersScrim = document.getElementById('manage-filters-scrim')
+
+        function applyCustomFilter(context, customFilterId) {
+          const listState = dataListState[context]
+          const custom = listState.customFilters.find(item => item.id === customFilterId)
+          if (!custom) return
+          listState.filter = 'all'
+          listState.fieldFilters = custom.fieldFilters.map(item => ({...item}))
+          listState.activeCustomFilterId = custom.id
+          listState.advanced = false
+          listState.page = 1
+          listState.selected.clear()
+          refreshDataListForContext(context)
+        }
+
+        function deleteCustomFilter(context, customFilterId) {
+          const listState = dataListState[context]
+          listState.customFilters = listState.customFilters.filter(
+            item => item.id !== customFilterId
+          )
+          persistCustomFilters(context, listState.customFilters)
+          if (listState.activeCustomFilterId === customFilterId) {
+            listState.activeCustomFilterId = ''
+            listState.fieldFilters = []
+          }
+          refreshDataListForContext(context)
+        }
+
+        function renderManageFiltersList(context) {
+          const listState = dataListState[context]
+          const list = document.getElementById('manage-filters-list')
+          if (!listState.customFilters.length) {
+            list.innerHTML = `<li class="data-manage-filters-empty">No saved filters yet.</li>`
+            document.getElementById('manage-filters-editor').hidden = true
+            return
+          }
+          list.innerHTML = listState.customFilters
+            .map(
+              custom =>
+                `<li><button type="button" class="data-manage-filters-item" data-manage-filter-select="${encodeHtml(custom.id)}" aria-selected="${custom.id === activeManageFilterId}">${dataListIcon(custom.icon || 'i-eye', 15)}<span>${encodeHtml(custom.name)}</span></button></li>`
+            )
+            .join('')
+        }
+
+        function selectManageFilter(context, customFilterId) {
+          const listState = dataListState[context]
+          const custom = listState.customFilters.find(item => item.id === customFilterId)
+          activeManageFilterId = custom ? customFilterId : ''
+          manageFilterDraft = custom
+            ? {
+                name: custom.name,
+                icon: custom.icon || 'i-eye',
+                fieldFilters: custom.fieldFilters.map(item => ({...item})),
+              }
+            : null
+          renderManageFiltersList(context)
+          renderManageFilterEditor(context)
+        }
+
+        function renderManageFilterAddCondition(config) {
+          const activeKeys = new Set(manageFilterDraft.fieldFilters.map(item => item.key))
+          const available = config.filterFields.filter(field => !activeKeys.has(field.key))
+          if (!available.length) return ''
+          const options = available
+            .map(
+              field =>
+                `<button type="button" role="menuitem" data-manage-filter-add-condition="${encodeHtml(field.key)}">${dataListIcon(field.icon)}<span>${encodeHtml(t(field.label))}</span></button>`
+            )
+            .join('')
+          return `<details class="data-menu" data-manage-filter-add-menu><summary>${dataListIcon('i-plus')}<span>${t('Add condition', 'Add condition')}</span></summary><div class="data-menu-popover" role="menu">${options}</div></details>`
+        }
+
+        function renderManageFilterConditionRow(field, fieldFilter) {
+          const removeButton = `<button type="button" class="data-manage-filter-remove" data-manage-filter-remove-condition="${encodeHtml(field.key)}" aria-label="${t('Remove', 'Remove')} ${encodeHtml(t(field.label))} ${t('condition', 'condition')}">${dataListIcon('i-x', 13)}</button>`
+          if (field.type === 'date') {
+            return `<div class="data-manage-filter-condition-row"><span class="data-manage-filter-condition-label">${encodeHtml(t(field.label))}</span>${renderDataFilterModalDateField(field, fieldFilter)}${removeButton}</div>`
+          }
+          if (field.type === 'select') {
+            const value = fieldFilter.value ?? ''
+            const input = `<select class="data-manage-filter-field" data-manage-filter-field="${encodeHtml(field.key)}"><option value="">${t('Any', 'Any')}</option>${field.options
+              .map(
+                option =>
+                  `<option value="${encodeHtml(String(dataFilterOptionValue(option)))}"${String(dataFilterOptionValue(option)) === value ? ' selected' : ''}>${encodeHtml(String(dataFilterOptionLabel(option)))}</option>`
+              )
+              .join('')}</select>`
+            return `<div class="data-manage-filter-condition-row"><span class="data-manage-filter-condition-label">${encodeHtml(t(field.label))}</span>${input}${removeButton}</div>`
+          }
+          const operator =
+            DATA_FILTER_OPERATORS.find(item => item.key === fieldFilter.operator) ||
+            DATA_FILTER_OPERATORS[0]
+          const operatorSelect = `<select class="data-filter-modal-operator" data-manage-filter-operator-select data-manage-filter-operator-key="${encodeHtml(field.key)}">${DATA_FILTER_OPERATORS.map(
+            item =>
+              `<option value="${encodeHtml(item.key)}"${item.key === operator.key ? ' selected' : ''}>${encodeHtml(t(item.label))}</option>`
+          ).join('')}</select>`
+          const input = `<input type="text" class="data-manage-filter-field" data-manage-filter-field="${encodeHtml(field.key)}" value="${encodeHtml(fieldFilter.value ?? '')}" placeholder="${t('Enter', 'Enter')} ${encodeHtml(t(field.label).toLowerCase())}" />`
+          return `<div class="data-manage-filter-condition-row"><span class="data-manage-filter-condition-label">${encodeHtml(t(field.label))}</span><div class="data-filter-modal-row">${operatorSelect}${input}</div>${removeButton}</div>`
+        }
+
+        function renderManageFilterEditor(context) {
+          const config = DATA_LIST_CONFIG[context]
+          const editor = document.getElementById('manage-filters-editor')
+          if (!manageFilterDraft) {
+            editor.hidden = true
+            return
+          }
+          editor.hidden = false
+          document.getElementById('manage-filter-name').value = manageFilterDraft.name
+          renderIconPicker(
+            document.getElementById('manage-filter-icon-picker'),
+            manageFilterDraft.icon,
+            icon => (manageFilterDraft.icon = icon)
+          )
+          const fieldsMount = document.getElementById('manage-filter-fields')
+          const conditionRows = manageFilterDraft.fieldFilters
+            .map(fieldFilter => {
+              const field = config.filterFields.find(item => item.key === fieldFilter.key)
+              return field ? renderManageFilterConditionRow(field, fieldFilter) : ''
+            })
+            .join('')
+          fieldsMount.innerHTML = `${conditionRows || `<p class="data-manage-filter-empty">${t('No conditions yet — add one below.', 'No conditions yet — add one below.')}</p>`}${renderManageFilterAddCondition(config)}`
+        }
+
+        function openManageFiltersDialog(context) {
+          activeManageFiltersContext = context
+          const listState = dataListState[context]
+          selectManageFilter(context, listState.customFilters[0]?.id || '')
+          manageFiltersScrim.classList.add('open')
+          trapFocus(manageFiltersScrim.querySelector('.customer-modal'))
+        }
+
+        function closeManageFiltersDialog() {
+          manageFiltersScrim.classList.remove('open')
+          releaseFocus()
+          activeManageFiltersContext = null
+          activeManageFilterId = ''
+          manageFilterDraft = null
+        }
+
+        function saveManageFilterEdits() {
+          const context = activeManageFiltersContext
+          if (!context || !manageFilterDraft) return
+          const listState = dataListState[context]
+          const custom = listState.customFilters.find(item => item.id === activeManageFilterId)
+          if (!custom) return
+          const name = document.getElementById('manage-filter-name').value.trim()
+          if (!name) {
+            document.getElementById('manage-filter-name').focus()
+            return
+          }
+          custom.name = name
+          custom.icon = manageFilterDraft.icon
+          custom.fieldFilters = manageFilterDraft.fieldFilters.map(item => ({...item}))
+          persistCustomFilters(context, listState.customFilters)
+          if (listState.activeCustomFilterId === custom.id)
+            listState.fieldFilters = custom.fieldFilters.map(item => ({...item}))
+          renderManageFiltersList(context)
+          toast({tone: 'ok', title: `Filter "${name}" updated`})
+          refreshDataListForContext(context)
+        }
+
+        manageFiltersScrim.addEventListener('click', event => {
+          if (
+            event.target === manageFiltersScrim ||
+            event.target.closest('.manage-filters-close')
+          ) {
+            closeManageFiltersDialog()
+            return
+          }
+          const select = event.target.closest('[data-manage-filter-select]')
+          if (select) {
+            selectManageFilter(activeManageFiltersContext, select.dataset.manageFilterSelect)
+            return
+          }
+          const addCondition = event.target.closest('[data-manage-filter-add-condition]')
+          if (addCondition) {
+            const config = DATA_LIST_CONFIG[activeManageFiltersContext]
+            const field = config.filterFields.find(
+              item => item.key === addCondition.dataset.manageFilterAddCondition
+            )
+            if (field && manageFilterDraft) {
+              manageFilterDraft.fieldFilters.push({
+                key: field.key,
+                operator: field.type === 'text' ? 'contains' : 'equals',
+                value:
+                  field.type === 'select'
+                    ? String(dataFilterOptionValue(field.options[0]))
+                    : field.type === 'date'
+                      ? 'today'
+                      : '',
+              })
+              renderManageFilterEditor(activeManageFiltersContext)
+            }
+            return
+          }
+          const removeCondition = event.target.closest('[data-manage-filter-remove-condition]')
+          if (removeCondition && manageFilterDraft) {
+            manageFilterDraft.fieldFilters = manageFilterDraft.fieldFilters.filter(
+              item => item.key !== removeCondition.dataset.manageFilterRemoveCondition
+            )
+            renderManageFilterEditor(activeManageFiltersContext)
+            return
+          }
+          if (event.target.closest('#manage-filter-save')) {
+            saveManageFilterEdits()
+            return
+          }
+          if (event.target.closest('#manage-filter-delete')) {
+            const context = activeManageFiltersContext
+            const customFilterId = activeManageFilterId
+            deleteCustomFilter(context, customFilterId)
+            selectManageFilter(context, dataListState[context].customFilters[0]?.id || '')
+          }
+        })
+        manageFiltersScrim.addEventListener('change', event => {
+          if (!manageFilterDraft) return
+          const operatorSelect = event.target.closest('[data-manage-filter-operator-select]')
+          if (operatorSelect) {
+            const item = manageFilterDraft.fieldFilters.find(
+              fieldFilter => fieldFilter.key === operatorSelect.dataset.manageFilterOperatorKey
+            )
+            if (item) item.operator = operatorSelect.value
+            return
+          }
+          const datePresetSelect = event.target.closest('[data-list-date-preset-select]')
+          if (datePresetSelect) {
+            const item = manageFilterDraft.fieldFilters.find(
+              fieldFilter => fieldFilter.key === datePresetSelect.dataset.listDatePreset
+            )
+            if (item) {
+              item.value = dataListNextDatePresetValue(item, datePresetSelect.value)
+              renderManageFilterEditor(activeManageFiltersContext)
+            }
+            return
+          }
+          const field = event.target.closest('[data-manage-filter-field]')
+          if (field) {
+            const item = manageFilterDraft.fieldFilters.find(
+              fieldFilter => fieldFilter.key === field.dataset.manageFilterField
+            )
+            if (item) item.value = field.value
+          }
+        })
+        manageFiltersScrim.addEventListener('input', event => {
+          if (!manageFilterDraft) return
+          const dateAmount = event.target.closest('[data-list-date-amount]')
+          const dateUnit = event.target.closest('[data-list-date-unit]')
+          const dateSpecific = event.target.closest('[data-list-date-specific]')
+          const dateRangeFrom = event.target.closest('[data-list-date-range-from]')
+          const dateRangeTo = event.target.closest('[data-list-date-range-to]')
+          const dateKey =
+            dateAmount?.dataset.listDateAmount ||
+            dateUnit?.dataset.listDateUnit ||
+            dateSpecific?.dataset.listDateSpecific ||
+            dateRangeFrom?.dataset.listDateRangeFrom ||
+            dateRangeTo?.dataset.listDateRangeTo
+          if (dateKey) {
+            const item = manageFilterDraft.fieldFilters.find(
+              fieldFilter => fieldFilter.key === dateKey
+            )
+            if (item) {
+              const {preset, a, b} = parseDateFilterValue(item)
+              if (dateAmount) item.value = `${preset}:${dateAmount.value || 1}:${b || 'day'}`
+              else if (dateUnit) item.value = `${preset}:${a || 1}:${dateUnit.value}`
+              else if (dateSpecific) item.value = `specific:${dateSpecific.value}`
+              else if (dateRangeFrom) item.value = `range:${dateRangeFrom.value}:${b || ''}`
+              else if (dateRangeTo) item.value = `range:${a || ''}:${dateRangeTo.value}`
+            }
+            return
+          }
+          const field = event.target.closest('input[data-manage-filter-field]')
+          if (!field) return
+          const item = manageFilterDraft.fieldFilters.find(
+            fieldFilter => fieldFilter.key === field.dataset.manageFilterField
+          )
+          if (item) item.value = field.value
+        })
+
+        function applyDataFilterField(context, key, rawValue) {
+          const listState = dataListState[context]
+          const value = rawValue.trim()
+          const existing = listState.fieldFilters.find(item => item.key === key)
+          if (!value) {
+            listState.fieldFilters = listState.fieldFilters.filter(item => item.key !== key)
+            return
+          }
+          if (existing) existing.value = value
+          else listState.fieldFilters.push({key, operator: 'contains', value})
+        }
+
+        function ensureDataFilterModalField(context, key, defaults) {
+          const listState = dataListState[context]
+          let item = listState.fieldFilters.find(fieldFilter => fieldFilter.key === key)
+          if (!item) {
+            item = {key, ...defaults}
+            listState.fieldFilters.push(item)
+          }
+          return item
+        }
+
+        function renderGeoRecordChrome(row) {
+          const editing = geoState.mode !== 'view'
+          const title = geoState.mode === 'create' ? t('New Location') : encodeHtml(row.name)
+          const actions = editing
+            ? `<button class="lbtn pri" type="button" data-geo-record-action="save">${dataListIcon('i-save')} ${t('Save')}</button><button class="lbtn out" type="button" data-geo-record-action="undo">${dataListIcon('i-undo')} ${t('Undo')}</button>`
+            : `<button class="lbtn pri" type="button" data-geo-record-action="modify">${dataListIcon('i-edit')} ${t('Modify')}</button><span class="vsep"></span><button class="lbtn out" type="button" data-geo-record-action="new">${dataListIcon('i-plus')} ${t('New')}</button><button class="lbtn out danger" type="button" data-geo-record-action="delete">${dataListIcon('i-trash')} ${t('Delete')}</button>`
+          document.getElementById('geo-record-chrome').innerHTML = `
+    <div class="arow customer-arow" role="toolbar" aria-label="Location toolbar">
+      <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('Record')} ${dataListIcon('i-caret', 12)}</button><div class="mlist" role="menu"><button role="menuitem" type="button" data-geo-record-action="new">${dataListIcon('i-plus', 14)} ${t('New')}</button><button role="menuitem" type="button" data-geo-record-action="modify"${editing ? ' disabled' : ''}>${dataListIcon('i-edit', 14)} ${t('Modify')}</button><button role="menuitem" type="button" data-geo-record-action="delete"${editing ? ' disabled' : ''}>${dataListIcon('i-trash', 14)} ${t('Delete')}</button><button role="menuitem" type="button" data-geo-record-action="search">${dataListIcon('i-search', 14)} ${t('Search')}</button></div></div>
+      <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('Procedure')} ${dataListIcon('i-caret', 12)}</button><div class="mlist" role="menu"><button role="menuitem" type="button" data-geo-record-action="save"${editing ? '' : ' disabled'}>${dataListIcon('i-save', 14)} ${t('Save')}</button><button role="menuitem" type="button" data-geo-record-action="print">${dataListIcon('i-print', 14)} ${t('Print')}</button><button role="menuitem" type="button" data-geo-record-action="undo"${editing ? '' : ' disabled'}>${dataListIcon('i-undo', 14)} ${t('Undo')}</button></div></div>
+      <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('More')} ${dataListIcon('i-caret', 12)}</button><div class="mlist" role="menu"><button role="menuitem" type="button" data-geo-record-action="parameters">${dataListIcon('i-sliders', 14)} ${t('Screen Parameters')}</button><button role="menuitem" type="button" data-geo-record-action="help">${dataListIcon('i-help', 14)} ${t('Help')}</button></div></div>
+    </div>
+    <div class="phead"><div class="l"><nav class="crumbs" aria-label="Breadcrumb"><a href="#">${t('Home')}</a><span class="sep">›</span><button class="geo-back-list" type="button">${t('Geographical Structure')}</button><span class="sep">›</span><span aria-current="page">${geoState.mode === 'create' ? t('New') : t('All')}</span></nav><div class="tline"><h1>${title}</h1><span class="badge ${row.active ? 'ok' : 'gray'}">${row.active ? t('Active') : t('Inactive')}</span></div></div><div class="r"><span class="recacts">${actions}</span></div></div>`
+        }
+
+        function geoLocationIcon(type, size = 14) {
+          const icon =
+            type === 'Country'
+              ? 'i-home'
+              : type === 'Governorate'
+                ? 'i-flow'
+                : type === 'City'
+                  ? 'i-panel'
+                  : 'i-location'
+          return dataListIcon(icon, size)
+        }
+
+        function geoTreeRowMatches(row, query) {
+          if (!query) return true
+          const searchable = `${row.code} ${row.name} ${row.type}`.toLocaleLowerCase()
+          if (searchable.includes(query)) return true
+          return GEO_ROWS.filter(child => child.parentCode === row.code).some(child =>
+            geoTreeRowMatches(child, query)
+          )
+        }
+
+        function renderGeoTreeBranch(parentCode = '', level = 1) {
+          const query = geoState.treeQuery.trim().toLocaleLowerCase()
+          return GEO_ROWS.filter(
+            row => row.parentCode === parentCode && geoTreeRowMatches(row, query)
+          )
+            .map(row => {
+              const hasChildren = GEO_ROWS.some(child => child.parentCode === row.code)
+              const expanded = Boolean(query) || geoState.expanded.has(row.code)
+              const children =
+                hasChildren && expanded
+                  ? `<div class="geo-tree-children" role="group">${renderGeoTreeBranch(row.code, level + 1)}</div>`
+                  : ''
+              const chevronTitle = hasChildren
+                ? expanded
+                  ? `Collapse ${row.name}`
+                  : `Expand ${row.name}`
+                : ''
+              const chevron = hasChildren
+                ? dataListIcon('i-caret', 11)
+                    .replace('<svg', '<svg class="geo-node-chevron"')
+                    .replace('<svg', `<svg role="img" aria-label="${encodeHtml(chevronTitle)}"`)
+                : '<span aria-hidden="true" style="width:11px"></span>'
+              return `<div class="geo-tree-branch"><button class="geo-tree-node" type="button" role="treeitem" data-geo-node="${encodeHtml(row.code)}"${hasChildren ? ' data-geo-toggle-branch' : ''} aria-level="${level}" aria-current="${row.code === geoState.code}"${hasChildren ? ` aria-expanded="${expanded}" title="${encodeHtml(chevronTitle)}"` : ''}>${chevron}<span class="geo-node-copy"><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>${children}</div>`
+            })
+            .join('')
+        }
+
+        function renderGeoTree() {
+          const tree = document.getElementById('geo-tree')
+          const markup = renderGeoTreeBranch()
+          tree.innerHTML =
+            markup ||
+            `<div class="geo-hierarchy-empty">${dataListIcon('i-search', 18)}<span>No locations match “${encodeHtml(geoState.treeQuery)}”.</span></div>`
+          const search = document.getElementById('geo-tree-search')
+          if (search && search.value !== geoState.treeQuery) search.value = geoState.treeQuery
+        }
+
+        function layoutGeoFlowPositions(nodeWidth, nodeHeight, slotWidth, levelHeight) {
+          const childrenByParent = new Map()
+          GEO_ROWS.forEach(row => {
+            const key = row.parentCode || ''
+            const siblings = childrenByParent.get(key) || []
+            siblings.push(row)
+            childrenByParent.set(key, siblings)
+          })
+          const roots = childrenByParent.get('') || []
+          const positions = new Map()
+          let nextSlot = 0
+          const place = (row, level) => {
+            const children = childrenByParent.get(row.code) || []
+            let centerSlot
+            if (children.length) {
+              const firstSlot = nextSlot
+              children.forEach(child => place(child, level + 1))
+              const lastSlot = nextSlot - 1
+              centerSlot = (firstSlot + lastSlot) / 2
+            } else {
+              centerSlot = nextSlot
+              nextSlot += 1
+            }
+            positions.set(row.code, {
+              x: Math.round(centerSlot * slotWidth + slotWidth / 2 - nodeWidth / 2),
+              y: 24 + level * levelHeight,
+            })
+            return centerSlot
+          }
+          roots.forEach(row => place(row, 0))
+          return {positions, slotCount: Math.max(nextSlot, 1)}
+        }
+
+        function renderGeoFlow() {
+          const canvas = document.getElementById('geo-flow-canvas')
+          if (!canvas) return
+          const nodeWidth = 156
+          const nodeHeight = 58
+          const slotWidth = 190
+          const levelHeight = 164
+          const maxLevel = GEO_ROWS.reduce((max, row) => Math.max(max, row.level), 1)
+          const {positions, slotCount} = layoutGeoFlowPositions(
+            nodeWidth,
+            nodeHeight,
+            slotWidth,
+            levelHeight
+          )
+          const width = Math.max(800, slotCount * slotWidth + 100)
+          const height = Math.max(200, 24 + maxLevel * levelHeight + nodeHeight)
+          const connectors = GEO_ROWS.filter(row => row.parentCode)
+            .map(row => {
+              const parent = positions.get(row.parentCode)
+              const child = positions.get(row.code)
+              if (!parent || !child) return ''
+              const fromX = parent.x + nodeWidth / 2
+              const fromY = parent.y + nodeHeight
+              const toX = child.x + nodeWidth / 2
+              const toY = child.y
+              const middleY = Math.round((fromY + toY) / 2)
+              return `<path d="M ${fromX} ${fromY} C ${fromX} ${middleY}, ${toX} ${middleY}, ${toX} ${toY}" />`
+            })
+            .join('')
+          const nodes = GEO_ROWS.map(row => {
+            const position = positions.get(row.code)
+            return `<button class="geo-flow-node" type="button" data-geo-node="${encodeHtml(row.code)}" aria-current="${row.code === geoState.code}" style="left:${position.x}px;top:${position.y}px" aria-label="View ${encodeHtml(row.name)}">${geoLocationIcon(row.type, 16)}<span><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>`
+          }).join('')
+          const scaledWidth = Math.round(width * geoState.flowScale)
+          const scaledHeight = Math.round(height * geoState.flowScale)
+          canvas.style.width = `${scaledWidth}px`
+          canvas.style.height = `${scaledHeight}px`
+          canvas.innerHTML = `<div class="geo-flow-surface" style="--geo-flow-scale:${geoState.flowScale};width:${width}px;height:${height}px"><svg class="geo-flow-connectors" style="width:${width}px;height:${height}px" viewBox="0 0 ${width} ${height}" aria-hidden="true">${connectors}</svg>${nodes}</div>`
+          const zoom = document.getElementById('geo-flow-zoom-value')
+          if (zoom) zoom.textContent = `${Math.round(geoState.flowScale * 100)}%`
+          geoFlowContentSize.width = width
+          geoFlowContentSize.height = height
+        }
+
+        function syncGeoHierarchyView() {
+          document.querySelectorAll('[data-geo-view]').forEach(tab => {
+            const active = tab.dataset.geoView === geoState.hierarchyView
+            tab.setAttribute('aria-selected', String(active))
+            tab.tabIndex = active ? 0 : -1
+          })
+          const treePane = document.getElementById('geo-tree-pane')
+          const flowPane = document.getElementById('geo-flow-pane')
+          treePane.hidden = geoState.hierarchyView !== 'tree'
+          flowPane.hidden = geoState.hierarchyView !== 'flow'
+          document
+            .getElementById('geo-workspace')
+            ?.classList.toggle('flow-view', geoState.hierarchyView === 'flow')
+          if (!flowPane.hidden) renderGeoFlow()
+        }
+
+        function syncGeoRecordPager() {
+          const pager = document.querySelector('.geo-record-footer .pager')
+          const input = pager?.querySelector('.pg-i')
+          const total = pager?.querySelector('.tot')
+          const position = GEO_ROWS.findIndex(row => row.code === geoState.code) + 1
+          if (!pager || !input || !total) return
+          const setPosition = value => {
+            const next = Math.min(GEO_ROWS.length, Math.max(1, Number(value) || 1))
+            geoState.code = GEO_ROWS[next - 1].code
+            renderGeoRecord()
+          }
+          total.textContent = `${t('of', 'of')} ${GEO_ROWS.length}`
+          input.max = String(GEO_ROWS.length)
+          input.value = String(position)
+          input.dataset.last = String(position)
+          pager.querySelector('.pg-f').disabled = position === 1
+          pager.querySelector('.pg-p').disabled = position === 1
+          pager.querySelector('.pg-n').disabled = position === GEO_ROWS.length
+          pager.querySelector('.pg-l').disabled = position === GEO_ROWS.length
+          pager.querySelector('.pg-f').onclick = () => setPosition(1)
+          pager.querySelector('.pg-p').onclick = () => setPosition(position - 1)
+          pager.querySelector('.pg-n').onclick = () => setPosition(position + 1)
+          pager.querySelector('.pg-l').onclick = () => setPosition(GEO_ROWS.length)
+          input.onchange = () => setPosition(input.value)
+          document.getElementById('geo-record-position').textContent =
+            `${t('Record', 'Record')} ${position} ${t('of', 'of')} ${GEO_ROWS.length}`
+        }
+
+        function geoDescendantCodes(code) {
+          const descendants = new Set()
+          const collect = parentCode => {
+            GEO_ROWS.filter(row => row.parentCode === parentCode).forEach(child => {
+              descendants.add(child.code)
+              collect(child.code)
+            })
+          }
+          collect(code)
+          return descendants
+        }
+
+        function renderGeoParentOptions(row, creating) {
+          const select = document.getElementById('geo-field-parent')
+          const excluded = creating ? new Set() : geoDescendantCodes(row.code)
+          if (!creating) excluded.add(row.code)
+          const options = GEO_ROWS.filter(candidate => !excluded.has(candidate.code))
+          select.innerHTML =
+            '<option value="">No parent location</option>' +
+            options
+              .map(
+                candidate =>
+                  `<option value="${encodeHtml(candidate.code)}"${candidate.code === row.parentCode ? ' selected' : ''}>${encodeHtml(candidate.code)} - ${encodeHtml(candidate.name)}</option>`
+              )
+              .join('')
+        }
+
+        function saveGeoRecord() {
+          const row = GEO_ROWS.find(item => item.code === geoState.code)
+          if (!row) return
+          const parentCode = document.getElementById('geo-field-parent').value
+          const parentRow = GEO_ROWS.find(item => item.code === parentCode)
+          row.name = document.getElementById('geo-field-name').value.trim()
+          row.type = document.getElementById('geo-field-type').value
+          row.active = document.getElementById('geo-field-status').value === 'Active'
+          row.remarks = document.getElementById('geo-field-remarks').value
+          row.parentCode = parentCode
+          row.parent = parentRow ? `${parentRow.code} - ${parentRow.name}` : ''
+          row.level = (parentRow?.level || 0) + 1
+          const cascadeLevel = current => {
+            GEO_ROWS.filter(child => child.parentCode === current.code).forEach(child => {
+              child.level = current.level + 1
+              cascadeLevel(child)
+            })
+          }
+          cascadeLevel(row)
+        }
+
+        function renderGeoRecord() {
+          const creating = geoState.mode === 'create'
+          const editing = geoState.mode !== 'view'
+          const row = creating
+            ? {
+                code: '',
+                parentCode: geoState.code || '',
+                name: '',
+                level: (GEO_ROWS.find(item => item.code === geoState.code)?.level || 0) + 1,
+                type: 'District',
+                active: true,
+                remarks: '',
+              }
+            : GEO_ROWS.find(item => item.code === geoState.code) || GEO_ROWS[0]
+          if (!creating) geoState.code = row.code
+          renderGeoRecordChrome(row)
+          renderGeoTree()
+          syncGeoHierarchyView()
+          syncGeoTreePanelToggle()
+          document.getElementById('geo-field-code').value = row.code
+          renderGeoParentOptions(row, creating)
+          document.getElementById('geo-field-name').value = row.name
+          document.getElementById('geo-field-level').value = row.level
+          document.getElementById('geo-field-type').value = row.type
+          document.getElementById('geo-field-status').value = row.active ? 'Active' : 'Inactive'
+          document.getElementById('geo-field-remarks').value = row.remarks
+          document.getElementById('geo-field-name').readOnly = !editing
+          document.getElementById('geo-field-parent').disabled = !editing
+          document.getElementById('geo-parent-picker-trigger').disabled = !editing
+          document.getElementById('geo-field-type').disabled = !editing
+          document.getElementById('geo-field-status').disabled = !editing
+          document.getElementById('geo-field-remarks').readOnly = !editing
+          const note = document.getElementById('geo-footer-note')
+          if (note) {
+            const message = creating
+              ? t('New location. Save when complete.')
+              : editing
+                ? t('Editing location. Save or Undo your changes.')
+                : t('Saved location. Choose Modify to edit.')
+            note.lastChild.textContent = ` ${message}`
+          }
+          syncGeoRecordPager()
+        }
+
+        function openGeoRecord(code, mode = 'view') {
+          geoState.code = code || GEO_ROWS[0].code
+          geoState.mode = mode
+          let parentCode = GEO_ROWS.find(row => row.code === geoState.code)?.parentCode
+          while (parentCode) {
+            geoState.expanded.add(parentCode)
+            parentCode = GEO_ROWS.find(row => row.code === parentCode)?.parentCode
+          }
+          showContentView('geo-record')
+          renderGeoRecord()
+        }
+
+        function selectGeoTreeNode(node) {
+          if (node.matches('[data-geo-toggle-branch]')) {
+            if (geoState.expanded.has(node.dataset.geoNode))
+              geoState.expanded.delete(node.dataset.geoNode)
+            else geoState.expanded.add(node.dataset.geoNode)
+          }
+          geoState.code = node.dataset.geoNode
+          renderGeoRecord()
+        }
+
+        function toggleGeoTreePanel(toggleButton) {
+          if (geoHierarchyMediaQuery.matches) {
+            openGeoHierarchyDialog()
+            return
+          }
+          const workspace = document.getElementById('geo-workspace')
+          const collapsed = workspace.classList.toggle('tree-collapsed')
+          toggleButton.setAttribute('aria-pressed', String(collapsed))
+          toggleButton.setAttribute(
+            'aria-label',
+            collapsed ? 'Expand location hierarchy' : 'Collapse location hierarchy'
+          )
+          toggleButton.title = collapsed ? 'Expand hierarchy' : 'Collapse hierarchy'
+          toggleButton.querySelector('use')?.setAttribute('href', collapsed ? '#i-next' : '#i-prev')
+        }
+
+        function syncGeoTreePanelToggle() {
+          const toggleButton = document.querySelector('[data-geo-tree-collapse]')
+          if (!toggleButton) return
+          if (geoHierarchyMediaQuery.matches) {
+            toggleButton.setAttribute('aria-pressed', 'false')
+            toggleButton.setAttribute('aria-label', 'Open location hierarchy')
+            toggleButton.title = 'Open location hierarchy'
+            toggleButton.querySelector('use')?.setAttribute('href', '#i-next')
+            return
+          }
+          const collapsed = document
+            .getElementById('geo-workspace')
+            ?.classList.contains('tree-collapsed')
+          toggleButton.setAttribute('aria-pressed', String(Boolean(collapsed)))
+          toggleButton.setAttribute(
+            'aria-label',
+            collapsed ? 'Expand location hierarchy' : 'Collapse location hierarchy'
+          )
+          toggleButton.title = collapsed ? 'Expand hierarchy' : 'Collapse hierarchy'
+          toggleButton.querySelector('use')?.setAttribute('href', collapsed ? '#i-next' : '#i-prev')
+        }
+
+        function setGeoHierarchyView(view) {
+          if (!['tree', 'flow'].includes(view)) return
+          geoState.hierarchyView = view
+          syncGeoHierarchyView()
+          if (view === 'flow')
+            requestAnimationFrame(() => document.getElementById('geo-flow-viewport')?.focus())
+        }
+
+        function setGeoFlowScale(scale) {
+          geoState.flowScale = Math.min(1.4, Math.max(0.55, scale))
+          renderGeoFlow()
+        }
+
+        function fitGeoFlow() {
+          const viewport = document.getElementById('geo-flow-viewport')
+          if (!viewport) return
+          const availableWidth = Math.max(1, viewport.clientWidth - 24)
+          const availableHeight = Math.max(1, viewport.clientHeight - 24)
+          setGeoFlowScale(
+            Math.min(
+              1,
+              availableWidth / geoFlowContentSize.width,
+              availableHeight / geoFlowContentSize.height
+            )
+          )
+          viewport.scrollTo({top: 0, left: 0, behavior: 'smooth'})
+        }
+
+        function openCustomerRecord(customerNo, mode) {
+          customerState.mode = mode
+          customerState.customerNo = customerNo || ''
+          customerState.dirty = false
+          customerState.errors.clear()
+          /* every record opens on its normal-purpose view — never carry over a tab
+             (e.g. Deactivate) selected while viewing a previous customer */
+          customerState.activeSection = 'identity'
+          customerData =
+            mode === 'create' ? createBlankCustomerData() : createSavedCustomerData(customerNo)
+          customerSavedSnapshot = structuredClone(customerData)
+          document.getElementById('customer-mode').value = mode
+          showContentView('customer-record')
+          renderCustomerRecord()
+        }
+
+        function renderCustomerField(field, {asCardToggle = false} = {}) {
+          const value = customerData[field.key]
+          const disabled = customerState.mode === 'view' ? ' disabled' : ''
+          const key = encodeHtml(field.key)
+          const label = encodeHtml(t(field.label))
+          const id = `customer-field-${key}`
+          const required = CUSTOMER_REQUIRED_FIELDS.has(field.key)
+            ? ' required aria-required="true"'
+            : ''
+          const error = customerState.errors.get(field.key) || ''
+          const invalid = error ? ' aria-invalid="true"' : ''
+          const describedBy = error ? ` aria-describedby="${id}-error"` : ''
+          const requiredMark = required ? '<span class="req" aria-hidden="true">*</span>' : ''
+          const errorMarkup = error
+            ? `<span class="customer-field-error" id="${id}-error">${encodeHtml(error)}</span>`
+            : ''
+          if (field.type === 'checkbox') {
+            if (asCardToggle) {
+              return `<label class="customer-dialog-toggle rec-field customer-field customer-field-wide customer-beneficiary-toggle" for="${id}"><span><strong>${label}</strong></span><input id="${id}" type="checkbox" role="switch" data-customer-field="${key}"${value ? ' checked' : ''}${disabled}><span class="customer-dialog-toggle-track" aria-hidden="true"></span></label>`
+            }
+            return `<div class="rec-field customer-field customer-check"><label for="${id}"><input id="${id}" type="checkbox" data-customer-field="${key}"${value ? ' checked' : ''}${disabled}> <span>${label}</span></label></div>`
+          }
+          if (field.type === 'photo') {
+            const actionLabel = customerImageData(value) ? 'Change photo' : 'Select photo'
+            return `<div class="rec-field customer-field customer-photo"><label for="${id}">${label}</label>${renderCustomerRecordPhoto(value)}<button id="${id}" class="lbtn out" type="button" data-customer-field="${key}" data-customer-action="photo"${disabled}><svg width="15" height="15" aria-hidden="true"><use href="#i-clip" /></svg> ${actionLabel}</button></div>`
+          }
+          if (field.type === 'select') {
+            const options = [...new Set([value, ...field.options])]
+            const optionMarkup = options
+              .map(option => {
+                const optionLabel = option || field.label
+                return `<option value="${encodeHtml(option)}"${option === value ? ' selected' : ''}>${encodeHtml(optionLabel)}</option>`
+              })
+              .join('')
+            if (CUSTOMER_LOOKUP_KEYS.has(field.key)) {
+              const hierarchyTrigger =
+                field.key === 'operationUnit'
+                  ? `<button class="customer-lookup-trigger" type="button" data-unit-picker-open="${id}" aria-haspopup="dialog" aria-label="Choose ${label} from hierarchy"${disabled}><svg width="16" height="16" aria-hidden="true"><use href="#i-flow" /></svg></button>`
+                  : ''
+              return `<div class="rec-field customer-field"><label for="${id}">${label} ${requiredMark}</label><div class="customer-lookup-control"><select id="${id}" data-customer-field="${key}"${required}${invalid}${describedBy}${disabled}>${optionMarkup}</select>${hierarchyTrigger}<button class="customer-lookup-trigger" type="button" data-customer-lookup="${key}" aria-haspopup="menu" aria-controls="customer-lookup-menu" aria-expanded="false" aria-label="More options for ${label}"${disabled}><svg width="16" height="16" aria-hidden="true"><use href="#i-dots" /></svg></button></div>${errorMarkup}</div>`
+            }
+            return `<div class="rec-field customer-field"><label for="${id}">${label} ${requiredMark}</label><select id="${id}" data-customer-field="${key}"${required}${invalid}${describedBy}${disabled}>${optionMarkup}</select>${errorMarkup}</div>`
+          }
+          if (field.type === 'textarea') {
+            return `<div class="rec-field customer-field customer-field-wide"><label for="${id}">${label} ${requiredMark}</label><textarea id="${id}" rows="3" data-customer-field="${key}" placeholder="${label}"${required}${invalid}${describedBy}${disabled}>${encodeHtml(value)}</textarea>${errorMarkup}</div>`
+          }
+          return `<div class="rec-field customer-field"><label for="${id}">${label} ${requiredMark}</label><input id="${id}" type="${encodeHtml(field.type)}" value="${encodeHtml(value)}" data-customer-field="${key}" placeholder="${label}"${required}${invalid}${describedBy}${disabled}>${errorMarkup}</div>`
+        }
+
+        function renderCustomerSectionBody(key) {
+          const section = CUSTOMER_SECTIONS[key]
+          if (key === 'identity') {
+            const photo = section.fields.find(field => field.type === 'photo')
+            const linked = section.fields.find(field => field.key === 'linkedBeneficiaries')
+            const identityFields = section.fields.filter(
+              field => field !== photo && field.key !== 'linkedBeneficiaries'
+            )
+            return `<div class="customer-identity-body"><div class="customer-identity-photo">${renderCustomerField(photo)}</div><div class="customer-field-grid">${identityFields.map(renderCustomerField).join('')}${renderCustomerField(linked, {asCardToggle: true})}</div></div>`
+          }
+          if (section.type === 'subledgers') return renderCustomerSubLedgers()
+          if (section.type === 'empty') {
+            return `<div class="customer-empty-state"><svg width="28" height="28" aria-hidden="true"><use href="#i-user" /></svg><h3>No contact details to display</h3><p>The supplied reference does not define contact-detail fields.</p></div>`
+          }
+          return `<div class="customer-field-grid">${section.fields.map(renderCustomerField).join('')}</div>`
+        }
+
+        function renderCustomerIdentitySection(concept) {
+          const section = CUSTOMER_SECTIONS.identity
+          const meta = customerSectionMeta('identity')
+          const conceptAttribute = concept ? ` data-customer-concept="${encodeHtml(concept)}"` : ''
+          return `<section class="customer-section customer-identity-section" data-customer-section="identity"${conceptAttribute} data-customer-has-errors="${meta.hasErrors}"><div class="customer-section-titlebar"><h2><span>${encodeHtml(section.title)}</span>${renderCustomerSectionStatus('identity')}</h2></div><div class="customer-section-body">${renderCustomerSectionBody('identity')}</div></section>`
+        }
+
+        function renderCustomerTabSection(key) {
+          const meta = customerSectionMeta(key)
+          return `<section class="customer-section customer-tab-section" data-customer-section="${encodeHtml(key)}" data-customer-has-errors="${meta.hasErrors}"><div class="customer-section-body">${renderCustomerSectionBody(key)}</div></section>`
+        }
+
+        function renderCustomerSection(key) {
+          const section = CUSTOMER_SECTIONS[key]
+          const meta = customerSectionMeta(key)
+          return `<section class="customer-section" data-customer-section="${encodeHtml(key)}" data-customer-has-errors="${meta.hasErrors}"><h2 class="customer-section-titlebar"><span>${encodeHtml(section.title)}</span>${renderCustomerSectionStatus(key)}</h2><div class="customer-section-body">${renderCustomerSectionBody(key)}</div></section>`
+        }
+
+        function renderCustomerCollapsible(key, concept) {
+          const section = CUSTOMER_SECTIONS[key]
+          const expanded = customerState.expanded.has(key)
+          const meta = customerSectionMeta(key)
+          const bodyId = `customer-${concept}-${key}-body`
+          return `<section class="customer-section" data-customer-section="${encodeHtml(key)}" data-customer-concept="${encodeHtml(concept)}" data-customer-has-errors="${meta.hasErrors}"><button class="customer-section-heading" type="button" data-customer-collapse="${encodeHtml(key)}" aria-controls="${encodeHtml(bodyId)}" aria-expanded="${expanded}"><span class="customer-section-label"><span>${encodeHtml(section.title)}</span>${renderCustomerSectionStatus(key)}</span><svg width="14" height="14" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="customer-section-body" id="${encodeHtml(bodyId)}"${expanded ? '' : ' hidden'}>${renderCustomerSectionBody(key)}</div></section>`
+        }
+
+        function renderCustomerSubLedgers() {
+          return `<div class="customer-table-toolbar">
+      <button class="ibtn" type="button" aria-label="Add sub ledger" data-customer-action="add-sub-ledger"><svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg></button>
+      <div class="sp"></div>
+      <label class="customer-table-search"><svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg><input type="search" placeholder="Search" aria-label="Search sub ledgers"></label>
+    </div>
+    <div class="inv-grid-wrap">
+      <table class="inv-grid customer-subledger-grid">
+        <thead><tr><th>#</th><th>Sub Ledger Type</th><th>Number</th><th>Default</th><th>Deactivate</th></tr></thead>
+        <tbody><tr><td colspan="5" class="customer-table-empty">No records to display</td></tr></tbody>
+      </table>
+      <div class="customer-table-pager">Display 0 to 0 from 0 inputs</div>
+    </div>`
+        }
+
+        function renderCustomerRecordChrome() {
+          const creating = customerState.mode === 'create'
+          const editing = customerState.mode === 'edit' || creating
+          const title = creating
+            ? t('New Customer')
+            : `${encodeHtml(customerData.customerNo)} · ${encodeHtml(customerData.customerName)}`
+          const viewActions = `<button class="lbtn pri" type="button" data-customer-action="modify"><svg width="15" height="15" aria-hidden="true"><use href="#i-edit" /></svg> ${t('Modify')}</button><span class="vsep"></span><span class="newwrap menu"><button class="lbtn out main" type="button" data-customer-action="new"><svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> ${t('New')}</button><button class="car" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Other ways to create a customer"><svg width="11" height="11" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="mlist mend" role="menu"><button role="menuitem" type="button" data-customer-action="add-from">${t('Add From')}</button><button role="menuitem" type="button" data-customer-action="new-tab">${t('Open in new tab')}</button></div></span><button class="lbtn out danger" type="button" data-customer-action="delete" disabled><svg width="15" height="15" aria-hidden="true"><use href="#i-trash" /></svg> ${t('Delete')}</button>`
+          const editActions = `<button class="lbtn pri" type="button" data-customer-action="save"><svg width="15" height="15" aria-hidden="true"><use href="#i-save" /></svg> ${t('Save')}</button><button class="lbtn out" type="button" data-customer-action="undo"><svg width="15" height="15" aria-hidden="true"><use href="#i-undo" /></svg> ${t('Undo')}</button>`
+          document.getElementById('customer-record-chrome').innerHTML = `
+    <div class="arow customer-arow" role="toolbar" aria-label="Customer toolbar">
+      <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('Record')} <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="mlist" role="menu"><button role="menuitem" type="button" data-customer-action="new"><svg width="14" height="14" aria-hidden="true"><use href="#i-plus" /></svg> ${t('New')}</button><button role="menuitem" type="button" data-customer-action="add-from"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg> ${t('Add From')}</button><button role="menuitem" type="button" data-customer-action="modify"${editing ? ' disabled' : ''}><svg width="14" height="14" aria-hidden="true"><use href="#i-edit" /></svg> ${t('Modify')}</button><button role="menuitem" type="button" data-customer-action="delete"${editing ? ' disabled' : ''}><svg width="14" height="14" aria-hidden="true"><use href="#i-trash" /></svg> ${t('Delete')}</button><button role="menuitem" type="button" data-customer-action="search"><svg width="14" height="14" aria-hidden="true"><use href="#i-search" /></svg> ${t('Search')}</button></div></div>
+      <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('Procedure')} <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="mlist" role="menu"><button role="menuitem" type="button" data-customer-action="save"${editing ? '' : ' disabled'}><svg width="14" height="14" aria-hidden="true"><use href="#i-save" /></svg> ${t('Save')}</button><button role="menuitem" type="button" data-customer-action="lock"><svg width="14" height="14" aria-hidden="true"><use href="#i-lock" /></svg> ${t('Lock Screen')}</button><button role="menuitem" type="button" data-customer-action="reports"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg> ${t('Reports')}</button><button role="menuitem" type="button" data-customer-action="print"><svg width="14" height="14" aria-hidden="true"><use href="#i-print" /></svg> ${t('Print')}</button><button role="menuitem" type="button" data-customer-action="undo"${editing ? '' : ' disabled'}><svg width="14" height="14" aria-hidden="true"><use href="#i-undo" /></svg> ${t('Undo')}</button></div></div>
+      <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('More')} <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="mlist" role="menu"><button role="menuitem" type="button" data-customer-action="parameters"><svg width="14" height="14" aria-hidden="true"><use href="#i-sliders" /></svg> ${t('Screen Parameters')}</button><button role="menuitem" type="button" data-customer-action="help"><svg width="14" height="14" aria-hidden="true"><use href="#i-help" /></svg> ${t('Help')}</button><hr /><button role="menuitem" type="button" class="dan" data-customer-action="deactivate"><svg width="14" height="14" aria-hidden="true"><use href="#i-lock" /></svg> ${customerData.deactivationFrom ? t('Activate') : t('Deactivate')}</button></div></div>
+      <div class="sp"></div>
+      <button type="button" class="lbtn" data-customer-action="accounts-movement"><svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg> ${t('Accounts Movement')}</button>
+    </div>
+    <div class="phead">
+      <div class="l">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="#">${t('Home')}</a><span class="sep">›</span><button class="customer-back" type="button">${t('Customers')}</button><span class="sep">›</span><span aria-current="page">${creating ? t('New') : t('All')}</span></nav>
+        <div class="tline"><h1>${title}</h1><span class="badge ${customerData.deactivationFrom ? 'gray' : 'ok'}">${customerData.deactivationFrom ? t('Inactive') : t('Active')}</span></div>
+      </div>
+      <div class="r"><span class="recacts">${editing ? editActions : viewActions}</span></div>
+    </div>`
+          syncCustomerRecordFooter()
+        }
+
+        function syncCustomerRecordFooter() {
+          const footer = document.querySelector('.customer-record-footer')
+          if (!footer) return
+          const rowIndex = CUSTOMER_ROWS.findIndex(
+            customer => customer.customerNo === customerData.customerNo
+          )
+          const position = Math.max(1, rowIndex + 1)
+          const pager = footer.querySelector('.pager')
+          const input = pager?.querySelector('.pg-i')
+          const total = pager?.querySelector('.tot')
+          if (total) total.textContent = `${t('of', 'of')} 72`
+          const positionLabel = document.getElementById('customer-record-position')
+          const setPosition = value => {
+            const next = Math.min(72, Math.max(1, Number(value) || 1))
+            input.value = String(next)
+            input.dataset.last = String(next)
+            pager.querySelector('.pg-f').disabled = next === 1
+            pager.querySelector('.pg-p').disabled = next === 1
+            pager.querySelector('.pg-n').disabled = next === 72
+            pager.querySelector('.pg-l').disabled = next === 72
+            positionLabel.textContent = `${t('Record', 'Record')} ${next} ${t('of', 'of')} 72`
+          }
+          if (input && pager && positionLabel) {
+            input.max = '72'
+            pager.querySelector('.pg-f').onclick = () => setPosition(1)
+            pager.querySelector('.pg-p').onclick = () => setPosition(Number(input.value) - 1)
+            pager.querySelector('.pg-n').onclick = () => setPosition(Number(input.value) + 1)
+            pager.querySelector('.pg-l').onclick = () => setPosition(72)
+            input.onchange = () => setPosition(input.value)
+            setPosition(position)
+            const creating = customerState.mode === 'create'
+            input.readOnly = creating
+            if (creating) {
+              pager.querySelectorAll('button').forEach(button => (button.disabled = true))
+              positionLabel.textContent = 'New customer'
+            }
+          }
+          const note = document.getElementById('customer-footer-note')
+          if (note) {
+            const message =
+              customerState.mode === 'view'
+                ? t('Saved customer. Choose Modify to edit.')
+                : customerState.mode === 'create'
+                  ? t('New customer. Save when complete.')
+                  : t('Editing customer. Save or Undo your changes.')
+            note.lastChild.textContent = ` ${message}`
+          }
+        }
+
+        function renderCustomerGuided() {
+          const canvas = document.getElementById('customer-record-canvas')
+          const top = renderCustomerIdentitySection('guided')
+          const activeKey = CUSTOMER_GUIDED_TABS.includes(customerState.activeSection)
+            ? customerState.activeSection
+            : 'mainData'
+          customerState.activeSection = activeKey
+          const tabs = CUSTOMER_GUIDED_TABS.map(key => {
+            const selected = activeKey === key
+            const section = CUSTOMER_SECTIONS[key]
+            return `<button class="rec-tab${selected ? ' on' : ''}" id="customer-tab-${encodeHtml(key)}" type="button" role="tab" data-customer-tab="${encodeHtml(key)}" aria-controls="customer-guided-panel" aria-selected="${selected}" tabindex="${selected ? '0' : '-1'}"><span>${encodeHtml(section.title)}</span>${renderCustomerSectionStatus(key)}</button>`
+          }).join('')
+          canvas.innerHTML = `<div class="customer-guided">${top}<div class="customer-guided-details"><div class="rec-tabs" role="tablist" aria-label="Customer details">${tabs}</div><div class="customer-guided-panel" id="customer-guided-panel" role="tabpanel" aria-labelledby="customer-tab-${encodeHtml(activeKey)}">${renderCustomerTabSection(activeKey)}</div></div></div>`
+        }
+        function renderCustomerFocused() {
+          if (!CUSTOMER_SECTION_ORDER.includes(customerState.activeSection)) {
+            customerState.activeSection = 'identity'
+          }
+          const nav = CUSTOMER_SECTION_ORDER.map(key => {
+            const current = customerState.activeSection === key
+            const label = key === 'identity' ? 'Overview' : CUSTOMER_SECTIONS[key].title
+            return `<button type="button" id="customer-focused-${encodeHtml(key)}" data-customer-focus-section="${encodeHtml(key)}" aria-controls="customer-focused-panel"${current ? ' aria-current="page"' : ''} tabindex="${current ? '0' : '-1'}"><span>${encodeHtml(label)}</span>${renderCustomerSectionStatus(key)}</button>`
+          }).join('')
+          document.getElementById('customer-record-canvas').innerHTML = `
+    ${renderCustomerSummaryBand()}
+    <div class="customer-focused">
+      <nav class="customer-focused-nav" aria-label="Customer sections">${nav}</nav>
+      <div class="customer-focused-panel" id="customer-focused-panel" role="region" aria-labelledby="customer-focused-${encodeHtml(customerState.activeSection)}">${renderCustomerSection(customerState.activeSection)}</div>
+    </div>`
+        }
+        function renderCustomerCompact() {
+          const cards = CUSTOMER_SECTION_ORDER.map(key => {
+            const full = ['identity', 'subLedgers', 'contactDetails'].includes(key)
+            const wide = ['nationalAddress', 'mainData', 'otherData'].includes(key)
+            const spanClass = full ? ' full' : wide ? ' wide' : ''
+            return `<div class="customer-compact-card${spanClass}">${renderCustomerCollapsible(key, 'compact')}</div>`
+          }).join('')
+          document.getElementById('customer-record-canvas').innerHTML = `
+    ${renderCustomerSummaryBand()}
+    <div class="customer-compact-grid">${cards}</div>`
+        }
+
+        let customerScrollObserver = null
+        let customerScrollNavigationKey = ''
+        let customerScrollNavigationTimer = 0
+        let customerScrollNavigationId = 0
+
+        function setCustomerScrollActiveSection(key) {
+          if (!CUSTOMER_SECTION_ORDER.includes(key)) return
+          customerState.activeSection = key
+          document.querySelectorAll('.customer-scroll-nav button').forEach(button => {
+            button.setAttribute(
+              'aria-current',
+              button.dataset.customerScrollSection === key ? 'page' : 'false'
+            )
+          })
+        }
+
+        function customerScrollStickyOffset() {
+          if (!matchMedia('(max-width: 720px)').matches) return 12
+          return (
+            (document.querySelector('.customer-scroll-nav')?.getBoundingClientRect().height || 0) +
+            8
+          )
+        }
+
+        function customerScrollContainer() {
+          const canvas = document.getElementById('customer-record-canvas')
+          return canvas.scrollHeight > canvas.clientHeight + 1 ? canvas : document.scrollingElement
+        }
+
+        function customerScrollViewportTop(scroller) {
+          return scroller === document.scrollingElement ? 0 : scroller.getBoundingClientRect().top
+        }
+
+        function syncCustomerScrollActiveSection() {
+          if (customerScrollNavigationKey) return
+          const canvas = document.getElementById('customer-record-canvas')
+          if (!canvas) return
+          const targets = [...canvas.querySelectorAll('[data-customer-scroll-target]')]
+          if (!targets.length) return
+          const scroller = customerScrollContainer()
+          const anchor = customerScrollViewportTop(scroller) + customerScrollStickyOffset() + 2
+          const activeTarget = targets.reduce((nearest, target) =>
+            Math.abs(target.getBoundingClientRect().top - anchor) <
+            Math.abs(nearest.getBoundingClientRect().top - anchor)
+              ? target
+              : nearest
+          )
+          setCustomerScrollActiveSection(activeTarget.dataset.customerScrollTarget)
+        }
+
+        function stopCustomerScrollNavigation({interrupt = false} = {}) {
+          customerScrollNavigationId += 1
+          window.clearTimeout(customerScrollNavigationTimer)
+          customerScrollNavigationTimer = 0
+          customerScrollNavigationKey = ''
+          if (interrupt) {
+            const scroller = customerScrollContainer()
+            scroller.scrollTo({top: scroller.scrollTop, behavior: 'auto'})
+            syncCustomerScrollActiveSection()
+          }
+        }
+
+        function stopCustomerScrollTracking() {
+          customerScrollObserver?.disconnect()
+          customerScrollObserver = null
+          stopCustomerScrollNavigation()
+        }
+
+        function startCustomerScrollSpy() {
+          customerScrollObserver?.disconnect()
+          customerScrollObserver = null
+          if (!('IntersectionObserver' in window)) return
+          const canvas = document.getElementById('customer-record-canvas')
+          const scroller = customerScrollContainer()
+          const stickyOffset = Math.round(customerScrollStickyOffset())
+          customerScrollObserver = new IntersectionObserver(
+            () => syncCustomerScrollActiveSection(),
+            {
+              root: scroller === document.scrollingElement ? null : scroller,
+              rootMargin: `-${stickyOffset}px 0px -65% 0px`,
+              threshold: [0, 0.1, 0.5],
+            }
+          )
+          canvas
+            .querySelectorAll('[data-customer-scroll-target]')
+            .forEach(section => customerScrollObserver.observe(section))
+        }
+
+        function renderCustomerScroll() {
+          if (!CUSTOMER_SECTION_ORDER.includes(customerState.activeSection)) {
+            customerState.activeSection = 'identity'
+          }
+          const nav = CUSTOMER_SECTION_ORDER.map(key => {
+            const current = customerState.activeSection === key
+            return `<button type="button" data-customer-scroll-section="${encodeHtml(key)}" aria-controls="customer-section-${encodeHtml(key)}" aria-current="${current ? 'page' : 'false'}">${encodeHtml(CUSTOMER_SECTIONS[key].title)}</button>`
+          }).join('')
+          const sections = CUSTOMER_SECTION_ORDER.map(key => {
+            const section =
+              key === 'identity'
+                ? renderCustomerIdentitySection('scroll')
+                : renderCustomerCollapsible(key, 'scroll')
+            return `<div id="customer-section-${encodeHtml(key)}" data-customer-scroll-target="${encodeHtml(key)}">${section}</div>`
+          }).join('')
+          document.getElementById('customer-record-canvas').innerHTML = `
+    <div class="customer-scroll-layout">
+      <nav class="customer-scroll-nav" aria-label="Customer sections">${nav}</nav>
+      <div class="customer-scroll-content">${sections}</div>
+    </div>`
+          startCustomerScrollSpy()
+        }
+
+        function activateCustomerScrollSection(key) {
+          if (!CUSTOMER_SECTION_ORDER.includes(key)) return
+          stopCustomerScrollNavigation()
+          const navigationId = customerScrollNavigationId
+          customerScrollNavigationKey = key
+          customerState.expanded.add(key)
+          setCustomerScrollActiveSection(key)
+          const section = document.getElementById(`customer-section-${key}`)
+          if (!section) {
+            stopCustomerScrollNavigation()
+            return
+          }
+          const body = section.querySelector('.customer-section-body')
+          const heading = section.querySelector('.customer-section-heading')
+          body.hidden = false
+          heading?.setAttribute('aria-expanded', 'true')
+          const scroller = customerScrollContainer()
+          const targetTop =
+            scroller.scrollTop +
+            section.getBoundingClientRect().top -
+            customerScrollViewportTop(scroller) -
+            customerScrollStickyOffset()
+          const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches
+          scroller.scrollTo({
+            top: Math.max(0, targetTop),
+            behavior: reducedMotion ? 'auto' : 'smooth',
+          })
+          const finishNavigation = () => {
+            if (navigationId !== customerScrollNavigationId || customerScrollNavigationKey !== key)
+              return
+            window.clearTimeout(customerScrollNavigationTimer)
+            customerScrollNavigationTimer = 0
+            customerScrollNavigationKey = ''
+          }
+          scroller.addEventListener('scrollend', finishNavigation, {once: true})
+          customerScrollNavigationTimer = window.setTimeout(
+            finishNavigation,
+            reducedMotion ? 0 : 1200
+          )
+        }
+
+        const CUSTOMER_RENDERERS = {
+          guided: renderCustomerGuided,
+          scroll: renderCustomerScroll,
+        }
+
+        function renderCustomerLayout({focusSelector = '', preserveScroll = false} = {}) {
+          const canvas = document.getElementById('customer-record-canvas')
+          if (!canvas) return
+          const scrollTop = canvas.scrollTop
+          stopCustomerScrollTracking()
+          ;(CUSTOMER_RENDERERS[customerState.layout] || renderCustomerGuided)()
+          applyRecordValueDirections(canvas)
+          if (preserveScroll) canvas.scrollTop = scrollTop
+          if (customerState.layout === 'scroll') {
+            requestAnimationFrame(syncCustomerScrollActiveSection)
+          }
+          if (focusSelector) {
+            const target = canvas.querySelector(focusSelector)
+            if (target) target.focus({preventScroll: true})
+          }
+        }
+
+        function renderCustomerRecord(options) {
+          renderCustomerRecordChrome()
+          renderCustomerLayout(options)
+        }
+
+        function setCustomerMode(mode) {
+          customerState.mode = mode
+          customerState.dirty = false
+          if (mode === 'view') customerState.errors.clear()
+          document.getElementById('customer-mode').value = mode
+          renderCustomerRecord()
+        }
+
+        function saveCustomer() {
+          if (!validateCustomerRecord()) {
+            const firstError = CUSTOMER_SECTION_ORDER.flatMap(sectionKey =>
+              CUSTOMER_SECTIONS[sectionKey].fields.map(field => ({field, sectionKey}))
+            ).find(({field}) => customerState.errors.has(field.key))
+            if (firstError) {
+              customerState.expanded.add(firstError.sectionKey)
+              if (
+                customerState.layout === 'focused' ||
+                customerState.layout === 'scroll' ||
+                CUSTOMER_GUIDED_TABS.includes(firstError.sectionKey)
+              ) {
+                customerState.activeSection = firstError.sectionKey
+              }
+              renderCustomerRecord({
+                focusSelector: `#customer-field-${firstError.field.key}`,
+              })
+              document
+                .getElementById(`customer-field-${firstError.field.key}`)
+                ?.scrollIntoView({block: 'center'})
+            }
+            toast({tone: 'bad', title: 'Complete the highlighted customer fields'})
+            return false
+          }
+          customerSavedSnapshot = structuredClone(customerData)
+          setCustomerMode('view')
+          toast({tone: 'ok', title: 'Customer saved'})
+          return true
+        }
+
+        function undoCustomer() {
+          if (customerState.mode === 'create') {
+            customerState.dirty = false
+            showContentView('customers-list')
+            return
+          }
+          customerData = structuredClone(customerSavedSnapshot)
+          setCustomerMode('view')
+        }
+
+        function restoreCustomerView(previousMode) {
+          if (previousMode !== 'create' && customerSavedSnapshot?.customerNo) {
+            customerData = structuredClone(customerSavedSnapshot)
+            customerState.customerNo = customerData.customerNo
+            return
+          }
+          customerState.customerNo = CUSTOMER_REFERENCE.customerNo
+          customerData = createSavedCustomerData(customerState.customerNo)
+          customerSavedSnapshot = structuredClone(customerData)
+        }
+
+        const customerGuardScrim = document.getElementById('customer-gscrim')
+        let customerGuardAfter = null
+        const customerAtRisk = () =>
+          customerState.mode === 'create' || (customerState.mode === 'edit' && customerState.dirty)
+
+        function askCustomerGuard(after, label) {
+          customerGuardAfter = after
+          document.getElementById('customer-g-msg').textContent =
+            customerState.mode === 'create'
+              ? 'This customer has never been saved.'
+              : 'This customer has changes that were never saved.'
+          document.getElementById('customer-g-what').textContent = `You were about to: ${label}.`
+          customerGuardScrim.classList.add('open')
+          setTimeout(() => trapFocus(customerGuardScrim.querySelector('.guard')), 0)
+        }
+
+        function closeCustomerGuard() {
+          customerGuardScrim.classList.remove('open')
+          releaseFocus()
+        }
+
+        document.getElementById('customer-g-stay').addEventListener('click', () => {
+          customerGuardAfter = null
+          closeCustomerGuard()
+        })
+        document.getElementById('customer-g-discard').addEventListener('click', () => {
+          const after = customerGuardAfter
+          customerGuardAfter = null
+          customerState.dirty = false
+          if (customerState.mode === 'edit') {
+            customerData = structuredClone(customerSavedSnapshot)
+          }
+          closeCustomerGuard()
+          after?.()
+        })
+        document.getElementById('customer-g-save').addEventListener('click', () => {
+          const after = customerGuardAfter
+          if (!saveCustomer()) {
+            customerGuardAfter = null
+            closeCustomerGuard()
+            return
+          }
+          customerGuardAfter = null
+          closeCustomerGuard()
+          after?.()
+        })
+        customerGuardScrim.addEventListener('click', event => {
+          if (event.target === customerGuardScrim) {
+            document.getElementById('customer-g-stay').click()
+          }
+        })
+        document.addEventListener('keydown', event => {
+          if (event.key === 'Escape' && customerGuardScrim.classList.contains('open')) {
+            document.getElementById('customer-g-stay').click()
+          }
+        })
+
+        document.addEventListener(
+          'click',
+          event => {
+            const recordView = document.querySelector('.customer-record-view')
+            const destination = event.target.closest(
+              '.customer-back, .nc1-item, [data-label], .customer-record-view .pager button'
+            )
+            if (!recordView || recordView.hidden || !destination || !customerAtRisk()) return
+            event.preventDefault()
+            event.stopImmediatePropagation()
+            const backToList = destination.classList.contains('customer-back')
+            askCustomerGuard(
+              () => {
+                if (backToList) showContentView('customers-list')
+                else destination.click()
+              },
+              backToList ? 'return to the Customers list' : 'leave this customer record'
+            )
+          },
+          true
+        )
+
+        function renderListA(canvas) {
+          dataListState.invoice.canvas = canvas
+          dataListState.invoice.sourceRows = LIST_ROWS
+          renderDataList('invoice')
+        }
+
+        function openInvoiceRecord(no) {
+          /* minimal per design spec §4: reflect which row was clicked in the record's
+   title/breadcrumb — not a real invoice data lookup, no backend to query */
+          state.docNo = no
+          showContentView('record')
+          applyState()
+        }
+        /* referenced from the grid's row onclick (inline, kept verbatim from the
+   ported markup) — needs to be reachable outside this IIFE, same as toast. */
+        window.openInvoiceRecord = openInvoiceRecord
+
+        /* ---- advanced search: shared overlay opened from every list concept's Search trigger ----
+   (ported from sales-invoice-list.html; trapFocus/releaseFocus already exist in this IIFE) */
+        const ADVANCED_SEARCH_FIELDS = {
+          invoice: [
+            {key: 'docno', label: 'Doc No.', placeholder: 'e.g. 126'},
+            {key: 'customer', label: 'Customer', placeholder: 'Customer name or number'},
+            {key: 'date', label: 'Date range', placeholder: 'e.g. 01/08/2026 – 13/08/2026'},
+            {
+              key: 'status',
+              label: 'Status',
+              type: 'select',
+              options: ['All statuses', 'Posted', 'Pending', 'Open'],
+            },
+            {
+              key: 'pay',
+              label: 'Payment method',
+              type: 'select',
+              options: ['All methods', 'Cash', 'Credit'],
+            },
+          ],
+          customer: [
+            {key: 'customerNo', label: 'Customer No.', placeholder: 'e.g. 200010'},
+            {key: 'customerName', label: 'Customer Name', placeholder: 'e.g. customer_412'},
+            {key: 'typeGroup', label: 'Type or Group', placeholder: 'e.g. Retail or General'},
+            {key: 'country', label: 'Country', placeholder: 'e.g. Egypt'},
+            {
+              key: 'status',
+              label: 'Status',
+              type: 'select',
+              options: ['All statuses', 'Active', 'Inactive'],
+            },
+          ],
+          geo: [
+            {key: 'code', label: 'Location Code', placeholder: 'e.g. CAI'},
+            {key: 'name', label: 'Location Name', placeholder: 'e.g. Cairo'},
+            {
+              key: 'type',
+              label: 'Type',
+              type: 'select',
+              options: ['All types', 'Country', 'Governorate', 'City', 'District'],
+            },
+            {
+              key: 'status',
+              label: 'Status',
+              type: 'select',
+              options: ['All statuses', 'Active', 'Inactive'],
+            },
+          ],
+        }
+
+        function renderAdvancedSearchFields(context) {
+          const fields = ADVANCED_SEARCH_FIELDS[context]
+          document.querySelector('#adv-search-scrim .as-fields').innerHTML = fields
+            .map(field => {
+              const key = encodeHtml(field.key)
+              const label = encodeHtml(field.label)
+              if (field.type === 'select') {
+                const options = field.options
+                  .map(option => `<option>${encodeHtml(option)}</option>`)
+                  .join('')
+                return `<div class="as-field"><label for="as-${key}">${label}</label><select id="as-${key}" data-advanced-filter="${key}">${options}</select></div>`
+              }
+              return `<div class="as-field"><label for="as-${key}">${label}</label><input id="as-${key}" data-advanced-filter="${key}" type="text" placeholder="${encodeHtml(field.placeholder)}"></div>`
+            })
+            .join('')
+          document.querySelector('#adv-search-scrim .as-inp input').placeholder =
+            context === 'customer'
+              ? 'Search by customer number, name, type, or country'
+              : context === 'geo'
+                ? 'Search by location code, name, parent, or type'
+                : 'Search by document number, customer, or amount'
+          document.querySelector('#adv-search-scrim .as-list').innerHTML =
+            context === 'customer'
+              ? '<div class="as-grp">Matching customers</div><button type="button" class="as-item" role="option" data-customer-no="200010"><span class="ic"><svg width="14" height="14" aria-hidden="true"><use href="#i-user" /></svg></span><span class="tx"><span class="t">200010 · customer_412</span><span class="s">Retail · Active</span></span></button>'
+              : context === 'geo'
+                ? '<div class="as-grp">Matching locations</div><button type="button" class="as-item" role="option" data-geo-search-code="CAI"><span class="ic"><svg width="14" height="14" aria-hidden="true"><use href="#i-flow" /></svg></span><span class="tx"><span class="t">CAI · Cairo Governorate</span><span class="s">Governorate · Active</span></span></button>'
+                : '<div class="as-grp">Matching invoices</div><button type="button" class="as-item" role="option"><span class="ic"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg></span><span class="tx"><span class="t">#126 · محمد احمد</span><span class="s">13/08/2026 · Credit</span></span></button><button type="button" class="as-item" role="option"><span class="ic"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg></span><span class="tx"><span class="t">#140 · العميل الاول</span><span class="s">13/08/2026 · Credit</span></span></button>'
+          document.getElementById('adv-search-apply').hidden = context !== 'customer'
+        }
+
+        const advSearchScrim = document.getElementById('adv-search-scrim')
+        function openAdvancedSearch(context = 'invoice') {
+          advSearchScrim.dataset.context = context
+          renderAdvancedSearchFields(context)
+          advSearchScrim.classList.add('open')
+          trapFocus(advSearchScrim.querySelector('.box'))
+        }
+        function openCustomerSearch() {
+          openAdvancedSearch('customer')
+        }
+        function closeAdvancedSearch() {
+          advSearchScrim.classList.remove('open')
+          releaseFocus()
+        }
+        advSearchScrim.addEventListener('click', e => {
+          const customerOption = e.target.closest('.as-item[data-customer-no]')
+          if (customerOption && advSearchScrim.dataset.context === 'customer') {
+            openCustomerRecord(customerOption.dataset.customerNo, 'view')
+            return
+          }
+          const geoOption = e.target.closest('.as-item[data-geo-search-code]')
+          if (geoOption && advSearchScrim.dataset.context === 'geo') {
+            closeAdvancedSearch()
+            openGeoRecord(geoOption.dataset.geoSearchCode, 'view')
+            return
+          }
+          if (e.target === advSearchScrim || e.target.closest('.adv-search-close'))
+            closeAdvancedSearch()
+        })
+        document.addEventListener('keydown', e => {
+          if (e.key === 'Escape' && advSearchScrim.classList.contains('open')) closeAdvancedSearch()
+        })
+        /* referenced from inline onclick="openAdvancedSearch()" in renderListA/B/C's ported
+   markup — needs to be reachable outside this IIFE, same as openInvoiceRecord. */
+        window.openAdvancedSearch = openAdvancedSearch
+
+        function parkRowMenuPopover(details) {
+          if (!details.classList.contains('data-row-menu')) return
+          const popover = details.querySelector(':scope > .data-menu-popover')
+          if (!popover || popover.dataset.parked) return
+          popover.dataset.parked = 'true'
+          popover.__homeParent = details
+          popover.__homeNext = popover.nextSibling
+          document.body.appendChild(popover)
+        }
+
+        function unparkRowMenuPopover(details) {
+          const popover = details.querySelector?.(':scope > .data-menu-popover')
+          const parked =
+            popover || [...document.body.children].find(child => child.__homeParent === details)
+          if (!parked?.dataset.parked) return
+          delete parked.dataset.parked
+          parked.__homeParent.insertBefore(parked, parked.__homeNext)
+          parked.__homeParent = null
+          parked.__homeNext = null
+        }
+
+        document.addEventListener(
+          'toggle',
+          event => {
+            const details = event.target.closest?.('.data-menu, .data-page-manage')
+            if (!details) return
+            if (!details.open) {
+              unparkRowMenuPopover(details)
+              return
+            }
+            document
+              .querySelectorAll('.data-menu[open], .data-page-manage[open]')
+              .forEach(openMenu => {
+                if (openMenu !== details && !openMenu.contains(details))
+                  openMenu.removeAttribute('open')
+              })
+            parkRowMenuPopover(details)
+            requestAnimationFrame(() => positionDataMenu(details))
+          },
+          true
+        )
+        const repositionOpenDataMenus = () =>
+          document
+            .querySelectorAll('.data-menu[open], .data-page-manage[open]')
+            .forEach(positionDataMenu)
+        window.addEventListener('resize', repositionOpenDataMenus)
+        document.addEventListener('scroll', repositionOpenDataMenus, true)
+
+        renderDataPageManageMenus()
+
+        document.addEventListener('click', event => {
+          const parkedRowAction = event.target.closest(
+            '.data-menu-popover[data-parked] [data-list-row-action]'
+          )
+          if (parkedRowAction) {
+            const homeParent = parkedRowAction.closest('.data-menu-popover').__homeParent
+            const context =
+              homeParent?.closest('[data-data-list]')?.dataset.dataList ||
+              homeParent?.dataset.listContext
+            if (context) applyDataListRowAction(context, parkedRowAction)
+            parkedRowAction.closest('.data-menu-popover').__homeParent?.removeAttribute('open')
+            return
+          }
+          const manage = event.target.closest('[data-list-manage-action]')
+          if (manage) {
+            const details = manage.closest('.data-page-manage')
+            const context = details.dataset.listContext
+            const action = manage.dataset.listManageAction
+            if (action === 'save-layout') saveDataListLayout(context)
+            else if (action === 'reset-layout') resetDataListLayout(context)
+            else if (action === 'statistics-status')
+              applyDataListToolbarCommand(context, action, [...dataListState[context].selected][0])
+            else if (action === 'export') openDataExport(context)
+            else {
+              toast({
+                tone: 'ok',
+                title: `${manage.querySelector('strong')?.textContent || action} is ready for integration`,
+              })
+            }
+            details.removeAttribute('open')
+            return
+          }
+          const activeMenu = event.target.closest('.data-menu, .data-page-manage')
+          if (!activeMenu) {
+            document
+              .querySelectorAll('.data-menu[open], .data-page-manage[open]')
+              .forEach(details => details.removeAttribute('open'))
+          }
+        })
+        document.addEventListener('change', event => {
+          const border = event.target.closest('[data-list-manage-border]')
+          const frozen = event.target.closest('[data-list-manage-frozen]')
+          const statisticsConcept = event.target.closest('[data-list-manage-statistics-concept]')
+          if (!border && !frozen && !statisticsConcept) return
+          const details = event.target.closest('.data-page-manage')
+          const context = details?.dataset.listContext
+          if (!context) return
+          const listState = dataListState[context]
+          if (border) listState.borderMode = border.dataset.listManageBorder
+          else if (frozen) {
+            const key = frozen.dataset.listManageFrozen
+            if (frozen.checked) listState.frozenColumns.add(key)
+            else listState.frozenColumns.delete(key)
+          } else if (statisticsConcept) {
+            listState.statisticsConcept = statisticsConcept.dataset.listManageStatisticsConcept
+            computeDataListLayoutDirty(listState)
+          }
+          renderDataList(context)
+          renderDataPageManageMenu(details)
+          details.querySelectorAll('.data-manage-submenu').forEach(submenu => {
+            if (
+              submenu.querySelector(
+                border
+                  ? '[data-list-manage-border]'
+                  : frozen
+                    ? '[data-list-manage-frozen]'
+                    : '[data-list-manage-statistics-concept]'
+              )
+            ) {
+              submenu.setAttribute('open', '')
+              requestAnimationFrame(() => positionDataMenu(submenu))
+            }
+          })
+          positionDataMenu(details)
+        })
+        document.getElementById('customer-list-add').addEventListener('click', () => {
+          const addCustomer = () => openCustomerRecord(null, 'create')
+          if (!guardDataListLeave(addCustomer)) addCustomer()
+        })
+        const customerRecordCanvas = document.getElementById('customer-record-canvas')
+        const customerLookupMenu = document.getElementById('customer-lookup-menu')
+        const customerUnitLookupMenu = document.getElementById('customer-unit-lookup-menu')
+        const customerLookupSearchScrim = document.getElementById('customer-lookup-search-scrim')
+        const customerTypeAddScrim = document.getElementById('customer-type-add-scrim')
+        const geoFilterScrim = document.getElementById('geo-filter-scrim')
+        const geoParentPickerScrim = document.getElementById('geo-parent-picker-scrim')
+        const unitPickerScrim = document.getElementById('unit-picker-scrim')
+        const geoHierarchyScrim = document.getElementById('geo-hierarchy-scrim')
+        const kanbanBlockedScrim = document.getElementById('kanban-blocked-scrim')
+        const dataExportScrim = document.getElementById('data-export-scrim')
+        const customerUnitDrawerScrim = document.getElementById('customer-unit-drawer-scrim')
+        const customerParentUnitDrawerScrim = document.getElementById(
+          'customer-parent-unit-drawer-scrim'
+        )
+        const customerLocationAddScrim = document.getElementById('customer-location-add-scrim')
+        const CUSTOMER_LOOKUP_LABELS = {
+          operationUnit: 'Operation Unit',
+          customerType: 'Customer Type',
+          unitParent: 'Parent Unit',
+          unitLocation: 'Geo. Location',
+        }
+        const CUSTOMER_MATCH_LABELS = {
+          contains: 'Contains',
+          starts: 'Starts with',
+          ends: 'Ends with',
+        }
+        const customerLayerFocusStack = []
+
+        function trapCustomerLayer(box) {
+          if (!box) return
+          customerLayerFocusStack.push(document.activeElement)
+          trapped = box
+          const first = box.querySelector(FOCUSABLE)
+          ;(first || box).focus?.()
+        }
+
+        function releaseCustomerLayer() {
+          const returnTo = customerLayerFocusStack.pop()
+          trapped = customerParentUnitDrawerScrim.classList.contains('open')
+            ? customerParentUnitDrawerScrim.querySelector('.customer-unit-drawer')
+            : customerUnitDrawerScrim.classList.contains('open')
+              ? customerUnitDrawerScrim.querySelector('.customer-unit-drawer')
+              : null
+          if (returnTo && document.contains(returnTo)) returnTo.focus()
+        }
+
+        function closeCustomerLookupMenu({restoreFocus = false} = {}) {
+          if (customerLookupMenu.hidden) return
+          customerLookupMenu.hidden = true
+          customerLookupState.trigger?.setAttribute('aria-expanded', 'false')
+          if (restoreFocus && document.contains(customerLookupState.trigger)) {
+            customerLookupState.trigger.focus()
+          }
+        }
+
+        function closeCustomerUnitLookupMenu({restoreFocus = false} = {}) {
+          if (customerUnitLookupMenu.hidden) return
+          customerUnitLookupMenu.hidden = true
+          customerLookupState.trigger?.setAttribute('aria-expanded', 'false')
+          if (restoreFocus && document.contains(customerLookupState.trigger)) {
+            customerLookupState.trigger.focus()
+          }
+        }
+
+        function positionCustomerLookupMenu(trigger, menu = customerLookupMenu) {
+          const rect = trigger.getBoundingClientRect()
+          const menuWidth = 252
+          const menuHeight = menu.offsetHeight || 250
+          const edge = 8
+          const preferredLeft =
+            document.documentElement.dir === 'rtl' ? rect.right - menuWidth : rect.left
+          const left = Math.min(innerWidth - menuWidth - edge, Math.max(edge, preferredLeft))
+          const fitsBelow = rect.bottom + 4 + menuHeight <= innerHeight - edge
+          const top = fitsBelow ? rect.bottom + 4 : Math.max(edge, rect.top - menuHeight - 4)
+          menu.style.left = `${left}px`
+          menu.style.top = `${top}px`
+        }
+
+        function renderCustomerLookupMenu(fieldKey) {
+          const matchMode = customerLookupState.matchModes[fieldKey]
+          const addLabel =
+            fieldKey === 'operationUnit'
+              ? 'Add Operation Unit'
+              : fieldKey === 'unitParent'
+                ? 'Add Parent Unit'
+                : fieldKey === 'unitLocation'
+                  ? 'Add Geo. Location'
+                  : 'Add Customer Type'
+          customerLookupMenu.innerHTML = `
+            <div class="customer-lookup-menu-label">Search options</div>
+            ${Object.entries(CUSTOMER_MATCH_LABELS)
+              .map(
+                ([key, label]) =>
+                  `<button type="button" role="menuitemradio" aria-checked="${key === matchMode}" data-customer-lookup-match="${encodeHtml(key)}"><span>${encodeHtml(label)}</span>${key === matchMode ? '<svg class="customer-lookup-check" width="15" height="15" aria-hidden="true"><use href="#i-check" /></svg>' : ''}</button>`
+              )
+              .join('')}
+            <hr />
+            <button type="button" role="menuitem" data-customer-lookup-action="search"><svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg><span>Advanced search</span></button>
+            <button type="button" role="menuitem" data-customer-lookup-action="add"><svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg><span>${encodeHtml(addLabel)}</span></button>`
+        }
+
+        function openCustomerLookupMenu(trigger) {
+          closeCustomerLookupMenu()
+          closeCustomerUnitLookupMenu()
+          customerLookupState.fieldKey = trigger.dataset.customerLookup
+          customerLookupState.trigger = trigger
+          customerLookupState.source = 'customer'
+          customerLookupState.targetSelectId = ''
+          renderCustomerLookupMenu(customerLookupState.fieldKey)
+          customerLookupMenu.hidden = false
+          trigger.setAttribute('aria-expanded', 'true')
+          positionCustomerLookupMenu(trigger)
+          customerLookupMenu.querySelector('button')?.focus()
+        }
+
+        function openCustomerUnitLookupMenu(trigger) {
+          closeCustomerUnitLookupMenu()
+          customerLookupState.fieldKey = trigger.dataset.customerUnitLookup
+          customerLookupState.trigger = trigger
+          customerLookupState.source = 'unit'
+          customerLookupState.targetSelectId = trigger.dataset.customerUnitTarget
+          renderCustomerLookupMenu(customerLookupState.fieldKey)
+          customerUnitLookupMenu.innerHTML = customerLookupMenu.innerHTML
+          customerUnitLookupMenu.hidden = false
+          trigger.setAttribute('aria-expanded', 'true')
+          positionCustomerLookupMenu(trigger, customerUnitLookupMenu)
+          customerUnitLookupMenu.querySelector('button')?.focus()
+        }
+
+        function customerLookupMatches(value, query, mode) {
+          const candidate = value.toLocaleLowerCase()
+          const needle = query.trim().toLocaleLowerCase()
+          if (!needle) return true
+          if (mode === 'starts') return candidate.startsWith(needle)
+          if (mode === 'ends') return candidate.endsWith(needle)
+          return candidate.includes(needle)
+        }
+
+        function renderCustomerLookupSearchResults() {
+          const fieldKey = customerLookupState.fieldKey
+          const query = document.getElementById('customer-lookup-search-query').value
+          const mode = document.getElementById('customer-lookup-search-mode').value
+          const status = document.getElementById('customer-lookup-filter-status')?.value || 'all'
+          const country = document.getElementById('customer-lookup-filter-country')?.value || 'all'
+          const parent = document.getElementById('customer-lookup-filter-parent')?.value || 'all'
+          const type = document.getElementById('customer-lookup-filter-type')?.value || 'all'
+          const level = document.getElementById('customer-lookup-filter-level')?.value || 'all'
+          const sort = document.getElementById('customer-lookup-filter-sort')?.value || 'name-asc'
+          const sourceResults =
+            fieldKey === 'unitParent'
+              ? CUSTOMER_LOOKUP_RESULTS.operationUnit
+              : CUSTOMER_LOOKUP_RESULTS[fieldKey]
+          const results = sourceResults
+            .filter(item => {
+              const searchable =
+                fieldKey === 'operationUnit' || fieldKey === 'unitParent'
+                  ? `${item.value} ${item.code} ${item.parent} ${item.country}`
+                  : fieldKey === 'unitLocation'
+                    ? `${item.value} ${item.code} ${item.parent} ${item.level} ${item.type}`
+                    : `${item.value} ${item.details} ${item.order}`
+              return (
+                customerLookupMatches(searchable, query, mode) &&
+                (status === 'all' || item.status.toLowerCase() === status) &&
+                (country === 'all' || item.country === country) &&
+                (parent === 'all' || item.parent === parent) &&
+                (type === 'all' || item.type === type) &&
+                (level === 'all' || item.level === level)
+              )
+            })
+            .sort((a, b) => {
+              if (sort === 'name-desc') return b.value.localeCompare(a.value)
+              if (sort === 'order-asc') return Number(a.order) - Number(b.order)
+              if (sort === 'code-asc') return Number(a.code) - Number(b.code)
+              return a.value.localeCompare(b.value)
+            })
+          document.getElementById('customer-lookup-result-count').textContent =
+            `${results.length} ${results.length === 1 ? 'result' : 'results'}`
+          if (!results.some(item => item.value === customerLookupState.selectedValue)) {
+            customerLookupState.selectedValue = ''
+          }
+          const resultBox = document.getElementById('customer-lookup-search-results')
+          if (!results.length) {
+            resultBox.innerHTML = `<div class="customer-lookup-empty"><strong>No results found</strong><br />Try another term or clear a filter.</div>`
+            document.getElementById('customer-lookup-select').disabled = true
+            customerLookupState.selectedValue = ''
+            return
+          }
+          const headings =
+            fieldKey === 'operationUnit' || fieldKey === 'unitParent'
+              ? '<th>Operation Unit</th><th>Parent</th><th>Country</th><th>Status</th>'
+              : fieldKey === 'unitLocation'
+                ? '<th>Location</th><th>Code</th><th>Type</th><th>Level</th>'
+                : '<th>Customer Type</th><th>Remarks</th><th>Order</th><th>Status</th>'
+          const rows = results
+            .map(item => {
+              const selected = item.value === customerLookupState.selectedValue
+              const cells =
+                fieldKey === 'operationUnit' || fieldKey === 'unitParent'
+                  ? `<td>${encodeHtml(item.value)}</td><td>${encodeHtml(item.parent)}</td><td>${encodeHtml(item.country)}</td><td><span class="badge ${item.status === 'Active' ? 'ok' : 'gray'}">${encodeHtml(item.status)}</span></td>`
+                  : fieldKey === 'unitLocation'
+                    ? `<td>${encodeHtml(item.value)}</td><td>${encodeHtml(item.code)}</td><td>${encodeHtml(item.type)}</td><td>${encodeHtml(item.level)}</td>`
+                    : `<td>${encodeHtml(item.value)}</td><td>${encodeHtml(item.details)}</td><td>${encodeHtml(item.order)}</td><td><span class="badge ${item.status === 'Active' ? 'ok' : 'gray'}">${encodeHtml(item.status)}</span></td>`
+              return `<tr tabindex="0" aria-selected="${selected}" data-customer-lookup-value="${encodeHtml(item.value)}">${cells}</tr>`
+            })
+            .join('')
+          resultBox.innerHTML = `<table><thead><tr>${headings}</tr></thead><tbody>${rows}</tbody></table>`
+          document.getElementById('customer-lookup-select').disabled =
+            !customerLookupState.selectedValue
+        }
+
+        function openCustomerLookupSearch(fieldKey) {
+          customerLookupState.fieldKey = fieldKey
+          customerLookupState.selectedValue = ''
+          const label = CUSTOMER_LOOKUP_LABELS[fieldKey]
+          document.getElementById('customer-lookup-search-title').textContent = `Find ${label}`
+          document.getElementById('customer-lookup-search-description').textContent =
+            `Search and compare ${label.toLowerCase()} records before selecting one.`
+          const query = document.getElementById('customer-lookup-search-query')
+          query.value = ''
+          query.placeholder = `Search ${label.toLowerCase()}`
+          const mode = document.getElementById('customer-lookup-search-mode')
+          mode.value = customerLookupState.matchModes[fieldKey]
+          document.getElementById('customer-lookup-search-filters').innerHTML = `
+            <label class="rec-field"><span>Status</span><select id="customer-lookup-filter-status"><option value="all">All statuses</option><option value="active">Active</option><option value="inactive">Inactive</option></select></label>
+            ${
+              fieldKey === 'operationUnit' || fieldKey === 'unitParent'
+                ? '<label class="rec-field"><span>Country</span><select id="customer-lookup-filter-country"><option value="all">All countries</option><option>EG - Egypt</option><option>SA - Saudi Arabia</option><option>AE - United Arab Emirates</option></select></label><label class="rec-field"><span>Parent Unit</span><select id="customer-lookup-filter-parent"><option value="all">All parent units</option><option>Head Office</option><option value="No parent">No parent</option></select></label>'
+                : fieldKey === 'unitLocation'
+                  ? '<label class="rec-field"><span>Type</span><select id="customer-lookup-filter-type"><option value="all">All types</option><option>Country</option><option>Governorate</option><option>City</option><option>District</option></select></label><label class="rec-field"><span>Level</span><select id="customer-lookup-filter-level"><option value="all">All levels</option><option>1</option><option>2</option><option>3</option></select></label>'
+                  : ''
+            }
+            <label class="rec-field"><span>Sort by</span><select id="customer-lookup-filter-sort">${
+              fieldKey === 'operationUnit' || fieldKey === 'unitParent'
+                ? '<option value="name-asc">Name, A to Z</option><option value="name-desc">Name, Z to A</option><option value="code-asc">Unit code</option>'
+                : fieldKey === 'unitLocation'
+                  ? '<option value="name-asc">Name, A to Z</option><option value="name-desc">Name, Z to A</option><option value="code-asc">Location code</option>'
+                  : '<option value="name-asc">Name, A to Z</option><option value="name-desc">Name, Z to A</option><option value="order-asc">Display order</option>'
+            }</select></label>`
+          document.getElementById('customer-lookup-select').disabled = true
+          renderCustomerLookupSearchResults()
+          customerLookupSearchScrim.classList.toggle(
+            'is-over-drawer',
+            customerLookupState.source === 'unit'
+          )
+          customerLookupSearchScrim.classList.add('open')
+          if (customerLookupState.source === 'unit') {
+            trapCustomerLayer(customerLookupSearchScrim.querySelector('.customer-modal'))
+          } else {
+            trapFocus(customerLookupSearchScrim.querySelector('.customer-modal'))
+          }
+          requestAnimationFrame(() => query.focus())
+        }
+
+        function closeCustomerLookupSearch() {
+          const overDrawer = customerLookupSearchScrim.classList.contains('is-over-drawer')
+          customerLookupSearchScrim.classList.remove('open')
+          customerLookupSearchScrim.classList.remove('is-over-drawer')
+          if (overDrawer) releaseCustomerLayer()
+          else releaseFocus()
+        }
+
+        function applyCustomerLookupValue(fieldKey, value) {
+          if (customerLookupState.source === 'unit') {
+            const select = document.getElementById(customerLookupState.targetSelectId)
+            if (!select) return
+            if (![...select.options].some(option => option.value === value)) {
+              select.add(new Option(value, value))
+            }
+            select.value = value
+            select.dispatchEvent(new Event('change', {bubbles: true}))
+            return
+          }
+          customerData[fieldKey] = value
+          customerState.dirty = true
+          renderCustomerRecord({
+            focusSelector: `#customer-field-${fieldKey}`,
+            preserveScroll: true,
+          })
+        }
+
+        function openCustomerTypeAdd() {
+          document.getElementById('customer-type-name').value = ''
+          document.getElementById('customer-type-order').value = '10'
+          document.getElementById('customer-type-deactivate').checked = false
+          document.getElementById('customer-type-remarks').value = ''
+          const error = document.getElementById('customer-type-name-error')
+          error.hidden = true
+          customerTypeAddScrim.classList.add('open')
+          trapFocus(customerTypeAddScrim.querySelector('.customer-modal'))
+          requestAnimationFrame(() => document.getElementById('customer-type-name').focus())
+        }
+
+        function closeCustomerTypeAdd() {
+          customerTypeAddScrim.classList.remove('open')
+          releaseFocus()
+        }
+
+        function openCustomerUnitDrawer() {
+          document.getElementById('customer-unit-name').value = ''
+          document.getElementById('customer-unit-financial').value = '1'
+          document.getElementById('customer-unit-affected').checked = false
+          const parentSelect = document.getElementById('customer-unit-parent')
+          parentSelect.innerHTML =
+            '<option value="">No parent unit</option>' +
+            UNIT_ROWS.map(unit => {
+              const label = `${unit.code} - ${unit.name}`
+              return `<option value="${encodeHtml(label)}">${encodeHtml(label)}</option>`
+            }).join('')
+          const error = document.getElementById('customer-unit-name-error')
+          error.hidden = true
+          customerUnitDrawerScrim.classList.remove('is-page')
+          const openPageButton = customerUnitDrawerScrim.querySelector('.customer-unit-open-page')
+          openPageButton.setAttribute('aria-pressed', 'false')
+          openPageButton.setAttribute('aria-label', 'Open in new tab')
+          openPageButton.querySelector('span').textContent = 'Open in new tab'
+          openPageButton.title = 'Open in new tab'
+          document.getElementById('customer-unit-drawer-description').textContent =
+            'Create the unit here, then use it on this customer.'
+          setCustomerUnitTab('address')
+          customerUnitDrawerScrim.classList.add('open')
+          trapFocus(customerUnitDrawerScrim.querySelector('.customer-unit-drawer'))
+          requestAnimationFrame(() => document.getElementById('customer-unit-name').focus())
+        }
+
+        function closeCustomerUnitDrawer() {
+          closeCustomerUnitLookupMenu()
+          if (customerLocationAddScrim.classList.contains('open')) closeCustomerLocationAdd()
+          if (customerParentUnitDrawerScrim.classList.contains('open')) {
+            closeCustomerParentUnitDrawer()
+          }
+          customerUnitDrawerScrim.classList.remove('open')
+          customerUnitDrawerScrim.classList.remove('is-page')
+          releaseFocus()
+        }
+
+        function openCustomerParentUnitDrawer() {
+          document.getElementById('customer-parent-unit-name').value = ''
+          document.getElementById('customer-parent-unit-financial').value = '1'
+          document.getElementById('customer-parent-unit-affected').checked = false
+          const error = document.getElementById('customer-parent-unit-name-error')
+          error.hidden = true
+          document.getElementById('customer-parent-unit-name').removeAttribute('aria-invalid')
+          customerParentUnitDrawerScrim.classList.add('open')
+          trapCustomerLayer(
+            customerParentUnitDrawerScrim.querySelector('.customer-nested-unit-drawer')
+          )
+          requestAnimationFrame(() => document.getElementById('customer-parent-unit-name').focus())
+        }
+
+        function closeCustomerParentUnitDrawer() {
+          closeCustomerUnitLookupMenu()
+          customerParentUnitDrawerScrim.classList.remove('open')
+          releaseCustomerLayer()
+        }
+
+        function openCustomerLocationAdd() {
+          ;['code', 'name'].forEach(key => {
+            const input = document.getElementById(`customer-location-${key}`)
+            const error = document.getElementById(`customer-location-${key}-error`)
+            input.value = ''
+            input.removeAttribute('aria-invalid')
+            input.removeAttribute('aria-describedby')
+            error.hidden = true
+          })
+          document.getElementById('customer-location-parent').value = ''
+          document.getElementById('customer-location-level').value = '1'
+          document.getElementById('customer-location-type').value = 'Country'
+          document.getElementById('customer-location-remarks').value = ''
+          customerLocationAddScrim.classList.add('open')
+          trapCustomerLayer(customerLocationAddScrim.querySelector('.customer-location-modal'))
+          requestAnimationFrame(() => document.getElementById('customer-location-code').focus())
+        }
+
+        function closeCustomerLocationAdd() {
+          customerLocationAddScrim.classList.remove('open')
+          releaseCustomerLayer()
+        }
+
+        function setCustomerUnitTab(tabKey, {focus = false} = {}) {
+          customerUnitDrawerScrim.querySelectorAll('[data-customer-unit-tab]').forEach(tab => {
+            const active = tab.dataset.customerUnitTab === tabKey
+            tab.setAttribute('aria-selected', String(active))
+            tab.classList.toggle('on', active)
+            tab.tabIndex = active ? 0 : -1
+            if (active && focus) tab.focus()
+          })
+          customerUnitDrawerScrim.querySelectorAll('[data-customer-unit-panel]').forEach(panel => {
+            panel.hidden = panel.dataset.customerUnitPanel !== tabKey
+          })
+        }
+
+        customerRecordCanvas.addEventListener('click', event => {
+          const trigger = event.target.closest('[data-customer-lookup]')
+          if (!trigger || trigger.disabled) return
+          if (!customerLookupMenu.hidden && customerLookupState.trigger === trigger) {
+            closeCustomerLookupMenu({restoreFocus: true})
+            return
+          }
+          openCustomerLookupMenu(trigger)
+        })
+
+        document.addEventListener('click', event => {
+          const trigger = event.target.closest('[data-customer-unit-lookup]')
+          if (!trigger || trigger.disabled) return
+          if (!customerUnitLookupMenu.hidden && customerLookupState.trigger === trigger) {
+            closeCustomerUnitLookupMenu({restoreFocus: true})
+            return
+          }
+          openCustomerUnitLookupMenu(trigger)
+        })
+
+        customerLookupMenu.addEventListener('click', event => {
+          const match = event.target.closest('[data-customer-lookup-match]')
+          if (match) {
+            customerLookupState.matchModes[customerLookupState.fieldKey] =
+              match.dataset.customerLookupMatch
+            closeCustomerLookupMenu({restoreFocus: true})
+            return
+          }
+          const action = event.target.closest('[data-customer-lookup-action]')?.dataset
+            .customerLookupAction
+          if (!action) return
+          const fieldKey = customerLookupState.fieldKey
+          const returnTrigger = customerLookupState.trigger
+          closeCustomerLookupMenu()
+          if (returnTrigger && document.contains(returnTrigger)) {
+            returnTrigger.focus({preventScroll: true})
+          }
+          if (action === 'search') openCustomerLookupSearch(fieldKey)
+          if (action === 'add') {
+            if (fieldKey === 'operationUnit') openCustomerUnitDrawer()
+            else openCustomerTypeAdd()
+          }
+        })
+
+        customerLookupMenu.addEventListener('keydown', event => {
+          const items = [...customerLookupMenu.querySelectorAll('button')]
+          const index = items.indexOf(document.activeElement)
+          if (event.key === 'Escape') {
+            event.preventDefault()
+            closeCustomerLookupMenu({restoreFocus: true})
+            return
+          }
+          if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return
+          event.preventDefault()
+          const nextIndex =
+            event.key === 'Home'
+              ? 0
+              : event.key === 'End'
+                ? items.length - 1
+                : event.key === 'ArrowDown'
+                  ? (index + 1) % items.length
+                  : (index - 1 + items.length) % items.length
+          items[nextIndex].focus()
+        })
+
+        customerUnitLookupMenu.addEventListener('click', event => {
+          const match = event.target.closest('[data-customer-lookup-match]')
+          if (match) {
+            customerLookupState.matchModes[customerLookupState.fieldKey] =
+              match.dataset.customerLookupMatch
+            closeCustomerUnitLookupMenu({restoreFocus: true})
+            return
+          }
+          const action = event.target.closest('[data-customer-lookup-action]')?.dataset
+            .customerLookupAction
+          if (!action) return
+          const fieldKey = customerLookupState.fieldKey
+          const returnTrigger = customerLookupState.trigger
+          closeCustomerUnitLookupMenu()
+          if (returnTrigger && document.contains(returnTrigger)) {
+            returnTrigger.focus({preventScroll: true})
+          }
+          if (action === 'search') openCustomerLookupSearch(fieldKey)
+          if (action === 'add') {
+            if (fieldKey === 'unitParent') openCustomerParentUnitDrawer()
+            if (fieldKey === 'unitLocation') openCustomerLocationAdd()
+          }
+        })
+
+        customerUnitLookupMenu.addEventListener('keydown', event => {
+          const items = [...customerUnitLookupMenu.querySelectorAll('button')]
+          const index = items.indexOf(document.activeElement)
+          if (event.key === 'Escape') {
+            event.preventDefault()
+            closeCustomerUnitLookupMenu({restoreFocus: true})
+            return
+          }
+          if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return
+          event.preventDefault()
+          const nextIndex =
+            event.key === 'Home'
+              ? 0
+              : event.key === 'End'
+                ? items.length - 1
+                : event.key === 'ArrowDown'
+                  ? (index + 1) % items.length
+                  : (index - 1 + items.length) % items.length
+          items[nextIndex].focus()
+        })
+
+        document.addEventListener('click', event => {
+          if (
+            !customerLookupMenu.hidden &&
+            !event.target.closest('#customer-lookup-menu') &&
+            !event.target.closest('[data-customer-lookup]')
+          ) {
+            closeCustomerLookupMenu()
+          }
+          if (
+            !customerUnitLookupMenu.hidden &&
+            !event.target.closest('#customer-unit-lookup-menu') &&
+            !event.target.closest('[data-customer-unit-lookup]')
+          ) {
+            closeCustomerUnitLookupMenu()
+          }
+        })
+
+        customerLookupSearchScrim.addEventListener('input', renderCustomerLookupSearchResults)
+        customerLookupSearchScrim.addEventListener('change', event => {
+          if (event.target.id === 'customer-lookup-search-mode') {
+            customerLookupState.matchModes[customerLookupState.fieldKey] = event.target.value
+          }
+          renderCustomerLookupSearchResults()
+        })
+        customerLookupSearchScrim.addEventListener('click', event => {
+          if (event.target.closest('#customer-lookup-clear-filters')) {
+            document.getElementById('customer-lookup-search-query').value = ''
+            document.getElementById('customer-lookup-search-mode').value = 'contains'
+            customerLookupState.matchModes[customerLookupState.fieldKey] = 'contains'
+            customerLookupSearchScrim
+              .querySelectorAll('#customer-lookup-search-filters select')
+              .forEach(select => {
+                select.selectedIndex = 0
+              })
+            customerLookupState.selectedValue = ''
+            renderCustomerLookupSearchResults()
+            document.getElementById('customer-lookup-search-query').focus()
+            return
+          }
+          const row = event.target.closest('[data-customer-lookup-value]')
+          if (row) {
+            customerLookupState.selectedValue = row.dataset.customerLookupValue
+            customerLookupSearchScrim
+              .querySelectorAll('[data-customer-lookup-value]')
+              .forEach(item => item.setAttribute('aria-selected', String(item === row)))
+            document.getElementById('customer-lookup-select').disabled = false
+          }
+          if (
+            event.target === customerLookupSearchScrim ||
+            event.target.closest('.customer-lookup-search-close')
+          ) {
+            closeCustomerLookupSearch()
+          }
+        })
+        customerLookupSearchScrim.addEventListener('keydown', event => {
+          const row = event.target.closest('[data-customer-lookup-value]')
+          if (row && event.key === 'Enter') {
+            event.preventDefault()
+            row.click()
+            return
+          }
+          if (row && ['ArrowDown', 'ArrowUp'].includes(event.key)) {
+            event.preventDefault()
+            const rows = [
+              ...customerLookupSearchScrim.querySelectorAll('[data-customer-lookup-value]'),
+            ]
+            const index = rows.indexOf(row)
+            const next =
+              event.key === 'ArrowDown'
+                ? Math.min(rows.length - 1, index + 1)
+                : Math.max(0, index - 1)
+            rows[next].focus()
+          }
+        })
+        customerLookupSearchScrim.addEventListener('dblclick', event => {
+          const row = event.target.closest('[data-customer-lookup-value]')
+          if (!row) return
+          row.click()
+          document.getElementById('customer-lookup-select').click()
+        })
+        document.getElementById('customer-lookup-select').addEventListener('click', () => {
+          if (!customerLookupState.selectedValue) return
+          const fieldKey = customerLookupState.fieldKey
+          const value = customerLookupState.selectedValue
+          closeCustomerLookupSearch()
+          applyCustomerLookupValue(fieldKey, value)
+        })
+
+        customerTypeAddScrim.addEventListener('click', event => {
+          if (
+            event.target === customerTypeAddScrim ||
+            event.target.closest('.customer-type-add-close')
+          ) {
+            closeCustomerTypeAdd()
+          }
+        })
+        geoFilterScrim.addEventListener('click', event => {
+          const context = activeFilterModalContext
+          if (!context) return
+          const listState = dataListState[context]
+          const quick = event.target.closest('[data-geo-filter-quick]')
+          if (quick) {
+            listState.filter = quick.dataset.geoFilterQuick
+            renderDataFilterModal(context)
+            refreshDataListForContext(context)
+            return
+          }
+          if (event.target.closest('#geo-filter-clear')) {
+            listState.filter = 'all'
+            listState.fieldFilters = []
+            listState.selected.clear()
+            renderDataFilterModal(context)
+            refreshDataListForContext(context)
+            return
+          }
+          const clearField = event.target.closest('[data-geo-filter-clear-field]')
+          if (clearField) {
+            listState.fieldFilters = listState.fieldFilters.filter(
+              item => item.key !== clearField.dataset.geoFilterClearField
+            )
+            renderDataFilterModal(context)
+            refreshDataListForContext(context)
+            return
+          }
+          if (event.target === geoFilterScrim || event.target.closest('.geo-filter-close')) {
+            closeDataFilterModal()
+          }
+        })
+        geoFilterScrim.addEventListener('change', event => {
+          const context = activeFilterModalContext
+          if (!context) return
+          const operatorSelect = event.target.closest('[data-geo-filter-operator-select]')
+          if (operatorSelect) {
+            const item = ensureDataFilterModalField(
+              context,
+              operatorSelect.dataset.geoFilterOperatorKey,
+              {
+                operator: 'contains',
+                value: '',
+              }
+            )
+            item.operator = operatorSelect.value
+            refreshDataListForContext(context)
+            return
+          }
+          const datePresetSelect = event.target.closest('[data-list-date-preset-select]')
+          if (datePresetSelect) {
+            const item = ensureDataFilterModalField(
+              context,
+              datePresetSelect.dataset.listDatePreset,
+              {
+                operator: 'equals',
+                value: 'today',
+              }
+            )
+            item.value = dataListNextDatePresetValue(item, datePresetSelect.value)
+            renderDataFilterModal(context)
+            refreshDataListForContext(context)
+          }
+        })
+        document.getElementById('geo-parent-picker-trigger').addEventListener('click', () => {
+          openGeoParentPicker()
+        })
+        dataExportScrim.addEventListener('click', event => {
+          const format = event.target.closest('[data-export-format]')
+          if (format) {
+            dataExportScrim
+              .querySelectorAll('[data-export-format]')
+              .forEach(button => button.setAttribute('aria-checked', String(button === format)))
+            return
+          }
+          if (event.target.closest('[data-export-columns-all]')) {
+            dataExportScrim
+              .querySelectorAll('[data-export-column]')
+              .forEach(checkbox => (checkbox.checked = true))
+            return
+          }
+          if (event.target.closest('[data-export-columns-none]')) {
+            dataExportScrim
+              .querySelectorAll('[data-export-column]')
+              .forEach(checkbox => (checkbox.checked = false))
+            return
+          }
+          if (event.target === dataExportScrim || event.target.closest('.data-export-close')) {
+            closeDataExport()
+          }
+        })
+        document.getElementById('data-export-run').addEventListener('click', runDataExport)
+        geoHierarchyScrim.addEventListener('click', event => {
+          if (
+            event.target === geoHierarchyScrim ||
+            event.target.closest('.geo-hierarchy-dialog-close')
+          ) {
+            closeGeoHierarchyDialog()
+          }
+        })
+        kanbanBlockedScrim.addEventListener('click', event => {
+          if (
+            event.target === kanbanBlockedScrim ||
+            event.target.closest('.kanban-blocked-close')
+          ) {
+            closeKanbanBlockedDialog()
+          }
+        })
+        const geoHierarchyMediaQuery = window.matchMedia('(max-width: 1200px)')
+        geoHierarchyMediaQuery.addEventListener('change', event => {
+          if (!event.matches) closeGeoHierarchyDialog()
+          syncGeoTreePanelToggle()
+        })
+        geoParentPickerScrim.addEventListener('click', event => {
+          const view = event.target.closest('[data-geo-parent-picker-view]')
+          if (view) {
+            setGeoParentPickerView(view.dataset.geoParentPickerView)
+            return
+          }
+          const toggle = event.target.closest('[data-geo-parent-toggle]')
+          if (toggle) {
+            const code = toggle.dataset.geoParentToggle
+            if (geoParentPickerState.expanded.has(code)) geoParentPickerState.expanded.delete(code)
+            else geoParentPickerState.expanded.add(code)
+            renderGeoParentPickerTree()
+            return
+          }
+          const pick = event.target.closest('[data-geo-parent-pick]')
+          if (pick) {
+            if (!pick.disabled) chooseGeoParent(pick.dataset.geoParentPick)
+            return
+          }
+          if (event.target.closest('.geo-parent-picker-root')) {
+            chooseGeoParent('')
+            return
+          }
+          if (
+            event.target === geoParentPickerScrim ||
+            event.target.closest('.geo-parent-picker-close')
+          ) {
+            closeGeoParentPicker()
+          }
+        })
+        unitPickerScrim.addEventListener('click', event => {
+          const view = event.target.closest('[data-unit-picker-view]')
+          if (view) {
+            setUnitPickerView(view.dataset.unitPickerView)
+            return
+          }
+          const toggle = event.target.closest('[data-unit-toggle]')
+          if (toggle) {
+            const code = toggle.dataset.unitToggle
+            if (unitPickerState.expanded.has(code)) unitPickerState.expanded.delete(code)
+            else unitPickerState.expanded.add(code)
+            renderUnitPickerTree()
+            return
+          }
+          const pick = event.target.closest('[data-unit-pick]')
+          if (pick) {
+            chooseUnit(pick.dataset.unitPick)
+            return
+          }
+          if (event.target.closest('.unit-picker-root')) {
+            chooseUnit('')
+            return
+          }
+          if (event.target === unitPickerScrim || event.target.closest('.unit-picker-close')) {
+            closeUnitPicker()
+          }
+        })
+        document.addEventListener('click', event => {
+          const opener = event.target.closest('[data-unit-picker-open]')
+          if (opener) openUnitPicker(opener.dataset.unitPickerOpen)
+        })
+        geoFilterScrim.addEventListener('input', event => {
+          const context = activeFilterModalContext
+          if (!context) return
+          const dateAmount = event.target.closest('[data-list-date-amount]')
+          const dateUnit = event.target.closest('[data-list-date-unit]')
+          const dateSpecific = event.target.closest('[data-list-date-specific]')
+          const dateRangeFrom = event.target.closest('[data-list-date-range-from]')
+          const dateRangeTo = event.target.closest('[data-list-date-range-to]')
+          const dateKey =
+            dateAmount?.dataset.listDateAmount ||
+            dateUnit?.dataset.listDateUnit ||
+            dateSpecific?.dataset.listDateSpecific ||
+            dateRangeFrom?.dataset.listDateRangeFrom ||
+            dateRangeTo?.dataset.listDateRangeTo
+          if (dateKey) {
+            const item = ensureDataFilterModalField(context, dateKey, {
+              operator: 'equals',
+              value: 'today',
+            })
+            const {preset, a, b} = parseDateFilterValue(item)
+            if (dateAmount) item.value = `${preset}:${dateAmount.value || 1}:${b || 'day'}`
+            else if (dateUnit) item.value = `${preset}:${a || 1}:${dateUnit.value}`
+            else if (dateSpecific) item.value = `specific:${dateSpecific.value}`
+            else if (dateRangeFrom) item.value = `range:${dateRangeFrom.value}:${b || ''}`
+            else if (dateRangeTo) item.value = `range:${a || ''}:${dateRangeTo.value}`
+            refreshDataListForContext(context)
+            return
+          }
+          const field = event.target.closest('[data-geo-filter-field]')
+          if (!field) return
+          applyDataFilterField(context, field.dataset.geoFilterField, field.value)
+          refreshDataListForContext(context)
+        })
+        document.getElementById('customer-type-add-save').addEventListener('click', () => {
+          const nameInput = document.getElementById('customer-type-name')
+          const name = nameInput.value.trim()
+          const error = document.getElementById('customer-type-name-error')
+          if (!name) {
+            error.textContent = 'Name is required.'
+            error.hidden = false
+            nameInput.setAttribute('aria-invalid', 'true')
+            nameInput.setAttribute('aria-describedby', error.id)
+            nameInput.focus()
+            return
+          }
+          error.hidden = true
+          nameInput.removeAttribute('aria-invalid')
+          nameInput.removeAttribute('aria-describedby')
+          const inactive = document.getElementById('customer-type-deactivate').checked
+          const existing = CUSTOMER_LOOKUP_RESULTS.customerType.find(
+            item => item.value.toLocaleLowerCase() === name.toLocaleLowerCase()
+          )
+          if (!existing) {
+            CUSTOMER_LOOKUP_RESULTS.customerType.push({
+              value: name,
+              status: inactive ? 'Inactive' : 'Active',
+              order: Number(document.getElementById('customer-type-order').value) || 0,
+              details:
+                document.getElementById('customer-type-remarks').value.trim() || 'No remarks',
+            })
+          }
+          closeCustomerTypeAdd()
+          if (inactive) {
+            toast({tone: 'ok', title: 'Customer type added as inactive'})
+          } else {
+            applyCustomerLookupValue('customerType', name)
+            toast({tone: 'ok', title: 'Customer type added and selected'})
+          }
+        })
+
+        customerUnitDrawerScrim.addEventListener('click', event => {
+          if (
+            event.target === customerUnitDrawerScrim ||
+            event.target.closest('.customer-unit-drawer-close')
+          ) {
+            closeCustomerUnitDrawer()
+            return
+          }
+          const openPageButton = event.target.closest('.customer-unit-open-page')
+          if (openPageButton) {
+            const pageMode = !customerUnitDrawerScrim.classList.contains('is-page')
+            customerUnitDrawerScrim.classList.toggle('is-page', pageMode)
+            openPageButton.setAttribute('aria-pressed', String(pageMode))
+            openPageButton.setAttribute(
+              'aria-label',
+              pageMode ? 'Return to drawer' : 'Open in new tab'
+            )
+            openPageButton.querySelector('span').textContent = pageMode
+              ? 'Return to drawer'
+              : 'Open in new tab'
+            openPageButton.title = pageMode ? 'Return to drawer' : 'Open in new tab'
+            document.getElementById('customer-unit-drawer-description').textContent = pageMode
+              ? 'Full page view for creating a new operation unit.'
+              : 'Create the unit here, then use it on this customer.'
+            return
+          }
+          const unitTab = event.target.closest('[data-customer-unit-tab]')
+          if (unitTab) {
+            setCustomerUnitTab(unitTab.dataset.customerUnitTab)
+            return
+          }
+          const editorTab = event.target.closest('.customer-unit-editor-tabs button')
+          if (editorTab) {
+            editorTab.parentElement.querySelectorAll('button').forEach(button => {
+              const active = button === editorTab
+              button.setAttribute('aria-pressed', String(active))
+              button.classList.toggle('pri', active)
+              button.classList.toggle('out', !active)
+            })
+          }
+          if (event.target.closest('.customer-unit-photo')) {
+            toast({tone: 'ok', title: 'Unit photo selection is a prototype'})
+          }
+        })
+        customerUnitDrawerScrim.addEventListener('keydown', event => {
+          const tab = event.target.closest('[data-customer-unit-tab]')
+          if (!tab || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
+          event.preventDefault()
+          const tabs = [...customerUnitDrawerScrim.querySelectorAll('[data-customer-unit-tab]')]
+          const index = tabs.indexOf(tab)
+          const nextIndex =
+            event.key === 'Home'
+              ? 0
+              : event.key === 'End'
+                ? tabs.length - 1
+                : event.key === 'ArrowRight'
+                  ? (index + 1) % tabs.length
+                  : (index - 1 + tabs.length) % tabs.length
+          setCustomerUnitTab(tabs[nextIndex].dataset.customerUnitTab, {focus: true})
+        })
+        document.getElementById('customer-unit-drawer-save').addEventListener('click', () => {
+          const nameInput = document.getElementById('customer-unit-name')
+          const name = nameInput.value.trim()
+          const error = document.getElementById('customer-unit-name-error')
+          if (!name) {
+            error.textContent = 'Unit Name is required.'
+            error.hidden = false
+            nameInput.setAttribute('aria-invalid', 'true')
+            nameInput.setAttribute('aria-describedby', error.id)
+            nameInput.focus()
+            return
+          }
+          error.hidden = true
+          nameInput.removeAttribute('aria-invalid')
+          nameInput.removeAttribute('aria-describedby')
+          const nextCode =
+            Math.max(...CUSTOMER_LOOKUP_RESULTS.operationUnit.map(item => Number(item.code) || 0)) +
+            1
+          const value = `${nextCode} - ${name}`
+          CUSTOMER_LOOKUP_RESULTS.operationUnit.push({
+            value,
+            code: String(nextCode),
+            country: document.getElementById('customer-unit-country').value,
+            parent: document.getElementById('customer-unit-parent').value || 'No parent',
+            status: 'Active',
+          })
+          closeCustomerUnitDrawer()
+          applyCustomerLookupValue('operationUnit', value)
+          toast({tone: 'ok', title: 'Operation unit added and selected'})
+        })
+
+        customerParentUnitDrawerScrim.addEventListener('click', event => {
+          if (
+            event.target === customerParentUnitDrawerScrim ||
+            event.target.closest('.customer-parent-unit-drawer-close')
+          ) {
+            closeCustomerParentUnitDrawer()
+          }
+        })
+
+        document
+          .getElementById('customer-parent-unit-drawer-save')
+          .addEventListener('click', () => {
+            const nameInput = document.getElementById('customer-parent-unit-name')
+            const name = nameInput.value.trim()
+            const error = document.getElementById('customer-parent-unit-name-error')
+            if (!name) {
+              error.textContent = 'Unit Name is required.'
+              error.hidden = false
+              nameInput.setAttribute('aria-invalid', 'true')
+              nameInput.setAttribute('aria-describedby', error.id)
+              nameInput.focus()
+              return
+            }
+            error.hidden = true
+            nameInput.removeAttribute('aria-invalid')
+            nameInput.removeAttribute('aria-describedby')
+            const nextCode =
+              Math.max(
+                ...CUSTOMER_LOOKUP_RESULTS.operationUnit.map(item => Number(item.code) || 0)
+              ) + 1
+            const value = `${nextCode} - ${name}`
+            CUSTOMER_LOOKUP_RESULTS.operationUnit.push({
+              value,
+              code: String(nextCode),
+              country: document.getElementById('customer-parent-unit-country').value,
+              parent: document.getElementById('customer-parent-unit-parent').value || 'No parent',
+              status: 'Active',
+            })
+            const parentSelect = document.getElementById('customer-unit-parent')
+            parentSelect.add(new Option(value, value))
+            parentSelect.value = value
+            closeCustomerParentUnitDrawer()
+            toast({tone: 'ok', title: 'Parent unit added and selected'})
+          })
+
+        customerLocationAddScrim.addEventListener('click', event => {
+          if (
+            event.target === customerLocationAddScrim ||
+            event.target.closest('.customer-location-add-close')
+          ) {
+            closeCustomerLocationAdd()
+          }
+        })
+
+        document.getElementById('customer-location-add-save').addEventListener('click', () => {
+          const required = ['code', 'name']
+          let firstInvalid = null
+          required.forEach(key => {
+            const input = document.getElementById(`customer-location-${key}`)
+            const error = document.getElementById(`customer-location-${key}-error`)
+            const missing = !input.value.trim()
+            error.textContent = missing
+              ? `${key === 'code' ? 'Location Code' : 'Location Name'} is required.`
+              : ''
+            error.hidden = !missing
+            input.toggleAttribute('aria-invalid', missing)
+            if (missing) input.setAttribute('aria-describedby', error.id)
+            else input.removeAttribute('aria-describedby')
+            if (missing && !firstInvalid) firstInvalid = input
+          })
+          if (firstInvalid) {
+            firstInvalid.focus()
+            return
+          }
+          const code = document.getElementById('customer-location-code').value.trim()
+          const name = document.getElementById('customer-location-name').value.trim()
+          const location = {
+            value: name,
+            code,
+            parent: document.getElementById('customer-location-parent').value || 'No parent',
+            level: document.getElementById('customer-location-level').value || '1',
+            type: document.getElementById('customer-location-type').value,
+            status: 'Active',
+          }
+          const existing = CUSTOMER_LOOKUP_RESULTS.unitLocation.find(
+            item => item.value.toLocaleLowerCase() === name.toLocaleLowerCase()
+          )
+          if (!existing) CUSTOMER_LOOKUP_RESULTS.unitLocation.push(location)
+          const targetId = customerLookupState.targetSelectId
+          closeCustomerLocationAdd()
+          customerLookupState.source = 'unit'
+          customerLookupState.targetSelectId = targetId
+          applyCustomerLookupValue('unitLocation', name)
+          toast({tone: 'ok', title: 'Geo. Location added and selected'})
+        })
+
+        document.addEventListener('keydown', event => {
+          if (event.key !== 'Escape') return
+          if (!customerLookupMenu.hidden) closeCustomerLookupMenu({restoreFocus: true})
+          else if (!customerUnitLookupMenu.hidden) closeCustomerUnitLookupMenu({restoreFocus: true})
+          else if (customerLocationAddScrim.classList.contains('open')) closeCustomerLocationAdd()
+          else if (customerLookupSearchScrim.classList.contains('open')) closeCustomerLookupSearch()
+          else if (customerParentUnitDrawerScrim.classList.contains('open'))
+            closeCustomerParentUnitDrawer()
+          else if (customerTypeAddScrim.classList.contains('open')) closeCustomerTypeAdd()
+          else if (customerUnitDrawerScrim.classList.contains('open')) closeCustomerUnitDrawer()
+          else if (geoFilterScrim.classList.contains('open')) closeDataFilterModal()
+          else if (geoParentPickerScrim.classList.contains('open')) closeGeoParentPicker()
+          else if (unitPickerScrim.classList.contains('open')) closeUnitPicker()
+          else if (geoHierarchyScrim.classList.contains('open')) closeGeoHierarchyDialog()
+          else if (kanbanBlockedScrim.classList.contains('open')) closeKanbanBlockedDialog()
+          else if (dataExportScrim.classList.contains('open')) closeDataExport()
+        })
+
+        function refreshCustomerSectionStatus(sectionKey) {
+          const meta = customerSectionMeta(sectionKey)
+          customerRecordCanvas
+            .querySelectorAll(`[data-customer-status="${sectionKey}"]`)
+            .forEach(status => {
+              status.textContent = meta.hasErrors ? meta.text : ''
+              status.hidden = !meta.hasErrors
+              status.classList.toggle('is-error', meta.className === 'is-error')
+            })
+          customerRecordCanvas
+            .querySelectorAll(`[data-customer-section="${sectionKey}"]`)
+            .forEach(section => {
+              section.dataset.customerHasErrors = String(meta.hasErrors)
+            })
+        }
+
+        function refreshCustomerFieldError(control, field) {
+          if (!customerState.errors.has(field.key)) return
+          const message = validateCustomerField(field)
+          if (message) customerState.errors.set(field.key, message)
+          else customerState.errors.delete(field.key)
+          const errorId = `${control.id}-error`
+          let error = document.getElementById(errorId)
+          control.toggleAttribute('aria-invalid', Boolean(message))
+          if (message) {
+            control.setAttribute('aria-describedby', errorId)
+            if (!error) {
+              error = document.createElement('span')
+              error.className = 'customer-field-error'
+              error.id = errorId
+              control.insertAdjacentElement('afterend', error)
+            }
+            error.textContent = message
+          } else {
+            control.removeAttribute('aria-describedby')
+            error?.remove()
+          }
+        }
+
+        const updateCustomerField = event => {
+          const control = event.target.closest('[data-customer-field]')
+          if (!control) return
+          const fieldKey = control.dataset.customerField
+          customerData[fieldKey] = control.type === 'checkbox' ? control.checked : control.value
+          customerState.dirty = true
+          const sectionKey = customerSectionKeyForField(fieldKey)
+          const field = CUSTOMER_SECTIONS[sectionKey]?.fields.find(item => item.key === fieldKey)
+          if (field) refreshCustomerFieldError(control, field)
+          if (sectionKey) refreshCustomerSectionStatus(sectionKey)
+        }
+        customerRecordCanvas.addEventListener('input', updateCustomerField)
+        customerRecordCanvas.addEventListener('change', updateCustomerField)
+        customerRecordCanvas.addEventListener('click', event => {
+          const scrollLink = event.target.closest('[data-customer-scroll-section]')
+          if (scrollLink) {
+            activateCustomerScrollSection(scrollLink.dataset.customerScrollSection)
+            return
+          }
+          const focusedLink = event.target.closest('[data-customer-focus-section]')
+          if (focusedLink) {
+            customerState.activeSection = focusedLink.dataset.customerFocusSection
+            renderCustomerRecord({
+              focusSelector: `[data-customer-focus-section="${customerState.activeSection}"]`,
+              preserveScroll: true,
+            })
+            return
+          }
+          const tab = event.target.closest('[data-customer-tab]')
+          if (tab) {
+            customerState.activeSection = tab.dataset.customerTab
+            renderCustomerRecord({
+              focusSelector: `[data-customer-tab="${customerState.activeSection}"]`,
+              preserveScroll: true,
+            })
+            return
+          }
+          const collapse = event.target.closest('[data-customer-collapse]')
+          if (collapse) {
+            const key = collapse.dataset.customerCollapse
+            const expanded = !customerState.expanded.has(key)
+            if (expanded) customerState.expanded.add(key)
+            else customerState.expanded.delete(key)
+            collapse.setAttribute('aria-expanded', String(expanded))
+            collapse.nextElementSibling.hidden = !expanded
+            if (customerState.layout === 'scroll') {
+              requestAnimationFrame(syncCustomerScrollActiveSection)
+            }
+            return
+          }
+          const action = event.target.closest('[data-customer-action]')?.dataset.customerAction
+          if (action === 'photo') {
+            toast({tone: 'ok', title: 'Photo selection is a prototype'})
+          }
+          if (action === 'add-sub-ledger') {
+            toast({tone: 'ok', title: 'Adding a sub ledger is a prototype'})
+          }
+        })
+        customerRecordCanvas.addEventListener('keydown', event => {
+          if (
+            customerScrollNavigationKey &&
+            ['ArrowDown', 'ArrowUp', 'End', 'Home', 'PageDown', 'PageUp', ' '].includes(event.key)
+          ) {
+            stopCustomerScrollNavigation({interrupt: true})
+          }
+          const focusedLink = event.target.closest('[data-customer-focus-section]')
+          const scrollLink = event.target.closest('[data-customer-scroll-section]')
+          const tab = event.target.closest('[data-customer-tab]')
+          const control = focusedLink || scrollLink || tab
+          if (!control) return
+          const controls = [
+            ...control.parentElement.querySelectorAll(
+              focusedLink
+                ? '[data-customer-focus-section]'
+                : scrollLink
+                  ? '[data-customer-scroll-section]'
+                  : '[data-customer-tab]'
+            ),
+          ]
+          const vertical = focusedLink || scrollLink
+          const previousKey = vertical ? 'ArrowUp' : 'ArrowLeft'
+          const nextKey = vertical ? 'ArrowDown' : 'ArrowRight'
+          if (!['Home', 'End', previousKey, nextKey].includes(event.key)) return
+          event.preventDefault()
+          const index = controls.indexOf(control)
+          const nextIndex =
+            event.key === 'Home'
+              ? 0
+              : event.key === 'End'
+                ? controls.length - 1
+                : event.key === previousKey
+                  ? (index - 1 + controls.length) % controls.length
+                  : (index + 1) % controls.length
+          controls[nextIndex].click()
+        })
+        customerRecordCanvas.addEventListener(
+          'wheel',
+          () => {
+            if (customerScrollNavigationKey) stopCustomerScrollNavigation({interrupt: true})
+          },
+          {passive: true}
+        )
+        customerRecordCanvas.addEventListener(
+          'touchstart',
+          () => {
+            if (customerScrollNavigationKey) stopCustomerScrollNavigation({interrupt: true})
+          },
+          {passive: true}
+        )
+        document.getElementById('customer-record-chrome').addEventListener('click', event => {
+          if (event.target.closest('.customer-back')) {
+            showContentView('customers-list')
+            return
+          }
+          const actionButton = event.target.closest('[data-customer-action]')
+          const action = actionButton?.dataset.customerAction
+          if (action === 'new') openCustomerRecord(null, 'create')
+          if (action === 'modify') {
+            customerSavedSnapshot = structuredClone(customerData)
+            setCustomerMode('edit')
+          }
+          if (action === 'save') saveCustomer()
+          if (action === 'undo') undoCustomer()
+          if (action === 'search') openCustomerSearch()
+          if (action === 'print') openPrintSettings(`${customerData.customerNo || 'New'}`)
+          if (
+            [
+              'add-from',
+              'new-tab',
+              'delete',
+              'lock',
+              'reports',
+              'parameters',
+              'help',
+              'accounts-movement',
+              'deactivate',
+            ].includes(action)
+          ) {
+            toast({
+              tone: 'ok',
+              title: `${encodeHtml(actionButton.textContent.trim())} is a prototype`,
+            })
+          }
+          if (action) closeAllMenus()
+        })
+        document.querySelector('.customer-record-footer').addEventListener('click', event => {
+          const action = event.target.closest('[data-customer-footer-action]')
+          if (!action) return
+          toast({tone: 'ok', title: `${encodeHtml(action.textContent.trim())} is a prototype`})
+        })
+        document.getElementById('customer-mode').addEventListener('change', event => {
+          const mode = event.target.value
+          const previousMode = customerState.mode
+          customerState.errors.clear()
+          if (mode === 'create') {
+            customerState.customerNo = ''
+            customerData = createBlankCustomerData()
+          }
+          if (mode === 'edit') customerSavedSnapshot = structuredClone(customerData)
+          if (mode === 'view') restoreCustomerView(previousMode)
+          setCustomerMode(mode)
+        })
+        document.getElementById('customer-layout').addEventListener('change', event => {
+          customerState.layout = event.target.value
+          renderCustomerLayout({preserveScroll: true})
+        })
+        let customerScrollResizeFrame = 0
+        window.addEventListener('resize', () => {
+          if (
+            customerState.layout !== 'scroll' ||
+            document.querySelector('.customer-record-view')?.hidden !== false
+          )
+            return
+          cancelAnimationFrame(customerScrollResizeFrame)
+          customerScrollResizeFrame = requestAnimationFrame(() => {
+            startCustomerScrollSpy()
+            syncCustomerScrollActiveSection()
+          })
+        })
+        document.getElementById('adv-search-apply').addEventListener('click', () => {
+          if (advSearchScrim.dataset.context !== 'customer') return
+          const values = Object.fromEntries(
+            [...advSearchScrim.querySelectorAll('[data-advanced-filter]')].map(control => [
+              control.dataset.advancedFilter,
+              control.value.trim().toLowerCase(),
+            ])
+          )
+          const rows = CUSTOMER_ROWS.filter(row => {
+            const status = row.active ? 'active' : 'inactive'
+            return (
+              (!values.customerNo || row.customerNo.toLowerCase().includes(values.customerNo)) &&
+              (!values.customerName ||
+                row.customerName.toLowerCase().includes(values.customerName)) &&
+              (!values.typeGroup ||
+                `${row.customerType} ${row.customerGroup}`
+                  .toLowerCase()
+                  .includes(values.typeGroup)) &&
+              (!values.country || row.country.toLowerCase().includes(values.country)) &&
+              (!values.status || values.status === 'all statuses' || values.status === status)
+            )
+          })
+          renderCustomerList(rows, {advanced: true})
+          closeAdvancedSearch()
+        })
+
+        document.getElementById('list-add').addEventListener('click', () => {
+          const addInvoice = () => showContentView('record')
+          if (!guardDataListLeave(addInvoice)) addInvoice()
+        })
+        ensureContentViewRendered = name => {
+          if (initializedContentViews.has(name)) return
+          if (name === 'list') renderListA(document.getElementById('list-canvas'))
+          else if (name === 'customers-list') renderCustomerList()
+          else if (name === 'geo-list') renderGeoList()
+          else return
+          initializedContentViews.add(name)
+          applyDataI18n()
+        }
+
+        document.getElementById('geo-list-add').addEventListener('click', () => {
+          const addLocation = () => openNewDataListRecord('geo')
+          if (!guardDataListLeave(addLocation)) addLocation()
+        })
+        document.getElementById('geo-tree').addEventListener('click', event => {
+          const node = event.target.closest('[data-geo-node]')
+          if (node) selectGeoTreeNode(node)
+        })
+        document.getElementById('geo-field-parent').addEventListener('change', event => {
+          const parentCode = event.target.value
+          const parentRow = GEO_ROWS.find(item => item.code === parentCode)
+          document.getElementById('geo-field-level').value = (parentRow?.level || 0) + 1
+        })
+        document.addEventListener('click', event => {
+          if (!event.target.closest('#geo-hierarchy-panel')) return
+          const view = event.target.closest('[data-geo-view]')
+          if (view) {
+            setGeoHierarchyView(view.dataset.geoView)
+            return
+          }
+          if (event.target.closest('[data-geo-expand-all]')) {
+            GEO_ROWS.filter(row => GEO_ROWS.some(child => child.parentCode === row.code)).forEach(
+              row => geoState.expanded.add(row.code)
+            )
+            renderGeoTree()
+            return
+          }
+          if (event.target.closest('[data-geo-collapse-all]')) {
+            geoState.expanded.clear()
+            renderGeoTree()
+            return
+          }
+          const zoom = event.target.closest('[data-geo-flow-zoom]')
+          if (zoom) {
+            setGeoFlowScale(geoState.flowScale + (zoom.dataset.geoFlowZoom === 'in' ? 0.1 : -0.1))
+            return
+          }
+          if (event.target.closest('[data-geo-flow-fit]')) {
+            fitGeoFlow()
+            return
+          }
+          const flowNode = event.target.closest('#geo-flow-pane [data-geo-node]')
+          if (flowNode) selectGeoTreeNode(flowNode)
+        })
+        function enableFlowPan(viewportId) {
+          const viewport = document.getElementById(viewportId)
+          if (!viewport || viewport.dataset.panEnabled) return
+          viewport.dataset.panEnabled = 'true'
+          let panning = false
+          let dragged = false
+          let startX = 0
+          let startY = 0
+          let startScrollLeft = 0
+          let startScrollTop = 0
+          viewport.addEventListener('pointerdown', event => {
+            if (event.button !== 0 || event.target.closest('button')) return
+            panning = true
+            dragged = false
+            startX = event.clientX
+            startY = event.clientY
+            startScrollLeft = viewport.scrollLeft
+            startScrollTop = viewport.scrollTop
+            viewport.setPointerCapture(event.pointerId)
+          })
+          viewport.addEventListener('pointermove', event => {
+            if (!panning) return
+            const dx = event.clientX - startX
+            const dy = event.clientY - startY
+            if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+              dragged = true
+              viewport.classList.add('is-panning')
+            }
+            viewport.scrollLeft = startScrollLeft - dx
+            viewport.scrollTop = startScrollTop - dy
+          })
+          const endPan = event => {
+            if (!panning) return
+            panning = false
+            viewport.classList.remove('is-panning')
+            if (dragged) viewport.releasePointerCapture(event.pointerId)
+          }
+          viewport.addEventListener('pointerup', endPan)
+          viewport.addEventListener('pointercancel', endPan)
+          viewport.addEventListener(
+            'click',
+            event => {
+              if (dragged) {
+                event.stopPropagation()
+                event.preventDefault()
+              }
+            },
+            true
+          )
+        }
+        enableFlowPan('geo-flow-viewport')
+        enableFlowPan('geo-parent-picker-flow-viewport')
+        enableFlowPan('unit-picker-flow-viewport')
+        document.getElementById('geo-tree-search').addEventListener('input', event => {
+          geoState.treeQuery = event.target.value
+          renderGeoTree()
+        })
+        document.querySelector('[data-geo-tree-collapse]').addEventListener('click', event => {
+          toggleGeoTreePanel(event.currentTarget)
+        })
+        document.querySelector('.geo-tree-refresh').addEventListener('click', () => {
+          renderGeoRecord()
+          toast({tone: 'ok', title: 'Geographical Structure refreshed'})
+        })
+        document.getElementById('geo-record-chrome').addEventListener('click', event => {
+          if (event.target.closest('.geo-back-list')) {
+            if (geoHierarchyScrim.classList.contains('open')) closeGeoHierarchyDialog()
+            showContentView('geo-list')
+            renderGeoList()
+            return
+          }
+          const action = event.target.closest('[data-geo-record-action]')?.dataset.geoRecordAction
+          if (!action) return
+          if (action === 'modify') {
+            geoState.mode = 'edit'
+            renderGeoRecord()
+          } else if (action === 'new') openNewDataListRecord('geo')
+          else if (action === 'save') {
+            if (geoState.mode === 'edit') saveGeoRecord()
+            geoState.mode = 'view'
+            renderGeoRecord()
+            toast({tone: 'ok', title: 'Location saved'})
+          } else if (action === 'undo') {
+            geoState.mode = 'view'
+            renderGeoRecord()
+            toast({tone: 'ok', title: 'Changes discarded'})
+          } else if (action === 'print') openPrintSettings(`Location ${geoState.code}`)
+          else if (action === 'search') openAdvancedSearch('geo')
+          else
+            toast({
+              tone: 'ok',
+              title: `${action[0].toUpperCase() + action.slice(1)} is ready for integration`,
+            })
+        })
+        renderGeoRecord()
+
+        /* ================= Sales Invoice Record (Guided Tabs) =================
+   ported from sales-invoice-record.html:2311-2412 */
+
+        /* ---- payment method: multiple simultaneous rows, each with its own
+           method-specific extra fields ---- */
+        const PAYMENT_METHODS = ['Cash', 'Bank', 'Credit Card', 'Cheque', 'Transfer']
+        const PAYMENT_EXTRA_FIELDS = {
+          Cash: [{label: 'Cash Code', value: '2001 - Main Cash'}],
+          Bank: [
+            {label: 'Bank Name', value: ''},
+            {label: 'Account No.', value: ''},
+          ],
+          'Credit Card': [
+            {label: 'Card Type', value: ''},
+            {label: 'Approval No.', value: ''},
+          ],
+          Cheque: [
+            {label: 'Cheque No.', value: ''},
+            {label: 'Bank', value: ''},
+          ],
+          Transfer: [{label: 'Transfer Reference', value: ''}],
+        }
+        let paymentRowCount = 0
+
+        /* containerId lets Task 6's Concepts B and C reuse this for their own
+           payment-row containers, since only one concept's canvas is visible
+           at a time but all three will exist in the DOM simultaneously */
+        function addPaymentMethodRow(containerId = 'payment-rows', method = 'Cash', amount = '') {
+          const id = paymentRowCount++
+          const row = document.createElement('div')
+          row.className = 'rec-card'
+          row.dataset.paymentRow = id
+          row.innerHTML =
+            '<div class="rec-payment-row">' +
+            `<div class="rec-field"><label>Payment Method <span class="req">*</span></label>` +
+            `<select data-field data-payment-method>${PAYMENT_METHODS.map(m => `<option${m === method ? ' selected' : ''}>${m}</option>`).join('')}</select></div>` +
+            `<div class="rec-field"><label>The Amount <span class="req">*</span></label><input data-field value="${amount}"></div>` +
+            `<div class="rec-payment-extra"></div>` +
+            `<button type="button" class="ibtn danger rec-remove-payment" aria-label="Remove payment method"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button>` +
+            '</div>'
+          document.getElementById(containerId).appendChild(row)
+          renderPaymentExtraFields(row, method)
+          connectRecordLabels(row)
+          applyRecordValueDirections(row)
+          row
+            .querySelector('[data-payment-method]')
+            .addEventListener('change', e => renderPaymentExtraFields(row, e.target.value))
+          row.querySelector('.rec-remove-payment').addEventListener('click', () => row.remove())
+          /* a freshly-added row's [data-field] inputs start enabled by default —
+   sweep the current editable/locked state onto them immediately so they
+   don't escape a locked record */
+          applyState()
+        }
+
+        function renderPaymentExtraFields(row, method) {
+          const extra = row.querySelector('.rec-payment-extra')
+          extra.innerHTML = (PAYMENT_EXTRA_FIELDS[method] || [])
+            .map(
+              f =>
+                `<div class="rec-field"><label>${f.label}</label><input data-field value="${f.value}"></div>`
+            )
+            .join('')
+          connectRecordLabels(extra)
+          applyRecordValueDirections(extra)
+        }
+
+        /* ---- items grid: add/remove rows, recalc total qty ---- */
+        let itemRowCount = 0
+        /* bodyId/totalId let Concepts B and C (Task 6) reuse this for their own items
+           grids, which have their own tbody/total elements since only one concept's
+           canvas is visible at a time but all three will exist in the DOM simultaneously */
+        function addItemRow(bodyId, totalId) {
+          const id = itemRowCount++
+          const tr = document.createElement('tr')
+          tr.dataset.itemRow = id
+          tr.innerHTML =
+            '<td><input data-field placeholder="Item"></td>' +
+            '<td><input data-field placeholder="UoM"></td>' +
+            '<td><input data-field placeholder="Expiry"></td>' +
+            '<td><input data-field placeholder="Batch"></td>' +
+            '<td><input data-field type="number" value="1" class="items-qty"></td>' +
+            '<td><input data-field type="number" value="0"></td>' +
+            '<td><input data-field disabled placeholder="—"></td>' +
+            '<td><input data-field type="number" value="0"></td>' +
+            '<td><input data-field type="number" value="0"></td>' +
+            '<td><input data-field disabled value="0"></td>' +
+            '<td><input data-field disabled value="0"></td>' +
+            '<td><input data-field disabled value="0"></td>' +
+            '<td><button type="button" class="ibtn danger rec-remove-item" aria-label="Remove item"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button></td>'
+          const itemFieldNames = [
+            'Item',
+            'Unit of measure',
+            'Expiry date',
+            'Batch',
+            'Quantity',
+            'Unit price',
+            'Bonus quantity',
+            'Discount',
+            'Tax',
+            'Gross amount',
+            'Discount amount',
+            'Net amount',
+          ]
+          tr.querySelectorAll('input').forEach((input, index) => {
+            input.setAttribute('aria-label', itemFieldNames[index])
+          })
+          applyRecordValueDirections(tr)
+          document.getElementById(bodyId).appendChild(tr)
+          tr.querySelector('.rec-remove-item').addEventListener('click', () => {
+            tr.remove()
+            recalcTotalQty(bodyId, totalId)
+          })
+          tr.querySelector('.items-qty').addEventListener('input', () =>
+            recalcTotalQty(bodyId, totalId)
+          )
+          recalcTotalQty(bodyId, totalId)
+          /* a freshly-added row's [data-field] inputs start enabled by default —
+   sweep the current editable/locked state onto them immediately so they
+   don't escape a locked record */
+          applyState()
+        }
+        function recalcTotalQty(bodyId, totalId) {
+          const qtys = [...document.querySelectorAll(`#${bodyId} .items-qty`)].map(
+            i => Number(i.value) || 0
+          )
+          document.getElementById(totalId).textContent = qtys.reduce((a, b) => a + b, 0)
+        }
+
+        /* Spreadsheet-style line entry: Enter moves to the same column on the next
+           row, adding one if this is the last row, so a clerk can key in several
+           lines without reaching for the mouse. Arrow keys move between cells the
+           same way a spreadsheet does; they only take over navigation on inputs
+           where the caret is already at that edge, so normal text editing (and
+           number-input spin arrows) still works. */
+        document.addEventListener('keydown', event => {
+          const cell = event.target.closest('.inv-grid td [data-field]')
+          if (!cell) return
+          const row = cell.closest('tr[data-item-row]')
+          if (!row) return
+          const body = row.parentElement
+          const cellIndex = [...row.children].indexOf(cell.closest('td'))
+          /* type="number" already uses Up/Down to step its value, so row-to-row
+             arrow navigation only applies to plain text cells (Item, UoM, Expiry,
+             Batch) — Enter still moves every field type to the next row. */
+          const isPlainText = cell.tagName === 'INPUT' && cell.type === 'text'
+          const atStart = isPlainText && cell.selectionStart === 0
+          const atEnd = isPlainText && cell.selectionEnd === cell.value.length
+          const moveTo = targetRow => {
+            const targetCell = targetRow?.children[cellIndex]?.querySelector('[data-field]')
+            if (!targetCell || targetCell.disabled) return false
+            event.preventDefault()
+            targetCell.focus()
+            if (targetCell.tagName === 'INPUT') targetCell.select()
+            return true
+          }
+          if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault()
+            const next = row.nextElementSibling
+            if (next) moveTo(next)
+            else if (body.id === 'items-body') {
+              addItemRow('items-body', 'items-total-qty')
+              moveTo(body.lastElementChild)
+            }
+            return
+          }
+          if (event.key === 'ArrowDown' && atEnd) {
+            if (moveTo(row.nextElementSibling)) return
+          }
+          if (event.key === 'ArrowUp' && atStart) {
+            if (moveTo(row.previousElementSibling)) return
+          }
+          if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'd') {
+            if (body.id !== 'items-body') return
+            event.preventDefault()
+            const values = [...row.querySelectorAll('[data-field]')].map(field => field.value)
+            addItemRow('items-body', 'items-total-qty')
+            const newRow = body.lastElementChild
+            newRow.querySelectorAll('[data-field]').forEach((field, index) => {
+              if (!field.disabled) field.value = values[index] ?? field.value
+            })
+            recalcTotalQty('items-body', 'items-total-qty')
+            moveTo(newRow)
+          }
+        })
+
+        /* Multi-cell paste: clipboard text with tabs (columns) and newlines (rows) —
+           the shape a user copies out of a spreadsheet — fills forward from the
+           focused cell, adding rows if the pasted block runs past the last one. */
+        document.addEventListener('paste', event => {
+          const cell = event.target.closest('.inv-grid td [data-field]')
+          if (!cell) return
+          const text = event.clipboardData?.getData('text/plain') ?? ''
+          if (!text.includes('\t') && !text.includes('\n')) return
+          const row = cell.closest('tr[data-item-row]')
+          const body = row?.parentElement
+          if (!row || body?.id !== 'items-body') return
+          event.preventDefault()
+          const cellIndex = [...row.children].indexOf(cell.closest('td'))
+          const grid = text
+            .replace(/\r/g, '')
+            .split('\n')
+            .filter((line, index, lines) => line !== '' || index < lines.length - 1)
+            .map(line => line.split('\t'))
+          let targetRow = row
+          grid.forEach((lineValues, rowOffset) => {
+            if (rowOffset > 0) {
+              if (!targetRow.nextElementSibling) addItemRow('items-body', 'items-total-qty')
+              targetRow = targetRow.nextElementSibling
+            }
+            lineValues.forEach((value, columnOffset) => {
+              const field =
+                targetRow.children[cellIndex + columnOffset]?.querySelector('[data-field]')
+              if (field && !field.disabled) field.value = value
+            })
+          })
+          recalcTotalQty('items-body', 'items-total-qty')
+        })
+
+        /* ---- invoice-level discounts and charges ---- */
+        let invoiceAdjustmentCount = 0
+        const formatInvoiceMoney = value =>
+          Number(value || 0).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
+
+        function recalcInvoiceSummary() {
+          const subtotal = 200
+          const itemsDiscount = 0
+          const discountValue = Math.max(
+            0,
+            Number(document.getElementById('invoice-discount-value')?.value) || 0
+          )
+          const discountCalculation =
+            document.getElementById('invoice-discount-calculation')?.value || 'percent'
+          const invoiceDiscount =
+            discountCalculation === 'percent'
+              ? ((subtotal - itemsDiscount) * Math.min(discountValue, 100)) / 100
+              : Math.min(discountValue, subtotal - itemsDiscount)
+          let charges = 0
+          document
+            .querySelectorAll('#invoice-adjustment-list [data-adjustment-kind]')
+            .forEach(row => {
+              const amount = Math.max(
+                0,
+                Number(row.querySelector('[data-adjustment-value]').value) || 0
+              )
+              charges += amount
+            })
+          const tax = 0
+          const net = Math.max(0, subtotal - itemsDiscount - invoiceDiscount + charges + tax)
+          document.getElementById('invoice-summary-subtotal').textContent =
+            formatInvoiceMoney(subtotal)
+          document.getElementById('invoice-summary-items-discount').textContent =
+            `− ${formatInvoiceMoney(itemsDiscount)}`
+          document.getElementById('invoice-summary-discount').textContent =
+            `− ${formatInvoiceMoney(invoiceDiscount)}`
+          document.getElementById('invoice-summary-charges').textContent =
+            `+ ${formatInvoiceMoney(charges)}`
+          document.getElementById('invoice-summary-tax').textContent =
+            `+ ${formatInvoiceMoney(tax)}`
+          document.getElementById('invoice-summary-net').textContent =
+            `${formatInvoiceMoney(net)} EGP`
+        }
+
+        function syncInvoiceAdjustmentEmptyState() {
+          const list = document.getElementById('invoice-adjustment-list')
+          const hasRows = Boolean(list.querySelector('[data-adjustment-kind]'))
+          let empty = list.querySelector('.rec-adjustment-empty')
+          if (hasRows) {
+            empty?.remove()
+            return
+          }
+          if (!empty) {
+            empty = document.createElement('div')
+            empty.className = 'rec-adjustment-empty'
+            empty.textContent = 'No invoice charges.'
+            list.appendChild(empty)
+          }
+        }
+
+        function addInvoiceAdjustment() {
+          const list = document.getElementById('invoice-adjustment-list')
+          const row = document.createElement('div')
+          const id = invoiceAdjustmentCount++
+          row.className = 'rec-adjustment-row'
+          row.dataset.adjustmentKind = 'charge'
+          row.dataset.adjustmentId = String(id)
+          row.innerHTML = `<div class="rec-field"><label for="invoice-adjustment-name-${id}">Charge</label><select id="invoice-adjustment-name-${id}" data-field><option>Freight</option><option>Delivery</option><option>Insurance</option><option>Other</option></select></div><div class="rec-field"><label for="invoice-adjustment-calculation-${id}">Tax treatment</label><select id="invoice-adjustment-calculation-${id}" data-field><option>Before tax</option><option>After tax</option></select></div><div class="rec-field"><label for="invoice-adjustment-value-${id}">Amount</label><input id="invoice-adjustment-value-${id}" data-field data-adjustment-value type="number" min="0" step="0.01" value="0" inputmode="decimal"></div>`
+          const remove = document.createElement('button')
+          remove.type = 'button'
+          remove.className = 'ibtn danger'
+          remove.setAttribute('aria-label', 'Remove charge')
+          remove.innerHTML =
+            '<svg width="14" height="14" aria-hidden="true"><use href="#i-x" /></svg>'
+          row.appendChild(remove)
+          row.addEventListener('input', recalcInvoiceSummary)
+          row.addEventListener('change', event => {
+            if (event.target.matches('[data-adjustment-calculation]')) {
+              const value = row.querySelector('[data-adjustment-value]')
+              value.max = event.target.value === 'percent' ? '100' : ''
+            }
+            recalcInvoiceSummary()
+          })
+          remove.addEventListener('click', () => {
+            row.remove()
+            syncInvoiceAdjustmentEmptyState()
+            recalcInvoiceSummary()
+          })
+          list.appendChild(row)
+          applyRecordValueDirections(row)
+          syncInvoiceAdjustmentEmptyState()
+          applyState()
+          row.querySelector('select, input')?.focus()
+        }
+        /* referenced from inline onclick="addItemRow(...)" in the ported Items grid
+   markup — needs to be reachable outside this IIFE, same as openInvoiceRecord. */
+        window.addItemRow = addItemRow
+
+        let generatedRecordFieldId = 0
+        function connectRecordLabels(root) {
+          root.querySelectorAll('.rec-field').forEach(field => {
+            const label = field.querySelector(':scope > label')
+            const control = field.querySelector(
+              ':scope > input, :scope > select, :scope > textarea'
+            )
+            if (!label || !control || label.htmlFor) return
+            if (!control.id) control.id = `record-field-${generatedRecordFieldId++}`
+            label.htmlFor = control.id
+          })
+        }
+
+        function applyRecordValueDirections(root) {
+          root.querySelectorAll('input, select, textarea').forEach(control => {
+            const fixedDirection = control.matches(
+              '[type="number"], [type="date"], [type="time"], [type="tel"]'
+            )
+            control.dir = fixedDirection ? 'ltr' : 'auto'
+          })
+        }
+
+        function selectRecordTab(tab) {
+          document.querySelectorAll('#canvas-root .rec-tab').forEach(button => {
+            const selected = button === tab
+            button.classList.toggle('on', selected)
+            button.setAttribute('aria-selected', String(selected))
+            button.tabIndex = selected ? 0 : -1
+          })
+          document.querySelectorAll('#canvas-root .rec-tabpanel').forEach(panel => {
+            panel.hidden = panel.dataset.panel !== tab.dataset.tab
+          })
+        }
+
+        function handleRecordTabKeydown(event) {
+          const tabs = [...document.querySelectorAll('#canvas-root .rec-tab')]
+          const current = tabs.indexOf(event.currentTarget)
+          const rtl = document.documentElement.dir === 'rtl'
+          let next = current
+          if (event.key === 'ArrowRight') next += rtl ? -1 : 1
+          else if (event.key === 'ArrowLeft') next += rtl ? 1 : -1
+          else if (event.key === 'Home') next = 0
+          else if (event.key === 'End') next = tabs.length - 1
+          else return
+          event.preventDefault()
+          const tab = tabs[(next + tabs.length) % tabs.length]
+          selectRecordTab(tab)
+          tab.focus()
+        }
+
+        let recordAInitialized = false
+        function renderRecordA() {
+          if (recordAInitialized) return
+          recordAInitialized = true
+          document.querySelectorAll('#canvas-root .rec-tab').forEach(btn => {
+            btn.addEventListener('click', () => selectRecordTab(btn))
+            btn.addEventListener('keydown', handleRecordTabKeydown)
+          })
+          selectRecordTab(document.querySelector('#canvas-root .rec-tab[aria-selected="true"]'))
+          connectRecordLabels(document.getElementById('canvas-root'))
+          applyRecordValueDirections(document.getElementById('canvas-root'))
+          document.querySelectorAll('#canvas-root .rec-card-hd').forEach(hd => {
+            hd.addEventListener('click', () => {
+              const open = hd.getAttribute('aria-expanded') === 'true'
+              hd.setAttribute('aria-expanded', String(!open))
+              hd.nextElementSibling.hidden = open
+            })
+          })
+
+          document
+            .getElementById('add-payment-link')
+            .addEventListener('click', () => addPaymentMethodRow('payment-rows'))
+          document.querySelectorAll('[data-invoice-adjustment]').forEach(button => {
+            button.addEventListener('click', addInvoiceAdjustment)
+          })
+          const discountCalculation = document.getElementById('invoice-discount-calculation')
+          const discountValue = document.getElementById('invoice-discount-value')
+          const discountUnit = document.getElementById('invoice-discount-unit')
+          discountCalculation.addEventListener('change', () => {
+            const percent = discountCalculation.value === 'percent'
+            discountValue.max = percent ? '100' : '200'
+            discountUnit.textContent = percent ? '%' : 'EGP'
+            recalcInvoiceSummary()
+          })
+          discountValue.addEventListener('input', recalcInvoiceSummary)
+          addPaymentMethodRow('payment-rows', 'Cash', '200')
+          addItemRow('items-body', 'items-total-qty')
+          recalcInvoiceSummary()
+        }
+
+        renderRecordA()
+        /* the payment row and item row just created above are [data-field]
+   elements that didn't exist yet for applyMode()'s initial applyState() call
+   above — re-run it so their disabled state matches the current status */
+        applyState()
+        contentViewDeferralReady = true
+        showContentView(currentContentViewName)
+
+        /* ================= data-list context (right-click) menus =================
+           Right-click is pure acceleration here, never the only door: every
+           menu below reuses the exact same content and dispatch functions
+           the left-click "..." button and toolbar already use, so nothing
+           is reachable by right-click alone. Four cases, checked in order
+           of specificity:
+             1. a copyable identifier cell (Doc No., Customer No./Code,
+                Net Total) — the one genuinely new action, since no copy
+                affordance exists anywhere today
+             2. a selected row, when other rows are also selected — surfaces
+                the bulk-action set instead of the single-row menu
+             3. a single table row / kanban card / adaptive record — the
+                per-context row-actions menu (status changes stay drag-and-
+                drop only in Kanban, since they're a real multi-step
+                workflow, not a one-click jump)
+             4. anything else inside a data-list canvas — no menu, let the
+                browser's native context menu through */
+        const dataListContextMenu = document.getElementById('data-list-context-menu')
+
+        const DATA_LIST_COPYABLE_COLUMNS = {
+          invoice: ['no', 'seq', 'total'],
+          customer: ['customerNo'],
+          geo: ['code'],
+        }
+
+        function closeDataListContextMenu() {
+          dataListContextMenu.hidden = true
+          dataListContextMenu.innerHTML = ''
+          delete dataListContextMenu.dataset.context
+          delete dataListContextMenu.dataset.rowKey
+          delete dataListContextMenu.dataset.columnKey
+        }
+
+        function positionDataListContextMenu(x, y) {
+          const rect = dataListContextMenu.getBoundingClientRect()
+          const maxX = window.innerWidth - rect.width - 8
+          const maxY = window.innerHeight - rect.height - 8
+          dataListContextMenu.style.left = `${Math.max(8, Math.min(x, maxX))}px`
+          dataListContextMenu.style.top = `${Math.max(8, Math.min(y, maxY))}px`
+        }
+
+        function openDataListContextMenu(x, y, innerHtml, context, rowKey = '', columnKey = '') {
+          dataListContextMenu.innerHTML = innerHtml
+          dataListContextMenu.dataset.context = context
+          if (rowKey) dataListContextMenu.dataset.rowKey = rowKey
+          else delete dataListContextMenu.dataset.rowKey
+          if (columnKey) dataListContextMenu.dataset.columnKey = columnKey
+          else delete dataListContextMenu.dataset.columnKey
+          dataListContextMenu.hidden = false
+          positionDataListContextMenu(x, y)
+          dataListContextMenu
+            .querySelector('[role="menuitem"], button')
+            ?.focus({preventScroll: true})
+        }
+
+        function copyTextToClipboard(text) {
+          if (navigator.clipboard?.writeText) {
+            navigator.clipboard.writeText(text).catch(() => {})
+          } else {
+            const helper = document.createElement('textarea')
+            helper.value = text
+            helper.style.position = 'fixed'
+            helper.style.opacity = '0'
+            document.body.appendChild(helper)
+            helper.select()
+            document.execCommand('copy')
+            helper.remove()
+          }
+          toast({tone: 'ok', title: `Copied "${text}"`})
+        }
+
+        function renderDataListColumnHeaderMenu(context, column) {
+          const listState = dataListState[context]
+          const sorted = listState.sortKey === column.key
+          const pinned = listState.frozenColumns.has(column.key)
+          const canGroup = column.groupable !== false && !listState.groupBy.includes(column.key)
+          const canChart = column.key !== undefined
+          const item = (action, icon, label, disabled = false) =>
+            `<button type="button" role="menuitem" data-context-column-action="${action}"${disabled ? ' disabled' : ''}>${dataListIcon(icon, 13)} ${encodeHtml(t(label, label))}</button>`
+          return `${item('sort-asc', 'i-caret', 'Sort ascending', sorted && listState.sortDirection === 'asc')}
+            ${item('sort-desc', 'i-caret', 'Sort descending', sorted && listState.sortDirection === 'desc')}
+            ${item('clear-sort', 'i-undo', 'Clear sort', !sorted)}
+            <div class="data-menu-separator"></div>
+            ${item(pinned ? 'unpin' : 'pin', 'i-lock', pinned ? 'Unpin column' : 'Pin column')}
+            <div class="data-menu-separator"></div>
+            ${item('hide', 'i-x', 'Hide column')}
+            ${column.groupable !== false ? item('group-by', 'i-grid', 'Group by this column', !canGroup) : ''}
+            <div class="data-menu-separator"></div>
+            ${item('chart-range', 'i-chart', 'Chart range', !canChart)}`
+        }
+
+        function applyDataListColumnHeaderAction(context, columnKey, action) {
+          const listState = dataListState[context]
+          const config = DATA_LIST_CONFIG[context]
+          if (action === 'sort-asc' || action === 'sort-desc') {
+            listState.sortKey = columnKey
+            listState.sortDirection = action === 'sort-asc' ? 'asc' : 'desc'
+          } else if (action === 'clear-sort') {
+            listState.sortKey = config.key
+            listState.sortDirection = 'asc'
+          } else if (action === 'pin') {
+            listState.frozenColumns.add(columnKey)
+          } else if (action === 'unpin') {
+            listState.frozenColumns.delete(columnKey)
+          } else if (action === 'hide') {
+            listState.hiddenColumns.add(columnKey)
+            computeDataListLayoutDirty(listState)
+          } else if (action === 'group-by') {
+            if (!listState.groupBy.includes(columnKey)) listState.groupBy.push(columnKey)
+            listState.collapsedGroups.clear()
+            computeDataListLayoutDirty(listState)
+          } else if (action === 'chart-range') {
+            listState.chartField = columnKey
+            listState.chartVisible = true
+          } else return
+          refreshDataListForContext(context)
+        }
+
+        document.addEventListener('contextmenu', event => {
+          const header = event.target.closest('th[data-col]')
+          if (header) {
+            const canvas = event.target.closest('[data-data-list]')
+            if (!canvas) return
+            const context = canvas.dataset.dataList
+            const config = DATA_LIST_CONFIG[context]
+            const column = config.columns.find(item => item.key === header.dataset.col)
+            if (!column) return
+            event.preventDefault()
+            openDataListContextMenu(
+              event.clientX,
+              event.clientY,
+              renderDataListColumnHeaderMenu(context, column),
+              context,
+              '',
+              column.key
+            )
+            return
+          }
+          const cell = event.target.closest('td[data-col]')
+          const rowEl = event.target.closest('[data-list-row-key]')
+          const canvas = event.target.closest('[data-data-list]')
+          if (!canvas || !rowEl) return
+          const context = canvas.dataset.dataList
+          const listState = dataListState[context]
+          const config = DATA_LIST_CONFIG[context]
+          const key = rowEl.dataset.listRowKey
+
+          const copyEntry =
+            cell && (DATA_LIST_COPYABLE_COLUMNS[context] || []).includes(cell.dataset.col)
+              ? `<button type="button" role="menuitem" data-context-copy="${encodeHtml(cell.textContent.trim())}">${dataListIcon('i-doc', 13)} ${t('Copy value', 'Copy value')}</button><div class="data-menu-separator"></div>`
+              : ''
+
+          if (listState.selected.size > 1 && listState.selected.has(key)) {
+            event.preventDefault()
+            const actions = renderDataListSelectionActions(context, listState)
+            openDataListContextMenu(event.clientX, event.clientY, `${copyEntry}${actions}`, context)
+            return
+          }
+
+          const row = config.rows.find(record => String(record[config.key]) === key)
+          if (!row) return
+          event.preventDefault()
+          const view = rowEl.closest('.data-kanban-card') ? 'kanban' : listState.view
+          const rowActionsHtml = renderDataListRowActionsContent(context, row, config, view)
+          openDataListContextMenu(
+            event.clientX,
+            event.clientY,
+            `${copyEntry}${rowActionsHtml}`,
+            context,
+            key
+          )
+        })
+
+        dataListContextMenu.addEventListener('click', event => {
+          const copy = event.target.closest('[data-context-copy]')
+          if (copy) {
+            copyTextToClipboard(copy.dataset.contextCopy)
+            closeDataListContextMenu()
+            return
+          }
+          const rowAction = event.target.closest('[data-list-row-action]')
+          if (rowAction) {
+            const context = dataListContextMenu.dataset.context
+            closeDataListContextMenu()
+            if (context) applyDataListRowAction(context, rowAction)
+            return
+          }
+          const toolbarAction = event.target.closest('[data-list-action]')
+          if (toolbarAction) {
+            const context = dataListContextMenu.dataset.context
+            const listState = context && dataListState[context]
+            const selectedKey = listState ? [...listState.selected][0] : ''
+            closeDataListContextMenu()
+            if (context)
+              applyDataListToolbarCommand(context, toolbarAction.dataset.listAction, selectedKey)
+            return
+          }
+          const columnAction = event.target.closest('[data-context-column-action]')
+          if (columnAction && !columnAction.disabled) {
+            const context = dataListContextMenu.dataset.context
+            const columnKey = dataListContextMenu.dataset.columnKey
+            const action = columnAction.dataset.contextColumnAction
+            closeDataListContextMenu()
+            if (context && columnKey) applyDataListColumnHeaderAction(context, columnKey, action)
+          }
+        })
+        document.addEventListener('click', event => {
+          if (!dataListContextMenu.hidden && !dataListContextMenu.contains(event.target))
+            closeDataListContextMenu()
+        })
+        document.addEventListener('keydown', event => {
+          if (event.key === 'Escape' && !dataListContextMenu.hidden) closeDataListContextMenu()
+        })
+        window.addEventListener('scroll', closeDataListContextMenu, true)
+        window.addEventListener('resize', closeDataListContextMenu)
+      })()
+    
