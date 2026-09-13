@@ -1,0 +1,128 @@
+    <!-- ===== print dialog ===== -->
+    <div class="dscrim" id="pscrim">
+      <div class="dlg" role="dialog" aria-modal="true" aria-label="Print Settings">
+        <div class="dhd">
+          <svg width="18" height="18" aria-hidden="true"><use href="#i-print" /></svg>
+          <div>
+            <h3>Print Settings</h3>
+            <div class="sub">Sales Invoice 001000352026126</div>
+          </div>
+          <button class="ibtn p-close" aria-label="Close" style="margin-inline-start: auto">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </div>
+        <div class="dbody">
+          <fieldset class="fset">
+            <legend>Destination</legend>
+            <div class="dgrid" role="group" aria-label="Destination">
+              <button class="dcard" data-dest="preview" aria-pressed="true">
+                <svg width="16" height="16" aria-hidden="true"><use href="#i-eye" /></svg>
+                <span
+                  ><span class="t">Preview</span
+                  ><span class="d">Look at it first, print from there</span></span
+                >
+              </button>
+              <button class="dcard" data-dest="save" aria-pressed="false">
+                <svg width="16" height="16" aria-hidden="true"><use href="#i-dl" /></svg>
+                <span
+                  ><span class="t">Save as file</span
+                  ><span class="d">Download it to this computer</span></span
+                >
+              </button>
+              <button class="dcard" data-dest="send" aria-pressed="false">
+                <svg width="16" height="16" aria-hidden="true"><use href="#i-mail" /></svg>
+                <span
+                  ><span class="t">Send <span class="badge fix">proposal</span></span
+                  ><span class="d"
+                    >Email or WhatsApp. The product has the fields for this but does not offer it
+                    yet</span
+                  ></span
+                >
+              </button>
+            </div>
+          </fieldset>
+          <fieldset class="fset">
+            <legend>Document</legend>
+            <div class="fgrid">
+              <div class="fld">
+                <label for="p-form">Print Form</label>
+                <select id="p-form">
+                  <option>1 - POS</option>
+                  <option selected>3 - Arabic\English Form</option>
+                  <option>4 - Form 4</option>
+                </select>
+              </div>
+              <div class="fld">
+                <label for="p-style">Report Style</label>
+                <div class="ctl">
+                  <select id="p-style">
+                    <option>1 - Default Style</option>
+                  </select>
+                  <button class="ibtn" aria-label="Edit report styles">
+                    <svg width="15" height="15" aria-hidden="true"><use href="#i-dots" /></svg
+                    ><span class="tip">Edit report styles</span>
+                  </button>
+                </div>
+              </div>
+              <div class="fld">
+                <label for="p-lang">Language</label>
+                <select id="p-lang">
+                  <option>ar - عربي</option>
+                  <option selected>en - English</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset class="fset" data-when="save" hidden>
+            <legend>File</legend>
+            <div class="fgrid">
+              <div class="fld">
+                <label for="p-fmt">File Format</label>
+                <select id="p-fmt">
+                  <option>1 - PDF</option>
+                  <option>2 - Excel</option>
+                  <option>3 - Word</option>
+                  <option>4 - HTML</option>
+                  <option>5 - Text File</option>
+                  <option>6 - CSV</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset class="fset" data-when="send" hidden>
+            <legend>Send <span class="badge fix">proposal</span></legend>
+            <div class="fgrid">
+              <div class="fld">
+                <label for="p-chan">Channel</label
+                ><select id="p-chan">
+                  <option>Email</option>
+                  <option>WhatsApp</option>
+                </select>
+              </div>
+              <div class="fld">
+                <label for="p-to">Receiver</label
+                ><input id="p-to" type="text" value="customer1@example.com" />
+              </div>
+              <div class="fld" style="grid-column: 1/-1">
+                <label for="p-subj">Subject</label
+                ><input id="p-subj" type="text" value="Sales Invoice 126 · lastchance" />
+              </div>
+              <div class="fld" style="grid-column: 1/-1">
+                <label for="p-msg">Message</label
+                ><input id="p-msg" type="text" value="Please find the invoice attached." />
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="dfoot">
+          <span class="sum">Preview · Arabic\English Form · English</span>
+          <span class="end">
+            <button class="lbtn out p-close">Cancel</button>
+            <button class="lbtn out">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-eye" /></svg> Preview
+            </button>
+            <button class="lbtn pri">Apply</button>
+          </span>
+        </div>
+      </div>
+    </div>

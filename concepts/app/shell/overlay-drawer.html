@@ -1,0 +1,73 @@
+    <!-- ===== drawer ===== -->
+    <div class="drscrim" id="drscrim"></div>
+    <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Log and activity">
+      <div class="drhd">
+        <div class="top">
+          <div>
+            <h3>History of this invoice <span class="badge fix">proposal</span></h3>
+            <div class="sub">
+              Sales Invoice 001000352026126 · العميل الاول — the Documents Flow side is a proposal;
+              the system stores nothing for it yet
+            </div>
+          </div>
+          <button class="ibtn dr-close" aria-label="Close" style="margin-inline-start: auto">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </div>
+        <div class="drtabs" role="tablist">
+          <button class="drtab" role="tab" aria-selected="true" data-tab="stages">
+            User Log <span class="n">3</span>
+          </button>
+          <button class="drtab" role="tab" aria-selected="false" data-tab="activity">
+            Documents Flow <span class="n">18</span>
+          </button>
+        </div>
+      </div>
+      <div class="drbar" data-for="stages">
+        <span
+          >What the system recorded, most recent state per card · now
+          <b class="cur-name">Posted</b></span
+        >
+        <span class="end"
+          ><button class="lbtn out" style="font-size: 12px">
+            <svg width="13" height="13" aria-hidden="true"><use href="#i-dl" /></svg> Export
+          </button></span
+        >
+      </div>
+      <div class="drbar" data-for="activity" hidden>
+        <div class="segctl" role="group" aria-label="Filter">
+          <button aria-pressed="true">All</button><button aria-pressed="false">Comments</button>
+          <button aria-pressed="false">Changes</button
+          ><button aria-pressed="false">Documents</button>
+        </div>
+        <span class="end"
+          ><button class="lbtn out" style="font-size: 12px">Newest first</button></span
+        >
+      </div>
+      <div class="drbody">
+        <div data-panel="stages"></div>
+        <div data-panel="activity" hidden></div>
+      </div>
+      <div class="drfoot" data-for="activity" hidden>
+        <div class="lbl">
+          Add a note while the invoice is <span class="badge ok cur-badge">Posted</span>
+        </div>
+        <textarea placeholder="Say what happened, or what someone should do next"></textarea>
+        <div class="row">
+          <label
+            style="
+              font-size: 12px;
+              color: var(--muted);
+              display: flex;
+              gap: 6px;
+              align-items: center;
+            "
+            ><input type="checkbox" /> Staff only — the customer never sees this</label
+          >
+          <button class="lbtn out" style="font-size: 12px">
+            <svg width="13" height="13" aria-hidden="true"><use href="#i-clip" /></svg> Attach file
+          </button>
+          <span class="end"><button class="lbtn pri">Add note</button></span>
+        </div>
+      </div>
+    </aside>

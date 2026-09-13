@@ -1,0 +1,265 @@
+    <!-- ===== Appearance dialog: theme, layout, density, accent, contrast ===== -->
+    <div class="dscrim" id="appearance-scrim">
+      <div
+        class="dlg appearance-dlg"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="appearance-title">
+        <div class="dhd">
+          <svg width="18" height="18" aria-hidden="true"><use href="#i-sun" /></svg>
+          <div>
+            <h3 id="appearance-title">Appearance</h3>
+            <div class="sub">Change how Skey ERP looks and feels for you</div>
+          </div>
+          <button class="ibtn c-close" aria-label="Close" style="margin-inline-start: auto">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </div>
+        <div class="dbody">
+          <fieldset class="fset">
+            <legend>Accent color</legend>
+            <div class="accent-swatches" role="radiogroup" aria-label="Accent color">
+              <button
+                type="button"
+                class="accent-swatch"
+                role="radio"
+                data-accent="#1868DB"
+                data-accent-dark="#669DF1"
+                aria-checked="true"
+                aria-label="Blue (default)"
+                style="--sw: #1868db"></button>
+              <button
+                type="button"
+                class="accent-swatch"
+                role="radio"
+                data-accent="#5B7F24"
+                data-accent-dark="#82B536"
+                aria-checked="false"
+                aria-label="Green"
+                style="--sw: #5b7f24"></button>
+              <button
+                type="button"
+                class="accent-swatch"
+                role="radio"
+                data-accent="#803FA5"
+                data-accent-dark="#B57EDC"
+                aria-checked="false"
+                aria-label="Purple"
+                style="--sw: #803fa5"></button>
+              <button
+                type="button"
+                class="accent-swatch"
+                role="radio"
+                data-accent="#AE2E24"
+                data-accent-dark="#F87168"
+                aria-checked="false"
+                aria-label="Red"
+                style="--sw: #ae2e24"></button>
+              <button
+                type="button"
+                class="accent-swatch"
+                role="radio"
+                data-accent="#946F00"
+                data-accent-dark="#E2B203"
+                aria-checked="false"
+                aria-label="Amber"
+                style="--sw: #946f00"></button>
+              <button
+                type="button"
+                class="accent-swatch"
+                role="radio"
+                data-accent="#206A83"
+                data-accent-dark="#6CC3D5"
+                aria-checked="false"
+                aria-label="Teal"
+                style="--sw: #206a83"></button>
+              <div class="accent-custom" data-custom-accent data-selected="false">
+                <label class="accent-custom-picker" for="appearance-custom-color">
+                  <input
+                    type="color"
+                    id="appearance-custom-color"
+                    value="#1868db"
+                    aria-label="Choose a custom accent color" />
+                  <span class="accent-custom-swatch" aria-hidden="true"></span>
+                </label>
+                <label class="accent-custom-label" for="appearance-custom-hex">Custom</label>
+                <input
+                  class="accent-custom-hex"
+                  id="appearance-custom-hex"
+                  type="text"
+                  value="#1868DB"
+                  inputmode="text"
+                  maxlength="7"
+                  spellcheck="false"
+                  aria-describedby="appearance-custom-error" />
+                <span
+                  class="accent-custom-error"
+                  id="appearance-custom-error"
+                  role="status"></span>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset class="fset">
+            <legend>Interface theme</legend>
+            <div class="dgrid appearance-theme-grid" role="radiogroup" aria-label="Interface theme">
+              <button
+                type="button"
+                class="appearance-theme-card"
+                role="radio"
+                data-appearance-theme="system"
+                aria-checked="true">
+                <span class="theme-preview theme-preview-system" data-theme-preview aria-hidden="true">
+                  <span class="theme-preview-chrome"><i></i><i></i><i></i></span>
+                  <span class="theme-preview-sidebar"></span>
+                  <span class="theme-preview-toolbar"></span>
+                  <span class="theme-preview-lines"><i></i><i></i><i></i></span>
+                </span>
+                <span class="theme-choice-label">
+                  <span class="theme-choice-radio" aria-hidden="true"></span>
+                  <span>System preference</span>
+                </span>
+              </button>
+              <button
+                type="button"
+                class="appearance-theme-card"
+                role="radio"
+                data-appearance-theme="light"
+                aria-checked="false">
+                <span class="theme-preview theme-preview-light" data-theme-preview aria-hidden="true">
+                  <span class="theme-preview-chrome"><i></i><i></i><i></i></span>
+                  <span class="theme-preview-sidebar"></span>
+                  <span class="theme-preview-toolbar"></span>
+                  <span class="theme-preview-lines"><i></i><i></i><i></i></span>
+                </span>
+                <span class="theme-choice-label">
+                  <span class="theme-choice-radio" aria-hidden="true"></span>
+                  <span>Light</span>
+                </span>
+              </button>
+              <button
+                type="button"
+                class="appearance-theme-card"
+                role="radio"
+                data-appearance-theme="dark"
+                aria-checked="false">
+                <span class="theme-preview theme-preview-dark" data-theme-preview aria-hidden="true">
+                  <span class="theme-preview-chrome"><i></i><i></i><i></i></span>
+                  <span class="theme-preview-sidebar"></span>
+                  <span class="theme-preview-toolbar"></span>
+                  <span class="theme-preview-lines"><i></i><i></i><i></i></span>
+                </span>
+                <span class="theme-choice-label">
+                  <span class="theme-choice-radio" aria-hidden="true"></span>
+                  <span>Dark</span>
+                </span>
+              </button>
+            </div>
+            <label class="appearance-contrast-row">
+              <span class="switch"
+                ><input type="checkbox" id="appearance-high-contrast" /><span></span
+              ></span>
+              <span>
+                <strong>High contrast</strong>
+                <small>Increase text, border, focus, and control distinction.</small>
+              </span>
+            </label>
+          </fieldset>
+          <fieldset class="fset">
+            <legend>Layout</legend>
+            <div class="dgrid appearance-layout-grid" role="radiogroup" aria-label="Layout">
+              <button
+                type="button"
+                class="dcard appearance-option-card"
+                role="radio"
+                data-appearance-layout="fluid"
+                aria-checked="true">
+                <span
+                  class="appearance-option-preview layout-preview-fluid"
+                  data-option-preview
+                  aria-hidden="true">
+                  <span class="layout-preview-chrome"><i></i><i></i><i></i></span>
+                  <span class="layout-preview-rail"></span>
+                  <span class="layout-preview-content"></span>
+                </span>
+                <span class="appearance-option-label">
+                  <span class="theme-choice-radio" aria-hidden="true"></span>
+                  <span><span class="t">Fluid</span><span class="d">Content fills the screen</span></span>
+                </span>
+              </button>
+              <button
+                type="button"
+                class="dcard appearance-option-card"
+                role="radio"
+                data-appearance-layout="boxed"
+                aria-checked="false">
+                <span
+                  class="appearance-option-preview layout-preview-boxed"
+                  data-option-preview
+                  aria-hidden="true">
+                  <span class="layout-preview-chrome"><i></i><i></i><i></i></span>
+                  <span class="layout-preview-rail"></span>
+                  <span class="layout-preview-content"></span>
+                </span>
+                <span class="appearance-option-label">
+                  <span class="theme-choice-radio" aria-hidden="true"></span>
+                  <span><span class="t">Boxed</span><span class="d">Content is width-limited</span></span>
+                </span>
+              </button>
+            </div>
+          </fieldset>
+          <fieldset class="fset">
+            <legend>Density</legend>
+            <div class="dgrid appearance-density-grid" role="radiogroup" aria-label="Density">
+              <button
+                type="button"
+                class="dcard appearance-option-card"
+                role="radio"
+                data-appearance-density="default"
+                aria-checked="true">
+                <span
+                  class="appearance-option-preview density-preview-default"
+                  data-option-preview
+                  aria-hidden="true">
+                  <span class="density-preview-chrome"><i></i><i></i><i></i></span>
+                  <span class="density-preview-rail"></span>
+                  <span class="density-preview-toolbar"></span>
+                  <span class="density-preview-rows"><i></i><i></i><i></i></span>
+                </span>
+                <span class="appearance-option-label">
+                  <span class="theme-choice-radio" aria-hidden="true"></span>
+                  <span><span class="t">Default</span><span class="d">Comfortable spacing</span></span>
+                </span>
+              </button>
+              <button
+                type="button"
+                class="dcard appearance-option-card"
+                role="radio"
+                data-appearance-density="compact"
+                aria-checked="false">
+                <span
+                  class="appearance-option-preview density-preview-compact"
+                  data-option-preview
+                  aria-hidden="true">
+                  <span class="density-preview-chrome"><i></i><i></i><i></i></span>
+                  <span class="density-preview-rail"></span>
+                  <span class="density-preview-toolbar"></span>
+                  <span class="density-preview-rows"><i></i><i></i><i></i><i></i><i></i></span>
+                </span>
+                <span class="appearance-option-label">
+                  <span class="theme-choice-radio" aria-hidden="true"></span>
+                  <span><span class="t">Compact</span><span class="d">Tighter rows &amp; controls</span></span>
+                </span>
+              </button>
+            </div>
+          </fieldset>
+        </div>
+        <div class="dfoot">
+          <button type="button" class="lbtn appearance-reset" id="appearance-reset">
+            Reset appearance
+          </button>
+          <span class="end">
+            <button class="lbtn out c-close">Close</button>
+          </span>
+        </div>
+      </div>
+    </div>

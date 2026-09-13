@@ -125,18 +125,24 @@ async function resolveSafePath(servedRoot, urlPath) {
 }
 
 /**
- * Start the static server.
- * @param {{root: string, port: number}} options
+ * Start the static server. `beforeDocument`, when given, is awaited before
+ * serving the app's HTML document (a GET/HEAD request whose resolved file
+ * has a `.html`/`.htm` extension) — used in development to complete a
+ * rebuild first so the document response always reflects the latest
+ * source, without rebuilding on every asset request. Production static
+ * serving (the CLI usage below, and tests serving a fixed `dist/`) passes
+ * no `beforeDocument` and behaves exactly as before.
+ * @param {{root: string, port: number, beforeDocument?: () => Promise<void>}} options
  * @returns {Promise<http.Server>}
  */
-export async function serve({root, port}) {
+export async function serve({root, port, beforeDocument}) {
   const servedRoot = await realpath(path.resolve(root));
   await stat(servedRoot).then(info => {
     if (!info.isDirectory()) throw new Error(`--root is not a directory: ${root}`);
   });
 
   const server = http.createServer((req, res) => {
-    handleRequest(servedRoot, req, res).catch(error => {
+    handleRequest(servedRoot, req, res, beforeDocument).catch(error => {
       // Explicit 500 rather than an unhandled rejection / hung socket.
       // eslint-disable-next-line no-console
       console.error('serve.mjs: unexpected error', error);
@@ -158,7 +164,7 @@ export async function serve({root, port}) {
   return server;
 }
 
-async function handleRequest(servedRoot, req, res) {
+async function handleRequest(servedRoot, req, res, beforeDocument) {
   if (req.method !== 'GET' && req.method !== 'HEAD') {
     res.writeHead(405, {'content-type': 'text/plain; charset=utf-8', allow: 'GET, HEAD'});
     res.end('405 Method Not Allowed');
@@ -175,6 +181,22 @@ async function handleRequest(servedRoot, req, res) {
 
   const ext = path.extname(result.filePath).toLowerCase();
   const contentType = MIME_TYPES[ext] ?? DEFAULT_MIME;
+
+  // Serialize the rebuild ahead of the app document response only — never
+  // on every asset request — so concurrent requests during a rebuild never
+  // race a half-written dist/. On build failure, respond with an explicit
+  // error rather than silently serving the (possibly stale) file on disk.
+  if (beforeDocument && (ext === '.html' || ext === '.htm')) {
+    try {
+      await beforeDocument();
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('serve.mjs: build failed before serving document', error);
+      res.writeHead(500, {'content-type': 'text/plain; charset=utf-8'});
+      res.end(`500 Build failed: ${error.message}`);
+      return;
+    }
+  }
 
   try {
     const body = await readFile(result.filePath);

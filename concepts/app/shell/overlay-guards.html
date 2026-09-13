@@ -1,0 +1,103 @@
+    <!-- ===== unsaved-work guard ===== -->
+    <div class="dscrim" id="gscrim">
+      <div class="guard" role="dialog" aria-modal="true" aria-labelledby="g-title">
+        <div class="gh">
+          <svg width="17" height="17" style="color: var(--warn-ink)" aria-hidden="true">
+            <use href="#i-clock" />
+          </svg>
+          <h3 id="g-title">You have unsaved work</h3>
+        </div>
+        <div class="gb">
+          <span id="g-msg"
+            >This invoice has changes that were never saved. Leaving now loses them.</span
+          >
+          <div class="lst" id="g-what"></div>
+        </div>
+        <div class="gf">
+          <button class="lbtn out" id="g-discard">Leave without saving</button>
+          <span class="end">
+            <button class="lbtn out" id="g-newtab">
+              <svg width="14" height="14" aria-hidden="true"><use href="#i-next" /></svg> Open in
+              new tab
+            </button>
+            <button class="lbtn out" id="g-stay">Stay here</button>
+            <button class="lbtn pri" id="g-save">Save, then leave</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dscrim" id="customer-gscrim">
+      <div class="guard" role="dialog" aria-modal="true" aria-labelledby="customer-g-title">
+        <div class="gh">
+          <svg width="17" height="17" style="color: var(--warn-ink)" aria-hidden="true">
+            <use href="#i-clock" />
+          </svg>
+          <h3 id="customer-g-title">You have unsaved customer changes</h3>
+        </div>
+        <div class="gb">
+          <span id="customer-g-msg"></span>
+          <div class="lst" id="customer-g-what"></div>
+        </div>
+        <div class="gf">
+          <button class="lbtn out" id="customer-g-discard">Leave without saving</button>
+          <span class="end">
+            <button class="lbtn out" id="customer-g-stay">Stay here</button>
+            <button class="lbtn pri" id="customer-g-save">Save, then leave</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dscrim" id="list-layout-guard">
+      <div class="guard" role="dialog" aria-modal="true" aria-labelledby="list-layout-title">
+        <div class="gh">
+          <svg width="17" height="17" style="color: var(--warn-ink)" aria-hidden="true">
+            <use href="#i-sliders" />
+          </svg>
+          <h3 id="list-layout-title">Save this table layout?</h3>
+        </div>
+        <div class="gb">
+          You changed the table's columns, grouping, view, or statistics. Save this layout to your
+          user configuration so the list opens this way next time.
+        </div>
+        <div class="gf">
+          <button class="lbtn out" id="list-layout-discard">Leave without saving</button>
+          <span class="end">
+            <button class="lbtn out" id="list-layout-stay">Keep editing</button>
+            <button class="lbtn pri" id="list-layout-save">Save table layout</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="toastwrap" id="toasts" role="status" aria-live="polite" aria-atomic="false"></div>
+
+    <!-- ===== keyboard shortcuts ===== -->
+    <div class="dscrim" id="kscrim">
+      <div class="kbdsheet" role="dialog" aria-modal="true" aria-labelledby="k-title">
+        <div class="kh">
+          <svg width="17" height="17" aria-hidden="true"><use href="#i-kbd" /></svg>
+          <h3 id="k-title">Keyboard shortcuts</h3>
+          <button class="ibtn k-close" aria-label="Close" style="margin-inline-start: auto">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </div>
+        <div class="kb">
+          <dl>
+            <dt>Search, or run an action on this invoice</dt>
+            <dd><kbd>⌘</kbd> <kbd>K</kbd></dd>
+            <dt>Save</dt>
+            <dd><kbd>Ctrl</kbd> <kbd>S</kbd></dd>
+            <dt>Start a new invoice</dt>
+            <dd><kbd>Ctrl</kbd> <kbd>N</kbd></dd>
+            <dt>Print</dt>
+            <dd><kbd>Ctrl</kbd> <kbd>P</kbd></dd>
+            <dt>Close what is open</dt>
+            <dd><kbd>Esc</kbd></dd>
+            <dt>This list</dt>
+            <dd><kbd>F1</kbd></dd>
+          </dl>
+        </div>
+      </div>
+    </div>

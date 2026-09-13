@@ -1,0 +1,97 @@
+    <!-- ===== AI Assistant dialog (proposal — no live backend) ===== -->
+    <div class="drscrim" id="aiscrim">
+      <aside class="ai-drawer" role="dialog" aria-modal="true" aria-label="AI Assistant">
+        <div class="drhd">
+          <div class="top">
+            <div>
+              <h3>
+                <svg width="16" height="16" aria-hidden="true"><use href="#i-spark" /></svg> AI
+                Assistant
+              </h3>
+              <div class="sub">Sales Invoice 126 <span class="badge fix">proposal</span></div>
+            </div>
+            <button class="ibtn ai-close" aria-label="Close" style="margin-inline-start: auto">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+            </button>
+          </div>
+        </div>
+        <div class="ai-body">
+          <p class="ai-intro">
+            Ask about this invoice, or pick a suggestion. This is a structural mock — nothing here
+            calls a real model.
+          </p>
+          <div class="ai-suggest">
+            <button type="button" class="ai-chip" data-ai="Summarize this invoice">
+              Summarize this invoice
+            </button>
+            <button type="button" class="ai-chip" data-ai="Why can't I modify this invoice?">
+              Why can't I modify this invoice?
+            </button>
+            <button type="button" class="ai-chip" data-ai="Draft a follow-up email to the customer">
+              Draft a follow-up email
+            </button>
+            <button type="button" class="ai-chip" data-ai="What changed since it was posted?">
+              What changed since it was posted?
+            </button>
+          </div>
+          <div class="ai-thread" id="ai-thread">
+            <div class="ai-empty">Ask a question or choose a suggestion above to start</div>
+          </div>
+        </div>
+        <div class="ai-foot">
+          <div class="ai-inputrow">
+            <input
+              type="text"
+              id="ai-input"
+              placeholder="Ask about this invoice…"
+              autocomplete="off" />
+            <div class="ai-toolbar">
+              <div class="menu">
+                <button
+                  type="button"
+                  class="ibtn"
+                  aria-label="Attach"
+                  aria-haspopup="menu"
+                  aria-expanded="false">
+                  <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg
+                  ><span class="tip">Attach</span>
+                </button>
+                <div class="mlist mup" role="menu" style="min-width: 170px">
+                  <button role="menuitem" type="button" data-ai-attach="file">
+                    <svg width="14" height="14" aria-hidden="true"><use href="#i-clip" /></svg>
+                    Attach file
+                  </button>
+                  <button role="menuitem" type="button" data-ai-attach="image">
+                    <svg width="14" height="14" aria-hidden="true"><use href="#i-eye" /></svg>
+                    Attach image
+                  </button>
+                </div>
+              </div>
+              <div class="menu">
+                <button
+                  type="button"
+                  class="ibtn ai-slash-btn"
+                  aria-label="Quick actions"
+                  aria-haspopup="menu"
+                  aria-expanded="false">
+                  /
+                </button>
+                <div
+                  class="mlist mup"
+                  role="menu"
+                  style="min-width: 230px"
+                  id="ai-slash-list"></div>
+              </div>
+              <span class="ai-tb-sep"></span>
+              <span class="ai-mode"
+                ><svg width="12" height="12" aria-hidden="true"><use href="#i-spark" /></svg>
+                Auto</span
+              >
+              <button class="ai-send-btn" id="ai-send" aria-label="Send">
+                <svg width="14" height="14" aria-hidden="true"><use href="#i-next" /></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
