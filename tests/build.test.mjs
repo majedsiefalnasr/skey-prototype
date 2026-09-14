@@ -173,8 +173,11 @@ test('assemble: reassembling the real app-shell.html fragments reproduces the pr
   const expected = baseline
     .replace(
       '    <link rel="stylesheet" href="app/styles/legacy-app.css">',
-      JSON.parse(await readFile('tests/support/style-inventory.json', 'utf8')).files
-        .map(file => `    <link rel="stylesheet" href="${file.path}">`).join('\n')
+      [
+        '    <link rel="stylesheet" href="app/styles/tailwind.css">',
+        ...JSON.parse(await readFile('tests/support/style-inventory.json', 'utf8')).files
+          .map(file => `    <link rel="stylesheet" href="${file.path}">`),
+      ].join('\n')
     )
     .replace(
       '    <script src="app/legacy-app.js"></script>\n\n' +
