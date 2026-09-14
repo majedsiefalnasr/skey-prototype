@@ -2,9 +2,17 @@
 @import "./tailwind/base.css" layer(base);
 @import "tailwindcss/utilities" layer(utilities);
 @import "./tailwind/shell.css" layer(components);
+@import "./tailwind/components.css" layer(components);
 @source "../../app-shell.html";
 @source "../**/*.html";
 @source "../**/*.js";
+
+/* Shared data-list menu renderers: fixed utilities emitted from JS strings. */
+@source inline("fixed z-[120] grid min-w-[140px] max-w-[min(420px,calc(100vw-16px))] max-h-[min(420px,calc(100vh-16px))] gap-0.5 overflow-auto rounded-lg border border-line bg-surface p-1.5 [box-shadow:var(--shadow-1)] [&>button]:min-h-8 [&>button]:w-full [&>button:focus-visible]:outline-accent [&>label]:min-h-8 [&_input[type=checkbox]]:size-[15px]");
+/* Shared data-list card and kanban renderers: fixed state/structure utilities emitted from JS strings. */
+@source inline("grid-cols-[minmax(0,1fr)_auto] transition-[border-color,box-shadow,transform] hover:[box-shadow:var(--shadow-1)] data-[s=posted]:bg-[var(--st-post-bg)] data-[s=posted]:text-[var(--st-post-ink)] [body.density-compact_&]:p-2.5 [@media(pointer:coarse)]:min-h-11");
+/* Shared notification and assistant renderers: fixed state utilities emitted from JS strings. */
+@source inline("aria-selected:border-[var(--accent)] group-[.open]:flex [&.open]:block [box-shadow:var(--shadow-2)]");
 
 @theme inline {
   --color-accent: var(--accent);

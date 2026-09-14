@@ -1,20 +1,20 @@
     <template id="t-pager">
-      <div class="pager" role="group" aria-label="Record navigation">
-        <button class="pg-f" aria-label="First record">
+      <div class="pager inline-flex items-center gap-1" role="group" aria-label="Record navigation">
+        <button class="pg-f relative inline-flex min-w-[30px] min-h-[30px] items-center justify-center rounded-md border border-line bg-surface disabled:cursor-not-allowed disabled:text-muted disabled:opacity-55 hover:enabled:bg-[var(--line-2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]" aria-label="First record">
           <svg width="15" height="15" aria-hidden="true"><use href="#i-first" /></svg
           ><span class="tip">First record</span>
         </button>
-        <button class="pg-p" aria-label="Previous record">
+        <button class="pg-p relative inline-flex min-w-[30px] min-h-[30px] items-center justify-center rounded-md border border-line bg-surface disabled:cursor-not-allowed disabled:text-muted disabled:opacity-55 hover:enabled:bg-[var(--line-2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]" aria-label="Previous record">
           <svg width="15" height="15" aria-hidden="true"><use href="#i-prev" /></svg
           ><span class="tip">Previous record</span>
         </button>
-        <input class="pg-i" type="number" min="1" max="125" value="1" aria-label="Record number" />
-        <span class="tot">of 125</span>
-        <button class="pg-n" aria-label="Next record">
+        <input class="pg-i w-[52px] min-h-[30px] rounded-md border border-line bg-surface text-center font-[inherit] text-[12.5px] font-semibold text-ink" type="number" min="1" max="125" value="1" aria-label="Record number" />
+        <span class="tot whitespace-nowrap px-2 text-[12.5px] text-muted">of 125</span>
+        <button class="pg-n relative inline-flex min-w-[30px] min-h-[30px] items-center justify-center rounded-md border border-line bg-surface disabled:cursor-not-allowed disabled:text-muted disabled:opacity-55 hover:enabled:bg-[var(--line-2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]" aria-label="Next record">
           <svg width="15" height="15" aria-hidden="true"><use href="#i-next" /></svg
           ><span class="tip">Next record</span>
         </button>
-        <button class="pg-l" aria-label="Last record">
+        <button class="pg-l relative inline-flex min-w-[30px] min-h-[30px] items-center justify-center rounded-md border border-line bg-surface disabled:cursor-not-allowed disabled:text-muted disabled:opacity-55 hover:enabled:bg-[var(--line-2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]" aria-label="Last record">
           <svg width="15" height="15" aria-hidden="true"><use href="#i-last" /></svg
           ><span class="tip">Last record</span>
         </button>

@@ -51,28 +51,30 @@ export function renderShellPager(context, filteredCount, listState, deps) {
     if (n === 1 || n === totalPages || Math.abs(n - page) <= 1) pageNumbers.push(n)
     else if (pageNumbers.at(-1) !== '…') pageNumbers.push('…')
   }
+  const pageButtonClass = 'inline-flex min-w-[30px] min-h-[30px] items-center justify-center gap-[5px] rounded-md border border-line bg-surface px-[9px] py-1 text-[12.5px] font-semibold text-ink cursor-pointer aria-[current=page]:border-[var(--accent)] aria-[current=page]:bg-[var(--accent-soft)] aria-[current=page]:text-accent hover:not-aria-[current=page]:bg-[var(--line-2)] disabled:text-muted disabled:cursor-not-allowed disabled:opacity-55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
   const pageButtons = pageNumbers
     .map(n =>
       n === '…'
-        ? `<span class="data-pagination-ellipsis" aria-hidden="true">…</span>`
-        : `<button type="button" class="data-pagination-page${n === page ? ' is-current' : ''}" data-list-page="${n}"${n === page ? ' aria-current="page"' : ''} aria-label="${t('Page', 'Page')} ${n}">${n}</button>`
+        ? `<span class="data-pagination-ellipsis px-1 text-faint" aria-hidden="true">…</span>`
+        : `<button type="button" class="data-pagination-page ${pageButtonClass}${n === page ? ' is-current' : ''}" data-list-page="${n}"${n === page ? ' aria-current="page"' : ''} aria-label="${t('Page', 'Page')} ${n}">${n}</button>`
     )
     .join('')
   const sizeOptions = DATA_LIST_PAGE_SIZE_OPTIONS.map(
     size =>
       `<option value="${size}"${size === pageSize ? ' selected' : ''}>${size}</option>`
   ).join('')
-  return `<div class="data-list-pagination" role="navigation" aria-label="${encodeHtml(config.label)} ${t('page navigation', 'page navigation')}">
-    <div class="data-pagination-controls">
-      <button type="button" class="data-pagination-edge" data-list-page="1"${page <= 1 ? ' disabled' : ''} aria-label="${t('First page', 'First page')}">${dataListIcon('i-first', 13)}</button>
-      <button type="button" class="data-pagination-prev" data-list-page="${page - 1}"${page <= 1 ? ' disabled' : ''}>${dataListIcon('i-prev', 12)}</button>
+  const edgeButtonClass = 'inline-flex min-w-[30px] min-h-[30px] items-center justify-center gap-[5px] rounded-md border border-line bg-surface p-1 text-[12.5px] font-semibold text-ink cursor-pointer hover:enabled:bg-[var(--line-2)] disabled:text-muted disabled:cursor-not-allowed disabled:opacity-55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
+  return `<div class="data-list-pagination flex flex-1 flex-wrap items-center gap-x-4 gap-y-2.5" role="navigation" aria-label="${encodeHtml(config.label)} ${t('page navigation', 'page navigation')}">
+    <div class="data-pagination-controls flex flex-wrap items-center gap-1">
+      <button type="button" class="data-pagination-edge ${edgeButtonClass}" data-list-page="1"${page <= 1 ? ' disabled' : ''} aria-label="${t('First page', 'First page')}">${dataListIcon('i-first', 13)}</button>
+      <button type="button" class="data-pagination-prev ${edgeButtonClass}" data-list-page="${page - 1}"${page <= 1 ? ' disabled' : ''}>${dataListIcon('i-prev', 12)}</button>
       ${pageButtons}
-      <button type="button" class="data-pagination-next" data-list-page="${page + 1}"${page >= totalPages ? ' disabled' : ''}>${dataListIcon('i-next', 12)}</button>
-      <button type="button" class="data-pagination-edge" data-list-page="${totalPages}"${page >= totalPages ? ' disabled' : ''} aria-label="${t('Last page', 'Last page')}">${dataListIcon('i-last', 13)}</button>
-      <label class="data-pagination-jump"><span>${t('Go to page', 'Go to page')}</span><input class="data-pagination-jump-input" type="number" min="1" max="${totalPages}" value="${page}" aria-label="${t('Go to page', 'Go to page')}"></label>
+      <button type="button" class="data-pagination-next ${edgeButtonClass}" data-list-page="${page + 1}"${page >= totalPages ? ' disabled' : ''}>${dataListIcon('i-next', 12)}</button>
+      <button type="button" class="data-pagination-edge ${edgeButtonClass}" data-list-page="${totalPages}"${page >= totalPages ? ' disabled' : ''} aria-label="${t('Last page', 'Last page')}">${dataListIcon('i-last', 13)}</button>
+      <label class="data-pagination-jump inline-flex items-center gap-1.5 ms-1.5 ps-2 border-s border-line text-[12.5px] whitespace-nowrap text-muted"><span>${t('Go to page', 'Go to page')}</span><input class="data-pagination-jump-input w-[52px] min-h-[30px] rounded-md border border-line bg-surface text-center font-[inherit] text-[12.5px] font-semibold text-ink" type="number" min="1" max="${totalPages}" value="${page}" aria-label="${t('Go to page', 'Go to page')}"></label>
     </div>
-    <span class="data-pagination-summary" aria-live="polite">${t('Showing', 'Showing')} ${rangeStart}–${rangeEnd} ${t('of', 'of')} ${simulatedTotal}</span>
-    <label class="data-pagination-size">${t('Rows per page', 'Rows per page')}<select data-list-page-size aria-label="${t('Rows per page', 'Rows per page')}">${sizeOptions}</select></label>
+    <span class="data-pagination-summary whitespace-nowrap text-[12.5px] text-muted" aria-live="polite">${t('Showing', 'Showing')} ${rangeStart}–${rangeEnd} ${t('of', 'of')} ${simulatedTotal}</span>
+    <label class="data-pagination-size inline-flex items-center gap-1.5 ms-auto text-[12.5px] whitespace-nowrap text-muted">${t('Rows per page', 'Rows per page')}<select class="min-h-[30px] rounded-md border border-line bg-surface px-1.5 py-[3px] font-[inherit] text-[12.5px] text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]" data-list-page-size aria-label="${t('Rows per page', 'Rows per page')}">${sizeOptions}</select></label>
   </div>`
 }
 
@@ -103,13 +105,14 @@ export function renderShellRecordPager(context, filteredCount, listState, deps) 
   const searchNote = searchTerm
     ? `<span class="data-adaptive-search-note">${t('matching', 'matching')} "${encodeHtml(searchTerm)}"</span>`
     : ''
-  return `<div class="pager" role="group" aria-label="${t('Record navigation', 'Record navigation')}" title="${t('Tip: Alt + Left/Right arrow also moves between records', 'Tip: Alt + Left/Right arrow also moves between records')}">
-    <button type="button" class="pg-f" data-list-record="1"${atFirst ? ' disabled' : ''} aria-label="${t('First record', 'First record')}">${dataListIcon('i-first', 13)}</button>
-    <button type="button" class="pg-p" data-list-record="${position - 1}"${atFirst ? ' disabled' : ''} aria-label="${t('Previous record', 'Previous record')}">${dataListIcon('i-prev', 12)}</button>
-    <input class="pg-i" type="number" min="1" max="${total || 1}" value="${total ? position : 0}" aria-label="${t('Record number', 'Record number')}"${total ? '' : ' disabled'}>
-    <span class="tot">${t('of', 'of')} ${total}</span>
+  const pagerButtonClass = 'relative inline-flex min-w-[30px] min-h-[30px] items-center justify-center rounded-md border border-line bg-surface disabled:cursor-not-allowed disabled:text-muted disabled:opacity-55 hover:enabled:bg-[var(--line-2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
+  return `<div class="pager inline-flex items-center gap-1" role="group" aria-label="${t('Record navigation', 'Record navigation')}" title="${t('Tip: Alt + Left/Right arrow also moves between records', 'Tip: Alt + Left/Right arrow also moves between records')}">
+    <button type="button" class="pg-f ${pagerButtonClass}" data-list-record="1"${atFirst ? ' disabled' : ''} aria-label="${t('First record', 'First record')}">${dataListIcon('i-first', 13)}</button>
+    <button type="button" class="pg-p ${pagerButtonClass}" data-list-record="${position - 1}"${atFirst ? ' disabled' : ''} aria-label="${t('Previous record', 'Previous record')}">${dataListIcon('i-prev', 12)}</button>
+    <input class="pg-i w-[52px] min-h-[30px] rounded-md border border-line bg-surface text-center font-[inherit] text-[12.5px] font-semibold text-ink" type="number" min="1" max="${total || 1}" value="${total ? position : 0}" aria-label="${t('Record number', 'Record number')}"${total ? '' : ' disabled'}>
+    <span class="tot whitespace-nowrap px-2 text-[12.5px] text-muted">${t('of', 'of')} ${total}</span>
     ${searchNote}
-    <button type="button" class="pg-n" data-list-record="${position + 1}"${atLast ? ' disabled' : ''} aria-label="${t('Next record', 'Next record')}">${dataListIcon('i-next', 12)}</button>
-    <button type="button" class="pg-l" data-list-record="${total}"${atLast ? ' disabled' : ''} aria-label="${t('Last record', 'Last record')}">${dataListIcon('i-last', 13)}</button>
+    <button type="button" class="pg-n ${pagerButtonClass}" data-list-record="${position + 1}"${atLast ? ' disabled' : ''} aria-label="${t('Next record', 'Next record')}">${dataListIcon('i-next', 12)}</button>
+    <button type="button" class="pg-l ${pagerButtonClass}" data-list-record="${total}"${atLast ? ' disabled' : ''} aria-label="${t('Last record', 'Last record')}">${dataListIcon('i-last', 13)}</button>
   </div>${actions}`
 }

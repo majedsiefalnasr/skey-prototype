@@ -2,6 +2,9 @@ import {encodeHtml} from '../../core/locale.js'
 import {DATA_LIST_DEFAULT_PAGE_SIZE} from './model.js'
 import {renderShellPager as renderSharedShellPager, renderShellRecordPager as renderSharedShellRecordPager} from './pagination.js'
 
+const DATA_LIST_FOOTER_CLASS =
+  'fnav fnav-list empty:hidden flex flex-wrap items-center gap-3 border-t border-line bg-surface px-4 py-[9px]'
+
 /** Owns list pager state and its DOM bindings. */
 export function createListPager({t, applyDataListRowAction, getDataListState, renderDataList, dataListIcon, dataListRows, renderDataListAdaptiveFooterActions} = {}) {
   const DATA_LIST_FNAV_IDS = {
@@ -49,6 +52,7 @@ export function createListPager({t, applyDataListRowAction, getDataListState, re
   function syncShellListPager(context, filteredCount, footer) {
     const mount = footer || document.getElementById(DATA_LIST_FNAV_IDS[context])
     if (!mount) return
+    mount.className = DATA_LIST_FOOTER_CLASS
     const listState = getDataListState()[context]
     mount.hidden = listState.view === 'kanban'
     if (mount.hidden) return

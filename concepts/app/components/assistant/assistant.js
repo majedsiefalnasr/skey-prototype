@@ -35,16 +35,16 @@ const schedule = (callback, delay) => { const timer = setTimeout(() => {timers.d
           if (!text.trim()) return
           if (aiThread.querySelector('.ai-empty')) aiThread.innerHTML = ''
           const me = document.createElement('div')
-          me.className = 'ai-msg me'
+          me.className = 'ai-msg me max-w-[88%] self-end rounded-[10px] rounded-br-[3px] bg-accent px-3 py-2 text-[13px] leading-[1.5] text-inverse'
           me.textContent = text
           aiThread.appendChild(me)
           aiInput.value = ''
           aiThread.scrollTop = aiThread.scrollHeight
 
           const thinking = document.createElement('div')
-          thinking.className = 'ai-msg bot ai-thinking'
+          thinking.className = 'ai-msg bot ai-thinking max-w-[88%] self-start whitespace-pre-line rounded-[10px] rounded-bl-[3px] border border-line bg-[var(--bg)] px-3 py-2 text-[13px] leading-[1.5] text-ink flex items-center gap-2 text-muted'
           thinking.innerHTML =
-            '<span class="ai-orb"></span><span>Thinking<span class="ai-dots"><i></i><i></i><i></i></span></span>'
+            '<span class="ai-orb size-[15px] flex-none rounded-full"></span><span>Thinking<span class="ai-dots ms-px inline-flex gap-0.5 align-[-0.12em]"><i class="size-1 inline-block rounded-full opacity-30"></i><i class="size-1 inline-block rounded-full opacity-30"></i><i class="size-1 inline-block rounded-full opacity-30"></i></span></span>'
           aiThread.appendChild(thinking)
           aiThread.scrollTop = aiThread.scrollHeight
 
@@ -53,7 +53,7 @@ const schedule = (callback, delay) => { const timer = setTimeout(() => {timers.d
             () => {
               thinking.remove()
               const bot = document.createElement('div')
-              bot.className = 'ai-msg bot'
+              bot.className = 'ai-msg bot max-w-[88%] self-start whitespace-pre-line rounded-[10px] rounded-bl-[3px] border border-line bg-[var(--bg)] px-3 py-2 text-[13px] leading-[1.5] text-ink'
               aiThread.appendChild(bot)
               let i = 0
               const step = () => {

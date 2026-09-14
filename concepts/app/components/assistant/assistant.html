@@ -1,51 +1,52 @@
     <!-- ===== AI Assistant dialog (proposal — no live backend) ===== -->
-    <div class="drscrim" id="aiscrim">
-      <aside class="ai-drawer" role="dialog" aria-modal="true" aria-label="AI Assistant">
-        <div class="drhd">
-          <div class="top">
+    <div class="drscrim group fixed inset-0 z-[130] hidden bg-[rgba(17,24,39,0.4)] [&.open]:block" id="aiscrim">
+      <aside class="ai-drawer fixed inset-y-0 end-0 z-[140] hidden w-[min(560px,94vw)] flex-col bg-surface shadow-shell group-[.open]:flex" role="dialog" aria-modal="true" aria-label="AI Assistant">
+        <div class="drhd border-b border-line px-[18px] pb-3.5 pt-3.5">
+          <div class="top flex items-start gap-3">
             <div>
-              <h3>
+              <h3 class="flex items-center gap-2 text-[15px]">
                 <svg width="16" height="16" aria-hidden="true"><use href="#i-spark" /></svg> AI
                 Assistant
               </h3>
-              <div class="sub">Sales Invoice 126 <span class="badge fix">proposal</span></div>
+              <div class="sub mt-[3px] text-xs text-muted">Sales Invoice 126 <span class="badge fix">proposal</span></div>
             </div>
             <button class="ibtn ai-close" aria-label="Close" style="margin-inline-start: auto">
               <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
             </button>
           </div>
         </div>
-        <div class="ai-body">
-          <p class="ai-intro">
+        <div class="ai-body min-h-0 flex-1 overflow-auto px-[18px] py-4">
+          <p class="ai-intro mb-3 text-[13px] leading-[1.55] text-muted">
             Ask about this invoice, or pick a suggestion. This is a structural mock — nothing here
             calls a real model.
           </p>
-          <div class="ai-suggest">
-            <button type="button" class="ai-chip" data-ai="Summarize this invoice">
+          <div class="ai-suggest mb-4 flex flex-wrap gap-2">
+            <button type="button" class="ai-chip rounded-full border border-line px-3 py-1.5 text-[12.5px] text-ink hover:border-[var(--accent-line)] hover:bg-[var(--accent-soft)] hover:text-accent" data-ai="Summarize this invoice">
               Summarize this invoice
             </button>
-            <button type="button" class="ai-chip" data-ai="Why can't I modify this invoice?">
+            <button type="button" class="ai-chip rounded-full border border-line px-3 py-1.5 text-[12.5px] text-ink hover:border-[var(--accent-line)] hover:bg-[var(--accent-soft)] hover:text-accent" data-ai="Why can't I modify this invoice?">
               Why can't I modify this invoice?
             </button>
-            <button type="button" class="ai-chip" data-ai="Draft a follow-up email to the customer">
+            <button type="button" class="ai-chip rounded-full border border-line px-3 py-1.5 text-[12.5px] text-ink hover:border-[var(--accent-line)] hover:bg-[var(--accent-soft)] hover:text-accent" data-ai="Draft a follow-up email to the customer">
               Draft a follow-up email
             </button>
-            <button type="button" class="ai-chip" data-ai="What changed since it was posted?">
+            <button type="button" class="ai-chip rounded-full border border-line px-3 py-1.5 text-[12.5px] text-ink hover:border-[var(--accent-line)] hover:bg-[var(--accent-soft)] hover:text-accent" data-ai="What changed since it was posted?">
               What changed since it was posted?
             </button>
           </div>
-          <div class="ai-thread" id="ai-thread">
-            <div class="ai-empty">Ask a question or choose a suggestion above to start</div>
+          <div class="ai-thread mt-10 flex flex-col gap-2.5 p-0.5" id="ai-thread">
+            <div class="ai-empty m-auto text-center text-[13px] text-faint">Ask a question or choose a suggestion above to start</div>
           </div>
         </div>
-        <div class="ai-foot">
-          <div class="ai-inputrow">
+        <div class="ai-foot flex-none border-t border-line px-[18px] py-3">
+          <div class="ai-inputrow flex flex-col rounded-[11px] border border-line px-2.5 pb-2 pt-2.5 transition-[border-color] duration-[120ms] focus-within:border-[var(--accent-line)] focus-within:shadow-[0_0_0_3px_var(--accent-soft)]">
             <input
               type="text"
               id="ai-input"
+              class="border-none bg-none px-0.5 pb-2.5 pt-0.5 font-[inherit] text-ink outline-none"
               placeholder="Ask about this invoice…"
               autocomplete="off" />
-            <div class="ai-toolbar">
+            <div class="ai-toolbar flex items-center gap-0.5">
               <div class="menu">
                 <button
                   type="button"
@@ -70,7 +71,7 @@
               <div class="menu">
                 <button
                   type="button"
-                  class="ibtn ai-slash-btn"
+                  class="ibtn ai-slash-btn font-mono text-[14px] font-semibold text-muted"
                   aria-label="Quick actions"
                   aria-haspopup="menu"
                   aria-expanded="false">
@@ -82,12 +83,12 @@
                   style="min-width: 230px"
                   id="ai-slash-list"></div>
               </div>
-              <span class="ai-tb-sep"></span>
-              <span class="ai-mode"
-                ><svg width="12" height="12" aria-hidden="true"><use href="#i-spark" /></svg>
+              <span class="ai-tb-sep flex-1"></span>
+              <span class="ai-mode inline-flex items-center gap-1.5 px-1.5 text-xs text-muted"
+                ><svg width="12" height="12" aria-hidden="true" class="text-faint"><use href="#i-spark" /></svg>
                 Auto</span
               >
-              <button class="ai-send-btn" id="ai-send" aria-label="Send">
+              <button class="ai-send-btn inline-flex size-7 flex-none items-center justify-center rounded-full bg-accent text-inverse hover:bg-[var(--accent-hover)]" id="ai-send" aria-label="Send">
                 <svg width="14" height="14" aria-hidden="true"><use href="#i-next" /></svg>
               </button>
             </div>

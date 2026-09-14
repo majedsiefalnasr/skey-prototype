@@ -56,7 +56,9 @@
         .spin {
           animation: none;
         }
-        .toast {
-          animation: none;
-        }
+        /* .toast's reduced-motion rule moved to
+           concepts/app/styles/tailwind/components.css as part of Task 4's
+           toast conversion (this file's own header/Task 3's report named it
+           as a Task-4-owned deferral) -- kept here would be a duplicate,
+           harmless but redundant, declaration. */
       }

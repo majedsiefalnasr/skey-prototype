@@ -29,6 +29,26 @@
 import {createListModel} from './model.js'
 import {createListChart} from './charts.js'
 
+/* Shared literal utility strings for data-list toolbar/menu markup repeated
+   across this file, menu-controller.js, menus.js, statistics.js, and
+   date-fields.js -- kept as one source of truth so every call site emits an
+   identical literal class list for the same element type (see
+   tailwind/components.css's header comment on this file's conversion for the
+   full selector inventory). */
+export const DATA_TOOLBAR_BUTTON_CLASS =
+  'inline-flex min-h-[32px] items-center gap-[7px] rounded-md border! border-transparent! bg-transparent! px-[9px] py-[5px] font-[inherit]! font-semibold! text-[12.5px]! text-ink! whitespace-nowrap cursor-pointer hover:bg-[var(--line-2)]! disabled:cursor-not-allowed disabled:text-muted! disabled:opacity-55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--accent)]'
+/* .data-menu[open] > summary/.data-page-manage[open] > summary's "open"
+   background is a parent-[open]-attribute-to-child selector relationship
+   (see tailwind/components.css) -- not expressible as a literal utility on
+   the summary itself, since the [open] attribute lives on the ancestor
+   <details>, not on this element. */
+export const DATA_MENU_SUMMARY_CLASS =
+  'inline-flex min-h-[32px] items-center gap-[7px] rounded-md border border-transparent px-[9px] py-[5px] font-semibold text-[12.5px] text-ink whitespace-nowrap cursor-pointer list-none [&::-webkit-details-marker]:hidden hover:bg-[var(--line-2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--accent)]'
+export const DATA_MENU_POPOVER_CLASS =
+  'fixed z-[120] grid min-w-[140px] max-w-[min(420px,calc(100vw-16px))] max-h-[min(420px,calc(100vh-16px))] gap-0.5 overflow-auto rounded-lg border border-line bg-surface p-1.5 [box-shadow:var(--shadow-1)] [&>button]:flex [&>button]:w-full [&>button]:min-h-8 [&>button]:cursor-pointer [&>button]:items-center [&>button]:gap-[9px] [&>button]:rounded-[5px] [&>button]:border-0! [&>button]:bg-transparent! [&>button]:px-2 [&>button]:py-1.5 [&>button]:text-start [&>button]:font-[inherit]! [&>button]:text-[14px]! [&>button]:text-ink! [&>button:hover]:bg-[var(--line-2)]! [&>button[aria-checked=true]]:bg-[var(--line-2)]! [&>button:focus-visible]:outline-2 [&>button:focus-visible]:outline-offset-1 [&>button:focus-visible]:outline-accent [&>label]:flex [&>label]:w-full [&>label]:min-h-8 [&>label]:cursor-pointer [&>label]:items-center [&>label]:gap-[9px] [&>label]:rounded-[5px] [&>label]:px-2 [&>label]:py-1.5 [&>label]:text-start [&>label]:font-[inherit]! [&>label]:text-[14px]! [&>label]:text-ink! [&>label:hover]:bg-[var(--line-2)]! [&>label:has(input:focus-visible)]:outline-2 [&>label:has(input:focus-visible)]:outline-offset-1 [&>label:has(input:focus-visible)]:outline-accent [&_input[type=checkbox]]:m-0! [&_input[type=checkbox]]:size-[15px] [&_input[type=checkbox]]:accent-accent'
+export const DATA_FILTER_CHIP_CLASS =
+  'data-filter-chip inline-flex min-h-[28px] items-center gap-1.5 rounded-md bg-[var(--line-2)] px-2 py-1 text-xs font-semibold text-ink'
+
 /**
  * @param {object} config
  * @param {object} listState
@@ -48,9 +68,9 @@ export function renderDataListFilterButtons(config, listState, deps) {
       return `<button type="button" role="menuitemradio" data-list-custom-filter-apply="${encodeHtml(custom.id)}" aria-checked="${active}">${dataListIcon(custom.icon || 'i-eye')}<span>${encodeHtml(custom.name)}</span>${active ? dataListIcon('i-check', 13) : ''}</button>`
     })
     .join('')
-  return `${builtIn}<hr class="data-menu-separator">
-    <div class="data-manage-group-label">${t('Custom filters', 'Custom filters')}</div>
-    ${customButtons}<hr class="data-menu-separator">
+  return `${builtIn}<hr class="data-menu-separator col-span-full w-full my-0.5 h-px border-none bg-line">
+    <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">${t('Custom filters', 'Custom filters')}</div>
+    ${customButtons}<hr class="data-menu-separator col-span-full w-full my-0.5 h-px border-none bg-line">
     <button type="button" role="menuitem" data-list-manage-filters>${dataListIcon('i-sliders', 14)}<span>${t('Manage filters…', 'Manage filters…')}</span></button>`
 }
 
@@ -101,7 +121,8 @@ export function renderDataListFilterEditor(config, filter, deps) {
           filter.value
       )
     : filter.value
-  const removeButton = `<button type="button" data-list-remove-field-filter="${encodeHtml(field.key)}" aria-label="${t('Remove', 'Remove')} ${encodeHtml(t(field.label))} ${t('filter', 'filter')}">${dataListIcon('i-x', 12)}</button>`
+  const removeButton = `<button type="button" class="grid size-[18px] place-items-center rounded p-0 border-0 bg-transparent text-inherit cursor-pointer" data-list-remove-field-filter="${encodeHtml(field.key)}" aria-label="${t('Remove', 'Remove')} ${encodeHtml(t(field.label))} ${t('filter', 'filter')}">${dataListIcon('i-x', 12)}</button>`
+  const filterChipClass = DATA_FILTER_CHIP_CLASS
   if (field.type === 'select') {
     const options = field.options
       .map(option => {
@@ -110,18 +131,18 @@ export function renderDataListFilterEditor(config, filter, deps) {
         return `<button type="button" role="option" aria-selected="${isSelected}" data-list-filter-select-option="${encodeHtml(field.key)}" data-value="${encodeHtml(optionValue)}">${encodeHtml(String(dataFilterOptionLabel(option)))}${isSelected ? dataListIcon('i-check', 13) : ''}</button>`
       })
       .join('')
-    return `<span class="data-filter-chip"><details class="data-menu data-filter-editor data-list-filter-editor" data-filter-editor-key="${encodeHtml(field.key)}"><summary>${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value">${encodeHtml(valueLabel || t('Choose value', 'Choose value'))}</span></summary><div class="data-menu-popover data-filter-select-popover" role="listbox" aria-label="${encodeHtml(t(field.label))} ${t('filter value', 'filter value')}">${options}</div></details>${removeButton}</span>`
+    return `<span class="${filterChipClass}"><details class="data-menu data-filter-editor data-list-filter-editor relative" data-filter-editor-key="${encodeHtml(field.key)}"><summary class="min-h-0! rounded-none! border-0! bg-transparent! p-0! text-[inherit]! hover:bg-transparent!">${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value text-accent">${encodeHtml(valueLabel || t('Choose value', 'Choose value'))}</span></summary><div class="${DATA_MENU_POPOVER_CLASS} data-filter-select-popover min-w-[min(220px,calc(100vw-16px))] p-1" role="listbox" aria-label="${encodeHtml(t(field.label))} ${t('filter value', 'filter value')}">${options}</div></details>${removeButton}</span>`
   }
   if (field.type === 'date') {
     const chipLabel = dateFilterLabel(filter)
-    return `<span class="data-filter-chip"><details class="data-menu data-filter-editor data-list-filter-editor" data-filter-editor-key="${encodeHtml(field.key)}"><summary>${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value">${encodeHtml(chipLabel)}</span></summary><div class="data-menu-popover data-filter-date-popover">${renderDataListDatePresetOptions(field, filter)}</div></details>${removeButton}</span>`
+    return `<span class="${filterChipClass}"><details class="data-menu data-filter-editor data-list-filter-editor relative" data-filter-editor-key="${encodeHtml(field.key)}"><summary class="min-h-0! rounded-none! border-0! bg-transparent! p-0! text-[inherit]! hover:bg-transparent!">${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value text-accent">${encodeHtml(chipLabel)}</span></summary><div class="${DATA_MENU_POPOVER_CLASS} data-filter-date-popover min-w-[min(220px,calc(100vw-16px))] p-1">${renderDataListDatePresetOptions(field, filter)}</div></details>${removeButton}</span>`
   }
-  const input = `<input type="text" data-list-filter-value="${encodeHtml(field.key)}" value="${encodeHtml(filter.value)}" placeholder="${t('Enter', 'Enter')} ${encodeHtml(t(field.label).toLowerCase())}" aria-label="${encodeHtml(t(field.label))} ${t('filter value', 'filter value')}">`
-  const operators = `<div class="data-filter-operators">${DATA_FILTER_OPERATORS.map(
+  const input = `<input type="text" class="w-full min-h-[36px] rounded-md border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-ink" data-list-filter-value="${encodeHtml(field.key)}" value="${encodeHtml(filter.value)}" placeholder="${t('Enter', 'Enter')} ${encodeHtml(t(field.label).toLowerCase())}" aria-label="${encodeHtml(t(field.label))} ${t('filter value', 'filter value')}">`
+  const operators = `<div class="data-filter-operators mb-1.5 flex flex-nowrap gap-1 overflow-x-auto">${DATA_FILTER_OPERATORS.map(
     item =>
-      `<button type="button" data-list-filter-operator="${encodeHtml(item.key)}" data-list-filter-key="${encodeHtml(field.key)}" aria-pressed="${item.key === filter.operator}">${encodeHtml(t(item.label))}</button>`
+      `<button type="button" class="flex-none w-auto min-h-[28px] whitespace-nowrap px-2 py-1 aria-pressed:bg-[var(--line-2)] aria-pressed:font-bold" data-list-filter-operator="${encodeHtml(item.key)}" data-list-filter-key="${encodeHtml(field.key)}" aria-pressed="${item.key === filter.operator}">${encodeHtml(t(item.label))}</button>`
   ).join('')}</div>`
-  return `<span class="data-filter-chip"><details class="data-menu data-filter-editor data-list-filter-editor" data-filter-editor-key="${encodeHtml(field.key)}"><summary>${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value">${encodeHtml(`${t(operator.label)} ${valueLabel || '…'}`)}</span></summary><div class="data-menu-popover data-filter-editor-popover">${operators}${input}</div></details>${removeButton}</span>`
+  return `<span class="${filterChipClass}"><details class="data-menu data-filter-editor data-list-filter-editor relative" data-filter-editor-key="${encodeHtml(field.key)}"><summary class="min-h-0! rounded-none! border-0! bg-transparent! p-0! text-[inherit]! hover:bg-transparent!">${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value text-accent">${encodeHtml(`${t(operator.label)} ${valueLabel || '…'}`)}</span></summary><div class="${DATA_MENU_POPOVER_CLASS} data-filter-editor-popover min-w-[min(260px,calc(100vw-16px))] p-2.5">${operators}${input}</div></details>${removeButton}</span>`
 }
 
 export function renderDataListSelectionActions(config, listState, deps) {
@@ -130,13 +151,13 @@ export function renderDataListSelectionActions(config, listState, deps) {
   if (!selectedCount) return ''
   const singleRecordActions =
     selectedCount === 1
-      ? `<button class="data-toolbar-button" type="button" data-list-action="display">${dataListIcon('i-eye')} ${t('Display', 'Display')}</button><button class="data-toolbar-button" type="button" data-list-action="modify">${dataListIcon('i-edit')} ${t('Modify')}</button>`
+      ? `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="display">${dataListIcon('i-eye')} ${t('Display', 'Display')}</button><button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="modify">${dataListIcon('i-edit')} ${t('Modify')}</button>`
       : ''
   const statusActions = config.supportsActivateDeactivate
-    ? `<button class="data-toolbar-button" type="button" data-list-action="activate">${dataListIcon('i-check')} ${t('Activate')}</button><button class="data-toolbar-button" type="button" data-list-action="deactivate">${dataListIcon('i-archive')} ${t('Deactivate')}</button>`
+    ? `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="activate">${dataListIcon('i-check')} ${t('Activate')}</button><button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="deactivate">${dataListIcon('i-archive')} ${t('Deactivate')}</button>`
     : ''
-  const chartAction = `<button class="data-toolbar-button" type="button" data-list-action="chart" aria-pressed="${listState.chartVisible}">${dataListIcon('i-chart')} ${t('Chart', 'Chart')}</button>`
-  return `${singleRecordActions}${statusActions}${chartAction}<button class="data-toolbar-button danger" type="button" data-list-action="delete">${dataListIcon('i-trash')} ${t('Delete', 'Delete')}</button>`
+  const chartAction = `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="chart" aria-pressed="${listState.chartVisible}">${dataListIcon('i-chart')} ${t('Chart', 'Chart')}</button>`
+  return `${singleRecordActions}${statusActions}${chartAction}<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS} danger text-[var(--danger)]" type="button" data-list-action="delete">${dataListIcon('i-trash')} ${t('Delete', 'Delete')}</button>`
 }
 
 export function dataListFilterCount(listState) {
@@ -160,7 +181,7 @@ export function renderDataListViewMenu(config, listState, deps) {
   const current = dataListViewPresentation(listState.view)
   const option = (view, icon, label) =>
     `<button type="button" role="menuitemradio" data-list-view="${view}" aria-checked="${listState.view === view}">${dataListIcon(icon)} ${t(label)}${listState.view === view ? dataListIcon('i-check', 13) : ''}</button>`
-  return `<details class="data-menu end"><summary>${dataListIcon(current.icon)}<span class="data-toolbar-label-text">${t(current.label)}</span>${dataListIcon('i-caret', 11)}</summary><div class="data-menu-popover" role="menu">${option('list', 'i-grid', 'List view')}${option('responsive', 'i-panel', 'Compact view')}${option('adaptive', 'i-panel', 'Adaptive view')}${option('cards', 'i-panel', 'Cards view')}${config.supportsKanban ? option('kanban', 'i-flow', 'Kanban view') : ''}</div></details>`
+  return `<details class="data-menu end relative"><summary class="${DATA_MENU_SUMMARY_CLASS}">${dataListIcon(current.icon)}<span class="data-toolbar-label-text max-[620px]:hidden">${t(current.label)}</span>${dataListIcon('i-caret', 11)}</summary><div class="${DATA_MENU_POPOVER_CLASS}" role="menu">${option('list', 'i-grid', 'List view')}${option('responsive', 'i-panel', 'Compact view')}${option('adaptive', 'i-panel', 'Adaptive view')}${option('cards', 'i-panel', 'Cards view')}${config.supportsKanban ? option('kanban', 'i-flow', 'Kanban view') : ''}</div></details>`
 }
 
 export function renderDataListToolbar(context, config, listState, deps) {
@@ -183,50 +204,50 @@ export function renderDataListToolbar(context, config, listState, deps) {
   const selectionActions = renderDataListSelectionActions(config, listState, deps)
   const filterCount = dataListFilterCount(listState)
   const clearFilterButton = filterCount
-    ? `<button class="data-toolbar-button" type="button" data-list-clear-filter aria-label="${t('Clear all filters', 'Clear all filters')}">${dataListIcon('i-x')} ${t('Clear filter', 'Clear filter')}</button>`
+    ? `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-clear-filter aria-label="${t('Clear all filters', 'Clear all filters')}">${dataListIcon('i-x')} ${t('Clear filter', 'Clear filter')}</button>`
     : ''
   if (selectedCount)
-    return `<div class="data-list-toolbar data-selection-toolbar" role="toolbar" aria-label="${t('Selected', 'Selected')} ${encodeHtml(config.label)} ${t('actions', 'actions')}">
-      <div class="data-toolbar-cluster data-selection-actions">
-        <span class="data-selection-count" aria-live="polite"><b>${selectedCount}</b> ${t('selected', 'selected')}</span>
+    return `<div class="data-list-toolbar data-selection-toolbar flex min-h-[46px] flex-wrap items-center justify-between gap-2 px-2.5 py-[7px] border-[var(--accent-line)]" role="toolbar" aria-label="${t('Selected', 'Selected')} ${encodeHtml(config.label)} ${t('actions', 'actions')}">
+      <div class="data-toolbar-cluster data-selection-actions flex min-w-0 [flex:1_1_auto] flex-wrap items-center gap-1.5">
+        <span class="data-selection-count inline-flex min-h-[30px] items-center gap-[7px] rounded-md bg-[var(--accent-soft)] px-[9px] py-1 text-[12.5px] font-bold" aria-live="polite"><b class="grid min-w-5 h-5 place-items-center rounded-full bg-[var(--line-2)] text-xs">${selectedCount}</b> ${t('selected', 'selected')}</span>
         ${selectionActions}
       </div>
-      <button class="data-toolbar-button data-clear-selection" type="button" data-list-clear-selection>${dataListIcon('i-x')} ${t('Clear selection', 'Clear selection')}</button>
+      <button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS} data-clear-selection ms-auto" type="button" data-list-clear-selection>${dataListIcon('i-x')} ${t('Clear selection', 'Clear selection')}</button>
     </div>
     `
   const filterCluster =
     listState.filterMode === 'modal'
-      ? `<button class="data-toolbar-button" type="button" data-list-open-filters aria-haspopup="dialog">${dataListIcon('i-filter')}<span>${filterCount ? `${t('Filters', 'Filters')} (${filterCount})` : t('Filters', 'Filters')}</span></button>
+      ? `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-open-filters aria-haspopup="dialog">${dataListIcon('i-filter')}<span>${filterCount ? `${t('Filters', 'Filters')} (${filterCount})` : t('Filters', 'Filters')}</span></button>
       ${clearFilterButton}`
-      : `<details class="data-menu"><summary>${dataListIcon(activeCustomFilter ? activeCustomFilter.icon || 'i-eye' : isUnsaved ? 'i-doc' : activeFilter.icon)}<span>${activeCustomFilter ? encodeHtml(activeCustomFilter.name) : isUnsaved ? t('Unsaved view', 'Unsaved view') : encodeHtml(t(activeFilter.label))}</span>${dataListIcon('i-caret', 11)}</summary><div class="data-menu-popover" role="menu">${filterButtons}</div></details>
+      : `<details class="data-menu relative"><summary class="${DATA_MENU_SUMMARY_CLASS}">${dataListIcon(activeCustomFilter ? activeCustomFilter.icon || 'i-eye' : isUnsaved ? 'i-doc' : activeFilter.icon)}<span>${activeCustomFilter ? encodeHtml(activeCustomFilter.name) : isUnsaved ? t('Unsaved view', 'Unsaved view') : encodeHtml(t(activeFilter.label))}</span>${dataListIcon('i-caret', 11)}</summary><div class="${DATA_MENU_POPOVER_CLASS}" role="menu">${filterButtons}</div></details>
       ${filterEditors}
-      ${listState.advanced ? `<span class="data-filter-chip">${t('Advanced filters', 'Advanced filters')}<button type="button" data-list-clear-advanced aria-label="${t('Clear advanced filters', 'Clear advanced filters')}">${dataListIcon('i-x', 12)}</button></span>` : ''}
-      <details class="data-menu"><summary>${dataListIcon('i-plus')}<span>${t('Filter', 'Filter')}</span></summary><div class="data-menu-popover" role="menu">${renderDataListFieldChoices(config, listState, deps)}</div></details>
+      ${listState.advanced ? `<span class="${DATA_FILTER_CHIP_CLASS}">${t('Advanced filters', 'Advanced filters')}<button type="button" class="grid size-[18px] place-items-center rounded p-0 border-0 bg-transparent text-inherit cursor-pointer" data-list-clear-advanced aria-label="${t('Clear advanced filters', 'Clear advanced filters')}">${dataListIcon('i-x', 12)}</button></span>` : ''}
+      <details class="data-menu relative"><summary class="${DATA_MENU_SUMMARY_CLASS}">${dataListIcon('i-plus')}<span>${t('Filter', 'Filter')}</span></summary><div class="${DATA_MENU_POPOVER_CLASS}" role="menu">${renderDataListFieldChoices(config, listState, deps)}</div></details>
       ${clearFilterButton}
       ${
         activeCustomFilter
-          ? `<button class="data-toolbar-button" type="button" data-list-custom-filter-delete="${encodeHtml(activeCustomFilter.id)}">${dataListIcon('i-trash')} ${t('Delete filter', 'Delete filter')}</button>`
+          ? `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-custom-filter-delete="${encodeHtml(activeCustomFilter.id)}">${dataListIcon('i-trash')} ${t('Delete filter', 'Delete filter')}</button>`
           : ''
       }
-      ${isUnsaved ? `<button class="data-toolbar-button" type="button" data-list-save-view>${dataListIcon('i-save')} ${t('Save filter', 'Save filter')}</button>` : ''}`
-  const printButton = `<button class="data-toolbar-button" type="button" data-list-action="print">${dataListIcon('i-print')}<span>${isAdaptive ? t('Print record', 'Print record') : t('Print list', 'Print list')}</span></button>`
+      ${isUnsaved ? `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-save-view>${dataListIcon('i-save')} ${t('Save filter', 'Save filter')}</button>` : ''}`
+  const printButton = `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="print">${dataListIcon('i-print')}<span>${isAdaptive ? t('Print record', 'Print record') : t('Print list', 'Print list')}</span></button>`
   const chartButton = isAdaptive
     ? ''
-    : `<button class="data-toolbar-button" type="button" data-list-action="chart" aria-pressed="${listState.chartVisible}">${dataListIcon('i-chart')}<span>${t('Chart', 'Chart')}</span></button>`
+    : `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="chart" aria-pressed="${listState.chartVisible}">${dataListIcon('i-chart')}<span>${t('Chart', 'Chart')}</span></button>`
   const groupTrigger =
     tableView && !isAdaptive ? deps.renderDataListGroupTrigger(config, listState) : ''
-  const overflowMenu = `<details class="data-menu end data-toolbar-overflow"><summary aria-label="${t('More actions', 'More actions')}" title="${t('More actions', 'More actions')}">${dataListIcon('i-dots')}</summary><div class="data-menu-popover" role="menu">${printButton}${chartButton}${groupTrigger}</div></details>`
-  return `<div class="data-list-toolbar data-browse-toolbar" role="toolbar" aria-label="${encodeHtml(config.label)} ${t('table controls', 'table controls')}">
-    <div class="data-toolbar-cluster data-list-view-controls">
+  const overflowMenu = `<details class="data-menu end data-toolbar-overflow relative hidden max-[900px]:inline-flex"><summary class="${DATA_MENU_SUMMARY_CLASS}" aria-label="${t('More actions', 'More actions')}" title="${t('More actions', 'More actions')}">${dataListIcon('i-dots')}</summary><div class="${DATA_MENU_POPOVER_CLASS}" role="menu">${printButton}${chartButton}${groupTrigger}</div></details>`
+  return `<div class="data-list-toolbar data-browse-toolbar flex min-h-[46px] flex-wrap items-center gap-2 px-2.5 py-[7px] max-[900px]:items-stretch" role="toolbar" aria-label="${encodeHtml(config.label)} ${t('table controls', 'table controls')}">
+    <div class="data-toolbar-cluster data-list-view-controls flex min-w-0 [flex:1_1_auto] flex-wrap items-center gap-1.5">
       ${filterCluster}
-      ${listState.layoutDirty ? `<button class="data-toolbar-button is-active" type="button" data-list-save-layout>${dataListIcon('i-save')} ${t('Save layout', 'Save layout')}</button>` : ''}
+      ${listState.layoutDirty ? `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS} is-active text-accent bg-[var(--accent-soft)]" type="button" data-list-save-layout>${dataListIcon('i-save')} ${t('Save layout', 'Save layout')}</button>` : ''}
     </div>
-    <div class="data-toolbar-cluster end">
-      <label class="data-search">${dataListIcon('i-search')}<input type="search" data-list-search value="${encodeHtml(listState.search)}" placeholder="${t('Search', 'Search')} ${encodeHtml(config.label)}" aria-label="${t('Search', 'Search')} ${encodeHtml(config.label)}"><button class="data-search-clear" type="button" data-list-search-clear aria-label="${t('Clear search', 'Clear search')}"${listState.search ? '' : ' hidden'}>${dataListIcon('i-x', 12)}</button></label>
-      <span class="data-toolbar-separator data-toolbar-optional" aria-hidden="true"></span>
-      <span class="data-toolbar-cluster data-toolbar-inline">${printButton}${chartButton}${groupTrigger}</span>
+    <div class="data-toolbar-cluster end flex min-w-0 flex-wrap items-center gap-1.5 ms-auto max-[900px]:w-full max-[900px]:ms-0">
+      <label class="data-search relative flex items-center max-[900px]:flex-1">${dataListIcon('i-search')}<input type="search" class="w-[clamp(160px,18vw,260px)] min-h-[32px] rounded-md border border-line bg-surface py-[5px] ps-[30px] pe-7 font-[inherit] text-[12.5px] text-ink focus:border-[var(--accent)] focus:outline focus:outline-2 focus:outline-[var(--accent-soft)] max-[900px]:w-full" data-list-search value="${encodeHtml(listState.search)}" placeholder="${t('Search', 'Search')} ${encodeHtml(config.label)}" aria-label="${t('Search', 'Search')} ${encodeHtml(config.label)}"><button class="data-search-clear absolute end-1 grid size-6 place-items-center rounded p-0 border-0 bg-transparent text-muted cursor-pointer" type="button" data-list-search-clear aria-label="${t('Clear search', 'Clear search')}"${listState.search ? '' : ' hidden'}>${dataListIcon('i-x', 12)}</button></label>
+      <span class="data-toolbar-separator data-toolbar-optional w-px h-6 mx-0.5 bg-line max-[900px]:hidden" aria-hidden="true"></span>
+      <span class="data-toolbar-cluster data-toolbar-inline flex min-w-0 flex-wrap items-center gap-1.5 max-[900px]:hidden">${printButton}${chartButton}${groupTrigger}</span>
       ${overflowMenu}
-      ${listState.view === 'list' && !isAdaptive ? `<details class="data-menu end"><summary>${dataListIcon('i-sliders')}<span class="data-toolbar-label-text">${t('Columns', 'Columns')}</span>${dataListIcon('i-caret', 10)}</summary><div class="data-menu-popover" role="group" aria-label="${t('Visible columns', 'Visible columns')}">${columnControls}</div></details>` : ''}
+      ${listState.view === 'list' && !isAdaptive ? `<details class="data-menu end relative"><summary class="${DATA_MENU_SUMMARY_CLASS}">${dataListIcon('i-sliders')}<span class="data-toolbar-label-text max-[620px]:hidden">${t('Columns', 'Columns')}</span>${dataListIcon('i-caret', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS}" role="group" aria-label="${t('Visible columns', 'Visible columns')}">${columnControls}</div></details>` : ''}
       ${renderDataListViewMenu(config, listState, deps)}
     </div>
   </div>`
@@ -357,7 +378,7 @@ export function renderDataList(
         ? deps.renderDataListCards(context, rows, config, listState)
         : isAdaptive
           ? deps.renderDataListAdaptiveRecord(context, rows[0], config, filteredRows.length)
-          : `<div class="data-table-scroll${listState.view === 'responsive' ? ' data-table-responsive' : ''}"><table class="inv-grid borders-${deps.encodeHtml(listState.borderMode)}">${responsiveColgroup}<thead><tr><th><input type="checkbox" data-list-select-all aria-label="Select all visible ${deps.encodeHtml(config.label)}"${allSelected ? ' checked' : ''}></th>${deps.renderDataListHeader(visibleColumns, listState)}<th class="data-row-actions-cell" aria-label="Record actions"></th></tr></thead><tbody>${deps.renderDataListBody(rows, tableRenderContext)}</tbody></table></div>`
+          : `<div class="data-table-scroll overflow-auto${listState.view === 'responsive' ? ' data-table-responsive max-w-full overflow-clip' : ''}"><table class="inv-grid borders-${deps.encodeHtml(listState.borderMode)}">${responsiveColgroup}<thead><tr><th><input class="m-0! size-[15px] accent-accent" type="checkbox" data-list-select-all aria-label="Select all visible ${deps.encodeHtml(config.label)}"${allSelected ? ' checked' : ''}></th>${deps.renderDataListHeader(visibleColumns, listState)}<th class="data-row-actions-cell" aria-label="Record actions"></th></tr></thead><tbody>${deps.renderDataListBody(rows, tableRenderContext)}</tbody></table></div>`
   const statistics = listState.statisticsVisible
     ? deps.renderDataListStatistics(context, filteredRows, config)
     : ''
@@ -366,7 +387,7 @@ export function renderDataList(
      ideas ("how rows are organized" vs "the rows themselves") read as
      distinct pieces of UI rather than one glued block. */
   const groupingCard = groupingBar ? `<div class="data-group-card">${groupingBar}</div>` : ''
-  canvas.innerHTML = `${statistics}${chart}<div class="data-list-controls">${toolbar}</div>${groupingCard}<div class="data-list-shell" data-data-list="${context}">${records}</div>`
+  canvas.innerHTML = `${statistics}${chart}<div class="data-list-controls grid gap-2 mb-2.5">${toolbar}</div>${groupingCard}<div class="data-list-shell relative overflow-visible rounded-lg border border-line bg-surface [box-shadow:var(--shadow-1)]" data-data-list="${context}">${records}</div>`
   /* Paging/record-nav swaps the whole canvas back in via innerHTML, so every
      stat card is a fresh element — animating on those renders would replay
      the count-up on each click, reading as the numbers "resetting" rather

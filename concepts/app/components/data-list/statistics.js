@@ -28,6 +28,8 @@
 // trendLabel,trendTone,...} shape the original per-context factories always
 // produced.
 
+import {DATA_MENU_SUMMARY_CLASS, DATA_MENU_POPOVER_CLASS} from './list.js'
+
 /**
  * @param {number} value
  * @param {number} total
@@ -137,7 +139,7 @@ export function renderDataListGroupTrigger(config, listState, {dataListIcon, t, 
     column => column.groupable !== false && !listState.groupBy.includes(column.key)
   )
   if (!availableColumns.length) return ''
-  return `<details class="data-menu" data-list-group-menu><summary aria-label="${t('Choose a column to group by', 'Choose a column to group by')}">${dataListIcon('i-grid', 14)}<span>${t('Group by', 'Group by')}</span>${dataListIcon('i-caret', 10)}</summary><div class="data-menu-popover" role="menu">${availableColumns
+  return `<details class="data-menu relative" data-list-group-menu><summary class="${DATA_MENU_SUMMARY_CLASS}" aria-label="${t('Choose a column to group by', 'Choose a column to group by')}">${dataListIcon('i-grid', 14)}<span>${t('Group by', 'Group by')}</span>${dataListIcon('i-caret', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS}" role="menu">${availableColumns
     .map(
       column =>
         `<button type="button" role="menuitem" data-list-group-add="${encodeHtml(column.key)}">${dataListIcon('i-grid', 13)}<span>${encodeHtml(t(column.label))}</span></button>`
@@ -164,8 +166,8 @@ export function renderDataListGroupingBar(config, listState, {dataListIcon, t, e
     column => column.groupable !== false && !listState.groupBy.includes(column.key)
   )
   const dragHint = hasMoreColumns
-    ? `<span class="data-group-drag-hint">${t('Drag a column header here to add another group', 'Drag a column header here to add another group')}</span>`
+    ? `<span class="data-group-drag-hint max-[900px]:hidden text-xs italic text-faint">${t('Drag a column header here to add another group', 'Drag a column header here to add another group')}</span>`
     : ''
-  const clearButton = `<button type="button" class="data-group-clear" data-list-group-clear>${dataListIcon('i-undo', 12)}<span>${t('Reset grouping', 'Reset grouping')}</span></button>`
-  return `<div class="data-group-dropzone" data-list-group-drop aria-label="${t('Row grouping drop zone', 'Row grouping drop zone')}"><span class="data-group-dropzone-label">${dataListIcon('i-grid', 14)}<span>${t('Row groups', 'Row groups')}</span></span>${chips}${dragHint}${clearButton}</div>`
+  const clearButton = `<button type="button" class="data-group-clear ms-auto max-[900px]:ms-0 inline-flex items-center gap-1.5 rounded-md px-2.5 py-[5px] font-semibold text-muted hover:bg-[var(--line-2)] hover:text-ink" data-list-group-clear>${dataListIcon('i-undo', 12)}<span>${t('Reset grouping', 'Reset grouping')}</span></button>`
+  return `<div class="data-group-dropzone flex min-h-[42px] flex-wrap items-center gap-1.5 bg-[var(--bg)] px-2.5 py-[7px] text-xs text-muted" data-list-group-drop aria-label="${t('Row grouping drop zone', 'Row grouping drop zone')}"><span class="data-group-dropzone-label inline-flex items-center gap-1.5">${dataListIcon('i-grid', 14)}<span>${t('Row groups', 'Row groups')}</span></span>${chips}${dragHint}${clearButton}</div>`
 }

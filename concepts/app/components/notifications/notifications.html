@@ -1,27 +1,27 @@
             <div
-              class="mlist mend notif-pop"
+              class="mlist mend notif-pop overflow-hidden p-0"
               id="notifications-popover"
               role="dialog"
               aria-labelledby="notifications-title"
               style="min-width: 340px">
-              <div class="notif-hd">
-                <b id="notifications-title">Notifications</b>
+              <div class="notif-hd flex items-center gap-2 px-3.5 pb-3 pt-3.5">
+                <b id="notifications-title" class="flex-1 text-[14.5px] text-ink">Notifications</b>
                 <label class="switch"
                   ><input
                     id="notif-unread-only"
                     type="checkbox"
                     aria-label="Only show unread" /><span></span
                 ></label>
-                <span class="notif-hd-lbl">Only show unread</span>
+                <span class="notif-hd-lbl text-xs text-muted">Only show unread</span>
               </div>
-              <div class="notif-tabs" role="tablist" aria-label="Notification type">
-                <button role="tab" aria-selected="true" tabindex="0" data-tab="direct">
+              <div class="notif-tabs sticky top-0 z-[2] flex gap-1.5 border-b border-line bg-surface px-2.5" role="tablist" aria-label="Notification type">
+                <button role="tab" aria-selected="true" tabindex="0" data-tab="direct" class="w-auto rounded-none border-b-2 border-transparent px-2.5 py-2 text-[13px] font-medium text-muted aria-selected:border-[var(--accent)] aria-selected:font-semibold aria-selected:text-accent">
                   Direct
                 </button>
-                <button role="tab" aria-selected="false" tabindex="-1" data-tab="email">
+                <button role="tab" aria-selected="false" tabindex="-1" data-tab="email" class="w-auto rounded-none border-b-2 border-transparent px-2.5 py-2 text-[13px] font-medium text-muted aria-selected:border-[var(--accent)] aria-selected:font-semibold aria-selected:text-accent">
                   Email
                 </button>
               </div>
-              <div class="notif-body" id="notif-body"></div>
+              <div class="notif-body max-h-[280px] overflow-auto p-2" id="notif-body"></div>
             </div>
           </div>

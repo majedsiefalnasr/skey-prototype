@@ -1,6 +1,18 @@
 import {encodeHtml} from '../../core/locale.js'
 import {DATA_DATE_UNITS, parseDataListDate, parseDateFilterValue} from './filters.js'
 
+/* Shared between renderDataListDatePresetOptions (this component's own
+   filter-editor popover) and renderDataFilterModalDateField (the geo/customer
+   filter modal's date field, in filter-controller.js) -- both renderers emit
+   the identical .data-filter-date-relative/.data-filter-date-range markup, so
+   these class strings are the one source of truth for it. */
+const DATA_FILTER_DATE_RELATIVE_CLASS =
+  'data-filter-date-relative flex items-center gap-1.5 border-t border-line pt-2 pb-1 px-1.5 mt-1'
+const DATA_FILTER_DATE_RANGE_CLASS =
+  'data-filter-date-range flex items-center gap-1.5 border-t border-line pt-2 pb-1 px-1.5 mt-1'
+const DATA_FILTER_DATE_CONTROL_CLASS =
+  'min-h-[32px] rounded-md border border-line bg-surface px-2 py-[5px] font-[inherit] text-[12.5px] text-ink'
+
 /** Owns list dates state and its DOM bindings. */
 export function createListDates({t, formatLocaleDate, getAppLocale, dataListIcon} = {}) {
   function formatDateFilterValue(isoDate) {
@@ -65,17 +77,17 @@ export function createListDates({t, formatLocaleDate, getAppLocale, dataListIcon
       ).join('')
     const relativeControls =
       preset === 'previous' || preset === 'upcoming'
-        ? `<div class="data-filter-date-relative"><input type="number" min="1" value="${encodeHtml(a || '1')}" data-list-date-amount="${encodeHtml(field.key)}" aria-label="${t('Number', 'Number')}"><select data-list-date-unit="${encodeHtml(field.key)}" aria-label="${t('Unit', 'Unit')}">${unitOptions(b || 'day')}</select></div>`
+        ? `<div class="${DATA_FILTER_DATE_RELATIVE_CLASS}"><input type="number" min="1" class="${DATA_FILTER_DATE_CONTROL_CLASS} w-16" value="${encodeHtml(a || '1')}" data-list-date-amount="${encodeHtml(field.key)}" aria-label="${t('Number', 'Number')}"><select class="${DATA_FILTER_DATE_CONTROL_CLASS} flex-1" data-list-date-unit="${encodeHtml(field.key)}" aria-label="${t('Unit', 'Unit')}">${unitOptions(b || 'day')}</select></div>`
         : ''
     const specificControls =
       preset === 'specific'
-        ? `<input type="date" class="data-filter-date-input" value="${encodeHtml(dataListDateInputValue(a))}" data-list-date-specific="${encodeHtml(field.key)}" aria-label="${t('Choose date', 'Choose date')}">`
+        ? `<input type="date" class="data-filter-date-input ${DATA_FILTER_DATE_CONTROL_CLASS} w-[calc(100%-12px)] my-2 mx-1.5" value="${encodeHtml(dataListDateInputValue(a))}" data-list-date-specific="${encodeHtml(field.key)}" aria-label="${t('Choose date', 'Choose date')}">`
         : ''
     const rangeControls =
       preset === 'range'
-        ? `<div class="data-filter-date-range"><input type="date" value="${encodeHtml(dataListDateInputValue(a))}" data-list-date-range-from="${encodeHtml(field.key)}" aria-label="${t('From', 'From')}"><span>${t('to', 'to')}</span><input type="date" value="${encodeHtml(dataListDateInputValue(b))}" data-list-date-range-to="${encodeHtml(field.key)}" aria-label="${t('To', 'To')}"></div>`
+        ? `<div class="${DATA_FILTER_DATE_RANGE_CLASS}"><input type="date" class="${DATA_FILTER_DATE_CONTROL_CLASS} flex-1 min-w-0" value="${encodeHtml(dataListDateInputValue(a))}" data-list-date-range-from="${encodeHtml(field.key)}" aria-label="${t('From', 'From')}"><span class="text-xs text-muted">${t('to', 'to')}</span><input type="date" class="${DATA_FILTER_DATE_CONTROL_CLASS} flex-1 min-w-0" value="${encodeHtml(dataListDateInputValue(b))}" data-list-date-range-to="${encodeHtml(field.key)}" aria-label="${t('To', 'To')}"></div>`
         : ''
-    return `<div class="data-filter-date-presets" role="listbox">${options}</div>${relativeControls}${specificControls}${rangeControls}`
+    return `<div class="data-filter-date-presets grid gap-px" role="listbox">${options}</div>${relativeControls}${specificControls}${rangeControls}`
   }
 
   function renderDataFilterModalDateField(field, filter, clearButton = '') {
@@ -94,11 +106,11 @@ export function createListDates({t, formatLocaleDate, getAppLocale, dataListIcon
       return `<div class="data-filter-modal-row">${presetSelect}${specificInput}${clearButton}</div>`
     }
     if (preset === 'previous' || preset === 'upcoming') {
-      const relativeControls = `<div class="data-filter-date-relative"><input type="number" min="1" value="${encodeHtml(a || '1')}" data-list-date-amount="${encodeHtml(field.key)}" aria-label="${t('Number', 'Number')}"><select data-list-date-unit="${encodeHtml(field.key)}" aria-label="${t('Unit', 'Unit')}">${unitOptions(b || 'day')}</select></div>`
+      const relativeControls = `<div class="${DATA_FILTER_DATE_RELATIVE_CLASS}"><input type="number" min="1" class="${DATA_FILTER_DATE_CONTROL_CLASS} w-16" value="${encodeHtml(a || '1')}" data-list-date-amount="${encodeHtml(field.key)}" aria-label="${t('Number', 'Number')}"><select class="${DATA_FILTER_DATE_CONTROL_CLASS} flex-1" data-list-date-unit="${encodeHtml(field.key)}" aria-label="${t('Unit', 'Unit')}">${unitOptions(b || 'day')}</select></div>`
       return `<div class="data-filter-modal-row">${presetSelect}${clearButton}</div>${relativeControls}`
     }
     if (preset === 'range') {
-      const rangeControls = `<div class="data-filter-date-range"><input type="date" value="${encodeHtml(dataListDateInputValue(a))}" data-list-date-range-from="${encodeHtml(field.key)}" aria-label="${t('From', 'From')}"><span>${t('to', 'to')}</span><input type="date" value="${encodeHtml(dataListDateInputValue(b))}" data-list-date-range-to="${encodeHtml(field.key)}" aria-label="${t('To', 'To')}"></div>`
+      const rangeControls = `<div class="${DATA_FILTER_DATE_RANGE_CLASS}"><input type="date" class="${DATA_FILTER_DATE_CONTROL_CLASS} flex-1 min-w-0" value="${encodeHtml(dataListDateInputValue(a))}" data-list-date-range-from="${encodeHtml(field.key)}" aria-label="${t('From', 'From')}"><span class="text-xs text-muted">${t('to', 'to')}</span><input type="date" class="${DATA_FILTER_DATE_CONTROL_CLASS} flex-1 min-w-0" value="${encodeHtml(dataListDateInputValue(b))}" data-list-date-range-to="${encodeHtml(field.key)}" aria-label="${t('To', 'To')}"></div>`
       return `<div class="data-filter-modal-row">${presetSelect}${clearButton}</div>${rangeControls}`
     }
     return `<div class="data-filter-modal-row">${presetSelect}${clearButton}</div>`

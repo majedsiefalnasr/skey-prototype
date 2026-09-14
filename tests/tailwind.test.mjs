@@ -24,6 +24,15 @@ test('Tailwind input has explicit sources and the generated output stays within 
   assert.match(input, /@source "\.\.\/\*\*\/\*\.html";/);
   assert.match(input, /@source "\.\.\/\*\*\/\*\.js";/);
   assert.doesNotMatch(input, /@source inline\("\*/);
+  assert.match(input, /Shared data-list menu renderers[\s\S]*@source inline\("fixed z-\[120\]/);
+  assert.match(input, /Shared data-list card and kanban renderers[\s\S]*data-\[s=posted\]:bg-/);
+  assert.match(input, /Shared notification and assistant renderers[\s\S]*group-\[\.open\]:flex/);
+
+  const generated = await readFile(path.join(root, 'dist/concepts/app/styles/tailwind.css'), 'utf8');
+  assert.ok(generated.includes('.\\[box-shadow\\:var\\(--shadow-1\\)\\]'));
+  assert.ok(generated.includes('.\\[\\&\\>button\\]\\:min-h-8>button'));
+  assert.match(generated, /data-s=posted[^}]*background-color:var\(--st-post-bg\)/);
+  assert.ok(generated.includes('.group-\\[\\.open\\]\\:flex'));
 
   const manifest = await readFile(path.join(root, 'concepts/app/styles/tailwind/compatibility.md'), 'utf8');
   assert.match(manifest, /\| Owner \| Selector \| Reason \| Removal condition \|/);
@@ -34,11 +43,11 @@ test('Tailwind input has explicit sources and the generated output stays within 
   assert.match(manifest, /prototype density\/style modes/);
 
   const output = await stat(path.join(root, 'dist/concepts/app/styles/tailwind.css'));
-  // Task 3 adds literal shell and launchpad utilities, including the app
-  // switcher, user menu, and search panel converted during review-fix round 2.
-  // Keep the original 6518-byte checkpoint as the lower baseline while bounding
-  // this phase's compiled output until the final migration establishes its
-  // final budget.
+  // Task 4 replaces 60,749 bytes of retired component CSS with generated
+  // utilities. The compiled output is 53,131 bytes at this checkpoint, so the
+  // combined shipped CSS shrinks even though the temporary Tailwind-only Task 3
+  // ceiling no longer applies. Task 7 still owns the plan's final baseline +
+  // 10% review and its explicit dynamic-utility exception report.
   assert.ok(output.size >= 6518);
-  assert.ok(output.size <= 26000, `Tailwind output exceeds the Task 3 budget: ${output.size} bytes`);
+  assert.ok(output.size <= 54000, `Tailwind output exceeds the reviewed Task 4 ceiling: ${output.size} bytes`);
 });

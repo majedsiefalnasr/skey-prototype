@@ -1,43 +1,20 @@
 /* Extracted from mechanical checkpoint ddd8569, legacy-app.css lines 2196-2414.
- * Complete rules retained in original cascade order; see tests/support/style-inventory.json. */
+ * Complete rules retained in original cascade order; see tests/support/style-inventory.json.
+ *
+ * Task 4 converted every selector this file owned exclusively (.notif-pop, .notif-hd,
+ * .notif-badge, .notif-hd-lbl, .notif-tabs, .notif-empty, .notif-body, .notif-row,
+ * .notif-icn, .notif-txt, .notif-what, .notif-time) to literal utility classes -- see
+ * notifications.html/js and shell.html for where each landed, and
+ * tailwind/components.css for the .notif-row.unread relational/pseudo-element state
+ * that remains (a compatibility rule, not a bare class). The two rule groups still
+ * below -- `.switch` and `.email-avatar` (+ its five `[data-avatar-tone]` variants) --
+ * are retained because they are consumed outside this task's file list: `.switch` also
+ * styles shell/appearance-dialog.html's high-contrast toggle, and `.email-avatar` also
+ * styles pages/email/email.js's message rows (both Task 5/6 owned). Converting only
+ * this component's own usage would still leave every other consumer needing this rule,
+ * so this file cannot be retired in Task 4 -- same precedent as app-2.css's
+ * .ibtn/.lbtn/.tip in Task 3. */
 
-
-      /* ---- topbar: Notifications popover ---- */
-      .notif-pop {
-        padding: 0;
-        overflow: hidden;
-      }
-      .notif-hd {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 14px 14px 12px;
-      }
-      .notif-hd b {
-        font-size: 14.5px;
-        color: var(--ink);
-        flex: 1;
-      }
-      .notif-badge {
-        position: absolute;
-        inset-block-start: 3px;
-        inset-inline-end: 3px;
-        min-width: 14px;
-        height: 14px;
-        padding: 0 3px;
-        border-radius: 999px;
-        background: var(--danger-bold);
-        color: var(--inverse);
-        font-size: 9.5px;
-        font-weight: 700;
-        line-height: 14px;
-        text-align: center;
-        border: 2px solid var(--surface);
-      }
-      .notif-hd-lbl {
-        font-size: 12px;
-        color: var(--muted);
-      }
       .switch {
         position: relative;
         display: inline-flex;
@@ -84,92 +61,6 @@
       [dir='rtl'] .switch input:checked + span::before {
         translate: -13px 0;
       }
-      .notif-tabs {
-        position: sticky;
-        top: 0;
-        z-index: 2;
-        display: flex;
-        gap: 6px;
-        padding: 0 10px;
-        background: var(--surface);
-        border-bottom: 1px solid var(--line);
-      }
-      .notif-tabs button {
-        padding: 8px 10px;
-        border-bottom: 2px solid transparent;
-        color: var(--muted);
-        font-size: 13px;
-        font-weight: 500;
-        border-radius: 0;
-        width: auto;
-      }
-      .notif-tabs button[aria-selected='true'] {
-        color: var(--accent);
-        border-color: var(--accent);
-        font-weight: 600;
-      }
-      .notif-empty {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        padding: 36px 24px 30px;
-        color: var(--faint);
-        text-align: center;
-      }
-      .notif-empty svg {
-        color: var(--line);
-      }
-      .notif-empty p {
-        font-size: 13px;
-        color: var(--muted);
-        max-width: 26ch;
-      }
-      .notif-body {
-        max-height: 280px;
-        overflow: auto;
-        padding: 8px;
-      }
-      .notif-row {
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        padding: 9px 10px;
-        border-radius: 8px;
-        width: 100%;
-        border: none;
-        background: none;
-        font: inherit;
-        text-align: start;
-        cursor: pointer;
-      }
-      .notif-row:hover {
-        background: var(--hover-overlay);
-      }
-      .notif-icn {
-        position: relative;
-        flex: none;
-        width: 28px;
-        height: 28px;
-        margin-top: 1px;
-        border-radius: 50%;
-        background: var(--hover-overlay);
-        color: var(--muted);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .notif-row.unread .notif-icn::after {
-        content: '';
-        position: absolute;
-        inset-block-start: -2px;
-        inset-inline-end: -2px;
-        width: 9px;
-        height: 9px;
-        border-radius: 50%;
-        background: var(--accent);
-        border: 2px solid var(--surface);
-      }
       .email-avatar {
         background: var(--avatar-bg);
         color: var(--avatar-ink);
@@ -195,27 +86,4 @@
       .email-avatar[data-avatar-tone='5'] {
         background: var(--avatar-tone-5-bg);
         color: var(--avatar-tone-5-ink);
-      }
-      .notif-row.unread .notif-txt {
-        font-weight: 600;
-      }
-      .notif-txt {
-        flex: 1;
-        min-width: 0;
-        font-size: 13px;
-        color: var(--ink);
-        line-height: 1.5;
-        padding-top: 1px;
-      }
-      .notif-txt b {
-        font-weight: 600;
-      }
-      .notif-what {
-        color: var(--muted);
-      }
-      .notif-time {
-        flex: none;
-        font-size: 12px;
-        color: var(--faint);
-        padding-top: 3px;
       }

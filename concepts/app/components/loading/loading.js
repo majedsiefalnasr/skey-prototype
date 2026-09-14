@@ -91,7 +91,7 @@ function skeletonShape(overlay, bounds, {rect, kind, radius = 6, widthScale = 1,
   const minimumHeight = kind === 'divider' ? 1 : 4
   if (box.width < 4 || box.height < minimumHeight) return
   const shape = document.createElement('span')
-  shape.className = 'skeleton-shape'
+  shape.className = 'skeleton-shape absolute min-w-[4px] min-h-[4px] rounded-md'
   shape.dataset.skeletonKind = kind
   Object.assign(shape.style, {
     left: `${box.left}px`,
@@ -279,7 +279,7 @@ export function createLoading({getContainer, isSimulationEnabled}) {
     if (!activeSkeleton) return
     clearTimeout(activeSkeleton.timeout)
     activeSkeleton.overlay.remove()
-    if (activeSkeleton.addedHostClass) container.classList.remove('skeleton-host')
+    if (activeSkeleton.addedHostClass) container.classList.remove('skeleton-host', 'relative!')
     if (activeSkeleton.previousBusy == null) container.removeAttribute('aria-busy')
     else container.setAttribute('aria-busy', activeSkeleton.previousBusy)
     activeSkeletons.delete(container)
@@ -294,11 +294,11 @@ export function createLoading({getContainer, isSimulationEnabled}) {
     clear()
     const computedPosition = getComputedStyle(container).position
     const addedHostClass = computedPosition === 'static'
-    if (addedHostClass) container.classList.add('skeleton-host')
+    if (addedHostClass) container.classList.add('skeleton-host', 'relative!')
     const previousBusy = container.getAttribute('aria-busy')
     container.setAttribute('aria-busy', 'true')
     const overlay = document.createElement('div')
-    overlay.className = 'skeleton-overlay'
+    overlay.className = 'skeleton-overlay absolute inset-0 z-40 overflow-hidden bg-surface pointer-events-none [contain:paint]'
     overlay.setAttribute('aria-hidden', 'true')
     buildSkeletonFromPage(container, overlay)
     container.appendChild(overlay)

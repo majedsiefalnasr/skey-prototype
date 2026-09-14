@@ -12,6 +12,77 @@
 import {test, expect} from '@playwright/test';
 import {boot, openSurface, settle} from './support/browser.mjs';
 
+async function visibleControlState(locator) {
+  await expect(locator).toBeVisible();
+  return locator.evaluate(element => {
+    const style = getComputedStyle(element);
+    const box = element.getBoundingClientRect();
+    const properties = [
+      'display', 'position', 'width', 'minWidth', 'height', 'minHeight', 'padding',
+      'border', 'borderRadius', 'gap', 'backgroundColor', 'color', 'fontSize',
+      'fontWeight', 'lineHeight', 'overflow', 'boxShadow',
+    ];
+    return {
+      box: {width: box.width, height: box.height},
+      style: Object.fromEntries(properties.map(property => [property, style[property]])),
+    };
+  });
+}
+
+async function captureSharedControls(page) {
+  const row = page.locator('[data-data-list="invoice"] [data-list-row-key]').first();
+  await row.click({button: 'right'});
+  const contextMenu = page.locator('#data-list-context-menu');
+  const renderedRowAction = contextMenu.locator('[data-list-row-action]').first();
+  const menuImages = await Promise.all([
+    visibleControlState(renderedRowAction),
+    visibleControlState(contextMenu),
+  ]);
+  await page.keyboard.press('Escape');
+
+  await page.locator('button.ibtn[aria-label="System Alerts"]').click();
+  const notifications = page.locator('#notifications-popover');
+  await expect(notifications.locator('.notif-row').first()).toBeVisible();
+  const notificationImage = await visibleControlState(notifications);
+  await page.keyboard.press('Escape');
+
+  await page.getByRole('button', {name: 'AI Assistant'}).click();
+  const assistant = page.getByRole('dialog', {name: 'AI Assistant'});
+  await expect(assistant.getByRole('button', {name: 'Send'})).toBeVisible();
+  const assistantImage = await visibleControlState(assistant);
+  await assistant.getByRole('button', {name: 'Close'}).click();
+  return [...menuImages, notificationImage, assistantImage];
+}
+
+test('compiled Tailwind preserves shared controls after legacy component CSS is disabled', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.use.hasTouch, 'Native context menus are not reliable under touch emulation.');
+  await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173');
+  await openSurface(page, 'list');
+  await settle(page);
+  await expect(page.locator('.list-view')).toBeVisible();
+
+  const before = await captureSharedControls(page);
+
+  await page.locator('link[rel="stylesheet"]').evaluateAll(links => {
+    const retired = [
+      'app/components/data-list/list.css',
+      'app/components/data-list/list-2.css',
+      'app/components/dialog/dialog.css',
+      'app/components/notifications/notifications.css',
+    ];
+    for (const link of links) {
+      if (retired.some(path => link.href.endsWith(path))) link.disabled = true;
+    }
+  });
+
+  const after = await captureSharedControls(page);
+  after.forEach((state, index) => {
+    expect(state, `shared control ${index + 1} changed after retiring component CSS`).toEqual(before[index]);
+  });
+});
+
 test('theme change re-renders an open data list chart', async ({page}, testInfo) => {
   // The list toolbar's Chart toggle collapses into responsive chrome below
   // the desktop breakpoint (same as several other toolbar controls in this

@@ -12,7 +12,7 @@ export function createListExport({trapFocus, releaseFocus, toast, getDataListSta
     return columns
       .map(
         column =>
-          `<label><input type="checkbox" data-export-column="${encodeHtml(column.key)}"${listState.hiddenColumns.has(column.key) ? '' : ' checked'}><span>${encodeHtml(column.label)}</span></label>`
+          `<label class="flex items-center gap-[7px] px-0.5 py-1 text-[12.5px] text-ink"><input type="checkbox" data-export-column="${encodeHtml(column.key)}"${listState.hiddenColumns.has(column.key) ? '' : ' checked'}><span>${encodeHtml(column.label)}</span></label>`
       )
       .join('')
   }

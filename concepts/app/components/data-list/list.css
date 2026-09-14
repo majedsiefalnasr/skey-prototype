@@ -1,5 +1,16 @@
 /* Extracted from mechanical checkpoint ddd8569, legacy-app.css lines 5081-5111.
- * Complete rules retained in original cascade order; see tests/support/style-inventory.json. */
+ * Complete rules retained in original cascade order; see tests/support/style-inventory.json.
+ *
+ * Not converted in Task 4: despite this file's location under
+ * concepts/app/components/data-list/, its only selector (.empty and its four
+ * descendants) is consumed exclusively by concepts/app/pages/invoices/activity.js
+ * (verified: grep -rn 'class="empty"' across concepts/ finds only that one call
+ * site; the data-list component's own empty-state renderer,
+ * renderDataListBody/renderDataListCards in views.js, uses the differently-named
+ * and differently-owned `.customer-lookup-empty` from customers.css instead).
+ * activity.js is owned by Task 5 (invoices), not Task 4's file list, so this file
+ * stays linked and unconverted here -- same cross-task-ownership precedent as
+ * app-2.css's .ibtn/.lbtn/.tip in Task 3. */
 
       /* ===== empty states that teach ===== */
       .empty {

@@ -1,6 +1,7 @@
 import {encodeHtml} from '../../core/locale.js'
 import {DATA_FILTER_OPERATORS, dataFilterOptionValue, dataFilterOptionLabel, parseDateFilterValue, dataListNextDatePresetValue} from './filters.js'
 import {DATA_LIST_CONFIG} from './columns.js'
+import {DATA_MENU_SUMMARY_CLASS, DATA_MENU_POPOVER_CLASS} from './list.js'
 
 /** Owns list filters state and its DOM bindings. */
 export function createListFilters({t, trapFocus, releaseFocus, toast, getDataListStorage, saveDataListLayout, getDataListState, renderDataList, dataListIcon, dateFilterLabel, refreshDataListForContext, renderDataFilterModalDateField} = {}) {
@@ -385,7 +386,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
           `<button type="button" role="menuitem" data-manage-filter-add-condition="${encodeHtml(field.key)}">${dataListIcon(field.icon)}<span>${encodeHtml(t(field.label))}</span></button>`
       )
       .join('')
-    return `<details class="data-menu" data-manage-filter-add-menu><summary>${dataListIcon('i-plus')}<span>${t('Add condition', 'Add condition')}</span></summary><div class="data-menu-popover" role="menu">${options}</div></details>`
+    return `<details class="data-menu relative" data-manage-filter-add-menu><summary class="${DATA_MENU_SUMMARY_CLASS}">${dataListIcon('i-plus')}<span>${t('Add condition', 'Add condition')}</span></summary><div class="${DATA_MENU_POPOVER_CLASS}" role="menu">${options}</div></details>`
   }
 
   function renderManageFilterConditionRow(field, fieldFilter) {

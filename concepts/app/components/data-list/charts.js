@@ -182,35 +182,35 @@ export function renderDataListChart(context, rows, config, listState, deps) {
   ).join('')
   const expanded = listState.chartExpanded !== false
   const canvasBody = groups.length
-    ? `<div class="data-list-chart-apex" data-chart-mount></div>`
-    : `<p class="data-chart-empty">${t('No data to chart for this view.', 'No data to chart for this view.')}</p>`
-  return `<section class="rec-card data-list-chart" aria-label="${encodeHtml(config.label)} chart">
-    <div class="data-list-chart-hd-row">
-      <button type="button" class="rec-card-hd data-list-chart-hd" data-list-chart-toggle aria-expanded="${expanded}">
+    ? `<div class="data-list-chart-apex w-full" data-chart-mount></div>`
+    : `<p class="data-chart-empty flex min-h-[260px] items-center justify-center text-center text-[12.5px] text-muted">${t('No data to chart for this view.', 'No data to chart for this view.')}</p>`
+  return `<section class="rec-card data-list-chart mb-3 shadow-[var(--shadow-1)]" aria-label="${encodeHtml(config.label)} chart">
+    <div class="data-list-chart-hd-row flex items-stretch bg-[var(--line-2)]">
+      <button type="button" class="rec-card-hd data-list-chart-hd min-w-0 flex-1" data-list-chart-toggle aria-expanded="${expanded}">
         <span class="data-list-chart-hd-title">${encodeHtml(config.label[0].toUpperCase() + config.label.slice(1))} breakdown</span>
-        <span class="data-list-chart-scope">${encodeHtml(scopeLabel)}</span>
+        <span class="data-list-chart-scope me-auto rounded-full bg-surface px-[9px] text-xs font-semibold text-muted whitespace-nowrap">${encodeHtml(scopeLabel)}</span>
       </button>
-      <button type="button" class="data-list-chart-close" data-list-chart-close aria-label="Close chart">${dataListIcon('i-x', 13)}</button>
+      <button type="button" class="data-list-chart-close grid size-[26px] my-auto mx-2.5 shrink-0 place-items-center rounded-md text-muted hover:bg-surface hover:text-ink" data-list-chart-close aria-label="Close chart">${dataListIcon('i-x', 13)}</button>
     </div>
-    <div class="rec-card-body data-list-chart-body"${expanded ? '' : ' hidden'}>
-      <div class="data-list-chart-layout data-list-chart-layout-solo">
-        <div class="data-list-chart-main">
-          <div class="data-list-chart-toolbar">
-            <div class="rec-field data-list-chart-field">
+    <div class="rec-card-body data-list-chart-body p-4"${expanded ? '' : ' hidden'}>
+      <div class="data-list-chart-layout data-list-chart-layout-solo grid items-stretch gap-4 grid-cols-[minmax(0,1fr)]">
+        <div class="data-list-chart-main grid min-w-0 gap-3">
+          <div class="data-list-chart-toolbar flex flex-wrap items-end gap-3">
+            <div class="rec-field data-list-chart-field w-[220px] min-w-0">
               <label>${t('X axis', 'X axis')}</label>
               <select data-list-chart-field>${fieldOptions}</select>
             </div>
             ${
               yOptions.length
-                ? `<div class="rec-field data-list-chart-field">
+                ? `<div class="rec-field data-list-chart-field w-[220px] min-w-0">
               <label>${t('Y axis', 'Y axis')}</label>
               <select data-list-chart-y-field>${yFieldOptions}</select>
             </div>`
                 : ''
             }
-            <div class="data-list-chart-type" role="group" aria-label="Chart type">${typeButtons}</div>
+            <div class="data-list-chart-type ms-auto inline-flex flex-wrap gap-0.5 rounded-[7px] border border-line bg-[var(--bg)] p-0.5" role="group" aria-label="Chart type">${typeButtons}</div>
           </div>
-          <div class="data-list-chart-canvas">${canvasBody}</div>
+          <div class="data-list-chart-canvas flex min-h-[260px] min-w-0 items-stretch justify-stretch overflow-x-auto">${canvasBody}</div>
         </div>
       </div>
     </div>
