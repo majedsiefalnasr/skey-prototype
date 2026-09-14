@@ -1,14 +1,26 @@
-// Temporary module entry point (Task 4). Composes the shared facilities
-// extracted in this task and starts the transitional legacy application
-// module with them. This is NOT the final composition root — the plan
-// reserves concepts/app/main.js for Task 10, once navigation and the shell
-// itself are also extracted into real components. Until then, this file's
-// only job is: build the finite `shared` object the plan's contracts
-// define, call startLegacyApp(shared) after the app-shell markup has been
-// assembled into the document, then let the existing prototype controls
-// script run afterward (it is a separate classic <script>, ordered after
-// this one in concepts/app-shell.html, and only touches the already-mounted
-// .demo-bar markup — it has no dependency on startLegacyApp's return value).
+// Composition root (Task 10, replacing the temporary concepts/app/entry.js
+// from Task 4). Builds the finite `shared` object the plan's contracts
+// define, then calls startLegacyApp(shared) after the app-shell markup has
+// been assembled into the document. startLegacyApp constructs every page
+// factory (home/customers/geography/invoices/email) and, once all of them
+// exist, the real Navigation instance from core/navigation.js that routes
+// every subsequent page transition — see legacy-app.js's own composition
+// comments for why navigation construction must wait until the very end of
+// that function. The existing prototype controls script runs afterward (a
+// separate classic <script>, ordered after this one in
+// concepts/app-shell.html, that only touches the already-mounted .demo-bar
+// markup and has no dependency on startLegacyApp's return value).
+//
+// The shell/{sidebar,topbar,menus,search,customize} interaction code itself
+// still lives inside legacy-app.js's closure rather than in separate
+// concepts/app/shell/*.js modules — see the deviation note in this task's
+// report: that code shares dozens of mutable closure bindings (state,
+// blocked, csDraft, ACTIONS, dataListInstances, etc.) with the invoice/list
+// machinery, and splitting it file-by-file without rethreading all of that
+// by hand would be exactly the "rewrite thousands of lines from a summary"
+// the plan's own preamble forbids. This file still composes one real shell
+// and one real navigation contract; only the physical file boundary for the
+// shell's own interaction code is deferred.
 import {createLocale} from './core/locale.js'
 import {createAppearance} from './core/appearance.js'
 import {createWork} from './core/work.js'

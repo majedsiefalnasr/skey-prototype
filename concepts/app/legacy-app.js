@@ -1,3 +1,4 @@
+import {createNavigation} from './core/navigation.js'
 import {createAssistant} from './components/assistant/assistant.js'
 import {createEmail} from './pages/email/email.js'
 import {createNotifications} from './components/notifications/notifications.js'
@@ -18,13 +19,14 @@ import {createInvoicePayments} from './pages/invoices/payments.js'
 // converts it into a module and pulls the shared locale/appearance/toast/
 // work/loading/dialog-focus facilities out into their own modules (see
 // concepts/app/core/{locale,appearance,work}.js and
-// concepts/app/components/{dialog,toast,loading}/*.js). Everything else
-// below is still the original single-scope implementation, unchanged,
-// pending later tasks (5-11) that extract data-list/page/navigation
-// components per the plan.
+// concepts/app/components/{dialog,toast,loading}/*.js). Tasks 5-9 extract
+// the data-list/page components; Task 10 (see the composition block at the
+// bottom of startLegacyApp) constructs the real Navigation contract from
+// core/navigation.js once every page factory below is built, and routes
+// every former direct showContentView(...) call through it instead.
 //
 // startLegacyApp(shared) is called once, after the app-shell markup has
-// been assembled into the document (see concepts/app/entry.js), with
+// been assembled into the document (see concepts/app/main.js), with
 // `shared` limited to exactly the finite set of facilities this task
 // isolates — not an arbitrary getter for every remaining legacy binding.
 import {normalizeHexColor, deriveAccentPair} from './core/appearance.js'
@@ -141,14 +143,32 @@ export function startLegacyApp(shared) {
    so closing the launchpad without a real navigation (e.g. opening a rail-icon
    flyout) can resync the prototype-controls panel to it. */
         let currentContentViewName = 'record'
+        // Forward-referenced mutable binding for the function historically
+        // named showContentView. Declared here, this early, because
+        // createHome's showLaunchpad calls closeEmailView() synchronously
+        // during the shell mount loop a few hundred lines below (well
+        // before this file's old single showContentView definition site) —
+        // closeEmailView's arrow function only READS this binding when
+        // actually invoked, so a `let` declared here (assigned to
+        // attachAndShowView, a hoisted `function` declared further below —
+        // safe to reference immediately since only its hoisted binding,
+        // not its later source position, matters here) avoids the
+        // temporal-dead-zone ReferenceError that a `let` declared later, at
+        // the old definition site after the mount loop, produced instead.
+        // This exactly reproduces the original's own boot-time behavior:
+        // showContentView('record') already ran for real at this same
+        // "closeEmailView() during the very first showLaunchpad()" moment,
+        // back when showContentView was itself a hoisted `function`
+        // declaration further down the file.
+        let showContentView = attachAndShowView
         /* The loading facility's getContainer callback needs to resolve the
    currently visible page/view's skeleton host, which depends on
    currentContentViewName above — a binding that does not exist yet at the
-   entry point's composition time (see concepts/app/entry.js). So `loading`
+   entry point's composition time (see concepts/app/main.js). So `loading`
    itself is constructed here, as the very next thing after
    currentContentViewName exists, passing currentSkeletonContainer through
    createLoading's own getContainer parameter (shared.loading carries the
-   factory and its other constructor params from entry.js). */
+   factory and its other constructor params from main.js). */
         function currentSkeletonContainer() {
           const launchpad = document.querySelector('.lp-view:not([hidden])')
           if (launchpad) return launchpad
@@ -1726,7 +1746,19 @@ export function startLegacyApp(shared) {
    its own tab instead of being mixed into "Direct" */
         const notifications = createNotifications({closeAllMenus: (...args) => closeAllMenus(...args), openEmailView: (...args) => openEmailView(...args), closeMenuAndRestoreFocus: (...args) => closeMenuAndRestoreFocus(...args)})
         const {syncNotifBadge} = notifications
-        function showContentView(name) {
+        // attachAndShowView is the content-host "showPage" half of the
+        // former showContentView: pure DOM attach/hide for the 7
+        // content-host pages ('record' falls through the generic
+        // .content-children loop below, same as before). It knows nothing
+        // about Page.activate/deactivate or currentContentViewName — the
+        // real Navigation instance (constructed once every page factory
+        // exists, at the end of this function) owns that lifecycle
+        // uniformly for every page, including customer-record, closing the
+        // gap the prior architecture note flagged. Launchpad is not one of
+        // the named views here: it is a frame-level overlay, handled
+        // entirely through home.activate()/home.deactivate() (showLaunchpad/
+        // hideLaunchpad), never through this content-host attachment path.
+        function attachAndShowView(name) {
           /* adv-search-scrim is a sibling outside .content, so switching which
    .content child is visible doesn't touch it — close it here so it never
    strands open across an unrelated navigation (e.g. breadcrumb back to the
@@ -1764,21 +1796,25 @@ export function startLegacyApp(shared) {
             if (wrappedViews.includes(el)) return
             el.hidden = name !== 'record'
           })
-          // customers.recordPage implements the Page contract
-          // (activate/deactivate) but no central Navigation exists yet
-          // (Task 10) — legacy-app.js drives it directly at this exact
-          // navigation call site, same relationship Task 6 established
-          // between createDataList's lifecycle methods and renderDataList's
-          // direct calls (see the prior report's architecture note).
-          if (name === 'customer-record' && currentContentViewName !== 'customer-record') {
-            customers.recordPage.activate()
-          } else if (name !== 'customer-record' && currentContentViewName === 'customer-record') {
-            customers.recordPage.deactivate()
-          }
+        }
+        // onNavigationChange is the "onChange" half of the former
+        // showContentView: bookkeeping that runs after the target page has
+        // been shown/activated, for every content-host page uniformly.
+        function onNavigationChange(name) {
           currentContentViewName = name
           syncCustomerPrototypeControls(name)
           queueSkeletonForCurrentView()
         }
+        // showContentView itself is declared once, much earlier (see the
+        // comment there for why), currently holding attachAndShowView. It
+        // is reassigned once more at the end of this function, once
+        // `navigation` is constructed, to route every call through the real
+        // navigation contract instead of driving the DOM directly — every
+        // one of its 13 original call sites is either an event-handler
+        // callback that only fires post-boot, or a callback reference
+        // handed to a page factory and invoked later at runtime, never
+        // synchronously during construction, so that later reassignment is
+        // safe regardless of when each reference was captured.
         function syncCustomerPrototypeControls(viewName) {
           /* the #kit prototype-controls panel is built by a later <script> tag, so on
    the very first showLaunchpad() call during boot its elements don't exist yet —
@@ -2154,7 +2190,7 @@ export function startLegacyApp(shared) {
 
         /* ================= Sales Invoice List — concept rendering ================= */
 
-        const geography = createGeography({root: document.querySelector('.geo-record-view'), getList: () => dataListInstances.geo, t, dataListIcon: (...args) => dataListIcon(...args), trapFocus, releaseFocus, toast, showContentView, renderGeoList, openNewDataListRecord, openPrintSettings, openAdvancedSearch})
+        const geography = createGeography({root: document.querySelector('.geo-record-view'), getList: () => dataListInstances.geo, t, dataListIcon: (...args) => dataListIcon(...args), trapFocus, releaseFocus, toast, showContentView: (...args) => showContentView(...args), renderGeoList, openNewDataListRecord, openPrintSettings, openAdvancedSearch})
         const {renderGeoRecord, openGeoRecord, closeGeoParentPicker, closeGeoHierarchyDialog} = geography
 
 
@@ -5189,13 +5225,80 @@ export function startLegacyApp(shared) {
           }, state, operations: {applyState, applyMode, modeSel, requestLeave: requestInvoiceLeave},
           record: {render: renderRecordA, dispose: () => { disposeRecordTabs(); disposeInvoiceLines(); disposeInvoicePayments(); disposeInvoiceAdjustments() }},
         })
-        invoices.recordPage.activate()
+        // Task 10: every page factory now exists (home/notifications/email/
+        // geography/customers/invoices), so this is the one point where the
+        // real Navigation contract can be built. resolvePage returns the
+        // already-constructed, cached Page for each id — no page
+        // implementation is imported by core/navigation.js itself.
+        //
+        // requestLeave adapts the ONLY guard mechanism showContentView's
+        // callers ever actually consulted before a transition:
+        // guardDataListLeave/visibleDirtyDataListContext, shared by the
+        // three list pages. It resolves via the guard's own existing
+        // Stay/Discard/Save buttons calling `after?.()` — wrapping that in
+        // a Promise here means `after` becomes "resolve(true)" and the
+        // ambient click handlers never run any other action, so nothing is
+        // executed twice.
+        //
+        // Two other guards exist in this codebase (the invoice record's
+        // operations.requestLeave/atRisk, and the customer record's own
+        // askGuard for its .customer-back/.nc1-item click) but neither was
+        // ever reachable through showContentView/setNavCurrent before this
+        // task: customer's guard is a document-level click interceptor
+        // inside record.js that runs (and fully resolves) BEFORE
+        // showContentView is ever called for that transition, and invoice's
+        // guard was only ever wired to the record's own #mode <select>
+        // change handler, never to leaving the record via the sidebar or
+        // any other showContentView call site. Wiring either of those into
+        // requestLeave here would add a leave-confirmation prompt to a
+        // transition that never had one, which is exactly the kind of
+        // observable-behavior change the plan's Global Constraints forbid
+        // outside the one customer-restoration fix reserved for Task 11.
+        const pageRegistry = new Map([
+          ['launchpad', home],
+          ['record', invoices.recordPage],
+          ['list', invoices.listPage],
+          ['customers-list', customers.listPage],
+          ['customer-record', customers.recordPage],
+          ['geo-list', geography.listPage],
+          ['geo-record', geography.recordPage],
+          ['email', email],
+        ])
+        function requestPageLeave(fromId) {
+          if (fromId === 'list' || fromId === 'customers-list' || fromId === 'geo-list') {
+            const context = {list: 'invoice', 'customers-list': 'customer', 'geo-list': 'geo'}[fromId]
+            if (visibleDirtyDataListContext() !== context) return true
+            return new Promise(resolve => askListLayoutGuard(context, () => resolve(true)))
+          }
+          return true
+        }
+        const navigation = createNavigation({
+          resolvePage: id => pageRegistry.get(id),
+          requestLeave: (fromId) => requestPageLeave(fromId),
+          showPage(page) {
+            if (page.id === 'launchpad') return
+            attachAndShowView(page.id)
+          },
+          onChange: onNavigationChange,
+        })
+        // Every original showContentView(...) call site now routes through
+        // the real navigation contract instead of driving the DOM directly.
+        // Fire-and-forget matches every original call site's own usage (none
+        // of them awaited showContentView's return value).
+        showContentView = name => {
+          navigation.navigate(name)
+        }
+        contentViewDeferralReady = true
+        // The very first navigation: currentId starts null, so navigate()
+        // shows/activates the boot view (currentContentViewName, 'record')
+        // without deactivating anything else — same as the original direct
+        // invoices.recordPage.activate() + showContentView(...) boot pair,
+        // now performed once through the real contract instead of twice.
+        navigation.navigate(currentContentViewName)
         /* the payment row and item row just created above are [data-field]
    elements that didn't exist yet for applyMode()'s initial applyState() call
    above — re-run it so their disabled state matches the current status */
         applyState()
-        contentViewDeferralReady = true
-        showContentView(currentContentViewName)
 
         /* ================= data-list context (right-click) menus =================
            Right-click is pure acceleration here, never the only door: every

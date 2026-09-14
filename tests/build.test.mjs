@@ -140,18 +140,20 @@ test('assemble: reassembling the real app-shell.html fragments reproduces the pr
   // point where concepts/app-shell.html held the complete markup inline,
   // before Task 3 moved templates/overlays out into concepts/app/shell/
   // fragments. Re-assembling the fragmented source must reproduce that
-  // exact content except for the two lines Task 4 intentionally changes:
-  // the classic-script entry point becomes a module entry point
-  // (app/entry.js), and the prototype-controls classic script gains
-  // `defer` so it keeps executing after the now-deferred module script
-  // (see concepts/app/entry.js and the Task 4 report for why). Any OTHER
-  // difference here means the fragment-assembly mechanism itself changed
-  // markup it shouldn't have — that's still a real regression to catch.
+  // exact content except for the two lines Task 4/10 intentionally change:
+  // the classic-script entry point becomes a module entry point. Task 4
+  // pointed it at the temporary app/entry.js; Task 10 retargets it at
+  // app/main.js, the plan's real composition root (see concepts/app/main.js
+  // and this task's report for why). The prototype-controls classic script
+  // also gains `defer` so it keeps executing after the now-deferred module
+  // script (see the Task 4 report for why). Any OTHER difference here means
+  // the fragment-assembly mechanism itself changed markup it shouldn't
+  // have — that's still a real regression to catch.
   const {stdout: baseline} = await execFileAsync('git', ['show', 'ddd8569:concepts/app-shell.html']);
   const expected = baseline
     .replace(
       '    <script src="app/legacy-app.js"></script>',
-      '    <script type="module" src="app/entry.js"></script>'
+      '    <script type="module" src="app/main.js"></script>'
     )
     .replace(
       '    <script id="shell-kit-js" src="app/prototype/legacy-controls.js"></script>',
