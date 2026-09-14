@@ -10,6 +10,7 @@
 
 import {readFile, realpath, mkdir, writeFile, readdir, lstat, rm, rename} from 'node:fs/promises';
 import path from 'node:path';
+import {compileTailwind} from './tailwind.mjs';
 
 const sourceRoot = await realpath('concepts');
 
@@ -123,6 +124,11 @@ export async function build() {
       if (!exists) continue; // e.g. presentation/ — allowed but absent
       await copyTree(src, path.join(staging, entry), src);
     }
+
+    await compileTailwind({
+      root: repoRoot,
+      output: path.join(staging, 'concepts', 'app', 'styles', 'tailwind.css'),
+    });
 
     // Assemble the app-shell entry document over the staged copy so the
     // published output has no residual include directives.
