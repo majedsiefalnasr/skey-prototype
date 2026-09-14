@@ -172,6 +172,7 @@ async function openEmailFromNotifications(page) {
   // calls the source's own `openEmailView(id)`); `.email-list-row` is a
   // different class used only by the full email page view once open.
   await page.locator('#notif-body .notif-row').first().click();
+  await waitForSkeletonToAppear(page);
 }
 
 /**
