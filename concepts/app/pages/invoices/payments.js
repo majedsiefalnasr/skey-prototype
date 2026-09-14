@@ -1,5 +1,7 @@
 // Mechanically extracted invoice behavior; fixture values and markup are preserved.
 export function createInvoicePayments({connectRecordLabels, applyRecordValueDirections, applyState}) {
+const pageAbort = new AbortController()
+
        const PAYMENT_METHODS = ['Cash', 'Bank', 'Credit Card', 'Cheque', 'Transfer']
        const PAYMENT_EXTRA_FIELDS = {
          Cash: [{label: 'Cash Code', value: '2001 - Main Cash'}],
@@ -41,8 +43,8 @@ export function createInvoicePayments({connectRecordLabels, applyRecordValueDire
          applyRecordValueDirections(row)
          row
            .querySelector('[data-payment-method]')
-           .addEventListener('change', e => renderPaymentExtraFields(row, e.target.value))
-         row.querySelector('.rec-remove-payment').addEventListener('click', () => row.remove())
+           .addEventListener('change', e => renderPaymentExtraFields(row, e.target.value), {signal: pageAbort.signal})
+         row.querySelector('.rec-remove-payment').addEventListener('click', () => row.remove(), {signal: pageAbort.signal})
          /* a freshly-added row's [data-field] inputs start enabled by default —
   sweep the current editable/locked state onto them immediately so they
   don't escape a locked record */
@@ -62,5 +64,5 @@ export function createInvoicePayments({connectRecordLabels, applyRecordValueDire
        }
 
 
-  return {addPaymentMethodRow}
+  return {dispose: () => pageAbort.abort(), addPaymentMethodRow}
 }

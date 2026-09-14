@@ -77,3 +77,42 @@ test('invoice keyboard line entry registers once after returning from the list',
   await expect(rows).toHaveCount(count + 1);
   await expect(rows.last().getByRole('textbox', {name: 'Item', exact: true})).toBeFocused();
 });
+
+test('invoice print settings and activity drawer retain their document context', async ({page}) => {
+  await openSurface(page, 'record');
+  await page.locator('.content').getByRole('button', {name: 'Print', exact: true}).click();
+  await expect(page.locator('#pscrim')).toHaveClass(/open/);
+  await expect(page.locator('#pscrim .dhd .sub')).toContainText('Sales Invoice');
+  await page.locator('#pscrim').getByRole('button', {name: 'Close', exact: true}).click();
+  await page.locator('.dr-open[data-tab="stages"]').first().click();
+  await expect(page.locator('#drawer')).toHaveClass(/open/);
+  await expect(page.locator('.drtab[data-tab="stages"]')).toHaveAttribute('aria-selected', 'true');
+  await page.locator('#drawer .dr-close').click();
+});
+
+test('invoice modify and undo preserve the operation lifecycle', async ({page}) => {
+  await openSurface(page, 'record');
+  await page.locator('#st').selectOption('open', {force: true});
+  await page.locator('.design.active [data-act="Modify"]').click();
+  await expect(page.locator('#mode')).toHaveValue('edit');
+  await page.locator('.design.active .phead [data-act="Undo"]').click();
+  await expect(page.locator('#mode')).toHaveValue('record');
+});
+
+test('geography hierarchy switches to flow and opens its compact dialog', async ({page}) => {
+  await openSurface(page, 'geo-record');
+  if (!(await page.locator('[data-geo-view="flow"]').isVisible())) {
+    await page.locator('[data-geo-tree-collapse]').click();
+    await expect(page.locator('#geo-hierarchy-scrim')).toHaveClass(/open/);
+  }
+  await page.locator('[data-geo-view="flow"]').click();
+  await expect(page.locator('#geo-flow-pane')).toBeVisible();
+  await expect(page.locator('#geo-flow-canvas [data-geo-node]')).not.toHaveCount(0);
+  if (!(await page.locator('#geo-hierarchy-scrim').evaluate(element => element.classList.contains('open')))) {
+    await page.setViewportSize({width: 900, height: 800});
+    await page.locator('[data-geo-tree-collapse]').click();
+    await expect(page.locator('#geo-hierarchy-scrim')).toHaveClass(/open/);
+  }
+  await page.locator('.geo-hierarchy-dialog-close').click();
+  await expect(page.locator('#geo-hierarchy-scrim')).not.toHaveClass(/open/);
+});

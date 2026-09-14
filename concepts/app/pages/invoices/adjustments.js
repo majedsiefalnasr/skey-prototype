@@ -1,5 +1,7 @@
 // Mechanically extracted invoice behavior; fixture values and markup are preserved.
 export function createInvoiceAdjustments({applyRecordValueDirections, applyState}) {
+const pageAbort = new AbortController()
+
   let invoiceAdjustmentCount = 0
   const formatInvoiceMoney = value =>
     Number(value || 0).toLocaleString('en-US', {
@@ -77,19 +79,19 @@ export function createInvoiceAdjustments({applyRecordValueDirections, applyState
     remove.innerHTML =
       '<svg width="14" height="14" aria-hidden="true"><use href="#i-x" /></svg>'
     row.appendChild(remove)
-    row.addEventListener('input', recalcInvoiceSummary)
+    row.addEventListener('input', recalcInvoiceSummary, {signal: pageAbort.signal})
     row.addEventListener('change', event => {
       if (event.target.matches('[data-adjustment-calculation]')) {
         const value = row.querySelector('[data-adjustment-value]')
         value.max = event.target.value === 'percent' ? '100' : ''
       }
       recalcInvoiceSummary()
-    })
+    }, {signal: pageAbort.signal})
     remove.addEventListener('click', () => {
       row.remove()
       syncInvoiceAdjustmentEmptyState()
       recalcInvoiceSummary()
-    })
+    }, {signal: pageAbort.signal})
     list.appendChild(row)
     applyRecordValueDirections(row)
     syncInvoiceAdjustmentEmptyState()
@@ -97,5 +99,5 @@ export function createInvoiceAdjustments({applyRecordValueDirections, applyState
     row.querySelector('select, input')?.focus()
   }
 
-  return {recalcInvoiceSummary, addInvoiceAdjustment}
+  return {dispose: () => pageAbort.abort(), recalcInvoiceSummary, addInvoiceAdjustment}
 }

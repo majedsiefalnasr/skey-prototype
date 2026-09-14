@@ -1,3 +1,10 @@
+import {enableFlowPan} from './pages/geography/hierarchy.js'
+import {createRecordPager} from './components/record-pager/pager.js'
+import {createInvoiceOperations} from './pages/invoices/operations.js'
+import {createInvoices, createInvoiceState} from './pages/invoices/invoices.js'
+import {createInvoicePrint} from './pages/invoices/print.js'
+import {createInvoiceActivity} from './pages/invoices/activity.js'
+import {createGeography} from './pages/geography/geography.js'
 import {createInvoiceRecord} from './pages/invoices/record.js'
 import {createInvoiceAdjustments} from './pages/invoices/adjustments.js'
 import {createInvoiceLines} from './pages/invoices/lines.js'
@@ -168,81 +175,7 @@ export function startLegacyApp(shared) {
    then the status flags in the order the product records them */
         /* audit cards confirmed by the backend team; Returned has no card */
 
-        const state = {
-          status: 'posted',
-          pay: 'credit',
-          dirty: false,
-          design: '1',
-          mode: 'record',
-          missing: 3,
-          prints: 2,
-          docNo: '126',
-        }
-        const editable = s =>
-          s.mode === 'create'
-            ? true
-            : s.mode !== 'record' && !['posted', 'canceled', 'inactive'].includes(s.status)
-        /* lockbanner copy for every status — ported from sales-invoice-record.html's
-   LOCK_COPY map (final-review fix round gave every status its own entry, not
-   just posted/canceled/inactive) */
-        const LOCK_COPY = {
-          posted:
-            'This invoice is posted, so its fields are read-only. Undo the posting to edit it.',
-          canceled: 'This invoice is canceled, so its fields are read-only.',
-          inactive:
-            'This invoice is deactivated, so its fields are read-only. Reactivate it to edit.',
-          open: "You're viewing this invoice. Switch to Edit mode to make changes.",
-          pending: "You're viewing this invoice. Switch to Edit mode to make changes.",
-          returned: "You're viewing this invoice. Switch to Edit mode to make changes.",
-        }
-        /* A new invoice has no number, no history and nothing to act on until it is saved.
-   Everything that reads or writes the stored document waits for that first save. */
-        const needsSaved = [
-          'Print',
-          'Posting',
-          'Display Journal Entry',
-          'Cancel Document',
-          'Receipt Voucher',
-          'Sales Return',
-          'User Log',
-          'Documents Flow',
-          'Reports',
-          'Search',
-          'Add From',
-          'Modify',
-          'Delete',
-        ]
-
-        /* verified matrix + the one proposed correction */
-        const blocked = label => {
-          /* actions that only make sense on a saved record the user is not already editing */
-          if (label === 'Modify') {
-            if (state.mode === 'edit') return 'You are already editing this invoice'
-            if (state.status === 'posted')
-              return 'A posted invoice cannot be modified. Undo the posting first.'
-            if (state.status === 'canceled')
-              return 'A canceled invoice cannot be modified. Restore it first.'
-            if (state.status === 'inactive') return 'A deactivated invoice cannot be modified'
-          }
-          if (label === 'Delete') {
-            if (state.status === 'posted')
-              return 'A posted invoice cannot be deleted. Undo the posting first.'
-            if (state.status === 'canceled')
-              return 'A canceled invoice is kept in the records — it cannot be deleted'
-            if (state.status === 'inactive') return 'A deactivated invoice cannot be deleted'
-          }
-          if (state.mode === 'create') {
-            if (label === 'Save')
-              return state.missing
-                ? `${state.missing} required ${state.missing === 1 ? 'field' : 'fields'} still empty`
-                : null
-            if (label === 'Undo') return state.dirty ? null : 'Nothing to undo yet'
-            if (needsSaved.includes(label)) return 'Save the invoice first — it has no number yet'
-            return null
-          }
-          return RULES[label] ? RULES[label](state) : null
-        }
-
+        const {state, editable, LOCK_COPY, needsSaved, blocked} = createInvoiceState()
         /* ---------- search data (verified) ---------- */
 
         /* ================================================================
@@ -1410,31 +1343,19 @@ export function startLegacyApp(shared) {
         }
 
         /* ================= pagers ================= */
-        document.querySelectorAll('.pager').forEach(p => {
-          const inp = p.querySelector('.pg-i'),
-            max = +inp.max
-          inp.dir = 'ltr'
-          const b = {
-            f: p.querySelector('.pg-f'),
-            p: p.querySelector('.pg-p'),
-            n: p.querySelector('.pg-n'),
-            l: p.querySelector('.pg-l'),
-          }
-          const pos = p.closest('.design')?.querySelector('.pos')
-          const set = v => {
-            v = Math.min(max, Math.max(1, v || 1))
-            inp.value = v
-            inp.dataset.last = v
-            b.f.disabled = b.p.disabled = v === 1
-            b.n.disabled = b.l.disabled = v === max
-            if (pos) pos.textContent = `Record ${v} of ${max}`
-          }
-          b.f.onclick = () => set(1)
-          b.p.onclick = () => set(+inp.value - 1)
-          b.n.onclick = () => set(+inp.value + 1)
-          b.l.onclick = () => set(max)
-          inp.onchange = () => set(+inp.value)
-          set(1)
+        document.querySelectorAll('.pager').forEach(root => {
+          const input = root.querySelector('.pg-i')
+          const total = Number(input.max)
+          input.dir = 'ltr'
+          let index = 1
+          const position = root.closest('.design')?.querySelector('.pos')
+          const pager = createRecordPager({root, getPosition: () => ({index, total}), onNavigate: value => {
+            index = value
+            pager.sync()
+            if (position) position.textContent = `Record ${index} of ${total}`
+          }})
+          pager.sync()
+          if (position) position.textContent = `Record ${index} of ${total}`
         })
 
         /* ================= status popover ================= */
@@ -1511,212 +1432,9 @@ export function startLegacyApp(shared) {
         })
 
         /* ================= drawer ================= */
-        const drawer = document.getElementById('drawer'),
-          drscrim = document.getElementById('drscrim')
-        const EMPTY = ({icon, title, body, cta}) => `<div class="empty">
-    <span class="ic"><svg width="18" height="18"><use href="#${icon}"/></svg></span>
-    <h4>${title}</h4><p>${body}</p>${cta ? `<div class="cta">${cta}</div>` : ''}</div>`
-
-        const renderCards = () => {
-          /* a draft has no record to describe yet */
-          if (state.mode === 'create') {
-            document.querySelector('.drtab[data-tab=stages] .n').textContent = '0'
-            document.querySelector('[data-panel=stages]').innerHTML = EMPTY({
-              icon: 'i-clock',
-              title: 'Nothing has happened yet',
-              body: 'The log starts the moment you save this invoice. It will show who entered it, who changed it, and every posting or cancellation after that.',
-            })
-            document
-              .querySelectorAll('.cur-name,.cur-badge')
-              .forEach(e => (e.textContent = 'Draft'))
-            return
-          }
-          const list = CARDS.filter(c => c.always || c.id === state.status)
-          document.querySelector('.drtab[data-tab=stages] .n').textContent = list.length
-          const noCard =
-            state.status === 'returned'
-              ? `<div class="drnote">The <b>Returned</b> flag records nothing else \u2014 no user, no date, no reason. Only the flag itself is stored.</div>`
-              : ''
-          document.querySelector('[data-panel=stages]').innerHTML =
-            list
-              .map(
-                c => `
-    <div class="card"><div class="mk"><span class="dot"><svg width="11" height="11"><use href="#i-check"/></svg></span></div>
-      <div class="main"><div class="t">${c.name}${c.badge ? `<span class="badge gray">${c.badge}</span>` : ''}</div>
-        <div class="grid" style="grid-template-columns:repeat(${Math.min(c.rows.length, 4)},1fr)">
-          ${c.rows.map(r => `<div><div class="k">${r[0]}</div><div>${String(r[1]).replace('__PRINTS__', state.prints)}</div></div>`).join('')}</div>
-        ${c.link ? `<a class="lnk" href="#">${c.link} →</a>` : ''}</div></div>`
-              )
-              .join('') +
-            noCard +
-            `<div class="drnote">Only the cards this invoice actually has are listed, each showing its most recent state.</div>`
-          document
-            .querySelectorAll('.cur-name,.cur-badge')
-            .forEach(
-              e =>
-                (e.textContent = state.mode === 'create' ? 'Draft' : STATUSES[state.status].short)
-            )
-        }
-        const renderActivity = () => {
-          /* the live product returns nothing here on most invoices — design for that first */
-          if (state.mode === 'create' || !ACTIVITY.length || state.emptyFlow) {
-            document.querySelector('.drtab[data-tab=activity] .n').textContent = '0'
-            document.querySelector('[data-panel=activity]').innerHTML = EMPTY({
-              icon: 'i-chat',
-              title:
-                state.mode === 'create'
-                  ? 'No conversation yet'
-                  : 'Nothing has been written about this invoice',
-              body:
-                state.mode === 'create'
-                  ? 'Once the invoice is saved, anyone who works on it can leave a note here, attach a file, or mention a colleague.'
-                  : 'Notes and messages left here stay with the invoice, so the next person sees why it looks the way it does.',
-              cta:
-                state.mode === 'create'
-                  ? ''
-                  : '<button class="lbtn out" id="first-note">Write the first note</button>',
-            })
-            return
-          }
-          document.querySelector('.drtab[data-tab=activity] .n').textContent = String(
-            ACTIVITY.reduce((n, g) => n + g.items.length, 0)
-          )
-          document.querySelector('[data-panel=activity]').innerHTML = ACTIVITY.map(
-            g =>
-              `<div class="daysep">${g.day}</div>` +
-              g.items
-                .map(it => {
-                  const chips = it.chips
-                    ? `<div class="chips">${it.chips.map(c => `<span class="chip"><svg width="13" height="13"><use href="#${c.i}"/></svg> ${c.t}</span>`).join('')}</div>`
-                    : ''
-                  const chg = it.chg
-                    ? `<div class="chg">${it.chg.l} <s>${it.chg.f}</s> → <b>${it.chg.t}</b></div>`
-                    : ''
-                  const notes = it.notes
-                    ? `<div class="tg"><button class="ntg" aria-expanded="false"><svg width="13" height="13"><use href="#i-caret"/></svg> ${it.notes.length} notes</button></div>
-        <div class="notes">${it.notes
-          .map(
-            n => `<div class="note-i"><span class="av2">${n.ini}</span><div>
-          <div class="who">${n.who} ${n.tag ? `<span class="badge gray">${n.tag}</span>` : ''} <span class="tm">${n.time}</span></div>
-          <div class="txt">${n.txt}</div></div></div>`
-          )
-          .join('')}</div>`
-                    : ''
-                  return `<div class="act"><span class="av ${it.sys ? 'sys' : ''}">${it.sys ? '<svg width="13" height="13"><use href="#i-gear"/></svg>' : it.ini}</span>
-        <div class="main"><div class="line"><b>${it.who}</b> ${it.auto ? '<span class="badge gray">Automatic</span> ' : ''}${it.what}<span class="tm">${it.time}</span></div>
-        ${chg}${chips}${notes}</div></div>`
-                })
-                .join('')
-          ).join('')
-        }
-        const selectTab = name => {
-          document
-            .querySelectorAll('.drtab')
-            .forEach(t => t.setAttribute('aria-selected', String(t.dataset.tab === name)))
-          document
-            .querySelectorAll('[data-panel]')
-            .forEach(p => (p.hidden = p.dataset.panel !== name))
-          document.querySelectorAll('[data-for]').forEach(b => (b.hidden = b.dataset.for !== name))
-        }
-        const openDrawer = tab => {
-          renderCards()
-          renderActivity()
-          drawer.classList.add('open')
-          drscrim.classList.add('open')
-          selectTab(tab || 'stages')
-          trapFocus(drawer)
-        }
-        const closeDrawer = () => {
-          if (drawer.classList.contains('open')) {
-            drawer.classList.remove('open')
-            drscrim.classList.remove('open')
-            releaseFocus()
-          }
-        }
-        document
-          .querySelectorAll('.drtab')
-          .forEach(t => t.addEventListener('click', () => selectTab(t.dataset.tab)))
-        document.addEventListener('click', e => {
-          if (e.target.closest('#first-note')) drawer.querySelector('.drfoot textarea')?.focus()
-        })
-        document.addEventListener('click', e => {
-          const o = e.target.closest('.dr-open')
-          if (o && !o.disabled) {
-            closePop()
-            closeAllMenus()
-            openDrawer(o.dataset.tab)
-          }
-          if (e.target.closest('.dr-close') || e.target === drscrim) closeDrawer()
-          const ntg = e.target.closest('.ntg')
-          if (ntg) {
-            const box = ntg.closest('.main').querySelector('.notes')
-            ntg.setAttribute('aria-expanded', String(box.classList.toggle('open')))
-          }
-          const seg = e.target.closest('.segctl button')
-          if (seg)
-            seg.parentElement
-              .querySelectorAll('button')
-              .forEach(x => x.setAttribute('aria-pressed', String(x === seg)))
-        })
-
+        const {drawer, renderCards, renderActivity, openDrawer, closeDrawer} = createInvoiceActivity({state,trapFocus,releaseFocus,closePop,closeAllMenus})
         /* ================= print dialog ================= */
-        const pscrim = document.getElementById('pscrim')
-        let printSettingsContext = 'Sales Invoice 001000352026126'
-        const updPrint = () => {
-          const dest = document.querySelector('.dcard[aria-pressed=true]').dataset.dest
-          document
-            .querySelectorAll('[data-when]')
-            .forEach(f => (f.hidden = f.dataset.when !== dest))
-          const form = document.getElementById('p-form').value.replace(/^\d+ - /, '')
-          const lang = document.getElementById('p-lang').value.split(' - ')[1]
-          const fmt = document.getElementById('p-fmt').value.replace(/^\d+ - /, '')
-          const cop = document.getElementById('p-cop')?.value || '1'
-          document.querySelector('.dfoot .sum').textContent =
-            dest === 'save'
-              ? `${fmt} · ${form} · ${lang}`
-              : dest === 'send'
-                ? `${document.getElementById('p-chan').value} · ${form} · ${lang}`
-                : `Preview · ${form} · ${lang}`
-        }
-        const currentPrintSettingsContext = () => {
-          if (document.querySelector('.customer-record-view')?.hidden === false)
-            return (
-              document.querySelector('#customer-record-chrome h1')?.textContent.trim() || 'Customer'
-            )
-          if (document.querySelector('.customer-list-view')?.hidden === false)
-            return 'Customers list'
-          if (document.querySelector('.list-view')?.hidden === false) return 'Sales invoices list'
-          return (
-            document.querySelector('.design.active .phead h1')?.textContent.trim() ||
-            'Sales Invoice'
-          )
-        }
-        function openPrintSettings(contextLabel = '') {
-          closeAllMenus()
-          clearInlineError(pscrim.querySelector('.dlg'))
-          printSettingsContext = contextLabel || currentPrintSettingsContext()
-          pscrim.querySelector('.dhd .sub').textContent = printSettingsContext
-          pscrim.classList.add('open')
-          updPrint()
-          trapFocus(pscrim.querySelector('.dlg'))
-        }
-        document.addEventListener('click', e => {
-          if (e.target.closest('.p-open') && !e.target.closest('.p-open').disabled)
-            openPrintSettings()
-          if (e.target.closest('.p-close') || e.target === pscrim) {
-            pscrim.classList.remove('open')
-            releaseFocus()
-          }
-          const dc = e.target.closest('.dcard')
-          if (dc) {
-            dc.parentElement
-              .querySelectorAll('.dcard')
-              .forEach(x => x.setAttribute('aria-pressed', String(x === dc)))
-            updPrint()
-          }
-        })
-        document.querySelector('.dbody').addEventListener('change', updPrint)
-
+        const {pscrim, openPrintSettings, doPrint} = createInvoicePrint({state, trapFocus, releaseFocus, closeAllMenus, runWork, toast, clearInlineError: (...args) => clearInlineError(...args), showInlineError: (...args) => showInlineError(...args), applyState: () => applyState()})
         /* ================= search ================= */
         let sScope = 'all',
           sSel = 0,
@@ -1938,465 +1656,7 @@ export function startLegacyApp(shared) {
         )
 
         /* ================= record dialogs ================= */
-        const rscrim = document.getElementById('rscrim')
-        const ACT_DLG = {
-          Posting: 'posting',
-          'Display Journal Entry': 'journal',
-          'Cancel Document': 'cancel',
-        }
-        const openRDlg = kind => {
-          rscrim.querySelectorAll('.rdlg').forEach(d => {
-            d.hidden = d.dataset.dlg !== kind
-            clearInlineError(d)
-          })
-          rscrim.classList.add('open')
-          trapFocus(rscrim.querySelector('.rdlg:not([hidden])'))
-          const dlg = rscrim.querySelector(`.rdlg[data-dlg="${kind}"]`)
-          if (!dlg) return
-          /* the dialog shows either the operation to perform, or the record of it —
-     never a toggle that re-asks for an intent the user already declared */
-          const done =
-            (kind === 'posting' && state.status === 'posted') ||
-            (kind === 'cancel' && state.status === 'canceled')
-          dlg
-            .querySelectorAll('[data-state]')
-            .forEach(el => (el.hidden = (el.dataset.state === 'done') !== done))
-          const title = dlg.querySelector('.rhd h3')
-          if (kind === 'posting')
-            title.textContent = done ? 'Posting details · invoice 126' : 'Post invoice 126'
-          if (kind === 'cancel')
-            title.textContent = done ? 'Cancellation details · document 126' : 'Cancel document 126'
-          if (kind === 'delete') {
-            const warn = document.getElementById('del-unsaved')
-            if (warn) warn.hidden = !state.dirty
-          }
-          if (kind === 'cancel' && !done) {
-            const t = document.getElementById('cf-dsc')
-            if (t) t.value = ''
-          }
-          if (kind === 'posting' && !done) {
-            const t = document.getElementById('pf-dsc')
-            if (t) t.value = ''
-          }
-          ;['cf-rev', 'pf-rev'].forEach(id => {
-            const t = document.getElementById(id)
-            if (t) t.value = ''
-          })
-          validateOps()
-        }
-        const closeRDlg = () => {
-          if (rscrim.classList.contains('open')) {
-            rscrim.classList.remove('open')
-            releaseFocus()
-          }
-        }
-        /* every destructive or reversing step needs its reason before it can run */
-        const validateOps = () => {
-          const pair = [
-            ['cf-dsc', 'cf-save'],
-            ['cf-rev', 'cf-restore'],
-            ['pf-rev', 'pf-unpost'],
-          ]
-          pair.forEach(([src, btn]) => {
-            const t = document.getElementById(src),
-              b = document.getElementById(btn)
-            if (t && b) b.disabled = !t.value.trim()
-          })
-        }
-        document.addEventListener('input', e => {
-          if (['cf-dsc', 'cf-rev', 'pf-rev'].includes(e.target.id)) validateOps()
-        })
-        document.addEventListener('click', e => {
-          const act = e.target.closest('[data-act]')
-          if (act && !act.disabled && ACT_DLG[act.dataset.act]) {
-            closeAllMenus()
-            closeSearch()
-            openRDlg(ACT_DLG[act.dataset.act])
-            return
-          }
-          if (e.target.closest('.r-close') || e.target === rscrim) closeRDlg()
-        })
-
-        /* ================= shell services: focus, toasts, async work =================
-   Everything that takes time has three visible states — working, done, failed —
-   and every overlay gives the keyboard back where it found it.                */
-
-
-        /* ---- failure shown inside the dialog, so nothing typed is lost ---- */
-        const showInlineError = (dlg, {title, body, link}) => {
-          clearInlineError(dlg)
-          const box = document.createElement('div')
-          box.className = 'inlineerr'
-          box.setAttribute('role', 'alert')
-          box.innerHTML = `<svg width="15" height="15"><use href="#i-warn"/></svg>
-    <span><b>${title}</b>${body}${link ? ` <a href="#">${link}</a>` : ''}</span>`
-          const body_ = dlg.querySelector('.rbody, .dbody')
-          body_.prepend(box)
-          box.scrollIntoView({block: 'nearest'})
-        }
-        const clearInlineError = dlg => dlg?.querySelectorAll('.inlineerr').forEach(b => b.remove())
-
-        /* Invoice line validation — every column with a visible header gets a real
-           check here, so an invalid cell can be marked and focused, not just
-           reported as an abstract count. Item and Quantity are the two columns a
-           line cannot be posted without. */
-        function validateInvoiceLines() {
-          const rows = [...document.querySelectorAll('#items-body tr[data-item-row]')]
-          const problems = []
-          rows.forEach((row, index) => {
-            const itemField = row.querySelector('[aria-label="Item"]')
-            const qtyField = row.querySelector('[aria-label="Quantity"]')
-            const rowInvalid = []
-            if (itemField && !itemField.value.trim())
-              rowInvalid.push([itemField, t('Item is required.', 'Item is required.')])
-            if (qtyField && (!qtyField.value || Number(qtyField.value) <= 0))
-              rowInvalid.push([qtyField, t('Quantity is required.', 'Quantity is required.')])
-            rowInvalid.forEach(([field, message]) => {
-              field.setAttribute('aria-invalid', 'true')
-              const lineLabel = appLocale === 'ar' ? `السطر ${index + 1}` : `Line ${index + 1}`
-              problems.push({field, message: `${lineLabel}: ${message}`})
-            })
-          })
-          return problems
-        }
-
-        function clearInvoiceLineValidation() {
-          document
-            .querySelectorAll('#items-body [aria-invalid="true"]')
-            .forEach(field => field.removeAttribute('aria-invalid'))
-          const summary = document.getElementById('items-error-summary')
-          if (summary) {
-            summary.hidden = true
-            summary.innerHTML = ''
-          }
-        }
-
-        function showInvoiceLineErrors(problems) {
-          const summary = document.getElementById('items-error-summary')
-          if (!summary) return
-          summary.hidden = false
-          const headline =
-            appLocale === 'ar'
-              ? `${problems.length} ${t(problems.length === 1 ? 'required field needs attention' : 'required fields need attention')}`
-              : `${problems.length} required ${problems.length === 1 ? 'field needs' : 'fields need'} attention`
-          summary.innerHTML = `<svg width="16" height="16" aria-hidden="true"><use href="#i-warn"/></svg><span><b>${encodeHtml(headline)}</b><ul>${problems.map(p => `<li>${encodeHtml(p.message)}</li>`).join('')}</ul></span>`
-          const first = problems[0].field
-          first.scrollIntoView({block: 'center'})
-          first.focus()
-        }
-
-        /* clear a cell's invalid state as soon as it has a value, instead of making
-           the user save again just to see the marker go away */
-        document.addEventListener('input', event => {
-          const field = event.target.closest('#items-body [aria-invalid="true"]')
-          if (!field) return
-          const hasValue =
-            field.tagName === 'INPUT' && field.type === 'number'
-              ? Number(field.value) > 0
-              : Boolean(field.value.trim())
-          if (!hasValue) return
-          field.removeAttribute('aria-invalid')
-          if (!document.querySelector('#items-body [aria-invalid="true"]'))
-            clearInvoiceLineValidation()
-        })
-
-        /* ================= the three operations that take time ================= */
-        let nextInvoiceNo = 129
-
-        /* Save — the moment a draft becomes a record with a number */
-        const doSave = async (btn, after) => {
-          if (blocked('Save')) return
-          const creating = state.mode === 'create'
-          const lineProblems = document.getElementById('items-body') ? validateInvoiceLines() : []
-          if (lineProblems.length) {
-            showInvoiceLineErrors(lineProblems)
-            toast({
-              tone: 'bad',
-              title: 'Could not save the invoice',
-              body: `${lineProblems.length} line ${lineProblems.length === 1 ? 'field needs' : 'fields need'} attention before saving.`,
-            })
-            return
-          }
-          clearInvoiceLineValidation()
-          const ok = await runWork(btn, creating ? 'Saving…' : 'Saving…')
-          if (!ok) {
-            toast({
-              tone: 'bad',
-              title: 'Could not save the invoice',
-              body: 'The warehouse rejected the quantity on line 1. Fix it and try again.',
-            })
-            return
-          }
-          const no = nextInvoiceNo
-          if (creating) {
-            nextInvoiceNo++
-            modeSel.value = 'record'
-            applyMode('record')
-          } else {
-            state.dirty = false
-            document.getElementById('dirty').checked = false
-            if (state.mode === 'edit') {
-              modeSel.value = 'record'
-              applyMode('record')
-            } else applyState()
-          }
-          toast({
-            tone: 'ok',
-            title: creating ? `Saved as invoice ${no}` : 'Changes saved',
-            body: creating ? 'It now has a number and a place in the list.' : '',
-            action: creating ? 'Open it' : null,
-          })
-          after && after()
-        }
-
-        /* Posting — the one that can genuinely fail, and says how */
-        const doPost = async btn => {
-          const dlg = rscrim.querySelector('.rdlg[data-dlg=posting]')
-          const ok = await runWork(btn, 'Posting…', 1100)
-          if (!ok) {
-            showInlineError(dlg, {
-              title: 'The journal entry did not balance',
-              body: 'Debit 29,780.00 against credit 20,000.00. Nothing was posted and the invoice is unchanged.',
-              link: 'Display Journal Entry ( Sales Invoice - Unbalanced )',
-            })
-            return
-          }
-          closeRDlg()
-          document.getElementById('st').value = 'posted'
-          state.status = 'posted'
-          applyState()
-          toast({
-            tone: 'ok',
-            title: 'Invoice 126 posted',
-            body: 'Journal entry 4521 was created.',
-            action: 'Display Journal Entry',
-            onAction: () => openRDlg('journal'),
-          })
-        }
-
-        /* Cancel — destructive, so the confirmation carries the reason */
-        const doCancel = async btn => {
-          const dlg = rscrim.querySelector('.rdlg[data-dlg=cancel]')
-          const ok = await runWork(btn, 'Canceling…')
-          if (!ok) {
-            showInlineError(dlg, {
-              title: 'Could not cancel the document',
-              body: 'A receipt voucher is already linked to this invoice. Cancel the voucher first.',
-            })
-            return
-          }
-          closeRDlg()
-          document.getElementById('st').value = 'canceled'
-          state.status = 'canceled'
-          applyState()
-          toast({
-            tone: 'ok',
-            title: 'Document 126 canceled',
-            body: 'Your reason is kept in the Cancellation Data card.',
-            action: 'See the record',
-            onAction: () => openRDlg('cancel'),
-          })
-        }
-
-        /* Print — and the count the product already stores */
-        const doPrint = async btn => {
-          const dest = document.querySelector('.dcard[aria-pressed=true]').dataset.dest
-          const ok = await runWork(
-            btn,
-            dest === 'save' ? 'Preparing the file…' : 'Preparing…',
-            1000
-          )
-          const dlg = pscrim.querySelector('.dlg')
-          if (!ok) {
-            showInlineError(dlg, {
-              title: 'The print form could not be generated',
-              body: 'Form 3 - Arabic\\English Form is missing a template for this document type.',
-            })
-            return
-          }
-          pscrim.classList.remove('open')
-          releaseFocus()
-          const invoicePrint = printSettingsContext.startsWith('Sales Invoice')
-          if (invoicePrint) {
-            state.prints++
-            applyState()
-          }
-          toast({
-            tone: 'ok',
-            title:
-              dest === 'save' ? 'File ready' : dest === 'send' ? 'Sent' : 'Opened in the viewer',
-            body: invoicePrint
-              ? `This invoice has now been printed ${state.prints} times.`
-              : `${printSettingsContext} is ready.`,
-          })
-        }
-
-        /* wire the primary buttons of each dialog */
-        document.addEventListener('click', e => {
-          const b = e.target.closest('button')
-          if (!b || b.disabled) return
-          const label = b.textContent.trim()
-          if (b.classList.contains('okfill') && label.startsWith('Post')) {
-            doPost(b)
-            return
-          }
-          if (b.id === 'cf-save') {
-            doCancel(b)
-            return
-          }
-          if (b.id === 'del-go') {
-            doDelete(b)
-            return
-          }
-          if (b.closest('.dfoot') && label === 'Apply') {
-            doPrint(b)
-            return
-          }
-          if (b.dataset.act === 'Save') {
-            doSave(b)
-            return
-          }
-          if (b.dataset.save === 'new') {
-            doSave(b, () => {
-              modeSel.value = 'create'
-              applyMode('create')
-            })
-            return
-          }
-          if (b.dataset.save === 'close') {
-            doSave(b)
-            return
-          }
-        })
-
-        /* ---- nothing on this shell is a dead click ---- */
-        const startCreate = why => {
-          const go = () => {
-            modeSel.value = 'create'
-            applyMode('create')
-            toast({
-              tone: 'ok',
-              title: why || 'New invoice started',
-              body: 'It takes its number when you save it.',
-            })
-          }
-          if (atRisk()) askGuard(go, why ? 'copy from another invoice' : 'start another invoice')
-          else go()
-        }
-        const NOT_BUILT = {
-          Reports: 'Reports open the reporting screen in the real product.',
-          'Lock Screen': 'Locking the screen is part of the session, not this prototype.',
-          'Screen Parameters': 'Screen parameters open the configuration screen.',
-          Clear: 'Clearing empties the form without leaving the record.',
-        }
-        /* shared so the command row and the search palette trigger the same behaviour */
-        const runAction = act => {
-          if (act === 'New') {
-            startCreate()
-            return
-          }
-          if (act === 'Add From') {
-            startCreate('Copied from another invoice')
-            return
-          }
-          if (act === 'New in new tab') {
-            closeAllMenus()
-            window.open(location.href, '_blank')
-            toast({
-              tone: 'ok',
-              title: 'Opened in a new tab',
-              body: 'This invoice stays exactly as it was here.',
-            })
-            return
-          }
-          if (act === 'Search') {
-            closeAllMenus()
-            openSearch()
-            return
-          }
-          if (act === 'Receipt Voucher' || act === 'Sales Return') {
-            closeAllMenus()
-            toast({
-              tone: 'ok',
-              title: `${act} started from invoice 126`,
-              body: 'The new document opens with the invoice already filled in.',
-            })
-            return
-          }
-          if (NOT_BUILT[act]) {
-            closeAllMenus()
-            toast({tone: 'ok', title: `${act} is out of scope here`, body: NOT_BUILT[act]})
-            return
-          }
-          if (act === 'Modify') {
-            modeSel.value = 'edit'
-            applyMode('edit')
-            toast({
-              tone: 'ok',
-              title: 'You can edit this invoice now',
-              body: 'Change something in the form, then Save. Undo leaves it as it was.',
-            })
-            return
-          }
-          if (act === 'Delete') {
-            openRDlg('delete')
-            return
-          }
-          if (act === 'Undo' && state.mode === 'edit') {
-            state.dirty = false
-            document.getElementById('dirty').checked = false
-            modeSel.value = 'record'
-            applyMode('record')
-            toast({
-              tone: 'ok',
-              title: 'Changes discarded',
-              body: 'The invoice is back to its saved version.',
-            })
-          }
-          if (act === 'Undo' && state.mode === 'create') {
-            state.dirty = false
-            document.getElementById('dirty').checked = false
-            modeSel.value = 'record'
-            applyMode('record')
-            toast({
-              tone: 'ok',
-              title: 'New invoice discarded',
-              body: 'Nothing was saved, so nothing was kept.',
-            })
-          }
-        }
-        document.addEventListener('click', e => {
-          const b = e.target.closest('[data-act]')
-          if (!b || b.disabled) return
-          runAction(b.dataset.act)
-        })
-
-        /* ---- deleting asks first, and says what cannot be undone ---- */
-        const doDelete = async btn => {
-          const dlg = rscrim.querySelector('.rdlg[data-dlg=delete]')
-          const ok = await runWork(btn, 'Deleting…')
-          if (!ok) {
-            showInlineError(dlg, {
-              title: 'Could not delete the invoice',
-              body: 'A stock movement is already linked to it. Cancel the movement first.',
-            })
-            return
-          }
-          closeRDlg()
-          const hadEdits = state.dirty
-          state.dirty = false
-          document.getElementById('dirty').checked = false
-          modeSel.value = 'record'
-          applyMode('record')
-          toast({
-            tone: 'ok',
-            title: 'Invoice 126 deleted',
-            body: hadEdits
-              ? 'It no longer appears in the list, and the unsaved changes went with it.'
-              : 'It no longer appears in the list.',
-          })
-        }
-
+        const {requestLeave: requestInvoiceLeave, rscrim, openRDlg, closeRDlg, showInlineError, clearInlineError, doSave, runAction, applyState, gscrim, atRisk, askGuard, runGuarded, modeSel, applyMode} = createInvoiceOperations({t, trapFocus, state, releaseFocus, closeAllMenus, closeSearch, getLocale, encodeHtml, blocked, toast, runWork, doPrint, openSearch: (...args) => openSearch(...args), STATUSES, CHAIN, reached: (...args) => reached(...args), editable, LOCK_COPY, pop, renderPop: (...args) => renderPop(...args), drawer, renderCards, renderSearch: (...args) => renderSearch(...args)})
         /* ================= keyboard: the shortcuts we advertise actually run ================= */
         const kscrim = document.getElementById('kscrim')
         const openKbd = () => {
@@ -3483,353 +2743,6 @@ export function startLegacyApp(shared) {
         })
 
         /* ================= apply state ================= */
-        const applyState = () => {
-          const creating = state.mode === 'create'
-          const st = state.status,
-            info = STATUSES[st]
-
-          /* identity — a new invoice has no number to show. Skip anything inside the
-     email view or list view: they reuse .phead/.tline/.crumbs for a consistent
-     look but their breadcrumb and title are their own, not the invoice's. */
-          document.querySelectorAll('.d1 .tline h1, .d2 .idty h1').forEach(h => {
-            if (
-              h.closest(
-                '.email-view, .list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view'
-              )
-            )
-              return
-            h.textContent = creating ? 'New sales invoice' : `Sales Invoice ${state.docNo}`
-          })
-          document
-            .querySelectorAll('.d3 .otitle h1')
-            .forEach(
-              h =>
-                (h.textContent = creating
-                  ? 'New sales invoice'
-                  : `Sales Invoice ${state.docNo} · 001000352026126`)
-            )
-          document
-            .querySelectorAll('.d2 .idty .cr')
-            .forEach(
-              c =>
-                (c.textContent = creating
-                  ? 'Home › Sales Invoice › New'
-                  : 'Home › Sales Invoice › All')
-            )
-          document.querySelectorAll('.crumbs [aria-current=page]').forEach(c => {
-            if (
-              c.closest(
-                '.d2, .email-view, .list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view'
-              )
-            )
-              return
-            c.textContent = creating ? t('New') : t('All')
-          })
-
-          /* status chip — a draft is not the same thing as a saved invoice with no flags */
-          document.querySelectorAll('.stpill').forEach(p => {
-            p.dataset.s = creating ? 'draft' : st
-            p.querySelector('.nm').textContent = creating ? 'Draft — not saved yet' : info.short
-            const n = CHAIN.filter(c => reached(c.id)).length
-            p.querySelector('.segs').innerHTML = creating
-              ? ''
-              : CHAIN.map(c => `<i class="seg${reached(c.id) ? ' on' : ''}"></i>`).join('')
-            p.querySelector('.cnt').textContent = creating ? '' : `${n} of ${CHAIN.length}`
-          })
-
-          /* the record navigator stays where it is. A draft has no position in the list,
-     so the box is blank — and using it asks about the unsaved work first. */
-          document.querySelectorAll('.pager').forEach(p => {
-            if (
-              p.closest(
-                '.customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view'
-              )
-            )
-              return
-            p.hidden = false
-            const inp = p.querySelector('.pg-i')
-            inp.readOnly = creating
-            inp.value = creating ? '' : inp.dataset.last || '1'
-            inp.placeholder = creating ? '—' : ''
-            inp.title = creating ? 'This invoice has no number until you save it' : ''
-            /* keep every arrow clickable in create mode so the guard can catch it */
-            p.querySelectorAll('button').forEach(b => {
-              if (creating) b.disabled = false
-            })
-          })
-          document.querySelectorAll('.backlist').forEach(b => (b.hidden = true))
-          document.querySelectorAll('.pos').forEach(el => {
-            if (
-              el.closest(
-                '.list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view'
-              )
-            )
-              return
-            const inp = el.closest('.design')?.querySelector('.pg-i')
-            el.textContent = creating
-              ? t(
-                  'Not saved yet — this invoice takes its number and its place in the list when you save'
-                )
-              : `${t('Record', 'Record')} ${inp ? inp.value : 1} ${t('of', 'of')} 125`
-          })
-
-          /* the invoice record and list canvases now hold real markup, so the old
-     click-anywhere-to-dirty stand-in (which overwrote a canvas's textContent)
-     must not touch those or the separately managed Customer views. */
-          document.querySelectorAll('.canvas').forEach(c => {
-            if (
-              c.closest(
-                '.list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view'
-              )
-            )
-              return
-            if (c.querySelector('[data-field]')) return
-            const live = state.mode === 'edit' || state.mode === 'create'
-            c.style.cursor = live ? 'text' : ''
-            if (!c.dataset.wired) {
-              c.dataset.wired = '1'
-              c.addEventListener('click', () => {
-                if (state.mode !== 'edit' && state.mode !== 'create') return
-                if (state.dirty && state.missing === 0) return
-                state.dirty = true
-                document.getElementById('dirty').checked = true
-                /* standing in for a field edit also stands in for filling the required ones */
-                if (state.mode === 'create') state.missing = 0
-                applyState()
-                toast({tone: 'ok', title: 'Field changed', body: 'Save and Undo are live now.'})
-              })
-            }
-            const base = c.dataset.base || (c.dataset.base = c.textContent.trim())
-            c.textContent = live ? base + ' — click here to stand in for editing a field' : base
-          })
-          /* Record Concept A's real fields: read-only outside an editable status,
-     same rule the rest of the record's chrome already follows via editable(state) */
-          document.querySelectorAll('.canvas [data-field]').forEach(el => {
-            el.disabled = !editable(state)
-          })
-          document.querySelectorAll('.canvas [data-field-action]').forEach(el => {
-            el.disabled = !editable(state)
-          })
-
-          /* which record actions belong on screen right now */
-          const editing = state.mode === 'edit'
-          const showSave = creating || editing
-          document.querySelectorAll('[data-act="Modify"]').forEach(b => (b.hidden = showSave))
-          /* exactly one primary at a time: Modify while reading, Save while writing.
-     Delete is destructive, so it never carries the primary colour. */
-          document.querySelectorAll('[data-act="Delete"]').forEach(b => (b.hidden = creating))
-          document
-            .querySelectorAll('.savewrap, [data-act="Undo"], .reqchip')
-            .forEach(el => (el.hidden = !showSave))
-          document
-            .querySelectorAll('.d3 .fbar [data-act="Save"], .d3 .fbar [data-act="Undo"]')
-            .forEach(b => (b.hidden = false))
-
-          /* save split button and the count of what is still missing */
-          document.querySelectorAll('.savewrap .car').forEach(c => {
-            c.hidden = !creating
-            c.disabled = !!blocked('Save')
-          })
-          document.querySelectorAll('.reqchip').forEach(ch => {
-            ch.hidden = !creating
-            ch.classList.toggle('ok', state.missing === 0)
-            ch.textContent = state.missing
-              ? `${state.missing} required ${state.missing === 1 ? 'field' : 'fields'} still empty`
-              : 'All required fields filled'
-          })
-          /* every labelled action */
-          document.querySelectorAll('[data-act]').forEach(b => {
-            const why = blocked(b.dataset.act)
-            b.disabled = !!why
-            b.title = why || ''
-          })
-          /* design 4 mini chain */
-          document.querySelectorAll('.cp-mini-mount').forEach(m => {
-            m.innerHTML = CHAIN.map(c => {
-              const on = reached(c.id),
-                cur = !creating && c.id === st
-              return `<div class="cp-mini ${on ? (cur ? 'cur' : 'done') : 'off'}"><span class="cp-dot">${on && !cur ? '<svg width="9" height="9"><use href="#i-check"/></svg>' : ''}</span>
-        <div><div class="n">${c.name}</div><div class="d">${on ? c.when || '—' : creating ? 'Not yet' : 'Not recorded'}</div></div></div>`
-            }).join('')
-          })
-          /* a locked record should say why, not just look grey — every status has its
-     own copy, whether it's genuinely locked (posted/canceled/inactive) or just
-     not yet switched into Edit mode (open/pending/returned) */
-          document.querySelectorAll('.lockbanner').forEach(b => {
-            const locked = !(creating || (editing && editable(state)))
-            b.hidden = !locked
-            if (locked) b.querySelector('span').textContent = LOCK_COPY[st]
-          })
-
-          /* design 4 panel: name the section honestly on a draft */
-          document.querySelectorAll('.d4 .cp-sec h4').forEach(h => {
-            if (!h.dataset.full) h.dataset.full = h.textContent
-            if (h.dataset.full === 'Status')
-              h.textContent = creating ? 'Status — nothing recorded yet' : 'Status'
-          })
-
-          /* design 3 footer bar + key facts — a draft has nothing in them yet */
-          document
-            .querySelectorAll('.d3 .fbar')
-            .forEach(f => f.classList.toggle('show', state.dirty || creating))
-          document.querySelectorAll('.d3 .facts .f b').forEach((b, i) => {
-            if (!b.dataset.full) b.dataset.full = b.textContent
-            b.textContent = creating ? '—' : b.dataset.full
-            b.style.color = creating ? 'var(--faint)' : ''
-          })
-          document.querySelectorAll('.pay-fact').forEach(f => {
-            f.dataset.full = state.pay === 'credit' ? 'Credit (آجل)' : 'Cash (نقد)'
-            f.textContent = creating ? '—' : f.dataset.full
-          })
-          /* design 2 split button primary follows what is available */
-          document.querySelectorAll('.d2 .genbtn .main').forEach(b => {
-            const rvOk = !blocked('Receipt Voucher')
-            b.dataset.act = rvOk ? 'Receipt Voucher' : 'Sales Return'
-            b.lastChild.textContent = ' ' + b.dataset.act
-            const why = blocked(b.dataset.act)
-            b.disabled = !!why
-            b.title = why || ''
-          })
-          if (pop.classList.contains('open')) renderPop()
-          if (drawer.classList.contains('open')) renderCards()
-          if (document.querySelector('.spanel.open')) renderSearch()
-        }
-
-        /* ========== unsaved-work guard ========== */
-        const gscrim = document.getElementById('gscrim')
-        let guardAfter = null
-        const atRisk = () => state.mode === 'create' || (state.mode === 'edit' && state.dirty)
-        const askGuard = (whatNext, label) => {
-          guardAfter = whatNext
-          setTimeout(() => trapFocus(gscrim.querySelector('.guard')), 0)
-          document.getElementById('g-msg').textContent =
-            state.mode === 'create'
-              ? 'This invoice has never been saved. It gets its number only when you save it.'
-              : 'This invoice has changes that were never saved.'
-          document.getElementById('g-what').textContent = label
-            ? `You were about to: ${label}.`
-            : ''
-          gscrim.classList.add('open')
-        }
-        const runGuarded = fn => {
-          if (atRisk()) askGuard(fn, null)
-          else fn()
-        }
-        document.getElementById('g-stay').onclick = () => {
-          gscrim.classList.remove('open')
-          guardAfter = null
-          releaseFocus()
-        }
-        document.getElementById('g-newtab').onclick = () => {
-          window.open(location.href, '_blank')
-          gscrim.classList.remove('open')
-          guardAfter = null
-          releaseFocus()
-          toast({
-            tone: 'ok',
-            title: 'Opened in a new tab',
-            body: 'This invoice stays exactly as it was here.',
-          })
-        }
-        document.getElementById('g-discard').onclick = () => {
-          gscrim.classList.remove('open')
-          releaseFocus()
-          const f = guardAfter
-          guardAfter = null
-          if (f) f()
-          else if (state.mode === 'create') {
-            modeSel.value = 'record'
-            applyMode('record')
-          } else {
-            state.dirty = false
-            document.getElementById('dirty').checked = false
-            applyState()
-          }
-        }
-        document.getElementById('g-save').onclick = () => {
-          gscrim.classList.remove('open')
-          releaseFocus()
-          const f = guardAfter
-          guardAfter = null
-          modeSel.value = 'record'
-          applyMode('record')
-          f && f()
-        }
-        gscrim.addEventListener('click', e => {
-          if (e.target === gscrim) document.getElementById('g-stay').click()
-        })
-
-        /* anything that would walk away from unsaved work asks first */
-        document.addEventListener(
-          'click',
-          e => {
-            const nav = e.target.closest('.pager button, .backlist')
-            if (nav && atRisk()) {
-              e.preventDefault()
-              e.stopPropagation()
-              askGuard(
-                null,
-                nav.classList.contains('backlist')
-                  ? 'go back to the invoice list'
-                  : 'move to another record'
-              )
-              return
-            }
-            const nw = e.target.closest('[data-act="New"]')
-            if (nw && !nw.disabled && atRisk()) {
-              e.preventDefault()
-              e.stopPropagation()
-              askGuard(null, 'start another invoice')
-            }
-          },
-          true
-        )
-
-        const modeSel = document.getElementById('mode')
-        const applyMode = m => {
-          state.mode = m
-          /* every header field in this template already carries a value, so there is
-             no real "still empty" header state to simulate — Save's real gate is the
-             line-item validation that runs when Save is actually clicked. */
-          state.missing = 0
-          /* only an editable document can be in edit mode */
-          if (m === 'edit' && !editable(state)) {
-            state.status = 'open'
-            document.getElementById('st').value = 'open'
-          }
-          if (m === 'record') state.dirty = false
-          document.getElementById('dirty').checked = state.dirty
-          document.getElementById('st').disabled = m === 'create'
-          applyState()
-        }
-        modeSel.addEventListener('change', e => {
-          const next = e.target.value
-          /* leaving a draft or an edit with unsaved work is the same risk, whatever route you take */
-          if (state.mode !== next && atRisk()) {
-            e.target.value = state.mode
-            askGuard(
-              () => {
-                modeSel.value = next
-                applyMode(next)
-              },
-              next === 'create' ? 'start a new invoice' : 'leave this invoice'
-            )
-            return
-          }
-          applyMode(next)
-        })
-        document.getElementById('st').addEventListener('change', e => {
-          state.status = e.target.value
-          applyState()
-        })
-        document.getElementById('pay').addEventListener('change', e => {
-          state.pay = e.target.value
-          applyState()
-        })
-        document.getElementById('dirty').addEventListener('change', e => {
-          state.dirty = e.target.checked
-          applyState()
-        })
         const systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)')
         const systemContrastQuery = window.matchMedia('(prefers-contrast: more)')
         const highContrastToggle = document.getElementById('high-contrast')
@@ -4083,15 +2996,9 @@ export function startLegacyApp(shared) {
 
         /* ================= Sales Invoice List — concept rendering ================= */
 
-        const geoState = {
-          code: 'CAI',
-          mode: 'view',
-          expanded: new Set(['EG', 'CAI']),
-          hierarchyView: 'tree',
-          treeQuery: '',
-          flowScale: 1,
-        }
-        const geoFlowContentSize = {width: 800, height: 800}
+        const geography = createGeography({root: document.querySelector('.geo-record-view'), getList: () => dataListInstances.geo, t, dataListIcon: (...args) => dataListIcon(...args), trapFocus, releaseFocus, toast, showContentView, renderGeoList, openNewDataListRecord, openPrintSettings, openAdvancedSearch})
+        const {renderGeoRecord, openGeoRecord, closeGeoParentPicker, closeGeoHierarchyDialog} = geography
+
 
         // persistCustomFilters/loadCustomFilters — thin delegation to the
         // shared storage contract (concepts/app/components/data-list/model.js's
@@ -5922,162 +4829,29 @@ export function startLegacyApp(shared) {
           return `<div class="data-filter-modal-row">${presetSelect}${clearButton}</div>`
         }
 
-        const geoParentPickerState = {view: 'tree', expanded: new Set(), excluded: new Set()}
 
-        function renderGeoParentPickerBranch(parentCode = '', level = 1) {
-          return GEO_ROWS.filter(row => row.parentCode === parentCode)
-            .map(row => {
-              const hasChildren = GEO_ROWS.some(child => child.parentCode === row.code)
-              const expanded = geoParentPickerState.expanded.has(row.code)
-              const disabled = geoParentPickerState.excluded.has(row.code)
-              const children =
-                hasChildren && expanded
-                  ? `<div class="geo-tree-children" role="group">${renderGeoParentPickerBranch(row.code, level + 1)}</div>`
-                  : ''
-              const chevronTitle = hasChildren
-                ? (expanded ? 'Collapse' : 'Expand') + ` ${row.name}`
-                : ''
-              const chevron = hasChildren
-                ? `<button type="button" class="geo-parent-picker-chevron" data-geo-parent-toggle="${encodeHtml(row.code)}" aria-expanded="${expanded}" aria-label="${encodeHtml(chevronTitle)}" title="${encodeHtml(chevronTitle)}">${dataListIcon('i-caret', 11).replace('<svg', '<svg class="geo-node-chevron"')}</button>`
-                : '<span aria-hidden="true" style="width:11px"></span>'
-              return `<div class="geo-tree-branch"><span class="geo-tree-node" role="treeitem" aria-level="${level}"${hasChildren ? ` aria-expanded="${expanded}"` : ''}>${chevron}<button type="button" class="geo-parent-picker-row" data-geo-parent-pick="${encodeHtml(row.code)}"${disabled ? ' disabled aria-disabled="true" title="Cannot choose a location’s own descendant as its parent"' : ''}><span class="geo-node-copy"><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button></span>${children}</div>`
-            })
-            .join('')
-        }
 
-        function renderGeoParentPickerTree() {
-          const tree = document.getElementById('geo-parent-picker-tree')
-          tree.innerHTML =
-            renderGeoParentPickerBranch() ||
-            `<div class="geo-hierarchy-empty">No locations available.</div>`
-        }
 
-        function renderGeoParentPickerFlow() {
-          const canvas = document.getElementById('geo-parent-picker-flow-canvas')
-          if (!canvas) return
-          const nodeWidth = 156
-          const nodeHeight = 58
-          const slotWidth = 190
-          const levelHeight = 164
-          const maxLevel = GEO_ROWS.reduce((max, row) => Math.max(max, row.level), 1)
-          const {positions, slotCount} = layoutGeoFlowPositions(
-            nodeWidth,
-            nodeHeight,
-            slotWidth,
-            levelHeight
-          )
-          const width = Math.max(900, slotCount * slotWidth)
-          const height = Math.max(500, 24 + maxLevel * levelHeight + nodeHeight + 24)
-          const connectors = GEO_ROWS.filter(row => row.parentCode)
-            .map(row => {
-              const parent = positions.get(row.parentCode)
-              const child = positions.get(row.code)
-              if (!parent || !child) return ''
-              const fromX = parent.x + nodeWidth / 2
-              const fromY = parent.y + nodeHeight
-              const toX = child.x + nodeWidth / 2
-              const toY = child.y
-              const middleY = Math.round((fromY + toY) / 2)
-              return `<path d="M ${fromX} ${fromY} C ${fromX} ${middleY}, ${toX} ${middleY}, ${toX} ${toY}" />`
-            })
-            .join('')
-          const nodes = GEO_ROWS.map(row => {
-            const position = positions.get(row.code)
-            const disabled = geoParentPickerState.excluded.has(row.code)
-            return `<button class="geo-flow-node" type="button" data-geo-parent-pick="${encodeHtml(row.code)}"${disabled ? ' disabled aria-disabled="true" title="Cannot choose a location’s own descendant as its parent"' : ''} style="left:${position.x}px;top:${position.y}px" aria-label="Choose ${encodeHtml(row.name)} as parent">${geoLocationIcon(row.type, 16)}<span><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>`
-          }).join('')
-          canvas.style.width = `${width}px`
-          canvas.style.height = `${height}px`
-          canvas.innerHTML = `<div class="geo-flow-surface" style="--geo-flow-scale:1;width:${width}px;height:${height}px"><svg class="geo-flow-connectors" style="width:${width}px;height:${height}px" viewBox="0 0 ${width} ${height}" aria-hidden="true">${connectors}</svg>${nodes}</div>`
-        }
 
-        function setGeoParentPickerView(view) {
-          if (!['tree', 'flow'].includes(view)) return
-          geoParentPickerState.view = view
-          document.querySelectorAll('[data-geo-parent-picker-view]').forEach(tab => {
-            const active = tab.dataset.geoParentPickerView === view
-            tab.setAttribute('aria-selected', String(active))
-          })
-          document.getElementById('geo-parent-picker-tree-pane').hidden = view !== 'tree'
-          document.getElementById('geo-parent-picker-flow-pane').hidden = view !== 'flow'
-          if (view === 'flow') renderGeoParentPickerFlow()
-        }
 
-        let geoHierarchyDialogHome = null
-        let geoHierarchyRefreshHome = null
-        let geoHierarchyTitleHome = null
 
-        function openGeoHierarchyDialog() {
-          const panel = document.getElementById('geo-hierarchy-panel')
-          const mount = document.getElementById('geo-hierarchy-dialog-mount')
-          const refresh = panel?.querySelector('.geo-tree-refresh')
-          const actionsMount = document.getElementById('geo-hierarchy-dialog-actions-mount')
-          const title = panel?.querySelector('.geo-tree-header > div:first-child')
-          const titleMount = document.getElementById('geo-hierarchy-dialog-title-mount')
-          if (!panel || !mount) return
-          geoHierarchyDialogHome = {parent: panel.parentElement, next: panel.nextSibling}
-          mount.appendChild(panel)
-          if (refresh && actionsMount) {
-            geoHierarchyRefreshHome = {parent: refresh.parentElement, next: refresh.nextSibling}
-            actionsMount.appendChild(refresh)
-          }
-          if (title && titleMount) {
-            geoHierarchyTitleHome = {parent: title.parentElement, next: title.nextSibling}
-            titleMount.appendChild(title)
-          }
-          geoHierarchyScrim.classList.add('open')
-          trapFocus(geoHierarchyScrim.querySelector('.customer-modal'))
-        }
 
-        function closeGeoHierarchyDialog() {
-          const panel = document.getElementById('geo-hierarchy-panel')
-          const refresh = document.getElementById(
-            'geo-hierarchy-dialog-actions-mount'
-          )?.firstElementChild
-          if (refresh && geoHierarchyRefreshHome) {
-            geoHierarchyRefreshHome.parent.insertBefore(refresh, geoHierarchyRefreshHome.next)
-          }
-          geoHierarchyRefreshHome = null
-          const title = document.getElementById(
-            'geo-hierarchy-dialog-title-mount'
-          )?.firstElementChild
-          if (title && geoHierarchyTitleHome) {
-            geoHierarchyTitleHome.parent.insertBefore(title, geoHierarchyTitleHome.next)
-          }
-          geoHierarchyTitleHome = null
-          if (panel && geoHierarchyDialogHome) {
-            geoHierarchyDialogHome.parent.insertBefore(panel, geoHierarchyDialogHome.next)
-          }
-          geoHierarchyDialogHome = null
-          geoHierarchyScrim.classList.remove('open')
-          releaseFocus()
-        }
 
-        function openGeoParentPicker() {
-          const currentCode = document.getElementById('geo-field-code').value
-          geoParentPickerState.excluded = currentCode
-            ? new Set([currentCode, ...geoDescendantCodes(currentCode)])
-            : new Set()
-          geoParentPickerState.expanded = new Set(
-            GEO_ROWS.map(row => row.parentCode).filter(Boolean)
-          )
-          setGeoParentPickerView('tree')
-          renderGeoParentPickerTree()
-          geoParentPickerScrim.classList.add('open')
-          trapFocus(geoParentPickerScrim.querySelector('.customer-modal'))
-        }
 
-        function closeGeoParentPicker() {
-          geoParentPickerScrim.classList.remove('open')
-          releaseFocus()
-        }
 
-        function chooseGeoParent(code) {
-          const select = document.getElementById('geo-field-parent')
-          select.value = code || ''
-          select.dispatchEvent(new Event('change', {bubbles: true}))
-          closeGeoParentPicker()
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         const unitPickerState = {view: 'tree', expanded: new Set(), targetSelectId: ''}
 
@@ -6648,379 +5422,45 @@ export function startLegacyApp(shared) {
           return item
         }
 
-        function renderGeoRecordChrome(row) {
-          const editing = geoState.mode !== 'view'
-          const title = geoState.mode === 'create' ? t('New Location') : encodeHtml(row.name)
-          const actions = editing
-            ? `<button class="lbtn pri" type="button" data-geo-record-action="save">${dataListIcon('i-save')} ${t('Save')}</button><button class="lbtn out" type="button" data-geo-record-action="undo">${dataListIcon('i-undo')} ${t('Undo')}</button>`
-            : `<button class="lbtn pri" type="button" data-geo-record-action="modify">${dataListIcon('i-edit')} ${t('Modify')}</button><span class="vsep"></span><button class="lbtn out" type="button" data-geo-record-action="new">${dataListIcon('i-plus')} ${t('New')}</button><button class="lbtn out danger" type="button" data-geo-record-action="delete">${dataListIcon('i-trash')} ${t('Delete')}</button>`
-          document.getElementById('geo-record-chrome').innerHTML = `
-    <div class="arow customer-arow" role="toolbar" aria-label="Location toolbar">
-      <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('Record')} ${dataListIcon('i-caret', 12)}</button><div class="mlist" role="menu"><button role="menuitem" type="button" data-geo-record-action="new">${dataListIcon('i-plus', 14)} ${t('New')}</button><button role="menuitem" type="button" data-geo-record-action="modify"${editing ? ' disabled' : ''}>${dataListIcon('i-edit', 14)} ${t('Modify')}</button><button role="menuitem" type="button" data-geo-record-action="delete"${editing ? ' disabled' : ''}>${dataListIcon('i-trash', 14)} ${t('Delete')}</button><button role="menuitem" type="button" data-geo-record-action="search">${dataListIcon('i-search', 14)} ${t('Search')}</button></div></div>
-      <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('Procedure')} ${dataListIcon('i-caret', 12)}</button><div class="mlist" role="menu"><button role="menuitem" type="button" data-geo-record-action="save"${editing ? '' : ' disabled'}>${dataListIcon('i-save', 14)} ${t('Save')}</button><button role="menuitem" type="button" data-geo-record-action="print">${dataListIcon('i-print', 14)} ${t('Print')}</button><button role="menuitem" type="button" data-geo-record-action="undo"${editing ? '' : ' disabled'}>${dataListIcon('i-undo', 14)} ${t('Undo')}</button></div></div>
-      <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('More')} ${dataListIcon('i-caret', 12)}</button><div class="mlist" role="menu"><button role="menuitem" type="button" data-geo-record-action="parameters">${dataListIcon('i-sliders', 14)} ${t('Screen Parameters')}</button><button role="menuitem" type="button" data-geo-record-action="help">${dataListIcon('i-help', 14)} ${t('Help')}</button></div></div>
-    </div>
-    <div class="phead"><div class="l"><nav class="crumbs" aria-label="Breadcrumb"><a href="#">${t('Home')}</a><span class="sep">›</span><button class="geo-back-list" type="button">${t('Geographical Structure')}</button><span class="sep">›</span><span aria-current="page">${geoState.mode === 'create' ? t('New') : t('All')}</span></nav><div class="tline"><h1>${title}</h1><span class="badge ${row.active ? 'ok' : 'gray'}">${row.active ? t('Active') : t('Inactive')}</span></div></div><div class="r"><span class="recacts">${actions}</span></div></div>`
-        }
 
-        function geoLocationIcon(type, size = 14) {
-          const icon =
-            type === 'Country'
-              ? 'i-home'
-              : type === 'Governorate'
-                ? 'i-flow'
-                : type === 'City'
-                  ? 'i-panel'
-                  : 'i-location'
-          return dataListIcon(icon, size)
-        }
 
-        function geoTreeRowMatches(row, query) {
-          if (!query) return true
-          const searchable = `${row.code} ${row.name} ${row.type}`.toLocaleLowerCase()
-          if (searchable.includes(query)) return true
-          return GEO_ROWS.filter(child => child.parentCode === row.code).some(child =>
-            geoTreeRowMatches(child, query)
-          )
-        }
 
-        function renderGeoTreeBranch(parentCode = '', level = 1) {
-          const query = geoState.treeQuery.trim().toLocaleLowerCase()
-          return GEO_ROWS.filter(
-            row => row.parentCode === parentCode && geoTreeRowMatches(row, query)
-          )
-            .map(row => {
-              const hasChildren = GEO_ROWS.some(child => child.parentCode === row.code)
-              const expanded = Boolean(query) || geoState.expanded.has(row.code)
-              const children =
-                hasChildren && expanded
-                  ? `<div class="geo-tree-children" role="group">${renderGeoTreeBranch(row.code, level + 1)}</div>`
-                  : ''
-              const chevronTitle = hasChildren
-                ? expanded
-                  ? `Collapse ${row.name}`
-                  : `Expand ${row.name}`
-                : ''
-              const chevron = hasChildren
-                ? dataListIcon('i-caret', 11)
-                    .replace('<svg', '<svg class="geo-node-chevron"')
-                    .replace('<svg', `<svg role="img" aria-label="${encodeHtml(chevronTitle)}"`)
-                : '<span aria-hidden="true" style="width:11px"></span>'
-              return `<div class="geo-tree-branch"><button class="geo-tree-node" type="button" role="treeitem" data-geo-node="${encodeHtml(row.code)}"${hasChildren ? ' data-geo-toggle-branch' : ''} aria-level="${level}" aria-current="${row.code === geoState.code}"${hasChildren ? ` aria-expanded="${expanded}" title="${encodeHtml(chevronTitle)}"` : ''}>${chevron}<span class="geo-node-copy"><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>${children}</div>`
-            })
-            .join('')
-        }
 
-        function renderGeoTree() {
-          const tree = document.getElementById('geo-tree')
-          const markup = renderGeoTreeBranch()
-          tree.innerHTML =
-            markup ||
-            `<div class="geo-hierarchy-empty">${dataListIcon('i-search', 18)}<span>No locations match “${encodeHtml(geoState.treeQuery)}”.</span></div>`
-          const search = document.getElementById('geo-tree-search')
-          if (search && search.value !== geoState.treeQuery) search.value = geoState.treeQuery
-        }
 
-        function layoutGeoFlowPositions(nodeWidth, nodeHeight, slotWidth, levelHeight) {
-          const childrenByParent = new Map()
-          GEO_ROWS.forEach(row => {
-            const key = row.parentCode || ''
-            const siblings = childrenByParent.get(key) || []
-            siblings.push(row)
-            childrenByParent.set(key, siblings)
-          })
-          const roots = childrenByParent.get('') || []
-          const positions = new Map()
-          let nextSlot = 0
-          const place = (row, level) => {
-            const children = childrenByParent.get(row.code) || []
-            let centerSlot
-            if (children.length) {
-              const firstSlot = nextSlot
-              children.forEach(child => place(child, level + 1))
-              const lastSlot = nextSlot - 1
-              centerSlot = (firstSlot + lastSlot) / 2
-            } else {
-              centerSlot = nextSlot
-              nextSlot += 1
-            }
-            positions.set(row.code, {
-              x: Math.round(centerSlot * slotWidth + slotWidth / 2 - nodeWidth / 2),
-              y: 24 + level * levelHeight,
-            })
-            return centerSlot
-          }
-          roots.forEach(row => place(row, 0))
-          return {positions, slotCount: Math.max(nextSlot, 1)}
-        }
 
-        function renderGeoFlow() {
-          const canvas = document.getElementById('geo-flow-canvas')
-          if (!canvas) return
-          const nodeWidth = 156
-          const nodeHeight = 58
-          const slotWidth = 190
-          const levelHeight = 164
-          const maxLevel = GEO_ROWS.reduce((max, row) => Math.max(max, row.level), 1)
-          const {positions, slotCount} = layoutGeoFlowPositions(
-            nodeWidth,
-            nodeHeight,
-            slotWidth,
-            levelHeight
-          )
-          const width = Math.max(800, slotCount * slotWidth + 100)
-          const height = Math.max(200, 24 + maxLevel * levelHeight + nodeHeight)
-          const connectors = GEO_ROWS.filter(row => row.parentCode)
-            .map(row => {
-              const parent = positions.get(row.parentCode)
-              const child = positions.get(row.code)
-              if (!parent || !child) return ''
-              const fromX = parent.x + nodeWidth / 2
-              const fromY = parent.y + nodeHeight
-              const toX = child.x + nodeWidth / 2
-              const toY = child.y
-              const middleY = Math.round((fromY + toY) / 2)
-              return `<path d="M ${fromX} ${fromY} C ${fromX} ${middleY}, ${toX} ${middleY}, ${toX} ${toY}" />`
-            })
-            .join('')
-          const nodes = GEO_ROWS.map(row => {
-            const position = positions.get(row.code)
-            return `<button class="geo-flow-node" type="button" data-geo-node="${encodeHtml(row.code)}" aria-current="${row.code === geoState.code}" style="left:${position.x}px;top:${position.y}px" aria-label="View ${encodeHtml(row.name)}">${geoLocationIcon(row.type, 16)}<span><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>`
-          }).join('')
-          const scaledWidth = Math.round(width * geoState.flowScale)
-          const scaledHeight = Math.round(height * geoState.flowScale)
-          canvas.style.width = `${scaledWidth}px`
-          canvas.style.height = `${scaledHeight}px`
-          canvas.innerHTML = `<div class="geo-flow-surface" style="--geo-flow-scale:${geoState.flowScale};width:${width}px;height:${height}px"><svg class="geo-flow-connectors" style="width:${width}px;height:${height}px" viewBox="0 0 ${width} ${height}" aria-hidden="true">${connectors}</svg>${nodes}</div>`
-          const zoom = document.getElementById('geo-flow-zoom-value')
-          if (zoom) zoom.textContent = `${Math.round(geoState.flowScale * 100)}%`
-          geoFlowContentSize.width = width
-          geoFlowContentSize.height = height
-        }
 
-        function syncGeoHierarchyView() {
-          document.querySelectorAll('[data-geo-view]').forEach(tab => {
-            const active = tab.dataset.geoView === geoState.hierarchyView
-            tab.setAttribute('aria-selected', String(active))
-            tab.tabIndex = active ? 0 : -1
-          })
-          const treePane = document.getElementById('geo-tree-pane')
-          const flowPane = document.getElementById('geo-flow-pane')
-          treePane.hidden = geoState.hierarchyView !== 'tree'
-          flowPane.hidden = geoState.hierarchyView !== 'flow'
-          document
-            .getElementById('geo-workspace')
-            ?.classList.toggle('flow-view', geoState.hierarchyView === 'flow')
-          if (!flowPane.hidden) renderGeoFlow()
-        }
 
-        function syncGeoRecordPager() {
-          const pager = document.querySelector('.geo-record-footer .pager')
-          const input = pager?.querySelector('.pg-i')
-          const total = pager?.querySelector('.tot')
-          const position = GEO_ROWS.findIndex(row => row.code === geoState.code) + 1
-          if (!pager || !input || !total) return
-          const setPosition = value => {
-            const next = Math.min(GEO_ROWS.length, Math.max(1, Number(value) || 1))
-            geoState.code = GEO_ROWS[next - 1].code
-            renderGeoRecord()
-          }
-          total.textContent = `${t('of', 'of')} ${GEO_ROWS.length}`
-          input.max = String(GEO_ROWS.length)
-          input.value = String(position)
-          input.dataset.last = String(position)
-          pager.querySelector('.pg-f').disabled = position === 1
-          pager.querySelector('.pg-p').disabled = position === 1
-          pager.querySelector('.pg-n').disabled = position === GEO_ROWS.length
-          pager.querySelector('.pg-l').disabled = position === GEO_ROWS.length
-          pager.querySelector('.pg-f').onclick = () => setPosition(1)
-          pager.querySelector('.pg-p').onclick = () => setPosition(position - 1)
-          pager.querySelector('.pg-n').onclick = () => setPosition(position + 1)
-          pager.querySelector('.pg-l').onclick = () => setPosition(GEO_ROWS.length)
-          input.onchange = () => setPosition(input.value)
-          document.getElementById('geo-record-position').textContent =
-            `${t('Record', 'Record')} ${position} ${t('of', 'of')} ${GEO_ROWS.length}`
-        }
 
-        function geoDescendantCodes(code) {
-          const descendants = new Set()
-          const collect = parentCode => {
-            GEO_ROWS.filter(row => row.parentCode === parentCode).forEach(child => {
-              descendants.add(child.code)
-              collect(child.code)
-            })
-          }
-          collect(code)
-          return descendants
-        }
 
-        function renderGeoParentOptions(row, creating) {
-          const select = document.getElementById('geo-field-parent')
-          const excluded = creating ? new Set() : geoDescendantCodes(row.code)
-          if (!creating) excluded.add(row.code)
-          const options = GEO_ROWS.filter(candidate => !excluded.has(candidate.code))
-          select.innerHTML =
-            '<option value="">No parent location</option>' +
-            options
-              .map(
-                candidate =>
-                  `<option value="${encodeHtml(candidate.code)}"${candidate.code === row.parentCode ? ' selected' : ''}>${encodeHtml(candidate.code)} - ${encodeHtml(candidate.name)}</option>`
-              )
-              .join('')
-        }
 
-        function saveGeoRecord() {
-          const row = GEO_ROWS.find(item => item.code === geoState.code)
-          if (!row) return
-          const parentCode = document.getElementById('geo-field-parent').value
-          const parentRow = GEO_ROWS.find(item => item.code === parentCode)
-          row.name = document.getElementById('geo-field-name').value.trim()
-          row.type = document.getElementById('geo-field-type').value
-          row.active = document.getElementById('geo-field-status').value === 'Active'
-          row.remarks = document.getElementById('geo-field-remarks').value
-          row.parentCode = parentCode
-          row.parent = parentRow ? `${parentRow.code} - ${parentRow.name}` : ''
-          row.level = (parentRow?.level || 0) + 1
-          const cascadeLevel = current => {
-            GEO_ROWS.filter(child => child.parentCode === current.code).forEach(child => {
-              child.level = current.level + 1
-              cascadeLevel(child)
-            })
-          }
-          cascadeLevel(row)
-        }
 
-        function renderGeoRecord() {
-          const creating = geoState.mode === 'create'
-          const editing = geoState.mode !== 'view'
-          const row = creating
-            ? {
-                code: '',
-                parentCode: geoState.code || '',
-                name: '',
-                level: (GEO_ROWS.find(item => item.code === geoState.code)?.level || 0) + 1,
-                type: 'District',
-                active: true,
-                remarks: '',
-              }
-            : GEO_ROWS.find(item => item.code === geoState.code) || GEO_ROWS[0]
-          if (!creating) geoState.code = row.code
-          renderGeoRecordChrome(row)
-          renderGeoTree()
-          syncGeoHierarchyView()
-          syncGeoTreePanelToggle()
-          document.getElementById('geo-field-code').value = row.code
-          renderGeoParentOptions(row, creating)
-          document.getElementById('geo-field-name').value = row.name
-          document.getElementById('geo-field-level').value = row.level
-          document.getElementById('geo-field-type').value = row.type
-          document.getElementById('geo-field-status').value = row.active ? 'Active' : 'Inactive'
-          document.getElementById('geo-field-remarks').value = row.remarks
-          document.getElementById('geo-field-name').readOnly = !editing
-          document.getElementById('geo-field-parent').disabled = !editing
-          document.getElementById('geo-parent-picker-trigger').disabled = !editing
-          document.getElementById('geo-field-type').disabled = !editing
-          document.getElementById('geo-field-status').disabled = !editing
-          document.getElementById('geo-field-remarks').readOnly = !editing
-          const note = document.getElementById('geo-footer-note')
-          if (note) {
-            const message = creating
-              ? t('New location. Save when complete.')
-              : editing
-                ? t('Editing location. Save or Undo your changes.')
-                : t('Saved location. Choose Modify to edit.')
-            note.lastChild.textContent = ` ${message}`
-          }
-          syncGeoRecordPager()
-        }
 
-        function openGeoRecord(code, mode = 'view') {
-          geoState.code = code || GEO_ROWS[0].code
-          geoState.mode = mode
-          let parentCode = GEO_ROWS.find(row => row.code === geoState.code)?.parentCode
-          while (parentCode) {
-            geoState.expanded.add(parentCode)
-            parentCode = GEO_ROWS.find(row => row.code === parentCode)?.parentCode
-          }
-          showContentView('geo-record')
-          renderGeoRecord()
-        }
 
-        function selectGeoTreeNode(node) {
-          if (node.matches('[data-geo-toggle-branch]')) {
-            if (geoState.expanded.has(node.dataset.geoNode))
-              geoState.expanded.delete(node.dataset.geoNode)
-            else geoState.expanded.add(node.dataset.geoNode)
-          }
-          geoState.code = node.dataset.geoNode
-          renderGeoRecord()
-        }
 
-        function toggleGeoTreePanel(toggleButton) {
-          if (geoHierarchyMediaQuery.matches) {
-            openGeoHierarchyDialog()
-            return
-          }
-          const workspace = document.getElementById('geo-workspace')
-          const collapsed = workspace.classList.toggle('tree-collapsed')
-          toggleButton.setAttribute('aria-pressed', String(collapsed))
-          toggleButton.setAttribute(
-            'aria-label',
-            collapsed ? 'Expand location hierarchy' : 'Collapse location hierarchy'
-          )
-          toggleButton.title = collapsed ? 'Expand hierarchy' : 'Collapse hierarchy'
-          toggleButton.querySelector('use')?.setAttribute('href', collapsed ? '#i-next' : '#i-prev')
-        }
 
-        function syncGeoTreePanelToggle() {
-          const toggleButton = document.querySelector('[data-geo-tree-collapse]')
-          if (!toggleButton) return
-          if (geoHierarchyMediaQuery.matches) {
-            toggleButton.setAttribute('aria-pressed', 'false')
-            toggleButton.setAttribute('aria-label', 'Open location hierarchy')
-            toggleButton.title = 'Open location hierarchy'
-            toggleButton.querySelector('use')?.setAttribute('href', '#i-next')
-            return
-          }
-          const collapsed = document
-            .getElementById('geo-workspace')
-            ?.classList.contains('tree-collapsed')
-          toggleButton.setAttribute('aria-pressed', String(Boolean(collapsed)))
-          toggleButton.setAttribute(
-            'aria-label',
-            collapsed ? 'Expand location hierarchy' : 'Collapse location hierarchy'
-          )
-          toggleButton.title = collapsed ? 'Expand hierarchy' : 'Collapse hierarchy'
-          toggleButton.querySelector('use')?.setAttribute('href', collapsed ? '#i-next' : '#i-prev')
-        }
 
-        function setGeoHierarchyView(view) {
-          if (!['tree', 'flow'].includes(view)) return
-          geoState.hierarchyView = view
-          syncGeoHierarchyView()
-          if (view === 'flow')
-            requestAnimationFrame(() => document.getElementById('geo-flow-viewport')?.focus())
-        }
 
-        function setGeoFlowScale(scale) {
-          geoState.flowScale = Math.min(1.4, Math.max(0.55, scale))
-          renderGeoFlow()
-        }
 
-        function fitGeoFlow() {
-          const viewport = document.getElementById('geo-flow-viewport')
-          if (!viewport) return
-          const availableWidth = Math.max(1, viewport.clientWidth - 24)
-          const availableHeight = Math.max(1, viewport.clientHeight - 24)
-          setGeoFlowScale(
-            Math.min(
-              1,
-              availableWidth / geoFlowContentSize.width,
-              availableHeight / geoFlowContentSize.height
-            )
-          )
-          viewport.scrollTo({top: 0, left: 0, behavior: 'smooth'})
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // openCustomerRecord/openCustomerSearch stay in legacy-app.js as
         // thin wrappers (rather than moving into customers.js) because they
@@ -7376,9 +5816,7 @@ export function startLegacyApp(shared) {
             refreshDataListForContext(context)
           }
         })
-        document.getElementById('geo-parent-picker-trigger').addEventListener('click', () => {
-          openGeoParentPicker()
-        })
+
         dataExportScrim.addEventListener('click', event => {
           const format = event.target.closest('[data-export-format]')
           if (format) {
@@ -7404,14 +5842,7 @@ export function startLegacyApp(shared) {
           }
         })
         document.getElementById('data-export-run').addEventListener('click', runDataExport)
-        geoHierarchyScrim.addEventListener('click', event => {
-          if (
-            event.target === geoHierarchyScrim ||
-            event.target.closest('.geo-hierarchy-dialog-close')
-          ) {
-            closeGeoHierarchyDialog()
-          }
-        })
+
         kanbanBlockedScrim.addEventListener('click', event => {
           if (
             event.target === kanbanBlockedScrim ||
@@ -7420,41 +5851,9 @@ export function startLegacyApp(shared) {
             closeKanbanBlockedDialog()
           }
         })
-        const geoHierarchyMediaQuery = window.matchMedia('(max-width: 1200px)')
-        geoHierarchyMediaQuery.addEventListener('change', event => {
-          if (!event.matches) closeGeoHierarchyDialog()
-          syncGeoTreePanelToggle()
-        })
-        geoParentPickerScrim.addEventListener('click', event => {
-          const view = event.target.closest('[data-geo-parent-picker-view]')
-          if (view) {
-            setGeoParentPickerView(view.dataset.geoParentPickerView)
-            return
-          }
-          const toggle = event.target.closest('[data-geo-parent-toggle]')
-          if (toggle) {
-            const code = toggle.dataset.geoParentToggle
-            if (geoParentPickerState.expanded.has(code)) geoParentPickerState.expanded.delete(code)
-            else geoParentPickerState.expanded.add(code)
-            renderGeoParentPickerTree()
-            return
-          }
-          const pick = event.target.closest('[data-geo-parent-pick]')
-          if (pick) {
-            if (!pick.disabled) chooseGeoParent(pick.dataset.geoParentPick)
-            return
-          }
-          if (event.target.closest('.geo-parent-picker-root')) {
-            chooseGeoParent('')
-            return
-          }
-          if (
-            event.target === geoParentPickerScrim ||
-            event.target.closest('.geo-parent-picker-close')
-          ) {
-            closeGeoParentPicker()
-          }
-        })
+
+
+
         unitPickerScrim.addEventListener('click', event => {
           const view = event.target.closest('[data-unit-picker-view]')
           if (view) {
@@ -7573,140 +5972,14 @@ export function startLegacyApp(shared) {
           const addLocation = () => openNewDataListRecord('geo')
           if (!guardDataListLeave(addLocation)) addLocation()
         })
-        document.getElementById('geo-tree').addEventListener('click', event => {
-          const node = event.target.closest('[data-geo-node]')
-          if (node) selectGeoTreeNode(node)
-        })
-        document.getElementById('geo-field-parent').addEventListener('change', event => {
-          const parentCode = event.target.value
-          const parentRow = GEO_ROWS.find(item => item.code === parentCode)
-          document.getElementById('geo-field-level').value = (parentRow?.level || 0) + 1
-        })
-        document.addEventListener('click', event => {
-          if (!event.target.closest('#geo-hierarchy-panel')) return
-          const view = event.target.closest('[data-geo-view]')
-          if (view) {
-            setGeoHierarchyView(view.dataset.geoView)
-            return
-          }
-          if (event.target.closest('[data-geo-expand-all]')) {
-            GEO_ROWS.filter(row => GEO_ROWS.some(child => child.parentCode === row.code)).forEach(
-              row => geoState.expanded.add(row.code)
-            )
-            renderGeoTree()
-            return
-          }
-          if (event.target.closest('[data-geo-collapse-all]')) {
-            geoState.expanded.clear()
-            renderGeoTree()
-            return
-          }
-          const zoom = event.target.closest('[data-geo-flow-zoom]')
-          if (zoom) {
-            setGeoFlowScale(geoState.flowScale + (zoom.dataset.geoFlowZoom === 'in' ? 0.1 : -0.1))
-            return
-          }
-          if (event.target.closest('[data-geo-flow-fit]')) {
-            fitGeoFlow()
-            return
-          }
-          const flowNode = event.target.closest('#geo-flow-pane [data-geo-node]')
-          if (flowNode) selectGeoTreeNode(flowNode)
-        })
-        function enableFlowPan(viewportId) {
-          const viewport = document.getElementById(viewportId)
-          if (!viewport || viewport.dataset.panEnabled) return
-          viewport.dataset.panEnabled = 'true'
-          let panning = false
-          let dragged = false
-          let startX = 0
-          let startY = 0
-          let startScrollLeft = 0
-          let startScrollTop = 0
-          viewport.addEventListener('pointerdown', event => {
-            if (event.button !== 0 || event.target.closest('button')) return
-            panning = true
-            dragged = false
-            startX = event.clientX
-            startY = event.clientY
-            startScrollLeft = viewport.scrollLeft
-            startScrollTop = viewport.scrollTop
-            viewport.setPointerCapture(event.pointerId)
-          })
-          viewport.addEventListener('pointermove', event => {
-            if (!panning) return
-            const dx = event.clientX - startX
-            const dy = event.clientY - startY
-            if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
-              dragged = true
-              viewport.classList.add('is-panning')
-            }
-            viewport.scrollLeft = startScrollLeft - dx
-            viewport.scrollTop = startScrollTop - dy
-          })
-          const endPan = event => {
-            if (!panning) return
-            panning = false
-            viewport.classList.remove('is-panning')
-            if (dragged) viewport.releasePointerCapture(event.pointerId)
-          }
-          viewport.addEventListener('pointerup', endPan)
-          viewport.addEventListener('pointercancel', endPan)
-          viewport.addEventListener(
-            'click',
-            event => {
-              if (dragged) {
-                event.stopPropagation()
-                event.preventDefault()
-              }
-            },
-            true
-          )
-        }
-        enableFlowPan('geo-flow-viewport')
-        enableFlowPan('geo-parent-picker-flow-viewport')
+
+
+
         enableFlowPan('unit-picker-flow-viewport')
-        document.getElementById('geo-tree-search').addEventListener('input', event => {
-          geoState.treeQuery = event.target.value
-          renderGeoTree()
-        })
-        document.querySelector('[data-geo-tree-collapse]').addEventListener('click', event => {
-          toggleGeoTreePanel(event.currentTarget)
-        })
-        document.querySelector('.geo-tree-refresh').addEventListener('click', () => {
-          renderGeoRecord()
-          toast({tone: 'ok', title: 'Geographical Structure refreshed'})
-        })
-        document.getElementById('geo-record-chrome').addEventListener('click', event => {
-          if (event.target.closest('.geo-back-list')) {
-            if (geoHierarchyScrim.classList.contains('open')) closeGeoHierarchyDialog()
-            showContentView('geo-list')
-            renderGeoList()
-            return
-          }
-          const action = event.target.closest('[data-geo-record-action]')?.dataset.geoRecordAction
-          if (!action) return
-          if (action === 'modify') {
-            geoState.mode = 'edit'
-            renderGeoRecord()
-          } else if (action === 'new') openNewDataListRecord('geo')
-          else if (action === 'save') {
-            if (geoState.mode === 'edit') saveGeoRecord()
-            geoState.mode = 'view'
-            renderGeoRecord()
-            toast({tone: 'ok', title: 'Location saved'})
-          } else if (action === 'undo') {
-            geoState.mode = 'view'
-            renderGeoRecord()
-            toast({tone: 'ok', title: 'Changes discarded'})
-          } else if (action === 'print') openPrintSettings(`Location ${geoState.code}`)
-          else if (action === 'search') openAdvancedSearch('geo')
-          else
-            toast({
-              tone: 'ok',
-              title: `${action[0].toUpperCase() + action.slice(1)} is ready for integration`,
-            })
-        })
+
+
+
+
         renderGeoRecord()
 
         /* ================= Sales Invoice Record (Guided Tabs) =================
@@ -7714,13 +5987,13 @@ export function startLegacyApp(shared) {
 
         /* ---- payment method: multiple simultaneous rows, each with its own
            method-specific extra fields ---- */
-        const {addPaymentMethodRow} = createInvoicePayments({connectRecordLabels, applyRecordValueDirections, applyState})
+        const {addPaymentMethodRow, dispose: disposeInvoicePayments} = createInvoicePayments({connectRecordLabels, applyRecordValueDirections, applyState})
 
         /* ---- items grid: add/remove rows, recalc total qty ---- */
-        const {addItemRow, recalcTotalQty} = createInvoiceLines({applyRecordValueDirections, applyState})
+        const {addItemRow, recalcTotalQty, dispose: disposeInvoiceLines} = createInvoiceLines({applyRecordValueDirections, applyState})
 
         /* ---- invoice-level discounts and charges ---- */
-        const {recalcInvoiceSummary, addInvoiceAdjustment} = createInvoiceAdjustments({applyRecordValueDirections, applyState})
+        const {recalcInvoiceSummary, addInvoiceAdjustment, dispose: disposeInvoiceAdjustments} = createInvoiceAdjustments({applyRecordValueDirections, applyState})
 
         /* referenced from inline onclick="addItemRow(...)" in the ported Items grid
    markup — needs to be reachable outside this IIFE, same as openInvoiceRecord. */
@@ -7748,9 +6021,17 @@ export function startLegacyApp(shared) {
           })
         }
 
-        const {render: renderRecordA} = createInvoiceRecord({connectRecordLabels, applyRecordValueDirections, addPaymentMethodRow, addItemRow, addInvoiceAdjustment, recalcInvoiceSummary})
+        const {render: renderRecordA, dispose: disposeRecordTabs} = createInvoiceRecord({connectRecordLabels, applyRecordValueDirections, addPaymentMethodRow, addItemRow, addInvoiceAdjustment, recalcInvoiceSummary})
 
-        renderRecordA()
+        const invoices = createInvoices({
+          templates: {
+            listRoot: document.querySelector('.list-view'), listCanvas: document.getElementById('list-canvas'),
+            listFooter: document.getElementById('list-fnav'), listInstance: dataListInstances.invoice,
+            recordRoots: [...document.querySelector('.content').children].filter(element => !element.matches('.email-view,.list-view,.customer-list-view,.customer-record-view,.geo-list-view,.geo-record-view')),
+          }, state, operations: {applyState, applyMode, modeSel, requestLeave: requestInvoiceLeave},
+          record: {render: renderRecordA, dispose: () => { disposeRecordTabs(); disposeInvoiceLines(); disposeInvoicePayments(); disposeInvoiceAdjustments() }},
+        })
+        invoices.recordPage.activate()
         /* the payment row and item row just created above are [data-field]
    elements that didn't exist yet for applyMode()'s initial applyState() call
    above — re-run it so their disabled state matches the current status */
