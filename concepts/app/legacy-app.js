@@ -2634,7 +2634,7 @@ export function startLegacyApp(shared) {
           record: {
             t,
             encodeHtml,
-            showContentView,
+            showContentView: (...args) => showContentView(...args),
             applyRecordValueDirections,
             customerRows: CUSTOMER_ROWS,
             customerReference: CUSTOMER_REFERENCE,

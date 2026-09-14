@@ -18,7 +18,7 @@ test('invoice line entry adds once and retains quantity calculations', async ({p
   await page.locator('#mode').selectOption('create', {force: true});
   const rows = page.locator('#items-body > tr');
   const count = await rows.count();
-  await page.locator('#canvas-root').getByRole('button', {name: 'Add item', exact: true}).click();
+  await page.locator('[onclick*="addItemRow"]').click();
   await expect(rows).toHaveCount(count + 1);
   await rows.last().locator('.items-qty').fill('3');
   await expect(page.locator('#items-total-qty')).toHaveText(String(count + 3));

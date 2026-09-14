@@ -252,38 +252,19 @@ test.describe('customer record lifecycle', () => {
   });
 
   test('event handlers still work after navigating away from the record and back', async ({page}) => {
-    // NEWLY DISCOVERED PRE-EXISTING DEFECT, found while verifying Task 11
-    // (not introduced by Task 11, not fixed by Task 11 — outside this
-    // task's one authorized behavior change). Root cause, confirmed by
-    // direct instrumentation: pages/customers/customers.js's
+    // Found during Task 11 verification, present at HEAD (commit 5bcba6b,
+    // Task 10's own checkpoint) before any Task 11 change: customers.js's
     // createCustomers({record: {showContentView, ...}}) call in
-    // legacy-app.js (around the `const customers = createCustomers({...})`
-    // site) passes the plain CURRENT VALUE of the module-level
+    // legacy-app.js passed the plain CURRENT VALUE of the module-level
     // `showContentView` binding as a shorthand property — captured at
-    // customers' OWN construction time, while `showContentView` still holds
+    // customers' own construction time, while `showContentView` still held
     // its pre-navigation value (attachAndShowView, pure DOM show/hide with
     // no Navigation lifecycle). Every other page factory that needs this
-    // callback (see e.g. `createGeography({..., showContentView: (...args)
-    // => showContentView(...args), ...})` a few hundred lines below) wraps
-    // it in an arrow function that reads the LIVE `let showContentView`
-    // binding at call time, which is what lets it observe the later
-    // reassignment (at the bottom of startLegacyApp) to the real
-    // navigation-routing wrapper. customers.js's copy never got that
-    // wrapper, so record.js's `.customer-back` click (record.js:605) and
-    // its dirty-guard click interceptor (record.js:742) both call the
-    // STALE attachAndShowView directly, bypassing core/navigation.js
-    // entirely: `navigation.current()` never leaves 'customer-record',
-    // so re-opening a record afterward calls navigate('customer-record')
-    // with fromId === id, and this specific customers-list -> reopen path
-    // ends up with the record view detached from the DOM instead of
-    // re-shown. This was verified present at HEAD (commit 5bcba6b, Task
-    // 10's own checkpoint) BEFORE any Task 11 change, using this exact
-    // test scenario. Fixing the wiring at the createCustomers() call site
-    // is a one-line change (matching geography's existing pattern) but is
-    // a real behavior change beyond the one this task is authorized to
-    // make (the customer-restoration lifecycle correction), so it is
-    // reported here rather than silently fixed or silently left failing.
-    test.fail(true, 'pre-existing defect found during Task 11 verification, out of this task\'s scope — see comment above; stale showContentView captured at customers.js construction time bypasses Navigation on round-trip');
+    // callback (e.g. createGeography's `showContentView: (...args) =>
+    // showContentView(...args)`) wraps it in an arrow function that reads
+    // the live `let showContentView` binding at call time, observing the
+    // later reassignment to the real navigation-routing wrapper.
+    // customers.js's call site now uses the same live-binding wrapper.
     await boot(page, 'http://127.0.0.1:4173');
     await openSurface(page, 'customer-record');
     await settle(page);
