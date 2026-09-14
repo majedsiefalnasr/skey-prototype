@@ -291,34 +291,15 @@ test('served dist/: HTML, CSS, and JS assets have correct MIME types', async () 
   }
 });
 
-test('served dist/: original asset URLs referenced from app-shell.html still resolve (200)', async () => {
+test('served dist/: current local asset URLs referenced from app-shell.html resolve (200)', async () => {
   await build();
   const server = await serve({root: 'dist', port: 0});
   try {
     const port = server.address().port;
-    const paths = [
-      '/concepts/app-shell.html',
-      '/concepts/app/styles/tokens.css',
-      '/concepts/app/styles/base.css',
-      '/concepts/app/styles/app.css',
-      '/concepts/app/styles/overrides.css',
-      '/concepts/app/shell/shell.css',
-      '/concepts/app/pages/invoices/invoices.css',
-      '/concepts/app/pages/customers/customers.css',
-      '/concepts/app/pages/geography/geography.css',
-      '/concepts/app/pages/email/email.css',
-      '/concepts/app/components/data-list/list.css',
-      '/concepts/app/components/dialog/dialog.css',
-      '/concepts/app/components/toast/toast.css',
-      '/concepts/app/components/loading/loading.css',
-      '/concepts/app/components/notifications/notifications.css',
-      '/concepts/app/components/record-pager/pager.css',
-      '/concepts/app/pages/home/home.css',
-      '/concepts/app/components/assistant/assistant.css',
-      '/concepts/app/main.js',
-      '/concepts/app/prototype/controls.css',
-      '/concepts/app/prototype/controls.js',
-    ];
+    const shellPath = '/concepts/app-shell.html';
+    const shell = await readFile(`dist${shellPath}`, 'utf8');
+    const paths = [shellPath, ...localShellAssetPaths(shell, shellPath)];
+    assert.ok(paths.length > 1, 'expected app-shell.html to reference local stylesheet or script assets');
     for (const p of paths) {
       const res = await fetchHead(`http://127.0.0.1:${port}${p}`);
       assert.equal(res.statusCode, 200, `expected 200 for ${p}`);
@@ -347,4 +328,19 @@ function fetchHead(url) {
       resolve(res);
     }).on('error', reject);
   });
+}
+
+function localShellAssetPaths(html, shellPath) {
+  const shellUrl = new URL(shellPath, 'http://skey.test');
+  const paths = new Set();
+  for (const [tag] of html.matchAll(/<(?:link|script)\b[^>]*>/gi)) {
+    const isStylesheet = /^<link\b/i.test(tag) && /\brel="stylesheet"/i.test(tag);
+    const isScript = /^<script\b/i.test(tag);
+    if (!isStylesheet && !isScript) continue;
+    const asset = tag.match(/\b(?:href|src)="([^"]+)"/i)?.[1];
+    if (!asset) continue;
+    const url = new URL(asset, shellUrl);
+    if (url.origin === shellUrl.origin) paths.add(url.pathname);
+  }
+  return [...paths];
 }
