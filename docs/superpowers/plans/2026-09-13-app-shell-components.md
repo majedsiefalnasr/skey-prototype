@@ -424,8 +424,8 @@ Apply other existing control values through their declared owners in the same ph
 
 **Interfaces:** The source HTML loads application CSS in explicit original cascade order and starts only `app/main.js` as the module entry. Prototype CSS remains last. No source concatenation re-creates the old shared JavaScript closure.
 
-- [ ] Before splitting CSS, capture the ordered declaration sequence including enclosing media/support conditions from the mechanical checkpoint. Move complete CSS rule blocks to owners; retain order through explicit imports/links. If owner rules are interleaved, keep intentional later patches in `overrides.css` with source provenance rather than silently changing their precedence. `overrides.css` may contain only genuine cross-cutting late overrides, not the original stylesheet under a new name.
-- [ ] Replace the inline add-item handler with its equivalent page-owned event binding, after removing the old registration in the same change:
+- [x] Before splitting CSS, capture the ordered declaration sequence including enclosing media/support conditions from the mechanical checkpoint. Move complete CSS rule blocks to owners; retain order through explicit imports/links. If owner rules are interleaved, keep intentional later patches in `overrides.css` with source provenance rather than silently changing their precedence. `overrides.css` may contain only genuine cross-cutting late overrides, not the original stylesheet under a new name.
+- [x] Replace the inline add-item handler with its equivalent page-owned event binding, after removing the old registration in the same change:
 
 ```js
 addItemButton.addEventListener('click', () => {
@@ -434,9 +434,9 @@ addItemButton.addEventListener('click', () => {
 ```
 
 `addItemButton` is the retained Items add control resolved from invoice roots; `pageAbort` is the invoice instance AbortController created on initialization. The behavior test in Task 8 ensures one click adds exactly one row.
-- [ ] Account for every entry in `migration-inventory.json`; require one implementation owner and identify intentional bindings that were replaced. Remove the empty legacy orchestrator and temporary bridges after searching HTML, renderer strings, tests, and other repository callers. Preserve any actual external integration entry points with a documented thin adapter rather than silently breaking them.
-- [ ] Add structural checks for no classic legacy entry, no unresolved HTML includes in built output, no duplicate IDs in the mounted shell, no page import from shared list/navigation, no circular module imports, and no unresolved migrated inline global handler. Use these to verify architecture, not an arbitrary file-length cap.
-- [ ] Run the complete parity suite against `dist/`, focused lifecycle tests, production asset checks, and unit tests. Inspect any stable screenshot differences; do not broaden pixel tolerance. Commit `refactor: finish component styles and remove legacy entry`.
+- [x] Account for every entry in `migration-inventory.json`; require one implementation owner and identify intentional bindings that were replaced. Remove the empty legacy orchestrator and temporary bridges after searching HTML, renderer strings, tests, and other repository callers. Preserve any actual external integration entry points with a documented thin adapter rather than silently breaking them.
+- [x] Add structural checks for no classic legacy entry, no unresolved HTML includes in built output, no duplicate IDs in the mounted shell, no page import from shared list/navigation, no circular module imports, and no unresolved migrated inline global handler. Use these to verify architecture, not an arbitrary file-length cap.
+- [x] Run the complete parity suite against `dist/`, focused lifecycle tests, production asset checks, and unit tests. Inspect any stable screenshot differences; do not broaden pixel tolerance. Commit `refactor: finish component styles and remove legacy entry`.
 
 ### Task 13: Final verification and developer handoff
 
@@ -444,9 +444,9 @@ addItemButton.addEventListener('click', () => {
 
 **Interfaces:** Document `npm ci`, `npm run dev`, `npm run build`, `npm run test:unit`, `npm run test:browser`; document static hosting of `dist/` without changing remote configuration.
 
-- [ ] Run `npm run build && npm run test:unit && npm run test:browser`. Expected: all enabled checks pass, the lifecycle regression is fixed, and expected visual baselines match. If a scenario cannot run, report the exact missing dependency or permission; do not mark the task complete.
-- [ ] Check desktop/mobile/touch, light/dark/high contrast, RTL, reduced motion, repeated navigation, saved settings, filters, and chart cleanup through the scenarios established earlier. Confirm one shell and no new page errors; keep the original chart CDN constraint visible if unavailable in the test environment. Do not substitute a fake chart and claim chart parity.
-- [ ] Write the development guide with the actual final paths and commands. Include this page-registration pattern using an existing implementation, not an empty example:
+- [x] Run `npm run build && npm run test:unit && npm run test:browser`. Expected: all enabled checks pass, the lifecycle regression is fixed, and expected visual baselines match. If a scenario cannot run, report the exact missing dependency or permission; do not mark the task complete.
+- [x] Check desktop/mobile/touch, light/dark/high contrast, RTL, reduced motion, repeated navigation, saved settings, filters, and chart cleanup through the scenarios established earlier. Confirm one shell and no new page errors; keep the original chart CDN constraint visible if unavailable in the test environment. Do not substitute a fake chart and claim chart parity.
+- [x] Write the development guide with the actual final paths and commands. Include this page-registration pattern using an existing implementation, not an empty example:
 
 ```js
 const customerViews = createCustomers(customerDependencies);
@@ -455,7 +455,7 @@ pageRegistry.set('customer-record', customerViews.recordPage);
 ```
 
 Explain where a new page's template, styles, fixtures, navigation mapping, guard, and browser scenario belong, and that shared shell markup must not be copied into a page. `customerDependencies` is the finite dependency object constructed in `main.js` using Task 7's signature; show its actual final values in the guide.
-- [ ] Commit `docs: document component app development and parity results`. Hand off the completed branch/diff according to the execution workflow. Report baseline identity, passed checks, the one intentional customer restoration change, remaining known defects, and any unresolved limitations. Do not deploy or merge remotely unless separately authorized.
+- [x] Commit `docs: document component app development and parity results`. Hand off the completed branch/diff according to the execution workflow. Report baseline identity, passed checks, the one intentional customer restoration change, remaining known defects, and any unresolved limitations. Do not deploy or merge remotely unless separately authorized.
 
 ## Plan self-review
 
