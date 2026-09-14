@@ -29,30 +29,31 @@
               >
               <span class="kbd-chip">⌘K</span>
             </button>
-            <div class="spanel" role="dialog" aria-label="Search">
-              <div class="sinp">
+            <div class="spanel fixed inset-x-0 top-3.5 z-[160] mx-auto hidden max-h-[min(600px,68vh)] w-[min(620px,92vw)] flex-col overflow-hidden rounded-[9px] border-[1.5px] border-line bg-surface shadow-[var(--shadow-2)]" role="dialog" aria-label="Search">
+              <div class="sinp flex items-center gap-2 border-b border-line px-3 py-2">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg>
                 <input
+                  class="flex-1 border-none text-sm font-[inherit] outline-none"
                   type="text"
                   placeholder="Search screens, customers and invoices, or type an action"
                   autocomplete="off" />
-                <span class="kbd-chip" style="margin: 0">Esc</span>
+                <span class="kbd-chip m-0">Esc</span>
               </div>
-              <div class="sctx">
+              <div class="sctx flex flex-wrap items-center gap-2 border-b border-line bg-[var(--line-2)] px-3.5 py-2 text-xs text-muted">
                 <span class="sctx-current">You are on <b>Sales Invoice</b> · 001000352026126</span>
-                <span class="sscope" role="group" aria-label="Scope">
-                  <button data-scope="all" aria-pressed="true">Everything</button>
-                  <button data-scope="screens" aria-pressed="false">Screens</button>
-                  <button data-scope="records" aria-pressed="false">Records</button>
-                  <button data-scope="actions" aria-pressed="false">Actions</button>
+                <span class="sscope ms-auto inline-flex gap-1" role="group" aria-label="Scope">
+                  <button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="all" aria-pressed="true">Everything</button>
+                  <button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="screens" aria-pressed="false">Screens</button>
+                  <button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="records" aria-pressed="false">Records</button>
+                  <button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="actions" aria-pressed="false">Actions</button>
                 </span>
               </div>
-              <div class="slist" role="listbox"></div>
-              <div class="sfoot">
+              <div class="slist flex-1 overflow-auto p-1.5" role="listbox"></div>
+              <div class="sfoot flex items-center gap-[15px] border-t border-line bg-[var(--line-2)] px-3.5 py-2 text-xs text-muted">
                 <span><span class="k">↑↓</span>Navigate</span
                 ><span><span class="k">↵</span>Open</span>
                 <span class="sfoot-scope"><span class="k">Tab</span>Change scope</span>
-                <span class="sfoot-ctx" style="margin-inline-start: auto"
+                <span class="sfoot-ctx ms-auto"
                   >Actions apply to invoice 126</span
                 >
               </div>
@@ -102,13 +103,13 @@
             ><span class="tip">Settings</span>
           </button>
           <div class="menu">
-            <button class="avatar-btn" aria-haspopup="menu" aria-expanded="false">
+            <button class="avatar-btn rounded-full" aria-haspopup="menu" aria-expanded="false">
               <span class="avatar">MS</span>
             </button>
             <div class="mlist mend user-pop" role="menu" style="min-width: 270px">
-              <div class="user-card">
-                <span class="avatar">MS</span>
-                <div><b>Majed Sief Alnasr</b><span>admin@lastchance</span></div>
+              <div class="user-card mb-0.5 flex items-center gap-2.5 px-2.5 pb-3 pt-2.5">
+                <span class="avatar size-9 text-[13px]">MS</span>
+                <div><b class="block text-[13.5px] text-ink">Majed Sief Alnasr</b><span class="block text-xs text-muted">admin@lastchance</span></div>
               </div>
               <button role="menuitem">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-gear" /></svg> Account

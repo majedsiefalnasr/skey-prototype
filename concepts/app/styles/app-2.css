@@ -1,5 +1,14 @@
 /* Extracted from mechanical checkpoint ddd8569, legacy-app.css lines 1692-1813.
- * Complete rules retained in original cascade order; see tests/support/style-inventory.json. */
+ * Complete rules retained in original cascade order; see tests/support/style-inventory.json.
+ *
+ * The `.ibtn`/`.lbtn`/`.tip` icon-button atoms below are still retained (not converted to
+ * literal utilities) because they are consumed by ~120 usages across dialogs and pages
+ * owned by Task 4 (assistant, data-list, record-pager, toast, dialog), Task 5 (invoices,
+ * customers), and Task 6 (geography, email) -- including inside shell's own dialog
+ * fragments (appearance-dialog.html, sidebar-dialog.html, keyboard-dialog.html,
+ * shared-overlays.html), which are outside Task 3's file list. Converting only shell.html's
+ * own `.ibtn`/`.tip` usages would still leave every other consumer needing this rule, so it
+ * cannot be retired in this task; it becomes Task 4's "reusable button... styles" scope. */
 
 
       /* ============ atoms ============ */

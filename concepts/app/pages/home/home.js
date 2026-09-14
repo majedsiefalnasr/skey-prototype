@@ -22,7 +22,7 @@ const pageAbort = new AbortController()
           tile.dataset.tone = meta.tone
           tile.dataset.i18nOriginal = label
           tile.innerHTML =
-            `<span class="lp-tile-ic flex size-10 items-center justify-center rounded-[10px] bg-[color-mix(in_srgb,var(--lp-tone)_11%,var(--surface))] text-[var(--lp-tone)]"><svg width="20" height="20" aria-hidden="true"><use href="#${icon}"/></svg></span>` +
+            `<span class="lp-tile-ic flex size-10 items-center justify-center rounded-[10px] bg-[color-mix(in_srgb,var(--lp-tone,var(--accent))_11%,var(--surface))] text-[var(--lp-tone,var(--accent))]"><svg width="20" height="20" aria-hidden="true"><use href="#${icon}"/></svg></span>` +
             '<span class="lp-tile-copy min-w-0"><span class="lp-tile-lbl line-clamp-2 overflow-hidden text-[13.5px] font-bold leading-[1.35] text-ink"></span><span class="lp-tile-desc mt-1.5 line-clamp-2 overflow-hidden text-xs leading-[1.4] text-muted"></span><span class="lp-current mt-2 inline-flex text-[11px] font-bold text-accent" hidden></span></span>' +
             '<svg class="lp-tile-go mt-[3px] text-faint opacity-0 transition-opacity duration-100 group-hover:text-accent group-hover:opacity-100 group-focus-visible:text-accent group-focus-visible:opacity-100" width="14" height="14" aria-hidden="true"><use href="#i-next"/></svg>'
           const tileLabel = tile.querySelector('.lp-tile-lbl')
@@ -433,13 +433,15 @@ const pageAbort = new AbortController()
    the sidebar customization changes what's visible or its order ---- */
         function setupAppSwitcher(listEl) {
           listEl.innerHTML = ''
+          listEl.classList.add('flex', 'w-[300px]', 'flex-col', 'p-0', '[max-height:70vh]')
           const filterWrap = document.createElement('div')
-          filterWrap.className = 'app-switcher-filter'
+          filterWrap.className =
+            'app-switcher-filter sticky top-1 z-[1] m-1 flex items-center gap-[7px] rounded-[7px] border border-line bg-[inherit] px-2 py-1.5 text-faint focus-within:border-[var(--accent-line)] focus-within:shadow-[0_0_0_3px_var(--accent-soft)]'
           filterWrap.innerHTML =
-            '<svg width="13" height="13" aria-hidden="true"><use href="#i-search"/></svg>' +
-            '<input type="search" placeholder="Filter apps…" aria-label="Filter apps" autocomplete="off">'
+            '<svg class="shrink-0" width="13" height="13" aria-hidden="true"><use href="#i-search"/></svg>' +
+            '<input class="min-w-0 flex-1 border-none bg-transparent font-[inherit] text-ink outline-none placeholder:text-faint" type="search" placeholder="Filter apps…" aria-label="Filter apps" autocomplete="off">'
           const rows = document.createElement('div')
-          rows.className = 'app-switcher-rows'
+          rows.className = 'app-switcher-rows overflow-auto px-1 pb-1'
           listEl.append(filterWrap, rows)
 
           const side = listEl.closest('.design').querySelector('.side')
@@ -451,7 +453,7 @@ const pageAbort = new AbortController()
             row.setAttribute('role', 'menuitem')
             row.className = 'app-switcher-row'
             row.dataset.label = label
-            row.innerHTML = `<span class="sq"><svg width="16" height="16" aria-hidden="true"><use href="#${NAV_ICONS[label] || 'i-doc'}"/></svg></span><span></span>`
+            row.innerHTML = `<span class="sq relative flex size-7 shrink-0 items-center justify-center rounded-md bg-[var(--hover-overlay)] text-muted"><svg width="16" height="16" aria-hidden="true"><use href="#${NAV_ICONS[label] || 'i-doc'}"/></svg></span><span class="min-w-0 flex-1 truncate"></span>`
             row.querySelector('span:last-child').textContent = label
             row.addEventListener('click', () => {
               side.querySelector('.nc2').activateByLabel(label)

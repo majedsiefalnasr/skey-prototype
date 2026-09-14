@@ -72,7 +72,7 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
     sRows = []
     const list = activeList()
     if (!groups.length) {
-      list.innerHTML = `<div class="sempty"><b>Nothing matches “${esc(activeInput().value)}”</b>Try a document number, a customer name, or an action such as “Posting”.</div>`
+      list.innerHTML = `<div class="sempty px-[18px] py-8 text-center text-[13px] text-muted"><b class="mb-1 block text-ink">Nothing matches “${esc(activeInput().value)}”</b>Try a document number, a customer name, or an action such as “Posting”.</div>`
       return
     }
     list.innerHTML = groups
@@ -80,14 +80,14 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
         const rows = gr.items
           .map(it => {
             const i = sRows.push(it) - 1
-            return `<button class="sitem" role="option" data-i="${i}" ${gr.dim ? 'disabled' : ''}>
-  <span class="ic"><svg width="14" height="14"><use href="#${it.icon}"/></svg></span>
-  <span class="tx"><span class="t">${hi(it.t, q)}</span>
-  ${gr.dim ? `<span class="why">${it.off}</span>` : it.s ? `<span class="s">${hi(it.s, q)}</span>` : ''}</span>
-  ${it.kbd && !gr.dim ? `<span class="kbd">${it.kbd}</span>` : ''}</button>`
+            return `<button class="sitem flex w-full items-center gap-[11px] rounded-lg px-3 py-2 text-start" role="option" data-i="${i}" ${gr.dim ? 'disabled' : ''}>
+  <span class="ic flex size-[26px] shrink-0 items-center justify-center rounded-[7px] bg-[var(--line-2)] text-muted"><svg width="14" height="14"><use href="#${it.icon}"/></svg></span>
+  <span class="tx min-w-0 flex-1"><span class="t block truncate text-[13px]">${hi(it.t, q)}</span>
+  ${gr.dim ? `<span class="why block text-xs italic text-faint">${it.off}</span>` : it.s ? `<span class="s mt-px block text-xs text-muted">${hi(it.s, q)}</span>` : ''}</span>
+  ${it.kbd && !gr.dim ? `<span class="kbd rounded border border-line bg-[var(--line-2)] px-1.5 py-px font-mono text-[11px] text-muted">${it.kbd}</span>` : ''}</button>`
           })
           .join('')
-        return `<div class="sgrp">${gr.g}<span class="c">${gr.items.length}</span></div>${rows}`
+        return `<div class="sgrp flex items-center gap-2 px-3 pb-[3px] pt-[9px] text-xs uppercase tracking-[0.04em] text-faint">${gr.g}<span class="c rounded-full bg-[var(--line-2)] px-[7px] text-xs">${gr.items.length}</span></div>${rows}`
       })
       .join('')
     sSel = 0
@@ -161,7 +161,7 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
 
   const sscrim = document.createElement('div')
 
-  sscrim.className = 'sscrim'
+  sscrim.className = 'sscrim fixed inset-0 z-[150] hidden bg-transparent'
 
   sscrim.id = 'sscrim'
 

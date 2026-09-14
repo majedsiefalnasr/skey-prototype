@@ -6,7 +6,13 @@ import {createHash} from 'node:crypto';
 
 const checkpoint = execFileSync('git', ['show', 'ddd8569:concepts/app/styles/legacy-app.css'], {encoding: 'utf8'});
 const hash = text => createHash('sha256').update(text).digest('hex');
-const migrated = new Set(['app/shell/shell.css', 'app/pages/home/home.css']);
+const migrated = new Set([
+  'app/shell/shell.css',
+  'app/pages/home/home.css',
+  'app/shell/shell-2.css',
+  'app/shell/shell-3.css',
+  'app/shell/shell-4.css',
+]);
 
 test('owned styles preserve every checkpoint declaration and condition in exact cascade order', async () => {
   const html = await readFile('concepts/app-shell.html', 'utf8');
@@ -36,5 +42,5 @@ test('style inventory accounts for contiguous complete blocks and every ordered 
     const owner = inventory.files.find(file => file.path === rule.file);
     assert.ok(owner && rule.start >= owner.start && rule.end <= owner.end, `split rule: ${rule.selector}`);
   }
-  assert.equal(inventory.files.filter(file => migrated.has(file.path)).length, 2);
+  assert.equal(inventory.files.filter(file => migrated.has(file.path)).length, migrated.size);
 });

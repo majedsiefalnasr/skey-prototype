@@ -38,6 +38,16 @@
 
   .swrap.open .sbox { visibility: hidden; }
   .side-toggle[aria-pressed='true'], .nc1-item.current, .nc2-icn.active { background: var(--accent-soft); color: var(--accent); }
+  .app-switcher-row.active { background: var(--accent-soft); }
+  .app-switcher-row.active .sq { background: var(--accent); color: var(--inverse); }
+  .app-switcher-row.active span:last-child { color: var(--accent); font-weight: 600; }
+  .spanel.open { display: flex; }
+  .sscrim.open { display: block; }
+  /* launchpad's search opens screens-only: no record context to key off, no
+     record-scoped actions, and no scope switcher since there's only one scope */
+  .spanel.screens-only .sctx, .spanel.screens-only .sfoot-scope, .spanel.screens-only .sfoot-ctx { display: none; }
+  .sitem:hover:not(:disabled), .sitem.sel { background: var(--accent-soft); }
+  .sitem:hover:not(:disabled) .ic, .sitem.sel .ic { background: var(--surface); color: var(--accent); }
   .nc1-node.open > .nc1-sub { display: block; }
   .nc1-node.open > .nc1-item .nc1-chev { transform: rotate(90deg); }
   .nc1-node.on-path > .nc1-item:not(.current) { color: var(--ink); font-weight: 600; }
@@ -49,6 +59,21 @@
   .side.collapsed .nc3-panel { position: absolute; inset-block-start: 0; inset-inline-start: var(--rail-w); margin-inline-start: 0; height: 100%; z-index: 1; box-shadow: var(--shadow-2); }
   .side-handle::before { content: ''; position: absolute; inset-block-start: 0; inset-inline-start: 4px; width: 2px; height: 100%; background: transparent; transition: background .12s, width .12s; }
   .side-handle:is(:hover, :focus-visible)::before { width: 3px; background: var(--accent); }
+
+  /* Launchpad tile tone: --lp-tone has no literal-utility equivalent because it is
+     set per data-tone attribute value, not per element; each tile only carries the
+     tone name in its dataset, and the color it maps to is looked up here. */
+  .lp-tile[data-tone='overview'] { --lp-tone: #2563eb; }
+  .lp-tile[data-tone='sales'] { --lp-tone: #0f8a68; }
+  .lp-tile[data-tone='purchase'] { --lp-tone: #b66a09; }
+  .lp-tile[data-tone='inventory'] { --lp-tone: #147d92; }
+  .lp-tile[data-tone='finance'] { --lp-tone: #6754c7; }
+  .lp-tile[data-tone='crm'] { --lp-tone: #b3437c; }
+  .lp-tile[data-tone='manufacturing'] { --lp-tone: #7a5a30; }
+  .lp-tile[data-tone='health'] { --lp-tone: #b03a48; }
+  .lp-tile[data-tone='reports'] { --lp-tone: #4361a8; }
+  .lp-tile[data-tone='administration'] { --lp-tone: #5c6470; }
+  .lp-tile[data-tone='help'] { --lp-tone: #397a59; }
 
   @media (prefers-reduced-motion: reduce) {
     .lp-orb, .lp-word, .lp-subtitle, .lp-search, .lp-quick-row, .lp-section-hd, .lp-tile { animation: none; }

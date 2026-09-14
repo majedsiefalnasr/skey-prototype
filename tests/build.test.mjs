@@ -31,10 +31,59 @@ function applyTask3ShellUtilities(html) {
     ['class="gsearch"', 'class="gsearch relative flex flex-1 justify-center"'],
     ['class="swrap"', 'class="swrap relative w-[min(620px,100%)]"'],
     ['class="sbox s-open"', 'class="sbox s-open flex w-full items-center gap-2 rounded-lg border border-line bg-surface px-3 py-[7px] text-start text-muted"'],
+    [
+      'class="spanel"',
+      'class="spanel fixed inset-x-0 top-3.5 z-[160] mx-auto hidden max-h-[min(600px,68vh)] w-[min(620px,92vw)] flex-col overflow-hidden rounded-[9px] border-[1.5px] border-line bg-surface shadow-[var(--shadow-2)]"',
+    ],
+    ['class="sinp"', 'class="sinp flex items-center gap-2 border-b border-line px-3 py-2"'],
+    [
+      '                <input\n                  type="text"\n                  placeholder="Search screens, customers and invoices, or type an action"\n                  autocomplete="off" />',
+      '                <input\n                  class="flex-1 border-none text-sm font-[inherit] outline-none"\n                  type="text"\n                  placeholder="Search screens, customers and invoices, or type an action"\n                  autocomplete="off" />',
+    ],
+    [
+      'autocomplete="off" />\n                <span class="kbd-chip" style="margin: 0">Esc</span>',
+      'autocomplete="off" />\n                <span class="kbd-chip m-0">Esc</span>',
+    ],
+    [
+      'class="sctx"',
+      'class="sctx flex flex-wrap items-center gap-2 border-b border-line bg-[var(--line-2)] px-3.5 py-2 text-xs text-muted"',
+    ],
+    ['class="sscope" role="group" aria-label="Scope"', 'class="sscope ms-auto inline-flex gap-1" role="group" aria-label="Scope"'],
+    [
+      '<button data-scope="all" aria-pressed="true">Everything</button>',
+      '<button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="all" aria-pressed="true">Everything</button>',
+    ],
+    [
+      '<button data-scope="screens" aria-pressed="false">Screens</button>',
+      '<button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="screens" aria-pressed="false">Screens</button>',
+    ],
+    [
+      '<button data-scope="records" aria-pressed="false">Records</button>',
+      '<button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="records" aria-pressed="false">Records</button>',
+    ],
+    [
+      '<button data-scope="actions" aria-pressed="false">Actions</button>',
+      '<button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="actions" aria-pressed="false">Actions</button>',
+    ],
+    ['class="slist" role="listbox"', 'class="slist flex-1 overflow-auto p-1.5" role="listbox"'],
+    [
+      'class="sfoot"',
+      'class="sfoot flex items-center gap-[15px] border-t border-line bg-[var(--line-2)] px-3.5 py-2 text-xs text-muted"',
+    ],
+    ['class="sfoot-ctx" style="margin-inline-start: auto"', 'class="sfoot-ctx ms-auto"'],
     ['class="right"', 'class="right flex shrink-0 items-center gap-[7px]"'],
     ['class="app"', 'class="app relative flex min-w-0 flex-1 items-center gap-2 rounded-lg px-2 py-1.5 text-start font-semibold hover:bg-[var(--hover-overlay)]"'],
     ['class="app-name"', 'class="app-name min-w-0 truncate"'],
     ['class="chip"', 'class="chip inline-flex items-center gap-1.5 rounded-full border border-line px-[11px] py-[5px]"'],
+    ['class="avatar-btn"', 'class="avatar-btn rounded-full"'],
+    [
+      'class="user-card">\n                <span class="avatar">MS</span>',
+      'class="user-card mb-0.5 flex items-center gap-2.5 px-2.5 pb-3 pt-2.5">\n                <span class="avatar size-9 text-[13px]">MS</span>',
+    ],
+    [
+      '<div><b>Majed Sief Alnasr</b><span>admin@lastchance</span></div>',
+      '<div><b class="block text-[13.5px] text-ink">Majed Sief Alnasr</b><span class="block text-xs text-muted">admin@lastchance</span></div>',
+    ],
   ].reduce((result, [before, after]) => replaceOnce(result, before, after), html);
 }
 
@@ -197,7 +246,13 @@ test('assemble: reassembling the real app-shell.html fragments reproduces the pr
       [
         '    <link rel="stylesheet" href="app/styles/tailwind.css">',
         ...JSON.parse(await readFile('tests/support/style-inventory.json', 'utf8')).files
-          .filter(file => !['app/shell/shell.css', 'app/pages/home/home.css'].includes(file.path))
+          .filter(file => ![
+            'app/shell/shell.css',
+            'app/pages/home/home.css',
+            'app/shell/shell-2.css',
+            'app/shell/shell-3.css',
+            'app/shell/shell-4.css',
+          ].includes(file.path))
           .map(file => `    <link rel="stylesheet" href="${file.path}">`),
       ].join('\n')
     )

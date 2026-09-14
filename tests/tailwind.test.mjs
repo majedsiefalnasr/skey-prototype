@@ -34,9 +34,11 @@ test('Tailwind input has explicit sources and the generated output stays within 
   assert.match(manifest, /prototype density\/style modes/);
 
   const output = await stat(path.join(root, 'dist/concepts/app/styles/tailwind.css'));
-  // Task 3 adds literal shell and launchpad utilities. Keep the original
-  // 6518-byte checkpoint as the lower baseline while bounding this phase's
-  // compiled output until the final migration establishes its final budget.
+  // Task 3 adds literal shell and launchpad utilities, including the app
+  // switcher, user menu, and search panel converted during review-fix round 2.
+  // Keep the original 6518-byte checkpoint as the lower baseline while bounding
+  // this phase's compiled output until the final migration establishes its
+  // final budget.
   assert.ok(output.size >= 6518);
-  assert.ok(output.size <= 22000, `Tailwind output exceeds the Task 3 budget: ${output.size} bytes`);
+  assert.ok(output.size <= 26000, `Tailwind output exceeds the Task 3 budget: ${output.size} bytes`);
 });
