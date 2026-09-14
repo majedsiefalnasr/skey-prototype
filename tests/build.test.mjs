@@ -32,6 +32,10 @@ function applyTask3ShellUtilities(html) {
     ['class="swrap"', 'class="swrap relative w-[min(620px,100%)]"'],
     ['class="sbox s-open"', 'class="sbox s-open flex w-full items-center gap-2 rounded-lg border border-line bg-surface px-3 py-[7px] text-start text-muted"'],
     [
+      '<span class="kbd-chip">⌘K</span>',
+      '<span class="ms-auto rounded border border-line bg-[var(--line-2)] px-1.5 py-px font-mono text-[11px] text-muted">⌘K</span>',
+    ],
+    [
       'class="spanel"',
       'class="spanel fixed inset-x-0 top-3.5 z-[160] mx-auto hidden max-h-[min(600px,68vh)] w-[min(620px,92vw)] flex-col overflow-hidden rounded-[9px] border-[1.5px] border-line bg-surface shadow-[var(--shadow-2)]"',
     ],
@@ -42,7 +46,7 @@ function applyTask3ShellUtilities(html) {
     ],
     [
       'autocomplete="off" />\n                <span class="kbd-chip" style="margin: 0">Esc</span>',
-      'autocomplete="off" />\n                <span class="kbd-chip m-0">Esc</span>',
+      'autocomplete="off" />\n                <span class="rounded border border-line bg-[var(--line-2)] px-1.5 py-px font-mono text-[11px] text-muted">Esc</span>',
     ],
     [
       'class="sctx"',

@@ -345,7 +345,7 @@ const pageAbort = new AbortController()
           search.innerHTML =
             `<svg width="15" height="15" aria-hidden="true"><use href="#i-search"/></svg>` +
             `<span class="lp-search-label search-typing-label" data-search-static="Search apps and screens">${t('Search apps and screens')}</span>` +
-            '<span class="kbd-chip lp-keyboard-hint">⌘K</span>'
+            '<span class="lp-keyboard-hint shrink-0 rounded-md border border-line bg-[var(--line-2)] px-2 py-[3px] font-mono text-xs text-muted">⌘K</span>'
           search.setAttribute('aria-label', t('Search apps and screens'))
 
           const sections = document.createElement('div')
