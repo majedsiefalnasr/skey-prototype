@@ -1,6 +1,7 @@
 @import "tailwindcss/theme" layer(theme);
 @import "./tailwind/base.css" layer(base);
 @import "tailwindcss/utilities" layer(utilities);
+@import "./tailwind/shell.css" layer(components);
 @source "../../app-shell.html";
 @source "../**/*.html";
 @source "../**/*.js";

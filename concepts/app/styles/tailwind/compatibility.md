@@ -12,3 +12,6 @@ only one of the categories below. Each later rule must have a row in this table.
 | Policy | prototype density/style modes | Prototype controls apply global density and input-style modes. | Move the mode value into literal owner utilities. |
 
 No compatibility selectors are retained at this checkpoint.
+
+| Shell | `.search-typing-label.is-typing::after` | The animated caret is generated content. | Render a caret element beside the label. |
+| Shell | `@keyframes lp-search-caret-blink` | The search caret uses a named animation. | Replace with a Tailwind animation token. |

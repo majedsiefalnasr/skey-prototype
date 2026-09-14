@@ -187,7 +187,20 @@ test('assemble: reassembling the real app-shell.html fragments reproduces the pr
         '    <script type="module" src="app/main.js"></script>'
     );
   const assembled = await assemble(path.resolve('concepts/app-shell.html'));
-  assert.equal(assembled, expected.replace(
+  const task3Utilities = [
+    ' relative flex h-[790px] flex-col border-b border-line bg-surface',
+    ' relative flex min-h-0 flex-1',
+    ' relative flex min-h-0 w-[var(--sidebar-w)] shrink-0 flex-col border-e border-line bg-surface',
+    ' flex min-h-0 min-w-0 flex-1 flex-col',
+    ' flex items-center gap-3 border-b border-line py-[9px] pe-4 ps-2',
+    ' flex w-[calc(var(--sidebar-w)-16px)] shrink-0 items-center gap-2.5',
+    ' relative flex flex-1 justify-center',
+    ' relative w-[min(620px,100%)]',
+    ' flex w-full items-center gap-2 rounded-lg border border-line bg-surface px-3 py-[7px] text-start text-muted',
+    ' flex shrink-0 items-center gap-[7px]',
+  ];
+  const normalized = task3Utilities.reduce((html, utilities) => html.replaceAll(utilities, ''), assembled);
+  assert.equal(normalized, expected.replace(
     `                    class="lbtn out"
                     onclick="addItemRow('items-body', 'items-total-qty')">`,
     `                    id="add-item-link"

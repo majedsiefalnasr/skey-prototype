@@ -1,7 +1,7 @@
     <!-- ===== shared templates ===== -->
     <template id="t-top">
-      <header class="gtop">
-        <div class="left">
+      <header class="gtop flex items-center gap-3 border-b border-line py-[9px] pe-4 ps-2">
+        <div class="left flex w-[calc(var(--sidebar-w)-16px)] shrink-0 items-center gap-2.5">
           <div class="menu app-switcher-menu">
             <button class="ibtn" aria-label="Switch app" aria-haspopup="menu" aria-expanded="false">
               <svg width="16" height="16" aria-hidden="true"><use href="#i-grid" /></svg
@@ -18,9 +18,9 @@
             ><span class="app-name">lastchance</span><span class="tip">lastchance</span>
           </button>
         </div>
-        <div class="gsearch">
-          <div class="swrap">
-            <button class="sbox s-open" aria-label="Search or run an action">
+        <div class="gsearch relative flex flex-1 justify-center">
+          <div class="swrap relative w-[min(620px,100%)]">
+            <button class="sbox s-open flex w-full items-center gap-2 rounded-lg border border-line bg-surface px-3 py-[7px] text-start text-muted" aria-label="Search or run an action">
               <svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg>
               <span
                 class="shell-search-label search-typing-label"
@@ -59,7 +59,7 @@
             </div>
           </div>
         </div>
-        <div class="right">
+        <div class="right flex shrink-0 items-center gap-[7px]">
           <button class="chip" aria-label="AI Assistant" title="AI Assistant">
             <svg width="14" height="14" aria-hidden="true"><use href="#i-spark" /></svg> AI
             Assistant

@@ -6,12 +6,12 @@ export function createShell({setupAppSwitcher, renderSide, goToForYou, applySide
 
   document.querySelectorAll('.design.active').forEach(d => {
     const frame = document.createElement('div')
-    frame.className = 'frame'
+    frame.className = 'frame relative flex h-[790px] flex-col border-b border-line bg-surface'
     frame.append(T('t-top'))
     const body = document.createElement('div')
-    body.className = 'fbody'
+    body.className = 'fbody relative flex min-h-0 flex-1'
     const side = document.createElement('nav')
-    side.className = 'side'
+    side.className = 'side relative flex min-h-0 w-[var(--sidebar-w)] shrink-0 flex-col border-e border-line bg-surface'
     side.setAttribute('aria-label', 'Primary navigation')
     const handle = document.createElement('button')
     handle.type = 'button'
@@ -20,7 +20,7 @@ export function createShell({setupAppSwitcher, renderSide, goToForYou, applySide
     handle.addEventListener('click', toggleSideCollapse)
     side.appendChild(handle)
     const content = document.createElement('main')
-    content.className = 'content'
+    content.className = 'content flex min-h-0 min-w-0 flex-1 flex-col'
     content.id = 'app-main'
     content.tabIndex = -1
     content.append(d.querySelector('.body-tpl').content.cloneNode(true))
