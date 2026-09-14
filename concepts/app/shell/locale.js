@@ -3,13 +3,13 @@
 /** Owns locale controls state and its DOM bindings. */
 export function createLocaleControls({t, formatLocaleCurrency, getLocale, setLocale, getCurrentContentViewName, stopSearchTyping, startSearchTyping, getLaunchpadUserName, applyState, renderGeoRecord, getDataListState, renderDataList, getCustomers} = {}) {
   let appLocale = getLocale()
-  
+
   function applyDataI18n() {
     document.querySelectorAll('[data-i18n]').forEach(node => {
       node.textContent = t(node.dataset.i18n)
     })
   }
-  
+
   function applyLocale(locale) {
     appLocale = locale
     setLocale(locale)
@@ -68,7 +68,7 @@ export function createLocaleControls({t, formatLocaleCurrency, getLocale, setLoc
         }
         subtitle.textContent = t('Resume recent work or open another Skey app.')
       }
-  
+
       activeLaunchpad.querySelectorAll('.lp-quick-lbl').forEach(node => {
         if (!node.dataset.i18nOriginal) node.dataset.i18nOriginal = node.textContent
         node.textContent = t(node.dataset.i18nOriginal)
@@ -125,7 +125,7 @@ export function createLocaleControls({t, formatLocaleCurrency, getLocale, setLoc
       if (lbl) lbl.textContent = t(btn.dataset.label)
     })
   }
-  
+
   document.getElementById('rtl').addEventListener('change', e => {
     applyLocale(e.target.checked ? 'ar' : 'en')
   })

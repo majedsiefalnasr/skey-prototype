@@ -12,7 +12,7 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
         '<svg width="15" height="15" aria-hidden="true"><use href="#i-edit"/></svg> Modify'
       btn.parentNode.insertBefore(modify, btn)
     })
-  
+
     /* the general actions sit behind whatever this record is doing */
     d.querySelectorAll('.lbtn[data-act="Save"]').forEach(btn => {
       const row = btn.parentNode
@@ -83,19 +83,19 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
       m.parentNode.insertBefore(b, m.nextSibling)
     })
   })
-  
+
   document.querySelectorAll('.record-back').forEach(b =>
     b.addEventListener('click', e => {
       e.preventDefault()
       getShowContentView()('list')
     })
   )
-  
+
   function bind() {
   document.getElementById('st').disabled = getState().mode === 'create'
-  
+
   renderActivity()
-  
+
   applyMode(getModeSel().value || 'record')
   }
 

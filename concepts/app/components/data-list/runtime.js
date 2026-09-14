@@ -8,7 +8,7 @@ import {computeDataListLayoutDirty as sharedComputeDataListLayoutDirty, deleteDa
 /** Owns list runtime state and its DOM bindings. */
 export function createListRuntime({locale, t, toast, initNumberTickers, openPrintSettings, openGeoRecord, getDataListActions, guardDataListLeave, dateFilterLabel, renderDataListDatePresetOptions, syncShellListPager, renderDataListChart, renderDataListStatistics, renderDataListGroupTrigger, renderDataListGroupingBar, renderDataListHeader, renderDataListBody, openQuickView, renderDataListCards, renderDataListAdaptiveRecord, getINVOICE_STATUS_TRANSITIONS, renderDataListKanban, positionDataMenu, applyFrozenDataListColumns, applyDataListFilterClick, applyDataListToolbarClick, resolvedDataListStatisticsConcept, activeDataListStatisticsConcept, renderDataPageManageMenu, renderGeoList} = {}) {
   const dataListStorage = localStorageDataListStorage()
-  
+
   const dataListDeps = {
     t,
     encodeHtml,
@@ -63,7 +63,7 @@ export function createListRuntime({locale, t, toast, initNumberTickers, openPrin
       reorderDataListColumn(context, sourceKey, targetKey),
     guardDataListLeave,
   }
-  
+
   const sharedActionDeps = {
     toast,
     dataListRows,
@@ -74,37 +74,37 @@ export function createListRuntime({locale, t, toast, initNumberTickers, openPrin
     activeDataListStatisticsConcept,
     resolvedDataListStatisticsConcept,
   }
-  
+
   function computeDataListLayoutDirty(listState) {
     return sharedComputeDataListLayoutDirty(listState, sharedActionDeps)
   }
-  
+
   function deleteDataListRecords(context, keys) {
     return sharedDeleteDataListRecords(context, keys, DATA_LIST_CONFIG[context], dataListState[context], {
       ...sharedActionDeps,
       rerender: () => renderDataList(context),
     })
   }
-  
+
   function toggleDataListStatus(context, row) {
     return sharedToggleDataListStatus(row, {
       ...sharedActionDeps,
       rerender: () => renderDataList(context),
     })
   }
-  
+
   function setDataListRecordsStatus(context, keys, active) {
     return sharedSetDataListRecordsStatus(keys, active, DATA_LIST_CONFIG[context], {
       ...sharedActionDeps,
       rerender: () => renderDataList(context),
     })
   }
-  
+
   function openDataListRecord(context, key, mode) {
     if (guardDataListLeave(() => openDataListRecord(context, key, mode))) return
     getDataListActions()[context].openRecord(key, mode)
   }
-  
+
   function applyDataListRowAction(context, rowAction) {
     return sharedApplyDataListRowAction(context, rowAction, DATA_LIST_CONFIG[context], {
       ...sharedActionDeps,
@@ -113,7 +113,7 @@ export function createListRuntime({locale, t, toast, initNumberTickers, openPrin
       toggleDataListStatus: row => toggleDataListStatus(context, row),
     })
   }
-  
+
   function applyDataListToolbarCommand(context, command, selectedKey) {
     return sharedApplyDataListToolbarCommand(
       context,
@@ -131,7 +131,7 @@ export function createListRuntime({locale, t, toast, initNumberTickers, openPrin
       }
     )
   }
-  
+
   function applyDataListCommandClick(event, context) {
     return sharedApplyDataListCommandClick(event, context, dataListState[context], {
       ...sharedActionDeps,
@@ -141,14 +141,14 @@ export function createListRuntime({locale, t, toast, initNumberTickers, openPrin
       applyDataListToolbarCommand: (ctx, cmd, key) => applyDataListToolbarCommand(ctx, cmd, key),
     })
   }
-  
+
   function applyDataListSortClick(event, context) {
     return sharedApplyDataListSortClick(event, dataListState[context], {
       ...sharedActionDeps,
       rerender: () => renderDataList(context),
     })
   }
-  
+
   function onDataListChange(event, context) {
     return sharedOnDataListChange(event, context, dataListState[context], DATA_LIST_CONFIG[context], {
       ...sharedActionDeps,
@@ -156,28 +156,28 @@ export function createListRuntime({locale, t, toast, initNumberTickers, openPrin
       rerender: (options = {}) => renderDataList(context, options),
     })
   }
-  
+
   function reorderDataListColumn(context, sourceKey, targetKey) {
     return sharedReorderDataListColumn(sourceKey, targetKey, dataListState[context], {
       ...sharedActionDeps,
       rerender: () => renderDataList(context),
     })
   }
-  
+
   function saveDataListLayout(context) {
     return sharedSaveDataListLayout(dataListState[context], dataListModels[context], {
       ...sharedActionDeps,
       rerender: () => renderDataList(context),
     })
   }
-  
+
   function resetDataListLayout(context) {
     return sharedResetDataListLayout(dataListModels[context], {
       ...sharedActionDeps,
       rerender: () => renderDataList(context),
     })
   }
-  
+
   const dataListInstances = Object.fromEntries(
     Object.entries(DATA_LIST_CONFIG).map(([context, config]) => [
       context,
@@ -192,41 +192,41 @@ export function createListRuntime({locale, t, toast, initNumberTickers, openPrin
       }),
     ])
   )
-  
+
   const dataListModels = Object.fromEntries(
     Object.entries(dataListInstances).map(([context, instance]) => [context, instance.model])
   )
-  
+
   const dataListState = Object.fromEntries(
     Object.entries(dataListInstances).map(([context, instance]) => [
       context,
       instance.getState(),
     ])
   )
-  
+
   function renderDataList(context, options) {
     dataListInstances[context].render(options)
   }
-  
+
   const dataListIcon = (name, size = 15) =>
     `<svg width="${size}" height="${size}" aria-hidden="true"><use href="#${name}" /></svg>`
-  
+
   function dataListRows(context) {
     return dataListModels[context].rowsInView()
   }
-  
+
   function refreshDataListForContext(context) {
     if (context === 'geo') renderGeoList()
     else renderDataList(context)
   }
-  
+
   document.getElementById('filter-mode').addEventListener('change', e => {
     Object.keys(DATA_LIST_CONFIG).forEach(context => {
       dataListState[context].filterMode = e.target.value
       if (dataListState[context].canvas) refreshDataListForContext(context)
     })
   })
-  
+
   document.getElementById('statistics-concept').addEventListener('change', () => {
     Object.keys(DATA_LIST_CONFIG).forEach(context => {
       if (dataListState[context].canvas) refreshDataListForContext(context)

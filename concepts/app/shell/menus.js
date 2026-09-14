@@ -9,10 +9,10 @@ export function createMenus({showLaunchpad} = {}) {
         b.parentElement.querySelector('.mlist').classList.remove('open')
       }
     })
-  
+
   const enabledMenuItems = list =>
     [...list.querySelectorAll('[role^="menuitem"]')].filter(item => !item.disabled)
-  
+
   function openMenuFromKeyboard(trigger, edge) {
     const list = trigger.parentElement.querySelector('.mlist')
     closeAllMenus(trigger)
@@ -23,13 +23,13 @@ export function createMenus({showLaunchpad} = {}) {
     items.forEach(item => (item.tabIndex = -1))
     ;(edge === 'last' ? items.at(-1) : items[0])?.focus()
   }
-  
+
   function closeMenuAndRestoreFocus(trigger) {
     trigger.setAttribute('aria-expanded', 'false')
     trigger.parentElement.querySelector('.mlist').classList.remove('open')
     trigger.focus()
   }
-  
+
   document.addEventListener('keydown', event => {
     const trigger = event.target.closest('.menu > button[aria-haspopup="menu"]')
     if (trigger && ['ArrowDown', 'ArrowUp'].includes(event.key)) {
@@ -62,7 +62,7 @@ export function createMenus({showLaunchpad} = {}) {
     event.preventDefault()
     items[next]?.focus()
   })
-  
+
   document.addEventListener('click', e => {
     const switcherBtn = e.target.closest('.app-switcher-menu > button')
     if (switcherBtn) {
@@ -82,7 +82,7 @@ export function createMenus({showLaunchpad} = {}) {
     }
     if (!e.target.closest('.menu')) closeAllMenus()
   })
-  
+
   function positionFixedMenu(trigger, list) {
     const r = trigger.getBoundingClientRect()
     list.style.position = 'fixed'

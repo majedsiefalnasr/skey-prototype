@@ -3,7 +3,7 @@
 /** Owns topbar state and its DOM bindings. */
 export function createTopbar({toast, getSideCollapsed, closeAllMenus, openKbd, openAppearance, openCustomize} = {}) {
   const ACTIVE_FISCAL_YEAR = '2026'
-  
+
   function syncTopbarBrand() {
     /* not scoped to .gtop — the launchpad moves this same button into
        .lp-actions-left while it's open (see showLaunchpad), and it still
@@ -17,9 +17,9 @@ export function createTopbar({toast, getSideCollapsed, closeAllMenus, openKbd, o
       el.setAttribute('aria-label', `lastchance, fiscal year ${ACTIVE_FISCAL_YEAR}`)
     })
   }
-  
+
   function goToForYou() {}
-  
+
   function syncTopbarChrome() {
     document.querySelectorAll('.app-switcher-menu').forEach(m => {
       m.hidden = false
@@ -39,7 +39,7 @@ export function createTopbar({toast, getSideCollapsed, closeAllMenus, openKbd, o
     })
     syncTopbarBrand()
   }
-  
+
   document.querySelectorAll('.panel-toggle').forEach(t =>
     t.addEventListener('click', () => {
       const d = t.closest('.design')
@@ -48,7 +48,7 @@ export function createTopbar({toast, getSideCollapsed, closeAllMenus, openKbd, o
       t.setAttribute('aria-label', c ? 'Show context panel' : 'Hide context panel')
     })
   )
-  
+
   function bind() {
   document.querySelectorAll('.help-kbd').forEach(b =>
     b.addEventListener('click', () => {
@@ -56,28 +56,28 @@ export function createTopbar({toast, getSideCollapsed, closeAllMenus, openKbd, o
       openKbd()
     })
   )
-  
+
   document.querySelectorAll('.side-customize-menu').forEach(b =>
     b.addEventListener('click', () => {
       closeAllMenus()
       openCustomize()
     })
   )
-  
+
   document.querySelectorAll('.appearance-menu').forEach(b =>
     b.addEventListener('click', () => {
       closeAllMenus()
       openAppearance()
     })
   )
-  
+
   document.querySelectorAll('.fav-toggle-menu').forEach(b =>
     b.addEventListener('click', () => {
       closeAllMenus()
       document.querySelector('.fav-toggle')?.click()
     })
   )
-  
+
   document.querySelectorAll('.mlist').forEach(list =>
     list.addEventListener('click', e => {
       if (
@@ -87,7 +87,7 @@ export function createTopbar({toast, getSideCollapsed, closeAllMenus, openKbd, o
         closeAllMenus()
     })
   )
-  
+
   document.querySelectorAll('.fav-toggle').forEach(btn => {
     btn.onclick = () => {
       const on = btn.getAttribute('aria-pressed') !== 'true'

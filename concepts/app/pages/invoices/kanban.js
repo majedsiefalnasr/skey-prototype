@@ -11,7 +11,7 @@ export function createKanban({trapFocus, releaseFocus, toast, renderDataList, re
     'Returned',
     'Canceled',
   ]
-  
+
   const INVOICE_STATUS_TRANSITIONS = {
     Draft: ['Open', 'Canceled'],
     Open: ['Pending', 'Canceled'],
@@ -20,17 +20,17 @@ export function createKanban({trapFocus, releaseFocus, toast, renderDataList, re
     Returned: [],
     Canceled: [],
   }
-  
+
   function invoiceStatusKey(status) {
     return String(status || '').toLowerCase()
   }
-  
+
   function renderDataListKanbanCard(row, config, listState) {
     const key = String(row[config.key])
     const selected = listState.selected.has(key)
     return `<article class="data-kanban-card" role="listitem" draggable="true" data-list-row-key="${encodeHtml(key)}" data-kanban-status="${encodeHtml(row.status)}" aria-selected="${selected}"><header><button class="data-record-card-identity" type="button" data-list-open-record="${encodeHtml(key)}" aria-label="Open ${encodeHtml(config.singular)} ${encodeHtml(key)}"><div><strong>Sales Invoice ${encodeHtml(row.no)}</strong><span>${encodeHtml(row.seq)}</span></div></button>${renderDataListRowActions('invoice', row, config, 'kanban')}</header><div class="data-kanban-card-total">${encodeHtml(row.currency)} ${encodeHtml(row.total)}</div><dl class="data-kanban-card-meta"><div><dt>Customer</dt><dd>${encodeHtml(row.custName)}</dd></div><div><dt>Date</dt><dd>${encodeHtml(row.date)}</dd></div><div><dt>Payment</dt><dd>${encodeHtml(row.pay)}</dd></div></dl></article>`
   }
-  
+
   function renderDataListKanban(context, rows, config, listState) {
     if (context !== 'invoice') return ''
     const columns = INVOICE_KANBAN_COLUMNS.map(status => {
@@ -42,7 +42,7 @@ export function createKanban({trapFocus, releaseFocus, toast, renderDataList, re
     }).join('')
     return `<div class="data-kanban-board">${columns}</div>`
   }
-  
+
   function openKanbanBlockedDialog(row, fromStatus, toStatus) {
     const allowedFrom = INVOICE_STATUS_TRANSITIONS[fromStatus] || []
     document.getElementById('kanban-blocked-body').textContent =
@@ -64,12 +64,12 @@ export function createKanban({trapFocus, releaseFocus, toast, renderDataList, re
     kanbanBlockedScrim.classList.add('open')
     trapFocus(kanbanBlockedScrim.querySelector('.customer-modal'))
   }
-  
+
   function closeKanbanBlockedDialog() {
     kanbanBlockedScrim.classList.remove('open')
     releaseFocus()
   }
-  
+
   function moveInvoiceKanbanCard(context, key, toStatus) {
     const config = DATA_LIST_CONFIG[context]
     const row = config.rows.find(record => String(record[config.key]) === key)
@@ -85,9 +85,9 @@ export function createKanban({trapFocus, releaseFocus, toast, renderDataList, re
     renderDataList(context)
     toast({tone: 'ok', title: `Sales Invoice ${row.no} moved to ${toStatus}`})
   }
-  
+
   const kanbanBlockedScrim = document.getElementById('kanban-blocked-scrim')
-  
+
   kanbanBlockedScrim.addEventListener('click', event => {
     if (
       event.target === kanbanBlockedScrim ||

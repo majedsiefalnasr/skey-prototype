@@ -3,11 +3,11 @@
 /** Owns list guard state and its DOM bindings. */
 export function createListGuard({trapFocus, releaseFocus, saveDataListLayout, getDataListState} = {}) {
   const listLayoutGuard = document.getElementById('list-layout-guard')
-  
+
   let listLayoutGuardContext = ''
-  
+
   let listLayoutGuardAfter = null
-  
+
   function visibleDirtyDataListContext() {
     if (
       document.querySelector('.list-view')?.hidden === false &&
@@ -26,30 +26,30 @@ export function createListGuard({trapFocus, releaseFocus, saveDataListLayout, ge
       return 'geo'
     return ''
   }
-  
+
   function askListLayoutGuard(context, after) {
     listLayoutGuardContext = context
     listLayoutGuardAfter = after
     listLayoutGuard.classList.add('open')
     setTimeout(() => trapFocus(listLayoutGuard.querySelector('.guard')), 0)
   }
-  
+
   function guardDataListLeave(after) {
     const context = visibleDirtyDataListContext()
     if (!context) return false
     askListLayoutGuard(context, after)
     return true
   }
-  
+
   function closeListLayoutGuard() {
     listLayoutGuard.classList.remove('open')
     listLayoutGuardContext = ''
     listLayoutGuardAfter = null
     releaseFocus()
   }
-  
+
   document.getElementById('list-layout-stay').addEventListener('click', closeListLayoutGuard)
-  
+
   document.getElementById('list-layout-discard').addEventListener('click', () => {
     const context = listLayoutGuardContext
     const after = listLayoutGuardAfter
@@ -64,7 +64,7 @@ export function createListGuard({trapFocus, releaseFocus, saveDataListLayout, ge
     closeListLayoutGuard()
     after?.()
   })
-  
+
   document.getElementById('list-layout-save').addEventListener('click', () => {
     const context = listLayoutGuardContext
     const after = listLayoutGuardAfter
@@ -72,11 +72,11 @@ export function createListGuard({trapFocus, releaseFocus, saveDataListLayout, ge
     closeListLayoutGuard()
     after?.()
   })
-  
+
   listLayoutGuard.addEventListener('click', event => {
     if (event.target === listLayoutGuard) closeListLayoutGuard()
   })
-  
+
   function requestPageLeave(fromId) {
     if (fromId === 'list' || fromId === 'customers-list' || fromId === 'geo-list') {
       const context = {list: 'invoice', 'customers-list': 'customer', 'geo-list': 'geo'}[fromId]

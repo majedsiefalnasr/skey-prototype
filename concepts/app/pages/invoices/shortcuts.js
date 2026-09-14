@@ -4,7 +4,7 @@
 export function createInvoiceShortcuts({toast, getState, blocked, renderActivity, openPrintSettings, doSave, atRisk, askGuard, getModeSel, applyMode, openKbd} = {}) {
   const firstEnabled = sel =>
     [...document.querySelectorAll('.design.active ' + sel)].find(b => !b.disabled)
-  
+
   document.addEventListener('keydown', e => {
     const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)
     const mod = e.metaKey || e.ctrlKey
@@ -44,7 +44,7 @@ export function createInvoiceShortcuts({toast, getState, blocked, renderActivity
     }
     if (typing && !mod) return
   })
-  
+
   document.getElementById('emptyflow').addEventListener('change', e => {
     getState().emptyFlow = e.target.checked
     renderActivity()

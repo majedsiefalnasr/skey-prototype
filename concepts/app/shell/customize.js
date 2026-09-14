@@ -3,24 +3,24 @@ import {NAV_TREE, NAV_ICONS} from '../prototype/fixtures/navigation.js'
 /** Owns customize state and its DOM bindings. */
 export function createCustomize({trapFocus, releaseFocus, toast, childrenOf, leavesOf, getForYouGroups, setForYouGroups, renderSide} = {}) {
   const cscrim = document.getElementById('cscrim')
-  
+
   const csTree = document.getElementById('cs-tree')
-  
+
   const csGroupsEl = document.getElementById('cs-groups')
-  
+
   const csCount = document.getElementById('cs-count')
-  
+
   let csDraft = []
-  
+
   let csGroupSeq = 0
-  
+
   const csSyncCount = () => {
     const n = csDraft.reduce((sum, g) => sum + g.items.length, 0)
     csCount.textContent = `${csDraft.length} group${csDraft.length === 1 ? '' : 's'}, ${n} screen${n === 1 ? '' : 's'}`
   }
-  
+
   let csTreeRows = []
-  
+
   const csTreeRow = (label, depth, icon, dragPayload) => {
     const li = document.createElement('li')
     li.className = 'cs-tree-row'
@@ -44,7 +44,7 @@ export function createCustomize({trapFocus, releaseFocus, toast, childrenOf, lea
     csTreeRows.push({el: li, screens: dragPayload.screens})
     return li
   }
-  
+
   const csSyncTreeDisabled = () => {
     const used = new Set(csDraft.flatMap(g => g.items.map(it => it.label)))
     csTreeRows.forEach(({el, screens}) => {
@@ -53,7 +53,7 @@ export function createCustomize({trapFocus, releaseFocus, toast, childrenOf, lea
       el.draggable = !allUsed
     })
   }
-  
+
   const csRenderTree = () => {
     csTree.innerHTML = ''
     csTreeRows = []
@@ -104,12 +104,12 @@ export function createCustomize({trapFocus, releaseFocus, toast, childrenOf, lea
     })
     csSyncTreeDisabled()
   }
-  
+
   let csItemDragSrc =
     null
-  
+
   let csGroupDragLabel = null
-  
+
   const csRenderItem = (group, item, index) => {
     const li = document.createElement('li')
     li.className = 'cs-group-item'
@@ -165,9 +165,9 @@ export function createCustomize({trapFocus, releaseFocus, toast, childrenOf, lea
     })
     return li
   }
-  
+
   let csCollapsedGroups = new Set()
-  
+
   const csRenderGroups = () => {
     csGroupsEl.innerHTML = ''
     csDraft.forEach(group => {
@@ -207,12 +207,12 @@ export function createCustomize({trapFocus, releaseFocus, toast, childrenOf, lea
           .filter(Boolean)
         csSyncTreeDisabled()
       })
-  
+
       const itemsList = document.createElement('ul')
       itemsList.className = 'cs-group-items'
       itemsList.hidden = collapsed
       group.items.forEach((item, i) => itemsList.appendChild(csRenderItem(group, item, i)))
-  
+
       hd.querySelector('.cs-group-expand').addEventListener('click', () => {
         const nowCollapsed = !itemsList.hidden
         itemsList.hidden = nowCollapsed
@@ -227,7 +227,7 @@ export function createCustomize({trapFocus, releaseFocus, toast, childrenOf, lea
         if (nowCollapsed) csCollapsedGroups.add(group.id)
         else csCollapsedGroups.delete(group.id)
       })
-  
+
       /* drop target: a screen dragged from the left tree, or an existing item
          being moved from another group (or reordered within this one) */
       li.addEventListener('dragover', e => {
@@ -255,14 +255,14 @@ export function createCustomize({trapFocus, releaseFocus, toast, childrenOf, lea
         }
         csRenderGroups()
       })
-  
+
       li.append(hd, itemsList)
       csGroupsEl.appendChild(li)
     })
     csSyncCount()
     csSyncTreeDisabled()
   }
-  
+
   csGroupsEl.addEventListener('dragover', e => {
     if (!csGroupDragLabel) return
     e.preventDefault()
@@ -273,14 +273,14 @@ export function createCustomize({trapFocus, releaseFocus, toast, childrenOf, lea
     const before = e.clientY < rect.top + rect.height / 2
     over.parentElement.insertBefore(dragging, before ? over : over.nextSibling)
   })
-  
+
   document.getElementById('cs-add-group').addEventListener('click', () => {
     csGroupSeq += 1
     csDraft.push({id: 'g' + csGroupSeq, name: 'New group', items: []})
     csRenderGroups()
     csGroupsEl.querySelector('.cs-group:last-child .cs-group-name')?.select()
   })
-  
+
   const openCustomize = () => {
     csGroupSeq = 0
     csCollapsedGroups = new Set()
@@ -293,18 +293,18 @@ export function createCustomize({trapFocus, releaseFocus, toast, childrenOf, lea
     cscrim.classList.add('open')
     trapFocus(cscrim.querySelector('.dlg'))
   }
-  
+
   const closeCustomize = () => {
     if (cscrim.classList.contains('open')) {
       cscrim.classList.remove('open')
       releaseFocus()
     }
   }
-  
+
   cscrim.addEventListener('click', e => {
     if (e.target === cscrim || e.target.closest('.c-close')) closeCustomize()
   })
-  
+
   document.getElementById('cs-save').addEventListener('click', () => {
     setForYouGroups(csDraft
       .filter(g => g.items.length)

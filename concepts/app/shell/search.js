@@ -6,9 +6,9 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
     sSel = 0,
     sRows = [],
     sScreensLocked = false
-  
+
   const esc = s => s.replace(/[&<>]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;'})[c])
-  
+
   const hi = (t, q) => {
     if (!q) return esc(t)
     const i = t.toLowerCase().indexOf(q)
@@ -20,13 +20,13 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
           '</mark>' +
           esc(t.slice(i + q.length))
   }
-  
+
   const activePanel = () => document.querySelector('.design.active .spanel')
-  
+
   const activeInput = () => activePanel().querySelector('input')
-  
+
   const activeList = () => activePanel().querySelector('.slist')
-  
+
   const renderSearch = () => {
     document.querySelectorAll('.sctx').forEach(c => {
       const b = c.querySelector('b')
@@ -93,13 +93,13 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
     sSel = 0
     markSel()
   }
-  
+
   const markSel = () => {
     const items = [...activeList().querySelectorAll('.sitem:not(:disabled)')]
     items.forEach((el, i) => el.classList.toggle('sel', i === sSel))
     items[sSel]?.scrollIntoView({block: 'nearest'})
   }
-  
+
   const runSearch = () => {
     const items = [...activeList().querySelectorAll('.sitem:not(:disabled)')]
     const el = items[sSel]
@@ -130,7 +130,7 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
         body: 'Opening this is out of scope for the app-shell prototype.',
       })
   }
-  
+
   const openSearch = (screensOnly = false) => {
     document.querySelectorAll('.search-typing-label').forEach(label => {
       stopSearchTyping(label.closest('.lp-view, .gtop'))
@@ -149,7 +149,7 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
     renderSearch()
     activeInput().focus()
   }
-  
+
   const closeSearch = () => {
     document.querySelectorAll('.spanel.open').forEach(p => {
       p.classList.remove('open')
@@ -158,17 +158,17 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
     document.getElementById('sscrim').classList.remove('open')
     document.querySelectorAll('.search-typing-label').forEach(startSearchTyping)
   }
-  
+
   const sscrim = document.createElement('div')
-  
+
   sscrim.className = 'sscrim'
-  
+
   sscrim.id = 'sscrim'
-  
+
   document.body.append(sscrim)
-  
+
   sscrim.addEventListener('click', closeSearch)
-  
+
   document.addEventListener('click', e => {
     const opener = e.target.closest('.s-open')
     if (opener) openSearch(opener.classList.contains('lp-search'))
@@ -178,7 +178,7 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
       runSearch()
     }
   })
-  
+
   document.addEventListener('mouseover', e => {
     const it = e.target.closest('.sitem:not(:disabled)')
     if (!it) return
@@ -188,11 +188,11 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
     sSel = i
     markSel()
   })
-  
+
   document
     .querySelectorAll('.spanel input')
     .forEach(i => i.addEventListener('input', renderSearch))
-  
+
   document.querySelectorAll('.sscope button').forEach(b =>
     b.addEventListener('click', () => {
       sScope = b.dataset.scope
@@ -203,7 +203,7 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
       activeInput().focus()
     })
   )
-  
+
   document.querySelectorAll('.spanel input').forEach(inp =>
     inp.addEventListener('keydown', e => {
       const n = activeList().querySelectorAll('.sitem:not(:disabled)').length

@@ -3,7 +3,7 @@
 /** Owns content host state and its DOM bindings. */
 export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCurrentView, applyDataI18n, renderCustomerList, renderGeoList, renderListA, closeAdvancedSearch} = {}) {
   let currentContentViewName = 'record'
-  
+
   function currentSkeletonContainer() {
     const launchpad = document.querySelector('.lp-view:not([hidden])')
     if (launchpad) return launchpad
@@ -19,15 +19,15 @@ export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCu
     const selector = selectors[currentContentViewName]
     return selector ? document.querySelector(selector) : null
   }
-  
+
   const deferredContentViews = new Map()
-  
+
   const initializedContentViews = new Set()
-  
+
   let contentViewDeferralReady = false
-  
+
   let ensureContentViewRendered = () => {}
-  
+
   function attachAndShowView(name) {
     /* adv-search-scrim is a sibling outside .content, so switching which
      .content child is visible doesn't touch it — close it here so it never
@@ -35,7 +35,7 @@ export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCu
      list) */
     const advScrim = document.getElementById('adv-search-scrim')
     if (advScrim && advScrim.classList.contains('open')) closeAdvancedSearch()
-  
+
     const content = document.querySelector('.content')
     const viewSelectors = {
       email: '.email-view',
@@ -67,13 +67,13 @@ export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCu
       el.hidden = name !== 'record'
     })
   }
-  
+
   function onNavigationChange(name) {
     currentContentViewName = name
     syncPrototypeControlsPage(name)
     queueSkeletonForCurrentView()
   }
-  
+
   ensureContentViewRendered = name => {
     if (initializedContentViews.has(name)) return
     if (name === 'list') renderListA(document.getElementById('list-canvas'))

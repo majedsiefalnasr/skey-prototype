@@ -7,7 +7,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
   function persistCustomFilters(context, filters) {
     return getDataListStorage().saveCustomFilters(context, filters)
   }
-  
+
   const DATA_CUSTOM_FILTER_ICONS = [
     'i-eye',
     'i-spark',
@@ -22,7 +22,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     'i-location',
     'i-warn',
   ]
-  
+
   function applyDataListFilterClick(event, context) {
     const listState = getDataListState()[context]
     const config = DATA_LIST_CONFIG[context]
@@ -120,7 +120,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     })
     return true
   }
-  
+
   function applyDataListToolbarClick(event, context) {
     const listState = getDataListState()[context]
     if (event.target.closest('[data-list-search-clear]')) {
@@ -135,9 +135,9 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     else return false
     return true
   }
-  
+
   let activeFilterModalContext = null
-  
+
   function renderDataFilterModal(context) {
     const config = DATA_LIST_CONFIG[context]
     const listState = getDataListState()[context]
@@ -186,22 +186,22 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
       })
       .join('')
   }
-  
+
   function openDataFilterModal(context) {
     activeFilterModalContext = context
     renderDataFilterModal(context)
     geoFilterScrim.classList.add('open')
     trapFocus(geoFilterScrim.querySelector('.customer-modal'))
   }
-  
+
   function closeDataFilterModal() {
     geoFilterScrim.classList.remove('open')
     releaseFocus()
     activeFilterModalContext = null
   }
-  
+
   let activeSaveFilterContext = null
-  
+
   function dataListFilterConditionSummary(config, fieldFilter) {
     const field = config.filterFields.find(item => item.key === fieldFilter.key)
     if (!field) return ''
@@ -218,7 +218,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
       DATA_FILTER_OPERATORS[0]
     return `${field.label} ${t(operator.label).toLowerCase()} "${fieldFilter.value}"`
   }
-  
+
   function renderIconPicker(mount, selectedIcon, onPick) {
     mount.innerHTML = DATA_CUSTOM_FILTER_ICONS.map(
       icon =>
@@ -234,7 +234,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
       })
     })
   }
-  
+
   function renderSaveFilterDialog(context) {
     const config = DATA_LIST_CONFIG[context]
     const listState = getDataListState()[context]
@@ -253,11 +253,11 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
       icon => (saveFilterState.icon = icon)
     )
   }
-  
+
   const saveFilterState = {icon: DATA_CUSTOM_FILTER_ICONS[0]}
-  
+
   const saveFilterScrim = document.getElementById('save-filter-scrim')
-  
+
   function openSaveFilterDialog(context) {
     activeSaveFilterContext = context
     renderSaveFilterDialog(context)
@@ -265,13 +265,13 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     trapFocus(saveFilterScrim.querySelector('.customer-modal'))
     document.getElementById('save-filter-name').focus({preventScroll: true})
   }
-  
+
   function closeSaveFilterDialog() {
     saveFilterScrim.classList.remove('open')
     releaseFocus()
     activeSaveFilterContext = null
   }
-  
+
   function confirmSaveFilter() {
     const context = activeSaveFilterContext
     if (!context) return
@@ -294,7 +294,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     toast({tone: 'ok', title: `Filter "${name}" saved`})
     refreshDataListForContext(context)
   }
-  
+
   saveFilterScrim.addEventListener('click', event => {
     if (event.target === saveFilterScrim || event.target.closest('.save-filter-close')) {
       closeSaveFilterDialog()
@@ -302,22 +302,22 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     }
     if (event.target.closest('#save-filter-confirm')) confirmSaveFilter()
   })
-  
+
   saveFilterScrim.addEventListener('keydown', event => {
     if (event.key === 'Enter' && event.target.id === 'save-filter-name') {
       event.preventDefault()
       confirmSaveFilter()
     }
   })
-  
+
   let activeManageFiltersContext = null
-  
+
   let activeManageFilterId = ''
-  
+
   let manageFilterDraft = null
-  
+
   const manageFiltersScrim = document.getElementById('manage-filters-scrim')
-  
+
   function applyCustomFilter(context, customFilterId) {
     const listState = getDataListState()[context]
     const custom = listState.customFilters.find(item => item.id === customFilterId)
@@ -330,7 +330,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     listState.selected.clear()
     refreshDataListForContext(context)
   }
-  
+
   function deleteCustomFilter(context, customFilterId) {
     const listState = getDataListState()[context]
     listState.customFilters = listState.customFilters.filter(
@@ -343,7 +343,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     }
     refreshDataListForContext(context)
   }
-  
+
   function renderManageFiltersList(context) {
     const listState = getDataListState()[context]
     const list = document.getElementById('manage-filters-list')
@@ -359,7 +359,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
       )
       .join('')
   }
-  
+
   function selectManageFilter(context, customFilterId) {
     const listState = getDataListState()[context]
     const custom = listState.customFilters.find(item => item.id === customFilterId)
@@ -374,7 +374,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     renderManageFiltersList(context)
     renderManageFilterEditor(context)
   }
-  
+
   function renderManageFilterAddCondition(config) {
     const activeKeys = new Set(manageFilterDraft.fieldFilters.map(item => item.key))
     const available = config.filterFields.filter(field => !activeKeys.has(field.key))
@@ -387,7 +387,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
       .join('')
     return `<details class="data-menu" data-manage-filter-add-menu><summary>${dataListIcon('i-plus')}<span>${t('Add condition', 'Add condition')}</span></summary><div class="data-menu-popover" role="menu">${options}</div></details>`
   }
-  
+
   function renderManageFilterConditionRow(field, fieldFilter) {
     const removeButton = `<button type="button" class="data-manage-filter-remove" data-manage-filter-remove-condition="${encodeHtml(field.key)}" aria-label="${t('Remove', 'Remove')} ${encodeHtml(t(field.label))} ${t('condition', 'condition')}">${dataListIcon('i-x', 13)}</button>`
     if (field.type === 'date') {
@@ -413,7 +413,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     const input = `<input type="text" class="data-manage-filter-field" data-manage-filter-field="${encodeHtml(field.key)}" value="${encodeHtml(fieldFilter.value ?? '')}" placeholder="${t('Enter', 'Enter')} ${encodeHtml(t(field.label).toLowerCase())}" />`
     return `<div class="data-manage-filter-condition-row"><span class="data-manage-filter-condition-label">${encodeHtml(t(field.label))}</span><div class="data-filter-modal-row">${operatorSelect}${input}</div>${removeButton}</div>`
   }
-  
+
   function renderManageFilterEditor(context) {
     const config = DATA_LIST_CONFIG[context]
     const editor = document.getElementById('manage-filters-editor')
@@ -437,7 +437,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
       .join('')
     fieldsMount.innerHTML = `${conditionRows || `<p class="data-manage-filter-empty">${t('No conditions yet — add one below.', 'No conditions yet — add one below.')}</p>`}${renderManageFilterAddCondition(config)}`
   }
-  
+
   function openManageFiltersDialog(context) {
     activeManageFiltersContext = context
     const listState = getDataListState()[context]
@@ -445,7 +445,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     manageFiltersScrim.classList.add('open')
     trapFocus(manageFiltersScrim.querySelector('.customer-modal'))
   }
-  
+
   function closeManageFiltersDialog() {
     manageFiltersScrim.classList.remove('open')
     releaseFocus()
@@ -453,7 +453,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     activeManageFilterId = ''
     manageFilterDraft = null
   }
-  
+
   function saveManageFilterEdits() {
     const context = activeManageFiltersContext
     if (!context || !manageFilterDraft) return
@@ -475,7 +475,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     toast({tone: 'ok', title: `Filter "${name}" updated`})
     refreshDataListForContext(context)
   }
-  
+
   manageFiltersScrim.addEventListener('click', event => {
     if (
       event.target === manageFiltersScrim ||
@@ -529,7 +529,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
       selectManageFilter(context, getDataListState()[context].customFilters[0]?.id || '')
     }
   })
-  
+
   manageFiltersScrim.addEventListener('change', event => {
     if (!manageFilterDraft) return
     const operatorSelect = event.target.closest('[data-manage-filter-operator-select]')
@@ -559,7 +559,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
       if (item) item.value = field.value
     }
   })
-  
+
   manageFiltersScrim.addEventListener('input', event => {
     if (!manageFilterDraft) return
     const dateAmount = event.target.closest('[data-list-date-amount]')
@@ -594,7 +594,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     )
     if (item) item.value = field.value
   })
-  
+
   function applyDataFilterField(context, key, rawValue) {
     const listState = getDataListState()[context]
     const value = rawValue.trim()
@@ -606,7 +606,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     if (existing) existing.value = value
     else listState.fieldFilters.push({key, operator: 'contains', value})
   }
-  
+
   function ensureDataFilterModalField(context, key, defaults) {
     const listState = getDataListState()[context]
     let item = listState.fieldFilters.find(fieldFilter => fieldFilter.key === key)
@@ -616,9 +616,9 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     }
     return item
   }
-  
+
   const geoFilterScrim = document.getElementById('geo-filter-scrim')
-  
+
   geoFilterScrim.addEventListener('click', event => {
     const context = activeFilterModalContext
     if (!context) return
@@ -651,7 +651,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
       closeDataFilterModal()
     }
   })
-  
+
   geoFilterScrim.addEventListener('change', event => {
     const context = activeFilterModalContext
     if (!context) return
@@ -684,7 +684,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
       refreshDataListForContext(context)
     }
   })
-  
+
   geoFilterScrim.addEventListener('input', event => {
     const context = activeFilterModalContext
     if (!context) return

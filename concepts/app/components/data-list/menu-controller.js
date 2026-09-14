@@ -48,32 +48,32 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
     popover.style.left = `${left}px`
     popover.style.top = `${top}px`
   }
-  
+
   const applyFrozenDataListColumns = applySharedFrozenDataListColumns
-  
+
   function dataManageAction(action, icon, title, support, {disabled = false} = {}) {
     return `<button type="button" role="menuitem" data-list-manage-action="${action}"${disabled ? ' disabled' : ''}>${dataListIcon(icon)}<span class="data-manage-copy"><strong>${title}</strong><small>${support}</small></span></button>`
   }
-  
+
   const DATA_BORDER_MODES = ['default', 'both', 'none', 'horizontal', 'vertical']
-  
+
   function renderDataManageBorderControls(context, listState) {
     return DATA_BORDER_MODES.map(
       mode =>
         `<label class="data-manage-radio"><input type="radio" name="${encodeHtml(context)}-border" data-list-manage-border="${mode}"${listState.borderMode === mode ? ' checked' : ''}><span>${mode[0].toUpperCase() + mode.slice(1)}</span></label>`
     ).join('')
   }
-  
+
   function resolvedDataListStatisticsConcept(statisticsConcept) {
     return (
       statisticsConcept || document.getElementById('statistics-concept')?.value || 'balanced'
     )
   }
-  
+
   function activeDataListStatisticsConcept(listState) {
     return resolvedDataListStatisticsConcept(listState.statisticsConcept)
   }
-  
+
   function renderDataManageStatisticsControls(context, listState) {
     const active = activeDataListStatisticsConcept(listState)
     return DATA_LIST_STATISTICS_CONCEPT_OPTIONS.map(
@@ -81,7 +81,7 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
         `<label class="data-manage-radio"><input type="radio" name="${encodeHtml(context)}-statistics-concept" data-list-manage-statistics-concept="${option.key}"${active === option.key ? ' checked' : ''}><span>${encodeHtml(t(option.label))}</span></label>`
     ).join('')
   }
-  
+
   function renderDataManageFrozenControls(config, listState) {
     const columns = listState.columnOrder
       .map(key => config.columns.find(column => column.key === key))
@@ -94,7 +94,7 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
       )
       .join('')
   }
-  
+
   function renderDataPageManageMenu(details) {
     const context = details.dataset.listContext
     const config = DATA_LIST_CONFIG[context]
@@ -132,13 +132,13 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
       <div class="data-menu-separator"></div>
       ${tablePrefs}`
   }
-  
+
   function renderDataPageManageMenus() {
     document
       .querySelectorAll('.data-page-manage[data-list-context]')
       .forEach(renderDataPageManageMenu)
   }
-  
+
   function parkRowMenuPopover(details) {
     if (!details.classList.contains('data-row-menu')) return
     const popover = details.querySelector(':scope > .data-menu-popover')
@@ -148,7 +148,7 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
     popover.__homeNext = popover.nextSibling
     document.body.appendChild(popover)
   }
-  
+
   function unparkRowMenuPopover(details) {
     const popover = details.querySelector?.(':scope > .data-menu-popover')
     const parked =
@@ -159,7 +159,7 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
     parked.__homeParent = null
     parked.__homeNext = null
   }
-  
+
   document.addEventListener(
     'toggle',
     event => {
@@ -180,16 +180,16 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
     },
     true
   )
-  
+
   const repositionOpenDataMenus = () =>
     document
       .querySelectorAll('.data-menu[open], .data-page-manage[open]')
       .forEach(positionDataMenu)
-  
+
   window.addEventListener('resize', repositionOpenDataMenus)
-  
+
   document.addEventListener('scroll', repositionOpenDataMenus, true)
-  
+
   document.addEventListener('click', event => {
     const parkedRowAction = event.target.closest(
       '.data-menu-popover[data-parked] [data-list-row-action]'
@@ -229,7 +229,7 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
         .forEach(details => details.removeAttribute('open'))
     }
   })
-  
+
   document.addEventListener('change', event => {
     const border = event.target.closest('[data-list-manage-border]')
     const frozen = event.target.closest('[data-list-manage-frozen]')
@@ -266,7 +266,7 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
     })
     positionDataMenu(details)
   })
-  
+
   function bind() {
   renderDataPageManageMenus()
   }

@@ -5,7 +5,7 @@ import {UNIT_ROWS} from '../../prototype/fixtures/customers.js'
 /** Owns unit picker state and its DOM bindings. */
 export function createUnitPicker({trapFocus, releaseFocus, dataListIcon} = {}) {
   const unitPickerState = {view: 'tree', expanded: new Set(), targetSelectId: ''}
-  
+
   function renderUnitPickerBranch(parentCode = '', level = 1) {
     return UNIT_ROWS.filter(row => row.parentCode === parentCode)
       .map(row => {
@@ -25,13 +25,13 @@ export function createUnitPicker({trapFocus, releaseFocus, dataListIcon} = {}) {
       })
       .join('')
   }
-  
+
   function renderUnitPickerTree() {
     const tree = document.getElementById('unit-picker-tree')
     tree.innerHTML =
       renderUnitPickerBranch() || `<div class="geo-hierarchy-empty">No units available.</div>`
   }
-  
+
   function layoutUnitFlowPositions(rows, nodeWidth, slotWidth, levelHeight) {
     const childrenByParent = new Map()
     rows.forEach(row => {
@@ -64,7 +64,7 @@ export function createUnitPicker({trapFocus, releaseFocus, dataListIcon} = {}) {
     roots.forEach(row => place(row, 0))
     return {positions, slotCount: Math.max(nextSlot, 1)}
   }
-  
+
   function renderUnitPickerFlow() {
     const canvas = document.getElementById('unit-picker-flow-canvas')
     if (!canvas) return
@@ -102,7 +102,7 @@ export function createUnitPicker({trapFocus, releaseFocus, dataListIcon} = {}) {
     canvas.style.height = `${height}px`
     canvas.innerHTML = `<div class="geo-flow-surface" style="--geo-flow-scale:1;width:${width}px;height:${height}px"><svg class="geo-flow-connectors" style="width:${width}px;height:${height}px" viewBox="0 0 ${width} ${height}" aria-hidden="true">${connectors}</svg>${nodes}</div>`
   }
-  
+
   function setUnitPickerView(view) {
     if (!['tree', 'flow'].includes(view)) return
     unitPickerState.view = view
@@ -114,7 +114,7 @@ export function createUnitPicker({trapFocus, releaseFocus, dataListIcon} = {}) {
     document.getElementById('unit-picker-flow-pane').hidden = view !== 'flow'
     if (view === 'flow') renderUnitPickerFlow()
   }
-  
+
   function openUnitPicker(targetSelectId) {
     unitPickerState.targetSelectId = targetSelectId
     unitPickerState.expanded = new Set(UNIT_ROWS.map(row => row.parentCode).filter(Boolean))
@@ -123,12 +123,12 @@ export function createUnitPicker({trapFocus, releaseFocus, dataListIcon} = {}) {
     unitPickerScrim.classList.add('open')
     trapFocus(unitPickerScrim.querySelector('.customer-modal'))
   }
-  
+
   function closeUnitPicker() {
     unitPickerScrim.classList.remove('open')
     releaseFocus()
   }
-  
+
   function chooseUnit(code) {
     const select = document.getElementById(unitPickerState.targetSelectId)
     if (select) {
@@ -142,9 +142,9 @@ export function createUnitPicker({trapFocus, releaseFocus, dataListIcon} = {}) {
     }
     closeUnitPicker()
   }
-  
+
   const unitPickerScrim = document.getElementById('unit-picker-scrim')
-  
+
   unitPickerScrim.addEventListener('click', event => {
     const view = event.target.closest('[data-unit-picker-view]')
     if (view) {
@@ -172,12 +172,12 @@ export function createUnitPicker({trapFocus, releaseFocus, dataListIcon} = {}) {
       closeUnitPicker()
     }
   })
-  
+
   document.addEventListener('click', event => {
     const opener = event.target.closest('[data-unit-picker-open]')
     if (opener) openUnitPicker(opener.dataset.unitPickerOpen)
   })
-  
+
   enableFlowPan('unit-picker-flow-viewport')
 
   return {closeUnitPicker, unitPickerScrim}

@@ -4,17 +4,17 @@ import {NAV_TREE, NAV_FAVORITES, NAV_RECENTS, NAV_ICONS} from '../prototype/fixt
 /** Owns sidebar state and its DOM bindings. */
 export function createSidebar({t, getShowContentView, buildNavLaunchpad, restoreLaunchpadActions, stopSearchTyping, hideLaunchpad, showLaunchpad, syncTopbarChrome, closeEmailView, visibleDirtyDataListContext, guardDataListLeave} = {}) {
   const visibleGroups = () => NAV_TREE
-  
+
   const childrenOf = entry => (Array.isArray(entry) ? entry.slice(1) : [])
-  
+
   const leavesOf = entry => {
     const kids = childrenOf(entry)
     if (!kids.length) return [Array.isArray(entry) ? entry[0] : entry]
     return kids.flatMap(leavesOf)
   }
-  
+
   const findNavGroup = label => NAV_TREE.find(group => leavesOf(group).includes(label))
-  
+
   let forYouGroups = [
     {
       name: 'Daily sales',
@@ -43,11 +43,11 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
       ],
     },
   ]
-  
+
   let navCurrentLabel = 'Sales Invoice'
-  
+
   let currentAppLabel = findNavGroup(navCurrentLabel)?.[0] || navCurrentLabel
-  
+
   const setNavCurrent = (root, label, {skipListLayoutGuard = false} = {}) => {
     const targetListContext =
       label === 'Sales Invoice' ? 'invoice' : label === 'Customers' ? 'customer' : ''
@@ -83,7 +83,7 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
       }
     })
   }
-  
+
   const clickedCollapseToggle = e =>
     e
       .composedPath()
@@ -92,7 +92,7 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
           el instanceof Element &&
           (el.classList.contains('side-toggle') || el.classList.contains('side-handle'))
       )
-  
+
   function ncBuildItem(entry, depth, root) {
     const isBranch = Array.isArray(entry)
     const label = isBranch ? entry[0] : entry
@@ -124,7 +124,7 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
     }
     return node
   }
-  
+
   function makeGroupPanel(root, {showFavs = true} = {}) {
     const panel = document.createElement('div')
     panel.className = 'nc3-panel'
@@ -199,7 +199,7 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
     }
     return {el: panel, show}
   }
-  
+
   function buildRailAndPanel(fbody, side) {
     const root = document.createElement('div')
     root.className = 'nc nc2'
@@ -208,7 +208,7 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
     const {el: panel, show} = makeGroupPanel(root, {
       showFavs: false,
     }) /* Starred now lives in the rail itself */
-  
+
     /* every rail icon — Starred, Recent, and each app — feeds the same pinned
        panel the same way, so switching between them never changes behaviour.
        Any of them also leaves the launchpad, same as picking a page would. */
@@ -247,7 +247,7 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
       })
       return btn
     }
-  
+
     /* the For You icon only earns its place once the user has actually built a
        group — an empty pin at the top of every rail, forever, isn't worth it */
     if (forYouGroups.length) {
@@ -255,7 +255,7 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
       forYouSep.className = 'nc2-rail-sep'
       rail.append(railIcon('For You', 'i-user', 'for-you'), forYouSep)
     }
-  
+
     const railSep = document.createElement('div')
     railSep.className = 'nc2-rail-sep'
     rail.append(
@@ -263,7 +263,7 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
       railIcon('Recent', 'i-clock', ['Recent', ...NAV_RECENTS]),
       railSep
     )
-  
+
     const groups = visibleGroups()
     const iconByLabel = new Map()
     groups.forEach(group => {
@@ -322,15 +322,15 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
     }
     return root
   }
-  
+
   const compactShell = matchMedia('(max-width: 900px)')
-  
+
   let sideCollapsed = compactShell.matches
-  
+
   function updateSideWidth(side) {
     side.classList.toggle('wide', !sideCollapsed)
   }
-  
+
   function renderSide(side, {bootToLaunchpad = true} = {}) {
     const fbody = side.parentElement
     const frame = fbody.closest('.frame')
@@ -354,7 +354,7 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
     if (sideCollapsed) side.classList.add('collapsed')
     updateSideWidth(side)
   }
-  
+
   function applySideCollapsedState() {
     document.querySelectorAll('.side').forEach(side => {
       side.classList.toggle('collapsed', sideCollapsed)
@@ -373,12 +373,12 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
     })
     syncTopbarChrome()
   }
-  
+
   function toggleSideCollapse() {
     sideCollapsed = !sideCollapsed
     applySideCollapsedState()
   }
-  
+
   compactShell.addEventListener('change', event => {
     sideCollapsed = event.matches
     applySideCollapsedState()

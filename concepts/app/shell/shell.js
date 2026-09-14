@@ -3,7 +3,7 @@
 /** Owns shell state and its DOM bindings. */
 export function createShell({setupAppSwitcher, renderSide, goToForYou, applySideCollapsedState, toggleSideCollapse} = {}) {
   const T = id => document.getElementById(id).content.cloneNode(true)
-  
+
   document.querySelectorAll('.design.active').forEach(d => {
     const frame = document.createElement('div')
     frame.className = 'frame'

@@ -11,29 +11,29 @@ export function createPageListBindings({getShowContentView, renderGeoRecord, clo
     listState.canvas = document.getElementById('customer-list-canvas')
     renderDataList('customer')
   }
-  
+
   function renderGeoList() {
     const listState = getDataListState().geo
     listState.sourceRows = GEO_ROWS
     listState.canvas = document.getElementById('geo-list-canvas')
     renderDataList('geo')
   }
-  
+
   function renderListA(canvas) {
     getDataListState().invoice.canvas = canvas
     getDataListState().invoice.sourceRows = LIST_ROWS
     renderDataList('invoice')
   }
-  
+
   document.getElementById('customer-list-add').addEventListener('click', () => {
     const addCustomer = () => openCustomerRecord(null, 'create')
     if (!guardDataListLeave(addCustomer)) addCustomer()
   })
-  
+
   const geoParentPickerScrim = document.getElementById('geo-parent-picker-scrim')
-  
+
   const geoHierarchyScrim = document.getElementById('geo-hierarchy-scrim')
-  
+
   document.addEventListener('keydown', event => {
     if (event.key !== 'Escape') return
     if (getGeoFilterScrim().classList.contains('open')) closeDataFilterModal()
@@ -43,17 +43,17 @@ export function createPageListBindings({getShowContentView, renderGeoRecord, clo
     else if (getKanbanBlockedScrim().classList.contains('open')) closeKanbanBlockedDialog()
     else if (getDataExportScrim().classList.contains('open')) closeDataExport()
   })
-  
+
   document.getElementById('list-add').addEventListener('click', () => {
     const addInvoice = () => getShowContentView()('record')
     if (!guardDataListLeave(addInvoice)) addInvoice()
   })
-  
+
   document.getElementById('geo-list-add').addEventListener('click', () => {
     const addLocation = () => openNewDataListRecord('geo')
     if (!guardDataListLeave(addLocation)) addLocation()
   })
-  
+
   function bind() {
   renderGeoRecord()
   }

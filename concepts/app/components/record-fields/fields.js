@@ -3,7 +3,7 @@
 /** Owns record fields state and its DOM bindings. */
 export function createRecordFields({} = {}) {
   let generatedRecordFieldId = 0
-  
+
   function connectRecordLabels(root) {
     root.querySelectorAll('.rec-field').forEach(field => {
       const label = field.querySelector(':scope > label')
@@ -15,7 +15,7 @@ export function createRecordFields({} = {}) {
       label.htmlFor = control.id
     })
   }
-  
+
   function applyRecordValueDirections(root) {
     root.querySelectorAll('input, select, textarea').forEach(control => {
       const fixedDirection = control.matches(

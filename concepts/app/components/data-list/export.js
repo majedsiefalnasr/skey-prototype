@@ -4,7 +4,7 @@ import {DATA_LIST_CONFIG} from './columns.js'
 /** Owns list export state and its DOM bindings. */
 export function createListExport({trapFocus, releaseFocus, toast, getDataListState, dataListRows} = {}) {
   let dataExportContext = ''
-  
+
   function renderDataExportColumns(config, listState) {
     const columns = listState.columnOrder
       .map(key => config.columns.find(column => column.key === key))
@@ -16,7 +16,7 @@ export function createListExport({trapFocus, releaseFocus, toast, getDataListSta
       )
       .join('')
   }
-  
+
   function openDataExport(context) {
     dataExportContext = context
     const config = DATA_LIST_CONFIG[context]
@@ -36,12 +36,12 @@ export function createListExport({trapFocus, releaseFocus, toast, getDataListSta
     dataExportScrim.classList.add('open')
     trapFocus(dataExportScrim.querySelector('.customer-modal'))
   }
-  
+
   function closeDataExport() {
     dataExportScrim.classList.remove('open')
     releaseFocus()
   }
-  
+
   function runDataExport() {
     const config = DATA_LIST_CONFIG[dataExportContext]
     const listState = getDataListState()[dataExportContext]
@@ -65,9 +65,9 @@ export function createListExport({trapFocus, releaseFocus, toast, getDataListSta
       title: `Exporting ${rows} ${rows === 1 ? config.singular : config.label} (${columnCount} columns) as ${fileName}.${format}`,
     })
   }
-  
+
   const dataExportScrim = document.getElementById('data-export-scrim')
-  
+
   dataExportScrim.addEventListener('click', event => {
     const format = event.target.closest('[data-export-format]')
     if (format) {
@@ -92,7 +92,7 @@ export function createListExport({trapFocus, releaseFocus, toast, getDataListSta
       closeDataExport()
     }
   })
-  
+
   document.getElementById('data-export-run').addEventListener('click', runDataExport)
 
   return {openDataExport, closeDataExport, dataExportScrim}

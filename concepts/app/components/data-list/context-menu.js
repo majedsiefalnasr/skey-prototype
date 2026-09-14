@@ -5,13 +5,13 @@ import {renderDataListColumnHeaderMenu as renderSharedDataListColumnHeaderMenu, 
 /** Owns context menu state and its DOM bindings. */
 export function createContextMenu({t, toast, renderDataListSelectionActions, computeDataListLayoutDirty, applyDataListRowAction, applyDataListToolbarCommand, getDataListState, dataListIcon, rowMenuItems, refreshDataListForContext} = {}) {
   const dataListContextMenu = document.getElementById('data-list-context-menu')
-  
+
   const DATA_LIST_COPYABLE_COLUMNS = {
     invoice: ['no', 'seq', 'total'],
     customer: ['customerNo'],
     geo: ['code'],
   }
-  
+
   function closeDataListContextMenu() {
     dataListContextMenu.hidden = true
     dataListContextMenu.innerHTML = ''
@@ -19,7 +19,7 @@ export function createContextMenu({t, toast, renderDataListSelectionActions, com
     delete dataListContextMenu.dataset.rowKey
     delete dataListContextMenu.dataset.columnKey
   }
-  
+
   function positionDataListContextMenu(x, y) {
     const rect = dataListContextMenu.getBoundingClientRect()
     const maxX = window.innerWidth - rect.width - 8
@@ -27,7 +27,7 @@ export function createContextMenu({t, toast, renderDataListSelectionActions, com
     dataListContextMenu.style.left = `${Math.max(8, Math.min(x, maxX))}px`
     dataListContextMenu.style.top = `${Math.max(8, Math.min(y, maxY))}px`
   }
-  
+
   function openDataListContextMenu(x, y, innerHtml, context, rowKey = '', columnKey = '') {
     dataListContextMenu.innerHTML = innerHtml
     dataListContextMenu.dataset.context = context
@@ -41,7 +41,7 @@ export function createContextMenu({t, toast, renderDataListSelectionActions, com
       .querySelector('[role="menuitem"], button')
       ?.focus({preventScroll: true})
   }
-  
+
   function copyTextToClipboard(text) {
     if (navigator.clipboard?.writeText) {
       navigator.clipboard.writeText(text).catch(() => {})
@@ -57,14 +57,14 @@ export function createContextMenu({t, toast, renderDataListSelectionActions, com
     }
     toast({tone: 'ok', title: `Copied "${text}"`})
   }
-  
+
   const sharedMenuDeps = {t, encodeHtml, dataListIcon}
-  
+
   function renderDataListColumnHeaderMenu(context, column) {
     const listState = getDataListState()[context]
     return renderSharedDataListColumnHeaderMenu(DATA_LIST_CONFIG[context], column, listState, sharedMenuDeps)
   }
-  
+
   function applyDataListColumnHeaderAction(context, columnKey, action) {
     const listState = getDataListState()[context]
     const config = DATA_LIST_CONFIG[context]
@@ -73,7 +73,7 @@ export function createContextMenu({t, toast, renderDataListSelectionActions, com
     if (result.dirty) computeDataListLayoutDirty(listState)
     refreshDataListForContext(context)
   }
-  
+
   document.addEventListener('contextmenu', event => {
     const header = event.target.closest('th[data-col]')
     if (header) {
@@ -102,19 +102,19 @@ export function createContextMenu({t, toast, renderDataListSelectionActions, com
     const listState = getDataListState()[context]
     const config = DATA_LIST_CONFIG[context]
     const key = rowEl.dataset.listRowKey
-  
+
     const copyEntry =
       cell && (DATA_LIST_COPYABLE_COLUMNS[context] || []).includes(cell.dataset.col)
         ? `<button type="button" role="menuitem" data-context-copy="${encodeHtml(cell.textContent.trim())}">${dataListIcon('i-doc', 13)} ${t('Copy value', 'Copy value')}</button><div class="data-menu-separator"></div>`
         : ''
-  
+
     if (listState.selected.size > 1 && listState.selected.has(key)) {
       event.preventDefault()
       const actions = renderDataListSelectionActions(config, listState)
       openDataListContextMenu(event.clientX, event.clientY, `${copyEntry}${actions}`, context)
       return
     }
-  
+
     const row = config.rows.find(record => String(record[config.key]) === key)
     if (!row) return
     event.preventDefault()
@@ -128,7 +128,7 @@ export function createContextMenu({t, toast, renderDataListSelectionActions, com
       key
     )
   })
-  
+
   dataListContextMenu.addEventListener('click', event => {
     const copy = event.target.closest('[data-context-copy]')
     if (copy) {
@@ -162,18 +162,18 @@ export function createContextMenu({t, toast, renderDataListSelectionActions, com
       if (context && columnKey) applyDataListColumnHeaderAction(context, columnKey, action)
     }
   })
-  
+
   document.addEventListener('click', event => {
     if (!dataListContextMenu.hidden && !dataListContextMenu.contains(event.target))
       closeDataListContextMenu()
   })
-  
+
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && !dataListContextMenu.hidden) closeDataListContextMenu()
   })
-  
+
   window.addEventListener('scroll', closeDataListContextMenu, true)
-  
+
   window.addEventListener('resize', closeDataListContextMenu)
 
   return {}

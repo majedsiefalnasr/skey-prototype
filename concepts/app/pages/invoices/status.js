@@ -3,12 +3,12 @@ import {CHAIN} from '../../prototype/fixtures/invoices.js'
 /** Owns status state and its DOM bindings. */
 export function createStatus({getState} = {}) {
   const pop = document.getElementById('stpop')
-  
+
   const reached = id =>
     getState().mode === 'create'
       ? false
       : id === 'entry' || id === 'modified' || id === getState().status
-  
+
   const renderPop = () => {
     const creating = getState().mode === 'create'
     const n = CHAIN.filter(c => reached(c.id)).length
@@ -49,14 +49,14 @@ export function createStatus({getState} = {}) {
         <div class="m">${meta}</div>${link}</div></div>`
     }).join('')
   }
-  
+
   const closePop = () => {
     pop.classList.remove('open')
     document
       .querySelectorAll('.stpill[aria-expanded="true"]')
       .forEach(b => b.setAttribute('aria-expanded', 'false'))
   }
-  
+
   document.addEventListener('click', e => {
     const pill = e.target.closest('.stpill')
     if (pill) {

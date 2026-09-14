@@ -9,7 +9,7 @@ export function createListDates({t, formatLocaleDate, getAppLocale, dataListIcon
     const [year, month, day] = isoDate.split('-')
     return `${day}/${month}/${year}`
   }
-  
+
   function dateFilterLabel(filter) {
     const {preset, a, b} = parseDateFilterValue(filter)
     const unitLabel = key =>
@@ -32,7 +32,7 @@ export function createListDates({t, formatLocaleDate, getAppLocale, dataListIcon
         : t('Choose value', 'Choose value')
     return t('Choose value', 'Choose value')
   }
-  
+
   const DATA_DATE_PRESET_LIST = [
     {key: 'today', label: 'Today'},
     {key: 'this-week', label: 'This week'},
@@ -44,14 +44,14 @@ export function createListDates({t, formatLocaleDate, getAppLocale, dataListIcon
     {key: 'specific', label: 'Specific date'},
     {key: 'range', label: 'Date range'},
   ]
-  
+
   function dataListDateInputValue(raw) {
     const date = parseDataListDate(raw)
     if (!date) return ''
     const pad = n => String(n).padStart(2, '0')
     return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
   }
-  
+
   function renderDataListDatePresetOptions(field, filter) {
     const {preset, a, b} = parseDateFilterValue(filter)
     const options = DATA_DATE_PRESET_LIST.map(
@@ -77,7 +77,7 @@ export function createListDates({t, formatLocaleDate, getAppLocale, dataListIcon
         : ''
     return `<div class="data-filter-date-presets" role="listbox">${options}</div>${relativeControls}${specificControls}${rangeControls}`
   }
-  
+
   function renderDataFilterModalDateField(field, filter, clearButton = '') {
     const {preset, a, b} = parseDateFilterValue(filter)
     const presetSelect = `<select class="data-filter-modal-operator" data-list-date-preset-select data-list-date-preset="${encodeHtml(field.key)}">${DATA_DATE_PRESET_LIST.map(

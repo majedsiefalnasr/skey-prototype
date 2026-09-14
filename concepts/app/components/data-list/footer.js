@@ -9,13 +9,13 @@ export function createListPager({t, applyDataListRowAction, getDataListState, re
     customer: 'customer-list-fnav',
     geo: 'geo-list-fnav',
   }
-  
+
   const shellPagerDeps = {t, encodeHtml, dataListIcon}
-  
+
   function renderShellPager(context, filteredCount) {
     return renderSharedShellPager(context, filteredCount, getDataListState()[context], shellPagerDeps)
   }
-  
+
   function renderShellRecordPager(context, filteredCount) {
     return renderSharedShellRecordPager(context, filteredCount, getDataListState()[context], {
       ...shellPagerDeps,
@@ -23,14 +23,14 @@ export function createListPager({t, applyDataListRowAction, getDataListState, re
       renderDataListAdaptiveFooterActions,
     })
   }
-  
+
   function activeAdaptiveListContext() {
     return Object.keys(getDataListState()).find(context => {
       const listState = getDataListState()[context]
       return listState.view === 'adaptive' && listState.canvas?.offsetParent
     })
   }
-  
+
   document.addEventListener('keydown', event => {
     if (!event.altKey || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight')) return
     const target = event.target
@@ -45,7 +45,7 @@ export function createListPager({t, applyDataListRowAction, getDataListState, re
     listState.page = nextPage
     renderDataList(context, {skipStatsAnimation: true})
   })
-  
+
   function syncShellListPager(context, filteredCount, footer) {
     const mount = footer || document.getElementById(DATA_LIST_FNAV_IDS[context])
     if (!mount) return

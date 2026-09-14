@@ -7,11 +7,11 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
   function recordStatusBadge(active) {
     return `<span class="badge ${active ? 'ok' : 'gray'}">${active ? 'Active' : 'Inactive'}</span>`
   }
-  
+
   function invoiceStatusBadge(status) {
     return `<span class="badge invoice-status" data-s="${encodeHtml(invoiceStatusKey(status))}">${encodeHtml(status)}</span>`
   }
-  
+
   function customerRecordCardModel(row) {
     return {
       title: row.customerName,
@@ -27,7 +27,7 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
       },
     }
   }
-  
+
   function invoiceRecordCardModel(row) {
     return {
       title: `Sales Invoice ${row.no}`,
@@ -43,7 +43,7 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
       },
     }
   }
-  
+
   function geoRecordCardModel(row) {
     const hierarchyPath = row.parent
       ? `${row.parent} › ${row.code} - ${row.name}`
@@ -62,7 +62,7 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
       },
     }
   }
-  
+
   function dataRecordCardModel(context, row) {
     return context === 'customer'
       ? customerRecordCardModel(row)
@@ -70,16 +70,16 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
         ? geoRecordCardModel(row)
         : invoiceRecordCardModel(row)
   }
-  
+
   function dataRecordCardFactMarkup([label, value]) {
     const wide = label === 'Hierarchy path' ? ' class="wide"' : ''
     return `<div${wide}><dt>${encodeHtml(label)}</dt><dd>${encodeHtml(String(value ?? '—'))}</dd></div>`
   }
-  
+
   function dataRecordCardSelectMarkup(config, key, selected) {
     return `<label class="data-record-card-select"><input type="checkbox" data-list-row-select value="${encodeHtml(key)}" aria-label="Select ${encodeHtml(config.singular)} ${encodeHtml(key)}"${selected ? ' checked' : ''}></label>`
   }
-  
+
   function dataRecordCardContext(context, row, config, listState) {
     const key = String(row[config.key])
     return {
@@ -88,7 +88,7 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
       model: dataRecordCardModel(context, row),
     }
   }
-  
+
   function renderSnapshotCardHeader(context, row, config, card) {
     const avatar =
       context === 'customer'
@@ -96,11 +96,11 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
         : `<span class="data-record-avatar" aria-hidden="true">${card.model.avatar}</span>`
     return `<header class="data-record-card-header">${dataRecordCardSelectMarkup(config, card.key, card.selected)}${avatar}<button class="data-record-card-identity" type="button" data-list-open-record="${encodeHtml(card.key)}" aria-label="Open ${encodeHtml(config.singular)} ${encodeHtml(card.key)}"><div><strong>${encodeHtml(card.model.title)}</strong><span>${encodeHtml(card.model.subtitle)}</span></div></button>${card.model.badge}</header>`
   }
-  
+
   function dataRecordActionButton(action, icon, label) {
     return `<button type="button" class="data-toolbar-button" data-list-row-action="${action}" title="${encodeHtml(label)}">${dataListIcon(icon)}<span class="data-toolbar-button-label">${encodeHtml(label)}</span></button>`
   }
-  
+
   function renderContextCardActions(context) {
     const actions =
       context === 'invoice'
@@ -119,11 +119,11 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
             ]
     return actions.map(action => dataRecordActionButton(...action)).join('')
   }
-  
+
   function renderCardFooterEndActions(context, row, config) {
     return `<div class="data-record-card-footer-end">${renderOperationsOverflowActions(context, row, config)}</div>`
   }
-  
+
   function renderOperationsOverflowActions(context, row, config) {
     const quickView = `<button type="button" role="menuitem" data-list-row-action="quick-view">${dataListIcon('i-panel')} Open in Adaptive view</button>`
     const display = `<button type="button" role="menuitem" data-list-row-action="display">${dataListIcon('i-external')} Display</button>`
@@ -134,7 +134,7 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
         : `${quickView}${display}<button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? 'Deactivate' : 'Activate'}</button><div class="data-menu-separator"></div>${deleteAction}`
     return renderSharedDataListRowActionMenu(config, String(row[config.key]), actions, '', getSharedViewDeps())
   }
-  
+
   function renderInvoiceSnapshotCard(row, config, listState) {
     const card = dataRecordCardContext('invoice', row, config, listState)
     return `<article class="data-record-card data-record-card-snapshot-layout data-record-card-invoice" role="listitem" data-list-row-key="${encodeHtml(card.key)}" aria-selected="${card.selected}">${renderSnapshotCardHeader('invoice', row, config, card)}<div class="data-record-card-snapshot"><div><span>Customer</span><strong>${encodeHtml(row.custName)}</strong><small>${encodeHtml(row.custNo)}</small></div><div class="data-record-card-snapshot-value"><span>Total</span><strong>${encodeHtml(row.currency)} ${encodeHtml(row.total)}</strong></div></div><dl class="data-record-card-meta">${[
@@ -147,7 +147,7 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
         ''
       )}</dl><footer class="data-record-card-operations-actions">${renderContextCardActions('invoice')}${renderCardFooterEndActions('invoice', row, config)}</footer></article>`
   }
-  
+
   function renderCustomerSnapshotCard(row, config, listState) {
     const card = dataRecordCardContext('customer', row, config, listState)
     return `<article class="data-record-card data-record-card-snapshot-layout data-record-card-customer" role="listitem" data-list-row-key="${encodeHtml(card.key)}" aria-selected="${card.selected}">${renderSnapshotCardHeader('customer', row, config, card)}<div class="data-record-card-snapshot"><div><span>Customer profile</span><strong>${encodeHtml(row.customerType)} customer</strong><small>${encodeHtml(row.customerGroup)} group</small></div><div class="data-record-card-snapshot-value data-record-card-snapshot-contact"><span>Phone</span><strong>${encodeHtml(row.phone)}</strong></div></div><dl class="data-record-card-meta">${[
@@ -160,12 +160,12 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
         ''
       )}</dl><footer class="data-record-card-operations-actions">${renderContextCardActions('customer')}${renderCardFooterEndActions('customer', row, config)}</footer></article>`
   }
-  
+
   function renderGeoSnapshotCard(row, config, listState) {
     const card = dataRecordCardContext('geo', row, config, listState)
     return `<article class="data-record-card data-record-card-snapshot-layout data-record-card-geo" role="listitem" data-list-row-key="${encodeHtml(card.key)}" aria-selected="${card.selected}">${renderSnapshotCardHeader('geo', row, config, card)}<div class="data-record-card-hierarchy"><span>Hierarchy path</span><strong>${encodeHtml(card.model.factMap.hierarchy[1])}</strong></div><div class="data-record-card-classification"><div><span>Type</span><strong>${encodeHtml(row.type)}</strong></div><div><span>Level</span><strong>${encodeHtml(row.level)}</strong></div><div><span>Code</span><strong>${encodeHtml(row.code)}</strong></div></div><dl class="data-record-card-meta">${dataRecordCardFactMarkup(['Remarks', row.remarks || 'No remarks'])}</dl><footer class="data-record-card-operations-actions">${renderContextCardActions('geo')}${renderCardFooterEndActions('geo', row, config)}</footer></article>`
   }
-  
+
   function renderDataRecordCard(context, row, config, listState) {
     if (context === 'customer') return renderCustomerSnapshotCard(row, config, listState)
     if (context === 'geo') return renderGeoSnapshotCard(row, config, listState)

@@ -8,7 +8,7 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
   function renderDataListSelectionActions(config, listState) {
     return sharedRenderDataListSelectionActions(config, listState, {t, dataListIcon})
   }
-  
+
   function renderDataListCell(context, row, column) {
     const value = row[column.key]
     if (context === 'customer' && column.key === 'avatar') {
@@ -29,7 +29,7 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
     }
     return encodeHtml(String(value ?? ''))
   }
-  
+
   function rowMenuItems(context, row, view) {
     if (view === 'adaptive-footer') {
       const contextActions =
@@ -52,12 +52,12 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
     const deleteAction = `<button type="button" role="menuitem" data-list-row-action="delete">${dataListIcon('i-trash')} Delete</button>`
     return `${commonActions}<div class="data-menu-separator"></div>${recordActions}<div class="data-menu-separator"></div>${deleteAction}`
   }
-  
+
   function groupValueLabel(context, column, groupValue) {
     if (column.key === 'active') return groupValue ? 'Active' : 'Inactive'
     return String(groupValue ?? 'Not set') || 'Not set'
   }
-  
+
   const sharedViewDeps = {
     t,
     encodeHtml,
@@ -69,31 +69,31 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
     renderCard: (context, row, config, listState) =>
       renderDataRecordCard(context, row, config, listState),
   }
-  
+
   function renderDataListAdaptiveFooterActions(context, row, config) {
     return renderSharedDataListAdaptiveFooterActions(context, row, config, sharedViewDeps)
   }
-  
+
   function renderDataListRowActions(context, row, config, view = 'list') {
     return renderSharedDataListRowActions(context, row, config, view, sharedViewDeps)
   }
-  
+
   function renderDataListHeader(visibleColumns, listState) {
     return renderSharedDataListHeader(visibleColumns, listState, sharedViewDeps)
   }
-  
+
   function dataListDetailsId(context, key) {
     return sharedDataListDetailsId(context, key)
   }
-  
+
   function renderDataListRecordRows(row, tableContext) {
     return renderSharedDataListRecordRows(row, tableContext, sharedViewDeps)
   }
-  
+
   function renderDataListBody(rows, tableContext) {
     return renderSharedDataListBody(rows, tableContext, sharedViewDeps)
   }
-  
+
   function renderQuickViewFieldValue(context, row, column) {
     const value = row[column.key]
     if (context === 'customer' && column.key === 'avatar')
@@ -102,7 +102,7 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
       return `<span class="badge ${value ? 'ok' : 'gray'}">${value ? 'Active' : 'Inactive'}</span>`
     return encodeHtml(String(value === '' || value == null ? '—' : value))
   }
-  
+
   function openQuickView(context, key) {
     const listState = getDataListState()[context]
     const filteredRows = dataListRows(context)
@@ -114,11 +114,11 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
     computeDataListLayoutDirty(listState)
     refreshDataListForContext(context)
   }
-  
+
   function renderDataListCards(context, rows, config, listState) {
     return renderSharedDataListCards(context, rows, config, listState, sharedViewDeps)
   }
-  
+
   function renderDataListAdaptiveRecord(context, row, config, filteredCount = 0) {
     const listState = getDataListState()[context]
     return renderSharedDataListAdaptiveRecord(

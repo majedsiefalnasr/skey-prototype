@@ -3,31 +3,31 @@ import {normalizeHexColor, deriveAccentPair} from '../core/appearance.js'
 /** Owns appearance controls state and its DOM bindings. */
 export function createAppearanceControls({createAppearance, trapFocus, releaseFocus} = {}) {
   const appearanceScrim = document.getElementById('appearance-scrim')
-  
+
   const appearanceHighContrast = document.getElementById('appearance-high-contrast')
-  
+
   const appearanceCustomColor = document.getElementById('appearance-custom-color')
-  
+
   const appearanceCustomHex = document.getElementById('appearance-custom-hex')
-  
+
   const appearanceCustomError = document.getElementById('appearance-custom-error')
-  
+
   const appearanceCustomGroup = document.querySelector('[data-custom-accent]')
-  
+
   const appearanceReset = document.getElementById('appearance-reset')
-  
+
   const appearanceAccentState = {
     kind: 'preset',
     light: '#1868DB',
     dark: '#669DF1',
     seed: '#1868DB',
   }
-  
+
   function clearCustomAccentError() {
     appearanceCustomHex.removeAttribute('aria-invalid')
     appearanceCustomError.textContent = ''
   }
-  
+
   function commitCustomAccent(value) {
     const seed = normalizeHexColor(value)
     if (!seed) {
@@ -42,7 +42,7 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
     syncAppearanceDialog()
     return true
   }
-  
+
   function syncAppearanceChoices(selector, dataKey, selectedValue) {
     document.querySelectorAll(selector).forEach(card => {
       const selected = card.dataset[dataKey] === selectedValue
@@ -50,7 +50,7 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
       card.tabIndex = selected ? 0 : -1
     })
   }
-  
+
   function syncAppearanceDialog() {
     const isDark = document.documentElement.dataset.colorMode === 'dark'
     document.querySelectorAll('.accent-swatch').forEach((swatch, index) => {
@@ -84,24 +84,24 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
     )
     appearanceHighContrast.checked = highContrastToggle.checked
   }
-  
+
   const openAppearance = () => {
     syncAppearanceDialog()
     appearanceScrim.classList.add('open')
     trapFocus(appearanceScrim.querySelector('.dlg'))
   }
-  
+
   const closeAppearance = () => {
     if (appearanceScrim.classList.contains('open')) {
       appearanceScrim.classList.remove('open')
       releaseFocus()
     }
   }
-  
+
   appearanceScrim.addEventListener('click', e => {
     if (e.target === appearanceScrim || e.target.closest('.c-close')) closeAppearance()
   })
-  
+
   document.querySelectorAll('.accent-swatch').forEach(swatch =>
     swatch.addEventListener('click', () => {
       Object.assign(appearanceAccentState, {
@@ -115,11 +115,11 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
       syncAppearanceDialog()
     })
   )
-  
+
   appearanceCustomColor.addEventListener('input', e => commitCustomAccent(e.target.value))
-  
+
   appearanceCustomHex.addEventListener('change', e => commitCustomAccent(e.target.value))
-  
+
   appearanceCustomHex.addEventListener('keydown', e => {
     if (e.key === 'Enter') {
       e.preventDefault()
@@ -131,7 +131,7 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
       clearCustomAccentError()
     }
   })
-  
+
   document.querySelectorAll('[data-appearance-theme]').forEach(card =>
     card.addEventListener('click', () => {
       themeSelect.value = card.dataset.appearanceTheme
@@ -139,7 +139,7 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
       syncAppearanceDialog()
     })
   )
-  
+
   function bindAppearanceRadioKeys(group, selector) {
     group.addEventListener('keydown', e => {
       if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) return
@@ -153,27 +153,27 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
       next.click()
     })
   }
-  
+
   bindAppearanceRadioKeys(
     document.querySelector('.appearance-theme-grid'),
     '[data-appearance-theme]'
   )
-  
+
   bindAppearanceRadioKeys(
     document.querySelector('.accent-swatches'),
     '.accent-swatch[role="radio"]'
   )
-  
+
   bindAppearanceRadioKeys(
     document.querySelector('.appearance-layout-grid'),
     '[data-appearance-layout]'
   )
-  
+
   bindAppearanceRadioKeys(
     document.querySelector('.appearance-density-grid'),
     '[data-appearance-density]'
   )
-  
+
   document.querySelectorAll('[data-appearance-layout]').forEach(card =>
     card.addEventListener('click', () => {
       const layoutSelect = document.getElementById('content-layout')
@@ -182,7 +182,7 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
       syncAppearanceDialog()
     })
   )
-  
+
   document.querySelectorAll('[data-appearance-density]').forEach(card =>
     card.addEventListener('click', () => {
       const densitySelect = document.getElementById('density')
@@ -191,13 +191,13 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
       syncAppearanceDialog()
     })
   )
-  
+
   appearanceHighContrast.addEventListener('change', e => {
     highContrastToggle.checked = e.target.checked
     highContrastToggle.dispatchEvent(new Event('change'))
     syncAppearanceDialog()
   })
-  
+
   appearanceReset.addEventListener('click', () => {
     Object.assign(appearanceAccentState, {
       kind: 'preset',
@@ -218,21 +218,21 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
     densitySelect.dispatchEvent(new Event('change'))
     syncAppearanceDialog()
   })
-  
+
   const systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)')
-  
+
   const systemContrastQuery = window.matchMedia('(prefers-contrast: more)')
-  
+
   const highContrastToggle = document.getElementById('high-contrast')
-  
+
   let onRefreshCharts = () => {}
-  
+
   const appearance = createAppearance({
     root: document.documentElement,
     readControls: () => ({mode: document.getElementById('theme')?.value, highContrast: document.getElementById('high-contrast')?.checked}),
     onChange: () => onRefreshCharts(),
   })
-  
+
   function applyTheme(requestedMode) {
     appearance.apply({
       mode: requestedMode,
@@ -241,50 +241,50 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
       accentDark: appearanceAccentState.dark,
     })
   }
-  
+
   function applyAppearanceAccent() {
     appearance.apply({
       accentLight: appearanceAccentState.light,
       accentDark: appearanceAccentState.dark,
     })
   }
-  
+
   let dataListChartRefreshReady = false
-  
+
   const themeSelect = document.getElementById('theme')
-  
+
   themeSelect.addEventListener('change', e => applyTheme(e.target.value))
-  
+
   highContrastToggle.addEventListener('change', () => applyTheme(themeSelect.value))
-  
+
   const syncSystemTheme = () => {
     if (themeSelect.value === 'system') applyTheme('system')
   }
-  
+
   systemThemeQuery.addEventListener('change', syncSystemTheme)
-  
+
   systemContrastQuery.addEventListener('change', () => {
     highContrastToggle.checked = systemContrastQuery.matches
     applyTheme(themeSelect.value)
   })
-  
+
   highContrastToggle.checked = systemContrastQuery.matches
-  
+
   applyTheme(document.getElementById('theme').value)
-  
+
   document.getElementById('density').addEventListener('change', e => {
     document.body.classList.toggle('density-compact', e.target.value === 'compact')
   })
-  
+
   document.getElementById('content-layout').addEventListener('change', e => {
     document.body.classList.toggle('layout-boxed', e.target.value === 'boxed')
   })
-  
+
   document.getElementById('input-style').addEventListener('change', e => {
     document.body.classList.remove('style-floated', 'style-inline')
     if (e.target.value !== 'default') document.body.classList.add(`style-${e.target.value}`)
   })
-  
+
   document.getElementById('section-style').addEventListener('change', e => {
     document.body.classList.toggle('cards-fieldset', e.target.value === 'fieldset')
   })

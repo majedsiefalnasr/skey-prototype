@@ -50,7 +50,7 @@ export function createAdvancedSearch({trapFocus, releaseFocus, openGeoRecord, re
       },
     ],
   }
-  
+
   function renderAdvancedSearchFields(context) {
     const fields = ADVANCED_SEARCH_FIELDS[context]
     document.querySelector('#adv-search-scrim .as-fields').innerHTML = fields
@@ -80,25 +80,25 @@ export function createAdvancedSearch({trapFocus, releaseFocus, openGeoRecord, re
           : '<div class="as-grp">Matching invoices</div><button type="button" class="as-item" role="option"><span class="ic"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg></span><span class="tx"><span class="t">#126 · محمد احمد</span><span class="s">13/08/2026 · Credit</span></span></button><button type="button" class="as-item" role="option"><span class="ic"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg></span><span class="tx"><span class="t">#140 · العميل الاول</span><span class="s">13/08/2026 · Credit</span></span></button>'
     document.getElementById('adv-search-apply').hidden = context !== 'customer'
   }
-  
+
   const advSearchScrim = document.getElementById('adv-search-scrim')
-  
+
   function openAdvancedSearch(context = 'invoice') {
     advSearchScrim.dataset.context = context
     renderAdvancedSearchFields(context)
     advSearchScrim.classList.add('open')
     trapFocus(advSearchScrim.querySelector('.box'))
   }
-  
+
   function openCustomerSearch() {
     openAdvancedSearch('customer')
   }
-  
+
   function closeAdvancedSearch() {
     advSearchScrim.classList.remove('open')
     releaseFocus()
   }
-  
+
   advSearchScrim.addEventListener('click', e => {
     const customerOption = e.target.closest('.as-item[data-customer-no]')
     if (customerOption && advSearchScrim.dataset.context === 'customer') {
@@ -114,11 +114,11 @@ export function createAdvancedSearch({trapFocus, releaseFocus, openGeoRecord, re
     if (e.target === advSearchScrim || e.target.closest('.adv-search-close'))
       closeAdvancedSearch()
   })
-  
+
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && advSearchScrim.classList.contains('open')) closeAdvancedSearch()
   })
-  
+
   document.getElementById('adv-search-apply').addEventListener('click', () => {
     if (advSearchScrim.dataset.context !== 'customer') return
     const values = Object.fromEntries(
