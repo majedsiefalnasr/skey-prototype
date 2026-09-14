@@ -1,0 +1,28 @@
+{
+  "$schema": "baseline-provenance.v1",
+  "description": "Fixed provenance for the frozen baseline app shell used by parity tests. scripts/capture-baseline.mjs materializes these exact bytes into the ignored .baseline/ directory and fails if the current Git blob no longer matches htmlBlob below.",
+  "commit": "07f6b8a664e684022a3faf4c9e95392a13134529",
+  "htmlPath": "concepts/app-shell.html",
+  "htmlBlob": "2776f120870c4fdbb6eb80e2777bc4c085ce39f3",
+  "assets": [
+    "concepts/assets/customers/customer-200002-organization.webp",
+    "concepts/assets/customers/customer-200010-portrait.webp"
+  ],
+  "servers": {
+    "baseline": {"root": ".baseline", "port": 4174},
+    "current": {"root": ".", "port": 4173}
+  },
+  "environment": {
+    "browser": "chromium",
+    "playwrightVersion": "1.63.0",
+    "chromiumVersion": "153.0.8010.12",
+    "timezoneId": "Africa/Cairo",
+    "locale": "en-US",
+    "viewport": {"width": 1440, "height": 900},
+    "fixtureTime": "2026-09-13T09:00:00+02:00"
+  },
+  "storageState": {
+    "default": "fresh",
+    "note": "Every scenario boots from a fresh browser context with no sessionStorage/localStorage keys set (no skey-proto-state, no skey-proto-ui), so Prototype Controls restoration always starts from its documented defaults."
+  }
+}

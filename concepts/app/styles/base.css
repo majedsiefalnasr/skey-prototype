@@ -1,0 +1,97 @@
+/* Extracted from mechanical checkpoint ddd8569, legacy-app.css lines 335-429.
+ * Complete rules retained in original cascade order; see tests/support/style-inventory.json. */
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      body {
+        font:
+          14px/1.45 system-ui,
+          -apple-system,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        overflow-x: hidden;
+        transition:
+          color 0.15s ease,
+          background-color 0.15s ease;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body {
+          transition: none;
+        }
+      }
+      button {
+        font: inherit;
+        color: inherit;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      button:disabled {
+        cursor: not-allowed;
+        opacity: 0.42;
+      }
+      /* Theme safety net: any input/select/textarea without its own component-scoped
+   background/color still tracks the theme instead of falling back to the browser's
+   light-only UA styling. More specific component rules win as usual via specificity. */
+      input,
+      select,
+      textarea {
+        background: var(--surface);
+        color: var(--ink);
+      }
+      input::placeholder,
+      textarea::placeholder {
+        color: var(--faint);
+        opacity: 1;
+      }
+      :is(button, a, input, select, [tabindex]):focus-visible {
+        outline-offset: 2px;
+        border-radius: 5px;
+      }
+      svg {
+        display: block;
+        flex: none;
+      }
+      svg[hidden] {
+        display: none;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .skip-link {
+        position: fixed;
+        inset-block-start: 8px;
+        inset-inline-start: 8px;
+        z-index: 1000;
+        padding: 8px 12px;
+        border-radius: 6px;
+        background: var(--accent);
+        color: var(--inverse);
+        font-weight: 600;
+        text-decoration: none;
+        transform: translateY(-150%);
+      }
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-weight: 600;
+      }

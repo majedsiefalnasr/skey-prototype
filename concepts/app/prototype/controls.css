@@ -1,0 +1,402 @@
+
+      /* ============================================================
+   Prototype shell kit — applied to every version
+   1) the app shell fills the viewport, header top, footer bottom
+   2) the harness moves into a floating, draggable panel
+   3) the written notes move into a dialog behind an info button
+   ============================================================ */
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .demo-bar {
+        display: none !important;
+      }
+
+      .concept,
+      .design {
+        flex: 1 1 auto;
+        min-height: 0;
+      }
+      .concept.active,
+      .design.active {
+        display: flex !important;
+        flex-direction: column;
+      }
+      .mount {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .frame {
+        height: auto !important;
+        flex: 1 1 auto;
+        min-height: 0;
+        border-bottom: none !important;
+      }
+      .shell {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .frame-body,
+      .fbody,
+      .body-wrap,
+      .split,
+      .layout {
+        flex: 1 1 auto;
+        min-height: 0;
+      }
+      .content,
+      .main {
+        min-height: 0;
+      }
+      .doc-canvas,
+      .canvas {
+        flex: 1 1 auto;
+        min-height: 0;
+        height: auto !important;
+        overflow: auto;
+      }
+      .note,
+      .concept-note {
+        display: none !important;
+      }
+
+      /* ---- floating control panel ---- */
+      #kit {
+        position: fixed;
+        inset-block-end: 14px;
+        inset-inline-start: 14px;
+        z-index: 400;
+        width: 322px;
+        background: #111827;
+        color: #e6e9ef;
+        border: 1px solid #2b3446;
+        border-radius: 12px;
+        box-shadow: 0 18px 44px rgba(8, 12, 20, 0.42);
+        font:
+          13px/1.45 system-ui,
+          -apple-system,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        overflow: hidden;
+        user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        display: flex;
+        flex-direction: column;
+        max-height: calc(100vh - 28px);
+      }
+      #kit .kit-h {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 10px 9px 12px;
+        cursor: grab;
+        background: #161e2c;
+        border-bottom: 1px solid #2b3446;
+      }
+      #kit.dragging .kit-h {
+        cursor: grabbing;
+      }
+      #kit .kit-h b {
+        flex: 1;
+        font-size: 12.5px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+      }
+      #kit .kit-h .grip {
+        color: #5c6779;
+        letter-spacing: -2px;
+        font-size: 15px;
+        margin-inline-end: 2px;
+      }
+      #kit .kit-h button {
+        background: none;
+        border: none;
+        color: #aab3c2;
+        cursor: pointer;
+        padding: 4px 6px;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        font-size: 12px;
+      }
+      #kit .kit-h button:hover {
+        background: #232c3d;
+        color: #fff;
+      }
+      #kit .kit-b {
+        padding: 11px 12px 13px;
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+        flex: 1;
+        min-height: 0;
+        overflow: auto;
+        overscroll-behavior: contain;
+      }
+      #kit.min .kit-b {
+        display: none;
+      }
+      #kit .kit-b .grp {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 7px;
+      }
+      #kit .kit-b .grp-heading {
+        color: #6c7789;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-top: 3px;
+      }
+      #kit .kit-b .grp-heading:first-child {
+        margin-top: 0;
+      }
+      #kit .kit-b label {
+        color: #98a2b3;
+        font-size: 12.5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      #kit .kit-b select {
+        background: #1b2432;
+        color: #e6e9ef;
+        border: 1px solid #33405a;
+        border-radius: 7px;
+        padding: 5px 8px;
+        font: inherit;
+        max-width: 100%;
+      }
+      #kit .kit-b input[type='checkbox'] {
+        accent-color: #6c9bff;
+        width: 14px;
+        height: 14px;
+      }
+      #kit .kit-b .tab,
+      #kit .kit-b .open-btn,
+      #kit .kit-b .mode-tab {
+        background: #1b2432;
+        border: 1px solid #33405a;
+        color: #e6e9ef;
+        border-radius: 7px;
+        padding: 5px 10px;
+        font: inherit;
+        cursor: pointer;
+      }
+      #kit .kit-b .tab[aria-pressed='true'],
+      #kit .kit-b .mode-tab[aria-pressed='true'] {
+        background: #e8ebf1;
+        color: #111827;
+        border-color: #e8ebf1;
+        font-weight: 600;
+      }
+      #kit .kit-b .sep {
+        display: none;
+      }
+      #kit .kit-b hr {
+        border: none;
+        border-top: 1px solid #232c3d;
+        margin: 1px 0;
+      }
+
+      #kit .kit-nav {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 9px 12px;
+        background: #0d1420;
+        border-bottom: 1px solid #232c3d;
+      }
+      #kit .kit-nav label {
+        color: #8d97a8;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      #kit .kit-nav select {
+        flex: 1 1 100%;
+        min-width: 0;
+        background: #1b2432;
+        color: #e6e9ef;
+        border: 1px solid #33405a;
+        border-radius: 7px;
+        padding: 5px 8px;
+        font: inherit;
+        text-overflow: ellipsis;
+      }
+      #kit .kit-nav a {
+        color: #9db6ff;
+        text-decoration: none;
+        font-size: 12px;
+        white-space: nowrap;
+        padding: 4px 2px;
+      }
+      #kit .kit-nav a:hover {
+        text-decoration: underline;
+      }
+      #kit.min .kit-nav {
+        display: none;
+      }
+      #kit-pill {
+        position: fixed;
+        inset-block-end: 14px;
+        inset-inline-start: 14px;
+        z-index: 400;
+        display: none;
+        align-items: center;
+        gap: 7px;
+        background: #111827;
+        color: #e6e9ef;
+        border: 1px solid #2b3446;
+        border-radius: 999px;
+        padding: 8px 14px;
+        font:
+          600 12.5px system-ui,
+          sans-serif;
+        cursor: pointer;
+        box-shadow: 0 10px 26px rgba(8, 12, 20, 0.36);
+      }
+      #kit.hidden {
+        display: none;
+      }
+      #kit.hidden ~ #kit-pill {
+        display: inline-flex;
+      }
+
+      /* ---- notes dialog ---- */
+      #kit-notes {
+        position: fixed;
+        inset: 0;
+        z-index: 500;
+        background: rgba(12, 17, 26, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      #kit-notes.open {
+        display: flex;
+      }
+      #kit-notes .box {
+        width: min(720px, 94vw);
+        max-height: 86vh;
+        background: #fff;
+        color: #1b2230;
+        border-radius: 14px;
+        box-shadow: 0 26px 60px rgba(8, 12, 20, 0.34);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      #kit-notes .nh {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px 18px;
+        border-bottom: 1px solid #e4e7ec;
+      }
+      #kit-notes .nh h3 {
+        margin: 0;
+        font-size: 15.5px;
+        font-weight: 620;
+      }
+      #kit-notes .nh button {
+        margin-inline-start: auto;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #5c6673;
+        font-size: 18px;
+        line-height: 1;
+        padding: 4px 8px;
+        border-radius: 6px;
+      }
+      #kit-notes .nh button:hover {
+        background: #f1f3f6;
+        color: #1b2230;
+      }
+      #kit-notes .nb {
+        padding: 6px 20px 20px;
+        overflow: auto;
+      }
+      #kit-notes .nb .n {
+        font-size: 14.5px;
+        line-height: 1.62;
+        color: #4a5462;
+        margin-top: 16px;
+        max-width: 70ch;
+      }
+      #kit-notes .nb .n strong {
+        color: #1b2230;
+      }
+      #kit-notes .nb .n em {
+        color: #39424f;
+      }
+
+      #kit :is(button, select, input, a):focus-visible {
+        outline: 2px solid #9db6ff;
+        outline-offset: 2px;
+        border-radius: 6px;
+      }
+      #kit-pill:focus-visible {
+        outline: 2px solid #9db6ff;
+        outline-offset: 2px;
+      }
+      #kit-notes :is(button, a):focus-visible {
+        outline: 2px solid #1d4ed8;
+        outline-offset: 2px;
+        border-radius: 6px;
+      }
+      @media (max-width: 720px) {
+        #kit {
+          inset-inline: 14px;
+          width: auto;
+        }
+        #kit :is(button, select, a) {
+          min-height: 44px;
+        }
+        #kit-pill {
+          inset-inline-start: auto;
+          inset-inline-end: 14px;
+          justify-content: center;
+          width: 44px;
+          min-height: 44px;
+          padding: 0;
+        }
+        #kit-pill .kit-pill-label {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
+        }
+        #kit .kit-b input[type='checkbox'] {
+          width: 20px;
+          height: 20px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #kit,
+        #kit-notes {
+          transition: none;
+        }
+      }
+    

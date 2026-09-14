@@ -1,0 +1,63 @@
+    <template id="t-pill">
+      <button class="stpill" data-s="posted" aria-haspopup="dialog" aria-expanded="false">
+        <span class="stdot"></span><span class="nm">Posted</span>
+        <span class="segs" aria-hidden="true"></span>
+        <span class="cnt"></span>
+        <svg width="11" height="11" aria-hidden="true"><use href="#i-caret" /></svg>
+      </button>
+    </template>
+
+    <template id="t-menus">
+      <div class="menu">
+        <button aria-haspopup="menu" aria-expanded="false">
+          Record <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg>
+        </button>
+        <div class="mlist" role="menu">
+          <button role="menuitem" data-act="New">New</button>
+          <button role="menuitem" data-act="Add From">Add From</button>
+          <button role="menuitem" data-act="Search">Search</button>
+        </div>
+      </div>
+      <div class="menu">
+        <button aria-haspopup="menu" aria-expanded="false">
+          Procedure <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg>
+        </button>
+        <div class="mlist" role="menu">
+          <button role="menuitem" data-act="Save">Save</button>
+          <button role="menuitem" data-act="Undo">Undo</button>
+          <hr />
+          <button role="menuitem" data-act="Print" class="p-open">Print</button>
+          <button role="menuitem" data-act="Reports">Reports</button>
+          <button role="menuitem" data-act="Lock Screen">Lock Screen</button>
+        </div>
+      </div>
+      <div class="menu">
+        <button aria-haspopup="menu" aria-expanded="false">
+          Transactions <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg>
+        </button>
+        <div class="mlist" role="menu">
+          <button role="menuitem" data-act="Posting">Posting</button>
+          <button role="menuitem" data-act="Display Journal Entry">Display Journal Entry</button>
+          <hr />
+          <button role="menuitem" data-act="Cancel Document" class="dan">Cancel Document</button>
+        </div>
+      </div>
+      <div class="menu">
+        <button aria-haspopup="menu" aria-expanded="false">
+          More <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg>
+        </button>
+        <div class="mlist" role="menu">
+          <button role="menuitem" data-act="Screen Parameters">Screen Parameters</button>
+          <button role="menuitem" data-act="Help">Help</button>
+        </div>
+      </div>
+    </template>
+
+    <template id="t-ctx">
+      <button class="ctx" data-act="Receipt Voucher">
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-doc" /></svg> Receipt Voucher
+      </button>
+      <button class="ctx" data-act="Sales Return">
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-doc" /></svg> Sales Return
+      </button>
+    </template>

@@ -1,0 +1,80 @@
+/* Extracted from mechanical checkpoint ddd8569, legacy-app.css lines 1615-1692.
+ * Complete rules retained in original cascade order; see tests/support/style-inventory.json. */
+
+
+      /* ---- topbar app switcher: the "Switch app" grid icon, wired as a real popover ---- */
+      .app-switcher-list {
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        max-height: 70vh;
+        padding: 0;
+      }
+      .app-switcher-filter {
+        flex: none;
+        display: flex;
+        position: sticky;
+        top: 4px;
+        background: inherit;
+        z-index: 1;
+        align-items: center;
+        gap: 7px;
+        margin: 4px;
+        padding: 6px 8px;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        color: var(--faint);
+      }
+      .app-switcher-filter:focus-within {
+        border-color: var(--accent-line);
+        box-shadow: 0 0 0 3px var(--accent-soft);
+      }
+      .app-switcher-filter svg {
+        flex: none;
+      }
+      .app-switcher-filter input {
+        border: none;
+        outline: none;
+        background: none;
+        font: inherit;
+        color: var(--ink);
+        flex: 1;
+        min-width: 0;
+      }
+      .app-switcher-filter input::placeholder {
+        color: var(--faint);
+      }
+      .app-switcher-rows {
+        overflow: auto;
+        padding: 0 4px 4px;
+      }
+      .app-switcher-row span:last-child {
+        flex: 1;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .app-switcher-row .sq {
+        position: relative;
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        background: var(--hover-overlay);
+        color: var(--muted);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+      }
+      .app-switcher-row.active {
+        background: var(--accent-soft);
+      }
+      .app-switcher-row.active .sq {
+        background: var(--accent);
+        color: var(--inverse);
+      }
+      .app-switcher-row.active span:last-child {
+        color: var(--accent);
+        font-weight: 600;
+      }

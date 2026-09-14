@@ -1,0 +1,182 @@
+/* Extracted from mechanical checkpoint ddd8569, legacy-app.css lines 2492-2671.
+ * Complete rules retained in original cascade order; see tests/support/style-inventory.json. */
+
+
+      /* status pill */
+      .stpill {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        white-space: nowrap;
+        border-radius: 8px;
+        padding: 5px 11px;
+        font-weight: 600;
+        font-size: 13px;
+      }
+      .stpill .segs {
+        display: inline-flex;
+        gap: 3px;
+      }
+      .stpill .seg {
+        width: 14px;
+        height: 4px;
+        border-radius: 2px;
+        background: currentColor;
+        opacity: 0.28;
+      }
+      .stpill .seg.on {
+        opacity: 1;
+      }
+      .stpill .cnt {
+        font-weight: 400;
+        opacity: 1;
+      }
+      .stpill[data-s='open'] {
+        background: var(--st-open-bg);
+        color: var(--st-open-ink);
+      }
+      .stpill[data-s='pending'] {
+        background: var(--st-pend-bg);
+        color: var(--st-pend-ink);
+      }
+      .stpill[data-s='posted'] {
+        background: var(--st-post-bg);
+        color: var(--st-post-ink);
+      }
+      .stpill[data-s='returned'] {
+        background: var(--st-retn-bg);
+        color: var(--st-retn-ink);
+      }
+      .stpill[data-s='canceled'] {
+        background: var(--st-canc-bg);
+        color: var(--st-canc-ink);
+      }
+      .stpill[data-s='inactive'] {
+        background: var(--st-inac-bg);
+        color: var(--st-inac-ink);
+      }
+      .stdot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+
+      /* status popover */
+      .stpop {
+        position: fixed;
+        z-index: 110;
+        width: 352px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        box-shadow: var(--shadow-2);
+        padding: 15px;
+        display: none;
+      }
+      .stpop.open {
+        display: block;
+      }
+      .stpop .hd {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 12px;
+      }
+      .stpop .hd h4 {
+        font-size: 14px;
+      }
+      .stpop .hd .sub {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .strow {
+        display: flex;
+        gap: 11px;
+        position: relative;
+        padding-bottom: 14px;
+      }
+      .strow:last-of-type {
+        padding-bottom: 2px;
+      }
+      .strow::before {
+        content: '';
+        position: absolute;
+        inset-inline-start: 9px;
+        top: 21px;
+        bottom: 0;
+        width: 2px;
+        background: var(--line);
+      }
+      .strow:last-of-type::before {
+        display: none;
+      }
+      .strow.off::before {
+        background: repeating-linear-gradient(180deg, var(--line) 0 3px, transparent 3px 6px);
+      }
+      .stdot2 {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        flex: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--line);
+        background: var(--surface);
+        z-index: 1;
+        color: var(--inverse);
+      }
+      .strow.done .stdot2 {
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+      .strow.cur .stdot2 {
+        border-color: var(--accent);
+      }
+      .strow.cur .stdot2::after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+      .strow .t {
+        font-weight: 600;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        flex-wrap: wrap;
+      }
+      .strow.off .t {
+        color: var(--muted);
+      }
+      .strow .m {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 1px;
+      }
+      .strow .lnk {
+        font-size: 12px;
+        color: var(--accent);
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 2px;
+      }
+      .stpop .poplead {
+        font-size: 12.5px;
+        color: var(--muted);
+        margin-bottom: 13px;
+      }
+      .stpop .ft {
+        border-top: 1px solid var(--line);
+        margin-top: 9px;
+        padding-top: 11px;
+        text-align: center;
+      }
+      .stpop .ft button {
+        color: var(--accent);
+        font-weight: 500;
+        font-size: 13px;
+      }

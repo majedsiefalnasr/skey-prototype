@@ -1,0 +1,72 @@
+    <!-- ===== advanced search overlay (shared by all three list concepts' Search trigger) ===== -->
+    <div id="adv-search-scrim">
+      <div class="box" role="dialog" aria-label="Advanced search" aria-modal="true">
+        <div class="as-inp">
+          <svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg>
+          <input
+            type="text"
+            placeholder="Search by document number, customer, or amount"
+            autocomplete="off" />
+          <span class="kbd-chip" style="margin: 0">Esc</span>
+        </div>
+        <div class="as-fields">
+          <div class="as-field">
+            <label for="as-docno">Doc No.</label>
+            <input id="as-docno" type="text" placeholder="e.g. 126" />
+          </div>
+          <div class="as-field">
+            <label for="as-customer">Customer</label>
+            <input id="as-customer" type="text" placeholder="Customer name or number" />
+          </div>
+          <div class="as-field">
+            <label for="as-date">Date range</label>
+            <input id="as-date" type="text" placeholder="e.g. 01/08/2026 – 13/08/2026" />
+          </div>
+          <div class="as-field">
+            <label for="as-status">Status</label>
+            <select id="as-status">
+              <option>All statuses</option>
+              <option>Posted</option>
+              <option>Pending</option>
+              <option>Open</option>
+            </select>
+          </div>
+          <div class="as-field">
+            <label for="as-pay">Payment method</label>
+            <select id="as-pay">
+              <option>All methods</option>
+              <option>Cash</option>
+              <option>Credit</option>
+            </select>
+          </div>
+        </div>
+        <div class="as-list" role="listbox">
+          <div class="as-grp">Matching invoices</div>
+          <button type="button" class="as-item" role="option">
+            <span class="ic"
+              ><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg
+            ></span>
+            <span class="tx"
+              ><span class="t">#126 · محمد احمد</span
+              ><span class="s">13/08/2026 · Credit</span></span
+            >
+          </button>
+          <button type="button" class="as-item" role="option">
+            <span class="ic"
+              ><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg
+            ></span>
+            <span class="tx"
+              ><span class="t">#140 · العميل الاول</span
+              ><span class="s">13/08/2026 · Credit</span></span
+            >
+          </button>
+        </div>
+        <div class="as-foot">
+          <span><span class="k">↑↓</span>Navigate</span><span><span class="k">↵</span>Open</span>
+          <button type="button" class="lbtn pri" id="adv-search-apply" hidden>Apply</button>
+          <button type="button" class="lbtn out adv-search-close" style="margin-inline-start: auto">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>

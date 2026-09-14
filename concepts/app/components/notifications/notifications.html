@@ -1,0 +1,27 @@
+            <div
+              class="mlist mend notif-pop"
+              id="notifications-popover"
+              role="dialog"
+              aria-labelledby="notifications-title"
+              style="min-width: 340px">
+              <div class="notif-hd">
+                <b id="notifications-title">Notifications</b>
+                <label class="switch"
+                  ><input
+                    id="notif-unread-only"
+                    type="checkbox"
+                    aria-label="Only show unread" /><span></span
+                ></label>
+                <span class="notif-hd-lbl">Only show unread</span>
+              </div>
+              <div class="notif-tabs" role="tablist" aria-label="Notification type">
+                <button role="tab" aria-selected="true" tabindex="0" data-tab="direct">
+                  Direct
+                </button>
+                <button role="tab" aria-selected="false" tabindex="-1" data-tab="email">
+                  Email
+                </button>
+              </div>
+              <div class="notif-body" id="notif-body"></div>
+            </div>
+          </div>

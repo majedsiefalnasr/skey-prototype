@@ -1,0 +1,699 @@
+    <!-- ===== customer field lookup menu and dialogs ===== -->
+    <div
+      class="customer-lookup-menu"
+      id="customer-lookup-menu"
+      role="menu"
+      aria-label="Lookup options"
+      hidden></div>
+
+    <div
+      class="customer-lookup-menu customer-unit-lookup-menu"
+      id="customer-unit-lookup-menu"
+      role="menu"
+      aria-label="Operation unit field options"
+      hidden></div>
+
+    <div class="customer-overlay" id="customer-lookup-search-scrim">
+      <section
+        class="customer-modal customer-search-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="customer-lookup-search-title">
+        <header class="customer-modal-header">
+          <div>
+            <h3 id="customer-lookup-search-title">Find value</h3>
+            <p id="customer-lookup-search-description">Search, compare, then select one result.</p>
+          </div>
+          <button
+            class="ibtn customer-lookup-search-close"
+            type="button"
+            aria-label="Close search"
+            style="margin-inline-start: auto">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </header>
+        <div class="customer-modal-body">
+          <section class="prototype-surface-card customer-lookup-filter-panel">
+            <header class="prototype-surface-card-header">
+              <h4>Search filters</h4>
+              <button
+                class="lbtn out"
+                id="customer-lookup-clear-filters"
+                type="button"
+                style="margin-inline-start: auto">
+                Clear filters
+              </button>
+            </header>
+            <div class="prototype-surface-card-body">
+              <div class="customer-lookup-search-row">
+                <label class="customer-lookup-search-input rec-field">
+                  <span>Search</span>
+                  <span class="customer-lookup-query-control">
+                    <svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg>
+                    <input
+                      id="customer-lookup-search-query"
+                      type="search"
+                      autocomplete="off"
+                      placeholder="Search" />
+                  </span>
+                </label>
+                <label class="rec-field">
+                  <span>Match</span>
+                  <select id="customer-lookup-search-mode">
+                    <option value="contains">Contains</option>
+                    <option value="starts">Starts with</option>
+                    <option value="ends">Ends with</option>
+                  </select>
+                </label>
+              </div>
+              <div class="customer-lookup-filters" id="customer-lookup-search-filters"></div>
+            </div>
+          </section>
+          <div class="customer-lookup-results-toolbar">
+            <strong id="customer-lookup-result-count">0 results</strong>
+            <span>Use ↑ and ↓ to review results, then press Enter to select.</span>
+          </div>
+          <div
+            class="customer-lookup-results prototype-surface-card"
+            id="customer-lookup-search-results"
+            role="region"
+            aria-live="polite"
+            aria-label="Search results"></div>
+        </div>
+        <footer class="customer-modal-footer">
+          <button class="lbtn out customer-lookup-search-close" type="button">Cancel</button>
+          <button class="lbtn pri" id="customer-lookup-select" type="button" disabled>
+            Select value
+          </button>
+        </footer>
+      </section>
+    </div>
+
+    <div class="customer-overlay" id="customer-type-add-scrim">
+      <section
+        class="customer-modal customer-type-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="customer-type-add-title">
+        <header class="customer-modal-header">
+          <div>
+            <h3 id="customer-type-add-title">Add Customer Type</h3>
+            <p>Create a type without leaving the customer record.</p>
+          </div>
+          <button
+            class="ibtn customer-type-add-close"
+            type="button"
+            aria-label="Close Add Customer Type"
+            style="margin-inline-start: auto">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </header>
+        <div class="customer-modal-body">
+          <div class="customer-form-grid">
+            <label class="rec-field">
+              <span>Name <span class="req" aria-hidden="true">*</span></span>
+              <input id="customer-type-name" type="text" required aria-required="true" />
+              <span class="customer-field-error" id="customer-type-name-error" hidden></span>
+            </label>
+            <label class="rec-field">
+              <span>Order</span>
+              <input id="customer-type-order" type="number" min="0" value="10" />
+            </label>
+            <label class="customer-dialog-toggle rec-field rec-field-wide">
+              <span><strong>Deactivate</strong></span>
+              <input id="customer-type-deactivate" type="checkbox" role="switch" />
+              <span class="customer-dialog-toggle-track" aria-hidden="true"></span>
+            </label>
+            <label class="rec-field rec-field-wide">
+              <span>Remarks</span>
+              <textarea id="customer-type-remarks" rows="4"></textarea>
+            </label>
+          </div>
+        </div>
+        <footer class="customer-modal-footer">
+          <button class="lbtn out customer-type-add-close" type="button">Cancel</button>
+          <button class="lbtn pri" id="customer-type-add-save" type="button">
+            Add Customer Type
+          </button>
+        </footer>
+      </section>
+    </div>
+
+<!-- include: ../../components/data-list/list-dialogs.html -->
+<!-- include: ../geography/dialogs.html -->
+    <div class="customer-overlay" id="unit-picker-scrim">
+      <section
+        class="customer-modal geo-parent-picker-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="unit-picker-title">
+        <header class="customer-modal-header">
+          <div>
+            <h3 id="unit-picker-title">Choose operation unit</h3>
+            <p id="unit-picker-description">Pick a unit from the hierarchy.</p>
+          </div>
+          <button
+            class="ibtn unit-picker-close"
+            type="button"
+            aria-label="Close operation unit picker"
+            style="margin-inline-start: auto">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </header>
+        <div class="customer-modal-body">
+          <div class="geo-view-switch" role="tablist" aria-label="Unit picker view">
+            <button
+              type="button"
+              role="tab"
+              data-unit-picker-view="tree"
+              aria-selected="true"
+              aria-controls="unit-picker-tree-pane">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg>
+              Tree
+            </button>
+            <button
+              type="button"
+              role="tab"
+              data-unit-picker-view="flow"
+              aria-selected="false"
+              aria-controls="unit-picker-flow-pane">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-grid" /></svg>
+              Flow
+            </button>
+          </div>
+          <button
+            class="lbtn out unit-picker-root"
+            type="button"
+            id="unit-picker-root"
+            style="margin: 10px 0">
+            No parent unit
+          </button>
+          <div id="unit-picker-tree-pane" role="tabpanel">
+            <div
+              class="geo-tree unit-picker-tree"
+              id="unit-picker-tree"
+              role="tree"
+              aria-label="Operation units"
+              style="max-height: 360px"></div>
+          </div>
+          <div id="unit-picker-flow-pane" role="tabpanel" hidden>
+            <div
+              class="geo-flow-viewport unit-picker-flow-viewport"
+              id="unit-picker-flow-viewport"
+              style="min-height: 360px">
+              <div class="geo-flow-canvas" id="unit-picker-flow-canvas"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="customer-overlay customer-unit-drawer-scrim" id="customer-unit-drawer-scrim">
+      <aside
+        class="customer-unit-drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="customer-unit-drawer-title">
+        <header class="customer-unit-drawer-header">
+          <div>
+            <h3 id="customer-unit-drawer-title">Add Operation Unit</h3>
+            <p id="customer-unit-drawer-description">
+              Create the unit here, then use it on this customer.
+            </p>
+          </div>
+          <div class="customer-unit-drawer-header-actions">
+            <button
+              class="lbtn out customer-unit-open-page"
+              type="button"
+              aria-label="Open in new tab"
+              aria-pressed="false"
+              title="Open in new tab">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-external" /></svg>
+              <span>Open in new tab</span>
+            </button>
+            <button
+              class="ibtn customer-unit-drawer-close"
+              type="button"
+              aria-label="Close Add Operation Unit">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+            </button>
+          </div>
+        </header>
+        <div class="customer-unit-drawer-body">
+          <section class="prototype-surface-card customer-unit-general">
+            <header class="prototype-surface-card-header"><h4>General</h4></header>
+            <div class="prototype-surface-card-body customer-unit-primary">
+              <div class="customer-form-grid">
+                <div class="rec-field customer-unit-parent-field">
+                  <label for="customer-unit-parent">Parent Unit</label>
+                  <div class="customer-lookup-control">
+                    <select id="customer-unit-parent">
+                      <option value="">No parent unit</option>
+                    </select>
+                    <button
+                      class="customer-lookup-trigger"
+                      type="button"
+                      data-unit-picker-open="customer-unit-parent"
+                      aria-haspopup="dialog"
+                      aria-label="Choose Parent Unit from hierarchy">
+                      <svg width="16" height="16" aria-hidden="true"><use href="#i-flow" /></svg>
+                    </button>
+                    <button
+                      class="customer-lookup-trigger"
+                      id="customer-unit-parent-trigger"
+                      type="button"
+                      data-customer-unit-lookup="unitParent"
+                      data-customer-unit-target="customer-unit-parent"
+                      aria-haspopup="menu"
+                      aria-controls="customer-unit-lookup-menu"
+                      aria-expanded="false"
+                      aria-label="More options for Parent Unit">
+                      <svg width="16" height="16" aria-hidden="true"><use href="#i-dots" /></svg>
+                    </button>
+                  </div>
+                </div>
+                <label class="rec-field">
+                  <span>Financial Unit <span class="req" aria-hidden="true">*</span></span>
+                  <input id="customer-unit-financial" type="text" value="1" required />
+                </label>
+                <label class="rec-field">
+                  <span>Unit Name <span class="req" aria-hidden="true">*</span></span>
+                  <input id="customer-unit-name" type="text" required aria-required="true" />
+                  <span class="customer-field-error" id="customer-unit-name-error" hidden></span>
+                </label>
+                <label class="rec-field">
+                  <span>Country <span class="req" aria-hidden="true">*</span></span>
+                  <select id="customer-unit-country" required>
+                    <option>EG - Egypt</option>
+                    <option>SA - Saudi Arabia</option>
+                    <option>AE - United Arab Emirates</option>
+                  </select>
+                </label>
+                <label class="rec-field">
+                  <span>Time Zone <span class="req" aria-hidden="true">*</span></span>
+                  <select id="customer-unit-timezone" required>
+                    <option>(UTC+02:00) Africa/Cairo</option>
+                  </select>
+                </label>
+                <label class="rec-field">
+                  <span>Tax Number</span>
+                  <input id="customer-unit-tax" type="text" />
+                </label>
+                <div class="rec-field">
+                  <label for="customer-unit-location">Geo. Location</label>
+                  <div class="customer-lookup-control">
+                    <select id="customer-unit-location">
+                      <option value="">Select location</option>
+                      <option>Cairo</option>
+                      <option>Alexandria</option>
+                    </select>
+                    <button
+                      class="customer-lookup-trigger"
+                      id="customer-unit-location-trigger"
+                      type="button"
+                      data-customer-unit-lookup="unitLocation"
+                      data-customer-unit-target="customer-unit-location"
+                      aria-haspopup="menu"
+                      aria-controls="customer-unit-lookup-menu"
+                      aria-expanded="false"
+                      aria-label="More options for Geo. Location">
+                      <svg width="16" height="16" aria-hidden="true"><use href="#i-dots" /></svg>
+                    </button>
+                  </div>
+                </div>
+                <label class="customer-dialog-toggle rec-field">
+                  <span><strong>Affected By Transactions</strong></span>
+                  <input id="customer-unit-affected" type="checkbox" role="switch" />
+                  <span class="customer-dialog-toggle-track" aria-hidden="true"></span>
+                </label>
+                <label class="rec-field customer-unit-remarks-field">
+                  <span>Remarks</span>
+                  <textarea id="customer-unit-remarks" rows="3"></textarea>
+                </label>
+              </div>
+              <button class="customer-unit-photo" type="button">
+                <svg width="28" height="28" aria-hidden="true"><use href="#i-clip" /></svg>
+                <span>Select Photo</span>
+              </button>
+            </div>
+          </section>
+
+          <section class="prototype-surface-card customer-unit-workspace">
+            <div
+              class="rec-tabs customer-unit-tabs"
+              role="tablist"
+              aria-label="Operation unit details">
+              <button
+                class="rec-tab on"
+                id="customer-unit-tab-address"
+                type="button"
+                role="tab"
+                aria-selected="true"
+                aria-controls="customer-unit-panel-address"
+                data-customer-unit-tab="address">
+                Address
+              </button>
+              <button
+                class="rec-tab"
+                id="customer-unit-tab-other"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="customer-unit-panel-other"
+                data-customer-unit-tab="other">
+                Other Data
+              </button>
+              <button
+                class="rec-tab"
+                id="customer-unit-tab-report"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="customer-unit-panel-report"
+                data-customer-unit-tab="report">
+                Report Header
+              </button>
+              <button
+                class="rec-tab"
+                id="customer-unit-tab-contact"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="customer-unit-panel-contact"
+                data-customer-unit-tab="contact">
+                Contact Details
+              </button>
+            </div>
+            <div
+              class="customer-unit-tab-panel"
+              id="customer-unit-panel-address"
+              role="tabpanel"
+              aria-labelledby="customer-unit-tab-address"
+              data-customer-unit-panel="address">
+              <div class="customer-form-grid">
+                <label class="rec-field customer-street-field"
+                  ><span>Street</span><input type="text"
+                /></label>
+                <label class="rec-field"><span>House</span><input type="text" /></label>
+                <label class="rec-field"><span>Flat</span><input type="text" /></label>
+                <label class="rec-field"><span>District</span><input type="text" /></label>
+                <label class="rec-field"><span>Short Address</span><input type="text" /></label>
+                <label class="rec-field"
+                  ><span>City</span
+                  ><select>
+                    <option value="">Select city</option>
+                    <option>Cairo</option>
+                  </select></label
+                >
+                <label class="rec-field"
+                  ><span>State</span
+                  ><select>
+                    <option value="">Select state</option>
+                    <option>Cairo</option>
+                  </select></label
+                >
+                <label class="rec-field"
+                  ><span>Country</span
+                  ><select>
+                    <option value="">Select country</option>
+                    <option>EG - Egypt</option>
+                  </select></label
+                >
+                <label class="rec-field"><span>Postal Code</span><input type="text" /></label>
+                <label class="rec-field"><span>Add On</span><input type="text" /></label>
+                <label class="rec-field"
+                  ><span>Identifier Type</span
+                  ><select>
+                    <option value="">Select type</option>
+                    <option>Tax ID</option>
+                  </select></label
+                >
+                <label class="rec-field"><span>Identifier No.</span><input type="text" /></label>
+              </div>
+            </div>
+            <div
+              class="customer-unit-tab-panel"
+              id="customer-unit-panel-other"
+              role="tabpanel"
+              aria-labelledby="customer-unit-tab-other"
+              data-customer-unit-panel="other"
+              hidden>
+              <div class="customer-form-grid">
+                <label class="rec-field"
+                  ><span>Permanent Account Number</span><input type="text"
+                /></label>
+                <label class="rec-field"
+                  ><span>Tax Account Number</span><input type="text"
+                /></label>
+                <label class="rec-field"><span>ISO</span><input type="text" /></label>
+                <label class="rec-field"
+                  ><span>Commercial Registration No.</span><input type="text"
+                /></label>
+                <label class="rec-field"><span>Tax Article (NIA)</span><input type="text" /></label>
+                <label class="rec-field"
+                  ><span>Statistical ID No.</span><input type="text"
+                /></label>
+              </div>
+            </div>
+            <div
+              class="customer-unit-tab-panel"
+              id="customer-unit-panel-report"
+              role="tabpanel"
+              aria-labelledby="customer-unit-tab-report"
+              data-customer-unit-panel="report"
+              hidden>
+              <div class="customer-unit-editor-tabs" role="group" aria-label="Report header type">
+                <button class="lbtn out" type="button" aria-pressed="false">Logo</button>
+                <button class="lbtn pri" type="button" aria-pressed="true">Text</button>
+              </div>
+              <div class="customer-form-grid">
+                <div class="rec-field">
+                  <span id="customer-unit-left-header-label">Left Header</span>
+                  <span
+                    class="customer-unit-editor"
+                    contenteditable="true"
+                    role="textbox"
+                    aria-labelledby="customer-unit-left-header-label"
+                    aria-multiline="true">
+                    dev130
+                  </span>
+                </div>
+                <div class="rec-field">
+                  <span id="customer-unit-right-header-label">Right Header</span>
+                  <span
+                    class="customer-unit-editor"
+                    contenteditable="true"
+                    role="textbox"
+                    aria-labelledby="customer-unit-right-header-label"
+                    aria-multiline="true">
+                    Right Header
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="customer-unit-tab-panel"
+              id="customer-unit-panel-contact"
+              role="tabpanel"
+              aria-labelledby="customer-unit-tab-contact"
+              data-customer-unit-panel="contact"
+              hidden>
+              <div class="customer-form-grid">
+                <label class="rec-field"><span>Phone</span><input type="tel" /></label>
+                <label class="rec-field"><span>E-Mail</span><input type="email" /></label>
+                <label class="rec-field"><span>Mobile No.</span><input type="tel" /></label>
+                <label class="rec-field"><span>Website</span><input type="url" /></label>
+              </div>
+            </div>
+          </section>
+        </div>
+        <footer class="customer-unit-drawer-footer">
+          <button class="lbtn out customer-unit-drawer-close" type="button">Cancel</button>
+          <button class="lbtn pri" id="customer-unit-drawer-save" type="button">
+            Add Operation Unit
+          </button>
+        </footer>
+      </aside>
+    </div>
+
+    <div
+      class="customer-overlay customer-nested-drawer-scrim customer-unit-drawer-scrim"
+      id="customer-parent-unit-drawer-scrim">
+      <aside
+        class="customer-unit-drawer customer-nested-unit-drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="customer-parent-unit-drawer-title"
+        aria-describedby="customer-parent-unit-drawer-description">
+        <header class="customer-unit-drawer-header">
+          <div>
+            <span class="customer-layer-context">Operation Unit / Parent Unit · Level 2 of 2</span>
+            <h3 id="customer-parent-unit-drawer-title">Add Parent Unit</h3>
+            <p id="customer-parent-unit-drawer-description">
+              Create a parent unit, then return to the current operation unit.
+            </p>
+          </div>
+          <button
+            class="ibtn customer-parent-unit-drawer-close"
+            type="button"
+            aria-label="Close Add Parent Unit"
+            style="margin-inline-start: auto">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </header>
+        <div class="customer-unit-drawer-body">
+          <section class="prototype-surface-card">
+            <header class="prototype-surface-card-header"><h4>General</h4></header>
+            <div class="prototype-surface-card-body customer-form-grid">
+              <label class="rec-field">
+                <span>Parent Unit</span>
+                <select id="customer-parent-unit-parent">
+                  <option value="">No parent unit</option>
+                  <option>Head Office</option>
+                </select>
+              </label>
+              <label class="rec-field">
+                <span>Financial Unit <span class="req" aria-hidden="true">*</span></span>
+                <input id="customer-parent-unit-financial" type="text" value="1" required />
+              </label>
+              <label class="rec-field">
+                <span>Unit Name <span class="req" aria-hidden="true">*</span></span>
+                <input id="customer-parent-unit-name" type="text" required aria-required="true" />
+                <span
+                  class="customer-field-error"
+                  id="customer-parent-unit-name-error"
+                  hidden></span>
+              </label>
+              <label class="rec-field">
+                <span>Country <span class="req" aria-hidden="true">*</span></span>
+                <select id="customer-parent-unit-country" required>
+                  <option>EG - Egypt</option>
+                  <option>SA - Saudi Arabia</option>
+                  <option>AE - United Arab Emirates</option>
+                </select>
+              </label>
+              <label class="rec-field">
+                <span>Time Zone <span class="req" aria-hidden="true">*</span></span>
+                <select id="customer-parent-unit-timezone" required>
+                  <option>(UTC+02:00) Africa/Cairo</option>
+                </select>
+              </label>
+              <label class="rec-field">
+                <span>Tax Number</span>
+                <input id="customer-parent-unit-tax" type="text" />
+              </label>
+              <div class="rec-field">
+                <label for="customer-parent-unit-location">Geo. Location</label>
+                <div class="customer-lookup-control">
+                  <select id="customer-parent-unit-location">
+                    <option value="">Select location</option>
+                    <option>Cairo</option>
+                    <option>Alexandria</option>
+                  </select>
+                  <button
+                    class="customer-lookup-trigger"
+                    type="button"
+                    data-customer-unit-lookup="unitLocation"
+                    data-customer-unit-target="customer-parent-unit-location"
+                    aria-haspopup="menu"
+                    aria-controls="customer-unit-lookup-menu"
+                    aria-expanded="false"
+                    aria-label="More options for Geo. Location">
+                    <svg width="16" height="16" aria-hidden="true"><use href="#i-dots" /></svg>
+                  </button>
+                </div>
+              </div>
+              <label class="customer-dialog-toggle rec-field">
+                <span><strong>Affected By Transactions</strong></span>
+                <input id="customer-parent-unit-affected" type="checkbox" role="switch" />
+                <span class="customer-dialog-toggle-track" aria-hidden="true"></span>
+              </label>
+              <label class="rec-field customer-unit-remarks-field">
+                <span>Remarks</span>
+                <textarea id="customer-parent-unit-remarks" rows="4"></textarea>
+              </label>
+            </div>
+          </section>
+        </div>
+        <footer class="customer-unit-drawer-footer">
+          <button class="lbtn out customer-parent-unit-drawer-close" type="button">Cancel</button>
+          <button class="lbtn pri" id="customer-parent-unit-drawer-save" type="button">
+            Add Parent Unit
+          </button>
+        </footer>
+      </aside>
+    </div>
+
+    <div class="customer-overlay customer-location-dialog-scrim" id="customer-location-add-scrim">
+      <section
+        class="customer-modal customer-location-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="customer-location-add-title"
+        aria-describedby="customer-location-add-description">
+        <header class="customer-modal-header">
+          <div>
+            <span class="customer-layer-context">Geo. Location</span>
+            <h3 id="customer-location-add-title">Add Geo. Location</h3>
+            <p id="customer-location-add-description">
+              Add a compact location record without leaving the unit form.
+            </p>
+          </div>
+          <button
+            class="ibtn customer-location-add-close"
+            type="button"
+            aria-label="Close Add Geo. Location"
+            style="margin-inline-start: auto">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </header>
+        <div class="customer-modal-body">
+          <section class="prototype-surface-card">
+            <header class="prototype-surface-card-header"><h4>Location details</h4></header>
+            <div class="prototype-surface-card-body customer-form-grid">
+              <label class="rec-field">
+                <span>Location Code <span class="req" aria-hidden="true">*</span></span>
+                <input id="customer-location-code" type="text" required aria-required="true" />
+                <span class="customer-field-error" id="customer-location-code-error" hidden></span>
+              </label>
+              <label class="rec-field">
+                <span>Location Name <span class="req" aria-hidden="true">*</span></span>
+                <input id="customer-location-name" type="text" required aria-required="true" />
+                <span class="customer-field-error" id="customer-location-name-error" hidden></span>
+              </label>
+              <label class="rec-field">
+                <span>Parent Location</span>
+                <select id="customer-location-parent">
+                  <option value="">No parent location</option>
+                  <option>Egypt</option>
+                  <option>Cairo</option>
+                </select>
+              </label>
+              <label class="rec-field">
+                <span>Level</span>
+                <input id="customer-location-level" type="number" min="1" value="1" />
+              </label>
+              <label class="rec-field rec-field-wide">
+                <span>Type</span>
+                <select id="customer-location-type">
+                  <option>Country</option>
+                  <option>Governorate</option>
+                  <option>City</option>
+                  <option>District</option>
+                </select>
+              </label>
+              <label class="rec-field rec-field-wide">
+                <span>Remarks</span>
+                <textarea id="customer-location-remarks" rows="4"></textarea>
+              </label>
+            </div>
+          </section>
+        </div>
+        <footer class="customer-modal-footer">
+          <button class="lbtn out customer-location-add-close" type="button">Cancel</button>
+          <button class="lbtn pri" id="customer-location-add-save" type="button">
+            Add Geo. Location
+          </button>
+        </footer>
+      </section>
+    </div>

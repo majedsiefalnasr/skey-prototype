@@ -1,0 +1,234 @@
+/* Extracted from mechanical checkpoint ddd8569, legacy-app.css lines 3240-3471.
+ * Complete rules retained in original cascade order; see tests/support/style-inventory.json. */
+
+
+      /* ============ print dialog ============ */
+      .dscrim {
+        position: fixed;
+        inset: 0;
+        background: rgba(17, 24, 39, 0.45);
+        z-index: 130;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .dscrim.open {
+        display: flex;
+      }
+      .dlg {
+        width: min(720px, 96vw);
+        background: var(--surface);
+        border-radius: 12px;
+        box-shadow: var(--shadow-2);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        max-height: 90vh;
+      }
+      .dhd {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--line);
+      }
+      .dhd h3 {
+        font-size: 15px;
+      }
+      .dhd .sub {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .dbody {
+        padding: 16px 18px;
+        overflow: auto;
+      }
+      .fset {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 12px 14px;
+        margin-bottom: 14px;
+      }
+      .fset legend {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--faint);
+        padding: 0 6px;
+      }
+      .fgrid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px 14px;
+      }
+      .fld {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .fld label {
+        font-size: 12px;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .fld .ctl {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .fld select,
+      .fld input {
+        flex: 1;
+        min-height: 32px;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        padding: 6px 9px;
+        font: inherit;
+        background: var(--surface);
+      }
+      .swrow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 0;
+        font-size: 13px;
+      }
+      .swrow input {
+        width: 16px;
+        height: 16px;
+      }
+      .dgrid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .dcard {
+        border: 1.5px solid var(--line);
+        border-radius: 9px;
+        padding: 11px;
+        text-align: start;
+        display: flex;
+        gap: 9px;
+        align-items: flex-start;
+      }
+      .dcard:hover {
+        border-color: var(--line);
+        background: var(--surface-hover);
+      }
+      .dcard[aria-checked='true'] {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+      .dcard > span:last-child {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .dcard .t {
+        font-weight: 600;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .dcard .d {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.35;
+      }
+      .accent-swatches {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .accent-swatch {
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        background: var(--sw);
+        border: 2px solid transparent;
+        padding: 0;
+        cursor: pointer;
+        box-shadow: inset 0 0 0 1px var(--line);
+      }
+      .accent-swatch[aria-checked='true'] {
+        border-color: var(--ink);
+        box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px var(--sw);
+      }
+      .accent-custom {
+        display: grid;
+        grid-template-columns: 28px auto minmax(112px, 1fr);
+        align-items: center;
+        gap: 8px;
+        min-width: min(100%, 240px);
+      }
+      .accent-custom-picker {
+        position: relative;
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+      .accent-custom-picker input {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        opacity: 0;
+        cursor: pointer;
+      }
+      .accent-custom-swatch {
+        display: block;
+        width: 28px;
+        height: 28px;
+        border: 2px solid transparent;
+        border-radius: 999px;
+        background: var(--custom-accent, #1868db);
+        box-shadow: inset 0 0 0 1px var(--line);
+        pointer-events: none;
+      }
+      .accent-custom[data-selected='true'] .accent-custom-swatch {
+        border-color: var(--ink);
+        box-shadow:
+          0 0 0 2px var(--surface),
+          0 0 0 3.5px var(--custom-accent, #1868db);
+      }
+      .accent-custom-picker input:focus-visible + .accent-custom-swatch {
+        outline: 2px solid var(--focus);
+        outline-offset: 3px;
+      }
+      .accent-custom-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .accent-custom-hex {
+        width: 100%;
+        min-height: 32px;
+        padding: 5px 9px;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        font: inherit;
+        font-variant-numeric: tabular-nums;
+        text-transform: uppercase;
+        background: var(--surface);
+        color: var(--ink);
+      }
+      .accent-custom-hex[aria-invalid='true'] {
+        border-color: var(--danger);
+      }
+      .accent-custom-error {
+        grid-column: 1 / -1;
+        font-size: 11px;
+        line-height: 1.35;
+        color: var(--danger);
+      }
+      .accent-custom-error:empty {
+        display: none;
+      }

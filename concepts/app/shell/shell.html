@@ -1,0 +1,160 @@
+    <!-- ===== shared templates ===== -->
+    <template id="t-top">
+      <header class="gtop">
+        <div class="left">
+          <div class="menu app-switcher-menu">
+            <button class="ibtn" aria-label="Switch app" aria-haspopup="menu" aria-expanded="false">
+              <svg width="16" height="16" aria-hidden="true"><use href="#i-grid" /></svg
+              ><span class="tip">Switch app</span>
+            </button>
+            <div class="mlist app-switcher-list" role="menu"></div>
+          </div>
+          <button class="ibtn side-toggle" aria-label="Collapse sidebar" aria-pressed="false">
+            <svg width="16" height="16" aria-hidden="true"><use href="#i-panel" /></svg
+            ><span class="tip">Collapse sidebar</span>
+          </button>
+          <button type="button" class="app" aria-label="lastchance">
+            <svg width="16" height="16" aria-hidden="true"><use href="#i-home" /></svg
+            ><span class="app-name">lastchance</span><span class="tip">lastchance</span>
+          </button>
+        </div>
+        <div class="gsearch">
+          <div class="swrap">
+            <button class="sbox s-open" aria-label="Search or run an action">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg>
+              <span
+                class="shell-search-label search-typing-label"
+                data-search-static="Search or run an action"
+                >Search or run an action</span
+              >
+              <span class="kbd-chip">⌘K</span>
+            </button>
+            <div class="spanel" role="dialog" aria-label="Search">
+              <div class="sinp">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg>
+                <input
+                  type="text"
+                  placeholder="Search screens, customers and invoices, or type an action"
+                  autocomplete="off" />
+                <span class="kbd-chip" style="margin: 0">Esc</span>
+              </div>
+              <div class="sctx">
+                <span class="sctx-current">You are on <b>Sales Invoice</b> · 001000352026126</span>
+                <span class="sscope" role="group" aria-label="Scope">
+                  <button data-scope="all" aria-pressed="true">Everything</button>
+                  <button data-scope="screens" aria-pressed="false">Screens</button>
+                  <button data-scope="records" aria-pressed="false">Records</button>
+                  <button data-scope="actions" aria-pressed="false">Actions</button>
+                </span>
+              </div>
+              <div class="slist" role="listbox"></div>
+              <div class="sfoot">
+                <span><span class="k">↑↓</span>Navigate</span
+                ><span><span class="k">↵</span>Open</span>
+                <span class="sfoot-scope"><span class="k">Tab</span>Change scope</span>
+                <span class="sfoot-ctx" style="margin-inline-start: auto"
+                  >Actions apply to invoice 126</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <button class="chip" aria-label="AI Assistant" title="AI Assistant">
+            <svg width="14" height="14" aria-hidden="true"><use href="#i-spark" /></svg> AI
+            Assistant
+          </button>
+          <div class="menu">
+            <button
+              class="ibtn"
+              aria-label="System Alerts"
+              aria-haspopup="dialog"
+              aria-controls="notifications-popover"
+              aria-expanded="false">
+              <svg width="16" height="16" aria-hidden="true"><use href="#i-bell" /></svg
+              ><span class="notif-badge" id="notif-badge" hidden></span
+              ><span class="tip">Alerts</span>
+            </button>
+<!-- include: ../components/notifications/notifications.html -->          <div class="menu">
+            <button class="ibtn" aria-label="Help" aria-haspopup="menu" aria-expanded="false">
+              <svg width="16" height="16" aria-hidden="true"><use href="#i-help" /></svg
+              ><span class="tip">Help</span>
+            </button>
+            <div class="mlist mend" role="menu" style="min-width: 230px">
+              <div class="glbl">Help</div>
+              <button role="menuitem">What's new</button>
+              <button role="menuitem">Documentation</button>
+              <button role="menuitem" class="help-kbd" data-act="Help">Keyboard shortcuts</button>
+              <button role="menuitem">Support</button>
+              <button role="menuitem">Give feedback</button>
+              <hr />
+              <div class="glbl">Information</div>
+              <button role="menuitem">About Skey ERP</button>
+              <button role="menuitem">System status</button>
+              <hr />
+              <div class="glbl">Legal</div>
+              <button role="menuitem">Terms of service</button>
+              <button role="menuitem">Privacy policy</button>
+            </div>
+          </div>
+          <button class="ibtn" aria-label="Settings">
+            <svg width="16" height="16" aria-hidden="true"><use href="#i-gear" /></svg
+            ><span class="tip">Settings</span>
+          </button>
+          <div class="menu">
+            <button class="avatar-btn" aria-haspopup="menu" aria-expanded="false">
+              <span class="avatar">MS</span>
+            </button>
+            <div class="mlist mend user-pop" role="menu" style="min-width: 270px">
+              <div class="user-card">
+                <span class="avatar">MS</span>
+                <div><b>Majed Sief Alnasr</b><span>admin@lastchance</span></div>
+              </div>
+              <button role="menuitem">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-gear" /></svg> Account
+                settings
+              </button>
+              <button role="menuitem" class="appearance-menu">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-sun" /></svg>
+                Appearance
+              </button>
+              <button role="menuitem" class="side-customize-menu">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-sliders" /></svg>
+                Customize sidebar
+              </button>
+              <button role="menuitem" class="fav-toggle-menu">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-spark" /></svg> Add
+                this page to Favorites
+              </button>
+              <hr />
+              <div class="glbl">Tenant</div>
+              <button role="menuitem">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-home" /></svg>
+                lastchance
+              </button>
+              <hr />
+              <button role="menuitem">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-user" /></svg> Switch
+                account
+              </button>
+              <button role="menuitem" class="dan">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg> Log out
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+    </template>
+
+<!-- include: ../components/record-pager/pager.html --><!-- include: ../pages/invoices/shared-templates.html -->
+<!-- include: ../pages/invoices/templates.html -->
+<!-- include: ../components/data-list/dialogs.html -->
+<!-- include: ../pages/customers/dialogs.html -->
+<!-- include: shared-overlays.html -->
+<!-- include: ../pages/invoices/activity-dialog.html -->
+<!-- include: ../pages/invoices/record-dialogs.html -->
+<!-- include: ../pages/invoices/dialogs.html --><!-- include: ../pages/invoices/print-dialog.html -->
+<!-- include: sidebar-dialog.html -->
+<!-- include: appearance-dialog.html -->
+<!-- include: ../components/assistant/assistant.html -->
+<!-- include: ../components/data-list/context-menu.html -->

@@ -1,0 +1,54 @@
+      <template class="customer-list-tpl">
+        <div class="customer-list-view" hidden>
+          <div class="phead">
+            <div class="l">
+              <nav class="crumbs" aria-label="Breadcrumb">
+                <a href="#" data-i18n="Home">Home</a><span class="sep">›</span>
+                <span aria-current="page" data-i18n="Customers">Customers</span>
+              </nav>
+              <div class="tline"><h1 data-i18n="Customers">Customers</h1></div>
+            </div>
+            <div class="r">
+              <details class="data-page-manage" data-list-context="customer">
+                <summary>
+                  <svg width="15" height="15" aria-hidden="true"><use href="#i-sliders" /></svg>
+                  <span data-i18n="Manage">Manage</span>
+                  <svg width="11" height="11" aria-hidden="true"><use href="#i-caret" /></svg>
+                </summary>
+                <div class="data-menu-popover" role="group" aria-label="Manage customers"></div>
+              </details>
+              <button class="lbtn pri" id="customer-list-add" type="button">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg>
+                <span data-i18n="Add Customer">Add Customer</span>
+              </button>
+            </div>
+          </div>
+          <div class="canvas" id="customer-list-canvas"></div>
+          <div class="fnav fnav-list" id="customer-list-fnav"></div>
+        </div>
+      </template>
+
+      <template class="customer-record-tpl">
+        <div class="customer-record-view" hidden>
+          <div id="customer-record-chrome"></div>
+          <div class="canvas customer-record-canvas" id="customer-record-canvas"></div>
+          <div class="fnav customer-record-footer">
+            <span class="customer-record-pager-mount"></span>
+            <span class="pos" id="customer-record-position" aria-live="polite">Record 1 of 72</span>
+            <span class="customer-footer-note" id="customer-footer-note">
+              <svg width="13" height="13" aria-hidden="true"><use href="#i-lock" /></svg>
+              Saved customer. Choose Modify to edit.
+            </span>
+            <span class="end">
+              <button class="ctx" type="button" data-customer-footer-action="statement">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-doc" /></svg>
+                <span data-i18n="Customer Statement">Customer Statement</span>
+              </button>
+              <button class="ctx" type="button" data-customer-footer-action="contact">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-user" /></svg>
+                <span data-i18n="Add Contact">Add Contact</span>
+              </button>
+            </span>
+          </div>
+        </div>
+      </template>

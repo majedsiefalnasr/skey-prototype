@@ -1,0 +1,34 @@
+    <!-- ===== shared customer image preview ===== -->
+    <div
+      class="customer-image-popover"
+      id="customer-image-popover"
+      popover="auto"
+      role="dialog"
+      aria-labelledby="customer-image-popover-name">
+      <div class="customer-image-popover-media" data-fit="cover">
+        <img alt="" />
+      </div>
+      <div class="customer-image-popover-copy">
+        <div>
+          <strong id="customer-image-popover-name"></strong>
+          <span id="customer-image-popover-number"></span>
+        </div>
+        <button
+          class="ibtn customer-image-popover-close"
+          type="button"
+          data-customer-image-close
+          aria-label="Close customer image preview">
+          <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ===== status popover ===== -->
+    <div class="stpop" id="stpop" role="dialog" aria-label="Document status">
+      <div class="hd">
+        <h4>Document status</h4>
+        <span class="sub"></span>
+      </div>
+      <div class="rows"></div>
+      <div class="ft"><button class="dr-open" data-tab="stages">See the full history</button></div>
+    </div>

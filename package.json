@@ -1,0 +1,18 @@
+{
+  "name": "app-shell-components",
+  "version": "1.0.0",
+  "description": "App shell component refactor tooling and tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs",
+    "test:unit": "node --test tests/*.test.mjs",
+    "test:parity": "playwright test tests/parity.spec.mjs",
+    "test:browser": "playwright test"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
+}

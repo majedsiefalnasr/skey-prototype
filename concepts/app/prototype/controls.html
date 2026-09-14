@@ -1,0 +1,153 @@
+    <div class="demo-bar">
+      <div class="grp-heading">Appearance</div>
+      <div class="grp">
+        <label for="theme">Theme:</label>
+        <select id="theme" autocomplete="off">
+          <option value="system" selected>System</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+      <div class="grp">
+        <label class="demo-toggle" for="high-contrast"
+          ><input type="checkbox" id="high-contrast" autocomplete="off" /><span
+            class="demo-toggle-track"
+            aria-hidden="true"></span
+          >High contrast</label
+        >
+      </div>
+      <div class="grp">
+        <label for="content-layout">Layout:</label>
+        <select id="content-layout" autocomplete="off">
+          <option value="fluid" selected>Fluid</option>
+          <option value="boxed">Boxed</option>
+        </select>
+      </div>
+      <div class="grp">
+        <label for="density">Density:</label>
+        <select id="density" autocomplete="off">
+          <option value="default" selected>Default</option>
+          <option value="compact">Compact</option>
+        </select>
+      </div>
+      <div class="grp" id="input-style-group" hidden>
+        <label for="input-style">Input style:</label>
+        <select id="input-style" autocomplete="off">
+          <option value="default" selected>Standard</option>
+          <option value="floated">Floating label</option>
+          <option value="inline">Inline label</option>
+        </select>
+      </div>
+      <div class="grp" id="section-style-group" hidden>
+        <label for="section-style">Card style:</label>
+        <select id="section-style" autocomplete="off">
+          <option value="standard" selected>Standard</option>
+          <option value="fieldset">Fieldset</option>
+        </select>
+      </div>
+      <div class="grp">
+        <label class="demo-toggle" for="rtl"
+          ><input type="checkbox" id="rtl" autocomplete="off" /><span
+            class="demo-toggle-track"
+            aria-hidden="true"></span
+          >RTL</label
+        >
+      </div>
+
+      <div class="grp-heading" id="table-group-heading" hidden>Tables</div>
+      <div class="grp" id="filter-mode-group" hidden>
+        <label for="filter-mode">Filter style:</label>
+        <select id="filter-mode" autocomplete="off">
+          <option value="inline" selected>Inline filters</option>
+          <option value="modal">Filter dialog</option>
+        </select>
+      </div>
+      <div class="grp" id="statistics-concept-group" hidden>
+        <label for="statistics-concept">Statistics concept:</label>
+        <select id="statistics-concept" autocomplete="off">
+          <option value="balanced" selected>Balanced cards</option>
+          <option value="operational">Operational workspace</option>
+          <option value="exceptions">Exceptions &amp; attention</option>
+          <option value="analytical">Analytical KPIs</option>
+        </select>
+      </div>
+
+      <div class="grp-heading" id="invoice-group-heading" hidden>Sales Invoice</div>
+      <div class="grp" id="invoice-mode-group" hidden>
+        <label for="mode">Mode:</label>
+        <select id="mode" autocomplete="off">
+          <option value="create">Creating a new invoice</option>
+          <option value="record" selected>Viewing a saved invoice</option>
+          <option value="edit">Editing a saved invoice</option>
+        </select>
+      </div>
+      <div class="grp" id="invoice-status-group" hidden>
+        <label for="st">Invoice status:</label>
+        <select id="st" autocomplete="off">
+          <option value="open">Open — nothing recorded yet</option>
+          <option value="pending">Pending (معلق)</option>
+          <option value="posted" selected>Posted (مرحل)</option>
+          <option value="returned">Returned (مرتجع)</option>
+          <option value="canceled">Canceled (ملغي)</option>
+          <option value="inactive">Deactivated (موقف)</option>
+        </select>
+      </div>
+      <div class="grp" id="invoice-payment-group" hidden>
+        <label for="pay">Payment:</label>
+        <select id="pay" autocomplete="off">
+          <option value="credit" selected>Credit (آجل)</option>
+          <option value="cash">Cash (نقد)</option>
+        </select>
+      </div>
+      <div class="grp" id="invoice-dirty-group" hidden>
+        <label class="demo-toggle" for="dirty"
+          ><input type="checkbox" id="dirty" autocomplete="off" /><span
+            class="demo-toggle-track"
+            aria-hidden="true"></span
+          >Has unsaved edits</label
+        >
+      </div>
+      <div class="grp" id="invoice-emptyflow-group" hidden>
+        <label class="demo-toggle" for="emptyflow"
+          ><input type="checkbox" id="emptyflow" /><span
+            class="demo-toggle-track"
+            aria-hidden="true"></span
+          >No notes on this invoice</label
+        >
+      </div>
+
+      <div class="grp-heading" id="customer-group-heading" hidden>Customer</div>
+      <div class="grp" id="customer-mode-group" hidden>
+        <label for="customer-mode">Mode:</label>
+        <select id="customer-mode" autocomplete="off">
+          <option value="create">Creating a new customer</option>
+          <option value="view" selected>Viewing a saved customer</option>
+          <option value="edit">Editing a saved customer</option>
+        </select>
+      </div>
+      <div class="grp" id="customer-layout-group" hidden>
+        <label for="customer-layout">Customer layout:</label>
+        <select id="customer-layout" autocomplete="off">
+          <option value="guided" selected>Tabbed Customer</option>
+          <option value="scroll">Scroll Navigator</option>
+        </select>
+      </div>
+
+      <div class="grp-heading">Debug</div>
+      <div class="grp">
+        <label class="demo-toggle" for="failsim"
+          ><input type="checkbox" id="failsim" /><span
+            class="demo-toggle-track"
+            aria-hidden="true"></span
+          >Make the next action fail</label
+        >
+      </div>
+      <div class="grp">
+        <label class="demo-toggle" for="simulate-loading"
+          ><input type="checkbox" id="simulate-loading" /><span
+            class="demo-toggle-track"
+            aria-hidden="true"></span
+          >Simulate loading</label
+        >
+      </div>
+    </div>

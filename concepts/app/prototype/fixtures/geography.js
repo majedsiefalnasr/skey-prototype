@@ -1,0 +1,133 @@
+// Geography fixtures -- moved verbatim (by name, unmodified body) out of
+// concepts/app/legacy-app.js as part of Task 5's fixture-ownership split.
+// GEO_ROWS is the Geographical Structure list/tree's sample row data
+// (paired with DATA_LIST_SIMULATED_TOTAL.geo = 12 in
+// components/data-list/model.js -- these 12 rows ARE the full simulated
+// dataset for this context, unlike invoice/customer which sample a larger
+// simulated total).
+//
+// Read-only sample/reference data: legacy-app.js only ever reads GEO_ROWS
+// via find/filter/map/reduce/some, never mutates it in place.
+
+export const GEO_ROWS = [
+  {
+    code: 'EG',
+    name: 'Egypt',
+    parentCode: '',
+    parent: '',
+    type: 'Country',
+    level: 1,
+    active: true,
+    remarks: 'National operating territory',
+  },
+  {
+    code: 'CAI',
+    name: 'Cairo Governorate',
+    parentCode: 'EG',
+    parent: 'EG - Egypt',
+    type: 'Governorate',
+    level: 2,
+    active: true,
+    remarks: 'Greater Cairo sales territory',
+  },
+  {
+    code: 'GIZ',
+    name: 'Giza Governorate',
+    parentCode: 'EG',
+    parent: 'EG - Egypt',
+    type: 'Governorate',
+    level: 2,
+    active: true,
+    remarks: '',
+  },
+  {
+    code: 'ALX',
+    name: 'Alexandria Governorate',
+    parentCode: 'EG',
+    parent: 'EG - Egypt',
+    type: 'Governorate',
+    level: 2,
+    active: true,
+    remarks: 'North coast operations',
+  },
+  {
+    code: 'SUZ',
+    name: 'Suez Governorate',
+    parentCode: 'EG',
+    parent: 'EG - Egypt',
+    type: 'Governorate',
+    level: 2,
+    active: true,
+    remarks: '',
+  },
+  {
+    code: 'NSC',
+    name: 'Nasr City',
+    parentCode: 'CAI',
+    parent: 'CAI - Cairo Governorate',
+    type: 'District',
+    level: 3,
+    active: true,
+    remarks: 'East Cairo service area',
+  },
+  {
+    code: 'HEL',
+    name: 'Heliopolis',
+    parentCode: 'CAI',
+    parent: 'CAI - Cairo Governorate',
+    type: 'District',
+    level: 3,
+    active: true,
+    remarks: '',
+  },
+  {
+    code: 'MAA',
+    name: 'Maadi',
+    parentCode: 'CAI',
+    parent: 'CAI - Cairo Governorate',
+    type: 'District',
+    level: 3,
+    active: true,
+    remarks: '',
+  },
+  {
+    code: 'OCT',
+    name: '6th of October City',
+    parentCode: 'GIZ',
+    parent: 'GIZ - Giza Governorate',
+    type: 'City',
+    level: 3,
+    active: true,
+    remarks: 'West Cairo distribution zone',
+  },
+  {
+    code: 'DOK',
+    name: 'Dokki',
+    parentCode: 'GIZ',
+    parent: 'GIZ - Giza Governorate',
+    type: 'District',
+    level: 3,
+    active: true,
+    remarks: '',
+  },
+  {
+    code: 'MON',
+    name: 'Montaza',
+    parentCode: 'ALX',
+    parent: 'ALX - Alexandria Governorate',
+    type: 'District',
+    level: 3,
+    active: true,
+    remarks: '',
+  },
+  {
+    code: 'AIN',
+    name: 'Ain Sokhna',
+    parentCode: 'SUZ',
+    parent: 'SUZ - Suez Governorate',
+    type: 'City',
+    level: 3,
+    active: false,
+    remarks: 'Seasonal territory currently inactive',
+  },
+]

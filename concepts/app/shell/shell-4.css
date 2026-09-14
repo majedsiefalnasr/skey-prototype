@@ -1,0 +1,207 @@
+/* Extracted from mechanical checkpoint ddd8569, legacy-app.css lines 2687-2891.
+ * Complete rules retained in original cascade order; see tests/support/style-inventory.json. */
+
+
+      /* ============ search panel ============ */
+      .sscrim {
+        position: fixed;
+        inset: 0;
+        background: transparent;
+        z-index: 150;
+        display: none;
+      }
+      .sscrim.open {
+        display: block;
+      }
+      .spanel {
+        position: fixed;
+        z-index: 160;
+        inset-inline: 0;
+        margin-inline: auto;
+        inset-block-start: 14px;
+        width: min(620px, 92vw);
+        background: var(--surface);
+        border: 1.5px solid var(--line);
+        border-radius: 9px;
+        box-shadow: var(--shadow-2);
+        overflow: hidden;
+        display: none;
+        flex-direction: column;
+        max-height: min(600px, 68vh);
+      }
+      .spanel.open {
+        display: flex;
+      }
+      .sinp {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--line);
+      }
+      .sinp input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font: 14px inherit;
+      }
+      .sctx {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        background: var(--line-2);
+        border-bottom: 1px solid var(--line);
+        font-size: 12px;
+        color: var(--muted);
+        flex-wrap: wrap;
+      }
+      .sctx b {
+        color: var(--ink);
+      }
+      .sscope {
+        display: inline-flex;
+        gap: 4px;
+        margin-inline-start: auto;
+      }
+      .sscope button {
+        font-size: 12px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 2px 10px;
+        background: var(--surface);
+        color: var(--muted);
+      }
+      .sscope button[aria-pressed='true'] {
+        background: var(--accent-soft);
+        border-color: var(--accent-line);
+        color: var(--accent);
+        font-weight: 600;
+      }
+      /* launchpad's search opens screens-only: no record context to key off, no
+   record-scoped actions, and no scope switcher since there's only one scope */
+      .spanel.screens-only .sctx,
+      .spanel.screens-only .sfoot-scope,
+      .spanel.screens-only .sfoot-ctx {
+        display: none;
+      }
+      .slist {
+        flex: 1;
+        overflow: auto;
+        padding: 6px;
+      }
+      .sgrp {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--faint);
+        padding: 9px 12px 3px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .sgrp .c {
+        background: var(--line-2);
+        border-radius: 999px;
+        padding: 0 7px;
+        font-size: 12px;
+      }
+      .sitem {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        gap: 11px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        text-align: start;
+      }
+      .sitem .ic {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+        background: var(--line-2);
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+      }
+      .sitem:hover:not(:disabled),
+      .sitem.sel {
+        background: var(--accent-soft);
+      }
+      .sitem:hover:not(:disabled) .ic,
+      .sitem.sel .ic {
+        background: var(--surface);
+        color: var(--accent);
+      }
+      .sitem .tx {
+        flex: 1;
+        min-width: 0;
+      }
+      .sitem .t {
+        font-size: 13px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .sitem .t mark {
+        background: var(--mark-bg);
+        color: inherit;
+        border-radius: 2px;
+        padding: 0 1px;
+      }
+      .sitem .s {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 1px;
+      }
+      .sitem .why {
+        font-size: 12px;
+        color: var(--faint);
+        font-style: italic;
+      }
+      .sitem:disabled {
+        opacity: 0.6;
+      }
+      .sitem .kbd {
+        font:
+          11px ui-monospace,
+          monospace;
+        background: var(--line-2);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 1px 6px;
+        color: var(--muted);
+      }
+      .sempty {
+        padding: 32px 18px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .sempty b {
+        display: block;
+        color: var(--ink);
+        margin-bottom: 4px;
+      }
+      .sfoot {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 8px 14px;
+        border-top: 1px solid var(--line);
+        background: var(--line-2);
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .sfoot .k {
+        font:
+          11px ui-monospace,
+          monospace;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 1px 6px;
+        margin-inline-end: 5px;
+      }

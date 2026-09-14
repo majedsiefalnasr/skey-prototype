@@ -1,0 +1,221 @@
+/* Extracted from mechanical checkpoint ddd8569, legacy-app.css lines 2196-2414.
+ * Complete rules retained in original cascade order; see tests/support/style-inventory.json. */
+
+
+      /* ---- topbar: Notifications popover ---- */
+      .notif-pop {
+        padding: 0;
+        overflow: hidden;
+      }
+      .notif-hd {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 14px 12px;
+      }
+      .notif-hd b {
+        font-size: 14.5px;
+        color: var(--ink);
+        flex: 1;
+      }
+      .notif-badge {
+        position: absolute;
+        inset-block-start: 3px;
+        inset-inline-end: 3px;
+        min-width: 14px;
+        height: 14px;
+        padding: 0 3px;
+        border-radius: 999px;
+        background: var(--danger-bold);
+        color: var(--inverse);
+        font-size: 9.5px;
+        font-weight: 700;
+        line-height: 14px;
+        text-align: center;
+        border: 2px solid var(--surface);
+      }
+      .notif-hd-lbl {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .switch {
+        position: relative;
+        display: inline-flex;
+        width: 30px;
+        height: 17px;
+        flex: none;
+      }
+      .switch input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        margin: 0;
+        cursor: pointer;
+      }
+      .switch span {
+        position: absolute;
+        inset: 0;
+        background: var(--line);
+        border-radius: 999px;
+        transition: background 0.12s;
+        pointer-events: none;
+      }
+      .switch span::before {
+        content: '';
+        position: absolute;
+        inset-block-start: 2px;
+        inset-inline-start: 2px;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: var(--inverse);
+        transition: translate 0.12s;
+      }
+      .switch input:checked + span {
+        background: var(--accent);
+      }
+      .switch input:focus-visible + span {
+        outline: 2px solid var(--focus);
+        outline-offset: 2px;
+      }
+      .switch input:checked + span::before {
+        translate: 13px 0;
+      }
+      [dir='rtl'] .switch input:checked + span::before {
+        translate: -13px 0;
+      }
+      .notif-tabs {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        display: flex;
+        gap: 6px;
+        padding: 0 10px;
+        background: var(--surface);
+        border-bottom: 1px solid var(--line);
+      }
+      .notif-tabs button {
+        padding: 8px 10px;
+        border-bottom: 2px solid transparent;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 500;
+        border-radius: 0;
+        width: auto;
+      }
+      .notif-tabs button[aria-selected='true'] {
+        color: var(--accent);
+        border-color: var(--accent);
+        font-weight: 600;
+      }
+      .notif-empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 36px 24px 30px;
+        color: var(--faint);
+        text-align: center;
+      }
+      .notif-empty svg {
+        color: var(--line);
+      }
+      .notif-empty p {
+        font-size: 13px;
+        color: var(--muted);
+        max-width: 26ch;
+      }
+      .notif-body {
+        max-height: 280px;
+        overflow: auto;
+        padding: 8px;
+      }
+      .notif-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 9px 10px;
+        border-radius: 8px;
+        width: 100%;
+        border: none;
+        background: none;
+        font: inherit;
+        text-align: start;
+        cursor: pointer;
+      }
+      .notif-row:hover {
+        background: var(--hover-overlay);
+      }
+      .notif-icn {
+        position: relative;
+        flex: none;
+        width: 28px;
+        height: 28px;
+        margin-top: 1px;
+        border-radius: 50%;
+        background: var(--hover-overlay);
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .notif-row.unread .notif-icn::after {
+        content: '';
+        position: absolute;
+        inset-block-start: -2px;
+        inset-inline-end: -2px;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--accent);
+        border: 2px solid var(--surface);
+      }
+      .email-avatar {
+        background: var(--avatar-bg);
+        color: var(--avatar-ink);
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .email-avatar[data-avatar-tone='1'] {
+        background: var(--avatar-tone-1-bg);
+        color: var(--avatar-tone-1-ink);
+      }
+      .email-avatar[data-avatar-tone='2'] {
+        background: var(--avatar-tone-2-bg);
+        color: var(--avatar-tone-2-ink);
+      }
+      .email-avatar[data-avatar-tone='3'] {
+        background: var(--avatar-tone-3-bg);
+        color: var(--avatar-tone-3-ink);
+      }
+      .email-avatar[data-avatar-tone='4'] {
+        background: var(--avatar-tone-4-bg);
+        color: var(--avatar-tone-4-ink);
+      }
+      .email-avatar[data-avatar-tone='5'] {
+        background: var(--avatar-tone-5-bg);
+        color: var(--avatar-tone-5-ink);
+      }
+      .notif-row.unread .notif-txt {
+        font-weight: 600;
+      }
+      .notif-txt {
+        flex: 1;
+        min-width: 0;
+        font-size: 13px;
+        color: var(--ink);
+        line-height: 1.5;
+        padding-top: 1px;
+      }
+      .notif-txt b {
+        font-weight: 600;
+      }
+      .notif-what {
+        color: var(--muted);
+      }
+      .notif-time {
+        flex: none;
+        font-size: 12px;
+        color: var(--faint);
+        padding-top: 3px;
+      }
