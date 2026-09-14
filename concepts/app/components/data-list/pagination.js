@@ -23,6 +23,13 @@
 import {DATA_LIST_CONFIG} from './columns.js'
 import {DATA_LIST_SIMULATED_TOTAL, DATA_LIST_PAGE_SIZE_OPTIONS} from './model.js'
 
+const DATA_PAGE_BUTTON_CLASS =
+  'inline-flex min-w-[30px] min-h-[30px] items-center justify-center gap-[5px] rounded-md border border-line bg-surface px-[9px] py-1 text-[12.5px] font-semibold text-ink cursor-pointer aria-[current=page]:border-[var(--accent)] aria-[current=page]:bg-[var(--accent-soft)] aria-[current=page]:text-accent hover:not-aria-[current=page]:bg-[var(--line-2)] disabled:text-muted disabled:cursor-not-allowed disabled:opacity-55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
+const DATA_PAGER_EDGE_BUTTON_CLASS =
+  'inline-flex min-w-[30px] min-h-[30px] items-center justify-center gap-[5px] rounded-md border border-line bg-surface p-1 text-[12.5px] font-semibold text-ink cursor-pointer hover:enabled:bg-[var(--line-2)] disabled:text-muted disabled:cursor-not-allowed disabled:opacity-55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
+const DATA_RECORD_PAGER_BUTTON_CLASS =
+  'relative inline-flex min-w-[30px] min-h-[30px] items-center justify-center rounded-md border border-line bg-surface disabled:cursor-not-allowed disabled:text-muted disabled:opacity-55 hover:enabled:bg-[var(--line-2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
+
 /**
  * @typedef {{
  *   t(key: string, fallback?: string): string,
@@ -51,7 +58,7 @@ export function renderShellPager(context, filteredCount, listState, deps) {
     if (n === 1 || n === totalPages || Math.abs(n - page) <= 1) pageNumbers.push(n)
     else if (pageNumbers.at(-1) !== '…') pageNumbers.push('…')
   }
-  const pageButtonClass = 'inline-flex min-w-[30px] min-h-[30px] items-center justify-center gap-[5px] rounded-md border border-line bg-surface px-[9px] py-1 text-[12.5px] font-semibold text-ink cursor-pointer aria-[current=page]:border-[var(--accent)] aria-[current=page]:bg-[var(--accent-soft)] aria-[current=page]:text-accent hover:not-aria-[current=page]:bg-[var(--line-2)] disabled:text-muted disabled:cursor-not-allowed disabled:opacity-55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
+  const pageButtonClass = DATA_PAGE_BUTTON_CLASS
   const pageButtons = pageNumbers
     .map(n =>
       n === '…'
@@ -63,7 +70,7 @@ export function renderShellPager(context, filteredCount, listState, deps) {
     size =>
       `<option value="${size}"${size === pageSize ? ' selected' : ''}>${size}</option>`
   ).join('')
-  const edgeButtonClass = 'inline-flex min-w-[30px] min-h-[30px] items-center justify-center gap-[5px] rounded-md border border-line bg-surface p-1 text-[12.5px] font-semibold text-ink cursor-pointer hover:enabled:bg-[var(--line-2)] disabled:text-muted disabled:cursor-not-allowed disabled:opacity-55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
+  const edgeButtonClass = DATA_PAGER_EDGE_BUTTON_CLASS
   return `<div class="data-list-pagination flex flex-1 flex-wrap items-center gap-x-4 gap-y-2.5" role="navigation" aria-label="${encodeHtml(config.label)} ${t('page navigation', 'page navigation')}">
     <div class="data-pagination-controls flex flex-wrap items-center gap-1">
       <button type="button" class="data-pagination-edge ${edgeButtonClass}" data-list-page="1"${page <= 1 ? ' disabled' : ''} aria-label="${t('First page', 'First page')}">${dataListIcon('i-first', 13)}</button>
@@ -105,7 +112,7 @@ export function renderShellRecordPager(context, filteredCount, listState, deps) 
   const searchNote = searchTerm
     ? `<span class="data-adaptive-search-note">${t('matching', 'matching')} "${encodeHtml(searchTerm)}"</span>`
     : ''
-  const pagerButtonClass = 'relative inline-flex min-w-[30px] min-h-[30px] items-center justify-center rounded-md border border-line bg-surface disabled:cursor-not-allowed disabled:text-muted disabled:opacity-55 hover:enabled:bg-[var(--line-2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
+  const pagerButtonClass = DATA_RECORD_PAGER_BUTTON_CLASS
   return `<div class="pager inline-flex items-center gap-1" role="group" aria-label="${t('Record navigation', 'Record navigation')}" title="${t('Tip: Alt + Left/Right arrow also moves between records', 'Tip: Alt + Left/Right arrow also moves between records')}">
     <button type="button" class="pg-f ${pagerButtonClass}" data-list-record="1"${atFirst ? ' disabled' : ''} aria-label="${t('First record', 'First record')}">${dataListIcon('i-first', 13)}</button>
     <button type="button" class="pg-p ${pagerButtonClass}" data-list-record="${position - 1}"${atFirst ? ' disabled' : ''} aria-label="${t('Previous record', 'Previous record')}">${dataListIcon('i-prev', 12)}</button>

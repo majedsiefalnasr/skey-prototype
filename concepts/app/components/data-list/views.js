@@ -25,6 +25,9 @@
 
 import {DATA_MENU_SUMMARY_CLASS, DATA_MENU_POPOVER_CLASS} from './list.js'
 
+const DATA_SORT_BUTTON_CLASS =
+  'data-sort-button inline-flex items-center gap-[5px] p-0 border-0 text-inherit bg-transparent font-[inherit] cursor-pointer hover:text-ink'
+
 /**
  * Shared by the left-click "..." row menu AND the right-click context menu.
  * @param {object} config
@@ -65,7 +68,7 @@ export function renderDataListAdaptiveFooterActions(context, row, config, deps) 
 }
 
 export function renderDataListHeader(visibleColumns, listState, {t, encodeHtml}) {
-  const sortButtonClass = 'data-sort-button inline-flex items-center gap-[5px] p-0 border-0 text-inherit bg-transparent font-[inherit] cursor-pointer hover:text-ink'
+  const sortButtonClass = DATA_SORT_BUTTON_CLASS
   return visibleColumns
     .map(column => {
       if (column.sortable === false) {

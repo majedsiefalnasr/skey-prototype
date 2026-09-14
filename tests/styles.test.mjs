@@ -22,32 +22,61 @@ const migrated = new Set([
   'app/components/data-list/list-2.css',
 ]);
 
-// Partially converted stylesheets: still linked (they retain a cross-owner
-// atom or a deferred owner's rule this task cannot touch -- see each file's
-// own header comment), but their remaining bytes no longer match the
-// checkpoint verbatim because Task 4 removed the selectors it did convert.
-// Excluded only from the byte-checkpoint comparison, not from the linked-file
-// list.
-const partiallyMigrated = new Set([
-  'app/components/notifications/notifications.css',
-  'app/shell/shell-6.css',
+// Exact partial ownership: Task 4 retires only these notification rules. The
+// switch and email-avatar rules remain byte-for-byte owned by the legacy file
+// because shell/email consumers are outside Task 4. No whole-file bypasses.
+const partiallyMigrated = new Map([
+  ['app/components/notifications/notifications.css', new Set([
+    '.notif-pop',
+    '.notif-hd',
+    '.notif-hd b',
+    '.notif-badge',
+    '.notif-hd-lbl',
+    '.notif-tabs',
+    '.notif-tabs button',
+    ".notif-tabs button[aria-selected='true']",
+    '.notif-empty',
+    '.notif-empty svg',
+    '.notif-empty p',
+    '.notif-body',
+    '.notif-row',
+    '.notif-row:hover',
+    '.notif-icn',
+    '.notif-row.unread .notif-icn::after',
+    '.notif-row.unread .notif-txt',
+    '.notif-txt',
+    '.notif-txt b',
+    '.notif-what',
+    '.notif-time',
+  ])],
 ]);
 
-test('owned styles preserve every checkpoint declaration and condition in exact cascade order', async () => {
+const withoutExtractionHeader = text => text.replace(/^\/\* Extracted[\s\S]*?\*\/\n/, '').trim();
+
+test('owned and partially migrated styles preserve every non-retired checkpoint byte', async () => {
   const html = await readFile('concepts/app-shell.html', 'utf8');
   const links = [...html.matchAll(/<link\b[^>]*href="(app\/[^" ]+\.css)"[^>]*>/g)].map(match => match[1]);
   assert.equal(links[0], 'app/styles/tailwind.css');
   assert.equal(links.at(-1), 'app/prototype/controls.css');
   const legacyLinks = links.slice(0, -1).filter(file => file !== 'app/styles/tailwind.css');
-  const styles = await Promise.all(legacyLinks.map(file => readFile(`concepts/${file}`, 'utf8')));
-  const reconstructed = styles
-    .map((text, index) => ({text, file: legacyLinks[index]}))
-    .filter(({file}) => !partiallyMigrated.has(file))
-    .map(({text}) => text.replace(/^\/\* Extracted[\s\S]*?\*\/\n/, ''))
-    .join('');
   const inventory = JSON.parse(await readFile('tests/support/style-inventory.json', 'utf8'));
-  const expected = inventory.files.filter(file => !migrated.has(file.path) && !partiallyMigrated.has(file.path)).map(file => checkpoint.slice(file.start, file.end)).join('');
-  assert.equal(hash(reconstructed), hash(expected), 'unmigrated stylesheet blocks must retain checkpoint bytes and order');
+  for (const file of legacyLinks) {
+    const owner = inventory.files.find(item => item.path === file);
+    assert.ok(owner, `missing inventory owner: ${file}`);
+    const retiredSelectors = partiallyMigrated.get(file);
+    const expected = retiredSelectors
+      ? inventory.rules
+        .filter(rule => rule.file === file && !retiredSelectors.has(rule.selector))
+        .map(rule => checkpoint.slice(rule.start, rule.end))
+        .join('')
+      : checkpoint.slice(owner.start, owner.end);
+    const actual = withoutExtractionHeader(await readFile(`concepts/${file}`, 'utf8'));
+    assert.equal(
+      hash(actual),
+      hash(expected.trim()),
+      `${file} must retain every non-retired checkpoint byte in order`
+    );
+  }
 });
 
 test('style inventory accounts for contiguous complete blocks and every ordered stylesheet', async () => {
@@ -60,10 +89,16 @@ test('style inventory accounts for contiguous complete blocks and every ordered 
     inventory.files.filter(file => !migrated.has(file.path)).map(file => file.path),
     files.slice(0, -1).filter(file => file !== 'app/styles/tailwind.css')
   );
-  for (const rule of inventory.rules.filter(rule => !migrated.has(rule.file) && !partiallyMigrated.has(rule.file))) {
+  for (const rule of inventory.rules.filter(rule => !migrated.has(rule.file))) {
     assert.equal(hash(checkpoint.slice(rule.start, rule.end)), rule.sha256);
     const owner = inventory.files.find(file => file.path === rule.file);
     assert.ok(owner && rule.start >= owner.start && rule.end <= owner.end, `split rule: ${rule.selector}`);
+  }
+  for (const [file, retiredSelectors] of partiallyMigrated) {
+    const inventorySelectors = new Set(inventory.rules.filter(rule => rule.file === file).map(rule => rule.selector));
+    for (const selector of retiredSelectors) {
+      assert.ok(inventorySelectors.has(selector), `unknown retired selector in ${file}: ${selector}`);
+    }
   }
   assert.equal(inventory.files.filter(file => migrated.has(file.path)).length, migrated.size);
 });

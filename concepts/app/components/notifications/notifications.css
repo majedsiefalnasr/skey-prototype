@@ -5,8 +5,8 @@
  * .notif-badge, .notif-hd-lbl, .notif-tabs, .notif-empty, .notif-body, .notif-row,
  * .notif-icn, .notif-txt, .notif-what, .notif-time) to literal utility classes -- see
  * notifications.html/js and shell.html for where each landed, and
- * tailwind/components.css for the .notif-row.unread relational/pseudo-element state
- * that remains (a compatibility rule, not a bare class). The two rule groups still
+ * tailwind/components.css for the .notif-row.unread pseudo-element indicator that
+ * remains (a compatibility rule, not a bare class). The two rule groups still
  * below -- `.switch` and `.email-avatar` (+ its five `[data-avatar-tone]` variants) --
  * are retained because they are consumed outside this task's file list: `.switch` also
  * styles shell/appearance-dialog.html's high-contrast toggle, and `.email-avatar` also

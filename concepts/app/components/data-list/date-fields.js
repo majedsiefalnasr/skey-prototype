@@ -1,5 +1,6 @@
 import {encodeHtml} from '../../core/locale.js'
 import {DATA_DATE_UNITS, parseDataListDate, parseDateFilterValue} from './filters.js'
+import {DATA_FILTER_OPTION_CLASS} from './list.js'
 
 /* Shared between renderDataListDatePresetOptions (this component's own
    filter-editor popover) and renderDataFilterModalDateField (the geo/customer
@@ -68,7 +69,7 @@ export function createListDates({t, formatLocaleDate, getAppLocale, dataListIcon
     const {preset, a, b} = parseDateFilterValue(filter)
     const options = DATA_DATE_PRESET_LIST.map(
       item =>
-        `<button type="button" role="option" aria-selected="${preset === item.key}" data-list-date-preset="${encodeHtml(field.key)}" data-preset="${item.key}">${encodeHtml(t(item.label))}${preset === item.key ? dataListIcon('i-check', 13) : ''}</button>`
+        `<button class="${DATA_FILTER_OPTION_CLASS}" type="button" role="option" aria-selected="${preset === item.key}" data-list-date-preset="${encodeHtml(field.key)}" data-preset="${item.key}">${encodeHtml(t(item.label))}${preset === item.key ? dataListIcon('i-check', 13) : ''}</button>`
     ).join('')
     const unitOptions = selectedUnit =>
       DATA_DATE_UNITS.map(

@@ -25,7 +25,7 @@ const pageAbort = new AbortController()
             row.type = 'button'
             row.className = 'notif-row flex w-full cursor-pointer items-start gap-2.5 rounded-lg border-none bg-none px-2.5 py-[9px] text-start font-[inherit] hover:bg-[var(--hover-overlay)]' + (m.unread ? ' unread' : '')
             row.innerHTML = `<span class="notif-icn email-avatar relative mt-px flex size-7 shrink-0 items-center justify-center rounded-full" data-avatar-tone="${emailAvatarTone(m.hue)}"></span>
-      <span class="notif-txt flex-1 min-w-0 pt-px text-[13px] leading-[1.5] text-ink">${m.unread ? '<span class="visually-hidden">Unread. </span>' : ''}<b class="font-semibold"></b> <span class="notif-what text-muted"></span></span>
+      <span class="notif-txt flex-1 min-w-0 pt-px text-[13px] leading-[1.5] text-ink${m.unread ? ' font-semibold' : ''}">${m.unread ? '<span class="visually-hidden">Unread. </span>' : ''}<b class="font-semibold"></b> <span class="notif-what text-muted"></span></span>
       <span class="notif-time shrink-0 pt-[3px] text-xs text-faint"></span>`
             row.querySelector('.email-avatar').textContent = m.from.charAt(0)
             row.querySelector('b').textContent = m.from
@@ -56,7 +56,7 @@ const pageAbort = new AbortController()
             const row = document.createElement('div')
             row.className = 'notif-row flex w-full cursor-pointer items-start gap-2.5 rounded-lg border-none bg-none px-2.5 py-[9px] text-start font-[inherit] hover:bg-[var(--hover-overlay)]' + (n.unread ? ' unread' : '')
             row.innerHTML = `<span class="notif-icn relative mt-px flex size-7 shrink-0 items-center justify-center rounded-full bg-[var(--hover-overlay)] text-muted"><svg width="15" height="15" aria-hidden="true"><use href="#${n.icon}"/></svg></span>
-      <span class="notif-txt flex-1 min-w-0 pt-px text-[13px] leading-[1.5] text-ink">${n.unread ? '<span class="visually-hidden">Unread. </span>' : ''}<b class="font-semibold"></b> <span class="notif-what text-muted"></span></span>
+      <span class="notif-txt flex-1 min-w-0 pt-px text-[13px] leading-[1.5] text-ink${n.unread ? ' font-semibold' : ''}">${n.unread ? '<span class="visually-hidden">Unread. </span>' : ''}<b class="font-semibold"></b> <span class="notif-what text-muted"></span></span>
       <span class="notif-time shrink-0 pt-[3px] text-xs text-faint"></span>`
             row.querySelector('b').textContent = n.who
             row.querySelector('.notif-what').textContent = n.what

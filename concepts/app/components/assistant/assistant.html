@@ -1,14 +1,14 @@
     <!-- ===== AI Assistant dialog (proposal — no live backend) ===== -->
     <div class="drscrim group fixed inset-0 z-[130] hidden bg-[rgba(17,24,39,0.4)] [&.open]:block" id="aiscrim">
       <aside class="ai-drawer fixed inset-y-0 end-0 z-[140] hidden w-[min(560px,94vw)] flex-col bg-surface shadow-shell group-[.open]:flex" role="dialog" aria-modal="true" aria-label="AI Assistant">
-        <div class="drhd border-b border-line px-[18px] pb-3.5 pt-3.5">
+        <div class="drhd border-b border-line px-[18px] pb-3.5! pt-3.5">
           <div class="top flex items-start gap-3">
             <div>
-              <h3 class="flex items-center gap-2 text-[15px]">
+              <h3 class="flex! items-center! gap-2! text-[15px]">
                 <svg width="16" height="16" aria-hidden="true"><use href="#i-spark" /></svg> AI
                 Assistant
               </h3>
-              <div class="sub mt-[3px] text-xs text-muted">Sales Invoice 126 <span class="badge fix">proposal</span></div>
+              <div class="sub mt-[3px]! text-xs text-muted">Sales Invoice 126 <span class="badge fix">proposal</span></div>
             </div>
             <button class="ibtn ai-close" aria-label="Close" style="margin-inline-start: auto">
               <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
@@ -46,7 +46,7 @@
               class="border-none bg-none px-0.5 pb-2.5 pt-0.5 font-[inherit] text-ink outline-none"
               placeholder="Ask about this invoice…"
               autocomplete="off" />
-            <div class="ai-toolbar flex items-center gap-0.5">
+            <div class="ai-toolbar flex items-center gap-0.5 [&_.ibtn]:size-7! [&_.ibtn]:min-h-7! [&_.ibtn]:min-w-7!">
               <div class="menu">
                 <button
                   type="button"

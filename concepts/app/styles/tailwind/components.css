@@ -6,86 +6,14 @@
     from { opacity: 0; translate: 0 8px; }
     to { opacity: 1; translate: 0 0; }
   }
-  .toast { animation: toastin 0.18s cubic-bezier(0.2, 0.8, 0.2, 1); }
-  .toast.ok .ic { color: var(--tooltip-success); }
-  .toast.bad { background: var(--danger-bold); color: var(--inverse); }
-  @media (prefers-reduced-motion: reduce) {
-    .toast { animation: none; }
-  }
 
   /* ---- loading / skeleton overlay (concepts/app/components/loading) ---- */
   @keyframes skeleton-shimmer {
     0% { background-position: -120% 0; }
     100% { background-position: 120% 0; }
   }
-  .skeleton-shape {
-    background: linear-gradient(
-      90deg,
-      var(--line-2) 25%,
-      color-mix(in srgb, var(--line-2) 55%, var(--surface)) 50%,
-      var(--line-2) 75%
-    );
-    background-size: 250% 100%;
-    animation: skeleton-shimmer 1.4s ease-in-out infinite;
-  }
-  .skeleton-shape[data-skeleton-kind='surface'] {
-    background: color-mix(in srgb, var(--line-2) 35%, transparent);
-    border-color: var(--line);
-    border-style: solid;
-    border-width: 0;
-    animation: none;
-  }
-  .skeleton-shape[data-skeleton-kind='divider'] {
-    min-height: 1px;
-    border-radius: 0;
-    background: var(--line);
-    animation: none;
-  }
-  .skeleton-shape[data-skeleton-kind='media'] {
-    border-radius: 10px;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .skeleton-shape { animation: none; }
-  }
 
   /* ---- notifications (concepts/app/components/notifications) ---- */
-  .switch {
-    position: relative;
-    display: inline-flex;
-    width: 30px;
-    height: 17px;
-    flex: none;
-  }
-  .switch input {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    margin: 0;
-    cursor: pointer;
-  }
-  .switch span {
-    position: absolute;
-    inset: 0;
-    background: var(--line);
-    border-radius: 999px;
-    transition: background 0.12s;
-    pointer-events: none;
-  }
-  .switch span::before {
-    content: '';
-    position: absolute;
-    inset-block-start: 2px;
-    inset-inline-start: 2px;
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    background: var(--inverse);
-    transition: translate 0.12s;
-  }
-  .switch input:checked + span { background: var(--accent); }
-  .switch input:focus-visible + span { outline: 2px solid var(--focus); outline-offset: 2px; }
-  .switch input:checked + span::before { translate: 13px 0; }
-  [dir='rtl'] .switch input:checked + span::before { translate: -13px 0; }
   .notif-row.unread .notif-icn::after {
     content: '';
     position: absolute;
@@ -97,21 +25,9 @@
     background: var(--accent);
     border: 2px solid var(--surface);
   }
-  .notif-row.unread .notif-txt { font-weight: 600; }
 
-  /* ---- assistant (concepts/app/components/assistant) ----
-     .ai-drawer .drhd/.drhd h3/.drhd .sub override dialog.css's unlayered, cross-owner
-     .drhd/.drhd h3/.drhd .sub base rules (dialog.css also styles the Task 5-owned
-     invoices/customers activity drawer, so it cannot be converted or retired here --
-     see dialog.css's own header comment). Because dialog.css is unlayered legacy CSS,
-     it always wins the cascade over this file's @layer components utilities regardless
-     of source order, so these three descendant-selector overrides must stay selector
-     rules rather than literal utility classes on the assistant markup. */
+  /* ---- assistant behavior and direction relationships ---- */
   .drscrim.open .ai-drawer { display: flex; }
-  .ai-drawer .drhd { padding-bottom: 14px; }
-  .ai-drawer .drhd h3 { display: flex; align-items: center; gap: 8px; }
-  .ai-drawer .drhd .sub { margin-top: 3px; }
-
   @keyframes ai-orb-spin { to { transform: rotate(360deg); } }
   @keyframes ai-orb-pulse {
     0%, 100% { opacity: 1; }
@@ -121,26 +37,8 @@
     0%, 80%, 100% { opacity: 0.3; transform: translateY(0); }
     40% { opacity: 1; transform: translateY(-2px); }
   }
-  .ai-orb {
-    background: conic-gradient(from 0deg, #6c9bff, #a575ff, #ff8dc7, #6c9bff);
-    animation: ai-orb-spin 2.2s linear infinite, ai-orb-pulse 1.4s ease-in-out infinite;
-  }
-  .ai-dots i {
-    background: currentColor;
-    animation: ai-dot-bounce 1.1s ease-in-out infinite;
-  }
-  .ai-dots i:nth-child(2) { animation-delay: 0.15s; }
-  .ai-dots i:nth-child(3) { animation-delay: 0.3s; }
-  @media (prefers-reduced-motion: reduce) {
-    .ai-orb { animation: none; }
-    .ai-dots i { animation: none; opacity: 0.6; }
-  }
   [dir='rtl'] .ai-msg.me { border-bottom-right-radius: 10px; border-bottom-left-radius: 3px; }
   [dir='rtl'] .ai-msg.bot { border-bottom-left-radius: 10px; border-bottom-right-radius: 3px; }
-  /* Scoped override of app-2.css's unlayered, cross-owner .ibtn default sizing
-     (32px) down to 28px inside the assistant's toolbar only -- same
-     unlayered-legacy-CSS-always-wins constraint as .ai-drawer .drhd above. */
-  .ai-toolbar .ibtn { width: 28px; min-width: 28px; min-height: 28px; height: 28px; }
 
   /* ---- data-list (concepts/app/components/data-list) ----
      body.cards-fieldset (a global card-style density mode, toggled by the
@@ -172,75 +70,6 @@
      parent-attribute-to-child selector relationship, not a literal utility
      on the summary itself (see list.js's DATA_MENU_SUMMARY_CLASS). */
   .data-menu[open] > summary, .data-page-manage[open] > summary { background: var(--line-2); }
-  /* A custom-filter menu needs extra width based on rendered child content. */
-  .data-menu-popover:has([data-list-custom-filter-apply]) { min-width: 220px; }
-  [data-list-custom-filter-apply] span {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-  /* The submenu summary's trailing chevron icon is dataListIcon()'s raw
-     <svg>, with no class hook of its own (dataListIcon(name, size) is a
-     shared page-level helper with no class parameter -- adding one would
-     ripple across every other consumer, out of this task's scope). Styling
-     it via :last-child is the only way to reach it without changing that
-     helper's signature. */
-  .data-manage-submenu > summary svg:last-child { margin-inline-start: auto; color: var(--muted); }
-  [dir='rtl'] .data-manage-submenu > summary svg:last-child { transform: scaleX(-1); }
-
-  /* A .data-filter-chip's own <details><summary> resets to a plain inline
-     label (no menu-button chrome) -- a descendant-selector override of the
-     shared <summary> box model above, scoped to this one ancestor class. */
-  .data-filter-chip > details > summary {
-    min-height: auto;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-    font-size: inherit;
-  }
-  .data-filter-chip > details > summary:hover, .data-filter-chip > details[open] > summary { background: transparent; }
-  /* Option rows inside a select-style or date-preset filter popover: shared
-     by two different popover flavors (data-filter-select-popover, rendered
-     in list.js, and data-filter-date-presets, rendered in date-fields.js),
-     so this is a one-rule-styles-two-renderers relationship, not a single
-     element's own class. */
-  .data-filter-select-popover [role='option'], .data-filter-date-presets [role='option'] {
-    display: flex;
-    width: 100%;
-    min-height: 32px;
-    gap: 8px;
-    align-items: center;
-    padding: 6px 9px;
-    border: 0;
-    border-radius: 5px;
-    background: transparent;
-    color: var(--ink);
-    font: inherit;
-    font-size: 12.5px;
-    text-align: start;
-    cursor: pointer;
-  }
-  .data-filter-select-popover [role='option']:hover,
-  .data-filter-select-popover [role='option']:focus-visible,
-  .data-filter-date-presets [role='option']:hover,
-  .data-filter-date-presets [role='option']:focus-visible {
-    background: var(--line-2);
-    outline: none;
-  }
-  .data-filter-select-popover [role='option'][aria-selected='true'],
-  .data-filter-date-presets [role='option'][aria-selected='true'] {
-    color: var(--accent);
-    font-weight: 600;
-  }
-  .data-filter-select-popover [role='option'] svg, .data-filter-date-presets [role='option'] svg {
-    margin-inline-start: auto;
-  }
-  /* dataListIcon(name, size) (list.js's search icon call) returns a raw
-     <svg> with no class parameter -- same constraint as the submenu chevron
-     above; :first-child positions it without touching that shared helper. */
-  .data-search svg { position: absolute; inset-inline-start: 9px; color: var(--muted); pointer-events: none; }
-
   /* ---- data-list table pseudo-structure (per the brief: "Keep only
      ApexCharts selectors, pseudo-elements, table pseudo-structure, and
      behavior-state relationships") ----
@@ -291,14 +120,6 @@
   [dir='rtl'] .data-group-toggle[aria-expanded='true'] svg { transform: rotate(0); }
   .data-responsive-detail-row td { padding: 0 !important; background: var(--bg); }
   [dir='rtl'] .data-responsive-details { padding: 12px 54px 14px 16px; }
-  /* .data-page-manage's <details> markup lives only in Task 5/6-owned page
-     templates (pages/{invoices,customers,geography}/templates.html), outside
-     this task's file list -- these three flat property overrides can't
-     become literal utilities without editing those files, so they stay here
-     until that page's own migration task converts its markup. */
-  .data-page-manage { position: relative; }
-  .data-page-manage > summary { border-color: var(--line); background: var(--surface); }
-  .data-page-manage .data-menu-popover { inset-inline: auto; }
   .data-list-shell .inv-grid th[draggable='true'] { cursor: grab; }
   .data-list-shell .inv-grid th[draggable='true']:active { cursor: grabbing; }
   .data-list-shell .inv-grid th[data-drag-over='true'] { background: var(--accent-soft); box-shadow: inset 2px 0 0 var(--accent); }

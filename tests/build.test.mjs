@@ -24,12 +24,77 @@ function replaceOnce(source, before, after) {
   return source.slice(0, first) + after + source.slice(first + before.length);
 }
 
-function normalizeUtilityMigrationMarkup(html) {
-  return html
-    .replace(/ class="[^"]*"/g, '')
-    .replace(/ style="[^"]*"/g, '')
-    .replace(/\n\s+(?=[\w:-]+(?:=|>))/g, ' ')
-    .replace(/<svg hidden xmlns="http:\/\/www\.w3\.org\/2000\/svg">[\s\S]*?<\/svg>/, '<svg hidden></svg>');
+async function assembleGitSnapshot(commit, file = 'concepts/app-shell.html', stack = []) {
+  assert.ok(!stack.includes(file), `snapshot include cycle: ${[...stack, file].join(' -> ')}`);
+  const {stdout: source} = await execFileAsync('git', ['show', `${commit}:${file}`]);
+  const pattern = /<!-- include: ([^\r\n]+?) -->/g;
+  let result = '', cursor = 0;
+  for (const match of source.matchAll(pattern)) {
+    result += source.slice(cursor, match.index);
+    result += await assembleGitSnapshot(
+      commit,
+      path.posix.normalize(path.posix.join(path.posix.dirname(file), match[1])),
+      [...stack, file]
+    );
+    cursor = match.index + match[0].length;
+  }
+  return result + source.slice(cursor);
+}
+
+function classTokens(tag) {
+  const value = tag.match(/\sclass="([^"]*)"/)?.[1] || '';
+  return value.split(/\s+/).filter(Boolean);
+}
+
+function withoutClassAttribute(tag) {
+  return tag.replace(/\sclass="[^"]*"/, '').replace(/\s+/g, ' ').replace(/\s+>/g, '>');
+}
+
+function assertUtilityMigrationMarkup(actual, expected) {
+  const tokenize = html => {
+    const tokens = [];
+    let cursor = 0;
+    while (cursor < html.length) {
+      if (html[cursor] !== '<') {
+        const nextTag = html.indexOf('<', cursor);
+        const end = nextTag === -1 ? html.length : nextTag;
+        tokens.push(html.slice(cursor, end));
+        cursor = end;
+        continue;
+      }
+      let quote = '';
+      let end = cursor + 1;
+      for (; end < html.length; end += 1) {
+        const char = html[end];
+        if (quote) {
+          if (char === quote) quote = '';
+        } else if (char === '"' || char === "'") quote = char;
+        else if (char === '>') break;
+      }
+      tokens.push(html.slice(cursor, end + 1));
+      cursor = end + 1;
+    }
+    return tokens;
+  };
+  const actualTokens = tokenize(actual);
+  const expectedTokens = tokenize(expected);
+  assert.equal(actualTokens.length, expectedTokens.length, 'Task 4 must preserve the assembled DOM token count');
+  expectedTokens.forEach((expectedToken, index) => {
+    const actualToken = actualTokens[index];
+    if (!expectedToken.startsWith('<')) {
+      assert.equal(actualToken, expectedToken, `Task 4 changed text/whitespace token ${index}`);
+      return;
+    }
+    assert.equal(
+      withoutClassAttribute(actualToken),
+      withoutClassAttribute(expectedToken),
+      `Task 4 changed a non-class attribute or element at token ${index}`
+    );
+    const actualClasses = new Set(classTokens(actualToken));
+    for (const apiClass of classTokens(expectedToken)) {
+      assert.ok(actualClasses.has(apiClass), `Task 4 removed pre-existing class "${apiClass}" at token ${index}`);
+    }
+  });
 }
 
 function applyTask3ShellUtilities(html) {
@@ -225,84 +290,31 @@ test('assemble: multiple sibling includes in one file all expand, in order', asy
   });
 });
 
-test('assemble: reassembling the real app-shell.html fragments reproduces the pre-fragment-move markup byte-for-byte, plus only each task\'s own intentional entry-point/fragment edits', async () => {
-  // ddd8569 is the Task 2 mechanical-extraction checkpoint commit — the last
-  // point where concepts/app-shell.html held the complete markup inline,
-  // before Task 3 moved templates/overlays out into concepts/app/shell/
-  // fragments. Re-assembling the fragmented source must reproduce that
-  // exact content except for the intentional edits later tasks made:
-  //   - Task 4/10: the classic-script entry point becomes a module entry
-  //     point (Task 4 pointed it at the temporary app/entry.js; Task 10
-  //     retargets it at app/main.js, the plan's real composition root).
-  //   - Task 11: the classic `<script id="shell-kit-js"
-  //     src="...legacy-controls.js">` was deleted (no longer needed —
-  //     createPrototypeControls in the new app/prototype/controls.js module
-  //     is constructed from app/main.js instead, see that file), and
-  //     `<link id="shell-kit-css">` moved immediately before the single
-  //     remaining module `<script>` so it still loads late (prototype-
-  //     control overrides stay ordered after application styles, per the
-  //     plan's Global Constraints) without depending on the now-removed
-  //     script tag's position. The inline `.demo-bar` prototype-controls
-  //     markup itself also moved, byte-for-byte, into its own fragment
-  //     (concepts/app/prototype/controls.html, included via `<!-- include:
-  //     app/prototype/controls.html -->`) — but since assemble() expands
-  //     that include back into the identical markup, this produces NO
-  //     observable difference in the reassembled output; the script/link
-  //     edits below are real differences from the baseline.
-  //   - Task 12: the single `<link rel="stylesheet" href="app/styles/
-  //     legacy-app.css">` became one `<link>` per owning component/page
-  //     CSS file (plus styles/{tokens,base,app,overrides}.css), in the
-  //     same original cascade order legacy-app.css's rules appeared in —
-  //     see docs/superpowers/plans/2026-09-13-app-shell-components.md
-  //     Task 12 for the full ownership mapping. legacy-app.css itself was
-  //     deleted once every rule had a real owner file.
-  // Any OTHER difference here means the fragment-assembly mechanism itself
-  // changed markup it shouldn't have — that's still a real regression to
-  // catch.
-  const {stdout: baseline} = await execFileAsync('git', ['show', 'ddd8569:concepts/app-shell.html']);
-  const expected = applyTask3ShellUtilities(baseline)
-    .replace(
-      '    <link rel="stylesheet" href="app/styles/legacy-app.css">',
-      [
-        '    <link rel="stylesheet" href="app/styles/tailwind.css">',
-        ...JSON.parse(await readFile('tests/support/style-inventory.json', 'utf8')).files
-          .filter(file => ![
-            'app/shell/shell.css',
-            'app/pages/home/home.css',
-            'app/shell/shell-2.css',
-            'app/shell/shell-3.css',
-            'app/shell/shell-4.css',
-            'app/components/record-pager/pager.css',
-            'app/components/assistant/assistant.css',
-            'app/components/toast/toast.css',
-            'app/components/data-list/list-2.css',
-            'app/components/loading/loading.css',
-          ].includes(file.path))
-          .map(file => `    <link rel="stylesheet" href="${file.path}">`),
-      ].join('\n')
-    )
-    .replace(
-      '    <script src="app/legacy-app.js"></script>\n\n' +
-        '    <link id="shell-kit-css" rel="stylesheet" href="app/prototype/controls.css">\n\n' +
-        '    <script id="shell-kit-js" src="app/prototype/legacy-controls.js"></script>',
-      '    <link id="shell-kit-css" rel="stylesheet" href="app/prototype/controls.css">\n\n' +
-        '    <script type="module" src="app/main.js"></script>'
-    );
-  const assembled = await assemble(path.resolve('concepts/app-shell.html'));
-  const expectedWithIntentionalEdits = expected.replace(
-    `                    class="lbtn out"
-                    onclick="addItemRow('items-body', 'items-total-qty')">`,
-    `                    id="add-item-link"
-                    class="lbtn out">`
+test('assemble: Task 4 preserves structure, attributes, text, and every pre-existing API class', async () => {
+  // 4ae52c8 is the final Task 3 repair immediately before Task 4. The only
+  // structural Task 4 change is retiring these five component stylesheet
+  // links. Class attributes may gain literal utilities, but every prior class
+  // remains an API/selector contract and every other assembled byte is fixed.
+  const retiredLinks = [
+    'app/components/record-pager/pager.css',
+    'app/components/assistant/assistant.css',
+    'app/components/toast/toast.css',
+    'app/components/data-list/list-2.css',
+    'app/components/loading/loading.css',
+  ];
+  const baseline = await assembleGitSnapshot('4ae52c8');
+  const expected = retiredLinks.reduce(
+    (html, href) => replaceOnce(html, `    <link rel="stylesheet" href="${href}">\n`, ''),
+    baseline
   );
-  // Utility migrations intentionally rewrite class and fixed presentation
-  // style attributes across the extracted fragments, while the sprite gained
-  // shared icons in an earlier component extraction. This assembly contract
-  // continues to compare every non-presentation structural byte and every
-  // include boundary.
-  assert.equal(
-    normalizeUtilityMigrationMarkup(assembled),
-    normalizeUtilityMigrationMarkup(expectedWithIntentionalEdits)
+  const assembled = await assemble(path.resolve('concepts/app-shell.html'));
+  assertUtilityMigrationMarkup(assembled, expected);
+});
+
+test('assemble: Task 4 class contract rejects a removed selector/API class', () => {
+  assert.throws(
+    () => assertUtilityMigrationMarkup('<button class="utility">Save</button>', '<button class="action">Save</button>'),
+    /removed pre-existing class "action"/
   );
 });
 

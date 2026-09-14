@@ -3,6 +3,9 @@ import {DATA_LIST_CONFIG, DATA_LIST_STATISTICS_CONCEPT_OPTIONS} from './columns.
 import {applyFrozenDataListColumns as applySharedFrozenDataListColumns} from './menus.js'
 import {DATA_MENU_POPOVER_CLASS, DATA_MENU_SUMMARY_CLASS} from './list.js'
 
+const DATA_MANAGE_SUBMENU_SUMMARY_CLASS =
+  'flex w-full min-h-[32px] items-center gap-[9px] rounded-[5px] px-2 py-1.5 text-[12.5px] font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden [&_svg:last-child]:ms-auto [&_svg:last-child]:text-muted rtl:[&_svg:last-child]:scale-x-[-1]'
+
 /** Owns list menus state and its DOM bindings. */
 export function createListMenus({t, toast, computeDataListLayoutDirty, applyDataListRowAction, applyDataListToolbarCommand, saveDataListLayout, resetDataListLayout, getDataListState, renderDataList, dataListIcon, openDataExport} = {}) {
   function positionDataMenu(details) {
@@ -106,7 +109,7 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
     const summary = details.querySelector(':scope > summary')
     if (summary)
       summary.className = `${DATA_MENU_SUMMARY_CLASS} border-line! bg-surface!`
-    popover.className = DATA_MENU_POPOVER_CLASS
+    popover.className = `${DATA_MENU_POPOVER_CLASS} inset-x-auto`
     const singular = config.singular[0].toUpperCase() + config.singular.slice(1)
     const borderLabel = DATA_BORDER_MODES.includes(listState.borderMode)
       ? listState.borderMode[0].toUpperCase() + listState.borderMode.slice(1)
@@ -116,7 +119,7 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
         option => option.key === activeDataListStatisticsConcept(listState)
       )?.label || 'Balanced cards'
     const submenuClass = 'data-menu data-manage-submenu relative'
-    const submenuSummaryClass = 'flex w-full min-h-[32px] items-center gap-[9px] rounded-[5px] px-2 py-1.5 text-[12.5px] font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden'
+    const submenuSummaryClass = DATA_MANAGE_SUBMENU_SUMMARY_CLASS
     const tablePrefs =
       listState.view === 'list'
         ? `<div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Table preferences</div>

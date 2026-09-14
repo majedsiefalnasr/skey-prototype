@@ -91,7 +91,14 @@ function skeletonShape(overlay, bounds, {rect, kind, radius = 6, widthScale = 1,
   const minimumHeight = kind === 'divider' ? 1 : 4
   if (box.width < 4 || box.height < minimumHeight) return
   const shape = document.createElement('span')
-  shape.className = 'skeleton-shape absolute min-w-[4px] min-h-[4px] rounded-md'
+  const animatedClass =
+    ' bg-[linear-gradient(90deg,var(--line-2)_25%,color-mix(in_srgb,var(--line-2)_55%,var(--surface))_50%,var(--line-2)_75%)] bg-[length:250%_100%] [animation:skeleton-shimmer_1.4s_ease-in-out_infinite] motion-reduce:animate-none'
+  const kindClass = kind === 'surface'
+    ? ' bg-[color-mix(in_srgb,var(--line-2)_35%,transparent)] border-0 border-solid border-line'
+    : kind === 'divider'
+      ? ' min-h-px! rounded-none! bg-line'
+      : animatedClass
+  shape.className = 'skeleton-shape absolute min-w-[4px] min-h-[4px] rounded-md' + kindClass
   shape.dataset.skeletonKind = kind
   Object.assign(shape.style, {
     left: `${box.left}px`,

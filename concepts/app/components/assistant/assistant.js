@@ -44,7 +44,7 @@ const schedule = (callback, delay) => { const timer = setTimeout(() => {timers.d
           const thinking = document.createElement('div')
           thinking.className = 'ai-msg bot ai-thinking max-w-[88%] self-start whitespace-pre-line rounded-[10px] rounded-bl-[3px] border border-line bg-[var(--bg)] px-3 py-2 text-[13px] leading-[1.5] text-ink flex items-center gap-2 text-muted'
           thinking.innerHTML =
-            '<span class="ai-orb size-[15px] flex-none rounded-full"></span><span>Thinking<span class="ai-dots ms-px inline-flex gap-0.5 align-[-0.12em]"><i class="size-1 inline-block rounded-full opacity-30"></i><i class="size-1 inline-block rounded-full opacity-30"></i><i class="size-1 inline-block rounded-full opacity-30"></i></span></span>'
+            '<span class="ai-orb size-[15px] flex-none rounded-full bg-[conic-gradient(from_0deg,#6c9bff,#a575ff,#ff8dc7,#6c9bff)] [animation:ai-orb-spin_2.2s_linear_infinite,ai-orb-pulse_1.4s_ease-in-out_infinite] motion-reduce:animate-none"></span><span>Thinking<span class="ai-dots ms-px inline-flex gap-0.5 align-[-0.12em]"><i class="size-1 inline-block rounded-full bg-current opacity-30 [animation:ai-dot-bounce_1.1s_ease-in-out_infinite] motion-reduce:animate-none motion-reduce:opacity-60"></i><i class="size-1 inline-block rounded-full bg-current opacity-30 [animation:ai-dot-bounce_1.1s_ease-in-out_infinite] [animation-delay:0.15s] motion-reduce:animate-none motion-reduce:opacity-60"></i><i class="size-1 inline-block rounded-full bg-current opacity-30 [animation:ai-dot-bounce_1.1s_ease-in-out_infinite] [animation-delay:0.3s] motion-reduce:animate-none motion-reduce:opacity-60"></i></span></span>'
           aiThread.appendChild(thinking)
           aiThread.scrollTop = aiThread.scrollHeight
 
