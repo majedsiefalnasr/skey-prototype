@@ -15,7 +15,7 @@ export function createShell({setupAppSwitcher, renderSide, goToForYou, applySide
     side.setAttribute('aria-label', 'Primary navigation')
     const handle = document.createElement('button')
     handle.type = 'button'
-    handle.className = 'side-handle'
+    handle.className = 'side-handle absolute inset-y-0 -end-1 z-[57] h-full w-[9px] cursor-ew-resize border-0 bg-transparent p-0'
     handle.setAttribute('aria-label', 'Collapse sidebar')
     handle.addEventListener('click', toggleSideCollapse)
     side.appendChild(handle)

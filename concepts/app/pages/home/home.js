@@ -18,13 +18,13 @@ const pageAbort = new AbortController()
           const meta = NAV_APP_META[label] || {description: '', tone: 'overview'}
           const tile = document.createElement('button')
           tile.type = 'button'
-          tile.className = 'lp-tile grid min-h-[116px] grid-cols-[40px_minmax(0,1fr)_14px] content-start items-start gap-3 rounded-xl border border-line bg-surface p-4 text-start'
+          tile.className = 'lp-tile group grid min-h-[116px] grid-cols-[40px_minmax(0,1fr)_14px] content-start items-start gap-3 rounded-xl border border-line bg-surface p-4 text-start transition-[border-color,background-color] duration-[120ms] ease-out hover:border-[var(--accent-line)] focus-visible:border-accent'
           tile.dataset.tone = meta.tone
           tile.dataset.i18nOriginal = label
           tile.innerHTML =
-            `<span class="lp-tile-ic"><svg width="20" height="20" aria-hidden="true"><use href="#${icon}"/></svg></span>` +
-            '<span class="lp-tile-copy"><span class="lp-tile-lbl"></span><span class="lp-tile-desc"></span><span class="lp-current" hidden></span></span>' +
-            '<svg class="lp-tile-go" width="14" height="14" aria-hidden="true"><use href="#i-next"/></svg>'
+            `<span class="lp-tile-ic flex size-10 items-center justify-center rounded-[10px] bg-[color-mix(in_srgb,var(--lp-tone)_11%,var(--surface))] text-[var(--lp-tone)]"><svg width="20" height="20" aria-hidden="true"><use href="#${icon}"/></svg></span>` +
+            '<span class="lp-tile-copy min-w-0"><span class="lp-tile-lbl line-clamp-2 overflow-hidden text-[13.5px] font-bold leading-[1.35] text-ink"></span><span class="lp-tile-desc mt-1.5 line-clamp-2 overflow-hidden text-xs leading-[1.4] text-muted"></span><span class="lp-current mt-2 inline-flex text-[11px] font-bold text-accent" hidden></span></span>' +
+            '<svg class="lp-tile-go mt-[3px] text-faint opacity-0 transition-opacity duration-100 group-hover:text-accent group-hover:opacity-100 group-focus-visible:text-accent group-focus-visible:opacity-100" width="14" height="14" aria-hidden="true"><use href="#i-next"/></svg>'
           const tileLabel = tile.querySelector('.lp-tile-lbl')
           const tileDescription = tile.querySelector('.lp-tile-desc')
           tileLabel.dataset.i18nOriginal = label
@@ -32,7 +32,7 @@ const pageAbort = new AbortController()
           tileDescription.dataset.i18nOriginal = meta.description
           tileDescription.textContent = t(meta.description)
           if (current) {
-            tile.classList.add('is-current')
+            tile.classList.add('is-current', 'border-[var(--accent-line)]', 'bg-[var(--accent-soft)]')
             tile.setAttribute('aria-current', 'page')
             const currentLabel = tile.querySelector('.lp-current')
             currentLabel.hidden = false
@@ -248,7 +248,7 @@ const pageAbort = new AbortController()
           let lp = frame.querySelector('.lp-view')
           if (!lp) {
             lp = document.createElement('div')
-            lp.className = 'lp-view absolute inset-0 z-50 overflow-auto bg-surface'
+          lp.className = 'lp-view absolute inset-0 z-50 grid content-start overflow-auto bg-[var(--bg)]'
             frame.appendChild(lp)
           }
           lp.dataset.mode = mode
@@ -261,7 +261,7 @@ const pageAbort = new AbortController()
           stopSearchTyping(lp)
           lp.innerHTML = ''
           const orbs = document.createElement('div')
-          orbs.className = 'lp-orbs'
+          orbs.className = 'lp-orbs pointer-events-none relative z-0 col-start-1 row-start-1 overflow-hidden'
           orbs.setAttribute('aria-hidden', 'true')
           orbs.innerHTML =
             '<span class="lp-orb lp-orb--sm lp-orb-1"></span>' +
@@ -273,7 +273,7 @@ const pageAbort = new AbortController()
             '<span class="lp-orb lp-orb--sm lp-orb-7"></span>'
           lp.appendChild(orbs)
           const content = document.createElement('div')
-          content.className = 'lp-content relative isolate min-h-full overflow-hidden'
+          content.className = 'lp-content relative isolate z-[1] col-start-1 row-start-1 flex min-h-screen min-w-0 flex-col overflow-hidden'
           lp.appendChild(content)
           const skipLink = frame.ownerDocument.querySelector('.skip-link')
           if (skipLink) lp.prepend(skipLink)
@@ -341,7 +341,7 @@ const pageAbort = new AbortController()
      is the topbar's own wiring; the launchpad just gives it a bar of its own */
           const search = document.createElement('button')
           search.type = 'button'
-          search.className = 'lp-search s-open mx-auto mb-11 flex w-[min(620px,100%)] items-center gap-[11px] rounded-[14px] border border-line bg-surface py-3 pe-2.5 ps-[18px] text-start text-faint shadow-[var(--shadow-1)]'
+          search.className = 'lp-search s-open mx-auto mb-11 flex w-[min(620px,100%)] items-center gap-[11px] rounded-[14px] border border-[var(--line-2)] bg-surface py-3 pe-2.5 ps-[18px] text-start text-faint shadow-[var(--shadow-1)] transition-shadow duration-150 hover:shadow-[var(--shadow-2)]'
           search.innerHTML =
             `<svg width="15" height="15" aria-hidden="true"><use href="#i-search"/></svg>` +
             `<span class="lp-search-label search-typing-label" data-search-static="Search apps and screens">${t('Search apps and screens')}</span>` +
@@ -403,7 +403,7 @@ const pageAbort = new AbortController()
 
           const appsSec = document.createElement('section')
           appsSec.setAttribute('aria-labelledby', 'launchpad-apps-title')
-          appsSec.innerHTML = `<div class="lp-section-hd"><h2 id="launchpad-apps-title" class="lp-section-title">${t('Apps')}</h2></div>`
+          appsSec.innerHTML = `<div class="lp-section-hd mb-3.5 border-t border-line pt-5"><h2 id="launchpad-apps-title" class="lp-section-title text-[13px] font-bold text-muted">${t('Apps')}</h2></div>`
           const appsGrid = document.createElement('div')
           appsGrid.className = 'lp-grid grid grid-cols-4 gap-3'
           visibleGroups().forEach((group, index) => {

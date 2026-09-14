@@ -32,6 +32,9 @@ function applyTask3ShellUtilities(html) {
     ['class="swrap"', 'class="swrap relative w-[min(620px,100%)]"'],
     ['class="sbox s-open"', 'class="sbox s-open flex w-full items-center gap-2 rounded-lg border border-line bg-surface px-3 py-[7px] text-start text-muted"'],
     ['class="right"', 'class="right flex shrink-0 items-center gap-[7px]"'],
+    ['class="app"', 'class="app relative flex min-w-0 flex-1 items-center gap-2 rounded-lg px-2 py-1.5 text-start font-semibold hover:bg-[var(--hover-overlay)]"'],
+    ['class="app-name"', 'class="app-name min-w-0 truncate"'],
+    ['class="chip"', 'class="chip inline-flex items-center gap-1.5 rounded-full border border-line px-[11px] py-[5px]"'],
   ].reduce((result, [before, after]) => replaceOnce(result, before, after), html);
 }
 
@@ -194,6 +197,7 @@ test('assemble: reassembling the real app-shell.html fragments reproduces the pr
       [
         '    <link rel="stylesheet" href="app/styles/tailwind.css">',
         ...JSON.parse(await readFile('tests/support/style-inventory.json', 'utf8')).files
+          .filter(file => !['app/shell/shell.css', 'app/pages/home/home.css'].includes(file.path))
           .map(file => `    <link rel="stylesheet" href="${file.path}">`),
       ].join('\n')
     )

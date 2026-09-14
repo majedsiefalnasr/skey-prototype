@@ -100,18 +100,18 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
     node.className = 'nc1-node'
     const btn = document.createElement('button')
     btn.type = 'button'
-    btn.className = 'nc1-item'
+    btn.className = 'nc1-item flex w-full items-center gap-2 rounded-[3px] px-2 py-1.5 text-start text-[13px] leading-[1.3] text-ink hover:bg-[var(--hover-overlay)]'
     btn.dataset.label = label
     btn.innerHTML =
       '<span class="nc1-lbl"></span>' +
       (isBranch
-        ? '<svg class="nc1-chev" width="12" height="12" aria-hidden="true"><use href="#i-caret"/></svg>'
+        ? '<svg class="nc1-chev shrink-0 text-faint transition-transform duration-[120ms]" width="12" height="12" aria-hidden="true"><use href="#i-caret"/></svg>'
         : '')
     btn.querySelector('.nc1-lbl').textContent = t(label)
     node.appendChild(btn)
     if (isBranch) {
       const sub = document.createElement('div')
-      sub.className = 'nc1-sub'
+      sub.className = 'nc1-sub ms-[17px] hidden border-s border-line ps-3.5'
       childrenOf(entry).forEach(child => sub.appendChild(ncBuildItem(child, depth + 1, root)))
       node.appendChild(sub)
       btn.setAttribute('aria-expanded', 'false')
@@ -127,18 +127,18 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
 
   function makeGroupPanel(root, {showFavs = true} = {}) {
     const panel = document.createElement('div')
-    panel.className = 'nc3-panel'
+    panel.className = 'nc3-panel ms-[var(--rail-w)] flex min-h-0 w-[264px] shrink-0 flex-col border-e border-line bg-surface'
     if (showFavs) {
       const favs = document.createElement('div')
-      favs.className = 'nc3-favs'
+      favs.className = 'nc3-favs shrink-0 border-b border-line pb-1 pt-0.5'
       const favLbl = document.createElement('div')
-      favLbl.className = 'nc-group-lbl'
+      favLbl.className = 'nc-group-lbl px-2.5 pb-1 pt-3.5 text-xs font-semibold uppercase tracking-[.04em] text-faint first:pt-1.5'
       favLbl.textContent = t('Favorites')
       favs.appendChild(favLbl)
       NAV_FAVORITES.forEach(f => {
         const b = document.createElement('button')
         b.type = 'button'
-        b.className = 'nc-fav'
+        b.className = 'nc-fav mx-1.5 flex w-[calc(100%-12px)] items-center gap-[7px] rounded-[3px] px-2 py-[5px] text-start text-[12.5px] text-muted hover:bg-[var(--hover-overlay)]'
         b.dataset.label = f
         b.innerHTML =
           '<svg width="13" height="13" aria-hidden="true"><use href="#i-spark"/></svg><span></span>'
@@ -149,7 +149,7 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
       panel.appendChild(favs)
     }
     const body = document.createElement('div')
-    body.className = 'nc-scroll nc3-body'
+    body.className = 'nc-scroll nc3-body min-h-0 flex-1 overflow-x-hidden overflow-y-auto p-1.5 pt-0.5 transition-opacity duration-[120ms] ease-out'
     panel.appendChild(body)
     const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches
     /* the For You rail icon renders forYouGroups instead of a NAV_TREE branch —
@@ -159,12 +159,12 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
     const fillForYou = () => {
       body.innerHTML = ''
       const title = document.createElement('div')
-      title.className = 'nc3-title'
+      title.className = 'nc3-title px-2 pb-1 pt-2 text-[12.5px] font-bold text-ink'
       title.textContent = t('For You')
       body.appendChild(title)
       forYouGroups.forEach(g => {
         const lbl = document.createElement('div')
-        lbl.className = 'nc-group-lbl'
+        lbl.className = 'nc-group-lbl px-2.5 pb-1 pt-3.5 text-xs font-semibold uppercase tracking-[.04em] text-faint first:pt-1.5'
         lbl.textContent = g.name
         body.appendChild(lbl)
         g.items.forEach(item => body.appendChild(ncBuildItem(item.label, 0, root)))
@@ -177,7 +177,7 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
       }
       body.innerHTML = ''
       const title = document.createElement('div')
-      title.className = 'nc3-title'
+      title.className = 'nc3-title px-2 pb-1 pt-2 text-[12.5px] font-bold text-ink'
       title.textContent = group[0]
       body.appendChild(title)
       if (withForYou) body.appendChild(ncBuildItem('For you', 0, root))
@@ -202,9 +202,9 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
 
   function buildRailAndPanel(fbody, side) {
     const root = document.createElement('div')
-    root.className = 'nc nc2'
+    root.className = 'nc nc2 relative flex min-h-0 flex-1'
     const rail = document.createElement('div')
-    rail.className = 'nc2-rail'
+    rail.className = 'nc2-rail absolute inset-s-0 inset-y-0 z-[3] flex h-full w-[var(--rail-w)] shrink-0 flex-col gap-0.5 overflow-x-hidden overflow-y-auto border-e border-line bg-surface px-1.5 py-2 transition-[width] duration-[120ms] ease-out'
     const {el: panel, show} = makeGroupPanel(root, {
       showFavs: false,
     }) /* Starred now lives in the rail itself */
@@ -232,9 +232,9 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
     const railIcon = (label, icon, group, opts) => {
       const btn = document.createElement('button')
       btn.type = 'button'
-      btn.className = 'nc2-icn'
+      btn.className = 'nc2-icn relative inline-flex h-9 w-full min-w-[calc(var(--rail-w)-12px)] shrink-0 items-center gap-2.5 rounded-md ps-[11px] text-muted hover:bg-[var(--hover-overlay)]'
       btn.setAttribute('aria-label', t(label))
-      btn.innerHTML = `<svg width="18" height="18" aria-hidden="true"><use href="#${icon}"/></svg><span class="nc2-lbl">${encodeHtml(t(label))}</span>`
+      btn.innerHTML = `<svg class="shrink-0" width="18" height="18" aria-hidden="true"><use href="#${icon}"/></svg><span class="nc2-lbl overflow-hidden whitespace-nowrap text-[13px] opacity-0">${encodeHtml(t(label))}</span>`
       /* a mouse click leaves focus sitting on the button, which keeps
          ":focus-within" (and so the hover-expanded rail) engaged until an
          unrelated outside click knocks it loose — blur right away so the rail
@@ -252,12 +252,12 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
        group — an empty pin at the top of every rail, forever, isn't worth it */
     if (forYouGroups.length) {
       const forYouSep = document.createElement('div')
-      forYouSep.className = 'nc2-rail-sep'
+      forYouSep.className = 'nc2-rail-sep ms-[9px] my-1 h-px w-6 bg-line'
       rail.append(railIcon('For You', 'i-user', 'for-you'), forYouSep)
     }
 
     const railSep = document.createElement('div')
-    railSep.className = 'nc2-rail-sep'
+    railSep.className = 'nc2-rail-sep ms-[9px] my-1 h-px w-6 bg-line'
     rail.append(
       railIcon('Starred', 'i-spark', ['Starred', ...NAV_FAVORITES]),
       railIcon('Recent', 'i-clock', ['Recent', ...NAV_RECENTS]),
