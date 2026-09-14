@@ -791,5 +791,5 @@ function requestLeave() {
     askGuard(() => finish(true), 'leave this invoice')
   })
 }
-return {dispose: () => pageAbort.abort(), requestLeave, rscrim, openRDlg, closeRDlg, showInlineError, clearInlineError, doSave, runAction, applyState, gscrim, atRisk, askGuard, runGuarded, modeSel, applyMode}
+return {actionDialog: action => ACT_DLG[action], dispose: () => pageAbort.abort(), requestLeave, rscrim, openRDlg, closeRDlg, showInlineError, clearInlineError, doSave, runAction, applyState, gscrim, atRisk, askGuard, runGuarded, modeSel, applyMode}
 }

@@ -223,7 +223,8 @@ export function createCustomerRecord({root, deps}) {
       renderCustomerTabSection: key => renderTabSection(key, {CUSTOMER_SECTIONS}),
       renderCustomerSection: key => renderSection(key, {CUSTOMER_SECTIONS}),
       renderCustomerCollapsible: (key, concept) => renderCollapsible(key, concept, {CUSTOMER_SECTIONS}),
-      renderCustomerSummaryBand: () => (typeof window.renderCustomerSummaryBand === 'function' ? window.renderCustomerSummaryBand() : ''),
+      // The prototype has no summary-band implementation; retain its empty fallback.
+      renderCustomerSummaryBand: () => '',
     }
   }
 

@@ -6,7 +6,7 @@ test.beforeEach(async ({page}) => {
   const errors = [];
   pageErrors.set(page, errors);
   page.on('pageerror', error => errors.push(error.message));
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
 });
 
 test.afterEach(async ({page}) => {
@@ -18,7 +18,7 @@ test('invoice line entry adds once and retains quantity calculations', async ({p
   await page.locator('#mode').selectOption('create', {force: true});
   const rows = page.locator('#items-body > tr');
   const count = await rows.count();
-  await page.locator('[onclick*="addItemRow"]').click();
+  await page.locator('#add-item-link').click();
   await expect(rows).toHaveCount(count + 1);
   await rows.last().locator('.items-qty').fill('3');
   await expect(page.locator('#items-total-qty')).toHaveText(String(count + 3));

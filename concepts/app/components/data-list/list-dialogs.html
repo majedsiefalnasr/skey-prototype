@@ -1,0 +1,233 @@
+    <div class="customer-overlay" id="data-export-scrim">
+      <section
+        class="customer-modal data-export-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="data-export-title">
+        <header class="customer-modal-header">
+          <div>
+            <h3 id="data-export-title">Export</h3>
+            <p>Choose a format and scope for the exported file.</p>
+          </div>
+          <button
+            class="ibtn data-export-close"
+            type="button"
+            aria-label="Close export dialog"
+            style="margin-inline-start: auto">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </header>
+        <div class="customer-modal-body">
+          <div
+            class="data-export-formats geo-filter-quick"
+            role="radiogroup"
+            aria-label="Export format">
+            <button type="button" role="radio" data-export-format="xlsx" aria-checked="true">
+              Excel (.xlsx)
+            </button>
+            <button type="button" role="radio" data-export-format="csv" aria-checked="false">
+              CSV
+            </button>
+            <button type="button" role="radio" data-export-format="pdf" aria-checked="false">
+              PDF
+            </button>
+            <button type="button" role="radio" data-export-format="docx" aria-checked="false">
+              Word (.docx)
+            </button>
+          </div>
+          <div class="rec-field" style="margin-top: 14px">
+            <span>File name</span>
+            <input type="text" id="data-export-filename" autocomplete="off" />
+          </div>
+          <div class="rec-field" style="margin-top: 14px">
+            <span>Rows to export</span>
+            <select id="data-export-scope">
+              <option value="visible">Currently visible rows</option>
+              <option value="selected">Selected rows only</option>
+              <option value="all">All rows</option>
+            </select>
+          </div>
+          <div class="data-export-columns-field" style="margin-top: 14px">
+            <div class="data-export-columns-head">
+              <span>Columns to include</span>
+              <div class="data-export-columns-bulk">
+                <button type="button" data-export-columns-all>Select all</button>
+                <button type="button" data-export-columns-none>Clear</button>
+              </div>
+            </div>
+            <div
+              class="data-export-columns"
+              id="data-export-columns"
+              role="group"
+              aria-label="Columns to include"></div>
+          </div>
+        </div>
+        <footer class="customer-modal-footer">
+          <button class="lbtn out data-export-close" type="button">Cancel</button>
+          <button class="lbtn pri" id="data-export-run" type="button">Export</button>
+        </footer>
+      </section>
+    </div>
+
+    <div class="customer-overlay" id="geo-filter-scrim">
+      <section
+        class="customer-modal geo-filter-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="geo-filter-title">
+        <header class="customer-modal-header">
+          <div>
+            <h3 id="geo-filter-title">Filter records</h3>
+            <p>Narrow the list by one or more fields.</p>
+          </div>
+          <button
+            class="ibtn geo-filter-close"
+            type="button"
+            aria-label="Close filter locations"
+            style="margin-inline-start: auto">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </header>
+        <div class="customer-modal-body">
+          <div class="geo-filter-quick" role="radiogroup" aria-label="Quick filters"></div>
+          <div class="geo-filter-fields"></div>
+        </div>
+        <footer class="customer-modal-footer">
+          <button class="lbtn out" id="geo-filter-clear" type="button">Clear filter</button>
+          <button class="lbtn pri geo-filter-close" type="button">Apply</button>
+        </footer>
+      </section>
+    </div>
+
+    <div class="customer-overlay" id="save-filter-scrim">
+      <section
+        class="customer-modal save-filter-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="save-filter-title">
+        <header class="customer-modal-header">
+          <div>
+            <h3 id="save-filter-title">Save filter</h3>
+            <p>Give this filter a name so you can apply it again later.</p>
+          </div>
+          <button
+            class="ibtn save-filter-close"
+            type="button"
+            aria-label="Close save filter"
+            style="margin-inline-start: auto">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </header>
+        <div class="customer-modal-body">
+          <label class="rec-field">
+            <span>Filter name</span>
+            <input type="text" id="save-filter-name" placeholder="e.g. Cash invoices this week" />
+          </label>
+          <div class="rec-field">
+            <span>Icon</span>
+            <div
+              class="data-icon-picker"
+              id="save-filter-icon-picker"
+              role="radiogroup"
+              aria-label="Filter icon"></div>
+          </div>
+          <div class="rec-field">
+            <span>Conditions</span>
+            <ul class="data-filter-summary-list" id="save-filter-conditions"></ul>
+          </div>
+        </div>
+        <footer class="customer-modal-footer">
+          <button class="lbtn out save-filter-close" type="button">Cancel</button>
+          <button class="lbtn pri" id="save-filter-confirm" type="button">Save filter</button>
+        </footer>
+      </section>
+    </div>
+
+    <div class="customer-overlay" id="manage-filters-scrim">
+      <section
+        class="customer-modal manage-filters-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="manage-filters-title">
+        <header class="customer-modal-header">
+          <div>
+            <h3 id="manage-filters-title">Manage filters</h3>
+            <p>Rename, restyle, or update the conditions of a saved filter.</p>
+          </div>
+          <button
+            class="ibtn manage-filters-close"
+            type="button"
+            aria-label="Close manage filters"
+            style="margin-inline-start: auto">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </header>
+        <div class="customer-modal-body data-manage-filters-body">
+          <ul
+            class="data-manage-filters-list"
+            id="manage-filters-list"
+            role="listbox"
+            aria-label="Saved filters"></ul>
+          <div class="data-manage-filters-editor" id="manage-filters-editor" hidden>
+            <label class="rec-field">
+              <span>Filter name</span>
+              <input type="text" id="manage-filter-name" />
+            </label>
+            <div class="rec-field">
+              <span>Icon</span>
+              <div
+                class="data-icon-picker"
+                id="manage-filter-icon-picker"
+                role="radiogroup"
+                aria-label="Filter icon"></div>
+            </div>
+            <div class="rec-field">
+              <span>Conditions</span>
+              <div id="manage-filter-fields"></div>
+            </div>
+            <div class="data-manage-filters-editor-actions">
+              <button class="lbtn out danger" type="button" id="manage-filter-delete">
+                <svg width="14" height="14" aria-hidden="true"><use href="#i-trash" /></svg>
+                Delete filter
+              </button>
+              <button class="lbtn pri" type="button" id="manage-filter-save">Save changes</button>
+            </div>
+          </div>
+        </div>
+        <footer class="customer-modal-footer">
+          <button class="lbtn out manage-filters-close" type="button">Close</button>
+        </footer>
+      </section>
+    </div>
+
+    <div class="customer-overlay" id="kanban-blocked-scrim">
+      <section
+        class="customer-modal kanban-blocked-modal"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="kanban-blocked-title"
+        aria-describedby="kanban-blocked-body">
+        <header class="customer-modal-header">
+          <div>
+            <h3 id="kanban-blocked-title">Status change not allowed</h3>
+          </div>
+          <button
+            class="ibtn kanban-blocked-close"
+            type="button"
+            aria-label="Close"
+            style="margin-inline-start: auto">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </header>
+        <div class="customer-modal-body">
+          <p id="kanban-blocked-body" class="kanban-blocked-message"></p>
+          <div class="kanban-blocked-allowed" id="kanban-blocked-allowed" hidden>
+            <span class="kanban-blocked-allowed-label">Allowed from here:</span>
+            <div class="kanban-blocked-allowed-list" id="kanban-blocked-allowed-list"></div>
+          </div>
+        </div>
+        <footer class="customer-modal-footer">
+          <button class="lbtn pri kanban-blocked-close" type="button">Got it</button>
+        </footer>
+      </section>
+    </div>

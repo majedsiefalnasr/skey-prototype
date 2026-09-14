@@ -94,13 +94,6 @@ function deriveAccentPair(seed) {
     dark: accessibleAccent(normalized, '#1F1F21', '#FFFFFF'),
   }
 }
-// Explicit window.* bridges — preserved unchanged. The ported data-list
-// renderer strings and other legacy code may still reach these as globals,
-// exactly as before extraction.
-window.normalizeHexColor = normalizeHexColor
-window.deriveAccentPair = deriveAccentPair
-window.colorContrast = colorContrast
-
 function setAccentTone(root, hex) {
   const style = root.style
   const isDark = root.dataset.colorMode === 'dark'

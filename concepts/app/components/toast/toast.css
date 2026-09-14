@@ -1,0 +1,70 @@
+/* Extracted from mechanical checkpoint ddd8569, legacy-app.css lines 4968-5035.
+ * Complete rules retained in original cascade order; see tests/support/style-inventory.json. */
+
+      .toastwrap {
+        position: fixed;
+        inset-block-end: 20px;
+        inset-inline-start: 50%;
+        translate: -50% 0;
+        z-index: 300;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        align-items: center;
+        pointer-events: none;
+      }
+      .toast {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        min-width: 320px;
+        max-width: 520px;
+        pointer-events: auto;
+        background: var(--tooltip-bg);
+        color: var(--tooltip-ink);
+        border-radius: 10px;
+        padding: 11px 14px;
+        box-shadow: var(--shadow-2);
+        font-size: 13px;
+        animation: toastin 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      @keyframes toastin {
+        from {
+          opacity: 0;
+          translate: 0 8px;
+        }
+        to {
+          opacity: 1;
+          translate: 0 0;
+        }
+      }
+      .toast .ic {
+        margin-top: 1px;
+      }
+      .toast.ok .ic {
+        color: var(--tooltip-success);
+      }
+      .toast.bad {
+        background: var(--danger-bold);
+        color: var(--inverse);
+      }
+      .toast .bd {
+        flex: 1;
+      }
+      .toast .bd b {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
+      .toast .act {
+        color: var(--tooltip-action);
+        text-decoration: underline;
+        background: none;
+        font-size: 12.5px;
+        margin-top: 5px;
+        display: inline-block;
+      }
+      .toast .x {
+        color: var(--tooltip-close);
+        opacity: 0.8;
+      }

@@ -28,7 +28,7 @@ test('real chart matches baseline through theme changes and cleans up on navigat
   };
   try {
     await load(baseline, `http://127.0.0.1:${baselineServer.address().port}`);
-    await load(page, 'http://127.0.0.1:4173');
+    await load(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     for (const theme of ['light', 'dark']) {
       for (const target of [baseline, page]) {
         await target.locator('#theme').evaluate((control, value) => {

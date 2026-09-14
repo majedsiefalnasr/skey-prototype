@@ -157,21 +157,39 @@ test('assemble: reassembling the real app-shell.html fragments reproduces the pr
   //     (concepts/app/prototype/controls.html, included via `<!-- include:
   //     app/prototype/controls.html -->`) — but since assemble() expands
   //     that include back into the identical markup, this produces NO
-  //     observable difference in the reassembled output; only the two
-  //     script/link edits below are real differences from the baseline.
+  //     observable difference in the reassembled output; the script/link
+  //     edits below are real differences from the baseline.
+  //   - Task 12: the single `<link rel="stylesheet" href="app/styles/
+  //     legacy-app.css">` became one `<link>` per owning component/page
+  //     CSS file (plus styles/{tokens,base,app,overrides}.css), in the
+  //     same original cascade order legacy-app.css's rules appeared in —
+  //     see docs/superpowers/plans/2026-09-13-app-shell-components.md
+  //     Task 12 for the full ownership mapping. legacy-app.css itself was
+  //     deleted once every rule had a real owner file.
   // Any OTHER difference here means the fragment-assembly mechanism itself
   // changed markup it shouldn't have — that's still a real regression to
   // catch.
   const {stdout: baseline} = await execFileAsync('git', ['show', 'ddd8569:concepts/app-shell.html']);
-  const expected = baseline.replace(
-    '    <script src="app/legacy-app.js"></script>\n\n' +
+  const expected = baseline
+    .replace(
+      '    <link rel="stylesheet" href="app/styles/legacy-app.css">',
+      JSON.parse(await readFile('tests/support/style-inventory.json', 'utf8')).files
+        .map(file => `    <link rel="stylesheet" href="${file.path}">`).join('\n')
+    )
+    .replace(
+      '    <script src="app/legacy-app.js"></script>\n\n' +
+        '    <link id="shell-kit-css" rel="stylesheet" href="app/prototype/controls.css">\n\n' +
+        '    <script id="shell-kit-js" src="app/prototype/legacy-controls.js"></script>',
       '    <link id="shell-kit-css" rel="stylesheet" href="app/prototype/controls.css">\n\n' +
-      '    <script id="shell-kit-js" src="app/prototype/legacy-controls.js"></script>',
-    '    <link id="shell-kit-css" rel="stylesheet" href="app/prototype/controls.css">\n\n' +
-      '    <script type="module" src="app/main.js"></script>'
-  );
+        '    <script type="module" src="app/main.js"></script>'
+    );
   const assembled = await assemble(path.resolve('concepts/app-shell.html'));
-  assert.equal(assembled, expected);
+  assert.equal(assembled, expected.replace(
+    `                    class="lbtn out"
+                    onclick="addItemRow('items-body', 'items-total-qty')">`,
+    `                    id="add-item-link"
+                    class="lbtn out">`
+  ));
 });
 
 test('build: produces dist/concepts/app-shell.html with no unresolved include directives', async () => {
@@ -232,9 +250,9 @@ test('served dist/: HTML, CSS, and JS assets have correct MIME types', async () 
     const port = server.address().port;
     const html = await fetchHead(`http://127.0.0.1:${port}/concepts/app-shell.html`);
     assert.match(html.headers['content-type'], /text\/html/);
-    const css = await fetchHead(`http://127.0.0.1:${port}/concepts/app/styles/legacy-app.css`);
+    const css = await fetchHead(`http://127.0.0.1:${port}/concepts/app/styles/tokens.css`);
     assert.match(css.headers['content-type'], /text\/css/);
-    const js = await fetchHead(`http://127.0.0.1:${port}/concepts/app/legacy-app.js`);
+    const js = await fetchHead(`http://127.0.0.1:${port}/concepts/app/main.js`);
     assert.match(js.headers['content-type'], /javascript/);
   } finally {
     server.close();
@@ -248,8 +266,24 @@ test('served dist/: original asset URLs referenced from app-shell.html still res
     const port = server.address().port;
     const paths = [
       '/concepts/app-shell.html',
-      '/concepts/app/styles/legacy-app.css',
-      '/concepts/app/legacy-app.js',
+      '/concepts/app/styles/tokens.css',
+      '/concepts/app/styles/base.css',
+      '/concepts/app/styles/app.css',
+      '/concepts/app/styles/overrides.css',
+      '/concepts/app/shell/shell.css',
+      '/concepts/app/pages/invoices/invoices.css',
+      '/concepts/app/pages/customers/customers.css',
+      '/concepts/app/pages/geography/geography.css',
+      '/concepts/app/pages/email/email.css',
+      '/concepts/app/components/data-list/list.css',
+      '/concepts/app/components/dialog/dialog.css',
+      '/concepts/app/components/toast/toast.css',
+      '/concepts/app/components/loading/loading.css',
+      '/concepts/app/components/notifications/notifications.css',
+      '/concepts/app/components/record-pager/pager.css',
+      '/concepts/app/pages/home/home.css',
+      '/concepts/app/components/assistant/assistant.css',
+      '/concepts/app/main.js',
       '/concepts/app/prototype/controls.css',
       '/concepts/app/prototype/controls.js',
     ];

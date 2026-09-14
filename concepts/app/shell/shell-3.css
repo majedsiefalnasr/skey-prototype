@@ -1,0 +1,30 @@
+/* Extracted from mechanical checkpoint ddd8569, legacy-app.css lines 2414-2441.
+ * Complete rules retained in original cascade order; see tests/support/style-inventory.json. */
+
+
+      /* ---- topbar: User menu ---- */
+      .avatar-btn {
+        border-radius: 999px;
+      }
+      .user-card {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 10px 12px;
+        margin-bottom: 2px;
+      }
+      .user-card .avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 13px;
+      }
+      .user-card b {
+        display: block;
+        font-size: 13.5px;
+        color: var(--ink);
+      }
+      .user-card span {
+        display: block;
+        font-size: 12px;
+        color: var(--muted);
+      }

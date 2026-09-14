@@ -1,0 +1,352 @@
+/* Extracted from mechanical checkpoint ddd8569, legacy-app.css lines 2891-3240.
+ * Complete rules retained in original cascade order; see tests/support/style-inventory.json. */
+
+
+      /* ============ drawer ============ */
+      .drscrim {
+        position: fixed;
+        inset: 0;
+        background: rgba(17, 24, 39, 0.4);
+        z-index: 130;
+        display: none;
+      }
+      .drscrim.open {
+        display: block;
+      }
+      .drawer {
+        position: fixed;
+        inset-block: 0;
+        inset-inline-end: 0;
+        width: min(560px, 94vw);
+        background: var(--surface);
+        z-index: 140;
+        display: none;
+        flex-direction: column;
+        box-shadow: var(--shadow-2);
+      }
+      .drawer.open {
+        display: flex;
+      }
+      .drhd {
+        padding: 14px 18px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .drhd .top {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .drhd h3 {
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .drhd .sub {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 1px;
+      }
+      .drtabs {
+        display: flex;
+        gap: 18px;
+        margin-top: 12px;
+      }
+      .drtab {
+        padding: 8px 2px;
+        border-bottom: 2px solid transparent;
+        color: var(--muted);
+        font-size: 13px;
+        display: flex;
+        gap: 7px;
+        align-items: center;
+      }
+      .drtab[aria-selected='true'] {
+        color: var(--accent);
+        border-color: var(--accent);
+        font-weight: 600;
+      }
+      .drtab .n {
+        font-size: 12px;
+        background: var(--line-2);
+        border-radius: 999px;
+        padding: 1px 7px;
+        color: var(--muted);
+      }
+      .drtab[aria-selected='true'] .n {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      .drbody {
+        flex: 1;
+        overflow: auto;
+      }
+      .frame:has(.lp-view:not([hidden])) {
+        overflow: clip;
+      }
+      .drbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 18px;
+        border-bottom: 1px solid var(--line);
+        font-size: 12px;
+        color: var(--muted);
+        flex-wrap: wrap;
+      }
+      .drbar .end {
+        margin-inline-start: auto;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .segctl {
+        display: inline-flex;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        overflow: hidden;
+      }
+      .segctl button {
+        padding: 4px 11px;
+        font-size: 12px;
+        border-inline-end: 1px solid var(--line);
+      }
+      .segctl button:last-child {
+        border-inline-end: none;
+      }
+      .segctl button[aria-pressed='true'] {
+        background: var(--line-2);
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .card {
+        display: flex;
+        gap: 12px;
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--line-2);
+      }
+      .card .mk {
+        width: 22px;
+        flex: none;
+        display: flex;
+        justify-content: center;
+        padding-top: 2px;
+      }
+      .card .dot {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 2px solid var(--st-post-ink);
+        color: var(--st-post-ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--surface);
+      }
+      .card .main {
+        flex: 1;
+        min-width: 0;
+      }
+      .card .t {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-weight: 600;
+        font-size: 13px;
+        flex-wrap: wrap;
+      }
+      .card .grid {
+        display: grid;
+        gap: 4px 12px;
+        margin-top: 8px;
+        font-size: 12px;
+      }
+      .card .grid .k {
+        color: var(--faint);
+        font-size: 12px;
+      }
+      .card .lnk {
+        margin-top: 6px;
+        font-size: 12px;
+        color: var(--accent);
+        display: inline-block;
+      }
+      .drnote {
+        padding: 13px 18px;
+        font-size: 12px;
+        color: var(--faint);
+      }
+
+      /* activity */
+      .act {
+        display: flex;
+        gap: 12px;
+        padding: 14px 18px;
+        position: relative;
+      }
+      .act::before {
+        content: '';
+        position: absolute;
+        inset-inline-start: 34px;
+        top: 40px;
+        bottom: -4px;
+        width: 2px;
+        background: var(--line-2);
+      }
+      .act:last-child::before {
+        display: none;
+      }
+      .act .av {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        flex: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 600;
+        background: var(--accent);
+        color: var(--inverse);
+        z-index: 1;
+      }
+      .act .av.sys {
+        background: var(--line-2);
+        color: var(--muted);
+      }
+      .act .main {
+        flex: 1;
+        min-width: 0;
+      }
+      .act .line {
+        font-size: 13px;
+      }
+      .act .line b {
+        font-weight: 600;
+      }
+      .act .tm {
+        color: var(--faint);
+        font-size: 12px;
+        margin-inline-start: 6px;
+      }
+      .act .chg {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 3px;
+      }
+      .act .chg s {
+        color: var(--faint);
+      }
+      .act .chg b {
+        color: var(--ink);
+      }
+      .act .chips {
+        display: flex;
+        gap: 7px;
+        margin-top: 7px;
+        flex-wrap: wrap;
+      }
+      .act .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        padding: 3px 9px;
+        font-size: 12px;
+        background: var(--surface);
+      }
+      .act .tg {
+        display: flex;
+        gap: 14px;
+        margin-top: 8px;
+        font-size: 12px;
+      }
+      .act .tg button {
+        color: var(--muted);
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .notes {
+        margin-top: 9px;
+        border-inline-start: 2px solid var(--line-2);
+        padding-inline-start: 12px;
+        display: none;
+      }
+      .notes.open {
+        display: block;
+      }
+      .note-i {
+        display: flex;
+        gap: 9px;
+        padding: 6px 0;
+      }
+      .note-i .av2 {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        flex: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 600;
+        background: var(--line-2);
+        color: var(--muted);
+      }
+      .note-i .who {
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .note-i .txt {
+        font-size: 12px;
+        margin-top: 2px;
+      }
+      .note-i .mn {
+        color: var(--accent);
+        background: var(--accent-soft);
+        border-radius: 4px;
+        padding: 0 4px;
+      }
+      .daysep {
+        padding: 8px 18px;
+        font-size: 12px;
+        color: var(--faint);
+        background: var(--line-2);
+        border-block: 1px solid var(--line-2);
+      }
+      .drfoot {
+        border-top: 1px solid var(--line);
+        padding: 12px 18px;
+        background: var(--surface);
+      }
+      .drfoot .lbl {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 7px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .drfoot textarea {
+        width: 100%;
+        background: var(--surface);
+        color: var(--ink);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 9px 11px;
+        font: inherit;
+        font-size: 13px;
+        resize: vertical;
+        min-height: 58px;
+      }
+      .drfoot .row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 9px;
+      }
+      .drfoot .row .end {
+        margin-inline-start: auto;
+      }

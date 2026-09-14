@@ -1,0 +1,87 @@
+    <div class="customer-overlay" id="geo-hierarchy-scrim">
+      <section
+        class="customer-modal geo-hierarchy-dialog-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Location hierarchy">
+        <header class="customer-modal-header geo-hierarchy-dialog-header">
+          <span
+            class="geo-hierarchy-dialog-title-mount"
+            id="geo-hierarchy-dialog-title-mount"></span>
+          <span
+            class="geo-hierarchy-dialog-actions-mount"
+            id="geo-hierarchy-dialog-actions-mount"
+            style="margin-inline-start: auto"></span>
+          <button
+            class="ibtn geo-hierarchy-dialog-close"
+            type="button"
+            aria-label="Close location hierarchy">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </header>
+        <div class="geo-hierarchy-dialog-body" id="geo-hierarchy-dialog-mount"></div>
+      </section>
+    </div>
+
+    <div class="customer-overlay" id="geo-parent-picker-scrim">
+      <section
+        class="customer-modal geo-parent-picker-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="geo-parent-picker-title">
+        <header class="customer-modal-header">
+          <div>
+            <h3 id="geo-parent-picker-title">Choose parent location</h3>
+            <p>Pick a location from the hierarchy, or clear it to make this a root location.</p>
+          </div>
+          <button
+            class="ibtn geo-parent-picker-close"
+            type="button"
+            aria-label="Close parent location picker"
+            style="margin-inline-start: auto">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </header>
+        <div class="customer-modal-body">
+          <div class="geo-view-switch" role="tablist" aria-label="Parent picker view">
+            <button
+              type="button"
+              role="tab"
+              data-geo-parent-picker-view="tree"
+              aria-selected="true"
+              aria-controls="geo-parent-picker-tree-pane">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg>
+              Tree
+            </button>
+            <button
+              type="button"
+              role="tab"
+              data-geo-parent-picker-view="flow"
+              aria-selected="false"
+              aria-controls="geo-parent-picker-flow-pane">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-grid" /></svg>
+              Flow
+            </button>
+          </div>
+          <button class="lbtn out geo-parent-picker-root" type="button" style="margin: 10px 0">
+            No parent (root location)
+          </button>
+          <div id="geo-parent-picker-tree-pane" role="tabpanel">
+            <div
+              class="geo-tree geo-parent-picker-tree"
+              id="geo-parent-picker-tree"
+              role="tree"
+              aria-label="Locations"
+              style="max-height: 360px"></div>
+          </div>
+          <div id="geo-parent-picker-flow-pane" role="tabpanel" hidden>
+            <div
+              class="geo-flow-viewport geo-parent-picker-flow-viewport"
+              id="geo-parent-picker-flow-viewport"
+              style="min-height: 360px">
+              <div class="geo-flow-canvas" id="geo-parent-picker-flow-canvas"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>

@@ -75,34 +75,7 @@
               ><span class="notif-badge" id="notif-badge" hidden></span
               ><span class="tip">Alerts</span>
             </button>
-            <div
-              class="mlist mend notif-pop"
-              id="notifications-popover"
-              role="dialog"
-              aria-labelledby="notifications-title"
-              style="min-width: 340px">
-              <div class="notif-hd">
-                <b id="notifications-title">Notifications</b>
-                <label class="switch"
-                  ><input
-                    id="notif-unread-only"
-                    type="checkbox"
-                    aria-label="Only show unread" /><span></span
-                ></label>
-                <span class="notif-hd-lbl">Only show unread</span>
-              </div>
-              <div class="notif-tabs" role="tablist" aria-label="Notification type">
-                <button role="tab" aria-selected="true" tabindex="0" data-tab="direct">
-                  Direct
-                </button>
-                <button role="tab" aria-selected="false" tabindex="-1" data-tab="email">
-                  Email
-                </button>
-              </div>
-              <div class="notif-body" id="notif-body"></div>
-            </div>
-          </div>
-          <div class="menu">
+<!-- include: ../components/notifications/notifications.html -->          <div class="menu">
             <button class="ibtn" aria-label="Help" aria-haspopup="menu" aria-expanded="false">
               <svg width="16" height="16" aria-hidden="true"><use href="#i-help" /></svg
               ><span class="tip">Help</span>
@@ -173,89 +146,15 @@
       </header>
     </template>
 
-    <template id="t-pager">
-      <div class="pager" role="group" aria-label="Record navigation">
-        <button class="pg-f" aria-label="First record">
-          <svg width="15" height="15" aria-hidden="true"><use href="#i-first" /></svg
-          ><span class="tip">First record</span>
-        </button>
-        <button class="pg-p" aria-label="Previous record">
-          <svg width="15" height="15" aria-hidden="true"><use href="#i-prev" /></svg
-          ><span class="tip">Previous record</span>
-        </button>
-        <input class="pg-i" type="number" min="1" max="125" value="1" aria-label="Record number" />
-        <span class="tot">of 125</span>
-        <button class="pg-n" aria-label="Next record">
-          <svg width="15" height="15" aria-hidden="true"><use href="#i-next" /></svg
-          ><span class="tip">Next record</span>
-        </button>
-        <button class="pg-l" aria-label="Last record">
-          <svg width="15" height="15" aria-hidden="true"><use href="#i-last" /></svg
-          ><span class="tip">Last record</span>
-        </button>
-      </div>
-    </template>
-
-    <template id="t-pill">
-      <button class="stpill" data-s="posted" aria-haspopup="dialog" aria-expanded="false">
-        <span class="stdot"></span><span class="nm">Posted</span>
-        <span class="segs" aria-hidden="true"></span>
-        <span class="cnt"></span>
-        <svg width="11" height="11" aria-hidden="true"><use href="#i-caret" /></svg>
-      </button>
-    </template>
-
-    <template id="t-menus">
-      <div class="menu">
-        <button aria-haspopup="menu" aria-expanded="false">
-          Record <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg>
-        </button>
-        <div class="mlist" role="menu">
-          <button role="menuitem" data-act="New">New</button>
-          <button role="menuitem" data-act="Add From">Add From</button>
-          <button role="menuitem" data-act="Search">Search</button>
-        </div>
-      </div>
-      <div class="menu">
-        <button aria-haspopup="menu" aria-expanded="false">
-          Procedure <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg>
-        </button>
-        <div class="mlist" role="menu">
-          <button role="menuitem" data-act="Save">Save</button>
-          <button role="menuitem" data-act="Undo">Undo</button>
-          <hr />
-          <button role="menuitem" data-act="Print" class="p-open">Print</button>
-          <button role="menuitem" data-act="Reports">Reports</button>
-          <button role="menuitem" data-act="Lock Screen">Lock Screen</button>
-        </div>
-      </div>
-      <div class="menu">
-        <button aria-haspopup="menu" aria-expanded="false">
-          Transactions <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg>
-        </button>
-        <div class="mlist" role="menu">
-          <button role="menuitem" data-act="Posting">Posting</button>
-          <button role="menuitem" data-act="Display Journal Entry">Display Journal Entry</button>
-          <hr />
-          <button role="menuitem" data-act="Cancel Document" class="dan">Cancel Document</button>
-        </div>
-      </div>
-      <div class="menu">
-        <button aria-haspopup="menu" aria-expanded="false">
-          More <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg>
-        </button>
-        <div class="mlist" role="menu">
-          <button role="menuitem" data-act="Screen Parameters">Screen Parameters</button>
-          <button role="menuitem" data-act="Help">Help</button>
-        </div>
-      </div>
-    </template>
-
-    <template id="t-ctx">
-      <button class="ctx" data-act="Receipt Voucher">
-        <svg width="15" height="15" aria-hidden="true"><use href="#i-doc" /></svg> Receipt Voucher
-      </button>
-      <button class="ctx" data-act="Sales Return">
-        <svg width="15" height="15" aria-hidden="true"><use href="#i-doc" /></svg> Sales Return
-      </button>
-    </template>
+<!-- include: ../components/record-pager/pager.html --><!-- include: ../pages/invoices/shared-templates.html -->
+<!-- include: ../pages/invoices/templates.html -->
+<!-- include: ../components/data-list/dialogs.html -->
+<!-- include: ../pages/customers/dialogs.html -->
+<!-- include: shared-overlays.html -->
+<!-- include: ../pages/invoices/activity-dialog.html -->
+<!-- include: ../pages/invoices/record-dialogs.html -->
+<!-- include: ../pages/invoices/dialogs.html --><!-- include: ../pages/invoices/print-dialog.html -->
+<!-- include: sidebar-dialog.html -->
+<!-- include: appearance-dialog.html -->
+<!-- include: ../components/assistant/assistant.html -->
+<!-- include: ../components/data-list/context-menu.html -->

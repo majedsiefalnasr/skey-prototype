@@ -40,7 +40,7 @@ test.describe('customer record lifecycle', () => {
   test('customer mode restores after reload without a null-root exception', async ({page}) => {
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openSurface(page, 'customer-record');
     await page.locator('#customer-mode').selectOption('create', {force: true});
     await page.reload();
@@ -67,7 +67,7 @@ test.describe('customer record lifecycle', () => {
 
 
   test('create mode renders the New Customer chrome with blank required fields', async ({page}) => {
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     // This test's own assertion matches the chrome's English label
     // ("New Customer") — some projects (mobile-rtl) boot with Arabic
     // already active (see tests/support/browser.mjs boot()'s `wantsRtl`
@@ -88,7 +88,7 @@ test.describe('customer record lifecycle', () => {
   });
 
   test('save in create mode with empty required fields surfaces validation errors', async ({page}) => {
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openCustomerRecordInMode(page, 'create');
     await page.locator('.phead [data-customer-action="save"]').click();
     await expect(page.locator('.customer-field-error').first()).toBeVisible();
@@ -97,7 +97,7 @@ test.describe('customer record lifecycle', () => {
   });
 
   test('view mode switches to edit via Modify, and Undo returns to view', async ({page}) => {
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openSurface(page, 'customer-record');
     await settle(page);
     await expect(page.locator('#customer-mode')).toHaveValue('view');
@@ -108,7 +108,7 @@ test.describe('customer record lifecycle', () => {
   });
 
   test('guided layout tab switching updates the active section', async ({page}) => {
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openSurface(page, 'customer-record');
     await settle(page);
     const tabs = page.locator('[data-customer-tab]');
@@ -119,7 +119,7 @@ test.describe('customer record lifecycle', () => {
   });
 
   test('Scroll Navigator layout renders a scroll nav and tracks the active section', async ({page}) => {
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openSurface(page, 'customer-record');
     await settle(page);
     await page.locator('#customer-layout').selectOption('scroll', {force: true});
@@ -131,7 +131,7 @@ test.describe('customer record lifecycle', () => {
   });
 
   test('lookup menu selects a value into the target field', async ({page}) => {
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openCustomerRecordInMode(page, 'edit');
     const trigger = page.locator('[data-customer-lookup]').first();
     test.skip((await trigger.count()) === 0, 'no lookup-enabled field on this record/layout');
@@ -141,7 +141,7 @@ test.describe('customer record lifecycle', () => {
   });
 
   test('lookup advanced search selects a value into the target field', async ({page}) => {
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openCustomerRecordInMode(page, 'edit');
     const trigger = page.locator('[data-customer-lookup]').first();
     test.skip((await trigger.count()) === 0, 'no lookup-enabled field on this record/layout');
@@ -155,7 +155,7 @@ test.describe('customer record lifecycle', () => {
   });
 
   test('nested unit drawer opens from the operation-unit lookup menu', async ({page}) => {
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openCustomerRecordInMode(page, 'edit');
     const trigger = page.locator('[data-customer-lookup="operationUnit"]').first();
     test.skip((await trigger.count()) === 0, 'no operationUnit lookup field on this record/layout');
@@ -165,7 +165,7 @@ test.describe('customer record lifecycle', () => {
   });
 
   test('photo preview trigger is present and hoverable when a photo is set', async ({page}) => {
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openSurface(page, 'customer-record');
     await settle(page);
     // The default reference customer has no photo, so renderCustomerRecordPhoto
@@ -182,7 +182,7 @@ test.describe('customer record lifecycle', () => {
   });
 
   test('save persists edits and returns to view mode', async ({page}) => {
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openCustomerRecordInMode(page, 'edit');
     const nameField = page.locator('[data-customer-field="customerName"]');
     const original = await nameField.inputValue();
@@ -194,7 +194,7 @@ test.describe('customer record lifecycle', () => {
   });
 
   test('undo in edit mode discards changes and returns to view', async ({page}) => {
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openCustomerRecordInMode(page, 'edit');
     const nameField = page.locator('[data-customer-field="customerName"]');
     const original = await nameField.inputValue();
@@ -207,7 +207,7 @@ test.describe('customer record lifecycle', () => {
   });
 
   test('dirty-leave guard blocks navigation away from an edited record, then discard leaves', async ({page}) => {
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openCustomerRecordInMode(page, 'edit');
     const nameField = page.locator('[data-customer-field="customerName"]');
     const original = await nameField.inputValue();
@@ -234,7 +234,7 @@ test.describe('customer record lifecycle', () => {
   });
 
   test('dirty-leave guard "Stay here" cancels navigation and keeps the change', async ({page}) => {
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openCustomerRecordInMode(page, 'edit');
     const nameField = page.locator('[data-customer-field="customerName"]');
     const original = await nameField.inputValue();
@@ -265,7 +265,7 @@ test.describe('customer record lifecycle', () => {
     // the live `let showContentView` binding at call time, observing the
     // later reassignment to the real navigation-routing wrapper.
     // customers.js's call site now uses the same live-binding wrapper.
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openSurface(page, 'customer-record');
     await settle(page);
     // Breadcrumb "Customers" returns to the list (customerAtRisk() is false
@@ -311,7 +311,7 @@ test.describe('prototype-controls state restoration', () => {
     // behavior — asserted explicitly here as the readPrototypeState(storage)
     // baseline ("no saved key" -> {}) the other scenarios in this describe
     // block build on.
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await settle(page);
     expect(errors).toEqual([]);
     await expect(page.locator('#theme')).toHaveValue('system');
@@ -324,7 +324,7 @@ test.describe('prototype-controls state restoration', () => {
     await page.addInitScript(() => {
       sessionStorage.setItem('skey-proto-state', '{not valid json');
     });
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await settle(page);
     expect(errors).toEqual([]);
     // readPrototypeState's JSON.parse failure falls back to {} (see
@@ -335,7 +335,7 @@ test.describe('prototype-controls state restoration', () => {
 
   test('saved dark theme is restored on load', async ({page}) => {
     await seedProtoState(page, {theme: 'dark'});
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await settle(page);
     await expect(page.locator('#theme')).toHaveValue('dark');
     await expect(page.locator('html')).toHaveAttribute('data-color-mode', 'dark');
@@ -343,7 +343,7 @@ test.describe('prototype-controls state restoration', () => {
 
   test('saved light theme is restored on load', async ({page}) => {
     await seedProtoState(page, {theme: 'light'});
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await settle(page);
     await expect(page.locator('#theme')).toHaveValue('light');
     await expect(page.locator('html')).toHaveAttribute('data-color-mode', 'light');
@@ -368,7 +368,7 @@ test.describe('prototype-controls state restoration', () => {
 
   test('saved compact density is restored on load', async ({page}) => {
     await seedProtoState(page, {density: 'compact'});
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await settle(page);
     await expect(page.locator('#density')).toHaveValue('compact');
     await expect(page.locator('body')).toHaveClass(/density-compact/);
@@ -378,7 +378,7 @@ test.describe('prototype-controls state restoration', () => {
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await seedProtoState(page, {'customer-mode': 'edit'});
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await settle(page);
     expect(errors).toEqual([]);
     // Checked immediately after boot, WITHOUT opening the customer record:
@@ -399,7 +399,7 @@ test.describe('prototype-controls state restoration', () => {
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await seedProtoState(page, {'customer-layout': 'scroll'});
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openSurface(page, 'customer-record');
     await settle(page);
     expect(errors).toEqual([]);

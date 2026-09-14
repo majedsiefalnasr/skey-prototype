@@ -1,0 +1,337 @@
+/* Extracted from mechanical checkpoint ddd8569, legacy-app.css lines 1-335.
+ * Complete rules retained in original cascade order; see tests/support/style-inventory.json. */
+
+      :root,
+      html[data-theme='light'] {
+        /* Current Atlassian Design System semantic color tokens. Local aliases below
+           keep this standalone prototype readable while preserving ADS semantics. */
+        --ds-text: #292a2e;
+        --ds-text-subtle: #505258;
+        --ds-text-subtlest: #6b6e76;
+        --ds-text-inverse: #ffffff;
+        --ds-text-brand: #1868db;
+        --ds-text-danger: #ae2e24;
+        --ds-text-warning: #9e4c00;
+        --ds-text-success: #4c6b1f;
+        --ds-text-discovery: #803fa5;
+        --ds-text-information: #1558bc;
+        --ds-border: #0b120e24;
+        --ds-border-bold: #7d818a;
+        --ds-border-input: #8c8f97;
+        --ds-border-focused: #4688ec;
+        --ds-border-selected: #1868db;
+        --ds-surface: #ffffff;
+        --ds-surface-hovered: #f0f1f2;
+        --ds-surface-overlay: #ffffff;
+        --ds-surface-raised: #ffffff;
+        --ds-surface-sunken: #f8f8f8;
+        --ds-background-input: #ffffff;
+        --ds-background-neutral: #0515240f;
+        --ds-background-neutral-hovered: #0b120e24;
+        --ds-background-selected: #e9f2fe;
+        --ds-background-brand-bold: #1868db;
+        --ds-background-brand-bold-hovered: #1558bc;
+        --ds-background-brand-bold-pressed: #144794;
+        --ds-background-danger: #ffeceb;
+        --ds-background-danger-bold: #c9372c;
+        --ds-background-danger-bold-hovered: #ae2e24;
+        --ds-background-warning: #fff5db;
+        --ds-background-success: #efffd6;
+        --ds-background-success-bold: #5b7f24;
+        --ds-background-success-bold-hovered: #4c6b1f;
+        --ds-background-discovery: #f8eefe;
+        --ds-background-information: #e9f2fe;
+        --ds-blanket: #050c1f75;
+        --ds-shadow-raised: 0px 1px 1px #1e1f2140, 0px 0px 1px #1e1f214f;
+        --ds-shadow-overlay: 0px 8px 12px #1e1f2126, 0px 0px 1px #1e1f214f;
+        --ds-chart-categorical-1: #357de8;
+        --ds-chart-categorical-2: #82b536;
+        --ds-chart-categorical-3: #bf63f3;
+        --ds-chart-categorical-4: #f68909;
+        --ds-chart-categorical-5: #1558bc;
+        --ds-chart-categorical-6: #964ac0;
+
+        --ink: var(--ds-text);
+        --muted: var(--ds-text-subtle);
+        --faint: var(--ds-text-subtlest);
+        --inverse: var(--ds-text-inverse);
+        --line: var(--ds-border);
+        --line-2: var(--ds-background-neutral);
+        --bg: var(--ds-surface-sunken);
+        --surface: var(--ds-surface);
+        --surface-hover: var(--ds-surface-hovered);
+        --surface-readonly: var(--ds-background-neutral);
+        --accent: var(--ds-background-brand-bold);
+        --accent-soft: var(--ds-background-selected);
+        --accent-line: var(--ds-border-selected);
+        --focus: var(--ds-border-focused);
+        --danger: var(--ds-text-danger);
+        --danger-bold: var(--ds-background-danger-bold);
+        --success: var(--ds-text-success);
+        --st-open-bg: var(--ds-background-information);
+        --st-open-ink: var(--ds-text-information);
+        --st-pend-bg: var(--ds-background-warning);
+        --st-pend-ink: var(--ds-text-warning);
+        --st-post-bg: var(--ds-background-success);
+        --st-post-ink: var(--ds-text-success);
+        --st-retn-bg: var(--ds-background-warning);
+        --st-retn-ink: var(--ds-text-warning);
+        --st-canc-bg: var(--ds-background-neutral);
+        --st-canc-ink: var(--ds-text-subtle);
+        --st-inac-bg: var(--ds-background-discovery);
+        --st-inac-ink: var(--ds-text-discovery);
+        --shadow-1: var(--ds-shadow-raised);
+        --shadow-2: var(--ds-shadow-overlay);
+        --hover-overlay: var(--ds-background-neutral);
+        --scrim: var(--ds-blanket);
+        --accent-hover: var(--ds-background-brand-bold-hovered);
+        --st-draft-bg: var(--ds-background-neutral);
+        --st-draft-ink: var(--ds-text-subtle);
+        --fix-bg: var(--ds-background-information);
+        --fix-ink: var(--ds-text-information);
+        --derived-bg: var(--ds-background-warning);
+        --derived-ink: var(--ds-text-warning);
+        --warn-bg: var(--ds-background-warning);
+        --warn-line: var(--ds-border-input);
+        --warn-ink: var(--ds-text-warning);
+        --danger-soft-bg: var(--ds-background-danger);
+        --danger-soft-line: var(--ds-text-danger);
+        --danger-soft-ink: var(--ds-text-danger);
+        --success-fill: var(--ds-background-success-bold);
+        --success-fill-hover: var(--ds-background-success-bold-hovered);
+        --danger-fill-hover: var(--ds-background-danger-bold-hovered);
+        --mark-bg: var(--ds-background-warning);
+        --avatar-bg: var(--ds-background-discovery);
+        --avatar-ink: var(--ds-text-discovery);
+        --avatar-tone-1-bg: var(--ds-background-information);
+        --avatar-tone-1-ink: var(--ds-text-information);
+        --avatar-tone-2-bg: var(--ds-background-success);
+        --avatar-tone-2-ink: var(--ds-text-success);
+        --avatar-tone-3-bg: var(--ds-background-warning);
+        --avatar-tone-3-ink: var(--ds-text-warning);
+        --avatar-tone-4-bg: var(--ds-background-discovery);
+        --avatar-tone-4-ink: var(--ds-text-discovery);
+        --avatar-tone-5-bg: var(--ds-background-danger);
+        --avatar-tone-5-ink: var(--ds-text-danger);
+        --tooltip-bg: #1f1f21;
+        --tooltip-ink: #f9fafb;
+        --tooltip-success: #baf3db;
+        --tooltip-action: #cfe1fd;
+        --tooltip-close: #e2e3e4;
+        --sidebar-w: 320px;
+        --rail-w: 52px;
+        color-scheme: light;
+      }
+
+      html[data-theme='dark'] {
+        --ds-text: #cecfd2;
+        --ds-text-subtle: #a9abaf;
+        --ds-text-subtlest: #96999e;
+        --ds-text-inverse: #1f1f21;
+        --ds-text-brand: #669df1;
+        --ds-text-danger: #fd9891;
+        --ds-text-warning: #fbc828;
+        --ds-text-success: #b3df72;
+        --ds-text-discovery: #d8a0f7;
+        --ds-text-information: #8fb8f6;
+        --ds-border: #e3e4f21f;
+        --ds-border-bold: #7e8188;
+        --ds-border-input: #7e8188;
+        --ds-border-focused: #8fb8f6;
+        --ds-border-selected: #669df1;
+        --ds-surface: #1f1f21;
+        --ds-surface-hovered: #242528;
+        --ds-surface-overlay: #2b2c2f;
+        --ds-surface-raised: #242528;
+        --ds-surface-sunken: #18191a;
+        --ds-background-input: #242528;
+        --ds-background-neutral: #ceced912;
+        --ds-background-neutral-hovered: #e3e4f21f;
+        --ds-background-selected: #1c2b42;
+        --ds-background-brand-bold: #669df1;
+        --ds-background-brand-bold-hovered: #8fb8f6;
+        --ds-background-brand-bold-pressed: #adcbfb;
+        --ds-background-danger: #42221f;
+        --ds-background-danger-bold: #f87168;
+        --ds-background-danger-bold-hovered: #fd9891;
+        --ds-background-warning: #3a2c1f;
+        --ds-background-success: #28311b;
+        --ds-background-success-bold: #94c748;
+        --ds-background-success-bold-hovered: #b3df72;
+        --ds-background-discovery: #35243f;
+        --ds-background-information: #1c2b42;
+        --ds-blanket: #10121499;
+        --ds-shadow-raised: 0px 0px 0px 1px #00000000, 0px 1px 1px #01040480, 0px 0px 1px #01040480;
+        --ds-shadow-overlay:
+          0px 0px 0px 1px #bdbdbd1f, 0px 8px 12px #0104045c, 0px 0px 1px 1px #01040480;
+        --ds-chart-categorical-1: #4688ec;
+        --ds-chart-categorical-2: #94c748;
+        --ds-chart-categorical-3: #c97cf4;
+        --ds-chart-categorical-4: #fca700;
+        --ds-chart-categorical-5: #1558bc;
+        --ds-chart-categorical-6: #964ac0;
+        --lp-tile-ic-bg-s: 45%;
+        --lp-tile-ic-bg-l: 22%;
+        --lp-tile-ic-fg-s: 70%;
+        --lp-tile-ic-fg-l: 72%;
+        --tooltip-bg: #f0f1f2;
+        --tooltip-ink: #1f1f21;
+        --tooltip-success: #164b35;
+        --tooltip-action: #123263;
+        --tooltip-close: #3b3d42;
+        color-scheme: dark;
+      }
+
+      html[data-theme='high-contrast-light'] {
+        --ds-text: #1e1f21;
+        --ds-text-subtle: #292a2e;
+        --ds-text-subtlest: #3b3d42;
+        --ds-text-inverse: #ffffff;
+        --ds-text-brand: #123263;
+        --ds-text-danger: #5d1f1a;
+        --ds-text-warning: #693200;
+        --ds-text-success: #164b35;
+        --ds-text-discovery: #48245d;
+        --ds-text-information: #123263;
+        --ds-border: #7d818a;
+        --ds-border-bold: #505258;
+        --ds-border-input: #505258;
+        --ds-border-focused: #1558bc;
+        --ds-border-selected: #1558bc;
+        --ds-surface: #ffffff;
+        --ds-surface-hovered: #f0f1f2;
+        --ds-surface-overlay: #ffffff;
+        --ds-surface-raised: #ffffff;
+        --ds-surface-sunken: #fcfdfe;
+        --ds-background-input: #ffffff;
+        --ds-background-neutral: #e2e3e4;
+        --ds-background-neutral-hovered: #cecfd2;
+        --ds-background-selected: #cfe1fd;
+        --ds-background-brand-bold: #123263;
+        --ds-background-brand-bold-hovered: #1c2b42;
+        --ds-background-brand-bold-pressed: #022353;
+        --ds-background-danger: #ffd5d2;
+        --ds-background-danger-bold: #5d1f1a;
+        --ds-background-danger-bold-hovered: #42221f;
+        --ds-background-warning: #fce4a6;
+        --ds-background-success: #baf3db;
+        --ds-background-success-bold: #164b35;
+        --ds-background-success-bold-hovered: #1c3329;
+        --ds-background-discovery: #eed7fc;
+        --ds-background-information: #cfe1fd;
+        --ds-blanket: #050c1fc4;
+        --ds-shadow-raised: inset 0px 0px 0px 1px #1e1f2180;
+        --ds-shadow-overlay: inset 0px 0px 0px 1px #1e1f2180;
+        --ds-chart-categorical-1: #206a83;
+        --ds-chart-categorical-2: #82b536;
+        --ds-chart-categorical-3: #9e4c00;
+        --ds-chart-categorical-4: #f68909;
+        --ds-chart-categorical-5: #1558bc;
+        --ds-chart-categorical-6: #803fa5;
+        --tooltip-bg: #1e1f21;
+        --tooltip-ink: #ffffff;
+        --tooltip-success: #baf3db;
+        --tooltip-action: #cfe1fd;
+        --tooltip-close: #e2e3e4;
+        color-scheme: light;
+      }
+
+      html[data-theme='high-contrast-dark'] {
+        --ds-text: #e2e3e4;
+        --ds-text-subtle: #cecfd2;
+        --ds-text-subtlest: #bfc1c4;
+        --ds-text-inverse: #1f1f21;
+        --ds-text-brand: #cfe1fd;
+        --ds-text-danger: #ffd5d2;
+        --ds-text-warning: #fce4a6;
+        --ds-text-success: #baf3db;
+        --ds-text-discovery: #eed7fc;
+        --ds-text-information: #cfe1fd;
+        --ds-border: #a9abaf;
+        --ds-border-bold: #a9abaf;
+        --ds-border-input: #a9abaf;
+        --ds-border-focused: #8fb8f6;
+        --ds-border-selected: #8fb8f6;
+        --ds-surface: #1f1f21;
+        --ds-surface-hovered: #242528;
+        --ds-surface-overlay: #2b2c2f;
+        --ds-surface-raised: #242528;
+        --ds-surface-sunken: #18191a;
+        --ds-background-input: #242528;
+        --ds-background-neutral: #ceced912;
+        --ds-background-neutral-hovered: #e3e4f21f;
+        --ds-background-selected: #1c2b42;
+        --ds-background-brand-bold: #cfe1fd;
+        --ds-background-brand-bold-hovered: #e9f2fe;
+        --ds-background-brand-bold-pressed: #e2e3e4;
+        --ds-background-danger: #42221f;
+        --ds-background-danger-bold: #ffd5d2;
+        --ds-background-danger-bold-hovered: #ffeceb;
+        --ds-background-warning: #3a2c1f;
+        --ds-background-success: #28311b;
+        --ds-background-success-bold: #baf3db;
+        --ds-background-success-bold-hovered: #dcfff1;
+        --ds-background-discovery: #35243f;
+        --ds-background-information: #1c2b42;
+        --ds-blanket: #10121499;
+        --ds-shadow-raised: inset 0px 0px 0px 1px #e9f0fb80;
+        --ds-shadow-overlay: inset 0px 0px 0px 1px #e9f0fb80;
+        --ds-chart-categorical-1: #9dd9ee;
+        --ds-chart-categorical-2: #94c748;
+        --ds-chart-categorical-3: #fbc828;
+        --ds-chart-categorical-4: #fca700;
+        --ds-chart-categorical-5: #1558bc;
+        --ds-chart-categorical-6: #d8a0f7;
+        --tooltip-bg: #e2e3e4;
+        --tooltip-ink: #1f1f21;
+        --tooltip-success: #164b35;
+        --tooltip-action: #123263;
+        --tooltip-close: #3b3d42;
+        color-scheme: dark;
+      }
+
+      /* Windows/OS forced-colors (high contrast) mode: several controls suppress their
+         native outline in favor of a border/box-shadow focus ring, and box-shadow is not
+         rendered at all under forced-colors. Re-assert a system-color outline on any
+         focused interactive element or container so focus stays visible. */
+      @media (forced-colors: active) {
+        :is(button, a, input, select, textarea, [tabindex]):focus-visible,
+        :is(
+          .app-switcher-filter,
+          .cs-group-name,
+          .customer-record-link,
+          .data-toolbar-button,
+          .data-menu > summary,
+          .data-page-manage > summary
+        ):focus-within {
+          outline: 2px solid Highlight;
+          outline-offset: 2px;
+        }
+        .lbtn,
+        .ibtn,
+        .data-toolbar-button,
+        .data-menu > summary,
+        .data-page-manage > summary,
+        .geo-tree-node,
+        .chip {
+          border: 1px solid ButtonText;
+        }
+        .notif-row.unread .notif-icn::after {
+          background: Highlight;
+          border-color: Canvas;
+          forced-color-adjust: none;
+        }
+      }
+      html[data-contrast-mode='more'] :is(button, input, select, textarea):disabled {
+        opacity: 0.72;
+      }
+      html[data-contrast-mode='more'] .switch span {
+        border: 1px solid var(--ds-border-bold);
+      }
+      html[data-contrast-mode='more'] .switch input:checked + span {
+        border-color: var(--accent);
+      }
+      html[data-contrast-mode='more'] :is(.nc1-item.current, .nc2-icn.active) {
+        outline: 2px solid var(--accent);
+        outline-offset: -2px;
+      }

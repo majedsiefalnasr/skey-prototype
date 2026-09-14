@@ -18,6 +18,7 @@ const snapshotPathTemplate = '{testDir}/{testFilePath}-snapshots/{projectName}/{
 
 export default defineConfig({
   testDir: './tests',
+  testMatch: '**/*.spec.mjs',
   snapshotPathTemplate,
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),

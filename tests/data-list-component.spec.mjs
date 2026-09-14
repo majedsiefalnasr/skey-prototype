@@ -19,7 +19,7 @@ import {boot, openSurface, settle} from './support/browser.mjs';
 // ---------------------------------------------------------------------
 for (const view of ['list', 'responsive', 'adaptive', 'cards', 'kanban']) {
   test(`invoice ${view} retains list behavior`, async ({page}) => {
-    await boot(page, 'http://127.0.0.1:4173');
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openSurface(page, 'list');
     const option = page.locator(`[data-list-view="${view}"]`);
     const summary = option.locator('xpath=ancestor::details/summary');
@@ -38,7 +38,7 @@ for (const view of ['list', 'responsive', 'adaptive', 'cards', 'kanban']) {
 // Selected-row actions
 // ---------------------------------------------------------------------
 test('selecting a row surfaces bulk actions and delete removes it', async ({page}) => {
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'list');
   await settle(page);
 
@@ -69,7 +69,7 @@ test('saved table layout survives navigating away and back', async ({page}, test
     testInfo.project.use.viewport?.width < 900,
     'Columns menu is not reachable in the responsive/mobile toolbar layout.'
   );
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'list');
   await settle(page);
 
@@ -98,7 +98,7 @@ test('saved table layout survives navigating away and back', async ({page}, test
   // load, same as the parity suite's baseline/current split) and back to
   // the invoice list — saved layout persists via the existing
   // localStorage-backed dataListStorage, independent of in-memory state.
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'list');
   await settle(page);
 
@@ -108,7 +108,7 @@ test('saved table layout survives navigating away and back', async ({page}, test
 });
 
 test('a custom filter can be saved and re-applied', async ({page}) => {
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   // This test's own selectors match the toolbar's English labels
   // (e.g. "Filter") — some projects (mobile-rtl) boot with Arabic already
   // active (see tests/support/browser.mjs boot()'s `wantsRtl` handling),
@@ -184,7 +184,7 @@ test('chart toggle opens the invoice list chart panel', async ({page}, testInfo)
       }
     };
   });
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'list');
   await settle(page);
 
@@ -203,7 +203,7 @@ test('pinning a column via the header context menu freezes it', async ({page}, t
   // behavior difference, and the app itself has no touch-specific
   // long-press affordance for this menu to substitute.
   test.skip(testInfo.project.use.hasTouch, 'contextmenu is not touch-emulation-reliable.');
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'list');
   await settle(page);
 
@@ -226,7 +226,7 @@ test('pinning a column via the header context menu freezes it', async ({page}, t
 // ---------------------------------------------------------------------
 test('right-clicking a row opens the row action context menu', async ({page}, testInfo) => {
   test.skip(testInfo.project.use.hasTouch, 'contextmenu is not touch-emulation-reliable.');
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'list');
   await settle(page);
 
@@ -246,7 +246,7 @@ test('right-clicking a row opens the row action context menu', async ({page}, te
 test('kanban drag to a disallowed status opens the blocked dialog instead of moving', async ({
   page,
 }) => {
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'list');
   const kanbanOption = page.locator('[data-list-view="kanban"]');
   await kanbanOption.locator('xpath=ancestor::details/summary').click();
@@ -325,7 +325,7 @@ test('repeated chart open/close cycles never leave more than one live chart inst
       }
     };
   });
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'list');
   await settle(page);
 
@@ -344,7 +344,7 @@ test('repeated chart open/close cycles never leave more than one live chart inst
 test('opening a record and returning to the invoice list does not duplicate row-delete handling', async ({
   page,
 }) => {
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'list');
   await settle(page);
 
@@ -380,7 +380,7 @@ test('opening a record and returning to the invoice list does not duplicate row-
 // Task 6's new public surface. Nothing in the current page navigation
 // flow calls these yet (renderDataList/wireDataList's existing canvas-set
 // + render() path still drives every real navigation), so this exercises
-// them directly through window.dataListInstances (a small diagnostic
+// them directly through the module export dataListInstances (a small diagnostic
 // export, the same pattern as window.customerPrototype). Repeated-render
 // coverage for the EXISTING render() path already lives in the chart and
 // record round-trip tests above; this test is specifically about the new
@@ -406,7 +406,7 @@ test('createDataList instance activate/deactivate/dispose does not duplicate can
       }
     };
   });
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'list');
   await settle(page);
 
@@ -419,8 +419,9 @@ test('createDataList instance activate/deactivate/dispose does not duplicate can
   // registration stack on top), and (b) opening the chart, deactivating,
   // then activating again and reopening the chart never leaves more than
   // one live (non-destroyed) chart instance.
-  const registrationCounts = await page.evaluate(() => {
-    const instance = window.dataListInstances.invoice;
+  const registrationCounts = await page.evaluate(async () => {
+    const {dataListInstances} = await import('/concepts/app/main.js');
+    const instance = dataListInstances.invoice;
     const counts = [];
     for (let i = 0; i < 3; i += 1) {
       const canvas = document.createElement('div');
@@ -454,8 +455,9 @@ test('createDataList instance activate/deactivate/dispose does not duplicate can
   // dispose() tears down the chart handle and clears the canvas reference
   // entirely — a render() call afterward must be a safe no-op, not a
   // leaked/duplicated wire-up.
-  const disposedState = await page.evaluate(() => {
-    const instance = window.dataListInstances.invoice;
+  const disposedState = await page.evaluate(async () => {
+    const {dataListInstances} = await import('/concepts/app/main.js');
+    const instance = dataListInstances.invoice;
     const canvas = document.createElement('div');
     document.body.appendChild(canvas);
     instance.activate({root: canvas, footer: document.createElement('div')});
@@ -475,8 +477,9 @@ test('createDataList instance activate/deactivate/dispose does not duplicate can
   // Restore the invoice list back onto its real page canvas so the rest
   // of this test's page (if inspected) still reflects normal app state —
   // activate() re-wires it exactly like any other navigation would.
-  await page.evaluate(() => {
-    const instance = window.dataListInstances.invoice;
+  await page.evaluate(async () => {
+    const {dataListInstances} = await import('/concepts/app/main.js');
+    const instance = dataListInstances.invoice;
     const canvas = document.getElementById('list-canvas');
     const footer = document.getElementById('list-fnav');
     instance.activate({root: canvas, footer});

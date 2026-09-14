@@ -50,7 +50,7 @@ test('theme change re-renders an open data list chart', async ({page}, testInfo)
       }
     };
   });
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'list');
   await settle(page);
 
@@ -73,7 +73,7 @@ test('theme change re-renders an open data list chart', async ({page}, testInfo)
 });
 
 test('Arabic locale switch updates direction and field formatting', async ({page}) => {
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   // Some Playwright projects (e.g. mobile-rtl) already boot with #rtl
   // checked (see tests/support/browser.mjs boot()'s `wantsRtl` handling) —
   // this test always exercises the same-direction *switch*, so it starts by
@@ -110,7 +110,7 @@ test('Arabic locale switch updates direction and field formatting', async ({page
 });
 
 test('print dialog returns keyboard focus', async ({page}) => {
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'record');
   const trigger = page.locator('.content').getByRole('button', {name: 'Print', exact: true});
   await trigger.focus();
@@ -121,7 +121,7 @@ test('print dialog returns keyboard focus', async ({page}) => {
 });
 
 test('print dialog traps Tab within its focusable controls', async ({page}) => {
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'record');
   const trigger = page.locator('.content').getByRole('button', {name: 'Print', exact: true});
   await trigger.focus();
@@ -146,7 +146,7 @@ test('print dialog traps Tab within its focusable controls', async ({page}) => {
 });
 
 test('a simulated failure resets busy state and shows the existing toast', async ({page}) => {
-  await boot(page, 'http://127.0.0.1:4173');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'record');
   await settle(page);
 

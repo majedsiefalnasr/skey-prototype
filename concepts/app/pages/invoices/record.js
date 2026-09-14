@@ -52,6 +52,9 @@ const pageAbort = new AbortController()
     document
       .getElementById('add-payment-link')
       .addEventListener('click', () => addPaymentMethodRow('payment-rows'), {signal: pageAbort.signal})
+    document
+      .getElementById('add-item-link')
+      .addEventListener('click', () => addItemRow('items-body', 'items-total-qty'), {signal: pageAbort.signal})
     document.querySelectorAll('[data-invoice-adjustment]').forEach(button => {
       button.addEventListener('click', addInvoiceAdjustment, {signal: pageAbort.signal})
     })

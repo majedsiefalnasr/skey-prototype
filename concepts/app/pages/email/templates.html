@@ -1,0 +1,33 @@
+      <template class="email-tpl">
+        <div class="email-view" hidden>
+          <div class="phead email-phead">
+            <div class="l">
+              <nav class="crumbs" aria-label="Breadcrumb">
+                <a href="#" class="email-back">Home</a><span class="sep">›</span
+                ><span aria-current="page">Email</span>
+              </nav>
+              <div class="tline"><h1>Email</h1></div>
+            </div>
+            <div class="r">
+              <button type="button" class="lbtn pri email-compose">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Compose
+              </button>
+            </div>
+          </div>
+          <div class="email-app">
+            <div class="email-list">
+              <div class="email-search">
+                <svg width="13" height="13" aria-hidden="true"><use href="#i-search" /></svg>
+                <input
+                  type="search"
+                  id="email-search-input"
+                  placeholder="Search email…"
+                  aria-label="Search email"
+                  autocomplete="off" />
+              </div>
+              <div class="nc-scroll" id="email-list-scroll"></div>
+            </div>
+            <div class="email-reading" id="email-reading"></div>
+          </div>
+        </div>
+      </template>
