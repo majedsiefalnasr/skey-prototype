@@ -84,6 +84,17 @@ input-style, and touch patches. `tests/support/style-inventory.json` records the
 rules and checkpoint offsets. `tests/styles.test.mjs` proves the linked files reconstruct
 the mechanical stylesheet byte-for-byte, including media conditions and declarations.
 
+`styles/tailwind.css` is compiled during `npm run build` into the staged `dist/` tree;
+the browser always loads that generated stylesheet. It imports Tailwind's `theme` and
+`utilities` layers only, then imports the preserved reset, body, and reduced-motion rules
+from `styles/tailwind/base.css`. Semantic Tailwind values map to the existing token
+variables with `@theme inline`, so utility colors continue to follow theme changes.
+Register every source directory explicitly with `@source`; runtime class construction is
+not allowed. Before retaining selector CSS, add its owner, selector, reason, and removal
+condition to `styles/tailwind/compatibility.md`. Ordinary layout and presentation belong
+in literal utilities, while the manifest limits selector CSS to pseudo-elements,
+keyframes, ApexCharts DOM, ARIA relationships, and prototype density/style modes.
+
 ## Add a page
 
 Place templates and dialogs with the page under `concepts/app/pages/<page>/`, and include
