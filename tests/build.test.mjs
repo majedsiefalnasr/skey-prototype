@@ -48,6 +48,10 @@ function applyTask3ShellUtilities(html) {
       'class="sctx"',
       'class="sctx flex flex-wrap items-center gap-2 border-b border-line bg-[var(--line-2)] px-3.5 py-2 text-xs text-muted"',
     ],
+    [
+      'You are on <b>Sales Invoice</b> · 001000352026126',
+      'You are on <b class="text-ink">Sales Invoice</b> · 001000352026126',
+    ],
     ['class="sscope" role="group" aria-label="Scope"', 'class="sscope ms-auto inline-flex gap-1" role="group" aria-label="Scope"'],
     [
       '<button data-scope="all" aria-pressed="true">Everything</button>',
@@ -69,6 +73,10 @@ function applyTask3ShellUtilities(html) {
     [
       'class="sfoot"',
       'class="sfoot flex items-center gap-[15px] border-t border-line bg-[var(--line-2)] px-3.5 py-2 text-xs text-muted"',
+    ],
+    [
+      '                <span><span class="k">↑↓</span>Navigate</span\n                ><span><span class="k">↵</span>Open</span>\n                <span class="sfoot-scope"><span class="k">Tab</span>Change scope</span>',
+      '                <span><span class="k rounded border border-line bg-surface px-1.5 py-px font-mono text-[11px] me-[5px]">↑↓</span>Navigate</span\n                ><span><span class="k rounded border border-line bg-surface px-1.5 py-px font-mono text-[11px] me-[5px]">↵</span>Open</span>\n                <span class="sfoot-scope"><span class="k rounded border border-line bg-surface px-1.5 py-px font-mono text-[11px] me-[5px]">Tab</span>Change scope</span>',
     ],
     ['class="sfoot-ctx" style="margin-inline-start: auto"', 'class="sfoot-ctx ms-auto"'],
     ['class="right"', 'class="right flex shrink-0 items-center gap-[7px]"'],

@@ -15,7 +15,7 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
     return i < 0
       ? esc(t)
       : esc(t.slice(0, i)) +
-          '<mark>' +
+          '<mark class="rounded-[2px] bg-[var(--mark-bg)] px-px text-inherit">' +
           esc(t.slice(i, i + q.length)) +
           '</mark>' +
           esc(t.slice(i + q.length))
@@ -80,7 +80,7 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
         const rows = gr.items
           .map(it => {
             const i = sRows.push(it) - 1
-            return `<button class="sitem flex w-full items-center gap-[11px] rounded-lg px-3 py-2 text-start" role="option" data-i="${i}" ${gr.dim ? 'disabled' : ''}>
+            return `<button class="sitem flex w-full items-center gap-[11px] rounded-lg px-3 py-2 text-start disabled:opacity-60" role="option" data-i="${i}" ${gr.dim ? 'disabled' : ''}>
   <span class="ic flex size-[26px] shrink-0 items-center justify-center rounded-[7px] bg-[var(--line-2)] text-muted"><svg width="14" height="14"><use href="#${it.icon}"/></svg></span>
   <span class="tx min-w-0 flex-1"><span class="t block truncate text-[13px]">${hi(it.t, q)}</span>
   ${gr.dim ? `<span class="why block text-xs italic text-faint">${it.off}</span>` : it.s ? `<span class="s mt-px block text-xs text-muted">${hi(it.s, q)}</span>` : ''}</span>
