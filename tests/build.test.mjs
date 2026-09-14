@@ -17,6 +17,24 @@ const execFileAsync = promisify(execFile);
 // gitignored scratch subdirectory) rather than in an unrelated temp dir.
 const FIXTURE_ROOT = path.resolve('concepts/.test-fixtures');
 
+function replaceOnce(source, before, after) {
+  const first = source.indexOf(before);
+  assert.notEqual(first, -1, `missing intended markup: ${before}`);
+  assert.equal(source.indexOf(before, first + before.length), -1, `duplicate intended markup: ${before}`);
+  return source.slice(0, first) + after + source.slice(first + before.length);
+}
+
+function applyTask3ShellUtilities(html) {
+  return [
+    ['class="gtop"', 'class="gtop flex items-center gap-3 border-b border-line py-[9px] pe-4 ps-2"'],
+    ['class="left"', 'class="left flex w-[calc(var(--sidebar-w)-16px)] shrink-0 items-center gap-2.5"'],
+    ['class="gsearch"', 'class="gsearch relative flex flex-1 justify-center"'],
+    ['class="swrap"', 'class="swrap relative w-[min(620px,100%)]"'],
+    ['class="sbox s-open"', 'class="sbox s-open flex w-full items-center gap-2 rounded-lg border border-line bg-surface px-3 py-[7px] text-start text-muted"'],
+    ['class="right"', 'class="right flex shrink-0 items-center gap-[7px]"'],
+  ].reduce((result, [before, after]) => replaceOnce(result, before, after), html);
+}
+
 async function withFixtures(files, fn) {
   await mkdir(FIXTURE_ROOT, {recursive: true});
   const dir = await mkdtemp(path.join(FIXTURE_ROOT, 'fx-'));
@@ -170,7 +188,7 @@ test('assemble: reassembling the real app-shell.html fragments reproduces the pr
   // changed markup it shouldn't have — that's still a real regression to
   // catch.
   const {stdout: baseline} = await execFileAsync('git', ['show', 'ddd8569:concepts/app-shell.html']);
-  const expected = baseline
+  const expected = applyTask3ShellUtilities(baseline)
     .replace(
       '    <link rel="stylesheet" href="app/styles/legacy-app.css">',
       [
@@ -187,25 +205,19 @@ test('assemble: reassembling the real app-shell.html fragments reproduces the pr
         '    <script type="module" src="app/main.js"></script>'
     );
   const assembled = await assemble(path.resolve('concepts/app-shell.html'));
-  const task3Utilities = [
-    ' relative flex h-[790px] flex-col border-b border-line bg-surface',
-    ' relative flex min-h-0 flex-1',
-    ' relative flex min-h-0 w-[var(--sidebar-w)] shrink-0 flex-col border-e border-line bg-surface',
-    ' flex min-h-0 min-w-0 flex-1 flex-col',
-    ' flex items-center gap-3 border-b border-line py-[9px] pe-4 ps-2',
-    ' flex w-[calc(var(--sidebar-w)-16px)] shrink-0 items-center gap-2.5',
-    ' relative flex flex-1 justify-center',
-    ' relative w-[min(620px,100%)]',
-    ' flex w-full items-center gap-2 rounded-lg border border-line bg-surface px-3 py-[7px] text-start text-muted',
-    ' flex shrink-0 items-center gap-[7px]',
-  ];
-  const normalized = task3Utilities.reduce((html, utilities) => html.replaceAll(utilities, ''), assembled);
-  assert.equal(normalized, expected.replace(
+  assert.equal(assembled, expected.replace(
     `                    class="lbtn out"
                     onclick="addItemRow('items-body', 'items-total-qty')">`,
     `                    id="add-item-link"
                     class="lbtn out">`
   ));
+});
+
+test('assemble: Task 3 shell utility mapping rejects an unrelated duplicate class attribute', () => {
+  assert.throws(
+    () => applyTask3ShellUtilities('<header class="gtop"></header><header class="gtop"></header>'),
+    /duplicate intended markup: class="gtop"/
+  );
 });
 
 test('build: produces dist/concepts/app-shell.html with no unresolved include directives', async () => {
