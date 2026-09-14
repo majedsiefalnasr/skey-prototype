@@ -1,7 +1,22 @@
 import {EMAIL_DATA, NOTIF_DATA} from '../../prototype/fixtures/messages.js'
+
+const EMAIL_AVATAR_TONE_1_CLASS = 'bg-[var(--avatar-tone-1-bg)]! text-[var(--avatar-tone-1-ink)]!'
+const EMAIL_AVATAR_TONE_2_CLASS = 'bg-[var(--avatar-tone-2-bg)]! text-[var(--avatar-tone-2-ink)]!'
+const EMAIL_AVATAR_TONE_3_CLASS = 'bg-[var(--avatar-tone-3-bg)]! text-[var(--avatar-tone-3-ink)]!'
+const EMAIL_AVATAR_TONE_4_CLASS = 'bg-[var(--avatar-tone-4-bg)]! text-[var(--avatar-tone-4-ink)]!'
+const EMAIL_AVATAR_TONE_5_CLASS = 'bg-[var(--avatar-tone-5-bg)]! text-[var(--avatar-tone-5-ink)]!'
+const EMAIL_AVATAR_TONE_CLASSES = [
+  EMAIL_AVATAR_TONE_1_CLASS,
+  EMAIL_AVATAR_TONE_2_CLASS,
+  EMAIL_AVATAR_TONE_3_CLASS,
+  EMAIL_AVATAR_TONE_4_CLASS,
+  EMAIL_AVATAR_TONE_5_CLASS,
+]
+
 export function createNotifications({closeAllMenus, openEmailView, closeMenuAndRestoreFocus}) {
 const pageAbort = new AbortController()
         const emailAvatarTone = hue => (Math.abs(Math.round(Number(hue) / 60)) % 5) + 1
+        const emailAvatarToneClass = hue => EMAIL_AVATAR_TONE_CLASSES[emailAvatarTone(hue) - 1]
         const unreadOnly = () => document.getElementById('notif-unread-only')?.checked
         const renderEmailTab = body => {
           const messages = unreadOnly() ? EMAIL_DATA.filter(message => message.unread) : EMAIL_DATA
@@ -24,7 +39,7 @@ const pageAbort = new AbortController()
             const row = document.createElement('button')
             row.type = 'button'
             row.className = 'notif-row flex w-full cursor-pointer items-start gap-2.5 rounded-lg border-none bg-none px-2.5 py-[9px] text-start font-[inherit] hover:bg-[var(--hover-overlay)]' + (m.unread ? ' unread' : '')
-            row.innerHTML = `<span class="notif-icn email-avatar relative mt-px flex size-7 shrink-0 items-center justify-center rounded-full" data-avatar-tone="${emailAvatarTone(m.hue)}"></span>
+            row.innerHTML = `<span class="notif-icn email-avatar relative mt-px flex size-7 shrink-0 items-center justify-center rounded-full ${emailAvatarToneClass(m.hue)}" data-avatar-tone="${emailAvatarTone(m.hue)}"></span>
       <span class="notif-txt flex-1 min-w-0 pt-px text-[13px] leading-[1.5] text-ink${m.unread ? ' font-semibold' : ''}">${m.unread ? '<span class="visually-hidden">Unread. </span>' : ''}<b class="font-semibold"></b> <span class="notif-what text-muted"></span></span>
       <span class="notif-time shrink-0 pt-[3px] text-xs text-faint"></span>`
             row.querySelector('.email-avatar').textContent = m.from.charAt(0)

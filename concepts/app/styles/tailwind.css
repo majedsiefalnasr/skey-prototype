@@ -41,6 +41,66 @@
 @source inline("data-record-card data-record-card-snapshot-layout relative grid min-w-0 gap-3 rounded-lg border border-line bg-surface p-3.5 transition-[border-color,box-shadow,transform] duration-150 ease-in-out hover:[box-shadow:var(--shadow-1)] [&[aria-selected='true']]:border-accent [&[aria-selected='true']]:bg-[var(--accent-soft)] [&[aria-selected='true']_.data-record-card-select]:bg-surface [body.density-compact_&]:gap-2 [body.density-compact_&]:p-2.5");
 /* Dynamic utilities: DATA_RECORD_CARD_IDENTITY_CLASS (concepts/app/pages/list-cards.js). */
 @source inline("data-record-card-identity flex min-w-0 flex-1 cursor-pointer items-start gap-[9px] overflow-hidden rounded border-0 bg-transparent p-0 text-start font-[inherit] text-inherit focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent [&>div]:min-w-0 [&_span]:block [&_span]:truncate [&_strong]:block [&_strong]:truncate [&_strong]:text-sm [&_strong]:text-ink hover:[&_strong]:text-accent hover:[&_strong]:underline");
+/* Dynamic utilities: EMAIL_AVATAR_TONE_1_CLASS (concepts/app/components/notifications/notifications.js). */
+@source inline("bg-[var(--avatar-tone-1-bg)]! text-[var(--avatar-tone-1-ink)]!");
+/* Dynamic utilities: EMAIL_AVATAR_TONE_2_CLASS (concepts/app/components/notifications/notifications.js). */
+@source inline("bg-[var(--avatar-tone-2-bg)]! text-[var(--avatar-tone-2-ink)]!");
+/* Dynamic utilities: EMAIL_AVATAR_TONE_3_CLASS (concepts/app/components/notifications/notifications.js). */
+@source inline("bg-[var(--avatar-tone-3-bg)]! text-[var(--avatar-tone-3-ink)]!");
+/* Dynamic utilities: EMAIL_AVATAR_TONE_4_CLASS (concepts/app/components/notifications/notifications.js). */
+@source inline("bg-[var(--avatar-tone-4-bg)]! text-[var(--avatar-tone-4-ink)]!");
+/* Dynamic utilities: EMAIL_AVATAR_TONE_5_CLASS (concepts/app/components/notifications/notifications.js). */
+@source inline("bg-[var(--avatar-tone-5-bg)]! text-[var(--avatar-tone-5-ink)]!");
+/* Dynamic utilities: ACTIVITY_DRAWER_NOTE_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("drnote px-[18px] py-[13px] text-xs text-faint");
+/* Dynamic utilities: ACTIVITY_CARD_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("card flex gap-3 border-b border-[var(--line-2)] px-[18px] py-3.5");
+/* Dynamic utilities: ACTIVITY_CARD_MARKER_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("mk flex w-[22px] flex-none justify-center pt-0.5");
+/* Dynamic utilities: ACTIVITY_CARD_DOT_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("dot flex size-5 items-center justify-center rounded-full border-2 border-[var(--st-post-ink)] bg-surface text-[var(--st-post-ink)]");
+/* Dynamic utilities: ACTIVITY_MAIN_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("main min-w-0 flex-1");
+/* Dynamic utilities: ACTIVITY_CARD_TITLE_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("t flex flex-wrap items-center gap-[9px] text-[13px] font-semibold");
+/* Dynamic utilities: ACTIVITY_CARD_GRID_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("grid mt-2 gap-x-3 gap-y-1 text-xs");
+/* Dynamic utilities: ACTIVITY_CARD_KEY_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("k text-xs text-faint");
+/* Dynamic utilities: ACTIVITY_CARD_LINK_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("lnk mt-1.5 inline-block text-xs text-accent");
+/* Dynamic utilities: ACTIVITY_DAY_SEPARATOR_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("daysep border-y border-[var(--line-2)] bg-[var(--line-2)] px-[18px] py-2 text-xs text-faint");
+/* Dynamic utilities: ACTIVITY_ENTRY_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("act relative flex gap-3 px-[18px] py-3.5 before:absolute before:bottom-[-4px] before:start-[34px] before:top-10 before:w-0.5 before:bg-[var(--line-2)] before:content-[''] last:before:hidden");
+/* Dynamic utilities: ACTIVITY_AVATAR_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("av z-[1] flex size-[30px] flex-none items-center justify-center rounded-full bg-accent text-xs font-semibold text-inverse");
+/* Dynamic utilities: ACTIVITY_SYSTEM_AVATAR_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("sys bg-[var(--line-2)]! text-muted!");
+/* Dynamic utilities: ACTIVITY_LINE_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("line text-[13px] [&_b]:font-semibold");
+/* Dynamic utilities: ACTIVITY_TIME_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("tm ms-1.5 text-xs text-faint");
+/* Dynamic utilities: ACTIVITY_CHANGE_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("chg mt-[3px] text-xs text-muted [&_s]:text-faint [&_b]:text-ink");
+/* Dynamic utilities: ACTIVITY_CHIPS_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("chips mt-[7px] flex flex-wrap gap-[7px]");
+/* Dynamic utilities: ACTIVITY_CHIP_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("chip inline-flex items-center gap-1.5 rounded-[7px] border border-line bg-surface px-[9px] py-[3px] text-xs");
+/* Dynamic utilities: ACTIVITY_TOGGLE_GROUP_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("tg mt-2 flex gap-3.5 text-xs");
+/* Dynamic utilities: ACTIVITY_TOGGLE_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("ntg inline-flex items-center gap-[5px] text-muted");
+/* Dynamic utilities: ACTIVITY_NOTES_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("notes mt-[9px] hidden border-s-2 border-[var(--line-2)] ps-3 [&.open]:block");
+/* Dynamic utilities: ACTIVITY_NOTE_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("note-i flex gap-[9px] py-1.5");
+/* Dynamic utilities: ACTIVITY_NOTE_AVATAR_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("av2 flex size-6 flex-none items-center justify-center rounded-full bg-[var(--line-2)] text-xs font-semibold text-muted");
+/* Dynamic utilities: ACTIVITY_NOTE_WHO_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("who text-xs font-semibold");
+/* Dynamic utilities: ACTIVITY_NOTE_TEXT_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("txt mt-0.5 text-xs [&_.mn]:rounded [&_.mn]:bg-[var(--accent-soft)] [&_.mn]:px-1 [&_.mn]:text-accent");
 
 @theme inline {
   --color-accent: var(--accent);

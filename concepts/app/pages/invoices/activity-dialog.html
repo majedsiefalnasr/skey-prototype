@@ -1,11 +1,11 @@
     <!-- ===== drawer ===== -->
-    <div class="drscrim" id="drscrim"></div>
-    <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Log and activity">
-      <div class="drhd">
-        <div class="top">
+    <div class="drscrim fixed inset-0 z-[130] hidden bg-[rgba(17,24,39,0.4)] [&.open]:block" id="drscrim"></div>
+    <aside class="drawer fixed inset-y-0 end-0 z-[140] hidden w-[min(560px,94vw)] flex-col bg-surface shadow-shell [&.open]:flex" id="drawer" role="dialog" aria-modal="true" aria-label="Log and activity">
+      <div class="drhd border-b border-line px-[18px] pb-0 pt-3.5">
+        <div class="top flex items-start gap-3">
           <div>
-            <h3>History of this invoice <span class="badge fix">proposal</span></h3>
-            <div class="sub">
+            <h3 class="flex items-center gap-2 text-[15px]">History of this invoice <span class="badge fix">proposal</span></h3>
+            <div class="sub mt-px text-xs text-muted">
               Sales Invoice 001000352026126 · العميل الاول — the Documents Flow side is a proposal;
               the system stores nothing for it yet
             </div>
@@ -14,46 +14,46 @@
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
         </div>
-        <div class="drtabs" role="tablist">
-          <button class="drtab" role="tab" aria-selected="true" data-tab="stages">
-            User Log <span class="n">3</span>
+        <div class="drtabs mt-3 flex gap-[18px]" role="tablist">
+          <button class="drtab flex items-center gap-[7px] border-b-2 border-transparent px-0.5 py-2 text-[13px] text-muted aria-selected:border-accent aria-selected:font-semibold aria-selected:text-accent" role="tab" aria-selected="true" data-tab="stages">
+            User Log <span class="n rounded-full bg-[var(--line-2)] px-[7px] py-px text-xs text-muted [.drtab[aria-selected='true']_&]:bg-[var(--accent-soft)] [.drtab[aria-selected='true']_&]:text-accent">3</span>
           </button>
-          <button class="drtab" role="tab" aria-selected="false" data-tab="activity">
-            Documents Flow <span class="n">18</span>
+          <button class="drtab flex items-center gap-[7px] border-b-2 border-transparent px-0.5 py-2 text-[13px] text-muted aria-selected:border-accent aria-selected:font-semibold aria-selected:text-accent" role="tab" aria-selected="false" data-tab="activity">
+            Documents Flow <span class="n rounded-full bg-[var(--line-2)] px-[7px] py-px text-xs text-muted [.drtab[aria-selected='true']_&]:bg-[var(--accent-soft)] [.drtab[aria-selected='true']_&]:text-accent">18</span>
           </button>
         </div>
       </div>
-      <div class="drbar" data-for="stages">
+      <div class="drbar flex flex-wrap items-center gap-2.5 border-b border-line px-[18px] py-[9px] text-xs text-muted" data-for="stages">
         <span
           >What the system recorded, most recent state per card · now
           <b class="cur-name">Posted</b></span
         >
-        <span class="end"
+        <span class="end ms-auto flex items-center gap-2"
           ><button class="lbtn out" style="font-size: 12px">
             <svg width="13" height="13" aria-hidden="true"><use href="#i-dl" /></svg> Export
           </button></span
         >
       </div>
-      <div class="drbar" data-for="activity" hidden>
-        <div class="segctl" role="group" aria-label="Filter">
-          <button aria-pressed="true">All</button><button aria-pressed="false">Comments</button>
-          <button aria-pressed="false">Changes</button
-          ><button aria-pressed="false">Documents</button>
+      <div class="drbar flex flex-wrap items-center gap-2.5 border-b border-line px-[18px] py-[9px] text-xs text-muted" data-for="activity" hidden>
+        <div class="segctl inline-flex overflow-hidden rounded-[7px] border border-line" role="group" aria-label="Filter">
+          <button class="border-e border-line px-[11px] py-1 text-xs aria-pressed:bg-[var(--line-2)] aria-pressed:font-semibold aria-pressed:text-ink" aria-pressed="true">All</button><button class="border-e border-line px-[11px] py-1 text-xs aria-pressed:bg-[var(--line-2)] aria-pressed:font-semibold aria-pressed:text-ink" aria-pressed="false">Comments</button>
+          <button class="border-e border-line px-[11px] py-1 text-xs aria-pressed:bg-[var(--line-2)] aria-pressed:font-semibold aria-pressed:text-ink" aria-pressed="false">Changes</button
+          ><button class="border-e-0 px-[11px] py-1 text-xs aria-pressed:bg-[var(--line-2)] aria-pressed:font-semibold aria-pressed:text-ink" aria-pressed="false">Documents</button>
         </div>
-        <span class="end"
+        <span class="end ms-auto flex items-center gap-2"
           ><button class="lbtn out" style="font-size: 12px">Newest first</button></span
         >
       </div>
-      <div class="drbody">
+      <div class="drbody flex-1 overflow-auto">
         <div data-panel="stages"></div>
         <div data-panel="activity" hidden></div>
       </div>
-      <div class="drfoot" data-for="activity" hidden>
-        <div class="lbl">
+      <div class="drfoot border-t border-line bg-surface px-[18px] py-3" data-for="activity" hidden>
+        <div class="lbl mb-[7px] flex items-center gap-[7px] text-xs text-muted">
           Add a note while the invoice is <span class="badge ok cur-badge">Posted</span>
         </div>
-        <textarea placeholder="Say what happened, or what someone should do next"></textarea>
-        <div class="row">
+        <textarea class="min-h-[58px] w-full resize-y rounded-lg border border-line bg-surface px-[11px] py-[9px] font-[inherit] text-[13px] text-ink" placeholder="Say what happened, or what someone should do next"></textarea>
+        <div class="row mt-[9px] flex items-center gap-3">
           <label
             style="
               font-size: 12px;
@@ -67,7 +67,7 @@
           <button class="lbtn out" style="font-size: 12px">
             <svg width="13" height="13" aria-hidden="true"><use href="#i-clip" /></svg> Attach file
           </button>
-          <span class="end"><button class="lbtn pri">Add note</button></span>
+          <span class="end ms-auto"><button class="lbtn pri">Add note</button></span>
         </div>
       </div>
     </aside>

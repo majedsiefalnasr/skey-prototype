@@ -12,6 +12,8 @@ const task4DynamicClassFiles = [
   'concepts/app/components/data-list/menu-controller.js',
   'concepts/app/components/data-list/pagination.js',
   'concepts/app/components/data-list/views.js',
+  'concepts/app/components/notifications/notifications.js',
+  'concepts/app/pages/invoices/activity.js',
   'concepts/app/pages/invoices/kanban.js',
   'concepts/app/pages/list-cards.js',
 ];
@@ -24,6 +26,12 @@ function literalClassGroups(source, file) {
 function cssClassSelector(utility) {
   return `.${utility.replace(/([^a-zA-Z0-9_-])/g, '\\$1')}`;
 }
+
+const semanticActivityClasses = new Set([
+  'drnote', 'card', 'mk', 'dot', 'main', 't', 'k', 'lnk', 'daysep', 'act',
+  'av', 'sys', 'line', 'tm', 'chg', 'chips', 'chip', 'tg', 'ntg', 'notes',
+  'note-i', 'av2', 'who', 'txt',
+]);
 
 test('Tailwind compiler writes a non-empty staged stylesheet', async () => {
   const output = path.join(await mkdtemp(path.join(tmpdir(), 'tw-')), 'tailwind.css');
@@ -41,6 +49,19 @@ test('Task 4 dynamic renderer groups have exact inline sources and every selecto
     ))
   ).flat();
   assert.ok(groups.length > 0, 'expected Task 4 dynamic class groups');
+  assert.deepEqual(
+    groups
+      .filter(({file}) => file.endsWith('/notifications/notifications.js'))
+      .map(({name}) => name),
+    [
+      'EMAIL_AVATAR_TONE_1_CLASS',
+      'EMAIL_AVATAR_TONE_2_CLASS',
+      'EMAIL_AVATAR_TONE_3_CLASS',
+      'EMAIL_AVATAR_TONE_4_CLASS',
+      'EMAIL_AVATAR_TONE_5_CLASS',
+    ],
+    'notification avatar tones must be literal, exact dynamic utility groups'
+  );
 
   const declarations = [...input.matchAll(
     /\/\* Dynamic utilities: ([A-Z][A-Z0-9_]*_CLASS) \(([^)]+)\)\. \*\/\n@source inline\("([^"]*)"\);/g
@@ -60,7 +81,7 @@ test('Task 4 dynamic renderer groups have exact inline sources and every selecto
   const generated = await readFile(output, 'utf8');
   for (const {name, utilities} of groups) {
     for (const utility of utilities.split(/\s+/).filter(Boolean)) {
-      if (/^(?:data-[a-z]|fnav(?:$|-))/.test(utility)) continue;
+      if (/^(?:data-[a-z]|fnav(?:$|-))/.test(utility) || semanticActivityClasses.has(utility)) continue;
       assert.ok(
         generated.includes(cssClassSelector(utility)),
         `${name} utility selector was not generated: ${utility}`
@@ -90,6 +111,7 @@ test('Task 4 compatibility CSS excludes ordinary renderer presentation selectors
     '.data-page-manage {',
     '.data-page-manage > summary',
     '.data-page-manage .data-menu-popover',
+    ".data-row-menu [data-list-row-action='delete']",
   ]) {
     assert.ok(!compatibility.includes(selector), `ordinary presentation selector must use literal utilities: ${selector}`);
   }
@@ -129,10 +151,10 @@ test('Tailwind input has explicit sources and the generated output stays within 
   const outputPath = path.join(await mkdtemp(path.join(tmpdir(), 'tw-budget-')), 'tailwind.css');
   await compileTailwind({root, output: outputPath});
   const output = await stat(outputPath);
-  // Task 4 replaces 60,749 bytes of retired component CSS with generated
-  // utilities. A fresh compile is 53,049 bytes at this checkpoint; 54,000 is a
-  // narrow rounded guardrail for this migration, not the plan's final bundle
-  // budget. Task 7 owns the final baseline + 10% review and exception report.
+  // Completing the two previously deferred Task 4 component files raises the
+  // compiled utility sheet to 58,365 bytes while deleting their legacy CSS.
+  // 59,000 is a narrow rounded guardrail for this migration, not the plan's
+  // final bundle budget. Task 7 owns the final baseline + 10% decision.
   assert.ok(output.size >= 6518);
-  assert.ok(output.size <= 54000, `Tailwind output exceeds the reviewed Task 4 ceiling: ${output.size} bytes`);
+  assert.ok(output.size <= 59000, `Tailwind output exceeds the reviewed Task 4 ceiling: ${output.size} bytes`);
 });

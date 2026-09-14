@@ -1,5 +1,31 @@
 import {CARDS, ACTIVITY, STATUSES} from '../../prototype/fixtures/invoices.js'
 
+const ACTIVITY_DRAWER_NOTE_CLASS = 'drnote px-[18px] py-[13px] text-xs text-faint'
+const ACTIVITY_CARD_CLASS = 'card flex gap-3 border-b border-[var(--line-2)] px-[18px] py-3.5'
+const ACTIVITY_CARD_MARKER_CLASS = 'mk flex w-[22px] flex-none justify-center pt-0.5'
+const ACTIVITY_CARD_DOT_CLASS = 'dot flex size-5 items-center justify-center rounded-full border-2 border-[var(--st-post-ink)] bg-surface text-[var(--st-post-ink)]'
+const ACTIVITY_MAIN_CLASS = 'main min-w-0 flex-1'
+const ACTIVITY_CARD_TITLE_CLASS = 't flex flex-wrap items-center gap-[9px] text-[13px] font-semibold'
+const ACTIVITY_CARD_GRID_CLASS = 'grid mt-2 gap-x-3 gap-y-1 text-xs'
+const ACTIVITY_CARD_KEY_CLASS = 'k text-xs text-faint'
+const ACTIVITY_CARD_LINK_CLASS = 'lnk mt-1.5 inline-block text-xs text-accent'
+const ACTIVITY_DAY_SEPARATOR_CLASS = 'daysep border-y border-[var(--line-2)] bg-[var(--line-2)] px-[18px] py-2 text-xs text-faint'
+const ACTIVITY_ENTRY_CLASS = "act relative flex gap-3 px-[18px] py-3.5 before:absolute before:bottom-[-4px] before:start-[34px] before:top-10 before:w-0.5 before:bg-[var(--line-2)] before:content-[''] last:before:hidden"
+const ACTIVITY_AVATAR_CLASS = 'av z-[1] flex size-[30px] flex-none items-center justify-center rounded-full bg-accent text-xs font-semibold text-inverse'
+const ACTIVITY_SYSTEM_AVATAR_CLASS = 'sys bg-[var(--line-2)]! text-muted!'
+const ACTIVITY_LINE_CLASS = 'line text-[13px] [&_b]:font-semibold'
+const ACTIVITY_TIME_CLASS = 'tm ms-1.5 text-xs text-faint'
+const ACTIVITY_CHANGE_CLASS = 'chg mt-[3px] text-xs text-muted [&_s]:text-faint [&_b]:text-ink'
+const ACTIVITY_CHIPS_CLASS = 'chips mt-[7px] flex flex-wrap gap-[7px]'
+const ACTIVITY_CHIP_CLASS = 'chip inline-flex items-center gap-1.5 rounded-[7px] border border-line bg-surface px-[9px] py-[3px] text-xs'
+const ACTIVITY_TOGGLE_GROUP_CLASS = 'tg mt-2 flex gap-3.5 text-xs'
+const ACTIVITY_TOGGLE_CLASS = 'ntg inline-flex items-center gap-[5px] text-muted'
+const ACTIVITY_NOTES_CLASS = 'notes mt-[9px] hidden border-s-2 border-[var(--line-2)] ps-3 [&.open]:block'
+const ACTIVITY_NOTE_CLASS = 'note-i flex gap-[9px] py-1.5'
+const ACTIVITY_NOTE_AVATAR_CLASS = 'av2 flex size-6 flex-none items-center justify-center rounded-full bg-[var(--line-2)] text-xs font-semibold text-muted'
+const ACTIVITY_NOTE_WHO_CLASS = 'who text-xs font-semibold'
+const ACTIVITY_NOTE_TEXT_CLASS = 'txt mt-0.5 text-xs [&_.mn]:rounded [&_.mn]:bg-[var(--accent-soft)] [&_.mn]:px-1 [&_.mn]:text-accent'
+
 export function createInvoiceActivity({state, trapFocus, releaseFocus, closePop, closeAllMenus}) {
 const pageAbort = new AbortController()
 
@@ -27,21 +53,21 @@ const pageAbort = new AbortController()
           document.querySelector('.drtab[data-tab=stages] .n').textContent = list.length
           const noCard =
             state.status === 'returned'
-              ? `<div class="drnote">The <b>Returned</b> flag records nothing else \u2014 no user, no date, no reason. Only the flag itself is stored.</div>`
+              ? `<div class="${ACTIVITY_DRAWER_NOTE_CLASS}">The <b>Returned</b> flag records nothing else \u2014 no user, no date, no reason. Only the flag itself is stored.</div>`
               : ''
           document.querySelector('[data-panel=stages]').innerHTML =
             list
               .map(
                 c => `
-    <div class="card"><div class="mk"><span class="dot"><svg width="11" height="11"><use href="#i-check"/></svg></span></div>
-      <div class="main"><div class="t">${c.name}${c.badge ? `<span class="badge gray">${c.badge}</span>` : ''}</div>
-        <div class="grid" style="grid-template-columns:repeat(${Math.min(c.rows.length, 4)},1fr)">
-          ${c.rows.map(r => `<div><div class="k">${r[0]}</div><div>${String(r[1]).replace('__PRINTS__', state.prints)}</div></div>`).join('')}</div>
-        ${c.link ? `<a class="lnk" href="#">${c.link} →</a>` : ''}</div></div>`
+    <div class="${ACTIVITY_CARD_CLASS}"><div class="${ACTIVITY_CARD_MARKER_CLASS}"><span class="${ACTIVITY_CARD_DOT_CLASS}"><svg width="11" height="11"><use href="#i-check"/></svg></span></div>
+      <div class="${ACTIVITY_MAIN_CLASS}"><div class="${ACTIVITY_CARD_TITLE_CLASS}">${c.name}${c.badge ? `<span class="badge gray">${c.badge}</span>` : ''}</div>
+        <div class="${ACTIVITY_CARD_GRID_CLASS}" style="grid-template-columns:repeat(${Math.min(c.rows.length, 4)},1fr)">
+          ${c.rows.map(r => `<div><div class="${ACTIVITY_CARD_KEY_CLASS}">${r[0]}</div><div>${String(r[1]).replace('__PRINTS__', state.prints)}</div></div>`).join('')}</div>
+        ${c.link ? `<a class="${ACTIVITY_CARD_LINK_CLASS}" href="#">${c.link} →</a>` : ''}</div></div>`
               )
               .join('') +
             noCard +
-            `<div class="drnote">Only the cards this invoice actually has are listed, each showing its most recent state.</div>`
+            `<div class="${ACTIVITY_DRAWER_NOTE_CLASS}">Only the cards this invoice actually has are listed, each showing its most recent state.</div>`
           document
             .querySelectorAll('.cur-name,.cur-badge')
             .forEach(
@@ -75,27 +101,27 @@ const pageAbort = new AbortController()
           )
           document.querySelector('[data-panel=activity]').innerHTML = ACTIVITY.map(
             g =>
-              `<div class="daysep">${g.day}</div>` +
+              `<div class="${ACTIVITY_DAY_SEPARATOR_CLASS}">${g.day}</div>` +
               g.items
                 .map(it => {
                   const chips = it.chips
-                    ? `<div class="chips">${it.chips.map(c => `<span class="chip"><svg width="13" height="13"><use href="#${c.i}"/></svg> ${c.t}</span>`).join('')}</div>`
+                    ? `<div class="${ACTIVITY_CHIPS_CLASS}">${it.chips.map(c => `<span class="${ACTIVITY_CHIP_CLASS}"><svg width="13" height="13"><use href="#${c.i}"/></svg> ${c.t}</span>`).join('')}</div>`
                     : ''
                   const chg = it.chg
-                    ? `<div class="chg">${it.chg.l} <s>${it.chg.f}</s> → <b>${it.chg.t}</b></div>`
+                    ? `<div class="${ACTIVITY_CHANGE_CLASS}">${it.chg.l} <s>${it.chg.f}</s> → <b>${it.chg.t}</b></div>`
                     : ''
                   const notes = it.notes
-                    ? `<div class="tg"><button class="ntg" aria-expanded="false"><svg width="13" height="13"><use href="#i-caret"/></svg> ${it.notes.length} notes</button></div>
-        <div class="notes">${it.notes
+                    ? `<div class="${ACTIVITY_TOGGLE_GROUP_CLASS}"><button class="${ACTIVITY_TOGGLE_CLASS}" aria-expanded="false"><svg width="13" height="13"><use href="#i-caret"/></svg> ${it.notes.length} notes</button></div>
+        <div class="${ACTIVITY_NOTES_CLASS}">${it.notes
           .map(
-            n => `<div class="note-i"><span class="av2">${n.ini}</span><div>
-          <div class="who">${n.who} ${n.tag ? `<span class="badge gray">${n.tag}</span>` : ''} <span class="tm">${n.time}</span></div>
-          <div class="txt">${n.txt}</div></div></div>`
+            n => `<div class="${ACTIVITY_NOTE_CLASS}"><span class="${ACTIVITY_NOTE_AVATAR_CLASS}">${n.ini}</span><div>
+          <div class="${ACTIVITY_NOTE_WHO_CLASS}">${n.who} ${n.tag ? `<span class="badge gray">${n.tag}</span>` : ''} <span class="${ACTIVITY_TIME_CLASS}">${n.time}</span></div>
+          <div class="${ACTIVITY_NOTE_TEXT_CLASS}">${n.txt}</div></div></div>`
           )
           .join('')}</div>`
                     : ''
-                  return `<div class="act"><span class="av ${it.sys ? 'sys' : ''}">${it.sys ? '<svg width="13" height="13"><use href="#i-gear"/></svg>' : it.ini}</span>
-        <div class="main"><div class="line"><b>${it.who}</b> ${it.auto ? '<span class="badge gray">Automatic</span> ' : ''}${it.what}<span class="tm">${it.time}</span></div>
+                  return `<div class="${ACTIVITY_ENTRY_CLASS}"><span class="${ACTIVITY_AVATAR_CLASS}${it.sys ? ` ${ACTIVITY_SYSTEM_AVATAR_CLASS}` : ''}">${it.sys ? '<svg width="13" height="13"><use href="#i-gear"/></svg>' : it.ini}</span>
+        <div class="${ACTIVITY_MAIN_CLASS}"><div class="${ACTIVITY_LINE_CLASS}"><b>${it.who}</b> ${it.auto ? '<span class="badge gray">Automatic</span> ' : ''}${it.what}<span class="${ACTIVITY_TIME_CLASS}">${it.time}</span></div>
         ${chg}${chips}${notes}</div></div>`
                 })
                 .join('')

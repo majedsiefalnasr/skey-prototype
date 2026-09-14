@@ -133,7 +133,7 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
   function renderOperationsOverflowActions(context, row, config) {
     const quickView = `<button type="button" role="menuitem" data-list-row-action="quick-view">${dataListIcon('i-panel')} Open in Adaptive view</button>`
     const display = `<button type="button" role="menuitem" data-list-row-action="display">${dataListIcon('i-external')} Display</button>`
-    const deleteAction = `<button type="button" role="menuitem" data-list-row-action="delete">${dataListIcon('i-trash')} Delete</button>`
+    const deleteAction = `<button class="text-danger" type="button" role="menuitem" data-list-row-action="delete">${dataListIcon('i-trash')} Delete</button>`
     const actions =
       context === 'invoice'
         ? `${quickView}${display}<button type="button" role="menuitem" data-list-row-action="modify">${dataListIcon('i-edit')} Modify</button><button type="button" role="menuitem" data-list-row-action="user-log">${dataListIcon('i-user')} User log</button><div class="data-menu-separator"></div>${deleteAction}`

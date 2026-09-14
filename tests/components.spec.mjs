@@ -12,10 +12,10 @@
 import {test, expect} from '@playwright/test';
 import {boot, openSurface, settle} from './support/browser.mjs';
 
-async function visibleControlState(locator) {
+async function visibleControlState(locator, pseudo = null) {
   await expect(locator).toBeVisible();
-  return locator.evaluate(element => {
-    const style = getComputedStyle(element);
+  return locator.evaluate((element, pseudoElement) => {
+    const style = getComputedStyle(element, pseudoElement);
     const box = element.getBoundingClientRect();
     const properties = [
       'display', 'position', 'width', 'minWidth', 'height', 'minHeight', 'padding',
@@ -26,7 +26,7 @@ async function visibleControlState(locator) {
       box: {width: box.width, height: box.height},
       style: Object.fromEntries(properties.map(property => [property, style[property]])),
     };
-  });
+  }, pseudo);
 }
 
 async function captureSharedControls(page) {
@@ -34,24 +34,53 @@ async function captureSharedControls(page) {
   await row.click({button: 'right'});
   const contextMenu = page.locator('#data-list-context-menu');
   const renderedRowAction = contextMenu.locator('[data-list-row-action]').first();
+  const renderedDeleteAction = contextMenu.locator('[data-list-row-action="delete"]');
+  await expect(renderedDeleteAction).toHaveClass(/\btext-danger\b/);
   const menuImages = await Promise.all([
     visibleControlState(renderedRowAction),
+    visibleControlState(renderedDeleteAction),
     visibleControlState(contextMenu),
   ]);
   await page.keyboard.press('Escape');
 
   await page.locator('button.ibtn[aria-label="System Alerts"]').click();
   const notifications = page.locator('#notifications-popover');
+  await notifications.getByRole('tab', {name: 'Direct'}).click();
   await expect(notifications.locator('.notif-row').first()).toBeVisible();
-  const notificationImage = await visibleControlState(notifications);
+  const switchControl = notifications.locator('.switch');
+  const switchInput = switchControl.locator('input');
+  const switchTrack = switchControl.locator('span');
+  const notificationImages = [
+    await visibleControlState(notifications),
+    await visibleControlState(switchControl),
+    await visibleControlState(switchTrack),
+    await visibleControlState(switchTrack, '::before'),
+  ];
+  await switchInput.check();
+  await page.waitForTimeout(150);
+  notificationImages.push(
+    await visibleControlState(switchTrack),
+    await visibleControlState(switchTrack, '::before')
+  );
+  await switchInput.uncheck();
+  await page.waitForTimeout(150);
+  await notifications.getByRole('tab', {name: 'Email'}).click();
+  const emailAvatar = notifications.locator('.email-avatar').first();
+  await expect(emailAvatar).toBeVisible();
+  notificationImages.push(await visibleControlState(emailAvatar));
   await page.keyboard.press('Escape');
 
   await page.getByRole('button', {name: 'AI Assistant'}).click();
   const assistant = page.getByRole('dialog', {name: 'AI Assistant'});
   await expect(assistant.getByRole('button', {name: 'Send'})).toBeVisible();
-  const assistantImage = await visibleControlState(assistant);
+  const assistantImages = await Promise.all([
+    visibleControlState(assistant),
+    visibleControlState(assistant.locator('.drhd')),
+    visibleControlState(assistant.getByRole('button', {name: 'Close'})),
+    visibleControlState(assistant.getByRole('button', {name: 'Send'})),
+  ]);
   await assistant.getByRole('button', {name: 'Close'}).click();
-  return [...menuImages, notificationImage, assistantImage];
+  return [...menuImages, ...notificationImages, ...assistantImages];
 }
 
 test('compiled Tailwind preserves shared controls after legacy component CSS is disabled', async ({

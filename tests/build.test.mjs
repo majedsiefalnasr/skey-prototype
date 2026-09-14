@@ -62,6 +62,13 @@ function assertUtilityMigrationMarkup(actual, expected) {
         cursor = end;
         continue;
       }
+      if (html.startsWith('<!--', cursor)) {
+        const commentEnd = html.indexOf('-->', cursor + 4);
+        assert.notEqual(commentEnd, -1, `unterminated HTML comment at ${cursor}`);
+        tokens.push(html.slice(cursor, commentEnd + 3));
+        cursor = commentEnd + 3;
+        continue;
+      }
       let quote = '';
       let end = cursor + 1;
       for (; end < html.length; end += 1) {
@@ -301,6 +308,8 @@ test('assemble: Task 4 preserves structure, attributes, text, and every pre-exis
     'app/components/toast/toast.css',
     'app/components/data-list/list-2.css',
     'app/components/loading/loading.css',
+    'app/components/notifications/notifications.css',
+    'app/components/dialog/dialog.css',
   ];
   const baseline = await assembleGitSnapshot('4ae52c8');
   const expected = retiredLinks.reduce(

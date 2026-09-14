@@ -40,6 +40,11 @@
   [dir='rtl'] .ai-msg.me { border-bottom-right-radius: 10px; border-bottom-left-radius: 3px; }
   [dir='rtl'] .ai-msg.bot { border-bottom-left-radius: 10px; border-bottom-right-radius: 3px; }
 
+  /* ---- dialog/drawer behavior relationship ----
+     The launchpad view is swapped into .frame by navigation state; while it
+     is active the frame must clip rather than expose a second scrollbar. */
+  .frame:has(.lp-view:not([hidden])) { overflow: clip; }
+
   /* ---- data-list (concepts/app/components/data-list) ----
      body.cards-fieldset (a global card-style density mode, toggled by the
      prototype's own #section-style control) compacts the data-list chart card
@@ -110,7 +115,6 @@
     background: linear-gradient(var(--hover-overlay), var(--hover-overlay)), var(--surface);
   }
   .data-list-shell .inv-grid tbody tr[aria-selected='true'] td.data-row-actions-cell { background: var(--accent-soft); }
-  .data-row-menu [data-list-row-action='delete'] { color: var(--danger); }
   .data-list-shell .inv-grid tbody tr[aria-selected='true'] { background: var(--accent-soft); }
   .data-group-row td { padding: 0 !important; background: var(--line-2); border-bottom: 1px solid var(--line); }
   .data-group-toggle:hover { background: var(--hover-overlay); }
