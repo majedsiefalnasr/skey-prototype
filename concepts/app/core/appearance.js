@@ -12,7 +12,14 @@
 // the plan's Task 4 Interfaces, which name only core/appearance.js here.
 //
 // createAppearance({root, readControls, onChange}) returns
-// {apply, getSettings, dispose} per the plan's stated contract:
+// {apply, getSettings, dispose} per the plan's stated contract. Task 11
+// passes this instance to createPrototypeControls as its `settings`
+// parameter (prototype/controls.js) — reserved there for future direct
+// appearance restoration; the existing "set control value + dispatch
+// change" replay already drives this facility correctly through its own
+// readControls callback (#theme/#high-contrast already have permanent
+// change listeners, unlike the customer-mode/customer-layout controls
+// Task 11 actually fixes), so no functional change was needed here:
 //   - apply(partialSettings={}) applies supplied values over the current
 //     model, reading controls only for values not yet initialized (i.e.
 //     on the very first call), and ignores keys owned by page scenarios or

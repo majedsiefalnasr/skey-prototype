@@ -6,10 +6,17 @@
 // exist, the real Navigation instance from core/navigation.js that routes
 // every subsequent page transition — see legacy-app.js's own composition
 // comments for why navigation construction must wait until the very end of
-// that function. The existing prototype controls script runs afterward (a
-// separate classic <script>, ordered after this one in
-// concepts/app-shell.html, that only touches the already-mounted .demo-bar
-// markup and has no dependency on startLegacyApp's return value).
+// that function.
+//
+// Task 11: startLegacyApp now returns {navigation, appearance, customers,
+// invoices, setSyncPrototypeControlsPage} instead of running fire-and-
+// forget (this file only destructures the handles it actually needs — see
+// the plan's "not an arbitrary getter" constraint), so it can read saved
+// prototype-controls state, apply the customer-record mode/layout through
+// its own already-initialized setter (the null-root/restoration fix — see
+// below), and construct the real createPrototypeControls component
+// (prototype/controls.js) in place of the former classic
+// <script src="app/prototype/legacy-controls.js">.
 //
 // The shell/{sidebar,topbar,menus,search,customize} interaction code itself
 // still lives inside legacy-app.js's closure rather than in separate
@@ -28,6 +35,7 @@ import {createDialogFocus} from './components/dialog/dialog.js'
 import {createToast} from './components/toast/toast.js'
 import {createLoading} from './components/loading/loading.js'
 import {startLegacyApp} from './legacy-app.js'
+import {readPrototypeState, createPrototypeControls} from './prototype/controls.js'
 
 const locale = createLocale()
 const dialogFocus = createDialogFocus(document)
@@ -65,7 +73,7 @@ window.toast = toast
 // exact point in its body where the callback implementations first exist,
 // passing them through createLoading/createAppearance's own declared
 // parameters.
-startLegacyApp({
+const {appearance, customers, invoices, setSyncPrototypeControlsPage} = startLegacyApp({
   locale,
   toast,
   work,
@@ -83,3 +91,49 @@ startLegacyApp({
     }),
   },
 })
+
+// Task 11: restore prototype settings through initialized page interfaces
+// (known-defects.md issue 6, the one behavior correction this refactor is
+// allowed to make). `saved` is read once, up front — a pure sessionStorage
+// read, no DOM involved — so customer-mode/customer-layout restoration can
+// go through customers.setMode/setLayout (safe at any time: they update
+// record.js's model state unconditionally and only touch the DOM once the
+// record page is actually active, see pages/customers/record.js) instead
+// of the old classic script's "set the DOM value and dispatch change"
+// replay, which silently did nothing for these two controls because
+// nothing listened for their `change` event before this task (see
+// pages/customers/record.js's new construction-time listeners and
+// prototype/controls.js's own comments for the full defect history).
+//
+// Every OTHER saved control (theme, density, rtl, invoice mode/status/
+// payment/dirty, filter/statistics concept, etc.) already has a permanent
+// `change` listener wired at page/boot-construction time inside
+// startLegacyApp (core/appearance.js's readControls, pages/invoices/
+// operations.js, and legacy-app.js's own boot-time listeners) — those
+// listeners exist for the app's entire lifetime regardless of which page
+// is active, so createPrototypeControls below still safely restores them
+// through the original "set value + dispatch change" mechanism; only the
+// two page-mode controls needed to move to the setter-based path.
+const saved = readPrototypeState(sessionStorage)
+if (saved['customer-mode']) customers.setMode(saved['customer-mode'])
+if (saved['customer-layout']) customers.setLayout(saved['customer-layout'])
+
+const controls = createPrototypeControls({
+  root: document,
+  settings: appearance,
+  pages: {invoices, customers},
+})
+// syncPrototypeControlsPage inside legacy-app.js is a forward-referenced
+// no-op until this call supplies the real implementation (see that
+// binding's own declaration comment) — every post-boot navigation already
+// routes through Navigation's onChange -> onNavigationChange ->
+// syncPrototypeControlsPage(name), and pages/home.js's showLaunchpad/
+// hideLaunchpad call it directly around the launchpad overlay. The
+// original classic script never explicitly re-synced the panel for
+// whichever surface booted either (the panel didn't exist yet the first
+// time showLaunchpad ran during the shell mount loop, and no code called
+// this again before the app's first post-boot navigation) — preserved
+// as-is here rather than adding a boot-time sync call that didn't exist
+// before, per the plan's "preserve existing behavior exactly" constraint
+// outside the one allowed customer-restoration fix.
+setSyncPrototypeControlsPage(controls.syncPage)

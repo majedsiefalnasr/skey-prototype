@@ -35,7 +35,18 @@ test.todo('mechanical extraction retains application block bytes (stale as of Ta
   assert.equal(await readFile('concepts/app/legacy-app.js','utf8'), script);
 });
 
-test('mechanical extraction retains prototype-controls script bytes', async () => {
+// Same treatment as the legacy-app.js checkpoint above: Task 11 replaced
+// concepts/app/prototype/legacy-controls.js with the real
+// concepts/app/prototype/controls.js module (createPrototypeControls,
+// readPrototypeState — see that file's own comments for why: the classic
+// script's restoreState() ran before customers/invoices page factories
+// existed, so customer-mode/customer-layout restoration silently did
+// nothing, known-defects.md issue 6) and deleted legacy-controls.js per the
+// plan's own Task 11 file list ("delete prototype/legacy-controls.js when
+// no callers remain"). The byte-identity file this asserted against no
+// longer exists, so this checkpoint test is retired as test.todo rather
+// than removed outright, matching the Task 4 precedent above.
+test.todo('mechanical extraction retains prototype-controls script bytes (stale as of Task 11 — see comment above; superseded by controls.js)', async () => {
   const original = await readFile('.baseline/concepts/app-shell.html', 'utf8');
   const scripts = [...original.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)]
     .filter(match => !/\bsrc=/.test(match[1]));

@@ -135,30 +135,41 @@ test('assemble: multiple sibling includes in one file all expand, in order', asy
   });
 });
 
-test('assemble: reassembling the real app-shell.html fragments reproduces the pre-fragment-move markup byte-for-byte, plus only this task\'s own intentional entry-point edits', async () => {
+test('assemble: reassembling the real app-shell.html fragments reproduces the pre-fragment-move markup byte-for-byte, plus only each task\'s own intentional entry-point/fragment edits', async () => {
   // ddd8569 is the Task 2 mechanical-extraction checkpoint commit — the last
   // point where concepts/app-shell.html held the complete markup inline,
   // before Task 3 moved templates/overlays out into concepts/app/shell/
   // fragments. Re-assembling the fragmented source must reproduce that
-  // exact content except for the two lines Task 4/10 intentionally change:
-  // the classic-script entry point becomes a module entry point. Task 4
-  // pointed it at the temporary app/entry.js; Task 10 retargets it at
-  // app/main.js, the plan's real composition root (see concepts/app/main.js
-  // and this task's report for why). The prototype-controls classic script
-  // also gains `defer` so it keeps executing after the now-deferred module
-  // script (see the Task 4 report for why). Any OTHER difference here means
-  // the fragment-assembly mechanism itself changed markup it shouldn't
-  // have — that's still a real regression to catch.
+  // exact content except for the intentional edits later tasks made:
+  //   - Task 4/10: the classic-script entry point becomes a module entry
+  //     point (Task 4 pointed it at the temporary app/entry.js; Task 10
+  //     retargets it at app/main.js, the plan's real composition root).
+  //   - Task 11: the classic `<script id="shell-kit-js"
+  //     src="...legacy-controls.js">` was deleted (no longer needed —
+  //     createPrototypeControls in the new app/prototype/controls.js module
+  //     is constructed from app/main.js instead, see that file), and
+  //     `<link id="shell-kit-css">` moved immediately before the single
+  //     remaining module `<script>` so it still loads late (prototype-
+  //     control overrides stay ordered after application styles, per the
+  //     plan's Global Constraints) without depending on the now-removed
+  //     script tag's position. The inline `.demo-bar` prototype-controls
+  //     markup itself also moved, byte-for-byte, into its own fragment
+  //     (concepts/app/prototype/controls.html, included via `<!-- include:
+  //     app/prototype/controls.html -->`) — but since assemble() expands
+  //     that include back into the identical markup, this produces NO
+  //     observable difference in the reassembled output; only the two
+  //     script/link edits below are real differences from the baseline.
+  // Any OTHER difference here means the fragment-assembly mechanism itself
+  // changed markup it shouldn't have — that's still a real regression to
+  // catch.
   const {stdout: baseline} = await execFileAsync('git', ['show', 'ddd8569:concepts/app-shell.html']);
-  const expected = baseline
-    .replace(
-      '    <script src="app/legacy-app.js"></script>',
-      '    <script type="module" src="app/main.js"></script>'
-    )
-    .replace(
+  const expected = baseline.replace(
+    '    <script src="app/legacy-app.js"></script>\n\n' +
+      '    <link id="shell-kit-css" rel="stylesheet" href="app/prototype/controls.css">\n\n' +
       '    <script id="shell-kit-js" src="app/prototype/legacy-controls.js"></script>',
-      '    <script id="shell-kit-js" src="app/prototype/legacy-controls.js" defer></script>'
-    );
+    '    <link id="shell-kit-css" rel="stylesheet" href="app/prototype/controls.css">\n\n' +
+      '    <script type="module" src="app/main.js"></script>'
+  );
   const assembled = await assemble(path.resolve('concepts/app-shell.html'));
   assert.equal(assembled, expected);
 });
@@ -240,7 +251,7 @@ test('served dist/: original asset URLs referenced from app-shell.html still res
       '/concepts/app/styles/legacy-app.css',
       '/concepts/app/legacy-app.js',
       '/concepts/app/prototype/controls.css',
-      '/concepts/app/prototype/legacy-controls.js',
+      '/concepts/app/prototype/controls.js',
     ];
     for (const p of paths) {
       const res = await fetchHead(`http://127.0.0.1:${port}${p}`);

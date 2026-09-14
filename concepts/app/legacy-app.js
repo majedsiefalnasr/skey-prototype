@@ -161,6 +161,20 @@ export function startLegacyApp(shared) {
         // back when showContentView was itself a hoisted `function`
         // declaration further down the file.
         let showContentView = attachAndShowView
+        // Forward-referenced mutable binding for the prototype-controls
+        // panel's per-surface visibility sync (Task 11: moved from this
+        // file's own syncCustomerPrototypeControls into
+        // prototype/controls.js's createPrototypeControls -> syncPage).
+        // createHome's showLaunchpad/hideLaunchpad call this synchronously
+        // (see pages/home/home.js), and showLaunchpad already runs during
+        // the shell mount loop below, well before main.js can construct
+        // `controls` — which itself needs `customers`/`invoices`, built
+        // only at the very end of this function. A no-op default (matching
+        // the original's own "the panel doesn't exist yet on the very
+        // first boot call, skip" early return) is safe here: main.js
+        // reassigns this to the real controls.syncPage once constructed,
+        // before any post-boot navigation can rely on it.
+        let syncPrototypeControlsPage = () => {}
         /* The loading facility's getContainer callback needs to resolve the
    currently visible page/view's skeleton host, which depends on
    currentContentViewName above — a binding that does not exist yet at the
@@ -559,7 +573,7 @@ export function startLegacyApp(shared) {
    decides whether a given rebuild should land back on the launchpad, so
    re-rendering the sidebar (e.g. after saving Customize sidebar) doesn't
    yank the user there. ---- */
-        const home = createHome({buildRailAndPanel: (...args) => buildRailAndPanel(...args), findNavGroup: (...args) => findNavGroup(...args), setNavCurrent: (...args) => setNavCurrent(...args), t: (...args) => t(...args), getLocale: (...args) => getLocale(...args), syncCustomerPrototypeControls: (...args) => syncCustomerPrototypeControls(...args), getCurrentView: () => currentContentViewName, queueSkeletonForCurrentView: (...args) => queueSkeletonForCurrentView(...args), closeEmailView: () => showContentView('record'), visibleGroups: (...args) => visibleGroups(...args), getCurrentApp: () => currentAppLabel, closeAllMenus: (...args) => closeAllMenus(...args)})
+        const home = createHome({buildRailAndPanel: (...args) => buildRailAndPanel(...args), findNavGroup: (...args) => findNavGroup(...args), setNavCurrent: (...args) => setNavCurrent(...args), t: (...args) => t(...args), getLocale: (...args) => getLocale(...args), syncCustomerPrototypeControls: (...args) => syncPrototypeControlsPage(...args), getCurrentView: () => currentContentViewName, queueSkeletonForCurrentView: (...args) => queueSkeletonForCurrentView(...args), closeEmailView: () => showContentView('record'), visibleGroups: (...args) => visibleGroups(...args), getCurrentApp: () => currentAppLabel, closeAllMenus: (...args) => closeAllMenus(...args)})
         const {buildNavLaunchpad, restoreLaunchpadActions, stopSearchTyping, startSearchTyping, hideLaunchpad, getLaunchpadUserName, showLaunchpad, setupAppSwitcher} = home
         const compactShell = matchMedia('(max-width: 900px)')
         let sideCollapsed = compactShell.matches
@@ -1800,9 +1814,14 @@ export function startLegacyApp(shared) {
         // onNavigationChange is the "onChange" half of the former
         // showContentView: bookkeeping that runs after the target page has
         // been shown/activated, for every content-host page uniformly.
+        // syncPrototypeControlsPage (the former syncCustomerPrototypeControls,
+        // moved to prototype/controls.js's createPrototypeControls -> syncPage
+        // in Task 11 — see that file for the full per-surface visibility
+        // logic) is a forward-referenced binding reassigned once main.js
+        // constructs `controls`; see its declaration above for why.
         function onNavigationChange(name) {
           currentContentViewName = name
-          syncCustomerPrototypeControls(name)
+          syncPrototypeControlsPage(name)
           queueSkeletonForCurrentView()
         }
         // showContentView itself is declared once, much earlier (see the
@@ -1815,40 +1834,6 @@ export function startLegacyApp(shared) {
         // handed to a page factory and invoked later at runtime, never
         // synchronously during construction, so that later reassignment is
         // safe regardless of when each reference was captured.
-        function syncCustomerPrototypeControls(viewName) {
-          /* the #kit prototype-controls panel is built by a later <script> tag, so on
-   the very first showLaunchpad() call during boot its elements don't exist yet —
-   skip until it's there; every later call (post-boot navigation) runs after #kit
-   is built. */
-          if (!document.getElementById('table-group-heading')) return
-          const isLaunchpad = viewName === 'launchpad'
-          const prototypeKit = document.getElementById('kit')
-          if (isLaunchpad && prototypeKit && !prototypeKit.classList.contains('hidden'))
-            document.getElementById('kit-hide')?.click()
-          const customerRecord = viewName === 'customer-record'
-          const nonInvoiceSurface = viewName !== 'record'
-          const isTablePage = ['list', 'customers-list', 'geo-list'].includes(viewName)
-          const hasCardSections =
-            !isLaunchpad && (viewName === 'record' || customerRecord || isTablePage)
-          document.getElementById('input-style-group').hidden = isLaunchpad
-          document.getElementById('customer-group-heading').hidden = !customerRecord
-          document.getElementById('customer-mode-group').hidden = !customerRecord
-          document.getElementById('customer-layout-group').hidden = !customerRecord
-          document.getElementById('section-style-group').hidden = !hasCardSections
-          document.getElementById('table-group-heading').hidden = !isTablePage
-          document.getElementById('filter-mode-group').hidden = !isTablePage
-          document.getElementById('statistics-concept-group').hidden = !isTablePage
-          ;[
-            'invoice-group-heading',
-            'invoice-mode-group',
-            'invoice-status-group',
-            'invoice-payment-group',
-            'invoice-dirty-group',
-            'invoice-emptyflow-group',
-          ].forEach(id => {
-            document.getElementById(id).hidden = nonInvoiceSurface
-          })
-        }
         const email = createEmail({root: document.querySelector('.email-view'), onUnreadChange: () => syncNotifBadge(), navigate: (...args) => showContentView(...args), toast})
         const {openEmailView, closeEmailView} = email
         document.querySelectorAll('.record-back').forEach(b =>
@@ -5484,4 +5469,31 @@ export function startLegacyApp(shared) {
         })
         window.addEventListener('scroll', closeDataListContextMenu, true)
         window.addEventListener('resize', closeDataListContextMenu)
+
+        // Task 11: startLegacyApp now returns the finite set of handles
+        // main.js's composition needs to read saved prototype state BEFORE
+        // any DOM-dependent restoration, apply it through each page's own
+        // already-initialized setter, and only then construct
+        // createPrototypeControls (which itself needs `customers`/
+        // `invoices` to exist first — see prototype/controls.js). Every
+        // other page factory stays private to this closure, matching the
+        // plan's "not an arbitrary getter for every remaining legacy
+        // binding" constraint already applied to `shared` in main.js.
+        //
+        // setSyncPrototypeControlsPage supplies the real implementation for
+        // the forward-referenced syncPrototypeControlsPage binding declared
+        // near the top of this function (see its own comment for why a
+        // plain reassignment from inside this closure, like
+        // onRefreshCharts's, doesn't work here: the real implementation is
+        // createPrototypeControls's syncPage, built in main.js, which
+        // itself depends on `customers`/`invoices` returned below).
+        return {
+          navigation,
+          appearance,
+          customers,
+          invoices,
+          setSyncPrototypeControlsPage(fn) {
+            syncPrototypeControlsPage = fn
+          },
+        }
 }

@@ -10,24 +10,28 @@
 // dispose()}) so legacy-app.js (and, later, Task 10's real navigator) can
 // drive it uniformly.
 //
-// THE NULL-ROOT FIX (issue 6 groundwork, per the brief + prior report's
-// confirmed scoping): the original queried `document.getElementById(
+// THE NULL-ROOT FIX (issue 6, per the brief + prior report's confirmed
+// scoping): the original queried `document.getElementById(
 // 'customer-record-chrome')` (and other customer-private elements) fresh on
 // every render call. If prototype restoration ever re-ran this code before
-// the page's markup was attached to `document` (the exact scenario Task 11
-// will wire up), that lookup returns null and throws. Here, every
-// customer-private DOM reference is resolved ONCE against `root` (the
-// retained `.customer-record-view` element passed into the factory) at
-// construction time, stored in a small `refs` bundle, and reused — never
-// re-queried from `document` on each render. This removes the anti-pattern
-// that CAUSES the null-root exception. It does NOT make the Task 1
-// regression test (`tests/lifecycle.spec.mjs`, "customer mode restores
-// after reload without a null-root exception") pass — that test needs
-// Task 11's restoration wiring (reading saved customer-mode before this
-// page initializes, calling `customers.setMode` pre-activation), which does
-// not exist yet. The test stays `test.fail()`/expected-failure, per the
-// brief's explicit "Keep this test expected-failure until restoration
-// wiring is completed in Task 11."
+// the page's markup was attached to `document`, that lookup returned null
+// and threw. Here, every customer-private DOM reference is resolved ONCE
+// against `root` (the retained `.customer-record-view` element passed into
+// the factory) at construction time, stored in a small `refs` bundle, and
+// reused — never re-queried from `document` on each render. This removed
+// the anti-pattern that CAUSED the null-root exception (Task 7).
+//
+// Task 11 completed the fix: main.js now reads saved prototype state via
+// readPrototypeState(sessionStorage) BEFORE any page activates, and calls
+// `customers.setMode`/`setLayout` (below) directly — safe at any time,
+// since they only touch the DOM when `active` is true. The
+// `controlsAbort`-scoped #customer-mode/#customer-layout change listeners
+// further down (added in Task 11, mirroring pages/invoices/operations.js's
+// permanent #mode/#st/#pay/#dirty listeners) are what actually make manual
+// or restored control changes take effect at all — before this task
+// neither select had ANY listener, so restoring saved state silently did
+// nothing. tests/lifecycle.spec.mjs's "customer mode restores after reload
+// without a null-root exception" now passes for real (test.fail() removed).
 //
 // setMode(mode) updates model state even before activation (record.js's own
 // module state, not DOM) — DOM rendering only happens once `root` is a
@@ -344,6 +348,32 @@ export function createCustomerRecord({root, deps}) {
   function setLayout(layout) {
     customerState.layout = layout
     if (active) renderLayout({preserveScroll: true}, sectionsDepsRef)
+  }
+
+  // Permanent, construction-time listeners for the prototype-controls
+  // panel's #customer-mode/#customer-layout selects (Task 11 fix,
+  // known-defects.md issue 6). Mirrors the existing pattern the invoice
+  // page already uses for its own #mode/#st/#pay/#dirty controls
+  // (pages/invoices/operations.js) — wired once, for the page's whole
+  // lifetime, independent of whether this record is the active surface.
+  // Before this task neither select had ANY listener at all, so changing
+  // them (by hand or via prototype-state restoration) silently did
+  // nothing; setMode/setLayout above already guard their DOM work behind
+  // `active`, so calling them here is safe however/whenever they fire.
+  const controlsAbort = new AbortController()
+  if (refs.modeSelect) {
+    refs.modeSelect.addEventListener(
+      'change',
+      e => setMode(e.target.value),
+      {signal: controlsAbort.signal}
+    )
+  }
+  if (refs.layoutSelect) {
+    refs.layoutSelect.addEventListener(
+      'change',
+      e => setLayout(e.target.value),
+      {signal: controlsAbort.signal}
+    )
   }
 
   function saveCustomer() {
@@ -771,6 +801,7 @@ export function createCustomerRecord({root, deps}) {
 
   function dispose() {
     deactivate()
+    controlsAbort.abort()
     imagePreview?.dispose()
     lookups?.dispose()
     imagePreview = null

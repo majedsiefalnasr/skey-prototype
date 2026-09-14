@@ -44,17 +44,27 @@ visual state, not an endorsement that the state is desired.
    with no save/discard/stay guard, unlike the customer record's unsaved-work
    guard.
 
-6. **Restoring Customer Create mode throws during reload — THE ONE ALLOWED FIX.**
+6. **FIXED in Task 11 — Restoring Customer Create mode threw during reload.**
    `renderCustomerRecordChrome` (around `setCustomerMode` / `restoreState`)
-   throws `TypeError: Cannot set properties of null (setting 'innerHTML')`
-   on reload when Prototype Controls has "Creating a new customer" saved,
-   because the customer view is deferred/detached when the restoration
-   handler queries it via `document.getElementById`. This is the *only*
-   defect this refactor may fix, and only in Task 11 (see
-   `tests/lifecycle.spec.mjs`, added in that task). Until Task 11 lands, a
-   regression test for this reproduces the failure and is marked
-   expected-failure with this entry as the reason — it must not be marked
-   passing before the Task 11 fix exists.
+   used to throw `TypeError: Cannot set properties of null (setting
+   'innerHTML')` on reload when Prototype Controls had "Creating a new
+   customer" saved, because the customer view was deferred/detached when
+   the restoration handler queried it via `document.getElementById`. This
+   was the *only* defect this refactor was allowed to fix, and only in
+   Task 11. Task 7 root-scoped record.js's DOM queries against the
+   retained `.customer-record-view` root (removing the null-lookup
+   anti-pattern); Task 11 completed the fix by having main.js read saved
+   prototype state via `readPrototypeState(sessionStorage)` before any
+   page activates and apply customer-mode/customer-layout through
+   `customers.setMode`/`setLayout` directly (safe at any time — they only
+   touch the DOM once the record page is active), and by adding permanent
+   `#customer-mode`/`#customer-layout` change listeners in record.js
+   (mirroring the invoice record's own `#mode`/`#st`/`#pay`/`#dirty`
+   listeners) so those controls actually take effect at all. See
+   `tests/lifecycle.spec.mjs`'s "customer mode restores after reload
+   without a null-root exception" test (no longer expected-failure) and
+   `concepts/app/prototype/controls.js`'s module comment for the full
+   mechanism.
 
 ## P2 — Minor / prototype correctness
 
@@ -99,8 +109,10 @@ visual state, not an endorsement that the state is desired.
   current rendering is, defects included.
 - Console errors are never suppressed wholesale in test helpers
   (`tests/support/browser.mjs`) to make a defect quietly disappear from test
-  output; only the specific, already-known exception in finding 6 is
-  expected (and only until Task 11), and it is asserted for explicitly in
-  its own regression test rather than filtered out globally.
-- Defect 6 is the only entry expected to change status (from "expected
-  failure" to "fixed") over the life of this plan, in Task 11.
+  output; finding 6's exception no longer occurs after Task 11's fix, and
+  its regression test asserts an empty error list explicitly rather than
+  filtering anything out globally.
+- Defect 6 was the only entry expected to change status (from "expected
+  failure" to "fixed") over the life of this plan; that transition landed
+  in Task 11 and is now complete. No other entry in this ledger changed
+  status as part of that task.
