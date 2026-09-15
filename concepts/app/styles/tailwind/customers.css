@@ -2,6 +2,10 @@
 @layer components {
 /* Customer and data-list modal controllers retain the semantic .open hook. */
 .customer-overlay.open { display: flex; }
+/* Lookup search opened from a nested unit drawer must stack above that drawer;
+   lookups.js toggles .is-over-drawer only in that case, so the elevated
+   z-index is a state relationship, not a static literal utility. */
+#customer-lookup-search-scrim.is-over-drawer { z-index: 240; }
 .customer-record-footer .customer-footer-note::before {
         content: '|';
         margin-inline-end: 4px;

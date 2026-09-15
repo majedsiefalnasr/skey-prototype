@@ -51,10 +51,10 @@ runtime by the browser.
 
 - **5** category-level policy rows (`::before`/`::after`, `@keyframes`,
   ApexCharts DOM, `[aria-*]` relationships, prototype density/style modes).
-- **36** concrete, owner-specific retained-selector rows underneath those
+- **37** concrete, owner-specific retained-selector rows underneath those
   policies (Shell, Toast, Loading, Notifications, Assistant, Dialog, Data
   list, Invoices, Customers, Geography, Email).
-- **41** total retained-selector table rows.
+- **42** total retained-selector table rows.
 
 ## Baseline identity
 
@@ -359,6 +359,125 @@ during earlier tasks' utility conversion, not by Task 7 itself.
   `#customer-lookup-select`, a separate, pre-existing issue unrelated to
   the `.data-menu-popover` regression and out of scope for this follow-up.
 
+## Follow-up fix: final whole-branch review — two Critical findings resolved
+
+A final whole-branch code review (independent of this migration's own
+implementer/reviewer pairing) found two Critical, unresolved problems after
+the "three audit-flagged regressions" follow-up above. Both are fixed here.
+
+### Critical 1: launchpad baseline PNGs were rewritten to mask a real regression, not fixed
+
+Commit `4ae52c8` ("fix: restore kbd-chip styling dropped in Task 3 CSS
+retirement") re-recorded `tests/parity.spec.mjs-snapshots/{desktop,mobile-rtl,
+mobile-touch}/launchpad.png` as a side effect of a legitimate `⌘K`/`Esc` chip
+fix, without noticing (or disclosing) that the re-recorded baseline also
+silently absorbed a real, separate regression: the launchpad's decorative
+"aurora orb" background was completely missing from the render at that
+point. This violates the plan's Global Constraint that a frozen baseline is
+never updated to mask a regression — the correct action would have been to
+fix the orbs first, then re-record only the (legitimately changed) chip
+appearance.
+
+Root cause: Task 3's shell CSS retirement (`a0067cc`) deleted `home.css` and
+`shell.css` outright, including every `.lp-orb`, `.lp-orb--lg`, and
+`.lp-orb--sm` presentation rule (size, position, radial-gradient background,
+blur). Only the named `@keyframes lp-float-1..7` and a
+`prefers-reduced-motion: none` rule survived into
+`concepts/app/styles/tailwind/shell.css`; nothing replaced the deleted
+presentation rules as literal utilities on the JS-generated `<span
+class="lp-orb ...">` elements in `concepts/app/pages/home/home.js` (around
+line 264-273). The orb markup kept rendering; it just had no size, position,
+or background, so it was invisible.
+
+**Fix:** `concepts/app/pages/home/home.js`'s `orbs.innerHTML` now gives each
+`lp-orb-N` span its own literal Tailwind utility string reconstructed from
+the pre-migration `home.css` rules (`absolute rounded-full blur-[4px]` plus
+an arbitrary-value `bg-[radial-gradient(...)]` matching the recovered
+`.lp-orb--lg`/`.lp-orb--sm` gradients, per-span `top-[…%] left-[…%]
+size-[…vmax] opacity-…`, and an `animate-[lp-float-N_…]` utility referencing
+the still-live named keyframe). The `lp-orb` base class name is kept
+unchanged so the existing `prefers-reduced-motion` compatibility rule in
+`shell.css` continues to match.
+
+A second, related desktop-only defect was found and fixed in the same pass:
+`home.js`'s "View all" button (`viewAll.className = 'lp-view-all'`, around
+line 390) had no utilities of its own — its only surviving rule was a
+`max-width: 620px` media-query rule in `shell.css` (mobile-only), so on a
+1440px desktop viewport it rendered as bare, unstyled link text under both
+the Starred and Recent columns instead of staying hidden. Fixed by giving
+the button `hidden max-[620px]:inline-flex` plus the same media query's
+other properties as `max-[620px]:` utilities (matching the
+`hidden max-[900px]:inline-flex` pattern already used elsewhere in this
+codebase, e.g. `concepts/app/components/data-list/list.js`'s
+`data-toolbar-overflow`), and removing the now-redundant `.lp-view-all` rule
+from `shell.css`'s `max-width: 620px` block.
+
+Tile and hero-centering utilities (`lp-tile`, `lp-hero`, `lp-grid`, etc. in
+`home.js`) were re-inspected against the pre-migration CSS as part of this
+review and found already correct — no fix was needed there. The `lp-logo`
+height fix from the prior follow-up (commit `560942b`) was left untouched.
+
+**Baseline restoration:** the three tampered PNGs
+(`tests/parity.spec.mjs-snapshots/{desktop,mobile-rtl,mobile-touch}/launchpad.png`)
+were restored to their true pre-migration content from commit `d758196`
+(`git show d758196:<path> > <path>`), not re-recorded from the fixed render.
+`launchpad-search.png` in every project was left untouched (confirmed
+legitimate first-ever Task 3 capture, not part of the tampering).
+
+Verification: after the markup fix and baseline restoration,
+`npx playwright test tests/parity.spec.mjs --project=desktop
+--project=mobile-rtl --project=mobile-touch -g "launchpad: baseline
+appearance"` shows only the pre-existing, separately-documented
+font-rendering/anti-aliasing diff (~3% of pixels, uniform text-edge/orb-edge
+outline pattern, no missing or misplaced elements) — orbs, tile borders/
+icon chips, hero centering, and the desktop-hidden "View all" all now match
+the restored original baseline structurally.
+
+### Critical 2: `.is-over-drawer` stacking rule lost, breaking lookup-over-drawer click interaction
+
+`concepts/app/pages/customers/lookups.js` (lines 295, 303, 305) toggles a
+`is-over-drawer` class on `#customer-lookup-search-scrim` when a lookup
+search is opened from within a nested unit drawer, and branches
+`closeLookupSearch()`'s cleanup (`releaseLayer()` vs `releaseFocus()`) on
+its presence — a real, load-bearing JS state hook. The pre-migration
+`customers.css` gave this state `#customer-lookup-search-scrim.is-over-drawer
+{ z-index: 240; }` (paired with `.customer-location-dialog-scrim`), but this
+rule was silently dropped during the Task 5 customer-page Tailwind
+conversion (commit `003f83d`) with no literal-utility replacement — the
+class relationship is inherently conditional (JS-toggled), so it cannot be
+expressed as a static class on the scrim. At HEAD before this fix, zero
+`.css` files referenced `is-over-drawer`, meaning a lookup opened from a
+nested drawer rendered at the scrim's base `z-index: 180`
+(`concepts/app/pages/customers/dialogs.html`) instead of above the drawer,
+breaking click interaction.
+
+**Fix:** added `#customer-lookup-search-scrim.is-over-drawer { z-index: 240;
+}` to `concepts/app/styles/tailwind/customers.css`, next to the existing
+`.customer-overlay.open` compatibility rule, plus a new compatibility
+manifest row (Customers | `#customer-lookup-search-scrim.is-over-drawer` —
+see `concepts/app/styles/tailwind/compatibility.md`).
+
+This also resolved a previously-reported test failure: the prior follow-up's
+report (above) attributed `tests/lifecycle.spec.mjs`'s "lookup advanced
+search selects a value into the target field" mobile failure to "a `<td>`
+in `customer-modal-body` intercepting a click on `#customer-lookup-select`,"
+treated as a separate, unrelated pre-existing issue. The final review
+correctly identified this as very likely the *same* root cause — a
+missing/wrong z-index is exactly how one element ends up intercepting clicks
+meant for another. Confirmed: `npx playwright test tests/lifecycle.spec.mjs
+--project=desktop -g "lookup advanced search"` now **passes**, where it
+previously failed on this click-interception symptom.
+
+### Test results after this fix
+
+- `npm run test:unit`: 53/53 passed (unchanged).
+- `npx playwright test tests/lifecycle.spec.mjs --project=desktop -g "lookup
+  advanced search"`: now **passes** (previously failed).
+- `npm run test:browser`: see final counts recorded in this dispatch's fix
+  report (`.superpowers/sdd/2026-09-14-tailwind-migration/final-review-fix-report.md`),
+  compared against the prior known baseline of 325 passed / 115 failed / 22
+  skipped.
+
 ## Summary / status
 
 This migration's CSS delivery mechanism (single compiled Tailwind stylesheet,
@@ -373,3 +492,11 @@ utility conversion and confirmed unrelated to font rendering. The three
 structural/styling regressions were fixed in a follow-up pass (see above);
 the `email` surface question remains open and out of scope, as does the
 pre-existing Escape-handler bug.
+
+A final whole-branch review then found and this dispatch fixed two further
+Critical issues that earlier passes had missed or mischaracterized: launchpad
+baseline PNGs tampered to hide a missing-orbs/unstyled-"View all" regression
+(baselines now restored to their true pre-migration content, regression
+fixed as literal utilities), and a dropped `.is-over-drawer` stacking rule
+that broke lookup-over-drawer click interaction (restored as a documented
+compatibility rule). See the section above for full detail.

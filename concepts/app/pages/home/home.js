@@ -263,14 +263,16 @@ const pageAbort = new AbortController()
           const orbs = document.createElement('div')
           orbs.className = 'lp-orbs pointer-events-none relative z-0 col-start-1 row-start-1 overflow-hidden'
           orbs.setAttribute('aria-hidden', 'true')
+          const lpOrbLg = 'absolute rounded-full blur-[4px] bg-[radial-gradient(circle_at_34%_30%,color-mix(in_srgb,var(--accent)_4%,var(--surface))_0%,color-mix(in_srgb,var(--accent)_30%,var(--surface))_45%,color-mix(in_srgb,var(--accent)_46%,var(--surface))_100%)]'
+          const lpOrbSm = 'absolute z-[-1] rounded-full blur-[4px] bg-[radial-gradient(circle_at_30%_26%,color-mix(in_srgb,var(--accent)_18%,var(--surface))_0%,color-mix(in_srgb,var(--accent)_65%,var(--surface))_18%,color-mix(in_srgb,var(--accent)_96%,black_2%)_55%,color-mix(in_srgb,var(--accent)_82%,black_22%)_100%)]'
           orbs.innerHTML =
-            '<span class="lp-orb lp-orb--sm lp-orb-1"></span>' +
-            '<span class="lp-orb lp-orb--lg lp-orb-2"></span>' +
-            '<span class="lp-orb lp-orb--sm lp-orb-3"></span>' +
-            '<span class="lp-orb lp-orb--lg lp-orb-4"></span>' +
-            '<span class="lp-orb lp-orb--lg lp-orb-5"></span>' +
-            '<span class="lp-orb lp-orb--sm lp-orb-6"></span>' +
-            '<span class="lp-orb lp-orb--sm lp-orb-7"></span>'
+            `<span class="lp-orb ${lpOrbSm} animate-[lp-float-1_16s_ease-in-out_infinite_alternate] top-[64%] left-[-4%] size-[6vmax] opacity-95"></span>` +
+            `<span class="lp-orb ${lpOrbLg} animate-[lp-float-2_22s_ease-in-out_infinite_alternate] top-[5%] left-[74%] size-[30vmax] opacity-50"></span>` +
+            `<span class="lp-orb ${lpOrbSm} animate-[lp-float-3_18s_ease-in-out_infinite_alternate] top-[9%] left-[95%] size-[8vmax] opacity-90"></span>` +
+            `<span class="lp-orb ${lpOrbLg} animate-[lp-float-4_24s_ease-in-out_infinite_alternate] top-[84%] left-[42%] size-[24vmax] opacity-45"></span>` +
+            `<span class="lp-orb ${lpOrbLg} animate-[lp-float-5_20s_ease-in-out_infinite_alternate] top-[16%] left-[14%] size-[16vmax] opacity-35"></span>` +
+            `<span class="lp-orb ${lpOrbSm} animate-[lp-float-6_14s_ease-in-out_infinite_alternate] top-[14%] left-[13%] size-[4vmax] opacity-80"></span>` +
+            `<span class="lp-orb ${lpOrbSm} animate-[lp-float-7_19s_ease-in-out_infinite_alternate] top-[96%] left-[14%] size-[6vmax] opacity-85"></span>`
           lp.appendChild(orbs)
           const content = document.createElement('div')
           content.className = 'lp-content relative isolate z-[1] col-start-1 row-start-1 flex min-h-screen min-w-0 flex-col overflow-hidden'
@@ -385,7 +387,7 @@ const pageAbort = new AbortController()
             })
             const viewAll = document.createElement('button')
             viewAll.type = 'button'
-            viewAll.className = 'lp-view-all'
+            viewAll.className = 'lp-view-all hidden max-[620px]:inline-flex max-[620px]:min-h-11 max-[620px]:items-center max-[620px]:mt-1 max-[620px]:px-1.5 max-[620px]:border-0 max-[620px]:text-[var(--accent)] max-[620px]:bg-transparent max-[620px]:text-[12.5px] max-[620px]:font-bold'
             viewAll.setAttribute('aria-expanded', 'false')
             viewAll.textContent = t('View all')
             viewAll.addEventListener('click', () => {
