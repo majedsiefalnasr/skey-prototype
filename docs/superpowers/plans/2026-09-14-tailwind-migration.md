@@ -139,11 +139,11 @@ export async function compileTailwind({root, output}) {
 
 **Interfaces:** Invoice add-item remains bound with `addItemButton.addEventListener`, customer mode/layout restoration continues through `customers.setMode` and `customers.setLayout`, and existing page roots are not wrapped.
 
-- [ ] Add failing visual checks for invoice record/list and customer record/list in desktop, mobile touch, dark, high contrast, and RTL.
-- [ ] Convert record cards, fields, tabs, totals, lists, filters, dialogs, print views, customer layouts/lookups/images, and list statistics to literal utilities while retaining classes used as JS selectors.
-- [ ] Preserve only grid relationships, `:has()`/ARIA state selectors, print rules, and generated content in the two owner-local compatibility files with manifest rows.
-- [ ] Run invoice line entry once-per-click, customer reload restoration, dirty-leave, lookup, nested drawer, and print focus scenarios before deleting each retired page stylesheet.
-- [ ] Run focused parity and lifecycle tests, then `npm run test:unit`. Commit `refactor: migrate invoice and customer pages to Tailwind utilities`.
+- [x] Add failing visual checks for invoice record/list and customer record/list in desktop, mobile touch, dark, high contrast, and RTL.
+- [x] Convert record cards, fields, tabs, totals, lists, filters, dialogs, print views, customer layouts/lookups/images, and list statistics to literal utilities while retaining classes used as JS selectors.
+- [x] Preserve only grid relationships, `:has()`/ARIA state selectors, print rules, and generated content in the two owner-local compatibility files with manifest rows.
+- [x] Run invoice line entry once-per-click, customer reload restoration, dirty-leave, lookup, nested drawer, and print focus scenarios before deleting each retired page stylesheet.
+- [x] Run focused parity and lifecycle tests, then `npm run test:unit`. Commit `refactor: migrate invoice and customer pages to Tailwind utilities`.
 
 ### Task 6: Convert geography and email pages, then remove legacy CSS
 
