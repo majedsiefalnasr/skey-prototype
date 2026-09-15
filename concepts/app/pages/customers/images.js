@@ -72,7 +72,7 @@ export function renderCustomerAvatar(row, deps) {
   const image = customerImageData(row.photo)
   const fallback = `<span class="data-record-avatar customer-avatar-fallback [width:72px] rounded-full [font-size:20px] font-bold" aria-hidden="true">${initials}</span>`
   if (!image) return fallback
-  return `<button type="button" class="data-record-avatar customer-avatar-trigger image-fit-${image.fit}" ${customerImagePreviewAttributes(row, image, deps)}><img src="${encodeHtml(image.src)}" alt="" data-customer-image><span class="data-record-avatar customer-avatar-fallback [width:72px] rounded-full [font-size:20px] font-bold" aria-hidden="true" hidden>${initials}</span></button>`
+  return `<button type="button" class="data-record-avatar customer-avatar-trigger image-fit-${image.fit} [width:72px] rounded-full overflow-hidden p-0 border-0" ${customerImagePreviewAttributes(row, image, deps)}><img src="${encodeHtml(image.src)}" alt="" data-customer-image class="block size-full ${image.fit === 'contain' ? 'object-contain' : 'object-cover'}"><span class="data-record-avatar customer-avatar-fallback [width:72px] rounded-full [font-size:20px] font-bold" aria-hidden="true" hidden>${initials}</span></button>`
 }
 
 /**

@@ -263,16 +263,113 @@ test; every failure above is specifically the `toHaveScreenshot` assertion,
 not the structural stylesheet-link assertions. Stylesheet loading itself is
 correct.
 
+## Follow-up fix: three audit-flagged regressions resolved
+
+A follow-up task (after Task 7's audit) fixed the three real regressions
+Task 7 identified but was not scoped to repair. All three were introduced
+during earlier tasks' utility conversion, not by Task 7 itself.
+
+1. **`.data-menu-popover` selector dropped from markup.** Root cause:
+   `DATA_MENU_POPOVER_CLASS` in `concepts/app/components/data-list/list.js`
+   (line 47) was converted to a literal Tailwind utility string during
+   Task 4/6's data-list conversion, but the literal `data-menu-popover`
+   token that `menu-controller.js` and `actions.js` still query
+   (`querySelector('.data-menu-popover')`, `closest('.data-menu-popover')`)
+   was never included in the replacement string. Fix: added
+   `data-menu-popover` as the first literal token in
+   `DATA_MENU_POPOVER_CLASS`, matching the pattern already used by
+   `DATA_FILTER_CHIP_CLASS` on the next line, and updated the matching
+   `@source inline(...)` declaration in `concepts/app/styles/tailwind.css`
+   (line 27) to keep the compiled-CSS test assertions in sync with the new
+   string value. No JS selector files were touched — they already expected
+   this class to exist. Verified: the `mobile-touch`/`mobile-rtl`
+   `data-list-component.spec.mjs` tests that previously timed out after 30s
+   now complete in under 2s each (still failing on `maxDiffPixels: 0`
+   against the pre-existing font-rendering-noise baseline drift, not on
+   timeout).
+
+2. **Launchpad hero section rendering ~70px taller than baseline.** Root
+   cause: `concepts/app/pages/home/home.js`'s `<img class="lp-logo" ...>`
+   (line 308) was left with only the semantic `lp-logo` class and no
+   matching literal-utility replacement for the pre-migration
+   `.lp-logo { height: 42px; width: auto; object-fit: contain;
+   margin-inline: auto; display: block }` rule (only density-compact and
+   narrow-viewport *override* rules for `.lp-logo` survived migration in
+   `tailwind/shell.css`; the base rule was dropped). The `<img>` therefore
+   rendered at its native ~80px decoded height instead of 42px, pushing the
+   heading/subtitle/search/tile-grid down and cutting a full row of app
+   tiles off-screen on a 900px viewport. Fix: added
+   `mx-auto block h-[42px] w-auto object-contain` directly to the `<img>`
+   element. Because this `<img>` tag sits on the same ~15KB single line as
+   the logo's base64 data URI, Tailwind's automatic source scanner does not
+   reliably tokenize classes that far into the line, so the new utilities
+   were also registered explicitly via a
+   `@source inline("lp-logo mx-auto block h-[42px] w-auto object-contain")`
+   declaration in `tailwind.css` to guarantee they compile regardless of
+   scanner reach. Verified visually: `tests/parity.spec.mjs`'s `launchpad`
+   screenshot now shows the heading at the same vertical position as
+   baseline and all four rows of app tiles visible (previously three rows,
+   with the fourth cut off).
+3. **Customer row-avatar had no sizing CSS.** Root cause:
+   `concepts/app/pages/customers/images.js`'s `renderCustomerAvatar`
+   (around line 75) rendered the row-avatar `<button>` and its `<img>`
+   with only semantic/selector classes (`data-record-avatar
+   customer-avatar-trigger image-fit-*`) and no matching literal utilities,
+   unlike its sibling fallback `<span>` two lines above (which correctly
+   has `[width:72px] rounded-full [font-size:20px] font-bold`) and the
+   record-photo-preview variant, which both got full utility treatment.
+   Fix: added `[width:72px] rounded-full overflow-hidden p-0 border-0` to
+   the button (matching the fallback span's sizing) and
+   `block size-full object-contain`/`object-cover` (selected by
+   `image.fit`) to the `<img>`, so the image now fills and clips to the
+   same 72px circular frame as its fallback sibling. Verified visually:
+   `tests/parity.spec.mjs`'s `customers-list` screenshot now shows both
+   photo-bearing rows (customers 200002, 200010) at the correct small
+   circular avatar size instead of the ~250px broken/oversized image.
+
+**Test results after the fix:**
+
+- `npm run test:unit`: 53/53 passed (unchanged).
+- `npm run test:browser`: **325 passed, 115 failed, 22 skipped** (462
+  total), versus this report's own audit baseline of 323 passed / 117
+  failed / 22 skipped. Total suite runtime dropped from ~4.2 minutes to
+  ~3.1 minutes, consistent with the mobile `data-list-component.spec.mjs`
+  and `lifecycle.spec.mjs` tests no longer hitting 30s timeouts.
+- Net change is smaller than a naive "12 timeout tests now pass" count
+  would suggest, because those 12 tests still fail — just on the
+  pre-existing font-rendering-noise pixel diff (`maxDiffPixels: 0`) instead
+  of a timeout. The real, verified improvement is: (a) those tests no
+  longer hang for 30s each, and (b) the `launchpad`/`launchpad search
+  panel`/`customers-list` surfaces no longer show the gross structural
+  regressions (hero height, oversized avatar) on top of the pre-existing
+  font noise — only the font noise itself remains, which this report
+  already documents as a reviewed, out-of-scope exception.
+- One correction to this report's original attribution: the audit's Task 7
+  pass attributed the `lifecycle.spec.mjs` "lookup advanced search selects
+  a value into the target field" mobile timeout to "the same popover
+  mechanism reused by the customer lookup menu." Investigation during the
+  follow-up fix found this is inaccurate — `#customer-lookup-select` lives
+  in the customer record's own `customer-lookup-search-scrim` overlay
+  (`concepts/app/pages/customers/dialogs.html`), styled and positioned
+  entirely independently of `DATA_MENU_POPOVER_CLASS`/`menu-controller.js`
+  (it uses its own `positionMenu` function in
+  `concepts/app/pages/customers/lookups.js`). This test still fails after
+  the fix, but no longer via a 30s timeout — it now fails quickly on a
+  `<td>` in `customer-modal-body` intercepting a click on
+  `#customer-lookup-select`, a separate, pre-existing issue unrelated to
+  the `.data-menu-popover` regression and out of scope for this follow-up.
+
 ## Summary / status
 
 This migration's CSS delivery mechanism (single compiled Tailwind stylesheet,
 explicit `@source` registration, compatibility manifest, size budget) is
-complete and verified by 53/53 passing unit tests. However, the full browser
-matrix surfaced two confirmed, pre-existing structural regressions
+complete and verified by 53/53 passing unit tests. The full browser matrix
+originally surfaced two confirmed, pre-existing structural regressions
 (launchpad hero spacing, and the `.data-menu-popover` selector/JS mismatch
 breaking popover positioning most visibly on mobile viewports) plus one
 unstyled element (customer row avatar) and one navigation/test-coverage
 question (`email` surface), all introduced or exposed during earlier tasks'
-utility conversion and confirmed unrelated to font rendering. Task 7's own
-charter is audit-and-document, not markup/JS repair, so these are recorded
-here for escalation rather than fixed in this pass.
+utility conversion and confirmed unrelated to font rendering. The three
+structural/styling regressions were fixed in a follow-up pass (see above);
+the `email` surface question remains open and out of scope, as does the
+pre-existing Escape-handler bug.
