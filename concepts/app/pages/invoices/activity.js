@@ -1,6 +1,7 @@
 import {CARDS, ACTIVITY, STATUSES} from '../../prototype/fixtures/invoices.js'
 
 const ACTIVITY_DRAWER_NOTE_CLASS = 'drnote px-[18px] py-[13px] text-xs text-faint'
+const ACTIVITY_SECONDARY_BUTTON_CLASS = 'inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-[11px] py-1.5 font-medium whitespace-nowrap hover:enabled:bg-[var(--line-2)] disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]'
 const ACTIVITY_CARD_CLASS = 'card flex gap-3 border-b border-[var(--line-2)] px-[18px] py-3.5'
 const ACTIVITY_CARD_MARKER_CLASS = 'mk flex w-[22px] flex-none justify-center pt-0.5'
 const ACTIVITY_CARD_DOT_CLASS = 'dot flex size-5 items-center justify-center rounded-full border-2 border-[var(--st-post-ink)] bg-surface text-[var(--st-post-ink)]'
@@ -92,7 +93,7 @@ const pageAbort = new AbortController()
               cta:
                 state.mode === 'create'
                   ? ''
-                  : '<button class="lbtn out" id="first-note">Write the first note</button>',
+                  : `<button class="lbtn out ${ACTIVITY_SECONDARY_BUTTON_CLASS}" id="first-note">Write the first note</button>`,
             })
             return
           }

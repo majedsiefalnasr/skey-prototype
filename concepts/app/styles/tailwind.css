@@ -53,6 +53,8 @@
 @source inline("bg-[var(--avatar-tone-5-bg)]! text-[var(--avatar-tone-5-ink)]!");
 /* Dynamic utilities: ACTIVITY_DRAWER_NOTE_CLASS (concepts/app/pages/invoices/activity.js). */
 @source inline("drnote px-[18px] py-[13px] text-xs text-faint");
+/* Dynamic utilities: ACTIVITY_SECONDARY_BUTTON_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-[11px] py-1.5 font-medium whitespace-nowrap hover:enabled:bg-[var(--line-2)] disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]");
 /* Dynamic utilities: ACTIVITY_CARD_CLASS (concepts/app/pages/invoices/activity.js). */
 @source inline("card flex gap-3 border-b border-[var(--line-2)] px-[18px] py-3.5");
 /* Dynamic utilities: ACTIVITY_CARD_MARKER_CLASS (concepts/app/pages/invoices/activity.js). */

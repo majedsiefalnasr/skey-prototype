@@ -33,11 +33,70 @@ const semanticActivityClasses = new Set([
   'note-i', 'av2', 'who', 'txt',
 ]);
 
+const activityIconButtonUtilities = [
+  'relative', 'inline-flex', 'min-h-8', 'min-w-8', 'items-center', 'justify-center',
+  'gap-1.5', 'rounded-md', 'px-2', 'py-1', 'hover:enabled:bg-[var(--line-2)]',
+  'focus-visible:outline-2', 'focus-visible:outline-offset-2',
+  'focus-visible:outline-[var(--focus)]',
+];
+const activitySecondaryButtonUtilities = [
+  'inline-flex', 'items-center', 'gap-1.5', 'rounded-md', 'border', 'border-line',
+  'bg-surface', 'px-[11px]', 'py-1.5', 'font-medium', 'whitespace-nowrap',
+  'hover:enabled:bg-[var(--line-2)]', 'disabled:cursor-not-allowed',
+  'disabled:opacity-50', 'focus-visible:outline-2', 'focus-visible:outline-offset-2',
+  'focus-visible:outline-[var(--focus)]',
+];
+const activityPrimaryButtonUtilities = [
+  'inline-flex', 'items-center', 'gap-1.5', 'rounded-md', 'border',
+  'border-transparent', 'bg-accent', 'px-[11px]', 'py-1.5', 'font-medium',
+  'text-inverse', 'whitespace-nowrap', 'hover:enabled:bg-[var(--accent-hover)]',
+  'disabled:cursor-not-allowed', 'disabled:opacity-50', 'focus-visible:outline-2',
+  'focus-visible:outline-offset-2', 'focus-visible:outline-[var(--focus)]',
+];
+
+function assertClassTokens(actual, expected, label) {
+  const tokens = new Set(actual.split(/\s+/));
+  for (const token of expected) assert.ok(tokens.has(token), `${label} is missing ${token}`);
+}
+
 test('Tailwind compiler writes a non-empty staged stylesheet', async () => {
   const output = path.join(await mkdtemp(path.join(tmpdir(), 'tw-')), 'tailwind.css');
   const {bytes} = await compileTailwind({root: process.cwd(), output});
   assert.ok(bytes > 0);
   assert.match(await readFile(output, 'utf8'), /@layer utilities|\.flex/);
+});
+
+test('Task 4 activity drawer buttons own their literal utility presentation', async () => {
+  const template = await readFile('concepts/app/pages/invoices/activity-dialog.html', 'utf8');
+  const renderer = await readFile('concepts/app/pages/invoices/activity.js', 'utf8');
+  const buttonClasses = [...template.matchAll(/<button\b[^>]*class="([^"]*\b(?:ibtn|lbtn)\b[^"]*)"[^>]*>/g)]
+    .map(([, classes]) => classes);
+
+  assert.equal(buttonClasses.length, 5, 'expected every static activity drawer ibtn/lbtn control');
+  for (const classes of buttonClasses) {
+    if (classes.split(/\s+/).includes('ibtn')) {
+      assertClassTokens(classes, activityIconButtonUtilities, 'activity close button');
+    } else if (classes.split(/\s+/).includes('pri')) {
+      assertClassTokens(classes, activityPrimaryButtonUtilities, 'activity primary button');
+    } else {
+      assertClassTokens(classes, activitySecondaryButtonUtilities, 'activity secondary button');
+    }
+  }
+
+  const dynamicGroup = literalClassGroups(
+    renderer,
+    'concepts/app/pages/invoices/activity.js'
+  ).find(({name}) => name === 'ACTIVITY_SECONDARY_BUTTON_CLASS');
+  assert.equal(
+    dynamicGroup?.utilities,
+    activitySecondaryButtonUtilities.join(' '),
+    'empty-state activity CTA must own the same literal secondary-button utilities'
+  );
+  assert.match(
+    renderer,
+    /<button class="lbtn out \$\{ACTIVITY_SECONDARY_BUTTON_CLASS\}" id="first-note">/,
+    'empty-state activity CTA must preserve its semantic lbtn/out classes'
+  );
 });
 
 test('Task 4 dynamic renderer groups have exact inline sources and every selector is generated', async () => {
