@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {access, readFile, readdir, stat} from 'node:fs/promises';
+import {access, readFile, readdir} from 'node:fs/promises';
 import path from 'node:path';
 import {build} from '../scripts/build.mjs';
 
@@ -122,18 +122,14 @@ test('architecture: Task 6 retires every remaining legacy stylesheet and its sou
   ].sort(), 'exactly one compiled Tailwind entry plus its compatibility layers and the prototype controls stylesheet may remain');
 });
 
-test('architecture: compiled Tailwind output stays within the Task 6 compatibility-manifest budget', async () => {
+test('architecture: compiled Tailwind output records every compatibility-manifest owner', async () => {
   const manifest = await readFile('concepts/app/styles/tailwind/compatibility.md', 'utf8');
   assert.match(manifest, /\| Geography \|/, 'geography compatibility rows must be recorded');
   assert.match(manifest, /\| Email \|/, 'email compatibility rows must be recorded');
-
-  await build();
-  const output = await stat('dist/concepts/app/styles/tailwind.css');
-  // Task 6 folds tokens.css's theme variables into tailwind/base.css and routes every
-  // remaining legacy CSS file (geography, email, shell dialogs, density/style-mode
-  // overrides) into compatibility layers, replacing the retired byte-reconstruction
-  // check with this compiled-output-size guardrail. 260000 is a rounded ceiling for
-  // this migration's compiled bundle, not the plan's final Task 7 budget.
-  assert.ok(output.size > 0);
-  assert.ok(output.size <= 260000, `Tailwind output exceeds the Task 6 ceiling: ${output.size} bytes`);
 });
+
+// The compiled-output-size ceiling is asserted once, in tests/tailwind.test.mjs
+// ("Task 7 final Tailwind budget"), per the plan's file-ownership table assigning
+// generated-output-size checks there. Keeping a second ceiling here duplicated
+// the same dist/concepts/app/styles/tailwind.css measurement against a different
+// number.

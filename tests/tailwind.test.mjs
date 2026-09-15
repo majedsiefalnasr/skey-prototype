@@ -203,7 +203,7 @@ test('Task 5 invoice and customer owners retire legacy sheets behind literal uti
   assert.match(customerSource, /function setLayout\(layout\)/);
 });
 
-test('Tailwind input has explicit sources and the generated output stays within the Task 4 budget', async () => {
+test('Tailwind input has explicit sources and the generated output includes expected selectors', async () => {
   const root = process.cwd();
   const input = await readFile(path.join(root, 'concepts/app/styles/tailwind.css'), 'utf8');
 
@@ -228,15 +228,37 @@ test('Tailwind input has explicit sources and the generated output stays within 
   assert.match(manifest, /ApexCharts DOM/);
   assert.match(manifest, /aria-\*.*relationships/);
   assert.match(manifest, /prototype density\/style modes/);
+});
 
-  const outputPath = path.join(await mkdtemp(path.join(tmpdir(), 'tw-budget-')), 'tailwind.css');
+// Task 7 final Tailwind budget.
+//
+// This is the single authoritative compiled-output-size ceiling for the whole
+// migration (tests/architecture.test.mjs previously duplicated this check
+// against a different, looser number; that duplicate was removed there in
+// favor of this one, per the plan's file-ownership table assigning
+// generated-output-size checks to this file).
+//
+// With every page (shell, components, invoices, customers, geography, email)
+// now migrated to literal Tailwind utilities and every legacy CSS file
+// deleted, the finished compiled sheet measures 197,594 bytes. That measured
+// size is recorded here as the final migration baseline; the ceiling is that
+// baseline plus 10% headroom for incidental future utility growth, not a
+// license to add new authored CSS. Any change that grows the compiled output
+// beyond this ceiling must either shrink elsewhere or have the report name a
+// reviewed dynamic-utility addition that justifies raising the baseline.
+const FINAL_TAILWIND_BASELINE_BYTES = 197594;
+const FINAL_TAILWIND_CEILING_BYTES = Math.ceil(FINAL_TAILWIND_BASELINE_BYTES * 1.1);
+
+test('Task 7 final Tailwind budget: compiled output stays within baseline + 10%', async () => {
+  const root = process.cwd();
+  const outputPath = path.join(await mkdtemp(path.join(tmpdir(), 'tw-final-budget-')), 'tailwind.css');
   await compileTailwind({root, output: outputPath});
   const output = await stat(outputPath);
-  // Migrating geography and email (the remaining page owners) and removing
-  // every other legacy CSS file raises the compiled utility sheet to 197,594
-  // bytes, since the sheet now covers the whole app instead of a subset.
-  // 198,000 is a narrow rounded guardrail for this migration, not the plan's
-  // final bundle budget. Task 7 owns the final baseline + 10% decision.
-  assert.ok(output.size >= 6518);
-  assert.ok(output.size <= 198000, `Tailwind output exceeds the reviewed Task 6 ceiling: ${output.size} bytes`);
+  assert.ok(output.size > 0);
+  assert.ok(
+    output.size <= FINAL_TAILWIND_CEILING_BYTES,
+    `Tailwind output exceeds the final migration budget of ${FINAL_TAILWIND_CEILING_BYTES} bytes ` +
+      `(baseline ${FINAL_TAILWIND_BASELINE_BYTES} + 10%): ${output.size} bytes. If this growth is an ` +
+      'intentional, reviewed dynamic-utility addition, name it in docs/tailwind-migration-report.md and raise the baseline.'
+  );
 });

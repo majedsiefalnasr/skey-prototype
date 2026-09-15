@@ -102,6 +102,18 @@ visual state, not an endorsement that the state is desired.
     `<head>` before body parsing, even though the initial Home screen never
     renders a chart.
 
+13. **Assistant drawer does not close with Escape.** `tests/messaging.spec.mjs`'s
+    "assistant proposal answers and closes with Escape" test fails: `#aiscrim` keeps
+    its `open` class after `Escape` is pressed. Found during the Tailwind utility
+    migration's (`docs/superpowers/plans/2026-09-14-tailwind-migration.md`) Task 6
+    and Task 7 test runs, but confirmed unrelated to that migration by two
+    independent checks (Task 6's implementer and its task reviewer, then Task 7):
+    every migration task's diff range is silent on `concepts/app/shell/main.js`,
+    any keyboard-handling file, and `concepts/app/components/assistant/*.js`. This
+    is a pre-existing defect in the prototype's Escape-key wiring, newly observed
+    during this migration's testing rather than introduced by it. Not fixed here;
+    out of scope for a CSS/utility migration.
+
 ## How this ledger is used by tests
 
 - No test in `tests/parity.spec.mjs` or elsewhere may assert that any of

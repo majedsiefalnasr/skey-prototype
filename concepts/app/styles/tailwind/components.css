@@ -49,7 +49,10 @@
      body.cards-fieldset (a global card-style density mode, toggled by the
      prototype's own #section-style control) compacts the data-list chart card
      into a single collapsed-looking header row. This is a body-mode selector
-     relationship, not a literal utility on the chart element itself. */
+     relationship, not a literal utility on the chart element itself.
+     Note: the data-list component's generic `.empty` state selectors live in
+     tailwind/invoices.css instead, since their only consumer is
+     concepts/app/pages/invoices/activity.js — see that file's comment. */
   body.cards-fieldset .rec-card.data-list-chart:has(> .data-list-chart-hd-row .rec-card-hd[aria-expanded='false']) {
     min-height: 32px;
   }
