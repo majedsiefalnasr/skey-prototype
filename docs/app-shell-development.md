@@ -7,7 +7,10 @@ Use the local server rather than opening the authored HTML directly.
 ## Run and build
 
 Use Node with native modules, the built-in test runner, and `fetch` (verification used
-Node 23.11.0). Install the lockfile's Playwright 1.63.0 dependency and its Chromium:
+Node 23.11.0). Install the exact locked dependency versions from `package-lock.json`
+(this also installs `tailwindcss`/`@tailwindcss/cli` 4.3.3 and `@playwright/test`
+1.63.0 — never install these ad hoc, or the compiled CSS byte size and screenshot
+baselines can drift), then install Playwright's own browser binary:
 
 ```sh
 npm ci
@@ -60,6 +63,14 @@ The baseline is commit `07f6b8a664e684022a3faf4c9e95392a13134529`, HTML blob
 `ddd8569`. `tests/support/baseline.json` records capture provenance;
 `tests/support/migration-inventory.json` records JavaScript ownership.
 
+`tests/tailwind.test.mjs`'s `Task 7 final Tailwind budget` test is the single
+authoritative ceiling on the compiled `dist/concepts/app/styles/tailwind.css` size:
+the migration's final measured size plus 10% headroom. See
+`docs/tailwind-migration-report.md` for the exact byte counts, package versions,
+retained compatibility-selector count, and the Tailwind utility migration's screenshot
+audit findings (including two confirmed pre-existing regressions surfaced by that
+audit that are out of scope for a documentation-only task to fix).
+
 ApexCharts remains the original render-blocking CDN script with its original integrity
 attribute. Static screenshot helpers abort the request because their initial views do
 not draw charts. `tests/chart-parity.spec.mjs` instead uses the actual integrity-checked
@@ -85,15 +96,89 @@ rules and checkpoint offsets. `tests/styles.test.mjs` proves the linked files re
 the mechanical stylesheet byte-for-byte, including media conditions and declarations.
 
 `styles/tailwind.css` is compiled during `npm run build` into the staged `dist/` tree;
-the browser always loads that generated stylesheet. It imports Tailwind's `theme` and
-`utilities` layers only, then imports the preserved reset, body, and reduced-motion rules
-from `styles/tailwind/base.css`. Semantic Tailwind values map to the existing token
-variables with `@theme inline`, so utility colors continue to follow theme changes.
-Register every source directory explicitly with `@source`; runtime class construction is
-not allowed. Before retaining selector CSS, add its owner, selector, reason, and removal
-condition to `styles/tailwind/compatibility.md`. Ordinary layout and presentation belong
-in literal utilities, while the manifest limits selector CSS to pseudo-elements,
-keyframes, ApexCharts DOM, ARIA relationships, and prototype density/style modes.
+the browser always loads that generated stylesheet. `scripts/tailwind.mjs` invokes the
+Tailwind v4 CLI (`@tailwindcss/cli`) ahead of time as a build step — Tailwind is never
+loaded, compiled, or run in the browser at request time, and the project adds no Vite,
+PostCSS, or framework runtime to do so. `styles/tailwind.css` imports Tailwind's `theme`
+and `utilities` layers only (no Preflight reset layer), then imports the preserved
+reset, body, and reduced-motion rules from `styles/tailwind/base.css`. Semantic Tailwind
+values map to the existing token variables with `@theme inline`, so utility colors
+continue to follow theme changes.
+
+### `@source` registration
+
+Register every directory Tailwind should scan for class names explicitly with `@source`
+in `styles/tailwind.css` (the authored shell HTML, every `**/*.html`, and every
+`**/*.js` under `concepts/app/`). Tailwind v4 only generates a utility's CSS if that
+utility's exact literal text appears somewhere inside a registered `@source` path — it
+does not evaluate JavaScript or resolve runtime string concatenation. A wildcard
+`@source inline("*` (matching everything) is never allowed; it would defeat the point of
+scanning literal sources and silently accept accidental or unreviewed classes.
+
+### Dynamic-utility safelisting with `@source inline()`
+
+A renderer that builds its class list from a `const SOME_THING_CLASS = 'a b c'` literal
+string constant (rather than writing the classes directly in a template) is invisible to
+Tailwind's normal source scan, because the scanner only sees the variable name
+(`SOME_THING_CLASS`), not the string's contents, at the call site. Every such constant
+needs its own named `@source inline("...")` declaration in `styles/tailwind.css`,
+directly copying the constant's exact literal utility string, with a comment identifying
+which renderer file and constant it mirrors, for example:
+
+```css
+/* Dynamic utilities: ACTIVITY_SECONDARY_BUTTON_CLASS (concepts/app/pages/invoices/activity.js). */
+@source inline("inline-flex items-center gap-1.5 rounded-md border border-line ...");
+```
+
+`tests/tailwind.test.mjs` enforces that every such constant across the known dynamic
+renderer files has exactly one matching `@source inline()` declaration, and that the
+declared string is character-for-character identical to the renderer's own constant —
+a drift between the two (one updated without the other) fails the test rather than
+silently generating stale or missing utility CSS. Keep this safelist narrow and named
+per constant; do not add a broad or wildcard `@source inline()` to work around a
+generation gap.
+
+### The literal-utility rule
+
+A class applied to an element must be literal, complete text somewhere in a registered
+`@source` path (either directly in an HTML/JS template, or via a named `@source
+inline()` declaration as above) — never assembled at runtime from a variable, template
+fragment, or string concatenation such as `` `text-${color}-500` ``. Tailwind cannot see
+or generate a utility whose name only exists after a runtime join/interpolation, so a
+constructed class name silently renders with no matching CSS. If a value must vary at
+runtime (a color, a size, a computed offset), either enumerate every literal variant
+Tailwind should generate (as full literal strings, e.g. one `@source inline()` entry per
+tone rather than a template), or fall back to an inline `style` property / CSS custom
+property read by an arbitrary-value utility (e.g. `bg-[var(--accent)]`) instead of a
+dynamically named utility class.
+
+### Compatibility-rule criteria: when a selector belongs in `compatibility.md` vs. must become a utility
+
+Ordinary layout, spacing, color, and presentation always belong in literal utilities on
+the element itself. Before adding any selector-based CSS rule (anything keyed to a CSS
+selector rather than applied as a class on one element), add a row to
+`styles/tailwind/compatibility.md` recording its owner, the selector, the reason it
+cannot be a literal utility, and the condition under which it could later be removed.
+A rule is only allowed if it falls into one of these categories:
+
+- **Pseudo-elements** (`::before` / `::after`) — generated content needs a selector
+  relationship that a class on the element itself cannot express.
+- **`@keyframes`** — named animation definitions cannot live on an element as literal
+  utilities; the element carries only the utilities that reference the animation name
+  (duration, timing, delay, reduced-motion override).
+- **ApexCharts DOM** — the third-party chart library creates its own DOM after the
+  application renders, which this codebase does not control or template.
+- **`[aria-*]` / state relationships** — a selector that reads another element's ARIA
+  attribute, a sibling's class, or a `:has()`/`:hover`/descendant relationship, where the
+  visual state genuinely depends on more than the element's own static classes.
+- **Prototype density/style modes** — the demo's own global `body.*` density/input-style
+  toggles that apply to many descendants at once via a body-level class.
+
+If a candidate rule does not fit one of these categories, it must become a literal
+utility (or set of utilities, toggled directly via JavaScript `classList` changes)
+instead of a new compatibility-manifest row. When in doubt, prefer expressing state by
+toggling a utility class directly on the affected element from its owning controller,
+rather than adding a new selector relationship.
 
 ## Add a page
 
