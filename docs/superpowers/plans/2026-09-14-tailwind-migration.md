@@ -41,7 +41,7 @@
 
 **Interfaces:** `compileTailwind({root, output}) -> Promise<{bytes:number}>` writes only `output`, rejects an absent CLI/input/output parent, and returns the byte size. `build()` calls it with the active staging directory before the atomic swap.
 
-- [ ] Write the failing compiler test:
+- [x] Write the failing compiler test:
 
 ```js
 test('Tailwind compiler writes a non-empty staged stylesheet', async () => {
@@ -52,9 +52,9 @@ test('Tailwind compiler writes a non-empty staged stylesheet', async () => {
 });
 ```
 
-- [ ] Run `node --test tests/tailwind.test.mjs`; expect failure because `compileTailwind` is not exported.
-- [ ] Verify the current official CLI package/version with `npm view tailwindcss version` and `npm view @tailwindcss/cli version`. The plan is pinned to the verified `4.3.3` pair: `npm install --save-dev --save-exact tailwindcss@4.3.3 @tailwindcss/cli@4.3.3`.
-- [ ] Implement the compiler with a direct executable path, never shell interpolation:
+- [x] Run `node --test tests/tailwind.test.mjs`; expect failure because `compileTailwind` is not exported.
+- [x] Verify the current official CLI package/version with `npm view tailwindcss version` and `npm view @tailwindcss/cli version`. The plan is pinned to the verified `4.3.3` pair: `npm install --save-dev --save-exact tailwindcss@4.3.3 @tailwindcss/cli@4.3.3`.
+- [x] Implement the compiler with a direct executable path, never shell interpolation:
 
 ```js
 import {execFile} from 'node:child_process';
@@ -71,7 +71,7 @@ export async function compileTailwind({root, output}) {
 }
 ```
 
-- [ ] Create the initial input with explicit sources and no Preflight:
+- [x] Create the initial input with explicit sources and no Preflight:
 
 ```css
 @import "tailwindcss/theme" layer(theme);
@@ -82,8 +82,8 @@ export async function compileTailwind({root, output}) {
 @theme { --color-accent: var(--accent); --color-ink: var(--ink); --color-surface: var(--surface); }
 ```
 
-- [ ] Change `build()` to compile into `path.join(staging, 'concepts/app/styles/tailwind.css')` after copying `concepts/` and before the atomic rename. Add a `<link rel="stylesheet" href="app/styles/tailwind.css">` immediately before the current legacy links for this checkpoint.
-- [ ] Run `npm run build && node --test tests/tailwind.test.mjs && npm run test:unit`; expect all green. Commit `build: add Tailwind compiler checkpoint`.
+- [x] Change `build()` to compile into `path.join(staging, 'concepts/app/styles/tailwind.css')` after copying `concepts/` and before the atomic rename. Add a `<link rel="stylesheet" href="app/styles/tailwind.css">` immediately before the current legacy links for this checkpoint.
+- [x] Run `npm run build && node --test tests/tailwind.test.mjs && npm run test:unit`; expect all green. Commit `build: add Tailwind compiler checkpoint`.
 
 ### Task 2: Establish Tailwind theme, compatibility boundaries, and output budget
 
@@ -91,10 +91,10 @@ export async function compileTailwind({root, output}) {
 
 **Interfaces:** `tailwind.css` imports only `theme`, `utilities`, and compatibility files. `compatibility.md` lists every retained selector as `owner | selector | reason | removal condition`.
 
-- [ ] Write failing tests that assert the Tailwind input has no `@import "tailwindcss"`, has all three explicit `@source` paths, has no wildcard `@source inline("*`, and records the output size in `dist/concepts/app/styles/tailwind.css`.
-- [ ] Run the focused test; expect the missing compatibility manifest/base import assertions to fail.
-- [ ] Move only the current reset/body/reduced-motion declarations from `styles/base.css` into `tailwind/base.css` inside `@layer base`; retain the source order and declarations exactly. Add its import after the Tailwind theme import.
-- [ ] Map existing token variables as theme values using `@theme inline` so utility colors reference the original semantic variables, for example:
+- [x] Write failing tests that assert the Tailwind input has no `@import "tailwindcss"`, has all three explicit `@source` paths, has no wildcard `@source inline("*`, and records the output size in `dist/concepts/app/styles/tailwind.css`.
+- [x] Run the focused test; expect the missing compatibility manifest/base import assertions to fail.
+- [x] Move only the current reset/body/reduced-motion declarations from `styles/base.css` into `tailwind/base.css` inside `@layer base`; retain the source order and declarations exactly. Add its import after the Tailwind theme import.
+- [x] Map existing token variables as theme values using `@theme inline` so utility colors reference the original semantic variables, for example:
 
 ```css
 @theme inline {
@@ -106,8 +106,8 @@ export async function compileTailwind({root, output}) {
 }
 ```
 
-- [ ] Create `compatibility.md` with the initial permitted categories: `::before/::after`, `@keyframes`, ApexCharts DOM, `[aria-*]` relationships, and prototype density/style modes. Do not list ordinary layout selectors.
-- [ ] Run `npm run build`, capture the initial byte size in the test assertion, then run `npm run test:unit`. Commit `style: define Tailwind theme and compatibility boundary`.
+- [x] Create `compatibility.md` with the initial permitted categories: `::before/::after`, `@keyframes`, ApexCharts DOM, `[aria-*]` relationships, and prototype density/style modes. Do not list ordinary layout selectors.
+- [x] Run `npm run build`, capture the initial byte size in the test assertion, then run `npm run test:unit`. Commit `style: define Tailwind theme and compatibility boundary`.
 
 ### Task 3: Convert shell and launchpad utilities
 
@@ -115,11 +115,11 @@ export async function compileTailwind({root, output}) {
 
 **Interfaces:** Shell markup uses literal utilities for frame, topbar, sidebar, launchpad, menus, search, keyboard sheet, and appearance/customize layout. `shell.css` retains only documented relational/animation rules.
 
-- [ ] Add a failing desktop and RTL-mobile screenshot test for `launchpad`, `list`, and the search panel, using the existing `boot`, `openSurface`, and `settle` helpers with `maxDiffPixels: 0`.
-- [ ] Convert the shell's repeated flex/grid/spacing/typography/border/background declarations to literal utilities on the existing elements. Preserve every id, class used as a JavaScript selector, ARIA attribute, and template boundary.
-- [ ] Move only shell-specific `@keyframes`, `.search-typing-label::after`, app-switcher relational selectors, and appearance previews to `@layer components` in `tailwind/shell.css`; add one manifest row per selector group.
-- [ ] Remove the migrated shell/home/app stylesheet links and files only after `rg -n 'shell(-[2-7])?\.css|home\.css|app(-[2-4])?\.css' concepts/app-shell.html` returns no retired link.
-- [ ] Run the focused screenshot test, `npm run test:unit`, and the desktop/mobile/RTL parity projects. Commit `refactor: migrate shell and launchpad to Tailwind utilities`.
+- [x] Add a failing desktop and RTL-mobile screenshot test for `launchpad`, `list`, and the search panel, using the existing `boot`, `openSurface`, and `settle` helpers with `maxDiffPixels: 0`.
+- [x] Convert the shell's repeated flex/grid/spacing/typography/border/background declarations to literal utilities on the existing elements. Preserve every id, class used as a JavaScript selector, ARIA attribute, and template boundary.
+- [x] Move only shell-specific `@keyframes`, `.search-typing-label::after`, app-switcher relational selectors, and appearance previews to `@layer components` in `tailwind/shell.css`; add one manifest row per selector group.
+- [x] Remove the migrated shell/home/app stylesheet links and files only after `rg -n 'shell(-[2-7])?\.css|home\.css|app(-[2-4])?\.css' concepts/app-shell.html` returns no retired link.
+- [x] Run the focused screenshot test, `npm run test:unit`, and the desktop/mobile/RTL parity projects. Commit `refactor: migrate shell and launchpad to Tailwind utilities`.
 
 ### Task 4: Convert shared component utilities
 
@@ -127,11 +127,11 @@ export async function compileTailwind({root, output}) {
 
 **Interfaces:** Component APIs and selectors consumed by JavaScript remain unchanged. Dynamic renderer output emits literal utilities; any fixed class generated only in a JS string appears in one `@source inline()` declaration with an adjacent comment naming the renderer.
 
-- [ ] Add failing checks that `renderers.js`, `context-menu.js`, `notifications.js`, and `assistant.js` still render visible controls after compiled CSS is loaded; test toast, focus trapping, unread state, pager, and chart cleanup through existing scenarios.
-- [ ] Convert reusable button, menu, dialog, toast, notification, pager, loading, data-list table/card/kanban styles to utilities in their owning templates/renderers.
-- [ ] Keep only ApexCharts selectors, pseudo-elements, table pseudo-structure, and behavior-state relationships in `tailwind/components.css`; document each retained group.
-- [ ] Add exact `@source inline()` entries for every dynamic utility not found in static source and verify the generated CSS contains each escaped selector.
-- [ ] Remove retired component stylesheet links/files, run focused component browser tests across desktop, touch, high-contrast, and reduced motion, then `npm run test:unit`. Commit `refactor: migrate shared components to Tailwind utilities`.
+- [x] Add failing checks that `renderers.js`, `context-menu.js`, `notifications.js`, and `assistant.js` still render visible controls after compiled CSS is loaded; test toast, focus trapping, unread state, pager, and chart cleanup through existing scenarios.
+- [x] Convert reusable button, menu, dialog, toast, notification, pager, loading, data-list table/card/kanban styles to utilities in their owning templates/renderers.
+- [x] Keep only ApexCharts selectors, pseudo-elements, table pseudo-structure, and behavior-state relationships in `tailwind/components.css`; document each retained group.
+- [x] Add exact `@source inline()` entries for every dynamic utility not found in static source and verify the generated CSS contains each escaped selector.
+- [x] Remove retired component stylesheet links/files, run focused component browser tests across desktop, touch, high-contrast, and reduced motion, then `npm run test:unit`. Commit `refactor: migrate shared components to Tailwind utilities`.
 
 ### Task 5: Convert invoice and customer pages
 
