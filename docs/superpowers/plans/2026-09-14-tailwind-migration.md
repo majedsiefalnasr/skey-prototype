@@ -151,11 +151,11 @@ export async function compileTailwind({root, output}) {
 
 **Interfaces:** Existing geographical hierarchy/picker, email compose/reply, unread notification, and RTL behavior remain unchanged. Source HTML loads only the generated Tailwind stylesheet and prototype-control CSS.
 
-- [ ] Write failing structural tests for exactly one non-prototype application stylesheet link, absent retired CSS files, and no `legacy-app.css` checkpoint reference.
-- [ ] Convert geography hierarchy/flow/pickers and email list/reader/composer markup to utilities. Keep only flow-canvas, print/pseudo-element, and third-party/behavior selectors in their owner-local compatibility files.
-- [ ] Replace the ordered application stylesheet-link block with one `<link rel="stylesheet" href="app/styles/tailwind.css">`; keep `shell-kit-css` last.
-- [ ] Delete the retired CSS files and style inventory tests only after their replacements pass. Replace the retired byte reconstruction check with a compatibility-manifest and compiled-output-size check.
-- [ ] Run `npm run build && npm run test:unit` plus complete parity and focused geography/email/messaging suites. Commit `refactor: complete Tailwind utility migration`.
+- [x] Write failing structural tests for exactly one non-prototype application stylesheet link, absent retired CSS files, and no `legacy-app.css` checkpoint reference.
+- [x] Convert geography hierarchy/flow/pickers and email list/reader/composer markup to utilities. Keep only flow-canvas, print/pseudo-element, and third-party/behavior selectors in their owner-local compatibility files.
+- [x] Replace the ordered application stylesheet-link block with one `<link rel="stylesheet" href="app/styles/tailwind.css">`; keep `shell-kit-css` last.
+- [x] Delete the retired CSS files and style inventory tests only after their replacements pass. Replace the retired byte reconstruction check with a compatibility-manifest and compiled-output-size check.
+- [x] Run `npm run build && npm run test:unit` plus complete parity and focused geography/email/messaging suites. Commit `refactor: complete Tailwind utility migration`.
 
 ### Task 7: Final visual audit and handoff
 
