@@ -162,9 +162,9 @@ export function renderCustomerGuided(root, customerData, customerState, deps) {
   const tabs = CUSTOMER_GUIDED_TABS.map(key => {
     const selected = activeKey === key
     const section = CUSTOMER_SECTIONS[key]
-    return `<button class="rec-tab${selected ? ' on' : ''}" id="customer-tab-${encodeHtml(key)}" type="button" role="tab" data-customer-tab="${encodeHtml(key)}" aria-controls="customer-guided-panel" aria-selected="${selected}" tabindex="${selected ? '0' : '-1'}"><span>${encodeHtml(section.title)}</span>${renderCustomerSectionStatus(key)}</button>`
+    return `<button class="rec-tab${selected ? ' on' : ''} inline-flex items-center gap-[7px] whitespace-nowrap border-0! border-b-2! border-b-transparent! bg-transparent! px-3.5 py-2 text-[13px]! font-semibold! text-muted! aria-selected:border-b-accent! aria-selected:text-accent! hover:not-aria-selected:bg-[var(--line-2)]! hover:not-aria-selected:text-ink!" id="customer-tab-${encodeHtml(key)}" type="button" role="tab" data-customer-tab="${encodeHtml(key)}" aria-controls="customer-guided-panel" aria-selected="${selected}" tabindex="${selected ? '0' : '-1'}"><span>${encodeHtml(section.title)}</span>${renderCustomerSectionStatus(key)}</button>`
   }).join('')
-  root.innerHTML = `<div class="customer-guided">${top}<div class="customer-guided-details"><div class="rec-tabs" role="tablist" aria-label="Customer details">${tabs}</div><div class="customer-guided-panel" id="customer-guided-panel" role="tabpanel" aria-labelledby="customer-tab-${encodeHtml(activeKey)}">${renderCustomerTabSection(activeKey)}</div></div></div>`
+  root.innerHTML = `<div class="customer-guided [.customer-record-canvas_&_[role=tab]:focus-visible]:[outline:2px_solid_var(--accent)] [.customer-record-canvas_&_[role=tab]:focus-visible]:[outline-offset:-2px]">${top}<div class="customer-guided-details"><div class="rec-tabs sticky [top:0] [z-index:2] flex gap-0.5 bg-surface [border-bottom:1px_solid_var(--line)] mb-3! overflow-x-auto" role="tablist" aria-label="Customer details">${tabs}</div><div class="customer-guided-panel min-w-0" id="customer-guided-panel" role="tabpanel" aria-labelledby="customer-tab-${encodeHtml(activeKey)}">${renderCustomerTabSection(activeKey)}</div></div></div>`
 }
 
 /**
@@ -183,9 +183,9 @@ export function renderCustomerFocused(root, customerData, customerState, deps) {
   }).join('')
   root.innerHTML = `
     ${renderCustomerSummaryBand()}
-    <div class="customer-focused">
-      <nav class="customer-focused-nav" aria-label="Customer sections">${nav}</nav>
-      <div class="customer-focused-panel" id="customer-focused-panel" role="region" aria-labelledby="customer-focused-${encodeHtml(customerState.activeSection)}">${renderCustomerSection(customerState.activeSection)}</div>
+    <div class="customer-focused grid [grid-template-columns:minmax(180px,_240px)_minmax(0,_1fr)] gap-3 items-start [@media((max-width:820px))]:[grid-template-columns:1fr] [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
+      <nav class="customer-focused-nav [.customer-record-canvas_&_button:focus-visible]:[outline:2px_solid_var(--accent)] [.customer-record-canvas_&_button:focus-visible]:[outline-offset:-2px] sticky [top:0] grid [gap:3px] [padding:6px] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [.customer-record-canvas_&_button]:grid [.customer-record-canvas_&_button]:[grid-template-columns:minmax(0,_1fr)_auto] [.customer-record-canvas_&_button]:gap-2 [.customer-record-canvas_&_button]:items-center [.customer-record-canvas_&_button]:[min-height:36px] [.customer-record-canvas_&_button]:[padding:7px_9px] [.customer-record-canvas_&_button]:[border:0] [.customer-record-canvas_&_button]:rounded-md [.customer-record-canvas_&_button]:text-muted [.customer-record-canvas_&_button]:[background:transparent] [.customer-record-canvas_&_button]:text-start [.customer-record-canvas_&_button]:[cursor:pointer] [.customer-record-canvas_&_button:hover]:text-ink [.customer-record-canvas_&_button:hover]:bg-[var(--line-2)] [body.density-compact_.customer-record-canvas_&_button]:[min-height:30px] [body.density-compact_.customer-record-canvas_&_button]:[padding:4px_7px] [@media((max-width:820px))]:[position:static] [@media((max-width:820px))]:[grid-template-columns:repeat(2,_minmax(0,_1fr))] [@media((max-width:720px))]:sticky [@media((max-width:720px))]:[top:0] [@media((max-width:720px))]:[z-index:2] [@media((max-width:720px))]:flex [@media((max-width:720px))]:overflow-x-auto [@media((max-width:720px))]:whitespace-nowrap [@media((max-width:720px))]:[.customer-record-canvas_&_button]:[flex:none]" aria-label="Customer sections">${nav}</nav>
+      <div class="customer-focused-panel min-w-0" id="customer-focused-panel" role="region" aria-labelledby="customer-focused-${encodeHtml(customerState.activeSection)}">${renderCustomerSection(customerState.activeSection)}</div>
     </div>`
 }
 
@@ -203,7 +203,7 @@ export function renderCustomerCompact(root, customerData, customerState, deps) {
   }).join('')
   root.innerHTML = `
     ${renderCustomerSummaryBand()}
-    <div class="customer-compact-grid">${cards}</div>`
+    <div class="customer-compact-grid grid [grid-template-columns:repeat(12,_minmax(0,_1fr))] gap-3">${cards}</div>`
 }
 
 /**
@@ -225,8 +225,8 @@ export function renderCustomerScroll(root, customerData, customerState, deps) {
     return `<div id="customer-section-${encodeHtml(key)}" data-customer-scroll-target="${encodeHtml(key)}">${section}</div>`
   }).join('')
   root.innerHTML = `
-    <div class="customer-scroll-layout">
-      <nav class="customer-scroll-nav" aria-label="Customer sections">${nav}</nav>
-      <div class="customer-scroll-content">${sections}</div>
+    <div class="customer-scroll-layout grid [grid-template-columns:minmax(180px,_240px)_minmax(0,_1fr)] gap-3 items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
+      <nav class="customer-scroll-nav [.customer-record-canvas_&_button:focus-visible]:[outline:2px_solid_var(--accent)] [.customer-record-canvas_&_button:focus-visible]:[outline-offset:-2px] sticky [top:0] grid [gap:3px] [padding:6px] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [.customer-record-canvas_&_button]:[min-height:36px] [.customer-record-canvas_&_button]:[padding:7px_9px] [.customer-record-canvas_&_button]:[border:0] [.customer-record-canvas_&_button]:rounded-md [.customer-record-canvas_&_button]:text-muted [.customer-record-canvas_&_button]:[background:transparent] [.customer-record-canvas_&_button]:[font:inherit] [.customer-record-canvas_&_button]:text-start [.customer-record-canvas_&_button]:[cursor:pointer] [.customer-record-canvas_&_button:hover]:text-ink [.customer-record-canvas_&_button:hover]:bg-[var(--line-2)] [body.density-compact_.customer-record-canvas_&_button]:[min-height:30px] [body.density-compact_.customer-record-canvas_&_button]:[padding:4px_7px] [@media((max-width:720px))]:sticky [@media((max-width:720px))]:[top:0] [@media((max-width:720px))]:[z-index:2] [@media((max-width:720px))]:flex [@media((max-width:720px))]:overflow-x-auto [@media((max-width:720px))]:whitespace-nowrap [@media((max-width:720px))]:[.customer-record-canvas_&_button]:[flex:none]" aria-label="Customer sections">${nav}</nav>
+      <div class="customer-scroll-content min-w-0">${sections}</div>
     </div>`
 }

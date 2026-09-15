@@ -1,23 +1,23 @@
-    <div class="customer-overlay" id="data-export-scrim">
+    <div class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="data-export-scrim">
       <section
-        class="customer-modal data-export-modal"
+        class="customer-modal data-export-modal flex flex-col [width:min(760px,_96vw)] [max-height:min(760px,_92vh)] overflow-hidden [border-radius:10px] bg-surface [box-shadow:var(--shadow-2)]"
         role="dialog"
         aria-modal="true"
         aria-labelledby="data-export-title">
-        <header class="customer-modal-header">
+        <header class="customer-modal-header flex [flex:none] gap-3 items-start [padding:16px_20px] [border-bottom:1px_solid_var(--line)] [&_h3]:[margin:0]! [&_h3]:[font-size:16px] [&_p]:[margin:3px_0_0]! [&_p]:text-muted [&_p]:text-xs [padding:10px_14px]">
           <div>
             <h3 id="data-export-title">Export</h3>
             <p>Choose a format and scope for the exported file.</p>
           </div>
           <button
-            class="ibtn data-export-close"
+            class="ibtn data-export-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
             type="button"
             aria-label="Close export dialog"
             style="margin-inline-start: auto">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
         </header>
-        <div class="customer-modal-body">
+        <div class="customer-modal-body min-h-0 overflow-auto [padding:16px_20px] [padding:10px_14px]">
           <div
             class="data-export-formats geo-filter-quick"
             role="radiogroup"
@@ -35,11 +35,11 @@
               Word (.docx)
             </button>
           </div>
-          <div class="rec-field" style="margin-top: 14px">
+          <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg_xmlns=http://www.w3.org/2000/svg_width=12_height=12_viewBox=0_0_12_12%3E%3Cpath_fill=%2344546f_d=M2.5_4.5_6_8l3.5-3.5z/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0" style="margin-top: 14px">
             <span>File name</span>
             <input type="text" id="data-export-filename" autocomplete="off" />
           </div>
-          <div class="rec-field" style="margin-top: 14px">
+          <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg_xmlns=http://www.w3.org/2000/svg_width=12_height=12_viewBox=0_0_12_12%3E%3Cpath_fill=%2344546f_d=M2.5_4.5_6_8l3.5-3.5z/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0" style="margin-top: 14px">
             <span>Rows to export</span>
             <select id="data-export-scope">
               <option value="visible">Currently visible rows</option>
@@ -62,130 +62,130 @@
               aria-label="Columns to include"></div>
           </div>
         </div>
-        <footer class="customer-modal-footer">
+        <footer class="customer-modal-footer flex [flex:none] gap-2 justify-end [padding:12px_20px] [border-top:1px_solid_var(--line)] bg-[var(--line-2)]">
           <button class="lbtn out data-export-close" type="button">Cancel</button>
           <button class="lbtn pri" id="data-export-run" type="button">Export</button>
         </footer>
       </section>
     </div>
 
-    <div class="customer-overlay" id="geo-filter-scrim">
+    <div class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="geo-filter-scrim">
       <section
-        class="customer-modal geo-filter-modal"
+        class="customer-modal geo-filter-modal flex flex-col [width:min(760px,_96vw)] [max-height:min(760px,_92vh)] overflow-hidden [border-radius:10px] bg-surface [box-shadow:var(--shadow-2)]"
         role="dialog"
         aria-modal="true"
         aria-labelledby="geo-filter-title">
-        <header class="customer-modal-header">
+        <header class="customer-modal-header flex [flex:none] gap-3 items-start [padding:16px_20px] [border-bottom:1px_solid_var(--line)] [&_h3]:[margin:0]! [&_h3]:[font-size:16px] [&_p]:[margin:3px_0_0]! [&_p]:text-muted [&_p]:text-xs [padding:10px_14px]">
           <div>
             <h3 id="geo-filter-title">Filter records</h3>
             <p>Narrow the list by one or more fields.</p>
           </div>
           <button
-            class="ibtn geo-filter-close"
+            class="ibtn geo-filter-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
             type="button"
             aria-label="Close filter locations"
             style="margin-inline-start: auto">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
         </header>
-        <div class="customer-modal-body">
+        <div class="customer-modal-body min-h-0 overflow-auto [padding:16px_20px] [padding:10px_14px]">
           <div class="geo-filter-quick" role="radiogroup" aria-label="Quick filters"></div>
           <div class="geo-filter-fields"></div>
         </div>
-        <footer class="customer-modal-footer">
+        <footer class="customer-modal-footer flex [flex:none] gap-2 justify-end [padding:12px_20px] [border-top:1px_solid_var(--line)] bg-[var(--line-2)]">
           <button class="lbtn out" id="geo-filter-clear" type="button">Clear filter</button>
           <button class="lbtn pri geo-filter-close" type="button">Apply</button>
         </footer>
       </section>
     </div>
 
-    <div class="customer-overlay" id="save-filter-scrim">
+    <div class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="save-filter-scrim">
       <section
-        class="customer-modal save-filter-modal"
+        class="customer-modal save-filter-modal flex flex-col [width:min(760px,_96vw)] [max-height:min(760px,_92vh)] overflow-hidden [border-radius:10px] bg-surface [box-shadow:var(--shadow-2)]"
         role="dialog"
         aria-modal="true"
         aria-labelledby="save-filter-title">
-        <header class="customer-modal-header">
+        <header class="customer-modal-header flex [flex:none] gap-3 items-start [padding:16px_20px] [border-bottom:1px_solid_var(--line)] [&_h3]:[margin:0]! [&_h3]:[font-size:16px] [&_p]:[margin:3px_0_0]! [&_p]:text-muted [&_p]:text-xs [padding:10px_14px]">
           <div>
             <h3 id="save-filter-title">Save filter</h3>
             <p>Give this filter a name so you can apply it again later.</p>
           </div>
           <button
-            class="ibtn save-filter-close"
+            class="ibtn save-filter-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
             type="button"
             aria-label="Close save filter"
             style="margin-inline-start: auto">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
         </header>
-        <div class="customer-modal-body">
-          <label class="rec-field">
+        <div class="customer-modal-body min-h-0 overflow-auto [padding:16px_20px] [padding:10px_14px]">
+          <label class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg_xmlns=http://www.w3.org/2000/svg_width=12_height=12_viewBox=0_0_12_12%3E%3Cpath_fill=%2344546f_d=M2.5_4.5_6_8l3.5-3.5z/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0">
             <span>Filter name</span>
             <input type="text" id="save-filter-name" placeholder="e.g. Cash invoices this week" />
           </label>
-          <div class="rec-field">
+          <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg_xmlns=http://www.w3.org/2000/svg_width=12_height=12_viewBox=0_0_12_12%3E%3Cpath_fill=%2344546f_d=M2.5_4.5_6_8l3.5-3.5z/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0">
             <span>Icon</span>
             <div
-              class="data-icon-picker"
+              class="data-icon-picker flex flex-wrap gap-1.5"
               id="save-filter-icon-picker"
               role="radiogroup"
               aria-label="Filter icon"></div>
           </div>
-          <div class="rec-field">
+          <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg_xmlns=http://www.w3.org/2000/svg_width=12_height=12_viewBox=0_0_12_12%3E%3Cpath_fill=%2344546f_d=M2.5_4.5_6_8l3.5-3.5z/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0">
             <span>Conditions</span>
-            <ul class="data-filter-summary-list" id="save-filter-conditions"></ul>
+            <ul class="data-filter-summary-list grid [gap:5px] [margin:0]! [padding:10px_12px] [list-style:none] [border:1px_solid_var(--line)] rounded-lg bg-[var(--line-2)] [font-size:12.5px] text-ink" id="save-filter-conditions"></ul>
           </div>
         </div>
-        <footer class="customer-modal-footer">
+        <footer class="customer-modal-footer flex [flex:none] gap-2 justify-end [padding:12px_20px] [border-top:1px_solid_var(--line)] bg-[var(--line-2)]">
           <button class="lbtn out save-filter-close" type="button">Cancel</button>
           <button class="lbtn pri" id="save-filter-confirm" type="button">Save filter</button>
         </footer>
       </section>
     </div>
 
-    <div class="customer-overlay" id="manage-filters-scrim">
+    <div class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="manage-filters-scrim">
       <section
-        class="customer-modal manage-filters-modal"
+        class="customer-modal manage-filters-modal flex flex-col [width:min(760px,_96vw)] [max-height:min(760px,_92vh)] overflow-hidden [border-radius:10px] bg-surface [box-shadow:var(--shadow-2)]"
         role="dialog"
         aria-modal="true"
         aria-labelledby="manage-filters-title">
-        <header class="customer-modal-header">
+        <header class="customer-modal-header flex [flex:none] gap-3 items-start [padding:16px_20px] [border-bottom:1px_solid_var(--line)] [&_h3]:[margin:0]! [&_h3]:[font-size:16px] [&_p]:[margin:3px_0_0]! [&_p]:text-muted [&_p]:text-xs [padding:10px_14px]">
           <div>
             <h3 id="manage-filters-title">Manage filters</h3>
             <p>Rename, restyle, or update the conditions of a saved filter.</p>
           </div>
           <button
-            class="ibtn manage-filters-close"
+            class="ibtn manage-filters-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
             type="button"
             aria-label="Close manage filters"
             style="margin-inline-start: auto">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
         </header>
-        <div class="customer-modal-body data-manage-filters-body">
+        <div class="customer-modal-body data-manage-filters-body min-h-0 overflow-auto [padding:16px_20px] [padding:10px_14px] grid [grid-template-columns:200px_1fr] gap-4 [min-height:320px]">
           <ul
-            class="data-manage-filters-list"
+            class="data-manage-filters-list grid [align-content:start] gap-0.5 [margin:0]! [padding:0] [list-style:none] [border-inline-end:1px_solid_var(--line)] [padding-inline-end:12px]"
             id="manage-filters-list"
             role="listbox"
             aria-label="Saved filters"></ul>
-          <div class="data-manage-filters-editor" id="manage-filters-editor" hidden>
-            <label class="rec-field">
+          <div class="data-manage-filters-editor flex flex-col" id="manage-filters-editor" hidden>
+            <label class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg_xmlns=http://www.w3.org/2000/svg_width=12_height=12_viewBox=0_0_12_12%3E%3Cpath_fill=%2344546f_d=M2.5_4.5_6_8l3.5-3.5z/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0">
               <span>Filter name</span>
               <input type="text" id="manage-filter-name" />
             </label>
-            <div class="rec-field">
+            <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg_xmlns=http://www.w3.org/2000/svg_width=12_height=12_viewBox=0_0_12_12%3E%3Cpath_fill=%2344546f_d=M2.5_4.5_6_8l3.5-3.5z/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0">
               <span>Icon</span>
               <div
-                class="data-icon-picker"
+                class="data-icon-picker flex flex-wrap gap-1.5"
                 id="manage-filter-icon-picker"
                 role="radiogroup"
                 aria-label="Filter icon"></div>
             </div>
-            <div class="rec-field">
+            <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg_xmlns=http://www.w3.org/2000/svg_width=12_height=12_viewBox=0_0_12_12%3E%3Cpath_fill=%2344546f_d=M2.5_4.5_6_8l3.5-3.5z/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0">
               <span>Conditions</span>
               <div id="manage-filter-fields"></div>
             </div>
-            <div class="data-manage-filters-editor-actions">
+            <div class="data-manage-filters-editor-actions flex justify-between [margin-top:auto]! [padding-top:14px]">
               <button class="lbtn out danger" type="button" id="manage-filter-delete">
                 <svg width="14" height="14" aria-hidden="true"><use href="#i-trash" /></svg>
                 Delete filter
@@ -194,39 +194,39 @@
             </div>
           </div>
         </div>
-        <footer class="customer-modal-footer">
+        <footer class="customer-modal-footer flex [flex:none] gap-2 justify-end [padding:12px_20px] [border-top:1px_solid_var(--line)] bg-[var(--line-2)]">
           <button class="lbtn out manage-filters-close" type="button">Close</button>
         </footer>
       </section>
     </div>
 
-    <div class="customer-overlay" id="kanban-blocked-scrim">
+    <div class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="kanban-blocked-scrim">
       <section
-        class="customer-modal kanban-blocked-modal"
+        class="customer-modal kanban-blocked-modal flex flex-col [width:min(760px,_96vw)] [max-height:min(760px,_92vh)] overflow-hidden [border-radius:10px] bg-surface [box-shadow:var(--shadow-2)]"
         role="alertdialog"
         aria-modal="true"
         aria-labelledby="kanban-blocked-title"
         aria-describedby="kanban-blocked-body">
-        <header class="customer-modal-header">
+        <header class="customer-modal-header flex [flex:none] gap-3 items-start [padding:16px_20px] [border-bottom:1px_solid_var(--line)] [&_h3]:[margin:0]! [&_h3]:[font-size:16px] [&_p]:[margin:3px_0_0]! [&_p]:text-muted [&_p]:text-xs [padding:10px_14px]">
           <div>
             <h3 id="kanban-blocked-title">Status change not allowed</h3>
           </div>
           <button
-            class="ibtn kanban-blocked-close"
+            class="ibtn kanban-blocked-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
             type="button"
             aria-label="Close"
             style="margin-inline-start: auto">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
         </header>
-        <div class="customer-modal-body">
+        <div class="customer-modal-body min-h-0 overflow-auto [padding:16px_20px] [padding:10px_14px]">
           <p id="kanban-blocked-body" class="kanban-blocked-message"></p>
           <div class="kanban-blocked-allowed" id="kanban-blocked-allowed" hidden>
             <span class="kanban-blocked-allowed-label">Allowed from here:</span>
             <div class="kanban-blocked-allowed-list" id="kanban-blocked-allowed-list"></div>
           </div>
         </div>
-        <footer class="customer-modal-footer">
+        <footer class="customer-modal-footer flex [flex:none] gap-2 justify-end [padding:12px_20px] [border-top:1px_solid_var(--line)] bg-[var(--line-2)]">
           <button class="lbtn pri kanban-blocked-close" type="button">Got it</button>
         </footer>
       </section>

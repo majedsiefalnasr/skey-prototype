@@ -22,6 +22,12 @@ const migrated = new Set([
   'app/components/data-list/list-2.css',
   'app/components/notifications/notifications.css',
   'app/components/dialog/dialog.css',
+  'app/pages/invoices/invoices.css',
+  'app/pages/invoices/invoices-2.css',
+  'app/pages/invoices/invoices-3.css',
+  'app/pages/invoices/invoices-4.css',
+  'app/pages/invoices/invoices-5.css',
+  'app/pages/customers/customers.css',
 ]);
 
 const withoutExtractionHeader = text => text.replace(/^\/\* Extracted[\s\S]*?\*\/\n/, '').trim();

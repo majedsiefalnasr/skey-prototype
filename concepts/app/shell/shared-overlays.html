@@ -1,6 +1,6 @@
     <!-- ===== shared customer image preview ===== -->
     <div
-      class="customer-image-popover"
+      class="customer-image-popover motion-reduce:[transition:none]"
       id="customer-image-popover"
       popover="auto"
       role="dialog"
@@ -14,7 +14,7 @@
           <span id="customer-image-popover-number"></span>
         </div>
         <button
-          class="ibtn customer-image-popover-close"
+          class="ibtn customer-image-popover-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
           type="button"
           data-customer-image-close
           aria-label="Close customer image preview">
@@ -24,11 +24,11 @@
     </div>
 
     <!-- ===== status popover ===== -->
-    <div class="stpop" id="stpop" role="dialog" aria-label="Document status">
-      <div class="hd">
+    <div class="stpop fixed [z-index:110] [width:352px] bg-surface [border:1px_solid_var(--line)] rounded-xl [box-shadow:var(--shadow-2)] [padding:15px] hidden" id="stpop" role="dialog" aria-label="Document status">
+      <div class="hd [.stpop_&]:flex [.stpop_&]:justify-between [.stpop_&]:items-baseline [.stpop_&]:mb-3! [.stpop_&_h4]:text-sm">
         <h4>Document status</h4>
-        <span class="sub"></span>
+        <span class="sub [.stpop_.hd_&]:text-xs [.stpop_.hd_&]:text-muted [.dhd_&]:text-xs [.dhd_&]:text-muted"></span>
       </div>
       <div class="rows"></div>
-      <div class="ft"><button class="dr-open" data-tab="stages">See the full history</button></div>
+      <div class="ft [.stpop_&]:[border-top:1px_solid_var(--line)] [.stpop_&]:[margin-top:9px]! [.stpop_&]:[padding-top:11px] [.stpop_&]:text-center [.stpop_&_button]:text-accent [.stpop_&_button]:font-medium [.stpop_&_button]:[font-size:13px]"><button class="dr-open" data-tab="stages">See the full history</button></div>
     </div>

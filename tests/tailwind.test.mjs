@@ -181,6 +181,28 @@ test('Task 4 compatibility CSS excludes ordinary renderer presentation selectors
   assert.match(compatibility, /\.data-list-shell \.inv-grid th:first-child/);
 });
 
+test('Task 5 invoice and customer owners retire legacy sheets behind literal utilities', async () => {
+  const input = await readFile('concepts/app/styles/tailwind.css', 'utf8');
+  const entry = await readFile('concepts/app-shell.html', 'utf8');
+
+  assert.match(input, /@import "\.\/tailwind\/invoices\.css" layer\(components\);/);
+  assert.match(input, /@import "\.\/tailwind\/customers\.css" layer\(components\);/);
+  assert.doesNotMatch(entry, /app\/pages\/invoices\/invoices(?:-[2-5])?\.css/);
+  assert.doesNotMatch(entry, /app\/pages\/customers\/customers\.css/);
+  const invoices = await readFile('concepts/app/styles/tailwind/invoices.css', 'utf8');
+  const customers = await readFile('concepts/app/styles/tailwind/customers.css', 'utf8');
+  for (const ordinarySelector of ['.stpill {', '.rdlg {', '.rec-tabs {', '.customer-record-canvas {', '.customer-overlay {']) {
+    assert.ok(!invoices.includes(ordinarySelector), `invoice presentation must be literal: ${ordinarySelector}`);
+    assert.ok(!customers.includes(ordinarySelector), `customer presentation must be literal: ${ordinarySelector}`);
+  }
+
+  const invoiceSource = await readFile('concepts/app/pages/invoices/record.js', 'utf8');
+  const customerSource = await readFile('concepts/app/pages/customers/customers.js', 'utf8');
+  assert.match(invoiceSource, /addItemButton\.addEventListener/);
+  assert.match(customerSource, /function setMode\(mode\)/);
+  assert.match(customerSource, /function setLayout\(layout\)/);
+});
+
 test('Tailwind input has explicit sources and the generated output stays within the Task 4 budget', async () => {
   const root = process.cwd();
   const input = await readFile(path.join(root, 'concepts/app/styles/tailwind.css'), 'utf8');
@@ -210,10 +232,10 @@ test('Tailwind input has explicit sources and the generated output stays within 
   const outputPath = path.join(await mkdtemp(path.join(tmpdir(), 'tw-budget-')), 'tailwind.css');
   await compileTailwind({root, output: outputPath});
   const output = await stat(outputPath);
-  // Completing the two previously deferred Task 4 component files raises the
-  // compiled utility sheet to 58,365 bytes while deleting their legacy CSS.
-  // 59,000 is a narrow rounded guardrail for this migration, not the plan's
-  // final bundle budget. Task 7 owns the final baseline + 10% decision.
+  // Migrating the invoices and customers pages (the two largest page owners)
+  // raises the compiled utility sheet to 141,472 bytes while deleting their
+  // legacy CSS. 142,000 is a narrow rounded guardrail for this migration, not
+  // the plan's final bundle budget. Task 7 owns the final baseline + 10% decision.
   assert.ok(output.size >= 6518);
-  assert.ok(output.size <= 59000, `Tailwind output exceeds the reviewed Task 4 ceiling: ${output.size} bytes`);
+  assert.ok(output.size <= 142000, `Tailwind output exceeds the reviewed Task 5 ceiling: ${output.size} bytes`);
 });

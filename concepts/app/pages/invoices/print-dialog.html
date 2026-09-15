@@ -1,39 +1,39 @@
     <!-- ===== print dialog ===== -->
-    <div class="dscrim" id="pscrim">
-      <div class="dlg" role="dialog" aria-modal="true" aria-label="Print Settings">
-        <div class="dhd">
+    <div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="pscrim">
+      <div class="dlg [width:min(720px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]" role="dialog" aria-modal="true" aria-label="Print Settings">
+        <div class="dhd flex items-center gap-3 [padding:14px_18px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px]">
           <svg width="18" height="18" aria-hidden="true"><use href="#i-print" /></svg>
           <div>
             <h3>Print Settings</h3>
-            <div class="sub">Sales Invoice 001000352026126</div>
+            <div class="sub [.stpop_.hd_&]:text-xs [.stpop_.hd_&]:text-muted [.dhd_&]:text-xs [.dhd_&]:text-muted">Sales Invoice 001000352026126</div>
           </div>
-          <button class="ibtn p-close" aria-label="Close" style="margin-inline-start: auto">
+          <button class="ibtn p-close [.rec-adjustment-row_&]:[margin-bottom:1px]!" aria-label="Close" style="margin-inline-start: auto">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
         </div>
-        <div class="dbody">
-          <fieldset class="fset">
+        <div class="dbody [padding:16px_18px] overflow-auto">
+          <fieldset class="fset [border:1px_solid_var(--line)] [border-radius:10px] [padding:12px_14px] mb-3.5! [&_legend]:text-xs [&_legend]:[text-transform:uppercase] [&_legend]:[letter-spacing:0.04em] [&_legend]:[color:var(--faint)] [&_legend]:[padding:0_6px]">
             <legend>Destination</legend>
-            <div class="dgrid" role="group" aria-label="Destination">
-              <button class="dcard" data-dest="preview" aria-pressed="true">
+            <div class="dgrid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="group" aria-label="Destination">
+              <button class="dcard [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start [&:hover]:[border-color:var(--line)] [&:hover]:[background:var(--surface-hover)] [&>span:last-child]:flex [&>span:last-child]:flex-col [&>span:last-child]:gap-0.5" data-dest="preview" aria-pressed="true">
                 <svg width="16" height="16" aria-hidden="true"><use href="#i-eye" /></svg>
                 <span
-                  ><span class="t">Preview</span
-                  ><span class="d">Look at it first, print from there</span></span
+                  ><span class="t [.strow_&]:font-semibold [.strow_&]:[font-size:13px] [.strow_&]:flex [.strow_&]:items-center [.strow_&]:[gap:7px] [.strow_&]:flex-wrap [.strow.off_&]:text-muted [.dcard_&]:font-semibold [.dcard_&]:[font-size:13px] [.dcard_&]:flex [.dcard_&]:items-center [.dcard_&]:gap-1.5 [.dcard_&]:flex-wrap">Preview</span
+                  ><span class="d [.dcard_&]:text-xs [.dcard_&]:text-muted [.dcard_&]:[line-height:1.35] [.d4_.cp-mini_&]:text-xs [.d4_.cp-mini_&]:text-muted">Look at it first, print from there</span></span
                 >
               </button>
-              <button class="dcard" data-dest="save" aria-pressed="false">
+              <button class="dcard [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start [&:hover]:[border-color:var(--line)] [&:hover]:[background:var(--surface-hover)] [&>span:last-child]:flex [&>span:last-child]:flex-col [&>span:last-child]:gap-0.5" data-dest="save" aria-pressed="false">
                 <svg width="16" height="16" aria-hidden="true"><use href="#i-dl" /></svg>
                 <span
-                  ><span class="t">Save as file</span
-                  ><span class="d">Download it to this computer</span></span
+                  ><span class="t [.strow_&]:font-semibold [.strow_&]:[font-size:13px] [.strow_&]:flex [.strow_&]:items-center [.strow_&]:[gap:7px] [.strow_&]:flex-wrap [.strow.off_&]:text-muted [.dcard_&]:font-semibold [.dcard_&]:[font-size:13px] [.dcard_&]:flex [.dcard_&]:items-center [.dcard_&]:gap-1.5 [.dcard_&]:flex-wrap">Save as file</span
+                  ><span class="d [.dcard_&]:text-xs [.dcard_&]:text-muted [.dcard_&]:[line-height:1.35] [.d4_.cp-mini_&]:text-xs [.d4_.cp-mini_&]:text-muted">Download it to this computer</span></span
                 >
               </button>
-              <button class="dcard" data-dest="send" aria-pressed="false">
+              <button class="dcard [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start [&:hover]:[border-color:var(--line)] [&:hover]:[background:var(--surface-hover)] [&>span:last-child]:flex [&>span:last-child]:flex-col [&>span:last-child]:gap-0.5" data-dest="send" aria-pressed="false">
                 <svg width="16" height="16" aria-hidden="true"><use href="#i-mail" /></svg>
                 <span
-                  ><span class="t">Send <span class="badge fix">proposal</span></span
-                  ><span class="d"
+                  ><span class="t [.strow_&]:font-semibold [.strow_&]:[font-size:13px] [.strow_&]:flex [.strow_&]:items-center [.strow_&]:[gap:7px] [.strow_&]:flex-wrap [.strow.off_&]:text-muted [.dcard_&]:font-semibold [.dcard_&]:[font-size:13px] [.dcard_&]:flex [.dcard_&]:items-center [.dcard_&]:gap-1.5 [.dcard_&]:flex-wrap">Send <span class="badge fix">proposal</span></span
+                  ><span class="d [.dcard_&]:text-xs [.dcard_&]:text-muted [.dcard_&]:[line-height:1.35] [.d4_.cp-mini_&]:text-xs [.d4_.cp-mini_&]:text-muted"
                     >Email or WhatsApp. The product has the fields for this but does not offer it
                     yet</span
                   ></span
@@ -41,10 +41,10 @@
               </button>
             </div>
           </fieldset>
-          <fieldset class="fset">
+          <fieldset class="fset [border:1px_solid_var(--line)] [border-radius:10px] [padding:12px_14px] mb-3.5! [&_legend]:text-xs [&_legend]:[text-transform:uppercase] [&_legend]:[letter-spacing:0.04em] [&_legend]:[color:var(--faint)] [&_legend]:[padding:0_6px]">
             <legend>Document</legend>
-            <div class="fgrid">
-              <div class="fld">
+            <div class="fgrid grid [grid-template-columns:repeat(2,_1fr)] [gap:12px_14px]">
+              <div class="fld flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_label]:flex [&_label]:items-center [&_label]:[gap:7px] [&_select]:[flex:1] [&_select]:[min-height:32px] [&_select]:[border:1px_solid_var(--line)] [&_select]:[border-radius:7px] [&_select]:[padding:6px_9px] [&_select]:[font:inherit] [&_select]:bg-surface [&_input]:[flex:1] [&_input]:[min-height:32px] [&_input]:[border:1px_solid_var(--line)] [&_input]:[border-radius:7px] [&_input]:[padding:6px_9px] [&_input]:[font:inherit] [&_input]:bg-surface">
                 <label for="p-form">Print Form</label>
                 <select id="p-form">
                   <option>1 - POS</option>
@@ -52,19 +52,19 @@
                   <option>4 - Form 4</option>
                 </select>
               </div>
-              <div class="fld">
+              <div class="fld flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_label]:flex [&_label]:items-center [&_label]:[gap:7px] [&_select]:[flex:1] [&_select]:[min-height:32px] [&_select]:[border:1px_solid_var(--line)] [&_select]:[border-radius:7px] [&_select]:[padding:6px_9px] [&_select]:[font:inherit] [&_select]:bg-surface [&_input]:[flex:1] [&_input]:[min-height:32px] [&_input]:[border:1px_solid_var(--line)] [&_input]:[border-radius:7px] [&_input]:[padding:6px_9px] [&_input]:[font:inherit] [&_input]:bg-surface">
                 <label for="p-style">Report Style</label>
-                <div class="ctl">
+                <div class="ctl [.fld_&]:flex [.fld_&]:items-center [.fld_&]:gap-1.5">
                   <select id="p-style">
                     <option>1 - Default Style</option>
                   </select>
-                  <button class="ibtn" aria-label="Edit report styles">
+                  <button class="ibtn [.rec-adjustment-row_&]:[margin-bottom:1px]!" aria-label="Edit report styles">
                     <svg width="15" height="15" aria-hidden="true"><use href="#i-dots" /></svg
                     ><span class="tip">Edit report styles</span>
                   </button>
                 </div>
               </div>
-              <div class="fld">
+              <div class="fld flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_label]:flex [&_label]:items-center [&_label]:[gap:7px] [&_select]:[flex:1] [&_select]:[min-height:32px] [&_select]:[border:1px_solid_var(--line)] [&_select]:[border-radius:7px] [&_select]:[padding:6px_9px] [&_select]:[font:inherit] [&_select]:bg-surface [&_input]:[flex:1] [&_input]:[min-height:32px] [&_input]:[border:1px_solid_var(--line)] [&_input]:[border-radius:7px] [&_input]:[padding:6px_9px] [&_input]:[font:inherit] [&_input]:bg-surface">
                 <label for="p-lang">Language</label>
                 <select id="p-lang">
                   <option>ar - عربي</option>
@@ -73,10 +73,10 @@
               </div>
             </div>
           </fieldset>
-          <fieldset class="fset" data-when="save" hidden>
+          <fieldset class="fset [border:1px_solid_var(--line)] [border-radius:10px] [padding:12px_14px] mb-3.5! [&_legend]:text-xs [&_legend]:[text-transform:uppercase] [&_legend]:[letter-spacing:0.04em] [&_legend]:[color:var(--faint)] [&_legend]:[padding:0_6px]" data-when="save" hidden>
             <legend>File</legend>
-            <div class="fgrid">
-              <div class="fld">
+            <div class="fgrid grid [grid-template-columns:repeat(2,_1fr)] [gap:12px_14px]">
+              <div class="fld flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_label]:flex [&_label]:items-center [&_label]:[gap:7px] [&_select]:[flex:1] [&_select]:[min-height:32px] [&_select]:[border:1px_solid_var(--line)] [&_select]:[border-radius:7px] [&_select]:[padding:6px_9px] [&_select]:[font:inherit] [&_select]:bg-surface [&_input]:[flex:1] [&_input]:[min-height:32px] [&_input]:[border:1px_solid_var(--line)] [&_input]:[border-radius:7px] [&_input]:[padding:6px_9px] [&_input]:[font:inherit] [&_input]:bg-surface">
                 <label for="p-fmt">File Format</label>
                 <select id="p-fmt">
                   <option>1 - PDF</option>
@@ -89,25 +89,25 @@
               </div>
             </div>
           </fieldset>
-          <fieldset class="fset" data-when="send" hidden>
+          <fieldset class="fset [border:1px_solid_var(--line)] [border-radius:10px] [padding:12px_14px] mb-3.5! [&_legend]:text-xs [&_legend]:[text-transform:uppercase] [&_legend]:[letter-spacing:0.04em] [&_legend]:[color:var(--faint)] [&_legend]:[padding:0_6px]" data-when="send" hidden>
             <legend>Send <span class="badge fix">proposal</span></legend>
-            <div class="fgrid">
-              <div class="fld">
+            <div class="fgrid grid [grid-template-columns:repeat(2,_1fr)] [gap:12px_14px]">
+              <div class="fld flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_label]:flex [&_label]:items-center [&_label]:[gap:7px] [&_select]:[flex:1] [&_select]:[min-height:32px] [&_select]:[border:1px_solid_var(--line)] [&_select]:[border-radius:7px] [&_select]:[padding:6px_9px] [&_select]:[font:inherit] [&_select]:bg-surface [&_input]:[flex:1] [&_input]:[min-height:32px] [&_input]:[border:1px_solid_var(--line)] [&_input]:[border-radius:7px] [&_input]:[padding:6px_9px] [&_input]:[font:inherit] [&_input]:bg-surface">
                 <label for="p-chan">Channel</label
                 ><select id="p-chan">
                   <option>Email</option>
                   <option>WhatsApp</option>
                 </select>
               </div>
-              <div class="fld">
+              <div class="fld flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_label]:flex [&_label]:items-center [&_label]:[gap:7px] [&_select]:[flex:1] [&_select]:[min-height:32px] [&_select]:[border:1px_solid_var(--line)] [&_select]:[border-radius:7px] [&_select]:[padding:6px_9px] [&_select]:[font:inherit] [&_select]:bg-surface [&_input]:[flex:1] [&_input]:[min-height:32px] [&_input]:[border:1px_solid_var(--line)] [&_input]:[border-radius:7px] [&_input]:[padding:6px_9px] [&_input]:[font:inherit] [&_input]:bg-surface">
                 <label for="p-to">Receiver</label
                 ><input id="p-to" type="text" value="customer1@example.com" />
               </div>
-              <div class="fld" style="grid-column: 1/-1">
+              <div class="fld flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_label]:flex [&_label]:items-center [&_label]:[gap:7px] [&_select]:[flex:1] [&_select]:[min-height:32px] [&_select]:[border:1px_solid_var(--line)] [&_select]:[border-radius:7px] [&_select]:[padding:6px_9px] [&_select]:[font:inherit] [&_select]:bg-surface [&_input]:[flex:1] [&_input]:[min-height:32px] [&_input]:[border:1px_solid_var(--line)] [&_input]:[border-radius:7px] [&_input]:[padding:6px_9px] [&_input]:[font:inherit] [&_input]:bg-surface" style="grid-column: 1/-1">
                 <label for="p-subj">Subject</label
                 ><input id="p-subj" type="text" value="Sales Invoice 126 · lastchance" />
               </div>
-              <div class="fld" style="grid-column: 1/-1">
+              <div class="fld flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_label]:flex [&_label]:items-center [&_label]:[gap:7px] [&_select]:[flex:1] [&_select]:[min-height:32px] [&_select]:[border:1px_solid_var(--line)] [&_select]:[border-radius:7px] [&_select]:[padding:6px_9px] [&_select]:[font:inherit] [&_select]:bg-surface [&_input]:[flex:1] [&_input]:[min-height:32px] [&_input]:[border:1px_solid_var(--line)] [&_input]:[border-radius:7px] [&_input]:[padding:6px_9px] [&_input]:[font:inherit] [&_input]:bg-surface" style="grid-column: 1/-1">
                 <label for="p-msg">Message</label
                 ><input id="p-msg" type="text" value="Please find the invoice attached." />
               </div>
@@ -116,7 +116,7 @@
         </div>
         <div class="dfoot">
           <span class="sum">Preview · Arabic\English Form · English</span>
-          <span class="end">
+          <span class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2">
             <button class="lbtn out p-close">Cancel</button>
             <button class="lbtn out">
               <svg width="15" height="15" aria-hidden="true"><use href="#i-eye" /></svg> Preview

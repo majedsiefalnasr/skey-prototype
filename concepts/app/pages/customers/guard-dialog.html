@@ -1,18 +1,18 @@
-    <div class="dscrim" id="customer-gscrim">
-      <div class="guard" role="dialog" aria-modal="true" aria-labelledby="customer-g-title">
-        <div class="gh">
+    <div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="customer-gscrim">
+      <div class="guard [width:min(600px,_94vw)] bg-surface [border-radius:14px] [box-shadow:var(--shadow-2)] overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="customer-g-title">
+        <div class="gh [.guard_&]:flex [.guard_&]:items-center [.guard_&]:gap-3 [.guard_&]:[padding:20px_24px_16px] [.guard_&]:[border-bottom:1px_solid_var(--line)] [.guard_&_h3]:[font-size:18px] [.guard_&_h3]:font-bold">
           <svg width="17" height="17" style="color: var(--warn-ink)" aria-hidden="true">
             <use href="#i-clock" />
           </svg>
           <h3 id="customer-g-title">You have unsaved customer changes</h3>
         </div>
-        <div class="gb">
+        <div class="gb [.guard_&]:[padding:18px_24px_20px] [.guard_&]:text-sm [.guard_&]:[line-height:1.55] [.guard_&]:text-ink">
           <span id="customer-g-msg"></span>
-          <div class="lst" id="customer-g-what"></div>
+          <div class="lst [.guard_.gb_&]:[margin-top:14px]! [.guard_.gb_&]:[font-size:12.5px] [.guard_.gb_&]:text-muted" id="customer-g-what"></div>
         </div>
-        <div class="gf">
+        <div class="gf [.guard_&]:flex [.guard_&]:flex-wrap [.guard_&]:items-center [.guard_&]:gap-2.5 [.guard_&]:[padding:16px_24px] [.guard_&]:[border-top:1px_solid_var(--line)] [.guard_&]:bg-[var(--line-2)]">
           <button class="lbtn out" id="customer-g-discard">Leave without saving</button>
-          <span class="end">
+          <span class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5">
             <button class="lbtn out" id="customer-g-stay">Stay here</button>
             <button class="lbtn pri" id="customer-g-save">Save, then leave</button>
           </span>

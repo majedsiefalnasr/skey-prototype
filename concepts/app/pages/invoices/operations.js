@@ -479,7 +479,10 @@ const pageAbort = new AbortController()
             const n = CHAIN.filter(c => reached(c.id)).length
             p.querySelector('.segs').innerHTML = creating
               ? ''
-              : CHAIN.map(c => `<i class="seg${reached(c.id) ? ' on' : ''}"></i>`).join('')
+              : CHAIN.map(
+                  c =>
+                    `<i class="seg block h-1 w-3.5 rounded-sm bg-current ${reached(c.id) ? 'on opacity-100' : 'opacity-[.28]'}"></i>`
+                ).join('')
             p.querySelector('.cnt').textContent = creating ? '' : `${n} of ${CHAIN.length}`
           })
 
@@ -594,8 +597,8 @@ const pageAbort = new AbortController()
             m.innerHTML = CHAIN.map(c => {
               const on = reached(c.id),
                 cur = !creating && c.id === st
-              return `<div class="cp-mini ${on ? (cur ? 'cur' : 'done') : 'off'}"><span class="cp-dot">${on && !cur ? '<svg width="9" height="9"><use href="#i-check"/></svg>' : ''}</span>
-        <div><div class="n">${c.name}</div><div class="d">${on ? c.when || '—' : creating ? 'Not yet' : 'Not recorded'}</div></div></div>`
+              return `<div class="cp-mini ${on ? (cur ? 'cur' : 'done') : 'off'} flex [gap:9px] [padding-bottom:11px] relative [&:last-child]:[padding-bottom:0]"><span class="cp-dot [width:16px] [height:16px] rounded-full [flex:none] [border:2px_solid_var(--line)] bg-surface [z-index:1] flex items-center justify-center [color:var(--inverse)] [background:var(--accent)] [border-color:var(--accent)]">${on && !cur ? '<svg width="9" height="9"><use href="#i-check"/></svg>' : ''}</span>
+        <div><div class="n [.d4_.cp-mini_&]:text-xs [.d4_.cp-mini_&]:font-semibold [.d4_.cp-mini.off_&]:text-muted [.d4_.cp-mini.off_&]:font-normal">${c.name}</div><div class="d [.dcard_&]:text-xs [.dcard_&]:text-muted [.dcard_&]:[line-height:1.35] [.d4_.cp-mini_&]:text-xs [.d4_.cp-mini_&]:text-muted">${on ? c.when || '—' : creating ? 'Not yet' : 'Not recorded'}</div></div></div>`
             }).join('')
           })
           /* a locked record should say why, not just look grey — every status has its

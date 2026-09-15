@@ -38,7 +38,7 @@ const DATA_SORT_BUTTON_CLASS =
  */
 export function renderDataListRowActionMenu(config, key, actionsHtml, context, {encodeHtml, dataListIcon}) {
   const contextAttr = context ? ` data-list-context="${encodeHtml(context)}"` : ''
-  return `<details class="data-menu end data-row-menu relative"${contextAttr}><summary class="${DATA_MENU_SUMMARY_CLASS} w-8! min-h-8 justify-center px-[5px]! py-[5px]!" aria-label="Actions for ${encodeHtml(config.singular)} ${encodeHtml(key)}" title="Record actions">${dataListIcon('i-dots')}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[190px]" role="menu">${actionsHtml}</div></details>`
+  return `<details class="data-menu end data-row-menu relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5"${contextAttr}><summary class="${DATA_MENU_SUMMARY_CLASS} w-8! min-h-8 justify-center px-[5px]! py-[5px]!" aria-label="Actions for ${encodeHtml(config.singular)} ${encodeHtml(key)}" title="Record actions">${dataListIcon('i-dots')}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[190px]" role="menu">${actionsHtml}</div></details>`
 }
 
 /**
@@ -61,8 +61,8 @@ export function renderDataListRowActions(context, row, config, view, deps) {
 export function renderDataListAdaptiveFooterActions(context, row, config, deps) {
   const {t, rowMenuItems} = deps
   const key = String(row[config.key])
-  const displayButton = `<button class="ctx" type="button" data-list-row-action="display"><svg width="15" height="15" aria-hidden="true"><use href="#i-external" /></svg><span>${t('Display', 'Display')}</span></button>`
-  const modifyButton = `<button class="ctx" type="button" data-list-row-action="modify"><svg width="15" height="15" aria-hidden="true"><use href="#i-edit" /></svg><span>${t('Modify', 'Modify')}</span></button>`
+  const displayButton = `<button class="ctx [.d4_.cp-act_&]:w-full [.d4_.cp-act_&]:justify-start" type="button" data-list-row-action="display"><svg width="15" height="15" aria-hidden="true"><use href="#i-external" /></svg><span>${t('Display', 'Display')}</span></button>`
+  const modifyButton = `<button class="ctx [.d4_.cp-act_&]:w-full [.d4_.cp-act_&]:justify-start" type="button" data-list-row-action="modify"><svg width="15" height="15" aria-hidden="true"><use href="#i-edit" /></svg><span>${t('Modify', 'Modify')}</span></button>`
   const overflowActions = rowMenuItems(context, row, 'adaptive-footer')
   return `<span class="data-adaptive-footer-actions ms-auto! flex items-center gap-1.5" data-list-row-key="${deps.encodeHtml(key)}">${displayButton}${modifyButton}${renderDataListRowActionMenu(config, key, overflowActions, context, deps)}</span>`
 }
@@ -149,7 +149,7 @@ export function renderDataListGroupedBody(rows, tableContext, deps, depth = 0, p
       const children = expanded
         ? renderDataListGroupedBody(groupRows, tableContext, deps, depth + 1, groupPath)
         : ''
-      return `<tr class="data-group-row"><td colspan="${visibleColumns.length + 2}"><button type="button" class="data-group-toggle flex w-full min-h-9 items-center gap-[7px] py-1.5 pe-2.5 text-start" style="--group-depth:${depth};padding-inline-start:calc(10px + var(--group-depth, 0) * 20px)" data-list-group-toggle="${encodeHtml(groupId)}" aria-expanded="${expanded}">${dataListIcon('i-caret', 11)}<span class="data-group-label text-xs font-semibold text-muted">${encodeHtml(column.label)}</span><span class="data-group-value font-bold text-ink">${encodeHtml(value)}</span><span class="data-group-count ms-auto text-xs font-medium text-muted">${groupRows.length} ${groupRows.length === 1 ? config.singular : config.label}</span></button></td></tr>${children}`
+      return `<tr class="data-group-row [grid-column:1_/_-1] bg-[var(--line-2)] [border-bottom:1px_solid_var(--line)] [border-top:1px_solid_var(--line)]"><td colspan="${visibleColumns.length + 2}"><button type="button" class="data-group-toggle flex w-full min-h-9 items-center gap-[7px] py-1.5 pe-2.5 text-start" style="--group-depth:${depth};padding-inline-start:calc(10px + var(--group-depth, 0) * 20px)" data-list-group-toggle="${encodeHtml(groupId)}" aria-expanded="${expanded}">${dataListIcon('i-caret', 11)}<span class="data-group-label text-xs font-semibold text-muted">${encodeHtml(column.label)}</span><span class="data-group-value font-bold text-ink">${encodeHtml(value)}</span><span class="data-group-count ms-auto text-xs font-medium text-muted">${groupRows.length} ${groupRows.length === 1 ? config.singular : config.label}</span></button></td></tr>${children}`
     })
     .join('')
 }
@@ -158,7 +158,7 @@ export function renderDataListBody(rows, tableContext, deps) {
   const {encodeHtml} = deps
   const {config, visibleColumns} = tableContext
   if (!rows.length)
-    return `<tr><td colspan="${visibleColumns.length + 2}"><div class="customer-lookup-empty">No ${encodeHtml(config.label)} match this view.</div></td></tr>`
+    return `<tr><td colspan="${visibleColumns.length + 2}"><div class="customer-lookup-empty [padding:28px_16px] text-muted text-center">No ${encodeHtml(config.label)} match this view.</div></td></tr>`
   return renderDataListGroupedBody(rows, tableContext, deps)
 }
 
@@ -172,7 +172,7 @@ export function renderDataListBody(rows, tableContext, deps) {
 export function renderDataListCards(context, rows, config, listState, deps) {
   const {encodeHtml, renderCard} = deps
   if (!rows.length)
-    return `<div class="customer-lookup-empty">No ${encodeHtml(config.label)} match this view.</div>`
+    return `<div class="customer-lookup-empty [padding:28px_16px] text-muted text-center">No ${encodeHtml(config.label)} match this view.</div>`
   return `<div class="data-card-grid grid grid-cols-3 gap-3 rounded-[10px] bg-bg p-3 max-[1240px]:grid-cols-2 max-[720px]:grid-cols-1" role="list" aria-label="${encodeHtml(config.label)} cards">${rows
     .map(row => renderCard(context, row, config, listState))
     .join('')}</div>`
@@ -190,7 +190,7 @@ function renderDataAdaptiveFieldRow(context, row, column, deps) {
   const raw = row[column.key]
   const isEmpty = raw === null || raw === undefined || raw === ''
   const value = renderFieldValue(context, row, column)
-  return `<div class="data-adaptive-row"><span class="data-adaptive-label">${encodeHtml(t(column.label))}</span><span class="data-adaptive-value${isEmpty ? ' data-adaptive-value-empty' : ''}">${value}</span></div>`
+  return `<div class="data-adaptive-row grid [grid-template-columns:subgrid] [grid-column:1_/_-1] [padding:10px_14px] [border-bottom:1px_solid_var(--line)] [&:last-child]:[border-bottom:none]"><span class="data-adaptive-label text-xs text-muted">${encodeHtml(t(column.label))}</span><span class="data-adaptive-value${isEmpty ? ' data-adaptive-value-empty' : ''}">${value}</span></div>`
 }
 
 /**
@@ -214,13 +214,13 @@ export function renderDataListAdaptiveRecord(context, row, config, listState, fi
     const hint = filteredCount
       ? t('Try First or Last.', 'Try First or Last.')
       : t('Clear the search or filter to see records again.', 'Clear the search or filter to see records again.')
-    return `<div class="data-adaptive-empty"><p>${encodeHtml(message)}</p><p class="data-adaptive-empty-hint">${encodeHtml(hint)}</p></div>`
+    return `<div class="data-adaptive-empty [padding:40px_20px] [border:1px_dashed_var(--line)] rounded-lg text-center [&_p]:[margin:0]!"><p>${encodeHtml(message)}</p><p class="data-adaptive-empty-hint mt-1.5! text-muted [font-size:12.5px]">${encodeHtml(hint)}</p></div>`
   }
   const fields = config.columns.filter(column => column.key !== 'avatar')
   const hasGroups = fields.some(column => column.group)
   const key = String(row[config.key])
   if (!hasGroups) {
-    return `<div class="rec-card data-adaptive-record" data-list-row-key="${encodeHtml(key)}">${fields
+    return `<div class="rec-card data-adaptive-record [border:1px_solid_var(--line)] rounded-lg mb-3! overflow-hidden [.rec-card-flow>&]:[flex:1_1_calc(var(--card-cols,_3)_*_200px)] [.rec-card-flow>&]:[min-width:min(100%,_320px)] [.rec-card-flow>&]:mb-0! grid [grid-template-columns:minmax(140px,_260px)_1fr]" data-list-row-key="${encodeHtml(key)}">${fields
       .map(column => renderDataAdaptiveFieldRow(context, row, column, deps))
       .join('')}</div>`
   }
@@ -232,8 +232,8 @@ export function renderDataListAdaptiveRecord(context, row, config, listState, fi
       const groupId = `adaptive:${groupKey}`
       const expanded = !listState.collapsedGroups.has(groupId)
       const rowsHtml = groupFields.map(column => renderDataAdaptiveFieldRow(context, row, column, deps)).join('')
-      return `<section class="data-adaptive-section"><div class="data-group-row"><button type="button" class="data-group-toggle flex w-full min-h-9 items-center gap-[7px] py-1.5 pe-2.5 ps-2.5 text-start" data-list-group-toggle="${encodeHtml(groupId)}" aria-expanded="${expanded}">${dataListIcon('i-caret', 11)}<span class="data-group-label text-xs font-semibold text-muted">${encodeHtml(t(label))}</span><span class="data-group-count ms-auto text-xs font-medium text-muted">${groupFields.length} ${t('fields', 'fields')}</span></button></div>${expanded ? rowsHtml : ''}</section>`
+      return `<section class="data-adaptive-section grid [grid-template-columns:minmax(140px,_260px)_1fr]"><div class="data-group-row [grid-column:1_/_-1] bg-[var(--line-2)] [border-bottom:1px_solid_var(--line)] [border-top:1px_solid_var(--line)]"><button type="button" class="data-group-toggle flex w-full min-h-9 items-center gap-[7px] py-1.5 pe-2.5 ps-2.5 text-start" data-list-group-toggle="${encodeHtml(groupId)}" aria-expanded="${expanded}">${dataListIcon('i-caret', 11)}<span class="data-group-label text-xs font-semibold text-muted">${encodeHtml(t(label))}</span><span class="data-group-count ms-auto text-xs font-medium text-muted">${groupFields.length} ${t('fields', 'fields')}</span></button></div>${expanded ? rowsHtml : ''}</section>`
     })
     .join('')
-  return `<div class="rec-card data-adaptive-sections" data-list-row-key="${encodeHtml(key)}">${sections}</div>`
+  return `<div class="rec-card data-adaptive-sections [border:1px_solid_var(--line)] rounded-lg mb-3! overflow-hidden [.rec-card-flow>&]:[flex:1_1_calc(var(--card-cols,_3)_*_200px)] [.rec-card-flow>&]:[min-width:min(100%,_320px)] [.rec-card-flow>&]:mb-0!" data-list-row-key="${encodeHtml(key)}">${sections}</div>`
 }

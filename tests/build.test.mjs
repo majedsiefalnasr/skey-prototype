@@ -297,11 +297,12 @@ test('assemble: multiple sibling includes in one file all expand, in order', asy
   });
 });
 
-test('assemble: Task 4 preserves structure, attributes, text, and every pre-existing API class', async () => {
+test('assemble: Task 5 preserves structure, attributes, text, and every pre-existing API class', async () => {
   // 4ae52c8 is the final Task 3 repair immediately before Task 4. The only
-  // structural Task 4 change is retiring these five component stylesheet
-  // links. Class attributes may gain literal utilities, but every prior class
-  // remains an API/selector contract and every other assembled byte is fixed.
+  // structural changes since are retiring these component and invoice/customer
+  // stylesheet links. Class attributes may gain literal utilities, but every
+  // prior class remains an API/selector contract and every other assembled
+  // byte is fixed.
   const retiredLinks = [
     'app/components/record-pager/pager.css',
     'app/components/assistant/assistant.css',
@@ -310,6 +311,12 @@ test('assemble: Task 4 preserves structure, attributes, text, and every pre-exis
     'app/components/loading/loading.css',
     'app/components/notifications/notifications.css',
     'app/components/dialog/dialog.css',
+    'app/pages/invoices/invoices.css',
+    'app/pages/invoices/invoices-2.css',
+    'app/pages/invoices/invoices-3.css',
+    'app/pages/invoices/invoices-4.css',
+    'app/pages/invoices/invoices-5.css',
+    'app/pages/customers/customers.css',
   ];
   const baseline = await assembleGitSnapshot('4ae52c8');
   const expected = retiredLinks.reduce(

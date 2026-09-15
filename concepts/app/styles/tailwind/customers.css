@@ -1,0 +1,352 @@
+/* customers selector relationships that cannot be expressed by one element's static utilities. */
+@layer components {
+/* Customer and data-list modal controllers retain the semantic .open hook. */
+.customer-overlay.open { display: flex; }
+.customer-record-footer .customer-footer-note::before {
+        content: '|';
+        margin-inline-end: 4px;
+        color: var(--line);
+      }
+.customer-record-canvas .customer-section-heading[aria-expanded='false'] > svg {
+        transform: rotate(-90deg);
+      }
+[dir='rtl'] .customer-record-canvas .customer-section-heading[aria-expanded='false'] > svg {
+        transform: rotate(90deg);
+      }
+.customer-record-canvas .customer-toggle-track::after {
+        position: absolute;
+        top: 3px;
+        inset-inline-start: 3px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--surface);
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.22);
+        content: '';
+        transition: transform 0.15s ease-out;
+      }
+.customer-record-canvas .customer-toggle input:checked + .customer-toggle-track::after {
+        transform: translateX(14px);
+      }
+[dir='rtl']
+        .customer-record-canvas
+        .customer-toggle
+        input:checked
+        + .customer-toggle-track::after {
+        transform: translateX(-14px);
+      }
+.customer-record-canvas .customer-field [aria-invalid='true'] {
+        border-color: var(--danger);
+        box-shadow:
+          0 0 0 2px var(--surface),
+          0 0 0 4px var(--danger);
+      }
+.data-icon-picker-option[aria-checked='true'] {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+.data-filter-summary-list:empty::before {
+        content: 'No conditions set.';
+        color: var(--muted);
+      }
+.data-manage-filters-item[aria-selected='true'] {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+[data-manage-filter-add-menu] summary {
+        display: inline-flex;
+        width: auto;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 12px;
+        border: 1px dashed var(--line);
+        border-radius: 7px;
+        color: var(--accent);
+        font-size: 12.5px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+[data-manage-filter-add-menu] summary:hover {
+        background: var(--accent-soft);
+      }
+[data-manage-filter-add-menu] summary::-webkit-details-marker {
+        display: none;
+      }
+.customer-lookup-results tbody tr[aria-selected='true'] {
+        background: var(--accent-soft);
+      }
+.customer-lookup-results tbody tr[aria-selected='true'] td:first-child {
+        box-shadow: inset 3px 0 0 var(--accent);
+      }
+[dir='rtl'] .customer-lookup-results tbody tr[aria-selected='true'] td:first-child {
+        box-shadow: inset -3px 0 0 var(--accent);
+      }
+.customer-dialog-toggle-track::after {
+        position: absolute;
+        top: 3px;
+        inset-inline-start: 3px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--surface);
+        box-shadow: var(--shadow-1);
+        content: '';
+      }
+.customer-dialog-toggle input:checked + .customer-dialog-toggle-track::after {
+        transform: translateX(14px);
+      }
+[dir='rtl'] .customer-dialog-toggle input:checked + .customer-dialog-toggle-track::after {
+        transform: translateX(-14px);
+      }
+body.cards-fieldset .prototype-surface-card {
+        overflow: visible;
+        margin-top: 16px;
+        border-radius: 8px;
+      }
+body.cards-fieldset .prototype-surface-card-header {
+        position: relative;
+        top: -11px;
+        width: max-content;
+        max-width: calc(100% - 32px);
+        min-height: 22px;
+        margin: 0 16px -11px;
+        padding: 0 8px;
+        border: 0;
+        background: var(--surface);
+      }
+body.cards-fieldset .customer-unit-workspace {
+        margin-top: 0;
+        padding-top: 0;
+      }
+body.cards-fieldset .customer-lookup-results {
+        overflow: auto;
+      }
+body.style-floated .customer-overlay label.rec-field:not(.customer-dialog-toggle) {
+        position: relative;
+        padding-top: 14px;
+      }
+body.style-floated
+        .customer-overlay
+        label.rec-field:not(.customer-dialog-toggle)
+        > span:first-child {
+        position: absolute;
+        top: 22px;
+        inset-inline-start: 8px;
+        z-index: 1;
+        margin: 0;
+        padding: 0 4px;
+        background: var(--surface);
+        pointer-events: none;
+        transition: 0.12s ease;
+        transition-property: top, font-size;
+      }
+body.style-floated
+        .customer-overlay
+        label.rec-field:not(.customer-dialog-toggle):focus-within
+        > span:first-child {
+        top: 2px;
+        color: var(--accent);
+        font-size: 12px;
+      }
+body.style-floated
+        .customer-overlay
+        label.rec-field:not(.customer-dialog-toggle):has(input:not(:placeholder-shown))
+        > span:first-child {
+        top: 2px;
+        color: var(--accent);
+        font-size: 12px;
+      }
+body.style-floated
+        .customer-overlay
+        label.rec-field:not(.customer-dialog-toggle):has(select)
+        > span:first-child {
+        top: 2px;
+        color: var(--accent);
+        font-size: 12px;
+      }
+body.style-floated
+        .customer-overlay
+        label.rec-field:not(.customer-dialog-toggle):has(textarea:not(:placeholder-shown))
+        > span:first-child {
+        top: 2px;
+        color: var(--accent);
+        font-size: 12px;
+      }
+body.style-inline .customer-overlay label.rec-field:not(.customer-dialog-toggle) {
+        display: grid;
+        grid-template-columns: 120px minmax(0, 1fr);
+        gap: 8px;
+        align-items: baseline;
+      }
+body.style-inline
+        .customer-overlay
+        label.rec-field:not(.customer-dialog-toggle)
+        > span:first-child {
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+.customer-record-canvas .customer-focused-nav button[aria-current='page'] {
+        color: var(--accent);
+        background: var(--accent-soft);
+        font-weight: 600;
+      }
+.customer-record-canvas .customer-scroll-nav button[aria-current='page'] {
+        color: var(--accent);
+        background: var(--accent-soft);
+        font-weight: 600;
+      }
+@media (max-width: 720px) {
+body:has(.customer-record-view:not([hidden])) .gsearch {
+          min-width: 0;
+        }
+body
+          .customer-record-canvas
+          .customer-identity-body
+          > .customer-field-grid
+          > .customer-field:has(> [data-customer-field]) {
+          grid-column: span 1;
+        }
+}
+@media (prefers-reduced-motion: reduce) {
+.rec-card-hd::after {
+          transition: none;
+        }
+}
+body.cards-fieldset .rec-card {
+        overflow: visible;
+        margin-top: 16px;
+        border-radius: 8px;
+        box-shadow: none;
+      }
+body.cards-fieldset .customer-record-canvas .customer-section {
+        overflow: visible;
+        margin-top: 16px;
+        border-radius: 8px;
+        box-shadow: none;
+      }
+body.cards-fieldset .rec-card:has(> .rec-card-hd[aria-expanded='false']) {
+        min-height: 32px;
+      }
+body.cards-fieldset
+        .customer-record-canvas
+        .customer-section:has(> .customer-section-heading[aria-expanded='false']) {
+        min-height: 32px;
+      }
+body.cards-fieldset .rec-card-hd {
+        position: relative;
+        top: -11px;
+        width: max-content;
+        max-width: calc(100% - 32px);
+        min-height: 22px;
+        margin: 0 16px -11px;
+        padding: 0 8px;
+        color: var(--ink);
+        background: var(--surface);
+      }
+body.cards-fieldset .customer-record-canvas .customer-section-heading {
+        position: relative;
+        top: -11px;
+        width: max-content;
+        max-width: calc(100% - 32px);
+        min-height: 22px;
+        margin: 0 16px -11px;
+        padding: 0 8px;
+        color: var(--ink);
+        background: var(--surface);
+      }
+body.cards-fieldset .customer-record-canvas .customer-section-titlebar {
+        position: relative;
+        top: -11px;
+        width: max-content;
+        max-width: calc(100% - 32px);
+        min-height: 22px;
+        margin: 0 16px -11px;
+        padding: 0 8px;
+        color: var(--ink);
+        background: var(--surface);
+      }
+body.cards-fieldset .rec-card-hd::after {
+        display: none;
+      }
+body.cards-fieldset .customer-record-canvas .customer-section-heading > svg {
+        display: none;
+      }
+body.cards-fieldset .rec-card-hd::before {
+        content: '−';
+        color: var(--muted);
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 1;
+      }
+body.cards-fieldset .customer-record-canvas .customer-section-heading::before {
+        content: '−';
+        color: var(--muted);
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 1;
+      }
+body.cards-fieldset .rec-card-hd[aria-expanded='false']::before {
+        content: '+';
+      }
+body.cards-fieldset
+        .customer-record-canvas
+        .customer-section-heading[aria-expanded='false']::before {
+        content: '+';
+      }
+body.cards-fieldset .customer-record-canvas .customer-identity-section {
+        position: relative;
+      }
+body.cards-fieldset
+        .customer-record-canvas
+        .customer-identity-section
+        > .customer-section-titlebar {
+        position: static;
+        width: auto;
+        max-width: none;
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+        background: transparent;
+      }
+body.cards-fieldset
+        .customer-record-canvas
+        .customer-identity-section
+        > .customer-section-titlebar
+        > h2 {
+        position: absolute;
+        top: -11px;
+        z-index: 1;
+        min-height: 22px;
+        padding: 0 8px;
+        background: var(--surface);
+      }
+body.cards-fieldset
+        .customer-record-canvas
+        .customer-identity-section
+        > .customer-section-titlebar
+        > .customer-toggle {
+        position: absolute;
+        top: -11px;
+        z-index: 1;
+        min-height: 22px;
+        padding: 0 8px;
+        background: var(--surface);
+      }
+body.cards-fieldset
+        .customer-record-canvas
+        .customer-identity-section
+        > .customer-section-titlebar
+        > h2 {
+        inset-inline-start: 16px;
+      }
+body.cards-fieldset
+        .customer-record-canvas
+        .customer-identity-section
+        > .customer-section-titlebar
+        > .customer-toggle {
+        inset-inline-end: 16px;
+      }
+}

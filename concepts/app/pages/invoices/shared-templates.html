@@ -1,8 +1,8 @@
     <template id="t-pill">
-      <button class="stpill" data-s="posted" aria-haspopup="dialog" aria-expanded="false">
-        <span class="stdot"></span><span class="nm">Posted</span>
-        <span class="segs" aria-hidden="true"></span>
-        <span class="cnt"></span>
+      <button class="stpill inline-flex items-center [gap:9px] whitespace-nowrap rounded-lg [padding:5px_11px] font-semibold! [font-size:13px]! [&[data-s=open]]:[background:var(--st-open-bg)]! [&[data-s=open]]:[color:var(--st-open-ink)]! [&[data-s=pending]]:[background:var(--st-pend-bg)]! [&[data-s=pending]]:[color:var(--st-pend-ink)]! [&[data-s=posted]]:[background:var(--st-post-bg)]! [&[data-s=posted]]:[color:var(--st-post-ink)]! [&[data-s=returned]]:[background:var(--st-retn-bg)]! [&[data-s=returned]]:[color:var(--st-retn-ink)]! [&[data-s=canceled]]:[background:var(--st-canc-bg)]! [&[data-s=canceled]]:[color:var(--st-canc-ink)]! [&[data-s=inactive]]:[background:var(--st-inac-bg)]! [&[data-s=inactive]]:[color:var(--st-inac-ink)]! [&[data-s=draft]]:[background:var(--st-draft-bg)]! [&[data-s=draft]]:[color:var(--st-draft-ink)]! [.d4_.cpanel_&]:w-full [.d4_.cpanel_&]:justify-start [.d4_.cpanel_&]:[gap:7px] [.d4_.cpanel_&]:[padding:5px_9px]" data-s="posted" aria-haspopup="dialog" aria-expanded="false">
+        <span class="stdot [width:8px] [height:8px] rounded-full [background:currentColor]"></span><span class="nm">Posted</span>
+        <span class="segs [.stpill_&]:inline-flex [.stpill_&]:[gap:3px] [.d4_.cpanel_.stpill_&]:hidden" aria-hidden="true"></span>
+        <span class="cnt [.stpill_&]:font-normal [.stpill_&]:[opacity:1] [.d4_.cpanel_.stpill_&]:ms-auto!"></span>
         <svg width="11" height="11" aria-hidden="true"><use href="#i-caret" /></svg>
       </button>
     </template>
@@ -54,10 +54,10 @@
     </template>
 
     <template id="t-ctx">
-      <button class="ctx" data-act="Receipt Voucher">
+      <button class="ctx [.d4_.cp-act_&]:w-full [.d4_.cp-act_&]:justify-start" data-act="Receipt Voucher">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-doc" /></svg> Receipt Voucher
       </button>
-      <button class="ctx" data-act="Sales Return">
+      <button class="ctx [.d4_.cp-act_&]:w-full [.d4_.cp-act_&]:justify-start" data-act="Sales Return">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-doc" /></svg> Sales Return
       </button>
     </template>

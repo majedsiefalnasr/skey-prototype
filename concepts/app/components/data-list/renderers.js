@@ -19,7 +19,7 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
       (context === 'invoice' && column.key === 'no') ||
       (context === 'geo' && column.key === 'code')
     ) {
-      return `<button class="customer-record-link" type="button" data-list-open-record="${encodeHtml(String(value))}" aria-label="Open ${context} ${encodeHtml(String(value))}">${encodeHtml(String(value))}</button>`
+      return `<button class="customer-record-link text-accent! [text-decoration:underline] [text-underline-offset:2px] [&:hover]:[color:var(--accent-hover)] [&:focus-visible]:[outline:2px_solid_var(--accent)]" type="button" data-list-open-record="${encodeHtml(String(value))}" aria-label="Open ${context} ${encodeHtml(String(value))}">${encodeHtml(String(value))}</button>`
     }
     if (['customer', 'geo'].includes(context) && column.key === 'active') {
       return `<span class="badge ${value ? 'ok' : 'gray'}">${value ? 'Active' : 'Inactive'}</span>`

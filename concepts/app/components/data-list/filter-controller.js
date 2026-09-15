@@ -164,7 +164,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
           const clearButton = existing
             ? `<button type="button" class="data-filter-modal-clear" data-geo-filter-clear-field="${encodeHtml(field.key)}" aria-label="${t('Clear', 'Clear')} ${encodeHtml(t(field.label))}" title="${t('Clear', 'Clear')}">${dataListIcon('i-x', 13)}</button>`
             : ''
-          return `<div class="rec-field data-filter-modal-date"><span>${encodeHtml(t(field.label))}</span>${renderDataFilterModalDateField(field, activeFilter, clearButton)}</div>`
+          return `<div class="rec-field data-filter-modal-date [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg_xmlns=http://www.w3.org/2000/svg_width=12_height=12_viewBox=0_0_12_12%3E%3Cpath_fill=%2344546f_d=M2.5_4.5_6_8l3.5-3.5z/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0"><span>${encodeHtml(t(field.label))}</span>${renderDataFilterModalDateField(field, activeFilter, clearButton)}</div>`
         }
         if (field.type === 'select') {
           const input = `<select data-geo-filter-field="${encodeHtml(field.key)}"><option value="">Any</option>${field.options
@@ -173,7 +173,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
                 `<option value="${encodeHtml(String(dataFilterOptionValue(option)))}"${String(dataFilterOptionValue(option)) === value ? ' selected' : ''}>${encodeHtml(String(dataFilterOptionLabel(option)))}</option>`
             )
             .join('')}</select>`
-          return `<label class="rec-field"><span>${encodeHtml(t(field.label))}</span>${input}</label>`
+          return `<label class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg_xmlns=http://www.w3.org/2000/svg_width=12_height=12_viewBox=0_0_12_12%3E%3Cpath_fill=%2344546f_d=M2.5_4.5_6_8l3.5-3.5z/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0"><span>${encodeHtml(t(field.label))}</span>${input}</label>`
         }
         const operator =
           DATA_FILTER_OPERATORS.find(item => item.key === existing?.operator) ||
@@ -183,7 +183,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
             `<option value="${encodeHtml(item.key)}"${item.key === operator.key ? ' selected' : ''}>${encodeHtml(t(item.label))}</option>`
         ).join('')}</select>`
         const input = `<input type="text" data-geo-filter-field="${encodeHtml(field.key)}" value="${encodeHtml(value)}" placeholder="Enter ${encodeHtml(field.label.toLowerCase())}" />`
-        return `<label class="rec-field"><span>${encodeHtml(t(field.label))}</span><div class="data-filter-modal-row">${operatorSelect}${input}</div></label>`
+        return `<label class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg_xmlns=http://www.w3.org/2000/svg_width=12_height=12_viewBox=0_0_12_12%3E%3Cpath_fill=%2344546f_d=M2.5_4.5_6_8l3.5-3.5z/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0"><span>${encodeHtml(t(field.label))}</span><div class="data-filter-modal-row">${operatorSelect}${input}</div></label>`
       })
       .join('')
   }
@@ -223,7 +223,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
   function renderIconPicker(mount, selectedIcon, onPick) {
     mount.innerHTML = DATA_CUSTOM_FILTER_ICONS.map(
       icon =>
-        `<button type="button" class="data-icon-picker-option" data-icon="${icon}" aria-checked="${icon === selectedIcon}" aria-label="${icon}">${dataListIcon(icon, 16)}</button>`
+        `<button type="button" class="data-icon-picker-option inline-flex items-center justify-center [width:32px] [height:32px] [border:1px_solid_var(--line)] [border-radius:7px] bg-surface text-ink [cursor:pointer] [&:hover]:bg-[var(--line-2)]" data-icon="${icon}" aria-checked="${icon === selectedIcon}" aria-label="${icon}">${dataListIcon(icon, 16)}</button>`
     ).join('')
     mount.querySelectorAll('[data-icon]').forEach(button => {
       button.addEventListener('click', () => {
@@ -349,14 +349,14 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     const listState = getDataListState()[context]
     const list = document.getElementById('manage-filters-list')
     if (!listState.customFilters.length) {
-      list.innerHTML = `<li class="data-manage-filters-empty">No saved filters yet.</li>`
+      list.innerHTML = `<li class="data-manage-filters-empty [padding:8px] text-muted [font-size:12.5px]">No saved filters yet.</li>`
       document.getElementById('manage-filters-editor').hidden = true
       return
     }
     list.innerHTML = listState.customFilters
       .map(
         custom =>
-          `<li><button type="button" class="data-manage-filters-item" data-manage-filter-select="${encodeHtml(custom.id)}" aria-selected="${custom.id === activeManageFilterId}">${dataListIcon(custom.icon || 'i-eye', 15)}<span>${encodeHtml(custom.name)}</span></button></li>`
+          `<li><button type="button" class="data-manage-filters-item flex w-full items-center gap-2 [min-height:34px] [padding:6px_8px] [border:0] rounded-md [background:transparent] text-ink [font:inherit] text-start [cursor:pointer] [&:hover]:bg-[var(--line-2)]" data-manage-filter-select="${encodeHtml(custom.id)}" aria-selected="${custom.id === activeManageFilterId}">${dataListIcon(custom.icon || 'i-eye', 15)}<span>${encodeHtml(custom.name)}</span></button></li>`
       )
       .join('')
   }
@@ -390,9 +390,9 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
   }
 
   function renderManageFilterConditionRow(field, fieldFilter) {
-    const removeButton = `<button type="button" class="data-manage-filter-remove" data-manage-filter-remove-condition="${encodeHtml(field.key)}" aria-label="${t('Remove', 'Remove')} ${encodeHtml(t(field.label))} ${t('condition', 'condition')}">${dataListIcon('i-x', 13)}</button>`
+    const removeButton = `<button type="button" class="data-manage-filter-remove inline-flex items-center justify-center [width:26px] [height:26px] rounded-md text-muted [flex-shrink:0] [&:hover]:bg-[var(--line-2)] [&:hover]:[color:var(--danger)]" data-manage-filter-remove-condition="${encodeHtml(field.key)}" aria-label="${t('Remove', 'Remove')} ${encodeHtml(t(field.label))} ${t('condition', 'condition')}">${dataListIcon('i-x', 13)}</button>`
     if (field.type === 'date') {
-      return `<div class="data-manage-filter-condition-row"><span class="data-manage-filter-condition-label">${encodeHtml(t(field.label))}</span>${renderDataFilterModalDateField(field, fieldFilter)}${removeButton}</div>`
+      return `<div class="data-manage-filter-condition-row grid [grid-template-columns:130px_1fr_auto] items-center gap-2.5 [padding:9px_10px] [border:1px_solid_var(--line)] [border-radius:7px] mb-2! bg-surface [&_select]:[min-height:32px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[padding:6px_9px] [&_select]:[font:inherit] [&_select]:[font-size:12.5px] [&_select]:bg-surface [&_input]:[min-height:32px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[padding:6px_9px] [&_input]:[font:inherit] [&_input]:[font-size:12.5px] [&_input]:bg-surface"><span class="data-manage-filter-condition-label text-muted [font-size:12.5px] font-semibold">${encodeHtml(t(field.label))}</span>${renderDataFilterModalDateField(field, fieldFilter)}${removeButton}</div>`
     }
     if (field.type === 'select') {
       const value = fieldFilter.value ?? ''
@@ -402,7 +402,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
             `<option value="${encodeHtml(String(dataFilterOptionValue(option)))}"${String(dataFilterOptionValue(option)) === value ? ' selected' : ''}>${encodeHtml(String(dataFilterOptionLabel(option)))}</option>`
         )
         .join('')}</select>`
-      return `<div class="data-manage-filter-condition-row"><span class="data-manage-filter-condition-label">${encodeHtml(t(field.label))}</span>${input}${removeButton}</div>`
+      return `<div class="data-manage-filter-condition-row grid [grid-template-columns:130px_1fr_auto] items-center gap-2.5 [padding:9px_10px] [border:1px_solid_var(--line)] [border-radius:7px] mb-2! bg-surface [&_select]:[min-height:32px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[padding:6px_9px] [&_select]:[font:inherit] [&_select]:[font-size:12.5px] [&_select]:bg-surface [&_input]:[min-height:32px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[padding:6px_9px] [&_input]:[font:inherit] [&_input]:[font-size:12.5px] [&_input]:bg-surface"><span class="data-manage-filter-condition-label text-muted [font-size:12.5px] font-semibold">${encodeHtml(t(field.label))}</span>${input}${removeButton}</div>`
     }
     const operator =
       DATA_FILTER_OPERATORS.find(item => item.key === fieldFilter.operator) ||
@@ -412,7 +412,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
         `<option value="${encodeHtml(item.key)}"${item.key === operator.key ? ' selected' : ''}>${encodeHtml(t(item.label))}</option>`
     ).join('')}</select>`
     const input = `<input type="text" class="data-manage-filter-field" data-manage-filter-field="${encodeHtml(field.key)}" value="${encodeHtml(fieldFilter.value ?? '')}" placeholder="${t('Enter', 'Enter')} ${encodeHtml(t(field.label).toLowerCase())}" />`
-    return `<div class="data-manage-filter-condition-row"><span class="data-manage-filter-condition-label">${encodeHtml(t(field.label))}</span><div class="data-filter-modal-row">${operatorSelect}${input}</div>${removeButton}</div>`
+    return `<div class="data-manage-filter-condition-row grid [grid-template-columns:130px_1fr_auto] items-center gap-2.5 [padding:9px_10px] [border:1px_solid_var(--line)] [border-radius:7px] mb-2! bg-surface [&_select]:[min-height:32px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[padding:6px_9px] [&_select]:[font:inherit] [&_select]:[font-size:12.5px] [&_select]:bg-surface [&_input]:[min-height:32px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[padding:6px_9px] [&_input]:[font:inherit] [&_input]:[font-size:12.5px] [&_input]:bg-surface"><span class="data-manage-filter-condition-label text-muted [font-size:12.5px] font-semibold">${encodeHtml(t(field.label))}</span><div class="data-filter-modal-row">${operatorSelect}${input}</div>${removeButton}</div>`
   }
 
   function renderManageFilterEditor(context) {
@@ -436,7 +436,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
         return field ? renderManageFilterConditionRow(field, fieldFilter) : ''
       })
       .join('')
-    fieldsMount.innerHTML = `${conditionRows || `<p class="data-manage-filter-empty">${t('No conditions yet — add one below.', 'No conditions yet — add one below.')}</p>`}${renderManageFilterAddCondition(config)}`
+    fieldsMount.innerHTML = `${conditionRows || `<p class="data-manage-filter-empty [margin:0_0_10px]! [padding:12px] [border:1px_dashed_var(--line)] [border-radius:7px] text-muted [font-size:12.5px] text-center">${t('No conditions yet — add one below.', 'No conditions yet — add one below.')}</p>`}${renderManageFilterAddCondition(config)}`
   }
 
   function openManageFiltersDialog(context) {

@@ -70,9 +70,9 @@ export function renderCustomerAvatar(row, deps) {
   const {encodeHtml} = deps
   const initials = encodeHtml(dataRecordInitials(row.customerName))
   const image = customerImageData(row.photo)
-  const fallback = `<span class="data-record-avatar customer-avatar-fallback" aria-hidden="true">${initials}</span>`
+  const fallback = `<span class="data-record-avatar customer-avatar-fallback [width:72px] rounded-full [font-size:20px] font-bold" aria-hidden="true">${initials}</span>`
   if (!image) return fallback
-  return `<button type="button" class="data-record-avatar customer-avatar-trigger image-fit-${image.fit}" ${customerImagePreviewAttributes(row, image, deps)}><img src="${encodeHtml(image.src)}" alt="" data-customer-image><span class="data-record-avatar customer-avatar-fallback" aria-hidden="true" hidden>${initials}</span></button>`
+  return `<button type="button" class="data-record-avatar customer-avatar-trigger image-fit-${image.fit}" ${customerImagePreviewAttributes(row, image, deps)}><img src="${encodeHtml(image.src)}" alt="" data-customer-image><span class="data-record-avatar customer-avatar-fallback [width:72px] rounded-full [font-size:20px] font-bold" aria-hidden="true" hidden>${initials}</span></button>`
 }
 
 /**
@@ -90,8 +90,8 @@ export function renderCustomerRecordPhoto(photo, recordIdentity, deps) {
   }
   const initials = encodeHtml(dataRecordInitials(row.customerName))
   const image = customerImageData(photo)
-  if (!image) return `<span class="customer-photo-preview customer-avatar-fallback" aria-hidden="true">${initials}</span>`
-  return `<button type="button" class="customer-photo-preview customer-avatar-trigger image-fit-${image.fit}" ${customerImagePreviewAttributes(row, image, deps)}><img src="${encodeHtml(image.src)}" alt="${encodeHtml(image.alt)}" data-customer-image><span class="customer-photo-preview customer-avatar-fallback" aria-hidden="true" hidden>${initials}</span></button>`
+  if (!image) return `<span class="customer-photo-preview customer-avatar-fallback grid [place-items:center] [width:min(164px,_100%)] [aspect-ratio:1] [padding:0] overflow-hidden text-muted [border:1px_solid_var(--line)] [border-radius:10px] bg-[var(--line-2)] [cursor:zoom-in] [&:hover]:[border-color:var(--accent)] [width:72px]! rounded-full [font-size:20px] font-bold" aria-hidden="true">${initials}</span>`
+  return `<button type="button" class="customer-photo-preview customer-avatar-trigger image-fit-${image.fit} grid [place-items:center] [width:min(164px,_100%)] [aspect-ratio:1] [padding:0] overflow-hidden text-muted [border:1px_solid_var(--line)] [border-radius:10px] bg-[var(--line-2)] [cursor:zoom-in] [&:hover]:[border-color:var(--accent)]" ${customerImagePreviewAttributes(row, image, deps)}><img src="${encodeHtml(image.src)}" alt="${encodeHtml(image.alt)}" data-customer-image><span class="customer-photo-preview customer-avatar-fallback grid [place-items:center] [width:min(164px,_100%)] [aspect-ratio:1] [padding:0] overflow-hidden text-muted [border:1px_solid_var(--line)] [border-radius:10px] bg-[var(--line-2)] [cursor:zoom-in] [&:hover]:[border-color:var(--accent)] [width:72px]! rounded-full [font-size:20px] font-bold" aria-hidden="true" hidden>${initials}</span></button>`
 }
 
 /**
