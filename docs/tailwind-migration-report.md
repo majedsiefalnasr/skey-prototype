@@ -51,10 +51,10 @@ runtime by the browser.
 
 - **5** category-level policy rows (`::before`/`::after`, `@keyframes`,
   ApexCharts DOM, `[aria-*]` relationships, prototype density/style modes).
-- **37** concrete, owner-specific retained-selector rows underneath those
+- **36** concrete, owner-specific retained-selector rows underneath those
   policies (Shell, Toast, Loading, Notifications, Assistant, Dialog, Data
   list, Invoices, Customers, Geography, Email).
-- **42** total retained-selector table rows.
+- **41** total retained-selector table rows.
 
 ## Baseline identity
 
