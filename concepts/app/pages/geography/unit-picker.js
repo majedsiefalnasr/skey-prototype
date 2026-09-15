@@ -19,9 +19,9 @@ export function createUnitPicker({trapFocus, releaseFocus, dataListIcon} = {}) {
           ? (expanded ? 'Collapse' : 'Expand') + ` ${row.name}`
           : ''
         const chevron = hasChildren
-          ? `<button type="button" class="geo-parent-picker-chevron" data-unit-toggle="${encodeHtml(row.code)}" aria-expanded="${expanded}" aria-label="${encodeHtml(chevronTitle)}" title="${encodeHtml(chevronTitle)}">${dataListIcon('i-caret', 11).replace('<svg', '<svg class="geo-node-chevron"')}</button>`
+          ? `<button type="button" class="geo-parent-picker-chevron grid flex-none place-items-center w-5 h-5" data-unit-toggle="${encodeHtml(row.code)}" aria-expanded="${expanded}" aria-label="${encodeHtml(chevronTitle)}" title="${encodeHtml(chevronTitle)}">${dataListIcon('i-caret', 11).replace('<svg', '<svg class="geo-node-chevron"')}</button>`
           : '<span aria-hidden="true" style="width:11px"></span>'
-        return `<div class="geo-tree-branch"><span class="geo-tree-node" role="treeitem" aria-level="${level}"${hasChildren ? ` aria-expanded="${expanded}"` : ''}>${chevron}<button type="button" class="geo-parent-picker-row" data-unit-pick="${encodeHtml(row.code)}"><span class="geo-node-copy"><strong>${encodeHtml(row.name)}</strong><small>${row.status}</small></span></button></span>${children}</div>`
+        return `<div class="geo-tree-branch relative grid"><span class="geo-tree-node flex w-full min-h-[42px] gap-2 items-center py-1.5 px-2 rounded-md border border-transparent text-start" role="treeitem" aria-level="${level}"${hasChildren ? ` aria-expanded="${expanded}"` : ''}>${chevron}<button type="button" class="geo-parent-picker-row flex min-w-0 flex-1 items-center text-start" data-unit-pick="${encodeHtml(row.code)}"><span class="geo-node-copy grid min-w-0 flex-1 gap-px [&_strong]:overflow-hidden [&_strong]:text-ellipsis [&_strong]:whitespace-nowrap [&_small]:overflow-hidden [&_small]:text-ellipsis [&_small]:whitespace-nowrap"><strong class="text-[12.5px] font-semibold">${encodeHtml(row.name)}</strong><small class="text-muted text-xs font-normal">${row.status}</small></span></button></span>${children}</div>`
       })
       .join('')
   }
@@ -29,7 +29,7 @@ export function createUnitPicker({trapFocus, releaseFocus, dataListIcon} = {}) {
   function renderUnitPickerTree() {
     const tree = document.getElementById('unit-picker-tree')
     tree.innerHTML =
-      renderUnitPickerBranch() || `<div class="geo-hierarchy-empty">No units available.</div>`
+      renderUnitPickerBranch() || `<div class="geo-hierarchy-empty grid min-h-40 place-items-center p-5 text-muted text-[12.5px] text-center">No units available.</div>`
   }
 
   function layoutUnitFlowPositions(rows, nodeWidth, slotWidth, levelHeight) {

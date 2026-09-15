@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {access, readFile, readdir} from 'node:fs/promises';
+import {access, readFile, readdir, stat} from 'node:fs/promises';
 import path from 'node:path';
 import {build} from '../scripts/build.mjs';
 
@@ -65,4 +65,75 @@ test('architecture: built shell has no include directives or duplicate IDs', asy
   const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
   const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
   assert.deepEqual(duplicates, []);
+});
+
+test('architecture: Task 6 retires every remaining legacy stylesheet and its source file', async () => {
+  const html = await readFile('concepts/app-shell.html', 'utf8');
+  const links = [...html.matchAll(/<link\b[^>]*rel="stylesheet"[^>]*href="([^"]+)"[^>]*>/g)].map(
+    match => match[1]
+  );
+  assert.deepEqual(links, ['app/styles/tailwind.css', 'app/prototype/controls.css'],
+    'exactly one compiled Tailwind stylesheet link plus the prototype shell-kit-css link may remain');
+  assert.doesNotMatch(html, /legacy-app\.css/);
+
+  const retiredFiles = [
+    'concepts/app/styles/tokens.css',
+    'concepts/app/styles/base.css',
+    'concepts/app/styles/app.css',
+    'concepts/app/styles/app-2.css',
+    'concepts/app/styles/app-3.css',
+    'concepts/app/styles/app-4.css',
+    'concepts/app/styles/app-5.css',
+    'concepts/app/styles/app-6.css',
+    'concepts/app/styles/app-7.css',
+    'concepts/app/styles/overrides.css',
+    'concepts/app/styles/overrides-2.css',
+    'concepts/app/shell/shell-5.css',
+    'concepts/app/shell/shell-6.css',
+    'concepts/app/shell/shell-7.css',
+    'concepts/app/components/data-list/list.css',
+    'concepts/app/pages/geography/geography.css',
+    'concepts/app/pages/email/email.css',
+  ];
+  for (const file of retiredFiles) {
+    await assert.rejects(access(file), `expected ${file} to be deleted`);
+  }
+
+  async function collectCss(directory) {
+    const entries = await readdir(directory, {withFileTypes: true});
+    const files = await Promise.all(entries.map(async entry => {
+      const file = path.join(directory, entry.name);
+      return entry.isDirectory() ? collectCss(file) : entry.name.endsWith('.css') ? [file] : [];
+    }));
+    return files.flat();
+  }
+  const cssFiles = await collectCss(path.resolve('concepts'));
+  const relativeCss = cssFiles.map(file => path.relative(process.cwd(), file)).sort();
+  assert.deepEqual(relativeCss, [
+    'concepts/app/prototype/controls.css',
+    'concepts/app/styles/tailwind.css',
+    'concepts/app/styles/tailwind/base.css',
+    'concepts/app/styles/tailwind/components.css',
+    'concepts/app/styles/tailwind/customers.css',
+    'concepts/app/styles/tailwind/email.css',
+    'concepts/app/styles/tailwind/geography.css',
+    'concepts/app/styles/tailwind/invoices.css',
+    'concepts/app/styles/tailwind/shell.css',
+  ].sort(), 'exactly one compiled Tailwind entry plus its compatibility layers and the prototype controls stylesheet may remain');
+});
+
+test('architecture: compiled Tailwind output stays within the Task 6 compatibility-manifest budget', async () => {
+  const manifest = await readFile('concepts/app/styles/tailwind/compatibility.md', 'utf8');
+  assert.match(manifest, /\| Geography \|/, 'geography compatibility rows must be recorded');
+  assert.match(manifest, /\| Email \|/, 'email compatibility rows must be recorded');
+
+  await build();
+  const output = await stat('dist/concepts/app/styles/tailwind.css');
+  // Task 6 folds tokens.css's theme variables into tailwind/base.css and routes every
+  // remaining legacy CSS file (geography, email, shell dialogs, density/style-mode
+  // overrides) into compatibility layers, replacing the retired byte-reconstruction
+  // check with this compiled-output-size guardrail. 260000 is a rounded ceiling for
+  // this migration's compiled bundle, not the plan's final Task 7 budget.
+  assert.ok(output.size > 0);
+  assert.ok(output.size <= 260000, `Tailwind output exceeds the Task 6 ceiling: ${output.size} bytes`);
 });

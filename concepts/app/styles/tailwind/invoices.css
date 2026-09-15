@@ -105,4 +105,32 @@
 [dir='rtl'] .rec-card-hd[aria-expanded='false']::after {
         transform: rotate(135deg);
       }
+
+/* ---- teaching empty states (concepts/app/components/data-list/list.css) ----
+   Despite this file's former location under components/data-list/, its only
+   consumer is concepts/app/pages/invoices/activity.js's .empty renderer (verified:
+   grep -rn 'class="empty"' across concepts/ finds only that call site; the
+   data-list component's own empty-state renderer uses the differently-named,
+   differently-owned .customer-lookup-empty from customers.css instead), so it
+   stays owned by invoices. */
+.empty {
+  padding: 44px 26px;
+  text-align: center;
+  max-width: 44ch;
+  margin: 0 auto;
+}
+.empty .ic {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--line-2);
+  color: var(--faint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+.empty h4 { font-size: 14px; margin-bottom: 5px; }
+.empty p { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+.empty .cta { margin-top: 14px; }
 }

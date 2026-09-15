@@ -1,0 +1,26 @@
+/* email selector relationships and behavior state that cannot be expressed by one
+   element's static utilities. */
+@layer components {
+  /* Unread state changes a sibling row's own descendants' weight/color -- a
+     class-relationship rule, not a literal utility on the row itself. */
+  .email-list-row.unread .email-list-top b { font-weight: 700; }
+  .email-list-row.unread .email-list-subj { color: var(--ink); }
+
+  /* Hover and active are both toggled via row state; kept in the same rule group so
+     the active row's background always wins over hover, matching the original cascade. */
+  .email-list-row:hover { background: var(--hover-overlay); }
+  .email-list-row.active { background: var(--accent-soft); }
+
+  /* Placeholder color needs the ::placeholder pseudo-element selector. */
+  .email-search input::placeholder { color: var(--faint); }
+
+  /* Focus-within ring on the search/composer containers. */
+  .email-search:focus-within {
+    border-color: var(--accent-line);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .email-composer-input:focus {
+    border-color: var(--accent-line);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+}

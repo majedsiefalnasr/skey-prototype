@@ -161,13 +161,17 @@
           </button>
         </header>
         <div class="customer-modal-body min-h-0 overflow-auto [padding:16px_20px] [padding:10px_14px]">
-          <div class="geo-view-switch" role="tablist" aria-label="Unit picker view">
+          <div
+            class="geo-view-switch grid grid-cols-2 gap-[3px] p-[3px] rounded-[7px] bg-[var(--line-2)] [margin:8px_8px_0]"
+            role="tablist"
+            aria-label="Unit picker view">
             <button
               type="button"
               role="tab"
               data-unit-picker-view="tree"
               aria-selected="true"
-              aria-controls="unit-picker-tree-pane">
+              aria-controls="unit-picker-tree-pane"
+              class="inline-flex min-h-8 gap-[7px] items-center justify-center px-[9px] py-[5px] rounded-[5px] text-muted text-[12.5px] font-semibold">
               <svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg>
               Tree
             </button>
@@ -176,32 +180,30 @@
               role="tab"
               data-unit-picker-view="flow"
               aria-selected="false"
-              aria-controls="unit-picker-flow-pane">
+              aria-controls="unit-picker-flow-pane"
+              class="inline-flex min-h-8 gap-[7px] items-center justify-center px-[9px] py-[5px] rounded-[5px] text-muted text-[12.5px] font-semibold">
               <svg width="15" height="15" aria-hidden="true"><use href="#i-grid" /></svg>
               Flow
             </button>
           </div>
           <button
-            class="lbtn out unit-picker-root"
+            class="lbtn out unit-picker-root my-[10px]"
             type="button"
-            id="unit-picker-root"
-            style="margin: 10px 0">
+            id="unit-picker-root">
             No parent unit
           </button>
           <div id="unit-picker-tree-pane" role="tabpanel">
             <div
-              class="geo-tree unit-picker-tree"
+              class="geo-tree unit-picker-tree min-h-0 flex-1 pt-0 px-2 pb-[10px] overflow-auto max-h-[360px]"
               id="unit-picker-tree"
               role="tree"
-              aria-label="Operation units"
-              style="max-height: 360px"></div>
+              aria-label="Operation units"></div>
           </div>
           <div id="unit-picker-flow-pane" role="tabpanel" hidden>
             <div
-              class="geo-flow-viewport unit-picker-flow-viewport"
-              id="unit-picker-flow-viewport"
-              style="min-height: 360px">
-              <div class="geo-flow-canvas" id="unit-picker-flow-canvas"></div>
+              class="geo-flow-viewport unit-picker-flow-viewport min-w-0 flex-1 mx-2 mb-2 overflow-auto cursor-grab rounded-[7px] border border-line touch-none select-none min-h-[360px] [background-color:var(--bg)] [background-image:radial-gradient(var(--line)_1px,transparent_1px)] [background-size:16px_16px]"
+              id="unit-picker-flow-viewport">
+              <div class="geo-flow-canvas relative min-w-full min-h-full [max-height:min(560px,80vh)]" id="unit-picker-flow-canvas"></div>
             </div>
           </div>
         </div>

@@ -19,9 +19,9 @@ function renderGeoParentPickerBranch(parentCode = '', level = 1) {
                 ? (expanded ? 'Collapse' : 'Expand') + ` ${row.name}`
                 : ''
               const chevron = hasChildren
-                ? `<button type="button" class="geo-parent-picker-chevron" data-geo-parent-toggle="${encodeHtml(row.code)}" aria-expanded="${expanded}" aria-label="${encodeHtml(chevronTitle)}" title="${encodeHtml(chevronTitle)}">${dataListIcon('i-caret', 11).replace('<svg', '<svg class="geo-node-chevron"')}</button>`
+                ? `<button type="button" class="geo-parent-picker-chevron grid flex-none place-items-center w-5 h-5" data-geo-parent-toggle="${encodeHtml(row.code)}" aria-expanded="${expanded}" aria-label="${encodeHtml(chevronTitle)}" title="${encodeHtml(chevronTitle)}">${dataListIcon('i-caret', 11).replace('<svg', '<svg class="geo-node-chevron"')}</button>`
                 : '<span aria-hidden="true" style="width:11px"></span>'
-              return `<div class="geo-tree-branch"><span class="geo-tree-node" role="treeitem" aria-level="${level}"${hasChildren ? ` aria-expanded="${expanded}"` : ''}>${chevron}<button type="button" class="geo-parent-picker-row" data-geo-parent-pick="${encodeHtml(row.code)}"${disabled ? ' disabled aria-disabled="true" title="Cannot choose a location’s own descendant as its parent"' : ''}><span class="geo-node-copy"><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button></span>${children}</div>`
+              return `<div class="geo-tree-branch relative grid"><span class="geo-tree-node flex w-full min-h-[42px] gap-2 items-center py-1.5 px-2 rounded-md border border-transparent text-start" role="treeitem" aria-level="${level}"${hasChildren ? ` aria-expanded="${expanded}"` : ''}>${chevron}<button type="button" class="geo-parent-picker-row flex min-w-0 flex-1 items-center text-start" data-geo-parent-pick="${encodeHtml(row.code)}"${disabled ? ' disabled aria-disabled="true" title="Cannot choose a location’s own descendant as its parent"' : ''}><span class="geo-node-copy grid min-w-0 flex-1 gap-px [&_strong]:overflow-hidden [&_strong]:text-ellipsis [&_strong]:whitespace-nowrap [&_small]:overflow-hidden [&_small]:text-ellipsis [&_small]:whitespace-nowrap"><strong class="text-[12.5px] font-semibold">${encodeHtml(row.name)}</strong><small class="text-muted text-xs font-normal">${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button></span>${children}</div>`
             })
             .join('')
         }
@@ -30,7 +30,7 @@ function renderGeoParentPickerTree() {
           const tree = queryId('geo-parent-picker-tree')
           tree.innerHTML =
             renderGeoParentPickerBranch() ||
-            `<div class="geo-hierarchy-empty">No locations available.</div>`
+            `<div class="geo-hierarchy-empty grid min-h-40 place-items-center p-5 text-muted text-[12.5px] text-center">No locations available.</div>`
         }
 
 function renderGeoParentPickerFlow() {

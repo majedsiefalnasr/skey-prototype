@@ -232,10 +232,11 @@ test('Tailwind input has explicit sources and the generated output stays within 
   const outputPath = path.join(await mkdtemp(path.join(tmpdir(), 'tw-budget-')), 'tailwind.css');
   await compileTailwind({root, output: outputPath});
   const output = await stat(outputPath);
-  // Migrating the invoices and customers pages (the two largest page owners)
-  // raises the compiled utility sheet to 141,472 bytes while deleting their
-  // legacy CSS. 142,000 is a narrow rounded guardrail for this migration, not
-  // the plan's final bundle budget. Task 7 owns the final baseline + 10% decision.
+  // Migrating geography and email (the remaining page owners) and removing
+  // every other legacy CSS file raises the compiled utility sheet to 197,594
+  // bytes, since the sheet now covers the whole app instead of a subset.
+  // 198,000 is a narrow rounded guardrail for this migration, not the plan's
+  // final bundle budget. Task 7 owns the final baseline + 10% decision.
   assert.ok(output.size >= 6518);
-  assert.ok(output.size <= 142000, `Tailwind output exceeds the reviewed Task 5 ceiling: ${output.size} bytes`);
+  assert.ok(output.size <= 198000, `Tailwind output exceeds the reviewed Task 6 ceiling: ${output.size} bytes`);
 });

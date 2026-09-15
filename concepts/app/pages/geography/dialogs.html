@@ -1,17 +1,16 @@
     <div class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="geo-hierarchy-scrim">
       <section
-        class="customer-modal geo-hierarchy-dialog-modal"
+        class="customer-modal geo-hierarchy-dialog-modal w-[min(560px,96vw)] [max-height:88vh]"
         role="dialog"
         aria-modal="true"
         aria-label="Location hierarchy">
-        <header class="customer-modal-header geo-hierarchy-dialog-header">
+        <header class="customer-modal-header geo-hierarchy-dialog-header py-2 pe-2 ps-3">
           <span
-            class="geo-hierarchy-dialog-title-mount"
+            class="geo-hierarchy-dialog-title-mount block min-w-0 flex-1 [&_h2]:overflow-hidden [&_h2]:text-sm [&_h2]:text-ellipsis [&_h2]:whitespace-nowrap [&_span]:mt-px [&_span]:block [&_span]:overflow-hidden [&_span]:text-xs [&_span]:text-muted [&_span]:text-ellipsis [&_span]:whitespace-nowrap"
             id="geo-hierarchy-dialog-title-mount"></span>
           <span
-            class="geo-hierarchy-dialog-actions-mount"
-            id="geo-hierarchy-dialog-actions-mount"
-            style="margin-inline-start: auto"></span>
+            class="geo-hierarchy-dialog-actions-mount flex gap-[3px] items-center ms-auto"
+            id="geo-hierarchy-dialog-actions-mount"></span>
           <button
             class="ibtn geo-hierarchy-dialog-close"
             type="button"
@@ -19,13 +18,13 @@
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
         </header>
-        <div class="geo-hierarchy-dialog-body" id="geo-hierarchy-dialog-mount"></div>
+        <div class="geo-hierarchy-dialog-body flex min-w-0 min-h-0 flex-1 flex-col" id="geo-hierarchy-dialog-mount"></div>
       </section>
     </div>
 
     <div class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="geo-parent-picker-scrim">
       <section
-        class="customer-modal geo-parent-picker-modal"
+        class="customer-modal geo-parent-picker-modal max-w-[620px]"
         role="dialog"
         aria-modal="true"
         aria-labelledby="geo-parent-picker-title">
@@ -35,21 +34,24 @@
             <p>Pick a location from the hierarchy, or clear it to make this a root location.</p>
           </div>
           <button
-            class="ibtn geo-parent-picker-close"
+            class="ibtn geo-parent-picker-close ms-auto"
             type="button"
-            aria-label="Close parent location picker"
-            style="margin-inline-start: auto">
+            aria-label="Close parent location picker">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
         </header>
         <div class="customer-modal-body">
-          <div class="geo-view-switch" role="tablist" aria-label="Parent picker view">
+          <div
+            class="geo-view-switch grid grid-cols-2 gap-[3px] p-[3px] rounded-[7px] bg-[var(--line-2)] [margin:8px_8px_0]"
+            role="tablist"
+            aria-label="Parent picker view">
             <button
               type="button"
               role="tab"
               data-geo-parent-picker-view="tree"
               aria-selected="true"
-              aria-controls="geo-parent-picker-tree-pane">
+              aria-controls="geo-parent-picker-tree-pane"
+              class="inline-flex min-h-8 gap-[7px] items-center justify-center px-[9px] py-[5px] rounded-[5px] text-muted text-[12.5px] font-semibold">
               <svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg>
               Tree
             </button>
@@ -58,28 +60,27 @@
               role="tab"
               data-geo-parent-picker-view="flow"
               aria-selected="false"
-              aria-controls="geo-parent-picker-flow-pane">
+              aria-controls="geo-parent-picker-flow-pane"
+              class="inline-flex min-h-8 gap-[7px] items-center justify-center px-[9px] py-[5px] rounded-[5px] text-muted text-[12.5px] font-semibold">
               <svg width="15" height="15" aria-hidden="true"><use href="#i-grid" /></svg>
               Flow
             </button>
           </div>
-          <button class="lbtn out geo-parent-picker-root" type="button" style="margin: 10px 0">
+          <button class="lbtn out geo-parent-picker-root my-[10px]" type="button">
             No parent (root location)
           </button>
           <div id="geo-parent-picker-tree-pane" role="tabpanel">
             <div
-              class="geo-tree geo-parent-picker-tree"
+              class="geo-tree geo-parent-picker-tree min-h-0 flex-1 pt-0 px-2 pb-[10px] overflow-auto max-h-[360px]"
               id="geo-parent-picker-tree"
               role="tree"
-              aria-label="Locations"
-              style="max-height: 360px"></div>
+              aria-label="Locations"></div>
           </div>
           <div id="geo-parent-picker-flow-pane" role="tabpanel" hidden>
             <div
-              class="geo-flow-viewport geo-parent-picker-flow-viewport"
-              id="geo-parent-picker-flow-viewport"
-              style="min-height: 360px">
-              <div class="geo-flow-canvas" id="geo-parent-picker-flow-canvas"></div>
+              class="geo-flow-viewport geo-parent-picker-flow-viewport min-w-0 flex-1 mx-2 mb-2 overflow-auto cursor-grab rounded-[7px] border border-line touch-none select-none min-h-[360px] [background-color:var(--bg)] [background-image:radial-gradient(var(--line)_1px,transparent_1px)] [background-size:16px_16px]"
+              id="geo-parent-picker-flow-viewport">
+              <div class="geo-flow-canvas relative min-w-full min-h-full [max-height:min(560px,80vh)]" id="geo-parent-picker-flow-canvas"></div>
             </div>
           </div>
         </div>

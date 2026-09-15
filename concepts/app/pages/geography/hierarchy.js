@@ -48,7 +48,7 @@ function renderGeoTreeBranch(parentCode = '', level = 1) {
                     .replace('<svg', '<svg class="geo-node-chevron"')
                     .replace('<svg', `<svg role="img" aria-label="${encodeHtml(chevronTitle)}"`)
                 : '<span aria-hidden="true" style="width:11px"></span>'
-              return `<div class="geo-tree-branch"><button class="geo-tree-node" type="button" role="treeitem" data-geo-node="${encodeHtml(row.code)}"${hasChildren ? ' data-geo-toggle-branch' : ''} aria-level="${level}" aria-current="${row.code === geoState.code}"${hasChildren ? ` aria-expanded="${expanded}" title="${encodeHtml(chevronTitle)}"` : ''}>${chevron}<span class="geo-node-copy"><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>${children}</div>`
+              return `<div class="geo-tree-branch relative grid"><button class="geo-tree-node flex w-full min-h-[42px] gap-2 items-center py-1.5 px-2 rounded-md border border-transparent text-start" type="button" role="treeitem" data-geo-node="${encodeHtml(row.code)}"${hasChildren ? ' data-geo-toggle-branch' : ''} aria-level="${level}" aria-current="${row.code === geoState.code}"${hasChildren ? ` aria-expanded="${expanded}" title="${encodeHtml(chevronTitle)}"` : ''}>${chevron}<span class="geo-node-copy grid min-w-0 flex-1 gap-px [&_strong]:overflow-hidden [&_strong]:text-ellipsis [&_strong]:whitespace-nowrap [&_small]:overflow-hidden [&_small]:text-ellipsis [&_small]:whitespace-nowrap"><strong class="text-[12.5px] font-semibold">${encodeHtml(row.name)}</strong><small class="text-muted text-xs font-normal">${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>${children}</div>`
             })
             .join('')
         }
@@ -58,7 +58,7 @@ function renderGeoTree() {
           const markup = renderGeoTreeBranch()
           tree.innerHTML =
             markup ||
-            `<div class="geo-hierarchy-empty">${dataListIcon('i-search', 18)}<span>No locations match “${encodeHtml(geoState.treeQuery)}”.</span></div>`
+            `<div class="geo-hierarchy-empty grid min-h-40 place-items-center p-5 text-muted text-[12.5px] text-center">${dataListIcon('i-search', 18)}<span>No locations match “${encodeHtml(geoState.treeQuery)}”.</span></div>`
           const search = queryId('geo-tree-search')
           if (search && search.value !== geoState.treeQuery) search.value = geoState.treeQuery
         }

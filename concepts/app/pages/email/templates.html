@@ -1,5 +1,5 @@
       <template class="email-tpl">
-        <div class="email-view" hidden>
+        <div class="email-view flex flex-1 min-h-0 flex-col" hidden>
           <div class="phead email-phead">
             <div class="l">
               <nav class="crumbs" aria-label="Breadcrumb">
@@ -14,20 +14,21 @@
               </button>
             </div>
           </div>
-          <div class="email-app">
-            <div class="email-list">
-              <div class="email-search">
+          <div class="email-app flex-1 min-h-0 flex mx-4 my-3 rounded-[9px] border border-line overflow-hidden bg-surface">
+            <div class="email-list w-[300px] flex-none flex flex-col min-h-0 border-e border-line">
+              <div class="email-search flex-none flex items-center gap-[7px] m-2.5 py-[7px] px-[9px] rounded-[7px] border border-line text-faint">
                 <svg width="13" height="13" aria-hidden="true"><use href="#i-search" /></svg>
                 <input
                   type="search"
                   id="email-search-input"
                   placeholder="Search email…"
                   aria-label="Search email"
-                  autocomplete="off" />
+                  autocomplete="off"
+                  class="border-0 outline-none bg-transparent font-[inherit] text-ink flex-1 min-w-0 placeholder:text-faint" />
               </div>
               <div class="nc-scroll" id="email-list-scroll"></div>
             </div>
-            <div class="email-reading" id="email-reading"></div>
+            <div class="email-reading flex-1 min-w-0 flex flex-col min-h-0" id="email-reading"></div>
           </div>
         </div>
       </template>

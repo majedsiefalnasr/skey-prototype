@@ -1,5 +1,5 @@
       <template class="geo-list-tpl">
-        <div class="geo-list-view" hidden>
+        <div class="geo-list-view flex-1 min-h-0 [&:not([hidden])]:flex [&:not([hidden])]:flex-col" hidden>
           <div class="phead">
             <div class="l">
               <nav class="crumbs" aria-label="Breadcrumb">
@@ -32,21 +32,23 @@
         </div>
       </template>
       <template class="geo-record-tpl">
-        <div class="geo-record-view" hidden>
+        <div class="geo-record-view flex-1 min-h-0 [&:not([hidden])]:flex [&:not([hidden])]:flex-col" hidden>
           <div id="geo-record-chrome"></div>
-          <div class="canvas customer-record-canvas geo-record-canvas">
-            <div class="geo-workspace" id="geo-workspace">
+          <div class="canvas customer-record-canvas geo-record-canvas min-h-0 flex-1 p-3 overflow-auto">
+            <div
+              class="geo-workspace grid min-h-full gap-3 items-start [grid-template-columns:clamp(330px,28vw,470px)_minmax(0,1fr)]"
+              id="geo-workspace">
               <aside
-                class="geo-tree-panel"
+                class="geo-tree-panel flex min-w-0 flex-col overflow-hidden rounded-lg border border-line bg-surface [min-height:min(320px,calc(100vh-230px))]"
                 id="geo-hierarchy-panel"
                 aria-label="Location hierarchy">
-                <header class="geo-tree-header">
-                  <div>
+                <header class="geo-tree-header flex min-h-[58px] gap-2 items-center py-2 pe-[9px] ps-3 border-b border-line">
+                  <div class="block min-w-0 flex-1 [&_h2]:overflow-hidden [&_h2]:text-sm [&_h2]:text-ellipsis [&_h2]:whitespace-nowrap [&_span]:mt-px [&_span]:block [&_span]:overflow-hidden [&_span]:text-xs [&_span]:text-muted [&_span]:text-ellipsis [&_span]:whitespace-nowrap">
                     <h2>Location hierarchy</h2>
                     <span>Explore and select a location</span>
                   </div>
                   <span class="geo-collapsed-label" aria-hidden="true">Location hierarchy</span>
-                  <div class="geo-tree-header-actions">
+                  <div class="geo-tree-header-actions flex flex-none gap-[3px]">
                     <button
                       class="ibtn geo-tree-refresh"
                       type="button"
@@ -65,14 +67,18 @@
                     </button>
                   </div>
                 </header>
-                <div class="geo-hierarchy-content">
-                  <div class="geo-view-switch" role="tablist" aria-label="Hierarchy view">
+                <div class="geo-hierarchy-content flex min-w-0 min-h-0 flex-1 flex-col">
+                  <div
+                    class="geo-view-switch grid grid-cols-2 gap-[3px] m-2 mt-2 !mt-2 p-[3px] rounded-[7px] bg-[var(--line-2)] [margin:8px_8px_0]"
+                    role="tablist"
+                    aria-label="Hierarchy view">
                     <button
                       type="button"
                       role="tab"
                       data-geo-view="tree"
                       aria-selected="true"
-                      aria-controls="geo-tree-pane">
+                      aria-controls="geo-tree-pane"
+                      class="inline-flex min-h-8 gap-[7px] items-center justify-center px-[9px] py-[5px] rounded-[5px] text-muted text-[12.5px] font-semibold">
                       <svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg>
                       Tree
                     </button>
@@ -81,14 +87,15 @@
                       role="tab"
                       data-geo-view="flow"
                       aria-selected="false"
-                      aria-controls="geo-flow-pane">
+                      aria-controls="geo-flow-pane"
+                      class="inline-flex min-h-8 gap-[7px] items-center justify-center px-[9px] py-[5px] rounded-[5px] text-muted text-[12.5px] font-semibold">
                       <svg width="15" height="15" aria-hidden="true"><use href="#i-grid" /></svg>
                       Flow
                     </button>
                   </div>
                   <div id="geo-tree-pane" role="tabpanel">
-                    <div class="geo-tree-tools">
-                      <label class="geo-tree-search">
+                    <div class="geo-tree-tools flex gap-[5px] items-center p-2">
+                      <label class="geo-tree-search relative flex min-w-0 flex-1 items-center [&_svg]:absolute [&_svg]:start-[9px] [&_svg]:text-muted [&_svg]:pointer-events-none">
                         <svg width="14" height="14" aria-hidden="true">
                           <use href="#i-search" />
                         </svg>
@@ -96,7 +103,8 @@
                           id="geo-tree-search"
                           type="search"
                           placeholder="Find a location"
-                          aria-label="Find a location in the hierarchy" />
+                          aria-label="Find a location in the hierarchy"
+                          class="w-full min-h-[34px] py-[5px] px-[30px] rounded-md border border-line text-ink bg-surface font-[inherit] text-[12.5px]" />
                       </label>
                       <button
                         class="ibtn"
@@ -115,10 +123,21 @@
                         <svg width="15" height="15" aria-hidden="true"><use href="#i-first" /></svg>
                       </button>
                     </div>
-                    <div class="geo-tree" id="geo-tree" role="tree" aria-label="Locations"></div>
+                    <div
+                      class="geo-tree min-h-0 flex-1 pt-0 px-2 pb-[10px] overflow-auto"
+                      id="geo-tree"
+                      role="tree"
+                      aria-label="Locations"></div>
                   </div>
-                  <div class="geo-flow-pane" id="geo-flow-pane" role="tabpanel" hidden>
-                    <div class="geo-flow-tools" role="toolbar" aria-label="Flow canvas controls">
+                  <div
+                    class="geo-flow-pane flex min-w-0 min-h-0 flex-1 flex-col"
+                    id="geo-flow-pane"
+                    role="tabpanel"
+                    hidden>
+                    <div
+                      class="geo-flow-tools flex gap-[5px] items-center p-2 justify-end"
+                      role="toolbar"
+                      aria-label="Flow canvas controls">
                       <button class="data-toolbar-button" type="button" data-geo-flow-fit>
                         <svg width="15" height="15" aria-hidden="true"><use href="#i-panel" /></svg>
                         Fit
@@ -131,7 +150,7 @@
                         title="Zoom out">
                         −
                       </button>
-                      <span class="geo-flow-zoom-value" id="geo-flow-zoom-value">100%</span>
+                      <span class="geo-flow-zoom-value min-w-[42px] text-muted text-xs text-center" id="geo-flow-zoom-value">100%</span>
                       <button
                         class="ibtn"
                         type="button"
@@ -142,33 +161,37 @@
                       </button>
                     </div>
                     <div
-                      class="geo-flow-viewport"
+                      class="geo-flow-viewport min-w-0 flex-1 mx-2 mb-2 overflow-auto cursor-grab rounded-[7px] border border-line touch-none select-none [min-height:430px] [max-height:500px] [background-color:var(--bg)] [background-image:radial-gradient(var(--line)_1px,transparent_1px)] [background-size:16px_16px]"
                       id="geo-flow-viewport"
                       tabindex="0"
                       aria-label="Location hierarchy flow canvas">
-                      <div class="geo-flow-canvas" id="geo-flow-canvas"></div>
+                      <div
+                        class="geo-flow-canvas relative min-w-full min-h-full [max-height:min(560px,80vh)]"
+                        id="geo-flow-canvas"></div>
                     </div>
                   </div>
                 </div>
               </aside>
-              <section class="customer-section geo-detail-card" aria-labelledby="geo-detail-title">
+              <section
+                class="customer-section geo-detail-card min-w-0 m-0"
+                aria-labelledby="geo-detail-title">
                 <h2 class="customer-section-titlebar" id="geo-detail-title">
                   <span>Location details</span>
                 </h2>
                 <div class="customer-section-body">
-                  <div class="geo-form">
+                  <div class="geo-form grid grid-cols-2 gap-x-[18px] gap-y-3 p-3">
                     <label class="rec-field">
                       <span>Location Code</span>
-                      <input id="geo-field-code" type="text" readonly />
+                      <input id="geo-field-code" type="text" readonly class="w-full" />
                     </label>
                     <label class="rec-field">
                       <span>Location Name</span>
-                      <input id="geo-field-name" type="text" readonly />
+                      <input id="geo-field-name" type="text" readonly class="w-full" />
                     </label>
                     <label class="rec-field">
                       <span>Parent Location</span>
                       <span class="customer-lookup-control">
-                        <select id="geo-field-parent" disabled></select>
+                        <select id="geo-field-parent" disabled class="w-full"></select>
                         <button
                           class="customer-lookup-trigger"
                           type="button"
@@ -184,7 +207,7 @@
                     </label>
                     <label class="rec-field">
                       <span>Type</span>
-                      <select id="geo-field-type" disabled>
+                      <select id="geo-field-type" disabled class="w-full">
                         <option>Country</option>
                         <option>Governorate</option>
                         <option>City</option>
@@ -193,18 +216,18 @@
                     </label>
                     <label class="rec-field">
                       <span>Level</span>
-                      <input id="geo-field-level" type="text" readonly />
+                      <input id="geo-field-level" type="text" readonly class="w-full" />
                     </label>
                     <label class="rec-field">
                       <span>Status</span>
-                      <select id="geo-field-status" disabled>
+                      <select id="geo-field-status" disabled class="w-full">
                         <option>Active</option>
                         <option>Inactive</option>
                       </select>
                     </label>
-                    <label class="rec-field rec-field-wide">
+                    <label class="rec-field rec-field-wide [grid-column:1/-1]">
                       <span>Remarks</span>
-                      <textarea id="geo-field-remarks" rows="4" readonly></textarea>
+                      <textarea id="geo-field-remarks" rows="4" readonly class="w-full"></textarea>
                     </label>
                   </div>
                 </div>
@@ -214,7 +237,9 @@
           <div class="fnav geo-record-footer">
             <span class="geo-record-pager-mount"></span>
             <span class="pos" id="geo-record-position" aria-live="polite">Record 1 of 12</span>
-            <span class="customer-footer-note" id="geo-footer-note">
+            <span
+              class="customer-footer-note inline-flex items-center gap-1.5 text-muted [font-size:12.5px]"
+              id="geo-footer-note">
               <svg width="13" height="13" aria-hidden="true"><use href="#i-lock" /></svg>
               Saved location. Choose Modify to edit.
             </span>

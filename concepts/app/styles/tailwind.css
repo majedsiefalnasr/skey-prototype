@@ -5,6 +5,8 @@
 @import "./tailwind/components.css" layer(components);
 @import "./tailwind/invoices.css" layer(components);
 @import "./tailwind/customers.css" layer(components);
+@import "./tailwind/geography.css" layer(components);
+@import "./tailwind/email.css" layer(components);
 @source "../../app-shell.html";
 @source "../**/*.html";
 @source "../**/*.js";

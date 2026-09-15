@@ -1,0 +1,212 @@
+/* geography selector relationships and behavior state that cannot be expressed by one
+   element's static utilities. */
+@layer components {
+  /* RTL mirror of the hierarchy panel-collapse chevron rotation. */
+  [dir='rtl'] .geo-panel-toggle svg { transform: scaleX(-1); }
+
+  /* Tree connector lines are generated content keyed to a descendant-position
+     selector (children under a branch), not a literal utility on one element. */
+  .geo-tree-children > .geo-tree-branch::before {
+    position: absolute;
+    top: 18px;
+    inset-inline-start: -16px;
+    width: 14px;
+    border-top: 1px solid var(--line);
+    content: '';
+  }
+
+  /* Expand/collapse chevron rotation is state on the node's own [aria-expanded],
+     mirrored for RTL -- a state+direction relationship, not a static utility. */
+  .geo-tree-node[aria-expanded='false'] .geo-node-chevron { transform: rotate(-90deg); }
+  [dir='rtl'] .geo-tree-node[aria-expanded='false'] .geo-node-chevron { transform: rotate(90deg); }
+
+  /* .badge is the shared shell atom (see tailwind/shell.css); this rule only adds a
+     geography-local descendant position, so it can't be the badge's own utility. */
+  .geo-tree-node .badge { margin-inline-start: auto; }
+
+  /* Collapsed hierarchy panel: `.tree-collapsed`/`.flow-view` are workspace-level state
+     classes toggled by the controller, hiding/rotating several descendants at once. */
+  .geo-workspace.tree-collapsed { grid-template-columns: 44px minmax(0, 1fr); }
+  .geo-workspace.flow-view:not(.tree-collapsed) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .geo-workspace.tree-collapsed .geo-tree-header {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 12px 5px;
+  }
+  .geo-workspace.tree-collapsed
+    :is(.geo-tree-header > div:first-child, .geo-tree-refresh, .geo-hierarchy-content) {
+    display: none;
+  }
+  .geo-workspace.tree-collapsed .geo-tree-header-actions { flex-direction: column; }
+  .geo-collapsed-label { display: none !important; }
+  .geo-workspace.tree-collapsed .geo-collapsed-label {
+    display: block !important;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .geo-workspace.tree-collapsed .geo-tree-panel { min-height: 58px; }
+
+  /* Hierarchy dialog reuses the panel/tree markup but forces it visible and full-height
+     inside the modal -- an ancestor-scoped override of the panel's own display rules. */
+  .geo-hierarchy-dialog-body .geo-tree-header { display: none; }
+  .geo-hierarchy-dialog-body .geo-tree-panel {
+    display: flex !important;
+    min-height: min(560px, 80vh);
+    max-height: min(560px, 80vh);
+    border: none;
+  }
+
+  /* Flow canvas: absolute-positioned nodes/connectors driven by JS-computed
+     coordinates and a CSS custom property zoom scale -- not literal utilities. */
+  .geo-flow-viewport.is-panning { cursor: grabbing; }
+  .geo-flow-surface {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 900px;
+    height: 500px;
+    transform: scale(var(--geo-flow-scale, 1));
+    transform-origin: top left;
+    user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+  }
+  .geo-flow-connectors {
+    position: absolute;
+    inset: 0;
+    width: 900px;
+    height: 500px;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .geo-flow-connectors path {
+    stroke: var(--line);
+    stroke-width: 1.5;
+    fill: none;
+  }
+  .geo-flow-node {
+    position: absolute;
+    display: grid;
+    width: 156px;
+    min-height: 58px;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 8px;
+    align-items: center;
+    padding: 8px 9px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    color: var(--ink);
+    background: var(--surface);
+    box-shadow: var(--shadow-1);
+    text-align: start;
+  }
+  .geo-flow-node:hover {
+    border-color: var(--line);
+    box-shadow: var(--shadow-2);
+  }
+  .geo-flow-node[aria-current='true'] {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-soft);
+    box-shadow: 0 0 0 2px var(--accent-line);
+  }
+  .geo-flow-node small {
+    display: block;
+    margin-top: 2px;
+    overflow: hidden;
+    color: var(--muted);
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Selected/hover tree-node state and its badge/chevron children. */
+  .geo-tree-node:hover { background: var(--line-2); }
+  .geo-tree-node[aria-current='true'] {
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-color: var(--accent-line);
+    font-weight: 600;
+  }
+
+  /* Search input focus ring. */
+  .geo-tree-search input:focus {
+    border-color: var(--accent);
+    outline: 2px solid var(--accent-soft);
+  }
+
+  /* aria-selected tab styling on the tree/flow view switch. */
+  .geo-view-switch button[aria-selected='true'] {
+    color: var(--accent);
+    background: var(--surface);
+    box-shadow: var(--shadow-1);
+  }
+
+  /* Quick-filter pill checked state. */
+  .geo-filter-quick button[aria-checked='true'] {
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-color: var(--accent-line);
+  }
+
+  /* Disabled state on the parent-picker row (a native disabled pseudo-class, and the
+     row is otherwise rendered identically enabled or disabled). */
+  .geo-parent-picker-row:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+
+  /* Read-only/disabled field surface -- shared with every other page's [readonly]
+     styling convention (see customers.css), kept local since only geo-form uses it here. */
+  .geo-form [readonly],
+  .geo-form select:disabled {
+    color: var(--ink);
+    background: var(--line-2);
+    opacity: 1;
+  }
+
+  .data-filter-modal-clear:hover {
+    color: var(--ink);
+    background: var(--line-2);
+  }
+
+  @media (max-width: 1200px) {
+    .geo-workspace { grid-template-columns: 44px minmax(0, 1fr) !important; }
+    .geo-workspace .geo-tree-header {
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 10px;
+      padding: 12px 5px;
+    }
+    .geo-workspace
+      :is(.geo-tree-header > div:first-child, .geo-tree-refresh, .geo-hierarchy-content) {
+      display: none;
+    }
+    .geo-workspace .geo-tree-header-actions { flex-direction: column; }
+    .geo-workspace .geo-collapsed-label {
+      display: block !important;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .geo-workspace .geo-tree-panel { min-height: 58px; }
+    .geo-form { grid-template-columns: 1fr !important; }
+    .geo-form .rec-field-wide { grid-column: auto; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .geo-tree-node .geo-node-chevron,
+    .geo-panel-toggle svg {
+      transition: none;
+    }
+  }
+}
