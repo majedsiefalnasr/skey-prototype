@@ -409,4 +409,34 @@
           </span>
         </div>
       </div>
+      <div
+        class="rdlg [width:min(520px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]"
+        data-dlg="status"
+        data-tone="neutral"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="sf-title"
+        hidden>
+        <div class="rhd flex items-center gap-2.5 [padding:13px_16px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+          <svg width="17" height="17" aria-hidden="true"><use href="#i-flow" /></svg>
+          <h3 id="sf-title">Change invoice status</h3>
+          <button class="ibtn x r-close [.rhd_&]:ms-auto!" aria-label="Close">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </div>
+        <div class="rbody [padding:16px] overflow-auto">
+          <p id="sf-description" class="lead [.rdlg_&]:[font-size:13px] [.rdlg_&]:text-ink [.rdlg_&]:mb-3!"></p>
+          <div class="status-reason flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-lg [&_textarea]:[padding:9px_11px] [&_textarea]:[font:inherit] [&_textarea]:text-sm [&_textarea]:bg-surface [&_textarea:focus]:[outline:none] [&_textarea:focus]:[border-color:var(--accent)] [&_textarea:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_textarea]:[min-height:88px] [&_textarea]:[resize:vertical]" hidden>
+            <label for="sf-reason"></label>
+            <textarea id="sf-reason" placeholder="This is saved with the invoice status history"></textarea>
+          </div>
+        </div>
+        <div class="rfoot flex items-center gap-2.5 [padding:12px_16px] [border-top:1px_solid_var(--line)] bg-[var(--line-2)]">
+          <span class="sum" style="font-size: 12px; color: var(--muted)">Invoice 126</span>
+          <span class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2">
+            <button class="lbtn out r-close">Keep current status</button>
+            <button class="lbtn pri" id="sf-confirm">Confirm</button>
+          </span>
+        </div>
+      </div>
     </div>

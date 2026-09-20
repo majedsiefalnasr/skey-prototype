@@ -40,6 +40,7 @@
         flex: 1 1 auto;
         min-height: 0;
         border-bottom: none !important;
+        zoom: var(--ui-scale, 1);
       }
       .shell {
         flex: 1 1 auto;
@@ -399,4 +400,6 @@
           transition: none;
         }
       }
-    
+
+
+#customer-layout-group { display: none !important; }

@@ -1,4 +1,6 @@
 import {EMAIL_DATA} from '../../prototype/fixtures/messages.js'
+const isSystemUser = name => /^(system|system admin)$/i.test(name || '')
+const systemUserAvatar = size => `<svg width="${size}" height="${size}" aria-hidden="true"><use href="#i-user"/></svg>`
 export function createEmail({root, onUnreadChange, navigate, toast}) {
 const pageAbort = new AbortController()
 const queryId = id => root.querySelector('#' + CSS.escape(id))
@@ -38,7 +40,9 @@ const queryId = id => root.querySelector('#' + CSS.escape(id))
             row.innerHTML = `<span class="email-avatar relative flex-none w-7 h-7 rounded-full flex items-center justify-center bg-[var(--avatar-bg)] text-[var(--avatar-ink)] text-xs font-bold" style="--hue:${m.hue}"></span>
       <span class="email-list-txt flex-1 min-w-0"><span class="email-list-top flex items-baseline justify-between gap-2"><b class="text-[13px] font-medium text-ink"></b><span class="email-list-time flex-none text-xs text-faint"></span></span>
       <span class="email-list-subj block text-[12.5px] text-muted mt-0.5 overflow-hidden text-ellipsis whitespace-nowrap"></span></span>`
-            row.querySelector('.email-avatar').textContent = m.from.charAt(0)
+            row.querySelector('.email-avatar').innerHTML = isSystemUser(m.from)
+              ? systemUserAvatar(14)
+              : m.from.charAt(0)
             row.querySelector('b').textContent = m.from
             row.querySelector('.email-list-time').textContent = m.time
             row.querySelector('.email-list-subj').textContent = m.subject
@@ -109,7 +113,7 @@ const queryId = id => root.querySelector('#' + CSS.escape(id))
           pane.innerHTML = `
     <div class="email-reading-scroll nc-scroll flex-1 min-h-0 overflow-auto py-5 px-6">
       <div class="email-reading-hd flex items-center gap-3">
-        <span class="email-avatar lg relative flex-none w-10 h-10 rounded-full flex items-center justify-center bg-[var(--avatar-bg)] text-[var(--avatar-ink)] text-base font-bold" style="--hue:${m.hue}">${m.from.charAt(0)}</span>
+        <span class="email-avatar lg relative flex-none w-10 h-10 rounded-full flex items-center justify-center bg-[var(--avatar-bg)] text-[var(--avatar-ink)] text-base font-bold" style="--hue:${m.hue}">${isSystemUser(m.from) ? systemUserAvatar(18) : m.from.charAt(0)}</span>
         <div class="email-reading-who flex-1 min-w-0 flex flex-col [&_b]:text-sm [&_span]:text-[12.5px] [&_span]:text-muted"><b>${m.from}</b><span>${m.email}</span></div>
         <span class="email-reading-time flex-none text-xs text-faint">${m.day}, ${m.time}</span>
       </div>

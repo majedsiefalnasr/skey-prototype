@@ -78,6 +78,14 @@ const work = createWork({
 })
 
 const {t, formatDate: formatLocaleDate, formatCurrency: formatLocaleCurrency, getLocale, setLocale} = locale
+const savedPrototypeState = readPrototypeState(sessionStorage)
+let launchpadEnabled = savedPrototypeState.launchpad !== false
+const getLaunchpadEnabled = () => launchpadEnabled
+const setLaunchpadEnabled = enabled => {
+  launchpadEnabled = Boolean(enabled)
+  if (!launchpadEnabled) hideLaunchpad(document.querySelector('.frame'))
+  topbar.syncTopbarChrome()
+}
 
 const localeControls = createLocaleControls({
   t,
@@ -127,6 +135,7 @@ const {state, editable, LOCK_COPY, needsSaved, blocked} = createInvoiceState()
 const sidebar = createSidebar({
   t,
   getShowContentView: () => showContentView,
+  getLaunchpadEnabled,
   buildNavLaunchpad: (...args) => buildNavLaunchpad(...args),
   restoreLaunchpadActions: (...args) => restoreLaunchpadActions(...args),
   stopSearchTyping: (...args) => stopSearchTyping(...args),
@@ -138,13 +147,14 @@ const sidebar = createSidebar({
   guardDataListLeave: (...args) => listGuard.guardDataListLeave(...args)
 })
 
-const home = createHome({buildRailAndPanel: (...args) => sidebar.buildRailAndPanel(...args), findNavGroup: (...args) => sidebar.findNavGroup(...args), setNavCurrent: (...args) => sidebar.setNavCurrent(...args), t, getLocale, syncCustomerPrototypeControls: (...args) => syncPrototypeControlsPage(...args), getCurrentView: () => contentHost.getCurrentContentViewName(), queueSkeletonForCurrentView: (...args) => queueSkeletonForCurrentView(...args), closeEmailView: () => showContentView('record'), visibleGroups: (...args) => sidebar.visibleGroups(...args), getCurrentApp: () => sidebar.getCurrentAppLabel(), closeAllMenus: (...args) => menus.closeAllMenus(...args)})
+const home = createHome({buildRailAndPanel: (...args) => sidebar.buildRailAndPanel(...args), findNavGroup: (...args) => sidebar.findNavGroup(...args), setNavCurrent: (...args) => sidebar.setNavCurrent(...args), t, getLocale, getLaunchpadEnabled, syncCustomerPrototypeControls: (...args) => syncPrototypeControlsPage(...args), getCurrentView: () => contentHost.getCurrentContentViewName(), queueSkeletonForCurrentView: (...args) => queueSkeletonForCurrentView(...args), closeEmailView: () => showContentView('record'), visibleGroups: (...args) => sidebar.visibleGroups(...args), getCurrentApp: () => sidebar.getCurrentAppLabel(), closeAllMenus: (...args) => menus.closeAllMenus(...args)})
 
 const {buildNavLaunchpad, restoreLaunchpadActions, stopSearchTyping, startSearchTyping, hideLaunchpad, getLaunchpadUserName, showLaunchpad, setupAppSwitcher} = home
 
 const topbar = createTopbar({
   toast,
   getSideCollapsed: () => sidebar.getSideCollapsed(),
+  getLaunchpadEnabled,
   closeAllMenus: (...args) => menus.closeAllMenus(...args),
   openKbd: (...args) => keyboard.openKbd(...args),
   openAppearance: (...args) => appearanceControls.openAppearance(...args),
@@ -156,11 +166,13 @@ const shell = createShell({
   renderSide: (...args) => sidebar.renderSide(...args),
   goToForYou: (...args) => topbar.goToForYou(...args),
   applySideCollapsedState: (...args) => sidebar.applySideCollapsedState(...args),
-  toggleSideCollapse: (...args) => sidebar.toggleSideCollapse(...args)
+  toggleSideCollapse: (...args) => sidebar.toggleSideCollapse(...args),
+  getLaunchpadEnabled
 })
 
 const menus = createMenus({
-  showLaunchpad: (...args) => showLaunchpad(...args)
+  showLaunchpad: (...args) => showLaunchpad(...args),
+  getLaunchpadEnabled
 })
 
 const recordChrome = createRecordChrome({
@@ -229,7 +241,8 @@ const appearanceControls = createAppearanceControls({
   createAppearance,
   locale,
   trapFocus,
-  releaseFocus
+  releaseFocus,
+  setLaunchpadEnabled
 })
 
 const notifications = createNotifications({closeAllMenus: (...args) => menus.closeAllMenus(...args), openEmailView: (...args) => openEmailView(...args), closeMenuAndRestoreFocus: (...args) => menus.closeMenuAndRestoreFocus(...args)})
@@ -524,7 +537,7 @@ const invoices = createInvoices({
   templates: {
     listRoot: document.querySelector('.list-view'), listCanvas: document.getElementById('list-canvas'),
     listFooter: document.getElementById('list-fnav'), listInstance: listRuntime.dataListInstances.invoice,
-    recordRoots: [...document.querySelector('.content').children].filter(element => !element.matches('.email-view,.list-view,.customer-list-view,.customer-record-view,.geo-list-view,.geo-record-view')),
+    recordRoots: [...document.querySelector('.page-content').children].filter(element => !element.matches('.email-view,.list-view,.customer-list-view,.customer-record-view,.geo-list-view,.geo-record-view')),
   }, state, operations: {applyState, applyMode, modeSel, requestLeave: requestInvoiceLeave},
   record: {render: renderRecordA, dispose: () => { disposeRecordTabs(); disposeInvoiceLines(); disposeInvoicePayments(); disposeInvoiceAdjustments() }},
 })
@@ -573,8 +586,7 @@ const contextMenu = createContextMenu({
   refreshDataListForContext: (...args) => listRuntime.refreshDataListForContext(...args)
 })
 
-const saved = readPrototypeState(sessionStorage)
-if (saved['customer-mode']) customers.setMode(saved['customer-mode'])
-if (saved['customer-layout']) customers.setLayout(saved['customer-layout'])
+if (savedPrototypeState['customer-mode']) customers.setMode(savedPrototypeState['customer-mode'])
+if (savedPrototypeState['customer-layout']) customers.setLayout(savedPrototypeState['customer-layout'])
 const controls = createPrototypeControls({root: document, settings: appearanceControls.appearance, pages: {invoices, customers}})
 syncPrototypeControlsPage = controls.syncPage

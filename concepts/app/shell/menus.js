@@ -1,7 +1,7 @@
 
 
 /** Owns menus state and its DOM bindings. */
-export function createMenus({showLaunchpad} = {}) {
+export function createMenus({showLaunchpad, getLaunchpadEnabled} = {}) {
   const closeAllMenus = except =>
     document.querySelectorAll('.menu > button[aria-expanded="true"]').forEach(b => {
       if (b !== except) {
@@ -66,6 +66,7 @@ export function createMenus({showLaunchpad} = {}) {
   document.addEventListener('click', e => {
     const switcherBtn = e.target.closest('.app-switcher-menu > button')
     if (switcherBtn) {
+      if (!getLaunchpadEnabled()) return
       const fbody = switcherBtn.closest('.design').querySelector('.fbody')
       showLaunchpad(fbody, {mode: 'switcher', returnFocus: switcherBtn})
       return

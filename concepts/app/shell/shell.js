@@ -1,7 +1,7 @@
 
 
 /** Owns shell state and its DOM bindings. */
-export function createShell({setupAppSwitcher, renderSide, goToForYou, applySideCollapsedState, toggleSideCollapse} = {}) {
+export function createShell({setupAppSwitcher, renderSide, goToForYou, applySideCollapsedState, toggleSideCollapse, getLaunchpadEnabled} = {}) {
   const T = id => document.getElementById(id).content.cloneNode(true)
 
   document.querySelectorAll('.design.active').forEach(d => {
@@ -23,13 +23,40 @@ export function createShell({setupAppSwitcher, renderSide, goToForYou, applySide
     content.className = 'content flex min-h-0 min-w-0 flex-1 flex-col'
     content.id = 'app-main'
     content.tabIndex = -1
-    content.append(d.querySelector('.body-tpl').content.cloneNode(true))
-    content.append(d.querySelector('.email-tpl').content.cloneNode(true))
-    content.append(d.querySelector('.list-tpl').content.cloneNode(true))
-    content.append(d.querySelector('.customer-list-tpl').content.cloneNode(true))
-    content.append(d.querySelector('.customer-record-tpl').content.cloneNode(true))
-    content.append(d.querySelector('.geo-list-tpl').content.cloneNode(true))
-    content.append(d.querySelector('.geo-record-tpl').content.cloneNode(true))
+    const pageContent = document.createElement('div')
+    pageContent.className = 'page-content flex min-h-0 flex-1 flex-col'
+    pageContent.append(d.querySelector('.body-tpl').content.cloneNode(true))
+    pageContent.append(d.querySelector('.email-tpl').content.cloneNode(true))
+    pageContent.append(d.querySelector('.list-tpl').content.cloneNode(true))
+    pageContent.append(d.querySelector('.customer-list-tpl').content.cloneNode(true))
+    pageContent.append(d.querySelector('.customer-record-tpl').content.cloneNode(true))
+    pageContent.append(d.querySelector('.geo-list-tpl').content.cloneNode(true))
+    pageContent.append(d.querySelector('.geo-record-tpl').content.cloneNode(true))
+    const pageActionBar = document.createElement('div')
+    pageActionBar.className = 'page-action-bar'
+    pageContent.querySelectorAll(':scope > .arow').forEach(actionBar => {
+      actionBar.dataset.pageActionBar = 'record'
+      pageActionBar.append(actionBar)
+    })
+    const pageFooter = document.createElement('div')
+    pageFooter.className = 'page-footer'
+    pageContent.querySelectorAll('.fnav').forEach(footer => {
+      const view = footer.closest('.list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view')
+      footer.dataset.pageFooter = view?.classList.contains('list-view')
+        ? 'list'
+        : view?.classList.contains('customer-list-view')
+          ? 'customers-list'
+          : view?.classList.contains('customer-record-view')
+            ? 'customer-record'
+            : view?.classList.contains('geo-list-view')
+              ? 'geo-list'
+              : view?.classList.contains('geo-record-view')
+                ? 'geo-record'
+                : 'record'
+      footer.hidden = footer.dataset.pageFooter !== 'record'
+      pageFooter.append(footer)
+    })
+    content.append(pageActionBar, pageContent, pageFooter)
     body.append(side, content)
     frame.append(body)
     d.querySelector('.mount').append(frame)
@@ -48,6 +75,9 @@ export function createShell({setupAppSwitcher, renderSide, goToForYou, applySide
     d.querySelectorAll('.gtop .app').forEach(b => b.addEventListener('click', goToForYou))
     renderSide(side)
     d.querySelectorAll('.app-switcher-list').forEach(setupAppSwitcher)
+    d.querySelectorAll('.app-switcher-menu').forEach(menu => {
+      menu.hidden = !getLaunchpadEnabled()
+    })
     applySideCollapsedState()
   })
 

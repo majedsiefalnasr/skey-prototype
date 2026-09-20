@@ -53,12 +53,27 @@ function renderGeoRecordChrome(row) {
             ? `<button class="lbtn pri" type="button" data-geo-record-action="save">${dataListIcon('i-save')} ${t('Save')}</button><button class="lbtn out" type="button" data-geo-record-action="undo">${dataListIcon('i-undo')} ${t('Undo')}</button>`
             : `<button class="lbtn pri" type="button" data-geo-record-action="modify">${dataListIcon('i-edit')} ${t('Modify')}</button><span class="vsep"></span><button class="lbtn out" type="button" data-geo-record-action="new">${dataListIcon('i-plus')} ${t('New')}</button><button class="lbtn out danger" type="button" data-geo-record-action="delete">${dataListIcon('i-trash')} ${t('Delete')}</button>`
           queryId('geo-record-chrome').innerHTML = `
-    <div class="arow customer-arow" role="toolbar" aria-label="Location toolbar">
+    <div class="arow customer-arow [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-1 [.d1_&]:[padding:7px_16px] [.d1_&]:[border-bottom:1px_solid_var(--line)] [.d1_&]:bg-surface [.d1_&]:flex-wrap" role="toolbar" aria-label="Location toolbar">
       <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('Record')} ${dataListIcon('i-caret', 12)}</button><div class="mlist" role="menu"><button role="menuitem" type="button" data-geo-record-action="new">${dataListIcon('i-plus', 14)} ${t('New')}</button><button role="menuitem" type="button" data-geo-record-action="modify"${editing ? ' disabled' : ''}>${dataListIcon('i-edit', 14)} ${t('Modify')}</button><button role="menuitem" type="button" data-geo-record-action="delete"${editing ? ' disabled' : ''}>${dataListIcon('i-trash', 14)} ${t('Delete')}</button><button role="menuitem" type="button" data-geo-record-action="search">${dataListIcon('i-search', 14)} ${t('Search')}</button></div></div>
       <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('Procedure')} ${dataListIcon('i-caret', 12)}</button><div class="mlist" role="menu"><button role="menuitem" type="button" data-geo-record-action="save"${editing ? '' : ' disabled'}>${dataListIcon('i-save', 14)} ${t('Save')}</button><button role="menuitem" type="button" data-geo-record-action="print">${dataListIcon('i-print', 14)} ${t('Print')}</button><button role="menuitem" type="button" data-geo-record-action="undo"${editing ? '' : ' disabled'}>${dataListIcon('i-undo', 14)} ${t('Undo')}</button></div></div>
       <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('More')} ${dataListIcon('i-caret', 12)}</button><div class="mlist" role="menu"><button role="menuitem" type="button" data-geo-record-action="parameters">${dataListIcon('i-sliders', 14)} ${t('Screen Parameters')}</button><button role="menuitem" type="button" data-geo-record-action="help">${dataListIcon('i-help', 14)} ${t('Help')}</button></div></div>
     </div>
-    <div class="phead"><div class="l"><nav class="crumbs" aria-label="Breadcrumb"><a href="#">${t('Home')}</a><span class="sep">›</span><button class="geo-back-list" type="button">${t('Geographical Structure')}</button><span class="sep">›</span><span aria-current="page">${geoState.mode === 'create' ? t('New') : t('All')}</span></nav><div class="tline"><h1>${title}</h1><span class="badge ${row.active ? 'ok' : 'gray'}">${row.active ? t('Active') : t('Inactive')}</span></div></div><div class="r"><span class="recacts">${actions}</span></div></div>`
+    <div class="phead [.d1_&]:[padding:11px_16px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-3">
+      <div class="l [.d1_.phead_&]:[flex:1]">
+        <nav class="crumbs [.d3_.otitle_&]:[margin-bottom:3px]!" aria-label="Breadcrumb"><a href="#">${t('Home')}</a><span class="sep">›</span><button class="geo-back-list" type="button">${t('Geographical Structure')}</button><span class="sep">›</span><span aria-current="page">${geoState.mode === 'create' ? t('New') : t('All')}</span></nav>
+        <div class="tline [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-3 [.d1_&]:mt-2! [.d1_&]:flex-wrap [.d1_&_h1]:[font-size:23px] [.d1_&_h1]:font-semibold"><h1>${title}</h1><span class="badge ${row.active ? 'ok' : 'gray'}">${row.active ? t('Active') : t('Inactive')}</span></div>
+      </div>
+      <div class="r [.d1_.phead_&]:flex [.d1_.phead_&]:items-center [.d1_.phead_&]:gap-1 [.d1_.phead_&]:mt-1.5!"><span class="recacts inline-flex items-center [gap:7px] flex-wrap">${actions}</span></div>
+    </div>`
+          const pageActionBar = document.querySelector('.page-action-bar')
+          const actionBar = queryId('geo-record-chrome').querySelector('.arow')
+          pageActionBar?.querySelector('[data-page-action-bar="geo-record"]')?.remove()
+          if (actionBar && pageActionBar) {
+            actionBar.dataset.pageActionBar = 'geo-record'
+            actionBar.hidden = false
+            pageActionBar.append(actionBar)
+            pageActionBar.hidden = false
+          }
         }
 
 

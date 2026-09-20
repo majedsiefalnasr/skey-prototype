@@ -64,15 +64,18 @@ export function renderDataListFilterButtons(config, listState, deps) {
     )
     .join('')
   if (!listState.customFilters.length) return builtIn
-  const customButtons = listState.customFilters
-    .map(custom => {
+  const customButton = custom => {
       const active = custom.id === listState.activeCustomFilterId
       return `<button type="button" role="menuitemradio" data-list-custom-filter-apply="${encodeHtml(custom.id)}" aria-checked="${active}">${dataListIcon(custom.icon || 'i-eye')}<span class="truncate">${encodeHtml(custom.name)}</span>${active ? dataListIcon('i-check', 13) : ''}</button>`
-    })
-    .join('')
+    }
+  const visibleCustomButtons = listState.customFilters.slice(0, 5).map(customButton).join('')
+  const overflowFilters = listState.customFilters.slice(5)
+  const overflowMenu = overflowFilters.length
+    ? `<details class="data-menu data-manage-submenu data-list-custom-filter-overflow relative"><summary class="flex w-full min-h-[32px] items-center gap-[9px] rounded-[5px] px-2 py-1.5 text-[12.5px] font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden [&_svg:last-child]:ms-auto [&_svg:last-child]:text-muted rtl:[&_svg:last-child]:scale-x-[-1]">${dataListIcon('i-dots', 14)}<span>More filters…</span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[180px] gap-0.5" role="menu">${overflowFilters.map(customButton).join('')}</div></details>`
+    : ''
   return `${builtIn}<hr class="data-menu-separator col-span-full w-full my-0.5 h-px border-none bg-line">
     <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">${t('Custom filters', 'Custom filters')}</div>
-    ${customButtons}<hr class="data-menu-separator col-span-full w-full my-0.5 h-px border-none bg-line">
+    ${visibleCustomButtons}${overflowMenu}<hr class="data-menu-separator col-span-full w-full my-0.5 h-px border-none bg-line">
     <button type="button" role="menuitem" data-list-manage-filters>${dataListIcon('i-sliders', 14)}<span>${t('Manage filters…', 'Manage filters…')}</span></button>`
 }
 
@@ -133,18 +136,18 @@ export function renderDataListFilterEditor(config, filter, deps) {
         return `<button class="${DATA_FILTER_OPTION_CLASS}" type="button" role="option" aria-selected="${isSelected}" data-list-filter-select-option="${encodeHtml(field.key)}" data-value="${encodeHtml(optionValue)}">${encodeHtml(String(dataFilterOptionLabel(option)))}${isSelected ? dataListIcon('i-check', 13) : ''}</button>`
       })
       .join('')
-    return `<span class="${filterChipClass}"><details class="data-menu data-filter-editor data-list-filter-editor relative" data-filter-editor-key="${encodeHtml(field.key)}"><summary class="min-h-0! rounded-none! border-0! bg-transparent! p-0! text-[inherit]! hover:bg-transparent!">${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value text-accent">${encodeHtml(valueLabel || t('Choose value', 'Choose value'))}</span></summary><div class="${DATA_MENU_POPOVER_CLASS} data-filter-select-popover min-w-[min(220px,calc(100vw-16px))] p-1" role="listbox" aria-label="${encodeHtml(t(field.label))} ${t('filter value', 'filter value')}">${options}</div></details>${removeButton}</span>`
+    return `<span class="${filterChipClass}"><details class="data-menu data-filter-editor data-list-filter-editor relative min-w-0" data-filter-editor-key="${encodeHtml(field.key)}"><summary class="flex min-w-0 items-center gap-1.5 whitespace-nowrap min-h-0! rounded-none! border-0! bg-transparent! p-0! text-[inherit]! hover:bg-transparent! [&::-webkit-details-marker]:hidden">${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value overflow-hidden text-ellipsis text-accent">${encodeHtml(valueLabel || t('Choose value', 'Choose value'))}</span></summary><div class="${DATA_MENU_POPOVER_CLASS} data-filter-select-popover min-w-[min(220px,calc(100vw-16px))] p-1" role="listbox" aria-label="${encodeHtml(t(field.label))} ${t('filter value', 'filter value')}">${options}</div></details>${removeButton}</span>`
   }
   if (field.type === 'date') {
     const chipLabel = dateFilterLabel(filter)
-    return `<span class="${filterChipClass}"><details class="data-menu data-filter-editor data-list-filter-editor relative" data-filter-editor-key="${encodeHtml(field.key)}"><summary class="min-h-0! rounded-none! border-0! bg-transparent! p-0! text-[inherit]! hover:bg-transparent!">${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value text-accent">${encodeHtml(chipLabel)}</span></summary><div class="${DATA_MENU_POPOVER_CLASS} data-filter-date-popover min-w-[min(220px,calc(100vw-16px))] p-1">${renderDataListDatePresetOptions(field, filter)}</div></details>${removeButton}</span>`
+    return `<span class="${filterChipClass}"><details class="data-menu data-filter-editor data-list-filter-editor relative min-w-0" data-filter-editor-key="${encodeHtml(field.key)}"><summary class="flex min-w-0 items-center gap-1.5 whitespace-nowrap min-h-0! rounded-none! border-0! bg-transparent! p-0! text-[inherit]! hover:bg-transparent! [&::-webkit-details-marker]:hidden">${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value overflow-hidden text-ellipsis text-accent">${encodeHtml(chipLabel)}</span></summary><div class="${DATA_MENU_POPOVER_CLASS} data-filter-date-popover min-w-[min(220px,calc(100vw-16px))] p-1">${renderDataListDatePresetOptions(field, filter)}</div></details>${removeButton}</span>`
   }
   const input = `<input type="text" class="w-full min-h-[36px] rounded-md border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-ink" data-list-filter-value="${encodeHtml(field.key)}" value="${encodeHtml(filter.value)}" placeholder="${t('Enter', 'Enter')} ${encodeHtml(t(field.label).toLowerCase())}" aria-label="${encodeHtml(t(field.label))} ${t('filter value', 'filter value')}">`
   const operators = `<div class="data-filter-operators mb-1.5 flex flex-nowrap gap-1 overflow-x-auto">${DATA_FILTER_OPERATORS.map(
     item =>
       `<button type="button" class="flex-none w-auto min-h-[28px] whitespace-nowrap px-2 py-1 aria-pressed:bg-[var(--line-2)] aria-pressed:font-bold" data-list-filter-operator="${encodeHtml(item.key)}" data-list-filter-key="${encodeHtml(field.key)}" aria-pressed="${item.key === filter.operator}">${encodeHtml(t(item.label))}</button>`
   ).join('')}</div>`
-  return `<span class="${filterChipClass}"><details class="data-menu data-filter-editor data-list-filter-editor relative" data-filter-editor-key="${encodeHtml(field.key)}"><summary class="min-h-0! rounded-none! border-0! bg-transparent! p-0! text-[inherit]! hover:bg-transparent!">${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value text-accent">${encodeHtml(`${t(operator.label)} ${valueLabel || '…'}`)}</span></summary><div class="${DATA_MENU_POPOVER_CLASS} data-filter-editor-popover min-w-[min(260px,calc(100vw-16px))] p-2.5">${operators}${input}</div></details>${removeButton}</span>`
+  return `<span class="${filterChipClass}"><details class="data-menu data-filter-editor data-list-filter-editor relative min-w-0" data-filter-editor-key="${encodeHtml(field.key)}"><summary class="flex min-w-0 items-center gap-1.5 whitespace-nowrap min-h-0! rounded-none! border-0! bg-transparent! p-0! text-[inherit]! hover:bg-transparent! [&::-webkit-details-marker]:hidden">${dataListIcon(field.icon)}<strong>${encodeHtml(t(field.label))}:</strong><span class="data-filter-value overflow-hidden text-ellipsis text-accent">${encodeHtml(`${t(operator.label)} ${valueLabel || '…'}`)}</span></summary><div class="${DATA_MENU_POPOVER_CLASS} data-filter-editor-popover min-w-[min(260px,calc(100vw-16px))] p-2.5">${operators}${input}</div></details>${removeButton}</span>`
 }
 
 export function renderDataListSelectionActions(config, listState, deps) {
@@ -158,7 +161,7 @@ export function renderDataListSelectionActions(config, listState, deps) {
   const statusActions = config.supportsActivateDeactivate
     ? `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="activate">${dataListIcon('i-check')} ${t('Activate')}</button><button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="deactivate">${dataListIcon('i-archive')} ${t('Deactivate')}</button>`
     : ''
-  const chartAction = `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="chart" aria-pressed="${listState.chartVisible}">${dataListIcon('i-chart')} ${t('Chart', 'Chart')}</button>`
+  const chartAction = `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="chart" aria-pressed="${listState.chartVisible}" hidden>${dataListIcon('i-chart')} ${t('Chart', 'Chart')}</button>`
   return `${singleRecordActions}${statusActions}${chartAction}<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS} danger text-[var(--danger)]" type="button" data-list-action="delete">${dataListIcon('i-trash')} ${t('Delete', 'Delete')}</button>`
 }
 
@@ -182,7 +185,7 @@ export function renderDataListViewMenu(config, listState, deps) {
   const {t, dataListIcon} = deps
   const current = dataListViewPresentation(listState.view)
   const option = (view, icon, label) =>
-    `<button type="button" role="menuitemradio" data-list-view="${view}" aria-checked="${listState.view === view}">${dataListIcon(icon)} ${t(label)}${listState.view === view ? dataListIcon('i-check', 13) : ''}</button>`
+    `<button type="button" role="menuitemradio" data-list-view="${view}" aria-checked="${listState.view === view}"${view === 'kanban' ? ' hidden' : ''}>${dataListIcon(icon)} ${t(label)}${listState.view === view ? dataListIcon('i-check', 13) : ''}</button>`
   return `<details class="data-menu end relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5"><summary class="${DATA_MENU_SUMMARY_CLASS}">${dataListIcon(current.icon)}<span class="data-toolbar-label-text max-[620px]:hidden">${t(current.label)}</span>${dataListIcon('i-caret', 11)}</summary><div class="${DATA_MENU_POPOVER_CLASS}" role="menu">${option('list', 'i-grid', 'List view')}${option('responsive', 'i-panel', 'Compact view')}${option('adaptive', 'i-panel', 'Adaptive view')}${option('cards', 'i-panel', 'Cards view')}${config.supportsKanban ? option('kanban', 'i-flow', 'Kanban view') : ''}</div></details>`
 }
 
@@ -232,10 +235,10 @@ export function renderDataListToolbar(context, config, listState, deps) {
           : ''
       }
       ${isUnsaved ? `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-save-view>${dataListIcon('i-save')} ${t('Save filter', 'Save filter')}</button>` : ''}`
-  const printButton = `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="print">${dataListIcon('i-print')}<span>${isAdaptive ? t('Print record', 'Print record') : t('Print list', 'Print list')}</span></button>`
+  const printButton = `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="print" hidden>${dataListIcon('i-print')}<span>${isAdaptive ? t('Print record', 'Print record') : t('Print list', 'Print list')}</span></button>`
   const chartButton = isAdaptive
     ? ''
-    : `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="chart" aria-pressed="${listState.chartVisible}">${dataListIcon('i-chart')}<span>${t('Chart', 'Chart')}</span></button>`
+    : `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="chart" aria-pressed="${listState.chartVisible}" hidden>${dataListIcon('i-chart')}<span>${t('Chart', 'Chart')}</span></button>`
   const groupTrigger =
     tableView && !isAdaptive ? deps.renderDataListGroupTrigger(config, listState) : ''
   const overflowMenu = `<details class="data-menu end data-toolbar-overflow relative hidden max-[900px]:inline-flex [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5"><summary class="${DATA_MENU_SUMMARY_CLASS}" aria-label="${t('More actions', 'More actions')}" title="${t('More actions', 'More actions')}">${dataListIcon('i-dots')}</summary><div class="${DATA_MENU_POPOVER_CLASS}" role="menu">${printButton}${chartButton}${groupTrigger}</div></details>`

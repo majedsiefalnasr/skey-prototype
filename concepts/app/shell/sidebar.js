@@ -2,7 +2,7 @@ import {encodeHtml} from '../core/locale.js'
 import {NAV_TREE, NAV_FAVORITES, NAV_RECENTS, NAV_ICONS} from '../prototype/fixtures/navigation.js'
 
 /** Owns sidebar state and its DOM bindings. */
-export function createSidebar({t, getShowContentView, buildNavLaunchpad, restoreLaunchpadActions, stopSearchTyping, hideLaunchpad, showLaunchpad, syncTopbarChrome, closeEmailView, visibleDirtyDataListContext, guardDataListLeave} = {}) {
+export function createSidebar({t, getShowContentView, getLaunchpadEnabled, buildNavLaunchpad, restoreLaunchpadActions, stopSearchTyping, hideLaunchpad, showLaunchpad, syncTopbarChrome, closeEmailView, visibleDirtyDataListContext, guardDataListLeave} = {}) {
   const visibleGroups = () => NAV_TREE
 
   const childrenOf = entry => (Array.isArray(entry) ? entry.slice(1) : [])
@@ -346,10 +346,10 @@ export function createSidebar({t, getShowContentView, buildNavLaunchpad, restore
     side.classList.remove('collapsed')
     const built = buildNavLaunchpad(fbody)
     side.prepend(built)
-    if (bootToLaunchpad || wasShowingLaunchpad) {
+    if (getLaunchpadEnabled() && (bootToLaunchpad || wasShowingLaunchpad)) {
       showLaunchpad(fbody, {mode: 'home'})
     } else {
-      setNavCurrent(side, navCurrentLabel)
+      queueMicrotask(() => setNavCurrent(side, navCurrentLabel))
     }
     if (sideCollapsed) side.classList.add('collapsed')
     updateSideWidth(side)

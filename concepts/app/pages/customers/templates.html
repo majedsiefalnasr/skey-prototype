@@ -1,5 +1,5 @@
       <template class="customer-list-tpl">
-        <div class="customer-list-view" hidden>
+        <div class="customer-list-view flex-1 min-h-0 [&:not([hidden])]:flex [&:not([hidden])]:flex-col" hidden>
           <div class="phead [.d1_&]:[padding:11px_16px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-3">
             <div class="l [.d1_.phead_&]:[flex:1]">
               <nav class="crumbs [.d3_.otitle_&]:[margin-bottom:3px]!" aria-label="Breadcrumb">
@@ -32,7 +32,7 @@
         <div class="customer-record-view [&:not([hidden])]:flex [&:not([hidden])]:[flex:1] [&:not([hidden])]:min-h-0 [&:not([hidden])]:flex-col" hidden>
           <div id="customer-record-chrome"></div>
           <div class="canvas customer-record-canvas [flex:1] min-h-0 overflow-auto text-start [&_[data-customer-scroll-target]]:[scroll-margin-top:12px]" id="customer-record-canvas"></div>
-          <div class="fnav customer-record-footer [.d4_&]:flex [.d4_&]:items-center [.d4_&]:gap-3 [.d4_&]:[padding:7px_16px] [.d4_&]:bg-surface [.d4_&]:[border-top:1px_solid_var(--line)]">
+          <div class="fnav customer-record-footer flex items-center gap-3 [padding:7px_16px] bg-surface [border-top:1px_solid_var(--line)]">
             <span class="customer-record-pager-mount"></span>
             <span class="pos [.d4_.fnav_&]:text-muted [.d4_.fnav_&]:[font-size:13px]" id="customer-record-position" aria-live="polite">Record 1 of 72</span>
             <span class="customer-footer-note inline-flex items-center gap-1.5 text-muted [font-size:12.5px]" id="customer-footer-note">

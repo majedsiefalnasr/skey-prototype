@@ -7,6 +7,44 @@ const pageAbort = new AbortController()
           'Display Journal Entry': 'journal',
           'Cancel Document': 'cancel',
         }
+        /* Status is changed from the record action row, never from the audit pill.
+           The menu only exposes the next legitimate document states. */
+        const STATUS_TRANSITIONS = {
+          open: ['pending', 'canceled'],
+          pending: ['open', 'posted'],
+          posted: ['pending', 'returned', 'canceled'],
+          returned: [],
+          canceled: [],
+          inactive: [],
+        }
+        const STATUS_ACTIONS = {
+          open: {
+            title: 'Open invoice 126',
+            description: 'This makes the invoice available for normal processing again.',
+            confirm: 'Open invoice',
+            tone: 'neutral',
+          },
+          pending: {
+            title: 'Mark invoice 126 as pending',
+            description: 'Pending invoices stay on hold until the issue below is resolved.',
+            confirm: 'Mark as pending',
+            tone: 'warning',
+            reason: 'Why is this invoice pending?',
+          },
+          returned: {
+            title: 'Return invoice 126',
+            description: 'This records the return and prevents further processing of this invoice.',
+            confirm: 'Return invoice',
+            tone: 'danger',
+            reason: 'Why is this invoice being returned?',
+          },
+        }
+        let pendingStatusAction = null
+        const setStatus = status => {
+          document.getElementById('st').value = status
+          state.status = status
+          applyState()
+        }
         const openRDlg = kind => {
           rscrim.querySelectorAll('.rdlg').forEach(d => {
             d.hidden = d.dataset.dlg !== kind
@@ -16,6 +54,8 @@ const pageAbort = new AbortController()
           trapFocus(rscrim.querySelector('.rdlg:not([hidden])'))
           const dlg = rscrim.querySelector(`.rdlg[data-dlg="${kind}"]`)
           if (!dlg) return
+          if (kind === 'posting') dlg.dataset.tone = 'success'
+          if (kind === 'cancel' || kind === 'delete') dlg.dataset.tone = 'danger'
           /* the dialog shows either the operation to perform, or the record of it —
      never a toggle that re-asks for an intent the user already declared */
           const done =
@@ -47,6 +87,26 @@ const pageAbort = new AbortController()
           })
           validateOps()
         }
+        const openStatusDialog = status => {
+          if (status === 'posted') return openRDlg('posting')
+          if (status === 'canceled') return openRDlg('cancel')
+          const action = STATUS_ACTIONS[status]
+          if (!action) return
+          pendingStatusAction = status
+          const dlg = rscrim.querySelector('.rdlg[data-dlg="status"]')
+          dlg.dataset.tone = action.tone
+          dlg.querySelector('#sf-title').textContent = action.title
+          dlg.querySelector('#sf-description').textContent = action.description
+          dlg.querySelector('#sf-confirm').textContent = action.confirm
+          const reason = dlg.querySelector('.status-reason')
+          reason.hidden = !action.reason
+          reason.querySelector('label').textContent = action.reason || ''
+          const field = reason.querySelector('textarea')
+          field.value = ''
+          field.required = Boolean(action.reason)
+          openRDlg('status')
+          field.focus()
+        }
         const closeRDlg = () => {
           if (rscrim.classList.contains('open')) {
             rscrim.classList.remove('open')
@@ -70,6 +130,13 @@ const pageAbort = new AbortController()
           if (['cf-dsc', 'cf-rev', 'pf-rev'].includes(e.target.id)) validateOps()
         }, {signal: pageAbort.signal})
         document.addEventListener('click', e => {
+          const statusAction = e.target.closest('[data-status-action]')
+          if (statusAction && !statusAction.hidden && !statusAction.disabled) {
+            closeAllMenus()
+            closeSearch()
+            openStatusDialog(statusAction.dataset.statusAction)
+            return
+          }
           const act = e.target.closest('[data-act]')
           if (act && !act.disabled && ACT_DLG[act.dataset.act]) {
             closeAllMenus()
@@ -88,6 +155,7 @@ const pageAbort = new AbortController()
         /* ---- failure shown inside the dialog, so nothing typed is lost ---- */
         const showInlineError = (dlg, {title, body, link}) => {
           clearInlineError(dlg)
+          if (dlg?.classList.contains('rdlg')) dlg.dataset.tone = 'danger'
           const box = document.createElement('div')
           box.className = 'inlineerr'
           box.setAttribute('role', 'alert')
@@ -193,6 +261,7 @@ const pageAbort = new AbortController()
           const no = nextInvoiceNo
           if (creating) {
             nextInvoiceNo++
+            setStatus('open')
             modeSel.value = 'record'
             applyMode('record')
           } else {
@@ -225,9 +294,7 @@ const pageAbort = new AbortController()
             return
           }
           closeRDlg()
-          document.getElementById('st').value = 'posted'
-          state.status = 'posted'
-          applyState()
+          setStatus('posted')
           toast({
             tone: 'ok',
             title: 'Invoice 126 posted',
@@ -249,15 +316,43 @@ const pageAbort = new AbortController()
             return
           }
           closeRDlg()
-          document.getElementById('st').value = 'canceled'
-          state.status = 'canceled'
-          applyState()
+          setStatus('canceled')
           toast({
             tone: 'ok',
             title: 'Document 126 canceled',
             body: 'Your reason is kept in the Cancellation Data card.',
             action: 'See the record',
             onAction: () => openRDlg('cancel'),
+          })
+        }
+
+        const doStatusChange = async btn => {
+          const status = pendingStatusAction
+          const action = STATUS_ACTIONS[status]
+          const dlg = rscrim.querySelector('.rdlg[data-dlg=status]')
+          const reason = dlg.querySelector('#sf-reason')
+          if (action.reason && !reason.value.trim()) {
+            reason.focus()
+            showInlineError(dlg, {
+              title: 'A reason is required',
+              body: 'Add a short explanation before changing this invoice status.',
+            })
+            return
+          }
+          const ok = await runWork(btn, `${action.confirm}…`)
+          if (!ok) {
+            showInlineError(dlg, {
+              title: `Could not ${action.confirm.toLowerCase()}`,
+              body: 'The invoice status was not changed. Please try again.',
+            })
+            return
+          }
+          closeRDlg()
+          setStatus(status)
+          toast({
+            tone: status === 'returned' ? 'bad' : 'ok',
+            title: `Invoice 126 is now ${STATUSES[status].label.toLowerCase()}`,
+            body: action.reason ? 'Your reason was saved with the status change.' : '',
           })
         }
 
@@ -273,6 +368,10 @@ const pageAbort = new AbortController()
           }
           if (b.id === 'cf-save') {
             doCancel(b)
+            return
+          }
+          if (b.id === 'sf-confirm') {
+            doStatusChange(b)
             return
           }
           if (b.id === 'del-go') {
@@ -591,6 +690,22 @@ const pageAbort = new AbortController()
             const why = blocked(b.dataset.act)
             b.disabled = !!why
             b.title = why || ''
+          })
+          /* The audit pill reports history; status movement lives with the record
+             commands. Keep unavailable transitions out of the menu entirely. */
+          const statusTransitions = STATUS_TRANSITIONS[st] || []
+          document.querySelectorAll('.statuswrap').forEach(wrap => {
+            wrap.hidden = creating
+            const trigger = wrap.querySelector('[data-act="Change status"]')
+            trigger.disabled = creating || statusTransitions.length === 0
+            trigger.title = creating
+              ? 'Save the invoice before changing its status'
+              : statusTransitions.length
+                ? ''
+                : 'This invoice is in a final status'
+            wrap.querySelectorAll('[data-status-action]').forEach(item => {
+              item.hidden = !statusTransitions.includes(item.dataset.statusAction)
+            })
           })
           /* design 4 mini chain */
           document.querySelectorAll('.cp-mini-mount').forEach(m => {

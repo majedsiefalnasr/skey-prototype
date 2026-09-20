@@ -8,7 +8,7 @@ export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCu
     const launchpad = document.querySelector('.lp-view:not([hidden])')
     if (launchpad) return launchpad
     const selectors = {
-      record: '.content',
+      record: '.page-content',
       email: '.email-view:not([hidden])',
       list: '.list-view:not([hidden])',
       'customers-list': '.customer-list-view:not([hidden])',
@@ -30,13 +30,13 @@ export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCu
 
   function attachAndShowView(name) {
     /* adv-search-scrim is a sibling outside .content, so switching which
-     .content child is visible doesn't touch it — close it here so it never
+     .page-content child is visible doesn't touch it — close it here so it never
      strands open across an unrelated navigation (e.g. breadcrumb back to the
      list) */
     const advScrim = document.getElementById('adv-search-scrim')
     if (advScrim && advScrim.classList.contains('open')) closeAdvancedSearch()
 
-    const content = document.querySelector('.content')
+    const content = document.querySelector('.page-content')
     const viewSelectors = {
       email: '.email-view',
       list: '.list-view',
@@ -66,6 +66,15 @@ export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCu
       if (wrappedViews.includes(el)) return
       el.hidden = name !== 'record'
     })
+    document.querySelectorAll('.page-footer [data-page-footer]').forEach(footer => {
+      footer.hidden = footer.dataset.pageFooter !== name
+    })
+    const pageActionBar = document.querySelector('.page-action-bar')
+    const activeActionBars = [...document.querySelectorAll('.page-action-bar [data-page-action-bar]')]
+    activeActionBars.forEach(actionBar => {
+      actionBar.hidden = actionBar.dataset.pageActionBar !== name
+    })
+    if (pageActionBar) pageActionBar.hidden = !activeActionBars.some(actionBar => !actionBar.hidden)
   }
 
   function onNavigationChange(name) {

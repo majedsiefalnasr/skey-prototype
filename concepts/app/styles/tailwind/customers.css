@@ -1,5 +1,62 @@
 /* customers selector relationships that cannot be expressed by one element's static utilities. */
 @layer components {
+/* Shared customer-image preview: the image trigger appears in both the data
+   grid and Customer record, so its geometry belongs to the customer owner. */
+.customer-avatar-trigger img, .customer-photo-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.customer-avatar-trigger.image-fit-contain img, .customer-photo-preview.image-fit-contain img {
+  padding: 5px;
+  object-fit: contain;
+  background: var(--surface);
+}
+.customer-image-popover {
+  inset: auto;
+  width: min(264px, calc(100vw - 16px));
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  opacity: 0;
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-2);
+  transform: translateY(4px);
+  transition: opacity 0.16s ease-out, transform 0.16s ease-out;
+}
+.customer-image-popover:popover-open { opacity: 1; transform: translateY(0); }
+@starting-style { .customer-image-popover:popover-open { opacity: 0; transform: translateY(4px); } }
+.customer-image-popover::backdrop { background: transparent; }
+.customer-image-popover-media {
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--line-2);
+}
+.customer-image-popover-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.customer-image-popover-media[data-fit='contain'] { background: var(--surface); }
+.customer-image-popover-media[data-fit='contain'] img { padding: 22px; object-fit: contain; }
+.customer-image-popover-copy {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+}
+.customer-image-popover-copy > div { min-width: 0; }
+.customer-image-popover-copy strong, .customer-image-popover-copy span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.customer-image-popover-copy span { color: var(--muted); font-size: 12px; }
+.customer-image-popover-close { flex: none; margin-inline-start: auto; }
 /* Customer and data-list modal controllers retain the semantic .open hook. */
 .customer-overlay.open { display: flex; }
 /* Lookup search opened from a nested unit drawer must stack above that drawer;

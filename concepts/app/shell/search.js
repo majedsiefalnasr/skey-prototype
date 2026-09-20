@@ -131,7 +131,7 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
       })
   }
 
-  const openSearch = (screensOnly = false) => {
+  const openSearch = (screensOnly = true) => {
     document.querySelectorAll('.search-typing-label').forEach(label => {
       stopSearchTyping(label.closest('.lp-view, .gtop'))
     })
@@ -171,7 +171,7 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
 
   document.addEventListener('click', e => {
     const opener = e.target.closest('.s-open')
-    if (opener) openSearch(opener.classList.contains('lp-search'))
+    if (opener) openSearch()
     const it = e.target.closest('.sitem:not(:disabled)')
     if (it) {
       sSel = [...activeList().querySelectorAll('.sitem:not(:disabled)')].indexOf(it)

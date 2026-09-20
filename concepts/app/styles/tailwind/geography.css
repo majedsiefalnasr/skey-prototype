@@ -167,7 +167,7 @@
   .geo-form [readonly],
   .geo-form select:disabled {
     color: var(--ink);
-    background: var(--line-2);
+    background-color: var(--line-2);
     opacity: 1;
   }
 

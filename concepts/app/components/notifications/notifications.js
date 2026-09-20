@@ -12,6 +12,8 @@ const EMAIL_AVATAR_TONE_CLASSES = [
   EMAIL_AVATAR_TONE_4_CLASS,
   EMAIL_AVATAR_TONE_5_CLASS,
 ]
+const isSystemUser = name => /^(system|system admin)$/i.test(name || '')
+const systemUserAvatar = '<svg width="14" height="14" aria-hidden="true"><use href="#i-user"/></svg>'
 
 export function createNotifications({closeAllMenus, openEmailView, closeMenuAndRestoreFocus}) {
 const pageAbort = new AbortController()
@@ -42,7 +44,9 @@ const pageAbort = new AbortController()
             row.innerHTML = `<span class="notif-icn email-avatar relative mt-px flex size-7 shrink-0 items-center justify-center rounded-full ${emailAvatarToneClass(m.hue)}" data-avatar-tone="${emailAvatarTone(m.hue)}"></span>
       <span class="notif-txt flex-1 min-w-0 pt-px text-[13px] leading-[1.5] text-ink${m.unread ? ' font-semibold' : ''}">${m.unread ? '<span class="visually-hidden">Unread. </span>' : ''}<b class="font-semibold"></b> <span class="notif-what text-muted"></span></span>
       <span class="notif-time shrink-0 pt-[3px] text-xs text-faint"></span>`
-            row.querySelector('.email-avatar').textContent = m.from.charAt(0)
+            row.querySelector('.email-avatar').innerHTML = isSystemUser(m.from)
+              ? systemUserAvatar
+              : m.from.charAt(0)
             row.querySelector('b').textContent = m.from
             row.querySelector('.notif-what').textContent = m.subject
             row.querySelector('.notif-time').textContent = m.time

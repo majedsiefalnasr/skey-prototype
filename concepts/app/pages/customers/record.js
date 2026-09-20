@@ -54,16 +54,9 @@ import {
 } from './fields.js'
 import {customerImageData, renderCustomerRecordPhoto, createImagePreview} from './images.js'
 import {createLookups} from './lookups.js'
-import {
-  createScrollNavigator,
-  renderCustomerGuided,
-  renderCustomerFocused,
-  renderCustomerCompact,
-  renderCustomerScroll,
-} from './layouts.js'
+import {createScrollNavigator, renderCustomerScroll} from './layouts.js'
 
 const CUSTOMER_RENDERERS = {
-  guided: renderCustomerGuided,
   scroll: renderCustomerScroll,
 }
 
@@ -82,9 +75,9 @@ function resolveRefs(root) {
     root,
     canvas: root.querySelector('#customer-record-canvas'),
     chrome: root.querySelector('#customer-record-chrome'),
-    footer: root.querySelector('.customer-record-footer'),
-    footerPositionLabel: root.querySelector('#customer-record-position'),
-    footerNote: root.querySelector('#customer-footer-note'),
+    footer: document.querySelector('.customer-record-footer'),
+    footerPositionLabel: document.querySelector('#customer-record-position'),
+    footerNote: document.querySelector('#customer-footer-note'),
     modeSelect: document.getElementById('customer-mode'),
     layoutSelect: document.getElementById('customer-layout'),
     imagePopover: document.getElementById('customer-image-popover'),
@@ -119,7 +112,7 @@ export function createCustomerRecord({root, deps}) {
   const customerState = {
     mode: 'view',
     customerNo: '',
-    layout: 'guided',
+    layout: 'scroll',
     activeSection: 'identity',
     expanded: new Set(),
     errors: new Map(),
@@ -134,6 +127,11 @@ export function createCustomerRecord({root, deps}) {
   let abortController = null
   let guardAfter = null
   let active = false
+
+  // The same preview trigger appears in customer list rows, so its
+  // document-delegated controller must exist before the record page is first
+  // activated. Creating it lazily in activate() left list avatars inert.
+  imagePreview = refs.imagePopover ? createImagePreview({popover: refs.imagePopover}) : null
 
   const fieldDeps = {t, encodeHtml, customerImageData, renderCustomerRecordPhoto: (photo, deps2) => renderCustomerRecordPhoto(photo, {customerName: customerData.customerName, customerNo: customerData.customerNo}, deps2 || {encodeHtml})}
 
@@ -159,7 +157,7 @@ export function createCustomerRecord({root, deps}) {
       const photo = section.fields.find(item => item.type === 'photo')
       const linked = section.fields.find(item => item.key === 'linkedBeneficiaries')
       const identityFields = section.fields.filter(item => item !== photo && item.key !== 'linkedBeneficiaries')
-      return `<div class="customer-identity-body grid [grid-template-columns:minmax(150px,_260px)_minmax(0,_1fr)] items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]"><div class="customer-identity-photo [padding:12px_0_12px_12px] [padding:12px_12px_12px_0] [@media((max-width:720px))]:[padding:12px_12px_0]">${field(photo)}</div><div class="customer-field-grid grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px] [gap:4px_8px] [padding:6px] [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">${identityFields.map(item => field(item)).join('')}${field(linked, {asCardToggle: true})}</div></div>`
+      return `<div class="customer-identity-body grid [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]"><div class="customer-field-grid grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px] [gap:4px_8px] [padding:6px] [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">${identityFields.map(item => field(item)).join('')}${field(linked, {asCardToggle: true})}</div><div class="customer-identity-photo [padding:12px_12px_12px_0] [@media((max-width:720px))]:[padding:0_12px_12px]">${field(photo)}</div></div>`
     }
     if (section.type === 'subledgers') return renderSubLedgers()
     if (section.type === 'empty') {
@@ -253,6 +251,15 @@ export function createCustomerRecord({root, deps}) {
       </div>
       <div class="r [.d1_.phead_&]:flex [.d1_.phead_&]:items-center [.d1_.phead_&]:gap-1 [.d1_.phead_&]:mt-1.5!"><span class="recacts inline-flex items-center [gap:7px] flex-wrap">${editing ? editActions : viewActions}</span></div>
     </div>`
+    const pageActionBar = document.querySelector('.page-action-bar')
+    const actionBar = refs.chrome.querySelector('.arow')
+    pageActionBar?.querySelector('[data-page-action-bar="customer-record"]')?.remove()
+    if (actionBar && pageActionBar) {
+      actionBar.dataset.pageActionBar = 'customer-record'
+      actionBar.hidden = false
+      pageActionBar.append(actionBar)
+      pageActionBar.hidden = false
+    }
     syncFooter()
   }
 
@@ -310,7 +317,7 @@ export function createCustomerRecord({root, deps}) {
     if (!canvas) return
     const scrollTop = canvas.scrollTop
     scrollNavigator?.stopTracking()
-    const renderer = CUSTOMER_RENDERERS[customerState.layout] || renderCustomerGuided
+    const renderer = CUSTOMER_RENDERERS.scroll
     renderer(canvas, customerData, customerState, layoutRenderDeps(sectionsDeps))
     applyRecordValueDirections(canvas)
     if (preserveScroll) canvas.scrollTop = scrollTop
@@ -347,7 +354,7 @@ export function createCustomerRecord({root, deps}) {
   }
 
   function setLayout(layout) {
-    customerState.layout = layout
+    customerState.layout = 'scroll'
     if (active) renderLayout({preserveScroll: true}, sectionsDepsRef)
   }
 
@@ -772,7 +779,6 @@ export function createCustomerRecord({root, deps}) {
     if (sectionsDeps) sectionsDepsRef = sectionsDeps
     if (!active) {
       Object.assign(customerState, {expanded: new Set(Object.keys(sectionsDepsRef?.CUSTOMER_SECTIONS || {}))})
-      imagePreview = imagePreview || createImagePreview({popover: refs.imagePopover})
       lookups =
         lookups ||
         createLookups({

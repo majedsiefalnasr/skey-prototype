@@ -142,7 +142,7 @@ export function renderDataListGroupTrigger(config, listState, {dataListIcon, t, 
   return `<details class="data-menu relative" data-list-group-menu><summary class="${DATA_MENU_SUMMARY_CLASS}" aria-label="${t('Choose a column to group by', 'Choose a column to group by')}">${dataListIcon('i-grid', 14)}<span>${t('Group by', 'Group by')}</span>${dataListIcon('i-caret', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS}" role="menu">${availableColumns
     .map(
       column =>
-        `<button type="button" role="menuitem" data-list-group-add="${encodeHtml(column.key)}">${dataListIcon('i-grid', 13)}<span>${encodeHtml(t(column.label))}</span></button>`
+        `<button type="button" role="menuitem" data-list-group-add="${encodeHtml(column.key)}"><span>${encodeHtml(t(column.label))}</span></button>`
     )
     .join('')}</div></details>`
 }

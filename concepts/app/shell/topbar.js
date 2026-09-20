@@ -1,7 +1,7 @@
 
 
 /** Owns topbar state and its DOM bindings. */
-export function createTopbar({toast, getSideCollapsed, closeAllMenus, openKbd, openAppearance, openCustomize} = {}) {
+export function createTopbar({toast, getSideCollapsed, getLaunchpadEnabled, closeAllMenus, openKbd, openAppearance, openCustomize} = {}) {
   const ACTIVE_FISCAL_YEAR = '2026'
 
   function syncTopbarBrand() {
@@ -22,7 +22,7 @@ export function createTopbar({toast, getSideCollapsed, closeAllMenus, openKbd, o
 
   function syncTopbarChrome() {
     document.querySelectorAll('.app-switcher-menu').forEach(m => {
-      m.hidden = false
+      m.hidden = !getLaunchpadEnabled()
       m.style.order = '1'
     })
     document.querySelectorAll('.gtop .app').forEach(a => {

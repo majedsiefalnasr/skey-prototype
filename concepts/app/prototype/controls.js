@@ -80,6 +80,8 @@ const CONTROL_IDS = [
   'emptyflow',
   'rtl',
   'density',
+  'interface-scale',
+  'launchpad',
   'input-style',
   'section-style',
   'filter-mode',
@@ -431,7 +433,7 @@ export function createPrototypeControls({root, settings, pages}) {
     doc.getElementById('input-style-group').hidden = isLaunchpad
     doc.getElementById('customer-group-heading').hidden = !customerRecord
     doc.getElementById('customer-mode-group').hidden = !customerRecord
-    doc.getElementById('customer-layout-group').hidden = !customerRecord
+    doc.getElementById('customer-layout-group')?.toggleAttribute('hidden', !customerRecord)
     doc.getElementById('section-style-group').hidden = !hasCardSections
     doc.getElementById('table-group-heading').hidden = !isTablePage
     doc.getElementById('filter-mode-group').hidden = !isTablePage

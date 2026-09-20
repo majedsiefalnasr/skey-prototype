@@ -53,6 +53,40 @@ test('geography editing excludes descendants as parents and preserves undo', asy
   await expect(name).toHaveAttribute('readonly', '');
 });
 
+test('geography details uses the shared record header and field structure', async ({page}) => {
+  await openSurface(page, 'geo-record');
+
+  const header = page.locator('#geo-record-chrome .phead');
+  await expect(header).toHaveCSS('display', 'flex');
+  await expect(header).toHaveCSS('gap', '12px');
+  await expect(header.locator('.tline')).toHaveCSS('flex-wrap', 'wrap');
+  await expect(header.locator('.recacts')).toHaveCSS('display', 'flex');
+
+  const details = page.locator('.geo-detail-card');
+  await expect(details).toHaveCSS('overflow', 'hidden');
+  await expect(details.locator('label[for="geo-field-code"]')).toHaveText('Location Code');
+  await expect(details.locator('label[for="geo-field-parent"]')).toHaveText('Parent Location');
+  await expect(details.locator('label[for="geo-field-remarks"]')).toHaveText('Remarks');
+
+  const typeSelect = details.locator('#geo-field-type');
+  const selectMetrics = await typeSelect.evaluate(element => {
+    const style = getComputedStyle(element);
+    return {
+      appearance: style.appearance,
+      backgroundImage: style.backgroundImage,
+      paddingLeft: style.paddingLeft,
+      paddingRight: style.paddingRight,
+    };
+  });
+  expect(selectMetrics.appearance).toBe('none');
+  expect(selectMetrics.backgroundImage).not.toBe('none');
+  expect(selectMetrics.paddingRight).toBe('28px');
+
+  const parentSelect = details.locator('#geo-field-parent');
+  await expect(parentSelect).toHaveCSS('border-start-end-radius', '0px');
+  await expect(parentSelect).toHaveCSS('border-end-end-radius', '0px');
+});
+
 
 test('invoice charges and discounts preserve the fixture summary', async ({page}) => {
   await openSurface(page, 'record');

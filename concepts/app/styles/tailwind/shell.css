@@ -436,6 +436,13 @@
   /* ---- appearance dialog + "customize your sidebar" dialog (concepts/app/shell/shell-5.css) ----
      Owned by shell's own appearance-dialog.html and sidebar-dialog.html fragments. */
   .appearance-dlg { width: min(680px, calc(100vw - 32px)); }
+  .dscrim .dlg { zoom: var(--ui-scale, 1); max-height: calc(90vh / var(--ui-scale, 1)) !important; max-width: calc((100vw - 32px) / var(--ui-scale, 1)); }
+  .appearance-group-theme { order: 1; }
+  .appearance-group-accent { order: 2; }
+  .appearance-group-typography { order: 3; }
+  .appearance-group-scale { order: 4; }
+  .appearance-group-layout { order: 5; }
+  .appearance-group-density { order: 6; }
   .appearance-theme-grid { align-items: stretch; }
   .appearance-theme-card {
     min-width: 0;
@@ -562,11 +569,11 @@
     display: inline-grid;
     place-items: center;
   }
-  :is(.appearance-theme-card, [data-appearance-layout], [data-appearance-density])[aria-checked='true'] .theme-choice-radio {
+  :is(.appearance-theme-card, [data-appearance-layout], [data-appearance-density], [data-appearance-scale])[aria-checked='true'] .theme-choice-radio {
     border-color: var(--accent);
     background: var(--accent);
   }
-  :is(.appearance-theme-card, [data-appearance-layout], [data-appearance-density])[aria-checked='true'] .theme-choice-radio::after {
+  :is(.appearance-theme-card, [data-appearance-layout], [data-appearance-density], [data-appearance-scale])[aria-checked='true'] .theme-choice-radio::after {
     content: '';
     width: 5px;
     height: 3px;
@@ -585,7 +592,27 @@
   .appearance-contrast-row > span:last-child { display: grid; gap: 1px; }
   .appearance-contrast-row strong { font-size: 13px; }
   .appearance-contrast-row small { color: var(--muted); font-size: 11px; }
-  .appearance-layout-grid, .appearance-density-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .appearance-layout-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .appearance-density-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .appearance-scale-control { display: grid; gap: 8px; padding: 4px 8px 0; }
+  .appearance-scale-head, .appearance-scale-ticks { display: flex; justify-content: space-between; align-items: center; }
+  .appearance-scale-head { color: var(--muted); font-size: 12px; font-weight: 600; }
+  .appearance-scale-slider-wrap { position: relative; padding-top: 28px; }
+  .appearance-scale-value { position: absolute; inset-block-start: 0; inset-inline-start: var(--appearance-scale-thumb-offset, 50%); transform: translateX(-50%); color: var(--inverse); background: var(--accent); border-radius: 4px; padding: 2px 7px; font-size: 14px; font-weight: 700; white-space: nowrap; }
+  .appearance-scale-slider {
+    --appearance-scale-progress: 28.57%;
+    width: 100%; height: 20px; margin: 0; cursor: pointer; appearance: none; background: transparent;
+  }
+  .appearance-scale-slider::-webkit-slider-runnable-track { height: 6px; border-radius: 999px; background: linear-gradient(to right, var(--accent) 0 var(--appearance-scale-progress), var(--line-2) var(--appearance-scale-progress) 100%); }
+  .appearance-scale-slider::-webkit-slider-thumb { width: 20px; height: 20px; margin-top: -7px; border: 5px solid var(--accent); border-radius: 50%; background: var(--surface); box-shadow: var(--shadow-1); appearance: none; }
+  .appearance-scale-slider::-moz-range-track { height: 6px; border-radius: 999px; background: var(--line-2); }
+  .appearance-scale-slider::-moz-range-progress { height: 6px; border-radius: 999px; background: var(--accent); }
+  .appearance-scale-slider::-moz-range-thumb { width: 12px; height: 12px; border: 5px solid var(--accent); border-radius: 50%; background: var(--surface); box-shadow: var(--shadow-1); }
+  .appearance-scale-slider:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; border-radius: 999px; }
+  .appearance-scale-ticks { padding-inline: 10px; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+  .appearance-scale-ticks span { position: relative; padding-top: 5px; }
+  .appearance-scale-ticks span::before { content: ''; position: absolute; inset: -4px auto auto 50%; width: 1px; height: 5px; background: var(--line); }
+  .appearance-scale-control p { margin: 0; color: var(--muted); font-size: 12px; }
   .appearance-option-card {
     min-width: 0;
     padding: 5px;
@@ -737,6 +764,72 @@
     border-top: 1px solid var(--line);
     background: var(--line-2);
   }
+  .dhd { background: var(--line-2); }
+  .customer-modal-header,
+  .customer-unit-drawer-header,
+  .rhd,
+  .drhd { background: var(--line-2); }
+  /* Boxed is a fixed-wide content grid: the application chrome remains fluid,
+     while one shared page-content canvas aligns headers, forms, tables, and
+     footers. 1296px is Atlassian's fixed-wide maximum, including page margins. */
+  body.layout-boxed .page-content {
+    width: calc(100% - 64px);
+    max-width: 1296px;
+    margin-inline: auto;
+  }
+  /* Detail action bars share the footer's full-width surface, while their
+     controls follow the selected content grid. */
+  .page-action-bar {
+    flex: none;
+    width: 100%;
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .page-action-bar .arow {
+    width: 100%;
+    margin-inline: auto;
+    border-bottom: 0 !important;
+    background: transparent !important;
+  }
+  body.layout-boxed .page-action-bar .arow {
+    width: calc(100% - 64px);
+    max-width: 1296px;
+  }
+  /* The page footer owns the full canvas edge. Its inner navigation/action row
+     follows the same Fluid or Boxed grid as the page content above it. */
+  .page-footer {
+    flex: none;
+    width: 100%;
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .page-footer .fnav {
+    width: 100%;
+    margin-inline: auto;
+    border-top: 0 !important;
+    background: transparent !important;
+  }
+  body.layout-boxed .page-footer .fnav {
+    width: calc(100% - 64px);
+    max-width: 1296px;
+  }
+  /* Launchpad is deliberately fixed-wide in every layout mode. Its dashboard
+     rhythm should not expand with an application page's Fluid content choice. */
+  .lp-body { width: calc(100% - 64px); max-width: 1296px; }
+  @media (max-width: 720px) {
+    body.layout-boxed .page-content { width: calc(100% - 32px); }
+    body.layout-boxed .page-action-bar .arow { width: calc(100% - 32px); }
+    body.layout-boxed .page-footer .fnav { width: calc(100% - 32px); }
+    .lp-body { width: 100%; max-width: none; }
+  }
+  /* Invoice operation dialogs retain the shared header treatment, then declare
+     the consequence of the action in their header tone. */
+  .rdlg[data-kind='posting'] .rhd,
+  .rdlg[data-tone='success'] .rhd { background: var(--st-post-bg); color: var(--st-post-ink); }
+  .rdlg[data-tone='warning'] .rhd { background: var(--st-pend-bg); color: var(--st-pend-ink); }
+  .rdlg[data-kind='cancel'] .rhd,
+  .rdlg[data-kind='delete'] .rhd,
+  .rdlg[data-tone="danger"] .rhd { background: var(--danger-soft-bg); border-color: var(--danger-soft-line); color: var(--danger); }
   .dfoot .end { margin-inline-start: auto; display: flex; gap: 8px; }
   .dfoot .sum { font-size: 12px; color: var(--muted); }
 
@@ -930,6 +1023,24 @@
      between shell buttons and record/list content, so most content rules stay scoped
      to avoid double-shrinking shell buttons that get their own compact rule below. */
   body.density-compact .rec-card-body { gap: 4px 8px; padding: 6px; }
+  /* Comfortable deliberately adds breathing room to content and controls. It is
+     not a font-size mode (that is Interface scale), so text stays the same size. */
+  body.density-comfortable .gtop { padding-block: 13px; }
+  body.density-comfortable .canvas { margin: 20px 24px; }
+  body.density-comfortable .d1 .arow { padding-block: 11px; }
+  body.density-comfortable .d1 .phead { padding-block: 16px 4px; }
+  body.density-comfortable .side { padding-block: 8px; }
+  body.density-comfortable .nc1-item, body.density-comfortable .nc-fav { padding-block: 7px; }
+  body.density-comfortable .rec-card-body { gap: 16px 20px; padding: 18px; }
+  body.density-comfortable .rec-card { margin-bottom: 18px; }
+  body.density-comfortable .rec-field label { margin-bottom: 5px; }
+  body.density-comfortable .rec-field input, body.density-comfortable .rec-field select, body.density-comfortable .rec-field textarea { min-height: 38px; padding: 9px 11px; }
+  body.density-comfortable .inv-grid th, body.density-comfortable .inv-grid td { padding-block: 13px; }
+  body.density-comfortable .data-list-controls { gap: 14px; margin-bottom: 14px; }
+  body.density-comfortable .data-list-toolbar { min-height: 50px; padding: 10px 13px; }
+  body.density-comfortable .data-toolbar-button, body.density-comfortable .data-menu > summary, body.density-comfortable .data-page-manage > summary { min-height: 34px; padding-block: 6px; }
+  body.density-comfortable .data-filter-chip { min-height: 34px; padding: 6px 10px; }
+  body.density-comfortable .fnav, body.density-comfortable .fnav-list { padding-block: 11px; }
   body.density-compact .rec-card-hd { padding: 5px 8px; font-size: 12px; }
   body.density-compact .rec-card { margin-bottom: 6px; }
   body.density-compact .rec-field label { margin-bottom: 1px; font-size: 12px; }
@@ -1054,6 +1165,19 @@
   body.density-compact .lp-grid { gap: 8px; }
   body.density-compact .lp-tile { grid-template-columns: 32px minmax(0, 1fr) 14px; min-height: 90px; gap: 8px; padding: 11px; }
   body.density-compact .lp-tile-ic { width: 32px; height: 32px; }
+  /* Launchpad has its own layout rather than .canvas, so Comfortable gets the
+     same deliberately looser rhythm here as the rest of the application. */
+  body.density-comfortable .lp-chrome { min-height: 64px; padding-block: 13px; }
+  body.density-comfortable .lp-hero { margin-top: 56px; padding-block-start: 56px; }
+  body.density-comfortable .lp-body { gap: 32px; padding: 32px 48px 56px; }
+  body.density-comfortable .lp-search { padding-block: 15px; }
+  body.density-comfortable .lp-sections { gap: 36px; }
+  body.density-comfortable .lp-quick-lbl { margin-bottom: 12px; }
+  body.density-comfortable .lp-tag { min-height: 38px; padding-block: 7px; }
+  body.density-comfortable .lp-section-hd { margin-bottom: 16px; padding-top: 20px; }
+  body.density-comfortable .lp-grid { gap: 16px; }
+  body.density-comfortable .lp-tile { min-height: 120px; gap: 14px; padding: 18px; }
+  body.density-comfortable .lp-tile-ic { width: 44px; height: 44px; }
 
   /* ---- prototype input-style mode (concepts/app/styles/overrides-2.css) ----
      The prototype's own #input-style control switches the .rec-field markup

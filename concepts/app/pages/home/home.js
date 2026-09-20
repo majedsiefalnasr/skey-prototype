@@ -1,5 +1,5 @@
 import {NAV_APP_META, NAV_FAVORITES, NAV_RECENTS, NAV_ICONS} from '../../prototype/fixtures/navigation.js'
-export function createHome({buildRailAndPanel, findNavGroup, setNavCurrent, t, getLocale, syncCustomerPrototypeControls, getCurrentView, queueSkeletonForCurrentView, closeEmailView, visibleGroups, getCurrentApp, closeAllMenus}) {
+export function createHome({buildRailAndPanel, findNavGroup, setNavCurrent, t, getLocale, getLaunchpadEnabled, syncCustomerPrototypeControls, getCurrentView, queueSkeletonForCurrentView, closeEmailView, visibleGroups, getCurrentApp, closeAllMenus}) {
 const pageAbort = new AbortController()
         function buildNavLaunchpad(fbody) {
           const side = fbody.querySelector('.side')
@@ -235,6 +235,7 @@ const pageAbort = new AbortController()
         }
 
         function showLaunchpad(fbody, {mode = 'home', returnFocus = null} = {}) {
+          if (!getLaunchpadEnabled()) return false
           closeEmailView()
           const frame = fbody.closest('.frame')
           launchpadReturnFocus = mode === 'switcher' ? returnFocus : null
@@ -275,7 +276,7 @@ const pageAbort = new AbortController()
             `<span class="lp-orb ${lpOrbSm} animate-[lp-float-7_19s_ease-in-out_infinite_alternate] top-[96%] left-[14%] size-[6vmax] opacity-85"></span>`
           lp.appendChild(orbs)
           const content = document.createElement('div')
-          content.className = 'lp-content relative isolate z-[1] col-start-1 row-start-1 flex min-h-screen min-w-0 flex-col overflow-hidden'
+          content.className = 'lp-content relative isolate z-[1] col-start-1 row-start-1 flex min-h-screen h-min min-w-0 flex-col'
           lp.appendChild(content)
           const skipLink = frame.ownerDocument.querySelector('.skip-link')
           if (skipLink) lp.prepend(skipLink)
@@ -347,7 +348,7 @@ const pageAbort = new AbortController()
           search.innerHTML =
             `<svg width="15" height="15" aria-hidden="true"><use href="#i-search"/></svg>` +
             `<span class="lp-search-label search-typing-label" data-search-static="Search apps and screens">${t('Search apps and screens')}</span>` +
-            '<span class="lp-keyboard-hint shrink-0 rounded-md border border-line bg-[var(--line-2)] px-2 py-[3px] font-mono text-xs text-muted">⌘K</span>'
+            '<span class="lp-keyboard-hint ms-auto shrink-0 rounded-md border border-line bg-[var(--line-2)] px-2 py-[3px] font-mono text-xs text-muted">⌘K</span>'
           search.setAttribute('aria-label', t('Search apps and screens'))
 
           const sections = document.createElement('div')
@@ -429,6 +430,7 @@ const pageAbort = new AbortController()
           startSearchTyping(search.querySelector('.lp-search-label'))
           if (focusWasInShell) requestAnimationFrame(() => search.focus())
           queueSkeletonForCurrentView()
+          return true
         }
 
         /* ---- the topbar's app-grid icon becomes the actual app switcher, rebuilt whenever

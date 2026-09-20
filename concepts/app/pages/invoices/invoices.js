@@ -43,6 +43,7 @@ export function createInvoiceState() {
           'Search',
           'Add From',
           'Modify',
+          'Change status',
           'Delete',
         ]
 

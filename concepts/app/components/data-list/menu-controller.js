@@ -8,6 +8,21 @@ const DATA_MANAGE_SUBMENU_SUMMARY_CLASS =
 
 /** Owns list menus state and its DOM bindings. */
 export function createListMenus({t, toast, computeDataListLayoutDirty, applyDataListRowAction, applyDataListToolbarCommand, saveDataListLayout, resetDataListLayout, getDataListState, renderDataList, dataListIcon, openDataExport} = {}) {
+  let submenuCloseTimer = 0
+
+  function cancelSubmenuClose() {
+    clearTimeout(submenuCloseTimer)
+    submenuCloseTimer = 0
+  }
+
+  function scheduleSubmenuClose(submenu) {
+    cancelSubmenuClose()
+    submenuCloseTimer = setTimeout(() => {
+      submenu.removeAttribute('open')
+      submenuCloseTimer = 0
+    }, 140)
+  }
+
   function positionDataMenu(details) {
     if (!details?.open) return
     const summary = details.querySelector(':scope > summary')
@@ -188,6 +203,31 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
         })
       parkRowMenuPopover(details)
       requestAnimationFrame(() => positionDataMenu(details))
+    },
+    true
+  )
+
+  document.addEventListener(
+    'pointerover',
+    event => {
+      if (event.pointerType && event.pointerType !== 'mouse') return
+      const submenu = event.target.closest?.('.data-manage-submenu')
+      if (!submenu || !submenu.closest('.data-menu[open], .data-page-manage[open]')) return
+      cancelSubmenuClose()
+      if (submenu.open) return
+      submenu.open = true
+      requestAnimationFrame(() => positionDataMenu(submenu))
+    },
+    true
+  )
+
+  document.addEventListener(
+    'pointerout',
+    event => {
+      if (event.pointerType && event.pointerType !== 'mouse') return
+      const submenu = event.target.closest?.('.data-manage-submenu[open]')
+      if (!submenu || submenu.contains(event.relatedTarget)) return
+      scheduleSubmenuClose(submenu)
     },
     true
   )
