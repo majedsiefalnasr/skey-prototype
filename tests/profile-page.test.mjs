@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {CURRENT_USER, LOGIN_LOG_ROWS, DEVICE_ROWS} from '../concepts/app/prototype/fixtures/profile.js'
+import {PROFILE_SECTION_ORDER, PROFILE_SECTIONS} from '../concepts/app/pages/profile/fields.js'
 
 test('profile fixtures have the expected shape', () => {
   assert.equal(typeof CURRENT_USER.name, 'string')
@@ -21,5 +22,13 @@ test('profile fixtures have the expected shape', () => {
     assert.equal(typeof row.id, 'string')
     assert.equal(typeof row.name, 'string')
     assert.equal(typeof row.lastActive, 'string')
+  })
+})
+
+test('profile section metadata covers all six sections in order', () => {
+  assert.deepEqual(PROFILE_SECTION_ORDER, ['profile', 'account', 'appearance', 'security', 'sessions', 'notifications'])
+  PROFILE_SECTION_ORDER.forEach(key => {
+    assert.equal(typeof PROFILE_SECTIONS[key].title, 'string')
+    assert.equal(typeof PROFILE_SECTIONS[key].icon, 'string')
   })
 })
