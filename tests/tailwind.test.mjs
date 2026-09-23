@@ -267,10 +267,15 @@ test('Tailwind input has explicit sources and the generated output includes expe
 // (chrome.js wraps the static `.lbtn[data-act="Save"]` template button at
 // runtime and only ever added it the bare `main` class, never the
 // `.savewrap>&` utilities the "New" button's own HTML had hardcoded --
-// so the live Save split button never got the seam fix at all); see
+// so the live Save split button never got the seam fix at all), then from
+// 200700 to the measured 221745 by merging in main's geography flow view /
+// fullscreen / status-dialogs feature (a real, independently-developed
+// feature recovered from an uncommitted working tree -- see git log
+// "feat: add geography flow view, fullscreen, and status dialogs" and the
+// merge commit that brought it into this branch); see
 // docs/tailwind-migration-report.md's 2026-09-23 addendum for the
 // reviewed justification this comment block asks for.
-const FINAL_TAILWIND_BASELINE_BYTES = 200700;
+const FINAL_TAILWIND_BASELINE_BYTES = 221745;
 const FINAL_TAILWIND_CEILING_BYTES = Math.ceil(FINAL_TAILWIND_BASELINE_BYTES * 1.1);
 
 test('Task 7 final Tailwind budget: compiled output stays within baseline + 10%', async () => {

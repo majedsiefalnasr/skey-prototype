@@ -655,3 +655,20 @@ border-inline-end utility classes directly to `btn.classList` alongside
 `'main'`.
 
 `FINAL_TAILWIND_BASELINE_BYTES` is raised again from `200070` to `200700`.
+
+### 2026-09-23 follow-up: merged in main's geography flow/fullscreen feature
+
+`main` had a geography record "Flow" view (an alternate to the existing
+"Tree" view), a canvas Fullscreen control, and a new
+`components/data-list/status-dialogs.js` component sitting uncommitted in
+its working tree — deployed directly to Vercel without ever being
+committed to git. Committed on `main` (`4f9edfd`) and merged into this
+branch (`57a8d49`), resolving one conflict in `pages/customers/record.js`
+(this branch's split-button seam fix vs. main's new `changeStatusAction`
+button, both touching the same `viewActions`/`editActions` template
+strings — resolved by keeping this branch's fixed markup and adding main's
+`changeStatusAction` logic on top).
+
+This is real, substantial, independently-developed feature CSS, not
+incidental utility growth — `FINAL_TAILWIND_BASELINE_BYTES` is reset to the
+freshly measured compiled size, `221745`, rather than incrementally raised.
