@@ -522,3 +522,26 @@ trimming redundant utilities to match already-compiled equivalents from
 `FINAL_TAILWIND_BASELINE_BYTES` in `tests/tailwind.test.mjs` is raised from
 `197594` to `197800` to restore headroom without loosening the budget's
 intent.
+
+### 2026-09-23 follow-up: select-arrow SVG encoding fix
+
+The profile page's `REC_FIELD_CLASS` select-arrow background (copied from
+`pages/customers/fields.js`) used `_` in place of spaces inside a
+`background-image:url(data:image/svg+xml,...)` data URI — the same pattern
+already present in several other files (`pages/customers/fields.js`,
+`pages/customers/lookups.js`, `pages/invoices/adjustments.js`,
+`pages/invoices/payments.js`, `components/data-list/filter-controller.js`,
+`components/data-list/charts.js`). Tailwind's `_`→space substitution does not
+apply inside a `url(...)` value, so the compiled CSS keeps the literal `_`
+characters, producing an invalid SVG (`<svg_xmlns=...>` is not a valid tag)
+that browsers silently fail to render — the select's dropdown arrow was
+missing. Fixed locally in `pages/profile/sections.js` by percent-encoding
+spaces as `%20` and quoting the SVG's attribute values (`xmlns='...'`,
+`width='12'`, etc. — unquoted attributes are invalid XML and some browsers
+refuse to rasterize the result), which together produce a well-formed SVG
+that renders correctly. The other files listed above have the same latent
+bug but were left untouched — out of scope for the profile page task and
+each is a separate, wider-blast-radius change.
+
+This changed the utility's escaped selector text, so `FINAL_TAILWIND_BASELINE_BYTES`
+is raised again from `197800` to `198260`.
