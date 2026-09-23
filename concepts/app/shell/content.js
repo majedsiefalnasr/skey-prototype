@@ -15,6 +15,7 @@ export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCu
       'customer-record': '.customer-record-view:not([hidden])',
       'geo-list': '.geo-list-view:not([hidden])',
       'geo-record': '.geo-record-view:not([hidden])',
+      profile: '.profile-view:not([hidden])',
     }
     const selector = selectors[currentContentViewName]
     return selector ? document.querySelector(selector) : null
@@ -44,6 +45,7 @@ export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCu
       'customer-record': '.customer-record-view',
       'geo-list': '.geo-list-view',
       'geo-record': '.geo-record-view',
+      profile: '.profile-view',
     }
     const namedViews = Object.fromEntries(
       Object.entries(viewSelectors).map(([key, selector]) => {

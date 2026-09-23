@@ -119,3 +119,16 @@ test('createProfile exposes the Page contract', async () => {
   assert.match(source, /function dispose/)
   assert.match(source, /function setSection/)
 })
+
+test('content host registers the profile view and the appearance dialog file is removed', async () => {
+  const content = await readFile(new URL('../concepts/app/shell/content.js', import.meta.url), 'utf8')
+  assert.match(content, /profile:\s*'\.profile-view'/)
+
+  await assert.rejects(
+    readFile(new URL('../concepts/app/shell/appearance-dialog.html', import.meta.url), 'utf8')
+  )
+
+  const shell = await readFile(new URL('../concepts/app/shell/shell.html', import.meta.url), 'utf8')
+  assert.doesNotMatch(shell, /appearance-dialog\.html/)
+  assert.match(shell, /profile\.tpl|include: \.\.\/pages\/profile\/templates\.html/)
+})

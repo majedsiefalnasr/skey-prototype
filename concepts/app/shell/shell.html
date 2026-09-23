@@ -107,11 +107,15 @@
                 <span class="avatar inline-flex size-9 items-center justify-center rounded-full bg-[var(--line-2)] text-muted" aria-hidden="true"><svg width="19" height="19"><use href="#i-user" /></svg></span>
                 <div><b class="block text-[13.5px] text-ink">Majed Sief Alnasr</b><span class="block text-xs text-muted">admin@lastchance</span></div>
               </div>
-              <button role="menuitem">
+              <button role="menuitem" class="profile-menu" data-profile-section="profile">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-user" /></svg>
+                My Profile
+              </button>
+              <button role="menuitem" class="profile-menu" data-profile-section="account">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-gear" /></svg> Account
                 settings
               </button>
-              <button role="menuitem" class="appearance-menu">
+              <button role="menuitem" class="profile-menu" data-profile-section="appearance">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-sun" /></svg>
                 Appearance
               </button>
@@ -142,11 +146,12 @@
 <!-- include: ../pages/invoices/templates.html -->
 <!-- include: ../components/data-list/dialogs.html -->
 <!-- include: ../pages/customers/dialogs.html -->
+<!-- include: ../pages/profile/templates.html -->
+<!-- include: ../pages/profile/dialogs.html -->
 <!-- include: shared-overlays.html -->
 <!-- include: ../pages/invoices/activity-dialog.html -->
 <!-- include: ../pages/invoices/record-dialogs.html -->
 <!-- include: ../pages/invoices/dialogs.html --><!-- include: ../pages/invoices/print-dialog.html -->
 <!-- include: sidebar-dialog.html -->
-<!-- include: appearance-dialog.html -->
 <!-- include: ../components/assistant/assistant.html -->
 <!-- include: ../components/data-list/context-menu.html -->
