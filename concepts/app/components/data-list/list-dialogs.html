@@ -231,3 +231,76 @@
         </footer>
       </section>
     </div>
+
+    <!-- Invoices table row action: "Change status" — the row menu's own
+         submenu lists the next-status options (renderers.js's
+         invoiceStatusMenuItem); picking one opens this dialog. Built from
+         the exact same .dscrim/.rdlg/.rhd/.rbody/.rfoot shell as the
+         invoice record page's own Change status dialog
+         (pages/invoices/record-dialogs.html's data-dlg="status"), so both
+         look identical — this one just works without opening the record. -->
+    <div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="invoice-status-scrim">
+      <div
+        class="rdlg [width:min(520px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]"
+        data-tone="neutral"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="invoice-status-title">
+        <div class="rhd flex items-center gap-2.5 [padding:13px_16px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+          <svg width="17" height="17" aria-hidden="true"><use href="#i-flow" /></svg>
+          <h3 id="invoice-status-title">Change invoice status</h3>
+          <button class="ibtn x invoice-status-close [.rhd_&]:ms-auto!" aria-label="Close">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </div>
+        <div class="rbody [padding:16px] overflow-auto">
+          <p id="invoice-status-description" class="lead [.rdlg_&]:[font-size:13px] [.rdlg_&]:text-ink [.rdlg_&]:mb-3!"></p>
+          <div class="invoice-status-reason flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-lg [&_textarea]:[padding:9px_11px] [&_textarea]:[font:inherit] [&_textarea]:text-sm [&_textarea]:bg-surface [&_textarea:focus]:[outline:none] [&_textarea:focus]:[border-color:var(--accent)] [&_textarea:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_textarea]:[min-height:88px] [&_textarea]:[resize:vertical]" hidden>
+            <label for="invoice-status-reason"></label>
+            <textarea id="invoice-status-reason" placeholder="This is saved with the invoice status history"></textarea>
+          </div>
+        </div>
+        <div class="rfoot flex items-center gap-2.5 [padding:12px_16px] [border-top:1px_solid_var(--line)] bg-[var(--line-2)]">
+          <span class="sum" style="font-size: 12px; color: var(--muted)" id="invoice-status-sum"></span>
+          <span class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2">
+            <button class="lbtn out invoice-status-close">Keep current status</button>
+            <button class="lbtn pri" id="invoice-status-confirm">Confirm</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Customers table row action + customer record page's own action:
+         "Change status" — same .dscrim/.rdlg shell as the invoice status
+         dialog above, so the two match exactly. Deactivating asks for a
+         reason; activating never opens this (see status-dialogs.js). -->
+    <div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="customer-status-scrim">
+      <div
+        class="rdlg [width:min(520px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]"
+        data-tone="danger"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="customer-status-title">
+        <div class="rhd flex items-center gap-2.5 [padding:13px_16px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+          <svg width="17" height="17" aria-hidden="true"><use href="#i-flow" /></svg>
+          <h3 id="customer-status-title">Deactivate customer</h3>
+          <button class="ibtn x customer-status-close [.rhd_&]:ms-auto!" aria-label="Close">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </div>
+        <div class="rbody [padding:16px] overflow-auto">
+          <p id="customer-status-description" class="lead [.rdlg_&]:[font-size:13px] [.rdlg_&]:text-ink [.rdlg_&]:mb-3!"></p>
+          <div class="customer-status-reason flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-lg [&_textarea]:[padding:9px_11px] [&_textarea]:[font:inherit] [&_textarea]:text-sm [&_textarea]:bg-surface [&_textarea:focus]:[outline:none] [&_textarea:focus]:[border-color:var(--accent)] [&_textarea:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_textarea]:[min-height:88px] [&_textarea]:[resize:vertical]" hidden>
+            <label for="customer-status-reason"></label>
+            <textarea id="customer-status-reason" placeholder="This is saved with the customer status history"></textarea>
+          </div>
+        </div>
+        <div class="rfoot flex items-center gap-2.5 [padding:12px_16px] [border-top:1px_solid_var(--line)] bg-[var(--line-2)]">
+          <span class="sum" style="font-size: 12px; color: var(--muted)" id="customer-status-sum"></span>
+          <span class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2">
+            <button class="lbtn out customer-status-close">Cancel</button>
+            <button class="lbtn pri" id="customer-status-confirm">Confirm</button>
+          </span>
+        </div>
+      </div>
+    </div>

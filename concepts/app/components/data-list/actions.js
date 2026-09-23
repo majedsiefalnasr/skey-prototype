@@ -75,8 +75,18 @@ export function setDataListRecordsStatus(keys, active, config, deps) {
 }
 
 export function applyDataListRowAction(context, rowAction, config, deps) {
-  const popover = rowAction.closest('.data-menu-popover')
-  const home = popover?.dataset.parked ? popover.__homeParent : null
+  /* rowAction can sit inside a nested submenu popover (e.g. a row's "Change
+     status" list), which is its own .data-menu-popover but never itself
+     parked — only the outer row-menu popover moves to document.body. Walk
+     every .data-menu-popover ancestor, not just the nearest one, to find
+     the one that actually carries data-parked and its row's __homeParent. */
+  let home = null
+  for (let node = rowAction.closest('.data-menu-popover'); node; node = node.parentElement?.closest('.data-menu-popover')) {
+    if (node.dataset.parked) {
+      home = node.__homeParent
+      break
+    }
+  }
   const key =
     rowAction.closest('[data-list-row-key]')?.dataset.listRowKey ||
     home?.closest('[data-list-row-key]')?.dataset.listRowKey
@@ -88,6 +98,8 @@ export function applyDataListRowAction(context, rowAction, config, deps) {
   else if (command === 'modify') deps.actions.openRecord(key, 'edit')
   else if (command === 'delete') deps.deleteDataListRecords(context, [key])
   else if (command === 'toggle-status' && row) deps.toggleDataListStatus(row)
+  else if (command === 'change-status' && row)
+    deps.openStatusDialog(context, row, rowAction.dataset.statusTarget)
   else if (command === 'view-hierarchy' && row) deps.openGeoRecord(row.code, 'view')
   else if (command === 'print')
     deps.openPrintSettings(`${config.singular[0].toUpperCase() + config.singular.slice(1)} ${key}`)
@@ -104,6 +116,16 @@ export function applyDataListToolbarCommand(context, command, selectedKey, listS
     deps.actions.openRecord(selectedKey, command === 'display' ? 'view' : 'edit')
   } else if (command === 'delete' && listState.selected.size) {
     deps.deleteDataListRecords(context, listState.selected)
+  } else if (context === 'customer' && ['activate', 'deactivate'].includes(command) && listState.selected.size) {
+    /* Customers get the same reasoned dialog here as the row menu and the
+       record page (openStatusDialog handles activate vs. deactivate
+       itself) — every other context keeps the plain instant flip. The
+       command is the toolbar button the user actually clicked, not each
+       row's current state — a mixed selection still all moves the same
+       direction, the one asked for. */
+    const keySet = new Set(listState.selected)
+    const rows = config.rows.filter(row => keySet.has(String(row[config.key])))
+    deps.openStatusDialog(context, rows, command)
   } else if (['activate', 'deactivate'].includes(command) && listState.selected.size) {
     deps.setDataListRecordsStatus(listState.selected, command === 'activate')
   } else if (command === 'chart') {
