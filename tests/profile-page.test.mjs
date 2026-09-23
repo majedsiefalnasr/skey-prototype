@@ -109,3 +109,13 @@ test('profile sections include all six section ids and the relocated appearance 
   assert.match(html, /id="profile-login-log"/)
   assert.match(html, /id="profile-device-list"/)
 })
+
+test('createProfile exposes the Page contract', async () => {
+  const source = await readFile(new URL('../concepts/app/pages/profile/profile.js', import.meta.url), 'utf8')
+  assert.match(source, /export function createProfile/)
+  assert.match(source, /id:\s*'profile'/)
+  assert.match(source, /function activate/)
+  assert.match(source, /function deactivate/)
+  assert.match(source, /function dispose/)
+  assert.match(source, /function setSection/)
+})
