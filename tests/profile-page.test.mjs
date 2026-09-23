@@ -52,3 +52,23 @@ test('appearance.js no longer wires a scrim/dialog and exports syncAppearanceCon
   assert.match(controls, /function syncAppearanceControls/)
   assert.match(controls, /syncAppearanceControls,?\s*\}/)
 })
+
+test('security dialogs markup exists with password and pin forms', async () => {
+  const html = await readFile(new URL('../concepts/app/pages/profile/dialogs.html', import.meta.url), 'utf8')
+  assert.match(html, /id="change-password-scrim"/)
+  assert.match(html, /id="set-pin-scrim"/)
+  assert.match(html, /id="current-password"/)
+  assert.match(html, /id="new-password"/)
+  assert.match(html, /id="confirm-password"/)
+  assert.match(html, /id="current-pin"/)
+  assert.match(html, /id="new-pin"/)
+  assert.match(html, /id="confirm-pin"/)
+})
+
+test('security-dialogs.js exports createSecurityDialogs with open/bind API', async () => {
+  const source = await readFile(new URL('../concepts/app/pages/profile/security-dialogs.js', import.meta.url), 'utf8')
+  assert.match(source, /export function createSecurityDialogs/)
+  assert.match(source, /openChangePassword/)
+  assert.match(source, /openSetPin/)
+  assert.match(source, /function bind/)
+})
