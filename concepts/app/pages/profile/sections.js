@@ -9,12 +9,37 @@
 // only its outer wrapper changes — since shell/appearance.js's
 // bindAppearanceSection() depends on those exact ids existing.
 
+// .rec-card-hd is the clickable collapse toggle — same contract
+// pages/invoices/record.js wires for its own .rec-card instances
+// (click flips aria-expanded and hides/shows nextElementSibling), so the
+// same delegated listener works for both without a profile-specific
+// collapse mechanism.
 function renderCard(title, bodyHtml, extraClass = '') {
   const classAttr = extraClass ? `${extraClass} rec-card` : 'rec-card'
   return `<div class="${classAttr} [border:1px_solid_var(--line)] rounded-lg mb-3! overflow-hidden">
-    <div class="rec-card-hd [padding:8px_12px] [font-size:12.5px]! font-bold! bg-[var(--line-2)]! border-0!">${title}</div>
+    <button type="button" class="rec-card-hd flex items-center justify-between gap-2.5 w-full text-start [padding:8px_12px] [font-size:12.5px]! font-bold! bg-[var(--line-2)]! border-0! [cursor:pointer]" aria-expanded="true">${title}</button>
     <div class="rec-card-body [padding:12px]">${bodyHtml}</div>
   </div>`
+}
+
+// .rec-field is the app's shared field-wrapper class: the prototype's
+// #input-style demo control (standard/floating/inline) targets .rec-field
+// directly, so every real field on every record page (pages/customers/
+// fields.js, pages/invoices/templates.html) carries this exact class plus
+// this exact utility set — copied verbatim here rather than inventing a
+// separate input treatment for the profile page.
+const REC_FIELD_CLASS =
+  'rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)]! [&_input:disabled]:text-muted! [&_select:disabled]:bg-[var(--line-2)]! [&_select:disabled]:text-muted! [&_textarea:disabled]:bg-[var(--line-2)]! [&_textarea:disabled]:text-muted!'
+
+function renderProfileField({id, label, type = 'text', value, encodeHtml, readonly = false, options}) {
+  const disabledAttr = readonly ? ' disabled' : ''
+  if (type === 'select') {
+    const optionMarkup = options
+      .map(opt => `<option value="${encodeHtml(opt.value)}"${opt.value === value ? ' selected' : ''}>${encodeHtml(opt.label)}</option>`)
+      .join('')
+    return `<div class="${REC_FIELD_CLASS}"><label for="${id}">${encodeHtml(label)}</label><select id="${id}"${disabledAttr}>${optionMarkup}</select></div>`
+  }
+  return `<div class="${REC_FIELD_CLASS}"><label for="${id}">${encodeHtml(label)}</label><input id="${id}" type="${type}" value="${encodeHtml(value)}"${disabledAttr}></div>`
 }
 
 function renderProfileIdentityHeader(currentUser, encodeHtml) {
@@ -29,33 +54,76 @@ function renderProfileIdentityHeader(currentUser, encodeHtml) {
 }
 
 function renderProfileSection(currentUser, encodeHtml) {
+  // Single identity card, fields + photo side-by-side — same
+  // customer-identity-body layout the customer record's identity section
+  // uses (pages/customers/record.js:160): a fields grid on the start side,
+  // a photo box pinned to the end, one card instead of two.
+  const initials = encodeHtml(
+    (currentUser.name || '')
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map(part => part[0])
+      .join('')
+      .toUpperCase() || '?'
+  )
+  const fieldsHtml = [
+    renderProfileField({id: 'profile-name', label: 'Full name', value: currentUser.name, encodeHtml}),
+    renderProfileField({id: 'profile-job-title', label: 'Job title', value: currentUser.jobTitle, encodeHtml}),
+    renderProfileField({id: 'profile-email', label: 'Email', type: 'email', value: currentUser.email, encodeHtml}),
+    renderProfileField({id: 'profile-phone', label: 'Phone', type: 'tel', value: currentUser.phone, encodeHtml}),
+    renderProfileField({
+      id: 'profile-locale',
+      label: 'Locale',
+      type: 'select',
+      value: currentUser.locale,
+      encodeHtml,
+      options: [
+        {value: 'en', label: 'English'},
+        {value: 'ar', label: 'Arabic'},
+      ],
+    }),
+    renderProfileField({id: 'profile-timezone', label: 'Timezone', value: currentUser.timezone, encodeHtml}),
+  ].join('')
+  // Photo box matches the customer record's identity-section photo field
+  // (pages/customers/record.js: `[border:1px_dashed_var(--line)] rounded-lg`
+  // dashed placeholder, label above, action button below) — kept to a
+  // static initials circle rather than customer's full image-preview/zoom
+  // popover, which is a separate component (images.js) out of this scope.
+  const photoBoxHtml = `<div class="${REC_FIELD_CLASS} grid [place-items:center] gap-2 [min-height:120px] [padding:12px] [border:1px_dashed_var(--line)] rounded-lg h-full [min-height:280px]">
+    <label for="profile-photo-select">Profile photo</label>
+    <span class="grid [place-items:center] [width:min(164px,_100%)] [aspect-ratio:1] [padding:0] overflow-hidden text-muted [border:1px_solid_var(--line)] [border-radius:999px] bg-[var(--line-2)] [font-size:20px] font-bold" aria-hidden="true">${initials}</span>
+    <button type="button" class="lbtn out" id="profile-photo-select"><svg width="15" height="15" aria-hidden="true"><use href="#i-clip" /></svg> Select photo</button>
+  </div>`
   return renderCard(
     'Personal information',
-    `<div class="grid [grid-template-columns:repeat(2,_1fr)] gap-3 [@media((max-width:560px))]:[grid-template-columns:1fr]">
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-name">Full name<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-name" type="text" value="${encodeHtml(currentUser.name)}" /></label>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-job-title">Job title<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-job-title" type="text" value="${encodeHtml(currentUser.jobTitle)}" /></label>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-email">Email<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-email" type="email" value="${encodeHtml(currentUser.email)}" /></label>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-phone">Phone<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-phone" type="tel" value="${encodeHtml(currentUser.phone)}" /></label>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-locale">Locale<select class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-locale"><option value="en"${currentUser.locale === 'en' ? ' selected' : ''}>English</option><option value="ar"${currentUser.locale === 'ar' ? ' selected' : ''}>Arabic</option></select></label>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-timezone">Timezone<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-timezone" type="text" value="${encodeHtml(currentUser.timezone)}" /></label>
-    </div>`
-  ) + renderCard(
-    'Photo',
-    `<div class="flex items-center gap-3">
-      <span class="avatar inline-flex size-12 items-center justify-center rounded-full bg-[var(--line-2)] text-muted" aria-hidden="true"><svg width="22" height="22"><use href="#i-user" /></svg></span>
-      <button type="button" class="lbtn out" id="profile-photo-select">Select photo</button>
+    `<div class="grid [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
+      <div class="grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>
+      <div class="[padding:12px_12px_12px_0] [@media((max-width:720px))]:[padding:0_12px_12px]">${photoBoxHtml}</div>
     </div>`
   )
 }
 
 function renderAccountSection(currentUser, encodeHtml) {
+  const fieldsHtml = [
+    renderProfileField({id: 'profile-username', label: 'Username', value: currentUser.username, encodeHtml, readonly: true}),
+    renderProfileField({id: 'profile-branch', label: 'Branch', value: currentUser.branch, encodeHtml, readonly: true}),
+    renderProfileField({
+      id: 'profile-landing-page',
+      label: 'Default landing page',
+      type: 'select',
+      value: 'home',
+      encodeHtml,
+      options: [
+        {value: 'home', label: 'Home'},
+        {value: 'invoices', label: 'Sales Invoices'},
+        {value: 'customers', label: 'Customers'},
+      ],
+    }),
+  ].join('')
   return renderCard(
     'Account',
-    `<div class="grid [grid-template-columns:repeat(2,_1fr)] gap-3 [@media((max-width:560px))]:[grid-template-columns:1fr]">
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-username">Username<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-[var(--line-2)] px-[9px] py-1.5 font-[inherit] text-[14px] text-muted" id="profile-username" type="text" value="${encodeHtml(currentUser.username)}" readonly /></label>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-branch">Branch<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-[var(--line-2)] px-[9px] py-1.5 font-[inherit] text-[14px] text-muted" id="profile-branch" type="text" value="${encodeHtml(currentUser.branch)}" readonly /></label>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-landing-page">Default landing page<select class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-landing-page"><option value="home">Home</option><option value="invoices">Sales Invoices</option><option value="customers">Customers</option></select></label>
-    </div>`
+    `<div class="grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>`
   )
 }
 

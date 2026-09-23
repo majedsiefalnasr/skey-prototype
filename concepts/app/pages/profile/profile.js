@@ -47,6 +47,17 @@ export function createProfile({root, encodeHtml, currentUser, loginLogRows, devi
       button.addEventListener('click', () => scrollNavigator.activateSection(button.dataset.profileScrollSection))
     )
 
+    // Same collapse contract pages/invoices/record.js wires for its own
+    // .rec-card instances: click the header, flip aria-expanded, toggle the
+    // body's hidden attribute.
+    contentMount.querySelectorAll('.rec-card-hd').forEach(hd => {
+      hd.addEventListener('click', () => {
+        const open = hd.getAttribute('aria-expanded') === 'true'
+        hd.setAttribute('aria-expanded', String(!open))
+        hd.nextElementSibling.hidden = open
+      })
+    })
+
     bindAppearanceSection?.()
     syncAppearanceControls?.()
   }
