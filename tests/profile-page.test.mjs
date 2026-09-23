@@ -42,7 +42,7 @@ test('profile scroll nav renders one button per section with the active one curr
 
   assert.equal((html.match(/data-profile-scroll-section="/g) || []).length, 6)
   assert.match(html, /data-profile-scroll-section="security"[^>]*aria-current="page"/)
-  assert.match(html, /data-profile-scroll-section="profile"[^>]*aria-current="false"/)
+  assert.doesNotMatch(html, /data-profile-scroll-section="profile"[^>]*aria-current/)
   assert.match(html, /class="profile-scroll-nav/)
 })
 

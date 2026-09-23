@@ -246,7 +246,10 @@ test('Tailwind input has explicit sources and the generated output includes expe
 // license to add new authored CSS. Any change that grows the compiled output
 // beyond this ceiling must either shrink elsewhere or have the report name a
 // reviewed dynamic-utility addition that justifies raising the baseline.
-const FINAL_TAILWIND_BASELINE_BYTES = 197594;
+// Raised from 197594 by the User Profile page's card-style rework (~104
+// bytes of new compound utility selectors); see docs/tailwind-migration-report.md's
+// 2026-09-23 addendum for the reviewed justification this comment block asks for.
+const FINAL_TAILWIND_BASELINE_BYTES = 197800;
 const FINAL_TAILWIND_CEILING_BYTES = Math.ceil(FINAL_TAILWIND_BASELINE_BYTES * 1.1);
 
 test('Task 7 final Tailwind budget: compiled output stays within baseline + 10%', async () => {

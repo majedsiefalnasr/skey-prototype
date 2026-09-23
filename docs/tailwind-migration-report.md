@@ -500,3 +500,25 @@ baseline PNGs tampered to hide a missing-orbs/unstyled-"View all" regression
 fixed as literal utilities), and a dropped `.is-over-drawer` stacking rule
 that broke lookup-over-drawer click interaction (restored as a documented
 compatibility rule). See the section above for full detail.
+
+## Addendum: 2026-09-23 profile page baseline increase
+
+Unrelated to this migration itself — recorded here only because
+`tests/tailwind.test.mjs`'s final-budget test names this file as where a
+reviewed dynamic-utility addition must be justified before raising
+`FINAL_TAILWIND_BASELINE_BYTES`.
+
+The User Profile page's sidebar and section cards were reworked to reuse the
+existing `.rec-card`/`.rec-card-hd`/`.rec-card-body` primitive (already used
+by `pages/invoices/templates.html` and the customer record) and a
+customer-record-style plain-list sidebar, in place of a bespoke
+fieldset-legend pattern. This introduces a small number of new compound
+utility selectors specific to the profile page's scroll-nav
+(`.profile-canvas`-scoped button states) and six `appearance-group-*` card
+identifiers reused from the pre-existing Appearance dialog markup. After
+trimming redundant utilities to match already-compiled equivalents from
+`pages/invoices/templates.html`, the measured compiled output grew from
+197,594 to approximately 197,698 bytes (~104 bytes, well under 0.1%).
+`FINAL_TAILWIND_BASELINE_BYTES` in `tests/tailwind.test.mjs` is raised from
+`197594` to `197800` to restore headroom without loosening the budget's
+intent.
