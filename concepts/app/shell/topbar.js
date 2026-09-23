@@ -1,7 +1,7 @@
 
 
 /** Owns topbar state and its DOM bindings. */
-export function createTopbar({toast, getSideCollapsed, getLaunchpadEnabled, closeAllMenus, openKbd, openAppearance, openCustomize} = {}) {
+export function createTopbar({toast, getSideCollapsed, getLaunchpadEnabled, closeAllMenus, openKbd, openCustomize, navigateToProfileSection} = {}) {
   const ACTIVE_FISCAL_YEAR = '2026'
 
   function syncTopbarBrand() {
@@ -64,10 +64,10 @@ export function createTopbar({toast, getSideCollapsed, getLaunchpadEnabled, clos
     })
   )
 
-  document.querySelectorAll('.appearance-menu').forEach(b =>
+  document.querySelectorAll('.profile-menu').forEach(b =>
     b.addEventListener('click', () => {
       closeAllMenus()
-      openAppearance()
+      navigateToProfileSection(b.dataset.profileSection)
     })
   )
 
@@ -82,7 +82,7 @@ export function createTopbar({toast, getSideCollapsed, getLaunchpadEnabled, clos
     list.addEventListener('click', e => {
       if (
         e.target.closest('button[role="menuitem"]') &&
-        !e.target.closest('.help-kbd, .side-customize-menu, .fav-toggle-menu, .appearance-menu')
+        !e.target.closest('.help-kbd, .side-customize-menu, .fav-toggle-menu, .profile-menu')
       )
         closeAllMenus()
     })
