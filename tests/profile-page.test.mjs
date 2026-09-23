@@ -130,7 +130,9 @@ test('content host registers the profile view and the appearance dialog file is 
 
   const shell = await readFile(new URL('../concepts/app/shell/shell.html', import.meta.url), 'utf8')
   assert.doesNotMatch(shell, /appearance-dialog\.html/)
-  assert.match(shell, /profile\.tpl|include: \.\.\/pages\/profile\/templates\.html/)
+
+  const invoicesTemplates = await readFile(new URL('../concepts/app/pages/invoices/templates.html', import.meta.url), 'utf8')
+  assert.match(invoicesTemplates, /include: \.\.\/profile\/templates\.html/)
 })
 
 test('main.js wires the profile page and topbar no longer opens an appearance dialog', async () => {
