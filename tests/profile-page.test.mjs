@@ -72,3 +72,17 @@ test('security-dialogs.js exports createSecurityDialogs with open/bind API', asy
   assert.match(source, /openSetPin/)
   assert.match(source, /function bind/)
 })
+
+test('login log table renders one row per entry with status text', async () => {
+  const {renderLoginLogTable} = await import('../concepts/app/pages/profile/devices.js')
+  const encodeHtml = value => String(value)
+  const rows = [
+    {id: 'log-1', timestamp: '2026-09-23 08:12', ip: '1.2.3.4', device: 'Chrome', status: 'success'},
+    {id: 'log-2', timestamp: '2026-09-22 08:12', ip: '1.2.3.4', device: 'Chrome', status: 'failed'},
+  ]
+  const html = renderLoginLogTable(rows, encodeHtml)
+  assert.match(html, /<table/)
+  assert.equal((html.match(/<tr[ >]/g) || []).length, 3) // header + 2 rows
+  assert.match(html, />success</)
+  assert.match(html, />failed</)
+})
