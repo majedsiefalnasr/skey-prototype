@@ -10,7 +10,7 @@ import {renderProfileSections, renderProfileIdentityHeader} from './sections.js'
 import {renderLoginLogTable, createDeviceList} from './devices.js'
 import {createSecurityDialogs} from './security-dialogs.js'
 
-export function createProfile({root, encodeHtml, currentUser, loginLogRows, deviceRows, storage, toast, trapFocus, releaseFocus, syncAppearanceControls}) {
+export function createProfile({root, encodeHtml, currentUser, loginLogRows, deviceRows, storage, toast, trapFocus, releaseFocus, syncAppearanceControls, bindAppearanceSection}) {
   const identityMount = root.querySelector('#profile-identity-mount')
   const navMount = root.querySelector('#profile-scroll-nav-mount')
   const contentMount = root.querySelector('#profile-scroll-content')
@@ -47,6 +47,7 @@ export function createProfile({root, encodeHtml, currentUser, loginLogRows, devi
       button.addEventListener('click', () => scrollNavigator.activateSection(button.dataset.profileScrollSection))
     )
 
+    bindAppearanceSection?.()
     syncAppearanceControls?.()
   }
 

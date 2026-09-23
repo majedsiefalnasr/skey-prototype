@@ -160,7 +160,18 @@ const topbar = createTopbar({
   closeAllMenus: (...args) => menus.closeAllMenus(...args),
   openKbd: (...args) => keyboard.openKbd(...args),
   openCustomize: (...args) => customize.openCustomize(...args),
-  navigateToProfileSection: section => navigation.navigate('profile', {section}),
+  navigateToProfileSection: section => {
+    navigation.navigate('profile', {section})
+    // Mirrors sidebar.js's setNavCurrent: the launchpad overlay's visibility
+    // isn't tracked by navigation.js's currentId (the app boots with
+    // currentContentViewName === 'record' while the launchpad still shows
+    // on top by default), so any navigation trigger outside the sidebar
+    // must dismiss it explicitly the same way, or it's left covering the
+    // page and intercepting clicks.
+    const frame = document.querySelector('.frame')
+    const lp = frame && frame.querySelector('.lp-view')
+    if (lp && !lp.hidden) hideLaunchpad(frame)
+  },
 })
 
 const shell = createShell({
@@ -407,6 +418,7 @@ const profile = createProfile({
   trapFocus: dialogFocus.trapFocus,
   releaseFocus: dialogFocus.releaseFocus,
   syncAppearanceControls: () => appearanceControls.syncAppearanceControls(),
+  bindAppearanceSection: () => appearanceControls.bindAppearanceSection(),
 })
 
 const listDates = createListDates({

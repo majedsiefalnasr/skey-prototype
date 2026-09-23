@@ -8,25 +8,27 @@
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
-    <form class="dbody flex flex-col gap-3 [padding:16px_18px] overflow-auto" id="change-password-form" novalidate>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="current-password">
-        Current password
-        <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="current-password" type="password" required autocomplete="current-password" />
-      </label>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="new-password">
-        New password
-        <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="new-password" type="password" required minlength="8" autocomplete="new-password" />
-      </label>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="confirm-password">
-        Confirm new password
-        <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="confirm-password" type="password" required autocomplete="new-password" />
-      </label>
-      <span class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden" id="change-password-error" role="status"></span>
+    <form class="flex flex-col min-h-0" id="change-password-form" novalidate>
+      <div class="dbody flex flex-col gap-3 [padding:16px_18px] overflow-auto">
+        <label class="grid gap-1.5 text-[13px] font-semibold" for="current-password">
+          Current password
+          <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="current-password" type="password" required autocomplete="current-password" />
+        </label>
+        <label class="grid gap-1.5 text-[13px] font-semibold" for="new-password">
+          New password
+          <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="new-password" type="password" required minlength="8" autocomplete="new-password" />
+        </label>
+        <label class="grid gap-1.5 text-[13px] font-semibold" for="confirm-password">
+          Confirm new password
+          <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="confirm-password" type="password" required autocomplete="new-password" />
+        </label>
+        <span class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden" id="change-password-error" role="status"></span>
+      </div>
+      <div class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
+        <button type="button" class="lbtn out c-close">Cancel</button>
+        <button type="submit" class="lbtn pri">Change password</button>
+      </div>
     </form>
-    <div class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
-      <button type="button" class="lbtn out c-close">Cancel</button>
-      <button type="submit" class="lbtn pri" form="change-password-form">Change password</button>
-    </div>
   </div>
 </div>
 
@@ -40,24 +42,26 @@
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
-    <form class="dbody flex flex-col gap-3 [padding:16px_18px] overflow-auto" id="set-pin-form" novalidate>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="current-pin">
-        Current PIN (leave blank if none set)
-        <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]" id="current-pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" />
-      </label>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="new-pin">
-        New PIN (4–6 digits)
-        <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]" id="new-pin" type="password" inputmode="numeric" pattern="[0-9]*" minlength="4" maxlength="6" required autocomplete="off" />
-      </label>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="confirm-pin">
-        Confirm new PIN
-        <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]" id="confirm-pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" required autocomplete="off" />
-      </label>
-      <span class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden" id="set-pin-error" role="status"></span>
+    <form class="flex flex-col min-h-0" id="set-pin-form" novalidate>
+      <div class="dbody flex flex-col gap-3 [padding:16px_18px] overflow-auto">
+        <label class="grid gap-1.5 text-[13px] font-semibold" for="current-pin">
+          Current PIN (leave blank if none set)
+          <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]" id="current-pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" />
+        </label>
+        <label class="grid gap-1.5 text-[13px] font-semibold" for="new-pin">
+          New PIN (4–6 digits)
+          <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]" id="new-pin" type="password" inputmode="numeric" pattern="[0-9]*" minlength="4" maxlength="6" required autocomplete="off" />
+        </label>
+        <label class="grid gap-1.5 text-[13px] font-semibold" for="confirm-pin">
+          Confirm new PIN
+          <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]" id="confirm-pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" required autocomplete="off" />
+        </label>
+        <span class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden" id="set-pin-error" role="status"></span>
+      </div>
+      <div class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
+        <button type="button" class="lbtn out c-close">Cancel</button>
+        <button type="submit" class="lbtn pri">Save PIN</button>
+      </div>
     </form>
-    <div class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
-      <button type="button" class="lbtn out c-close">Cancel</button>
-      <button type="submit" class="lbtn pri" form="set-pin-form">Save PIN</button>
-    </div>
   </div>
 </div>

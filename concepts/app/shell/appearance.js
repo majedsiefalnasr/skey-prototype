@@ -1,23 +1,32 @@
 import {normalizeHexColor, deriveAccentPair} from '../core/appearance.js'
 
-/** Owns appearance controls state and its DOM bindings. */
+/** Owns appearance controls state and its DOM bindings.
+ *
+ * The demo-bar controls (`#theme`, `#high-contrast`, `#content-layout`,
+ * `#density`, `#interface-scale`, `#launchpad`, `#input-style`,
+ * `#section-style` — Category A) live in the permanent prototype chrome and
+ * exist at boot, so their lookups and listeners are wired eagerly below at
+ * construction time.
+ *
+ * The profile page's Appearance section controls (Category B — custom
+ * accent color, reset button, font family, the section's own interface
+ * scale/high-contrast/launchpad mirrors, theme/layout/density card grids)
+ * live in markup that `pages/profile/sections.js`'s
+ * `renderAppearanceSectionFields()` only renders once the profile page's
+ * `render()` runs, which happens lazily on first `activate()` — i.e. not at
+ * app boot. Looking those up or binding listeners to them eagerly would hit
+ * `null` at boot and crash. Instead, Category B lookups and listener
+ * attachment are deferred into `bindAppearanceSection()`, called by the
+ * profile page's `render()` after that markup exists — mirroring the
+ * `createSecurityDialogs(...)`/`bind()` pattern in
+ * `pages/profile/security-dialogs.js`. `bindAppearanceSection()` re-queries
+ * `document` fresh each call (rather than capturing references once) so it
+ * stays safe if ever invoked more than once. `syncAppearanceControls()` is
+ * only ever called after the profile page has rendered (see
+ * `pages/profile/profile.js`'s `render()`), so it also looks up Category B
+ * elements fresh rather than relying on construction-time references. */
 export function createAppearanceControls({createAppearance, setLaunchpadEnabled} = {}) {
-  const appearanceHighContrast = document.getElementById('appearance-high-contrast')
-  const appearanceLaunchpad = document.getElementById('appearance-launchpad')
-
-  const appearanceCustomColor = document.getElementById('appearance-custom-color')
-
-  const appearanceCustomHex = document.getElementById('appearance-custom-hex')
-
-  const appearanceCustomError = document.getElementById('appearance-custom-error')
-
-  const appearanceCustomGroup = document.querySelector('[data-custom-accent]')
-
-  const appearanceReset = document.getElementById('appearance-reset')
-  const appearanceFontFamily = document.getElementById('appearance-font-family')
   const interfaceScaleSelect = document.getElementById('interface-scale')
-  const appearanceInterfaceScale = document.getElementById('appearance-interface-scale')
-  const appearanceScaleValue = document.getElementById('appearance-scale-value')
   const scaleOptions = ['90', '100', '110', '125']
   const fontFamilies = {
     system: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
@@ -59,6 +68,9 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
   }
 
   function syncInterfaceScaleControl(value = interfaceScaleSelect.value) {
+    const appearanceInterfaceScale = document.getElementById('appearance-interface-scale')
+    const appearanceScaleValue = document.getElementById('appearance-scale-value')
+    if (!appearanceInterfaceScale || !appearanceScaleValue) return
     const scale = scaleOptions.includes(String(value)) ? String(value) : '100'
     const index = scaleOptions.indexOf(scale)
     const progress = index / (scaleOptions.length - 1)
@@ -77,15 +89,20 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
   }
 
   function clearCustomAccentError() {
+    const appearanceCustomHex = document.getElementById('appearance-custom-hex')
+    const appearanceCustomError = document.getElementById('appearance-custom-error')
+    if (!appearanceCustomHex || !appearanceCustomError) return
     appearanceCustomHex.removeAttribute('aria-invalid')
     appearanceCustomError.textContent = ''
   }
 
   function commitCustomAccent(value) {
+    const appearanceCustomHex = document.getElementById('appearance-custom-hex')
+    const appearanceCustomError = document.getElementById('appearance-custom-error')
     const seed = normalizeHexColor(value)
     if (!seed) {
-      appearanceCustomHex.setAttribute('aria-invalid', 'true')
-      appearanceCustomError.textContent = 'Enter a 3- or 6-digit hex color.'
+      if (appearanceCustomHex) appearanceCustomHex.setAttribute('aria-invalid', 'true')
+      if (appearanceCustomError) appearanceCustomError.textContent = 'Enter a 3- or 6-digit hex color.'
       return false
     }
     const pair = deriveAccentPair(seed)
@@ -105,6 +122,13 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
   }
 
   function syncAppearanceControls() {
+    const appearanceCustomColor = document.getElementById('appearance-custom-color')
+    const appearanceCustomHex = document.getElementById('appearance-custom-hex')
+    const appearanceCustomGroup = document.querySelector('[data-custom-accent]')
+    const appearanceHighContrast = document.getElementById('appearance-high-contrast')
+    const appearanceLaunchpad = document.getElementById('appearance-launchpad')
+    const appearanceFontFamily = document.getElementById('appearance-font-family')
+
     const isDark = document.documentElement.dataset.colorMode === 'dark'
     document.querySelectorAll('.accent-swatch').forEach((swatch, index) => {
       const hex = isDark ? swatch.dataset.accentDark : swatch.dataset.accent
@@ -118,12 +142,14 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
       )
       swatch.tabIndex = selected || (appearanceAccentState.kind === 'custom' && index === 0) ? 0 : -1
     })
-    appearanceCustomColor.value = appearanceAccentState.seed.toLowerCase()
-    if (!appearanceCustomHex.hasAttribute('aria-invalid')) {
+    if (appearanceCustomColor) appearanceCustomColor.value = appearanceAccentState.seed.toLowerCase()
+    if (appearanceCustomHex && !appearanceCustomHex.hasAttribute('aria-invalid')) {
       appearanceCustomHex.value = appearanceAccentState.seed
     }
-    appearanceCustomGroup.style.setProperty('--custom-accent', appearanceAccentState.seed)
-    appearanceCustomGroup.dataset.selected = String(appearanceAccentState.kind === 'custom')
+    if (appearanceCustomGroup) {
+      appearanceCustomGroup.style.setProperty('--custom-accent', appearanceAccentState.seed)
+      appearanceCustomGroup.dataset.selected = String(appearanceAccentState.kind === 'custom')
+    }
     syncAppearanceChoices('[data-appearance-theme]', 'appearanceTheme', themeSelect.value)
     syncAppearanceChoices(
       '[data-appearance-layout]',
@@ -136,50 +162,13 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
       document.getElementById('density').value
     )
     syncInterfaceScaleControl()
-    appearanceHighContrast.checked = highContrastToggle.checked
-    appearanceLaunchpad.checked = document.getElementById('launchpad').checked
-    applyFontFamily(appearanceFontFamily.value)
+    if (appearanceHighContrast) appearanceHighContrast.checked = highContrastToggle.checked
+    if (appearanceLaunchpad) appearanceLaunchpad.checked = document.getElementById('launchpad').checked
+    if (appearanceFontFamily) applyFontFamily(appearanceFontFamily.value)
   }
 
-  document.querySelectorAll('.accent-swatch').forEach(swatch =>
-    swatch.addEventListener('click', () => {
-      Object.assign(appearanceAccentState, {
-        kind: 'preset',
-        seed: swatch.dataset.accent.toUpperCase(),
-        light: swatch.dataset.accent.toUpperCase(),
-        dark: swatch.dataset.accentDark.toUpperCase(),
-      })
-      clearCustomAccentError()
-      applyAppearanceAccent()
-      syncAppearanceControls()
-    })
-  )
-
-  appearanceCustomColor.addEventListener('input', e => commitCustomAccent(e.target.value))
-
-  appearanceCustomHex.addEventListener('change', e => commitCustomAccent(e.target.value))
-
-  appearanceCustomHex.addEventListener('keydown', e => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      commitCustomAccent(e.currentTarget.value)
-    }
-    if (e.key === 'Escape') {
-      e.preventDefault()
-      e.currentTarget.value = appearanceAccentState.seed
-      clearCustomAccentError()
-    }
-  })
-
-  document.querySelectorAll('[data-appearance-theme]').forEach(card =>
-    card.addEventListener('click', () => {
-      themeSelect.value = card.dataset.appearanceTheme
-      themeSelect.dispatchEvent(new Event('change'))
-      syncAppearanceControls()
-    })
-  )
-
   function bindAppearanceRadioKeys(group, selector) {
+    if (!group) return
     group.addEventListener('keydown', e => {
       if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) return
       const current = e.target.closest(selector)
@@ -193,90 +182,149 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
     })
   }
 
-  bindAppearanceRadioKeys(
-    document.querySelector('.appearance-theme-grid'),
-    '[data-appearance-theme]'
-  )
+  // Binds the profile page's Appearance section controls (Category B).
+  // Looks up every element fresh from `document` each call, since the
+  // section's markup is (re)created by `renderAppearanceSectionFields()`
+  // and doesn't exist at construction time — only once the profile page's
+  // `render()` has run. Safe to call more than once: it never mutates
+  // module-level state that would double up, and re-querying `document`
+  // means a repeat call simply rebinds against whatever markup currently
+  // exists.
+  function bindAppearanceSection() {
+    const appearanceCustomColor = document.getElementById('appearance-custom-color')
+    const appearanceCustomHex = document.getElementById('appearance-custom-hex')
+    const appearanceInterfaceScale = document.getElementById('appearance-interface-scale')
+    const appearanceHighContrast = document.getElementById('appearance-high-contrast')
+    const appearanceLaunchpad = document.getElementById('appearance-launchpad')
+    const appearanceReset = document.getElementById('appearance-reset')
+    const appearanceFontFamily = document.getElementById('appearance-font-family')
 
-  bindAppearanceRadioKeys(
-    document.querySelector('.accent-swatches'),
-    '.accent-swatch[role="radio"]'
-  )
+    document.querySelectorAll('.accent-swatch').forEach(swatch =>
+      swatch.addEventListener('click', () => {
+        Object.assign(appearanceAccentState, {
+          kind: 'preset',
+          seed: swatch.dataset.accent.toUpperCase(),
+          light: swatch.dataset.accent.toUpperCase(),
+          dark: swatch.dataset.accentDark.toUpperCase(),
+        })
+        clearCustomAccentError()
+        applyAppearanceAccent()
+        syncAppearanceControls()
+      })
+    )
 
-  bindAppearanceRadioKeys(
-    document.querySelector('.appearance-layout-grid'),
-    '[data-appearance-layout]'
-  )
+    appearanceCustomColor?.addEventListener('input', e => commitCustomAccent(e.target.value))
 
-  bindAppearanceRadioKeys(
-    document.querySelector('.appearance-density-grid'),
-    '[data-appearance-density]'
-  )
+    appearanceCustomHex?.addEventListener('change', e => commitCustomAccent(e.target.value))
 
-  document.querySelectorAll('[data-appearance-layout]').forEach(card =>
-    card.addEventListener('click', () => {
+    appearanceCustomHex?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        commitCustomAccent(e.currentTarget.value)
+      }
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        e.currentTarget.value = appearanceAccentState.seed
+        clearCustomAccentError()
+      }
+    })
+
+    document.querySelectorAll('[data-appearance-theme]').forEach(card =>
+      card.addEventListener('click', () => {
+        themeSelect.value = card.dataset.appearanceTheme
+        themeSelect.dispatchEvent(new Event('change'))
+        syncAppearanceControls()
+      })
+    )
+
+    bindAppearanceRadioKeys(
+      document.querySelector('.appearance-theme-grid'),
+      '[data-appearance-theme]'
+    )
+
+    bindAppearanceRadioKeys(
+      document.querySelector('.accent-swatches'),
+      '.accent-swatch[role="radio"]'
+    )
+
+    bindAppearanceRadioKeys(
+      document.querySelector('.appearance-layout-grid'),
+      '[data-appearance-layout]'
+    )
+
+    bindAppearanceRadioKeys(
+      document.querySelector('.appearance-density-grid'),
+      '[data-appearance-density]'
+    )
+
+    document.querySelectorAll('[data-appearance-layout]').forEach(card =>
+      card.addEventListener('click', () => {
+        const layoutSelect = document.getElementById('content-layout')
+        layoutSelect.value = card.dataset.appearanceLayout
+        layoutSelect.dispatchEvent(new Event('change'))
+        syncAppearanceControls()
+      })
+    )
+
+    document.querySelectorAll('[data-appearance-density]').forEach(card =>
+      card.addEventListener('click', () => {
+        const densitySelect = document.getElementById('density')
+        densitySelect.value = card.dataset.appearanceDensity
+        densitySelect.dispatchEvent(new Event('change'))
+        syncAppearanceControls()
+      })
+    )
+
+    appearanceInterfaceScale?.addEventListener('input', event => {
+      const scale = scaleOptions[Number(event.target.value)] || '100'
+      interfaceScaleSelect.value = scale
+      interfaceScaleSelect.dispatchEvent(new Event('change'))
+      syncInterfaceScaleControl(scale)
+    })
+
+    appearanceHighContrast?.addEventListener('change', e => {
+      highContrastToggle.checked = e.target.checked
+      highContrastToggle.dispatchEvent(new Event('change'))
+      syncAppearanceControls()
+    })
+
+    appearanceLaunchpad?.addEventListener('change', e => {
+      const launchpad = document.getElementById('launchpad')
+      launchpad.checked = e.target.checked
+      launchpad.dispatchEvent(new Event('change'))
+      syncAppearanceControls()
+    })
+
+    appearanceReset?.addEventListener('click', () => {
+      Object.assign(appearanceAccentState, {
+        kind: 'preset',
+        light: '#1868DB',
+        dark: '#669DF1',
+        seed: '#1868DB',
+      })
+      clearCustomAccentError()
+      themeSelect.value = 'system'
+      highContrastToggle.checked = systemContrastQuery.matches
       const layoutSelect = document.getElementById('content-layout')
-      layoutSelect.value = card.dataset.appearanceLayout
-      layoutSelect.dispatchEvent(new Event('change'))
-      syncAppearanceControls()
-    })
-  )
-
-  document.querySelectorAll('[data-appearance-density]').forEach(card =>
-    card.addEventListener('click', () => {
       const densitySelect = document.getElementById('density')
-      densitySelect.value = card.dataset.appearanceDensity
+      layoutSelect.value = 'fluid'
+      densitySelect.value = 'default'
+      document.getElementById('launchpad').checked = true
+      interfaceScaleSelect.value = '100'
+      const resetFontFamily = document.getElementById('appearance-font-family')
+      if (resetFontFamily) resetFontFamily.value = 'system'
+      applyFontFamily('system')
+      themeSelect.dispatchEvent(new Event('change'))
+      highContrastToggle.dispatchEvent(new Event('change'))
+      layoutSelect.dispatchEvent(new Event('change'))
       densitySelect.dispatchEvent(new Event('change'))
+      interfaceScaleSelect.dispatchEvent(new Event('change'))
+      document.getElementById('launchpad').dispatchEvent(new Event('change'))
       syncAppearanceControls()
     })
-  )
 
-  appearanceInterfaceScale.addEventListener('input', event => {
-    const scale = scaleOptions[Number(event.target.value)] || '100'
-    interfaceScaleSelect.value = scale
-    interfaceScaleSelect.dispatchEvent(new Event('change'))
-    syncInterfaceScaleControl(scale)
-  })
-
-  appearanceHighContrast.addEventListener('change', e => {
-    highContrastToggle.checked = e.target.checked
-    highContrastToggle.dispatchEvent(new Event('change'))
-    syncAppearanceControls()
-  })
-
-  appearanceLaunchpad.addEventListener('change', e => {
-    const launchpad = document.getElementById('launchpad')
-    launchpad.checked = e.target.checked
-    launchpad.dispatchEvent(new Event('change'))
-    syncAppearanceControls()
-  })
-
-  appearanceReset.addEventListener('click', () => {
-    Object.assign(appearanceAccentState, {
-      kind: 'preset',
-      light: '#1868DB',
-      dark: '#669DF1',
-      seed: '#1868DB',
-    })
-    clearCustomAccentError()
-    themeSelect.value = 'system'
-    highContrastToggle.checked = systemContrastQuery.matches
-    const layoutSelect = document.getElementById('content-layout')
-    const densitySelect = document.getElementById('density')
-    layoutSelect.value = 'fluid'
-    densitySelect.value = 'default'
-    document.getElementById('launchpad').checked = true
-    interfaceScaleSelect.value = '100'
-    appearanceFontFamily.value = 'system'
-    applyFontFamily('system')
-    themeSelect.dispatchEvent(new Event('change'))
-    highContrastToggle.dispatchEvent(new Event('change'))
-    layoutSelect.dispatchEvent(new Event('change'))
-    densitySelect.dispatchEvent(new Event('change'))
-    interfaceScaleSelect.dispatchEvent(new Event('change'))
-    document.getElementById('launchpad').dispatchEvent(new Event('change'))
-    syncAppearanceControls()
-  })
+    appearanceFontFamily?.addEventListener('change', event => applyFontFamily(event.target.value))
+  }
 
   const systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)')
 
@@ -311,8 +359,6 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
   let dataListChartRefreshReady = false
 
   const themeSelect = document.getElementById('theme')
-
-  appearanceFontFamily.addEventListener('change', event => applyFontFamily(event.target.value))
 
   themeSelect.addEventListener('change', e => applyTheme(e.target.value))
 
@@ -365,5 +411,13 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
     document.body.classList.toggle('cards-fieldset', e.target.value === 'fieldset')
   })
 
-  return {onRefreshCharts, setOnRefreshCharts: value => { onRefreshCharts = value }, appearance, getDataListChartRefreshReady: () => dataListChartRefreshReady, setDataListChartRefreshReady: value => { dataListChartRefreshReady = value }, syncAppearanceControls}
+  return {
+    onRefreshCharts,
+    setOnRefreshCharts: value => { onRefreshCharts = value },
+    appearance,
+    getDataListChartRefreshReady: () => dataListChartRefreshReady,
+    setDataListChartRefreshReady: value => { dataListChartRefreshReady = value },
+    bindAppearanceSection,
+    syncAppearanceControls,
+  }
 }
