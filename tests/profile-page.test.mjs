@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import {CURRENT_USER, LOGIN_LOG_ROWS, DEVICE_ROWS} from '../concepts/app/prototype/fixtures/profile.js'
 import {PROFILE_SECTION_ORDER, PROFILE_SECTIONS} from '../concepts/app/pages/profile/fields.js'
+import {renderProfileScrollNav} from '../concepts/app/pages/profile/layout.js'
 
 test('profile fixtures have the expected shape', () => {
   assert.equal(typeof CURRENT_USER.name, 'string')
@@ -31,4 +32,14 @@ test('profile section metadata covers all six sections in order', () => {
     assert.equal(typeof PROFILE_SECTIONS[key].title, 'string')
     assert.equal(typeof PROFILE_SECTIONS[key].icon, 'string')
   })
+})
+
+test('profile scroll nav renders one button per section with the active one current', () => {
+  const encodeHtml = value => String(value)
+  const html = renderProfileScrollNav(PROFILE_SECTION_ORDER, PROFILE_SECTIONS, 'security', encodeHtml)
+
+  assert.equal((html.match(/data-profile-scroll-section="/g) || []).length, 6)
+  assert.match(html, /data-profile-scroll-section="security"[^>]*aria-current="page"/)
+  assert.match(html, /data-profile-scroll-section="profile"[^>]*aria-current="false"/)
+  assert.match(html, /class="profile-scroll-nav/)
 })
