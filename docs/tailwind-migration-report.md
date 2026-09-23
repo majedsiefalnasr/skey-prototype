@@ -579,3 +579,19 @@ overlapping the shared edge with `margin-inline-start:-1px`). Rebuilt the
 bordered group.
 
 `FINAL_TAILWIND_BASELINE_BYTES` is raised again from `198870` to `199560`.
+
+### 2026-09-23 follow-up: split-button double-border seam
+
+The record chrome's "New"/caret split button (`pages/invoices/chrome.js`'s
+`.newwrap main`/`.car`, also reused by the `.d2 .genbtn` responsive variant)
+showed a visible double border in the middle: the main button's own
+`.lbtn.out` trailing border was never suppressed, so it sat directly next to
+the caret button's own leading border, producing a doubled/gapped seam
+instead of one shared line. The Save split button (`.savewrap`) didn't show
+this because its main button is `.lbtn.pri`, whose base border color is
+transparent. Fixed by adding `border-inline-end:none` (RTL-flipped) to the
+main button under `.newwrap`, matching the `border-right:0` +
+corner-radius-flatten recipe already used for the print dialog's grouped
+select+button control.
+
+`FINAL_TAILWIND_BASELINE_BYTES` is raised again from `199560` to `199830`.
