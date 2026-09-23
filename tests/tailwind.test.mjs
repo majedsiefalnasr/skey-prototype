@@ -251,10 +251,13 @@ test('Tailwind input has explicit sources and the generated output includes expe
 // select-arrow SVG data-URI's broken `_`-as-space encoding (percent-escaped
 // to `%20`, plus quoted attribute values so the SVG parses as valid XML),
 // then from 198260 by applying that same select-arrow fix plus active-state
-// styling to the invoice print dialog's fields/destination cards; see
-// docs/tailwind-migration-report.md's 2026-09-23 addendum for the reviewed
-// justification this comment block asks for.
-const FINAL_TAILWIND_BASELINE_BYTES = 198870;
+// styling to the invoice print dialog's fields/destination cards, then from
+// 198870 by joining the print dialog's Report Style select and its "..."
+// trigger button into one grouped control (customer fields.js's
+// .customer-lookup-control pattern); see docs/tailwind-migration-report.md's
+// 2026-09-23 addendum for the reviewed justification this comment block
+// asks for.
+const FINAL_TAILWIND_BASELINE_BYTES = 199560;
 const FINAL_TAILWIND_CEILING_BYTES = Math.ceil(FINAL_TAILWIND_BASELINE_BYTES * 1.1);
 
 test('Task 7 final Tailwind budget: compiled output stays within baseline + 10%', async () => {

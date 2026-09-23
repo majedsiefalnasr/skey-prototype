@@ -564,3 +564,18 @@ counterpart in `pages/invoices/chrome.js`/`operations.js`:
   native select chrome instead of matching the rest of the app.
 
 `FINAL_TAILWIND_BASELINE_BYTES` is raised again from `198260` to `198870`.
+
+### 2026-09-23 follow-up: Report Style grouped select+button control
+
+The print dialog's Report Style field paired a plain `select` next to an
+"Edit report styles" `...` button with a `gap` between them, unlike the
+app's established grouped-input pattern (`pages/customers/fields.js`'s
+`.customer-lookup-control`: select and trigger button share one visual
+border, the select's trailing corners flattened via
+`border-start-end-radius:0`/`border-end-end-radius:0`, the trigger button
+overlapping the shared edge with `margin-inline-start:-1px`). Rebuilt the
+`.ctl` wrapper and its trigger button to follow that exact pattern
+(including the RTL corner-flip), so the two controls now render as one
+bordered group.
+
+`FINAL_TAILWIND_BASELINE_BYTES` is raised again from `198870` to `199560`.
