@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
+import {readFile} from 'node:fs/promises'
 import {CURRENT_USER, LOGIN_LOG_ROWS, DEVICE_ROWS} from '../concepts/app/prototype/fixtures/profile.js'
 import {PROFILE_SECTION_ORDER, PROFILE_SECTIONS} from '../concepts/app/pages/profile/fields.js'
 import {renderProfileScrollNav} from '../concepts/app/pages/profile/layout.js'
@@ -42,4 +43,12 @@ test('profile scroll nav renders one button per section with the active one curr
   assert.match(html, /data-profile-scroll-section="security"[^>]*aria-current="page"/)
   assert.match(html, /data-profile-scroll-section="profile"[^>]*aria-current="false"/)
   assert.match(html, /class="profile-scroll-nav/)
+})
+
+test('appearance.js no longer wires a scrim/dialog and exports syncAppearanceControls', async () => {
+  const controls = await readFile(new URL('../concepts/app/shell/appearance.js', import.meta.url), 'utf8')
+  assert.doesNotMatch(controls, /appearance-scrim/)
+  assert.doesNotMatch(controls, /openAppearance/)
+  assert.match(controls, /function syncAppearanceControls/)
+  assert.match(controls, /syncAppearanceControls,?\s*\}/)
 })

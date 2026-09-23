@@ -1,9 +1,7 @@
 import {normalizeHexColor, deriveAccentPair} from '../core/appearance.js'
 
 /** Owns appearance controls state and its DOM bindings. */
-export function createAppearanceControls({createAppearance, trapFocus, releaseFocus, setLaunchpadEnabled} = {}) {
-  const appearanceScrim = document.getElementById('appearance-scrim')
-
+export function createAppearanceControls({createAppearance, setLaunchpadEnabled} = {}) {
   const appearanceHighContrast = document.getElementById('appearance-high-contrast')
   const appearanceLaunchpad = document.getElementById('appearance-launchpad')
 
@@ -94,7 +92,7 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
     Object.assign(appearanceAccentState, {kind: 'custom', seed, ...pair})
     clearCustomAccentError()
     applyAppearanceAccent()
-    syncAppearanceDialog()
+    syncAppearanceControls()
     return true
   }
 
@@ -106,7 +104,7 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
     })
   }
 
-  function syncAppearanceDialog() {
+  function syncAppearanceControls() {
     const isDark = document.documentElement.dataset.colorMode === 'dark'
     document.querySelectorAll('.accent-swatch').forEach((swatch, index) => {
       const hex = isDark ? swatch.dataset.accentDark : swatch.dataset.accent
@@ -143,24 +141,6 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
     applyFontFamily(appearanceFontFamily.value)
   }
 
-  const openAppearance = () => {
-    syncAppearanceDialog()
-    appearanceScrim.classList.add('open')
-    requestAnimationFrame(() => syncInterfaceScaleControl())
-    trapFocus(appearanceScrim.querySelector('.dlg'))
-  }
-
-  const closeAppearance = () => {
-    if (appearanceScrim.classList.contains('open')) {
-      appearanceScrim.classList.remove('open')
-      releaseFocus()
-    }
-  }
-
-  appearanceScrim.addEventListener('click', e => {
-    if (e.target === appearanceScrim || e.target.closest('.c-close')) closeAppearance()
-  })
-
   document.querySelectorAll('.accent-swatch').forEach(swatch =>
     swatch.addEventListener('click', () => {
       Object.assign(appearanceAccentState, {
@@ -171,7 +151,7 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
       })
       clearCustomAccentError()
       applyAppearanceAccent()
-      syncAppearanceDialog()
+      syncAppearanceControls()
     })
   )
 
@@ -195,7 +175,7 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
     card.addEventListener('click', () => {
       themeSelect.value = card.dataset.appearanceTheme
       themeSelect.dispatchEvent(new Event('change'))
-      syncAppearanceDialog()
+      syncAppearanceControls()
     })
   )
 
@@ -238,7 +218,7 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
       const layoutSelect = document.getElementById('content-layout')
       layoutSelect.value = card.dataset.appearanceLayout
       layoutSelect.dispatchEvent(new Event('change'))
-      syncAppearanceDialog()
+      syncAppearanceControls()
     })
   )
 
@@ -247,7 +227,7 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
       const densitySelect = document.getElementById('density')
       densitySelect.value = card.dataset.appearanceDensity
       densitySelect.dispatchEvent(new Event('change'))
-      syncAppearanceDialog()
+      syncAppearanceControls()
     })
   )
 
@@ -261,14 +241,14 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
   appearanceHighContrast.addEventListener('change', e => {
     highContrastToggle.checked = e.target.checked
     highContrastToggle.dispatchEvent(new Event('change'))
-    syncAppearanceDialog()
+    syncAppearanceControls()
   })
 
   appearanceLaunchpad.addEventListener('change', e => {
     const launchpad = document.getElementById('launchpad')
     launchpad.checked = e.target.checked
     launchpad.dispatchEvent(new Event('change'))
-    syncAppearanceDialog()
+    syncAppearanceControls()
   })
 
   appearanceReset.addEventListener('click', () => {
@@ -295,7 +275,7 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
     densitySelect.dispatchEvent(new Event('change'))
     interfaceScaleSelect.dispatchEvent(new Event('change'))
     document.getElementById('launchpad').dispatchEvent(new Event('change'))
-    syncAppearanceDialog()
+    syncAppearanceControls()
   })
 
   const systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)')
@@ -340,7 +320,7 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
 
   document.getElementById('launchpad').addEventListener('change', event => {
     setLaunchpadEnabled?.(event.target.checked)
-    syncAppearanceDialog()
+    syncAppearanceControls()
   })
 
   const syncSystemTheme = () => {
@@ -385,5 +365,5 @@ export function createAppearanceControls({createAppearance, trapFocus, releaseFo
     document.body.classList.toggle('cards-fieldset', e.target.value === 'fieldset')
   })
 
-  return {openAppearance, onRefreshCharts, setOnRefreshCharts: value => { onRefreshCharts = value }, appearance, getDataListChartRefreshReady: () => dataListChartRefreshReady, setDataListChartRefreshReady: value => { dataListChartRefreshReady = value }}
+  return {onRefreshCharts, setOnRefreshCharts: value => { onRefreshCharts = value }, appearance, getDataListChartRefreshReady: () => dataListChartRefreshReady, setDataListChartRefreshReady: value => { dataListChartRefreshReady = value }, syncAppearanceControls}
 }
