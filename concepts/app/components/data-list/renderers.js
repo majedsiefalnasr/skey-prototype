@@ -1,10 +1,10 @@
 import {encodeHtml} from '../../core/locale.js'
 import {DATA_LIST_CONFIG} from './columns.js'
 import {renderDataListRowActions as renderSharedDataListRowActions, renderDataListAdaptiveFooterActions as renderSharedDataListAdaptiveFooterActions, renderDataListHeader as renderSharedDataListHeader, renderDataListRecordRows as renderSharedDataListRecordRows, renderDataListBody as renderSharedDataListBody, renderDataListCards as renderSharedDataListCards, renderDataListAdaptiveRecord as renderSharedDataListAdaptiveRecord, dataListDetailsId as sharedDataListDetailsId} from './views.js'
-import {renderDataListSelectionActions as sharedRenderDataListSelectionActions} from './list.js'
+import {renderDataListSelectionActions as sharedRenderDataListSelectionActions, DATA_MENU_POPOVER_CLASS} from './list.js'
 
 /** Owns list views state and its DOM bindings. */
-export function createListViews({t, computeDataListLayoutDirty, getDataListState, dataListIcon, dataListRows, invoiceStatusBadge, renderDataRecordCard, refreshDataListForContext, renderCustomerAvatar} = {}) {
+export function createListViews({t, computeDataListLayoutDirty, getDataListState, dataListIcon, dataListRows, invoiceStatusBadge, renderDataRecordCard, refreshDataListForContext, renderCustomerAvatar, invoiceStatusTransitions} = {}) {
   function renderDataListSelectionActions(config, listState) {
     return sharedRenderDataListSelectionActions(config, listState, {t, dataListIcon})
   }
@@ -30,14 +30,41 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
     return encodeHtml(String(value ?? ''))
   }
 
+  /* Statuses the table row's own menu can offer — posting and cancellation
+     stay record-only (they need fields a table row doesn't carry), so only
+     the reasoned/simple transitions from status-dialogs.js's
+     INVOICE_STATUS_ACTIONS are listed here. */
+  const INVOICE_ROW_MENU_STATUSES = ['Open', 'Pending', 'Returned']
+
+  function customerStatusMenuItem(row) {
+    return row.active
+      ? `<button type="button" role="menuitem" data-list-row-action="change-status">${dataListIcon('i-archive')} Deactivate customer</button>`
+      : `<button type="button" role="menuitem" data-list-row-action="change-status">${dataListIcon('i-check')} Activate customer</button>`
+  }
+
+  function invoiceStatusMenuItem(row) {
+    const next = (invoiceStatusTransitions?.() || {})[row.status] || []
+    const offered = next.filter(status => INVOICE_ROW_MENU_STATUSES.includes(status))
+    if (!offered.length) return ''
+    const options = offered
+      .map(
+        status =>
+          `<button type="button" role="menuitem" data-list-row-action="change-status" data-status-target="${encodeHtml(status)}">${encodeHtml(status)}</button>`
+      )
+      .join('')
+    return `<details class="data-menu data-manage-submenu relative"><summary class="flex w-full min-h-[32px] items-center gap-[9px] rounded-[5px] px-2 py-1.5 text-[14px]! font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden [&_svg:last-child]:ms-auto [&_svg:last-child]:text-muted rtl:[&_svg:last-child]:scale-x-[-1]">${dataListIcon('i-flow', 14)}<span>Change status</span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[160px] gap-0.5" role="menu">${options}</div></details>`
+  }
+
   function rowMenuItems(context, row, view) {
     if (view === 'adaptive-footer') {
       const contextActions =
         context === 'customer'
-          ? `<button type="button" role="menuitem" data-list-row-action="accounts-movement">${dataListIcon('i-flow')} ${t('Accounts movement', 'Accounts movement')}</button><button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? t('Deactivate', 'Deactivate') : t('Activate', 'Activate')}</button>`
-          : context === 'geo'
-            ? `<button type="button" role="menuitem" data-list-row-action="view-hierarchy">${dataListIcon('i-flow')} ${t('View in hierarchy', 'View in hierarchy')}</button><button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? t('Deactivate', 'Deactivate') : t('Activate', 'Activate')}</button>`
-            : `<button type="button" role="menuitem" data-list-row-action="user-log">${dataListIcon('i-user')} ${t('User log', 'User log')}</button><button type="button" role="menuitem" data-list-row-action="documents-flow">${dataListIcon('i-flow')} ${t('Documents flow', 'Documents flow')}</button>`
+          ? `<button type="button" role="menuitem" data-list-row-action="accounts-movement">${dataListIcon('i-flow')} ${t('Accounts movement', 'Accounts movement')}</button>${customerStatusMenuItem(row)}`
+          : context === 'invoice'
+            ? `<button type="button" role="menuitem" data-list-row-action="user-log">${dataListIcon('i-user')} ${t('User log', 'User log')}</button><button type="button" role="menuitem" data-list-row-action="documents-flow">${dataListIcon('i-flow')} ${t('Documents flow', 'Documents flow')}</button>${invoiceStatusMenuItem(row)}`
+            : context === 'geo'
+              ? `<button type="button" role="menuitem" data-list-row-action="view-hierarchy">${dataListIcon('i-flow')} ${t('View in hierarchy', 'View in hierarchy')}</button><button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? t('Deactivate', 'Deactivate') : t('Activate', 'Activate')}</button>`
+              : ''
       const deleteAction = `<button class="text-danger" type="button" role="menuitem" data-list-row-action="delete">${dataListIcon('i-trash')} ${t('Delete', 'Delete')}</button>`
       return `${contextActions}<div class="data-menu-separator"></div>${deleteAction}`
     }
@@ -45,10 +72,10 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
     const commonActions = `<button type="button" role="menuitem" data-list-row-action="quick-view"${quickViewDisabled ? ' disabled aria-disabled="true" title="Switch out of Kanban to jump to a single record"' : ''}>${dataListIcon('i-panel')} Open in Adaptive view</button><button type="button" role="menuitem" data-list-row-action="display">${dataListIcon('i-external')} Display</button><button type="button" role="menuitem" data-list-row-action="modify">${dataListIcon('i-edit')} Modify</button>`
     const recordActions =
       context === 'customer'
-        ? `<button type="button" role="menuitem" data-list-row-action="accounts-movement">${dataListIcon('i-flow')} Accounts movement</button><button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? 'Deactivate' : 'Activate'}</button>`
+        ? `<button type="button" role="menuitem" data-list-row-action="accounts-movement">${dataListIcon('i-flow')} Accounts movement</button>${customerStatusMenuItem(row)}`
         : context === 'geo'
           ? `<button type="button" role="menuitem" data-list-row-action="view-hierarchy">${dataListIcon('i-flow')} View in hierarchy</button><button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? 'Deactivate' : 'Activate'}</button>`
-          : `<button type="button" role="menuitem" data-list-row-action="print">${dataListIcon('i-print')} Print</button><button type="button" role="menuitem" data-list-row-action="user-log">${dataListIcon('i-user')} User log</button><button type="button" role="menuitem" data-list-row-action="documents-flow">${dataListIcon('i-flow')} Documents flow</button>`
+          : `<button type="button" role="menuitem" data-list-row-action="print">${dataListIcon('i-print')} Print</button><button type="button" role="menuitem" data-list-row-action="user-log">${dataListIcon('i-user')} User log</button><button type="button" role="menuitem" data-list-row-action="documents-flow">${dataListIcon('i-flow')} Documents flow</button>${invoiceStatusMenuItem(row)}`
     const deleteAction = `<button class="text-danger" type="button" role="menuitem" data-list-row-action="delete">${dataListIcon('i-trash')} Delete</button>`
     return `${commonActions}<div class="data-menu-separator"></div>${recordActions}<div class="data-menu-separator"></div>${deleteAction}`
   }

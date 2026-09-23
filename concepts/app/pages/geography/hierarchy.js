@@ -96,6 +96,24 @@ function layoutGeoFlowPositions(nodeWidth, nodeHeight, slotWidth, levelHeight) {
           return {positions, slotCount: Math.max(nextSlot, 1)}
         }
 
+function geoFlowLineageCodes(code) {
+          const lineage = new Set([code])
+          const row = GEO_ROWS.find(item => item.code === code)
+          let parentCode = row?.parentCode
+          while (parentCode) {
+            lineage.add(parentCode)
+            parentCode = GEO_ROWS.find(item => item.code === parentCode)?.parentCode
+          }
+          const addDescendants = parent => {
+            GEO_ROWS.filter(child => child.parentCode === parent).forEach(child => {
+              lineage.add(child.code)
+              addDescendants(child.code)
+            })
+          }
+          addDescendants(code)
+          return lineage
+        }
+
 function renderGeoFlow() {
           const canvas = queryId('geo-flow-canvas')
           if (!canvas) return
@@ -112,6 +130,7 @@ function renderGeoFlow() {
           )
           const width = Math.max(800, slotCount * slotWidth + 100)
           const height = Math.max(200, 24 + maxLevel * levelHeight + nodeHeight)
+          const lineage = geoState.code ? geoFlowLineageCodes(geoState.code) : null
           const connectors = GEO_ROWS.filter(row => row.parentCode)
             .map(row => {
               const parent = positions.get(row.parentCode)
@@ -122,12 +141,14 @@ function renderGeoFlow() {
               const toX = child.x + nodeWidth / 2
               const toY = child.y
               const middleY = Math.round((fromY + toY) / 2)
-              return `<path d="M ${fromX} ${fromY} C ${fromX} ${middleY}, ${toX} ${middleY}, ${toX} ${toY}" />`
+              const dimmed = lineage && !(lineage.has(row.code) && lineage.has(row.parentCode))
+              return `<path class="${dimmed ? 'is-dimmed' : ''}" d="M ${fromX} ${fromY} C ${fromX} ${middleY}, ${toX} ${middleY}, ${toX} ${toY}" />`
             })
             .join('')
           const nodes = GEO_ROWS.map(row => {
             const position = positions.get(row.code)
-            return `<button class="geo-flow-node" type="button" data-geo-node="${encodeHtml(row.code)}" aria-current="${row.code === geoState.code}" style="left:${position.x}px;top:${position.y}px" aria-label="View ${encodeHtml(row.name)}">${geoLocationIcon(row.type, 16)}<span><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>`
+            const dimmed = lineage && !lineage.has(row.code)
+            return `<button class="geo-flow-node${dimmed ? ' is-dimmed' : ''}" type="button" data-geo-node="${encodeHtml(row.code)}" aria-current="${row.code === geoState.code}" style="left:${position.x}px;top:${position.y}px" aria-label="View ${encodeHtml(row.name)}">${geoLocationIcon(row.type, 16)}<span><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>`
           }).join('')
           const scaledWidth = Math.round(width * geoState.flowScale)
           const scaledHeight = Math.round(height * geoState.flowScale)
@@ -231,7 +252,34 @@ function fitGeoFlow() {
           )
           viewport.scrollTo({top: 0, left: 0, behavior: 'smooth'})
         }
-return {dispose: () => pageAbort.abort(), geoLocationIcon, geoTreeRowMatches, renderGeoTreeBranch, renderGeoTree, layoutGeoFlowPositions, renderGeoFlow, syncGeoHierarchyView, selectGeoTreeNode, toggleGeoTreePanel, syncGeoTreePanelToggle, setGeoHierarchyView, setGeoFlowScale, fitGeoFlow}
+
+function isGeoFlowFullscreen() {
+          return Boolean(queryId('geo-flow-pane')?.classList.contains('geo-flow-fullscreen'))
+        }
+
+function setGeoFlowFullscreen(fullscreen) {
+          const pane = queryId('geo-flow-pane')
+          const button = document.querySelector('[data-geo-flow-fullscreen]')
+          if (!pane) return
+          pane.classList.toggle('geo-flow-fullscreen', fullscreen)
+          if (button) {
+            const label = fullscreen ? 'Exit fullscreen' : 'Fullscreen'
+            button.setAttribute('aria-pressed', String(fullscreen))
+            button.setAttribute('aria-label', label)
+            button.title = label
+            button.querySelector('use')?.setAttribute('href', fullscreen ? '#i-collapse' : '#i-expand')
+            const textNode = [...button.childNodes].find(
+              node => node.nodeType === Node.TEXT_NODE && node.textContent.trim()
+            )
+            if (textNode) textNode.textContent = ` ${label}`
+          }
+          requestAnimationFrame(fitGeoFlow)
+        }
+
+function toggleGeoFlowFullscreen() {
+          setGeoFlowFullscreen(!isGeoFlowFullscreen())
+        }
+return {dispose: () => pageAbort.abort(), geoLocationIcon, geoTreeRowMatches, renderGeoTreeBranch, renderGeoTree, layoutGeoFlowPositions, renderGeoFlow, syncGeoHierarchyView, selectGeoTreeNode, toggleGeoTreePanel, syncGeoTreePanelToggle, setGeoHierarchyView, setGeoFlowScale, fitGeoFlow, isGeoFlowFullscreen, setGeoFlowFullscreen, toggleGeoFlowFullscreen}
 }
 
         export function enableFlowPan(viewportId) {

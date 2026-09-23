@@ -57,9 +57,10 @@ export const customerConfig = DATA_LIST_CONFIG.customer
  *   record.js's factory needs (t, encodeHtml, showContentView,
  *   applyRecordValueDirections, customerRows, customerReference,
  *   lookupResults, unitRows, openCustomerRecord, openCustomerSearch,
- *   openPrintSettings, closeAllMenus) — kept as a separate bundle rather
- *   than widening the top-level signature, since these are customer-record
- *   specifics the brief's generic factory signature has no named slot for.
+ *   openPrintSettings, openCustomerStatusDialog, closeAllMenus) — kept as a
+ *   separate bundle rather than widening the top-level signature, since
+ *   these are customer-record specifics the brief's generic factory
+ *   signature has no named slot for.
  * @returns {{listPage: object, recordPage: object, setMode: Function, setLayout: Function}}
  */
 export function createCustomers({templates, locale, appearance, dialogs, toast, work, navigate, createList, record: recordDeps}) {
@@ -82,6 +83,7 @@ export function createCustomers({templates, locale, appearance, dialogs, toast, 
       openCustomerRecord: recordDeps.openCustomerRecord,
       openCustomerSearch: recordDeps.openCustomerSearch,
       openPrintSettings: recordDeps.openPrintSettings,
+      openCustomerStatusDialog: recordDeps.openCustomerStatusDialog,
       closeAllMenus: recordDeps.closeAllMenus,
     },
   })

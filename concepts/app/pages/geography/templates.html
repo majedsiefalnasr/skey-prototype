@@ -138,10 +138,6 @@
                       class="geo-flow-tools flex gap-[5px] items-center p-2 justify-end"
                       role="toolbar"
                       aria-label="Flow canvas controls">
-                      <button class="data-toolbar-button" type="button" data-geo-flow-fit>
-                        <svg width="15" height="15" aria-hidden="true"><use href="#i-panel" /></svg>
-                        Fit
-                      </button>
                       <button
                         class="ibtn"
                         type="button"
@@ -158,6 +154,20 @@
                         aria-label="Zoom in"
                         title="Zoom in">
                         +
+                      </button>
+                      <span class="geo-flow-tools-sep" aria-hidden="true"></span>
+                      <button class="lbtn out" type="button" data-geo-flow-fit>
+                        <svg width="15" height="15" aria-hidden="true"><use href="#i-panel" /></svg>
+                        Fit
+                      </button>
+                      <span class="geo-flow-tools-sep" aria-hidden="true"></span>
+                      <button
+                        class="lbtn out"
+                        type="button"
+                        data-geo-flow-fullscreen
+                        aria-pressed="false">
+                        <svg width="15" height="15" aria-hidden="true"><use href="#i-expand" /></svg>
+                        Fullscreen
                       </button>
                     </div>
                     <div

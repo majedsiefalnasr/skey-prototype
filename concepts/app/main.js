@@ -45,6 +45,7 @@ import {createListStatistics} from './components/data-list/statistics-controller
 import {createListViews} from './components/data-list/renderers.js'
 import {createListCards} from './pages/list-cards.js'
 import {createKanban} from './pages/invoices/kanban.js'
+import {createStatusDialogs} from './components/data-list/status-dialogs.js'
 import {createListMenus} from './components/data-list/menu-controller.js'
 import {createListExport} from './components/data-list/export.js'
 import {createListFilters} from './components/data-list/filter-controller.js'
@@ -303,7 +304,8 @@ const listViews = createListViews({
   invoiceStatusBadge: (...args) => listCards.invoiceStatusBadge(...args),
   renderDataRecordCard: (...args) => listCards.renderDataRecordCard(...args),
   refreshDataListForContext: (...args) => listRuntime.refreshDataListForContext(...args),
-  renderCustomerAvatar
+  renderCustomerAvatar,
+  invoiceStatusTransitions: () => kanban.INVOICE_STATUS_TRANSITIONS
 })
 
 const pageListActions = createPageListActions({
@@ -328,6 +330,10 @@ const listRuntime = createListRuntime({
   initNumberTickers: (...args) => initNumberTickers(...args),
   openPrintSettings,
   openGeoRecord: (...args) => openGeoRecord(...args),
+  openStatusDialog: (context, row, targetStatusOrCommand) =>
+    context === 'invoice'
+      ? statusDialogs.openInvoiceStatusDialog(row, targetStatusOrCommand)
+      : statusDialogs.openCustomerStatusDialog(row, {command: targetStatusOrCommand}),
   getDataListActions: () => pageListActions.dataListActions,
   guardDataListLeave: (...args) => listGuard.guardDataListLeave(...args),
   dateFilterLabel: (...args) => listDates.dateFilterLabel(...args),
@@ -394,6 +400,7 @@ const customerDependencies = {
     openCustomerRecord: (...args) => pageListActions.openCustomerRecord(...args),
     openCustomerSearch: (...args) => advancedSearch.openCustomerSearch(...args),
     openPrintSettings,
+    openCustomerStatusDialog: (row, options) => statusDialogs.openCustomerStatusDialog(row, options),
     closeAllMenus: (...args) => menus.closeAllMenus(...args),
   },
 }
@@ -463,6 +470,13 @@ const kanban = createKanban({
   toast,
   renderDataList: (...args) => listRuntime.renderDataList(...args),
   renderDataListRowActions: (...args) => listViews.renderDataListRowActions(...args)
+})
+
+const statusDialogs = createStatusDialogs({
+  trapFocus,
+  releaseFocus,
+  toast,
+  renderDataList: (...args) => listRuntime.renderDataList(...args)
 })
 
 const listMenus = createListMenus({

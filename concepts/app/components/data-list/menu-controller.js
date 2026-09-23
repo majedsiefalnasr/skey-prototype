@@ -186,6 +186,32 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
     parked.__homeNext = null
   }
 
+  /* A row menu's own popover moves to document.body while open (see
+     parkRowMenuPopover), so a submenu nested inside it (e.g. a row's
+     "Change status" list) is no longer a DOM descendant of `openMenu` —
+     .contains() alone would call that submenu "unrelated" and close the row
+     menu out from under it the moment the submenu's own <details> toggles
+     open. Checking the parked popover's __homeParent chain too keeps that
+     nesting recognized. */
+  function menuContainsDetails(openMenu, details) {
+    if (openMenu.contains(details)) return true
+    const parked = [...document.body.children].find(child => child.__homeParent === openMenu)
+    return parked ? parked.contains(details) : false
+  }
+
+  /* The inverse walk: given an element inside a submenu, find its nearest
+     open .data-menu/.data-page-manage ancestor — jumping through a parked
+     popover's __homeParent the same way menuContainsDetails does, since
+     plain .closest() stops at document.body once parking has moved the
+     popover out from under the row menu's <details>. */
+  function closestOpenMenu(node) {
+    for (let el = node; el; el = el.parentElement) {
+      if (el.matches?.('.data-menu[open], .data-page-manage[open]')) return el
+      if (el.dataset?.parked && el.__homeParent?.open) return el.__homeParent
+    }
+    return null
+  }
+
   document.addEventListener(
     'toggle',
     event => {
@@ -198,7 +224,7 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
       document
         .querySelectorAll('.data-menu[open], .data-page-manage[open]')
         .forEach(openMenu => {
-          if (openMenu !== details && !openMenu.contains(details))
+          if (openMenu !== details && !menuContainsDetails(openMenu, details))
             openMenu.removeAttribute('open')
         })
       parkRowMenuPopover(details)
@@ -212,7 +238,7 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
     event => {
       if (event.pointerType && event.pointerType !== 'mouse') return
       const submenu = event.target.closest?.('.data-manage-submenu')
-      if (!submenu || !submenu.closest('.data-menu[open], .data-page-manage[open]')) return
+      if (!submenu || !closestOpenMenu(submenu)) return
       cancelSubmenuClose()
       if (submenu.open) return
       submenu.open = true
@@ -246,12 +272,24 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
       '.data-menu-popover[data-parked] [data-list-row-action]'
     )
     if (parkedRowAction) {
-      const homeParent = parkedRowAction.closest('.data-menu-popover').__homeParent
+      /* parkedRowAction can sit inside a nested submenu popover (e.g. a
+         row's "Change status" list) rather than directly in the row menu's
+         own popover — .closest('.data-menu-popover') alone would find that
+         inner, never-parked popover first and miss its __homeParent. Walk
+         every .data-menu-popover ancestor for the one that is parked. */
+      let rowPopover = null
+      for (let node = parkedRowAction.closest('.data-menu-popover'); node; node = node.parentElement?.closest('.data-menu-popover')) {
+        if (node.dataset.parked) {
+          rowPopover = node
+          break
+        }
+      }
+      const homeParent = rowPopover?.__homeParent
       const context =
         homeParent?.closest('[data-data-list]')?.dataset.dataList ||
         homeParent?.dataset.listContext
       if (context) applyDataListRowAction(context, parkedRowAction)
-      parkedRowAction.closest('.data-menu-popover').__homeParent?.removeAttribute('open')
+      homeParent?.removeAttribute('open')
       return
     }
     const manage = event.target.closest('[data-list-manage-action]')

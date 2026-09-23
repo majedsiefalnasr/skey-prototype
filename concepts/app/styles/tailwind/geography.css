@@ -126,6 +126,34 @@
     white-space: nowrap;
   }
 
+  /* Selecting a node focuses its lineage: unrelated branches dim so the active
+     node's ancestors/descendants stand out, while staying clickable. */
+  .geo-flow-node.is-dimmed { opacity: 0.35; }
+  .geo-flow-node.is-dimmed:hover { opacity: 0.7; }
+  .geo-flow-connectors path.is-dimmed { opacity: 0.35; }
+
+  /* Toolbar grouping separators between Fit / zoom / Fullscreen clusters. */
+  .geo-flow-tools-sep {
+    width: 1px;
+    height: 20px;
+    margin: 0 2px;
+    background: var(--line);
+  }
+
+  /* Fullscreen flow: the pane escapes the split layout to cover the viewport,
+     driven by a controller-toggled class rather than the Fullscreen API. */
+  .geo-flow-pane.geo-flow-fullscreen {
+    position: fixed;
+    inset: 0;
+    z-index: 190;
+    background: var(--bg);
+    padding: 8px;
+  }
+  .geo-flow-pane.geo-flow-fullscreen .geo-flow-viewport {
+    min-height: 0;
+    max-height: none;
+  }
+
   /* Selected/hover tree-node state and its badge/chevron children. */
   .geo-tree-node:hover { background: var(--line-2); }
   .geo-tree-node[aria-current='true'] {

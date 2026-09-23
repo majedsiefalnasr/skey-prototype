@@ -208,6 +208,7 @@ function renderGeoRecord() {
             note.lastChild.textContent = ` ${message}`
           }
           syncGeoRecordPager()
+          syncGeoFlowNodeDialog()
         }
 
 function openGeoRecord(code, mode = 'view') {
@@ -288,8 +289,87 @@ document.addEventListener('click', event => {
             fitGeoFlow()
             return
           }
+          if (event.target.closest('[data-geo-flow-fullscreen]')) {
+            toggleGeoFlowFullscreen()
+            return
+          }
           const flowNode = event.target.closest('#geo-flow-pane [data-geo-node]')
-          if (flowNode) selectGeoTreeNode(flowNode)
+          if (flowNode) {
+            selectGeoTreeNode(flowNode)
+            if (isGeoFlowFullscreen()) openGeoFlowNodeDialog()
+          }
+        }, {signal: pageAbort.signal})
+
+const geoFlowNodeScrim = document.getElementById('geo-flow-node-scrim')
+let geoFlowNodeOpen = false
+let geoFlowNodeDetailHome = null
+let geoFlowNodeTitleHome = null
+let geoFlowNodeActionsHome = null
+
+function syncGeoFlowNodeDialog() {
+          if (!geoFlowNodeOpen) return
+          const detailMount = document.getElementById('geo-flow-node-mount')
+          const titleMount = document.getElementById('geo-flow-node-title-mount')
+          const actionsMount = document.getElementById('geo-flow-node-actions-mount')
+          const card = document.querySelector('.geo-detail-card')
+          const title = queryId('geo-record-chrome').querySelector('.tline')
+          const actions = queryId('geo-record-chrome').querySelector('.recacts')
+          // Every renderGeoRecord() rebuilds #geo-record-chrome from scratch, so the
+          // title/actions nodes it just created always start back in the chrome --
+          // re-pull them into the dialog's mounts each time, remembering where they
+          // came from so closeGeoFlowNodeDialog() can put them back.
+          if (card && detailMount && !detailMount.contains(card)) {
+            geoFlowNodeDetailHome = geoFlowNodeDetailHome || {parent: card.parentElement, next: card.nextSibling}
+            detailMount.appendChild(card)
+          }
+          if (title && titleMount) {
+            geoFlowNodeTitleHome = {parent: title.parentElement, next: title.nextSibling}
+            titleMount.replaceChildren(title)
+          }
+          if (actions && actionsMount) {
+            geoFlowNodeActionsHome = {parent: actions.parentElement, next: actions.nextSibling}
+            actionsMount.replaceChildren(actions)
+          }
+        }
+
+function openGeoFlowNodeDialog() {
+          geoFlowNodeOpen = true
+          syncGeoFlowNodeDialog()
+          geoFlowNodeScrim.classList.add('open')
+          trapFocus(geoFlowNodeScrim.querySelector('.customer-modal'))
+        }
+
+function closeGeoFlowNodeDialog() {
+          geoFlowNodeOpen = false
+          const card = document.getElementById('geo-flow-node-mount')?.firstElementChild
+          if (card && geoFlowNodeDetailHome) {
+            geoFlowNodeDetailHome.parent.insertBefore(card, geoFlowNodeDetailHome.next)
+          }
+          geoFlowNodeDetailHome = null
+          const title = document.getElementById('geo-flow-node-title-mount')?.firstElementChild
+          if (title && geoFlowNodeTitleHome) {
+            geoFlowNodeTitleHome.parent.insertBefore(title, geoFlowNodeTitleHome.next)
+          }
+          geoFlowNodeTitleHome = null
+          const actions = document.getElementById('geo-flow-node-actions-mount')?.firstElementChild
+          if (actions && geoFlowNodeActionsHome) {
+            geoFlowNodeActionsHome.parent.insertBefore(actions, geoFlowNodeActionsHome.next)
+          }
+          geoFlowNodeActionsHome = null
+          geoFlowNodeScrim.classList.remove('open')
+          releaseFocus()
+          if (geoState.mode !== 'view') {
+            geoState.mode = 'view'
+            renderGeoRecord()
+          }
+        }
+
+geoFlowNodeScrim.addEventListener('click', event => {
+          if (event.target === geoFlowNodeScrim || event.target.closest('.geo-flow-node-close')) {
+            closeGeoFlowNodeDialog()
+            return
+          }
+          handleGeoRecordAction(event)
         }, {signal: pageAbort.signal})
 
 queryId('geo-tree-search').addEventListener('input', event => {
@@ -306,15 +386,9 @@ document.querySelector('.geo-tree-refresh').addEventListener('click', () => {
           toast({tone: 'ok', title: 'Geographical Structure refreshed'})
         }, {signal: pageAbort.signal})
 
-queryId('geo-record-chrome').addEventListener('click', event => {
-          if (event.target.closest('.geo-back-list')) {
-            if (geoHierarchyScrim.classList.contains('open')) closeGeoHierarchyDialog()
-            showContentView('geo-list')
-            renderGeoList()
-            return
-          }
+function handleGeoRecordAction(event) {
           const action = event.target.closest('[data-geo-record-action]')?.dataset.geoRecordAction
-          if (!action) return
+          if (!action) return false
           if (action === 'modify') {
             geoState.mode = 'edit'
             renderGeoRecord()
@@ -335,8 +409,19 @@ queryId('geo-record-chrome').addEventListener('click', event => {
               tone: 'ok',
               title: `${action[0].toUpperCase() + action.slice(1)} is ready for integration`,
             })
+          return true
+        }
+
+queryId('geo-record-chrome').addEventListener('click', event => {
+          if (event.target.closest('.geo-back-list')) {
+            if (geoHierarchyScrim.classList.contains('open')) closeGeoHierarchyDialog()
+            showContentView('geo-list')
+            renderGeoList()
+            return
+          }
+          handleGeoRecordAction(event)
         }, {signal: pageAbort.signal})
-const {dispose: disposeHierarchy, geoLocationIcon, geoTreeRowMatches, renderGeoTreeBranch, renderGeoTree, layoutGeoFlowPositions, renderGeoFlow, syncGeoHierarchyView, selectGeoTreeNode, toggleGeoTreePanel, syncGeoTreePanelToggle, setGeoHierarchyView, setGeoFlowScale, fitGeoFlow} = createGeographyHierarchy({geoState, queryId, dataListIcon, geoHierarchyMediaQuery, renderGeoRecord, openGeoHierarchyDialog: (...args) => openGeoHierarchyDialog(...args)})
+const {dispose: disposeHierarchy, geoLocationIcon, geoTreeRowMatches, renderGeoTreeBranch, renderGeoTree, layoutGeoFlowPositions, renderGeoFlow, syncGeoHierarchyView, selectGeoTreeNode, toggleGeoTreePanel, syncGeoTreePanelToggle, setGeoHierarchyView, setGeoFlowScale, fitGeoFlow, isGeoFlowFullscreen, toggleGeoFlowFullscreen} = createGeographyHierarchy({geoState, queryId, dataListIcon, geoHierarchyMediaQuery, renderGeoRecord, openGeoHierarchyDialog: (...args) => openGeoHierarchyDialog(...args)})
 const {dispose: disposePickers, renderGeoParentPickerBranch, renderGeoParentPickerTree, renderGeoParentPickerFlow, setGeoParentPickerView, openGeoHierarchyDialog, closeGeoHierarchyDialog, openGeoParentPicker, closeGeoParentPicker, chooseGeoParent} = createGeographyPickers({queryId, dataListIcon, geoLocationIcon, layoutGeoFlowPositions, geoDescendantCodes, geoParentPickerScrim, geoHierarchyScrim, trapFocus, releaseFocus})
 enableFlowPan('geo-flow-viewport')
 enableFlowPan('geo-parent-picker-flow-viewport')

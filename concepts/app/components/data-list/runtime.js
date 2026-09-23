@@ -6,7 +6,7 @@ import {createDataList} from './list.js'
 import {computeDataListLayoutDirty as sharedComputeDataListLayoutDirty, deleteDataListRecords as sharedDeleteDataListRecords, toggleDataListStatus as sharedToggleDataListStatus, setDataListRecordsStatus as sharedSetDataListRecordsStatus, applyDataListRowAction as sharedApplyDataListRowAction, applyDataListToolbarCommand as sharedApplyDataListToolbarCommand, applyDataListCommandClick as sharedApplyDataListCommandClick, applyDataListSortClick as sharedApplyDataListSortClick, onDataListChange as sharedOnDataListChange, reorderDataListColumn as sharedReorderDataListColumn, saveDataListLayout as sharedSaveDataListLayout, resetDataListLayout as sharedResetDataListLayout} from './actions.js'
 
 /** Owns list runtime state and its DOM bindings. */
-export function createListRuntime({locale, t, toast, initNumberTickers, openPrintSettings, openGeoRecord, getDataListActions, guardDataListLeave, dateFilterLabel, renderDataListDatePresetOptions, syncShellListPager, renderDataListChart, renderDataListStatistics, renderDataListGroupTrigger, renderDataListGroupingBar, renderDataListHeader, renderDataListBody, openQuickView, renderDataListCards, renderDataListAdaptiveRecord, getINVOICE_STATUS_TRANSITIONS, renderDataListKanban, positionDataMenu, applyFrozenDataListColumns, applyDataListFilterClick, applyDataListToolbarClick, resolvedDataListStatisticsConcept, activeDataListStatisticsConcept, renderDataPageManageMenu, renderGeoList} = {}) {
+export function createListRuntime({locale, t, toast, initNumberTickers, openPrintSettings, openGeoRecord, openStatusDialog, getDataListActions, guardDataListLeave, dateFilterLabel, renderDataListDatePresetOptions, syncShellListPager, renderDataListChart, renderDataListStatistics, renderDataListGroupTrigger, renderDataListGroupingBar, renderDataListHeader, renderDataListBody, openQuickView, renderDataListCards, renderDataListAdaptiveRecord, getINVOICE_STATUS_TRANSITIONS, renderDataListKanban, positionDataMenu, applyFrozenDataListColumns, applyDataListFilterClick, applyDataListToolbarClick, resolvedDataListStatisticsConcept, activeDataListStatisticsConcept, renderDataPageManageMenu, renderGeoList} = {}) {
   const dataListStorage = localStorageDataListStorage()
 
   const dataListDeps = {
@@ -71,6 +71,7 @@ export function createListRuntime({locale, t, toast, initNumberTickers, openPrin
     openQuickView,
     openGeoRecord,
     openPrintSettings,
+    openStatusDialog,
     activeDataListStatisticsConcept,
     resolvedDataListStatisticsConcept,
   }
