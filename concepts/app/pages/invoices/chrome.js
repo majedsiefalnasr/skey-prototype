@@ -61,8 +61,7 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
       list.setAttribute('role', 'menu')
       list.style.minWidth = '210px'
       list.innerHTML =
-        '<button role="menuitem" data-save="new">Save and start another</button>' +
-        '<button role="menuitem" data-save="close">Save and go to the list</button>'
+        '<button role="menuitem" data-save="new">Save and start another</button>'
       wrap.append(car, list)
       const chip = document.createElement('span')
       chip.className = 'reqchip inline-flex items-center gap-1.5 text-xs font-semibold [background:var(--warn-bg)] [color:var(--warn-ink)] [border-radius:999px] [padding:4px_11px]'

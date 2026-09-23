@@ -545,3 +545,22 @@ each is a separate, wider-blast-radius change.
 
 This changed the utility's escaped selector text, so `FINAL_TAILWIND_BASELINE_BYTES`
 is raised again from `197800` to `198260`.
+
+### 2026-09-23 follow-up: invoice print dialog fixes
+
+Three fixes to `pages/invoices/print-dialog.html` and its split-save-button
+counterpart in `pages/invoices/chrome.js`/`operations.js`:
+
+- Removed the redundant footer "Preview" button (the destination cards
+  already select preview/save/send; the footer only needs Cancel/Apply) and
+  the "Save and go to the list" save-dropdown menu item.
+- Added `[aria-pressed=true]` active-state styling to the destination cards
+  (`.dcard`), matching the existing `.appearance-theme-card[aria-checked='true']`
+  accent-border/box-shadow convention in `shell.css`, since the cards toggled
+  `aria-pressed` already but had no visual state for it.
+- Applied the same select-arrow SVG fix (percent-encoded, quoted attributes)
+  plus the `.rec-field`-equivalent appearance-reset/arrow/focus rules to the
+  dialog's `.fld select` fields, which previously fell back to each browser's
+  native select chrome instead of matching the rest of the app.
+
+`FINAL_TAILWIND_BASELINE_BYTES` is raised again from `198260` to `198870`.

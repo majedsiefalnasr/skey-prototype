@@ -393,10 +393,6 @@ const pageAbort = new AbortController()
             })
             return
           }
-          if (b.dataset.save === 'close') {
-            doSave(b)
-            return
-          }
         }, {signal: pageAbort.signal})
 
         /* ---- nothing on this shell is a dead click ---- */
