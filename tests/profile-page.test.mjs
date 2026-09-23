@@ -4,6 +4,7 @@ import {readFile} from 'node:fs/promises'
 import {CURRENT_USER, LOGIN_LOG_ROWS, DEVICE_ROWS} from '../concepts/app/prototype/fixtures/profile.js'
 import {PROFILE_SECTION_ORDER, PROFILE_SECTIONS} from '../concepts/app/pages/profile/fields.js'
 import {renderProfileScrollNav} from '../concepts/app/pages/profile/layout.js'
+import {renderProfileSections} from '../concepts/app/pages/profile/sections.js'
 
 test('profile fixtures have the expected shape', () => {
   assert.equal(typeof CURRENT_USER.name, 'string')
@@ -85,4 +86,26 @@ test('login log table renders one row per entry with status text', async () => {
   assert.equal((html.match(/<tr[ >]/g) || []).length, 3) // header + 2 rows
   assert.match(html, />success</)
   assert.match(html, />failed</)
+})
+
+test('profile sections include all six section ids and the relocated appearance fields', () => {
+  const encodeHtml = value => String(value)
+  const html = renderProfileSections({currentUser: CURRENT_USER, encodeHtml})
+
+  ;['profile', 'account', 'appearance', 'security', 'sessions', 'notifications'].forEach(key => {
+    assert.match(html, new RegExp(`id="profile-section-${key}"`))
+    assert.match(html, new RegExp(`data-profile-scroll-target="${key}"`))
+  })
+
+  assert.match(html, /id="appearance-custom-color"/)
+  assert.match(html, /id="appearance-interface-scale"/)
+  assert.match(html, /id="appearance-font-family"/)
+  assert.match(html, /data-appearance-theme="system"/)
+  assert.match(html, /data-appearance-density="comfortable"/)
+
+  assert.match(html, /data-profile-open-change-password/)
+  assert.match(html, /data-profile-open-set-pin/)
+
+  assert.match(html, /id="profile-login-log"/)
+  assert.match(html, /id="profile-device-list"/)
 })
