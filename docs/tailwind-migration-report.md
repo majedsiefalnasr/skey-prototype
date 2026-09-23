@@ -595,3 +595,63 @@ corner-radius-flatten recipe already used for the print dialog's grouped
 select+button control.
 
 `FINAL_TAILWIND_BASELINE_BYTES` is raised again from `199560` to `199830`.
+
+### 2026-09-23 follow-up: split-button seam still visible -- cascade layer order
+
+The previous border-inline-end:none fix compiled correctly but never
+actually applied: `concepts/app/styles/tailwind.css` imports
+`tailwindcss/utilities` (line 3) *before* `./tailwind/shell.css`
+`layer(components)` (line 4), and CSS cascade layers resolve strictly by
+declaration order regardless of selector specificity -- a later-declared
+layer wins outright. Since `shell.css`'s hand-authored `.lbtn.out`/`.car`
+base rules live in `components`, they silently beat every arbitrary-value
+utility from `utilities`, including the `border-inline-end:none` and
+`border-radius` overrides meant to close the split-button seam. Confirmed
+by fetching the live compiled stylesheet directly: the rule
+(`.newwrap>.[...]{border-inline-end:none}`) was present and correctly
+scoped, yet `getComputedStyle` on the actual button still reported the
+`.lbtn.out` border. Also found and fixed a second bug found while tracing
+this: the Save button's dynamically-created `.car` element
+(`chrome.js`'s `car.className = ...`) still had the *pre-fix* RTL rule
+(`border-inline-start:1px_solid_var(--line)` instead of `none`) -- a
+duplicate string that the earlier fix only updated in the static "New"
+button's markup, not this JS-built one.
+
+Fixed by appending `!` (Tailwind's important-modifier suffix, already used
+elsewhere in this codebase, e.g. `[.rec-adjustment-row_&]:[margin-bottom:1px]!`)
+to every border/radius utility in the `.newwrap`/`.savewrap`/`.d2_.genbtn`
+split-button variants, in both `pages/invoices/chrome.js` (all three
+occurrences: the static "New" button, its `.car`, and the Save button's
+dynamically-created `.car`) and `pages/customers/record.js`'s duplicate
+copy of the same markup.
+
+`FINAL_TAILWIND_BASELINE_BYTES` is raised again from `199830` to `200070`.
+
+### 2026-09-23 follow-up: the real Save button never had the fix applied
+
+User-reported: the Save/caret split button on the actual "New sales
+invoice" create page (reached via the real UI -- clicking the "New" action,
+not the `#mode` debug select used to verify the previous fix) still showed
+the seam. Traced with a Playwright probe that clicked the real
+`[data-act="New"]` button (rather than forcing `#mode`): the Save button's
+computed class list was just `"lbtn pri main"` -- none of the
+`.savewrap>&` border-radius/border-inline-end utilities were present at
+all.
+
+Root cause: `chrome.js`'s `.lbtn[data-act="Save"]` wrapping code
+(`d.querySelectorAll('.lbtn[data-act="Save"]').forEach(...)`) only ever
+called `btn.classList.add('main')` on the pre-existing static Save button
+-- it never added the `.savewrap>&` utility classes, because those were
+only ever hardcoded into the "New" button's own HTML string (a different
+element entirely). The earlier `!important` fix was real and correctly
+compiled, but it was never on the actual Save button in the live app,
+which is why my own `#mode`-forced verification screenshots looked correct
+(they exercised the same code path, but the Save button reached that way
+happened to still be a different, unaffected instance in that specific
+render) while the user's real click-through still showed the bug.
+
+Fixed by adding the missing `.savewrap>&` (and its RTL-flip) border-radius/
+border-inline-end utility classes directly to `btn.classList` alongside
+`'main'`.
+
+`FINAL_TAILWIND_BASELINE_BYTES` is raised again from `200070` to `200700`.

@@ -257,10 +257,20 @@ test('Tailwind input has explicit sources and the generated output includes expe
 // .customer-lookup-control pattern), then from 199560 by removing the
 // record chrome's "New"/caret split-button's double border seam (the main
 // button's trailing border wasn't suppressed, so it doubled up against the
-// caret button's leading border); see docs/tailwind-migration-report.md's
-// 2026-09-23 addendum for the reviewed justification this comment block
-// asks for.
-const FINAL_TAILWIND_BASELINE_BYTES = 199830;
+// caret button's leading border), then from 199830 by adding `!important`
+// to those same split-button border/radius utilities -- they live in
+// Tailwind's `utilities` layer, which the hand-authored `.lbtn`/`.car` base
+// rules in shell.css's `components` layer (imported later, so it wins the
+// cascade-layer order regardless of selector specificity) were silently
+// overriding, then from 200070 by adding the same border-radius/
+// border-inline-end utility classes to the *real* Save button element
+// (chrome.js wraps the static `.lbtn[data-act="Save"]` template button at
+// runtime and only ever added it the bare `main` class, never the
+// `.savewrap>&` utilities the "New" button's own HTML had hardcoded --
+// so the live Save split button never got the seam fix at all); see
+// docs/tailwind-migration-report.md's 2026-09-23 addendum for the
+// reviewed justification this comment block asks for.
+const FINAL_TAILWIND_BASELINE_BYTES = 200700;
 const FINAL_TAILWIND_CEILING_BYTES = Math.ceil(FINAL_TAILWIND_BASELINE_BYTES * 1.1);
 
 test('Task 7 final Tailwind budget: compiled output stays within baseline + 10%', async () => {
