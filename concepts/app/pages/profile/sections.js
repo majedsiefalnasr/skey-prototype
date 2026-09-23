@@ -14,16 +14,16 @@ function renderProfileIdentityHeader(currentUser, encodeHtml) {
   </div>`
 }
 
-function renderProfileSection(currentUser) {
+function renderProfileSection(currentUser, encodeHtml) {
   return `<fieldset class="fset [border:1px_solid_var(--line)] [border-radius:10px] [padding:12px_14px] mb-3.5! [&_legend]:text-xs [&_legend]:[text-transform:uppercase] [&_legend]:[letter-spacing:0.04em] [&_legend]:[color:var(--faint)] [&_legend]:[padding:0_6px]">
     <legend>Personal information</legend>
     <div class="grid [grid-template-columns:repeat(2,_1fr)] gap-3 [@media((max-width:560px))]:[grid-template-columns:1fr]">
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-name">Full name<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-name" type="text" value="${currentUser.name}" /></label>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-job-title">Job title<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-job-title" type="text" value="${currentUser.jobTitle}" /></label>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-email">Email<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-email" type="email" value="${currentUser.email}" /></label>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-phone">Phone<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-phone" type="tel" value="${currentUser.phone}" /></label>
+      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-name">Full name<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-name" type="text" value="${encodeHtml(currentUser.name)}" /></label>
+      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-job-title">Job title<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-job-title" type="text" value="${encodeHtml(currentUser.jobTitle)}" /></label>
+      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-email">Email<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-email" type="email" value="${encodeHtml(currentUser.email)}" /></label>
+      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-phone">Phone<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-phone" type="tel" value="${encodeHtml(currentUser.phone)}" /></label>
       <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-locale">Locale<select class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-locale"><option value="en"${currentUser.locale === 'en' ? ' selected' : ''}>English</option><option value="ar"${currentUser.locale === 'ar' ? ' selected' : ''}>Arabic</option></select></label>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-timezone">Timezone<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-timezone" type="text" value="${currentUser.timezone}" /></label>
+      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-timezone">Timezone<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-timezone" type="text" value="${encodeHtml(currentUser.timezone)}" /></label>
     </div>
   </fieldset>
   <fieldset class="fset [border:1px_solid_var(--line)] [border-radius:10px] [padding:12px_14px] mb-3.5! [&_legend]:text-xs [&_legend]:[text-transform:uppercase] [&_legend]:[letter-spacing:0.04em] [&_legend]:[color:var(--faint)] [&_legend]:[padding:0_6px]">
@@ -35,12 +35,12 @@ function renderProfileSection(currentUser) {
   </fieldset>`
 }
 
-function renderAccountSection(currentUser) {
+function renderAccountSection(currentUser, encodeHtml) {
   return `<fieldset class="fset [border:1px_solid_var(--line)] [border-radius:10px] [padding:12px_14px] mb-3.5! [&_legend]:text-xs [&_legend]:[text-transform:uppercase] [&_legend]:[letter-spacing:0.04em] [&_legend]:[color:var(--faint)] [&_legend]:[padding:0_6px]">
     <legend>Account</legend>
     <div class="grid [grid-template-columns:repeat(2,_1fr)] gap-3 [@media((max-width:560px))]:[grid-template-columns:1fr]">
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-username">Username<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-[var(--line-2)] px-[9px] py-1.5 font-[inherit] text-[14px] text-muted" id="profile-username" type="text" value="${currentUser.username}" readonly /></label>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-branch">Branch<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-[var(--line-2)] px-[9px] py-1.5 font-[inherit] text-[14px] text-muted" id="profile-branch" type="text" value="${currentUser.branch}" readonly /></label>
+      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-username">Username<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-[var(--line-2)] px-[9px] py-1.5 font-[inherit] text-[14px] text-muted" id="profile-username" type="text" value="${encodeHtml(currentUser.username)}" readonly /></label>
+      <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-branch">Branch<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-[var(--line-2)] px-[9px] py-1.5 font-[inherit] text-[14px] text-muted" id="profile-branch" type="text" value="${encodeHtml(currentUser.branch)}" readonly /></label>
       <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-landing-page">Default landing page<select class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-landing-page"><option value="home">Home</option><option value="invoices">Sales Invoices</option><option value="customers">Customers</option></select></label>
     </div>
   </fieldset>`
@@ -203,8 +203,8 @@ function renderNotificationsSection() {
 
 export function renderProfileSections({currentUser, encodeHtml}) {
   const bodies = {
-    profile: renderProfileSection(currentUser),
-    account: renderAccountSection(currentUser),
+    profile: renderProfileSection(currentUser, encodeHtml),
+    account: renderAccountSection(currentUser, encodeHtml),
     appearance: renderAppearanceSectionFields(),
     security: renderSecuritySection(),
     sessions: renderSessionsSection(),
