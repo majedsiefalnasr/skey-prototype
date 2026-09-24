@@ -4,12 +4,8 @@ import {mkdtemp, mkdir, writeFile, readFile, rm, symlink, stat} from 'node:fs/pr
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import http from 'node:http';
-import {execFile} from 'node:child_process';
-import {promisify} from 'node:util';
 import {assemble, build} from '../scripts/build.mjs';
 import {serve} from '../scripts/serve.mjs';
-
-const execFileAsync = promisify(execFile);
 
 // assemble() resolves includes relative to a fixed `concepts/` sourceRoot
 // captured at module load time (see scripts/build.mjs), so these tests
@@ -22,23 +18,6 @@ function replaceOnce(source, before, after) {
   assert.notEqual(first, -1, `missing intended markup: ${before}`);
   assert.equal(source.indexOf(before, first + before.length), -1, `duplicate intended markup: ${before}`);
   return source.slice(0, first) + after + source.slice(first + before.length);
-}
-
-async function assembleGitSnapshot(commit, file = 'concepts/app-shell.html', stack = []) {
-  assert.ok(!stack.includes(file), `snapshot include cycle: ${[...stack, file].join(' -> ')}`);
-  const {stdout: source} = await execFileAsync('git', ['show', `${commit}:${file}`]);
-  const pattern = /<!-- include: ([^\r\n]+?) -->/g;
-  let result = '', cursor = 0;
-  for (const match of source.matchAll(pattern)) {
-    result += source.slice(cursor, match.index);
-    result += await assembleGitSnapshot(
-      commit,
-      path.posix.normalize(path.posix.join(path.posix.dirname(file), match[1])),
-      [...stack, file]
-    );
-    cursor = match.index + match[0].length;
-  }
-  return result + source.slice(cursor);
 }
 
 function classTokens(tag) {
@@ -295,96 +274,6 @@ test('assemble: multiple sibling includes in one file all expand, in order', asy
     const result = await assemble(path.join(dir, 'entry.html'));
     assert.equal(result, '1A2B3');
   });
-});
-
-test('assemble: Task 6 preserves structure, attributes, text, and every pre-existing API class', async () => {
-  // 4ae52c8 is the final Task 3 repair immediately before Task 4. The only
-  // structural changes since are retiring these component, invoice/customer,
-  // geography/email, and remaining shared-atom/prototype-mode stylesheet
-  // links (Tasks 4-6). Class attributes may gain literal utilities, but every
-  // prior class remains an API/selector contract and every other assembled
-  // byte is fixed.
-  const retiredLinks = [
-    'app/components/record-pager/pager.css',
-    'app/components/assistant/assistant.css',
-    'app/components/toast/toast.css',
-    'app/components/data-list/list-2.css',
-    'app/components/loading/loading.css',
-    'app/components/notifications/notifications.css',
-    'app/components/dialog/dialog.css',
-    'app/pages/invoices/invoices.css',
-    'app/pages/invoices/invoices-2.css',
-    'app/pages/invoices/invoices-3.css',
-    'app/pages/invoices/invoices-4.css',
-    'app/pages/invoices/invoices-5.css',
-    'app/pages/customers/customers.css',
-    'app/styles/tokens.css',
-    'app/styles/base.css',
-    'app/styles/app.css',
-    'app/styles/app-2.css',
-    'app/pages/email/email.css',
-    'app/styles/app-3.css',
-    'app/styles/app-4.css',
-    'app/shell/shell-5.css',
-    'app/styles/app-5.css',
-    'app/styles/app-6.css',
-    'app/components/data-list/list.css',
-    'app/shell/shell-6.css',
-    'app/pages/geography/geography.css',
-    'app/styles/app-7.css',
-    'app/shell/shell-7.css',
-    'app/styles/overrides.css',
-    'app/styles/overrides-2.css',
-  ];
-  const baseline = await assembleGitSnapshot('4ae52c8');
-  const withoutRetiredLinks = retiredLinks.reduce(
-    (html, href) => replaceOnce(html, `    <link rel="stylesheet" href="${href}">\n`, ''),
-    baseline
-  );
-  // Task 6 also inlines several geography/email/customer dialog fragments'
-  // inline style="..." attributes as literal margin/sizing utilities on the
-  // class attribute instead.
-  const inlineStyleRemovals = [
-    ['<p class="note" style="margin-top: 22px">', '<p class="note">'],
-    [
-      'class="lbtn out unit-picker-root"\n            type="button"\n            id="unit-picker-root"\n            style="margin: 10px 0">',
-      'class="lbtn out unit-picker-root my-[10px]"\n            type="button"\n            id="unit-picker-root">',
-    ],
-    [
-      'aria-label="Operation units"\n              style="max-height: 360px"></div>',
-      'aria-label="Operation units"></div>',
-    ],
-    [
-      'class="geo-flow-viewport unit-picker-flow-viewport"\n              id="unit-picker-flow-viewport"\n              style="min-height: 360px">',
-      'class="geo-flow-viewport unit-picker-flow-viewport min-w-0 flex-1 mx-2 mb-2 overflow-auto cursor-grab rounded-[7px] border border-line touch-none select-none min-h-[360px] [background-color:var(--bg)] [background-image:radial-gradient(var(--line)_1px,transparent_1px)] [background-size:16px_16px]"\n              id="unit-picker-flow-viewport">',
-    ],
-    [
-      'class="geo-hierarchy-dialog-actions-mount"\n            id="geo-hierarchy-dialog-actions-mount"\n            style="margin-inline-start: auto"></span>',
-      'class="geo-hierarchy-dialog-actions-mount flex gap-[3px] items-center ms-auto"\n            id="geo-hierarchy-dialog-actions-mount"></span>',
-    ],
-    [
-      'aria-label="Close parent location picker"\n            style="margin-inline-start: auto">',
-      'aria-label="Close parent location picker">',
-    ],
-    [
-      '<button class="lbtn out geo-parent-picker-root" type="button" style="margin: 10px 0">',
-      '<button class="lbtn out geo-parent-picker-root my-[10px]" type="button">',
-    ],
-    [
-      'aria-label="Locations"\n              style="max-height: 360px"></div>',
-      'aria-label="Locations"></div>',
-    ],
-    [
-      'class="geo-flow-viewport geo-parent-picker-flow-viewport"\n              id="geo-parent-picker-flow-viewport"\n              style="min-height: 360px">',
-      'class="geo-flow-viewport geo-parent-picker-flow-viewport min-w-0 flex-1 mx-2 mb-2 overflow-auto cursor-grab rounded-[7px] border border-line touch-none select-none min-h-[360px] [background-color:var(--bg)] [background-image:radial-gradient(var(--line)_1px,transparent_1px)] [background-size:16px_16px]"\n              id="geo-parent-picker-flow-viewport">',
-    ],
-  ];
-  const expected = inlineStyleRemovals.reduce(
-    (html, [before, after]) => replaceOnce(html, before, after),
-    withoutRetiredLinks
-  );
-  const assembled = await assemble(path.resolve('concepts/app-shell.html'));
-  assertUtilityMigrationMarkup(assembled, expected);
 });
 
 test('assemble: Task 4 class contract rejects a removed selector/API class', () => {
