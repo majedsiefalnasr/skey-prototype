@@ -6,7 +6,7 @@
 
 import {PROFILE_SECTION_ORDER, PROFILE_SECTIONS} from './fields.js'
 import {createProfileScrollNavigator, renderProfileScrollNav} from './layout.js'
-import {renderProfileSections, renderAccountSection, renderSecuritySection} from './sections.js'
+import {renderProfileSections, renderAccountSection, renderSecuritySection, renderSectionHeading} from './sections.js'
 import {renderLoginLogTable, createDeviceList} from './devices.js'
 import {createSecurityDialogs} from './security-dialogs.js'
 
@@ -63,21 +63,36 @@ export function createProfile({root, encodeHtml, currentUser, loginLogRows, devi
     const accountSection = document.getElementById('profile-section-account')
     const securitySection = document.getElementById('profile-section-security')
     if (accountSection) {
-      accountSection.innerHTML = `<h2 class="profile-section-heading text-[15px] font-semibold text-ink mb-2.5">${encodeHtml('account')}</h2>${renderAccountSection(currentUser, encodeHtml)}`
+      accountSection.innerHTML = `${renderSectionHeading('account', encodeHtml)}${renderAccountSection(currentUser, encodeHtml)}`
       bindCardCollapse(accountSection)
       bindDangerZoneButtons(accountSection)
     }
     if (securitySection) {
-      securitySection.innerHTML = `<h2 class="profile-section-heading text-[15px] font-semibold text-ink mb-2.5">${encodeHtml('security')}</h2>${renderSecuritySection(currentUser)}`
+      securitySection.innerHTML = `${renderSectionHeading('security', encodeHtml)}${renderSecuritySection(currentUser)}`
       bindCardCollapse(securitySection)
       bind2faToggle(securitySection)
       securitySection.querySelector('[data-profile-open-change-password]')?.addEventListener('click', () => securityDialogs.openChangePassword())
       securitySection.querySelector('[data-profile-open-set-pin]')?.addEventListener('click', () => securityDialogs.openSetPin())
     }
+    syncHeaderStatus()
+  }
+
+  // The .phead status badge mirrors the account section's deactivation
+  // state (same ok/gray badge convention as customer record's .tline) --
+  // re-synced whenever deactivate/reactivate changes it, not just on
+  // first render.
+  function syncHeaderStatus() {
+    const badge = document.getElementById('profile-header-status')
+    if (!badge) return
+    const deactivated = Boolean(currentUser.deactivationFrom)
+    badge.textContent = deactivated ? 'Inactive' : 'Active'
+    badge.classList.toggle('gray', deactivated)
+    badge.classList.toggle('ok', !deactivated)
   }
 
   function render() {
     profileState.activeSection = initialSection
+    syncHeaderStatus()
     navMount.innerHTML = renderProfileScrollNav(PROFILE_SECTION_ORDER, PROFILE_SECTIONS, profileState.activeSection, encodeHtml)
     contentMount.innerHTML = renderProfileSections({currentUser, encodeHtml, activityRows, activeKey: initialSection})
 

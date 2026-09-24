@@ -9,6 +9,16 @@
 // only its outer wrapper changes — since shell/appearance.js's
 // bindAppearanceSection() depends on those exact ids existing.
 
+import {PROFILE_SECTIONS} from './fields.js'
+
+// Exported so profile.js's refreshAccountAndSecurity (targeted re-render of
+// a single section after a dialog closes) can rebuild the exact same
+// heading markup instead of duplicating it and risking drift.
+export function renderSectionHeading(key, encodeHtml) {
+  const section = PROFILE_SECTIONS[key]
+  return `<h2 class="profile-section-heading text-[19px] font-semibold text-ink mb-1">${encodeHtml(section.title)}</h2><p class="profile-section-description text-[13px] text-muted mb-3!">${encodeHtml(section.description)}</p>`
+}
+
 // .rec-card-hd is the clickable collapse toggle — same contract
 // pages/invoices/record.js wires for its own .rec-card instances
 // (click flips aria-expanded and hides/shows nextElementSibling), so the
@@ -65,7 +75,7 @@ function renderRecentActivitySection(activityRows, encodeHtml) {
   return renderCard('Recent activity', `<div class="[&>div:first-child]:[border-top:0!important]">${rowsHtml}</div>`)
 }
 
-function renderProfileSection(currentUser, encodeHtml, activityRows) {
+function renderProfileSection(currentUser, encodeHtml) {
   // Single identity card, fields + photo side-by-side — same
   // customer-identity-body layout the customer record's identity section
   // uses (pages/customers/record.js:160): a fields grid on the start side,
@@ -107,7 +117,7 @@ function renderProfileSection(currentUser, encodeHtml, activityRows) {
     <span class="grid [place-items:center] [width:min(164px,_100%)] [aspect-ratio:1] [padding:0] overflow-hidden text-muted [border:1px_solid_var(--line)] [border-radius:999px] bg-[var(--line-2)] [font-size:20px] font-bold" aria-hidden="true">${initials}</span>
     <button type="button" class="lbtn out" id="profile-photo-select"><svg width="15" height="15" aria-hidden="true"><use href="#i-clip" /></svg> Select photo</button>
   </div>`
-  return renderRecentActivitySection(activityRows, encodeHtml) + renderCard(
+  return renderCard(
     'Personal information',
     `<div class="grid [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
       <div class="grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>
@@ -283,8 +293,9 @@ export function renderSecuritySection(currentUser) {
   )
 }
 
-function renderSessionsSection() {
-  return renderCard('Login log', `<div id="profile-login-log"></div>`) +
+function renderSessionsSection(activityRows, encodeHtml) {
+  return renderRecentActivitySection(activityRows, encodeHtml) +
+    renderCard('Login log', `<div id="profile-login-log"></div>`) +
     renderCard('Devices', `<div id="profile-device-list"></div>`)
 }
 
@@ -313,11 +324,11 @@ function renderNotificationsSection() {
 
 export function renderProfileSections({currentUser, encodeHtml, activityRows = [], activeKey = 'profile'}) {
   const bodies = {
-    profile: renderProfileSection(currentUser, encodeHtml, activityRows),
+    profile: renderProfileSection(currentUser, encodeHtml),
     account: renderAccountSection(currentUser, encodeHtml),
     appearance: renderAppearanceSectionFields(),
     security: renderSecuritySection(currentUser),
-    sessions: renderSessionsSection(),
+    sessions: renderSessionsSection(activityRows, encodeHtml),
     notifications: renderNotificationsSection(),
   }
   return Object.entries(bodies)
@@ -326,7 +337,7 @@ export function renderProfileSections({currentUser, encodeHtml, activityRows = [
         // hidden by default on every section except activeKey, so the very
         // first paint already shows only the intended tab instead of every
         // section stacked until JS's first activateSection() call runs.
-        `<div id="profile-section-${key}" data-profile-scroll-target="${key}" role="tabpanel" aria-labelledby="profile-tab-${key}"${key === activeKey ? '' : ' hidden'}><h2 class="profile-section-heading text-[15px] font-semibold text-ink mb-2.5">${encodeHtml(key)}</h2>${body}</div>`
+        `<div id="profile-section-${key}" data-profile-scroll-target="${key}" role="tabpanel" aria-labelledby="profile-tab-${key}"${key === activeKey ? '' : ' hidden'}>${renderSectionHeading(key, encodeHtml)}${body}</div>`
     )
     .join('')
 }

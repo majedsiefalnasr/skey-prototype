@@ -1,5 +1,11 @@
 <template class="profile-tpl">
   <div class="profile-view [&:not([hidden])]:flex [&:not([hidden])]:[flex:1] [&:not([hidden])]:min-h-0 [&:not([hidden])]:flex-col" hidden>
+    <div class="phead [.d1_&]:[padding:11px_16px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-3">
+      <div class="l [.d1_.phead_&]:[flex:1]">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="#" data-i18n="Home">Home</a><span class="sep">›</span><span aria-current="page" data-i18n="Profile">Profile</span></nav>
+        <div class="tline [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-3 [.d1_&]:mt-2! [.d1_&]:flex-wrap [.d1_&_h1]:[font-size:23px] [.d1_&_h1]:font-semibold"><h1 data-i18n="Profile">Profile</h1><span class="badge ok" id="profile-header-status">Active</span></div>
+      </div>
+    </div>
     <div class="canvas profile-canvas [flex:1] min-h-0 overflow-auto text-start" id="profile-canvas">
       <div class="profile-layout grid [grid-template-columns:minmax(180px,_240px)_minmax(0,_1fr)] gap-3 items-start [padding:16px] [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
         <div id="profile-scroll-nav-mount" class="contents"></div>
