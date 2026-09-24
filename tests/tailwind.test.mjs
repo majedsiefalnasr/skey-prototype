@@ -256,8 +256,8 @@ test('Tailwind input has explicit sources and the generated output includes expe
 // feature partway through. Both are real, reviewed feature CSS, not
 // incidental growth -- see docs/tailwind-migration-report.md's addenda
 // for each one's justification. Reset to the freshly measured merged
-// output rather than summing the two histories.
-const FINAL_TAILWIND_BASELINE_BYTES = 221745;
+// output (223877) rather than summing the two histories.
+const FINAL_TAILWIND_BASELINE_BYTES = 223877;
 const FINAL_TAILWIND_CEILING_BYTES = Math.ceil(FINAL_TAILWIND_BASELINE_BYTES * 1.1);
 
 test('Task 7 final Tailwind budget: compiled output stays within baseline + 10%', async () => {
