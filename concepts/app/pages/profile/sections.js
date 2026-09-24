@@ -311,7 +311,7 @@ function renderNotificationsSection() {
   )
 }
 
-export function renderProfileSections({currentUser, encodeHtml, activityRows = []}) {
+export function renderProfileSections({currentUser, encodeHtml, activityRows = [], activeKey = 'profile'}) {
   const bodies = {
     profile: renderProfileSection(currentUser, encodeHtml, activityRows),
     account: renderAccountSection(currentUser, encodeHtml),
@@ -323,7 +323,10 @@ export function renderProfileSections({currentUser, encodeHtml, activityRows = [
   return Object.entries(bodies)
     .map(
       ([key, body]) =>
-        `<div id="profile-section-${key}" data-profile-scroll-target="${key}"><h2 class="profile-section-heading text-[15px] font-semibold text-ink mb-2.5">${encodeHtml(key)}</h2>${body}</div>`
+        // hidden by default on every section except activeKey, so the very
+        // first paint already shows only the intended tab instead of every
+        // section stacked until JS's first activateSection() call runs.
+        `<div id="profile-section-${key}" data-profile-scroll-target="${key}" role="tabpanel" aria-labelledby="profile-tab-${key}"${key === activeKey ? '' : ' hidden'}><h2 class="profile-section-heading text-[15px] font-semibold text-ink mb-2.5">${encodeHtml(key)}</h2>${body}</div>`
     )
     .join('')
 }

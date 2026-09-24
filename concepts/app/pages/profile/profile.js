@@ -15,6 +15,11 @@ export function createProfile({root, encodeHtml, currentUser, loginLogRows, devi
   const contentMount = root.querySelector('#profile-scroll-content')
   const canvas = root.querySelector('#profile-canvas')
 
+  // render() runs once, on the very first activate() call -- whatever
+  // section that first activate({section}) asked for should already be
+  // the one visible on first paint (renderProfileSections' activeKey),
+  // not always 'profile' with a flash-correction right after.
+  let initialSection = 'profile'
   const profileState = {activeSection: 'profile'}
   let scrollNavigator = null
   let deviceList = null
@@ -72,8 +77,9 @@ export function createProfile({root, encodeHtml, currentUser, loginLogRows, devi
   }
 
   function render() {
+    profileState.activeSection = initialSection
     navMount.innerHTML = renderProfileScrollNav(PROFILE_SECTION_ORDER, PROFILE_SECTIONS, profileState.activeSection, encodeHtml)
-    contentMount.innerHTML = renderProfileSections({currentUser, encodeHtml, activityRows})
+    contentMount.innerHTML = renderProfileSections({currentUser, encodeHtml, activityRows, activeKey: initialSection})
 
     document.getElementById('profile-login-log').innerHTML = renderLoginLogTable(loginLogRows, encodeHtml)
 
@@ -116,12 +122,13 @@ export function createProfile({root, encodeHtml, currentUser, loginLogRows, devi
 
   function activate({section} = {}) {
     if (!rendered) {
+      if (PROFILE_SECTION_ORDER.includes(section)) initialSection = section
       render()
       scrollNavigator = createProfileScrollNavigator({root: canvas, sectionOrder: PROFILE_SECTION_ORDER, profileState})
       rendered = true
+    } else {
+      setSection(section || 'profile')
     }
-    scrollNavigator.startSpy()
-    setSection(section || 'profile')
   }
 
   function deactivate() {
