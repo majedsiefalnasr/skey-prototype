@@ -428,9 +428,17 @@ return {dispose: () => pageAbort.abort(), geoLocationIcon, geoTreeRowMatches, re
           let startScrollLeft = 0
           let startScrollTop = 0
           viewport.addEventListener('pointerdown', event => {
+            // Reset unconditionally, even when bailing out below (e.g. the
+            // press started on a button) -- otherwise `dragged` from a
+            // previous real drag-scroll stays true forever, since the only
+            // other place it's set is inside pointermove (which never
+            // fires for a plain click). That stale true then makes the
+            // capturing 'click' handler below swallow every subsequent
+            // click on the canvas -- including on nodes/buttons -- until
+            // another full drag happens to flip it back.
+            dragged = false
             if (event.button !== 0 || event.target.closest('button')) return
             panning = true
-            dragged = false
             startX = event.clientX
             startY = event.clientY
             startScrollLeft = viewport.scrollLeft
