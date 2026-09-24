@@ -14,10 +14,21 @@
 // (click flips aria-expanded and hides/shows nextElementSibling), so the
 // same delegated listener works for both without a profile-specific
 // collapse mechanism.
-function renderCard(title, bodyHtml, extraClass = '') {
+//
+// danger:true renders a GitHub Danger-Zone-style variant: a red card
+// border and a red-tinted header (background + text), instead of the
+// standard line-colored border and neutral header. The border/header
+// background are hardcoded utilities on the template below (not classes
+// extraClass could otherwise out-specificity), so this branch overrides
+// them directly rather than trying to win a specificity fight from the
+// outside.
+function renderCard(title, bodyHtml, extraClass = '', {danger = false} = {}) {
   const classAttr = extraClass ? `${extraClass} rec-card` : 'rec-card'
-  return `<div class="${classAttr} [border:1px_solid_var(--line)] rounded-lg mb-3! overflow-hidden">
-    <button type="button" class="rec-card-hd flex items-center justify-between gap-2.5 w-full text-start [padding:8px_12px] [font-size:12.5px]! font-bold! bg-[var(--line-2)]! border-0! [cursor:pointer]" aria-expanded="true">${title}</button>
+  const cardBorder = danger ? '[border:1px_solid_var(--danger)]' : '[border:1px_solid_var(--line)]'
+  const headerBg = danger ? 'bg-[var(--danger-soft-bg)]!' : 'bg-[var(--line-2)]!'
+  const headerText = danger ? '[color:var(--danger)]!' : ''
+  return `<div class="${classAttr} ${cardBorder} rounded-lg mb-3! overflow-hidden">
+    <button type="button" class="rec-card-hd flex items-center justify-between gap-2.5 w-full text-start [padding:8px_12px] [font-size:12.5px]! font-bold! ${headerBg} ${headerText} border-0! [cursor:pointer]" aria-expanded="true">${title}</button>
     <div class="rec-card-body [padding:12px]">${bodyHtml}</div>
   </div>`
 }
@@ -124,9 +135,9 @@ export function renderAccountSection(currentUser, encodeHtml) {
   ].join('')
   const deactivated = Boolean(currentUser.deactivationFrom)
   const dangerZone = renderCard(
-    'Danger zone',
+    '<svg width="14" height="14" aria-hidden="true" class="[margin-inline-end:2px]"><use href="#i-warn" /></svg> Danger zone',
     `<div class="flex flex-col gap-2.5">
-      <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center justify-between gap-3 [padding-bottom:10px] [border-bottom:1px_solid_var(--danger-soft-line)]">
         <span><strong class="block text-[13.5px] text-ink">${deactivated ? 'Account deactivated' : 'Deactivate account'}</strong><small class="block text-xs text-muted">${deactivated ? `Deactivated on ${encodeHtml(currentUser.deactivationFrom)}. Contact an administrator to reactivate.` : "You'll be signed out and won't be able to sign back in until an administrator reactivates your account."}</small></span>
         <button type="button" class="lbtn out danger" id="profile-deactivate-account"${deactivated ? ' disabled' : ''}>${deactivated ? 'Deactivated' : 'Deactivate'}</button>
       </div>
@@ -135,7 +146,8 @@ export function renderAccountSection(currentUser, encodeHtml) {
         <button type="button" class="lbtn danfill [.lbtn&]:[background:var(--danger-bold)] [.lbtn&]:[color:var(--inverse)] [.lbtn&:hover:not(:disabled)]:[background:var(--danger-fill-hover)]" id="profile-delete-account">Delete account</button>
       </div>
     </div>`,
-    'profile-danger-zone [.rec-card-hd]:[color:var(--danger)]!'
+    'profile-danger-zone',
+    {danger: true}
   )
   return renderCard(
     'Account',
