@@ -24,11 +24,11 @@
 // outside.
 function renderCard(title, bodyHtml, extraClass = '', {danger = false} = {}) {
   const classAttr = extraClass ? `${extraClass} rec-card` : 'rec-card'
-  const cardBorder = danger ? '[border:1px_solid_var(--danger)]' : '[border:1px_solid_var(--line)]'
+  const cardBorder = danger ? '[border:1px_solid_color-mix(in_srgb,_var(--danger)_35%,_transparent)]' : '[border:1px_solid_var(--line)]'
   const headerBg = danger ? 'bg-[var(--danger-soft-bg)]!' : 'bg-[var(--line-2)]!'
   const headerText = danger ? '[color:var(--danger)]!' : ''
   return `<div class="${classAttr} ${cardBorder} rounded-lg mb-3! overflow-hidden">
-    <button type="button" class="rec-card-hd flex items-center justify-between gap-2.5 w-full text-start [padding:8px_12px] [font-size:12.5px]! font-bold! ${headerBg} ${headerText} border-0! [cursor:pointer]" aria-expanded="true">${title}</button>
+    <button type="button" class="rec-card-hd flex items-center justify-between gap-2.5 w-full text-start [padding:8px_12px] [font-size:12.5px]! font-bold! ${headerBg} ${headerText} border-0! [cursor:pointer]" aria-expanded="true"><span class="flex items-center gap-1.5">${title}</span></button>
     <div class="rec-card-body [padding:12px]">${bodyHtml}</div>
   </div>`
 }

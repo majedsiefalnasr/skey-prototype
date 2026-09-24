@@ -168,23 +168,24 @@
 
 <!-- ===== Delete account permanently (type-to-confirm) ===== -->
 <div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="delete-account-scrim">
-  <div class="dlg [width:min(440px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] [border:1.5px_solid_var(--danger)] overflow-hidden flex flex-col [max-height:90vh]" role="dialog" aria-modal="true" aria-labelledby="delete-account-title">
-    <div class="dhd flex items-center gap-3 [padding:14px_18px] [border-bottom:1px_solid_var(--danger-soft-line)] [background:var(--danger-soft-bg)] [&_h3]:[font-size:15px] [&_h3]:[color:var(--danger)]">
-      <svg width="18" height="18" aria-hidden="true" style="color: var(--danger)"><use href="#i-trash" /></svg>
-      <div><h3 id="delete-account-title">Delete your account permanently</h3></div>
+  <div class="dlg [width:min(460px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]" role="dialog" aria-modal="true" aria-labelledby="delete-account-title">
+    <div class="dhd flex items-center gap-3 [padding:14px_18px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px]">
+      <div><h3 id="delete-account-title">Delete account</h3></div>
       <button class="ibtn c-close" aria-label="Close" style="margin-inline-start: auto">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
-    <div class="dbody [padding:16px_18px] overflow-auto flex flex-col gap-3">
-      <div class="warnbox">
-        <svg width="15" height="15" aria-hidden="true"><use href="#i-warn" /></svg>
-        <span><b>Unexpected bad things will happen if you don't read this!</b>This action cannot be undone.</span>
+    <div class="dbody [padding:16px_18px] overflow-auto flex flex-col gap-3.5">
+      <p class="[font-size:13px] [color:var(--ink)]">Are you sure you want to delete your account?</p>
+      <div class="flex gap-3 [padding:12px_14px] rounded-[9px] [background:linear-gradient(to_right,_var(--danger-soft-bg),_transparent)] [border-inline-start:3px_solid_var(--danger)]">
+        <p class="[font-size:13px] [line-height:1.5] [color:var(--ink)]"><b>Warning:</b> This action <b>cannot be undone</b>. Deleting your account will remove all associated data — sessions, saved preferences, and access will be <b>permanently lost</b>.</p>
       </div>
-      <p class="[font-size:13px] [color:var(--ink)]">This permanently removes your account and everything tied to it — sessions, saved preferences, and access.</p>
-      <label class="grid gap-1.5 text-[13px] font-semibold" for="delete-account-confirm-input">
-        <span>Type <b id="delete-account-username"></b> to confirm</span>
-        <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [&:focus-visible]:[outline:none] [&:focus-visible]:[border-color:var(--danger)] [&:focus-visible]:[box-shadow:0_0_0_3px_var(--danger-soft-bg)]" id="delete-account-confirm-input" type="text" autocomplete="off" />
+      <label class="grid gap-1.5 text-[13px]" for="delete-account-confirm-input">
+        <span class="text-muted">To delete, type your username <b class="text-ink" id="delete-account-username"></b> below</span>
+        <div class="relative">
+          <svg width="15" height="15" aria-hidden="true" style="color: var(--danger)" class="absolute [inset-inline-start:9px] [top:50%] [translate:0_-50%] pointer-events-none"><use href="#i-trash" /></svg>
+          <input class="w-full min-h-[34px] rounded-[7px] border border-line bg-surface [padding-inline-start:32px] [padding-inline-end:9px] py-1.5 font-[inherit] text-[14px] text-ink [&:focus-visible]:[outline:none] [&:focus-visible]:[border-color:var(--danger)] [&:focus-visible]:[box-shadow:0_0_0_3px_var(--danger-soft-bg)]" id="delete-account-confirm-input" type="text" autocomplete="off" />
+        </div>
       </label>
     </div>
     <div class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
