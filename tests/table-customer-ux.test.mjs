@@ -83,7 +83,7 @@ test('group-by choices use labels without decorative icons', () => {
 
 test('appearance offers comfortable density and independent interface-scale presets', async () => {
   const [dialog, controls, baseStyles, frameStyles, shellStyles, shell] = await Promise.all([
-    readFile(new URL('../concepts/app/shell/appearance-dialog.html', import.meta.url), 'utf8'),
+    readFile(new URL('../concepts/app/pages/profile/sections.js', import.meta.url), 'utf8'),
     readFile(new URL('../concepts/app/shell/appearance.js', import.meta.url), 'utf8'),
     readFile(new URL('../concepts/app/styles/tailwind/base.css', import.meta.url), 'utf8'),
     readFile(new URL('../concepts/app/prototype/controls.css', import.meta.url), 'utf8'),
@@ -133,7 +133,7 @@ test('appearance offers comfortable density and independent interface-scale pres
 
 test('launchpad availability is a shared persistent appearance preference', async () => {
   const [dialog, appearance, prototypeControls, home, sidebar, menus, shell] = await Promise.all([
-    readFile(new URL('../concepts/app/shell/appearance-dialog.html', import.meta.url), 'utf8'),
+    readFile(new URL('../concepts/app/pages/profile/sections.js', import.meta.url), 'utf8'),
     readFile(new URL('../concepts/app/shell/appearance.js', import.meta.url), 'utf8'),
     readFile(new URL('../concepts/app/prototype/controls.js', import.meta.url), 'utf8'),
     readFile(new URL('../concepts/app/pages/home/home.js', import.meta.url), 'utf8'),

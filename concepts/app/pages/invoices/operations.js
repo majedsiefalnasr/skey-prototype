@@ -393,10 +393,6 @@ const pageAbort = new AbortController()
             })
             return
           }
-          if (b.dataset.save === 'close') {
-            doSave(b)
-            return
-          }
         }, {signal: pageAbort.signal})
 
         /* ---- nothing on this shell is a dead click ---- */
@@ -623,11 +619,12 @@ const pageAbort = new AbortController()
 
           /* the invoice record and list canvases now hold real markup, so the old
      click-anywhere-to-dirty stand-in (which overwrote a canvas's textContent)
-     must not touch those or the separately managed Customer views. */
+     must not touch those or the separately managed Customer/Geography/Profile
+     views. */
           document.querySelectorAll('.canvas').forEach(c => {
             if (
               c.closest(
-                '.list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view'
+                '.list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view, .profile-view'
               )
             )
               return

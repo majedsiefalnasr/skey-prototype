@@ -15,8 +15,10 @@ import {createInvoicePayments} from './pages/invoices/payments.js'
 import {encodeHtml} from './core/locale.js'
 import {STATUSES, CHAIN} from './prototype/fixtures/invoices.js'
 import {CUSTOMER_ROWS, CUSTOMER_REFERENCE, UNIT_ROWS, CUSTOMER_LOOKUP_RESULTS} from './prototype/fixtures/customers.js'
+import {CURRENT_USER, LOGIN_LOG_ROWS, DEVICE_ROWS} from './prototype/fixtures/profile.js'
 import {createDataList} from './components/data-list/list.js'
 import {createCustomers} from './pages/customers/customers.js'
+import {createProfile} from './pages/profile/profile.js'
 import {renderCustomerAvatar} from './pages/customers/images.js'
 import {createSidebar} from './shell/sidebar.js'
 import {createTopbar} from './shell/topbar.js'
@@ -158,8 +160,19 @@ const topbar = createTopbar({
   getLaunchpadEnabled,
   closeAllMenus: (...args) => menus.closeAllMenus(...args),
   openKbd: (...args) => keyboard.openKbd(...args),
-  openAppearance: (...args) => appearanceControls.openAppearance(...args),
-  openCustomize: (...args) => customize.openCustomize(...args)
+  openCustomize: (...args) => customize.openCustomize(...args),
+  navigateToProfileSection: section => {
+    navigation.navigate('profile', {section})
+    // Mirrors sidebar.js's setNavCurrent: the launchpad overlay's visibility
+    // isn't tracked by navigation.js's currentId (the app boots with
+    // currentContentViewName === 'record' while the launchpad still shows
+    // on top by default), so any navigation trigger outside the sidebar
+    // must dismiss it explicitly the same way, or it's left covering the
+    // page and intercepting clicks.
+    const frame = document.querySelector('.frame')
+    const lp = frame && frame.querySelector('.lp-view')
+    if (lp && !lp.hidden) hideLaunchpad(frame)
+  },
 })
 
 const shell = createShell({
@@ -238,13 +251,7 @@ const customize = createCustomize({
   renderSide: (...args) => sidebar.renderSide(...args)
 })
 
-const appearanceControls = createAppearanceControls({
-  createAppearance,
-  locale,
-  trapFocus,
-  releaseFocus,
-  setLaunchpadEnabled
-})
+const appearanceControls = createAppearanceControls({createAppearance, setLaunchpadEnabled})
 
 const notifications = createNotifications({closeAllMenus: (...args) => menus.closeAllMenus(...args), openEmailView: (...args) => openEmailView(...args), closeMenuAndRestoreFocus: (...args) => menus.closeMenuAndRestoreFocus(...args)})
 
@@ -407,6 +414,20 @@ const customerDependencies = {
 
 const customers = createCustomers(customerDependencies)
 
+const profile = createProfile({
+  root: document.querySelector('.profile-view'),
+  encodeHtml,
+  currentUser: CURRENT_USER,
+  loginLogRows: LOGIN_LOG_ROWS,
+  deviceRows: DEVICE_ROWS,
+  storage: sessionStorage,
+  toast,
+  trapFocus: dialogFocus.trapFocus,
+  releaseFocus: dialogFocus.releaseFocus,
+  syncAppearanceControls: () => appearanceControls.syncAppearanceControls(),
+  bindAppearanceSection: () => appearanceControls.bindAppearanceSection(),
+})
+
 const listDates = createListDates({
   t,
   formatLocaleDate,
@@ -565,6 +586,7 @@ const pageRegistry = new Map([
   ['geo-list', geography.listPage],
   ['geo-record', geography.recordPage],
   ['email', email],
+  ['profile', profile],
 ])
 
 const navigation = createNavigation({

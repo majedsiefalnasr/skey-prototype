@@ -500,3 +500,175 @@ baseline PNGs tampered to hide a missing-orbs/unstyled-"View all" regression
 fixed as literal utilities), and a dropped `.is-over-drawer` stacking rule
 that broke lookup-over-drawer click interaction (restored as a documented
 compatibility rule). See the section above for full detail.
+
+## Addendum: 2026-09-23 profile page baseline increase
+
+Unrelated to this migration itself — recorded here only because
+`tests/tailwind.test.mjs`'s final-budget test names this file as where a
+reviewed dynamic-utility addition must be justified before raising
+`FINAL_TAILWIND_BASELINE_BYTES`.
+
+The User Profile page's sidebar and section cards were reworked to reuse the
+existing `.rec-card`/`.rec-card-hd`/`.rec-card-body` primitive (already used
+by `pages/invoices/templates.html` and the customer record) and a
+customer-record-style plain-list sidebar, in place of a bespoke
+fieldset-legend pattern. This introduces a small number of new compound
+utility selectors specific to the profile page's scroll-nav
+(`.profile-canvas`-scoped button states) and six `appearance-group-*` card
+identifiers reused from the pre-existing Appearance dialog markup. After
+trimming redundant utilities to match already-compiled equivalents from
+`pages/invoices/templates.html`, the measured compiled output grew from
+197,594 to approximately 197,698 bytes (~104 bytes, well under 0.1%).
+`FINAL_TAILWIND_BASELINE_BYTES` in `tests/tailwind.test.mjs` is raised from
+`197594` to `197800` to restore headroom without loosening the budget's
+intent.
+
+### 2026-09-23 follow-up: select-arrow SVG encoding fix
+
+The profile page's `REC_FIELD_CLASS` select-arrow background (copied from
+`pages/customers/fields.js`) used `_` in place of spaces inside a
+`background-image:url(data:image/svg+xml,...)` data URI — the same pattern
+already present in several other files (`pages/customers/fields.js`,
+`pages/customers/lookups.js`, `pages/invoices/adjustments.js`,
+`pages/invoices/payments.js`, `components/data-list/filter-controller.js`,
+`components/data-list/charts.js`). Tailwind's `_`→space substitution does not
+apply inside a `url(...)` value, so the compiled CSS keeps the literal `_`
+characters, producing an invalid SVG (`<svg_xmlns=...>` is not a valid tag)
+that browsers silently fail to render — the select's dropdown arrow was
+missing. Fixed locally in `pages/profile/sections.js` by percent-encoding
+spaces as `%20` and quoting the SVG's attribute values (`xmlns='...'`,
+`width='12'`, etc. — unquoted attributes are invalid XML and some browsers
+refuse to rasterize the result), which together produce a well-formed SVG
+that renders correctly. The other files listed above have the same latent
+bug but were left untouched — out of scope for the profile page task and
+each is a separate, wider-blast-radius change.
+
+This changed the utility's escaped selector text, so `FINAL_TAILWIND_BASELINE_BYTES`
+is raised again from `197800` to `198260`.
+
+### 2026-09-23 follow-up: invoice print dialog fixes
+
+Three fixes to `pages/invoices/print-dialog.html` and its split-save-button
+counterpart in `pages/invoices/chrome.js`/`operations.js`:
+
+- Removed the redundant footer "Preview" button (the destination cards
+  already select preview/save/send; the footer only needs Cancel/Apply) and
+  the "Save and go to the list" save-dropdown menu item.
+- Added `[aria-pressed=true]` active-state styling to the destination cards
+  (`.dcard`), matching the existing `.appearance-theme-card[aria-checked='true']`
+  accent-border/box-shadow convention in `shell.css`, since the cards toggled
+  `aria-pressed` already but had no visual state for it.
+- Applied the same select-arrow SVG fix (percent-encoded, quoted attributes)
+  plus the `.rec-field`-equivalent appearance-reset/arrow/focus rules to the
+  dialog's `.fld select` fields, which previously fell back to each browser's
+  native select chrome instead of matching the rest of the app.
+
+`FINAL_TAILWIND_BASELINE_BYTES` is raised again from `198260` to `198870`.
+
+### 2026-09-23 follow-up: Report Style grouped select+button control
+
+The print dialog's Report Style field paired a plain `select` next to an
+"Edit report styles" `...` button with a `gap` between them, unlike the
+app's established grouped-input pattern (`pages/customers/fields.js`'s
+`.customer-lookup-control`: select and trigger button share one visual
+border, the select's trailing corners flattened via
+`border-start-end-radius:0`/`border-end-end-radius:0`, the trigger button
+overlapping the shared edge with `margin-inline-start:-1px`). Rebuilt the
+`.ctl` wrapper and its trigger button to follow that exact pattern
+(including the RTL corner-flip), so the two controls now render as one
+bordered group.
+
+`FINAL_TAILWIND_BASELINE_BYTES` is raised again from `198870` to `199560`.
+
+### 2026-09-23 follow-up: split-button double-border seam
+
+The record chrome's "New"/caret split button (`pages/invoices/chrome.js`'s
+`.newwrap main`/`.car`, also reused by the `.d2 .genbtn` responsive variant)
+showed a visible double border in the middle: the main button's own
+`.lbtn.out` trailing border was never suppressed, so it sat directly next to
+the caret button's own leading border, producing a doubled/gapped seam
+instead of one shared line. The Save split button (`.savewrap`) didn't show
+this because its main button is `.lbtn.pri`, whose base border color is
+transparent. Fixed by adding `border-inline-end:none` (RTL-flipped) to the
+main button under `.newwrap`, matching the `border-right:0` +
+corner-radius-flatten recipe already used for the print dialog's grouped
+select+button control.
+
+`FINAL_TAILWIND_BASELINE_BYTES` is raised again from `199560` to `199830`.
+
+### 2026-09-23 follow-up: split-button seam still visible -- cascade layer order
+
+The previous border-inline-end:none fix compiled correctly but never
+actually applied: `concepts/app/styles/tailwind.css` imports
+`tailwindcss/utilities` (line 3) *before* `./tailwind/shell.css`
+`layer(components)` (line 4), and CSS cascade layers resolve strictly by
+declaration order regardless of selector specificity -- a later-declared
+layer wins outright. Since `shell.css`'s hand-authored `.lbtn.out`/`.car`
+base rules live in `components`, they silently beat every arbitrary-value
+utility from `utilities`, including the `border-inline-end:none` and
+`border-radius` overrides meant to close the split-button seam. Confirmed
+by fetching the live compiled stylesheet directly: the rule
+(`.newwrap>.[...]{border-inline-end:none}`) was present and correctly
+scoped, yet `getComputedStyle` on the actual button still reported the
+`.lbtn.out` border. Also found and fixed a second bug found while tracing
+this: the Save button's dynamically-created `.car` element
+(`chrome.js`'s `car.className = ...`) still had the *pre-fix* RTL rule
+(`border-inline-start:1px_solid_var(--line)` instead of `none`) -- a
+duplicate string that the earlier fix only updated in the static "New"
+button's markup, not this JS-built one.
+
+Fixed by appending `!` (Tailwind's important-modifier suffix, already used
+elsewhere in this codebase, e.g. `[.rec-adjustment-row_&]:[margin-bottom:1px]!`)
+to every border/radius utility in the `.newwrap`/`.savewrap`/`.d2_.genbtn`
+split-button variants, in both `pages/invoices/chrome.js` (all three
+occurrences: the static "New" button, its `.car`, and the Save button's
+dynamically-created `.car`) and `pages/customers/record.js`'s duplicate
+copy of the same markup.
+
+`FINAL_TAILWIND_BASELINE_BYTES` is raised again from `199830` to `200070`.
+
+### 2026-09-23 follow-up: the real Save button never had the fix applied
+
+User-reported: the Save/caret split button on the actual "New sales
+invoice" create page (reached via the real UI -- clicking the "New" action,
+not the `#mode` debug select used to verify the previous fix) still showed
+the seam. Traced with a Playwright probe that clicked the real
+`[data-act="New"]` button (rather than forcing `#mode`): the Save button's
+computed class list was just `"lbtn pri main"` -- none of the
+`.savewrap>&` border-radius/border-inline-end utilities were present at
+all.
+
+Root cause: `chrome.js`'s `.lbtn[data-act="Save"]` wrapping code
+(`d.querySelectorAll('.lbtn[data-act="Save"]').forEach(...)`) only ever
+called `btn.classList.add('main')` on the pre-existing static Save button
+-- it never added the `.savewrap>&` utility classes, because those were
+only ever hardcoded into the "New" button's own HTML string (a different
+element entirely). The earlier `!important` fix was real and correctly
+compiled, but it was never on the actual Save button in the live app,
+which is why my own `#mode`-forced verification screenshots looked correct
+(they exercised the same code path, but the Save button reached that way
+happened to still be a different, unaffected instance in that specific
+render) while the user's real click-through still showed the bug.
+
+Fixed by adding the missing `.savewrap>&` (and its RTL-flip) border-radius/
+border-inline-end utility classes directly to `btn.classList` alongside
+`'main'`.
+
+`FINAL_TAILWIND_BASELINE_BYTES` is raised again from `200070` to `200700`.
+
+### 2026-09-23 follow-up: merged in main's geography flow/fullscreen feature
+
+`main` had a geography record "Flow" view (an alternate to the existing
+"Tree" view), a canvas Fullscreen control, and a new
+`components/data-list/status-dialogs.js` component sitting uncommitted in
+its working tree — deployed directly to Vercel without ever being
+committed to git. Committed on `main` (`4f9edfd`) and merged into this
+branch (`57a8d49`), resolving one conflict in `pages/customers/record.js`
+(this branch's split-button seam fix vs. main's new `changeStatusAction`
+button, both touching the same `viewActions`/`editActions` template
+strings — resolved by keeping this branch's fixed markup and adding main's
+`changeStatusAction` logic on top).
+
+This is real, substantial, independently-developed feature CSS, not
+incidental utility growth — `FINAL_TAILWIND_BASELINE_BYTES` is reset to the
+freshly measured compiled size, `221745`, rather than incrementally raised.

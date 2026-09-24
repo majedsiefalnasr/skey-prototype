@@ -429,7 +429,7 @@ export function createPrototypeControls({root, settings, pages}) {
     const customerRecord = viewName === 'customer-record'
     const nonInvoiceSurface = viewName !== 'record'
     const isTablePage = ['list', 'customers-list', 'geo-list'].includes(viewName)
-    const hasCardSections = !isLaunchpad && (viewName === 'record' || customerRecord || isTablePage)
+    const hasCardSections = !isLaunchpad && (viewName === 'record' || customerRecord || isTablePage || viewName === 'profile')
     doc.getElementById('input-style-group').hidden = isLaunchpad
     doc.getElementById('customer-group-heading').hidden = !customerRecord
     doc.getElementById('customer-mode-group').hidden = !customerRecord

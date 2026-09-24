@@ -246,11 +246,18 @@ test('Tailwind input has explicit sources and the generated output includes expe
 // license to add new authored CSS. Any change that grows the compiled output
 // beyond this ceiling must either shrink elsewhere or have the report name a
 // reviewed dynamic-utility addition that justifies raising the baseline.
-// Raised from 197594 to the measured 220359 by the geography flow canvas's
-// per-node action toolbar (Modify/Focus/New/Delete), the focus-mode chip,
-// and the new delete-tree confirmation dialog -- real, reviewed feature CSS,
-// not incidental growth.
-const FINAL_TAILWIND_BASELINE_BYTES = 220359;
+// Raised from 197594 in two independent branches since: on main, to
+// 220359 by the geography flow canvas's per-node action toolbar (Modify/
+// Focus/New/Delete), the focus-mode chip, the delete-tree confirmation
+// dialog, and its later Center-action/free-pan/true-centering fixes; on
+// worktree-user-profile-page, to 221745 across the User Profile page's
+// build (card-style rework, select-arrow SVG encoding fix, print dialog
+// fixes, split-button seam fixes) plus its own merge of main's geography
+// feature partway through. Both are real, reviewed feature CSS, not
+// incidental growth -- see docs/tailwind-migration-report.md's addenda
+// for each one's justification. Reset to the freshly measured merged
+// output rather than summing the two histories.
+const FINAL_TAILWIND_BASELINE_BYTES = 221745;
 const FINAL_TAILWIND_CEILING_BYTES = Math.ceil(FINAL_TAILWIND_BASELINE_BYTES * 1.1);
 
 test('Task 7 final Tailwind budget: compiled output stays within baseline + 10%', async () => {
