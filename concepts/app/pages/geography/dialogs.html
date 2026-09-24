@@ -72,7 +72,9 @@
               ><b id="geo-delete-tree-count"></b> location(s) will be deleted.</span
             >
           </div>
-          <label class="rec-field" for="geo-delete-tree-confirm-input">
+          <label
+            class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]"
+            for="geo-delete-tree-confirm-input">
             <span>Type <b id="geo-delete-tree-code"></b> to confirm</span>
             <input type="text" id="geo-delete-tree-confirm-input" autocomplete="off" />
           </label>
@@ -145,8 +147,12 @@
               aria-label="Locations"></div>
           </div>
           <div id="geo-parent-picker-flow-pane" role="tabpanel" hidden>
-            <div class="flex items-center p-2" role="toolbar" aria-label="Flow canvas controls">
+            <div class="flex items-center gap-[5px] p-2" role="toolbar" aria-label="Flow canvas controls">
               <span class="geo-flow-focus-chip-mount flex-1 min-w-0" id="geo-parent-picker-flow-focus-chip-mount"></span>
+              <button class="lbtn out" type="button" data-geo-parent-picker-flow-center>
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-frame-center" /></svg>
+                Center
+              </button>
             </div>
             <div
               class="geo-flow-viewport geo-parent-picker-flow-viewport min-w-0 flex-1 mx-2 mb-2 overflow-auto cursor-grab rounded-[7px] border border-line touch-none select-none min-h-[360px] [background-color:var(--bg)] [background-image:radial-gradient(var(--line)_1px,transparent_1px)] [background-size:16px_16px]"

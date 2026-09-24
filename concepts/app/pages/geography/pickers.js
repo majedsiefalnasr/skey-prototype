@@ -5,6 +5,13 @@ const pageAbort = new AbortController()
 
 const geoParentPickerState = {view: 'tree', expanded: new Set(), excluded: new Set(), flowFocusCode: ''}
 
+// Mirrors hierarchy.js's geoFlowContentSize/geoFlowPanBuffer for this
+// pane's own canvas, so centerGeoParentPickerFlow can find the tree's
+// actual bounding box (not the empty pan buffer around it) without
+// re-deriving layout math it doesn't otherwise need.
+const geoParentPickerFlowContentSize = {width: 900, height: 500}
+const geoParentPickerFlowPanBuffer = 240
+
 function renderGeoParentPickerBranch(parentCode = '', level = 1) {
           return GEO_ROWS.filter(row => row.parentCode === parentCode)
             .map(row => {
@@ -73,9 +80,16 @@ function renderGeoParentPickerFlow() {
             const focused = row.code === focusCode
             return `<div class="geo-flow-node-group" style="position:absolute;left:${position.x}px;top:${position.y}px"><button class="geo-flow-node" type="button" data-geo-parent-pick="${encodeHtml(row.code)}"${disabled ? ' disabled aria-disabled="true" title="Cannot choose a location’s own descendant as its parent"' : ''} aria-label="Choose ${encodeHtml(row.name)} as parent">${geoLocationIcon(row.type, 16)}<span><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button><span class="geo-flow-node-actions" role="group" aria-label="${encodeHtml(row.name)} actions"><button type="button" data-geo-parent-picker-focus="${encodeHtml(row.code)}" aria-pressed="${focused}" title="${focused ? 'Showing only this tree' : 'Focus this tree'}" aria-label="${focused ? `Stop focusing ${encodeHtml(row.name)}` : `Focus ${encodeHtml(row.name)}`}"><svg width="13" height="13" aria-hidden="true"><use href="#i-target" /></svg></button></span></div>`
           }).join('')
-          canvas.style.width = `${width}px`
-          canvas.style.height = `${height}px`
-          canvas.innerHTML = `<div class="geo-flow-surface" style="--geo-flow-scale:1;width:${width}px;height:${height}px"><svg class="geo-flow-connectors" style="width:${width}px;height:${height}px" viewBox="0 0 ${width} ${height}" aria-hidden="true">${connectors}</svg>${nodes}</div>`
+          // Same pan-buffer treatment as the main flow canvas's
+          // renderGeoFlow, so dragging can scroll past the tree's edges
+          // into blank space here too.
+          const paddedWidth = width + geoParentPickerFlowPanBuffer * 2
+          const paddedHeight = height + geoParentPickerFlowPanBuffer * 2
+          canvas.style.width = `${paddedWidth}px`
+          canvas.style.height = `${paddedHeight}px`
+          canvas.innerHTML = `<div class="geo-flow-surface" style="--geo-flow-scale:1;width:${paddedWidth}px;height:${paddedHeight}px"><div style="position:absolute;left:${geoParentPickerFlowPanBuffer}px;top:${geoParentPickerFlowPanBuffer}px;width:${width}px;height:${height}px"><svg class="geo-flow-connectors" style="width:${width}px;height:${height}px" viewBox="0 0 ${width} ${height}" aria-hidden="true">${connectors}</svg>${nodes}</div></div>`
+          geoParentPickerFlowContentSize.width = width
+          geoParentPickerFlowContentSize.height = height
           const focusChipMount = queryId('geo-parent-picker-flow-focus-chip-mount')
           if (focusChipMount) {
             const focusRow = focusCode ? GEO_ROWS.find(row => row.code === focusCode) : null
@@ -83,6 +97,21 @@ function renderGeoParentPickerFlow() {
               ? `<span class="geo-flow-focus-chip"><span title="Focused: ${encodeHtml(focusRow.name)}">Focused: ${encodeHtml(focusRow.name)}</span><button type="button" data-geo-parent-picker-unfocus aria-label="Show full tree"><svg width="12" height="12" aria-hidden="true"><use href="#i-x" /></svg></button></span>`
               : ''
           }
+        }
+
+// Scrolls so the tree's own content box (not the empty pan buffer around
+// it) is centered in the viewport -- this pane has no zoom/Fit control, so
+// unlike hierarchy.js's centerGeoFlow there's no scale factor to apply.
+function centerGeoParentPickerFlow() {
+          const viewport = queryId('geo-parent-picker-flow-viewport')
+          if (!viewport) return
+          const contentCenterX = geoParentPickerFlowPanBuffer + geoParentPickerFlowContentSize.width / 2
+          const contentCenterY = geoParentPickerFlowPanBuffer + geoParentPickerFlowContentSize.height / 2
+          viewport.scrollTo({
+            left: Math.max(0, contentCenterX - viewport.clientWidth / 2),
+            top: Math.max(0, contentCenterY - viewport.clientHeight / 2),
+            behavior: 'smooth',
+          })
         }
 
 function setGeoParentPickerView(view) {
@@ -94,7 +123,13 @@ function setGeoParentPickerView(view) {
           })
           queryId('geo-parent-picker-tree-pane').hidden = view !== 'tree'
           queryId('geo-parent-picker-flow-pane').hidden = view !== 'flow'
-          if (view === 'flow') renderGeoParentPickerFlow()
+          if (view === 'flow') {
+            renderGeoParentPickerFlow()
+            // Auto-center on first entering Flow (and every switch back to
+            // it), instead of leaving the viewport scrolled to (0,0) --
+            // which now shows the empty pan buffer, not the tree.
+            requestAnimationFrame(centerGeoParentPickerFlow)
+          }
         }
 
 let geoHierarchyDialogHome = null
@@ -197,22 +232,25 @@ geoParentPickerScrim.addEventListener('click', event => {
             renderGeoParentPickerTree()
             return
           }
+          if (event.target.closest('[data-geo-parent-picker-flow-center]')) {
+            centerGeoParentPickerFlow()
+            return
+          }
           const focusToggle = event.target.closest('[data-geo-parent-picker-focus]')
           if (focusToggle) {
             const code = focusToggle.dataset.geoParentPickerFocus
             geoParentPickerState.flowFocusCode = geoParentPickerState.flowFocusCode === code ? '' : code
             renderGeoParentPickerFlow()
-            // No Fit control on this pane -- the focused subtree always lays
-            // out from the canvas's top-left, so just re-center the scroll
-            // instead of leaving it wherever the previous (differently
-            // sized) content had it scrolled to.
-            queryId('geo-parent-picker-flow-viewport')?.scrollTo({top: 0, left: 0})
+            // The focused subtree's content size changes entirely -- re-
+            // center instead of leaving the scroll wherever the previous
+            // (differently sized) content had it.
+            centerGeoParentPickerFlow()
             return
           }
           if (event.target.closest('[data-geo-parent-picker-unfocus]')) {
             geoParentPickerState.flowFocusCode = ''
             renderGeoParentPickerFlow()
-            queryId('geo-parent-picker-flow-viewport')?.scrollTo({top: 0, left: 0})
+            centerGeoParentPickerFlow()
             return
           }
           const pick = event.target.closest('[data-geo-parent-pick]')

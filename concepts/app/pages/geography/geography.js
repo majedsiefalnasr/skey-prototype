@@ -290,6 +290,10 @@ document.addEventListener('click', event => {
             fitGeoFlow()
             return
           }
+          if (event.target.closest('[data-geo-flow-center]')) {
+            centerGeoFlow()
+            return
+          }
           if (event.target.closest('[data-geo-flow-fullscreen]')) {
             toggleGeoFlowFullscreen()
             return
@@ -532,7 +536,7 @@ queryId('geo-record-chrome').addEventListener('click', event => {
           }
           handleGeoRecordAction(event)
         }, {signal: pageAbort.signal})
-const {dispose: disposeHierarchy, geoLocationIcon, geoTreeRowMatches, renderGeoTreeBranch, renderGeoTree, layoutGeoFlowPositions, geoFlowLineageCodes, renderGeoFlow, syncGeoHierarchyView, selectGeoTreeNode, toggleGeoTreePanel, syncGeoTreePanelToggle, setGeoHierarchyView, setGeoFlowScale, fitGeoFlow, isGeoFlowFullscreen, toggleGeoFlowFullscreen} = createGeographyHierarchy({geoState, queryId, dataListIcon, geoHierarchyMediaQuery, renderGeoRecord, openGeoHierarchyDialog: (...args) => openGeoHierarchyDialog(...args)})
+const {dispose: disposeHierarchy, geoLocationIcon, geoTreeRowMatches, renderGeoTreeBranch, renderGeoTree, layoutGeoFlowPositions, geoFlowLineageCodes, renderGeoFlow, syncGeoHierarchyView, selectGeoTreeNode, toggleGeoTreePanel, syncGeoTreePanelToggle, setGeoHierarchyView, setGeoFlowScale, fitGeoFlow, centerGeoFlow, isGeoFlowFullscreen, toggleGeoFlowFullscreen} = createGeographyHierarchy({geoState, queryId, dataListIcon, geoHierarchyMediaQuery, renderGeoRecord, openGeoHierarchyDialog: (...args) => openGeoHierarchyDialog(...args)})
 const {dispose: disposePickers, renderGeoParentPickerBranch, renderGeoParentPickerTree, renderGeoParentPickerFlow, setGeoParentPickerView, openGeoHierarchyDialog, closeGeoHierarchyDialog, openGeoParentPicker, closeGeoParentPicker, chooseGeoParent} = createGeographyPickers({queryId, dataListIcon, geoLocationIcon, layoutGeoFlowPositions, geoFlowLineageCodes, geoDescendantCodes, geoParentPickerScrim, geoHierarchyScrim, trapFocus, releaseFocus})
 enableFlowPan('geo-flow-viewport')
 enableFlowPan('geo-parent-picker-flow-viewport')

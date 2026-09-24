@@ -5,6 +5,11 @@ const pageAbort = new AbortController()
 
 const geoFlowContentSize = {width: 800, height: 800}
 
+// Empty margin of canvas kept around the tree's own bounding box on every
+// side, so dragging can scroll past the content's edges into blank space
+// (free panning) instead of stopping exactly at it.
+const geoFlowPanBuffer = 240
+
 function geoLocationIcon(type, size = 14) {
           const icon =
             type === 'Country'
@@ -181,11 +186,17 @@ function renderGeoFlow() {
             // placement instead; .geo-flow-node itself no longer needs it.
             return `<div class="geo-flow-node-group${dimmed ? ' is-dimmed' : ''}" style="position:absolute;left:${position.x}px;top:${position.y}px"><button class="geo-flow-node" type="button" data-geo-node="${encodeHtml(row.code)}" aria-current="${row.code === geoState.code}" aria-label="View ${encodeHtml(row.name)}">${geoLocationIcon(row.type, 16)}<span><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>${renderGeoFlowNodeActions(row, {focused: row.code === focusCode})}</div>`
           }).join('')
-          const scaledWidth = Math.round(width * geoState.flowScale)
-          const scaledHeight = Math.round(height * geoState.flowScale)
+          // Scrollable region is content + geoFlowPanBuffer on every side
+          // (free panning past the tree's own edges); the actual tree
+          // content sits inset by that buffer inside .geo-flow-surface
+          // rather than shifting every node/connector coordinate.
+          const paddedWidth = width + geoFlowPanBuffer * 2
+          const paddedHeight = height + geoFlowPanBuffer * 2
+          const scaledWidth = Math.round(paddedWidth * geoState.flowScale)
+          const scaledHeight = Math.round(paddedHeight * geoState.flowScale)
           canvas.style.width = `${scaledWidth}px`
           canvas.style.height = `${scaledHeight}px`
-          canvas.innerHTML = `<div class="geo-flow-surface" style="--geo-flow-scale:${geoState.flowScale};width:${width}px;height:${height}px"><svg class="geo-flow-connectors" style="width:${width}px;height:${height}px" viewBox="0 0 ${width} ${height}" aria-hidden="true">${connectors}</svg>${nodes}</div>`
+          canvas.innerHTML = `<div class="geo-flow-surface" style="--geo-flow-scale:${geoState.flowScale};width:${paddedWidth}px;height:${paddedHeight}px"><div style="position:absolute;left:${geoFlowPanBuffer}px;top:${geoFlowPanBuffer}px;width:${width}px;height:${height}px"><svg class="geo-flow-connectors" style="width:${width}px;height:${height}px" viewBox="0 0 ${width} ${height}" aria-hidden="true">${connectors}</svg>${nodes}</div></div>`
           const zoom = queryId('geo-flow-zoom-value')
           if (zoom) zoom.textContent = `${Math.round(geoState.flowScale * 100)}%`
           const focusChipMount = queryId('geo-flow-focus-chip-mount')
@@ -267,13 +278,38 @@ function setGeoHierarchyView(view) {
           if (!['tree', 'flow'].includes(view)) return
           geoState.hierarchyView = view
           syncGeoHierarchyView()
-          if (view === 'flow')
+          if (view === 'flow') {
             requestAnimationFrame(() => queryId('geo-flow-viewport')?.focus())
+            // Center on every switch into Flow (not just the first time --
+            // the tree may have changed since the last visit), instead of
+            // leaving the viewport scrolled to (0,0), which now shows the
+            // empty pan buffer rather than the tree.
+            centerGeoFlow()
+          }
         }
 
 function setGeoFlowScale(scale) {
           geoState.flowScale = Math.min(1.4, Math.max(0.55, scale))
           renderGeoFlow()
+        }
+
+// Scrolls so the tree's own content box (not the empty pan buffer around
+// it) is centered in the viewport, at the canvas's current zoom scale.
+// Shared by the explicit Center action and by fitGeoFlow, since fitting
+// the zoom level to the viewport without also centering would otherwise
+// leave the view scrolled wherever it happened to be, possibly still
+// showing mostly buffer.
+function centerGeoFlow() {
+          const viewport = queryId('geo-flow-viewport')
+          if (!viewport) return
+          const scale = geoState.flowScale
+          const contentCenterX = (geoFlowPanBuffer + geoFlowContentSize.width / 2) * scale
+          const contentCenterY = (geoFlowPanBuffer + geoFlowContentSize.height / 2) * scale
+          viewport.scrollTo({
+            left: Math.max(0, contentCenterX - viewport.clientWidth / 2),
+            top: Math.max(0, contentCenterY - viewport.clientHeight / 2),
+            behavior: 'smooth',
+          })
         }
 
 function fitGeoFlow() {
@@ -288,7 +324,7 @@ function fitGeoFlow() {
               availableHeight / geoFlowContentSize.height
             )
           )
-          viewport.scrollTo({top: 0, left: 0, behavior: 'smooth'})
+          centerGeoFlow()
         }
 
 function isGeoFlowFullscreen() {
@@ -317,7 +353,7 @@ function setGeoFlowFullscreen(fullscreen) {
 function toggleGeoFlowFullscreen() {
           setGeoFlowFullscreen(!isGeoFlowFullscreen())
         }
-return {dispose: () => pageAbort.abort(), geoLocationIcon, geoTreeRowMatches, renderGeoTreeBranch, renderGeoTree, layoutGeoFlowPositions, geoFlowLineageCodes, renderGeoFlow, syncGeoHierarchyView, selectGeoTreeNode, toggleGeoTreePanel, syncGeoTreePanelToggle, setGeoHierarchyView, setGeoFlowScale, fitGeoFlow, isGeoFlowFullscreen, setGeoFlowFullscreen, toggleGeoFlowFullscreen}
+return {dispose: () => pageAbort.abort(), geoLocationIcon, geoTreeRowMatches, renderGeoTreeBranch, renderGeoTree, layoutGeoFlowPositions, geoFlowLineageCodes, renderGeoFlow, syncGeoHierarchyView, selectGeoTreeNode, toggleGeoTreePanel, syncGeoTreePanelToggle, setGeoHierarchyView, setGeoFlowScale, fitGeoFlow, centerGeoFlow, isGeoFlowFullscreen, setGeoFlowFullscreen, toggleGeoFlowFullscreen}
 }
 
         export function enableFlowPan(viewportId) {
