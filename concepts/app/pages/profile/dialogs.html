@@ -177,14 +177,15 @@
     </div>
     <div class="dbody [padding:16px_18px] overflow-auto flex flex-col gap-3.5">
       <p class="[font-size:13px] [color:var(--ink)]">Are you sure you want to delete your account?</p>
-      <div class="flex gap-3 [padding:12px_14px] rounded-[9px] [background:linear-gradient(to_right,_var(--danger-soft-bg),_transparent)] [border-inline-start:3px_solid_var(--danger)]">
-        <p class="[font-size:13px] [line-height:1.5] [color:var(--ink)]"><b>Warning:</b> This action <b>cannot be undone</b>. Deleting your account will remove all associated data — sessions, saved preferences, and access will be <b>permanently lost</b>.</p>
+      <div class="flex gap-2.5 items-start [border:1px_solid_var(--danger-soft-line)] [background:var(--danger-soft-bg)] rounded-[9px] [padding:11px_13px] [font-size:12.5px] [line-height:1.4] [color:var(--danger)]">
+        <svg width="15" height="15" aria-hidden="true" class="[margin-top:2px] [flex:none]"><use href="#i-warn" /></svg>
+        <span><b class="block [margin-bottom:3px]">This action cannot be undone</b>Deleting your account removes all associated data — sessions, saved preferences, and access will be permanently lost.</span>
       </div>
       <label class="grid gap-1.5 text-[13px]" for="delete-account-confirm-input">
         <span class="text-muted">To delete, type your username <b class="text-ink" id="delete-account-username"></b> below</span>
         <div class="relative">
           <svg width="15" height="15" aria-hidden="true" style="color: var(--danger)" class="absolute [inset-inline-start:9px] [top:50%] [translate:0_-50%] pointer-events-none"><use href="#i-trash" /></svg>
-          <input class="w-full min-h-[34px] rounded-[7px] border border-line bg-surface [padding-inline-start:32px] [padding-inline-end:9px] py-1.5 font-[inherit] text-[14px] text-ink [&:focus-visible]:[outline:none] [&:focus-visible]:[border-color:var(--danger)] [&:focus-visible]:[box-shadow:0_0_0_3px_var(--danger-soft-bg)]" id="delete-account-confirm-input" type="text" autocomplete="off" />
+          <input class="w-full min-h-[34px] rounded-[7px] [border:1px_solid_var(--danger)] bg-surface [padding-inline-start:32px] [padding-inline-end:9px] py-1.5 font-[inherit] text-[14px] text-ink [&:focus-visible]:[outline:none] [&:focus-visible]:[box-shadow:0_0_0_3px_var(--danger-soft-bg)]" id="delete-account-confirm-input" type="text" autocomplete="off" aria-invalid="true" />
         </div>
       </label>
     </div>
