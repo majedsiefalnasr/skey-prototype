@@ -42,18 +42,19 @@ function renderProfileField({id, label, type = 'text', value, encodeHtml, readon
   return `<div class="${REC_FIELD_CLASS}"><label for="${id}">${encodeHtml(label)}</label><input id="${id}" type="${type}" value="${encodeHtml(value)}"${disabledAttr}></div>`
 }
 
-function renderProfileIdentityHeader(currentUser, encodeHtml) {
-  return `<div class="profile-identity-header flex items-center gap-3 [padding:16px] [border-bottom:1px_solid_var(--line)]">
-    <span class="avatar inline-flex size-14 items-center justify-center rounded-full bg-[var(--line-2)] text-muted" aria-hidden="true"><svg width="26" height="26"><use href="#i-user" /></svg></span>
-    <div>
-      <b class="block text-[16px] text-ink">${encodeHtml(currentUser.name)}</b>
-      <span class="block text-[13px] text-muted">${encodeHtml(currentUser.jobTitle)} · ${encodeHtml(currentUser.branch)}</span>
-      <span class="block text-[13px] text-muted">${encodeHtml(currentUser.email)}</span>
-    </div>
+function renderActivityRow(entry, encodeHtml) {
+  return `<div class="flex items-center gap-3 [padding:9px] [border-top:1px_solid_var(--line)]">
+    <span class="flex-1"><b class="text-[13.5px] text-ink">${encodeHtml(entry.action)}</b> <span class="text-[13.5px] text-ink">${encodeHtml(entry.target)}</span></span>
+    <span class="text-xs text-muted whitespace-nowrap">${encodeHtml(entry.timestamp)}</span>
   </div>`
 }
 
-function renderProfileSection(currentUser, encodeHtml) {
+function renderRecentActivitySection(activityRows, encodeHtml) {
+  const rowsHtml = activityRows.map(entry => renderActivityRow(entry, encodeHtml)).join('')
+  return renderCard('Recent activity', `<div class="[&>div:first-child]:[border-top:0!important]">${rowsHtml}</div>`)
+}
+
+function renderProfileSection(currentUser, encodeHtml, activityRows) {
   // Single identity card, fields + photo side-by-side — same
   // customer-identity-body layout the customer record's identity section
   // uses (pages/customers/record.js:160): a fields grid on the start side,
@@ -95,7 +96,7 @@ function renderProfileSection(currentUser, encodeHtml) {
     <span class="grid [place-items:center] [width:min(164px,_100%)] [aspect-ratio:1] [padding:0] overflow-hidden text-muted [border:1px_solid_var(--line)] [border-radius:999px] bg-[var(--line-2)] [font-size:20px] font-bold" aria-hidden="true">${initials}</span>
     <button type="button" class="lbtn out" id="profile-photo-select"><svg width="15" height="15" aria-hidden="true"><use href="#i-clip" /></svg> Select photo</button>
   </div>`
-  return renderCard(
+  return renderRecentActivitySection(activityRows, encodeHtml) + renderCard(
     'Personal information',
     `<div class="grid [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
       <div class="grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>
@@ -104,7 +105,7 @@ function renderProfileSection(currentUser, encodeHtml) {
   )
 }
 
-function renderAccountSection(currentUser, encodeHtml) {
+export function renderAccountSection(currentUser, encodeHtml) {
   const fieldsHtml = [
     renderProfileField({id: 'profile-username', label: 'Username', value: currentUser.username, encodeHtml, readonly: true}),
     renderProfileField({id: 'profile-branch', label: 'Branch', value: currentUser.branch, encodeHtml, readonly: true}),
@@ -121,10 +122,25 @@ function renderAccountSection(currentUser, encodeHtml) {
       ],
     }),
   ].join('')
+  const deactivated = Boolean(currentUser.deactivationFrom)
+  const dangerZone = renderCard(
+    'Danger zone',
+    `<div class="flex flex-col gap-2.5">
+      <div class="flex items-center justify-between gap-3">
+        <span><strong class="block text-[13.5px] text-ink">${deactivated ? 'Account deactivated' : 'Deactivate account'}</strong><small class="block text-xs text-muted">${deactivated ? `Deactivated on ${encodeHtml(currentUser.deactivationFrom)}. Contact an administrator to reactivate.` : "You'll be signed out and won't be able to sign back in until an administrator reactivates your account."}</small></span>
+        <button type="button" class="lbtn out danger" id="profile-deactivate-account"${deactivated ? ' disabled' : ''}>${deactivated ? 'Deactivated' : 'Deactivate'}</button>
+      </div>
+      <div class="flex items-center justify-between gap-3">
+        <span><strong class="block text-[13.5px] text-ink">Delete account</strong><small class="block text-xs text-muted">Permanently removes your account and everything tied to it. This cannot be undone.</small></span>
+        <button type="button" class="lbtn danfill [.lbtn&]:[background:var(--danger-bold)] [.lbtn&]:[color:var(--inverse)] [.lbtn&:hover:not(:disabled)]:[background:var(--danger-fill-hover)]" id="profile-delete-account">Delete account</button>
+      </div>
+    </div>`,
+    'profile-danger-zone [.rec-card-hd]:[color:var(--danger)]!'
+  )
   return renderCard(
     'Account',
     `<div class="grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>`
-  )
+  ) + dangerZone
 }
 
 function renderAppearanceSectionFields() {
@@ -234,7 +250,8 @@ function renderAppearanceSectionFields() {
   )
 }
 
-function renderSecuritySection() {
+export function renderSecuritySection(currentUser) {
+  const enabled = Boolean(currentUser.twoFactorEnabled)
   return renderCard(
     'Sign-in security',
     `<div class="flex flex-col gap-2.5">
@@ -245,6 +262,10 @@ function renderSecuritySection() {
       <div class="flex items-center justify-between gap-3">
         <span><strong class="block text-[13.5px] text-ink">PIN code</strong><small class="block text-xs text-muted">Used for quick re-authentication on shared terminals.</small></span>
         <button type="button" class="lbtn out" data-profile-open-set-pin>Set / change PIN</button>
+      </div>
+      <div class="flex items-center justify-between gap-3">
+        <span><strong class="block text-[13.5px] text-ink">Two-factor authentication</strong><small class="block text-xs text-muted">${enabled ? 'Enabled — a code from your authenticator app is required to sign in.' : 'Add a second step when signing in, using an authenticator app.'}</small></span>
+        <button type="button" class="lbtn${enabled ? ' out danger' : ' pri'}" id="profile-2fa-toggle" data-profile-2fa-enabled="${enabled}">${enabled ? 'Turn off' : 'Turn on'}</button>
       </div>
     </div>`
   )
@@ -278,12 +299,12 @@ function renderNotificationsSection() {
   )
 }
 
-export function renderProfileSections({currentUser, encodeHtml}) {
+export function renderProfileSections({currentUser, encodeHtml, activityRows = []}) {
   const bodies = {
-    profile: renderProfileSection(currentUser, encodeHtml),
+    profile: renderProfileSection(currentUser, encodeHtml, activityRows),
     account: renderAccountSection(currentUser, encodeHtml),
     appearance: renderAppearanceSectionFields(),
-    security: renderSecuritySection(),
+    security: renderSecuritySection(currentUser),
     sessions: renderSessionsSection(),
     notifications: renderNotificationsSection(),
   }
@@ -294,5 +315,3 @@ export function renderProfileSections({currentUser, encodeHtml}) {
     )
     .join('')
 }
-
-export {renderProfileIdentityHeader}

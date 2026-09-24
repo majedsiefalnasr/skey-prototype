@@ -138,7 +138,7 @@ test('content host registers the profile view and the appearance dialog file is 
 test('main.js wires the profile page and topbar no longer opens an appearance dialog', async () => {
   const main = await readFile(new URL('../concepts/app/main.js', import.meta.url), 'utf8')
   assert.match(main, /import \{createProfile\} from '\.\/pages\/profile\/profile\.js'/)
-  assert.match(main, /import \{CURRENT_USER, LOGIN_LOG_ROWS, DEVICE_ROWS\} from '\.\/prototype\/fixtures\/profile\.js'/)
+  assert.match(main, /import \{CURRENT_USER, LOGIN_LOG_ROWS, DEVICE_ROWS, RECENT_ACTIVITY_ROWS\} from '\.\/prototype\/fixtures\/profile\.js'/)
   assert.match(main, /\['profile', profile\]/)
   assert.doesNotMatch(main, /openAppearance/)
 

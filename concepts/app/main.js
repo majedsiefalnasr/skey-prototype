@@ -15,7 +15,7 @@ import {createInvoicePayments} from './pages/invoices/payments.js'
 import {encodeHtml} from './core/locale.js'
 import {STATUSES, CHAIN} from './prototype/fixtures/invoices.js'
 import {CUSTOMER_ROWS, CUSTOMER_REFERENCE, UNIT_ROWS, CUSTOMER_LOOKUP_RESULTS} from './prototype/fixtures/customers.js'
-import {CURRENT_USER, LOGIN_LOG_ROWS, DEVICE_ROWS} from './prototype/fixtures/profile.js'
+import {CURRENT_USER, LOGIN_LOG_ROWS, DEVICE_ROWS, RECENT_ACTIVITY_ROWS} from './prototype/fixtures/profile.js'
 import {createDataList} from './components/data-list/list.js'
 import {createCustomers} from './pages/customers/customers.js'
 import {createProfile} from './pages/profile/profile.js'
@@ -420,6 +420,7 @@ const profile = createProfile({
   currentUser: CURRENT_USER,
   loginLogRows: LOGIN_LOG_ROWS,
   deviceRows: DEVICE_ROWS,
+  activityRows: RECENT_ACTIVITY_ROWS,
   storage: sessionStorage,
   toast,
   trapFocus: dialogFocus.trapFocus,

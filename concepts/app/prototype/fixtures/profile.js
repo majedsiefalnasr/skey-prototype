@@ -12,7 +12,17 @@ export const CURRENT_USER = {
   locale: 'en',
   timezone: 'Africa/Cairo',
   photo: '',
+  twoFactorEnabled: false,
+  deactivationFrom: '',
 }
+
+export const RECENT_ACTIVITY_ROWS = [
+  {id: 'act-1', action: 'Modified', target: 'Sales Invoice 126', timestamp: '2 hours ago'},
+  {id: 'act-2', action: 'Created', target: 'Customer CAI-0043', timestamp: 'Yesterday'},
+  {id: 'act-3', action: 'Posted', target: 'Sales Invoice 119', timestamp: '2 days ago'},
+  {id: 'act-4', action: 'Modified', target: 'Location EG - Cairo Governorate', timestamp: '3 days ago'},
+  {id: 'act-5', action: 'Deleted', target: 'Draft Invoice 108', timestamp: '5 days ago'},
+]
 
 export const LOGIN_LOG_ROWS = [
   {id: 'log-1', timestamp: '2026-09-23 08:12', ip: '41.66.10.24', device: 'Chrome on macOS', status: 'success'},
