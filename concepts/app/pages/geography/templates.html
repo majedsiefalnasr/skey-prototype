@@ -135,9 +135,11 @@
                     role="tabpanel"
                     hidden>
                     <div
-                      class="geo-flow-tools flex gap-[5px] items-center p-2 justify-end"
+                      class="geo-flow-tools flex gap-[5px] items-center p-2 justify-between"
                       role="toolbar"
                       aria-label="Flow canvas controls">
+                      <span class="geo-flow-focus-chip-mount flex-1 min-w-0 flex justify-start" id="geo-flow-focus-chip-mount"></span>
+                      <span class="flex gap-[5px] items-center">
                       <button
                         class="ibtn"
                         type="button"
@@ -169,6 +171,7 @@
                         <svg width="15" height="15" aria-hidden="true"><use href="#i-expand" /></svg>
                         Fullscreen
                       </button>
+                      </span>
                     </div>
                     <div
                       class="geo-flow-viewport min-w-0 flex-1 mx-2 mb-2 overflow-auto cursor-grab rounded-[7px] border border-line touch-none select-none [min-height:430px] [max-height:500px] [background-color:var(--bg)] [background-image:radial-gradient(var(--line)_1px,transparent_1px)] [background-size:16px_16px]"

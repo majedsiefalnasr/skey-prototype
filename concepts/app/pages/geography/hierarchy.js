@@ -63,10 +63,15 @@ function renderGeoTree() {
           if (search && search.value !== geoState.treeQuery) search.value = geoState.treeQuery
         }
 
-function layoutGeoFlowPositions(nodeWidth, nodeHeight, slotWidth, levelHeight) {
+function layoutGeoFlowPositions(nodeWidth, nodeHeight, slotWidth, levelHeight, rows = GEO_ROWS) {
+          const codes = new Set(rows.map(row => row.code))
           const childrenByParent = new Map()
-          GEO_ROWS.forEach(row => {
-            const key = row.parentCode || ''
+          rows.forEach(row => {
+            // A focused subset's root(s) have a parentCode that isn't in the
+            // visible set -- treat those as roots here too, so the focused
+            // node still lays out at level 0 instead of being dropped for
+            // pointing at a parent that was filtered out.
+            const key = row.parentCode && codes.has(row.parentCode) ? row.parentCode : ''
             const siblings = childrenByParent.get(key) || []
             siblings.push(row)
             childrenByParent.set(key, siblings)
@@ -114,6 +119,21 @@ function geoFlowLineageCodes(code) {
           return lineage
         }
 
+// Per-node hover toolbar markup shared by the main flow canvas and its
+// fullscreen dialog (same DOM, so wiring stays in one delegated click
+// handler in geography.js's data-geo-flow-node-action branch). The
+// buttons' own click targets are matched with .closest() before the
+// node's own click-to-select handler, so pressing one never also selects
+// the node underneath it.
+function renderGeoFlowNodeActions(row, {focused}) {
+          return `<span class="geo-flow-node-actions" role="group" aria-label="${encodeHtml(row.name)} actions">
+  <button type="button" data-geo-flow-node-action="modify" data-geo-node-target="${encodeHtml(row.code)}" title="Modify" aria-label="Modify ${encodeHtml(row.name)}"><svg width="13" height="13" aria-hidden="true"><use href="#i-edit" /></svg></button>
+  <button type="button" data-geo-flow-node-action="focus" data-geo-node-target="${encodeHtml(row.code)}" aria-pressed="${focused}" title="${focused ? 'Showing only this tree' : 'Focus this tree'}" aria-label="${focused ? `Stop focusing ${encodeHtml(row.name)}` : `Focus ${encodeHtml(row.name)}`}"><svg width="13" height="13" aria-hidden="true"><use href="#i-target" /></svg></button>
+  <button type="button" data-geo-flow-node-action="new" data-geo-node-target="${encodeHtml(row.code)}" title="New child location" aria-label="Add a location under ${encodeHtml(row.name)}"><svg width="13" height="13" aria-hidden="true"><use href="#i-plus" /></svg></button>
+  <button type="button" data-geo-flow-node-action="delete" data-geo-node-target="${encodeHtml(row.code)}" title="Delete this tree" aria-label="Delete ${encodeHtml(row.name)} and everything under it"><svg width="13" height="13" aria-hidden="true"><use href="#i-trash" /></svg></button>
+</span>`
+        }
+
 function renderGeoFlow() {
           const canvas = queryId('geo-flow-canvas')
           if (!canvas) return
@@ -121,17 +141,22 @@ function renderGeoFlow() {
           const nodeHeight = 58
           const slotWidth = 190
           const levelHeight = 164
-          const maxLevel = GEO_ROWS.reduce((max, row) => Math.max(max, row.level), 1)
+          const focusCode = geoState.flowFocusCode
+          const visibleCodes = focusCode ? geoFlowLineageCodes(focusCode) : null
+          const visibleRows = visibleCodes ? GEO_ROWS.filter(row => visibleCodes.has(row.code)) : GEO_ROWS
+          const maxLevel = visibleRows.reduce((max, row) => Math.max(max, row.level), 1)
           const {positions, slotCount} = layoutGeoFlowPositions(
             nodeWidth,
             nodeHeight,
             slotWidth,
-            levelHeight
+            levelHeight,
+            visibleRows
           )
           const width = Math.max(800, slotCount * slotWidth + 100)
           const height = Math.max(200, 24 + maxLevel * levelHeight + nodeHeight)
           const lineage = geoState.code ? geoFlowLineageCodes(geoState.code) : null
-          const connectors = GEO_ROWS.filter(row => row.parentCode)
+          const connectors = visibleRows
+            .filter(row => row.parentCode && positions.has(row.parentCode))
             .map(row => {
               const parent = positions.get(row.parentCode)
               const child = positions.get(row.code)
@@ -145,10 +170,16 @@ function renderGeoFlow() {
               return `<path class="${dimmed ? 'is-dimmed' : ''}" d="M ${fromX} ${fromY} C ${fromX} ${middleY}, ${toX} ${middleY}, ${toX} ${toY}" />`
             })
             .join('')
-          const nodes = GEO_ROWS.map(row => {
+          const nodes = visibleRows.map(row => {
             const position = positions.get(row.code)
             const dimmed = lineage && !lineage.has(row.code)
-            return `<button class="geo-flow-node${dimmed ? ' is-dimmed' : ''}" type="button" data-geo-node="${encodeHtml(row.code)}" aria-current="${row.code === geoState.code}" style="left:${position.x}px;top:${position.y}px" aria-label="View ${encodeHtml(row.name)}">${geoLocationIcon(row.type, 16)}<span><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>`
+            // Wrapped in its own positioned group (not the .geo-flow-node
+            // button itself) because the hover toolbar's buttons can't nest
+            // inside the node's own <button> -- invalid HTML, and it would
+            // make every toolbar click also fire the node's own click-to-
+            // select handler. The wrapper carries the position:absolute
+            // placement instead; .geo-flow-node itself no longer needs it.
+            return `<div class="geo-flow-node-group${dimmed ? ' is-dimmed' : ''}" style="position:absolute;left:${position.x}px;top:${position.y}px"><button class="geo-flow-node" type="button" data-geo-node="${encodeHtml(row.code)}" aria-current="${row.code === geoState.code}" aria-label="View ${encodeHtml(row.name)}">${geoLocationIcon(row.type, 16)}<span><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>${renderGeoFlowNodeActions(row, {focused: row.code === focusCode})}</div>`
           }).join('')
           const scaledWidth = Math.round(width * geoState.flowScale)
           const scaledHeight = Math.round(height * geoState.flowScale)
@@ -157,6 +188,13 @@ function renderGeoFlow() {
           canvas.innerHTML = `<div class="geo-flow-surface" style="--geo-flow-scale:${geoState.flowScale};width:${width}px;height:${height}px"><svg class="geo-flow-connectors" style="width:${width}px;height:${height}px" viewBox="0 0 ${width} ${height}" aria-hidden="true">${connectors}</svg>${nodes}</div>`
           const zoom = queryId('geo-flow-zoom-value')
           if (zoom) zoom.textContent = `${Math.round(geoState.flowScale * 100)}%`
+          const focusChipMount = queryId('geo-flow-focus-chip-mount')
+          if (focusChipMount) {
+            const focusRow = focusCode ? GEO_ROWS.find(row => row.code === focusCode) : null
+            focusChipMount.innerHTML = focusRow
+              ? `<span class="geo-flow-focus-chip"><span title="Focused: ${encodeHtml(focusRow.name)}">Focused: ${encodeHtml(focusRow.name)}</span><button type="button" data-geo-flow-unfocus aria-label="Show full tree"><svg width="12" height="12" aria-hidden="true"><use href="#i-x" /></svg></button></span>`
+              : ''
+          }
           geoFlowContentSize.width = width
           geoFlowContentSize.height = height
         }
@@ -279,7 +317,7 @@ function setGeoFlowFullscreen(fullscreen) {
 function toggleGeoFlowFullscreen() {
           setGeoFlowFullscreen(!isGeoFlowFullscreen())
         }
-return {dispose: () => pageAbort.abort(), geoLocationIcon, geoTreeRowMatches, renderGeoTreeBranch, renderGeoTree, layoutGeoFlowPositions, renderGeoFlow, syncGeoHierarchyView, selectGeoTreeNode, toggleGeoTreePanel, syncGeoTreePanelToggle, setGeoHierarchyView, setGeoFlowScale, fitGeoFlow, isGeoFlowFullscreen, setGeoFlowFullscreen, toggleGeoFlowFullscreen}
+return {dispose: () => pageAbort.abort(), geoLocationIcon, geoTreeRowMatches, renderGeoTreeBranch, renderGeoTree, layoutGeoFlowPositions, geoFlowLineageCodes, renderGeoFlow, syncGeoHierarchyView, selectGeoTreeNode, toggleGeoTreePanel, syncGeoTreePanelToggle, setGeoHierarchyView, setGeoFlowScale, fitGeoFlow, isGeoFlowFullscreen, setGeoFlowFullscreen, toggleGeoFlowFullscreen}
 }
 
         export function enableFlowPan(viewportId) {

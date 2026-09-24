@@ -1,9 +1,9 @@
 import {GEO_ROWS} from '../../prototype/fixtures/geography.js'
 import {encodeHtml} from '../../core/locale.js'
-export function createGeographyPickers({queryId, dataListIcon, geoLocationIcon, layoutGeoFlowPositions, geoDescendantCodes, geoParentPickerScrim, geoHierarchyScrim, trapFocus, releaseFocus}) {
+export function createGeographyPickers({queryId, dataListIcon, geoLocationIcon, layoutGeoFlowPositions, geoFlowLineageCodes, geoDescendantCodes, geoParentPickerScrim, geoHierarchyScrim, trapFocus, releaseFocus}) {
 const pageAbort = new AbortController()
 
-const geoParentPickerState = {view: 'tree', expanded: new Set(), excluded: new Set()}
+const geoParentPickerState = {view: 'tree', expanded: new Set(), excluded: new Set(), flowFocusCode: ''}
 
 function renderGeoParentPickerBranch(parentCode = '', level = 1) {
           return GEO_ROWS.filter(row => row.parentCode === parentCode)
@@ -40,16 +40,21 @@ function renderGeoParentPickerFlow() {
           const nodeHeight = 58
           const slotWidth = 190
           const levelHeight = 164
-          const maxLevel = GEO_ROWS.reduce((max, row) => Math.max(max, row.level), 1)
+          const focusCode = geoParentPickerState.flowFocusCode
+          const visibleCodes = focusCode ? geoFlowLineageCodes(focusCode) : null
+          const visibleRows = visibleCodes ? GEO_ROWS.filter(row => visibleCodes.has(row.code)) : GEO_ROWS
+          const maxLevel = visibleRows.reduce((max, row) => Math.max(max, row.level), 1)
           const {positions, slotCount} = layoutGeoFlowPositions(
             nodeWidth,
             nodeHeight,
             slotWidth,
-            levelHeight
+            levelHeight,
+            visibleRows
           )
           const width = Math.max(900, slotCount * slotWidth)
           const height = Math.max(500, 24 + maxLevel * levelHeight + nodeHeight + 24)
-          const connectors = GEO_ROWS.filter(row => row.parentCode)
+          const connectors = visibleRows
+            .filter(row => row.parentCode && positions.has(row.parentCode))
             .map(row => {
               const parent = positions.get(row.parentCode)
               const child = positions.get(row.code)
@@ -62,14 +67,22 @@ function renderGeoParentPickerFlow() {
               return `<path d="M ${fromX} ${fromY} C ${fromX} ${middleY}, ${toX} ${middleY}, ${toX} ${toY}" />`
             })
             .join('')
-          const nodes = GEO_ROWS.map(row => {
+          const nodes = visibleRows.map(row => {
             const position = positions.get(row.code)
             const disabled = geoParentPickerState.excluded.has(row.code)
-            return `<button class="geo-flow-node" type="button" data-geo-parent-pick="${encodeHtml(row.code)}"${disabled ? ' disabled aria-disabled="true" title="Cannot choose a location’s own descendant as its parent"' : ''} style="left:${position.x}px;top:${position.y}px" aria-label="Choose ${encodeHtml(row.name)} as parent">${geoLocationIcon(row.type, 16)}<span><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>`
+            const focused = row.code === focusCode
+            return `<div class="geo-flow-node-group" style="position:absolute;left:${position.x}px;top:${position.y}px"><button class="geo-flow-node" type="button" data-geo-parent-pick="${encodeHtml(row.code)}"${disabled ? ' disabled aria-disabled="true" title="Cannot choose a location’s own descendant as its parent"' : ''} aria-label="Choose ${encodeHtml(row.name)} as parent">${geoLocationIcon(row.type, 16)}<span><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button><span class="geo-flow-node-actions" role="group" aria-label="${encodeHtml(row.name)} actions"><button type="button" data-geo-parent-picker-focus="${encodeHtml(row.code)}" aria-pressed="${focused}" title="${focused ? 'Showing only this tree' : 'Focus this tree'}" aria-label="${focused ? `Stop focusing ${encodeHtml(row.name)}` : `Focus ${encodeHtml(row.name)}`}"><svg width="13" height="13" aria-hidden="true"><use href="#i-target" /></svg></button></span></div>`
           }).join('')
           canvas.style.width = `${width}px`
           canvas.style.height = `${height}px`
           canvas.innerHTML = `<div class="geo-flow-surface" style="--geo-flow-scale:1;width:${width}px;height:${height}px"><svg class="geo-flow-connectors" style="width:${width}px;height:${height}px" viewBox="0 0 ${width} ${height}" aria-hidden="true">${connectors}</svg>${nodes}</div>`
+          const focusChipMount = queryId('geo-parent-picker-flow-focus-chip-mount')
+          if (focusChipMount) {
+            const focusRow = focusCode ? GEO_ROWS.find(row => row.code === focusCode) : null
+            focusChipMount.innerHTML = focusRow
+              ? `<span class="geo-flow-focus-chip"><span title="Focused: ${encodeHtml(focusRow.name)}">Focused: ${encodeHtml(focusRow.name)}</span><button type="button" data-geo-parent-picker-unfocus aria-label="Show full tree"><svg width="12" height="12" aria-hidden="true"><use href="#i-x" /></svg></button></span>`
+              : ''
+          }
         }
 
 function setGeoParentPickerView(view) {
@@ -182,6 +195,24 @@ geoParentPickerScrim.addEventListener('click', event => {
             if (geoParentPickerState.expanded.has(code)) geoParentPickerState.expanded.delete(code)
             else geoParentPickerState.expanded.add(code)
             renderGeoParentPickerTree()
+            return
+          }
+          const focusToggle = event.target.closest('[data-geo-parent-picker-focus]')
+          if (focusToggle) {
+            const code = focusToggle.dataset.geoParentPickerFocus
+            geoParentPickerState.flowFocusCode = geoParentPickerState.flowFocusCode === code ? '' : code
+            renderGeoParentPickerFlow()
+            // No Fit control on this pane -- the focused subtree always lays
+            // out from the canvas's top-left, so just re-center the scroll
+            // instead of leaving it wherever the previous (differently
+            // sized) content had it scrolled to.
+            queryId('geo-parent-picker-flow-viewport')?.scrollTo({top: 0, left: 0})
+            return
+          }
+          if (event.target.closest('[data-geo-parent-picker-unfocus]')) {
+            geoParentPickerState.flowFocusCode = ''
+            renderGeoParentPickerFlow()
+            queryId('geo-parent-picker-flow-viewport')?.scrollTo({top: 0, left: 0})
             return
           }
           const pick = event.target.closest('[data-geo-parent-pick]')

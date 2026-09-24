@@ -16,6 +16,7 @@ const geoState = {
           hierarchyView: 'tree',
           treeQuery: '',
           flowScale: 1,
+          flowFocusCode: '',
         }
 
 
@@ -293,6 +294,50 @@ document.addEventListener('click', event => {
             toggleGeoFlowFullscreen()
             return
           }
+          if (event.target.closest('[data-geo-flow-unfocus]')) {
+            geoState.flowFocusCode = ''
+            renderGeoFlow()
+            fitGeoFlow()
+            return
+          }
+          const nodeAction = event.target.closest('#geo-flow-pane [data-geo-flow-node-action]')
+          if (nodeAction) {
+            const code = nodeAction.dataset.geoNodeTarget
+            const action = nodeAction.dataset.geoFlowNodeAction
+            if (action === 'focus') {
+              geoState.flowFocusCode = geoState.flowFocusCode === code ? '' : code
+              renderGeoFlow()
+              // Focusing (or returning to the full tree) changes the
+              // canvas's content size and layout entirely -- re-fit and
+              // re-center the scroll instead of leaving the viewport
+              // wherever it happened to be scrolled before, which could
+              // now be pointing at empty space outside the new content.
+              fitGeoFlow()
+              return
+            }
+            if (action === 'new') {
+              // In fullscreen the flow canvas covers the viewport, so
+              // openGeoRecord's own showContentView/render happens behind
+              // it -- same dialog escape hatch the 'modify' branch below
+              // uses, so New is visibly reachable without leaving fullscreen.
+              const wasFullscreen = isGeoFlowFullscreen()
+              openGeoRecord(code, 'create')
+              if (wasFullscreen) openGeoFlowNodeDialog()
+              return
+            }
+            if (action === 'delete') {
+              openGeoDeleteTreeConfirm(code)
+              return
+            }
+            // 'modify': openGeoRecord already does exactly what's needed --
+            // select this code, set edit mode, re-render. (Not
+            // selectGeoTreeNode: that reads node.dataset.geoNode, which the
+            // toolbar button doesn't have -- it carries the target code in
+            // data-geo-node-target instead, since it isn't the node itself.)
+            openGeoRecord(code, 'edit')
+            if (isGeoFlowFullscreen()) openGeoFlowNodeDialog()
+            return
+          }
           const flowNode = event.target.closest('#geo-flow-pane [data-geo-node]')
           if (flowNode) {
             selectGeoTreeNode(flowNode)
@@ -372,6 +417,72 @@ geoFlowNodeScrim.addEventListener('click', event => {
           handleGeoRecordAction(event)
         }, {signal: pageAbort.signal})
 
+const geoDeleteTreeScrim = document.getElementById('geo-delete-tree-scrim')
+let geoDeleteTreeCode = ''
+
+function openGeoDeleteTreeConfirm(code) {
+          const row = GEO_ROWS.find(item => item.code === code)
+          if (!row) return
+          geoDeleteTreeCode = code
+          const affected = geoFlowLineageCodes(code)
+          queryId('geo-delete-tree-name').textContent = `${row.code} - ${row.name}`
+          queryId('geo-delete-tree-count').textContent = String(affected.size)
+          queryId('geo-delete-tree-code').textContent = row.code
+          const input = queryId('geo-delete-tree-confirm-input')
+          input.value = ''
+          queryId('geo-delete-tree-confirm').disabled = true
+          geoDeleteTreeScrim.classList.add('open')
+          trapFocus(geoDeleteTreeScrim.querySelector('.customer-modal'))
+          input.focus()
+        }
+
+function closeGeoDeleteTreeConfirm() {
+          geoDeleteTreeCode = ''
+          geoDeleteTreeScrim.classList.remove('open')
+          releaseFocus()
+        }
+
+// Real removal (splice, not a soft-delete flag): GEO_ROWS is this
+// prototype's full/literal geo dataset -- nothing else reads a paired
+// simulated-total constant off its length (checked: components/data-list/
+// model.js's DATA_LIST_SIMULATED_TOTAL.geo=12 is otherwise unread), so
+// shrinking the array is safe and makes a deleted tree disappear from
+// every GEO_ROWS consumer (list, pickers, tree, flow) by construction.
+function deleteGeoTree(code) {
+          const codes = geoFlowLineageCodes(code)
+          const removedCount = codes.size
+          for (let i = GEO_ROWS.length - 1; i >= 0; i -= 1) {
+            if (codes.has(GEO_ROWS[i].code)) GEO_ROWS.splice(i, 1)
+          }
+          geoState.expanded.forEach(expandedCode => {
+            if (codes.has(expandedCode)) geoState.expanded.delete(expandedCode)
+          })
+          if (geoState.flowFocusCode && codes.has(geoState.flowFocusCode)) geoState.flowFocusCode = ''
+          if (codes.has(geoState.code)) geoState.code = GEO_ROWS[0]?.code || ''
+          return removedCount
+        }
+
+geoDeleteTreeScrim.addEventListener('click', event => {
+          if (event.target === geoDeleteTreeScrim || event.target.closest('.geo-delete-tree-close')) {
+            closeGeoDeleteTreeConfirm()
+            return
+          }
+          if (event.target.closest('#geo-delete-tree-confirm')) {
+            const code = geoDeleteTreeCode
+            const removedCount = deleteGeoTree(code)
+            closeGeoDeleteTreeConfirm()
+            if (geoFlowNodeOpen) closeGeoFlowNodeDialog()
+            renderGeoRecord()
+            if (geoState.hierarchyView === 'flow') fitGeoFlow()
+            toast({tone: 'ok', title: 'Location tree deleted', body: `${removedCount} location(s) removed.`})
+          }
+        }, {signal: pageAbort.signal})
+
+queryId('geo-delete-tree-confirm-input').addEventListener('input', event => {
+          const row = GEO_ROWS.find(item => item.code === geoDeleteTreeCode)
+          queryId('geo-delete-tree-confirm').disabled = !row || event.target.value.trim() !== row.code
+        }, {signal: pageAbort.signal})
+
 queryId('geo-tree-search').addEventListener('input', event => {
           geoState.treeQuery = event.target.value
           renderGeoTree()
@@ -421,8 +532,8 @@ queryId('geo-record-chrome').addEventListener('click', event => {
           }
           handleGeoRecordAction(event)
         }, {signal: pageAbort.signal})
-const {dispose: disposeHierarchy, geoLocationIcon, geoTreeRowMatches, renderGeoTreeBranch, renderGeoTree, layoutGeoFlowPositions, renderGeoFlow, syncGeoHierarchyView, selectGeoTreeNode, toggleGeoTreePanel, syncGeoTreePanelToggle, setGeoHierarchyView, setGeoFlowScale, fitGeoFlow, isGeoFlowFullscreen, toggleGeoFlowFullscreen} = createGeographyHierarchy({geoState, queryId, dataListIcon, geoHierarchyMediaQuery, renderGeoRecord, openGeoHierarchyDialog: (...args) => openGeoHierarchyDialog(...args)})
-const {dispose: disposePickers, renderGeoParentPickerBranch, renderGeoParentPickerTree, renderGeoParentPickerFlow, setGeoParentPickerView, openGeoHierarchyDialog, closeGeoHierarchyDialog, openGeoParentPicker, closeGeoParentPicker, chooseGeoParent} = createGeographyPickers({queryId, dataListIcon, geoLocationIcon, layoutGeoFlowPositions, geoDescendantCodes, geoParentPickerScrim, geoHierarchyScrim, trapFocus, releaseFocus})
+const {dispose: disposeHierarchy, geoLocationIcon, geoTreeRowMatches, renderGeoTreeBranch, renderGeoTree, layoutGeoFlowPositions, geoFlowLineageCodes, renderGeoFlow, syncGeoHierarchyView, selectGeoTreeNode, toggleGeoTreePanel, syncGeoTreePanelToggle, setGeoHierarchyView, setGeoFlowScale, fitGeoFlow, isGeoFlowFullscreen, toggleGeoFlowFullscreen} = createGeographyHierarchy({geoState, queryId, dataListIcon, geoHierarchyMediaQuery, renderGeoRecord, openGeoHierarchyDialog: (...args) => openGeoHierarchyDialog(...args)})
+const {dispose: disposePickers, renderGeoParentPickerBranch, renderGeoParentPickerTree, renderGeoParentPickerFlow, setGeoParentPickerView, openGeoHierarchyDialog, closeGeoHierarchyDialog, openGeoParentPicker, closeGeoParentPicker, chooseGeoParent} = createGeographyPickers({queryId, dataListIcon, geoLocationIcon, layoutGeoFlowPositions, geoFlowLineageCodes, geoDescendantCodes, geoParentPickerScrim, geoHierarchyScrim, trapFocus, releaseFocus})
 enableFlowPan('geo-flow-viewport')
 enableFlowPan('geo-parent-picker-flow-viewport')
 const listRoot = document.querySelector('.geo-list-view')

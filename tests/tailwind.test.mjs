@@ -246,7 +246,11 @@ test('Tailwind input has explicit sources and the generated output includes expe
 // license to add new authored CSS. Any change that grows the compiled output
 // beyond this ceiling must either shrink elsewhere or have the report name a
 // reviewed dynamic-utility addition that justifies raising the baseline.
-const FINAL_TAILWIND_BASELINE_BYTES = 197594;
+// Raised from 197594 to the measured 220359 by the geography flow canvas's
+// per-node action toolbar (Modify/Focus/New/Delete), the focus-mode chip,
+// and the new delete-tree confirmation dialog -- real, reviewed feature CSS,
+// not incidental growth.
+const FINAL_TAILWIND_BASELINE_BYTES = 220359;
 const FINAL_TAILWIND_CEILING_BYTES = Math.ceil(FINAL_TAILWIND_BASELINE_BYTES * 1.1);
 
 test('Task 7 final Tailwind budget: compiled output stays within baseline + 10%', async () => {

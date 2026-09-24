@@ -48,6 +48,48 @@
       </section>
     </div>
 
+    <div class="customer-overlay fixed [inset:0] [z-index:210] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="geo-delete-tree-scrim">
+      <section
+        class="customer-modal flex flex-col [width:min(520px,96vw)] [max-height:88vh] overflow-hidden [border-radius:10px] bg-surface [box-shadow:var(--shadow-2)]"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="geo-delete-tree-title">
+        <header class="customer-modal-header flex [flex:none] gap-2.5 items-center [padding:13px_16px] [border-bottom:1px_solid_var(--line)]">
+          <svg width="17" height="17" aria-hidden="true" style="color: var(--danger)"><use href="#i-trash" /></svg>
+          <h3 id="geo-delete-tree-title" class="text-[15px] font-semibold">Delete this tree</h3>
+          <button class="ibtn geo-delete-tree-close ms-auto" type="button" aria-label="Close">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </header>
+        <div class="[padding:16px] overflow-auto">
+          <p class="text-[13px] text-ink mb-3">
+            This permanently removes <b id="geo-delete-tree-name"></b> and every location under it.
+            This cannot be undone.
+          </p>
+          <div class="[border:1px_solid_var(--danger-soft-line)] [border-radius:9px] [padding:11px_13px] mb-3.5 [background:var(--danger-soft-bg)] flex items-start gap-2">
+            <svg width="14" height="14" aria-hidden="true" style="color: var(--danger); margin-top: 2px; flex: none"><use href="#i-warn" /></svg>
+            <span class="text-[12.5px]" style="color: var(--danger)"
+              ><b id="geo-delete-tree-count"></b> location(s) will be deleted.</span
+            >
+          </div>
+          <label class="rec-field" for="geo-delete-tree-confirm-input">
+            <span>Type <b id="geo-delete-tree-code"></b> to confirm</span>
+            <input type="text" id="geo-delete-tree-confirm-input" autocomplete="off" />
+          </label>
+        </div>
+        <footer class="customer-modal-footer flex [flex:none] gap-2 justify-end [padding:12px_16px] [border-top:1px_solid_var(--line)] bg-[var(--line-2)]">
+          <button class="lbtn out geo-delete-tree-close" type="button">Keep it</button>
+          <button
+            class="lbtn [background:var(--danger-bold)] [color:var(--inverse)] [&:hover:not(:disabled)]:[background:var(--danger-fill-hover)] [&:disabled]:opacity-50"
+            id="geo-delete-tree-confirm"
+            type="button"
+            disabled>
+            Delete tree
+          </button>
+        </footer>
+      </section>
+    </div>
+
     <div class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="geo-parent-picker-scrim">
       <section
         class="customer-modal geo-parent-picker-modal flex flex-col [width:min(620px,96vw)] [max-height:min(760px,92vh)] overflow-hidden [border-radius:10px] bg-surface [box-shadow:var(--shadow-2)]"
@@ -103,6 +145,9 @@
               aria-label="Locations"></div>
           </div>
           <div id="geo-parent-picker-flow-pane" role="tabpanel" hidden>
+            <div class="flex items-center p-2" role="toolbar" aria-label="Flow canvas controls">
+              <span class="geo-flow-focus-chip-mount flex-1 min-w-0" id="geo-parent-picker-flow-focus-chip-mount"></span>
+            </div>
             <div
               class="geo-flow-viewport geo-parent-picker-flow-viewport min-w-0 flex-1 mx-2 mb-2 overflow-auto cursor-grab rounded-[7px] border border-line touch-none select-none min-h-[360px] [background-color:var(--bg)] [background-image:radial-gradient(var(--line)_1px,transparent_1px)] [background-size:16px_16px]"
               id="geo-parent-picker-flow-viewport">
