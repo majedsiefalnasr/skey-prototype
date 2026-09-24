@@ -3,12 +3,37 @@ import {encodeHtml} from '../../core/locale.js'
 export function createGeographyHierarchy({geoState, queryId, dataListIcon, geoHierarchyMediaQuery, renderGeoRecord, openGeoHierarchyDialog}) {
 const pageAbort = new AbortController()
 
-const geoFlowContentSize = {width: 800, height: 800}
+const geoFlowContentSize = {
+          width: 800,
+          height: 800,
+          buffer: 240,
+          contentBounds: {minX: 0, maxX: 800, minY: 0, maxY: 800},
+        }
 
-// Empty margin of canvas kept around the tree's own bounding box on every
-// side, so dragging can scroll past the content's edges into blank space
-// (free panning) instead of stopping exactly at it.
-const geoFlowPanBuffer = 240
+// Minimum empty margin of canvas kept around the tree's own bounding box
+// on every side, so dragging can scroll past the content's edges into
+// blank space (free panning) instead of stopping exactly at it.
+const geoFlowPanBufferMin = 240
+
+// The buffer actually used for a render: at least geoFlowPanBufferMin, but
+// never smaller than half the viewport's own size *in canvas-space* (the
+// viewport's real pixel size divided by zoom scale, since the buffer is a
+// canvas-space value that gets multiplied by scale again later when
+// canvas.style.width is set). A tree narrower/shorter than the viewport
+// (e.g. 3 nodes on a wide split pane, or any tree at a zoomed-out scale)
+// needs a buffer at least that big on each side, or else centering it
+// would need a negative scroll position -- which the browser clamps to 0,
+// landing the view on the buffer's edge instead of centered on the (small)
+// tree. Doubling ensures the "ideal" (unclamped) center-scroll math in
+// centerGeoFlow is always achievable.
+function geoFlowPanBuffer(viewport, scale) {
+          const safeScale = scale > 0 ? scale : 1
+          return Math.max(
+            geoFlowPanBufferMin,
+            Math.ceil((viewport?.clientWidth || 0) / safeScale / 2),
+            Math.ceil((viewport?.clientHeight || 0) / safeScale / 2)
+          )
+        }
 
 function geoLocationIcon(type, size = 14) {
           const icon =
@@ -159,6 +184,20 @@ function renderGeoFlow() {
           )
           const width = Math.max(800, slotCount * slotWidth + 100)
           const height = Math.max(200, 24 + maxLevel * levelHeight + nodeHeight)
+          // The tree's own node bounding box, used for true centering
+          // (centerGeoFlow) -- distinct from width/height above, which pad
+          // asymmetrically (e.g. +100 only on the right, +24 top margin
+          // with no matching bottom margin) for layout/Fit purposes, not
+          // for finding the content's actual visual center.
+          const visiblePositions = visibleRows.map(row => positions.get(row.code)).filter(Boolean)
+          const contentBounds = visiblePositions.length
+            ? {
+                minX: Math.min(...visiblePositions.map(p => p.x)),
+                maxX: Math.max(...visiblePositions.map(p => p.x)) + nodeWidth,
+                minY: Math.min(...visiblePositions.map(p => p.y)),
+                maxY: Math.max(...visiblePositions.map(p => p.y)) + nodeHeight,
+              }
+            : {minX: 0, maxX: width, minY: 0, maxY: height}
           const lineage = geoState.code ? geoFlowLineageCodes(geoState.code) : null
           const connectors = visibleRows
             .filter(row => row.parentCode && positions.has(row.parentCode))
@@ -186,17 +225,21 @@ function renderGeoFlow() {
             // placement instead; .geo-flow-node itself no longer needs it.
             return `<div class="geo-flow-node-group${dimmed ? ' is-dimmed' : ''}" style="position:absolute;left:${position.x}px;top:${position.y}px"><button class="geo-flow-node" type="button" data-geo-node="${encodeHtml(row.code)}" aria-current="${row.code === geoState.code}" aria-label="View ${encodeHtml(row.name)}">${geoLocationIcon(row.type, 16)}<span><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>${renderGeoFlowNodeActions(row, {focused: row.code === focusCode})}</div>`
           }).join('')
-          // Scrollable region is content + geoFlowPanBuffer on every side
+          // Scrollable region is content + a pan buffer on every side
           // (free panning past the tree's own edges); the actual tree
           // content sits inset by that buffer inside .geo-flow-surface
-          // rather than shifting every node/connector coordinate.
-          const paddedWidth = width + geoFlowPanBuffer * 2
-          const paddedHeight = height + geoFlowPanBuffer * 2
+          // rather than shifting every node/connector coordinate. The
+          // buffer is sized to this viewport (see geoFlowPanBuffer) and
+          // stored so centerGeoFlow can find the tree's true center
+          // without recomputing it against a possibly-resized viewport.
+          const buffer = geoFlowPanBuffer(queryId('geo-flow-viewport'), geoState.flowScale)
+          const paddedWidth = width + buffer * 2
+          const paddedHeight = height + buffer * 2
           const scaledWidth = Math.round(paddedWidth * geoState.flowScale)
           const scaledHeight = Math.round(paddedHeight * geoState.flowScale)
           canvas.style.width = `${scaledWidth}px`
           canvas.style.height = `${scaledHeight}px`
-          canvas.innerHTML = `<div class="geo-flow-surface" style="--geo-flow-scale:${geoState.flowScale};width:${paddedWidth}px;height:${paddedHeight}px"><div style="position:absolute;left:${geoFlowPanBuffer}px;top:${geoFlowPanBuffer}px;width:${width}px;height:${height}px"><svg class="geo-flow-connectors" style="width:${width}px;height:${height}px" viewBox="0 0 ${width} ${height}" aria-hidden="true">${connectors}</svg>${nodes}</div></div>`
+          canvas.innerHTML = `<div class="geo-flow-surface" style="--geo-flow-scale:${geoState.flowScale};width:${paddedWidth}px;height:${paddedHeight}px"><div style="position:absolute;left:${buffer}px;top:${buffer}px;width:${width}px;height:${height}px"><svg class="geo-flow-connectors" style="width:${width}px;height:${height}px" viewBox="0 0 ${width} ${height}" aria-hidden="true">${connectors}</svg>${nodes}</div></div>`
           const zoom = queryId('geo-flow-zoom-value')
           if (zoom) zoom.textContent = `${Math.round(geoState.flowScale * 100)}%`
           const focusChipMount = queryId('geo-flow-focus-chip-mount')
@@ -208,6 +251,8 @@ function renderGeoFlow() {
           }
           geoFlowContentSize.width = width
           geoFlowContentSize.height = height
+          geoFlowContentSize.buffer = buffer
+          geoFlowContentSize.contentBounds = contentBounds
         }
 
 function syncGeoHierarchyView() {
@@ -279,12 +324,19 @@ function setGeoHierarchyView(view) {
           geoState.hierarchyView = view
           syncGeoHierarchyView()
           if (view === 'flow') {
-            requestAnimationFrame(() => queryId('geo-flow-viewport')?.focus())
-            // Center on every switch into Flow (not just the first time --
-            // the tree may have changed since the last visit), instead of
-            // leaving the viewport scrolled to (0,0), which now shows the
-            // empty pan buffer rather than the tree.
-            centerGeoFlow()
+            requestAnimationFrame(() => {
+              queryId('geo-flow-viewport')?.focus()
+              // Center on every switch into Flow (not just the first time
+              // -- the tree may have changed since the last visit),
+              // instead of leaving the viewport scrolled to (0,0), which
+              // now shows the empty pan buffer rather than the tree.
+              // Deferred a frame: the pane was `hidden` until
+              // syncGeoHierarchyView() just above, so viewport.clientWidth/
+              // Height would still read 0 if centered synchronously here,
+              // which centerGeoFlow's own math would otherwise divide by
+              // -- putting the scroll miles off instead of centered.
+              centerGeoFlow()
+            })
           }
         }
 
@@ -303,11 +355,20 @@ function centerGeoFlow() {
           const viewport = queryId('geo-flow-viewport')
           if (!viewport) return
           const scale = geoState.flowScale
-          const contentCenterX = (geoFlowPanBuffer + geoFlowContentSize.width / 2) * scale
-          const contentCenterY = (geoFlowPanBuffer + geoFlowContentSize.height / 2) * scale
+          const bounds = geoFlowContentSize.contentBounds
+          const contentCenterX = (geoFlowContentSize.buffer + (bounds.minX + bounds.maxX) / 2) * scale
+          const contentCenterY = (geoFlowContentSize.buffer + (bounds.minY + bounds.maxY) / 2) * scale
+          // geoFlowPanBuffer sized this render's buffer to at least half
+          // the viewport on each axis (see its own comment), so these
+          // targets never actually go negative -- no Math.max(0, ...)
+          // clamp needed, which is what previously pinned small trees to
+          // the viewport's inline-start edge instead of true center.
+          // contentBounds (not width/height/2) is the tree's own actual
+          // node bounding box -- width/height pad asymmetrically for
+          // layout purposes and don't represent the visual center.
           viewport.scrollTo({
-            left: Math.max(0, contentCenterX - viewport.clientWidth / 2),
-            top: Math.max(0, contentCenterY - viewport.clientHeight / 2),
+            left: contentCenterX - viewport.clientWidth / 2,
+            top: contentCenterY - viewport.clientHeight / 2,
             behavior: 'smooth',
           })
         }

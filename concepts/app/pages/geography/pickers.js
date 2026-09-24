@@ -9,8 +9,27 @@ const geoParentPickerState = {view: 'tree', expanded: new Set(), excluded: new S
 // pane's own canvas, so centerGeoParentPickerFlow can find the tree's
 // actual bounding box (not the empty pan buffer around it) without
 // re-deriving layout math it doesn't otherwise need.
-const geoParentPickerFlowContentSize = {width: 900, height: 500}
-const geoParentPickerFlowPanBuffer = 240
+const geoParentPickerFlowContentSize = {
+          width: 900,
+          height: 500,
+          buffer: 240,
+          contentBounds: {minX: 0, maxX: 900, minY: 0, maxY: 500},
+        }
+const geoParentPickerFlowPanBufferMin = 240
+
+// See hierarchy.js's geoFlowPanBuffer for why this needs to be at least
+// half the viewport on each axis: a tree smaller than the viewport (e.g.
+// 3 nodes) otherwise needs a negative scroll position to truly center,
+// which the browser clamps to 0 -- landing the view on the buffer's edge
+// instead of centered on the tree. No zoom control on this pane, so
+// unlike the main flow canvas there's no scale factor to account for.
+function geoParentPickerFlowPanBuffer(viewport) {
+          return Math.max(
+            geoParentPickerFlowPanBufferMin,
+            Math.ceil((viewport?.clientWidth || 0) / 2),
+            Math.ceil((viewport?.clientHeight || 0) / 2)
+          )
+        }
 
 function renderGeoParentPickerBranch(parentCode = '', level = 1) {
           return GEO_ROWS.filter(row => row.parentCode === parentCode)
@@ -60,6 +79,18 @@ function renderGeoParentPickerFlow() {
           )
           const width = Math.max(900, slotCount * slotWidth)
           const height = Math.max(500, 24 + maxLevel * levelHeight + nodeHeight + 24)
+          // The tree's own node bounding box, for true centering -- see
+          // hierarchy.js's matching comment on why width/height's own
+          // asymmetric padding isn't the content's actual visual center.
+          const visiblePositions = visibleRows.map(row => positions.get(row.code)).filter(Boolean)
+          const contentBounds = visiblePositions.length
+            ? {
+                minX: Math.min(...visiblePositions.map(p => p.x)),
+                maxX: Math.max(...visiblePositions.map(p => p.x)) + nodeWidth,
+                minY: Math.min(...visiblePositions.map(p => p.y)),
+                maxY: Math.max(...visiblePositions.map(p => p.y)) + nodeHeight,
+              }
+            : {minX: 0, maxX: width, minY: 0, maxY: height}
           const connectors = visibleRows
             .filter(row => row.parentCode && positions.has(row.parentCode))
             .map(row => {
@@ -83,13 +114,16 @@ function renderGeoParentPickerFlow() {
           // Same pan-buffer treatment as the main flow canvas's
           // renderGeoFlow, so dragging can scroll past the tree's edges
           // into blank space here too.
-          const paddedWidth = width + geoParentPickerFlowPanBuffer * 2
-          const paddedHeight = height + geoParentPickerFlowPanBuffer * 2
+          const buffer = geoParentPickerFlowPanBuffer(queryId('geo-parent-picker-flow-viewport'))
+          const paddedWidth = width + buffer * 2
+          const paddedHeight = height + buffer * 2
           canvas.style.width = `${paddedWidth}px`
           canvas.style.height = `${paddedHeight}px`
-          canvas.innerHTML = `<div class="geo-flow-surface" style="--geo-flow-scale:1;width:${paddedWidth}px;height:${paddedHeight}px"><div style="position:absolute;left:${geoParentPickerFlowPanBuffer}px;top:${geoParentPickerFlowPanBuffer}px;width:${width}px;height:${height}px"><svg class="geo-flow-connectors" style="width:${width}px;height:${height}px" viewBox="0 0 ${width} ${height}" aria-hidden="true">${connectors}</svg>${nodes}</div></div>`
+          canvas.innerHTML = `<div class="geo-flow-surface" style="--geo-flow-scale:1;width:${paddedWidth}px;height:${paddedHeight}px"><div style="position:absolute;left:${buffer}px;top:${buffer}px;width:${width}px;height:${height}px"><svg class="geo-flow-connectors" style="width:${width}px;height:${height}px" viewBox="0 0 ${width} ${height}" aria-hidden="true">${connectors}</svg>${nodes}</div></div>`
           geoParentPickerFlowContentSize.width = width
           geoParentPickerFlowContentSize.height = height
+          geoParentPickerFlowContentSize.buffer = buffer
+          geoParentPickerFlowContentSize.contentBounds = contentBounds
           const focusChipMount = queryId('geo-parent-picker-flow-focus-chip-mount')
           if (focusChipMount) {
             const focusRow = focusCode ? GEO_ROWS.find(row => row.code === focusCode) : null
@@ -105,11 +139,17 @@ function renderGeoParentPickerFlow() {
 function centerGeoParentPickerFlow() {
           const viewport = queryId('geo-parent-picker-flow-viewport')
           if (!viewport) return
-          const contentCenterX = geoParentPickerFlowPanBuffer + geoParentPickerFlowContentSize.width / 2
-          const contentCenterY = geoParentPickerFlowPanBuffer + geoParentPickerFlowContentSize.height / 2
+          const bounds = geoParentPickerFlowContentSize.contentBounds
+          const contentCenterX = geoParentPickerFlowContentSize.buffer + (bounds.minX + bounds.maxX) / 2
+          const contentCenterY = geoParentPickerFlowContentSize.buffer + (bounds.minY + bounds.maxY) / 2
+          // geoParentPickerFlowPanBuffer sized this render's buffer to at
+          // least half the viewport on each axis, so these targets never
+          // go negative -- no Math.max(0, ...) clamp needed. contentBounds
+          // (not width/height/2) is the tree's own actual node bounding
+          // box -- width/height pad asymmetrically for layout purposes.
           viewport.scrollTo({
-            left: Math.max(0, contentCenterX - viewport.clientWidth / 2),
-            top: Math.max(0, contentCenterY - viewport.clientHeight / 2),
+            left: contentCenterX - viewport.clientWidth / 2,
+            top: contentCenterY - viewport.clientHeight / 2,
             behavior: 'smooth',
           })
         }
