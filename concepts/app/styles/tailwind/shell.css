@@ -767,7 +767,6 @@
   .dhd { background: var(--line-2); }
   .customer-modal-header,
   .customer-unit-drawer-header,
-  .rhd,
   .drhd { background: var(--line-2); }
   /* Boxed is a fixed-wide content grid: the application chrome remains fluid,
      while one shared page-content canvas aligns headers, forms, tables, and
@@ -822,16 +821,64 @@
     body.layout-boxed .page-footer .fnav { width: calc(100% - 32px); }
     .lp-body { width: 100%; max-width: none; }
   }
-  /* Invoice operation dialogs retain the shared header treatment, then declare
-     the consequence of the action in their header tone. */
-  .rdlg[data-kind='posting'] .rhd,
-  .rdlg[data-tone='success'] .rhd { background: var(--st-post-bg); color: var(--st-post-ink); }
-  .rdlg[data-tone='warning'] .rhd { background: var(--st-pend-bg); color: var(--st-pend-ink); }
-  .rdlg[data-kind='cancel'] .rhd,
-  .rdlg[data-kind='delete'] .rhd,
-  .rdlg[data-tone="danger"] .rhd { background: var(--danger-soft-bg); border-color: var(--danger-soft-line); color: var(--danger); }
   .dfoot .end { margin-inline-start: auto; display: flex; gap: 8px; }
   .dfoot .sum { font-size: 12px; color: var(--muted); }
+
+  /* Toned dialogs: a colored border wraps the whole panel, matching the header's
+     tone background, and the header sits directly on that tone. Body and footer
+     share one continuous white surface below the header so the dialog reads as
+     a single container. Border/header color communicates the dialog's
+     consequence (default/warning/danger/info). */
+  .dlg[data-tone] {
+    border: 8px solid var(--surface-hover);
+    background: var(--surface-hover);
+    padding: 0;
+    gap: 0;
+  }
+  .dlg[data-tone] .dhd {
+    background: transparent;
+    border-bottom: none;
+    padding-inline: 18px 8px;
+    padding-block: 10px 14px;
+  }
+  .dlg[data-tone] .dhd > .ibtn { color: var(--ink); }
+  .dlg[data-tone] .dhd-subtitle {
+    margin-top: 2px;
+    font-size: 12.5px;
+    font-weight: 400;
+    color: var(--muted);
+  }
+  .dlg[data-tone] .dlg-inner {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background: var(--surface);
+    border-radius: 9px;
+    overflow: hidden;
+  }
+  .dlg[data-tone] .dfoot {
+    background: var(--surface);
+    border-top: 0;
+  }
+  .dlg[data-tone='warning'] { border-color: var(--warn-bg); background: var(--warn-bg); }
+  .dlg[data-tone='warning'] .dhd { color: var(--warn-ink); }
+  .dlg[data-tone='danger'] { border-color: var(--danger-soft-bg); background: var(--danger-soft-bg); }
+  .dlg[data-tone='danger'] .dhd { color: var(--danger); }
+  .dlg[data-tone='info'] { border-color: var(--info-soft-bg); background: var(--info-soft-bg); }
+  .dlg[data-tone='info'] .dhd { color: var(--info); }
+  .dlg[data-tone='success'] { border-color: var(--success-soft-bg); background: var(--success-soft-bg); }
+  .dlg[data-tone='success'] .dhd { color: var(--success); }
+
+  /* Primary action button follows the dialog's tone -- default tone keeps
+     the plain accent-blue .lbtn.pri untouched. */
+  .dlg[data-tone='warning'] .lbtn.pri { background: var(--warn-fill); color: var(--inverse); }
+  .dlg[data-tone='warning'] .lbtn.pri:hover:not(:disabled) { background: var(--warn-fill-hover); }
+  .dlg[data-tone='danger'] .lbtn.pri { background: var(--danger-bold); color: var(--inverse); }
+  .dlg[data-tone='danger'] .lbtn.pri:hover:not(:disabled) { background: var(--danger-fill-hover); }
+  .dlg[data-tone='info'] .lbtn.pri { background: var(--info-fill); color: var(--inverse); }
+  .dlg[data-tone='info'] .lbtn.pri:hover:not(:disabled) { background: var(--info-fill-hover); }
+  .dlg[data-tone='success'] .lbtn.pri { background: var(--success-fill); color: var(--inverse); }
+  .dlg[data-tone='success'] .lbtn.pri:hover:not(:disabled) { background: var(--success-fill-hover); }
 
   /* "Customize your sidebar" dialog: two-column For You builder. */
   .cs-dlg { width: min(980px, 96vw); }

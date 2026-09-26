@@ -8,7 +8,7 @@ const INVOICE_STATUS_ACTIONS = {
     title: no => `Open invoice ${no}`,
     description: 'This makes the invoice available for normal processing again.',
     confirm: 'Open invoice',
-    tone: 'neutral',
+    tone: 'default',
   },
   Pending: {
     title: no => `Mark invoice ${no} as pending`,
@@ -28,7 +28,7 @@ const INVOICE_STATUS_ACTIONS = {
 
 /** Owns the list-level "Change status" dialogs for invoices and customers —
     standalone dialogs (no record navigation needed), built from the same
-    .dscrim/.rdlg shell as the invoice record page's own status dialog. */
+    .dscrim/.dlg shell as the invoice record page's own status dialog. */
 export function createStatusDialogs({trapFocus, releaseFocus, toast, renderDataList} = {}) {
   const invScrim = document.getElementById('invoice-status-scrim')
   const custScrim = document.getElementById('customer-status-scrim')
@@ -57,7 +57,7 @@ export function createStatusDialogs({trapFocus, releaseFocus, toast, renderDataL
     const action = INVOICE_STATUS_ACTIONS[targetStatus]
     if (!action) return
     pendingInvoice = row
-    invScrim.querySelector('.rdlg').dataset.tone = action.tone
+    invScrim.querySelector('.dlg').dataset.tone = action.tone
     invScrim.querySelector('#invoice-status-title').textContent = action.title(row.no)
     invScrim.querySelector('#invoice-status-description').textContent = action.description
     const reason = invScrim.querySelector('.invoice-status-reason')
@@ -72,7 +72,7 @@ export function createStatusDialogs({trapFocus, releaseFocus, toast, renderDataL
     invScrim.querySelector('#invoice-status-sum').textContent = `Invoice ${row.no}`
     validateInvoiceStatusConfirm()
     invScrim.classList.add('open')
-    trapFocus(invScrim.querySelector('.rdlg'))
+    trapFocus(invScrim.querySelector('.dlg'))
   }
 
   invScrim.addEventListener('click', event => {
@@ -149,13 +149,13 @@ export function createStatusDialogs({trapFocus, releaseFocus, toast, renderDataL
     field.value = ''
     field.required = true
     custScrim.querySelector('#customer-status-confirm').textContent = 'Deactivate customer'
-    custScrim.querySelector('.rdlg').dataset.tone = 'danger'
+    custScrim.querySelector('.dlg').dataset.tone = 'danger'
     custScrim.querySelector('#customer-status-sum').textContent = single
       ? single.customerName || single.customerNo
       : `${rows.length} customers`
     validateCustomerStatusConfirm()
     custScrim.classList.add('open')
-    trapFocus(custScrim.querySelector('.rdlg'))
+    trapFocus(custScrim.querySelector('.dlg'))
   }
 
   function validateCustomerStatusConfirm() {

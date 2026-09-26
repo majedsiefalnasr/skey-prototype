@@ -34,7 +34,7 @@ export function createListExport({trapFocus, releaseFocus, toast, getDataListSta
       listState
     )
     dataExportScrim.classList.add('open')
-    trapFocus(dataExportScrim.querySelector('.customer-modal'))
+    trapFocus(dataExportScrim.querySelector('.dlg'))
   }
 
   function closeDataExport() {

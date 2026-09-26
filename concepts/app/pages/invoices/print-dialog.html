@@ -1,16 +1,17 @@
     <!-- ===== print dialog ===== -->
     <div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="pscrim">
-      <div class="dlg [width:min(720px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]" role="dialog" aria-modal="true" aria-label="Print Settings">
-        <div class="dhd flex items-center gap-3 [padding:14px_18px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px]">
+      <div class="dlg [width:min(720px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]" data-tone="default" role="dialog" aria-modal="true" aria-label="Print Settings">
+        <div class="dhd flex items-center gap-3 [&_h3]:[font-size:15px]">
           <svg width="18" height="18" aria-hidden="true"><use href="#i-print" /></svg>
           <div>
             <h3>Print Settings</h3>
-            <div class="sub [.stpop_.hd_&]:text-xs [.stpop_.hd_&]:text-muted [.dhd_&]:text-xs [.dhd_&]:text-muted">Sales Invoice 001000352026126</div>
+            <p class="dhd-subtitle">Sales Invoice 001000352026126</p>
           </div>
           <button class="ibtn p-close [.rec-adjustment-row_&]:[margin-bottom:1px]!" aria-label="Close" style="margin-inline-start: auto">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
         </div>
+        <div class="dlg-inner">
         <div class="dbody [padding:16px_18px] overflow-auto">
           <fieldset class="fset [border:1px_solid_var(--line)] [border-radius:10px] [padding:12px_14px] mb-3.5! [&_legend]:text-xs [&_legend]:[text-transform:uppercase] [&_legend]:[letter-spacing:0.04em] [&_legend]:[color:var(--faint)] [&_legend]:[padding:0_6px]">
             <legend>Destination</legend>
@@ -120,6 +121,7 @@
             <button class="lbtn out p-close">Cancel</button>
             <button class="lbtn pri">Apply</button>
           </span>
+        </div>
         </div>
       </div>
     </div>

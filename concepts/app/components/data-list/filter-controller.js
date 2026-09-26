@@ -192,7 +192,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     activeFilterModalContext = context
     renderDataFilterModal(context)
     geoFilterScrim.classList.add('open')
-    trapFocus(geoFilterScrim.querySelector('.customer-modal'))
+    trapFocus(geoFilterScrim.querySelector('.dlg'))
   }
 
   function closeDataFilterModal() {
@@ -263,7 +263,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     activeSaveFilterContext = context
     renderSaveFilterDialog(context)
     saveFilterScrim.classList.add('open')
-    trapFocus(saveFilterScrim.querySelector('.customer-modal'))
+    trapFocus(saveFilterScrim.querySelector('.dlg'))
     document.getElementById('save-filter-name').focus({preventScroll: true})
   }
 
@@ -444,7 +444,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     const listState = getDataListState()[context]
     selectManageFilter(context, listState.customFilters[0]?.id || '')
     manageFiltersScrim.classList.add('open')
-    trapFocus(manageFiltersScrim.querySelector('.customer-modal'))
+    trapFocus(manageFiltersScrim.querySelector('.dlg'))
   }
 
   function closeManageFiltersDialog() {

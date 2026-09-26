@@ -385,7 +385,7 @@ function openGeoFlowNodeDialog() {
           geoFlowNodeOpen = true
           syncGeoFlowNodeDialog()
           geoFlowNodeScrim.classList.add('open')
-          trapFocus(geoFlowNodeScrim.querySelector('.customer-modal'))
+          trapFocus(geoFlowNodeScrim.querySelector('.dlg'))
         }
 
 function closeGeoFlowNodeDialog() {
@@ -436,7 +436,7 @@ function openGeoDeleteTreeConfirm(code) {
           input.value = ''
           queryId('geo-delete-tree-confirm').disabled = true
           geoDeleteTreeScrim.classList.add('open')
-          trapFocus(geoDeleteTreeScrim.querySelector('.customer-modal'))
+          trapFocus(geoDeleteTreeScrim.querySelector('.dlg'))
           input.focus()
         }
 

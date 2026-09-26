@@ -1,10 +1,11 @@
     <div class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="geo-hierarchy-scrim">
-      <section
-        class="customer-modal geo-hierarchy-dialog-modal flex flex-col [width:min(560px,96vw)] [max-height:88vh] overflow-hidden [border-radius:10px] bg-surface [box-shadow:var(--shadow-2)]"
+      <div
+        class="dlg geo-hierarchy-dialog-modal [width:min(560px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+        data-tone="default"
         role="dialog"
         aria-modal="true"
         aria-label="Location hierarchy">
-        <header class="customer-modal-header geo-hierarchy-dialog-header flex [flex:none] items-center py-2 pe-2 ps-3 [border-bottom:1px_solid_var(--line)]">
+        <div class="dhd geo-hierarchy-dialog-header flex items-center gap-3 [&_h3]:[font-size:15px]">
           <span
             class="geo-hierarchy-dialog-title-mount block min-w-0 flex-1 [&_h2]:overflow-hidden [&_h2]:text-sm [&_h2]:text-ellipsis [&_h2]:whitespace-nowrap [&_span]:mt-px [&_span]:block [&_span]:overflow-hidden [&_span]:text-xs [&_span]:text-muted [&_span]:text-ellipsis [&_span]:whitespace-nowrap"
             id="geo-hierarchy-dialog-title-mount"></span>
@@ -17,18 +18,21 @@
             aria-label="Close location hierarchy">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
-        </header>
+        </div>
+        <div class="dlg-inner">
         <div class="geo-hierarchy-dialog-body flex min-w-0 min-h-0 flex-1 flex-col" id="geo-hierarchy-dialog-mount"></div>
-      </section>
+        </div>
+      </div>
     </div>
 
     <div class="customer-overlay fixed [inset:0] [z-index:200] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="geo-flow-node-scrim">
-      <section
-        class="customer-modal geo-flow-node-modal flex flex-col [width:min(640px,96vw)] [max-height:88vh] overflow-hidden [border-radius:10px] bg-surface [box-shadow:var(--shadow-2)]"
+      <div
+        class="dlg geo-flow-node-modal [width:min(640px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+        data-tone="default"
         role="dialog"
         aria-modal="true"
         aria-label="Location details">
-        <header class="customer-modal-header flex [flex:none] gap-3 items-center [padding:10px_14px] [border-bottom:1px_solid_var(--line)]">
+        <div class="dhd flex items-center gap-3 [&_h3]:[font-size:15px]">
           <span
             class="geo-flow-node-title-mount flex min-w-0 flex-1 items-center gap-2 overflow-hidden [&_h1]:overflow-hidden [&_h1]:text-ellipsis [&_h1]:whitespace-nowrap [&_h1]:text-sm [&_h1]:font-semibold [&_.tline]:flex [&_.tline]:min-w-0 [&_.tline]:items-center [&_.tline]:gap-2"
             id="geo-flow-node-title-mount">Location details</span>
@@ -38,30 +42,37 @@
             aria-label="Close location details">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
-        </header>
+        </div>
+        <div class="dlg-inner">
         <div class="geo-flow-node-body min-h-0 flex-1 overflow-auto p-3" id="geo-flow-node-mount"></div>
-        <footer class="customer-modal-footer geo-flow-node-footer flex [flex:none] gap-2 justify-end [padding:12px_20px] [border-top:1px_solid_var(--line)] bg-[var(--line-2)]">
+        <div class="dfoot geo-flow-node-footer flex gap-2 justify-end [padding:12px_20px]">
           <span
             class="geo-flow-node-actions-mount flex min-w-0 items-center"
             id="geo-flow-node-actions-mount"></span>
-        </footer>
-      </section>
+        </div>
+        </div>
+      </div>
     </div>
 
     <div class="customer-overlay fixed [inset:0] [z-index:210] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="geo-delete-tree-scrim">
-      <section
-        class="customer-modal flex flex-col [width:min(520px,96vw)] [max-height:88vh] overflow-hidden [border-radius:10px] bg-surface [box-shadow:var(--shadow-2)]"
+      <div
+        class="dlg [width:min(520px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+        data-tone="danger"
         role="dialog"
         aria-modal="true"
         aria-labelledby="geo-delete-tree-title">
-        <header class="customer-modal-header flex [flex:none] gap-2.5 items-center [padding:13px_16px] [border-bottom:1px_solid_var(--line)]">
-          <svg width="17" height="17" aria-hidden="true" style="color: var(--danger)"><use href="#i-trash" /></svg>
-          <h3 id="geo-delete-tree-title" class="text-[15px] font-semibold">Delete this tree</h3>
+        <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
+          <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]"><use href="#i-trash" /></svg>
+          <div>
+            <h3 id="geo-delete-tree-title">Delete this tree</h3>
+            <p class="dhd-subtitle">Every location under it is deleted too</p>
+          </div>
           <button class="ibtn geo-delete-tree-close ms-auto" type="button" aria-label="Close">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
-        </header>
-        <div class="[padding:16px] overflow-auto">
+        </div>
+        <div class="dlg-inner">
+        <div class="dbody [padding:16px] overflow-auto">
           <p class="text-[13px] text-ink mb-3">
             This permanently removes <b id="geo-delete-tree-name"></b> and every location under it.
             This cannot be undone.
@@ -79,29 +90,31 @@
             <input type="text" id="geo-delete-tree-confirm-input" autocomplete="off" />
           </label>
         </div>
-        <footer class="customer-modal-footer flex [flex:none] gap-2 justify-end [padding:12px_16px] [border-top:1px_solid_var(--line)] bg-[var(--line-2)]">
+        <div class="dfoot flex gap-2 justify-end [padding:12px_20px]">
           <button class="lbtn out geo-delete-tree-close" type="button">Keep it</button>
           <button
-            class="lbtn [background:var(--danger-bold)] [color:var(--inverse)] [&:hover:not(:disabled)]:[background:var(--danger-fill-hover)] [&:disabled]:opacity-50"
+            class="lbtn pri"
             id="geo-delete-tree-confirm"
             type="button"
             disabled>
             Delete tree
           </button>
-        </footer>
-      </section>
+        </div>
+        </div>
+      </div>
     </div>
 
     <div class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="geo-parent-picker-scrim">
-      <section
-        class="customer-modal geo-parent-picker-modal flex flex-col [width:min(620px,96vw)] [max-height:min(760px,92vh)] overflow-hidden [border-radius:10px] bg-surface [box-shadow:var(--shadow-2)]"
+      <div
+        class="dlg geo-parent-picker-modal [width:min(620px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+        data-tone="default"
         role="dialog"
         aria-modal="true"
         aria-labelledby="geo-parent-picker-title">
-        <header class="customer-modal-header flex [flex:none] gap-3 items-start [padding:16px_20px] [border-bottom:1px_solid_var(--line)] [&_h3]:[margin:0]! [&_h3]:[font-size:16px] [&_p]:[margin:3px_0_0]! [&_p]:text-muted [&_p]:text-xs [padding:10px_14px]">
+        <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
           <div>
             <h3 id="geo-parent-picker-title">Choose parent location</h3>
-            <p>Pick a location from the hierarchy, or clear it to make this a root location.</p>
+            <p class="dhd-subtitle">Pick a location from the hierarchy, or clear it to make this a root location.</p>
           </div>
           <button
             class="ibtn geo-parent-picker-close ms-auto"
@@ -109,8 +122,9 @@
             aria-label="Close parent location picker">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
-        </header>
-        <div class="customer-modal-body min-h-0 overflow-auto flex-1 flex flex-col [padding:16px_20px] [padding:10px_14px]">
+        </div>
+        <div class="dlg-inner">
+        <div class="dbody min-h-0 overflow-auto flex-1 flex flex-col [padding:16px_20px] [padding:10px_14px]">
           <div
             class="geo-view-switch grid grid-cols-2 gap-[3px] p-[3px] rounded-[7px] bg-[var(--line-2)] [margin:8px_8px_0]"
             role="tablist"
@@ -161,5 +175,6 @@
             </div>
           </div>
         </div>
-      </section>
+        </div>
+      </div>
     </div>

@@ -294,8 +294,8 @@ export function createLookups({refs, deps}) {
     renderLookupSearchResults()
     lookupSearchScrim.classList.toggle('is-over-drawer', state.source === 'unit')
     lookupSearchScrim.classList.add('open')
-    if (state.source === 'unit') trapLayer(lookupSearchScrim.querySelector('.customer-modal'))
-    else trapFocus(lookupSearchScrim.querySelector('.customer-modal'))
+    if (state.source === 'unit') trapLayer(lookupSearchScrim.querySelector('.dlg'))
+    else trapFocus(lookupSearchScrim.querySelector('.dlg'))
     requestAnimationFrame(() => query.focus())
   }
 
@@ -328,7 +328,7 @@ export function createLookups({refs, deps}) {
     document.getElementById('customer-type-remarks').value = ''
     document.getElementById('customer-type-name-error').hidden = true
     typeAddScrim.classList.add('open')
-    trapFocus(typeAddScrim.querySelector('.customer-modal'))
+    trapFocus(typeAddScrim.querySelector('.dlg'))
     requestAnimationFrame(() => document.getElementById('customer-type-name').focus())
   }
 

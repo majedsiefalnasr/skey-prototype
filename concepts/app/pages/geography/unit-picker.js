@@ -121,7 +121,7 @@ export function createUnitPicker({trapFocus, releaseFocus, dataListIcon} = {}) {
     setUnitPickerView('tree')
     renderUnitPickerTree()
     unitPickerScrim.classList.add('open')
-    trapFocus(unitPickerScrim.querySelector('.customer-modal'))
+    trapFocus(unitPickerScrim.querySelector('.dlg'))
   }
 
   function closeUnitPicker() {

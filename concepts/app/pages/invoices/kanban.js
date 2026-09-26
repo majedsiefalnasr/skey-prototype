@@ -65,7 +65,7 @@ export function createKanban({trapFocus, releaseFocus, toast, renderDataList, re
       allowedBlock.hidden = true
     }
     kanbanBlockedScrim.classList.add('open')
-    trapFocus(kanbanBlockedScrim.querySelector('.customer-modal'))
+    trapFocus(kanbanBlockedScrim.querySelector('.dlg'))
   }
 
   function closeKanbanBlockedDialog() {

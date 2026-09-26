@@ -48,7 +48,7 @@ export function createProfile({root, encodeHtml, currentUser, loginLogRows, devi
 
   function bind2faToggle(scope) {
     scope.querySelector('#profile-2fa-toggle')?.addEventListener('click', event => {
-      const enabled = event.currentTarget.dataset.profile2faEnabled === 'true'
+      const enabled = event.currentTarget.getAttribute('data-profile-2fa-enabled') === 'true'
       if (enabled) securityDialogs.openDisable2fa()
       else securityDialogs.openEnable2fa()
     })

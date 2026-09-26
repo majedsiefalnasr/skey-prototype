@@ -449,7 +449,7 @@ export function createCustomerRecord({root, deps}) {
     }
     if (refs.guardWhat) refs.guardWhat.textContent = `You were about to: ${label}.`
     refs.guardScrim?.classList.add('open')
-    setTimeout(() => trapFocus(refs.guardScrim.querySelector('.guard')), 0)
+    setTimeout(() => trapFocus(refs.guardScrim.querySelector('.dlg')), 0)
   }
 
   function closeGuard() {

@@ -197,7 +197,7 @@ function openGeoHierarchyDialog() {
             titleMount.appendChild(title)
           }
           geoHierarchyScrim.classList.add('open')
-          trapFocus(geoHierarchyScrim.querySelector('.customer-modal'))
+          trapFocus(geoHierarchyScrim.querySelector('.dlg'))
         }
 
 function closeGeoHierarchyDialog() {
@@ -235,7 +235,7 @@ function openGeoParentPicker() {
           setGeoParentPickerView('tree')
           renderGeoParentPickerTree()
           geoParentPickerScrim.classList.add('open')
-          trapFocus(geoParentPickerScrim.querySelector('.customer-modal'))
+          trapFocus(geoParentPickerScrim.querySelector('.dlg'))
         }
 
 function closeGeoParentPicker() {

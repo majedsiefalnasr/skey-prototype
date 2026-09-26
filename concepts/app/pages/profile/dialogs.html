@@ -1,14 +1,17 @@
 <!-- ===== Change password dialog ===== -->
 <div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="change-password-scrim">
-  <div class="dlg [width:min(420px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]" role="dialog" aria-modal="true" aria-labelledby="change-password-title">
-    <div class="dhd flex items-center gap-3 [padding:14px_18px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px]">
-      <svg width="18" height="18" aria-hidden="true"><use href="#i-lock" /></svg>
-      <div><h3 id="change-password-title">Change password</h3></div>
+  <div class="dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]" data-tone="default" role="dialog" aria-modal="true" aria-labelledby="change-password-title">
+    <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
+      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]"><use href="#i-lock" /></svg>
+      <div>
+        <h3 id="change-password-title">Change password</h3>
+        <p class="dhd-subtitle">Use a strong password you don't reuse elsewhere</p>
+      </div>
       <button class="ibtn c-close" aria-label="Close" style="margin-inline-start: auto">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
-    <form class="flex flex-col min-h-0" id="change-password-form" novalidate>
+    <form class="dlg-inner min-h-0" id="change-password-form" novalidate>
       <div class="dbody flex flex-col gap-3 [padding:16px_18px] overflow-auto">
         <label class="grid gap-1.5 text-[13px] font-semibold" for="current-password">
           Current password
@@ -24,7 +27,7 @@
         </label>
         <span class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden" id="change-password-error" role="status"></span>
       </div>
-      <div class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
+      <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
         <button type="button" class="lbtn out c-close">Cancel</button>
         <button type="submit" class="lbtn pri">Change password</button>
       </div>
@@ -34,15 +37,18 @@
 
 <!-- ===== Set / change PIN dialog ===== -->
 <div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="set-pin-scrim">
-  <div class="dlg [width:min(420px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]" role="dialog" aria-modal="true" aria-labelledby="set-pin-title">
-    <div class="dhd flex items-center gap-3 [padding:14px_18px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px]">
-      <svg width="18" height="18" aria-hidden="true"><use href="#i-lock" /></svg>
-      <div><h3 id="set-pin-title">Set / change PIN code</h3></div>
+  <div class="dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]" data-tone="default" role="dialog" aria-modal="true" aria-labelledby="set-pin-title">
+    <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
+      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]"><use href="#i-lock" /></svg>
+      <div>
+        <h3 id="set-pin-title">Set / change PIN code</h3>
+        <p class="dhd-subtitle">Used for quick sign-in on this device</p>
+      </div>
       <button class="ibtn c-close" aria-label="Close" style="margin-inline-start: auto">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
-    <form class="flex flex-col min-h-0" id="set-pin-form" novalidate>
+    <form class="dlg-inner min-h-0" id="set-pin-form" novalidate>
       <div class="dbody flex flex-col gap-3 [padding:16px_18px] overflow-auto">
         <label class="grid gap-1.5 text-[13px] font-semibold" for="current-pin">
           Current PIN (leave blank if none set)
@@ -58,7 +64,7 @@
         </label>
         <span class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden" id="set-pin-error" role="status"></span>
       </div>
-      <div class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
+      <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
         <button type="button" class="lbtn out c-close">Cancel</button>
         <button type="submit" class="lbtn pri">Save PIN</button>
       </div>
@@ -68,15 +74,18 @@
 
 <!-- ===== Enable two-factor authentication dialog ===== -->
 <div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="enable-2fa-scrim">
-  <div class="dlg [width:min(420px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]" role="dialog" aria-modal="true" aria-labelledby="enable-2fa-title">
-    <div class="dhd flex items-center gap-3 [padding:14px_18px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px]">
-      <svg width="18" height="18" aria-hidden="true"><use href="#i-lock" /></svg>
-      <div><h3 id="enable-2fa-title">Set up two-factor authentication</h3></div>
+  <div class="dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]" data-tone="default" role="dialog" aria-modal="true" aria-labelledby="enable-2fa-title">
+    <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
+      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]"><use href="#i-lock" /></svg>
+      <div>
+        <h3 id="enable-2fa-title">Set up two-factor authentication</h3>
+        <p class="dhd-subtitle">Adds a second step when you sign in</p>
+      </div>
       <button class="ibtn c-close" aria-label="Close" style="margin-inline-start: auto">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
-    <form class="flex flex-col min-h-0" id="enable-2fa-form" novalidate>
+    <form class="dlg-inner min-h-0" id="enable-2fa-form" novalidate>
       <div class="dbody flex flex-col gap-3 [padding:16px_18px] overflow-auto">
         <p class="[font-size:13px] [color:var(--muted)]">Scan this code with your authenticator app, then enter the 6-digit code it shows.</p>
         <div class="[width:160px] [height:160px] [margin:0_auto] grid place-items-center rounded-[8px] border border-line bg-[var(--line-2)]" aria-hidden="true">
@@ -118,7 +127,7 @@
         </label>
         <span class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden" id="enable-2fa-error" role="status"></span>
       </div>
-      <div class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
+      <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
         <button type="button" class="lbtn out c-close">Cancel</button>
         <button type="submit" class="lbtn pri">Verify and enable</button>
       </div>
@@ -128,70 +137,81 @@
 
 <!-- ===== Disable two-factor authentication confirm ===== -->
 <div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="disable-2fa-scrim">
-  <div class="dlg [width:min(400px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]" role="dialog" aria-modal="true" aria-labelledby="disable-2fa-title">
-    <div class="dhd flex items-center gap-3 [padding:14px_18px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px]">
-      <svg width="18" height="18" aria-hidden="true" style="color: var(--danger)"><use href="#i-warn" /></svg>
-      <div><h3 id="disable-2fa-title">Turn off two-factor authentication?</h3></div>
+  <div class="dlg [width:min(400px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]" data-tone="warning" role="dialog" aria-modal="true" aria-labelledby="disable-2fa-title">
+    <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
+      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]"><use href="#i-warn" /></svg>
+      <div>
+        <h3 id="disable-2fa-title">Turn off two-factor authentication?</h3>
+        <p class="dhd-subtitle">Your account will only need a password to sign in</p>
+      </div>
       <button class="ibtn c-close" aria-label="Close" style="margin-inline-start: auto">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
-    <div class="dbody [padding:16px_18px] overflow-auto">
-      <p class="[font-size:13px] [color:var(--ink)]">Your account will only need a password to sign in.</p>
-    </div>
-    <div class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
-      <button type="button" class="lbtn out c-close">Keep it on</button>
-      <button type="button" class="lbtn out danger" id="disable-2fa-confirm">Turn off</button>
+    <div class="dlg-inner">
+      <div class="dbody [padding:16px_18px] overflow-auto">
+        <p class="[font-size:13px] [color:var(--ink)]">You can turn it back on anytime from Security settings.</p>
+      </div>
+      <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
+        <button type="button" class="lbtn out c-close">Keep it on</button>
+        <button type="button" class="lbtn out danger" id="disable-2fa-confirm">Turn off</button>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- ===== Deactivate account confirm ===== -->
 <div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="deactivate-account-scrim">
-  <div class="dlg [width:min(420px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]" role="dialog" aria-modal="true" aria-labelledby="deactivate-account-title">
-    <div class="dhd flex items-center gap-3 [padding:14px_18px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px]">
-      <svg width="18" height="18" aria-hidden="true" style="color: var(--danger)"><use href="#i-archive" /></svg>
-      <div><h3 id="deactivate-account-title">Deactivate your account?</h3></div>
+  <div class="dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]" data-tone="danger" role="dialog" aria-modal="true" aria-labelledby="deactivate-account-title">
+    <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
+      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]"><use href="#i-archive" /></svg>
+      <div>
+        <h3 id="deactivate-account-title">Deactivate your account?</h3>
+        <p class="dhd-subtitle">You'll be signed out until an administrator reactivates it</p>
+      </div>
       <button class="ibtn c-close" aria-label="Close" style="margin-inline-start: auto">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
-    <div class="dbody [padding:16px_18px] overflow-auto">
-      <p class="[font-size:13px] [color:var(--ink)]">You'll be signed out and won't be able to sign back in until an administrator reactivates your account. Your data is kept as-is.</p>
-    </div>
-    <div class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
-      <button type="button" class="lbtn out c-close">Cancel</button>
-      <button type="button" class="lbtn out danger" id="deactivate-account-confirm">Deactivate account</button>
+    <div class="dlg-inner">
+      <div class="dbody [padding:16px_18px] overflow-auto">
+        <p class="[font-size:13px] [color:var(--ink)]">Your data is kept as-is and nothing is deleted.</p>
+      </div>
+      <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
+        <button type="button" class="lbtn out c-close">Cancel</button>
+        <button type="button" class="lbtn out danger" id="deactivate-account-confirm">Deactivate account</button>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- ===== Delete account permanently (type-to-confirm) ===== -->
 <div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="delete-account-scrim">
-  <div class="dlg [width:min(460px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]" role="dialog" aria-modal="true" aria-labelledby="delete-account-title">
-    <div class="dhd flex items-center gap-3 [padding:14px_18px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px]">
-      <div><h3 id="delete-account-title">Delete account</h3></div>
+  <div class="dlg [width:min(460px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]" data-tone="danger" role="dialog" aria-modal="true" aria-labelledby="delete-account-title">
+    <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
+      <div>
+        <h3 id="delete-account-title">Delete account</h3>
+        <p class="dhd-subtitle">This action cannot be undone</p>
+      </div>
       <button class="ibtn c-close" aria-label="Close" style="margin-inline-start: auto">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
-    <div class="dbody [padding:16px_18px] overflow-auto flex flex-col gap-3.5">
-      <p class="[font-size:13px] [color:var(--ink)]">Are you sure you want to delete your account?</p>
-      <div class="flex gap-2.5 items-start [border:1px_solid_var(--danger-soft-line)] [background:var(--danger-soft-bg)] rounded-[9px] [padding:11px_13px] [font-size:12.5px] [line-height:1.4] [color:var(--danger)]">
-        <svg width="15" height="15" aria-hidden="true" class="[margin-top:2px] [flex:none]"><use href="#i-warn" /></svg>
-        <span><b class="block [margin-bottom:3px]">This action cannot be undone</b>Deleting your account removes all associated data — sessions, saved preferences, and access will be permanently lost.</span>
+    <div class="dlg-inner">
+      <div class="dbody [padding:16px_18px] overflow-auto flex flex-col gap-3.5">
+        <p class="[font-size:13px] [color:var(--ink)]">Deleting your account removes all associated data — sessions, saved preferences, and access will be permanently lost.</p>
+        <label class="grid gap-1.5 text-[13px]" for="delete-account-confirm-input">
+          <span class="text-muted">To delete, type your username <b class="text-ink" id="delete-account-username"></b> below</span>
+          <div class="relative">
+            <svg width="15" height="15" aria-hidden="true" style="color: var(--danger)" class="absolute [inset-inline-start:9px] [top:50%] [translate:0_-50%] pointer-events-none"><use href="#i-trash" /></svg>
+            <input class="w-full min-h-[34px] rounded-[7px] [border:1px_solid_var(--danger)] bg-surface [padding-inline-start:32px] [padding-inline-end:9px] py-1.5 font-[inherit] text-[14px] text-ink [&:focus-visible]:[outline:none] [&:focus-visible]:[box-shadow:0_0_0_3px_var(--danger-soft-bg)]" id="delete-account-confirm-input" type="text" autocomplete="off" aria-invalid="true" />
+          </div>
+        </label>
       </div>
-      <label class="grid gap-1.5 text-[13px]" for="delete-account-confirm-input">
-        <span class="text-muted">To delete, type your username <b class="text-ink" id="delete-account-username"></b> below</span>
-        <div class="relative">
-          <svg width="15" height="15" aria-hidden="true" style="color: var(--danger)" class="absolute [inset-inline-start:9px] [top:50%] [translate:0_-50%] pointer-events-none"><use href="#i-trash" /></svg>
-          <input class="w-full min-h-[34px] rounded-[7px] [border:1px_solid_var(--danger)] bg-surface [padding-inline-start:32px] [padding-inline-end:9px] py-1.5 font-[inherit] text-[14px] text-ink [&:focus-visible]:[outline:none] [&:focus-visible]:[box-shadow:0_0_0_3px_var(--danger-soft-bg)]" id="delete-account-confirm-input" type="text" autocomplete="off" aria-invalid="true" />
-        </div>
-      </label>
-    </div>
-    <div class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
-      <button type="button" class="lbtn out c-close">Cancel</button>
-      <button type="button" class="lbtn danfill [.lbtn&]:[background:var(--danger-bold)] [.lbtn&]:[color:var(--inverse)] [.lbtn&:hover:not(:disabled)]:[background:var(--danger-fill-hover)] [.lbtn&:disabled]:[background:var(--danger-bold)] [.lbtn&:disabled]:opacity-50" id="delete-account-confirm" disabled>Delete account</button>
+      <div class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
+        <button type="button" class="lbtn out c-close">Cancel</button>
+        <button type="button" class="lbtn pri" id="delete-account-confirm" disabled>Delete account</button>
+      </div>
     </div>
   </div>
 </div>

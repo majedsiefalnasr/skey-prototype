@@ -22,7 +22,7 @@ const pageAbort = new AbortController()
             title: 'Open invoice 126',
             description: 'This makes the invoice available for normal processing again.',
             confirm: 'Open invoice',
-            tone: 'neutral',
+            tone: 'default',
           },
           pending: {
             title: 'Mark invoice 126 as pending',
@@ -46,13 +46,13 @@ const pageAbort = new AbortController()
           applyState()
         }
         const openRDlg = kind => {
-          rscrim.querySelectorAll('.rdlg').forEach(d => {
+          rscrim.querySelectorAll('.dlg').forEach(d => {
             d.hidden = d.dataset.dlg !== kind
             clearInlineError(d)
           })
           rscrim.classList.add('open')
-          trapFocus(rscrim.querySelector('.rdlg:not([hidden])'))
-          const dlg = rscrim.querySelector(`.rdlg[data-dlg="${kind}"]`)
+          trapFocus(rscrim.querySelector('.dlg:not([hidden])'))
+          const dlg = rscrim.querySelector(`.dlg[data-dlg="${kind}"]`)
           if (!dlg) return
           if (kind === 'posting') dlg.dataset.tone = 'success'
           if (kind === 'cancel' || kind === 'delete') dlg.dataset.tone = 'danger'
@@ -64,7 +64,7 @@ const pageAbort = new AbortController()
           dlg
             .querySelectorAll('[data-state]')
             .forEach(el => (el.hidden = (el.dataset.state === 'done') !== done))
-          const title = dlg.querySelector('.rhd h3')
+          const title = dlg.querySelector('.dhd h3')
           if (kind === 'posting')
             title.textContent = done ? 'Posting details · invoice 126' : 'Post invoice 126'
           if (kind === 'cancel')
@@ -93,7 +93,7 @@ const pageAbort = new AbortController()
           const action = STATUS_ACTIONS[status]
           if (!action) return
           pendingStatusAction = status
-          const dlg = rscrim.querySelector('.rdlg[data-dlg="status"]')
+          const dlg = rscrim.querySelector('.dlg[data-dlg="status"]')
           dlg.dataset.tone = action.tone
           dlg.querySelector('#sf-title').textContent = action.title
           dlg.querySelector('#sf-description').textContent = action.description
@@ -155,13 +155,13 @@ const pageAbort = new AbortController()
         /* ---- failure shown inside the dialog, so nothing typed is lost ---- */
         const showInlineError = (dlg, {title, body, link}) => {
           clearInlineError(dlg)
-          if (dlg?.classList.contains('rdlg')) dlg.dataset.tone = 'danger'
+          if (dlg?.classList.contains('dlg')) dlg.dataset.tone = 'danger'
           const box = document.createElement('div')
           box.className = 'inlineerr'
           box.setAttribute('role', 'alert')
           box.innerHTML = `<svg width="15" height="15"><use href="#i-warn"/></svg>
     <span><b>${title}</b>${body}${link ? ` <a href="#">${link}</a>` : ''}</span>`
-          const body_ = dlg.querySelector('.rbody, .dbody')
+          const body_ = dlg.querySelector('.dbody')
           body_.prepend(box)
           box.scrollIntoView({block: 'nearest'})
         }
@@ -283,7 +283,7 @@ const pageAbort = new AbortController()
 
         /* Posting — the one that can genuinely fail, and says how */
         const doPost = async btn => {
-          const dlg = rscrim.querySelector('.rdlg[data-dlg=posting]')
+          const dlg = rscrim.querySelector('.dlg[data-dlg=posting]')
           const ok = await runWork(btn, 'Posting…', 1100)
           if (!ok) {
             showInlineError(dlg, {
@@ -306,7 +306,7 @@ const pageAbort = new AbortController()
 
         /* Cancel — destructive, so the confirmation carries the reason */
         const doCancel = async btn => {
-          const dlg = rscrim.querySelector('.rdlg[data-dlg=cancel]')
+          const dlg = rscrim.querySelector('.dlg[data-dlg=cancel]')
           const ok = await runWork(btn, 'Canceling…')
           if (!ok) {
             showInlineError(dlg, {
@@ -329,7 +329,7 @@ const pageAbort = new AbortController()
         const doStatusChange = async btn => {
           const status = pendingStatusAction
           const action = STATUS_ACTIONS[status]
-          const dlg = rscrim.querySelector('.rdlg[data-dlg=status]')
+          const dlg = rscrim.querySelector('.dlg[data-dlg=status]')
           const reason = dlg.querySelector('#sf-reason')
           if (action.reason && !reason.value.trim()) {
             reason.focus()
@@ -499,7 +499,7 @@ const pageAbort = new AbortController()
 
         /* ---- deleting asks first, and says what cannot be undone ---- */
         const doDelete = async btn => {
-          const dlg = rscrim.querySelector('.rdlg[data-dlg=delete]')
+          const dlg = rscrim.querySelector('.dlg[data-dlg=delete]')
           const ok = await runWork(btn, 'Deleting…')
           if (!ok) {
             showInlineError(dlg, {
@@ -762,7 +762,7 @@ const pageAbort = new AbortController()
         const atRisk = () => state.mode === 'create' || (state.mode === 'edit' && state.dirty)
         const askGuard = (whatNext, label) => {
           guardAfter = whatNext
-          setTimeout(() => trapFocus(gscrim.querySelector('.guard')), 0)
+          setTimeout(() => trapFocus(gscrim.querySelector('.dlg')), 0)
           document.getElementById('g-msg').textContent =
             state.mode === 'create'
               ? 'This invoice has never been saved. It gets its number only when you save it.'

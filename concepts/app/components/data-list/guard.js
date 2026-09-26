@@ -31,7 +31,7 @@ export function createListGuard({trapFocus, releaseFocus, saveDataListLayout, ge
     listLayoutGuardContext = context
     listLayoutGuardAfter = after
     listLayoutGuard.classList.add('open')
-    setTimeout(() => trapFocus(listLayoutGuard.querySelector('.guard')), 0)
+    setTimeout(() => trapFocus(listLayoutGuard.querySelector('.dlg')), 0)
   }
 
   function guardDataListLeave(after) {

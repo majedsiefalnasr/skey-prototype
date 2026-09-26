@@ -1,41 +1,43 @@
     <!-- ===== customize sidebar dialog: build "For You" groups ===== -->
     <div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="cscrim">
-      <div class="dlg cs-dlg [width:min(720px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]" role="dialog" aria-modal="true" aria-label="Customize your sidebar">
-        <div class="dhd flex items-center gap-3 [padding:14px_18px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px]">
+      <div class="dlg cs-dlg [width:min(720px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]" data-tone="default" role="dialog" aria-modal="true" aria-label="Customize your sidebar">
+        <div class="dhd flex items-center gap-3 [&_h3]:[font-size:15px]">
           <svg width="18" height="18" aria-hidden="true"><use href="#i-gear" /></svg>
           <div>
             <h3>Customize your sidebar</h3>
-            <div class="sub [.stpop_.hd_&]:text-xs [.stpop_.hd_&]:text-muted [.dhd_&]:text-xs [.dhd_&]:text-muted">Changes apply only to you, not anyone else in this branch</div>
+            <p class="dhd-subtitle">Changes apply only to you, not anyone else in this branch</p>
           </div>
           <button class="ibtn c-close [.rec-adjustment-row_&]:[margin-bottom:1px]!" aria-label="Close" style="margin-inline-start: auto">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
         </div>
-        <div class="dbody cs-body [padding:16px_18px] overflow-auto">
-          <p class="cs-intro">
-            Drag a screen — or a whole app for all its screens — from the left into a group on the
-            right to build your <b>For You</b> shortcut.
-          </p>
-          <div class="cs-cols">
-            <div class="cs-col cs-col-tree">
-              <div class="cs-col-hd">All apps &amp; screens</div>
-              <ul class="cs-tree" id="cs-tree"></ul>
-            </div>
-            <div class="cs-col cs-col-groups">
-              <div class="cs-col-hd">
-                For You
-                <button type="button" class="lbtn out sm" id="cs-add-group">+ Add group</button>
+        <div class="dlg-inner">
+          <div class="dbody cs-body [padding:16px_18px] overflow-auto">
+            <p class="cs-intro">
+              Drag a screen — or a whole app for all its screens — from the left into a group on the
+              right to build your <b>For You</b> shortcut.
+            </p>
+            <div class="cs-cols">
+              <div class="cs-col cs-col-tree">
+                <div class="cs-col-hd">All apps &amp; screens</div>
+                <ul class="cs-tree" id="cs-tree"></ul>
               </div>
-              <ul class="cs-groups" id="cs-groups"></ul>
+              <div class="cs-col cs-col-groups">
+                <div class="cs-col-hd">
+                  For You
+                  <button type="button" class="lbtn out sm" id="cs-add-group">+ Add group</button>
+                </div>
+                <ul class="cs-groups" id="cs-groups"></ul>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="dfoot">
-          <span class="sum" id="cs-count"></span>
-          <span class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5">
-            <button class="lbtn out c-close">Cancel</button>
-            <button class="lbtn pri" id="cs-save">Save changes</button>
-          </span>
+          <div class="dfoot">
+            <span class="sum" id="cs-count"></span>
+            <span class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5">
+              <button class="lbtn out c-close">Cancel</button>
+              <button class="lbtn pri" id="cs-save">Save changes</button>
+            </span>
+          </div>
         </div>
       </div>
     </div>

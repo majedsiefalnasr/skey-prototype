@@ -14,15 +14,16 @@
       hidden></div>
 
     <div class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="customer-lookup-search-scrim">
-      <section
-        class="customer-modal customer-search-modal flex flex-col [width:min(760px,_96vw)] [max-height:min(760px,_92vh)] overflow-hidden [border-radius:10px] bg-surface [box-shadow:var(--shadow-2)] [width:min(1040px,_calc(100vw_-_48px))] [@media((max-width:760px))]:[width:calc(100vw_-_24px)]"
+      <div
+        class="dlg customer-search-modal [width:min(1040px,_calc(100vw_-_48px))] rounded-xl overflow-hidden flex flex-col [max-height:90vh] [@media((max-width:760px))]:[width:calc(100vw_-_24px)]"
+        data-tone="default"
         role="dialog"
         aria-modal="true"
         aria-labelledby="customer-lookup-search-title">
-        <header class="customer-modal-header flex [flex:none] gap-3 items-start [padding:16px_20px] [border-bottom:1px_solid_var(--line)] [&_h3]:[margin:0]! [&_h3]:[font-size:16px] [&_p]:[margin:3px_0_0]! [&_p]:text-muted [&_p]:text-xs [padding:10px_14px]">
+        <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
           <div>
             <h3 id="customer-lookup-search-title">Find value</h3>
-            <p id="customer-lookup-search-description">Search, compare, then select one result.</p>
+            <p id="customer-lookup-search-description" class="dhd-subtitle">Search, compare, then select one result.</p>
           </div>
           <button
             class="ibtn customer-lookup-search-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
@@ -31,8 +32,9 @@
             style="margin-inline-start: auto">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
-        </header>
-        <div class="customer-modal-body min-h-0 overflow-auto [padding:16px_20px] [padding:10px_14px]">
+        </div>
+        <div class="dlg-inner">
+        <div class="dbody min-h-0 overflow-auto [padding:16px_20px] [padding:10px_14px]">
           <section class="prototype-surface-card customer-lookup-filter-panel overflow-hidden [border:1px_solid_var(--line)] rounded-lg bg-surface">
             <header class="prototype-surface-card-header flex [min-height:40px] gap-2.5 items-center [padding:8px_12px] [border-bottom:1px_solid_var(--line)] [&_h4]:[margin:0]! [&_h4]:[font-size:13px] [padding:7px_9px]">
               <h4>Search filters</h4>
@@ -80,25 +82,27 @@
             aria-live="polite"
             aria-label="Search results"></div>
         </div>
-        <footer class="customer-modal-footer flex [flex:none] gap-2 justify-end [padding:12px_20px] [border-top:1px_solid_var(--line)] bg-[var(--line-2)]">
+        <div class="dfoot flex gap-2 justify-end [padding:12px_20px]">
           <button class="lbtn out customer-lookup-search-close" type="button">Cancel</button>
           <button class="lbtn pri" id="customer-lookup-select" type="button" disabled>
             Select value
           </button>
-        </footer>
-      </section>
+        </div>
+        </div>
+      </div>
     </div>
 
     <div class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="customer-type-add-scrim">
-      <section
-        class="customer-modal customer-type-modal flex flex-col [width:min(760px,_96vw)] [max-height:min(760px,_92vh)] overflow-hidden [border-radius:10px] bg-surface [box-shadow:var(--shadow-2)] [width:min(520px,_96vw)]"
+      <div
+        class="dlg customer-type-modal [width:min(520px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+        data-tone="default"
         role="dialog"
         aria-modal="true"
         aria-labelledby="customer-type-add-title">
-        <header class="customer-modal-header flex [flex:none] gap-3 items-start [padding:16px_20px] [border-bottom:1px_solid_var(--line)] [&_h3]:[margin:0]! [&_h3]:[font-size:16px] [&_p]:[margin:3px_0_0]! [&_p]:text-muted [&_p]:text-xs [padding:10px_14px]">
+        <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
           <div>
             <h3 id="customer-type-add-title">Add Customer Type</h3>
-            <p>Create a type without leaving the customer record.</p>
+            <p class="dhd-subtitle">Create a type without leaving the customer record.</p>
           </div>
           <button
             class="ibtn customer-type-add-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
@@ -107,8 +111,9 @@
             style="margin-inline-start: auto">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
-        </header>
-        <div class="customer-modal-body min-h-0 overflow-auto [padding:16px_20px] [padding:10px_14px]">
+        </div>
+        <div class="dlg-inner">
+        <div class="dbody min-h-0 overflow-auto [padding:16px_20px] [padding:10px_14px]">
           <div class="customer-form-grid grid [grid-template-columns:repeat(2,_minmax(0,_1fr))] [gap:12px_16px] [grid-template-columns:repeat(3,_minmax(0,_1fr))] [gap:6px_10px] [@media((max-width:760px))]:[grid-template-columns:minmax(0,_1fr)]">
             <label class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg_xmlns=http://www.w3.org/2000/svg_width=12_height=12_viewBox=0_0_12_12%3E%3Cpath_fill=%2344546f_d=M2.5_4.5_6_8l3.5-3.5z/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0">
               <span>Name <span class="req [.rfld_label_&]:[color:var(--danger)] [.rec-field_&]:[color:var(--danger)]" aria-hidden="true">*</span></span>
@@ -130,27 +135,29 @@
             </label>
           </div>
         </div>
-        <footer class="customer-modal-footer flex [flex:none] gap-2 justify-end [padding:12px_20px] [border-top:1px_solid_var(--line)] bg-[var(--line-2)]">
+        <div class="dfoot flex gap-2 justify-end [padding:12px_20px]">
           <button class="lbtn out customer-type-add-close" type="button">Cancel</button>
           <button class="lbtn pri" id="customer-type-add-save" type="button">
             Add Customer Type
           </button>
-        </footer>
-      </section>
+        </div>
+        </div>
+      </div>
     </div>
 
 <!-- include: ../../components/data-list/list-dialogs.html -->
 <!-- include: ../geography/dialogs.html -->
     <div class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="unit-picker-scrim">
-      <section
-        class="customer-modal geo-parent-picker-modal flex flex-col [width:min(760px,_96vw)] [max-height:min(760px,_92vh)] overflow-hidden [border-radius:10px] bg-surface [box-shadow:var(--shadow-2)]"
+      <div
+        class="dlg geo-parent-picker-modal [width:min(760px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+        data-tone="default"
         role="dialog"
         aria-modal="true"
         aria-labelledby="unit-picker-title">
-        <header class="customer-modal-header flex [flex:none] gap-3 items-start [padding:16px_20px] [border-bottom:1px_solid_var(--line)] [&_h3]:[margin:0]! [&_h3]:[font-size:16px] [&_p]:[margin:3px_0_0]! [&_p]:text-muted [&_p]:text-xs [padding:10px_14px]">
+        <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
           <div>
             <h3 id="unit-picker-title">Choose operation unit</h3>
-            <p id="unit-picker-description">Pick a unit from the hierarchy.</p>
+            <p id="unit-picker-description" class="dhd-subtitle">Pick a unit from the hierarchy.</p>
           </div>
           <button
             class="ibtn unit-picker-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
@@ -159,8 +166,9 @@
             style="margin-inline-start: auto">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
-        </header>
-        <div class="customer-modal-body min-h-0 overflow-auto [padding:16px_20px] [padding:10px_14px]">
+        </div>
+        <div class="dlg-inner">
+        <div class="dbody min-h-0 overflow-auto [padding:16px_20px] [padding:10px_14px]">
           <div
             class="geo-view-switch grid grid-cols-2 gap-[3px] p-[3px] rounded-[7px] bg-[var(--line-2)] [margin:8px_8px_0]"
             role="tablist"
@@ -207,7 +215,8 @@
             </div>
           </div>
         </div>
-      </section>
+        </div>
+      </div>
     </div>
 
     <div class="customer-overlay customer-unit-drawer-scrim fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)] justify-end [padding:0]" id="customer-unit-drawer-scrim">
@@ -627,17 +636,18 @@
     </div>
 
     <div class="customer-overlay customer-location-dialog-scrim fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)] [z-index:240]" id="customer-location-add-scrim">
-      <section
-        class="customer-modal customer-location-modal flex flex-col [width:min(760px,_96vw)] [max-height:min(760px,_92vh)] overflow-hidden [border-radius:10px] bg-surface [box-shadow:var(--shadow-2)] [width:min(720px,_calc(100vw_-_48px))]"
+      <div
+        class="dlg customer-location-modal [width:min(720px,_calc(100vw_-_48px))] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+        data-tone="default"
         role="dialog"
         aria-modal="true"
         aria-labelledby="customer-location-add-title"
         aria-describedby="customer-location-add-description">
-        <header class="customer-modal-header flex [flex:none] gap-3 items-start [padding:16px_20px] [border-bottom:1px_solid_var(--line)] [&_h3]:[margin:0]! [&_h3]:[font-size:16px] [&_p]:[margin:3px_0_0]! [&_p]:text-muted [&_p]:text-xs [padding:10px_14px]">
+        <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
           <div>
             <span class="customer-layer-context inline-flex items-center gap-1.5 text-muted text-xs">Geo. Location</span>
             <h3 id="customer-location-add-title">Add Geo. Location</h3>
-            <p id="customer-location-add-description">
+            <p id="customer-location-add-description" class="dhd-subtitle">
               Add a compact location record without leaving the unit form.
             </p>
           </div>
@@ -648,8 +658,9 @@
             style="margin-inline-start: auto">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
           </button>
-        </header>
-        <div class="customer-modal-body min-h-0 overflow-auto [padding:16px_20px] [padding:10px_14px]">
+        </div>
+        <div class="dlg-inner">
+        <div class="dbody min-h-0 overflow-auto [padding:16px_20px] [padding:10px_14px]">
           <section class="prototype-surface-card overflow-hidden [border:1px_solid_var(--line)] rounded-lg bg-surface">
             <header class="prototype-surface-card-header flex [min-height:40px] gap-2.5 items-center [padding:8px_12px] [border-bottom:1px_solid_var(--line)] [&_h4]:[margin:0]! [&_h4]:[font-size:13px] [padding:7px_9px]"><h4>Location details</h4></header>
             <div class="prototype-surface-card-body customer-form-grid [padding:12px] [padding:7px_9px] grid [grid-template-columns:repeat(2,_minmax(0,_1fr))] [gap:12px_16px] [grid-template-columns:repeat(3,_minmax(0,_1fr))] [gap:6px_10px] [@media((max-width:760px))]:[grid-template-columns:minmax(0,_1fr)]">
@@ -691,11 +702,12 @@
             </div>
           </section>
         </div>
-        <footer class="customer-modal-footer flex [flex:none] gap-2 justify-end [padding:12px_20px] [border-top:1px_solid_var(--line)] bg-[var(--line-2)]">
+        <div class="dfoot flex gap-2 justify-end [padding:12px_20px]">
           <button class="lbtn out customer-location-add-close" type="button">Cancel</button>
           <button class="lbtn pri" id="customer-location-add-save" type="button">
             Add Geo. Location
           </button>
-        </footer>
-      </section>
+        </div>
+        </div>
+      </div>
     </div>
