@@ -13,7 +13,10 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
       btn.parentNode.insertBefore(modify, btn)
     })
 
-    /* the general actions sit behind whatever this record is doing */
+    /* the general actions sit behind whatever this record is doing -- capped
+       at two full-visible slots (Transition here) plus one "more actions"
+       overflow so the header never grows past three visible controls
+       regardless of how many record actions exist. */
     d.querySelectorAll('.lbtn[data-act="Save"]').forEach(btn => {
       const row = btn.parentNode
       const host = document.createElement('span')
@@ -29,17 +32,14 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
         '<button role="menuitem" data-status-action="returned"><svg width="14" height="14" aria-hidden="true"><use href="#i-undo"/></svg> Return invoice</button>' +
         '<hr><button role="menuitem" class="dan" data-status-action="canceled"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg> Cancel invoice</button>' +
         '</div></span>' +
-        '<span class="newwrap menu relative inline-flex [flex:none]">' +
-        '<button class="lbtn out main [.newwrap>&]:[border-radius:6px_0_0_6px]! [.newwrap>&]:whitespace-nowrap [.newwrap>&]:[border-inline-end:none]! [[dir=rtl]_.newwrap>&]:[border-radius:0_6px_6px_0]! [[dir=rtl]_.newwrap>&]:[border-inline-start:none]! [[dir=rtl]_.newwrap>&]:[border-inline-end:1px_solid_var(--line)]! [.savewrap>&]:[border-radius:6px_0_0_6px]! [.savewrap>&]:whitespace-nowrap [[dir=rtl]_.savewrap>&]:[border-radius:0_6px_6px_0]! [.d2_.genbtn>&]:[border-radius:7px_0_0_7px]! [[dir=rtl]_.d2_.genbtn>&]:[border-radius:0_7px_7px_0]! [.d4_&]:[flex:1] [.d4_&]:min-w-0 [.d4_&]:flex [.d4_&]:flex-col" data-act="New"><svg width="15" height="15" aria-hidden="true"><use href="#i-plus"/></svg> New</button>' +
-        '<button class="car [.newwrap>&]:[border:1px_solid_var(--line)]! [.newwrap>&]:[border-inline-start:none]! [.newwrap>&]:[border-radius:0_6px_6px_0]! [.newwrap>&]:[padding:6px_7px] [.newwrap>&]:bg-surface [[dir=rtl]_.newwrap>&]:[border-radius:6px_0_0_6px]! [[dir=rtl]_.newwrap>&]:[border-inline-start:none]! [[dir=rtl]_.newwrap>&]:[border-inline-end:none]! [.newwrap>&:hover:not(:disabled)]:bg-[var(--line-2)] [.savewrap>&]:[background:var(--accent)] [.savewrap>&]:[color:var(--inverse)] [.savewrap>&]:[border-inline-start:1px_solid_color-mix(in_srgb,_var(--inverse)_35%,_transparent)]! [.savewrap>&]:[border-radius:0_6px_6px_0]! [.savewrap>&]:[padding:6px_7px] [[dir=rtl]_.savewrap>&]:[border-radius:6px_0_0_6px]! [.savewrap>&:disabled]:[opacity:0.42] [.d2_.genbtn>&]:[border:1px_solid_var(--line)]! [.d2_.genbtn>&]:[border-inline-start:none]! [.d2_.genbtn>&]:[border-radius:0_7px_7px_0]! [.d2_.genbtn>&]:[padding:6px_7px] [.d2_.genbtn>&]:bg-surface [[dir=rtl]_.d2_.genbtn>&]:[border-radius:7px_0_0_7px]! [[dir=rtl]_.d2_.genbtn>&]:[border-inline-start:1px_solid_var(--line)]! [[dir=rtl]_.d2_.genbtn>&]:[border-inline-end:none]!" aria-haspopup="menu" aria-expanded="false" aria-label="Other things to create">' +
-        '<svg width="11" height="11" aria-hidden="true"><use href="#i-caret"/></svg></button>' +
-        '<div class="mlist mend" role="menu" style="min-width:230px">' +
-        '<div class="grp-lbl">This screen</div>' +
+        '<span class="menu relative inline-flex [flex:none]">' +
+        '<button class="ibtn" data-act="More" aria-haspopup="menu" aria-expanded="false" aria-label="More actions"><svg width="16" height="16" aria-hidden="true"><use href="#i-dots"/></svg></button>' +
+        '<div class="mlist mend" role="menu" style="min-width:210px">' +
+        '<button role="menuitem" data-act="New"><svg width="14" height="14" aria-hidden="true"><use href="#i-plus"/></svg> New</button>' +
         '<button role="menuitem" data-act="Add From">Add From</button>' +
         '<button role="menuitem" data-act="New in new tab"><svg width="14" height="14" aria-hidden="true"><use href="#i-next"/></svg> Open in new tab</button>' +
-        '</div>' +
-        '</span>' +
-        '<button class="lbtn out danger" data-act="Delete"><svg width="15" height="15" aria-hidden="true"><use href="#i-trash"/></svg> Delete</button>'
+        '<hr><button role="menuitem" class="dan" data-act="Delete"><svg width="14" height="14" aria-hidden="true"><use href="#i-trash"/></svg> Delete</button>' +
+        '</div></span>'
       const undo = row.querySelector('[data-act="Undo"]')
       ;(undo || btn).after(host)
     })

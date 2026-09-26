@@ -581,6 +581,20 @@ const pageAbort = new AbortController()
             p.querySelector('.cnt').textContent = creating ? '' : `${n} of ${CHAIN.length}`
           })
 
+          /* payment status is independent of the document lifecycle above --
+             a posted invoice can still be unpaid, so it renders as its own
+             badge next to the lifecycle pill instead of folding into it. */
+          const PAYMENT_STATUS_BADGE = {
+            unpaid: {cls: 'danger', label: 'Unpaid'},
+            partial: {cls: 'warn', label: 'Partially paid'},
+            paid: {cls: 'ok', label: 'Paid'},
+          }
+          document.querySelectorAll('.badge-mount').forEach(m => {
+            const info = PAYMENT_STATUS_BADGE[state.paymentStatus]
+            m.innerHTML =
+              !creating && info ? `<span class="badge ${info.cls}">${info.label}</span>` : ''
+          })
+
           /* the record navigator stays where it is. A draft has no position in the list,
      so the box is blank — and using it asks about the unsaved work first. */
           document.querySelectorAll('.pager').forEach(p => {

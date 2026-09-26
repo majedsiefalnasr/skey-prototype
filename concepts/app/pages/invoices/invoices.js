@@ -4,6 +4,10 @@ export function createInvoiceState() {
         const state = {
           status: 'posted',
           pay: 'credit',
+          /* Independent from `status` (the document lifecycle) -- a posted
+             invoice can still be unpaid, partially paid, or fully paid.
+             Demo-only: no real payments module backs this yet. */
+          paymentStatus: 'partial',
           dirty: false,
           design: '1',
           mode: 'record',
