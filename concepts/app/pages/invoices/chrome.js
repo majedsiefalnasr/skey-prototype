@@ -22,7 +22,6 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
       const host = document.createElement('span')
       host.className = 'recacts inline-flex items-center [gap:7px] flex-wrap'
       host.innerHTML =
-        '<span class="vsep [.recacts_&]:[width:1px] [.recacts_&]:[align-self:stretch] [.recacts_&]:[background:var(--line)] [.recacts_&]:[margin:2px_3px]! [.d2_&]:[width:1px] [.d2_&]:[align-self:stretch] [.d2_&]:[background:var(--line)] [.d2_&]:[margin:0_4px]!" data-role="gensep"></span>' +
         '<span class="statuswrap menu relative inline-flex [flex:none]">' +
         '<button class="lbtn out" data-act="Change status" aria-haspopup="menu" aria-expanded="false"><svg width="15" height="15" aria-hidden="true"><use href="#i-flow"/></svg> Transition <svg width="11" height="11" aria-hidden="true"><use href="#i-caret"/></svg></button>' +
         '<div class="mlist mend" role="menu" style="min-width:210px">' +
