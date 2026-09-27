@@ -258,14 +258,18 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
 
     const railSep = document.createElement('div')
     railSep.className = 'nc2-rail-sep ms-[9px] my-1 h-px w-6 bg-line'
-    rail.append(
-      railIcon('Starred', 'i-spark', ['Starred', ...NAV_FAVORITES]),
-      railIcon('Recent', 'i-clock', ['Recent', ...NAV_RECENTS]),
-      railSep
-    )
+    const starredGroup = ['Starred', ...NAV_FAVORITES]
+    const recentGroup = ['Recent', ...NAV_RECENTS]
+    const starredBtn = railIcon('Starred', 'i-spark', starredGroup)
+    const recentBtn = railIcon('Recent', 'i-clock', recentGroup)
+    rail.append(starredBtn, recentBtn, railSep)
 
     const groups = visibleGroups()
-    const iconByLabel = new Map()
+    /* Starred/Recent aren't NAV_TREE groups, so they're seeded here instead of
+       in the groups.forEach loop below -- activateByLabel (used by the
+       launchpad's quick-row "More" button) needs both maps to resolve them. */
+    const iconByLabel = new Map([['Starred', starredBtn], ['Recent', recentBtn]])
+    const quickGroupByLabel = new Map([['Starred', starredGroup], ['Recent', recentGroup]])
     groups.forEach(group => {
       const label = group[0]
       const btn = railIcon(label, NAV_ICONS[label] || 'i-doc', group, {withForYou: true})
@@ -314,7 +318,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
         updateSideWidth(side)
         activate(
           btn,
-          groups.find(g => g[0] === label),
+          groups.find(g => g[0] === label) || quickGroupByLabel.get(label),
           {withForYou: true}
         )
         if (compactShell.matches) panel.hidden = true

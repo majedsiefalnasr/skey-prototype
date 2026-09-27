@@ -28,10 +28,10 @@
   }
 
   .lp-word { animation: lp-reveal-up .55s cubic-bezier(.16, 1, .3, 1) both; animation-delay: calc(80ms + var(--lp-i, 0) * 80ms); }
-  .lp-subtitle, .lp-search, .lp-quick-row, .lp-section-hd, .lp-tile { animation: lp-reveal-up .5s cubic-bezier(.16, 1, .3, 1) both; }
+  .lp-subtitle, .lp-search, .lp-quick, .lp-section-hd, .lp-tile { animation: lp-reveal-up .5s cubic-bezier(.16, 1, .3, 1) both; }
   .lp-subtitle { animation-delay: 620ms; }
   .lp-search { animation-delay: 820ms; }
-  .lp-quick-row { animation-delay: calc(1040ms + var(--lp-i, 0) * 140ms); }
+  .lp-quick { animation-delay: 1040ms; }
   .lp-section-hd { animation-delay: 1260ms; }
   .lp-tile { animation-delay: calc(1340ms + var(--lp-i, 0) * 70ms); }
   .lp-user-name { background: linear-gradient(90deg, #ff0080, #7928ca, #0070f3, #38bdf8, #ff0080); background-size: 300% 100%; background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent; animation: lp-aurora 10s linear infinite; }
@@ -75,8 +75,16 @@
   .lp-tile[data-tone='administration'] { --lp-tone: #5c6470; }
   .lp-tile[data-tone='help'] { --lp-tone: #397a59; }
 
+  /* aria-selected tab styling on the launchpad's Starred/Recent switch --
+     same recipe as the geo hierarchy's Tree/Flow view switch. */
+  .lp-quick-tabs button[aria-selected='true'] {
+    color: var(--accent);
+    background: var(--surface);
+    box-shadow: var(--shadow-1);
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .lp-orb, .lp-word, .lp-subtitle, .lp-search, .lp-quick-row, .lp-section-hd, .lp-tile { animation: none; }
+    .lp-orb, .lp-word, .lp-subtitle, .lp-search, .lp-quick, .lp-section-hd, .lp-tile { animation: none; }
     .lp-user-name { animation: none; background: none; color: var(--ink); -webkit-text-fill-color: currentColor; }
     .search-typing-label.is-typing::after { display: none; animation: none; }
     .spin { animation: none; }
@@ -816,7 +824,7 @@
   }
   /* Launchpad is deliberately fixed-wide in every layout mode. Its dashboard
      rhythm should not expand with an application page's Fluid content choice. */
-  .lp-body { width: calc(100% - 64px); max-width: 1296px; }
+  .lp-body { width: calc(100% - 64px); max-width: 960px; }
   @media (max-width: 720px) {
     body.layout-boxed .page-content { width: calc(100% - 32px); }
     body.layout-boxed .page-action-bar .arow { width: calc(100% - 32px); }
@@ -1208,7 +1216,7 @@
   body.density-compact .lp-body { padding: 16px 32px 32px; gap: 16px; }
   body.density-compact .lp-search { padding-block: 8px; }
   body.density-compact .lp-sections { gap: 18px; }
-  body.density-compact .lp-quick-lbl { margin-bottom: 6px; }
+  body.density-compact .lp-quick-panel { margin-top: 8px; }
   body.density-compact .lp-tag { padding-block: 4px; }
   body.density-compact .lp-section-hd { margin-bottom: 9px; padding-top: 12px; }
   body.density-compact .lp-grid { gap: 8px; }
@@ -1221,7 +1229,7 @@
   body.density-comfortable .lp-body { gap: 32px; padding: 32px 48px 56px; }
   body.density-comfortable .lp-search { padding-block: 15px; }
   body.density-comfortable .lp-sections { gap: 36px; }
-  body.density-comfortable .lp-quick-lbl { margin-bottom: 12px; }
+  body.density-comfortable .lp-quick-panel { margin-top: 16px; }
   body.density-comfortable .lp-tag { min-height: 38px; padding-block: 7px; }
   body.density-comfortable .lp-section-hd { margin-bottom: 16px; padding-top: 20px; }
   body.density-comfortable .lp-grid { gap: 16px; }
@@ -1420,10 +1428,7 @@
     .lp-search { min-height: 48px; border-radius: 12px; padding: 10px 12px; }
     .lp-keyboard-hint { display: none; }
     .lp-sections { gap: 18px; }
-    .lp-quick { grid-template-columns: 1fr; gap: 10px; }
     .lp-tag { min-height: 44px; padding: 8px 12px; }
-    .lp-mobile-extra { display: none; }
-    .lp-quick-row.is-expanded .lp-mobile-extra { display: inline-flex; }
     .lp-section-hd { margin-bottom: 10px; padding-top: 14px; }
     .lp-grid { grid-template-columns: 1fr; gap: 8px; }
     .lp-tile { grid-template-columns: 40px minmax(0, 1fr) 14px; min-height: 56px; align-items: center; padding: 8px 10px; border-radius: 10px; }

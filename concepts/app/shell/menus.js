@@ -18,7 +18,7 @@ export function createMenus({showLaunchpad, getLaunchpadEnabled} = {}) {
     closeAllMenus(trigger)
     trigger.setAttribute('aria-expanded', 'true')
     list.classList.add('open')
-    if (list.classList.contains('app-switcher-list')) positionFixedMenu(trigger, list)
+    if (needsFixedMenu(trigger, list)) positionFixedMenu(trigger, list)
     const items = enabledMenuItems(list)
     items.forEach(item => (item.tabIndex = -1))
     ;(edge === 'last' ? items.at(-1) : items[0])?.focus()
@@ -78,18 +78,27 @@ export function createMenus({showLaunchpad, getLaunchpadEnabled} = {}) {
       closeAllMenus(trg)
       trg.setAttribute('aria-expanded', String(!open))
       l.classList.toggle('open', !open)
-      if (!open && l.classList.contains('app-switcher-list')) positionFixedMenu(trg, l)
+      if (!open && needsFixedMenu(trg, l)) positionFixedMenu(trg, l)
       return
     }
     if (!e.target.closest('.menu')) closeAllMenus()
   })
 
+  function needsFixedMenu(trigger, list) {
+    return list.classList.contains('app-switcher-list') || !!trigger.closest('.dlg')
+  }
+
   function positionFixedMenu(trigger, list) {
     const r = trigger.getBoundingClientRect()
     list.style.position = 'fixed'
-    list.style.insetInlineStart = r.left + 'px'
-    list.style.insetInlineEnd = 'auto'
     list.style.top = r.bottom + 4 + 'px'
+    if (list.classList.contains('mend')) {
+      list.style.insetInlineStart = 'auto'
+      list.style.insetInlineEnd = window.innerWidth - r.right + 'px'
+    } else {
+      list.style.insetInlineStart = r.left + 'px'
+      list.style.insetInlineEnd = 'auto'
+    }
   }
 
   return {closeAllMenus, closeMenuAndRestoreFocus}

@@ -138,6 +138,16 @@
                       class="geo-flow-tools flex gap-[5px] items-center p-2 justify-between"
                       role="toolbar"
                       aria-label="Flow canvas controls">
+                      <button
+                        class="lbtn out"
+                        type="button"
+                        data-geo-flow-unfocus
+                        hidden
+                        id="geo-flow-clear-focus">
+                        <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+                        Clear focus
+                      </button>
+                      <span class="geo-flow-tools-sep" id="geo-flow-clear-focus-sep" aria-hidden="true" hidden></span>
                       <span class="geo-flow-focus-chip-mount flex-1 min-w-0 flex justify-start" id="geo-flow-focus-chip-mount"></span>
                       <span class="flex gap-[5px] items-center">
                       <button

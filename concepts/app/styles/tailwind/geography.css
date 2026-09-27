@@ -179,41 +179,41 @@
     background: var(--accent-soft);
   }
 
-  /* Focus-mode chip in the flow toolbar: shown only while a node is
-     focused, mirroring the .geo-filter-quick pill's checked-state colors.
-     min-width:0 + the name span's own ellipsis truncation keep a long
-     location name from overflowing into the zoom/Fit/Fullscreen cluster
-     the toolbar's justify-between now reserves space for. */
+  /* Focus-mode label in the flow toolbar: shown only while a node is
+     focused, as plain text (normal ink, no pill background/border) next to
+     the Clear focus button, which is the only control that clears it.
+     min-width:0 + its own ellipsis truncation keep a long location name
+     from overflowing into the zoom/Fit/Fullscreen cluster the toolbar's
+     justify-between reserves space for. */
   .geo-flow-focus-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+    display: block;
     min-width: 0;
-    padding: 4px 6px 4px 11px;
-    border: 1px solid var(--accent-line);
-    border-radius: 999px;
-    color: var(--accent);
-    background: var(--accent-soft);
+    padding: 4px 2px;
+    overflow: hidden;
+    color: var(--ink);
     font-size: 12.5px;
     font-weight: 500;
-  }
-  .geo-flow-focus-chip span {
-    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .geo-flow-focus-chip button {
-    display: grid;
-    place-items: center;
-    width: 18px;
-    height: 18px;
+
+  /* The record's detail card (.geo-detail-card) is shared markup: in the
+     split-view record page it needs its own bordered/shadowed card framing
+     since it sits directly on the page, but the flow node dialog already
+     supplies that chrome (.dhd title, .dlg-inner surface) -- re-parenting
+     the same card in there would double it up, unlike every other form
+     dialog in the app, which lays its fields flat in .dbody with no nested
+     card. Strip the card's own border/background/titlebar only inside that
+     dialog so it matches the rest of the app's dialog convention, without
+     forking the markup or touching the split-view look. */
+  .geo-flow-node-modal .geo-detail-card {
     border: 0;
-    border-radius: 999px;
-    color: inherit;
+    border-radius: 0;
     background: transparent;
-    cursor: pointer;
+    box-shadow: none;
   }
-  .geo-flow-focus-chip button:hover { background: color-mix(in srgb, var(--accent) 18%, transparent); }
+  .geo-flow-node-modal .geo-detail-card > .customer-section-titlebar { display: none; }
+  .geo-flow-node-modal .geo-detail-card > .customer-section-body { padding: 0; }
 
   /* Selecting a node focuses its lineage: unrelated branches dim so the active
      node's ancestors/descendants stand out, while staying clickable. */

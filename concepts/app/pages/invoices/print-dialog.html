@@ -13,9 +13,9 @@
         </div>
         <div class="dlg-inner">
         <div class="dbody [padding:16px_18px] overflow-auto">
-          <fieldset class="fset [border:1px_solid_var(--line)] [border-radius:10px] [padding:12px_14px] mb-3.5! [&_legend]:text-xs [&_legend]:[text-transform:uppercase] [&_legend]:[letter-spacing:0.04em] [&_legend]:[color:var(--faint)] [&_legend]:[padding:0_6px]">
-            <legend>Destination</legend>
-            <div class="dgrid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="group" aria-label="Destination">
+          <section class="print-group pb-4" aria-labelledby="print-destination-title">
+            <h4 id="print-destination-title" class="mb-3 text-xs font-semibold uppercase tracking-[0.04em] text-faint">Destination</h4>
+            <div class="dgrid grid grid-cols-1 gap-2.5 sm:grid-cols-3" role="group" aria-label="Destination">
               <button class="dcard [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start [&:hover]:[border-color:var(--line)] [&:hover]:[background:var(--surface-hover)] [&>span:last-child]:flex [&>span:last-child]:flex-col [&>span:last-child]:gap-0.5 [&[aria-pressed=true]]:[border-color:var(--accent)] [&[aria-pressed=true]]:[box-shadow:0_0_0_1px_var(--accent)] [&[aria-pressed=true]]:[background:var(--accent-soft)]" data-dest="preview" aria-pressed="true">
                 <svg width="16" height="16" aria-hidden="true"><use href="#i-eye" /></svg>
                 <span
@@ -41,10 +41,10 @@
                 >
               </button>
             </div>
-          </fieldset>
-          <fieldset class="fset [border:1px_solid_var(--line)] [border-radius:10px] [padding:12px_14px] mb-3.5! [&_legend]:text-xs [&_legend]:[text-transform:uppercase] [&_legend]:[letter-spacing:0.04em] [&_legend]:[color:var(--faint)] [&_legend]:[padding:0_6px]">
-            <legend>Document</legend>
-            <div class="fgrid grid [grid-template-columns:repeat(2,_1fr)] [gap:12px_14px]">
+          </section>
+          <section class="print-group border-t border-line py-4" aria-labelledby="print-document-title">
+            <h4 id="print-document-title" class="mb-3 text-xs font-semibold uppercase tracking-[0.04em] text-faint">Document</h4>
+            <div class="fgrid grid grid-cols-1 [gap:12px_14px] sm:grid-cols-2">
               <div class="fld flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_label]:flex [&_label]:items-center [&_label]:[gap:7px] [&_select]:[flex:1] [&_select]:[min-height:32px] [&_select]:[border:1px_solid_var(--line)] [&_select]:[border-radius:7px] [&_select]:[padding:6px_9px] [&_select]:[font:inherit] [&_select]:bg-surface [&_select]:w-full [&_select]:text-ink [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_9px_center] [&_select]:[background-size:12px] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [[dir=rtl]_&_select]:[padding-inline-end:9px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_9px_center] [&_input]:[flex:1] [&_input]:[min-height:32px] [&_input]:[border:1px_solid_var(--line)] [&_input]:[border-radius:7px] [&_input]:[padding:6px_9px] [&_input]:[font:inherit] [&_input]:bg-surface">
                 <label for="p-form">Print Form</label>
                 <select id="p-form">
@@ -73,10 +73,10 @@
                 </select>
               </div>
             </div>
-          </fieldset>
-          <fieldset class="fset [border:1px_solid_var(--line)] [border-radius:10px] [padding:12px_14px] mb-3.5! [&_legend]:text-xs [&_legend]:[text-transform:uppercase] [&_legend]:[letter-spacing:0.04em] [&_legend]:[color:var(--faint)] [&_legend]:[padding:0_6px]" data-when="save" hidden>
-            <legend>File</legend>
-            <div class="fgrid grid [grid-template-columns:repeat(2,_1fr)] [gap:12px_14px]">
+          </section>
+          <section class="print-group border-t border-line py-4" aria-labelledby="print-file-title" data-when="save" hidden>
+            <h4 id="print-file-title" class="mb-3 text-xs font-semibold uppercase tracking-[0.04em] text-faint">File</h4>
+            <div class="fgrid grid grid-cols-1 [gap:12px_14px] sm:grid-cols-2">
               <div class="fld flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_label]:flex [&_label]:items-center [&_label]:[gap:7px] [&_select]:[flex:1] [&_select]:[min-height:32px] [&_select]:[border:1px_solid_var(--line)] [&_select]:[border-radius:7px] [&_select]:[padding:6px_9px] [&_select]:[font:inherit] [&_select]:bg-surface [&_select]:w-full [&_select]:text-ink [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_9px_center] [&_select]:[background-size:12px] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [[dir=rtl]_&_select]:[padding-inline-end:9px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_9px_center] [&_input]:[flex:1] [&_input]:[min-height:32px] [&_input]:[border:1px_solid_var(--line)] [&_input]:[border-radius:7px] [&_input]:[padding:6px_9px] [&_input]:[font:inherit] [&_input]:bg-surface">
                 <label for="p-fmt">File Format</label>
                 <select id="p-fmt">
@@ -89,10 +89,10 @@
                 </select>
               </div>
             </div>
-          </fieldset>
-          <fieldset class="fset [border:1px_solid_var(--line)] [border-radius:10px] [padding:12px_14px] mb-3.5! [&_legend]:text-xs [&_legend]:[text-transform:uppercase] [&_legend]:[letter-spacing:0.04em] [&_legend]:[color:var(--faint)] [&_legend]:[padding:0_6px]" data-when="send" hidden>
-            <legend>Send <span class="badge fix">proposal</span></legend>
-            <div class="fgrid grid [grid-template-columns:repeat(2,_1fr)] [gap:12px_14px]">
+          </section>
+          <section class="print-group border-t border-line py-4" aria-labelledby="print-send-title" data-when="send" hidden>
+            <h4 id="print-send-title" class="mb-3 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.04em] text-faint">Send <span class="badge fix">proposal</span></h4>
+            <div class="fgrid grid grid-cols-1 [gap:12px_14px] sm:grid-cols-2">
               <div class="fld flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_label]:flex [&_label]:items-center [&_label]:[gap:7px] [&_select]:[flex:1] [&_select]:[min-height:32px] [&_select]:[border:1px_solid_var(--line)] [&_select]:[border-radius:7px] [&_select]:[padding:6px_9px] [&_select]:[font:inherit] [&_select]:bg-surface [&_select]:w-full [&_select]:text-ink [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_9px_center] [&_select]:[background-size:12px] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [[dir=rtl]_&_select]:[padding-inline-end:9px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_9px_center] [&_input]:[flex:1] [&_input]:[min-height:32px] [&_input]:[border:1px_solid_var(--line)] [&_input]:[border-radius:7px] [&_input]:[padding:6px_9px] [&_input]:[font:inherit] [&_input]:bg-surface">
                 <label for="p-chan">Channel</label
                 ><select id="p-chan">
@@ -113,7 +113,7 @@
                 ><input id="p-msg" type="text" value="Please find the invoice attached." />
               </div>
             </div>
-          </fieldset>
+          </section>
         </div>
         <div class="dfoot">
           <span class="sum">Preview · Arabic\English Form · English</span>

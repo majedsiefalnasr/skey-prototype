@@ -69,11 +69,11 @@ export function createLocaleControls({t, formatLocaleCurrency, getLocale, setLoc
         subtitle.textContent = t('Resume recent work or open another Skey app.')
       }
 
-      activeLaunchpad.querySelectorAll('.lp-quick-lbl').forEach(node => {
+      activeLaunchpad.querySelectorAll('.lp-quick-tab-lbl').forEach(node => {
         if (!node.dataset.i18nOriginal) node.dataset.i18nOriginal = node.textContent
         node.textContent = t(node.dataset.i18nOriginal)
       })
-      activeLaunchpad.querySelectorAll('.lp-tag span').forEach(node => {
+      activeLaunchpad.querySelectorAll('.lp-tag-lbl').forEach(node => {
         if (!node.dataset.i18nOriginal) node.dataset.i18nOriginal = node.textContent
         node.textContent = t(node.dataset.i18nOriginal)
       })
@@ -84,10 +84,8 @@ export function createLocaleControls({t, formatLocaleCurrency, getLocale, setLoc
         startSearchTyping(searchLabel)
       }
       if (search) search.setAttribute('aria-label', t('Search apps and screens'))
-      activeLaunchpad.querySelectorAll('.lp-view-all').forEach(button => {
-        button.textContent = t(
-          button.getAttribute('aria-expanded') === 'true' ? 'Show less' : 'View all'
-        )
+      activeLaunchpad.querySelectorAll('.lp-quick-more').forEach(button => {
+        button.textContent = t('More')
       })
       const currentLabel = activeLaunchpad.querySelector('.lp-current:not([hidden])')
       if (currentLabel) currentLabel.textContent = t('Current app')

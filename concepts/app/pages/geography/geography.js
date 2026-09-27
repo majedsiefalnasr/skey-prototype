@@ -386,6 +386,10 @@ function openGeoFlowNodeDialog() {
           syncGeoFlowNodeDialog()
           geoFlowNodeScrim.classList.add('open')
           trapFocus(geoFlowNodeScrim.querySelector('.dlg'))
+          const primary = geoFlowNodeScrim.querySelector(
+            '[data-geo-record-action="modify"], [data-geo-record-action="save"]'
+          )
+          primary?.focus()
         }
 
 function closeGeoFlowNodeDialog() {

@@ -44,9 +44,11 @@ const pageAbort = new AbortController()
         function launchpadTag(label, icon, cls, onClick) {
           const tag = document.createElement('button')
           tag.type = 'button'
-          tag.className = 'lp-tag inline-flex items-center gap-[7px] rounded-full border border-line px-[13px] py-1.5 text-[12.5px] font-medium text-ink ' + cls
-          tag.innerHTML = `<svg width="13" height="13" aria-hidden="true"><use href="#${icon}"/></svg><span></span>`
-          tag.querySelector('span').textContent = t(label)
+          tag.className = 'lp-tag group inline-flex max-w-full flex-none items-center gap-2.5 rounded-lg border border-line bg-surface py-2 pe-3 ps-2 text-start transition-[border-color,background-color] duration-[120ms] ease-out hover:border-[var(--accent-line)] focus-visible:border-accent ' + cls
+          tag.innerHTML =
+            `<span class="lp-tag-ic flex size-7 flex-none items-center justify-center rounded-md bg-[var(--line-2)] text-muted"><svg width="15" height="15" aria-hidden="true"><use href="#${icon}"/></svg></span>` +
+            '<span class="lp-tag-lbl min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[12.5px] font-semibold text-ink"></span>'
+          tag.querySelector('.lp-tag-lbl').textContent = t(label)
           tag.addEventListener('click', onClick, {signal: pageAbort.signal})
           return tag
         }
@@ -338,7 +340,7 @@ const pageAbort = new AbortController()
           content.appendChild(hero)
 
           const body = document.createElement('div')
-          body.className = 'lp-body mx-auto flex w-[min(1040px,100%)] flex-col gap-6 px-8 pb-12 pt-6'
+          body.className = 'lp-body mx-auto flex w-[min(960px,100%)] flex-col gap-6 px-8 pb-12 pt-6'
 
           /* the same "Search or run an action" panel every other page opens — .s-open
      is the topbar's own wiring; the launchpad just gives it a bar of its own */
@@ -354,25 +356,44 @@ const pageAbort = new AbortController()
           const sections = document.createElement('div')
           sections.className = 'lp-sections flex flex-col gap-[26px]'
 
-          /* Starred/Recent are quick-access shortcuts, not primary content — one light
-     cluster with inline micro-labels, not two more copies of the same loud
-     section-heading treatment the Apps grid below needs to stand apart from */
-          const quick = document.createElement('div')
-          quick.className = 'lp-quick grid grid-cols-2 gap-4'
-          const quickRow = (label, icon, cls, items, rowIndex) => {
-            const row = document.createElement('section')
-            row.className = 'lp-quick-row'
-            row.style.setProperty('--lp-i', rowIndex)
-            const labelId = `launchpad-${label.toLowerCase()}-title`
-            row.setAttribute('aria-labelledby', labelId)
-            const lbl = document.createElement('h2')
-            lbl.id = labelId
-            lbl.className = 'lp-quick-lbl mb-2.5 text-[12.5px] font-bold text-muted'
-            lbl.textContent = t(label)
-            const tags = document.createElement('div')
-            tags.className = 'lp-tags flex flex-1 flex-wrap gap-2'
-            items.forEach((name, index) => {
-              const tag = launchpadTag(name, icon, cls, () => {
+          /* Starred/Recent are quick-access shortcuts, not primary content — a light
+     tabbed cluster (same segmented-tab look as the geo hierarchy's Tree/Flow
+     switch), not two more copies of the loud section-heading treatment the
+     Apps grid below needs to stand apart from. Only one list is ever shown
+     at a time, each capped to a fixed count and wrapped like tags so their
+     widths follow their labels rather than stretching into equal columns.
+     The rest is reachable through the header's More button, which opens the
+     same rail panel the Starred/Recent rail icons already do. */
+          const QUICK_ROW_LIMIT = 10
+          const QUICK_LISTS = [
+            {label: 'Starred', icon: 'i-spark', cls: 'starred', items: NAV_FAVORITES},
+            {label: 'Recent', icon: 'i-clock', cls: 'recent', items: NAV_RECENTS},
+          ]
+          const quick = document.createElement('section')
+          quick.className = 'lp-quick'
+          quick.setAttribute('aria-labelledby', 'launchpad-quick-title')
+          const quickHeader = document.createElement('div')
+          quickHeader.className = 'lp-quick-header flex items-center justify-between gap-3'
+          const tabs = document.createElement('div')
+          tabs.className = 'lp-quick-tabs inline-grid flex-none grid-cols-2 gap-[3px] rounded-[7px] bg-[var(--line-2)] p-[3px]'
+          tabs.setAttribute('role', 'tablist')
+          tabs.id = 'launchpad-quick-title'
+          const more = document.createElement('button')
+          more.type = 'button'
+          more.className = 'lp-quick-more ms-auto flex-none text-[12.5px] font-bold text-accent'
+          quickHeader.append(tabs, more)
+          const quickPanel = document.createElement('div')
+          quickPanel.className = 'lp-quick-panel mt-3'
+          const cards = document.createElement('div')
+          cards.className = 'lp-tags flex flex-wrap items-start gap-2'
+          quickPanel.appendChild(cards)
+
+          const renderQuickList = list => {
+            more.textContent = t('More')
+            more.onclick = () => side.querySelector('.nc2').activateByLabel(list.label)
+            cards.replaceChildren()
+            list.items.slice(0, QUICK_ROW_LIMIT).forEach(name => {
+              cards.appendChild(launchpadTag(name, list.icon, list.cls, () => {
                 /* the rail only has icons for top-level NAV_TREE groups — a leaf like
              "Sales Invoice" needs its parent group's icon activated first so the
              panel renders the leaf, then setNavCurrent highlights the leaf itself
@@ -382,33 +403,36 @@ const pageAbort = new AbortController()
                   if (group) side.querySelector('.nc2').activateByLabel(group[0])
                   setNavCurrent(side, name)
                 }
-              })
-              if (index > 2) tag.classList.add('lp-mobile-extra')
-              tags.appendChild(tag)
+              }))
             })
-            const viewAll = document.createElement('button')
-            viewAll.type = 'button'
-            viewAll.className = 'lp-view-all hidden max-[620px]:inline-flex max-[620px]:min-h-11 max-[620px]:items-center max-[620px]:mt-1 max-[620px]:px-1.5 max-[620px]:border-0 max-[620px]:text-[var(--accent)] max-[620px]:bg-transparent max-[620px]:text-[12.5px] max-[620px]:font-bold'
-            viewAll.setAttribute('aria-expanded', 'false')
-            viewAll.textContent = t('View all')
-            viewAll.addEventListener('click', () => {
-              const expanded = row.classList.toggle('is-expanded')
-              viewAll.setAttribute('aria-expanded', String(expanded))
-              viewAll.textContent = t(expanded ? 'Show less' : 'View all')
-            }, {signal: pageAbort.signal})
-            row.append(lbl, tags, viewAll)
-            return row
           }
-          quick.append(
-            quickRow('Starred', 'i-spark', 'starred', NAV_FAVORITES, 0),
-            quickRow('Recent', 'i-clock', 'recent', NAV_RECENTS.slice(0, 5), 1)
-          )
+
+          QUICK_LISTS.forEach((list, index) => {
+            const tab = document.createElement('button')
+            tab.type = 'button'
+            tab.setAttribute('role', 'tab')
+            tab.dataset.lpQuickTab = list.label
+            tab.setAttribute('aria-selected', String(index === 0))
+            tab.setAttribute('aria-controls', 'launchpad-quick-panel')
+            tab.className = 'inline-flex min-h-8 items-center justify-center gap-[7px] rounded-[5px] px-[9px] py-[5px] text-[12.5px] font-semibold text-muted'
+            tab.innerHTML = `<svg width="15" height="15" aria-hidden="true"><use href="#${list.icon}"/></svg><span class="lp-quick-tab-lbl"></span>`
+            tab.querySelector('.lp-quick-tab-lbl').textContent = t(list.label)
+            tab.addEventListener('click', () => {
+              tabs.querySelectorAll('[role="tab"]').forEach(b => b.setAttribute('aria-selected', String(b === tab)))
+              renderQuickList(list)
+            }, {signal: pageAbort.signal})
+            tabs.appendChild(tab)
+          })
+          quickPanel.id = 'launchpad-quick-panel'
+          quickPanel.setAttribute('role', 'tabpanel')
+          renderQuickList(QUICK_LISTS[0])
+          quick.append(quickHeader, quickPanel)
 
           const appsSec = document.createElement('section')
           appsSec.setAttribute('aria-labelledby', 'launchpad-apps-title')
           appsSec.innerHTML = `<div class="lp-section-hd mb-3.5 border-t border-line pt-5"><h2 id="launchpad-apps-title" class="lp-section-title text-[13px] font-bold text-muted">${t('Apps')}</h2></div>`
           const appsGrid = document.createElement('div')
-          appsGrid.className = 'lp-grid grid grid-cols-4 gap-3'
+          appsGrid.className = 'lp-grid grid grid-cols-3 gap-3'
           visibleGroups().forEach((group, index) => {
             const tile = launchpadTile(
               group[0],

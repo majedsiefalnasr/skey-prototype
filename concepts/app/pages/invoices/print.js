@@ -37,7 +37,7 @@ const pageAbort = new AbortController()
           closeAllMenus()
           clearInlineError(pscrim.querySelector('.dlg'))
           printSettingsContext = contextLabel || currentPrintSettingsContext()
-          pscrim.querySelector('.dhd .sub').textContent = printSettingsContext
+          pscrim.querySelector('.dhd-subtitle').textContent = printSettingsContext
           pscrim.classList.add('open')
           updPrint()
           trapFocus(pscrim.querySelector('.dlg'))

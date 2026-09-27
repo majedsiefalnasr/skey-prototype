@@ -116,12 +116,29 @@ test('invoice print settings and activity drawer retain their document context',
   await openSurface(page, 'record');
   await page.locator('.content').getByRole('button', {name: 'Print', exact: true}).click();
   await expect(page.locator('#pscrim')).toHaveClass(/open/);
-  await expect(page.locator('#pscrim .dhd .sub')).toContainText('Sales Invoice');
+  await expect(page.locator('#pscrim .dhd-subtitle')).toContainText('Sales Invoice');
+  const printGroups = page.locator('#pscrim .print-group');
+  await expect(printGroups).toHaveCount(4);
+  await expect(page.locator('#pscrim fieldset')).toHaveCount(0);
+  await expect(printGroups.nth(0).getByRole('heading')).toHaveText('Destination');
+  await expect(printGroups.nth(1).getByRole('heading')).toHaveText('Document');
+  await expect(printGroups.nth(1)).toHaveCSS('border-top-style', 'solid');
   await page.locator('#pscrim').getByRole('button', {name: 'Close', exact: true}).click();
   await page.locator('.dr-open[data-tab="stages"]').first().click();
   await expect(page.locator('#drawer')).toHaveClass(/open/);
   await expect(page.locator('.drtab[data-tab="stages"]')).toHaveAttribute('aria-selected', 'true');
   await page.locator('#drawer .dr-close').click();
+});
+
+test('invoice print settings groups reflow at narrow widths', async ({page}) => {
+  await page.setViewportSize({width: 390, height: 844});
+  await openSurface(page, 'record');
+  await page.locator('.content').getByRole('button', {name: 'Print', exact: true}).click();
+
+  const columnCount = locator =>
+    locator.evaluate(element => getComputedStyle(element).gridTemplateColumns.split(' ').length);
+  await expect.poll(() => columnCount(page.locator('#pscrim .dgrid'))).toBe(1);
+  await expect.poll(() => columnCount(page.locator('#pscrim .fgrid').first())).toBe(1);
 });
 
 test('invoice modify and undo preserve the operation lifecycle', async ({page}) => {

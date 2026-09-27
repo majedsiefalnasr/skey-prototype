@@ -104,7 +104,7 @@
       </div>
     </div>
 
-    <div class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="geo-parent-picker-scrim">
+    <div class="customer-overlay fixed [inset:0] [z-index:220] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="geo-parent-picker-scrim">
       <div
         class="dlg geo-parent-picker-modal [width:min(620px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
         data-tone="default"
@@ -160,8 +160,18 @@
               role="tree"
               aria-label="Locations"></div>
           </div>
-          <div id="geo-parent-picker-flow-pane" role="tabpanel" hidden>
+          <div id="geo-parent-picker-flow-pane" class="flex min-h-0 flex-1 flex-col" role="tabpanel" hidden>
             <div class="flex items-center gap-[5px] p-2" role="toolbar" aria-label="Flow canvas controls">
+              <button
+                class="lbtn out"
+                type="button"
+                data-geo-parent-picker-unfocus
+                hidden
+                id="geo-parent-picker-flow-clear-focus">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+                Clear focus
+              </button>
+              <span class="geo-flow-tools-sep" id="geo-parent-picker-flow-clear-focus-sep" aria-hidden="true" hidden></span>
               <span class="geo-flow-focus-chip-mount flex-1 min-w-0" id="geo-parent-picker-flow-focus-chip-mount"></span>
               <button class="lbtn out" type="button" data-geo-parent-picker-flow-center>
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-frame-center" /></svg>
@@ -169,7 +179,7 @@
               </button>
             </div>
             <div
-              class="geo-flow-viewport geo-parent-picker-flow-viewport min-w-0 flex-1 mx-2 mb-2 overflow-auto cursor-grab rounded-[7px] border border-line touch-none select-none min-h-[360px] [background-color:var(--bg)] [background-image:radial-gradient(var(--line)_1px,transparent_1px)] [background-size:16px_16px]"
+              class="geo-flow-viewport geo-parent-picker-flow-viewport min-w-0 flex-1 mx-2 mb-2 overflow-auto cursor-grab rounded-[7px] border border-line touch-none select-none [min-height:280px] [max-height:400px] [background-color:var(--bg)] [background-image:radial-gradient(var(--line)_1px,transparent_1px)] [background-size:16px_16px]"
               id="geo-parent-picker-flow-viewport">
               <div class="geo-flow-canvas relative min-w-full min-h-full [max-height:min(560px,80vh)]" id="geo-parent-picker-flow-canvas"></div>
             </div>

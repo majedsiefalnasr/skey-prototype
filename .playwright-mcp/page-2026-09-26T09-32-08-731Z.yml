@@ -1,0 +1,497 @@
+- generic [ref=e1]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - button [ref=e8] [cursor=pointer]:
+          - img [ref=e9]
+          - generic: Switch app
+        - button [ref=e11] [cursor=pointer]:
+          - img [ref=e12]
+          - generic: Collapse sidebar
+      - button [ref=e16] [cursor=pointer]:
+        - img [ref=e17]
+        - generic [ref=e19]: Search or run an action
+        - generic [ref=e20]: ⌘K
+    - generic [ref=e21]:
+      - navigation [ref=e22]:
+        - generic [ref=e24]:
+          - button [ref=e25] [cursor=pointer]:
+            - img [ref=e26]
+          - button [ref=e28] [cursor=pointer]:
+            - img [ref=e29]
+          - button [ref=e31] [cursor=pointer]:
+            - img [ref=e32]
+          - button [ref=e34] [cursor=pointer]:
+            - img [ref=e35]
+          - button [ref=e37] [cursor=pointer]:
+            - img [ref=e38]
+          - button [ref=e40] [cursor=pointer]:
+            - img [ref=e41]
+          - button [ref=e43] [cursor=pointer]:
+            - img [ref=e44]
+          - button [ref=e46] [cursor=pointer]:
+            - img [ref=e47]
+          - button [ref=e49] [cursor=pointer]:
+            - img [ref=e50]
+          - button [ref=e52] [cursor=pointer]:
+            - img [ref=e53]
+          - button [ref=e55] [cursor=pointer]:
+            - img [ref=e56]
+          - button [ref=e58] [cursor=pointer]:
+            - img [ref=e59]
+          - button [ref=e61] [cursor=pointer]:
+            - img [ref=e62]
+          - button [ref=e64] [cursor=pointer]:
+            - img [ref=e65]
+          - button [ref=e67] [cursor=pointer]:
+            - img [ref=e68]
+          - button [ref=e70] [cursor=pointer]:
+            - img [ref=e71]
+          - button [ref=e73] [cursor=pointer]:
+            - img [ref=e74]
+          - button [ref=e76] [cursor=pointer]:
+            - img [ref=e77]
+          - button [ref=e79] [cursor=pointer]:
+            - img [ref=e80]
+        - button [ref=e84]
+      - main [ref=e85]:
+        - toolbar [ref=e87]:
+          - generic [ref=e88]:
+            - button [ref=e90] [cursor=pointer]:
+              - text: Record
+              - img [ref=e91]
+            - button [ref=e94] [cursor=pointer]:
+              - text: Procedure
+              - img [ref=e95]
+            - button [ref=e98] [cursor=pointer]:
+              - text: Transactions
+              - img [ref=e99]
+            - button [ref=e102] [cursor=pointer]:
+              - text: More
+              - img [ref=e103]
+          - button [ref=e105] [cursor=pointer]:
+            - img [ref=e106]
+            - text: Print
+          - button [ref=e108] [cursor=pointer]:
+            - img [ref=e109]
+            - text: User Log
+          - button [ref=e111] [cursor=pointer]:
+            - img [ref=e112]
+            - text: Documents Flow
+        - generic [ref=e114]:
+          - generic [ref=e115]:
+            - generic [ref=e116]:
+              - navigation [ref=e117]:
+                - link [ref=e118] [cursor=pointer]:
+                  - /url: "#"
+                  - text: Home
+                - generic [ref=e119]: ›
+                - link [ref=e120] [cursor=pointer]:
+                  - /url: "#"
+                  - text: Sales Invoice
+                - generic [ref=e121]: ›
+                - generic [ref=e122]: All
+              - generic [ref=e123]:
+                - heading [level=1] [ref=e124]: Sales Invoice 126
+                - button [ref=e125] [cursor=pointer]:
+                  - img [ref=e126]
+                  - generic: Add to Favorites
+                - button [ref=e129] [cursor=pointer]:
+                  - generic [ref=e131]: Posted
+                  - generic [ref=e140]: 3 of 7
+                  - img [ref=e141]
+            - generic [ref=e143]:
+              - button [disabled] [ref=e144]:
+                - img [ref=e145]
+                - text: Modify
+              - generic [ref=e147]:
+                - button [ref=e150] [cursor=pointer]:
+                  - img [ref=e151]
+                  - text: Transition
+                  - img [ref=e153]
+                - generic [ref=e155]:
+                  - button [ref=e156] [cursor=pointer]:
+                    - img [ref=e157]
+                    - text: New
+                  - button [ref=e159] [cursor=pointer]:
+                    - img [ref=e160]
+                - button [disabled] [ref=e162]:
+                  - img [ref=e163]
+                  - text: Delete
+          - generic [ref=e166]:
+            - generic [ref=e167]:
+              - tablist [ref=e168]:
+                - tab [selected] [ref=e169] [cursor=pointer]: Main Data
+                - tab [ref=e170] [cursor=pointer]: Payment method
+                - tab [ref=e171] [cursor=pointer]: Other Data
+                - tab [ref=e172] [cursor=pointer]: Sub Ledgers
+                - tab [ref=e173] [cursor=pointer]: Additional Data
+              - tabpanel [ref=e174]:
+                - generic [ref=e175]:
+                  - button [ref=e177] [cursor=pointer]: General
+                  - generic [ref=e178]:
+                    - button [expanded] [ref=e179] [cursor=pointer]: Customer
+                    - generic [ref=e180]:
+                      - generic [ref=e181]:
+                        - generic [ref=e182]: Customer No. *
+                        - combobox [disabled] [ref=e183]
+                      - generic [ref=e184]:
+                        - generic [ref=e185]: Customer Name *
+                        - textbox [disabled] [ref=e186]: محمد احمد
+                      - generic [ref=e187]:
+                        - generic [ref=e188]: Mobile No.
+                        - textbox [disabled] [ref=e189]: "01012345678"
+                      - generic [ref=e190]:
+                        - generic [ref=e191]: Address
+                        - textbox [disabled] [ref=e192]: 15 شارع الجمهورية، القاهرة
+                      - generic [ref=e193]:
+                        - generic [ref=e194]: Beneficiary No.
+                        - textbox [disabled] [ref=e195]: B-40021
+                      - generic [ref=e196]:
+                        - generic [ref=e197]: Tax Number
+                        - textbox [disabled] [ref=e198]: 123-456-789
+                  - button [ref=e200] [cursor=pointer]: Currency
+            - generic [ref=e201]:
+              - generic [ref=e202]: Items, totals & charges — visible on every tab
+              - generic [ref=e203]:
+                - generic [ref=e204]:
+                  - generic [ref=e205]: Items
+                  - button [ref=e206] [cursor=pointer]:
+                    - img [ref=e207]
+                    - generic [ref=e209]: Add item
+                - table [ref=e211]:
+                  - rowgroup [ref=e212]:
+                    - row [ref=e213]:
+                      - columnheader [ref=e214]: Item
+                      - columnheader [ref=e215]: UoM
+                      - columnheader [ref=e216]: Expiry Date
+                      - columnheader [ref=e217]: Batch No.
+                      - columnheader [ref=e218]: Qty.
+                      - columnheader [ref=e219]: Free Qty
+                      - columnheader [ref=e220]: Available Qty
+                      - columnheader [ref=e221]: Price
+                      - columnheader [ref=e222]: Discount %
+                      - columnheader [ref=e223]: Tax %
+                      - columnheader [ref=e224]: Tax Amt
+                      - columnheader [ref=e225]: Total
+                      - columnheader [ref=e226]
+                  - rowgroup [ref=e227]:
+                    - row [ref=e228]:
+                      - cell [ref=e229]:
+                        - textbox [disabled] [ref=e230]:
+                          - /placeholder: Item
+                      - cell [ref=e231]:
+                        - textbox [disabled] [ref=e232]:
+                          - /placeholder: UoM
+                      - cell [ref=e233]:
+                        - textbox [disabled] [ref=e234]:
+                          - /placeholder: Expiry
+                      - cell [ref=e235]:
+                        - textbox [disabled] [ref=e236]:
+                          - /placeholder: Batch
+                      - cell [ref=e237]:
+                        - spinbutton [disabled] [ref=e238]: "1"
+                      - cell [ref=e239]:
+                        - spinbutton [disabled] [ref=e240]: "0"
+                      - cell [ref=e241]:
+                        - textbox [disabled] [ref=e242]:
+                          - /placeholder: —
+                      - cell [ref=e243]:
+                        - spinbutton [disabled] [ref=e244]: "0"
+                      - cell [ref=e245]:
+                        - spinbutton [disabled] [ref=e246]: "0"
+                      - cell [ref=e247]:
+                        - textbox [disabled] [ref=e248]: "0"
+                      - cell [ref=e249]:
+                        - textbox [disabled] [ref=e250]: "0"
+                      - cell [ref=e251]:
+                        - textbox [disabled] [ref=e252]: "0"
+                      - cell [ref=e253]:
+                        - button [ref=e254] [cursor=pointer]:
+                          - img [ref=e255]
+                - generic [ref=e257]: "Total Qty.: 1"
+              - generic [ref=e258]:
+                - region [ref=e259]:
+                  - generic [ref=e260]:
+                    - generic [ref=e261]:
+                      - heading [level=3] [ref=e262]: Invoice charges
+                      - text: Add freight, delivery, insurance, or other charges.
+                    - button [disabled] [ref=e264]:
+                      - img [ref=e265]
+                      - text: Add charge
+                  - generic [ref=e268]: No invoice charges.
+                - complementary [ref=e269]:
+                  - heading [level=3] [ref=e270]: Invoice summary
+                  - generic [ref=e271]:
+                    - generic [ref=e272]:
+                      - generic [ref=e273]: Items subtotal
+                      - status [ref=e274]: "200.00"
+                    - generic [ref=e275]:
+                      - generic [ref=e276]: Items discount
+                      - status [ref=e277]: − 0.00
+                    - generic [ref=e278]:
+                      - generic [ref=e279]: Invoice discount
+                      - generic [ref=e280]:
+                        - combobox [disabled] [ref=e281]
+                        - generic [ref=e282]:
+                          - spinbutton [disabled] [ref=e283]: "0"
+                          - generic [ref=e284]: "%"
+                    - generic [ref=e285]:
+                      - generic [ref=e286]: Discount amount
+                      - status [ref=e287]: − 0.00
+                    - generic [ref=e288]:
+                      - generic [ref=e289]: Charges
+                      - status [ref=e290]: + 0.00
+                    - generic [ref=e291]:
+                      - generic [ref=e292]: Tax
+                      - status [ref=e293]: + 0.00
+                    - generic [ref=e294]:
+                      - generic [ref=e295]: Net amount
+                      - status [ref=e296]: 200.00 EGP
+        - generic [ref=e297]:
+          - generic [ref=e298]:
+            - group [ref=e300]:
+              - button [disabled] [ref=e301]:
+                - img [ref=e302]
+                - generic: First record
+              - button [disabled] [ref=e304]:
+                - img [ref=e305]
+                - generic: Previous record
+              - spinbutton [ref=e307]: "1"
+              - generic [ref=e308]: of 125
+              - button [ref=e309] [cursor=pointer]:
+                - img [ref=e310]
+                - generic: Next record
+              - button [ref=e312] [cursor=pointer]:
+                - img [ref=e313]
+                - generic: Last record
+            - generic [ref=e315]: Record 1 of 125
+            - generic [ref=e316]:
+              - text: "|"
+              - img [ref=e317]
+              - generic [ref=e319]: This invoice is posted, so its fields are read-only. Undo the posting to edit it.
+            - group [ref=e320]:
+              - button [ref=e321] [cursor=pointer]:
+                - img [ref=e322]
+                - text: Receipt Voucher
+              - button [ref=e324] [cursor=pointer]:
+                - img [ref=e325]
+                - text: Sales Return
+          - text: "|"
+    - main "Good to see you, Majed." [ref=e327]:
+      - link "Skip to main content" [ref=e328] [cursor=pointer]:
+        - /url: "#app-main"
+      - generic [ref=e329]:
+        - generic [ref=e330]:
+          - button "lastchance, fiscal year 2026" [ref=e332] [cursor=pointer]:
+            - img [ref=e333]
+            - generic [ref=e335]: lastchance
+            - generic [ref=e336]: "2026"
+            - generic: lastchance
+          - generic [ref=e338]:
+            - button "AI Assistant" [ref=e339] [cursor=pointer]:
+              - img [ref=e340]
+              - text: AI Assistant
+            - button "System Alerts" [ref=e343] [cursor=pointer]:
+              - img [ref=e344]
+              - generic [ref=e346]: "4"
+              - generic: Alerts
+            - button "Help" [ref=e348] [cursor=pointer]:
+              - img [ref=e349]
+              - generic: Help
+            - generic [ref=e351]:
+              - button [expanded] [active] [ref=e352] [cursor=pointer]:
+                - img [ref=e354]
+              - menu [ref=e567]:
+                - generic [ref=e568]:
+                  - img [ref=e570]
+                  - generic [ref=e572]:
+                    - generic [ref=e573]: Majed Sief Alnasr
+                    - generic [ref=e574]: admin@lastchance
+                - menuitem "My Profile" [ref=e575] [cursor=pointer]:
+                  - img [ref=e576]
+                  - text: My Profile
+                - menuitem "Account settings" [ref=e578] [cursor=pointer]:
+                  - img [ref=e579]
+                  - text: Account settings
+                - menuitem "Appearance" [ref=e581] [cursor=pointer]:
+                  - img [ref=e582]
+                  - text: Appearance
+                - menuitem "Security" [ref=e584] [cursor=pointer]:
+                  - img [ref=e585]
+                  - text: Security
+                - menuitem "Sessions & devices" [ref=e587] [cursor=pointer]:
+                  - img [ref=e588]
+                  - text: Sessions & devices
+                - menuitem "Notifications" [ref=e590] [cursor=pointer]:
+                  - img [ref=e591]
+                  - text: Notifications
+                - menuitem "Customize sidebar" [ref=e593] [cursor=pointer]:
+                  - img [ref=e594]
+                  - text: Customize sidebar
+                - menuitem "Add this page to Favorites" [ref=e596] [cursor=pointer]:
+                  - img [ref=e597]
+                  - text: Add this page to Favorites
+                - separator [ref=e599]
+                - generic [ref=e600]: Branch
+                - menuitem "lastchance" [ref=e601] [cursor=pointer]:
+                  - img [ref=e602]
+                  - text: lastchance
+                - menuitem "Log out" [ref=e604] [cursor=pointer]:
+                  - img [ref=e605]
+                  - text: Log out
+        - generic [ref=e356]:
+          - img "Skey ERP" [ref=e357]
+          - heading "Good to see you, Majed." [level=1] [ref=e358]:
+            - text: Good to see you,
+            - generic [ref=e359]: Majed
+            - text: .
+          - paragraph [ref=e360]: Resume recent work or open another Skey app.
+        - generic [ref=e361]:
+          - button "Search apps and screens" [ref=e362] [cursor=pointer]:
+            - img [ref=e363]
+            - generic [ref=e365]: Search
+            - generic [ref=e366]: ⌘K
+          - generic [ref=e367]:
+            - generic [ref=e368]:
+              - region "Starred" [ref=e369]:
+                - heading "Starred" [level=2] [ref=e370]
+                - generic [ref=e371]:
+                  - button "Sales Invoice" [ref=e372] [cursor=pointer]:
+                    - img [ref=e373]
+                    - generic [ref=e375]: Sales Invoice
+                  - button "Customers" [ref=e376] [cursor=pointer]:
+                    - img [ref=e377]
+                    - generic [ref=e379]: Customers
+                  - button "Geographical Structure" [ref=e380] [cursor=pointer]:
+                    - img [ref=e381]
+                    - generic [ref=e383]: Geographical Structure
+                  - button "Purchase Invoice" [ref=e384] [cursor=pointer]:
+                    - img [ref=e385]
+                    - generic [ref=e387]: Purchase Invoice
+                  - button "Internal Mail" [ref=e388] [cursor=pointer]:
+                    - img [ref=e389]
+                    - generic [ref=e391]: Internal Mail
+              - region "Recent" [ref=e392]:
+                - heading "Recent" [level=2] [ref=e393]
+                - generic [ref=e394]:
+                  - button "Sales Invoice" [ref=e395] [cursor=pointer]:
+                    - img [ref=e396]
+                    - generic [ref=e398]: Sales Invoice
+                  - button "Sales Charges" [ref=e399] [cursor=pointer]:
+                    - img [ref=e400]
+                    - generic [ref=e402]: Sales Charges
+                  - button "Order types" [ref=e403] [cursor=pointer]:
+                    - img [ref=e404]
+                    - generic [ref=e406]: Order types
+                  - button "Sales Order" [ref=e407] [cursor=pointer]:
+                    - img [ref=e408]
+                    - generic [ref=e410]: Sales Order
+                  - button "Warehouses Group" [ref=e411] [cursor=pointer]:
+                    - img [ref=e412]
+                    - generic [ref=e414]: Warehouses Group
+            - region "Apps" [ref=e415]:
+              - heading "Apps" [level=2] [ref=e417]
+              - generic [ref=e418]:
+                - button "Dashboard Overview and key activity" [ref=e419] [cursor=pointer]:
+                  - img [ref=e421]
+                  - generic [ref=e423]:
+                    - generic [ref=e424]: Dashboard
+                    - generic [ref=e425]: Overview and key activity
+                  - img [ref=e426]
+                - button "Customers Customer accounts and profiles" [ref=e428] [cursor=pointer]:
+                  - img [ref=e430]
+                  - generic [ref=e432]:
+                    - generic [ref=e433]: Customers
+                    - generic [ref=e434]: Customer accounts and profiles
+                  - img [ref=e435]
+                - button "Vendors Supplier accounts and profiles" [ref=e437] [cursor=pointer]:
+                  - img [ref=e439]
+                  - generic [ref=e441]:
+                    - generic [ref=e442]: Vendors
+                    - generic [ref=e443]: Supplier accounts and profiles
+                  - img [ref=e444]
+                - button "Inventory Systems Management Stock, warehouses, and items" [ref=e446] [cursor=pointer]:
+                  - img [ref=e448]
+                  - generic [ref=e450]:
+                    - generic [ref=e451]: Inventory Systems Management
+                    - generic [ref=e452]: Stock, warehouses, and items
+                  - img [ref=e453]
+                - button "Sales Systems Management Orders, invoices, and sales" [ref=e455] [cursor=pointer]:
+                  - img [ref=e457]
+                  - generic [ref=e459]:
+                    - generic [ref=e460]: Sales Systems Management
+                    - generic [ref=e461]: Orders, invoices, and sales
+                  - img [ref=e462]
+                - button "Purchase Systems Management Purchasing and supplier documents" [ref=e464] [cursor=pointer]:
+                  - img [ref=e466]
+                  - generic [ref=e468]:
+                    - generic [ref=e469]: Purchase Systems Management
+                    - generic [ref=e470]: Purchasing and supplier documents
+                  - img [ref=e471]
+                - button "POS System Management Point-of-sale operations" [ref=e473] [cursor=pointer]:
+                  - img [ref=e475]
+                  - generic [ref=e477]:
+                    - generic [ref=e478]: POS System Management
+                    - generic [ref=e479]: Point-of-sale operations
+                  - img [ref=e480]
+                - button "Finance and Accounting Ledgers, journals, and finance" [ref=e482] [cursor=pointer]:
+                  - img [ref=e484]
+                  - generic [ref=e486]:
+                    - generic [ref=e487]: Finance and Accounting
+                    - generic [ref=e488]: Ledgers, journals, and finance
+                  - img [ref=e489]
+                - button "Fixed Assets System Assets, depreciation, and custody" [ref=e491] [cursor=pointer]:
+                  - img [ref=e493]
+                  - generic [ref=e495]:
+                    - generic [ref=e496]: Fixed Assets System
+                    - generic [ref=e497]: Assets, depreciation, and custody
+                  - img [ref=e498]
+                - button "Manufacturing Resource Planning Production, materials, and planning" [ref=e500] [cursor=pointer]:
+                  - img [ref=e502]
+                  - generic [ref=e504]:
+                    - generic [ref=e505]: Manufacturing Resource Planning
+                    - generic [ref=e506]: Production, materials, and planning
+                  - img [ref=e507]
+                - button "Customer Relations Management Leads, activities, and relationships" [ref=e509] [cursor=pointer]:
+                  - img [ref=e511]
+                  - generic [ref=e513]:
+                    - generic [ref=e514]: Customer Relations Management
+                    - generic [ref=e515]: Leads, activities, and relationships
+                  - img [ref=e516]
+                - button "Hospital Management Healthcare operations and records" [ref=e518] [cursor=pointer]:
+                  - img [ref=e520]
+                  - generic [ref=e522]:
+                    - generic [ref=e523]: Hospital Management
+                    - generic [ref=e524]: Healthcare operations and records
+                  - img [ref=e525]
+                - button "Reports Operational and financial reports" [ref=e527] [cursor=pointer]:
+                  - img [ref=e529]
+                  - generic [ref=e531]:
+                    - generic [ref=e532]: Reports
+                    - generic [ref=e533]: Operational and financial reports
+                  - img [ref=e534]
+                - button "System Administration Users, roles, and permissions" [ref=e536] [cursor=pointer]:
+                  - img [ref=e538]
+                  - generic [ref=e540]:
+                    - generic [ref=e541]: System Administration
+                    - generic [ref=e542]: Users, roles, and permissions
+                  - img [ref=e543]
+                - button "System Setup Organization and system configuration" [ref=e545] [cursor=pointer]:
+                  - img [ref=e547]
+                  - generic [ref=e549]:
+                    - generic [ref=e550]: System Setup
+                    - generic [ref=e551]: Organization and system configuration
+                  - img [ref=e552]
+                - button "Help Screens Guides and product assistance" [ref=e554] [cursor=pointer]:
+                  - img [ref=e556]
+                  - generic [ref=e558]:
+                    - generic [ref=e559]: Help Screens
+                    - generic [ref=e560]: Guides and product assistance
+                  - img [ref=e561]
+  - text: No conditions set.
+  - status
+  - text: No groups yet — add one, then drag screens in from the left.
+  - button "Prototype controls" [ref=e563] [cursor=pointer]:
+    - img [ref=e564]
+    - generic [ref=e566]: Prototype controls

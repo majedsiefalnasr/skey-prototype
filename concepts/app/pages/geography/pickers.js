@@ -128,8 +128,12 @@ function renderGeoParentPickerFlow() {
           if (focusChipMount) {
             const focusRow = focusCode ? GEO_ROWS.find(row => row.code === focusCode) : null
             focusChipMount.innerHTML = focusRow
-              ? `<span class="geo-flow-focus-chip"><span title="Focused: ${encodeHtml(focusRow.name)}">Focused: ${encodeHtml(focusRow.name)}</span><button type="button" data-geo-parent-picker-unfocus aria-label="Show full tree"><svg width="12" height="12" aria-hidden="true"><use href="#i-x" /></svg></button></span>`
+              ? `<span class="geo-flow-focus-chip" title="Focused: ${encodeHtml(focusRow.name)}">Focused: ${encodeHtml(focusRow.name)}</span>`
               : ''
+            const clearFocusButton = queryId('geo-parent-picker-flow-clear-focus')
+            if (clearFocusButton) clearFocusButton.hidden = !focusRow
+            const clearFocusSep = queryId('geo-parent-picker-flow-clear-focus-sep')
+            if (clearFocusSep) clearFocusSep.hidden = !focusRow
           }
         }
 

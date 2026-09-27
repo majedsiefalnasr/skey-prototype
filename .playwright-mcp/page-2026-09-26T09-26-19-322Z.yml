@@ -1,0 +1,156 @@
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e328] [cursor=pointer]:
+    - /url: "#app-main"
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - button "Switch app" [ref=e607] [cursor=pointer]:
+          - img [ref=e9]
+          - generic: Switch app
+        - button "Collapse sidebar" [ref=e608] [cursor=pointer]:
+          - img [ref=e12]
+          - generic: Collapse sidebar
+        - button "lastchance, fiscal year 2026" [ref=e332] [cursor=pointer]:
+          - img [ref=e333]
+          - generic [ref=e335]: lastchance
+          - generic [ref=e336]: "2026"
+          - generic: lastchance
+      - button "Search or run an action" [ref=e609] [cursor=pointer]:
+        - img [ref=e17]
+        - generic [ref=e19]: Sear
+        - generic [ref=e20]: ⌘K
+      - generic [ref=e338]:
+        - button "AI Assistant" [ref=e339] [cursor=pointer]:
+          - img [ref=e340]
+          - text: AI Assistant
+        - button "System Alerts" [ref=e343] [cursor=pointer]:
+          - img [ref=e344]
+          - generic [ref=e346]: "4"
+          - generic: Alerts
+        - button "Help" [ref=e348] [cursor=pointer]:
+          - img [ref=e349]
+          - generic: Help
+        - button [ref=e352] [cursor=pointer]:
+          - img [ref=e354]
+    - generic [ref=e21]:
+      - navigation "Primary navigation" [ref=e610]:
+        - generic [ref=e24]:
+          - button "For You" [ref=e611] [cursor=pointer]:
+            - img [ref=e26]
+            - generic: For You
+          - button "Starred" [ref=e612] [cursor=pointer]:
+            - img [ref=e29]
+            - generic: Starred
+          - button "Recent" [ref=e613] [cursor=pointer]:
+            - img [ref=e32]
+            - generic: Recent
+          - button "Dashboard" [ref=e614] [cursor=pointer]:
+            - img [ref=e35]
+            - generic: Dashboard
+          - button "Customers" [ref=e615] [cursor=pointer]:
+            - img [ref=e38]
+            - generic: Customers
+          - button "Vendors" [ref=e616] [cursor=pointer]:
+            - img [ref=e41]
+            - generic: Vendors
+          - button "Inventory Systems Management" [ref=e617] [cursor=pointer]:
+            - img [ref=e44]
+            - generic: Inventory Systems Management
+          - button "Sales Systems Management" [ref=e618] [cursor=pointer]:
+            - img [ref=e47]
+            - generic: Sales Systems Management
+          - button "Purchase Systems Management" [ref=e619] [cursor=pointer]:
+            - img [ref=e50]
+            - generic: Purchase Systems Management
+          - button "POS System Management" [ref=e620] [cursor=pointer]:
+            - img [ref=e53]
+            - generic: POS System Management
+          - button "Finance and Accounting" [ref=e621] [cursor=pointer]:
+            - img [ref=e56]
+            - generic: Finance and Accounting
+          - button "Fixed Assets System" [ref=e622] [cursor=pointer]:
+            - img [ref=e59]
+            - generic: Fixed Assets System
+          - button "Manufacturing Resource Planning" [ref=e623] [cursor=pointer]:
+            - img [ref=e62]
+            - generic: Manufacturing Resource Planning
+          - button "Customer Relations Management" [ref=e624] [cursor=pointer]:
+            - img [ref=e65]
+            - generic: Customer Relations Management
+          - button "Hospital Management" [ref=e625] [cursor=pointer]:
+            - img [ref=e68]
+            - generic: Hospital Management
+          - button "Reports" [ref=e626] [cursor=pointer]:
+            - img [ref=e71]
+            - generic: Reports
+          - button "System Administration" [ref=e627] [cursor=pointer]:
+            - img [ref=e74]
+            - generic: System Administration
+          - button "System Setup" [ref=e628] [cursor=pointer]:
+            - img [ref=e77]
+            - generic: System Setup
+          - button "Help Screens" [ref=e629] [cursor=pointer]:
+            - img [ref=e80]
+            - generic: Help Screens
+        - button "Collapse sidebar" [ref=e630]
+      - main [ref=e85]:
+        - generic [ref=e631]:
+          - generic [ref=e633]:
+            - navigation "Breadcrumb" [ref=e634]:
+              - link "Home" [ref=e635] [cursor=pointer]:
+                - /url: "#"
+              - generic [ref=e636]: ›
+              - generic [ref=e637]: Profile
+            - generic [ref=e638]:
+              - heading "Profile" [level=1] [ref=e639]
+              - generic [ref=e640]: Active
+          - generic [ref=e642]:
+            - navigation "Profile sections" [ref=e644]:
+              - button "Profile" [ref=e645] [cursor=pointer]
+              - button "Account settings" [ref=e646] [cursor=pointer]
+              - button "Appearance" [ref=e647] [cursor=pointer]
+              - button "Security" [ref=e648] [cursor=pointer]
+              - button "Sessions & devices" [ref=e649] [cursor=pointer]
+              - button "Notifications" [ref=e650] [cursor=pointer]
+            - tabpanel "Account settings" [ref=e652]:
+              - heading "Account settings" [level=2] [ref=e653]
+              - paragraph [ref=e654]: Username, branch, default landing page, and account deactivation/deletion.
+              - generic [ref=e655]:
+                - button "Account" [expanded] [ref=e656] [cursor=pointer]:
+                  - generic [ref=e657]: Account
+                - generic [ref=e659]:
+                  - generic [ref=e660]:
+                    - generic [ref=e661]: Username
+                    - textbox "Username" [disabled] [ref=e662]: msiefalnasr
+                  - generic [ref=e663]:
+                    - generic [ref=e664]: Branch
+                    - textbox "Branch" [disabled] [ref=e665]: lastchance
+                  - generic [ref=e666]:
+                    - generic [ref=e667]: Default landing page
+                    - combobox "Default landing page" [ref=e668]:
+                      - option "Home" [selected]
+                      - option "Sales Invoices"
+                      - option "Customers"
+              - generic [ref=e669]:
+                - button "Danger zone" [expanded] [ref=e670] [cursor=pointer]:
+                  - generic [ref=e671]:
+                    - img [ref=e672]
+                    - text: Danger zone
+                - generic [ref=e675]:
+                  - generic [ref=e676]:
+                    - generic [ref=e677]:
+                      - strong [ref=e678]: Deactivate account
+                      - generic [ref=e679]: You'll be signed out and won't be able to sign back in until an administrator reactivates your account.
+                    - button "Deactivate" [ref=e680] [cursor=pointer]
+                  - generic [ref=e681]:
+                    - generic [ref=e682]:
+                      - strong [ref=e683]: Delete account
+                      - generic [ref=e684]: Permanently removes your account and everything tied to it. This cannot be undone.
+                    - button "Delete account" [ref=e685] [cursor=pointer]
+        - generic [ref=e297]: "| |"
+  - text: No conditions set.
+  - status
+  - text: No groups yet — add one, then drag screens in from the left.
+  - button "Prototype controls" [ref=e563] [cursor=pointer]:
+    - img [ref=e564]
+    - generic [ref=e566]: Prototype controls
