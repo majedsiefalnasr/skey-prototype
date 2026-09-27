@@ -75,4 +75,44 @@ test.describe('profile page', () => {
     const currentRow = page.locator('.profile-device-row', {has: page.locator('[data-profile-current-device]')});
     await expect(currentRow.locator('[data-profile-device-signout]')).toHaveCount(0);
   });
+
+  test('profile card style switches between inherited cards and simple groups', async ({page}) => {
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
+    await openProfileSection(page, 'sessions');
+
+    await expect(page.locator('#profile-card-style-group')).not.toHaveAttribute('hidden', '');
+    await expect(page.locator('#profile-card-style')).toHaveValue('standard');
+    await page.locator('#section-style').selectOption('fieldset', {force: true});
+
+    const profile = page.locator('.profile-view');
+    const cards = page.locator('#profile-section-sessions .rec-card');
+    await expect(cards).toHaveCount(3);
+    await expect(cards.first()).toHaveCSS('border-top-style', 'solid');
+    await expect(cards.first().locator('.rec-card-hd')).toHaveCSS('position', 'relative');
+
+    await page.locator('#profile-card-style').selectOption('simple', {force: true});
+    await expect(profile).toHaveAttribute('data-profile-card-style', 'simple');
+    await expect(cards.first()).toHaveCSS('border-top-style', 'none');
+    await expect(cards.nth(1)).toHaveCSS('border-top-style', 'solid');
+    await expect(cards.first().locator('.rec-card-hd')).toHaveCSS('position', 'static');
+    await expect(cards.first().locator('.rec-card-hd')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+
+    await page.locator('#profile-card-style').selectOption('standard', {force: true});
+    await expect(profile).toHaveAttribute('data-profile-card-style', 'standard');
+    await expect(page.locator('body')).toHaveClass(/cards-fieldset/);
+    await expect(cards.first()).toHaveCSS('border-top-style', 'solid');
+    await expect(cards.first().locator('.rec-card-hd')).toHaveCSS('position', 'relative');
+  });
+
+  test('profile simple card style persists across reload', async ({page}) => {
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
+    await openProfileSection(page, 'profile');
+    await page.locator('#profile-card-style').selectOption('simple', {force: true});
+
+    await page.reload();
+    await settle(page);
+    await openProfileSection(page, 'profile');
+    await expect(page.locator('#profile-card-style')).toHaveValue('simple');
+    await expect(page.locator('.profile-view')).toHaveAttribute('data-profile-card-style', 'simple');
+  });
 });

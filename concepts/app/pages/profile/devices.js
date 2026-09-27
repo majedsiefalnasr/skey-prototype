@@ -38,7 +38,7 @@ function renderDeviceRow(device, encodeHtml) {
   const badge = device.current
     ? '<span class="badge gray" data-profile-current-device>This device</span>'
     : `<button type="button" class="lbtn out sm" data-profile-device-signout="${encodeHtml(device.id)}">Sign out</button>`
-  return `<div class="profile-device-row flex items-center gap-3 [padding:10px_9px] [border-top:1px_solid_var(--line)]" data-profile-device="${encodeHtml(device.id)}">
+  return `<div class="profile-device-row flex items-center gap-5 [padding:10px_9px] [border-top:1px_solid_var(--line)]" data-profile-device="${encodeHtml(device.id)}">
     <span class="flex-1"><b class="block text-[13.5px] text-ink">${encodeHtml(device.name)}</b><span class="block text-xs text-muted">${encodeHtml(device.location)} · ${encodeHtml(device.lastActive)}</span></span>
     ${badge}
   </div>`

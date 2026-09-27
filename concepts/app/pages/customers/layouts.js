@@ -25,7 +25,10 @@ function setScrollActiveSection(root, key, sectionOrder, customerState) {
   if (!sectionOrder.includes(key)) return
   customerState.activeSection = key
   root.querySelectorAll('.customer-scroll-nav button').forEach(button => {
-    button.setAttribute('aria-current', button.dataset.customerScrollSection === key ? 'page' : 'false')
+    button.setAttribute(
+      'aria-current',
+      button.dataset.customerScrollSection === key ? 'page' : 'false'
+    )
   })
 }
 
@@ -67,7 +70,12 @@ export function createScrollNavigator({root, sectionOrder, customerState}) {
         ? target
         : nearest
     )
-    setScrollActiveSection(root, activeTarget.dataset.customerScrollTarget, sectionOrder, customerState)
+    setScrollActiveSection(
+      root,
+      activeTarget.dataset.customerScrollTarget,
+      sectionOrder,
+      customerState
+    )
   }
 
   function stopNavigation({interrupt = false} = {}) {
@@ -99,7 +107,9 @@ export function createScrollNavigator({root, sectionOrder, customerState}) {
       rootMargin: `-${offset}px 0px -65% 0px`,
       threshold: [0, 0.1, 0.5],
     })
-    root.querySelectorAll('[data-customer-scroll-target]').forEach(section => observer.observe(section))
+    root
+      .querySelectorAll('[data-customer-scroll-target]')
+      .forEach(section => observer.observe(section))
   }
 
   function activateSection(key) {
@@ -120,7 +130,10 @@ export function createScrollNavigator({root, sectionOrder, customerState}) {
     heading?.setAttribute('aria-expanded', 'true')
     const scroller = scrollContainer()
     const targetTop =
-      scroller.scrollTop + section.getBoundingClientRect().top - viewportTop(scroller) - stickyOffset()
+      scroller.scrollTop +
+      section.getBoundingClientRect().top -
+      viewportTop(scroller) -
+      stickyOffset()
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches
     scroller.scrollTo({top: Math.max(0, targetTop), behavior: reducedMotion ? 'auto' : 'smooth'})
     const finishNavigation = () => {
@@ -153,7 +166,14 @@ export function createScrollNavigator({root, sectionOrder, customerState}) {
  *   renderCustomerIdentitySection, renderCustomerSectionStatus, renderCustomerTabSection}
  */
 export function renderCustomerGuided(root, customerData, customerState, deps) {
-  const {encodeHtml, CUSTOMER_SECTIONS, CUSTOMER_GUIDED_TABS, renderCustomerIdentitySection, renderCustomerSectionStatus, renderCustomerTabSection} = deps
+  const {
+    encodeHtml,
+    CUSTOMER_SECTIONS,
+    CUSTOMER_GUIDED_TABS,
+    renderCustomerIdentitySection,
+    renderCustomerSectionStatus,
+    renderCustomerTabSection,
+  } = deps
   const top = renderCustomerIdentitySection('guided')
   const activeKey = CUSTOMER_GUIDED_TABS.includes(customerState.activeSection)
     ? customerState.activeSection
@@ -172,7 +192,14 @@ export function renderCustomerGuided(root, customerData, customerState, deps) {
  * exposed via `setLayout`.
  */
 export function renderCustomerFocused(root, customerData, customerState, deps) {
-  const {encodeHtml, CUSTOMER_SECTION_ORDER, CUSTOMER_SECTIONS, renderCustomerSummaryBand, renderCustomerSectionStatus, renderCustomerSection} = deps
+  const {
+    encodeHtml,
+    CUSTOMER_SECTION_ORDER,
+    CUSTOMER_SECTIONS,
+    renderCustomerSummaryBand,
+    renderCustomerSectionStatus,
+    renderCustomerSection,
+  } = deps
   if (!CUSTOMER_SECTION_ORDER.includes(customerState.activeSection)) {
     customerState.activeSection = 'identity'
   }
@@ -183,7 +210,7 @@ export function renderCustomerFocused(root, customerData, customerState, deps) {
   }).join('')
   root.innerHTML = `
     ${renderCustomerSummaryBand()}
-    <div class="customer-focused grid [grid-template-columns:minmax(180px,_240px)_minmax(0,_1fr)] gap-3 items-start [@media((max-width:820px))]:[grid-template-columns:1fr] [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
+    <div class="customer-focused grid [grid-template-columns:minmax(180px,_240px)_minmax(0,_1fr)] gap-5 items-start [@media((max-width:820px))]:[grid-template-columns:1fr] [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
       <nav class="customer-focused-nav [.customer-record-canvas_&_button:focus-visible]:[outline:2px_solid_var(--accent)] [.customer-record-canvas_&_button:focus-visible]:[outline-offset:-2px] sticky [top:0] grid [gap:3px] [padding:6px] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [.customer-record-canvas_&_button]:grid [.customer-record-canvas_&_button]:[grid-template-columns:minmax(0,_1fr)_auto] [.customer-record-canvas_&_button]:gap-2 [.customer-record-canvas_&_button]:items-center [.customer-record-canvas_&_button]:[min-height:36px] [.customer-record-canvas_&_button]:[padding:7px_9px] [.customer-record-canvas_&_button]:[border:0] [.customer-record-canvas_&_button]:rounded-md [.customer-record-canvas_&_button]:text-muted [.customer-record-canvas_&_button]:[background:transparent] [.customer-record-canvas_&_button]:text-start [.customer-record-canvas_&_button]:[cursor:pointer] [.customer-record-canvas_&_button:hover]:text-ink [.customer-record-canvas_&_button:hover]:bg-[var(--line-2)] [body.density-compact_.customer-record-canvas_&_button]:[min-height:30px] [body.density-compact_.customer-record-canvas_&_button]:[padding:4px_7px] [@media((max-width:820px))]:[position:static] [@media((max-width:820px))]:[grid-template-columns:repeat(2,_minmax(0,_1fr))] [@media((max-width:720px))]:sticky [@media((max-width:720px))]:[top:0] [@media((max-width:720px))]:[z-index:2] [@media((max-width:720px))]:flex [@media((max-width:720px))]:overflow-x-auto [@media((max-width:720px))]:whitespace-nowrap [@media((max-width:720px))]:[.customer-record-canvas_&_button]:[flex:none]" aria-label="Customer sections">${nav}</nav>
       <div class="customer-focused-panel min-w-0" id="customer-focused-panel" role="region" aria-labelledby="customer-focused-${encodeHtml(customerState.activeSection)}">${renderCustomerSection(customerState.activeSection)}</div>
     </div>`
@@ -203,7 +230,7 @@ export function renderCustomerCompact(root, customerData, customerState, deps) {
   }).join('')
   root.innerHTML = `
     ${renderCustomerSummaryBand()}
-    <div class="customer-compact-grid grid [grid-template-columns:repeat(12,_minmax(0,_1fr))] gap-3">${cards}</div>`
+    <div class="customer-compact-grid grid [grid-template-columns:repeat(12,_minmax(0,_1fr))] gap-5">${cards}</div>`
 }
 
 /**
@@ -212,7 +239,13 @@ export function renderCustomerCompact(root, customerData, customerState, deps) {
  * the original's renderCustomerScroll -> startCustomerScrollSpy sequencing).
  */
 export function renderCustomerScroll(root, customerData, customerState, deps) {
-  const {encodeHtml, CUSTOMER_SECTION_ORDER, CUSTOMER_SECTIONS, renderCustomerIdentitySection, renderCustomerCollapsible} = deps
+  const {
+    encodeHtml,
+    CUSTOMER_SECTION_ORDER,
+    CUSTOMER_SECTIONS,
+    renderCustomerIdentitySection,
+    renderCustomerCollapsible,
+  } = deps
   if (!CUSTOMER_SECTION_ORDER.includes(customerState.activeSection)) {
     customerState.activeSection = 'identity'
   }
@@ -221,11 +254,14 @@ export function renderCustomerScroll(root, customerData, customerState, deps) {
     return `<button type="button" data-customer-scroll-section="${encodeHtml(key)}" aria-controls="customer-section-${encodeHtml(key)}" aria-current="${current ? 'page' : 'false'}">${encodeHtml(CUSTOMER_SECTIONS[key].title)}</button>`
   }).join('')
   const sections = CUSTOMER_SECTION_ORDER.map(key => {
-    const section = key === 'identity' ? renderCustomerIdentitySection('scroll') : renderCustomerCollapsible(key, 'scroll')
+    const section =
+      key === 'identity'
+        ? renderCustomerIdentitySection('scroll')
+        : renderCustomerCollapsible(key, 'scroll')
     return `<div id="customer-section-${encodeHtml(key)}" data-customer-scroll-target="${encodeHtml(key)}">${section}</div>`
   }).join('')
   root.innerHTML = `
-    <div class="customer-scroll-layout grid [grid-template-columns:minmax(180px,_240px)_minmax(0,_1fr)] gap-3 items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
+    <div class="customer-scroll-layout grid [grid-template-columns:minmax(180px,_240px)_minmax(0,_1fr)] gap-5 items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
       <nav class="customer-scroll-nav [.customer-record-canvas_&_button:focus-visible]:[outline:2px_solid_var(--accent)] [.customer-record-canvas_&_button:focus-visible]:[outline-offset:-2px] sticky [top:0] grid [gap:3px] [padding:6px] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [.customer-record-canvas_&_button]:[min-height:36px] [.customer-record-canvas_&_button]:[padding:7px_9px] [.customer-record-canvas_&_button]:[border:0] [.customer-record-canvas_&_button]:rounded-md [.customer-record-canvas_&_button]:text-muted [.customer-record-canvas_&_button]:[background:transparent] [.customer-record-canvas_&_button]:[font:inherit] [.customer-record-canvas_&_button]:text-start [.customer-record-canvas_&_button]:[cursor:pointer] [.customer-record-canvas_&_button:hover]:text-ink [.customer-record-canvas_&_button:hover]:bg-[var(--line-2)] [body.density-compact_.customer-record-canvas_&_button]:[min-height:30px] [body.density-compact_.customer-record-canvas_&_button]:[padding:4px_7px] [@media((max-width:720px))]:sticky [@media((max-width:720px))]:[top:0] [@media((max-width:720px))]:[z-index:2] [@media((max-width:720px))]:flex [@media((max-width:720px))]:overflow-x-auto [@media((max-width:720px))]:whitespace-nowrap [@media((max-width:720px))]:[.customer-record-canvas_&_button]:[flex:none]" aria-label="Customer sections">${nav}</nav>
       <div class="customer-scroll-content min-w-0">${sections}</div>
     </div>`

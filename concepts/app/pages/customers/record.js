@@ -39,22 +39,20 @@
 // section's "DOM rendering uses the retained record root."
 
 import {
-  CUSTOMER_SECTION_ORDER,
   CUSTOMER_GUIDED_TABS,
-  CUSTOMER_REQUIRED_FIELDS,
-  CUSTOMER_LOOKUP_KEYS,
+  CUSTOMER_SECTION_ORDER,
   createBlankCustomerData,
   createSavedCustomerData,
   customerSectionKeyForField,
+  customerSectionMeta,
+  renderCustomerField,
+  renderCustomerSectionStatus,
   validateCustomerField,
   validateCustomerRecord,
-  customerSectionMeta,
-  renderCustomerSectionStatus,
-  renderCustomerField,
 } from './fields.js'
-import {customerImageData, renderCustomerRecordPhoto, createImagePreview} from './images.js'
-import {createLookups} from './lookups.js'
+import {createImagePreview, customerImageData, renderCustomerRecordPhoto} from './images.js'
 import {createScrollNavigator, renderCustomerScroll} from './layouts.js'
+import {createLookups} from './lookups.js'
 
 const CUSTOMER_RENDERERS = {
   scroll: renderCustomerScroll,
@@ -105,7 +103,19 @@ function resolveRefs(root) {
  *   setMode, setLayout, getModel}
  */
 export function createCustomerRecord({root, deps}) {
-  const {t, encodeHtml, toast, trapFocus, releaseFocus, showContentView, applyRecordValueDirections, customerRows, customerReference, lookupResults, unitRows} = deps
+  const {
+    t,
+    encodeHtml,
+    toast,
+    trapFocus,
+    releaseFocus,
+    showContentView,
+    applyRecordValueDirections,
+    customerRows,
+    customerReference,
+    lookupResults,
+    unitRows,
+  } = deps
 
   const refs = resolveRefs(root)
 
@@ -118,7 +128,11 @@ export function createCustomerRecord({root, deps}) {
     errors: new Map(),
     dirty: false,
   }
-  let customerData = createSavedCustomerData(customerReference.customerNo, customerRows, customerReference)
+  let customerData = createSavedCustomerData(
+    customerReference.customerNo,
+    customerRows,
+    customerReference
+  )
   let customerSavedSnapshot = structuredClone(customerData)
 
   let imagePreview = null
@@ -133,7 +147,17 @@ export function createCustomerRecord({root, deps}) {
   // activated. Creating it lazily in activate() left list avatars inert.
   imagePreview = refs.imagePopover ? createImagePreview({popover: refs.imagePopover}) : null
 
-  const fieldDeps = {t, encodeHtml, customerImageData, renderCustomerRecordPhoto: (photo, deps2) => renderCustomerRecordPhoto(photo, {customerName: customerData.customerName, customerNo: customerData.customerNo}, deps2 || {encodeHtml})}
+  const fieldDeps = {
+    t,
+    encodeHtml,
+    customerImageData,
+    renderCustomerRecordPhoto: (photo, deps2) =>
+      renderCustomerRecordPhoto(
+        photo,
+        {customerName: customerData.customerName, customerNo: customerData.customerNo},
+        deps2 || {encodeHtml}
+      ),
+  }
 
   function field(fieldDef, options) {
     return renderCustomerField(fieldDef, customerData, customerState, fieldDeps, options)
@@ -156,8 +180,10 @@ export function createCustomerRecord({root, deps}) {
     if (key === 'identity') {
       const photo = section.fields.find(item => item.type === 'photo')
       const linked = section.fields.find(item => item.key === 'linkedBeneficiaries')
-      const identityFields = section.fields.filter(item => item !== photo && item.key !== 'linkedBeneficiaries')
-      return `<div class="customer-identity-body grid [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]"><div class="customer-field-grid grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px] [gap:4px_8px] [padding:6px] [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">${identityFields.map(item => field(item)).join('')}${field(linked, {asCardToggle: true})}</div><div class="customer-identity-photo [padding:12px_12px_12px_0] [@media((max-width:720px))]:[padding:0_12px_12px]">${field(photo)}</div></div>`
+      const identityFields = section.fields.filter(
+        item => item !== photo && item.key !== 'linkedBeneficiaries'
+      )
+      return `<div class="customer-identity-body grid gap-5 [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]"><div class="customer-field-grid grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px] [gap:4px_8px] [padding:6px] [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">${identityFields.map(item => field(item)).join('')}${field(linked, {asCardToggle: true})}</div><div class="customer-identity-photo [padding:12px_12px_12px_0] [@media((max-width:720px))]:[padding:0_12px_12px]">${field(photo)}</div></div>`
     }
     if (section.type === 'subledgers') return renderSubLedgers()
     if (section.type === 'empty') {
@@ -220,7 +246,8 @@ export function createCustomerRecord({root, deps}) {
       renderCustomerSectionStatus: sectionStatus,
       renderCustomerTabSection: key => renderTabSection(key, {CUSTOMER_SECTIONS}),
       renderCustomerSection: key => renderSection(key, {CUSTOMER_SECTIONS}),
-      renderCustomerCollapsible: (key, concept) => renderCollapsible(key, concept, {CUSTOMER_SECTIONS}),
+      renderCustomerCollapsible: (key, concept) =>
+        renderCollapsible(key, concept, {CUSTOMER_SECTIONS}),
       // The prototype has no summary-band implementation; retain its empty fallback.
       renderCustomerSummaryBand: () => '',
     }
@@ -231,7 +258,9 @@ export function createCustomerRecord({root, deps}) {
   function renderChrome({CUSTOMER_SECTIONS}) {
     const creating = customerState.mode === 'create'
     const editing = customerState.mode === 'edit' || creating
-    const title = creating ? t('New Customer') : `${encodeHtml(customerData.customerNo)} · ${encodeHtml(customerData.customerName)}`
+    const title = creating
+      ? t('New Customer')
+      : `${encodeHtml(customerData.customerNo)} · ${encodeHtml(customerData.customerName)}`
     /* Lives in `.recacts` (the .phead action row), never `.arow` — renderChrome
        moves `.arow` out to the shared `.page-action-bar` after every render
        (see below), which drops it from refs.chrome's own subtree and with it
@@ -259,10 +288,10 @@ export function createCustomerRecord({root, deps}) {
       <div class="sp [.d1_.arow_&]:[flex:1]"></div>
       <button type="button" class="lbtn" data-customer-action="accounts-movement"><svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg> ${t('Accounts Movement')}</button>
     </div>
-    <div class="phead [.d1_&]:[padding:11px_16px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-3">
+    <div class="phead [.d1_&]:[padding:11px_16px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5">
       <div class="l [.d1_.phead_&]:[flex:1]">
         <nav class="crumbs [.d3_.otitle_&]:[margin-bottom:3px]!" aria-label="Breadcrumb"><a href="#">${t('Home')}</a><span class="sep">›</span><button class="customer-back" type="button">${t('Customers')}</button><span class="sep">›</span><span aria-current="page">${creating ? t('New') : t('All')}</span></nav>
-        <div class="tline [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-3 [.d1_&]:mt-2! [.d1_&]:flex-wrap [.d1_&_h1]:[font-size:23px] [.d1_&_h1]:font-semibold"><h1>${title}</h1><span class="badge ${customerData.deactivationFrom ? 'gray' : 'ok'}">${customerData.deactivationFrom ? t('Inactive') : t('Active')}</span></div>
+        <div class="tline [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-5 [.d1_&]:mt-2! [.d1_&]:flex-wrap [.d1_&_h1]:[font-size:23px] [.d1_&_h1]:font-semibold"><h1>${title}</h1><span class="badge ${customerData.deactivationFrom ? 'gray' : 'ok'}">${customerData.deactivationFrom ? t('Inactive') : t('Active')}</span></div>
       </div>
       <div class="r [.d1_.phead_&]:flex [.d1_.phead_&]:items-center [.d1_.phead_&]:gap-1 [.d1_.phead_&]:mt-1.5!"><span class="recacts inline-flex items-center [gap:7px] flex-wrap">${editing ? editActions : viewActions}</span></div>
     </div>`
@@ -281,7 +310,9 @@ export function createCustomerRecord({root, deps}) {
   function syncFooter() {
     const footer = refs.footer
     if (!footer) return
-    const rowIndex = customerRows.findIndex(customer => customer.customerNo === customerData.customerNo)
+    const rowIndex = customerRows.findIndex(
+      customer => customer.customerNo === customerData.customerNo
+    )
     const position = Math.max(1, rowIndex + 1)
     const pager = footer.querySelector('.pager')
     const input = pager?.querySelector('.pg-i')
@@ -385,18 +416,14 @@ export function createCustomerRecord({root, deps}) {
   // `active`, so calling them here is safe however/whenever they fire.
   const controlsAbort = new AbortController()
   if (refs.modeSelect) {
-    refs.modeSelect.addEventListener(
-      'change',
-      e => setMode(e.target.value),
-      {signal: controlsAbort.signal}
-    )
+    refs.modeSelect.addEventListener('change', e => setMode(e.target.value), {
+      signal: controlsAbort.signal,
+    })
   }
   if (refs.layoutSelect) {
-    refs.layoutSelect.addEventListener(
-      'change',
-      e => setLayout(e.target.value),
-      {signal: controlsAbort.signal}
-    )
+    refs.layoutSelect.addEventListener('change', e => setLayout(e.target.value), {
+      signal: controlsAbort.signal,
+    })
   }
 
   function saveCustomer() {
@@ -414,7 +441,9 @@ export function createCustomerRecord({root, deps}) {
           customerState.activeSection = firstError.sectionKey
         }
         render({focusSelector: `#customer-field-${firstError.field.key}`})
-        refs.canvas.querySelector(`#customer-field-${firstError.field.key}`)?.scrollIntoView({block: 'center'})
+        refs.canvas
+          .querySelector(`#customer-field-${firstError.field.key}`)
+          ?.scrollIntoView({block: 'center'})
       }
       toast({tone: 'bad', title: 'Complete the highlighted customer fields'})
       return false
@@ -442,17 +471,24 @@ export function createCustomerRecord({root, deps}) {
       return
     }
     customerState.customerNo = customerReference.customerNo
-    customerData = createSavedCustomerData(customerState.customerNo, customerRows, customerReference)
+    customerData = createSavedCustomerData(
+      customerState.customerNo,
+      customerRows,
+      customerReference
+    )
     customerSavedSnapshot = structuredClone(customerData)
   }
 
-  const customerAtRisk = () => customerState.mode === 'create' || (customerState.mode === 'edit' && customerState.dirty)
+  const customerAtRisk = () =>
+    customerState.mode === 'create' || (customerState.mode === 'edit' && customerState.dirty)
 
   function askGuard(after, label) {
     guardAfter = after
     if (refs.guardMessage) {
       refs.guardMessage.textContent =
-        customerState.mode === 'create' ? 'This customer has never been saved.' : 'This customer has changes that were never saved.'
+        customerState.mode === 'create'
+          ? 'This customer has never been saved.'
+          : 'This customer has changes that were never saved.'
     }
     if (refs.guardWhat) refs.guardWhat.textContent = `You were about to: ${label}.`
     refs.guardScrim?.classList.add('open')
@@ -488,7 +524,8 @@ export function createCustomerRecord({root, deps}) {
       control.setAttribute('aria-describedby', errorId)
       if (!error) {
         error = document.createElement('span')
-        error.className = 'customer-field-error block mt-1! [color:var(--danger)] text-xs font-semibold'
+        error.className =
+          'customer-field-error block mt-1! [color:var(--danger)] text-xs font-semibold'
         error.id = errorId
         control.insertAdjacentElement('afterend', error)
       }
@@ -566,7 +603,8 @@ export function createCustomerRecord({root, deps}) {
         }
         const action = event.target.closest('[data-customer-action]')?.dataset.customerAction
         if (action === 'photo') toast({tone: 'ok', title: 'Photo selection is a prototype'})
-        if (action === 'add-sub-ledger') toast({tone: 'ok', title: 'Adding a sub ledger is a prototype'})
+        if (action === 'add-sub-ledger')
+          toast({tone: 'ok', title: 'Adding a sub ledger is a prototype'})
       },
       {signal}
     )
@@ -586,7 +624,11 @@ export function createCustomerRecord({root, deps}) {
         if (!control) return
         const controls = [
           ...control.parentElement.querySelectorAll(
-            focusedLink ? '[data-customer-focus-section]' : scrollLink ? '[data-customer-scroll-section]' : '[data-customer-tab]'
+            focusedLink
+              ? '[data-customer-focus-section]'
+              : scrollLink
+                ? '[data-customer-scroll-section]'
+                : '[data-customer-tab]'
           ),
         ]
         const vertical = focusedLink || scrollLink
@@ -652,9 +694,21 @@ export function createCustomerRecord({root, deps}) {
           }
         }
         if (
-          ['add-from', 'new-tab', 'delete', 'lock', 'reports', 'parameters', 'help', 'accounts-movement'].includes(action)
+          [
+            'add-from',
+            'new-tab',
+            'delete',
+            'lock',
+            'reports',
+            'parameters',
+            'help',
+            'accounts-movement',
+          ].includes(action)
         ) {
-          toast({tone: 'ok', title: `${encodeHtml(actionButton.textContent.trim())} is a prototype`})
+          toast({
+            tone: 'ok',
+            title: `${encodeHtml(actionButton.textContent.trim())} is a prototype`,
+          })
         }
         if (action) deps.closeAllMenus?.()
       },
@@ -767,7 +821,9 @@ export function createCustomerRecord({root, deps}) {
     document.addEventListener(
       'click',
       event => {
-        const destination = event.target.closest('.customer-back, .nc1-item, [data-label], .customer-record-view .pager button')
+        const destination = event.target.closest(
+          '.customer-back, .nc1-item, [data-label], .customer-record-view .pager button'
+        )
         if (root.hidden || !destination || !customerAtRisk()) return
         event.preventDefault()
         event.stopImmediatePropagation()
@@ -796,7 +852,10 @@ export function createCustomerRecord({root, deps}) {
     customerState.dirty = false
     customerState.errors.clear()
     customerState.activeSection = 'identity'
-    customerData = mode === 'create' ? createBlankCustomerData() : createSavedCustomerData(customerNo, customerRows, customerReference)
+    customerData =
+      mode === 'create'
+        ? createBlankCustomerData()
+        : createSavedCustomerData(customerNo, customerRows, customerReference)
     customerSavedSnapshot = structuredClone(customerData)
     if (refs.modeSelect) refs.modeSelect.value = mode
     if (active) render()
@@ -805,7 +864,9 @@ export function createCustomerRecord({root, deps}) {
   function activate({sectionsDeps} = {}) {
     if (sectionsDeps) sectionsDepsRef = sectionsDeps
     if (!active) {
-      Object.assign(customerState, {expanded: new Set(Object.keys(sectionsDepsRef?.CUSTOMER_SECTIONS || {}))})
+      Object.assign(customerState, {
+        expanded: new Set(Object.keys(sectionsDepsRef?.CUSTOMER_SECTIONS || {})),
+      })
       lookups =
         lookups ||
         createLookups({
@@ -819,9 +880,21 @@ export function createCustomerRecord({root, deps}) {
             parentUnitDrawerScrim: refs.parentUnitDrawerScrim,
             locationAddScrim: refs.locationAddScrim,
           },
-          deps: {encodeHtml, trapFocus, releaseFocus, applyLookupValue, lookupResults, unitRows, toast},
+          deps: {
+            encodeHtml,
+            trapFocus,
+            releaseFocus,
+            applyLookupValue,
+            lookupResults,
+            unitRows,
+            toast,
+          },
         })
-      scrollNavigator = createScrollNavigator({root: refs.canvas, sectionOrder: CUSTOMER_SECTION_ORDER, customerState})
+      scrollNavigator = createScrollNavigator({
+        root: refs.canvas,
+        sectionOrder: CUSTOMER_SECTION_ORDER,
+        customerState,
+      })
       active = true
     }
     wire(sectionsDepsRef)

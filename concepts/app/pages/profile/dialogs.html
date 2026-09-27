@@ -1,8 +1,17 @@
 <!-- ===== Change password dialog ===== -->
-<div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="change-password-scrim">
-  <div class="dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]" data-tone="default" role="dialog" aria-modal="true" aria-labelledby="change-password-title">
-    <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
-      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]"><use href="#i-lock" /></svg>
+<div
+  class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]"
+  id="change-password-scrim">
+  <div
+    class="dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+    data-tone="default"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="change-password-title">
+    <div class="dhd flex items-start gap-5 [&_h3]:[font-size:15px]">
+      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]">
+        <use href="#i-lock" />
+      </svg>
       <div>
         <h3 id="change-password-title">Change password</h3>
         <p class="dhd-subtitle">Use a strong password you don't reuse elsewhere</p>
@@ -12,20 +21,39 @@
       </button>
     </div>
     <form class="dlg-inner min-h-0" id="change-password-form" novalidate>
-      <div class="dbody flex flex-col gap-3 [padding:16px_18px] overflow-auto">
+      <div class="dbody flex flex-col gap-5 [padding:16px_18px] overflow-auto">
         <label class="grid gap-1.5 text-[13px] font-semibold" for="current-password">
           Current password
-          <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="current-password" type="password" required autocomplete="current-password" />
+          <input
+            class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink"
+            id="current-password"
+            type="password"
+            required
+            autocomplete="current-password" />
         </label>
         <label class="grid gap-1.5 text-[13px] font-semibold" for="new-password">
           New password
-          <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="new-password" type="password" required minlength="8" autocomplete="new-password" />
+          <input
+            class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink"
+            id="new-password"
+            type="password"
+            required
+            minlength="8"
+            autocomplete="new-password" />
         </label>
         <label class="grid gap-1.5 text-[13px] font-semibold" for="confirm-password">
           Confirm new password
-          <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="confirm-password" type="password" required autocomplete="new-password" />
+          <input
+            class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink"
+            id="confirm-password"
+            type="password"
+            required
+            autocomplete="new-password" />
         </label>
-        <span class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden" id="change-password-error" role="status"></span>
+        <span
+          class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden"
+          id="change-password-error"
+          role="status"></span>
       </div>
       <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
         <button type="button" class="lbtn out c-close">Cancel</button>
@@ -36,10 +64,19 @@
 </div>
 
 <!-- ===== Set / change PIN dialog ===== -->
-<div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="set-pin-scrim">
-  <div class="dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]" data-tone="default" role="dialog" aria-modal="true" aria-labelledby="set-pin-title">
-    <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
-      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]"><use href="#i-lock" /></svg>
+<div
+  class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]"
+  id="set-pin-scrim">
+  <div
+    class="dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+    data-tone="default"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="set-pin-title">
+    <div class="dhd flex items-start gap-5 [&_h3]:[font-size:15px]">
+      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]">
+        <use href="#i-lock" />
+      </svg>
       <div>
         <h3 id="set-pin-title">Set / change PIN code</h3>
         <p class="dhd-subtitle">Used for quick sign-in on this device</p>
@@ -49,20 +86,47 @@
       </button>
     </div>
     <form class="dlg-inner min-h-0" id="set-pin-form" novalidate>
-      <div class="dbody flex flex-col gap-3 [padding:16px_18px] overflow-auto">
+      <div class="dbody flex flex-col gap-5 [padding:16px_18px] overflow-auto">
         <label class="grid gap-1.5 text-[13px] font-semibold" for="current-pin">
           Current PIN (leave blank if none set)
-          <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]" id="current-pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" />
+          <input
+            class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]"
+            id="current-pin"
+            type="password"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            maxlength="6"
+            autocomplete="off" />
         </label>
         <label class="grid gap-1.5 text-[13px] font-semibold" for="new-pin">
           New PIN (4–6 digits)
-          <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]" id="new-pin" type="password" inputmode="numeric" pattern="[0-9]*" minlength="4" maxlength="6" required autocomplete="off" />
+          <input
+            class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]"
+            id="new-pin"
+            type="password"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            minlength="4"
+            maxlength="6"
+            required
+            autocomplete="off" />
         </label>
         <label class="grid gap-1.5 text-[13px] font-semibold" for="confirm-pin">
           Confirm new PIN
-          <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]" id="confirm-pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" required autocomplete="off" />
+          <input
+            class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]"
+            id="confirm-pin"
+            type="password"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            maxlength="6"
+            required
+            autocomplete="off" />
         </label>
-        <span class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden" id="set-pin-error" role="status"></span>
+        <span
+          class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden"
+          id="set-pin-error"
+          role="status"></span>
       </div>
       <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
         <button type="button" class="lbtn out c-close">Cancel</button>
@@ -73,10 +137,19 @@
 </div>
 
 <!-- ===== Enable two-factor authentication dialog ===== -->
-<div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="enable-2fa-scrim">
-  <div class="dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]" data-tone="default" role="dialog" aria-modal="true" aria-labelledby="enable-2fa-title">
-    <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
-      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]"><use href="#i-lock" /></svg>
+<div
+  class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]"
+  id="enable-2fa-scrim">
+  <div
+    class="dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+    data-tone="default"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="enable-2fa-title">
+    <div class="dhd flex items-start gap-5 [&_h3]:[font-size:15px]">
+      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]">
+        <use href="#i-lock" />
+      </svg>
       <div>
         <h3 id="enable-2fa-title">Set up two-factor authentication</h3>
         <p class="dhd-subtitle">Adds a second step when you sign in</p>
@@ -86,9 +159,13 @@
       </button>
     </div>
     <form class="dlg-inner min-h-0" id="enable-2fa-form" novalidate>
-      <div class="dbody flex flex-col gap-3 [padding:16px_18px] overflow-auto">
-        <p class="[font-size:13px] [color:var(--muted)]">Scan this code with your authenticator app, then enter the 6-digit code it shows.</p>
-        <div class="[width:160px] [height:160px] [margin:0_auto] grid place-items-center rounded-[8px] border border-line bg-[var(--line-2)]" aria-hidden="true">
+      <div class="dbody flex flex-col gap-5 [padding:16px_18px] overflow-auto">
+        <p class="[font-size:13px] [color:var(--muted)]">
+          Scan this code with your authenticator app, then enter the 6-digit code it shows.
+        </p>
+        <div
+          class="[width:160px] [height:160px] [margin:0_auto] grid place-items-center rounded-[8px] border border-line bg-[var(--line-2)]"
+          aria-hidden="true">
           <svg width="120" height="120" viewBox="0 0 120 120" aria-hidden="true">
             <rect width="120" height="120" fill="none" />
             <g fill="currentColor" class="text-ink">
@@ -123,9 +200,20 @@
         </div>
         <label class="grid gap-1.5 text-[13px] font-semibold" for="enable-2fa-code">
           6-digit code
-          <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums] text-center [letter-spacing:0.3em]" id="enable-2fa-code" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" required autocomplete="off" />
+          <input
+            class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums] text-center [letter-spacing:0.3em]"
+            id="enable-2fa-code"
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            maxlength="6"
+            required
+            autocomplete="off" />
         </label>
-        <span class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden" id="enable-2fa-error" role="status"></span>
+        <span
+          class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden"
+          id="enable-2fa-error"
+          role="status"></span>
       </div>
       <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
         <button type="button" class="lbtn out c-close">Cancel</button>
@@ -136,10 +224,19 @@
 </div>
 
 <!-- ===== Disable two-factor authentication confirm ===== -->
-<div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="disable-2fa-scrim">
-  <div class="dlg [width:min(400px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]" data-tone="warning" role="dialog" aria-modal="true" aria-labelledby="disable-2fa-title">
-    <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
-      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]"><use href="#i-warn" /></svg>
+<div
+  class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]"
+  id="disable-2fa-scrim">
+  <div
+    class="dlg [width:min(400px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+    data-tone="warning"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="disable-2fa-title">
+    <div class="dhd flex items-start gap-5 [&_h3]:[font-size:15px]">
+      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]">
+        <use href="#i-warn" />
+      </svg>
       <div>
         <h3 id="disable-2fa-title">Turn off two-factor authentication?</h3>
         <p class="dhd-subtitle">Your account will only need a password to sign in</p>
@@ -150,7 +247,9 @@
     </div>
     <div class="dlg-inner">
       <div class="dbody [padding:16px_18px] overflow-auto">
-        <p class="[font-size:13px] [color:var(--ink)]">You can turn it back on anytime from Security settings.</p>
+        <p class="[font-size:13px] [color:var(--ink)]">
+          You can turn it back on anytime from Security settings.
+        </p>
       </div>
       <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
         <button type="button" class="lbtn out c-close">Keep it on</button>
@@ -161,10 +260,19 @@
 </div>
 
 <!-- ===== Deactivate account confirm ===== -->
-<div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="deactivate-account-scrim">
-  <div class="dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]" data-tone="danger" role="dialog" aria-modal="true" aria-labelledby="deactivate-account-title">
-    <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
-      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]"><use href="#i-archive" /></svg>
+<div
+  class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]"
+  id="deactivate-account-scrim">
+  <div
+    class="dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+    data-tone="danger"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="deactivate-account-title">
+    <div class="dhd flex items-start gap-5 [&_h3]:[font-size:15px]">
+      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]">
+        <use href="#i-archive" />
+      </svg>
       <div>
         <h3 id="deactivate-account-title">Deactivate your account?</h3>
         <p class="dhd-subtitle">You'll be signed out until an administrator reactivates it</p>
@@ -175,20 +283,31 @@
     </div>
     <div class="dlg-inner">
       <div class="dbody [padding:16px_18px] overflow-auto">
-        <p class="[font-size:13px] [color:var(--ink)]">Your data is kept as-is and nothing is deleted.</p>
+        <p class="[font-size:13px] [color:var(--ink)]">
+          Your data is kept as-is and nothing is deleted.
+        </p>
       </div>
       <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
         <button type="button" class="lbtn out c-close">Cancel</button>
-        <button type="button" class="lbtn out danger" id="deactivate-account-confirm">Deactivate account</button>
+        <button type="button" class="lbtn out danger" id="deactivate-account-confirm">
+          Deactivate account
+        </button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- ===== Delete account permanently (type-to-confirm) ===== -->
-<div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="delete-account-scrim">
-  <div class="dlg [width:min(460px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]" data-tone="danger" role="dialog" aria-modal="true" aria-labelledby="delete-account-title">
-    <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
+<div
+  class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]"
+  id="delete-account-scrim">
+  <div
+    class="dlg [width:min(460px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+    data-tone="danger"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="delete-account-title">
+    <div class="dhd flex items-start gap-5 [&_h3]:[font-size:15px]">
       <div>
         <h3 id="delete-account-title">Delete account</h3>
         <p class="dhd-subtitle">This action cannot be undone</p>
@@ -198,19 +317,40 @@
       </button>
     </div>
     <div class="dlg-inner">
-      <div class="dbody [padding:16px_18px] overflow-auto flex flex-col gap-3.5">
-        <p class="[font-size:13px] [color:var(--ink)]">Deleting your account removes all associated data — sessions, saved preferences, and access will be permanently lost.</p>
+      <div class="dbody [padding:16px_18px] overflow-auto flex flex-col gap-5.5">
+        <p class="[font-size:13px] [color:var(--ink)]">
+          Deleting your account removes all associated data — sessions, saved preferences, and
+          access will be permanently lost.
+        </p>
         <label class="grid gap-1.5 text-[13px]" for="delete-account-confirm-input">
-          <span class="text-muted">To delete, type your username <b class="text-ink" id="delete-account-username"></b> below</span>
+          <span class="text-muted"
+            >To delete, type your username
+            <b class="text-ink" id="delete-account-username"></b> below</span
+          >
           <div class="relative">
-            <svg width="15" height="15" aria-hidden="true" style="color: var(--danger)" class="absolute [inset-inline-start:9px] [top:50%] [translate:0_-50%] pointer-events-none"><use href="#i-trash" /></svg>
-            <input class="w-full min-h-[34px] rounded-[7px] [border:1px_solid_var(--danger)] bg-surface [padding-inline-start:32px] [padding-inline-end:9px] py-1.5 font-[inherit] text-[14px] text-ink [&:focus-visible]:[outline:none] [&:focus-visible]:[box-shadow:0_0_0_3px_var(--danger-soft-bg)]" id="delete-account-confirm-input" type="text" autocomplete="off" aria-invalid="true" />
+            <svg
+              width="15"
+              height="15"
+              aria-hidden="true"
+              style="color: var(--danger)"
+              class="absolute [inset-inline-start:9px] [top:50%] [translate:0_-50%] pointer-events-none">
+              <use href="#i-trash" />
+            </svg>
+            <input
+              class="w-full min-h-[34px] rounded-[7px] [border:1px_solid_var(--danger)] bg-surface [padding-inline-start:32px] [padding-inline-end:9px] py-1.5 font-[inherit] text-[14px] text-ink [&:focus-visible]:[outline:none] [&:focus-visible]:[box-shadow:0_0_0_3px_var(--danger-soft-bg)]"
+              id="delete-account-confirm-input"
+              type="text"
+              autocomplete="off"
+              aria-invalid="true" />
           </div>
         </label>
       </div>
-      <div class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
+      <div
+        class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
         <button type="button" class="lbtn out c-close">Cancel</button>
-        <button type="button" class="lbtn pri" id="delete-account-confirm" disabled>Delete account</button>
+        <button type="button" class="lbtn pri" id="delete-account-confirm" disabled>
+          Delete account
+        </button>
       </div>
     </div>
   </div>

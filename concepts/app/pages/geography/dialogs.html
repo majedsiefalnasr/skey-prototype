@@ -1,190 +1,227 @@
-    <div class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="geo-hierarchy-scrim">
+<div
+  class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] [background:var(--scrim)]"
+  id="geo-hierarchy-scrim">
+  <div
+    class="dlg geo-hierarchy-dialog-modal [width:min(560px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+    data-tone="default"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Location hierarchy">
+    <div class="dhd geo-hierarchy-dialog-header flex items-center gap-5 [&_h3]:[font-size:15px]">
+      <span
+        class="geo-hierarchy-dialog-title-mount block min-w-0 flex-1 [&_h2]:overflow-hidden [&_h2]:text-sm [&_h2]:text-ellipsis [&_h2]:whitespace-nowrap [&_span]:mt-px [&_span]:block [&_span]:overflow-hidden [&_span]:text-xs [&_span]:text-muted [&_span]:text-ellipsis [&_span]:whitespace-nowrap"
+        id="geo-hierarchy-dialog-title-mount"></span>
+      <span
+        class="geo-hierarchy-dialog-actions-mount flex gap-[3px] items-center ms-auto"
+        id="geo-hierarchy-dialog-actions-mount"></span>
+      <button
+        class="ibtn geo-hierarchy-dialog-close"
+        type="button"
+        aria-label="Close location hierarchy">
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+      </button>
+    </div>
+    <div class="dlg-inner">
       <div
-        class="dlg geo-hierarchy-dialog-modal [width:min(560px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
-        data-tone="default"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Location hierarchy">
-        <div class="dhd geo-hierarchy-dialog-header flex items-center gap-3 [&_h3]:[font-size:15px]">
-          <span
-            class="geo-hierarchy-dialog-title-mount block min-w-0 flex-1 [&_h2]:overflow-hidden [&_h2]:text-sm [&_h2]:text-ellipsis [&_h2]:whitespace-nowrap [&_span]:mt-px [&_span]:block [&_span]:overflow-hidden [&_span]:text-xs [&_span]:text-muted [&_span]:text-ellipsis [&_span]:whitespace-nowrap"
-            id="geo-hierarchy-dialog-title-mount"></span>
-          <span
-            class="geo-hierarchy-dialog-actions-mount flex gap-[3px] items-center ms-auto"
-            id="geo-hierarchy-dialog-actions-mount"></span>
-          <button
-            class="ibtn geo-hierarchy-dialog-close"
-            type="button"
-            aria-label="Close location hierarchy">
-            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
-          </button>
-        </div>
-        <div class="dlg-inner">
-        <div class="geo-hierarchy-dialog-body flex min-w-0 min-h-0 flex-1 flex-col" id="geo-hierarchy-dialog-mount"></div>
-        </div>
+        class="geo-hierarchy-dialog-body flex min-w-0 min-h-0 flex-1 flex-col"
+        id="geo-hierarchy-dialog-mount"></div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="customer-overlay fixed [inset:0] [z-index:200] hidden items-center justify-center [padding:24px] [background:var(--scrim)]"
+  id="geo-flow-node-scrim">
+  <div
+    class="dlg geo-flow-node-modal [width:min(640px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+    data-tone="default"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Location details">
+    <div class="dhd flex items-center gap-5 [&_h3]:[font-size:15px]">
+      <span
+        class="geo-flow-node-title-mount flex min-w-0 flex-1 items-center gap-2 overflow-hidden [&_h1]:overflow-hidden [&_h1]:text-ellipsis [&_h1]:whitespace-nowrap [&_h1]:text-sm [&_h1]:font-semibold [&_.tline]:flex [&_.tline]:min-w-0 [&_.tline]:items-center [&_.tline]:gap-2"
+        id="geo-flow-node-title-mount"
+        >Location details</span
+      >
+      <button
+        class="ibtn geo-flow-node-close ms-auto"
+        type="button"
+        aria-label="Close location details">
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+      </button>
+    </div>
+    <div class="dlg-inner">
+      <div
+        class="geo-flow-node-body min-h-0 flex-1 overflow-auto p-3"
+        id="geo-flow-node-mount"></div>
+      <div class="dfoot geo-flow-node-footer flex gap-2 justify-end [padding:12px_20px]">
+        <span
+          class="geo-flow-node-actions-mount flex min-w-0 items-center"
+          id="geo-flow-node-actions-mount"></span>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="customer-overlay fixed [inset:0] [z-index:200] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="geo-flow-node-scrim">
-      <div
-        class="dlg geo-flow-node-modal [width:min(640px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
-        data-tone="default"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Location details">
-        <div class="dhd flex items-center gap-3 [&_h3]:[font-size:15px]">
-          <span
-            class="geo-flow-node-title-mount flex min-w-0 flex-1 items-center gap-2 overflow-hidden [&_h1]:overflow-hidden [&_h1]:text-ellipsis [&_h1]:whitespace-nowrap [&_h1]:text-sm [&_h1]:font-semibold [&_.tline]:flex [&_.tline]:min-w-0 [&_.tline]:items-center [&_.tline]:gap-2"
-            id="geo-flow-node-title-mount">Location details</span>
-          <button
-            class="ibtn geo-flow-node-close ms-auto"
-            type="button"
-            aria-label="Close location details">
-            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
-          </button>
+<div
+  class="customer-overlay fixed [inset:0] [z-index:210] hidden items-center justify-center [padding:24px] [background:var(--scrim)]"
+  id="geo-delete-tree-scrim">
+  <div
+    class="dlg [width:min(520px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+    data-tone="danger"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="geo-delete-tree-title">
+    <div class="dhd flex items-start gap-5 [&_h3]:[font-size:15px]">
+      <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]">
+        <use href="#i-trash" />
+      </svg>
+      <div>
+        <h3 id="geo-delete-tree-title">Delete this tree</h3>
+        <p class="dhd-subtitle">Every location under it is deleted too</p>
+      </div>
+      <button class="ibtn geo-delete-tree-close ms-auto" type="button" aria-label="Close">
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+      </button>
+    </div>
+    <div class="dlg-inner">
+      <div class="dbody [padding:16px] overflow-auto">
+        <p class="text-[13px] text-ink mb-3">
+          This permanently removes <b id="geo-delete-tree-name"></b> and every location under it.
+          This cannot be undone.
+        </p>
+        <div
+          class="[border:1px_solid_var(--danger-soft-line)] [border-radius:9px] [padding:11px_13px] mb-3.5 [background:var(--danger-soft-bg)] flex items-start gap-2">
+          <svg
+            width="14"
+            height="14"
+            aria-hidden="true"
+            style="color: var(--danger); margin-top: 2px; flex: none">
+            <use href="#i-warn" />
+          </svg>
+          <span class="text-[12.5px]" style="color: var(--danger)"
+            ><b id="geo-delete-tree-count"></b> location(s) will be deleted.</span
+          >
         </div>
-        <div class="dlg-inner">
-        <div class="geo-flow-node-body min-h-0 flex-1 overflow-auto p-3" id="geo-flow-node-mount"></div>
-        <div class="dfoot geo-flow-node-footer flex gap-2 justify-end [padding:12px_20px]">
-          <span
-            class="geo-flow-node-actions-mount flex min-w-0 items-center"
-            id="geo-flow-node-actions-mount"></span>
-        </div>
-        </div>
+        <label
+          class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]"
+          for="geo-delete-tree-confirm-input">
+          <span>Type <b id="geo-delete-tree-code"></b> to confirm</span>
+          <input type="text" id="geo-delete-tree-confirm-input" autocomplete="off" />
+        </label>
+      </div>
+      <div class="dfoot flex gap-2 justify-end [padding:12px_20px]">
+        <button class="lbtn out geo-delete-tree-close" type="button">Keep it</button>
+        <button class="lbtn pri" id="geo-delete-tree-confirm" type="button" disabled>
+          Delete tree
+        </button>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="customer-overlay fixed [inset:0] [z-index:210] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="geo-delete-tree-scrim">
-      <div
-        class="dlg [width:min(520px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
-        data-tone="danger"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="geo-delete-tree-title">
-        <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
-          <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]"><use href="#i-trash" /></svg>
-          <div>
-            <h3 id="geo-delete-tree-title">Delete this tree</h3>
-            <p class="dhd-subtitle">Every location under it is deleted too</p>
-          </div>
-          <button class="ibtn geo-delete-tree-close ms-auto" type="button" aria-label="Close">
-            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
-          </button>
-        </div>
-        <div class="dlg-inner">
-        <div class="dbody [padding:16px] overflow-auto">
-          <p class="text-[13px] text-ink mb-3">
-            This permanently removes <b id="geo-delete-tree-name"></b> and every location under it.
-            This cannot be undone.
-          </p>
-          <div class="[border:1px_solid_var(--danger-soft-line)] [border-radius:9px] [padding:11px_13px] mb-3.5 [background:var(--danger-soft-bg)] flex items-start gap-2">
-            <svg width="14" height="14" aria-hidden="true" style="color: var(--danger); margin-top: 2px; flex: none"><use href="#i-warn" /></svg>
-            <span class="text-[12.5px]" style="color: var(--danger)"
-              ><b id="geo-delete-tree-count"></b> location(s) will be deleted.</span
-            >
-          </div>
-          <label
-            class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]"
-            for="geo-delete-tree-confirm-input">
-            <span>Type <b id="geo-delete-tree-code"></b> to confirm</span>
-            <input type="text" id="geo-delete-tree-confirm-input" autocomplete="off" />
-          </label>
-        </div>
-        <div class="dfoot flex gap-2 justify-end [padding:12px_20px]">
-          <button class="lbtn out geo-delete-tree-close" type="button">Keep it</button>
-          <button
-            class="lbtn pri"
-            id="geo-delete-tree-confirm"
-            type="button"
-            disabled>
-            Delete tree
-          </button>
-        </div>
-        </div>
+<div
+  class="customer-overlay fixed [inset:0] [z-index:220] hidden items-center justify-center [padding:24px] [background:var(--scrim)]"
+  id="geo-parent-picker-scrim">
+  <div
+    class="dlg geo-parent-picker-modal [width:min(620px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+    data-tone="default"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="geo-parent-picker-title">
+    <div class="dhd flex items-start gap-5 [&_h3]:[font-size:15px]">
+      <div>
+        <h3 id="geo-parent-picker-title">Choose parent location</h3>
+        <p class="dhd-subtitle">
+          Pick a location from the hierarchy, or clear it to make this a root location.
+        </p>
       </div>
+      <button
+        class="ibtn geo-parent-picker-close ms-auto"
+        type="button"
+        aria-label="Close parent location picker">
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+      </button>
     </div>
-
-    <div class="customer-overlay fixed [inset:0] [z-index:220] hidden items-center justify-center [padding:24px] [background:var(--scrim)]" id="geo-parent-picker-scrim">
+    <div class="dlg-inner">
       <div
-        class="dlg geo-parent-picker-modal [width:min(620px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
-        data-tone="default"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="geo-parent-picker-title">
-        <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
-          <div>
-            <h3 id="geo-parent-picker-title">Choose parent location</h3>
-            <p class="dhd-subtitle">Pick a location from the hierarchy, or clear it to make this a root location.</p>
-          </div>
+        class="dbody min-h-0 overflow-auto flex-1 flex flex-col [padding:16px_20px] [padding:10px_14px]">
+        <div
+          class="geo-view-switch grid grid-cols-2 gap-[3px] p-[3px] rounded-[7px] bg-[var(--line-2)] [margin:8px_8px_0]"
+          role="tablist"
+          aria-label="Parent picker view">
           <button
-            class="ibtn geo-parent-picker-close ms-auto"
             type="button"
-            aria-label="Close parent location picker">
-            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+            role="tab"
+            data-geo-parent-picker-view="tree"
+            aria-selected="true"
+            aria-controls="geo-parent-picker-tree-pane"
+            class="inline-flex min-h-8 gap-[7px] items-center justify-center px-[9px] py-[5px] rounded-[5px] text-muted text-[12.5px] font-semibold">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg>
+            Tree
+          </button>
+          <button
+            type="button"
+            role="tab"
+            data-geo-parent-picker-view="flow"
+            aria-selected="false"
+            aria-controls="geo-parent-picker-flow-pane"
+            class="inline-flex min-h-8 gap-[7px] items-center justify-center px-[9px] py-[5px] rounded-[5px] text-muted text-[12.5px] font-semibold">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-grid" /></svg>
+            Flow
           </button>
         </div>
-        <div class="dlg-inner">
-        <div class="dbody min-h-0 overflow-auto flex-1 flex flex-col [padding:16px_20px] [padding:10px_14px]">
+        <button class="lbtn out geo-parent-picker-root my-[10px]" type="button">
+          No parent (root location)
+        </button>
+        <div id="geo-parent-picker-tree-pane" role="tabpanel">
           <div
-            class="geo-view-switch grid grid-cols-2 gap-[3px] p-[3px] rounded-[7px] bg-[var(--line-2)] [margin:8px_8px_0]"
-            role="tablist"
-            aria-label="Parent picker view">
-            <button
-              type="button"
-              role="tab"
-              data-geo-parent-picker-view="tree"
-              aria-selected="true"
-              aria-controls="geo-parent-picker-tree-pane"
-              class="inline-flex min-h-8 gap-[7px] items-center justify-center px-[9px] py-[5px] rounded-[5px] text-muted text-[12.5px] font-semibold">
-              <svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg>
-              Tree
-            </button>
-            <button
-              type="button"
-              role="tab"
-              data-geo-parent-picker-view="flow"
-              aria-selected="false"
-              aria-controls="geo-parent-picker-flow-pane"
-              class="inline-flex min-h-8 gap-[7px] items-center justify-center px-[9px] py-[5px] rounded-[5px] text-muted text-[12.5px] font-semibold">
-              <svg width="15" height="15" aria-hidden="true"><use href="#i-grid" /></svg>
-              Flow
-            </button>
-          </div>
-          <button class="lbtn out geo-parent-picker-root my-[10px]" type="button">
-            No parent (root location)
-          </button>
-          <div id="geo-parent-picker-tree-pane" role="tabpanel">
-            <div
-              class="geo-tree geo-parent-picker-tree min-h-0 flex-1 pt-0 px-2 pb-[10px] overflow-auto max-h-[360px]"
-              id="geo-parent-picker-tree"
-              role="tree"
-              aria-label="Locations"></div>
-          </div>
-          <div id="geo-parent-picker-flow-pane" class="flex min-h-0 flex-1 flex-col" role="tabpanel" hidden>
-            <div class="flex items-center gap-[5px] p-2" role="toolbar" aria-label="Flow canvas controls">
-              <button
-                class="lbtn out"
-                type="button"
-                data-geo-parent-picker-unfocus
-                hidden
-                id="geo-parent-picker-flow-clear-focus">
-                <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
-                Clear focus
-              </button>
-              <span class="geo-flow-tools-sep" id="geo-parent-picker-flow-clear-focus-sep" aria-hidden="true" hidden></span>
-              <span class="geo-flow-focus-chip-mount flex-1 min-w-0" id="geo-parent-picker-flow-focus-chip-mount"></span>
-              <button class="lbtn out" type="button" data-geo-parent-picker-flow-center>
-                <svg width="15" height="15" aria-hidden="true"><use href="#i-frame-center" /></svg>
-                Center
-              </button>
-            </div>
-            <div
-              class="geo-flow-viewport geo-parent-picker-flow-viewport min-w-0 flex-1 mx-2 mb-2 overflow-auto cursor-grab rounded-[7px] border border-line touch-none select-none [min-height:280px] [max-height:400px] [background-color:var(--bg)] [background-image:radial-gradient(var(--line)_1px,transparent_1px)] [background-size:16px_16px]"
-              id="geo-parent-picker-flow-viewport">
-              <div class="geo-flow-canvas relative min-w-full min-h-full [max-height:min(560px,80vh)]" id="geo-parent-picker-flow-canvas"></div>
-            </div>
-          </div>
+            class="geo-tree geo-parent-picker-tree min-h-0 flex-1 pt-0 px-2 pb-[10px] overflow-auto max-h-[360px]"
+            id="geo-parent-picker-tree"
+            role="tree"
+            aria-label="Locations"></div>
         </div>
+        <div
+          id="geo-parent-picker-flow-pane"
+          class="flex min-h-0 flex-1 flex-col"
+          role="tabpanel"
+          hidden>
+          <div
+            class="flex items-center gap-[5px] p-2"
+            role="toolbar"
+            aria-label="Flow canvas controls">
+            <button
+              class="lbtn out"
+              type="button"
+              data-geo-parent-picker-unfocus
+              hidden
+              id="geo-parent-picker-flow-clear-focus">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+              Clear focus
+            </button>
+            <span
+              class="geo-flow-tools-sep"
+              id="geo-parent-picker-flow-clear-focus-sep"
+              aria-hidden="true"
+              hidden></span>
+            <span
+              class="geo-flow-focus-chip-mount flex-1 min-w-0"
+              id="geo-parent-picker-flow-focus-chip-mount"></span>
+            <button class="lbtn out" type="button" data-geo-parent-picker-flow-center>
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-frame-center" /></svg>
+              Center
+            </button>
+          </div>
+          <div
+            class="geo-flow-viewport geo-parent-picker-flow-viewport min-w-0 flex-1 mx-2 mb-2 overflow-auto cursor-grab rounded-[7px] border border-line touch-none select-none [min-height:280px] [max-height:400px] [background-color:var(--bg)] [background-image:radial-gradient(var(--line)_1px,transparent_1px)] [background-size:16px_16px]"
+            id="geo-parent-picker-flow-viewport">
+            <div
+              class="geo-flow-canvas relative min-w-full min-h-full [max-height:min(560px,80vh)]"
+              id="geo-parent-picker-flow-canvas"></div>
+          </div>
         </div>
       </div>
     </div>
+  </div>
+</div>

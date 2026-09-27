@@ -1,27 +1,36 @@
-    <div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="customer-gscrim">
-      <div class="dlg [width:min(600px,_94vw)] rounded-xl overflow-hidden flex flex-col" data-tone="warning" role="dialog" aria-modal="true" aria-labelledby="customer-g-title">
-        <div class="dhd flex items-start gap-3 [&_h3]:[font-size:16px] [&_h3]:font-bold">
-          <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]">
-            <use href="#i-clock" />
-          </svg>
-          <div>
-            <h3 id="customer-g-title">You have unsaved customer changes</h3>
-            <p class="dhd-subtitle">Choose what to do before leaving</p>
-          </div>
-        </div>
-        <div class="dlg-inner">
-          <div class="dbody [padding:16px_18px] text-sm [line-height:1.55] text-ink">
-            <span id="customer-g-msg"></span>
-            <div class="lst [margin-top:14px]! [font-size:12.5px] text-muted" id="customer-g-what"></div>
-          </div>
-          <div class="dfoot flex flex-wrap items-center gap-2.5">
-            <button class="lbtn out" id="customer-g-discard">Leave without saving</button>
-            <span class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5">
-              <button class="lbtn out" id="customer-g-stay">Stay here</button>
-              <button class="lbtn pri" id="customer-g-save">Save, then leave</button>
-            </span>
-          </div>
-        </div>
+<div
+  class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]"
+  id="customer-gscrim">
+  <div
+    class="dlg [width:min(600px,_94vw)] rounded-xl overflow-hidden flex flex-col"
+    data-tone="warning"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="customer-g-title">
+    <div class="dhd flex items-start gap-5 [&_h3]:[font-size:16px] [&_h3]:font-bold">
+      <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]">
+        <use href="#i-clock" />
+      </svg>
+      <div>
+        <h3 id="customer-g-title">You have unsaved customer changes</h3>
+        <p class="dhd-subtitle">Choose what to do before leaving</p>
       </div>
     </div>
-
+    <div class="dlg-inner">
+      <div class="dbody [padding:16px_18px] text-sm [line-height:1.55] text-ink">
+        <span id="customer-g-msg"></span>
+        <div
+          class="lst [margin-top:14px]! [font-size:12.5px] text-muted"
+          id="customer-g-what"></div>
+      </div>
+      <div class="dfoot flex flex-wrap items-center gap-2.5">
+        <button class="lbtn out" id="customer-g-discard">Leave without saving</button>
+        <span
+          class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5">
+          <button class="lbtn out" id="customer-g-stay">Stay here</button>
+          <button class="lbtn pri" id="customer-g-save">Save, then leave</button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

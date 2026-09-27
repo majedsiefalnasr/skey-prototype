@@ -1,35 +1,43 @@
-    <!-- ===== unsaved-work guard ===== -->
-    <div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="gscrim">
-      <div class="dlg [width:min(600px,_94vw)] rounded-xl overflow-hidden flex flex-col" data-tone="warning" role="dialog" aria-modal="true" aria-labelledby="g-title">
-        <div class="dhd flex items-start gap-3 [&_h3]:[font-size:16px] [&_h3]:font-bold">
-          <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]">
-            <use href="#i-clock" />
-          </svg>
-          <div>
-            <h3 id="g-title">You have unsaved work</h3>
-            <p class="dhd-subtitle">Choose what to do before leaving</p>
-          </div>
-        </div>
-        <div class="dlg-inner">
-          <div class="dbody [padding:16px_18px] text-sm [line-height:1.55] text-ink">
-            <span id="g-msg"
-              >This invoice has changes that were never saved. Leaving now loses them.</span
-            >
-            <div class="lst [margin-top:14px]! [font-size:12.5px] text-muted" id="g-what"></div>
-          </div>
-          <div class="dfoot flex flex-wrap items-center gap-2.5">
-            <button class="lbtn out" id="g-discard">Leave without saving</button>
-            <span class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2">
-              <button class="lbtn out" id="g-newtab">
-                <svg width="14" height="14" aria-hidden="true"><use href="#i-next" /></svg> Open in
-                new tab
-              </button>
-              <button class="lbtn out" id="g-stay">Stay here</button>
-              <button class="lbtn pri" id="g-save">Save, then leave</button>
-            </span>
-          </div>
-        </div>
+<!-- ===== unsaved-work guard ===== -->
+<div
+  class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]"
+  id="gscrim">
+  <div
+    class="dlg [width:min(600px,_94vw)] rounded-xl overflow-hidden flex flex-col"
+    data-tone="warning"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="g-title">
+    <div class="dhd flex items-start gap-5 [&_h3]:[font-size:16px] [&_h3]:font-bold">
+      <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]">
+        <use href="#i-clock" />
+      </svg>
+      <div>
+        <h3 id="g-title">You have unsaved work</h3>
+        <p class="dhd-subtitle">Choose what to do before leaving</p>
       </div>
     </div>
+    <div class="dlg-inner">
+      <div class="dbody [padding:16px_18px] text-sm [line-height:1.55] text-ink">
+        <span id="g-msg"
+          >This invoice has changes that were never saved. Leaving now loses them.</span
+        >
+        <div class="lst [margin-top:14px]! [font-size:12.5px] text-muted" id="g-what"></div>
+      </div>
+      <div class="dfoot flex flex-wrap items-center gap-2.5">
+        <button class="lbtn out" id="g-discard">Leave without saving</button>
+        <span
+          class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2">
+          <button class="lbtn out" id="g-newtab">
+            <svg width="14" height="14" aria-hidden="true"><use href="#i-next" /></svg> Open in new
+            tab
+          </button>
+          <button class="lbtn out" id="g-stay">Stay here</button>
+          <button class="lbtn pri" id="g-save">Save, then leave</button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- include: ../../pages/customers/guard-dialog.html --><!-- include: ../../components/data-list/guard-dialog.html --><!-- include: ../../components/toast/toast.html --><!-- include: ../../shell/keyboard-dialog.html -->

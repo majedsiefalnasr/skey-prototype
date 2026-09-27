@@ -1,10 +1,10 @@
-import {encodeHtml} from '../core/locale.js'
-import {renderDataListRowActionMenu as renderSharedDataListRowActionMenu} from '../components/data-list/views.js'
 import {DATA_TOOLBAR_BUTTON_CLASS} from '../components/data-list/list.js'
+import {renderDataListRowActionMenu as renderSharedDataListRowActionMenu} from '../components/data-list/views.js'
+import {encodeHtml} from '../core/locale.js'
 import {renderCustomerAvatar} from './customers/images.js'
 
 const DATA_RECORD_CARD_CLASS =
-  "data-record-card data-record-card-snapshot-layout relative grid min-w-0 gap-3 rounded-lg border border-line bg-surface p-3.5 transition-[border-color,box-shadow,transform] duration-150 ease-in-out hover:[box-shadow:var(--shadow-1)] [&[aria-selected='true']]:border-accent [&[aria-selected='true']]:bg-[var(--accent-soft)] [&[aria-selected='true']_.data-record-card-select]:bg-surface [body.density-compact_&]:gap-2 [body.density-compact_&]:p-2.5"
+  "data-record-card data-record-card-snapshot-layout relative grid min-w-0 gap-5 rounded-lg border border-line bg-surface p-3.5 transition-[border-color,box-shadow,transform] duration-150 ease-in-out hover:[box-shadow:var(--shadow-1)] [&[aria-selected='true']]:border-accent [&[aria-selected='true']]:bg-[var(--accent-soft)] [&[aria-selected='true']_.data-record-card-select]:bg-surface [body.density-compact_&]:gap-2 [body.density-compact_&]:p-2.5"
 const DATA_RECORD_CARD_IDENTITY_CLASS =
   'data-record-card-identity flex min-w-0 flex-1 cursor-pointer items-start gap-[9px] overflow-hidden rounded border-0 bg-transparent p-0 text-start font-[inherit] text-inherit focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent [&>div]:min-w-0 [&_span]:block [&_span]:truncate [&_strong]:block [&_strong]:truncate [&_strong]:text-sm [&_strong]:text-ink hover:[&_strong]:text-accent hover:[&_strong]:underline'
 
@@ -78,7 +78,8 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
   }
 
   function dataRecordCardFactMarkup([label, value]) {
-    const classes = label === 'Hierarchy path' ? 'wide col-span-full [&_dd]:whitespace-normal' : 'min-w-0'
+    const classes =
+      label === 'Hierarchy path' ? 'wide col-span-full [&_dd]:whitespace-normal' : 'min-w-0'
     return `<div class="${classes}"><dt class="mb-0.5! text-[12px] text-muted">${encodeHtml(label)}</dt><dd class="m-0! truncate text-[12.5px] font-semibold text-ink">${encodeHtml(String(value ?? '—'))}</dd></div>`
   }
 
@@ -138,12 +139,18 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
       context === 'invoice'
         ? `${quickView}${display}<button type="button" role="menuitem" data-list-row-action="modify">${dataListIcon('i-edit')} Modify</button><button type="button" role="menuitem" data-list-row-action="user-log">${dataListIcon('i-user')} User log</button><div class="data-menu-separator"></div>${deleteAction}`
         : `${quickView}${display}<button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? 'Deactivate' : 'Activate'}</button><div class="data-menu-separator"></div>${deleteAction}`
-    return renderSharedDataListRowActionMenu(config, String(row[config.key]), actions, '', getSharedViewDeps())
+    return renderSharedDataListRowActionMenu(
+      config,
+      String(row[config.key]),
+      actions,
+      '',
+      getSharedViewDeps()
+    )
   }
 
   function renderInvoiceSnapshotCard(row, config, listState) {
     const card = dataRecordCardContext('invoice', row, config, listState)
-    return `<article class="${DATA_RECORD_CARD_CLASS} data-record-card-invoice" role="listitem" data-list-row-key="${encodeHtml(card.key)}" aria-selected="${card.selected}">${renderSnapshotCardHeader('invoice', row, config, card)}<div class="data-record-card-snapshot grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 rounded-md bg-[var(--line-2)] px-3.5 py-3 [&>div]:min-w-0 [&_small]:block [&_small]:text-[12px] [&_small]:text-muted [&_span]:block [&_span]:text-[12px] [&_span]:text-muted"><div><span>Customer</span><strong class="my-0.5! block truncate text-[13px] text-ink">${encodeHtml(row.custName)}</strong><small>${encodeHtml(row.custNo)}</small></div><div class="data-record-card-snapshot-value text-end"><span>Total</span><strong class="my-0.5! block truncate text-[18px] text-accent">${encodeHtml(row.currency)} ${encodeHtml(row.total)}</strong></div></div><dl class="data-record-card-meta m-0! grid grid-cols-2 gap-x-3.5 gap-y-2.5">${[
+    return `<article class="${DATA_RECORD_CARD_CLASS} data-record-card-invoice" role="listitem" data-list-row-key="${encodeHtml(card.key)}" aria-selected="${card.selected}">${renderSnapshotCardHeader('invoice', row, config, card)}<div class="data-record-card-snapshot grid grid-cols-[minmax(0,1fr)_auto] items-end gap-5 rounded-md bg-[var(--line-2)] px-3.5 py-3 [&>div]:min-w-0 [&_small]:block [&_small]:text-[12px] [&_small]:text-muted [&_span]:block [&_span]:text-[12px] [&_span]:text-muted"><div><span>Customer</span><strong class="my-0.5! block truncate text-[13px] text-ink">${encodeHtml(row.custName)}</strong><small>${encodeHtml(row.custNo)}</small></div><div class="data-record-card-snapshot-value text-end"><span>Total</span><strong class="my-0.5! block truncate text-[18px] text-accent">${encodeHtml(row.currency)} ${encodeHtml(row.total)}</strong></div></div><dl class="data-record-card-meta m-0! grid grid-cols-2 gap-x-3.5 gap-y-2.5">${[
       ['Document date', row.date],
       ['Payment', row.pay],
       ['Sub-type', row.subtype],
@@ -156,7 +163,7 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
 
   function renderCustomerSnapshotCard(row, config, listState) {
     const card = dataRecordCardContext('customer', row, config, listState)
-    return `<article class="${DATA_RECORD_CARD_CLASS} data-record-card-customer" role="listitem" data-list-row-key="${encodeHtml(card.key)}" aria-selected="${card.selected}">${renderSnapshotCardHeader('customer', row, config, card)}<div class="data-record-card-snapshot grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 rounded-md bg-[var(--line-2)] px-3.5 py-3 [&>div]:min-w-0 [&_small]:block [&_small]:text-[12px] [&_small]:text-muted [&_span]:block [&_span]:text-[12px] [&_span]:text-muted"><div><span>Customer profile</span><strong class="my-0.5! block truncate text-[13px] text-ink">${encodeHtml(row.customerType)} customer</strong><small>${encodeHtml(row.customerGroup)} group</small></div><div class="data-record-card-snapshot-value data-record-card-snapshot-contact text-end"><span>Phone</span><strong class="my-0.5! block truncate text-[14px] text-ink">${encodeHtml(row.phone)}</strong></div></div><dl class="data-record-card-meta m-0! grid grid-cols-2 gap-x-3.5 gap-y-2.5">${[
+    return `<article class="${DATA_RECORD_CARD_CLASS} data-record-card-customer" role="listitem" data-list-row-key="${encodeHtml(card.key)}" aria-selected="${card.selected}">${renderSnapshotCardHeader('customer', row, config, card)}<div class="data-record-card-snapshot grid grid-cols-[minmax(0,1fr)_auto] items-end gap-5 rounded-md bg-[var(--line-2)] px-3.5 py-3 [&>div]:min-w-0 [&_small]:block [&_small]:text-[12px] [&_small]:text-muted [&_span]:block [&_span]:text-[12px] [&_span]:text-muted"><div><span>Customer profile</span><strong class="my-0.5! block truncate text-[13px] text-ink">${encodeHtml(row.customerType)} customer</strong><small>${encodeHtml(row.customerGroup)} group</small></div><div class="data-record-card-snapshot-value data-record-card-snapshot-contact text-end"><span>Phone</span><strong class="my-0.5! block truncate text-[14px] text-ink">${encodeHtml(row.phone)}</strong></div></div><dl class="data-record-card-meta m-0! grid grid-cols-2 gap-x-3.5 gap-y-2.5">${[
       ['Operation unit', row.operationUnit],
       ['Account currency', row.currency],
       ['Location', row.country],

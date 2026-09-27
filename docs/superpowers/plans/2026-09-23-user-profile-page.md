@@ -22,35 +22,37 @@
 
 ## File Structure
 
-| File | Responsibility |
-|---|---|
-| `concepts/app/prototype/fixtures/profile.js` | `CURRENT_USER`, `LOGIN_LOG_ROWS`, `DEVICE_ROWS` sample data (create) |
-| `concepts/app/pages/profile/fields.js` | `PROFILE_SECTIONS` metadata + `PROFILE_SECTION_ORDER` (create) |
-| `concepts/app/pages/profile/layout.js` | `createProfileScrollNavigator` (cloned/adapted from customer's) + `renderProfileScrollNav`/section-list renderer (create) |
-| `concepts/app/pages/profile/sections.js` | Per-section body renderers: profile, account, appearance-host, security, sessions, notifications (create) |
-| `concepts/app/pages/profile/devices.js` | Device-list render + sessionStorage revoke persistence (create) |
-| `concepts/app/pages/profile/dialogs.html` | Change Password / Set PIN dialog markup (create) |
-| `concepts/app/pages/profile/security-dialogs.js` | Wiring for the two security dialogs (open/close/validate/submit) (create) |
-| `concepts/app/pages/profile/profile.js` | `createProfile({...})` — the page factory, composes the above, implements the `Page` contract (create) |
-| `concepts/app/pages/profile/templates.html` | `.profile-view` template: identity header + scroll-nav + canvas + footer (create) |
-| `concepts/app/shell/appearance.js` | Drop `openAppearance`/`closeAppearance`/scrim wiring; accept a `root` param for section-body mounting (modify) |
-| `concepts/app/shell/appearance-dialog.html` | Delete file; its field markup moves into `pages/profile/templates.html` (delete) |
-| `concepts/app/shell/shell.html` | User-pop menu: add "My Profile" entry, repoint "Account settings"/"Appearance" to profile navigation, remove `<!-- include: appearance-dialog.html -->` (modify) |
-| `concepts/app/shell/topbar.js` | Replace `.appearance-menu` dialog-open wiring with profile-navigation wiring; add `.account-settings-menu`/`.my-profile-menu` wiring (modify) |
-| `concepts/app/shell/content.js` | Register `profile` in `viewSelectors`/`currentSkeletonContainer` selectors (modify) |
-| `concepts/app/main.js` | Import profile modules, construct `createProfile(...)`, register in `pageRegistry`, wire topbar's new callbacks, remove `openAppearance`/`closeAppearance` wiring (modify) |
-| `tests/profile-page.test.mjs` | Unit tests: fixture shape, section metadata, scroll-nav markup, dialog markup, appearance-dialog removal (create) |
-| `tests/profile-lifecycle.spec.mjs` | Playwright spec: open via user menu, deep-link each section, security dialogs, device sign-out persistence (create) |
+| File                                             | Responsibility                                                                                                                                                             |
+| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `concepts/app/prototype/fixtures/profile.js`     | `CURRENT_USER`, `LOGIN_LOG_ROWS`, `DEVICE_ROWS` sample data (create)                                                                                                       |
+| `concepts/app/pages/profile/fields.js`           | `PROFILE_SECTIONS` metadata + `PROFILE_SECTION_ORDER` (create)                                                                                                             |
+| `concepts/app/pages/profile/layout.js`           | `createProfileScrollNavigator` (cloned/adapted from customer's) + `renderProfileScrollNav`/section-list renderer (create)                                                  |
+| `concepts/app/pages/profile/sections.js`         | Per-section body renderers: profile, account, appearance-host, security, sessions, notifications (create)                                                                  |
+| `concepts/app/pages/profile/devices.js`          | Device-list render + sessionStorage revoke persistence (create)                                                                                                            |
+| `concepts/app/pages/profile/dialogs.html`        | Change Password / Set PIN dialog markup (create)                                                                                                                           |
+| `concepts/app/pages/profile/security-dialogs.js` | Wiring for the two security dialogs (open/close/validate/submit) (create)                                                                                                  |
+| `concepts/app/pages/profile/profile.js`          | `createProfile({...})` — the page factory, composes the above, implements the `Page` contract (create)                                                                     |
+| `concepts/app/pages/profile/templates.html`      | `.profile-view` template: identity header + scroll-nav + canvas + footer (create)                                                                                          |
+| `concepts/app/shell/appearance.js`               | Drop `openAppearance`/`closeAppearance`/scrim wiring; accept a `root` param for section-body mounting (modify)                                                             |
+| `concepts/app/shell/appearance-dialog.html`      | Delete file; its field markup moves into `pages/profile/templates.html` (delete)                                                                                           |
+| `concepts/app/shell/shell.html`                  | User-pop menu: add "My Profile" entry, repoint "Account settings"/"Appearance" to profile navigation, remove `<!-- include: appearance-dialog.html -->` (modify)           |
+| `concepts/app/shell/topbar.js`                   | Replace `.appearance-menu` dialog-open wiring with profile-navigation wiring; add `.account-settings-menu`/`.my-profile-menu` wiring (modify)                              |
+| `concepts/app/shell/content.js`                  | Register `profile` in `viewSelectors`/`currentSkeletonContainer` selectors (modify)                                                                                        |
+| `concepts/app/main.js`                           | Import profile modules, construct `createProfile(...)`, register in `pageRegistry`, wire topbar's new callbacks, remove `openAppearance`/`closeAppearance` wiring (modify) |
+| `tests/profile-page.test.mjs`                    | Unit tests: fixture shape, section metadata, scroll-nav markup, dialog markup, appearance-dialog removal (create)                                                          |
+| `tests/profile-lifecycle.spec.mjs`               | Playwright spec: open via user menu, deep-link each section, security dialogs, device sign-out persistence (create)                                                        |
 
 ---
 
 ## Task 1: Profile fixtures
 
 **Files:**
+
 - Create: `concepts/app/prototype/fixtures/profile.js`
 - Test: `tests/profile-page.test.mjs`
 
 **Interfaces:**
+
 - Produces: `CURRENT_USER` (`{name, email, phone, jobTitle, username, branch, locale, timezone, photo}`), `LOGIN_LOG_ROWS` (`Array<{id, timestamp, ip, device, status}>`, 6–10 rows, `status` is `'success'|'failed'`), `DEVICE_ROWS` (`Array<{id, name, location, lastActive, current}>`, 3–5 rows, exactly one `current: true`).
 
 - [ ] **Step 1: Write the failing test**
@@ -58,7 +60,11 @@
 ```js
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import {CURRENT_USER, LOGIN_LOG_ROWS, DEVICE_ROWS} from '../concepts/app/prototype/fixtures/profile.js'
+import {
+  CURRENT_USER,
+  LOGIN_LOG_ROWS,
+  DEVICE_ROWS,
+} from '../concepts/app/prototype/fixtures/profile.js'
 
 test('profile fixtures have the expected shape', () => {
   assert.equal(typeof CURRENT_USER.name, 'string')
@@ -108,20 +114,86 @@ export const CURRENT_USER = {
 }
 
 export const LOGIN_LOG_ROWS = [
-  {id: 'log-1', timestamp: '2026-09-23 08:12', ip: '41.66.10.24', device: 'Chrome on macOS', status: 'success'},
-  {id: 'log-2', timestamp: '2026-09-22 18:47', ip: '41.66.10.24', device: 'Chrome on macOS', status: 'success'},
-  {id: 'log-3', timestamp: '2026-09-22 09:03', ip: '156.203.5.11', device: 'Safari on iPhone', status: 'success'},
-  {id: 'log-4', timestamp: '2026-09-21 21:55', ip: '196.221.4.90', device: 'Firefox on Windows', status: 'failed'},
-  {id: 'log-5', timestamp: '2026-09-21 09:30', ip: '41.66.10.24', device: 'Chrome on macOS', status: 'success'},
-  {id: 'log-6', timestamp: '2026-09-20 14:02', ip: '102.45.9.180', device: 'Edge on Windows', status: 'success'},
-  {id: 'log-7', timestamp: '2026-09-19 11:18', ip: '41.66.10.24', device: 'Chrome on macOS', status: 'success'},
+  {
+    id: 'log-1',
+    timestamp: '2026-09-23 08:12',
+    ip: '41.66.10.24',
+    device: 'Chrome on macOS',
+    status: 'success',
+  },
+  {
+    id: 'log-2',
+    timestamp: '2026-09-22 18:47',
+    ip: '41.66.10.24',
+    device: 'Chrome on macOS',
+    status: 'success',
+  },
+  {
+    id: 'log-3',
+    timestamp: '2026-09-22 09:03',
+    ip: '156.203.5.11',
+    device: 'Safari on iPhone',
+    status: 'success',
+  },
+  {
+    id: 'log-4',
+    timestamp: '2026-09-21 21:55',
+    ip: '196.221.4.90',
+    device: 'Firefox on Windows',
+    status: 'failed',
+  },
+  {
+    id: 'log-5',
+    timestamp: '2026-09-21 09:30',
+    ip: '41.66.10.24',
+    device: 'Chrome on macOS',
+    status: 'success',
+  },
+  {
+    id: 'log-6',
+    timestamp: '2026-09-20 14:02',
+    ip: '102.45.9.180',
+    device: 'Edge on Windows',
+    status: 'success',
+  },
+  {
+    id: 'log-7',
+    timestamp: '2026-09-19 11:18',
+    ip: '41.66.10.24',
+    device: 'Chrome on macOS',
+    status: 'success',
+  },
 ]
 
 export const DEVICE_ROWS = [
-  {id: 'dev-1', name: 'Chrome on macOS', location: 'Cairo, EG', lastActive: 'Active now', current: true},
-  {id: 'dev-2', name: 'Safari on iPhone', location: 'Cairo, EG', lastActive: '1 day ago', current: false},
-  {id: 'dev-3', name: 'Firefox on Windows', location: 'Alexandria, EG', lastActive: '3 days ago', current: false},
-  {id: 'dev-4', name: 'Edge on Windows', location: 'Giza, EG', lastActive: '6 days ago', current: false},
+  {
+    id: 'dev-1',
+    name: 'Chrome on macOS',
+    location: 'Cairo, EG',
+    lastActive: 'Active now',
+    current: true,
+  },
+  {
+    id: 'dev-2',
+    name: 'Safari on iPhone',
+    location: 'Cairo, EG',
+    lastActive: '1 day ago',
+    current: false,
+  },
+  {
+    id: 'dev-3',
+    name: 'Firefox on Windows',
+    location: 'Alexandria, EG',
+    lastActive: '3 days ago',
+    current: false,
+  },
+  {
+    id: 'dev-4',
+    name: 'Edge on Windows',
+    location: 'Giza, EG',
+    lastActive: '6 days ago',
+    current: false,
+  },
 ]
 ```
 
@@ -142,10 +214,12 @@ git commit -m "feat: add profile page fixtures"
 ## Task 2: Section metadata
 
 **Files:**
+
 - Create: `concepts/app/pages/profile/fields.js`
 - Test: `tests/profile-page.test.mjs` (append)
 
 **Interfaces:**
+
 - Consumes: nothing.
 - Produces: `PROFILE_SECTION_ORDER` (`string[]`, exactly `['profile', 'account', 'appearance', 'security', 'sessions', 'notifications']`), `PROFILE_SECTIONS` (`Record<key, {title: string, icon: string}>`, one entry per order key, `icon` is one of the existing `i-*` ids named in Global Constraints).
 
@@ -155,7 +229,14 @@ git commit -m "feat: add profile page fixtures"
 import {PROFILE_SECTION_ORDER, PROFILE_SECTIONS} from '../concepts/app/pages/profile/fields.js'
 
 test('profile section metadata covers all six sections in order', () => {
-  assert.deepEqual(PROFILE_SECTION_ORDER, ['profile', 'account', 'appearance', 'security', 'sessions', 'notifications'])
+  assert.deepEqual(PROFILE_SECTION_ORDER, [
+    'profile',
+    'account',
+    'appearance',
+    'security',
+    'sessions',
+    'notifications',
+  ])
   PROFILE_SECTION_ORDER.forEach(key => {
     assert.equal(typeof PROFILE_SECTIONS[key].title, 'string')
     assert.equal(typeof PROFILE_SECTIONS[key].icon, 'string')
@@ -176,7 +257,14 @@ Expected: FAIL — `Cannot find module '../concepts/app/pages/profile/fields.js'
 // live in pages/profile/sections.js rather than being field-driven, so only
 // title/icon are needed here.
 
-export const PROFILE_SECTION_ORDER = ['profile', 'account', 'appearance', 'security', 'sessions', 'notifications']
+export const PROFILE_SECTION_ORDER = [
+  'profile',
+  'account',
+  'appearance',
+  'security',
+  'sessions',
+  'notifications',
+]
 
 export const PROFILE_SECTIONS = {
   profile: {title: 'Profile', icon: 'i-user'},
@@ -205,10 +293,12 @@ git commit -m "feat: add profile section metadata"
 ## Task 3: Profile scroll navigator
 
 **Files:**
+
 - Create: `concepts/app/pages/profile/layout.js`
 - Test: `tests/profile-page.test.mjs` (append)
 
 **Interfaces:**
+
 - Consumes: `PROFILE_SECTION_ORDER`, `PROFILE_SECTIONS` (Task 2).
 - Produces: `createProfileScrollNavigator({root, sectionOrder, profileState})` → `{startSpy, stopTracking, activateSection, isNavigating}` (same contract as `pages/customers/layouts.js`'s `createScrollNavigator`, profile-scoped DOM hooks). `renderProfileScrollNav(sectionOrder, sections, activeKey, encodeHtml)` → HTML string using class `profile-scroll-nav`, buttons with `data-profile-scroll-section`, `aria-controls="profile-section-${key}"`, `aria-current`.
 
@@ -220,7 +310,12 @@ import {PROFILE_SECTION_ORDER, PROFILE_SECTIONS} from '../concepts/app/pages/pro
 
 test('profile scroll nav renders one button per section with the active one current', () => {
   const encodeHtml = value => String(value)
-  const html = renderProfileScrollNav(PROFILE_SECTION_ORDER, PROFILE_SECTIONS, 'security', encodeHtml)
+  const html = renderProfileScrollNav(
+    PROFILE_SECTION_ORDER,
+    PROFILE_SECTIONS,
+    'security',
+    encodeHtml
+  )
 
   assert.equal((html.match(/data-profile-scroll-section="/g) || []).length, 6)
   assert.match(html, /data-profile-scroll-section="security"[^>]*aria-current="page"/)
@@ -247,7 +342,10 @@ function setScrollActiveSection(root, key, sectionOrder, profileState) {
   if (!sectionOrder.includes(key)) return
   profileState.activeSection = key
   root.querySelectorAll('.profile-scroll-nav button').forEach(button => {
-    button.setAttribute('aria-current', button.dataset.profileScrollSection === key ? 'page' : 'false')
+    button.setAttribute(
+      'aria-current',
+      button.dataset.profileScrollSection === key ? 'page' : 'false'
+    )
   })
 }
 
@@ -282,7 +380,12 @@ export function createProfileScrollNavigator({root, sectionOrder, profileState})
         ? target
         : nearest
     )
-    setScrollActiveSection(root, activeTarget.dataset.profileScrollTarget, sectionOrder, profileState)
+    setScrollActiveSection(
+      root,
+      activeTarget.dataset.profileScrollTarget,
+      sectionOrder,
+      profileState
+    )
   }
 
   function stopNavigation({interrupt = false} = {}) {
@@ -314,7 +417,9 @@ export function createProfileScrollNavigator({root, sectionOrder, profileState})
       rootMargin: `-${offset}px 0px -65% 0px`,
       threshold: [0, 0.1, 0.5],
     })
-    root.querySelectorAll('[data-profile-scroll-target]').forEach(section => observer.observe(section))
+    root
+      .querySelectorAll('[data-profile-scroll-target]')
+      .forEach(section => observer.observe(section))
   }
 
   function activateSection(key) {
@@ -330,7 +435,10 @@ export function createProfileScrollNavigator({root, sectionOrder, profileState})
     }
     const scroller = scrollContainer()
     const targetTop =
-      scroller.scrollTop + section.getBoundingClientRect().top - viewportTop(scroller) - stickyOffset()
+      scroller.scrollTop +
+      section.getBoundingClientRect().top -
+      viewportTop(scroller) -
+      stickyOffset()
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches
     scroller.scrollTo({top: Math.max(0, targetTop), behavior: reducedMotion ? 'auto' : 'smooth'})
     const finishNavigation = () => {
@@ -376,10 +484,12 @@ git commit -m "feat: add profile scroll navigator"
 Relocate `createAppearanceControls` so it binds to a `root` container instead of owning a scrim/dialog, and expose a `syncAppearanceControls` (renamed from `syncAppearanceDialog`) that a consumer can call after mounting the section markup. This task does NOT move the markup yet (Task 6 does) or touch `main.js` wiring (Task 8 does) — it only changes `appearance.js`'s exported shape so later tasks have a stable contract.
 
 **Files:**
+
 - Modify: `concepts/app/shell/appearance.js`
 - Test: `tests/profile-page.test.mjs` (append)
 
 **Interfaces:**
+
 - Consumes: `{createAppearance, trapFocus, releaseFocus, setLaunchpadEnabled}` (unchanged from before).
 - Produces: `createAppearanceControls({...})` → `{appearance, onRefreshCharts, setOnRefreshCharts, getDataListChartRefreshReady, setDataListChartRefreshReady, syncAppearanceControls}`. **Removed** from the returned object: `openAppearance`. The function no longer reads `#appearance-scrim` or wires `.c-close`/scrim-click handlers.
 
@@ -389,7 +499,10 @@ Relocate `createAppearanceControls` so it binds to a `root` container instead of
 import {readFile} from 'node:fs/promises'
 
 test('appearance.js no longer wires a scrim/dialog and exports syncAppearanceControls', async () => {
-  const controls = await readFile(new URL('../concepts/app/shell/appearance.js', import.meta.url), 'utf8')
+  const controls = await readFile(
+    new URL('../concepts/app/shell/appearance.js', import.meta.url),
+    'utf8'
+  )
   assert.doesNotMatch(controls, /appearance-scrim/)
   assert.doesNotMatch(controls, /openAppearance/)
   assert.match(controls, /function syncAppearanceControls/)
@@ -405,6 +518,7 @@ Expected: FAIL — `appearance-scrim` still present, `syncAppearanceControls` no
 - [ ] **Step 3: Edit `concepts/app/shell/appearance.js`**
 
 Remove the line reading `appearanceScrim`:
+
 ```js
 const appearanceScrim = document.getElementById('appearance-scrim')
 ```
@@ -412,6 +526,7 @@ const appearanceScrim = document.getElementById('appearance-scrim')
 Rename every occurrence of `syncAppearanceDialog` to `syncAppearanceControls` (it's called from many places inside the file — use a project-wide rename within this file only).
 
 Remove the `openAppearance`/`closeAppearance` function definitions:
+
 ```js
 const openAppearance = () => {
   syncAppearanceDialog()
@@ -435,15 +550,41 @@ appearanceScrim.addEventListener('click', e => {
 Remove them entirely (no replacement — the profile page owns visibility since it's a content view, not a dialog).
 
 Update the final return statement — replace:
+
 ```js
-  return {openAppearance, onRefreshCharts, setOnRefreshCharts: value => { onRefreshCharts = value }, appearance, getDataListChartRefreshReady: () => dataListChartRefreshReady, setDataListChartRefreshReady: value => { dataListChartRefreshReady = value }}
+return {
+  openAppearance,
+  onRefreshCharts,
+  setOnRefreshCharts: value => {
+    onRefreshCharts = value
+  },
+  appearance,
+  getDataListChartRefreshReady: () => dataListChartRefreshReady,
+  setDataListChartRefreshReady: value => {
+    dataListChartRefreshReady = value
+  },
+}
 ```
+
 with:
+
 ```js
-  return {syncAppearanceControls, onRefreshCharts, setOnRefreshCharts: value => { onRefreshCharts = value }, appearance, getDataListChartRefreshReady: () => dataListChartRefreshReady, setDataListChartRefreshReady: value => { dataListChartRefreshReady = value }}
+return {
+  syncAppearanceControls,
+  onRefreshCharts,
+  setOnRefreshCharts: value => {
+    onRefreshCharts = value
+  },
+  appearance,
+  getDataListChartRefreshReady: () => dataListChartRefreshReady,
+  setDataListChartRefreshReady: value => {
+    dataListChartRefreshReady = value
+  },
+}
 ```
 
 `trapFocus`/`releaseFocus` remain accepted parameters (still used elsewhere? — no, they were only used by `openAppearance`/`closeAppearance`). Since they're now unused, remove them from the destructured parameter list:
+
 ```js
 export function createAppearanceControls({createAppearance, setLaunchpadEnabled} = {}) {
 ```
@@ -467,11 +608,13 @@ git commit -m "refactor: decouple appearance controls from dialog scrim"
 ## Task 5: Security dialogs (Change Password / Set PIN)
 
 **Files:**
+
 - Create: `concepts/app/pages/profile/dialogs.html`
 - Create: `concepts/app/pages/profile/security-dialogs.js`
 - Test: `tests/profile-page.test.mjs` (append)
 
 **Interfaces:**
+
 - Consumes: `{trapFocus, releaseFocus, toast}` (same shape as `components/dialog/dialog.js`/`components/toast/toast.js` already provide elsewhere).
 - Produces: `createSecurityDialogs({trapFocus, releaseFocus, toast})` → `{openChangePassword, openSetPin, bind}`. `bind()` wires the dialogs' own trigger/close/submit listeners (must be called once after the markup is in the DOM, mirroring how `appearance.js` wires its own listeners at module-construction time).
 
@@ -479,7 +622,10 @@ git commit -m "refactor: decouple appearance controls from dialog scrim"
 
 ```js
 test('security dialogs markup exists with password and pin forms', async () => {
-  const html = await readFile(new URL('../concepts/app/pages/profile/dialogs.html', import.meta.url), 'utf8')
+  const html = await readFile(
+    new URL('../concepts/app/pages/profile/dialogs.html', import.meta.url),
+    'utf8'
+  )
   assert.match(html, /id="change-password-scrim"/)
   assert.match(html, /id="set-pin-scrim"/)
   assert.match(html, /id="current-password"/)
@@ -491,7 +637,10 @@ test('security dialogs markup exists with password and pin forms', async () => {
 })
 
 test('security-dialogs.js exports createSecurityDialogs with open/bind API', async () => {
-  const source = await readFile(new URL('../concepts/app/pages/profile/security-dialogs.js', import.meta.url), 'utf8')
+  const source = await readFile(
+    new URL('../concepts/app/pages/profile/security-dialogs.js', import.meta.url),
+    'utf8'
+  )
   assert.match(source, /export function createSecurityDialogs/)
   assert.match(source, /openChangePassword/)
   assert.match(source, /openSetPin/)
@@ -508,31 +657,61 @@ Expected: FAIL — both files missing
 
 ```html
 <!-- ===== Change password dialog ===== -->
-<div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="change-password-scrim">
-  <div class="dlg [width:min(420px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]" role="dialog" aria-modal="true" aria-labelledby="change-password-title">
-    <div class="dhd flex items-center gap-3 [padding:14px_18px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px]">
+<div
+  class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]"
+  id="change-password-scrim">
+  <div
+    class="dlg [width:min(420px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="change-password-title">
+    <div
+      class="dhd flex items-center gap-5 [padding:14px_18px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px]">
       <svg width="18" height="18" aria-hidden="true"><use href="#i-lock" /></svg>
       <div><h3 id="change-password-title">Change password</h3></div>
       <button class="ibtn c-close" aria-label="Close" style="margin-inline-start: auto">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
-    <form class="dbody flex flex-col gap-3 [padding:16px_18px] overflow-auto" id="change-password-form" novalidate>
+    <form
+      class="dbody flex flex-col gap-5 [padding:16px_18px] overflow-auto"
+      id="change-password-form"
+      novalidate>
       <label class="grid gap-1.5 text-[13px] font-semibold" for="current-password">
         Current password
-        <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="current-password" type="password" required autocomplete="current-password" />
+        <input
+          class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink"
+          id="current-password"
+          type="password"
+          required
+          autocomplete="current-password" />
       </label>
       <label class="grid gap-1.5 text-[13px] font-semibold" for="new-password">
         New password
-        <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="new-password" type="password" required minlength="8" autocomplete="new-password" />
+        <input
+          class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink"
+          id="new-password"
+          type="password"
+          required
+          minlength="8"
+          autocomplete="new-password" />
       </label>
       <label class="grid gap-1.5 text-[13px] font-semibold" for="confirm-password">
         Confirm new password
-        <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="confirm-password" type="password" required autocomplete="new-password" />
+        <input
+          class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink"
+          id="confirm-password"
+          type="password"
+          required
+          autocomplete="new-password" />
       </label>
-      <span class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden" id="change-password-error" role="status"></span>
+      <span
+        class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden"
+        id="change-password-error"
+        role="status"></span>
     </form>
-    <div class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
+    <div
+      class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
       <button type="button" class="lbtn out c-close">Cancel</button>
       <button type="submit" class="lbtn pri" form="change-password-form">Change password</button>
     </div>
@@ -540,31 +719,69 @@ Expected: FAIL — both files missing
 </div>
 
 <!-- ===== Set / change PIN dialog ===== -->
-<div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="set-pin-scrim">
-  <div class="dlg [width:min(420px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]" role="dialog" aria-modal="true" aria-labelledby="set-pin-title">
-    <div class="dhd flex items-center gap-3 [padding:14px_18px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px]">
+<div
+  class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]"
+  id="set-pin-scrim">
+  <div
+    class="dlg [width:min(420px,_96vw)] bg-surface rounded-xl [box-shadow:var(--shadow-2)] overflow-hidden flex flex-col [max-height:90vh]"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="set-pin-title">
+    <div
+      class="dhd flex items-center gap-5 [padding:14px_18px] [border-bottom:1px_solid_var(--line)] [&_h3]:[font-size:15px]">
       <svg width="18" height="18" aria-hidden="true"><use href="#i-lock" /></svg>
       <div><h3 id="set-pin-title">Set / change PIN code</h3></div>
       <button class="ibtn c-close" aria-label="Close" style="margin-inline-start: auto">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
-    <form class="dbody flex flex-col gap-3 [padding:16px_18px] overflow-auto" id="set-pin-form" novalidate>
+    <form
+      class="dbody flex flex-col gap-5 [padding:16px_18px] overflow-auto"
+      id="set-pin-form"
+      novalidate>
       <label class="grid gap-1.5 text-[13px] font-semibold" for="current-pin">
         Current PIN (leave blank if none set)
-        <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]" id="current-pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" />
+        <input
+          class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]"
+          id="current-pin"
+          type="password"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          maxlength="6"
+          autocomplete="off" />
       </label>
       <label class="grid gap-1.5 text-[13px] font-semibold" for="new-pin">
         New PIN (4–6 digits)
-        <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]" id="new-pin" type="password" inputmode="numeric" pattern="[0-9]*" minlength="4" maxlength="6" required autocomplete="off" />
+        <input
+          class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]"
+          id="new-pin"
+          type="password"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          minlength="4"
+          maxlength="6"
+          required
+          autocomplete="off" />
       </label>
       <label class="grid gap-1.5 text-[13px] font-semibold" for="confirm-pin">
         Confirm new PIN
-        <input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]" id="confirm-pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" required autocomplete="off" />
+        <input
+          class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]"
+          id="confirm-pin"
+          type="password"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          maxlength="6"
+          required
+          autocomplete="off" />
       </label>
-      <span class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden" id="set-pin-error" role="status"></span>
+      <span
+        class="[font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden"
+        id="set-pin-error"
+        role="status"></span>
     </form>
-    <div class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
+    <div
+      class="dfoot [padding:12px_18px] [border-top:1px_solid_var(--line)] flex justify-end gap-2">
       <button type="button" class="lbtn out c-close">Cancel</button>
       <button type="submit" class="lbtn pri" form="set-pin-form">Save PIN</button>
     </div>
@@ -672,10 +889,12 @@ git commit -m "feat: add change-password and set-pin dialogs"
 ## Task 6: Devices & login log
 
 **Files:**
+
 - Create: `concepts/app/pages/profile/devices.js`
 - Test: `tests/profile-page.test.mjs` (append)
 
 **Interfaces:**
+
 - Consumes: `DEVICE_ROWS` shape from Task 1, `{storage: sessionStorage, toast}`.
 - Produces: `renderLoginLogTable(rows, encodeHtml)` → HTML string (plain `<table>`). `createDeviceList({root, deviceRows, storage, toast, encodeHtml})` → `{render}` — `render()` reads revoked ids from storage, filters them out of `deviceRows`, renders remaining devices into `root`, and wires each non-current device's "Sign out" button to revoke (persist + re-render + toast).
 
@@ -687,7 +906,13 @@ import {renderLoginLogTable} from '../concepts/app/pages/profile/devices.js'
 test('login log table renders one row per entry with status text', () => {
   const encodeHtml = value => String(value)
   const rows = [
-    {id: 'log-1', timestamp: '2026-09-23 08:12', ip: '1.2.3.4', device: 'Chrome', status: 'success'},
+    {
+      id: 'log-1',
+      timestamp: '2026-09-23 08:12',
+      ip: '1.2.3.4',
+      device: 'Chrome',
+      status: 'success',
+    },
     {id: 'log-2', timestamp: '2026-09-22 08:12', ip: '1.2.3.4', device: 'Chrome', status: 'failed'},
   ]
   const html = renderLoginLogTable(rows, encodeHtml)
@@ -746,7 +971,7 @@ function renderDeviceRow(device, encodeHtml) {
   const badge = device.current
     ? '<span class="badge gray" data-profile-current-device>This device</span>'
     : `<button type="button" class="lbtn out sm" data-profile-device-signout="${encodeHtml(device.id)}">Sign out</button>`
-  return `<div class="profile-device-row flex items-center gap-3 [padding:10px_9px] [border-top:1px_solid_var(--line)]" data-profile-device="${encodeHtml(device.id)}">
+  return `<div class="profile-device-row flex items-center gap-5 [padding:10px_9px] [border-top:1px_solid_var(--line)]" data-profile-device="${encodeHtml(device.id)}">
     <span class="flex-1"><b class="block text-[13.5px] text-ink">${encodeHtml(device.name)}</b><span class="block text-xs text-muted">${encodeHtml(device.location)} · ${encodeHtml(device.lastActive)}</span></span>
     ${badge}
   </div>`
@@ -791,12 +1016,14 @@ git commit -m "feat: add sessions and devices list with sessionStorage revoke"
 Build the six section bodies and the `.profile-view` template that hosts them, wiring in the Appearance markup relocated from the old dialog and the identity header.
 
 **Files:**
+
 - Create: `concepts/app/pages/profile/sections.js`
 - Create: `concepts/app/pages/profile/templates.html`
 - Read (for copying markup verbatim): `concepts/app/shell/appearance-dialog.html` (do not delete yet — Task 9 deletes it after this task copies its field markup out)
 - Test: `tests/profile-page.test.mjs` (append)
 
 **Interfaces:**
+
 - Consumes: `CURRENT_USER` (Task 1), `PROFILE_SECTION_ORDER`/`PROFILE_SECTIONS` (Task 2), `renderProfileScrollNav` (Task 3), `renderLoginLogTable` (Task 6).
 - Produces: `renderProfileSections({currentUser, encodeHtml})` → HTML string containing all six `<div id="profile-section-${key}" data-profile-scroll-target="${key}">` blocks in `PROFILE_SECTION_ORDER` order. The `appearance` section's block contains the field markup verbatim-copied from `appearance-dialog.html` (accent swatches, scale slider, typography select, theme cards, layout/density cards, contrast/launchpad toggles) with the SAME element ids those fields already use elsewhere in the codebase (`appearance-custom-color`, `appearance-interface-scale`, etc.) — `shell/appearance.js`'s `syncAppearanceControls` (Task 4) queries those exact ids, so they must not be renamed.
 
@@ -878,7 +1105,7 @@ Expected: FAIL — `Cannot find module '../concepts/app/pages/profile/sections.j
 // else is new markup built to the same convention).
 
 function renderProfileIdentityHeader(currentUser, encodeHtml) {
-  return `<div class="profile-identity-header flex items-center gap-3 [padding:16px] [border-bottom:1px_solid_var(--line)]">
+  return `<div class="profile-identity-header flex items-center gap-5 [padding:16px] [border-bottom:1px_solid_var(--line)]">
     <span class="avatar inline-flex size-14 items-center justify-center rounded-full bg-[var(--line-2)] text-muted" aria-hidden="true"><svg width="26" height="26"><use href="#i-user" /></svg></span>
     <div>
       <b class="block text-[16px] text-ink">${encodeHtml(currentUser.name)}</b>
@@ -891,7 +1118,7 @@ function renderProfileIdentityHeader(currentUser, encodeHtml) {
 function renderProfileSection(currentUser) {
   return `<fieldset class="fset [border:1px_solid_var(--line)] [border-radius:10px] [padding:12px_14px] mb-3.5! [&_legend]:text-xs [&_legend]:[text-transform:uppercase] [&_legend]:[letter-spacing:0.04em] [&_legend]:[color:var(--faint)] [&_legend]:[padding:0_6px]">
     <legend>Personal information</legend>
-    <div class="grid [grid-template-columns:repeat(2,_1fr)] gap-3 [@media((max-width:560px))]:[grid-template-columns:1fr]">
+    <div class="grid [grid-template-columns:repeat(2,_1fr)] gap-5 [@media((max-width:560px))]:[grid-template-columns:1fr]">
       <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-name">Full name<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-name" type="text" value="${currentUser.name}" /></label>
       <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-job-title">Job title<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-job-title" type="text" value="${currentUser.jobTitle}" /></label>
       <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-email">Email<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-email" type="email" value="${currentUser.email}" /></label>
@@ -902,7 +1129,7 @@ function renderProfileSection(currentUser) {
   </fieldset>
   <fieldset class="fset [border:1px_solid_var(--line)] [border-radius:10px] [padding:12px_14px] mb-3.5! [&_legend]:text-xs [&_legend]:[text-transform:uppercase] [&_legend]:[letter-spacing:0.04em] [&_legend]:[color:var(--faint)] [&_legend]:[padding:0_6px]">
     <legend>Photo</legend>
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-5">
       <span class="avatar inline-flex size-12 items-center justify-center rounded-full bg-[var(--line-2)] text-muted" aria-hidden="true"><svg width="22" height="22"><use href="#i-user" /></svg></span>
       <button type="button" class="lbtn out" id="profile-photo-select">Select photo</button>
     </div>
@@ -912,7 +1139,7 @@ function renderProfileSection(currentUser) {
 function renderAccountSection(currentUser) {
   return `<fieldset class="fset [border:1px_solid_var(--line)] [border-radius:10px] [padding:12px_14px] mb-3.5! [&_legend]:text-xs [&_legend]:[text-transform:uppercase] [&_legend]:[letter-spacing:0.04em] [&_legend]:[color:var(--faint)] [&_legend]:[padding:0_6px]">
     <legend>Account</legend>
-    <div class="grid [grid-template-columns:repeat(2,_1fr)] gap-3 [@media((max-width:560px))]:[grid-template-columns:1fr]">
+    <div class="grid [grid-template-columns:repeat(2,_1fr)] gap-5 [@media((max-width:560px))]:[grid-template-columns:1fr]">
       <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-username">Username<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-[var(--line-2)] px-[9px] py-1.5 font-[inherit] text-[14px] text-muted" id="profile-username" type="text" value="${currentUser.username}" readonly /></label>
       <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-branch">Branch<input class="w-full min-h-[32px] rounded-[7px] border border-line bg-[var(--line-2)] px-[9px] py-1.5 font-[inherit] text-[14px] text-muted" id="profile-branch" type="text" value="${currentUser.branch}" readonly /></label>
       <label class="grid gap-1.5 text-[13px] font-semibold" for="profile-landing-page">Default landing page<select class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink" id="profile-landing-page"><option value="home">Home</option><option value="invoices">Sales Invoices</option><option value="customers">Customers</option></select></label>
@@ -1028,11 +1255,11 @@ function renderSecuritySection() {
   return `<fieldset class="fset [border:1px_solid_var(--line)] [border-radius:10px] [padding:12px_14px] mb-3.5! [&_legend]:text-xs [&_legend]:[text-transform:uppercase] [&_legend]:[letter-spacing:0.04em] [&_legend]:[color:var(--faint)] [&_legend]:[padding:0_6px]">
     <legend>Sign-in security</legend>
     <div class="flex flex-col gap-2.5">
-      <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center justify-between gap-5">
         <span><strong class="block text-[13.5px] text-ink">Password</strong><small class="block text-xs text-muted">Change the password used to sign in.</small></span>
         <button type="button" class="lbtn out" data-profile-open-change-password>Change password</button>
       </div>
-      <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center justify-between gap-5">
         <span><strong class="block text-[13.5px] text-ink">PIN code</strong><small class="block text-xs text-muted">Used for quick re-authentication on shared terminals.</small></span>
         <button type="button" class="lbtn out" data-profile-open-set-pin>Set / change PIN</button>
       </div>
@@ -1099,9 +1326,13 @@ export {renderProfileIdentityHeader}
 
 ```html
 <template class="profile-tpl">
-  <div class="profile-view [&:not([hidden])]:flex [&:not([hidden])]:[flex:1] [&:not([hidden])]:min-h-0 [&:not([hidden])]:flex-col" hidden>
+  <div
+    class="profile-view [&:not([hidden])]:flex [&:not([hidden])]:[flex:1] [&:not([hidden])]:min-h-0 [&:not([hidden])]:flex-col"
+    hidden>
     <div id="profile-identity-mount"></div>
-    <div class="canvas profile-canvas [flex:1] min-h-0 overflow-auto text-start [padding:16px] grid [grid-template-columns:minmax(180px,_240px)_minmax(0,_1fr)] gap-3 items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]" id="profile-canvas">
+    <div
+      class="canvas profile-canvas [flex:1] min-h-0 overflow-auto text-start [padding:16px] grid [grid-template-columns:minmax(180px,_240px)_minmax(0,_1fr)] gap-5 items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]"
+      id="profile-canvas">
       <div id="profile-scroll-nav-mount"></div>
       <div class="profile-scroll-content min-w-0" id="profile-scroll-content"></div>
     </div>
@@ -1128,10 +1359,12 @@ git commit -m "feat: add profile page section bodies and view template"
 Compose Tasks 1–7 into the page factory implementing the `Page` contract from `core/navigation.js`.
 
 **Files:**
+
 - Create: `concepts/app/pages/profile/profile.js`
 - Test: `tests/profile-page.test.mjs` (append)
 
 **Interfaces:**
+
 - Consumes: `{root, encodeHtml, currentUser, loginLogRows, deviceRows, storage, toast, trapFocus, releaseFocus, syncAppearanceControls}`.
 - Produces: `createProfile({...})` → `{id: 'profile', roots: {root}, activate(data), deactivate(), dispose(), setSection(key)}`. `activate({section} = {})` renders (once, lazily, same lazy-init pattern as `pages/customers/record.js`'s `activate`) then calls `setSection(section || 'profile')`. `setSection(key)` calls the scroll navigator's `activateSection(key)`.
 
@@ -1142,7 +1375,10 @@ import {createProfile} from '../concepts/app/pages/profile/profile.js'
 import {JSDOM} from 'node:test' // placeholder import removed below — see Step 3 note
 
 test('createProfile exposes the Page contract', async () => {
-  const source = await readFile(new URL('../concepts/app/pages/profile/profile.js', import.meta.url), 'utf8')
+  const source = await readFile(
+    new URL('../concepts/app/pages/profile/profile.js', import.meta.url),
+    'utf8'
+  )
   assert.match(source, /export function createProfile/)
   assert.match(source, /id:\s*'profile'/)
   assert.match(source, /function activate/)
@@ -1160,7 +1396,10 @@ import test from 'node:test'
 import {readFile} from 'node:fs/promises'
 
 test('createProfile exposes the Page contract', async () => {
-  const source = await readFile(new URL('../concepts/app/pages/profile/profile.js', import.meta.url), 'utf8')
+  const source = await readFile(
+    new URL('../concepts/app/pages/profile/profile.js', import.meta.url),
+    'utf8'
+  )
   assert.match(source, /export function createProfile/)
   assert.match(source, /id:\s*'profile'/)
   assert.match(source, /function activate/)
@@ -1190,7 +1429,18 @@ import {renderProfileSections, renderProfileIdentityHeader} from './sections.js'
 import {renderLoginLogTable, createDeviceList} from './devices.js'
 import {createSecurityDialogs} from './security-dialogs.js'
 
-export function createProfile({root, encodeHtml, currentUser, loginLogRows, deviceRows, storage, toast, trapFocus, releaseFocus, syncAppearanceControls}) {
+export function createProfile({
+  root,
+  encodeHtml,
+  currentUser,
+  loginLogRows,
+  deviceRows,
+  storage,
+  toast,
+  trapFocus,
+  releaseFocus,
+  syncAppearanceControls,
+}) {
   const identityMount = root.querySelector('#profile-identity-mount')
   const navMount = root.querySelector('#profile-scroll-nav-mount')
   const contentMount = root.querySelector('#profile-scroll-content')
@@ -1204,10 +1454,18 @@ export function createProfile({root, encodeHtml, currentUser, loginLogRows, devi
 
   function render() {
     identityMount.innerHTML = renderProfileIdentityHeader(currentUser, encodeHtml)
-    navMount.innerHTML = renderProfileScrollNav(PROFILE_SECTION_ORDER, PROFILE_SECTIONS, profileState.activeSection, encodeHtml)
+    navMount.innerHTML = renderProfileScrollNav(
+      PROFILE_SECTION_ORDER,
+      PROFILE_SECTIONS,
+      profileState.activeSection,
+      encodeHtml
+    )
     contentMount.innerHTML = renderProfileSections({currentUser, encodeHtml})
 
-    document.getElementById('profile-login-log').innerHTML = renderLoginLogTable(loginLogRows, encodeHtml)
+    document.getElementById('profile-login-log').innerHTML = renderLoginLogTable(
+      loginLogRows,
+      encodeHtml
+    )
 
     deviceList = createDeviceList({
       root: document.getElementById('profile-device-list'),
@@ -1220,12 +1478,20 @@ export function createProfile({root, encodeHtml, currentUser, loginLogRows, devi
 
     securityDialogs = createSecurityDialogs({trapFocus, releaseFocus, toast})
     securityDialogs.bind()
-    document.querySelector('[data-profile-open-change-password]').addEventListener('click', () => securityDialogs.openChangePassword())
-    document.querySelector('[data-profile-open-set-pin]').addEventListener('click', () => securityDialogs.openSetPin())
+    document
+      .querySelector('[data-profile-open-change-password]')
+      .addEventListener('click', () => securityDialogs.openChangePassword())
+    document
+      .querySelector('[data-profile-open-set-pin]')
+      .addEventListener('click', () => securityDialogs.openSetPin())
 
-    navMount.querySelectorAll('[data-profile-scroll-section]').forEach(button =>
-      button.addEventListener('click', () => scrollNavigator.activateSection(button.dataset.profileScrollSection))
-    )
+    navMount
+      .querySelectorAll('[data-profile-scroll-section]')
+      .forEach(button =>
+        button.addEventListener('click', () =>
+          scrollNavigator.activateSection(button.dataset.profileScrollSection)
+        )
+      )
 
     syncAppearanceControls?.()
   }
@@ -1238,7 +1504,11 @@ export function createProfile({root, encodeHtml, currentUser, loginLogRows, devi
   function activate({section} = {}) {
     if (!rendered) {
       render()
-      scrollNavigator = createProfileScrollNavigator({root: canvas, sectionOrder: PROFILE_SECTION_ORDER, profileState})
+      scrollNavigator = createProfileScrollNavigator({
+        root: canvas,
+        sectionOrder: PROFILE_SECTION_ORDER,
+        profileState,
+      })
       rendered = true
     }
     scrollNavigator.startSpy()
@@ -1277,12 +1547,14 @@ git commit -m "feat: add createProfile page factory"
 Register `profile` as a content view, delete the standalone Appearance dialog, and update the user-pop menu markup.
 
 **Files:**
+
 - Modify: `concepts/app/shell/content.js`
 - Delete: `concepts/app/shell/appearance-dialog.html`
 - Modify: `concepts/app/shell/shell.html`
 - Test: `tests/profile-page.test.mjs` (append)
 
 **Interfaces:**
+
 - Consumes: nothing new.
 - Produces: `content.js`'s `viewSelectors` object gains `profile: '.profile-view'`; `currentSkeletonContainer`'s `selectors` object gains the same entry.
 
@@ -1290,7 +1562,10 @@ Register `profile` as a content view, delete the standalone Appearance dialog, a
 
 ```js
 test('content host registers the profile view and the appearance dialog file is removed', async () => {
-  const content = await readFile(new URL('../concepts/app/shell/content.js', import.meta.url), 'utf8')
+  const content = await readFile(
+    new URL('../concepts/app/shell/content.js', import.meta.url),
+    'utf8'
+  )
   assert.match(content, /profile:\s*'\.profile-view'/)
 
   await assert.rejects(
@@ -1313,30 +1588,30 @@ Expected: FAIL — `content.js` has no `profile` key; `appearance-dialog.html` s
 In `currentSkeletonContainer`'s `selectors` object, add a `profile` entry:
 
 ```js
-    const selectors = {
-      record: '.page-content',
-      email: '.email-view:not([hidden])',
-      list: '.list-view:not([hidden])',
-      'customers-list': '.customer-list-view:not([hidden])',
-      'customer-record': '.customer-record-view:not([hidden])',
-      'geo-list': '.geo-list-view:not([hidden])',
-      'geo-record': '.geo-record-view:not([hidden])',
-      profile: '.profile-view:not([hidden])',
-    }
+const selectors = {
+  record: '.page-content',
+  email: '.email-view:not([hidden])',
+  list: '.list-view:not([hidden])',
+  'customers-list': '.customer-list-view:not([hidden])',
+  'customer-record': '.customer-record-view:not([hidden])',
+  'geo-list': '.geo-list-view:not([hidden])',
+  'geo-record': '.geo-record-view:not([hidden])',
+  profile: '.profile-view:not([hidden])',
+}
 ```
 
 In `attachAndShowView`'s `viewSelectors` object, add the same key:
 
 ```js
-    const viewSelectors = {
-      email: '.email-view',
-      list: '.list-view',
-      'customers-list': '.customer-list-view',
-      'customer-record': '.customer-record-view',
-      'geo-list': '.geo-list-view',
-      'geo-record': '.geo-record-view',
-      profile: '.profile-view',
-    }
+const viewSelectors = {
+  email: '.email-view',
+  list: '.list-view',
+  'customers-list': '.customer-list-view',
+  'customer-record': '.customer-record-view',
+  'geo-list': '.geo-list-view',
+  'geo-record': '.geo-record-view',
+  profile: '.profile-view',
+}
 ```
 
 - [ ] **Step 4: Delete `concepts/app/shell/appearance-dialog.html`**
@@ -1348,41 +1623,44 @@ git rm concepts/app/shell/appearance-dialog.html
 - [ ] **Step 5: Edit `concepts/app/shell/shell.html`**
 
 Remove the appearance-dialog include line:
+
 ```html
 <!-- include: appearance-dialog.html -->
 ```
 
 Add the profile page template include near the other page templates (alongside the customer/geo includes, e.g. after `<!-- include: ../pages/customers/dialogs.html -->`):
+
 ```html
 <!-- include: ../pages/profile/templates.html -->
 <!-- include: ../pages/profile/dialogs.html -->
 ```
 
 In the `.user-pop` menu block, update the three relevant menuitems. Replace:
+
 ```html
-              <button role="menuitem">
-                <svg width="15" height="15" aria-hidden="true"><use href="#i-gear" /></svg> Account
-                settings
-              </button>
-              <button role="menuitem" class="appearance-menu">
-                <svg width="15" height="15" aria-hidden="true"><use href="#i-sun" /></svg>
-                Appearance
-              </button>
+<button role="menuitem">
+  <svg width="15" height="15" aria-hidden="true"><use href="#i-gear" /></svg> Account settings
+</button>
+<button role="menuitem" class="appearance-menu">
+  <svg width="15" height="15" aria-hidden="true"><use href="#i-sun" /></svg>
+  Appearance
+</button>
 ```
+
 with:
+
 ```html
-              <button role="menuitem" class="profile-menu" data-profile-section="profile">
-                <svg width="15" height="15" aria-hidden="true"><use href="#i-user" /></svg>
-                My Profile
-              </button>
-              <button role="menuitem" class="profile-menu" data-profile-section="account">
-                <svg width="15" height="15" aria-hidden="true"><use href="#i-gear" /></svg> Account
-                settings
-              </button>
-              <button role="menuitem" class="profile-menu" data-profile-section="appearance">
-                <svg width="15" height="15" aria-hidden="true"><use href="#i-sun" /></svg>
-                Appearance
-              </button>
+<button role="menuitem" class="profile-menu" data-profile-section="profile">
+  <svg width="15" height="15" aria-hidden="true"><use href="#i-user" /></svg>
+  My Profile
+</button>
+<button role="menuitem" class="profile-menu" data-profile-section="account">
+  <svg width="15" height="15" aria-hidden="true"><use href="#i-gear" /></svg> Account settings
+</button>
+<button role="menuitem" class="profile-menu" data-profile-section="appearance">
+  <svg width="15" height="15" aria-hidden="true"><use href="#i-sun" /></svg>
+  Appearance
+</button>
 ```
 
 - [ ] **Step 6: Run test to verify it passes**
@@ -1404,11 +1682,13 @@ git commit -m "feat: register profile content view, remove appearance dialog, up
 Import the new modules, construct `createProfile`, register it in `pageRegistry`, wire the topbar's `.profile-menu` buttons to navigate, and update the `createAppearanceControls` call site for its Task 4 signature change.
 
 **Files:**
+
 - Modify: `concepts/app/main.js`
 - Modify: `concepts/app/shell/topbar.js`
 - Test: `tests/profile-page.test.mjs` (append)
 
 **Interfaces:**
+
 - Consumes: `createProfile` (Task 8), `CURRENT_USER`/`LOGIN_LOG_ROWS`/`DEVICE_ROWS` (Task 1), `encodeHtml` (already imported in `main.js`), `syncAppearanceControls` (Task 4's renamed export).
 - Produces: `main.js`'s `pageRegistry` Map gains `['profile', profile]`; `createTopbar(...)`'s call site drops `openAppearance` and gains a `navigateToProfileSection` callback.
 
@@ -1418,7 +1698,10 @@ Import the new modules, construct `createProfile`, register it in `pageRegistry`
 test('main.js wires the profile page and topbar no longer opens an appearance dialog', async () => {
   const main = await readFile(new URL('../concepts/app/main.js', import.meta.url), 'utf8')
   assert.match(main, /import \{createProfile\} from '\.\/pages\/profile\/profile\.js'/)
-  assert.match(main, /import \{CURRENT_USER, LOGIN_LOG_ROWS, DEVICE_ROWS\} from '\.\/prototype\/fixtures\/profile\.js'/)
+  assert.match(
+    main,
+    /import \{CURRENT_USER, LOGIN_LOG_ROWS, DEVICE_ROWS\} from '\.\/prototype\/fixtures\/profile\.js'/
+  )
   assert.match(main, /\['profile', profile\]/)
   assert.doesNotMatch(main, /openAppearance/)
 
@@ -1436,50 +1719,57 @@ Expected: FAIL — imports/wiring absent
 - [ ] **Step 3: Edit `concepts/app/shell/topbar.js`**
 
 Replace the `createTopbar` parameter list — remove `openAppearance`, add `navigateToProfileSection`:
+
 ```js
 export function createTopbar({toast, getSideCollapsed, getLaunchpadEnabled, closeAllMenus, openKbd, openCustomize, navigateToProfileSection} = {}) {
 ```
 
 Replace the `.appearance-menu` wiring block:
+
 ```js
-  document.querySelectorAll('.appearance-menu').forEach(b =>
-    b.addEventListener('click', () => {
-      closeAllMenus()
-      openAppearance()
-    })
-  )
+document.querySelectorAll('.appearance-menu').forEach(b =>
+  b.addEventListener('click', () => {
+    closeAllMenus()
+    openAppearance()
+  })
+)
 ```
+
 with:
+
 ```js
-  document.querySelectorAll('.profile-menu').forEach(b =>
-    b.addEventListener('click', () => {
-      closeAllMenus()
-      navigateToProfileSection(b.dataset.profileSection)
-    })
-  )
+document.querySelectorAll('.profile-menu').forEach(b =>
+  b.addEventListener('click', () => {
+    closeAllMenus()
+    navigateToProfileSection(b.dataset.profileSection)
+  })
+)
 ```
 
 Update the `.mlist` click-close exclusion list (it currently excludes `.appearance-menu` from auto-close since that button used to open its own dialog rather than needing the menu closed twice — the new `.profile-menu` buttons should behave the same way, since `closeAllMenus()` is already called explicitly above):
+
 ```js
-  document.querySelectorAll('.mlist').forEach(list =>
-    list.addEventListener('click', e => {
-      if (
-        e.target.closest('button[role="menuitem"]') &&
-        !e.target.closest('.help-kbd, .side-customize-menu, .fav-toggle-menu, .profile-menu')
-      )
-        closeAllMenus()
-    })
-  )
+document.querySelectorAll('.mlist').forEach(list =>
+  list.addEventListener('click', e => {
+    if (
+      e.target.closest('button[role="menuitem"]') &&
+      !e.target.closest('.help-kbd, .side-customize-menu, .fav-toggle-menu, .profile-menu')
+    )
+      closeAllMenus()
+  })
+)
 ```
 
 - [ ] **Step 4: Edit `concepts/app/main.js`** — imports
 
 Add near the other fixture imports (after the `CUSTOMER_ROWS...` import line):
+
 ```js
 import {CURRENT_USER, LOGIN_LOG_ROWS, DEVICE_ROWS} from './prototype/fixtures/profile.js'
 ```
 
 Add near the other page-factory imports (after `import {createCustomers} from './pages/customers/customers.js'`):
+
 ```js
 import {createProfile} from './pages/profile/profile.js'
 ```
@@ -1487,6 +1777,7 @@ import {createProfile} from './pages/profile/profile.js'
 - [ ] **Step 5: Edit `concepts/app/main.js`** — `createAppearanceControls` call site
 
 Find the existing call (it currently reads `createAppearanceControls({createAppearance, trapFocus, releaseFocus, setLaunchpadEnabled})`, or equivalent with `...`-spread args — grep for `createAppearanceControls(` to find the exact current call). Update it to match Task 4's new parameter list (no `trapFocus`/`releaseFocus`):
+
 ```js
 const appearanceControls = createAppearanceControls({createAppearance, setLaunchpadEnabled})
 ```
@@ -1494,6 +1785,7 @@ const appearanceControls = createAppearanceControls({createAppearance, setLaunch
 - [ ] **Step 6: Edit `concepts/app/main.js`** — construct `profile`
 
 Add this construction near `const customers = createCustomers({...})` (after it, since `profile` does not depend on `customers`):
+
 ```js
 const profile = createProfile({
   root: document.querySelector('.profile-view'),
@@ -1512,12 +1804,15 @@ const profile = createProfile({
 - [ ] **Step 7: Edit `concepts/app/main.js`** — register in `pageRegistry`
 
 Find:
+
 ```js
   ['geo-record', geography.recordPage],
   ['email', email],
 ])
 ```
+
 Replace with:
+
 ```js
   ['geo-record', geography.recordPage],
   ['email', email],
@@ -1528,6 +1823,7 @@ Replace with:
 - [ ] **Step 8: Edit `concepts/app/main.js`** — `createTopbar` call site and navigation helper
 
 Find the `createTopbar({...})` call (grep for `createTopbar(`) and add `navigateToProfileSection`, removing `openAppearance` if present there:
+
 ```js
 const topbar = createTopbar({
   toast,
@@ -1541,9 +1837,11 @@ const topbar = createTopbar({
 ```
 
 `navigation` is constructed later in the file (around the `pageRegistry`/`createNavigation` block) — since `createTopbar` is called before that point today, wrap the reference in a closure so it's bound lazily instead of read at call-construction time:
+
 ```js
   navigateToProfileSection: section => navigation.navigate('profile', {section}),
 ```
+
 This is already lazy (arrow function body only reads `navigation` when invoked, not when `createTopbar` runs), so no further change is needed — `navigation` just needs to be declared with `const` before `topbar.bind()` is ever called by user interaction (it already is, since `bind()` fires on click, long after module-eval completes).
 
 - [ ] **Step 9: Run test to verify it passes**
@@ -1567,79 +1865,88 @@ git commit -m "feat: wire profile page into navigation and topbar user menu"
 ## Task 11: Playwright lifecycle spec
 
 **Files:**
+
 - Create: `tests/profile-lifecycle.spec.mjs`
 
 **Interfaces:**
+
 - Consumes: `boot`, `settle` from `tests/support/browser.mjs` (existing helpers — do not modify `browser.mjs`; this page is reached via the user-menu, not `openSurface`'s launchpad-tile mechanism, so the spec navigates via the avatar button directly).
 
 - [ ] **Step 1: Write the spec**
 
 ```js
-import {test, expect} from '@playwright/test';
-import {boot, settle} from './support/browser.mjs';
+import {test, expect} from '@playwright/test'
+import {boot, settle} from './support/browser.mjs'
 
 async function openProfileSection(page, section) {
-  await page.locator('.avatar-btn').click();
-  await page.locator(`.profile-menu[data-profile-section="${section}"]`).click();
-  await settle(page);
+  await page.locator('.avatar-btn').click()
+  await page.locator(`.profile-menu[data-profile-section="${section}"]`).click()
+  await settle(page)
 }
 
 test.describe('profile page', () => {
   test('opens from the user menu and shows all six sections', async ({page}) => {
-    const errors = [];
-    page.on('pageerror', error => errors.push(error.message));
-    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
+    const errors = []
+    page.on('pageerror', error => errors.push(error.message))
+    await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173')
 
-    await openProfileSection(page, 'profile');
-    await expect(page.locator('.profile-view')).toBeVisible();
-    await expect(page.locator('[data-profile-scroll-section]')).toHaveCount(6);
-    await expect(errors).toEqual([]);
-  });
+    await openProfileSection(page, 'profile')
+    await expect(page.locator('.profile-view')).toBeVisible()
+    await expect(page.locator('[data-profile-scroll-section]')).toHaveCount(6)
+    await expect(errors).toEqual([])
+  })
 
   test('deep-links the Appearance section and highlights it as current', async ({page}) => {
-    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
-    await openProfileSection(page, 'appearance');
-    await expect(page.locator('[data-profile-scroll-section="appearance"]')).toHaveAttribute('aria-current', 'page');
-    await expect(page.locator('#appearance-custom-color')).toBeVisible();
-  });
+    await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173')
+    await openProfileSection(page, 'appearance')
+    await expect(page.locator('[data-profile-scroll-section="appearance"]')).toHaveAttribute(
+      'aria-current',
+      'page'
+    )
+    await expect(page.locator('#appearance-custom-color')).toBeVisible()
+  })
 
   test('change password dialog validates matching passwords', async ({page}) => {
-    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
-    await openProfileSection(page, 'security');
-    await page.locator('[data-profile-open-change-password]').click();
-    await expect(page.locator('#change-password-scrim')).toHaveClass(/open/);
-    await page.locator('#current-password').fill('oldpass123');
-    await page.locator('#new-password').fill('newpassword1');
-    await page.locator('#confirm-password').fill('doesNotMatch');
-    await page.locator('#change-password-form button[type=submit]').click();
-    await expect(page.locator('#change-password-error')).toHaveText(/do not match/);
-    await page.locator('#confirm-password').fill('newpassword1');
-    await page.locator('#change-password-form button[type=submit]').click();
-    await expect(page.locator('#change-password-scrim')).not.toHaveClass(/open/);
-    await expect(page.locator('.toast')).toContainText('Password changed');
-  });
+    await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173')
+    await openProfileSection(page, 'security')
+    await page.locator('[data-profile-open-change-password]').click()
+    await expect(page.locator('#change-password-scrim')).toHaveClass(/open/)
+    await page.locator('#current-password').fill('oldpass123')
+    await page.locator('#new-password').fill('newpassword1')
+    await page.locator('#confirm-password').fill('doesNotMatch')
+    await page.locator('#change-password-form button[type=submit]').click()
+    await expect(page.locator('#change-password-error')).toHaveText(/do not match/)
+    await page.locator('#confirm-password').fill('newpassword1')
+    await page.locator('#change-password-form button[type=submit]').click()
+    await expect(page.locator('#change-password-scrim')).not.toHaveClass(/open/)
+    await expect(page.locator('.toast')).toContainText('Password changed')
+  })
 
   test('signing out a non-current device removes it and persists across reload', async ({page}) => {
-    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
-    await openProfileSection(page, 'sessions');
-    const nonCurrentRow = page.locator('.profile-device-row', {hasNot: page.locator('[data-profile-current-device]')}).first();
-    const deviceId = await nonCurrentRow.getAttribute('data-profile-device');
-    await nonCurrentRow.locator('[data-profile-device-signout]').click();
-    await expect(page.locator(`[data-profile-device="${deviceId}"]`)).toHaveCount(0);
+    await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173')
+    await openProfileSection(page, 'sessions')
+    const nonCurrentRow = page
+      .locator('.profile-device-row', {hasNot: page.locator('[data-profile-current-device]')})
+      .first()
+    const deviceId = await nonCurrentRow.getAttribute('data-profile-device')
+    await nonCurrentRow.locator('[data-profile-device-signout]').click()
+    await expect(page.locator(`[data-profile-device="${deviceId}"]`)).toHaveCount(0)
 
-    await page.reload();
-    await settle(page);
-    await openProfileSection(page, 'sessions');
-    await expect(page.locator(`[data-profile-device="${deviceId}"]`)).toHaveCount(0);
-  });
+    await page.reload()
+    await settle(page)
+    await openProfileSection(page, 'sessions')
+    await expect(page.locator(`[data-profile-device="${deviceId}"]`)).toHaveCount(0)
+  })
 
   test('current device has no sign-out control', async ({page}) => {
-    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
-    await openProfileSection(page, 'sessions');
-    const currentRow = page.locator('.profile-device-row', {has: page.locator('[data-profile-current-device]')});
-    await expect(currentRow.locator('[data-profile-device-signout]')).toHaveCount(0);
-  });
-});
+    await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173')
+    await openProfileSection(page, 'sessions')
+    const currentRow = page.locator('.profile-device-row', {
+      has: page.locator('[data-profile-current-device]'),
+    })
+    await expect(currentRow.locator('[data-profile-device-signout]')).toHaveCount(0)
+  })
+})
 ```
 
 - [ ] **Step 2: Run the spec**

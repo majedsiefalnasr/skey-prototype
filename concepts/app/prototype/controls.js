@@ -88,6 +88,7 @@ const CONTROL_IDS = [
   'statistics-concept',
   'customer-mode',
   'customer-layout',
+  'profile-card-style',
   'lang',
 ]
 
@@ -151,6 +152,15 @@ export function createPrototypeControls({root, settings, pages}) {
   pill.innerHTML =
     '<svg width="16" height="16" aria-hidden="true"><use href="#i-sliders"/></svg><span class="kit-pill-label">Prototype controls</span>'
   doc.body.appendChild(pill)
+
+  const profileCardStyleControl = doc.getElementById('profile-card-style')
+  const applyProfileCardStyle = () => {
+    doc
+      .querySelector('.profile-view')
+      ?.setAttribute('data-profile-card-style', profileCardStyleControl.value)
+  }
+  profileCardStyleControl.addEventListener('change', applyProfileCardStyle)
+  applyProfileCardStyle()
 
   /* ---------- shared prototype state, so switching versions keeps your setup ---------- */
   const captureState = () => {
@@ -427,13 +437,17 @@ export function createPrototypeControls({root, settings, pages}) {
     const isLaunchpad = viewName === 'launchpad'
     if (isLaunchpad && !kit.classList.contains('hidden')) doc.getElementById('kit-hide')?.click()
     const customerRecord = viewName === 'customer-record'
+    const isProfile = viewName === 'profile'
     const nonInvoiceSurface = viewName !== 'record'
     const isTablePage = ['list', 'customers-list', 'geo-list'].includes(viewName)
-    const hasCardSections = !isLaunchpad && (viewName === 'record' || customerRecord || isTablePage || viewName === 'profile')
+    const hasCardSections = !isLaunchpad && (viewName === 'record' || customerRecord || isTablePage || isProfile)
     doc.getElementById('input-style-group').hidden = isLaunchpad
     doc.getElementById('customer-group-heading').hidden = !customerRecord
     doc.getElementById('customer-mode-group').hidden = !customerRecord
     doc.getElementById('customer-layout-group')?.toggleAttribute('hidden', !customerRecord)
+    doc.getElementById('profile-group-heading').hidden = !isProfile
+    doc.getElementById('profile-card-style-group').hidden = !isProfile
+    if (isProfile) applyProfileCardStyle()
     doc.getElementById('section-style-group').hidden = !hasCardSections
     doc.getElementById('table-group-heading').hidden = !isTablePage
     doc.getElementById('filter-mode-group').hidden = !isTablePage
@@ -452,6 +466,7 @@ export function createPrototypeControls({root, settings, pages}) {
 
   function dispose() {
     doc.removeEventListener('keydown', handleDialogKeydown)
+    profileCardStyleControl.removeEventListener('change', applyProfileCardStyle)
     removeEventListener('resize', clamp)
   }
 

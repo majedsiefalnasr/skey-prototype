@@ -34,7 +34,9 @@ export function renderSectionHeading(key, encodeHtml) {
 // outside.
 function renderCard(title, bodyHtml, extraClass = '', {danger = false} = {}) {
   const classAttr = extraClass ? `${extraClass} rec-card` : 'rec-card'
-  const cardBorder = danger ? '[border:1px_solid_color-mix(in_srgb,_var(--danger)_35%,_transparent)]' : '[border:1px_solid_var(--line)]'
+  const cardBorder = danger
+    ? '[border:1px_solid_color-mix(in_srgb,_var(--danger)_35%,_transparent)]'
+    : '[border:1px_solid_var(--line)]'
   const headerBg = danger ? 'bg-[var(--danger-soft-bg)]!' : 'bg-[var(--line-2)]!'
   const headerText = danger ? '[color:var(--danger)]!' : ''
   return `<div class="${classAttr} ${cardBorder} rounded-lg mb-3! overflow-hidden">
@@ -52,11 +54,22 @@ function renderCard(title, bodyHtml, extraClass = '', {danger = false} = {}) {
 const REC_FIELD_CLASS =
   'rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)]! [&_input:disabled]:text-muted! [&_select:disabled]:bg-[var(--line-2)]! [&_select:disabled]:text-muted! [&_textarea:disabled]:bg-[var(--line-2)]! [&_textarea:disabled]:text-muted! [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center]'
 
-function renderProfileField({id, label, type = 'text', value, encodeHtml, readonly = false, options}) {
+function renderProfileField({
+  id,
+  label,
+  type = 'text',
+  value,
+  encodeHtml,
+  readonly = false,
+  options,
+}) {
   const disabledAttr = readonly ? ' disabled' : ''
   if (type === 'select') {
     const optionMarkup = options
-      .map(opt => `<option value="${encodeHtml(opt.value)}"${opt.value === value ? ' selected' : ''}>${encodeHtml(opt.label)}</option>`)
+      .map(
+        opt =>
+          `<option value="${encodeHtml(opt.value)}"${opt.value === value ? ' selected' : ''}>${encodeHtml(opt.label)}</option>`
+      )
       .join('')
     return `<div class="${REC_FIELD_CLASS}"><label for="${id}">${encodeHtml(label)}</label><select id="${id}"${disabledAttr}>${optionMarkup}</select></div>`
   }
@@ -64,7 +77,7 @@ function renderProfileField({id, label, type = 'text', value, encodeHtml, readon
 }
 
 function renderActivityRow(entry, encodeHtml) {
-  return `<div class="flex items-center gap-3 [padding:9px] [border-top:1px_solid_var(--line)]">
+  return `<div class="flex items-center gap-5 [padding:9px] [border-top:1px_solid_var(--line)]">
     <span class="flex-1"><b class="text-[13.5px] text-ink">${encodeHtml(entry.action)}</b> <span class="text-[13.5px] text-ink">${encodeHtml(entry.target)}</span></span>
     <span class="text-xs text-muted whitespace-nowrap">${encodeHtml(entry.timestamp)}</span>
   </div>`
@@ -72,7 +85,10 @@ function renderActivityRow(entry, encodeHtml) {
 
 function renderRecentActivitySection(activityRows, encodeHtml) {
   const rowsHtml = activityRows.map(entry => renderActivityRow(entry, encodeHtml)).join('')
-  return renderCard('Recent activity', `<div class="[&>div:first-child]:[border-top:0!important]">${rowsHtml}</div>`)
+  return renderCard(
+    'Recent activity',
+    `<div class="[&>div:first-child]:[border-top:0!important]">${rowsHtml}</div>`
+  )
 }
 
 function renderProfileSection(currentUser, encodeHtml) {
@@ -90,10 +106,32 @@ function renderProfileSection(currentUser, encodeHtml) {
       .toUpperCase() || '?'
   )
   const fieldsHtml = [
-    renderProfileField({id: 'profile-name', label: 'Full name', value: currentUser.name, encodeHtml}),
-    renderProfileField({id: 'profile-job-title', label: 'Job title', value: currentUser.jobTitle, encodeHtml}),
-    renderProfileField({id: 'profile-email', label: 'Email', type: 'email', value: currentUser.email, encodeHtml}),
-    renderProfileField({id: 'profile-phone', label: 'Phone', type: 'tel', value: currentUser.phone, encodeHtml}),
+    renderProfileField({
+      id: 'profile-name',
+      label: 'Full name',
+      value: currentUser.name,
+      encodeHtml,
+    }),
+    renderProfileField({
+      id: 'profile-job-title',
+      label: 'Job title',
+      value: currentUser.jobTitle,
+      encodeHtml,
+    }),
+    renderProfileField({
+      id: 'profile-email',
+      label: 'Email',
+      type: 'email',
+      value: currentUser.email,
+      encodeHtml,
+    }),
+    renderProfileField({
+      id: 'profile-phone',
+      label: 'Phone',
+      type: 'tel',
+      value: currentUser.phone,
+      encodeHtml,
+    }),
     renderProfileField({
       id: 'profile-locale',
       label: 'Locale',
@@ -105,7 +143,12 @@ function renderProfileSection(currentUser, encodeHtml) {
         {value: 'ar', label: 'Arabic'},
       ],
     }),
-    renderProfileField({id: 'profile-timezone', label: 'Timezone', value: currentUser.timezone, encodeHtml}),
+    renderProfileField({
+      id: 'profile-timezone',
+      label: 'Timezone',
+      value: currentUser.timezone,
+      encodeHtml,
+    }),
   ].join('')
   // Photo box matches the customer record's identity-section photo field
   // (pages/customers/record.js: `[border:1px_dashed_var(--line)] rounded-lg`
@@ -119,17 +162,29 @@ function renderProfileSection(currentUser, encodeHtml) {
   </div>`
   return renderCard(
     'Personal information',
-    `<div class="grid [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
-      <div class="grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>
-      <div class="[padding:12px_12px_12px_0] [@media((max-width:720px))]:[padding:0_12px_12px]">${photoBoxHtml}</div>
+    `<div class="grid gap-5 [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
+      <div class="profile-personal-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>
+      <div class="profile-photo-column [padding:12px_12px_12px_0] [@media((max-width:720px))]:[padding:0_12px_12px]">${photoBoxHtml}</div>
     </div>`
   )
 }
 
 export function renderAccountSection(currentUser, encodeHtml) {
   const fieldsHtml = [
-    renderProfileField({id: 'profile-username', label: 'Username', value: currentUser.username, encodeHtml, readonly: true}),
-    renderProfileField({id: 'profile-branch', label: 'Branch', value: currentUser.branch, encodeHtml, readonly: true}),
+    renderProfileField({
+      id: 'profile-username',
+      label: 'Username',
+      value: currentUser.username,
+      encodeHtml,
+      readonly: true,
+    }),
+    renderProfileField({
+      id: 'profile-branch',
+      label: 'Branch',
+      value: currentUser.branch,
+      encodeHtml,
+      readonly: true,
+    }),
     renderProfileField({
       id: 'profile-landing-page',
       label: 'Default landing page',
@@ -147,11 +202,11 @@ export function renderAccountSection(currentUser, encodeHtml) {
   const dangerZone = renderCard(
     '<svg width="14" height="14" aria-hidden="true" class="[margin-inline-end:2px]"><use href="#i-warn" /></svg> Danger zone',
     `<div class="flex flex-col gap-2.5">
-      <div class="flex items-center justify-between gap-3 [padding-bottom:10px] [border-bottom:1px_solid_var(--danger-soft-line)]">
+      <div class="flex items-center justify-between gap-5 [padding-bottom:10px] [border-bottom:1px_solid_var(--danger-soft-line)]">
         <span><strong class="block text-[13.5px] text-ink">${deactivated ? 'Account deactivated' : 'Deactivate account'}</strong><small class="block text-xs text-muted">${deactivated ? `Deactivated on ${encodeHtml(currentUser.deactivationFrom)}. Contact an administrator to reactivate.` : "You'll be signed out and won't be able to sign back in until an administrator reactivates your account."}</small></span>
         <button type="button" class="lbtn out danger" id="profile-deactivate-account"${deactivated ? ' disabled' : ''}>${deactivated ? 'Deactivated' : 'Deactivate'}</button>
       </div>
-      <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center justify-between gap-5">
         <span><strong class="block text-[13.5px] text-ink">Delete account</strong><small class="block text-xs text-muted">Permanently removes your account and everything tied to it. This cannot be undone.</small></span>
         <button type="button" class="lbtn danfill [.lbtn&]:[background:var(--danger-bold)] [.lbtn&]:[color:var(--inverse)] [.lbtn&:hover:not(:disabled)]:[background:var(--danger-fill-hover)]" id="profile-delete-account">Delete account</button>
       </div>
@@ -159,10 +214,12 @@ export function renderAccountSection(currentUser, encodeHtml) {
     'profile-danger-zone',
     {danger: true}
   )
-  return renderCard(
-    'Account',
-    `<div class="grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>`
-  ) + dangerZone
+  return (
+    renderCard(
+      'Account',
+      `<div class="profile-account-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>`
+    ) + dangerZone
+  )
 }
 
 function renderAppearanceSectionFields() {
@@ -171,9 +228,10 @@ function renderAppearanceSectionFields() {
   // syncAppearanceControls/bindAppearanceSection query these exact ids —
   // only the outer wrapper changed from a fieldset to the shared .rec-card
   // primitive (renderCard, above), same as every other section on this page.
-  return renderCard(
-    'Accent color',
-    `<div class="accent-swatches flex items-center gap-2.5 flex-wrap" role="radiogroup" aria-label="Accent color">
+  return (
+    renderCard(
+      'Accent color',
+      `<div class="accent-swatches flex items-center gap-2.5 flex-wrap" role="radiogroup" aria-label="Accent color">
       <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:999px] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#1868DB" data-accent-dark="#669DF1" aria-checked="true" aria-label="Blue (default)" style="--sw: #1868db"></button>
       <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:999px] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#5B7F24" data-accent-dark="#82B536" aria-checked="false" aria-label="Green" style="--sw: #5b7f24"></button>
       <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:999px] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#803FA5" data-accent-dark="#B57EDC" aria-checked="false" aria-label="Purple" style="--sw: #803fa5"></button>
@@ -190,19 +248,21 @@ function renderAppearanceSectionFields() {
         <span class="accent-custom-error [grid-column:1_/_-1] [font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden" id="appearance-custom-error" role="status"></span>
       </div>
     </div>`,
-    'appearance-group-accent'
-  ) + renderCard(
-    'Interface scale',
-    `<div class="appearance-scale-control" aria-describedby="appearance-interface-scale-description">
+      'appearance-group-accent'
+    ) +
+    renderCard(
+      'Interface scale',
+      `<div class="appearance-scale-control" aria-describedby="appearance-interface-scale-description">
       <div class="appearance-scale-head"><span>Smaller</span><span>Larger</span></div>
       <div class="appearance-scale-slider-wrap"><output class="appearance-scale-value" id="appearance-scale-value" for="appearance-interface-scale">100%</output><input class="appearance-scale-slider" type="range" id="appearance-interface-scale" min="0" max="3" step="1" value="1" aria-label="Interface scale" /></div>
       <div class="appearance-scale-ticks" aria-hidden="true"><span data-appearance-scale-tick="90">90%</span><span data-appearance-scale-tick="100">100%</span><span data-appearance-scale-tick="110">110%</span><span data-appearance-scale-tick="125">125%</span></div>
       <p id="appearance-interface-scale-description">Scales text, controls, icons, and spacing across the interface.</p>
     </div>`,
-    'appearance-group-scale'
-  ) + renderCard(
-    'Typography',
-    `<label class="grid gap-1.5 text-[13px] font-semibold" for="appearance-font-family">
+      'appearance-group-scale'
+    ) +
+    renderCard(
+      'Typography',
+      `<label class="grid gap-1.5 text-[13px] font-semibold" for="appearance-font-family">
       Font family
       <select id="appearance-font-family" class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink appearance-none [-webkit-appearance:none] [background-image:url(data:image/svg+xml,%3Csvg_xmlns=http://www.w3.org/2000/svg_width=12_height=12_viewBox=0_0_12_12%3E%3Cpath_fill=%2344546f_d=M2.5_4.5_6_8l3.5-3.5z/%3E%3C/svg%3E)] [background-repeat:no-repeat] [background-position:right_8px_center] [background-size:12px] [padding-inline-end:28px] focus:border-[var(--accent-line)] focus:outline-none focus:[box-shadow:0_0_0_3px_var(--accent-soft)] rtl:[background-position:left_8px_center] rtl:[padding-inline-end:9px] rtl:[padding-inline-start:28px]">
         <option value="system">System default</option>
@@ -213,10 +273,11 @@ function renderAppearanceSectionFields() {
         <option value="Montserrat">Montserrat</option>
       </select>
     </label>`,
-    'appearance-group-typography'
-  ) + renderCard(
-    'Interface theme',
-    `<div class="dgrid appearance-theme-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Interface theme">
+      'appearance-group-typography'
+    ) +
+    renderCard(
+      'Interface theme',
+      `<div class="dgrid appearance-theme-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Interface theme">
       <button type="button" class="appearance-theme-card" role="radio" data-appearance-theme="system" aria-checked="true">
         <span class="theme-preview theme-preview-system" data-theme-preview aria-hidden="true"><span class="theme-preview-chrome"><i></i><i></i><i></i></span><span class="theme-preview-sidebar"></span><span class="theme-preview-toolbar"></span><span class="theme-preview-lines"><i></i><i></i><i></i></span></span>
         <span class="theme-choice-label"><span class="theme-choice-radio" aria-hidden="true"></span><span>System preference</span></span>
@@ -234,10 +295,11 @@ function renderAppearanceSectionFields() {
       <span class="switch relative inline-flex h-[17px] w-[30px] flex-none"><input class="peer absolute inset-0 m-0 cursor-pointer opacity-0" type="checkbox" id="appearance-high-contrast" /><span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-[background] duration-[120ms] before:absolute before:start-0.5 before:top-0.5 before:size-[13px] before:rounded-full before:bg-inverse before:transition-[translate] before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[13px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[13px]"></span></span>
       <span><strong>High contrast</strong><small>Increase text, border, focus, and control distinction.</small></span>
     </label>`,
-    'appearance-group-theme'
-  ) + renderCard(
-    'Layout',
-    `<div class="dgrid appearance-layout-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Layout">
+      'appearance-group-theme'
+    ) +
+    renderCard(
+      'Layout',
+      `<div class="dgrid appearance-layout-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Layout">
       <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-layout="fluid" aria-checked="true">
         <span class="appearance-option-preview layout-preview-fluid" data-option-preview aria-hidden="true"><span class="layout-preview-chrome"><i></i><i></i><i></i></span><span class="layout-preview-rail"></span><span class="layout-preview-content"></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t">Fluid</span></span></span>
@@ -251,10 +313,11 @@ function renderAppearanceSectionFields() {
       <span class="switch relative inline-flex h-[17px] w-[30px] flex-none"><input class="peer absolute inset-0 m-0 cursor-pointer opacity-0" type="checkbox" id="appearance-launchpad" checked /><span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-[background] duration-[120ms] before:absolute before:start-0.5 before:top-0.5 before:size-[13px] before:rounded-full before:bg-inverse before:transition-[translate] before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[13px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[13px]"></span></span>
       <span><strong>Show App Launchpad</strong><small>Show the app home screen and app switcher.</small></span>
     </label>`,
-    'appearance-group-layout'
-  ) + renderCard(
-    'Density',
-    `<div class="dgrid appearance-density-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Density">
+      'appearance-group-layout'
+    ) +
+    renderCard(
+      'Density',
+      `<div class="dgrid appearance-density-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Density">
       <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-density="default" aria-checked="true">
         <span class="appearance-option-preview density-preview-default" data-option-preview aria-hidden="true"><span class="density-preview-chrome"><i></i><i></i><i></i></span><span class="density-preview-rail"></span><span class="density-preview-toolbar"></span><span class="density-preview-rows"><i></i><i></i><i></i></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t">Default</span></span></span>
@@ -268,7 +331,8 @@ function renderAppearanceSectionFields() {
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t">Comfortable</span></span></span>
       </button>
     </div>`,
-    'appearance-group-density'
+      'appearance-group-density'
+    )
   )
 }
 
@@ -277,15 +341,15 @@ export function renderSecuritySection(currentUser) {
   return renderCard(
     'Sign-in security',
     `<div class="flex flex-col gap-2.5">
-      <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center justify-between gap-5">
         <span><strong class="block text-[13.5px] text-ink">Password</strong><small class="block text-xs text-muted">Change the password used to sign in.</small></span>
         <button type="button" class="lbtn out" data-profile-open-change-password>Change password</button>
       </div>
-      <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center justify-between gap-5">
         <span><strong class="block text-[13.5px] text-ink">PIN code</strong><small class="block text-xs text-muted">Used for quick re-authentication on shared terminals.</small></span>
         <button type="button" class="lbtn out" data-profile-open-set-pin>Set / change PIN</button>
       </div>
-      <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center justify-between gap-5">
         <span><strong class="block text-[13.5px] text-ink">Two-factor authentication</strong><small class="block text-xs text-muted">${enabled ? 'Enabled — a code from your authenticator app is required to sign in.' : 'Add a second step when signing in, using an authenticator app.'}</small></span>
         <button type="button" class="lbtn${enabled ? ' out danger' : ' pri'}" id="profile-2fa-toggle" data-profile-2fa-enabled="${enabled}">${enabled ? 'Turn off' : 'Turn on'}</button>
       </div>
@@ -294,9 +358,11 @@ export function renderSecuritySection(currentUser) {
 }
 
 function renderSessionsSection(activityRows, encodeHtml) {
-  return renderRecentActivitySection(activityRows, encodeHtml) +
+  return (
+    renderRecentActivitySection(activityRows, encodeHtml) +
     renderCard('Login log', `<div id="profile-login-log"></div>`) +
     renderCard('Devices', `<div id="profile-device-list"></div>`)
+  )
 }
 
 function renderNotificationRow(id, title, description, checked) {
@@ -307,22 +373,30 @@ function renderNotificationRow(id, title, description, checked) {
 }
 
 function renderNotificationsSection() {
-  return renderCard(
-    'Email notifications',
-    `<div class="flex flex-col gap-2">
+  return (
+    renderCard(
+      'Email notifications',
+      `<div class="flex flex-col gap-2">
       ${renderNotificationRow('notif-email-invoices', 'Invoice activity', 'Status changes on invoices you follow.', true)}
       ${renderNotificationRow('notif-email-mentions', 'Mentions', 'When someone mentions you in a comment.', true)}
     </div>`
-  ) + renderCard(
-    'In-app notifications',
-    `<div class="flex flex-col gap-2">
+    ) +
+    renderCard(
+      'In-app notifications',
+      `<div class="flex flex-col gap-2">
       ${renderNotificationRow('notif-app-approvals', 'Approvals', 'Documents waiting on your approval.', true)}
       ${renderNotificationRow('notif-app-system', 'System announcements', 'Maintenance windows and release notes.', false)}
     </div>`
+    )
   )
 }
 
-export function renderProfileSections({currentUser, encodeHtml, activityRows = [], activeKey = 'profile'}) {
+export function renderProfileSections({
+  currentUser,
+  encodeHtml,
+  activityRows = [],
+  activeKey = 'profile',
+}) {
   const bodies = {
     profile: renderProfileSection(currentUser, encodeHtml),
     account: renderAccountSection(currentUser, encodeHtml),

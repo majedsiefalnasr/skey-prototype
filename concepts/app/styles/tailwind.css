@@ -1,12 +1,12 @@
-@import "tailwindcss/theme" layer(theme);
-@import "./tailwind/base.css" layer(base);
-@import "tailwindcss/utilities" layer(utilities);
-@import "./tailwind/shell.css" layer(components);
-@import "./tailwind/components.css" layer(components);
-@import "./tailwind/invoices.css" layer(components);
-@import "./tailwind/customers.css" layer(components);
-@import "./tailwind/geography.css" layer(components);
-@import "./tailwind/email.css" layer(components);
+@import 'tailwindcss/theme' layer(theme);
+@import './tailwind/base.css' layer(base);
+@import 'tailwindcss/utilities' layer(utilities);
+@import './tailwind/shell.css' layer(components);
+@import './tailwind/components.css' layer(components);
+@import './tailwind/invoices.css' layer(components);
+@import './tailwind/customers.css' layer(components);
+@import './tailwind/geography.css' layer(components);
+@import './tailwind/email.css' layer(components);
 @source "../../app-shell.html";
 @source "../**/*.html";
 @source "../**/*.js";
@@ -18,7 +18,7 @@
 /* Dynamic utilities: DATA_FILTER_DATE_CONTROL_CLASS (concepts/app/components/data-list/date-fields.js). */
 @source inline("min-h-[32px] rounded-md border border-line bg-surface px-2 py-[5px] font-[inherit] text-[12.5px] text-ink");
 /* Dynamic utilities: DATA_LIST_FOOTER_CLASS (concepts/app/components/data-list/footer.js). */
-@source inline("fnav fnav-list empty:hidden flex flex-wrap items-center gap-3 border-t border-line bg-surface px-4 py-[9px]");
+@source inline("fnav fnav-list empty:hidden flex flex-wrap items-center gap-5 border-t border-line bg-surface px-4 py-[9px]");
 /* Dynamic utilities: DATA_TOOLBAR_BUTTON_CLASS (concepts/app/components/data-list/list.js). */
 @source inline("inline-flex min-h-[32px] items-center gap-[7px] rounded-md border! border-transparent! bg-transparent! px-[9px] py-[5px] font-[inherit]! font-semibold! text-[12.5px]! text-ink! whitespace-nowrap cursor-pointer hover:bg-[var(--line-2)]! disabled:cursor-not-allowed disabled:text-muted! disabled:opacity-55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--accent)]");
 /* Dynamic utilities: DATA_MENU_SUMMARY_CLASS (concepts/app/components/data-list/list.js). */
@@ -42,7 +42,7 @@
 /* Dynamic utilities: DATA_KANBAN_IDENTITY_CLASS (concepts/app/pages/invoices/kanban.js). */
 @source inline("data-record-card-identity flex min-w-0 flex-1 cursor-pointer items-start gap-[9px] overflow-hidden rounded border-0 bg-transparent p-0 text-start font-[inherit] text-inherit focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent [&>div]:min-w-0 [&_span]:block [&_span]:truncate [&_span]:text-[12px] [&_span]:text-muted [&_strong]:block [&_strong]:truncate [&_strong]:text-[12.5px] [&_strong]:text-ink hover:[&_strong]:text-accent hover:[&_strong]:underline");
 /* Dynamic utilities: DATA_RECORD_CARD_CLASS (concepts/app/pages/list-cards.js). */
-@source inline("data-record-card data-record-card-snapshot-layout relative grid min-w-0 gap-3 rounded-lg border border-line bg-surface p-3.5 transition-[border-color,box-shadow,transform] duration-150 ease-in-out hover:[box-shadow:var(--shadow-1)] [&[aria-selected='true']]:border-accent [&[aria-selected='true']]:bg-[var(--accent-soft)] [&[aria-selected='true']_.data-record-card-select]:bg-surface [body.density-compact_&]:gap-2 [body.density-compact_&]:p-2.5");
+@source inline("data-record-card data-record-card-snapshot-layout relative grid min-w-0 gap-5 rounded-lg border border-line bg-surface p-3.5 transition-[border-color,box-shadow,transform] duration-150 ease-in-out hover:[box-shadow:var(--shadow-1)] [&[aria-selected='true']]:border-accent [&[aria-selected='true']]:bg-[var(--accent-soft)] [&[aria-selected='true']_.data-record-card-select]:bg-surface [body.density-compact_&]:gap-2 [body.density-compact_&]:p-2.5");
 /* Dynamic utilities: DATA_RECORD_CARD_IDENTITY_CLASS (concepts/app/pages/list-cards.js). */
 @source inline("data-record-card-identity flex min-w-0 flex-1 cursor-pointer items-start gap-[9px] overflow-hidden rounded border-0 bg-transparent p-0 text-start font-[inherit] text-inherit focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent [&>div]:min-w-0 [&_span]:block [&_span]:truncate [&_strong]:block [&_strong]:truncate [&_strong]:text-sm [&_strong]:text-ink hover:[&_strong]:text-accent hover:[&_strong]:underline");
 /* Dynamic utilities: EMAIL_AVATAR_TONE_1_CLASS (concepts/app/components/notifications/notifications.js). */
@@ -60,7 +60,7 @@
 /* Dynamic utilities: ACTIVITY_SECONDARY_BUTTON_CLASS (concepts/app/pages/invoices/activity.js). */
 @source inline("inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-[11px] py-1.5 font-medium whitespace-nowrap hover:enabled:bg-[var(--line-2)] disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]");
 /* Dynamic utilities: ACTIVITY_CARD_CLASS (concepts/app/pages/invoices/activity.js). */
-@source inline("card flex gap-3 border-b border-[var(--line-2)] px-[18px] py-3.5");
+@source inline("card flex gap-5 border-b border-[var(--line-2)] px-[18px] py-3.5");
 /* Dynamic utilities: ACTIVITY_CARD_MARKER_CLASS (concepts/app/pages/invoices/activity.js). */
 @source inline("mk flex w-[22px] flex-none justify-center pt-0.5");
 /* Dynamic utilities: ACTIVITY_CARD_DOT_CLASS (concepts/app/pages/invoices/activity.js). */
@@ -78,7 +78,7 @@
 /* Dynamic utilities: ACTIVITY_DAY_SEPARATOR_CLASS (concepts/app/pages/invoices/activity.js). */
 @source inline("daysep border-y border-[var(--line-2)] bg-[var(--line-2)] px-[18px] py-2 text-xs text-faint");
 /* Dynamic utilities: ACTIVITY_ENTRY_CLASS (concepts/app/pages/invoices/activity.js). */
-@source inline("act relative flex gap-3 px-[18px] py-3.5 before:absolute before:bottom-[-4px] before:start-[34px] before:top-10 before:w-0.5 before:bg-[var(--line-2)] before:content-[''] last:before:hidden");
+@source inline("act relative flex gap-5 px-[18px] py-3.5 before:absolute before:bottom-[-4px] before:start-[34px] before:top-10 before:w-0.5 before:bg-[var(--line-2)] before:content-[''] last:before:hidden");
 /* Dynamic utilities: ACTIVITY_AVATAR_CLASS (concepts/app/pages/invoices/activity.js). */
 @source inline("av z-[1] flex size-[30px] flex-none items-center justify-center rounded-full bg-accent text-xs font-semibold text-inverse");
 /* Dynamic utilities: ACTIVITY_SYSTEM_AVATAR_CLASS (concepts/app/pages/invoices/activity.js). */
@@ -94,7 +94,7 @@
 /* Dynamic utilities: ACTIVITY_CHIP_CLASS (concepts/app/pages/invoices/activity.js). */
 @source inline("chip inline-flex items-center gap-1.5 rounded-[7px] border border-line bg-surface px-[9px] py-[3px] text-xs");
 /* Dynamic utilities: ACTIVITY_TOGGLE_GROUP_CLASS (concepts/app/pages/invoices/activity.js). */
-@source inline("tg mt-2 flex gap-3.5 text-xs");
+@source inline("tg mt-2 flex gap-5.5 text-xs");
 /* Dynamic utilities: ACTIVITY_TOGGLE_CLASS (concepts/app/pages/invoices/activity.js). */
 @source inline("ntg inline-flex items-center gap-[5px] text-muted");
 /* Dynamic utilities: ACTIVITY_NOTES_CLASS (concepts/app/pages/invoices/activity.js). */
@@ -111,6 +111,57 @@
    because these utilities sit on the same template-string line as a ~15KB base64 image data URI,
    past the length the automatic source scanner reliably tokenizes. */
 @source inline("lp-logo mx-auto block h-[42px] w-auto object-contain");
+
+@layer utilities {
+  /* Profile-only flat group treatment. Standard mode intentionally leaves the
+     shared .rec-card rules untouched, including body.cards-fieldset. */
+  .profile-view[data-profile-card-style='simple'] .rec-card {
+    margin: 0 !important;
+    padding-block: 16px;
+    overflow: visible !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .profile-view[data-profile-card-style='simple'] .rec-card + .rec-card {
+    border-top: 1px solid var(--line) !important;
+  }
+
+  .profile-view[data-profile-card-style='simple'] .rec-card-hd {
+    position: static !important;
+    top: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 0 12px !important;
+    color: var(--faint) !important;
+    background: transparent !important;
+    font-size: 12px !important;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .profile-view[data-profile-card-style='simple'] .profile-danger-zone .rec-card-hd {
+    color: var(--danger) !important;
+  }
+
+  .profile-view[data-profile-card-style='simple'] .rec-card-hd::before {
+    display: none !important;
+  }
+
+  .profile-view[data-profile-card-style='simple'] .rec-card-body {
+    padding: 0 !important;
+  }
+
+  .profile-view[data-profile-card-style='simple'] .profile-personal-fields,
+  .profile-view[data-profile-card-style='simple'] .profile-photo-column,
+  .profile-view[data-profile-card-style='simple'] .profile-account-fields {
+    padding: 0 !important;
+  }
+}
 
 @theme inline {
   --color-accent: var(--accent);

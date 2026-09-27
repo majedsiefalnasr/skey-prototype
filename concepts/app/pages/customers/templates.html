@@ -1,54 +1,81 @@
-      <template class="customer-list-tpl">
-        <div class="customer-list-view flex-1 min-h-0 [&:not([hidden])]:flex [&:not([hidden])]:flex-col" hidden>
-          <div class="phead [.d1_&]:[padding:11px_16px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-3">
-            <div class="l [.d1_.phead_&]:[flex:1]">
-              <nav class="crumbs [.d3_.otitle_&]:[margin-bottom:3px]!" aria-label="Breadcrumb">
-                <a href="#" data-i18n="Home">Home</a><span class="sep">›</span>
-                <span aria-current="page" data-i18n="Customers">Customers</span>
-              </nav>
-              <div class="tline [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-3 [.d1_&]:mt-2! [.d1_&]:flex-wrap [.d1_&_h1]:[font-size:23px] [.d1_&_h1]:font-semibold"><h1 data-i18n="Customers">Customers</h1></div>
-            </div>
-            <div class="r [.d1_.phead_&]:flex [.d1_.phead_&]:items-center [.d1_.phead_&]:gap-1 [.d1_.phead_&]:mt-1.5!">
-              <details class="data-page-manage" data-list-context="customer">
-                <summary>
-                  <svg width="15" height="15" aria-hidden="true"><use href="#i-sliders" /></svg>
-                  <span data-i18n="Manage">Manage</span>
-                  <svg width="11" height="11" aria-hidden="true"><use href="#i-caret" /></svg>
-                </summary>
-                <div class="data-menu-popover" role="group" aria-label="Manage customers"></div>
-              </details>
-              <button class="lbtn pri" id="customer-list-add" type="button">
-                <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg>
-                <span data-i18n="Add Customer">Add Customer</span>
-              </button>
-            </div>
-          </div>
-          <div class="canvas" id="customer-list-canvas"></div>
-          <div class="fnav fnav-list [.d4_&]:flex [.d4_&]:items-center [.d4_&]:gap-3 [.d4_&]:[padding:7px_16px] [.d4_&]:bg-surface [.d4_&]:[border-top:1px_solid_var(--line)]" id="customer-list-fnav"></div>
+<template class="customer-list-tpl">
+  <div
+    class="customer-list-view flex-1 min-h-0 [&:not([hidden])]:flex [&:not([hidden])]:flex-col"
+    hidden>
+    <div class="phead [.d1_&]:[padding:11px_16px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5">
+      <div class="l [.d1_.phead_&]:[flex:1]">
+        <nav class="crumbs [.d3_.otitle_&]:[margin-bottom:3px]!" aria-label="Breadcrumb">
+          <a href="#" data-i18n="Home">Home</a><span class="sep">›</span>
+          <span aria-current="page" data-i18n="Customers">Customers</span>
+        </nav>
+        <div
+          class="tline [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-5 [.d1_&]:mt-2! [.d1_&]:flex-wrap [.d1_&_h1]:[font-size:23px] [.d1_&_h1]:font-semibold">
+          <h1 data-i18n="Customers">Customers</h1>
         </div>
-      </template>
+      </div>
+      <div
+        class="r [.d1_.phead_&]:flex [.d1_.phead_&]:items-center [.d1_.phead_&]:gap-1 [.d1_.phead_&]:mt-1.5!">
+        <details class="data-page-manage" data-list-context="customer">
+          <summary>
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-sliders" /></svg>
+            <span data-i18n="Manage">Manage</span>
+            <svg width="11" height="11" aria-hidden="true"><use href="#i-caret" /></svg>
+          </summary>
+          <div class="data-menu-popover" role="group" aria-label="Manage customers"></div>
+        </details>
+        <button class="lbtn pri" id="customer-list-add" type="button">
+          <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg>
+          <span data-i18n="Add Customer">Add Customer</span>
+        </button>
+      </div>
+    </div>
+    <div class="canvas" id="customer-list-canvas"></div>
+    <div
+      class="fnav fnav-list [.d4_&]:flex [.d4_&]:items-center [.d4_&]:gap-5 [.d4_&]:[padding:7px_16px] [.d4_&]:bg-surface [.d4_&]:[border-top:1px_solid_var(--line)]"
+      id="customer-list-fnav"></div>
+  </div>
+</template>
 
-      <template class="customer-record-tpl">
-        <div class="customer-record-view [&:not([hidden])]:flex [&:not([hidden])]:[flex:1] [&:not([hidden])]:min-h-0 [&:not([hidden])]:flex-col" hidden>
-          <div id="customer-record-chrome"></div>
-          <div class="canvas customer-record-canvas [flex:1] min-h-0 overflow-auto text-start [&_[data-customer-scroll-target]]:[scroll-margin-top:12px]" id="customer-record-canvas"></div>
-          <div class="fnav customer-record-footer flex items-center gap-3 [padding:7px_16px] bg-surface [border-top:1px_solid_var(--line)]">
-            <span class="customer-record-pager-mount"></span>
-            <span class="pos [.d4_.fnav_&]:text-muted [.d4_.fnav_&]:[font-size:13px]" id="customer-record-position" aria-live="polite">Record 1 of 72</span>
-            <span class="customer-footer-note inline-flex items-center gap-1.5 text-muted [font-size:12.5px]" id="customer-footer-note">
-              <svg width="13" height="13" aria-hidden="true"><use href="#i-lock" /></svg>
-              Saved customer. Choose Modify to edit.
-            </span>
-            <span class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5">
-              <button class="ctx [.d4_.cp-act_&]:w-full [.d4_.cp-act_&]:justify-start" type="button" data-customer-footer-action="statement">
-                <svg width="15" height="15" aria-hidden="true"><use href="#i-doc" /></svg>
-                <span data-i18n="Customer Statement">Customer Statement</span>
-              </button>
-              <button class="ctx [.d4_.cp-act_&]:w-full [.d4_.cp-act_&]:justify-start" type="button" data-customer-footer-action="contact">
-                <svg width="15" height="15" aria-hidden="true"><use href="#i-user" /></svg>
-                <span data-i18n="Add Contact">Add Contact</span>
-              </button>
-            </span>
-          </div>
-        </div>
-      </template>
+<template class="customer-record-tpl">
+  <div
+    class="customer-record-view [&:not([hidden])]:flex [&:not([hidden])]:[flex:1] [&:not([hidden])]:min-h-0 [&:not([hidden])]:flex-col"
+    hidden>
+    <div id="customer-record-chrome"></div>
+    <div
+      class="canvas customer-record-canvas [flex:1] min-h-0 overflow-auto text-start [&_[data-customer-scroll-target]]:[scroll-margin-top:12px]"
+      id="customer-record-canvas"></div>
+    <div
+      class="fnav customer-record-footer flex items-center gap-5 [padding:7px_16px] bg-surface [border-top:1px_solid_var(--line)]">
+      <span class="customer-record-pager-mount"></span>
+      <span
+        class="pos [.d4_.fnav_&]:text-muted [.d4_.fnav_&]:[font-size:13px]"
+        id="customer-record-position"
+        aria-live="polite"
+        >Record 1 of 72</span
+      >
+      <span
+        class="customer-footer-note inline-flex items-center gap-1.5 text-muted [font-size:12.5px]"
+        id="customer-footer-note">
+        <svg width="13" height="13" aria-hidden="true"><use href="#i-lock" /></svg>
+        Saved customer. Choose Modify to edit.
+      </span>
+      <span
+        class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5">
+        <button
+          class="ctx [.d4_.cp-act_&]:w-full [.d4_.cp-act_&]:justify-start"
+          type="button"
+          data-customer-footer-action="statement">
+          <svg width="15" height="15" aria-hidden="true"><use href="#i-doc" /></svg>
+          <span data-i18n="Customer Statement">Customer Statement</span>
+        </button>
+        <button
+          class="ctx [.d4_.cp-act_&]:w-full [.d4_.cp-act_&]:justify-start"
+          type="button"
+          data-customer-footer-action="contact">
+          <svg width="15" height="15" aria-hidden="true"><use href="#i-user" /></svg>
+          <span data-i18n="Add Contact">Add Contact</span>
+        </button>
+      </span>
+    </div>
+  </div>
+</template>

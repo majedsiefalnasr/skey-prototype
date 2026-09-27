@@ -40,9 +40,7 @@ function dataListChartColors() {
   const colors = [1, 2, 3, 4, 5, 6]
     .map(n => resolveDesignToken(`--ds-chart-categorical-${n}`, ''))
     .filter(Boolean)
-  return colors.length
-    ? colors
-    : ['#1868DB', '#5B7F24', '#964AC0', '#BD5B00', '#1558BC', '#803FA5']
+  return colors.length ? colors : ['#1868DB', '#5B7F24', '#964AC0', '#BD5B00', '#1558BC', '#803FA5']
 }
 
 function dataListChartTheme() {
@@ -194,8 +192,8 @@ export function renderDataListChart(context, rows, config, listState, deps) {
     </div>
     <div class="rec-card-body data-list-chart-body p-4 grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]"${expanded ? '' : ' hidden'}>
       <div class="data-list-chart-layout data-list-chart-layout-solo grid items-stretch gap-4 grid-cols-[minmax(0,1fr)]">
-        <div class="data-list-chart-main grid min-w-0 gap-3">
-          <div class="data-list-chart-toolbar flex flex-wrap items-end gap-3">
+        <div class="data-list-chart-main grid min-w-0 gap-5">
+          <div class="data-list-chart-toolbar flex flex-wrap items-end gap-5">
             <div class="rec-field data-list-chart-field w-[220px] min-w-0 [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg_xmlns=http://www.w3.org/2000/svg_width=12_height=12_viewBox=0_0_12_12%3E%3Cpath_fill=%2344546f_d=M2.5_4.5_6_8l3.5-3.5z/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0">
               <label>${t('X axis', 'X axis')}</label>
               <select data-list-chart-field>${fieldOptions}</select>

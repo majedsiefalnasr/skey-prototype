@@ -1,12 +1,23 @@
 import {encodeHtml} from '../../core/locale.js'
 import {DATA_LIST_DEFAULT_PAGE_SIZE} from './model.js'
-import {renderShellPager as renderSharedShellPager, renderShellRecordPager as renderSharedShellRecordPager} from './pagination.js'
+import {
+  renderShellPager as renderSharedShellPager,
+  renderShellRecordPager as renderSharedShellRecordPager,
+} from './pagination.js'
 
 const DATA_LIST_FOOTER_CLASS =
-  'fnav fnav-list empty:hidden flex flex-wrap items-center gap-3 border-t border-line bg-surface px-4 py-[9px]'
+  'fnav fnav-list empty:hidden flex flex-wrap items-center gap-5 border-t border-line bg-surface px-4 py-[9px]'
 
 /** Owns list pager state and its DOM bindings. */
-export function createListPager({t, applyDataListRowAction, getDataListState, renderDataList, dataListIcon, dataListRows, renderDataListAdaptiveFooterActions} = {}) {
+export function createListPager({
+  t,
+  applyDataListRowAction,
+  getDataListState,
+  renderDataList,
+  dataListIcon,
+  dataListRows,
+  renderDataListAdaptiveFooterActions,
+} = {}) {
   const DATA_LIST_FNAV_IDS = {
     invoice: 'list-fnav',
     customer: 'customer-list-fnav',
@@ -16,7 +27,12 @@ export function createListPager({t, applyDataListRowAction, getDataListState, re
   const shellPagerDeps = {t, encodeHtml, dataListIcon}
 
   function renderShellPager(context, filteredCount) {
-    return renderSharedShellPager(context, filteredCount, getDataListState()[context], shellPagerDeps)
+    return renderSharedShellPager(
+      context,
+      filteredCount,
+      getDataListState()[context],
+      shellPagerDeps
+    )
   }
 
   function renderShellRecordPager(context, filteredCount) {

@@ -23,7 +23,7 @@
 // etc.) — this module only owns the context-agnostic table/adaptive/group
 // scaffolding that calls them.
 
-import {DATA_MENU_SUMMARY_CLASS, DATA_MENU_POPOVER_CLASS} from './list.js'
+import {DATA_MENU_POPOVER_CLASS, DATA_MENU_SUMMARY_CLASS} from './list.js'
 
 const DATA_SORT_BUTTON_CLASS =
   'data-sort-button inline-flex items-center gap-[5px] p-0 border-0 text-inherit bg-transparent font-[inherit] cursor-pointer hover:text-ink'
@@ -36,7 +36,13 @@ const DATA_SORT_BUTTON_CLASS =
  * @param {string} context
  * @param {Function} encodeHtml
  */
-export function renderDataListRowActionMenu(config, key, actionsHtml, context, {encodeHtml, dataListIcon}) {
+export function renderDataListRowActionMenu(
+  config,
+  key,
+  actionsHtml,
+  context,
+  {encodeHtml, dataListIcon}
+) {
   const contextAttr = context ? ` data-list-context="${encodeHtml(context)}"` : ''
   return `<details class="data-menu end data-row-menu relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5"${contextAttr}><summary class="${DATA_MENU_SUMMARY_CLASS} w-8! min-h-8 justify-center px-[5px]! py-[5px]!" aria-label="Actions for ${encodeHtml(config.singular)} ${encodeHtml(key)}" title="Record actions">${dataListIcon('i-dots')}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[190px]" role="menu">${actionsHtml}</div></details>`
 }
@@ -75,7 +81,11 @@ export function renderDataListHeader(visibleColumns, listState, {t, encodeHtml})
         return `<th data-col="${encodeHtml(column.key)}" data-list-column-drag="${encodeHtml(column.key)}" draggable="true" aria-sort="none" title="${t('Drag to reorder', 'Drag to reorder')}"><span class="${sortButtonClass}"><span>${encodeHtml(t(column.label))}</span></span></th>`
       }
       const sorted = listState.sortKey === column.key
-      const ariaSort = sorted ? (listState.sortDirection === 'asc' ? 'ascending' : 'descending') : 'none'
+      const ariaSort = sorted
+        ? listState.sortDirection === 'asc'
+          ? 'ascending'
+          : 'descending'
+        : 'none'
       const indicator = sorted ? (listState.sortDirection === 'asc' ? '↑' : '↓') : ''
       return `<th data-col="${encodeHtml(column.key)}" data-list-column-drag="${encodeHtml(column.key)}" draggable="true" aria-sort="${ariaSort}" title="${t('Drag to reorder or add to row groups', 'Drag to reorder or add to row groups')}"><button class="${sortButtonClass}" type="button" data-list-sort="${encodeHtml(column.key)}"><span>${encodeHtml(t(column.label))}</span><span class="data-sort-indicator min-w-[10px] text-xs text-accent" aria-hidden="true">${indicator}</span></button></th>`
     })
@@ -96,7 +106,13 @@ function renderResponsiveRowDetails(context, row, overflowColumns, deps) {
     .join('')}</dl>`
 }
 
-function renderDataListExpandButton(context, key, expanded, overflowColumns, {encodeHtml, dataListIcon}) {
+function renderDataListExpandButton(
+  context,
+  key,
+  expanded,
+  overflowColumns,
+  {encodeHtml, dataListIcon}
+) {
   if (!overflowColumns.length) return ''
   const detailsId = dataListDetailsId(context, key)
   const label = expanded ? 'Collapse row details' : 'Expand row details'
@@ -116,7 +132,8 @@ export function renderDataListRecordRows(row, tableContext, deps) {
   const expanded = listState.expandedRows.has(key) && overflowColumns.length > 0
   const cells = visibleColumns
     .map(column => {
-      const title = column.key === 'avatar' ? '' : ` title="${encodeHtml(String(row[column.key] ?? ''))}"`
+      const title =
+        column.key === 'avatar' ? '' : ` title="${encodeHtml(String(row[column.key] ?? ''))}"`
       return `<td data-col="${encodeHtml(column.key)}"${title}>${renderCell(context, row, column)}</td>`
     })
     .join('')
@@ -173,7 +190,7 @@ export function renderDataListCards(context, rows, config, listState, deps) {
   const {encodeHtml, renderCard} = deps
   if (!rows.length)
     return `<div class="customer-lookup-empty [padding:28px_16px] text-muted text-center">No ${encodeHtml(config.label)} match this view.</div>`
-  return `<div class="data-card-grid grid grid-cols-3 gap-3 rounded-[10px] bg-bg p-3 max-[1240px]:grid-cols-2 max-[720px]:grid-cols-1" role="list" aria-label="${encodeHtml(config.label)} cards">${rows
+  return `<div class="data-card-grid grid grid-cols-3 gap-5 rounded-[10px] bg-bg p-3 max-[1240px]:grid-cols-2 max-[720px]:grid-cols-1" role="list" aria-label="${encodeHtml(config.label)} cards">${rows
     .map(row => renderCard(context, row, config, listState))
     .join('')}</div>`
 }
@@ -213,7 +230,10 @@ export function renderDataListAdaptiveRecord(context, row, config, listState, fi
       : t('No records match this view.', 'No records match this view.')
     const hint = filteredCount
       ? t('Try First or Last.', 'Try First or Last.')
-      : t('Clear the search or filter to see records again.', 'Clear the search or filter to see records again.')
+      : t(
+          'Clear the search or filter to see records again.',
+          'Clear the search or filter to see records again.'
+        )
     return `<div class="data-adaptive-empty [padding:40px_20px] [border:1px_dashed_var(--line)] rounded-lg text-center [&_p]:[margin:0]!"><p>${encodeHtml(message)}</p><p class="data-adaptive-empty-hint mt-1.5! text-muted [font-size:12.5px]">${encodeHtml(hint)}</p></div>`
   }
   const fields = config.columns.filter(column => column.key !== 'avatar')
@@ -231,7 +251,9 @@ export function renderDataListAdaptiveRecord(context, row, config, listState, fi
       const label = DATA_ADAPTIVE_GROUP_LABELS[groupKey] || 'Details'
       const groupId = `adaptive:${groupKey}`
       const expanded = !listState.collapsedGroups.has(groupId)
-      const rowsHtml = groupFields.map(column => renderDataAdaptiveFieldRow(context, row, column, deps)).join('')
+      const rowsHtml = groupFields
+        .map(column => renderDataAdaptiveFieldRow(context, row, column, deps))
+        .join('')
       return `<section class="data-adaptive-section grid [grid-template-columns:minmax(140px,_260px)_1fr]"><div class="data-group-row [grid-column:1_/_-1] bg-[var(--line-2)] [border-bottom:1px_solid_var(--line)] [border-top:1px_solid_var(--line)]"><button type="button" class="data-group-toggle flex w-full min-h-9 items-center gap-[7px] py-1.5 pe-2.5 ps-2.5 text-start" data-list-group-toggle="${encodeHtml(groupId)}" aria-expanded="${expanded}">${dataListIcon('i-caret', 11)}<span class="data-group-label text-xs font-semibold text-muted">${encodeHtml(t(label))}</span><span class="data-group-count ms-auto text-xs font-medium text-muted">${groupFields.length} ${t('fields', 'fields')}</span></button></div>${expanded ? rowsHtml : ''}</section>`
     })
     .join('')
