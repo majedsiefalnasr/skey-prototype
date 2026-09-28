@@ -19,6 +19,15 @@ export function createListStatistics({locale, t, getDataListState, dataListIcon,
     // default and this factory is the same no-op fallback.
     screenParameters: () => [],
     journal: () => [],
+    // Organization Center's 5 contexts follow the same no-op rule: their
+    // statistics panels start hidden (model.js's noRowActions default)
+    // and this stub only guards against a thrown error if a user manually
+    // re-enables the panel from the overflow menu.
+    orgUsers: () => [],
+    orgAppSessions: () => [],
+    orgDbSessions: () => [],
+    orgAudit: () => [],
+    orgStaff: () => [],
   }
 
   function dataListStatistics(context, rows, config) {

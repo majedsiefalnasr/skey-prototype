@@ -16,9 +16,12 @@ import {encodeHtml} from './core/locale.js'
 import {STATUSES, CHAIN} from './prototype/fixtures/invoices.js'
 import {CUSTOMER_ROWS, CUSTOMER_REFERENCE, UNIT_ROWS, CUSTOMER_LOOKUP_RESULTS} from './prototype/fixtures/customers.js'
 import {CURRENT_USER, EMPLOYEE_DETAILS, CONTACT_DETAILS, LOGIN_LOG_ROWS, DEVICE_ROWS, RECENT_ACTIVITY_ROWS} from './prototype/fixtures/profile.js'
+import {ORGANIZATION_DETAILS, ORGANIZATION_USERS, APPLICATION_SESSIONS, DATABASE_SESSIONS, ORGANIZATION_AUDIT_ROWS, STAFF_OPERATION_ROWS, SYSTEM_HEALTH, SYSTEM_SERVICES} from './prototype/fixtures/organization.js'
 import {createDataList} from './components/data-list/list.js'
 import {createCustomers} from './pages/customers/customers.js'
 import {createProfile} from './pages/profile/profile.js'
+import {createOrganization} from './pages/organization/organization.js'
+import {createOrganizationSessionActions} from './pages/organization/sessions.js'
 import {renderCustomerAvatar} from './pages/customers/images.js'
 import {createSidebar} from './shell/sidebar.js'
 import {createTopbar} from './shell/topbar.js'
@@ -84,6 +87,7 @@ const work = createWork({
 
 const {t, formatDate: formatLocaleDate, formatCurrency: formatLocaleCurrency, getLocale, setLocale} = locale
 const savedPrototypeState = readPrototypeState(sessionStorage)
+let activeRole = savedPrototypeState['active-role'] || 'administrator'
 let launchpadEnabled = savedPrototypeState.launchpad !== false
 const getLaunchpadEnabled = () => launchpadEnabled
 const setLaunchpadEnabled = enabled => {
@@ -171,6 +175,12 @@ const topbar = createTopbar({
     // on top by default), so any navigation trigger outside the sidebar
     // must dismiss it explicitly the same way, or it's left covering the
     // page and intercepting clicks.
+    const frame = document.querySelector('.frame')
+    const lp = frame && frame.querySelector('.lp-view')
+    if (lp && !lp.hidden) hideLaunchpad(frame)
+  },
+  navigateToOrganizationSection: section => {
+    navigation.navigate('organization', {section})
     const frame = document.querySelector('.frame')
     const lp = frame && frame.querySelector('.lp-view')
     if (lp && !lp.hidden) hideLaunchpad(frame)
@@ -436,6 +446,36 @@ const profile = createProfile({
   bindAppearanceSection: () => appearanceControls.bindAppearanceSection(),
 })
 
+const organization = createOrganization({
+  root: document.querySelector('.organization-view'),
+  role: activeRole,
+  fixtures: {
+    details: ORGANIZATION_DETAILS,
+    users: ORGANIZATION_USERS,
+    applicationSessions: APPLICATION_SESSIONS,
+    databaseSessions: DATABASE_SESSIONS,
+    auditRows: ORGANIZATION_AUDIT_ROWS,
+    staff: STAFF_OPERATION_ROWS,
+    health: SYSTEM_HEALTH,
+    services: SYSTEM_SERVICES,
+  },
+  storage: sessionStorage,
+  toast,
+  encodeHtml,
+  dataListIcon: (...args) => listRuntime.dataListIcon(...args),
+  dataListInstances: {
+    orgUsers: listRuntime.dataListInstances.orgUsers,
+    orgAppSessions: listRuntime.dataListInstances.orgAppSessions,
+    orgDbSessions: listRuntime.dataListInstances.orgDbSessions,
+    orgAudit: listRuntime.dataListInstances.orgAudit,
+    orgStaff: listRuntime.dataListInstances.orgStaff,
+  },
+  trapFocus,
+  releaseFocus,
+  createSessionActions: createOrganizationSessionActions,
+  onAccessDenied: () => navigation.navigate('profile'),
+})
+
 const listDates = createListDates({
   t,
   formatLocaleDate,
@@ -591,7 +631,7 @@ const invoices = createInvoices({
   templates: {
     listRoot: document.querySelector('.list-view'), listCanvas: document.getElementById('list-canvas'),
     listFooter: document.getElementById('list-fnav'), listInstance: listRuntime.dataListInstances.invoice,
-    recordRoots: [...document.querySelector('.page-content').children].filter(element => !element.matches('.email-view,.list-view,.customer-list-view,.customer-record-view,.geo-list-view,.geo-record-view')),
+    recordRoots: [...document.querySelector('.page-content').children].filter(element => !element.matches('.email-view,.list-view,.customer-list-view,.customer-record-view,.geo-list-view,.geo-record-view,.profile-view,.organization-view')),
   }, state, operations: {applyState, applyMode, modeSel, requestLeave: requestInvoiceLeave},
   record: {render: renderRecordA, dispose: () => { disposeRecordTabs(); disposeInvoiceLines(); disposeInvoicePayments(); disposeInvoiceAdjustments() }},
 })
@@ -606,6 +646,7 @@ const pageRegistry = new Map([
   ['geo-record', geography.recordPage],
   ['email', email],
   ['profile', profile],
+  ['organization', organization],
 ])
 
 const navigation = createNavigation({
@@ -643,5 +684,14 @@ const contextMenu = createContextMenu({
 
 if (savedPrototypeState['customer-mode']) customers.setMode(savedPrototypeState['customer-mode'])
 if (savedPrototypeState['customer-layout']) customers.setLayout(savedPrototypeState['customer-layout'])
-const controls = createPrototypeControls({root: document, settings: appearanceControls.appearance, pages: {invoices, customers}})
+const controls = createPrototypeControls({
+  root: document,
+  settings: appearanceControls.appearance,
+  pages: {invoices, customers},
+  onRoleChange: role => {
+    activeRole = role
+    organization.setRole(role)
+    topbar.setRole?.(role)
+  },
+})
 syncPrototypeControlsPage = controls.syncPage

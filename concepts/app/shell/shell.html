@@ -105,23 +105,16 @@
             <div class="mlist mend user-pop" role="menu" style="min-width: 270px">
               <div class="user-card mb-0.5 flex items-center gap-2.5 px-2.5 pb-3 pt-2.5">
                 <span class="avatar inline-flex size-9 items-center justify-center rounded-full bg-[var(--line-2)] text-muted" aria-hidden="true"><svg width="19" height="19"><use href="#i-user" /></svg></span>
-                <div><b class="block text-[13.5px] text-ink">Majed Sief Alnasr</b><span class="block text-xs text-muted">admin@lastchance</span></div>
+                <div class="min-w-0"><b class="block truncate text-[13.5px] text-ink">Majed Sief Alnasr</b><span class="block truncate text-xs text-muted">admin@lastchance</span><span class="mt-1 block text-[11px] text-muted"><span data-active-role-label>Administrator</span> · lastchance / Cairo HQ</span></div>
               </div>
+              <div class="glbl">Personal</div>
               <button role="menuitem" class="profile-menu" data-profile-section="profile">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-user" /></svg>
                 My Profile
               </button>
-              <button role="menuitem" class="profile-menu" data-profile-section="employee">
-                <svg width="15" height="15" aria-hidden="true"><use href="#i-user" /></svg>
-                Employee details
-              </button>
-              <button role="menuitem" class="profile-menu" data-profile-section="contact">
-                <svg width="15" height="15" aria-hidden="true"><use href="#i-location" /></svg>
-                Contact details
-              </button>
               <button role="menuitem" class="profile-menu" data-profile-section="account">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-gear" /></svg> Account
-                settings
+                preferences
               </button>
               <button role="menuitem" class="profile-menu" data-profile-section="appearance">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-sun" /></svg>
@@ -135,6 +128,31 @@
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-clock" /></svg>
                 Sessions &amp; devices
               </button>
+              <div data-organization-menu-group>
+                <hr />
+                <div class="glbl">Organization</div>
+                <button role="menuitem" class="organization-menu" data-organization-section="overview" data-organization-roles="administrator manager">
+                  <svg width="15" height="15" aria-hidden="true"><use href="#i-home" /></svg> Organization overview
+                </button>
+                <button role="menuitem" class="organization-menu" data-organization-section="users" data-organization-roles="administrator">
+                  <svg width="15" height="15" aria-hidden="true"><use href="#i-user" /></svg> Users &amp; access
+                </button>
+                <button role="menuitem" class="organization-menu" data-organization-section="audit" data-organization-roles="administrator">
+                  <svg width="15" height="15" aria-hidden="true"><use href="#i-clock" /></svg> Audit log
+                </button>
+                <button role="menuitem" class="organization-menu" data-organization-section="performance" data-organization-roles="administrator manager">
+                  <svg width="15" height="15" aria-hidden="true"><use href="#i-spark" /></svg> System performance
+                </button>
+                <button role="menuitem" class="organization-menu" data-organization-section="staff" data-organization-roles="manager">
+                  <svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg> Staff operations
+                </button>
+              </div>
+              <hr />
+              <div class="glbl">Workspace</div>
+              <button role="menuitem">
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-home" /></svg>
+                lastchance · Cairo HQ
+              </button>
               <button role="menuitem" class="side-customize-menu">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-sliders" /></svg>
                 Customize sidebar
@@ -144,11 +162,7 @@
                 this page to Favorites
               </button>
               <hr />
-              <div class="glbl">Branch</div>
-              <button role="menuitem">
-                <svg width="15" height="15" aria-hidden="true"><use href="#i-home" /></svg>
-                lastchance
-              </button>
+              <div class="glbl">Session</div>
               <button role="menuitem" class="dan">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg> Log out
               </button>
@@ -163,6 +177,7 @@
 <!-- include: ../components/data-list/dialogs.html -->
 <!-- include: ../pages/customers/dialogs.html -->
 <!-- include: ../pages/profile/dialogs.html -->
+<!-- include: ../pages/organization/dialogs.html -->
 <!-- include: shared-overlays.html -->
 <!-- include: ../pages/invoices/activity-dialog.html -->
 <!-- include: ../pages/invoices/record-dialogs.html --><!-- include: ../components/screen-parameters/screen-parameters-dialog.html -->

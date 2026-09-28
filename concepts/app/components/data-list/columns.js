@@ -22,6 +22,16 @@ import {GEO_ROWS} from '../../prototype/fixtures/geography.js'
 import {SCREEN_PARAMETER_ROWS} from '../../prototype/fixtures/screen-parameters.js'
 import {JOURNAL_ENTRY_ROWS} from '../../prototype/fixtures/journal-entry.js'
 
+// Organization Center's 5 table contexts (orgUsers/orgAppSessions/
+// orgDbSessions/orgAudit/orgStaff, defined below) start with an empty
+// `rows` array — unlike every context above, whose fixture is static and
+// fixed for the module's lifetime, Organization's rows are role-scoped
+// and mutate at runtime (session revoke/terminate). The real row set is
+// supplied via the model's setRows(rows) (model.js) before each
+// activate()/render(), called from concepts/app/pages/organization/
+// organization.js's own render cycle — this array is only ever the
+// pre-first-render placeholder.
+
 export const DATA_LIST_CONFIG = {
   invoice: {
     label: 'invoices',
@@ -293,6 +303,119 @@ export const DATA_LIST_CONFIG = {
       {key: 'statement', label: 'Statement', icon: 'i-doc', type: 'text'},
     ],
   },
+  // Organization Center's 5 table sections — same real data-list Filter/
+  // Search/Columns/sort/pagination UX as Journal Entry/Screen Parameters
+  // above (`noRowActions: true`, no detail record, no delete). Their rows
+  // are dynamic (see the empty-array comment above this object) and their
+  // Revoke/Terminate row actions render as ordinary cell content in the
+  // "State" column via renderers.js's renderDataListCell, rather than as
+  // engine-native row actions — noRowActions:true tables have no actions
+  // column at all (views.js), so the action button lives inside the last
+  // visible column's cell instead, the same technique invoices.js already
+  // uses for its own interactive cell content (e.g. the record-link
+  // button and invoiceStatusBadge).
+  orgUsers: {
+    label: 'accounts',
+    singular: 'account',
+    key: 'id',
+    rows: [],
+    noRowActions: true,
+    columns: [
+      {key: 'name', label: 'User'},
+      {key: 'role', label: 'Role'},
+      {key: 'branch', label: 'Branch'},
+      {key: 'status', label: 'Status'},
+      {key: 'lastActive', label: 'Last active'},
+      {key: 'mfa', label: 'MFA'},
+    ],
+    filters: [{key: 'all', label: 'All accounts', icon: 'i-user'}],
+    filterFields: [
+      {key: 'role', label: 'Role', icon: 'i-user', type: 'text'},
+      {key: 'branch', label: 'Branch', icon: 'i-location', type: 'text'},
+      {key: 'status', label: 'Status', icon: 'i-check', type: 'select', options: ['Active', 'Locked', 'Dormant']},
+    ],
+  },
+  orgAppSessions: {
+    label: 'sessions',
+    singular: 'session',
+    key: 'id',
+    rows: [],
+    noRowActions: true,
+    columns: [
+      {key: 'user', label: 'User'},
+      {key: 'branch', label: 'Branch'},
+      {key: 'device', label: 'Device and location'},
+      {key: 'started', label: 'Started'},
+      {key: 'lastActive', label: 'Last active'},
+      {key: 'state', label: 'State'},
+    ],
+    filters: [{key: 'all', label: 'All sessions', icon: 'i-user'}],
+    filterFields: [
+      {key: 'user', label: 'User', icon: 'i-user', type: 'text'},
+      {key: 'branch', label: 'Branch', icon: 'i-location', type: 'text'},
+    ],
+  },
+  orgDbSessions: {
+    label: 'sessions',
+    singular: 'session',
+    key: 'id',
+    rows: [],
+    noRowActions: true,
+    columns: [
+      {key: 'id', label: 'Session'},
+      {key: 'workload', label: 'Workload'},
+      {key: 'state', label: 'State'},
+      {key: 'duration', label: 'Duration'},
+      {key: 'query', label: 'Operation'},
+      {key: 'blocking', label: 'Blocking'},
+    ],
+    filters: [{key: 'all', label: 'All sessions', icon: 'i-lock'}],
+    filterFields: [
+      {key: 'workload', label: 'Workload', icon: 'i-lock', type: 'text'},
+      {key: 'state', label: 'State', icon: 'i-check', type: 'select', options: ['Running', 'Waiting', 'Sleeping']},
+    ],
+  },
+  orgAudit: {
+    label: 'events',
+    singular: 'event',
+    key: 'id',
+    defaultSortKey: 'timestamp',
+    defaultSortDirection: 'desc',
+    rows: [],
+    noRowActions: true,
+    columns: [
+      {key: 'timestamp', label: 'Date and time'},
+      {key: 'actor', label: 'Actor'},
+      {key: 'action', label: 'Activity'},
+      {key: 'source', label: 'Source'},
+      {key: 'result', label: 'Result'},
+    ],
+    filters: [{key: 'all', label: 'All events', icon: 'i-clock'}],
+    filterFields: [
+      {key: 'source', label: 'Source', icon: 'i-doc', type: 'text'},
+      {key: 'result', label: 'Result', icon: 'i-check', type: 'select', options: ['Success', 'Denied', 'Partial']},
+    ],
+  },
+  orgStaff: {
+    label: 'staff',
+    singular: 'staff member',
+    key: 'id',
+    rows: [],
+    noRowActions: true,
+    columns: [
+      {key: 'name', label: 'Staff member'},
+      {key: 'completed', label: 'Completed', plottable: true, valueType: 'number'},
+      {key: 'pending', label: 'Pending', plottable: true, valueType: 'number'},
+      {key: 'oldest', label: 'Oldest item'},
+      {key: 'turnaround', label: 'Turnaround'},
+      {key: 'rework', label: 'Rework'},
+      {key: 'slaBreaches', label: 'SLA breaches', plottable: true, valueType: 'number'},
+    ],
+    filters: [{key: 'all', label: 'All staff', icon: 'i-user'}],
+    filterFields: [
+      {key: 'team', label: 'Team', icon: 'i-user', type: 'text'},
+    ],
+  },
 }
 
 export const DATA_LIST_STATISTICS_CONCEPT_OPTIONS = [
@@ -347,6 +470,11 @@ export const DATA_LIST_RESPONSIVE_WIDTH = {
   statement: 260,
   costCenter: 130,
   subLedger2: 130,
+  // orgAppSessions/orgDbSessions only — a status badge plus a Revoke/
+  // Terminate button share this cell (noRowActions:true contexts render
+  // the action as ordinary cell content, see renderers.js's
+  // orgSessionStateCell), so it needs more room than the 130px default.
+  state: 220,
 }
 
 export function responsiveDataListColumns(context, width, listState) {

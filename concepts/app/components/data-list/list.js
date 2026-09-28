@@ -384,13 +384,22 @@ export function renderDataList(
   const groupingBar = tableView ? deps.renderDataListGroupingBar(config, listState) : ''
   const responsiveColgroup =
     listState.view === 'responsive'
-      ? `<colgroup><col style="width:42px">${visibleColumns
+      ? `<colgroup>${config.noRowActions ? '' : '<col style="width:42px">'}${visibleColumns
           .map(
             column =>
               `<col style="width:${deps.responsiveWidthFor(column.key) || 130}px">`
           )
-          .join('')}<col style="width:76px"></colgroup>`
+          .join('')}${config.noRowActions ? '' : '<col style="width:76px">'}</colgroup>`
       : ''
+  const actionlessColgroup = config.noRowActions
+    ? (() => {
+        const widths = visibleColumns.map(column => deps.responsiveWidthFor(column.key) || 130)
+        const total = widths.reduce((sum, width) => sum + width, 0)
+        return `<colgroup>${widths
+          .map(width => `<col style="width:${((width / total) * 100).toFixed(3)}%">`)
+          .join('')}</colgroup>`
+      })()
+    : ''
   const tableRenderContext = {context, visibleColumns, overflowColumns, config, listState}
   const records =
     listState.view === 'kanban'
@@ -407,7 +416,7 @@ export function renderDataList(
               // (views.js's renderDataListRecordRows).
               const selectAllHeader = config.noRowActions
                 ? ''
-                : `<th><input class="m-0! size-[15px] accent-accent" type="checkbox" data-list-select-all aria-label="Select all visible ${deps.encodeHtml(config.label)}"${allSelected ? ' checked' : ''}></th>`
+                : `<th class="data-row-select-cell"><input class="m-0! size-[15px] accent-accent" type="checkbox" data-list-select-all aria-label="Select all visible ${deps.encodeHtml(config.label)}"${allSelected ? ' checked' : ''}></th>`
               const actionsHeader = config.noRowActions
                 ? ''
                 : `<th class="data-row-actions-cell" aria-label="Record actions"></th>`
@@ -441,7 +450,7 @@ export function renderDataList(
                 listState.view === 'responsive'
                   ? 'data-table-scroll overflow-x-auto data-table-responsive max-w-full overflow-clip'
                   : 'data-table-scroll'
-              return `<div class="${scrollWrapperClass}"><table class="inv-grid borders-${deps.encodeHtml(listState.borderMode)} w-full [border-collapse:collapse] [font-size:13px] [&_th]:text-start [&_th]:[padding:8px_12px]! [&_th]:text-muted [&_th]:font-medium [&_th]:[border-bottom:1px_solid_var(--line)] [&_th]:whitespace-nowrap [&_th]:sticky [&_th]:top-0 [&_th]:z-[3] [&_td]:[padding:8px_12px]! [&_td]:[border-bottom:1px_solid_var(--line-2)] [&_td]:text-ink [&_td]:whitespace-nowrap [&_td]:[text-overflow:ellipsis] [&_td]:overflow-hidden [&_td]:[max-width:200px] [&_tbody_tr:hover]:[background:var(--hover-overlay)] [&_tbody_tr:hover]:[cursor:pointer] [&_td_input]:w-full [&_td_input]:[padding:5px_7px] [&_td_input]:bg-surface [&_td_input]:text-ink [&_td_input]:[border:1px_solid_var(--line)] [&_td_input]:[border-radius:5px] [&_td_input]:[font:inherit]">${responsiveColgroup}<thead><tr>${selectAllHeader}${deps.renderDataListHeader(visibleColumns, listState)}${actionsHeader}</tr></thead><tbody>${deps.renderDataListBody(rows, tableRenderContext)}</tbody></table></div>`
+              return `<div class="${scrollWrapperClass}"><table class="inv-grid borders-${deps.encodeHtml(listState.borderMode)} w-full${config.noRowActions ? ' [table-layout:fixed]' : ''} [border-collapse:collapse] [font-size:13px] [&_th]:text-start [&_th]:[padding:8px_12px]! [&_th]:text-muted [&_th]:font-medium [&_th]:[border-bottom:1px_solid_var(--line)] [&_th]:whitespace-nowrap [&_th]:sticky [&_th]:top-0 [&_th]:z-[3] [&_td]:[padding:8px_12px]! [&_td]:[border-bottom:1px_solid_var(--line-2)] [&_td]:text-ink [&_td]:whitespace-nowrap [&_td]:[text-overflow:ellipsis] [&_td]:overflow-hidden [&_td]:[max-width:200px] [&_tbody_tr:hover]:[background:var(--hover-overlay)] [&_tbody_tr:hover]:[cursor:pointer] [&_td_input]:w-full [&_td_input]:[padding:5px_7px] [&_td_input]:bg-surface [&_td_input]:text-ink [&_td_input]:[border:1px_solid_var(--line)] [&_td_input]:[border-radius:5px] [&_td_input]:[font:inherit]">${responsiveColgroup || actionlessColgroup}<thead><tr>${selectAllHeader}${deps.renderDataListHeader(visibleColumns, listState)}${actionsHeader}</tr></thead><tbody>${deps.renderDataListBody(rows, tableRenderContext)}</tbody></table></div>`
             })()
   const statistics = listState.statisticsVisible
     ? deps.renderDataListStatistics(context, filteredRows, config)
@@ -787,6 +796,14 @@ export function createDataList({context, config, rows, locale, actions, storage,
     return deps.guardDataListLeave(after)
   }
 
+  // Swaps the row source for dynamic-rows contexts (see model.js's
+  // setRows) and keeps this instance's own listState.sourceRows mirror in
+  // sync, since listState is the model's state object merged with
+  // chart/DOM-only fields (Object.assign above), not a separate copy.
+  function setRows(nextRows) {
+    model.setRows(nextRows)
+  }
+
   return {
     context,
     model,
@@ -798,5 +815,6 @@ export function createDataList({context, config, rows, locale, actions, storage,
     getLayout,
     applyLayout,
     requestLeave,
+    setRows,
   }
 }

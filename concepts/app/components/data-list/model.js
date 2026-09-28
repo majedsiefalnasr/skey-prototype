@@ -92,6 +92,11 @@ export const DATA_LIST_VALID_VIEWS = {
   // (all of which drill into one row) have nothing to show.
   screenParameters: ['list'],
   journal: ['list'],
+  orgUsers: ['list'],
+  orgAppSessions: ['list'],
+  orgDbSessions: ['list'],
+  orgAudit: ['list'],
+  orgStaff: ['list'],
 }
 
 /* Pagination contract: the mocked row arrays only hold a handful of sample
@@ -188,8 +193,13 @@ function createInitialState(config, rows, storage, context) {
     search: '',
     filter: 'all',
     filterMode: 'inline',
-    sortKey: config.key,
-    sortDirection: 'asc',
+    // config.defaultSortKey lets a context sort by something other than
+    // its row-identity key on first load (e.g. orgAudit sorts by
+    // timestamp desc, newest first, rather than alphabetically by id) —
+    // every existing context omits it and keeps sorting by config.key,
+    // unchanged from before this field existed.
+    sortKey: config.defaultSortKey || config.key,
+    sortDirection: config.defaultSortDirection || 'asc',
     page: 1,
     pageSize: DATA_LIST_DEFAULT_PAGE_SIZE,
     view: savedView,
@@ -332,7 +342,17 @@ export function createListModel({config, rows, storage, context = config.singula
     storage.saveLayout(context, null)
   }
 
-  return {state, rowsInView, saveLayout, resetLayout}
+  // Swaps this model's row source in place — for contexts whose data is
+  // role-scoped or mutates at runtime (e.g. Organization Center's tables),
+  // unlike every static-fixture context (invoice/customer/geo/
+  // screenParameters/journal) which never calls this. Resets to page 1
+  // since the previous page may no longer exist against the new row count.
+  function setRows(nextRows) {
+    state.sourceRows = nextRows
+    state.page = 1
+  }
+
+  return {state, rowsInView, saveLayout, resetLayout, setRows}
 }
 
 /**

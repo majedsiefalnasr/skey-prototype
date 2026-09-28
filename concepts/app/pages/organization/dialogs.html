@@ -1,0 +1,21 @@
+<div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="organization-session-dialog">
+  <div class="dlg [width:min(470px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]" data-tone="danger" role="dialog" aria-modal="true" aria-labelledby="organization-session-title" aria-describedby="organization-session-description">
+    <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px]">
+      <svg width="18" height="18" aria-hidden="true" class="mt-0.5 text-[var(--danger)]"><use href="#i-lock" /></svg>
+      <div><h3 id="organization-session-title">Revoke session</h3><p class="dhd-subtitle" id="organization-session-description">This immediately ends access for the selected session.</p></div>
+      <button type="button" class="ibtn c-close ms-auto" aria-label="Close"><svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg></button>
+    </div>
+    <form class="dlg-inner min-h-0" id="organization-session-form" novalidate>
+      <div class="dbody flex flex-col gap-4 [padding:16px_18px] overflow-auto">
+        <div class="rounded-md border border-line bg-[var(--line-2)] p-3" id="organization-session-target"></div>
+        <p class="m-0 text-xs text-muted">Prototype action: the session will be removed from this browser session and an immutable audit event will be added.</p>
+        <label class="grid gap-1.5 text-[13px] font-semibold" for="organization-session-reason">Operational reason <span class="font-normal text-muted">(required)</span>
+          <textarea class="min-h-[82px] w-full resize-y rounded-md border border-line bg-surface px-2.5 py-2 font-[inherit] text-[13px] text-ink" id="organization-session-reason" maxlength="160" required placeholder="Explain why this session must be ended"></textarea>
+        </label>
+        <span class="text-[11px] leading-[1.35] text-[var(--danger)] empty:hidden" id="organization-session-error" role="status"></span>
+      </div>
+      <div class="dfoot [padding:12px_18px] flex justify-end gap-2"><button type="button" class="lbtn out c-close">Cancel</button><button type="submit" class="lbtn dan" id="organization-session-confirm">Revoke session</button></div>
+    </form>
+  </div>
+</div>
+

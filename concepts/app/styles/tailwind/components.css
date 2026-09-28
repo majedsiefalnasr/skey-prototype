@@ -81,8 +81,8 @@
   /* ---- data-list table pseudo-structure (per the brief: "Keep only
      ApexCharts selectors, pseudo-elements, table pseudo-structure, and
      behavior-state relationships") ----
-     Every rule below styles a <th>/<td> by structural position
-     (:first-child, a fixed .data-row-actions-cell/sticky column), a
+     Every rule below styles a <th>/<td> by structural role
+     (a fixed .data-row-select-cell or .data-row-actions-cell), a
      drag/select/expand behavior state ([aria-selected], [data-drag-over],
      [draggable], [aria-expanded]), an RTL mirror, or a border-mode/density
      modifier applied to the WHOLE table (the borders-* and is-compact modes) -- none of
@@ -95,7 +95,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .data-list-shell .inv-grid th:first-child, .data-list-shell .inv-grid td:first-child {
+  .data-list-shell .inv-grid .data-row-select-cell {
     width: 42px;
     padding-inline: 12px 4px;
     text-align: center;

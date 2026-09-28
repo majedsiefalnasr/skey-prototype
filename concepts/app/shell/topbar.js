@@ -1,8 +1,22 @@
 
 
 /** Owns topbar state and its DOM bindings. */
-export function createTopbar({toast, getSideCollapsed, getLaunchpadEnabled, closeAllMenus, openKbd, openCustomize, navigateToProfileSection} = {}) {
+export function createTopbar({toast, getSideCollapsed, getLaunchpadEnabled, closeAllMenus, openKbd, openCustomize, navigateToProfileSection, navigateToOrganizationSection} = {}) {
   const ACTIVE_FISCAL_YEAR = '2026'
+  let activeRole = 'administrator'
+
+  function setRole(role) {
+    activeRole = ['administrator', 'manager', 'user'].includes(role) ? role : 'administrator'
+    const label = activeRole === 'administrator' ? 'Administrator' : activeRole === 'manager' ? 'Manager' : 'User'
+    document.querySelectorAll('[data-active-role-label]').forEach(element => { element.textContent = label })
+    document.querySelectorAll('[data-organization-menu-group]').forEach(group => {
+      group.hidden = activeRole === 'user'
+    })
+    document.querySelectorAll('.organization-menu').forEach(button => {
+      const roles = (button.dataset.organizationRoles || '').split(' ')
+      button.hidden = !roles.includes(activeRole)
+    })
+  }
 
   function syncTopbarBrand() {
     /* not scoped to .gtop — the launchpad moves this same button into
@@ -71,6 +85,13 @@ export function createTopbar({toast, getSideCollapsed, getLaunchpadEnabled, clos
     })
   )
 
+  document.querySelectorAll('.organization-menu').forEach(b =>
+    b.addEventListener('click', () => {
+      closeAllMenus()
+      navigateToOrganizationSection(b.dataset.organizationSection)
+    })
+  )
+
   document.querySelectorAll('.fav-toggle-menu').forEach(b =>
     b.addEventListener('click', () => {
       closeAllMenus()
@@ -82,7 +103,7 @@ export function createTopbar({toast, getSideCollapsed, getLaunchpadEnabled, clos
     list.addEventListener('click', e => {
       if (
         e.target.closest('button[role="menuitem"]') &&
-        !e.target.closest('.help-kbd, .side-customize-menu, .fav-toggle-menu, .profile-menu')
+        !e.target.closest('.help-kbd, .side-customize-menu, .fav-toggle-menu, .profile-menu, .organization-menu')
       )
         closeAllMenus()
     })
@@ -101,5 +122,6 @@ export function createTopbar({toast, getSideCollapsed, getLaunchpadEnabled, clos
   })
   }
 
-  return {goToForYou, syncTopbarChrome, bind}
+  setRole(activeRole)
+  return {goToForYou, syncTopbarChrome, bind, setRole}
 }

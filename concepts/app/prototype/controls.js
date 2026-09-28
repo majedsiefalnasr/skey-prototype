@@ -89,6 +89,7 @@ const CONTROL_IDS = [
   'customer-mode',
   'customer-layout',
   'profile-card-style',
+  'active-role',
   'lang',
 ]
 
@@ -113,7 +114,7 @@ const REPLAYED_CONTROL_IDS = CONTROL_IDS.filter(id => id !== 'customer-mode' && 
  *   - the finite set of page-scenario operations this component may call.
  * @returns {{syncPage: (id: string) => void, dispose: () => void}}
  */
-export function createPrototypeControls({root, settings, pages}) {
+export function createPrototypeControls({root, settings, pages, onRoleChange = () => {}}) {
   const doc = root && root.nodeType === 9 ? root : root?.ownerDocument || document
   const bar = doc.querySelector('.demo-bar')
   void settings // reserved; appearance restoration is driven by main.js's composition order, not replayed here.
@@ -161,6 +162,11 @@ export function createPrototypeControls({root, settings, pages}) {
   }
   profileCardStyleControl.addEventListener('change', applyProfileCardStyle)
   applyProfileCardStyle()
+
+  const activeRoleControl = doc.getElementById('active-role')
+  const applyActiveRole = () => onRoleChange(activeRoleControl.value)
+  activeRoleControl.addEventListener('change', applyActiveRole)
+  applyActiveRole()
 
   /* ---------- shared prototype state, so switching versions keeps your setup ---------- */
   const captureState = () => {
@@ -438,9 +444,10 @@ export function createPrototypeControls({root, settings, pages}) {
     if (isLaunchpad && !kit.classList.contains('hidden')) doc.getElementById('kit-hide')?.click()
     const customerRecord = viewName === 'customer-record'
     const isProfile = viewName === 'profile'
+    const isOrganization = viewName === 'organization'
     const nonInvoiceSurface = viewName !== 'record'
     const isTablePage = ['list', 'customers-list', 'geo-list'].includes(viewName)
-    const hasCardSections = !isLaunchpad && (viewName === 'record' || customerRecord || isTablePage || isProfile)
+    const hasCardSections = !isLaunchpad && (viewName === 'record' || customerRecord || isTablePage || isProfile || isOrganization)
     doc.getElementById('input-style-group').hidden = isLaunchpad
     doc.getElementById('customer-group-heading').hidden = !customerRecord
     doc.getElementById('customer-mode-group').hidden = !customerRecord
@@ -467,6 +474,7 @@ export function createPrototypeControls({root, settings, pages}) {
   function dispose() {
     doc.removeEventListener('keydown', handleDialogKeydown)
     profileCardStyleControl.removeEventListener('change', applyProfileCardStyle)
+    activeRoleControl.removeEventListener('change', applyActiveRole)
     removeEventListener('resize', clamp)
   }
 

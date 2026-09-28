@@ -16,6 +16,7 @@ import {createListModel, DATA_LIST_SIMULATED_TOTAL, DATA_LIST_PAGE_SIZE_OPTIONS}
   from '../concepts/app/components/data-list/model.js';
 import {dateFilterRange, rowMatchesFieldFilter} from '../concepts/app/components/data-list/filters.js';
 import {responsiveDataListColumns, DATA_LIST_CONFIG} from '../concepts/app/components/data-list/columns.js';
+import {compactStatisticValue, renderDataListStatistics} from '../concepts/app/components/data-list/statistics.js';
 import {customerConfig} from '../concepts/app/pages/customers/customers.js';
 import {LIST_ROWS} from '../concepts/app/prototype/fixtures/invoices.js';
 import {CUSTOMER_ROWS} from '../concepts/app/prototype/fixtures/customers.js';
@@ -203,4 +204,48 @@ test('an unmatched customer search produces no visible rows', () => {
     storage: memoryLayoutStorage()});
   model.state.search = '__no_customer_matches_this__';
   assert.deepEqual(model.rowsInView(), []);
+});
+
+test('every statistics card style compacts long quantitative values', () => {
+  const metric = {
+    label: 'Gross value',
+    value: 'EGP 15,300.00',
+    support: 'Across 15,300 invoices in fiscal year 2026',
+    icon: 'i-grid',
+    tone: 'neutral',
+    progress: 100,
+    operation: 'Review invoice value distribution',
+    benchmark: 'Average EGP 1,913',
+    trend: [42, 49, 47, 58, 71, 78],
+    trendLabel: 'Six-period value pattern',
+    trendTone: 'neutral',
+  };
+  const render = layout => renderDataListStatistics({
+    rows: [{}],
+    config: {label: 'invoices'},
+    layout,
+    statisticsFn: () => [metric],
+    deps: {
+      t: value => value,
+      encodeHtml: value => String(value),
+      dataListIcon: icon => `<svg data-icon="${icon}"></svg>`,
+      locale: {getLocale: () => 'en'},
+    },
+  });
+
+  for (const layout of ['balanced', 'operational', 'exceptions', 'analytical']) {
+    const html = render(layout);
+    assert.match(html, />EGP 15\.3K</, `${layout} should compact its primary value`);
+    assert.match(html, /title="EGP 15,300\.00"/, `${layout} should retain the exact value`);
+  }
+
+  const balanced = render('balanced');
+  assert.match(balanced, /Across 15\.3K invoices in fiscal year 2026/);
+
+  const analytical = render('analytical');
+  assert.match(analytical, /data-stat-sparkline-grid/);
+  assert.match(analytical, /data-stat-sparkline-point/);
+  assert.equal(compactStatisticValue('15,000'), '15K');
+  assert.equal(compactStatisticValue('1,250,000'), '1.25M');
+  assert.equal(compactStatisticValue('37%'), '37%');
 });

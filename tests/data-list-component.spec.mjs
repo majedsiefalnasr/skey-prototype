@@ -34,6 +34,63 @@ for (const view of ['list', 'responsive', 'adaptive', 'cards', 'kanban']) {
   });
 }
 
+test('statistics cards use compact values and Analytical KPIs keep responsive enhanced charts', async ({page}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'Responsive analytical geometry is covered once.');
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
+  await openSurface(page, 'list');
+
+  const concept = page.locator('#statistics-concept');
+  async function setConcept(value) {
+    await concept.evaluate((element, nextValue) => {
+      element.value = nextValue;
+      element.dispatchEvent(new Event('change', {bubbles: true}));
+    }, value);
+  }
+  await setConcept('analytical');
+  await settle(page);
+
+  const statistics = page.locator('[data-statistics-layout="analytical"]');
+  const cards = statistics.locator('.data-stat-analytical');
+  await expect(cards).toHaveCount(4);
+  await expect(cards.filter({hasText: 'Gross value'}).locator('strong')).toHaveText('EGP 15.3K');
+  await expect(cards.filter({hasText: 'Gross value'}).locator('strong')).toHaveAttribute('title', 'EGP 15,300.00');
+  await expect(statistics.locator('.data-stat-sparkline-grid')).toHaveCount(12);
+  await expect(statistics.locator('.data-stat-sparkline-point')).toHaveCount(4);
+
+  async function columnCountAt(width) {
+    await page.setViewportSize({width, height: 900});
+    await settle(page);
+    const lefts = await cards.evaluateAll(items =>
+      items.map(item => Math.round(item.getBoundingClientRect().left))
+    );
+    return new Set(lefts).size;
+  }
+
+  expect(await columnCountAt(1440)).toBe(4);
+  const desktopHeights = await cards.evaluateAll(items =>
+    items.map(item => Math.round(item.getBoundingClientRect().height))
+  );
+  expect(Math.max(...desktopHeights)).toBeLessThanOrEqual(210);
+  expect(await columnCountAt(900)).toBe(2);
+  expect(await columnCountAt(390)).toBe(1);
+  expect(await statistics.evaluate(element => element.scrollWidth > element.clientWidth)).toBe(false);
+
+  await setConcept('balanced');
+  await settle(page);
+  const balanced = page.locator('[data-statistics-layout="balanced"]');
+  const balancedGross = balanced.locator('.data-stat-card').filter({hasText: 'Gross value'}).locator('strong');
+  await expect(balancedGross).toHaveText('EGP 15.3K');
+  await expect(balancedGross).toHaveAttribute('title', 'EGP 15,300.00');
+  await expect(balanced.locator('.data-stat-sparkline-grid')).toHaveCount(0);
+
+  for (const layout of ['operational', 'exceptions']) {
+    await setConcept(layout);
+    await settle(page);
+    const exactGross = page.locator(`[data-statistics-layout="${layout}"] [title="EGP 15,300.00"]`);
+    await expect(exactGross).toHaveText('EGP 15.3K');
+  }
+});
+
 // ---------------------------------------------------------------------
 // Selected-row actions
 // ---------------------------------------------------------------------

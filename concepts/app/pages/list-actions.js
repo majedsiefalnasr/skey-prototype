@@ -83,6 +83,14 @@ export function createPageListActions({getShowContentView, getState, applyState,
     // Journal Entry lines are the same shape (no detail record, no
     // create-new, no row-level commands) as Screen Parameters.
     journal: screenParametersListActions,
+    // Organization Center's 5 contexts are the same shape too — their
+    // Revoke/Terminate actions are cell content (renderers.js), not
+    // engine-native row actions, so nothing here needs to do anything.
+    orgUsers: screenParametersListActions,
+    orgAppSessions: screenParametersListActions,
+    orgDbSessions: screenParametersListActions,
+    orgAudit: screenParametersListActions,
+    orgStaff: screenParametersListActions,
   }
 
   const dataListActions = Object.fromEntries(

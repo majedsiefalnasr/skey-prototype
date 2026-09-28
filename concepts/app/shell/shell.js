@@ -33,6 +33,7 @@ export function createShell({setupAppSwitcher, renderSide, goToForYou, applySide
     pageContent.append(d.querySelector('.geo-list-tpl').content.cloneNode(true))
     pageContent.append(d.querySelector('.geo-record-tpl').content.cloneNode(true))
     pageContent.append(d.querySelector('.profile-tpl').content.cloneNode(true))
+    pageContent.append(d.querySelector('.organization-tpl').content.cloneNode(true))
     const pageActionBar = document.createElement('div')
     pageActionBar.className = 'page-action-bar'
     pageContent.querySelectorAll(':scope > .arow').forEach(actionBar => {

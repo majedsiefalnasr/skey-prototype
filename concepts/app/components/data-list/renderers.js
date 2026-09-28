@@ -9,6 +9,53 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
     return sharedRenderDataListSelectionActions(config, listState, {t, dataListIcon})
   }
 
+  // Organization Center's status badge: the default/active state renders
+  // nothing (the user asked twice not to show "Active" as a badge or
+  // text), only Locked/Dormant/Current/Protected/Waiting-etc. states get
+  // a badge — same rule the org page's row data carries via
+  // canPerformOrganizationAction()-driven flags (access.js), computed
+  // once in organization.js's getData() before rows reach the data-list
+  // engine, not re-derived here.
+  function orgStatusBadge(value, tone) {
+    if (!value || value === 'Active') return ''
+    return `<span class="badge ${tone}">${encodeHtml(String(value))}</span>`
+  }
+
+  // Revoke/Terminate render as ordinary "State" column cell content —
+  // noRowActions:true contexts (orgAppSessions/orgDbSessions, like
+  // journal/screenParameters) have no engine-native actions column, so
+  // the button lives here instead. row.canRevoke/row.canTerminate are
+  // precomputed in organization.js via canPerformOrganizationAction
+  // before the rows reach this table, keeping that access-policy import
+  // out of this shared components/ module.
+  function orgSessionStateCell(context, row) {
+    const kind = context === 'orgAppSessions' ? 'revoke' : 'terminate'
+    const allowed = context === 'orgAppSessions' ? row.canRevoke : row.canTerminate
+    const stateBadge =
+      context === 'orgAppSessions'
+        ? row.current
+          ? '<span class="badge ok">Current</span>'
+          : row.protected
+            ? '<span class="badge gray">Protected</span>'
+            : ''
+        : `<span class="badge ${row.state === 'Waiting' ? 'warn' : 'ok'}">${encodeHtml(String(row.state))}</span>`
+    if (!allowed) {
+      const reason =
+        context === 'orgAppSessions'
+          ? row.current
+            ? 'Current session'
+            : row.protected
+              ? 'System session'
+              : 'Restricted'
+          : row.current
+            ? 'Current connection'
+            : 'Protected'
+      return `<div class="flex items-center justify-between gap-2">${stateBadge}<span class="text-xs text-muted">${encodeHtml(reason)}</span></div>`
+    }
+    const label = kind === 'revoke' ? 'Revoke' : 'Terminate'
+    return `<div class="flex items-center justify-between gap-2">${stateBadge}<button type="button" class="lbtn out" data-organization-session-action="${kind}" data-session-id="${encodeHtml(String(row.id))}">${label}</button></div>`
+  }
+
   function renderDataListCell(context, row, column) {
     const value = row[column.key]
     if (context === 'customer' && column.key === 'avatar') {
@@ -26,6 +73,36 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
     }
     if (context === 'invoice' && column.key === 'status') {
       return invoiceStatusBadge(value)
+    }
+    if (context === 'orgUsers' && column.key === 'name') {
+      return `<strong>${encodeHtml(String(value))}</strong><small class="block text-muted">${encodeHtml(String(row.team ?? ''))}</small>`
+    }
+    if (context === 'orgUsers' && column.key === 'status') {
+      return orgStatusBadge(value, value === 'Locked' ? 'danger' : 'gray')
+    }
+    if (context === 'orgAppSessions' && column.key === 'user') {
+      return `<strong>${encodeHtml(String(value))}</strong><small class="block text-muted">${encodeHtml(String(row.role ?? ''))}</small>`
+    }
+    if (context === 'orgAppSessions' && column.key === 'device') {
+      return `${encodeHtml(String(value))}<small class="block text-muted">${encodeHtml(String(row.location ?? ''))}</small>`
+    }
+    if ((context === 'orgAppSessions' || context === 'orgDbSessions') && column.key === 'state') {
+      return orgSessionStateCell(context, row)
+    }
+    if (context === 'orgDbSessions' && column.key === 'id') {
+      return `<strong>${encodeHtml(String(value))}</strong><small class="block text-muted">${encodeHtml(String(row.account ?? ''))}</small>`
+    }
+    if (context === 'orgAudit' && column.key === 'action') {
+      return `<strong>${encodeHtml(String(value))}</strong><small class="block text-muted">${encodeHtml(String(row.object ?? ''))}</small>`
+    }
+    if (context === 'orgAudit' && column.key === 'result') {
+      return `<span class="badge ${value === 'Success' ? 'ok' : value === 'Denied' ? 'danger' : 'warn'}">${encodeHtml(String(value))}</span>`
+    }
+    if (context === 'orgStaff' && column.key === 'name') {
+      return `<strong>${encodeHtml(String(value))}</strong><small class="block text-muted">${encodeHtml(String(row.team ?? ''))}</small>`
+    }
+    if (context === 'orgStaff' && column.key === 'slaBreaches') {
+      return value ? `<span class="badge warn">${encodeHtml(String(value))}</span>` : '<span class="badge ok">0</span>'
     }
     return encodeHtml(String(value ?? ''))
   }
