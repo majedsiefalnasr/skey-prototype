@@ -26,14 +26,17 @@ const INVOICE_STATUS_ACTIONS = {
   },
 }
 
-/** Owns the list-level "Change status" dialogs for invoices and customers —
-    standalone dialogs (no record navigation needed), built from the same
-    .dscrim/.dlg shell as the invoice record page's own status dialog. */
+/** Owns the list-level "Change status" dialogs for invoices, customers, and
+    locations — standalone dialogs (no record navigation needed), built from
+    the same .dscrim/.dlg shell as the invoice record page's own status
+    dialog. */
 export function createStatusDialogs({trapFocus, releaseFocus, toast, renderDataList} = {}) {
   const invScrim = document.getElementById('invoice-status-scrim')
   const custScrim = document.getElementById('customer-status-scrim')
+  const geoScrim = document.getElementById('geo-status-scrim')
   let pendingInvoice = null
   let pendingCustomer = null
+  let pendingGeo = null
 
   function closeInvoiceStatusDialog() {
     invScrim.classList.remove('open')
@@ -99,43 +102,56 @@ export function createStatusDialogs({trapFocus, releaseFocus, toast, renderDataL
     releaseFocus()
   }
 
-  /* Activating is a plain, reversible flip — no reason needed, so it never
-     opens a dialog. Deactivating needs a reason on record, so it always
-     does. Same rule everywhere a customer's status changes: the table row
-     menu, the table's bulk activate/deactivate action on a multi-selection,
-     and the customer record page's own action all call
-     openCustomerStatusDialog — bulk passes an array of rows plus the
-     explicit `command` the user picked (the toolbar button's own intent,
-     not each row's current state); the single-row callers pass one row and
-     no command, so the direction is inferred from that row's own state
-     (the only sensible reading of a lone "Change status" action). */
-  function activateCustomers(rows, {onDone} = {}) {
-    rows.forEach(row => {
-      row.active = true
-      row.statusReason = ''
-    })
-    renderDataList('customer')
-    onDone?.(rows)
-    toast({
-      tone: 'ok',
-      title:
-        rows.length === 1
-          ? `${rows[0].customerName || rows[0].customerNo} activated`
-          : `${rows.length} customers activated`,
-    })
-  }
-
+  /* Deactivating needs a reason on record, so its dialog requires one.
+     Activating reverses that — the same way the invoice "Open" dialog
+     reverses "Pending" — so it opens a dialog too, but only to show the
+     deactivation reason already on file (read-only, nothing new to type).
+     Same rule everywhere a customer's status changes: the table row menu,
+     the table's bulk activate/deactivate action on a multi-selection, and
+     the customer record page's own action all call openCustomerStatusDialog
+     — bulk passes an array of rows plus the explicit `command` the user
+     picked (the toolbar button's own intent, not each row's current state);
+     the single-row callers pass one row and no command, so the direction is
+     inferred from that row's own state (the only sensible reading of a lone
+     "Change status" action). */
   function openCustomerStatusDialog(rowOrRows, {onDone, command} = {}) {
     const rows = Array.isArray(rowOrRows) ? rowOrRows : [rowOrRows]
     if (!rows.length) return
     const activating = command ? command === 'activate' : !rows[0].active
     return activating
-      ? activateCustomers(rows, {onDone})
+      ? openCustomerActivateDialog(rows, {onDone})
       : openCustomerDeactivateDialog(rows, {onDone})
   }
 
+  function openCustomerActivateDialog(rows, {onDone} = {}) {
+    pendingCustomer = {rows, onDone, activating: true}
+    const single = rows.length === 1 ? rows[0] : null
+    custScrim.querySelector('#customer-status-title').textContent = single
+      ? `Activate customer ${single.customerNo}`
+      : `Activate ${rows.length} customers`
+    custScrim.querySelector('#customer-status-description').textContent =
+      'This makes the customer available for normal processing again.'
+    const reason = custScrim.querySelector('.customer-status-reason')
+    reason.hidden = !single?.statusReason
+    reason.querySelector('label').textContent = 'Reason recorded when deactivated'
+    const field = reason.querySelector('textarea')
+    const text = reason.querySelector('#customer-status-reason-text')
+    field.hidden = true
+    field.required = false
+    text.hidden = false
+    text.textContent = single?.statusReason || ''
+    custScrim.querySelector('#customer-status-confirm').textContent = 'Activate customer'
+    custScrim.querySelector('.dlg').dataset.tone = 'default'
+    custScrim.querySelector('#customer-status-sum').textContent = single
+      ? single.customerName || single.customerNo
+      : `${rows.length} customers`
+    validateCustomerStatusConfirm()
+    custScrim.classList.add('open')
+    trapFocus(custScrim.querySelector('.dlg'))
+  }
+
   function openCustomerDeactivateDialog(rows, {onDone} = {}) {
-    pendingCustomer = {rows, onDone}
+    pendingCustomer = {rows, onDone, activating: false}
     const single = rows.length === 1 ? rows[0] : null
     custScrim.querySelector('#customer-status-title').textContent = single
       ? `Deactivate customer ${single.customerNo}`
@@ -146,8 +162,10 @@ export function createStatusDialogs({trapFocus, releaseFocus, toast, renderDataL
     reason.hidden = false
     reason.querySelector('label').textContent = 'Why is this customer being deactivated?'
     const field = reason.querySelector('textarea')
+    field.hidden = false
     field.value = ''
     field.required = true
+    reason.querySelector('#customer-status-reason-text').hidden = true
     custScrim.querySelector('#customer-status-confirm').textContent = 'Deactivate customer'
     custScrim.querySelector('.dlg').dataset.tone = 'danger'
     custScrim.querySelector('#customer-status-sum').textContent = single
@@ -171,10 +189,10 @@ export function createStatusDialogs({trapFocus, releaseFocus, toast, renderDataL
       return
     }
     if (event.target.closest('#customer-status-confirm') && pendingCustomer) {
-      const {rows, onDone} = pendingCustomer
-      const reason = custScrim.querySelector('#customer-status-reason').value.trim()
+      const {rows, onDone, activating} = pendingCustomer
+      const reason = activating ? '' : custScrim.querySelector('#customer-status-reason').value.trim()
       rows.forEach(row => {
-        row.active = false
+        row.active = activating
         row.statusReason = reason
       })
       closeCustomerStatusDialog()
@@ -184,8 +202,8 @@ export function createStatusDialogs({trapFocus, releaseFocus, toast, renderDataL
         tone: 'ok',
         title:
           rows.length === 1
-            ? `${rows[0].customerName || rows[0].customerNo} deactivated`
-            : `${rows.length} customers deactivated`,
+            ? `${rows[0].customerName || rows[0].customerNo} ${activating ? 'activated' : 'deactivated'}`
+            : `${rows.length} customers ${activating ? 'activated' : 'deactivated'}`,
       })
     }
   })
@@ -193,5 +211,120 @@ export function createStatusDialogs({trapFocus, releaseFocus, toast, renderDataL
     if (event.target.id === 'customer-status-reason') validateCustomerStatusConfirm()
   })
 
-  return {openInvoiceStatusDialog, closeInvoiceStatusDialog, openCustomerStatusDialog, closeCustomerStatusDialog}
+  function closeGeoStatusDialog() {
+    geoScrim.classList.remove('open')
+    pendingGeo = null
+    releaseFocus()
+  }
+
+  /* Same activate/deactivate dialog pair as customers (see
+     openCustomerStatusDialog above), reused for locations: the table row
+     menu and the location record page's own action both call
+     openGeoStatusDialog with a single row and no command, so the direction
+     is inferred from that row's own state. */
+  function openGeoStatusDialog(rowOrRows, {onDone, command} = {}) {
+    const rows = Array.isArray(rowOrRows) ? rowOrRows : [rowOrRows]
+    if (!rows.length) return
+    const activating = command ? command === 'activate' : !rows[0].active
+    return activating
+      ? openGeoActivateDialog(rows, {onDone})
+      : openGeoDeactivateDialog(rows, {onDone})
+  }
+
+  function openGeoActivateDialog(rows, {onDone} = {}) {
+    pendingGeo = {rows, onDone, activating: true}
+    const single = rows.length === 1 ? rows[0] : null
+    geoScrim.querySelector('#geo-status-title').textContent = single
+      ? `Activate location ${single.code}`
+      : `Activate ${rows.length} locations`
+    geoScrim.querySelector('#geo-status-description').textContent =
+      'This makes the location available for normal use again.'
+    const reason = geoScrim.querySelector('.geo-status-reason')
+    reason.hidden = !single?.statusReason
+    reason.querySelector('label').textContent = 'Reason recorded when deactivated'
+    const field = reason.querySelector('textarea')
+    const text = reason.querySelector('#geo-status-reason-text')
+    field.hidden = true
+    field.required = false
+    text.hidden = false
+    text.textContent = single?.statusReason || ''
+    geoScrim.querySelector('#geo-status-confirm').textContent = 'Activate location'
+    geoScrim.querySelector('.dlg').dataset.tone = 'default'
+    geoScrim.querySelector('#geo-status-sum').textContent = single
+      ? single.name || single.code
+      : `${rows.length} locations`
+    validateGeoStatusConfirm()
+    geoScrim.classList.add('open')
+    trapFocus(geoScrim.querySelector('.dlg'))
+  }
+
+  function openGeoDeactivateDialog(rows, {onDone} = {}) {
+    pendingGeo = {rows, onDone, activating: false}
+    const single = rows.length === 1 ? rows[0] : null
+    geoScrim.querySelector('#geo-status-title').textContent = single
+      ? `Deactivate location ${single.code}`
+      : `Deactivate ${rows.length} locations`
+    geoScrim.querySelector('#geo-status-description').textContent =
+      'Deactivated locations stay on hold until reactivated. Say why below.'
+    const reason = geoScrim.querySelector('.geo-status-reason')
+    reason.hidden = false
+    reason.querySelector('label').textContent = 'Why is this location being deactivated?'
+    const field = reason.querySelector('textarea')
+    field.hidden = false
+    field.value = ''
+    field.required = true
+    reason.querySelector('#geo-status-reason-text').hidden = true
+    geoScrim.querySelector('#geo-status-confirm').textContent = 'Deactivate location'
+    geoScrim.querySelector('.dlg').dataset.tone = 'danger'
+    geoScrim.querySelector('#geo-status-sum').textContent = single
+      ? single.name || single.code
+      : `${rows.length} locations`
+    validateGeoStatusConfirm()
+    geoScrim.classList.add('open')
+    trapFocus(geoScrim.querySelector('.dlg'))
+  }
+
+  function validateGeoStatusConfirm() {
+    const field = geoScrim.querySelector('#geo-status-reason')
+    const btn = geoScrim.querySelector('#geo-status-confirm')
+    if (!field.required) return void (btn.disabled = false)
+    btn.disabled = !field.value.trim()
+  }
+
+  geoScrim.addEventListener('click', event => {
+    if (event.target === geoScrim || event.target.closest('.geo-status-close')) {
+      closeGeoStatusDialog()
+      return
+    }
+    if (event.target.closest('#geo-status-confirm') && pendingGeo) {
+      const {rows, onDone, activating} = pendingGeo
+      const reason = activating ? '' : geoScrim.querySelector('#geo-status-reason').value.trim()
+      rows.forEach(row => {
+        row.active = activating
+        row.statusReason = reason
+      })
+      closeGeoStatusDialog()
+      renderDataList('geo')
+      onDone?.(rows)
+      toast({
+        tone: 'ok',
+        title:
+          rows.length === 1
+            ? `${rows[0].name || rows[0].code} ${activating ? 'activated' : 'deactivated'}`
+            : `${rows.length} locations ${activating ? 'activated' : 'deactivated'}`,
+      })
+    }
+  })
+  geoScrim.addEventListener('input', event => {
+    if (event.target.id === 'geo-status-reason') validateGeoStatusConfirm()
+  })
+
+  return {
+    openInvoiceStatusDialog,
+    closeInvoiceStatusDialog,
+    openCustomerStatusDialog,
+    closeCustomerStatusDialog,
+    openGeoStatusDialog,
+    closeGeoStatusDialog,
+  }
 }

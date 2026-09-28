@@ -70,6 +70,7 @@ export const CUSTOMER_ROWS = [
     country: 'EG - Egypt',
     phone: '010 1000 1000',
     active: false,
+    statusReason: 'Account on hold pending updated trade license.',
     photo: null,
   },
 ]

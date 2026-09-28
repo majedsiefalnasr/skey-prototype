@@ -88,6 +88,10 @@ export const DATA_LIST_VALID_VIEWS = {
   invoice: ['list', 'responsive', 'adaptive', 'cards', 'kanban'],
   customer: ['list', 'responsive', 'adaptive', 'cards'],
   geo: ['list', 'responsive', 'adaptive', 'cards'],
+  // List only: no per-row detail record to open, so Adaptive/Cards/Kanban
+  // (all of which drill into one row) have nothing to show.
+  screenParameters: ['list'],
+  journal: ['list'],
 }
 
 /* Pagination contract: the mocked row arrays only hold a handful of sample
@@ -95,7 +99,7 @@ export const DATA_LIST_VALID_VIEWS = {
    a simulated dataset size ("Record 1 of 125" etc). List-level pagination
    must agree with that same simulated total so the two counters never
    contradict each other. */
-export const DATA_LIST_SIMULATED_TOTAL = {invoice: 125, customer: 72, geo: 12}
+export const DATA_LIST_SIMULATED_TOTAL = {invoice: 125, customer: 72, geo: 12, screenParameters: 57, journal: 4}
 export const DATA_LIST_DEFAULT_PAGE_SIZE = 25
 export const DATA_LIST_PAGE_SIZE_OPTIONS = [10, 25, 50, 100]
 
@@ -167,6 +171,11 @@ function createInitialState(config, rows, storage, context) {
   const savedGroupBy = saved.groupBy.filter(
     (columnKey, index, keys) => defaultOrder.includes(columnKey) && keys.indexOf(columnKey) === index
   )
+  // A plain reference table (config.noRowActions) has no numeric/plottable
+  // columns to summarize, so its statistics panel starts hidden rather
+  // than showing an empty row of cards — same rule everywhere this flag
+  // applies (views.js/list.js's row-chrome suppression).
+  const statisticsVisible = config.noRowActions ? false : saved.statisticsVisible
   return {
     sourceRows: rows,
     selected: new Set(),
@@ -194,8 +203,8 @@ function createInitialState(config, rows, storage, context) {
     columnOrder: [...saved.columnOrder],
     savedColumnOrder: [...saved.columnOrder],
     layoutDirty: false,
-    statisticsVisible: saved.statisticsVisible,
-    savedStatisticsVisible: saved.statisticsVisible,
+    statisticsVisible,
+    savedStatisticsVisible: statisticsVisible,
     statisticsConcept: saved.statisticsConcept,
     savedStatisticsConcept: saved.statisticsConcept,
   }

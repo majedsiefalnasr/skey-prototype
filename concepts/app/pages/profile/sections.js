@@ -25,23 +25,24 @@ export function renderSectionHeading(key, encodeHtml) {
 // same delegated listener works for both without a profile-specific
 // collapse mechanism.
 //
-// danger:true renders a GitHub Danger-Zone-style variant: a red card
-// border and a red-tinted header (background + text), instead of the
-// standard line-colored border and neutral header. The border/header
-// background are hardcoded utilities on the template below (not classes
-// extraClass could otherwise out-specificity), so this branch overrides
-// them directly rather than trying to win a specificity fight from the
-// outside.
-function renderCard(title, bodyHtml, extraClass = '', {danger = false} = {}) {
+function renderCard(title, bodyHtml, extraClass = '') {
   const classAttr = extraClass ? `${extraClass} rec-card` : 'rec-card'
-  const cardBorder = danger
-    ? '[border:1px_solid_color-mix(in_srgb,_var(--danger)_35%,_transparent)]'
-    : '[border:1px_solid_var(--line)]'
-  const headerBg = danger ? 'bg-[var(--danger-soft-bg)]!' : 'bg-[var(--line-2)]!'
-  const headerText = danger ? '[color:var(--danger)]!' : ''
-  return `<div class="${classAttr} ${cardBorder} rounded-lg mb-3! overflow-hidden">
-    <button type="button" class="rec-card-hd flex items-center justify-between gap-2.5 w-full text-start [padding:8px_12px] [font-size:12.5px]! font-bold! ${headerBg} ${headerText} border-0! [cursor:pointer]" aria-expanded="true"><span class="flex items-center gap-1.5">${title}</span></button>
+  return `<div class="${classAttr} [border:1px_solid_var(--line)] rounded-lg mb-3! overflow-hidden">
+    <button type="button" class="rec-card-hd flex items-center justify-between gap-2.5 w-full text-start [padding:8px_12px] [font-size:12.5px]! font-bold! bg-[var(--line-2)]! border-0! [cursor:pointer]" aria-expanded="true"><span class="flex items-center gap-1.5">${title}</span></button>
     <div class="rec-card-body [padding:12px]">${bodyHtml}</div>
+  </div>`
+}
+
+// Shared Save/Undo bar for every editable-fields tab (Profile, Employee
+// details, Contact details, Account settings) — one bar per tab instead of
+// per-card, sticky at the tab's bottom, disabled until profile.js's dirty
+// tracking (bindEditableTab) flips a field. Appearance applies instantly
+// (its own established pattern) and Security/Sessions are action dialogs
+// and lists, not field forms, so neither gets this bar.
+function renderSaveBar(key) {
+  return `<div class="profile-save-bar sticky bottom-0 z-10 flex justify-end gap-2 [padding:10px_12px] mt-3! border-t border-line bg-surface" data-profile-save-bar="${key}">
+    <button type="button" class="lbtn out" id="profile-${key}-undo" disabled>Undo</button>
+    <button type="button" class="lbtn pri" id="profile-${key}-save" disabled>Save</button>
   </div>`
 }
 
@@ -169,7 +170,7 @@ function renderProfileSection(currentUser, encodeHtml) {
   )
 }
 
-export function renderAccountSection(currentUser, encodeHtml) {
+export function renderAccountSection(currentUser, accountDetails, encodeHtml) {
   const fieldsHtml = [
     renderProfileField({
       id: 'profile-username',
@@ -189,7 +190,7 @@ export function renderAccountSection(currentUser, encodeHtml) {
       id: 'profile-landing-page',
       label: 'Default landing page',
       type: 'select',
-      value: 'home',
+      value: accountDetails.landingPage,
       encodeHtml,
       options: [
         {value: 'home', label: 'Home'},
@@ -198,27 +199,85 @@ export function renderAccountSection(currentUser, encodeHtml) {
       ],
     }),
   ].join('')
-  const deactivated = Boolean(currentUser.deactivationFrom)
-  const dangerZone = renderCard(
-    '<svg width="14" height="14" aria-hidden="true" class="[margin-inline-end:2px]"><use href="#i-warn" /></svg> Danger zone',
-    `<div class="flex flex-col gap-2.5">
-      <div class="flex items-center justify-between gap-5 [padding-bottom:10px] [border-bottom:1px_solid_var(--danger-soft-line)]">
-        <span><strong class="block text-[13.5px] text-ink">${deactivated ? 'Account deactivated' : 'Deactivate account'}</strong><small class="block text-xs text-muted">${deactivated ? `Deactivated on ${encodeHtml(currentUser.deactivationFrom)}. Contact an administrator to reactivate.` : "You'll be signed out and won't be able to sign back in until an administrator reactivates your account."}</small></span>
-        <button type="button" class="lbtn out danger" id="profile-deactivate-account"${deactivated ? ' disabled' : ''}>${deactivated ? 'Deactivated' : 'Deactivate'}</button>
-      </div>
-      <div class="flex items-center justify-between gap-5">
-        <span><strong class="block text-[13.5px] text-ink">Delete account</strong><small class="block text-xs text-muted">Permanently removes your account and everything tied to it. This cannot be undone.</small></span>
-        <button type="button" class="lbtn danfill [.lbtn&]:[background:var(--danger-bold)] [.lbtn&]:[color:var(--inverse)] [.lbtn&:hover:not(:disabled)]:[background:var(--danger-fill-hover)]" id="profile-delete-account">Delete account</button>
-      </div>
-    </div>`,
-    'profile-danger-zone',
-    {danger: true}
+  return renderCard(
+    'Account',
+    `<div class="profile-account-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>`
   )
+}
+
+export function renderEmployeeSection(employeeDetails, encodeHtml) {
+  const employmentFields = [
+    ['number', 'Employee number', 'employeeNumber'],
+    ['job-title', 'Job title', 'jobTitle'],
+    ['department', 'Department', 'department'],
+    ['manager', 'Manager', 'manager'],
+    ['branch', 'Branch', 'branch'],
+    ['hire-date', 'Hire date', 'hireDate'],
+    ['employment-status', 'Employment status', 'employmentStatus'],
+  ]
+    .map(([id, label, key]) =>
+      renderProfileField({
+        id: `profile-employee-${id}`,
+        label,
+        value: employeeDetails[key],
+        encodeHtml,
+        readonly: true,
+      })
+    )
+    .join('')
+  const contactFields = [
+    ['work-phone', 'Work phone', 'workPhone', 'tel'],
+    ['extension', 'Extension', 'extension', 'text'],
+    ['office-location', 'Office location', 'officeLocation', 'text'],
+  ]
+    .map(([id, label, key, type]) =>
+      renderProfileField({
+        id: `profile-employee-${id}`,
+        label,
+        type,
+        value: employeeDetails[key],
+        encodeHtml,
+      })
+    )
+    .join('')
   return (
     renderCard(
-      'Account',
-      `<div class="profile-account-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>`
-    ) + dangerZone
+      'Employment',
+      `<div class="profile-employee-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${employmentFields}</div>`
+    ) +
+    renderCard(
+      'Workplace contact',
+      `<div class="profile-employee-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${contactFields}</div>`
+    )
+  )
+}
+
+export function renderContactSection(contactDetails, encodeHtml) {
+  const fieldsHtml = [
+    ['address', 'Address', 'text'],
+    ['address-details', 'Address details', 'text'],
+    ['city', 'City', 'text'],
+    ['state', 'State', 'text'],
+    ['country', 'Country', 'text'],
+    ['postal-code', 'Postal Code', 'text'],
+    ['phone', 'Phone', 'tel'],
+    ['email', 'E-mail', 'email'],
+    ['mobile', 'Mobile No.', 'tel'],
+    ['website', 'Website', 'url'],
+  ]
+    .map(([id, label, type]) =>
+      renderProfileField({
+        id: `profile-contact-${id}`,
+        label,
+        type,
+        value: contactDetails[id.replace(/-([a-z])/g, (_, c) => c.toUpperCase())],
+        encodeHtml,
+      })
+    )
+    .join('')
+  return renderCard(
+    'Contact information',
+    `<div class="profile-contact-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>`
   )
 }
 
@@ -336,8 +395,7 @@ function renderAppearanceSectionFields() {
   )
 }
 
-export function renderSecuritySection(currentUser) {
-  const enabled = Boolean(currentUser.twoFactorEnabled)
+export function renderSecuritySection() {
   return renderCard(
     'Sign-in security',
     `<div class="flex flex-col gap-2.5">
@@ -348,10 +406,6 @@ export function renderSecuritySection(currentUser) {
       <div class="flex items-center justify-between gap-5">
         <span><strong class="block text-[13.5px] text-ink">PIN code</strong><small class="block text-xs text-muted">Used for quick re-authentication on shared terminals.</small></span>
         <button type="button" class="lbtn out" data-profile-open-set-pin>Set / change PIN</button>
-      </div>
-      <div class="flex items-center justify-between gap-5">
-        <span><strong class="block text-[13.5px] text-ink">Two-factor authentication</strong><small class="block text-xs text-muted">${enabled ? 'Enabled — a code from your authenticator app is required to sign in.' : 'Add a second step when signing in, using an authenticator app.'}</small></span>
-        <button type="button" class="lbtn${enabled ? ' out danger' : ' pri'}" id="profile-2fa-toggle" data-profile-2fa-enabled="${enabled}">${enabled ? 'Turn off' : 'Turn on'}</button>
       </div>
     </div>`
   )
@@ -365,46 +419,31 @@ function renderSessionsSection(activityRows, encodeHtml) {
   )
 }
 
-function renderNotificationRow(id, title, description, checked) {
-  return `<label class="appearance-contrast-row">
-    <span class="switch relative inline-flex h-[17px] w-[30px] flex-none"><input class="peer absolute inset-0 m-0 cursor-pointer opacity-0" type="checkbox" id="${id}"${checked ? ' checked' : ''} /><span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-[background] duration-[120ms] before:absolute before:start-0.5 before:top-0.5 before:size-[13px] before:rounded-full before:bg-inverse before:transition-[translate] before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[13px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[13px]"></span></span>
-    <span><strong>${title}</strong><small>${description}</small></span>
-  </label>`
-}
-
-function renderNotificationsSection() {
-  return (
-    renderCard(
-      'Email notifications',
-      `<div class="flex flex-col gap-2">
-      ${renderNotificationRow('notif-email-invoices', 'Invoice activity', 'Status changes on invoices you follow.', true)}
-      ${renderNotificationRow('notif-email-mentions', 'Mentions', 'When someone mentions you in a comment.', true)}
-    </div>`
-    ) +
-    renderCard(
-      'In-app notifications',
-      `<div class="flex flex-col gap-2">
-      ${renderNotificationRow('notif-app-approvals', 'Approvals', 'Documents waiting on your approval.', true)}
-      ${renderNotificationRow('notif-app-system', 'System announcements', 'Maintenance windows and release notes.', false)}
-    </div>`
-    )
-  )
-}
-
 export function renderProfileSections({
   currentUser,
+  employeeDetails,
+  contactDetails,
+  accountDetails,
   encodeHtml,
   activityRows = [],
   activeKey = 'profile',
 }) {
+  // Every editable-fields tab gets the identical Save/Undo bar appended
+  // after its cards — Appearance applies instantly (no bar) and Security/
+  // Sessions are action dialogs and lists, not field forms (no bar).
+  const EDITABLE_TAB_KEYS = ['profile', 'employee', 'contact', 'account']
   const bodies = {
     profile: renderProfileSection(currentUser, encodeHtml),
-    account: renderAccountSection(currentUser, encodeHtml),
+    employee: renderEmployeeSection(employeeDetails, encodeHtml),
+    contact: renderContactSection(contactDetails, encodeHtml),
+    account: renderAccountSection(currentUser, accountDetails, encodeHtml),
     appearance: renderAppearanceSectionFields(),
-    security: renderSecuritySection(currentUser),
+    security: renderSecuritySection(),
     sessions: renderSessionsSection(activityRows, encodeHtml),
-    notifications: renderNotificationsSection(),
   }
+  EDITABLE_TAB_KEYS.forEach(key => {
+    bodies[key] += renderSaveBar(key)
+  })
   return Object.entries(bodies)
     .map(
       ([key, body]) =>

@@ -116,13 +116,13 @@ export function applyDataListToolbarCommand(context, command, selectedKey, listS
     deps.actions.openRecord(selectedKey, command === 'display' ? 'view' : 'edit')
   } else if (command === 'delete' && listState.selected.size) {
     deps.deleteDataListRecords(context, listState.selected)
-  } else if (context === 'customer' && ['activate', 'deactivate'].includes(command) && listState.selected.size) {
-    /* Customers get the same reasoned dialog here as the row menu and the
-       record page (openStatusDialog handles activate vs. deactivate
-       itself) — every other context keeps the plain instant flip. The
-       command is the toolbar button the user actually clicked, not each
-       row's current state — a mixed selection still all moves the same
-       direction, the one asked for. */
+  } else if (['customer', 'geo'].includes(context) && ['activate', 'deactivate'].includes(command) && listState.selected.size) {
+    /* Customers and locations get the same reasoned dialog here as the row
+       menu and the record page (openStatusDialog handles activate vs.
+       deactivate itself) — every other context keeps the plain instant
+       flip. The command is the toolbar button the user actually clicked,
+       not each row's current state — a mixed selection still all moves the
+       same direction, the one asked for. */
     const keySet = new Set(listState.selected)
     const rows = config.rows.filter(row => keySet.has(String(row[config.key])))
     deps.openStatusDialog(context, rows, command)

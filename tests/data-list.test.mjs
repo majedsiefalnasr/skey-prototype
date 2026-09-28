@@ -187,7 +187,7 @@ test('createListModel: pagination page count agrees with the simulated total, no
   // records, but the app's record-navigator pager already claims a
   // simulated dataset size, so list pagination must agree with the same
   // simulated total.
-  assert.deepEqual(DATA_LIST_SIMULATED_TOTAL, {invoice: 125, customer: 72, geo: 12});
+  assert.deepEqual(DATA_LIST_SIMULATED_TOTAL, {invoice: 125, customer: 72, geo: 12, screenParameters: 57, journal: 4});
   assert.deepEqual(DATA_LIST_PAGE_SIZE_OPTIONS, [10, 25, 50, 100]);
   const model = createListModel({config: invoiceConfig, rows: LIST_ROWS, storage: memoryLayoutStorage()});
   const totalPages = Math.max(1, Math.ceil(DATA_LIST_SIMULATED_TOTAL.invoice / model.state.pageSize));

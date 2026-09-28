@@ -15,7 +15,7 @@ import {createInvoicePayments} from './pages/invoices/payments.js'
 import {encodeHtml} from './core/locale.js'
 import {STATUSES, CHAIN} from './prototype/fixtures/invoices.js'
 import {CUSTOMER_ROWS, CUSTOMER_REFERENCE, UNIT_ROWS, CUSTOMER_LOOKUP_RESULTS} from './prototype/fixtures/customers.js'
-import {CURRENT_USER, LOGIN_LOG_ROWS, DEVICE_ROWS, RECENT_ACTIVITY_ROWS} from './prototype/fixtures/profile.js'
+import {CURRENT_USER, EMPLOYEE_DETAILS, CONTACT_DETAILS, LOGIN_LOG_ROWS, DEVICE_ROWS, RECENT_ACTIVITY_ROWS} from './prototype/fixtures/profile.js'
 import {createDataList} from './components/data-list/list.js'
 import {createCustomers} from './pages/customers/customers.js'
 import {createProfile} from './pages/profile/profile.js'
@@ -48,6 +48,8 @@ import {createListViews} from './components/data-list/renderers.js'
 import {createListCards} from './pages/list-cards.js'
 import {createKanban} from './pages/invoices/kanban.js'
 import {createStatusDialogs} from './components/data-list/status-dialogs.js'
+import {createScreenParametersDialog} from './components/screen-parameters/screen-parameters.js'
+import {createJournalEntryTable} from './components/screen-parameters/journal-entry.js'
 import {createListMenus} from './components/data-list/menu-controller.js'
 import {createListExport} from './components/data-list/export.js'
 import {createListFilters} from './components/data-list/filter-controller.js'
@@ -222,7 +224,7 @@ const search = createSearch({
   runAction: (...args) => runAction(...args)
 })
 
-const {actionDialog, requestLeave: requestInvoiceLeave, rscrim, openRDlg, closeRDlg, showInlineError, clearInlineError, doSave, runAction, applyState, gscrim, atRisk, askGuard, runGuarded, modeSel, applyMode} = createInvoiceOperations({t, trapFocus, state, releaseFocus, closeAllMenus: (...args) => menus.closeAllMenus(...args), closeSearch: (...args) => search.closeSearch(...args), getLocale, encodeHtml, blocked, toast, runWork, doPrint, openSearch: (...args) => search.openSearch(...args), STATUSES, CHAIN, reached: (...args) => status.reached(...args), editable, LOCK_COPY, pop: status.pop, renderPop: (...args) => status.renderPop(...args), drawer, renderCards, renderSearch: (...args) => search.renderSearch(...args)})
+const {actionDialog, requestLeave: requestInvoiceLeave, rscrim, openRDlg, closeRDlg, showInlineError, clearInlineError, doSave, runAction, applyState, gscrim, atRisk, askGuard, runGuarded, modeSel, applyMode} = createInvoiceOperations({t, trapFocus, state, releaseFocus, closeAllMenus: (...args) => menus.closeAllMenus(...args), closeSearch: (...args) => search.closeSearch(...args), getLocale, encodeHtml, blocked, toast, runWork, doPrint, openSearch: (...args) => search.openSearch(...args), STATUSES, CHAIN, reached: (...args) => status.reached(...args), editable, LOCK_COPY, pop: status.pop, renderPop: (...args) => status.renderPop(...args), drawer, renderCards, renderSearch: (...args) => search.renderSearch(...args), openScreenParameters: () => screenParametersDialog.open('Sales Invoice'), journalEntryTable: {activate: (...args) => journalEntryTable.activate(...args), deactivate: (...args) => journalEntryTable.deactivate(...args)}})
 
 const keyboard = createKeyboard({
   trapFocus,
@@ -283,7 +285,7 @@ const invoiceShortcuts = createInvoiceShortcuts({
 
 recordChrome.bind()
 
-const geography = createGeography({root: document.querySelector('.geo-record-view'), getList: () => listRuntime.dataListInstances.geo, t, dataListIcon: (...args) => listRuntime.dataListIcon(...args), trapFocus, releaseFocus, toast, showContentView: (...args) => showContentView(...args), renderGeoList: (...args) => pageListBindings.renderGeoList(...args), openNewDataListRecord: (...args) => pageListActions.openNewDataListRecord(...args), openPrintSettings, openAdvancedSearch: (...args) => advancedSearch.openAdvancedSearch(...args)})
+const geography = createGeography({root: document.querySelector('.geo-record-view'), getList: () => listRuntime.dataListInstances.geo, t, dataListIcon: (...args) => listRuntime.dataListIcon(...args), trapFocus, releaseFocus, toast, showContentView: (...args) => showContentView(...args), renderGeoList: (...args) => pageListBindings.renderGeoList(...args), openNewDataListRecord: (...args) => pageListActions.openNewDataListRecord(...args), openPrintSettings, openAdvancedSearch: (...args) => advancedSearch.openAdvancedSearch(...args), openGeoStatusDialog: (row, options) => statusDialogs.openGeoStatusDialog(row, options), openScreenParameters: () => screenParametersDialog.open('Geographical Structure')})
 
 const {renderGeoRecord, openGeoRecord, closeGeoParentPicker, closeGeoHierarchyDialog} = geography
 
@@ -340,7 +342,9 @@ const listRuntime = createListRuntime({
   openStatusDialog: (context, row, targetStatusOrCommand) =>
     context === 'invoice'
       ? statusDialogs.openInvoiceStatusDialog(row, targetStatusOrCommand)
-      : statusDialogs.openCustomerStatusDialog(row, {command: targetStatusOrCommand}),
+      : context === 'geo'
+        ? statusDialogs.openGeoStatusDialog(row, {command: targetStatusOrCommand})
+        : statusDialogs.openCustomerStatusDialog(row, {command: targetStatusOrCommand}),
   getDataListActions: () => pageListActions.dataListActions,
   guardDataListLeave: (...args) => listGuard.guardDataListLeave(...args),
   dateFilterLabel: (...args) => listDates.dateFilterLabel(...args),
@@ -408,6 +412,7 @@ const customerDependencies = {
     openCustomerSearch: (...args) => advancedSearch.openCustomerSearch(...args),
     openPrintSettings,
     openCustomerStatusDialog: (row, options) => statusDialogs.openCustomerStatusDialog(row, options),
+    openScreenParameters: () => screenParametersDialog.open('Customer'),
     closeAllMenus: (...args) => menus.closeAllMenus(...args),
   },
 }
@@ -418,6 +423,8 @@ const profile = createProfile({
   root: document.querySelector('.profile-view'),
   encodeHtml,
   currentUser: CURRENT_USER,
+  employeeDetails: EMPLOYEE_DETAILS,
+  contactDetails: CONTACT_DETAILS,
   loginLogRows: LOGIN_LOG_ROWS,
   deviceRows: DEVICE_ROWS,
   activityRows: RECENT_ACTIVITY_ROWS,
@@ -499,6 +506,17 @@ const statusDialogs = createStatusDialogs({
   releaseFocus,
   toast,
   renderDataList: (...args) => listRuntime.renderDataList(...args)
+})
+
+const screenParametersDialog = createScreenParametersDialog({
+  trapFocus,
+  releaseFocus,
+  dataListInstance: listRuntime.dataListInstances.screenParameters
+})
+
+const journalEntryTable = createJournalEntryTable({
+  encodeHtml,
+  dataListInstance: listRuntime.dataListInstances.journal
 })
 
 const listMenus = createListMenus({

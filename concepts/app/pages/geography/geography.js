@@ -16,6 +16,8 @@ export function createGeography({
   openNewDataListRecord,
   openPrintSettings,
   openAdvancedSearch,
+  openGeoStatusDialog,
+  openScreenParameters,
 }) {
   const pageAbort = new AbortController()
 
@@ -38,20 +40,31 @@ export function createGeography({
 
   function renderGeoRecordChrome(row) {
     const editing = geoState.mode !== 'view'
-    const title = geoState.mode === 'create' ? t('New Location') : encodeHtml(row.name)
+    const creating = geoState.mode === 'create'
+    const title = creating ? t('New Location') : encodeHtml(row.name)
+    /* Same reasoned activate/deactivate dialog as the list row menu
+       (status-dialogs.js's openGeoStatusDialog) — a new, unsaved location
+       has no status of its own yet, so the action is left out entirely. */
+    const statusActionItem = creating
+      ? ''
+      : `<button role="menuitem" type="button" class="${row.active ? 'dan' : ''}" data-geo-record-action="change-status">${dataListIcon(row.active ? 'i-archive' : 'i-check', 14)} ${row.active ? t('Deactivate') : t('Activate')}</button>`
     const actions = editing
-      ? `<button class="lbtn pri" type="button" data-geo-record-action="save">${dataListIcon('i-save')} ${t('Save')}</button><button class="lbtn out" type="button" data-geo-record-action="undo">${dataListIcon('i-undo')} ${t('Undo')}</button>`
-      : `<button class="lbtn pri" type="button" data-geo-record-action="modify">${dataListIcon('i-edit')} ${t('Modify')}</button><button class="lbtn out" type="button" data-geo-record-action="new">${dataListIcon('i-plus')} ${t('New')}</button><span class="menu relative inline-flex [flex:none]"><button class="ibtn" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="${t('More actions', 'More actions')}">${dataListIcon('i-dots')}</button><div class="mlist mend" role="menu"><button role="menuitem" type="button" class="dan" data-geo-record-action="delete">${dataListIcon('i-trash', 14)} ${t('Delete')}</button></div></span>`
+      ? `<button class="lbtn pri" type="button" data-geo-record-action="save">${dataListIcon('i-save')} ${t('Save')}</button><button class="lbtn out" type="button" data-geo-record-action="undo">${dataListIcon('i-undo')} ${t('Undo')}</button>${
+          statusActionItem
+            ? `<span class="menu relative inline-flex [flex:none]"><button class="ibtn" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="${t('More actions', 'More actions')}">${dataListIcon('i-dots')}</button><div class="mlist mend" role="menu">${statusActionItem}</div></span>`
+            : ''
+        }`
+      : `<button class="lbtn pri" type="button" data-geo-record-action="modify">${dataListIcon('i-edit')} ${t('Modify')}</button><button class="lbtn out" type="button" data-geo-record-action="new">${dataListIcon('i-plus')} ${t('New')}</button><span class="menu relative inline-flex [flex:none]"><button class="ibtn" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="${t('More actions', 'More actions')}">${dataListIcon('i-dots')}</button><div class="mlist mend" role="menu">${statusActionItem}<button role="menuitem" type="button" class="dan" data-geo-record-action="delete">${dataListIcon('i-trash', 14)} ${t('Delete')}</button></div></span>`
     queryId('geo-record-chrome').innerHTML = `
-    <div class="arow customer-arow [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-1 [.d1_&]:[padding:7px_16px] [.d1_&]:[border-bottom:1px_solid_var(--line)] [.d1_&]:bg-surface [.d1_&]:flex-wrap" role="toolbar" aria-label="Location toolbar">
+    <div class="arow customer-arow [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-1 [.d1_&]:[padding:7px_0] [.d1_&]:[border-bottom:1px_solid_var(--line)] [.d1_&]:bg-surface [.d1_&]:flex-wrap" role="toolbar" aria-label="Location toolbar">
       <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('Record')} ${dataListIcon('i-caret', 12)}</button><div class="mlist" role="menu"><button role="menuitem" type="button" data-geo-record-action="new">${dataListIcon('i-plus', 14)} ${t('New')}</button><button role="menuitem" type="button" data-geo-record-action="modify"${editing ? ' disabled' : ''}>${dataListIcon('i-edit', 14)} ${t('Modify')}</button><button role="menuitem" type="button" data-geo-record-action="delete"${editing ? ' disabled' : ''}>${dataListIcon('i-trash', 14)} ${t('Delete')}</button><button role="menuitem" type="button" data-geo-record-action="search">${dataListIcon('i-search', 14)} ${t('Search')}</button></div></div>
       <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('Procedure')} ${dataListIcon('i-caret', 12)}</button><div class="mlist" role="menu"><button role="menuitem" type="button" data-geo-record-action="save"${editing ? '' : ' disabled'}>${dataListIcon('i-save', 14)} ${t('Save')}</button><button role="menuitem" type="button" data-geo-record-action="print">${dataListIcon('i-print', 14)} ${t('Print')}</button><button role="menuitem" type="button" data-geo-record-action="undo"${editing ? '' : ' disabled'}>${dataListIcon('i-undo', 14)} ${t('Undo')}</button></div></div>
       <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('More')} ${dataListIcon('i-caret', 12)}</button><div class="mlist" role="menu"><button role="menuitem" type="button" data-geo-record-action="parameters">${dataListIcon('i-sliders', 14)} ${t('Screen Parameters')}</button><button role="menuitem" type="button" data-geo-record-action="help">${dataListIcon('i-help', 14)} ${t('Help')}</button></div></div>
     </div>
-    <div class="phead [.d1_&]:[padding:11px_16px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5">
+    <div class="phead [.d1_&]:[padding:11px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5">
       <div class="l [.d1_.phead_&]:[flex:1]">
         <nav class="crumbs [.d3_.otitle_&]:[margin-bottom:3px]!" aria-label="Breadcrumb"><a href="#">${t('Home')}</a><span class="sep">›</span><button class="geo-back-list" type="button">${t('Geographical Structure')}</button><span class="sep">›</span><span aria-current="page">${geoState.mode === 'create' ? t('New') : t('All')}</span></nav>
-        <div class="tline [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-5 [.d1_&]:mt-2! [.d1_&]:flex-wrap [.d1_&_h1]:[font-size:23px] [.d1_&_h1]:font-semibold"><h1>${title}</h1><span class="badge ${row.active ? 'ok' : 'gray'}">${row.active ? t('Active') : t('Inactive')}</span></div>
+        <div class="tline [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-5 [.d1_&]:mt-2! [.d1_&]:flex-wrap [.d1_&_h1]:[font-size:23px] [.d1_&_h1]:font-semibold"><h1>${title}</h1>${row.active ? '' : `<span class="badge danger">${t('Inactive')}</span>`}</div>
       </div>
       <div class="r [.d1_.phead_&]:flex [.d1_.phead_&]:items-center [.d1_.phead_&]:gap-1 [.d1_.phead_&]:mt-1.5!"><span class="recacts inline-flex items-center [gap:7px] flex-wrap">${actions}</span></div>
     </div>`
@@ -533,7 +546,15 @@ export function createGeography({
       toast({tone: 'ok', title: 'Changes discarded'})
     } else if (action === 'print') openPrintSettings(`Location ${geoState.code}`)
     else if (action === 'search') openAdvancedSearch('geo')
-    else
+    else if (action === 'parameters') openScreenParameters?.()
+    else if (action === 'change-status') {
+      const row = GEO_ROWS.find(item => item.code === geoState.code)
+      if (row) {
+        openGeoStatusDialog?.(row, {
+          onDone: () => renderGeoRecord(),
+        })
+      }
+    } else
       toast({
         tone: 'ok',
         title: `${action[0].toUpperCase() + action.slice(1)} is ready for integration`,
@@ -541,9 +562,19 @@ export function createGeography({
     return true
   }
 
-  queryId('geo-record-chrome').addEventListener(
+  /* Bound to `document`, not the chrome element itself: renderGeoRecordChrome
+     moves `.arow` out to the shared `.page-action-bar` after every render
+     (main.js's shell wiring), which takes its buttons out of the chrome's
+     own subtree — a listener on the chrome element would stop seeing clicks
+     on Modify/Save/Delete/Screen Parameters/etc. the moment that happens.
+     handleGeoRecordAction already delegates on the `[data-geo-record-action]`
+     attribute rather than assuming DOM position, so listening on `document`
+     costs nothing and matches invoice's own .arow menu (operations.js's
+     `[data-act]` document listeners). */
+  document.addEventListener(
     'click',
     event => {
+      if (root.hidden) return
       if (event.target.closest('.geo-back-list')) {
         if (geoHierarchyScrim.classList.contains('open')) closeGeoHierarchyDialog()
         showContentView('geo-list')

@@ -288,6 +288,11 @@
     opacity: 1;
   }
 
+  body.style-inline .geo-form [readonly],
+  body.style-inline .geo-form select:disabled {
+    background-color: transparent;
+  }
+
   .data-filter-modal-clear:hover {
     color: var(--ink);
     background: var(--line-2);

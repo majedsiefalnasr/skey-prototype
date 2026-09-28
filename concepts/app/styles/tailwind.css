@@ -158,6 +158,7 @@
 
   .profile-view[data-profile-card-style='simple'] .profile-personal-fields,
   .profile-view[data-profile-card-style='simple'] .profile-photo-column,
+  .profile-view[data-profile-card-style='simple'] .profile-employee-fields,
   .profile-view[data-profile-card-style='simple'] .profile-account-fields {
     padding: 0 !important;
   }

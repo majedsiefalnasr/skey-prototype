@@ -61,10 +61,28 @@ export function createPageListActions({getShowContentView, getState, applyState,
     }
   }
 
+  // Screen Parameters rows have no detail record, no create-new, and no
+  // row-level commands (columns.js's `noRowActions: true` already keeps
+  // the shared list from rendering anything that would call these) — kept
+  // as no-ops rather than omitted so this context's shape still satisfies
+  // whatever generically calls actions[context].<method>() (e.g. a stray
+  // click bypassing the suppressed row-actions cell).
+  function screenParametersListActions() {
+    return {
+      openRecord: () => {},
+      newRecord: () => {},
+      run: () => false,
+    }
+  }
+
   const dataListActionFactories = {
     invoice: invoiceListActions,
     customer: customerListActions,
     geo: geoListActions,
+    screenParameters: screenParametersListActions,
+    // Journal Entry lines are the same shape (no detail record, no
+    // create-new, no row-level commands) as Screen Parameters.
+    journal: screenParametersListActions,
   }
 
   const dataListActions = Object.fromEntries(

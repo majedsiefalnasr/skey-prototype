@@ -1,0 +1,53 @@
+<!-- Screen Parameters — a read-only reference table shared by every record
+     page's "Screen Parameters" action (Sales Invoice, Customer,
+     Geographical Structure). Same .dscrim/.dlg shell as the invoice
+     record's own dialogs (record-dialogs.html), sized wide since its
+     table needs the room. The canvas/footer pair below is wired to a real
+     data-list instance (DATA_LIST_CONFIG.screenParameters,
+     screen-parameters.js) exactly like a list page's own .canvas/.fnav —
+     same Filter/Search/Columns/sort/pagination UX as the customer list,
+     minus the row-level "..." menu and select-all checkbox (rows have no
+     detail record, no delete — columns.js's `noRowActions: true`). -->
+<div
+  class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]"
+  id="screen-parameters-scrim">
+  <div
+    class="dlg wide [width:min(640px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh] [&.wide]:[width:min(1180px,_97vw)]"
+    data-tone="info"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="screen-parameters-title">
+    <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+      <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]"><use href="#i-sliders" /></svg>
+      <div>
+        <h3 id="screen-parameters-title">Screen Parameters</h3>
+        <p class="dhd-subtitle">Configuration values that control this screen's behavior</p>
+      </div>
+      <button
+        class="ibtn x screen-parameters-close"
+        aria-label="Close"
+        style="margin-inline-start: auto">
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+      </button>
+    </div>
+    <div class="dlg-inner min-h-0">
+      <div class="dbody [padding:16px] overflow-auto">
+        <!-- .canvas is a page-header/list-canvas placeholder element
+             elsewhere (its own overflow-y:auto scroll container on a
+             standalone list page) — here it's nested inside .dbody, which
+             is already this dialog's one real scroller, so its overflow
+             must be reset to visible: two stacked scroll containers would
+             make .canvas the sticky-positioning ancestor for the table's
+             <thead> instead of .dbody, breaking the sticky header
+             (list.js's sticky <th> styling). The `!` is required: the
+             shared `.canvas:not(#list-canvas)` rule (shell.css) has higher
+             specificity (a :not() pseudo-class) than a single arbitrary-
+             value class, so a plain override loses to it. -->
+        <div class="canvas [overflow:visible]!" id="screen-parameters-canvas"></div>
+      </div>
+      <div
+        class="fnav fnav-list flex items-center gap-5 [padding:9px_16px] bg-surface [border-top:1px_solid_var(--line)]"
+        id="screen-parameters-fnav"></div>
+    </div>
+  </div>
+</div>

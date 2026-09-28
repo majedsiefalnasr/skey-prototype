@@ -1,15 +1,25 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {readFile} from 'node:fs/promises'
-import {CURRENT_USER, LOGIN_LOG_ROWS, DEVICE_ROWS} from '../concepts/app/prototype/fixtures/profile.js'
+import * as profileFixtures from '../concepts/app/prototype/fixtures/profile.js'
 import {PROFILE_SECTION_ORDER, PROFILE_SECTIONS} from '../concepts/app/pages/profile/fields.js'
 import {renderProfileScrollNav} from '../concepts/app/pages/profile/layout.js'
 import {renderProfileSections} from '../concepts/app/pages/profile/sections.js'
+
+const {CURRENT_USER, EMPLOYEE_DETAILS, CONTACT_DETAILS, LOGIN_LOG_ROWS, DEVICE_ROWS} = profileFixtures
 
 test('profile fixtures have the expected shape', () => {
   assert.equal(typeof CURRENT_USER.name, 'string')
   assert.equal(typeof CURRENT_USER.email, 'string')
   assert.ok(CURRENT_USER.name.length > 0)
+
+  assert.equal(typeof EMPLOYEE_DETAILS.employeeNumber, 'string')
+  assert.equal(typeof EMPLOYEE_DETAILS.employmentStatus, 'string')
+  assert.equal(typeof EMPLOYEE_DETAILS.workPhone, 'string')
+
+  assert.equal(typeof CONTACT_DETAILS.address, 'string')
+  assert.equal(typeof CONTACT_DETAILS.email, 'string')
+  assert.equal(typeof CONTACT_DETAILS.mobile, 'string')
 
   assert.ok(LOGIN_LOG_ROWS.length >= 6 && LOGIN_LOG_ROWS.length <= 10)
   LOGIN_LOG_ROWS.forEach(row => {
@@ -28,8 +38,8 @@ test('profile fixtures have the expected shape', () => {
   })
 })
 
-test('profile section metadata covers all six sections in order', () => {
-  assert.deepEqual(PROFILE_SECTION_ORDER, ['profile', 'account', 'appearance', 'security', 'sessions', 'notifications'])
+test('profile section metadata covers all seven sections in order', () => {
+  assert.deepEqual(PROFILE_SECTION_ORDER, ['profile', 'employee', 'contact', 'account', 'appearance', 'security', 'sessions'])
   PROFILE_SECTION_ORDER.forEach(key => {
     assert.equal(typeof PROFILE_SECTIONS[key].title, 'string')
     assert.equal(typeof PROFILE_SECTIONS[key].icon, 'string')
@@ -40,7 +50,7 @@ test('profile scroll nav renders one button per section with the active one curr
   const encodeHtml = value => String(value)
   const html = renderProfileScrollNav(PROFILE_SECTION_ORDER, PROFILE_SECTIONS, 'security', encodeHtml)
 
-  assert.equal((html.match(/data-profile-scroll-section="/g) || []).length, 6)
+  assert.equal((html.match(/data-profile-scroll-section="/g) || []).length, 7)
   assert.match(html, /data-profile-scroll-section="security"[^>]*aria-current="page"/)
   assert.doesNotMatch(html, /data-profile-scroll-section="profile"[^>]*aria-current/)
   assert.match(html, /class="profile-scroll-nav/)
@@ -64,6 +74,7 @@ test('security dialogs markup exists with password and pin forms', async () => {
   assert.match(html, /id="current-pin"/)
   assert.match(html, /id="new-pin"/)
   assert.match(html, /id="confirm-pin"/)
+  assert.doesNotMatch(html, /2fa|deactivate-account|delete-account/)
 })
 
 test('security-dialogs.js exports createSecurityDialogs with open/bind API', async () => {
@@ -88,14 +99,43 @@ test('login log table renders one row per entry with status text', async () => {
   assert.match(html, />failed</)
 })
 
-test('profile sections include all six section ids and the relocated appearance fields', () => {
+test('profile sections include employee details, contact details, and omit removed settings', () => {
   const encodeHtml = value => String(value)
-  const html = renderProfileSections({currentUser: CURRENT_USER, encodeHtml})
+  const html = renderProfileSections({currentUser: CURRENT_USER, employeeDetails: EMPLOYEE_DETAILS, contactDetails: CONTACT_DETAILS, accountDetails: {landingPage: 'home'}, encodeHtml})
 
-  ;['profile', 'account', 'appearance', 'security', 'sessions', 'notifications'].forEach(key => {
+  ;['profile', 'employee', 'contact', 'account', 'appearance', 'security', 'sessions'].forEach(key => {
     assert.match(html, new RegExp(`id="profile-section-${key}"`))
     assert.match(html, new RegExp(`data-profile-scroll-target="${key}"`))
   })
+
+  assert.match(html, /id="profile-employee-number"[^>]*disabled/)
+  assert.match(html, /id="profile-employee-work-phone"/)
+  assert.match(html, /id="profile-employee-extension"/)
+  assert.match(html, /id="profile-employee-office-location"/)
+  assert.match(html, /id="profile-employee-save"/)
+  assert.match(html, /id="profile-employee-undo"/)
+  assert.doesNotMatch(html, /profile-section-notifications|profile-danger-zone|profile-2fa-toggle/)
+
+  assert.match(html, /id="profile-contact-address"/)
+  assert.match(html, /id="profile-contact-city"/)
+  assert.match(html, /id="profile-contact-state"/)
+  assert.match(html, /id="profile-contact-country"/)
+  assert.match(html, /id="profile-contact-postal-code"/)
+  assert.match(html, /id="profile-contact-phone"/)
+  assert.match(html, /id="profile-contact-email"/)
+  assert.match(html, /id="profile-contact-mobile"/)
+  assert.match(html, /id="profile-contact-website"/)
+  assert.match(html, /id="profile-contact-save"/)
+  assert.match(html, /id="profile-contact-undo"/)
+
+  // Every editable-fields tab (Profile, Employee, Contact, Account) gets
+  // the identical Save/Undo bar, both starting disabled until dirty.
+  ;['profile', 'employee', 'contact', 'account'].forEach(key => {
+    assert.match(html, new RegExp(`id="profile-${key}-save"[^>]*disabled`))
+    assert.match(html, new RegExp(`id="profile-${key}-undo"[^>]*disabled`))
+  })
+  assert.doesNotMatch(html, /id="profile-header-status"/)
+  assert.doesNotMatch(html, /id="profile-appearance-save"|id="profile-security-save"|id="profile-sessions-save"/)
 
   assert.match(html, /id="appearance-custom-color"/)
   assert.match(html, /id="appearance-interface-scale"/)
@@ -138,11 +178,16 @@ test('content host registers the profile view and the appearance dialog file is 
 test('main.js wires the profile page and topbar no longer opens an appearance dialog', async () => {
   const main = await readFile(new URL('../concepts/app/main.js', import.meta.url), 'utf8')
   assert.match(main, /import \{createProfile\} from '\.\/pages\/profile\/profile\.js'/)
-  assert.match(main, /import \{CURRENT_USER, LOGIN_LOG_ROWS, DEVICE_ROWS, RECENT_ACTIVITY_ROWS\} from '\.\/prototype\/fixtures\/profile\.js'/)
+  assert.match(main, /EMPLOYEE_DETAILS/)
+  assert.match(main, /CONTACT_DETAILS/)
   assert.match(main, /\['profile', profile\]/)
   assert.doesNotMatch(main, /openAppearance/)
 
   const topbar = await readFile(new URL('../concepts/app/shell/topbar.js', import.meta.url), 'utf8')
   assert.doesNotMatch(topbar, /openAppearance/)
   assert.match(topbar, /profile-menu/)
+
+  const shell = await readFile(new URL('../concepts/app/shell/shell.html', import.meta.url), 'utf8')
+  assert.match(shell, /data-profile-section="employee"/)
+  assert.doesNotMatch(shell, /data-profile-section="notifications"/)
 })

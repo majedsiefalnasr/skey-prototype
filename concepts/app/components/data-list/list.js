@@ -220,8 +220,18 @@ export function renderDataListToolbar(context, config, listState, deps) {
       <button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS} data-clear-selection ms-auto" type="button" data-list-clear-selection>${dataListIcon('i-x')} ${t('Clear selection', 'Clear selection')}</button>
     </div>
     `
-  const filterCluster =
-    listState.filterMode === 'modal'
+  // config.noRowActions tables (Screen Parameters, Journal Entry — plain
+  // reference grids with no detail record) keep only the field-based
+  // "+ Filter" popover and search/columns/sort/pagination, same as every
+  // other list — but skip the quick-filter dropdown ("All parameters ⌄"),
+  // saved/custom views, and Save filter entirely: there is nothing to
+  // switch between (config.filters is a single "All ..." entry) and no
+  // per-user saved-view concept for a plain config/reference table.
+  const filterCluster = config.noRowActions
+    ? `<details class="data-menu relative"><summary class="${DATA_MENU_SUMMARY_CLASS}">${dataListIcon('i-plus')}<span>${t('Filter', 'Filter')}</span></summary><div class="${DATA_MENU_POPOVER_CLASS}" role="menu">${renderDataListFieldChoices(config, listState, deps)}</div></details>
+      ${filterEditors}
+      ${clearFilterButton}`
+    : listState.filterMode === 'modal'
       ? `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-open-filters aria-haspopup="dialog">${dataListIcon('i-filter')}<span>${filterCount ? `${t('Filters', 'Filters')} (${filterCount})` : t('Filters', 'Filters')}</span></button>
       ${clearFilterButton}`
       : `<details class="data-menu relative"><summary class="${DATA_MENU_SUMMARY_CLASS}">${dataListIcon(activeCustomFilter ? activeCustomFilter.icon || 'i-eye' : isUnsaved ? 'i-doc' : activeFilter.icon)}<span>${activeCustomFilter ? encodeHtml(activeCustomFilter.name) : isUnsaved ? t('Unsaved view', 'Unsaved view') : encodeHtml(t(activeFilter.label))}</span>${dataListIcon('i-caret', 11)}</summary><div class="${DATA_MENU_POPOVER_CLASS}" role="menu">${filterButtons}</div></details>
@@ -239,10 +249,16 @@ export function renderDataListToolbar(context, config, listState, deps) {
   const chartButton = isAdaptive
     ? ''
     : `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="chart" aria-pressed="${listState.chartVisible}" hidden>${dataListIcon('i-chart')}<span>${t('Chart', 'Chart')}</span></button>`
+  // Group by has nothing meaningful to group config.noRowActions tables
+  // by (they're a flat reference list, not records with a lifecycle), so
+  // it's dropped alongside the row-level controls those tables already
+  // skip.
   const groupTrigger =
-    tableView && !isAdaptive ? deps.renderDataListGroupTrigger(config, listState) : ''
+    tableView && !isAdaptive && !config.noRowActions
+      ? deps.renderDataListGroupTrigger(config, listState)
+      : ''
   const overflowMenu = `<details class="data-menu end data-toolbar-overflow relative hidden max-[900px]:inline-flex [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5"><summary class="${DATA_MENU_SUMMARY_CLASS}" aria-label="${t('More actions', 'More actions')}" title="${t('More actions', 'More actions')}">${dataListIcon('i-dots')}</summary><div class="${DATA_MENU_POPOVER_CLASS}" role="menu">${printButton}${chartButton}${groupTrigger}</div></details>`
-  return `<div class="data-list-toolbar data-browse-toolbar flex min-h-[46px] flex-wrap items-center gap-2 px-2.5 py-[7px] max-[900px]:items-stretch" role="toolbar" aria-label="${encodeHtml(config.label)} ${t('table controls', 'table controls')}">
+  return `<div class="data-list-toolbar data-browse-toolbar flex min-h-[46px] flex-wrap items-center gap-2 py-[7px] max-[900px]:items-stretch" role="toolbar" aria-label="${encodeHtml(config.label)} ${t('table controls', 'table controls')}">
     <div class="data-toolbar-cluster data-list-view-controls flex min-w-0 [flex:1_1_auto] flex-wrap items-center gap-1.5">
       ${filterCluster}
       ${listState.layoutDirty ? `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS} is-active text-accent bg-[var(--accent-soft)]" type="button" data-list-save-layout>${dataListIcon('i-save')} ${t('Save layout', 'Save layout')}</button>` : ''}
@@ -253,7 +269,7 @@ export function renderDataListToolbar(context, config, listState, deps) {
       <span class="data-toolbar-cluster data-toolbar-inline flex min-w-0 flex-wrap items-center gap-1.5 max-[900px]:hidden">${printButton}${chartButton}${groupTrigger}</span>
       ${overflowMenu}
       ${listState.view === 'list' && !isAdaptive ? `<details class="data-menu end relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5"><summary class="${DATA_MENU_SUMMARY_CLASS}">${dataListIcon('i-sliders')}<span class="data-toolbar-label-text max-[620px]:hidden">${t('Columns', 'Columns')}</span>${dataListIcon('i-caret', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS}" role="group" aria-label="${t('Visible columns', 'Visible columns')}">${columnControls}</div></details>` : ''}
-      ${renderDataListViewMenu(config, listState, deps)}
+      ${config.noRowActions ? '' : renderDataListViewMenu(config, listState, deps)}
     </div>
   </div>`
 }
@@ -383,7 +399,50 @@ export function renderDataList(
         ? deps.renderDataListCards(context, rows, config, listState)
         : isAdaptive
           ? deps.renderDataListAdaptiveRecord(context, rows[0], config, filteredRows.length)
-          : `<div class="data-table-scroll overflow-auto${listState.view === 'responsive' ? ' data-table-responsive max-w-full overflow-clip' : ''}"><table class="inv-grid borders-${deps.encodeHtml(listState.borderMode)} w-full [border-collapse:collapse] [font-size:13px] [&_th]:text-start [&_th]:[padding:8px_12px]! [&_th]:bg-[var(--line-2)] [&_th]:text-muted [&_th]:font-medium [&_th]:[border-bottom:1px_solid_var(--line)] [&_th]:whitespace-nowrap [&_td]:[padding:8px_12px]! [&_td]:[border-bottom:1px_solid_var(--line-2)] [&_td]:text-ink [&_td]:whitespace-nowrap [&_td]:[text-overflow:ellipsis] [&_td]:overflow-hidden [&_td]:[max-width:200px] [&_tbody_tr:hover]:[background:var(--hover-overlay)] [&_tbody_tr:hover]:[cursor:pointer] [&_td_input]:w-full [&_td_input]:[padding:5px_7px] [&_td_input]:bg-surface [&_td_input]:text-ink [&_td_input]:[border:1px_solid_var(--line)] [&_td_input]:[border-radius:5px] [&_td_input]:[font:inherit]">${responsiveColgroup}<thead><tr><th><input class="m-0! size-[15px] accent-accent" type="checkbox" data-list-select-all aria-label="Select all visible ${deps.encodeHtml(config.label)}"${allSelected ? ' checked' : ''}></th>${deps.renderDataListHeader(visibleColumns, listState)}<th class="data-row-actions-cell" aria-label="Record actions"></th></tr></thead><tbody>${deps.renderDataListBody(rows, tableRenderContext)}</tbody></table></div>`
+          : (() => {
+              // config.noRowActions tables (Screen Parameters' plain
+              // reference grid) have nothing to select or act on per row,
+              // so the select-all checkbox and "..." header cells are
+              // skipped along with their per-row counterparts
+              // (views.js's renderDataListRecordRows).
+              const selectAllHeader = config.noRowActions
+                ? ''
+                : `<th><input class="m-0! size-[15px] accent-accent" type="checkbox" data-list-select-all aria-label="Select all visible ${deps.encodeHtml(config.label)}"${allSelected ? ' checked' : ''}></th>`
+              const actionsHeader = config.noRowActions
+                ? ''
+                : `<th class="data-row-actions-cell" aria-label="Record actions"></th>`
+              // Sticky header: `position: sticky` on every `<th>` binds to
+              // whichever ancestor actually scrolls vertically (a list
+              // page's `.canvas`, or a dialog's `.dbody` — Screen
+              // Parameters/Journal Entry), no extra wiring needed per
+              // surface. `z-[3]` keeps every header cell above ordinary
+              // rows and frozen body cells (`z-index: 2` in components.css),
+              // while frozen header intersections remain on top at `4`.
+              // components.css paints every header with translucent
+              // `--line-2` over opaque `--surface`, so row content cannot
+              // show through while the header is stuck.
+              //
+              // `overflow-x-auto` on this wrapper only applies in
+              // `responsive` view (where the table can genuinely be wider
+              // than its container and needs its own horizontal scrollbar).
+              // Every other view leaves this div at the default `visible`
+              // overflow, deliberately: per the CSS Overflow spec's
+              // computed-value rule, pairing `overflow-x: auto` with
+              // `overflow-y: visible` on the SAME element forces the
+              // `visible` axis to also compute as `auto` — no inline style
+              // or `!important` can override that (it's a computed-value
+              // resolution step, not a cascade/specificity one). An
+              // `overflow-x-auto` div would silently become its own
+              // vertical scrolling/sticky-positioning containing block,
+              // capturing the sticky `<thead>` inside its own (unscrolled)
+              // box instead of letting it stick to the real page/dialog
+              // scroll container — breaking the sticky header entirely.
+              const scrollWrapperClass =
+                listState.view === 'responsive'
+                  ? 'data-table-scroll overflow-x-auto data-table-responsive max-w-full overflow-clip'
+                  : 'data-table-scroll'
+              return `<div class="${scrollWrapperClass}"><table class="inv-grid borders-${deps.encodeHtml(listState.borderMode)} w-full [border-collapse:collapse] [font-size:13px] [&_th]:text-start [&_th]:[padding:8px_12px]! [&_th]:text-muted [&_th]:font-medium [&_th]:[border-bottom:1px_solid_var(--line)] [&_th]:whitespace-nowrap [&_th]:sticky [&_th]:top-0 [&_th]:z-[3] [&_td]:[padding:8px_12px]! [&_td]:[border-bottom:1px_solid_var(--line-2)] [&_td]:text-ink [&_td]:whitespace-nowrap [&_td]:[text-overflow:ellipsis] [&_td]:overflow-hidden [&_td]:[max-width:200px] [&_tbody_tr:hover]:[background:var(--hover-overlay)] [&_tbody_tr:hover]:[cursor:pointer] [&_td_input]:w-full [&_td_input]:[padding:5px_7px] [&_td_input]:bg-surface [&_td_input]:text-ink [&_td_input]:[border:1px_solid_var(--line)] [&_td_input]:[border-radius:5px] [&_td_input]:[font:inherit]">${responsiveColgroup}<thead><tr>${selectAllHeader}${deps.renderDataListHeader(visibleColumns, listState)}${actionsHeader}</tr></thead><tbody>${deps.renderDataListBody(rows, tableRenderContext)}</tbody></table></div>`
+            })()
   const statistics = listState.statisticsVisible
     ? deps.renderDataListStatistics(context, filteredRows, config)
     : ''

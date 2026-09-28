@@ -43,10 +43,10 @@
                 </li>
               </ul>
             </div>
-            <div class="rfld flex flex-col [gap:5px] mb-3! [&_label]:text-xs [&_label]:text-muted [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-lg [&_textarea]:[padding:9px_11px] [&_textarea]:[font:inherit] [&_textarea]:text-sm [&_textarea]:bg-surface [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-lg [&_input]:[padding:9px_11px] [&_input]:[font:inherit] [&_input]:text-sm [&_input]:bg-surface [&_textarea:focus]:[outline:none] [&_textarea:focus]:[border-color:var(--accent)] [&_textarea:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_input:focus]:[outline:none] [&_input:focus]:[border-color:var(--accent)] [&_input:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_textarea]:[min-height:96px] [&_textarea]:[resize:vertical] [&_input[readonly]]:[background:var(--surface-readonly)] [&_input[readonly]]:text-muted">
+            <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_textarea]:[min-height:96px] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]">
               <label for="pf-dsc"
                 >Posting Description
-                <span class="hint [.rfld_&]:text-xs [.rfld_&]:[color:var(--faint)]" style="display: inline">optional</span></label
+                <span class="hint [.rec-field_&]:text-xs [.rec-field_&]:[color:var(--faint)]" style="display: inline">optional</span></label
               >
               <textarea
                 id="pf-dsc"
@@ -86,7 +86,7 @@
                 <p class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!" style="margin-bottom: 9px">
                   This deletes the journal entry and opens the invoice for editing again.
                 </p>
-                <div class="rfld flex flex-col [gap:5px] mb-3! [&_label]:text-xs [&_label]:text-muted [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-lg [&_textarea]:[padding:9px_11px] [&_textarea]:[font:inherit] [&_textarea]:text-sm [&_textarea]:bg-surface [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-lg [&_input]:[padding:9px_11px] [&_input]:[font:inherit] [&_input]:text-sm [&_input]:bg-surface [&_textarea:focus]:[outline:none] [&_textarea:focus]:[border-color:var(--accent)] [&_textarea:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_input:focus]:[outline:none] [&_input:focus]:[border-color:var(--accent)] [&_input:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_textarea]:[min-height:96px] [&_textarea]:[resize:vertical] [&_input[readonly]]:[background:var(--surface-readonly)] [&_input[readonly]]:text-muted">
+                <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_textarea]:[min-height:96px] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]">
                   <label for="pf-rev">Why are you undoing this? <span class="req [.rfld_label_&]:[color:var(--danger)] [.rec-field_&]:[color:var(--danger)]">*</span></label>
                   <textarea
                     id="pf-rev"
@@ -199,113 +199,46 @@
         <div class="dlg-inner min-h-0">
         <div class="dbody [padding:16px] overflow-auto">
           <div class="jgrid-head grid [grid-template-columns:repeat(3,_1fr)] [gap:10px_14px] mb-3.5!">
-            <div class="rfld flex flex-col [gap:5px] mb-3! [&_label]:text-xs [&_label]:text-muted [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-lg [&_textarea]:[padding:9px_11px] [&_textarea]:[font:inherit] [&_textarea]:text-sm [&_textarea]:bg-surface [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-lg [&_input]:[padding:9px_11px] [&_input]:[font:inherit] [&_input]:text-sm [&_input]:bg-surface [&_textarea:focus]:[outline:none] [&_textarea:focus]:[border-color:var(--accent)] [&_textarea:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_input:focus]:[outline:none] [&_input:focus]:[border-color:var(--accent)] [&_input:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_textarea]:[min-height:96px] [&_textarea]:[resize:vertical] [&_input[readonly]]:[background:var(--surface-readonly)] [&_input[readonly]]:text-muted" style="margin: 0">
-              <label>Doc Sub-Type</label><input type="text" readonly value="1 - عام" />
+            <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)]! [&_input:disabled]:text-muted!">
+              <label for="jf-doc-subtype">Doc Sub-Type</label><input id="jf-doc-subtype" type="text" value="1 - عام" disabled />
             </div>
-            <div class="rfld flex flex-col [gap:5px] mb-3! [&_label]:text-xs [&_label]:text-muted [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-lg [&_textarea]:[padding:9px_11px] [&_textarea]:[font:inherit] [&_textarea]:text-sm [&_textarea]:bg-surface [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-lg [&_input]:[padding:9px_11px] [&_input]:[font:inherit] [&_input]:text-sm [&_input]:bg-surface [&_textarea:focus]:[outline:none] [&_textarea:focus]:[border-color:var(--accent)] [&_textarea:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_input:focus]:[outline:none] [&_input:focus]:[border-color:var(--accent)] [&_input:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_textarea]:[min-height:96px] [&_textarea]:[resize:vertical] [&_input[readonly]]:[background:var(--surface-readonly)] [&_input[readonly]]:text-muted" style="margin: 0">
-              <label>Doc. Sequence</label><input type="text" readonly value="001000352026126" />
+            <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)]! [&_input:disabled]:text-muted!">
+              <label for="jf-doc-sequence">Doc. Sequence</label><input id="jf-doc-sequence" type="text" value="001000352026126" disabled />
             </div>
-            <div class="rfld flex flex-col [gap:5px] mb-3! [&_label]:text-xs [&_label]:text-muted [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-lg [&_textarea]:[padding:9px_11px] [&_textarea]:[font:inherit] [&_textarea]:text-sm [&_textarea]:bg-surface [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-lg [&_input]:[padding:9px_11px] [&_input]:[font:inherit] [&_input]:text-sm [&_input]:bg-surface [&_textarea:focus]:[outline:none] [&_textarea:focus]:[border-color:var(--accent)] [&_textarea:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_input:focus]:[outline:none] [&_input:focus]:[border-color:var(--accent)] [&_input:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_textarea]:[min-height:96px] [&_textarea]:[resize:vertical] [&_input[readonly]]:[background:var(--surface-readonly)] [&_input[readonly]]:text-muted" style="margin: 0">
-              <label>Doc No.</label><input type="text" readonly value="126" />
+            <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)]! [&_input:disabled]:text-muted!">
+              <label for="jf-doc-no">Doc No.</label><input id="jf-doc-no" type="text" value="126" disabled />
             </div>
-            <div class="rfld flex flex-col [gap:5px] mb-3! [&_label]:text-xs [&_label]:text-muted [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-lg [&_textarea]:[padding:9px_11px] [&_textarea]:[font:inherit] [&_textarea]:text-sm [&_textarea]:bg-surface [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-lg [&_input]:[padding:9px_11px] [&_input]:[font:inherit] [&_input]:text-sm [&_input]:bg-surface [&_textarea:focus]:[outline:none] [&_textarea:focus]:[border-color:var(--accent)] [&_textarea:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_input:focus]:[outline:none] [&_input:focus]:[border-color:var(--accent)] [&_input:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_textarea]:[min-height:96px] [&_textarea]:[resize:vertical] [&_input[readonly]]:[background:var(--surface-readonly)] [&_input[readonly]]:text-muted" style="margin: 0">
-              <label>Doc Date</label><input type="text" readonly value="29/07/2026" />
+            <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)]! [&_input:disabled]:text-muted!">
+              <label for="jf-doc-date">Doc Date</label><input id="jf-doc-date" type="text" value="29/07/2026" disabled />
             </div>
-            <div class="rfld flex flex-col [gap:5px] mb-3! [&_label]:text-xs [&_label]:text-muted [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-lg [&_textarea]:[padding:9px_11px] [&_textarea]:[font:inherit] [&_textarea]:text-sm [&_textarea]:bg-surface [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-lg [&_input]:[padding:9px_11px] [&_input]:[font:inherit] [&_input]:text-sm [&_input]:bg-surface [&_textarea:focus]:[outline:none] [&_textarea:focus]:[border-color:var(--accent)] [&_textarea:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_input:focus]:[outline:none] [&_input:focus]:[border-color:var(--accent)] [&_input:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_textarea]:[min-height:96px] [&_textarea]:[resize:vertical] [&_input[readonly]]:[background:var(--surface-readonly)] [&_input[readonly]]:text-muted" style="margin: 0">
-              <label>Ref. No.</label><input type="text" readonly value="" placeholder="—" />
-            </div>
-          </div>
-          <div class="jwrap [border:1px_solid_var(--line)] [border-radius:9px] overflow-auto">
-            <table class="j [table&]:w-full [table&]:[border-collapse:collapse] [table&]:text-xs [table&]:[min-width:900px] [table&_th]:text-start [table&_th]:font-semibold [table&_th]:text-muted [table&_th]:bg-[var(--line-2)] [table&_th]:[padding:8px_10px] [table&_th]:[border-bottom:1px_solid_var(--line)] [table&_th]:whitespace-nowrap [table&_td]:[padding:8px_10px] [table&_td]:[border-bottom:1px_solid_var(--line-2)] [table&_td]:whitespace-nowrap [table&_tr:last-child_td]:[border-bottom:none] [table&_tfoot_td]:font-semibold [table&_tfoot_td]:bg-[var(--line-2)] [table&_tfoot_td]:[border-top:1px_solid_var(--line)]">
-              <thead>
-                <tr>
-                  <th>Acc. Code</th>
-                  <th>Detail Acc.</th>
-                  <th>Acc. Name</th>
-                  <th>Currency</th>
-                  <th class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">Debit</th>
-                  <th class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">Credit</th>
-                  <th class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">Local Debit</th>
-                  <th class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">Local Credit</th>
-                  <th>Statement</th>
-                  <th>Cost Center No.</th>
-                  <th>Sub Ledger2 No.</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>114001</td>
-                  <td>200001</td>
-                  <td>Customers</td>
-                  <td>EGP</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">20,000</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">0</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">20,000</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">0</td>
-                  <td>فاتورة المبيعات (EGP) 001000352…</td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>411001</td>
-                  <td></td>
-                  <td>Sales Revenues</td>
-                  <td>EGP</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">0</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">20,000</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">0</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">20,000</td>
-                  <td>مبيعات المجموعة رقم (001)</td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>115001</td>
-                  <td></td>
-                  <td>Inventory</td>
-                  <td>EGP</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">0</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">9,780</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">0</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">9,780</td>
-                  <td>تكلفة مبيعات المجموعة رقم (001)</td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>311001</td>
-                  <td></td>
-                  <td>Cost of Sold Goods</td>
-                  <td>EGP</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">9,780</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">0</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">9,780</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">0</td>
-                  <td>تكلفة مبيعات المجموعة رقم (001)</td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colspan="4">Total</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">29,780.00</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">29,780.00</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">29,780.00</td>
-                  <td class="num [table.j_td&]:text-end [table.j_td&]:[font-variant-numeric:tabular-nums] [table.j_th&]:text-end [table.j_th&]:[font-variant-numeric:tabular-nums]">29,780.00</td>
-                  <td colspan="3"><span class="badge ok [.reqchip&]:[background:var(--st-post-bg)] [.reqchip&]:[color:var(--st-post-ink)]">Balanced</span></td>
-                </tr>
-              </tfoot>
-            </table>
-            <div class="jbar flex items-center gap-2.5 [padding:9px_12px] text-xs text-muted [border-top:1px_solid_var(--line)]">
-              <span>1 of 1 pages · 4 items</span>
-              <span class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2"
-                ><button class="lbtn out" style="font-size: 12px">
-                  <svg width="13" height="13" aria-hidden="true"><use href="#i-dl" /></svg> Export
-                </button></span
-              >
+            <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)]! [&_input:disabled]:text-muted!">
+              <label for="jf-ref-no">Ref. No.</label><input id="jf-ref-no" type="text" value="" placeholder="—" disabled />
             </div>
           </div>
+          <!-- Real data-list instance (DATA_LIST_CONFIG.journal,
+               screen-parameters.js's sibling wiring in main.js) — same
+               Filter/Search/Columns/sort/pagination UX as the customer
+               list, minus the row-level "..." menu and select-all
+               checkbox (noRowActions: true — journal lines have no detail
+               record, no delete). The canvas renders its own toolbar and
+               table; the Debit/Credit/Local Debit/Local Credit totals +
+               Balanced badge live in the fixed strip below, computed from
+               the full row set (unaffected by search/filter/pagination),
+               since the shared table has no tfoot/totals concept. -->
+          <!-- [overflow:visible]! override: .canvas is normally its own
+               scroll container on a standalone list page — here it's
+               nested inside .dbody, already this dialog's real scroller,
+               so two stacked scroll containers would make .canvas the
+               sticky-positioning ancestor for the table's <thead> instead
+               of .dbody, breaking the sticky header (list.js's sticky
+               <th> styling). The `!` is required: shell.css's
+               `.canvas:not(#list-canvas)` rule outranks a plain
+               single-class override on specificity (:not() pseudo-class). -->
+          <div class="canvas [overflow:visible]!" id="journal-entry-canvas"></div>
+          <div id="journal-entry-totals"></div>
+          <div
+            class="fnav fnav-list flex items-center gap-5 [padding:9px_0_0]"
+            id="journal-entry-fnav"></div>
         </div>
         <div class="dfoot flex items-center gap-2.5 [padding:12px_16px]">
           <span class="sum" style="font-size: 12px; color: var(--muted)"
@@ -363,10 +296,10 @@
                 </li>
               </ul>
             </div>
-            <div class="rfld flex flex-col [gap:5px] mb-3! [&_label]:text-xs [&_label]:text-muted [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-lg [&_textarea]:[padding:9px_11px] [&_textarea]:[font:inherit] [&_textarea]:text-sm [&_textarea]:bg-surface [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-lg [&_input]:[padding:9px_11px] [&_input]:[font:inherit] [&_input]:text-sm [&_input]:bg-surface [&_textarea:focus]:[outline:none] [&_textarea:focus]:[border-color:var(--accent)] [&_textarea:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_input:focus]:[outline:none] [&_input:focus]:[border-color:var(--accent)] [&_input:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_textarea]:[min-height:96px] [&_textarea]:[resize:vertical] [&_input[readonly]]:[background:var(--surface-readonly)] [&_input[readonly]]:text-muted">
+            <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_textarea]:[min-height:96px] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]">
               <label for="cf-dsc">Cancellation Statement <span class="req [.rfld_label_&]:[color:var(--danger)] [.rec-field_&]:[color:var(--danger)]">*</span></label>
               <textarea id="cf-dsc" placeholder="For example: duplicate of invoice 127"></textarea>
-              <span class="hint [.rfld_&]:text-xs [.rfld_&]:[color:var(--faint)]"
+              <span class="hint [.rec-field_&]:text-xs [.rec-field_&]:[color:var(--faint)]"
                 >Required. Whoever reads this later will only have your sentence to go on.</span
               >
             </div>
@@ -396,7 +329,7 @@
                   The invoice returns to the state it was in before cancellation, and its actions
                   work again.
                 </p>
-                <div class="rfld flex flex-col [gap:5px] mb-3! [&_label]:text-xs [&_label]:text-muted [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-lg [&_textarea]:[padding:9px_11px] [&_textarea]:[font:inherit] [&_textarea]:text-sm [&_textarea]:bg-surface [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-lg [&_input]:[padding:9px_11px] [&_input]:[font:inherit] [&_input]:text-sm [&_input]:bg-surface [&_textarea:focus]:[outline:none] [&_textarea:focus]:[border-color:var(--accent)] [&_textarea:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_input:focus]:[outline:none] [&_input:focus]:[border-color:var(--accent)] [&_input:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_textarea]:[min-height:96px] [&_textarea]:[resize:vertical] [&_input[readonly]]:[background:var(--surface-readonly)] [&_input[readonly]]:text-muted">
+                <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_textarea]:[min-height:96px] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]">
                   <label for="cf-rev"
                     >Why are you bringing it back? <span class="req [.rfld_label_&]:[color:var(--danger)] [.rec-field_&]:[color:var(--danger)]">*</span></label
                   >

@@ -87,6 +87,79 @@ test('geography details uses the shared record header and field structure', asyn
   await expect(parentSelect).toHaveCSS('border-end-end-radius', '0px');
 });
 
+test('geography detail fields match shared spacing and input-style modes', async ({page}) => {
+  await openSurface(page, 'geo-record');
+
+  const geographyForm = page.locator('.geo-form');
+  const geographyField = page.locator('#geo-field-name').locator('..');
+  const geographyInput = page.locator('#geo-field-name');
+  const geographyLabel = page.locator('label[for="geo-field-name"]');
+  const setInputStyle = inputStyle =>
+    page.locator('#input-style').evaluate((control, selectedStyle) => {
+      control.value = selectedStyle;
+      control.dispatchEvent(new Event('change', {bubbles: true}));
+    }, inputStyle);
+
+  await expect(geographyForm).toHaveCSS('column-gap', '16px');
+  await expect(geographyForm).toHaveCSS('row-gap', '10px');
+  await expect(geographyForm).toHaveCSS('padding', '12px');
+  await expect(geographyInput).toHaveCSS('padding', '6px 8px');
+
+  await setInputStyle('floated');
+  await expect(geographyField).toHaveCSS('position', 'relative');
+  await expect(geographyField).toHaveCSS('padding-top', '14px');
+  await expect(geographyLabel).toHaveCSS('position', 'absolute');
+  await expect(geographyInput).toHaveCSS('padding-top', '8px');
+
+  await setInputStyle('inline');
+  await expect(geographyField).toHaveCSS('display', 'grid');
+  await expect(geographyField).toHaveCSS('grid-template-columns', /130px/);
+  await expect(geographyInput).toHaveCSS('border-top-width', '0px');
+  await expect(geographyInput).toHaveCSS('border-bottom-width', '1px');
+  await expect(geographyInput).toHaveCSS('border-radius', '0px');
+  await expect(geographyInput).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+
+  await setInputStyle('default');
+  await expect(geographyField).toHaveCSS('display', 'block');
+  await expect(geographyInput).toHaveCSS('border-top-width', '1px');
+  await expect(geographyInput).toHaveCSS('border-radius', '6px');
+});
+
+
+test('geography record status toggle activates with the stored reason and deactivates with a new one', async ({page}) => {
+  // openSurface('geo-record') lands on the geo list's first row, which
+  // sorts to AIN — the fixture's only inactive location, seeded with its
+  // own statusReason (prototype/fixtures/geography.js) — so this starts
+  // from Inactive and activates first, rather than assuming an active row.
+  await openSurface(page, 'geo-record');
+
+  await expect(page.locator('.geo-record-view .badge.danger')).toHaveText('Inactive');
+
+  await page.locator('.geo-record-view [aria-label="More actions"]').last().click();
+  const activateItem = page.locator('.geo-record-view [data-geo-record-action="change-status"]');
+  await expect(activateItem).not.toHaveClass(/dan/);
+  await activateItem.click();
+
+  await expect(page.locator('#geo-status-scrim')).toHaveClass(/open/);
+  await expect(page.locator('#geo-status-scrim .dlg')).toHaveAttribute('data-tone', 'default');
+  await expect(page.locator('#geo-status-reason')).toBeHidden();
+  await expect(page.locator('#geo-status-reason-text')).toHaveText('Seasonal territory closed for the off-season.');
+  await page.locator('#geo-status-confirm').click();
+  await expect(page.locator('.toast').last()).toContainText('activated');
+  await expect(page.locator('.geo-record-view .badge.danger')).toHaveCount(0);
+
+  await page.locator('.geo-record-view [aria-label="More actions"]').last().click();
+  const deactivateItem = page.locator('.geo-record-view [data-geo-record-action="change-status"]');
+  await expect(deactivateItem).toHaveClass(/dan/);
+  await deactivateItem.click();
+
+  await expect(page.locator('#geo-status-scrim')).toHaveClass(/open/);
+  await expect(page.locator('#geo-status-scrim .dlg')).toHaveAttribute('data-tone', 'danger');
+  await page.locator('#geo-status-reason').fill('Territory closed for maintenance.');
+  await page.locator('#geo-status-confirm').click();
+  await expect(page.locator('.toast').last()).toContainText('deactivated');
+  await expect(page.locator('.geo-record-view .badge.danger')).toHaveText('Inactive');
+});
 
 test('invoice charges and discounts preserve the fixture summary', async ({page}) => {
   await openSurface(page, 'record');
@@ -140,6 +213,48 @@ test('invoice print settings groups reflow at narrow widths', async ({page}) => 
   await expect.poll(() => columnCount(page.locator('#pscrim .dgrid'))).toBe(1);
   await expect.poll(() => columnCount(page.locator('#pscrim .fgrid').first())).toBe(1);
 });
+
+for (const dialog of [
+  {
+    name: 'screen parameters',
+    menu: 'More',
+    action: 'Screen Parameters',
+    header: '#screen-parameters-scrim thead th',
+  },
+  {
+    name: 'journal entry',
+    menu: 'Transactions',
+    action: 'Display Journal Entry',
+    header: '#rscrim [data-dlg="journal"] thead th',
+  },
+]) {
+  test(`${dialog.name} table header paints opaquely above scrolling content`, async ({page}) => {
+    await openSurface(page, 'record');
+    await page.getByRole('button', {name: dialog.menu, exact: true}).click();
+    await page.locator(`[data-act="${dialog.action}"]:visible`).click();
+
+    const style = await page.locator(dialog.header).first().evaluate(element => {
+      const computed = getComputedStyle(element);
+      const surfaceProbe = document.createElement('span');
+      surfaceProbe.style.backgroundColor = 'var(--surface)';
+      document.body.append(surfaceProbe);
+      const surfaceColor = getComputedStyle(surfaceProbe).backgroundColor;
+      surfaceProbe.remove();
+      return {
+        backgroundColor: computed.backgroundColor,
+        backgroundImage: computed.backgroundImage,
+        position: computed.position,
+        surfaceColor,
+        zIndex: Number(computed.zIndex),
+      };
+    });
+
+    expect(style.position).toBe('sticky');
+    expect(style.backgroundImage).toContain('linear-gradient');
+    expect(style.backgroundColor).toBe(style.surfaceColor);
+    expect(style.zIndex).toBeGreaterThan(2);
+  });
+}
 
 test('invoice modify and undo preserve the operation lifecycle', async ({page}) => {
   await openSurface(page, 'record');

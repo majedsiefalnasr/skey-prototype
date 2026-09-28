@@ -1,4 +1,4 @@
-export function createInvoiceOperations({t, trapFocus, state, releaseFocus, closeAllMenus, closeSearch, getLocale, encodeHtml, blocked, toast, runWork, doPrint, openSearch, STATUSES, CHAIN, reached, editable, LOCK_COPY, pop, renderPop, drawer, renderCards, renderSearch}) {
+export function createInvoiceOperations({t, trapFocus, state, releaseFocus, closeAllMenus, closeSearch, getLocale, encodeHtml, blocked, toast, runWork, doPrint, openSearch, STATUSES, CHAIN, reached, editable, LOCK_COPY, pop, renderPop, drawer, renderCards, renderSearch, openScreenParameters, journalEntryTable}) {
 const pageAbort = new AbortController()
 
         const rscrim = document.getElementById('rscrim')
@@ -56,6 +56,12 @@ const pageAbort = new AbortController()
           if (!dlg) return
           if (kind === 'posting') dlg.dataset.tone = 'success'
           if (kind === 'cancel' || kind === 'delete') dlg.dataset.tone = 'danger'
+          if (kind === 'journal') {
+            journalEntryTable?.activate({
+              root: document.getElementById('journal-entry-canvas'),
+              footer: document.getElementById('journal-entry-fnav'),
+            })
+          }
           /* the dialog shows either the operation to perform, or the record of it —
      never a toggle that re-asks for an intent the user already declared */
           const done =
@@ -112,6 +118,8 @@ const pageAbort = new AbortController()
             rscrim.classList.remove('open')
             releaseFocus()
           }
+          const journalDlg = rscrim.querySelector('.dlg[data-dlg="journal"]')
+          if (journalDlg && !journalDlg.hidden) journalEntryTable?.deactivate()
         }
         /* every destructive or reversing step needs its reason before it can run */
         const validateOps = () => {
@@ -412,7 +420,6 @@ const pageAbort = new AbortController()
         const NOT_BUILT = {
           Reports: 'Reports open the reporting screen in the real product.',
           'Lock Screen': 'Locking the screen is part of the session, not this prototype.',
-          'Screen Parameters': 'Screen parameters open the configuration screen.',
           Clear: 'Clearing empties the form without leaving the record.',
         }
         /* shared so the command row and the search palette trigger the same behaviour */
@@ -447,6 +454,11 @@ const pageAbort = new AbortController()
               title: `${act} started from invoice 126`,
               body: 'The new document opens with the invoice already filled in.',
             })
+            return
+          }
+          if (act === 'Screen Parameters') {
+            closeAllMenus()
+            openScreenParameters?.()
             return
           }
           if (NOT_BUILT[act]) {

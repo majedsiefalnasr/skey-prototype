@@ -58,6 +58,45 @@ test('selecting a row surfaces bulk actions and delete removes it', async ({page
 });
 
 // ---------------------------------------------------------------------
+// Customer status dialog (reasoned deactivate, reason-shown activate)
+// ---------------------------------------------------------------------
+test('customer row menu activates with the stored reason and deactivates with a new one', async ({page}) => {
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
+  await openSurface(page, 'customers-list');
+  await settle(page);
+
+  // customerNo 200001 is the fixture's only inactive customer, seeded with
+  // its own statusReason (prototype/fixtures/customers.js) — targeted by
+  // row key directly rather than assuming a sort position.
+  const row = page.locator('[data-data-list="customer"] [data-list-row-key="200001"]');
+  await expect(row.locator('.badge.danger')).toHaveText('Inactive');
+  const rowMenuTrigger = row.locator('summary[aria-label^="Actions for customer"]');
+  await rowMenuTrigger.click();
+  const activateItem = page.locator('[data-list-row-action="change-status"]:visible');
+  await activateItem.first().click();
+
+  await expect(page.locator('#customer-status-scrim')).toHaveClass(/open/);
+  await expect(page.locator('#customer-status-scrim .dlg')).toHaveAttribute('data-tone', 'default');
+  await expect(page.locator('#customer-status-reason')).toBeHidden();
+  await expect(page.locator('#customer-status-reason-text')).toHaveText('Account on hold pending updated trade license.');
+  await page.locator('#customer-status-confirm').click();
+  await expect(page.locator('.toast').last()).toContainText('activated');
+  await expect(row.locator('.badge.danger')).toHaveCount(0);
+
+  await rowMenuTrigger.click();
+  const deactivateItem = page.locator('[data-list-row-action="change-status"]:visible');
+  await expect(deactivateItem.first()).toHaveClass(/text-danger/);
+  await deactivateItem.first().click();
+
+  await expect(page.locator('#customer-status-scrim')).toHaveClass(/open/);
+  await expect(page.locator('#customer-status-scrim .dlg')).toHaveAttribute('data-tone', 'danger');
+  await page.locator('#customer-status-reason').fill('Trade license expired again.');
+  await page.locator('#customer-status-confirm').click();
+  await expect(page.locator('.toast').last()).toContainText('deactivated');
+  await expect(row.locator('.badge.danger')).toHaveText('Inactive');
+});
+
+// ---------------------------------------------------------------------
 // Saved layout / filter restore
 // ---------------------------------------------------------------------
 test('saved table layout survives navigating away and back', async ({page}, testInfo) => {

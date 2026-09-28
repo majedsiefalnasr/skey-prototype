@@ -129,5 +129,6 @@ export const GEO_ROWS = [
     level: 3,
     active: false,
     remarks: 'Seasonal territory currently inactive',
+    statusReason: 'Seasonal territory closed for the off-season.',
   },
 ]

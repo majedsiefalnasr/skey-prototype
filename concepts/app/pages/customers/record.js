@@ -268,7 +268,7 @@ export function createCustomerRecord({root, deps}) {
        data-customer-action button here depends on. `.recacts` stays put. */
     const statusActionItem = creating
       ? ''
-      : `<button role="menuitem" type="button" data-customer-action="change-status"><svg width="14" height="14" aria-hidden="true"><use href="#i-${customerData.deactivationFrom ? 'check' : 'archive'}" /></svg> ${customerData.deactivationFrom ? t('Activate customer') : t('Deactivate customer')}</button>`
+      : `<button role="menuitem" type="button" class="${customerData.deactivationFrom ? '' : 'dan'}" data-customer-action="change-status"><svg width="14" height="14" aria-hidden="true"><use href="#i-${customerData.deactivationFrom ? 'check' : 'archive'}" /></svg> ${customerData.deactivationFrom ? t('Activate customer') : t('Deactivate customer')}</button>`
     /* Capped at two full-visible slots plus one "more actions" overflow so
        the header never grows past three visible controls regardless of how
        many record actions exist. */
@@ -281,17 +281,17 @@ export function createCustomerRecord({root, deps}) {
     // THE null-root fix: refs.chrome was resolved once against `root` at
     // construction time (resolveRefs), never re-queried from `document`.
     refs.chrome.innerHTML = `
-    <div class="arow customer-arow [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-1 [.d1_&]:[padding:7px_16px] [.d1_&]:[border-bottom:1px_solid_var(--line)] [.d1_&]:bg-surface [.d1_&]:flex-wrap" role="toolbar" aria-label="Customer toolbar">
+    <div class="arow customer-arow [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-1 [.d1_&]:[padding:7px_0] [.d1_&]:[border-bottom:1px_solid_var(--line)] [.d1_&]:bg-surface [.d1_&]:flex-wrap" role="toolbar" aria-label="Customer toolbar">
       <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('Record')} <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="mlist" role="menu"><button role="menuitem" type="button" data-customer-action="new"><svg width="14" height="14" aria-hidden="true"><use href="#i-plus" /></svg> ${t('New')}</button><button role="menuitem" type="button" data-customer-action="add-from"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg> ${t('Add From')}</button><button role="menuitem" type="button" data-customer-action="modify"${editing ? ' disabled' : ''}><svg width="14" height="14" aria-hidden="true"><use href="#i-edit" /></svg> ${t('Modify')}</button><button role="menuitem" type="button" data-customer-action="delete"${editing ? ' disabled' : ''}><svg width="14" height="14" aria-hidden="true"><use href="#i-trash" /></svg> ${t('Delete')}</button><button role="menuitem" type="button" data-customer-action="search"><svg width="14" height="14" aria-hidden="true"><use href="#i-search" /></svg> ${t('Search')}</button></div></div>
       <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('Procedure')} <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="mlist" role="menu"><button role="menuitem" type="button" data-customer-action="save"${editing ? '' : ' disabled'}><svg width="14" height="14" aria-hidden="true"><use href="#i-save" /></svg> ${t('Save')}</button><button role="menuitem" type="button" data-customer-action="lock"><svg width="14" height="14" aria-hidden="true"><use href="#i-lock" /></svg> ${t('Lock Screen')}</button><button role="menuitem" type="button" data-customer-action="reports"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg> ${t('Reports')}</button><button role="menuitem" type="button" data-customer-action="print"><svg width="14" height="14" aria-hidden="true"><use href="#i-print" /></svg> ${t('Print')}</button><button role="menuitem" type="button" data-customer-action="undo"${editing ? '' : ' disabled'}><svg width="14" height="14" aria-hidden="true"><use href="#i-undo" /></svg> ${t('Undo')}</button></div></div>
       <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('More')} <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="mlist" role="menu"><button role="menuitem" type="button" data-customer-action="parameters"><svg width="14" height="14" aria-hidden="true"><use href="#i-sliders" /></svg> ${t('Screen Parameters')}</button><button role="menuitem" type="button" data-customer-action="help"><svg width="14" height="14" aria-hidden="true"><use href="#i-help" /></svg> ${t('Help')}</button></div></div>
       <div class="sp [.d1_.arow_&]:[flex:1]"></div>
       <button type="button" class="lbtn" data-customer-action="accounts-movement"><svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg> ${t('Accounts Movement')}</button>
     </div>
-    <div class="phead [.d1_&]:[padding:11px_16px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5">
+    <div class="phead [.d1_&]:[padding:11px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5">
       <div class="l [.d1_.phead_&]:[flex:1]">
         <nav class="crumbs [.d3_.otitle_&]:[margin-bottom:3px]!" aria-label="Breadcrumb"><a href="#">${t('Home')}</a><span class="sep">›</span><button class="customer-back" type="button">${t('Customers')}</button><span class="sep">›</span><span aria-current="page">${creating ? t('New') : t('All')}</span></nav>
-        <div class="tline [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-5 [.d1_&]:mt-2! [.d1_&]:flex-wrap [.d1_&_h1]:[font-size:23px] [.d1_&_h1]:font-semibold"><h1>${title}</h1><span class="badge ${customerData.deactivationFrom ? 'gray' : 'ok'}">${customerData.deactivationFrom ? t('Inactive') : t('Active')}</span></div>
+        <div class="tline [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-5 [.d1_&]:mt-2! [.d1_&]:flex-wrap [.d1_&_h1]:[font-size:23px] [.d1_&_h1]:font-semibold"><h1>${title}</h1>${customerData.deactivationFrom ? `<span class="badge danger">${t('Inactive')}</span>` : ''}</div>
       </div>
       <div class="r [.d1_.phead_&]:flex [.d1_.phead_&]:items-center [.d1_.phead_&]:gap-1 [.d1_.phead_&]:mt-1.5!"><span class="recacts inline-flex items-center [gap:7px] flex-wrap">${editing ? editActions : viewActions}</span></div>
     </div>`
@@ -663,9 +663,20 @@ export function createCustomerRecord({root, deps}) {
       },
       {passive: true, signal}
     )
-    refs.chrome.addEventListener(
+    /* Bound to `document`, not `refs.chrome`: renderChrome moves `.arow` out
+       to the shared `.page-action-bar` after every render (see below),
+       which takes its buttons out of refs.chrome's own subtree — a
+       listener on refs.chrome itself would stop seeing clicks on Modify/
+       Save/Delete/Screen Parameters/etc. the moment that happens. Every
+       branch below already delegates on the `[data-customer-action]`
+       attribute rather than assuming DOM position, so listening on
+       `document` costs nothing and matches the pattern invoice's own
+       .arow menu already uses (pages/invoices/operations.js's `[data-act]`
+       document listeners). */
+    document.addEventListener(
       'click',
       event => {
+        if (root.hidden) return
         if (event.target.closest('.customer-back')) {
           showContentView('customers-list')
           return
@@ -681,6 +692,7 @@ export function createCustomerRecord({root, deps}) {
         if (action === 'undo') undoCustomer()
         if (action === 'search') deps.openCustomerSearch?.()
         if (action === 'print') deps.openPrintSettings?.(`${customerData.customerNo || 'New'}`)
+        if (action === 'parameters') deps.openScreenParameters?.()
         if (action === 'change-status') {
           const row = customerRows.find(customer => customer.customerNo === customerData.customerNo)
           if (row) {
@@ -700,7 +712,6 @@ export function createCustomerRecord({root, deps}) {
             'delete',
             'lock',
             'reports',
-            'parameters',
             'help',
             'accounts-movement',
           ].includes(action)

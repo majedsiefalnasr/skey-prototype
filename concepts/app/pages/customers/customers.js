@@ -84,6 +84,7 @@ export function createCustomers({templates, locale, appearance, dialogs, toast, 
       openCustomerSearch: recordDeps.openCustomerSearch,
       openPrintSettings: recordDeps.openPrintSettings,
       openCustomerStatusDialog: recordDeps.openCustomerStatusDialog,
+      openScreenParameters: recordDeps.openScreenParameters,
       closeAllMenus: recordDeps.closeAllMenus,
     },
   })

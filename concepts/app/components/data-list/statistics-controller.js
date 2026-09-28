@@ -9,6 +9,16 @@ export function createListStatistics({locale, t, getDataListState, dataListIcon,
     invoice: invoiceListStatistics,
     customer: customerListStatistics,
     geo: geoListStatistics,
+    // Screen Parameters has no numeric/plottable columns to summarize —
+    // its statistics panel stays hidden by default (model.js's
+    // createInitialState), but this no-op factory still exists so a user
+    // toggling Statistics back on from the overflow menu gets an empty
+    // panel instead of a thrown error. Journal Entry has its own always-
+    // visible Debit/Credit/Balanced summary strip rendered separately
+    // (journal-entry.js), so its statistics panel is likewise hidden by
+    // default and this factory is the same no-op fallback.
+    screenParameters: () => [],
+    journal: () => [],
   }
 
   function dataListStatistics(context, rows, config) {

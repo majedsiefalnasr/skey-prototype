@@ -141,6 +141,9 @@
   .data-list-shell .inv-grid.borders-vertical th, .data-list-shell .inv-grid.borders-vertical td { border-bottom: 0; }
   .data-list-shell [data-frozen='true'] { position: sticky; z-index: 2; background: var(--surface); box-shadow: 1px 0 0 var(--line); }
   .data-list-shell thead [data-frozen='true'] { z-index: 4; background: var(--line-2); }
+  .data-list-shell .inv-grid thead th {
+    background: linear-gradient(var(--line-2), var(--line-2)), var(--surface);
+  }
 
   /* Kanban drag/drop state is applied by the controller after pointer
      movement; these ancestor state relationships cannot be represented by

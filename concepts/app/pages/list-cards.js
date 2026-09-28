@@ -135,10 +135,13 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
     const quickView = `<button type="button" role="menuitem" data-list-row-action="quick-view">${dataListIcon('i-panel')} Open in Adaptive view</button>`
     const display = `<button type="button" role="menuitem" data-list-row-action="display">${dataListIcon('i-external')} Display</button>`
     const deleteAction = `<button class="text-danger" type="button" role="menuitem" data-list-row-action="delete">${dataListIcon('i-trash')} Delete</button>`
+    const statusAction = row.active
+      ? `<button class="text-danger" type="button" role="menuitem" data-list-row-action="change-status">${dataListIcon('i-archive')} Deactivate</button>`
+      : `<button type="button" role="menuitem" data-list-row-action="change-status">${dataListIcon('i-check')} Activate</button>`
     const actions =
       context === 'invoice'
         ? `${quickView}${display}<button type="button" role="menuitem" data-list-row-action="modify">${dataListIcon('i-edit')} Modify</button><button type="button" role="menuitem" data-list-row-action="user-log">${dataListIcon('i-user')} User log</button><div class="data-menu-separator"></div>${deleteAction}`
-        : `${quickView}${display}<button type="button" role="menuitem" data-list-row-action="toggle-status">${dataListIcon(row.active ? 'i-archive' : 'i-check')} ${row.active ? 'Deactivate' : 'Activate'}</button><div class="data-menu-separator"></div>${deleteAction}`
+        : `${quickView}${display}${statusAction}<div class="data-menu-separator"></div>${deleteAction}`
     return renderSharedDataListRowActionMenu(
       config,
       String(row[config.key]),

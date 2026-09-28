@@ -12,8 +12,32 @@ export const CURRENT_USER = {
   locale: 'en',
   timezone: 'Africa/Cairo',
   photo: '',
-  twoFactorEnabled: false,
-  deactivationFrom: '',
+}
+
+export const EMPLOYEE_DETAILS = {
+  employeeNumber: 'EMP-00142',
+  jobTitle: 'ERP Administrator',
+  department: 'Information Technology',
+  manager: 'Ahmed Hassan',
+  branch: 'lastchance',
+  hireDate: '2021-03-15',
+  employmentStatus: 'Active',
+  workPhone: '+20 2 2345 6789',
+  extension: '214',
+  officeLocation: 'Cairo HQ · Floor 4',
+}
+
+export const CONTACT_DETAILS = {
+  address: '14 Al Nasr Street',
+  addressDetails: 'Building 3, Floor 2, Apartment 5',
+  city: 'Cairo',
+  state: 'Cairo',
+  country: 'EG - Egypt',
+  postalCode: '11511',
+  phone: '+20 2 2345 6789',
+  email: 'admin@lastchance',
+  mobile: '+20 100 123 4567',
+  website: '',
 }
 
 export const RECENT_ACTIVITY_ROWS = [

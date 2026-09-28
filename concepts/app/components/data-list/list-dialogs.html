@@ -377,6 +377,10 @@
           <textarea
             id="customer-status-reason"
             placeholder="This is saved with the customer status history"></textarea>
+          <p
+            id="customer-status-reason-text"
+            class="[font-size:13px] [color:var(--ink)] [padding:9px_11px] [border:1px_solid_var(--line)] rounded-lg bg-[var(--line-2)]"
+            hidden></p>
         </div>
       </div>
       <div class="dfoot flex items-center gap-2.5 [padding:12px_16px]">
@@ -387,6 +391,67 @@
         <span class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2">
           <button class="lbtn out customer-status-close">Cancel</button>
           <button class="lbtn pri" id="customer-status-confirm">Confirm</button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Locations table row action + location record page's own action:
+         "Change status" — same .dscrim/.dlg shell as the customer status
+         dialog above, so all three match exactly. Deactivating asks for a
+         reason; activating shows that reason back read-only (see
+         status-dialogs.js). -->
+<div
+  class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]"
+  id="geo-status-scrim">
+  <div
+    class="dlg [width:min(520px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+    data-tone="danger"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="geo-status-title">
+    <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+      <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]">
+        <use href="#i-flow" />
+      </svg>
+      <div>
+        <h3 id="geo-status-title">Deactivate location</h3>
+        <p class="dhd-subtitle">The location stays on hold until reactivated</p>
+      </div>
+      <button
+        class="ibtn x geo-status-close"
+        aria-label="Close"
+        style="margin-inline-start: auto">
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+      </button>
+    </div>
+    <div class="dlg-inner min-h-0">
+      <div class="dbody [padding:16px] overflow-auto">
+        <p
+          id="geo-status-description"
+          class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!"></p>
+        <div
+          class="geo-status-reason flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-lg [&_textarea]:[padding:9px_11px] [&_textarea]:[font:inherit] [&_textarea]:text-sm [&_textarea]:bg-surface [&_textarea:focus]:[outline:none] [&_textarea:focus]:[border-color:var(--accent)] [&_textarea:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_textarea]:[min-height:88px] [&_textarea]:[resize:vertical]"
+          hidden>
+          <label for="geo-status-reason"></label>
+          <textarea
+            id="geo-status-reason"
+            placeholder="This is saved with the location status history"></textarea>
+          <p
+            id="geo-status-reason-text"
+            class="[font-size:13px] [color:var(--ink)] [padding:9px_11px] [border:1px_solid_var(--line)] rounded-lg bg-[var(--line-2)]"
+            hidden></p>
+        </div>
+      </div>
+      <div class="dfoot flex items-center gap-2.5 [padding:12px_16px]">
+        <span
+          class="sum"
+          style="font-size: 12px; color: var(--muted)"
+          id="geo-status-sum"></span>
+        <span class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2">
+          <button class="lbtn out geo-status-close">Cancel</button>
+          <button class="lbtn pri" id="geo-status-confirm">Confirm</button>
         </span>
       </div>
     </div>

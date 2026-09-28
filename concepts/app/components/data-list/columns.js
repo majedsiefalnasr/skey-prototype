@@ -19,6 +19,8 @@
 import {LIST_ROWS} from '../../prototype/fixtures/invoices.js'
 import {CUSTOMER_ROWS} from '../../prototype/fixtures/customers.js'
 import {GEO_ROWS} from '../../prototype/fixtures/geography.js'
+import {SCREEN_PARAMETER_ROWS} from '../../prototype/fixtures/screen-parameters.js'
+import {JOURNAL_ENTRY_ROWS} from '../../prototype/fixtures/journal-entry.js'
 
 export const DATA_LIST_CONFIG = {
   invoice: {
@@ -224,6 +226,73 @@ export const DATA_LIST_CONFIG = {
       },
     ],
   },
+  // Screen Parameters — a plain reference table shared by every record
+  // page's "Screen Parameters" dialog (Sales Invoice, Customer,
+  // Geographical Structure), given the same real data-list Filter/Search/
+  // Columns/sort/pagination UX every list page uses. Unlike the other
+  // three contexts, rows carry no detail record, no delete, and no status
+  // — `noRowActions: true` is this config's own flag (read by
+  // views.js/list.js) that drops the select-all checkbox and the
+  // row-actions "..." column, since neither has anything to act on here.
+  screenParameters: {
+    label: 'parameters',
+    singular: 'parameter',
+    key: 'name',
+    rows: SCREEN_PARAMETER_ROWS,
+    noRowActions: true,
+    columns: [
+      {key: 'name', label: 'Parameter Name'},
+      {key: 'value', label: 'Value'},
+      {key: 'type', label: 'Type'},
+    ],
+    filters: [{key: 'all', label: 'All parameters', icon: 'i-sliders'}],
+    filterFields: [
+      {key: 'name', label: 'Parameter Name', icon: 'i-doc', type: 'text'},
+      {key: 'value', label: 'Value', icon: 'i-check', type: 'text'},
+      {
+        key: 'type',
+        label: 'Type',
+        icon: 'i-grid',
+        type: 'select',
+        options: ['General Parameters', 'Transactions Privileges'],
+      },
+    ],
+  },
+  // Journal Entry — the invoice record's own "Display Journal Entry"
+  // dialog (pages/invoices/record-dialogs.html). Same real data-list
+  // Filter/Search/Columns/sort/pagination UX and `noRowActions: true` as
+  // Screen Parameters (no detail record, no delete). The Debit/Credit/
+  // Local Debit/Local Credit totals + Balanced badge the real screen shows
+  // live below the table, computed from the full row set — not through
+  // this table's own render pipeline, which has no tfoot/totals concept
+  // (screen-parameters.js's sibling, journal-entry.js, renders that strip).
+  journal: {
+    label: 'lines',
+    singular: 'line',
+    key: 'accCode',
+    rows: JOURNAL_ENTRY_ROWS,
+    noRowActions: true,
+    columns: [
+      {key: 'accCode', label: 'Acc. Code'},
+      {key: 'detailAcc', label: 'Detail Acc.'},
+      {key: 'accName', label: 'Acc. Name'},
+      {key: 'currency', label: 'Currency'},
+      {key: 'debit', label: 'Debit', plottable: true, valueType: 'number'},
+      {key: 'credit', label: 'Credit', plottable: true, valueType: 'number'},
+      {key: 'localDebit', label: 'Local Debit', plottable: true, valueType: 'number'},
+      {key: 'localCredit', label: 'Local Credit', plottable: true, valueType: 'number'},
+      {key: 'statement', label: 'Statement'},
+      {key: 'costCenter', label: 'Cost Center No.'},
+      {key: 'subLedger2', label: 'Sub Ledger2 No.'},
+    ],
+    filters: [{key: 'all', label: 'All lines', icon: 'i-doc'}],
+    filterFields: [
+      {key: 'accCode', label: 'Acc. Code', icon: 'i-doc', type: 'text'},
+      {key: 'accName', label: 'Acc. Name', icon: 'i-doc', type: 'text'},
+      {key: 'currency', label: 'Currency', icon: 'i-grid', type: 'select', options: ['EGP']},
+      {key: 'statement', label: 'Statement', icon: 'i-doc', type: 'text'},
+    ],
+  },
 }
 
 export const DATA_LIST_STATISTICS_CONCEPT_OPTIONS = [
@@ -266,6 +335,18 @@ export const DATA_LIST_RESPONSIVE_WIDTH = {
   type: 110,
   level: 78,
   remarks: 220,
+  name: 320,
+  value: 160,
+  accCode: 100,
+  detailAcc: 110,
+  accName: 150,
+  debit: 110,
+  credit: 110,
+  localDebit: 120,
+  localCredit: 120,
+  statement: 260,
+  costCenter: 130,
+  subLedger2: 130,
 }
 
 export function responsiveDataListColumns(context, width, listState) {

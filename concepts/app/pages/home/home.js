@@ -403,16 +403,19 @@ export function createHome({
     quick.className = 'lp-quick'
     quick.setAttribute('aria-labelledby', 'launchpad-quick-title')
     const quickHeader = document.createElement('div')
-    quickHeader.className = 'lp-quick-header flex items-center justify-between gap-5'
+    quickHeader.className = 'lp-quick-header flex items-center gap-3'
     const tabs = document.createElement('div')
     tabs.className =
       'lp-quick-tabs inline-grid flex-none grid-cols-2 gap-[3px] rounded-[7px] bg-[var(--line-2)] p-[3px]'
     tabs.setAttribute('role', 'tablist')
     tabs.id = 'launchpad-quick-title'
+    const separator = document.createElement('span')
+    separator.className = 'lp-quick-sep h-4 w-px flex-none bg-line'
+    separator.setAttribute('aria-hidden', 'true')
     const more = document.createElement('button')
     more.type = 'button'
-    more.className = 'lp-quick-more ms-auto flex-none text-[12.5px] font-bold text-accent'
-    quickHeader.append(tabs, more)
+    more.className = 'lp-quick-more flex-none text-[12.5px] font-bold text-accent'
+    quickHeader.append(tabs, separator, more)
     const quickPanel = document.createElement('div')
     quickPanel.className = 'lp-quick-panel mt-3'
     const cards = document.createElement('div')
