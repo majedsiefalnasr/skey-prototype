@@ -88,6 +88,7 @@ const CONTROL_IDS = [
   'statistics-concept',
   'customer-mode',
   'customer-layout',
+  'settings-navigation-style',
   'profile-card-style',
   'active-role',
   'lang',
@@ -162,6 +163,16 @@ export function createPrototypeControls({root, settings, pages, onRoleChange = (
   }
   profileCardStyleControl.addEventListener('change', applyProfileCardStyle)
   applyProfileCardStyle()
+
+  const settingsNavigationStyleControl = doc.getElementById('settings-navigation-style')
+  const applySettingsNavigationStyle = () => {
+    const style = settingsNavigationStyleControl.value === 'standard' ? 'standard' : 'sidebar'
+    doc.querySelectorAll('.profile-view, .organization-view').forEach(view => {
+      view.dataset.settingsNavigationStyle = style
+    })
+  }
+  settingsNavigationStyleControl.addEventListener('change', applySettingsNavigationStyle)
+  applySettingsNavigationStyle()
 
   const activeRoleControl = doc.getElementById('active-role')
   const applyActiveRole = () => onRoleChange(activeRoleControl.value)
@@ -445,6 +456,7 @@ export function createPrototypeControls({root, settings, pages, onRoleChange = (
     const customerRecord = viewName === 'customer-record'
     const isProfile = viewName === 'profile'
     const isOrganization = viewName === 'organization'
+    const isSettingsPage = isProfile || isOrganization
     const nonInvoiceSurface = viewName !== 'record'
     const isTablePage = ['list', 'customers-list', 'geo-list'].includes(viewName)
     const hasCardSections = !isLaunchpad && (viewName === 'record' || customerRecord || isTablePage || isProfile || isOrganization)
@@ -454,6 +466,9 @@ export function createPrototypeControls({root, settings, pages, onRoleChange = (
     doc.getElementById('customer-layout-group')?.toggleAttribute('hidden', !customerRecord)
     doc.getElementById('profile-group-heading').hidden = !isProfile
     doc.getElementById('profile-card-style-group').hidden = !isProfile
+    doc.getElementById('settings-navigation-group-heading').hidden = !isSettingsPage
+    doc.getElementById('settings-navigation-style-group').hidden = !isSettingsPage
+    if (isSettingsPage) applySettingsNavigationStyle()
     if (isProfile) applyProfileCardStyle()
     doc.getElementById('section-style-group').hidden = !hasCardSections
     doc.getElementById('table-group-heading').hidden = !isTablePage
@@ -474,6 +489,7 @@ export function createPrototypeControls({root, settings, pages, onRoleChange = (
   function dispose() {
     doc.removeEventListener('keydown', handleDialogKeydown)
     profileCardStyleControl.removeEventListener('change', applyProfileCardStyle)
+    settingsNavigationStyleControl.removeEventListener('change', applySettingsNavigationStyle)
     activeRoleControl.removeEventListener('change', applyActiveRole)
     removeEventListener('resize', clamp)
   }

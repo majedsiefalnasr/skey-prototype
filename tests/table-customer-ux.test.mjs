@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
-import test from 'node:test'
 import {readFile} from 'node:fs/promises'
+import test from 'node:test'
 import {
   renderDataListFilterButtons,
   renderDataListToolbar,
@@ -118,9 +118,12 @@ test('appearance offers comfortable density and independent interface-scale pres
   assert.match(shellStyles, /\.appearance-group-theme\s*\{\s*order: 1/)
   assert.match(shellStyles, /\.dscrim \.dlg\s*\{[^}]*zoom:\s*var\(--ui-scale, 1\)/s)
   assert.match(shellStyles, /\.dhd\s*\{[^}]*background:\s*var\(--line-2\)/s)
-  assert.match(shellStyles, /customer-modal-header,[^}]*customer-unit-drawer-header,[^}]*\.rhd,[^}]*\.drhd[^}]*background:\s*var\(--line-2\)/s)
+  assert.match(
+    shellStyles,
+    /customer-modal-header,[^}]*customer-unit-drawer-header,[^}]*\.rhd,[^}]*\.drhd[^}]*background:\s*var\(--line-2\)/s
+  )
   assert.doesNotMatch(shellStyles, /body\.layout-boxed \.frame/)
-  assert.match(shell, /page-content flex min-h-0 flex-1 flex-col/)
+  assert.match(shell, /page-content flex min-h-0 flex-1 flex-col px-4/)
   assert.match(shellStyles, /body\.layout-boxed \.page-content\s*\{[^}]*max-width:\s*1296px/s)
   assert.doesNotMatch(shellStyles, /body\.layout-boxed :is\(\.arow, \.phead, \.canvas, \.fnav\)/)
   assert.match(shellStyles, /\.lp-body\s*\{[^}]*max-width:\s*1296px/s)
@@ -128,7 +131,10 @@ test('appearance offers comfortable density and independent interface-scale pres
   assert.match(shellStyles, /body\.density-comfortable \.lp-body/)
   assert.match(shellStyles, /body\.density-comfortable \.d1 \.arow/)
   assert.match(controls, /applyDensity\(document\.getElementById\('density'\)\.value\)/)
-  assert.match(controls, /applyContentLayout\(document\.getElementById\('content-layout'\)\.value\)/)
+  assert.match(
+    controls,
+    /applyContentLayout\(document\.getElementById\('content-layout'\)\.value\)/
+  )
 })
 
 test('launchpad availability is a shared persistent appearance preference', async () => {
@@ -169,18 +175,29 @@ test('boxed content owns list views through the shared page canvas', async () =>
   assert.match(shell, /pageActionBar\.className = 'page-action-bar'/)
   assert.match(shell, /pageActionBar\.append\(actionBar\)/)
   assert.match(contentHost, /document\.querySelectorAll\('\.page-footer \[data-page-footer\]'\)/)
-  assert.match(contentHost, /document\.querySelectorAll\('\.page-action-bar \[data-page-action-bar\]'\)/)
+  assert.match(
+    contentHost,
+    /document\.querySelectorAll\('\.page-action-bar \[data-page-action-bar\]'\)/
+  )
   assert.match(shellStyles, /\.page-footer\s*\{[^}]*width:\s*100%/s)
   assert.match(shellStyles, /body\.layout-boxed \.page-footer \.fnav\s*\{[^}]*max-width:\s*1296px/s)
   assert.match(shellStyles, /\.page-action-bar\s*\{[^}]*width:\s*100%/s)
-  assert.match(shellStyles, /body\.layout-boxed \.page-action-bar \.arow\s*\{[^}]*max-width:\s*1296px/s)
+  assert.match(
+    shellStyles,
+    /body\.layout-boxed \.page-action-bar \.arow\s*\{[^}]*max-width:\s*1296px/s
+  )
 })
 
 test('operation-unit drawers retain their primary and nested widths', async () => {
-  const dialogs = await readFile(new URL('../concepts/app/pages/customers/dialogs.html', import.meta.url), 'utf8')
+  const dialogs = await readFile(
+    new URL('../concepts/app/pages/customers/dialogs.html', import.meta.url),
+    'utf8'
+  )
 
   const primaryDrawer = dialogs.match(/class="customer-unit-drawer absolute[^\n]+"/)[0]
-  const nestedDrawer = dialogs.match(/class="customer-unit-drawer customer-nested-unit-drawer[^\n]+"/)[0]
+  const nestedDrawer = dialogs.match(
+    /class="customer-unit-drawer customer-nested-unit-drawer[^\n]+"/
+  )[0]
   assert.match(primaryDrawer, /\[width:80vw\]/)
   assert.doesNotMatch(primaryDrawer, /\bw-full\b/)
   assert.match(nestedDrawer, /\[width:60vw\]/)
@@ -200,7 +217,10 @@ test('invoice record actions expose status changes outside the audit pill', asyn
   const [chrome, operations, dialogs, shellStyles] = await Promise.all([
     readFile(new URL('../concepts/app/pages/invoices/chrome.js', import.meta.url), 'utf8'),
     readFile(new URL('../concepts/app/pages/invoices/operations.js', import.meta.url), 'utf8'),
-    readFile(new URL('../concepts/app/pages/invoices/record-dialogs.html', import.meta.url), 'utf8'),
+    readFile(
+      new URL('../concepts/app/pages/invoices/record-dialogs.html', import.meta.url),
+      'utf8'
+    ),
     readFile(new URL('../concepts/app/styles/tailwind/shell.css', import.meta.url), 'utf8'),
   ])
 

@@ -60,11 +60,18 @@ export const SYSTEM_HEALTH = {
   integrations: '8 of 9 healthy',
   slowOperations: 3,
   openAlerts: 4,
+  availabilityChange: 0.02,
+  responseTimeChange: -12,
+  errorRateChange: 25,
+  queueDepthChange: 17,
+  slaTarget: '99.9%',
   // 7-day trend series (oldest to newest, ending at today's value above) —
   // feeds the overview stat cards' per-metric sparkline/bar visuals
   // (renderOverview in sections.js), same trend-array convention as
   // customers/statistics.js's analytical cards.
   responseTimeTrend: [312, 298, 305, 291, 279, 294, 286],
+  errorRateTrend: [0.31, 0.27, 0.24, 0.29, 0.22, 0.16, 0.18],
+  queueDepthTrend: [9, 12, 8, 16, 11, 18, 14],
   exceptionsTrend: [7, 9, 6, 8, 13, 9, 11],
   openAlertsTrend: [2, 3, 1, 5, 3, 6, 4],
   operationalHealthTrend: [96, 97, 94, 98, 95, 97, 98],
@@ -83,4 +90,3 @@ export const SYSTEM_SERVICES = [
   {id: 'db', name: 'Database', detail: 'Primary and reporting workloads', uptime: '99.91%', status: 'degraded', history: dayHistory({71: 'down', 72: 'down', 84: 'degraded'})},
   {id: 'jobs', name: 'Background jobs', detail: 'Posting, valuation, and month-end batches', uptime: '99.95%', status: 'up', history: dayHistory({63: 'degraded'})},
 ]
-

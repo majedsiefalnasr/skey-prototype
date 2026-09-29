@@ -29,6 +29,10 @@ function dataListMount(id) {
   return `<div class="canvas [overflow:visible]!" id="organization-${id}-canvas"></div><div class="fnav fnav-list flex items-center gap-5 [padding:9px_0_0]" id="organization-${id}-fnav"></div>`
 }
 
+function sectionMessage(title, body, dataListIcon, icon = 'i-help') {
+  return `<aside data-organization-section-message role="note" class="mb-3 flex items-start gap-3 rounded-md bg-[var(--info-soft-bg)] p-3 text-ink"><span class="mt-0.5 flex size-6 flex-none items-center justify-center text-[var(--info-soft-ink)]">${dataListIcon(icon, 17)}</span><div class="min-w-0"><strong class="block text-[13px] font-semibold">${title}</strong><p class="mt-1 mb-0 text-xs leading-5 text-muted">${body}</p></div></aside>`
+}
+
 /** Small rounded pill — a trend delta ("↑12%"), a live indicator, or a
     plain status chip. `tone` picks the pill's own background/ink
     (independent of --stat-tone, since a pill can read positive even on a
@@ -231,7 +235,7 @@ function metricTrendChart(trend, unit, encodeHtml) {
   const tooltipValue = `${last ? trend[trend.length - 1] : 0}${unit ? ` ${unit}` : ''}`
   const tooltipWidth = 20 + tooltipValue.length * 6
   const tooltipX = Math.min(Math.max(last.x - tooltipWidth / 2, 0), width - tooltipWidth)
-  return `<svg data-organization-trend-chart class="mt-auto w-full h-auto" viewBox="0 0 ${width} ${height}" aria-hidden="true">${gridlineMarkup}<line x1="${last.x.toFixed(1)}" y1="${last.y.toFixed(1)}" x2="${last.x.toFixed(1)}" y2="${(height - padBottom).toFixed(1)}" stroke="var(--stat-tone)" stroke-width="1" stroke-dasharray="3 3" /><polygon points="${padInline},${height - padBottom} ${pointsAttr} ${width - padInline},${height - padBottom}" fill="color-mix(in srgb, var(--stat-tone) 14%, transparent)" stroke="none" /><polyline points="${pointsAttr}" fill="none" stroke="var(--stat-tone)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" /><circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="7" fill="var(--stat-tone)" opacity="0.18" /><circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="3.5" fill="var(--stat-tone)" stroke="var(--surface)" stroke-width="1.5" /><g transform="translate(${tooltipX.toFixed(1)}, ${Math.max(0, last.y - 22).toFixed(1)})"><rect width="${tooltipWidth}" height="16" rx="4" fill="var(--tooltip-bg)" /><text x="${tooltipWidth / 2}" y="11" font-size="10" font-weight="600" fill="var(--tooltip-ink)" text-anchor="middle">${encodeHtml(tooltipValue)}</text></g></svg>`
+  return `<svg data-organization-trend-chart class="mt-auto mx-auto w-full max-w-[480px] h-auto" viewBox="0 0 ${width} ${height}" aria-hidden="true">${gridlineMarkup}<line x1="${last.x.toFixed(1)}" y1="${last.y.toFixed(1)}" x2="${last.x.toFixed(1)}" y2="${(height - padBottom).toFixed(1)}" stroke="var(--stat-tone)" stroke-width="1" stroke-dasharray="3 3" /><polygon points="${padInline},${height - padBottom} ${pointsAttr} ${width - padInline},${height - padBottom}" fill="color-mix(in srgb, var(--stat-tone) 14%, transparent)" stroke="none" /><polyline points="${pointsAttr}" fill="none" stroke="var(--stat-tone)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" /><circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="7" fill="var(--stat-tone)" opacity="0.18" /><circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="3.5" fill="var(--stat-tone)" stroke="var(--surface)" stroke-width="1.5" /><g transform="translate(${tooltipX.toFixed(1)}, ${Math.max(0, last.y - 22).toFixed(1)})"><rect width="${tooltipWidth}" height="16" rx="4" fill="var(--tooltip-bg)" /><text x="${tooltipWidth / 2}" y="11" font-size="10" font-weight="600" fill="var(--tooltip-ink)" text-anchor="middle">${encodeHtml(tooltipValue)}</text></g></svg>`
 }
 
 /** Trend card: header row, headline number (with an optional smaller
@@ -389,7 +393,7 @@ function renderOverview(data, role, encodeHtml, dataListIcon) {
   const statCells = [
     statGridCell(
       activeUsersCard,
-      '[@media((min-width:1300px))]:col-start-1 [@media((min-width:1300px))]:row-start-1 [@media((min-width:1300px))]:row-span-2'
+      '[@media((min-width:800px)_and_(max-width:1299px))]:col-span-2 [@media((min-width:1300px))]:col-start-1 [@media((min-width:1300px))]:row-start-1 [@media((min-width:1300px))]:row-span-2'
     ),
     statGridCell(
       responseTimeCard,
@@ -407,7 +411,9 @@ function renderOverview(data, role, encodeHtml, dataListIcon) {
       : '',
     statGridCell(
       openAlertsCard,
-      '[@media((min-width:1300px))]:col-start-3 [@media((min-width:1300px))]:row-start-2'
+      role === 'administrator'
+        ? '[@media((min-width:1300px))]:col-start-3 [@media((min-width:1300px))]:row-start-2'
+        : '[@media((min-width:800px)_and_(max-width:1299px))]:col-span-2 [@media((min-width:1300px))]:col-start-2 [@media((min-width:1300px))]:col-span-2 [@media((min-width:1300px))]:row-start-2'
     ),
   ].join('')
   const recent = data.auditRows
@@ -457,16 +463,16 @@ function renderUsers() {
   return dataListMount('users')
 }
 
-function renderApplicationSessions() {
-  return `${card('Session safety', '<p class="m-0 text-xs text-muted">IP addresses are masked. Revoking a session requires a reason and creates an audit event. Current and system sessions are protected.</p>', 'mb-3')}${dataListMount('app-sessions')}`
+function renderApplicationSessions(dataListIcon) {
+  return `${sectionMessage('Session safety', 'IP addresses are masked. Revoking a session requires a reason and creates an audit event. Current and system sessions are protected.', dataListIcon, 'i-lock')}${dataListMount('app-sessions')}`
 }
 
-function renderDatabaseSessions() {
-  return `${card('Privileged operation', '<p class="m-0 text-xs text-muted">Session details omit credentials, parameters, and full SQL. Termination requires an operational reason and is recorded in the audit log.</p>', 'mb-3')}${dataListMount('db-sessions')}`
+function renderDatabaseSessions(dataListIcon) {
+  return `${sectionMessage('Privileged operation', 'Session details omit credentials, parameters, and full SQL. Termination requires an operational reason and is recorded in the audit log.', dataListIcon, 'i-lock')}${dataListMount('db-sessions')}`
 }
 
 function renderAudit() {
-  return `<div class="mb-3 flex justify-end"><button type="button" class="lbtn" data-organization-export-audit><svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg> Export CSV</button></div>${dataListMount('audit')}`
+  return dataListMount('audit')
 }
 
 const SEGMENT_TONE = {
@@ -527,18 +533,74 @@ function renderServiceUptime(service, encodeHtml) {
   return `<div class="border-t border-line py-3.5 first:border-t-0 first:pt-0"><div class="mb-2 flex flex-wrap items-center justify-between gap-2"><div><strong class="block text-[13.5px]">${encodeHtml(service.name)}</strong><small class="text-muted">${encodeHtml(service.detail)}</small></div>${badge(STATUS_LABEL[service.status], STATUS_BADGE_TONE[service.status])}</div><div class="org-uptime-track flex h-9 items-stretch [&:has(.org-uptime-seg:hover)_.org-uptime-seg>span:first-child]:opacity-60 [&_.org-uptime-seg:hover>span:first-child]:opacity-100!" role="img" aria-label="${encodeHtml(service.name)} uptime over the last 90 days, ${service.uptime}">${segments}</div><div class="mt-1.5 flex items-center justify-between text-xs text-muted"><span>90 days ago</span><span class="font-semibold text-ink">${service.uptime} uptime</span><span>Today</span></div></div>`
 }
 
-function renderPerformance(health, services, role, encodeHtml) {
-  const metrics = [
-    ['Availability', health.availability, 'Within target'],
-    ['Median response', health.responseTime, 'Stable over 24 hours'],
-    ['Error rate', health.errorRate, `${health.openAlerts} alerts open`],
-    ['Queue depth', health.queueDepth, '14 scheduled operations'],
-  ]
-    .map(
-      ([label, value, note]) =>
-        `<div class="rounded-md border border-line p-3"><span class="text-xs text-muted">${label}</span><strong class="mt-1 block text-lg">${value}</strong><small class="text-muted">${note}</small></div>`
-    )
+function performancePeriodChange(change, tone) {
+  const rising = change >= 0
+  const arrow = rising ? '↑' : '↓'
+  const value = `${rising ? '+' : ''}${change}%`
+  const toneClass =
+    tone === 'success'
+      ? 'bg-[var(--success-soft-bg)] text-[var(--success-soft-ink)]'
+      : tone === 'warning'
+        ? 'bg-[var(--warn-bg)] text-[var(--warn-ink)]'
+        : 'bg-[var(--danger-soft-bg)] text-[var(--danger-soft-ink)]'
+  return `<span data-organization-period-change class="grid flex-none gap-0.5 rounded-lg px-3 py-2 ${toneClass}"><strong class="text-[13px] font-bold">${arrow} ${value}</strong><small class="text-[10.5px] text-muted max-[620px]:hidden">vs. previous period</small></span>`
+}
+
+function performanceMetricShell(metric, dataListIcon, body) {
+  return `<article data-organization-performance-metric data-tone="${metric.tone}" class="flex min-w-0 flex-col gap-4 rounded-xl border border-line bg-surface p-4 [box-shadow:var(--shadow-1)] [--stat-tone:var(--accent)] [&[data-tone=success]]:[--stat-tone:var(--success)] [&[data-tone=warning]]:[--stat-tone:var(--st-pend-ink)] [&[data-tone=danger]]:[--stat-tone:var(--danger)] ${metric.cardClass || ''}">${statHeader(metric.label, metric.subtitle, metric.icon, dataListIcon, metric.pill)}${body}</article>`
+}
+
+function performanceGaugeCard(metric, dataListIcon) {
+  const summaries = metric.summaries
+    .map(summary => `<div data-organization-availability-summary class="flex min-w-0 items-center gap-2 [@media((min-width:640px))]:justify-center"><span class="flex size-7 flex-none items-center justify-center text-muted">${dataListIcon(summary.icon, 17)}</span><span class="min-w-0"><strong class="block text-[13px] font-bold text-ink">${summary.value}</strong><small class="block text-[11px] leading-4 text-muted">${summary.label}</small></span></div>`)
     .join('')
+  const gauge = `<div data-organization-performance-gauge class="flex min-h-[220px] flex-1 flex-col items-center justify-center">${radialGauge(metric.progress, 320, metric.scaleMax, metric.value, metric.label)}${statPill('Within target', 'success', dataListIcon('i-check', 12))}</div><div class="grid grid-cols-1 gap-3 border-t border-line pt-4 [@media((min-width:640px))]:grid-cols-3">${summaries}</div>`
+  return performanceMetricShell(metric, dataListIcon, gauge)
+}
+
+function performanceTrendCard(metric, dataListIcon, encodeHtml) {
+  const trend = `<div class="grid flex-1 items-end gap-3 [@media((min-width:1200px))]:grid-cols-[minmax(160px,_0.65fr)_minmax(240px,_1.35fr)]"><div><strong class="block truncate text-[28px] font-bold leading-none tracking-[-0.01em] text-ink [font-variant-numeric:tabular-nums]">${metric.value}</strong><span class="mt-2 inline-flex items-center gap-1.5 text-xs text-muted"><span class="size-1.5 flex-none rounded-full [background:var(--stat-tone)]"></span>${metric.detail}</span></div>${metricTrendChart(metric.trend, metric.unit, encodeHtml)}</div>`
+  return performanceMetricShell(metric, dataListIcon, trend)
+}
+
+function estimatedDowntime(availability) {
+  const unavailableSeconds = Math.round(86400 * (1 - Number.parseFloat(availability) / 100))
+  return unavailableSeconds < 60 ? `${unavailableSeconds}s` : `${Math.floor(unavailableSeconds / 60)}m`
+}
+
+function availabilityPerformanceCard(health, dataListIcon) {
+  return performanceGaugeCard(
+    {
+      label: 'Availability',
+      subtitle: 'System uptime and service availability',
+      value: health.availability,
+      icon: 'i-check',
+      tone: 'success',
+      progress: Number.parseFloat(health.availability),
+      scaleMax: '100%',
+      pill: statPill('Within target', 'success', ''),
+      cardClass: '[@media((min-width:1200px))]:col-start-1 [@media((min-width:1200px))]:row-span-3',
+      summaries: [
+        {icon: 'i-spark', value: `+${health.availabilityChange}%`, label: 'vs. previous period'},
+        {icon: 'i-clock', value: estimatedDowntime(health.availability), label: 'Estimated downtime'},
+        {icon: 'i-target', value: health.slaTarget, label: 'SLA target'},
+      ],
+    },
+    dataListIcon
+  )
+}
+
+function performanceTrendCards(health, dataListIcon, encodeHtml) {
+  const trends = [
+    {label: 'Median response time', subtitle: 'API and system response time', value: health.responseTime, detail: 'Stable over 24 hours', icon: 'i-clock', tone: 'success', trend: health.responseTimeTrend, unit: 'ms', pill: performancePeriodChange(health.responseTimeChange, 'success')},
+    {label: 'Error rate', subtitle: 'Failed requests and system errors', value: health.errorRate, detail: `${health.openAlerts} alerts open`, icon: 'i-warn', tone: 'danger', trend: health.errorRateTrend, unit: '%', pill: performancePeriodChange(health.errorRateChange, 'danger')},
+    {label: 'Queue depth', subtitle: 'Pending and scheduled operations', value: health.queueDepth, detail: '14 scheduled operations', icon: 'i-flow', tone: 'warning', trend: health.queueDepthTrend, unit: '', pill: performancePeriodChange(health.queueDepthChange, 'warning')},
+  ]
+  return trends.map(metric => performanceTrendCard(metric, dataListIcon, encodeHtml)).join('')
+}
+
+function renderPerformance(health, services, role, encodeHtml, dataListIcon) {
+  const metrics = availabilityPerformanceCard(health, dataListIcon) + performanceTrendCards(health, dataListIcon, encodeHtml)
   const detailRows = [
     ['Sales invoice posting', '418 ms', 'Normal', 'Sales'],
     ['Inventory valuation report', '2.8 s', 'Slow', 'Inventory'],
@@ -549,11 +611,11 @@ function renderPerformance(health, services, role, encodeHtml) {
     role === 'manager'
       ? '<p class="mt-3 mb-0 text-xs text-muted">Technical identifiers are hidden in the manager view; results are summarized by business module.</p>'
       : ''
-  return `${renderStatusBanner(services)}${card('Service uptime', services.map(service => renderServiceUptime(service, encodeHtml)).join(''), 'mb-4')}<div class="grid grid-cols-4 gap-3 mb-4 [@media((max-width:900px))]:grid-cols-2">${metrics}</div>${table(['Operation', 'Duration', 'State', 'Business area'], detailRows)}${scopeNote}`
+  return `<div data-organization-performance-metrics class="mb-4 grid grid-cols-1 gap-3 [@media((min-width:1200px))]:grid-cols-[minmax(0,_1.05fr)_minmax(0,_1.2fr)] [@media((min-width:1200px))]:grid-rows-3">${metrics}</div>${renderStatusBanner(services)}${card('Service uptime', services.map(service => renderServiceUptime(service, encodeHtml)).join(''), 'mb-4')}${table(['Operation', 'Duration', 'State', 'Business area'], detailRows)}${scopeNote}`
 }
 
-function renderStaff() {
-  return `${card('How to read these measures', '<p class="m-0 text-xs text-muted">These are workflow outcomes, not an employee score. Compare workload, aging, quality, and process context together before acting.</p>', 'mb-3')}${dataListMount('staff')}`
+function renderStaff(dataListIcon) {
+  return `${sectionMessage('How to read these measures', 'These are workflow outcomes, not an employee score. Compare workload, aging, quality, and process context together before acting.', dataListIcon)}${dataListMount('staff')}`
 }
 
 export function renderOrganizationSections({
@@ -569,11 +631,11 @@ export function renderOrganizationSections({
     overview: renderOverview(data, role, encodeHtml, dataListIcon),
     settings: renderSettings(data.details, role, encodeHtml),
     users: renderUsers(),
-    'application-sessions': renderApplicationSessions(),
-    'database-sessions': renderDatabaseSessions(),
+    'application-sessions': renderApplicationSessions(dataListIcon),
+    'database-sessions': renderDatabaseSessions(dataListIcon),
     audit: renderAudit(),
-    performance: renderPerformance(data.health, data.services, role, encodeHtml),
-    staff: renderStaff(),
+    performance: renderPerformance(data.health, data.services, role, encodeHtml, dataListIcon),
+    staff: renderStaff(dataListIcon),
   }
   return sectionOrder
     .map(

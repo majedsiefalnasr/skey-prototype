@@ -3,6 +3,7 @@ import {ORGANIZATION_SECTION_ORDER, ORGANIZATION_SECTIONS} from './fields.js'
 import {renderOrganizationNav} from './layout.js'
 import {renderOrganizationSections} from './sections.js'
 import {readOrganizationSessionState} from './sessions.js'
+import {DATA_TOOLBAR_BUTTON_CLASS} from '../../components/data-list/list.js'
 
 const SETTINGS_KEY = 'skey-proto-organization-settings'
 
@@ -103,6 +104,7 @@ export function createOrganization({
         const canvas = root.querySelector(`#organization-${mount}-canvas`)
         const footer = root.querySelector(`#organization-${mount}-fnav`)
         if (canvas) instance.activate({root: canvas, footer})
+        if (sectionKey === 'audit') bindAuditExport()
       } else {
         instance.deactivate()
       }
@@ -149,20 +151,38 @@ export function createOrganization({
     })
   }
 
+  function createAuditExportButton() {
+    const button = document.createElement('button')
+    button.type = 'button'
+    button.className = `data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}`
+    button.dataset.organizationExportAudit = ''
+    button.setAttribute('aria-label', 'Export audit log as CSV')
+    button.title = 'Export CSV'
+    button.innerHTML = `${dataListIcon('i-doc')}<span class="data-toolbar-label-text max-[620px]:hidden">Export CSV</span>`
+    return button
+  }
+
+  function exportAuditRows() {
+    const rows = getData().auditRows
+    const escape = value => `"${String(value).replaceAll('"', '""')}"`
+    const csv = [['Timestamp', 'Actor', 'Action', 'Object', 'Source', 'Result'], ...rows.map(row => [row.timestamp, row.actor, row.action, row.object, row.source, row.result])]
+      .map(row => row.map(escape).join(','))
+      .join('\n')
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(new Blob([csv], {type: 'text/csv'}))
+    link.download = 'skey-organization-audit.csv'
+    link.click()
+    URL.revokeObjectURL(link.href)
+    toast({tone: 'ok', title: 'Audit log exported'})
+  }
+
   function bindAuditExport() {
-    root.querySelector('[data-organization-export-audit]')?.addEventListener('click', () => {
-      const rows = getData().auditRows
-      const escape = value => `"${String(value).replaceAll('"', '""')}"`
-      const csv = [['Timestamp', 'Actor', 'Action', 'Object', 'Source', 'Result'], ...rows.map(row => [row.timestamp, row.actor, row.action, row.object, row.source, row.result])]
-        .map(row => row.map(escape).join(','))
-        .join('\n')
-      const link = document.createElement('a')
-      link.href = URL.createObjectURL(new Blob([csv], {type: 'text/csv'}))
-      link.download = 'skey-organization-audit.csv'
-      link.click()
-      URL.revokeObjectURL(link.href)
-      toast({tone: 'ok', title: 'Audit log exported'})
-    })
+    const controls = root.querySelector('#organization-audit-canvas .data-toolbar-cluster.end')
+    if (!controls || controls.querySelector('[data-organization-export-audit]')) return
+    const button = createAuditExportButton()
+    const columns = controls.querySelector('[aria-label="Visible columns"]')?.closest('details')
+    controls.insertBefore(button, columns || null)
+    button.addEventListener('click', exportAuditRows)
   }
 
   function bind() {
@@ -173,7 +193,6 @@ export function createOrganization({
       button.addEventListener('click', () => setActivePanel(button.dataset.organizationOpenSection))
     })
     bindSettings()
-    bindAuditExport()
     sessionActions?.dispose()
     sessionActions = createSessionActions?.({
       root,

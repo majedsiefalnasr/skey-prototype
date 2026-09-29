@@ -6,7 +6,7 @@ import {
 } from './pagination.js'
 
 const DATA_LIST_FOOTER_CLASS =
-  'fnav fnav-list empty:hidden flex flex-wrap items-center gap-5 border-t border-line bg-surface px-4 py-[9px]'
+  'fnav fnav-list empty:hidden flex flex-wrap items-center gap-5 border-t border-line bg-surface py-[9px]'
 
 /** Owns list pager state and its DOM bindings. */
 export function createListPager({

@@ -1,7 +1,12 @@
-
-
 /** Owns shell state and its DOM bindings. */
-export function createShell({setupAppSwitcher, renderSide, goToForYou, applySideCollapsedState, toggleSideCollapse, getLaunchpadEnabled} = {}) {
+export function createShell({
+  setupAppSwitcher,
+  renderSide,
+  goToForYou,
+  applySideCollapsedState,
+  toggleSideCollapse,
+  getLaunchpadEnabled,
+} = {}) {
   const T = id => document.getElementById(id).content.cloneNode(true)
 
   document.querySelectorAll('.design.active').forEach(d => {
@@ -11,11 +16,13 @@ export function createShell({setupAppSwitcher, renderSide, goToForYou, applySide
     const body = document.createElement('div')
     body.className = 'fbody relative flex min-h-0 flex-1'
     const side = document.createElement('nav')
-    side.className = 'side relative flex min-h-0 w-[var(--sidebar-w)] shrink-0 flex-col border-e border-line bg-surface'
+    side.className =
+      'side relative flex min-h-0 w-[var(--sidebar-w)] shrink-0 flex-col border-e border-line bg-surface'
     side.setAttribute('aria-label', 'Primary navigation')
     const handle = document.createElement('button')
     handle.type = 'button'
-    handle.className = 'side-handle absolute inset-y-0 -end-1 z-[57] h-full w-[9px] cursor-ew-resize border-0 bg-transparent p-0'
+    handle.className =
+      'side-handle absolute inset-y-0 -end-1 z-[57] h-full w-[9px] cursor-ew-resize border-0 bg-transparent p-0'
     handle.setAttribute('aria-label', 'Collapse sidebar')
     handle.addEventListener('click', toggleSideCollapse)
     side.appendChild(handle)
@@ -24,7 +31,7 @@ export function createShell({setupAppSwitcher, renderSide, goToForYou, applySide
     content.id = 'app-main'
     content.tabIndex = -1
     const pageContent = document.createElement('div')
-    pageContent.className = 'page-content flex min-h-0 flex-1 flex-col'
+    pageContent.className = 'page-content flex min-h-0 flex-1 flex-col px-4'
     pageContent.append(d.querySelector('.body-tpl').content.cloneNode(true))
     pageContent.append(d.querySelector('.email-tpl').content.cloneNode(true))
     pageContent.append(d.querySelector('.list-tpl').content.cloneNode(true))
@@ -43,7 +50,9 @@ export function createShell({setupAppSwitcher, renderSide, goToForYou, applySide
     const pageFooter = document.createElement('div')
     pageFooter.className = 'page-footer'
     pageContent.querySelectorAll('.fnav').forEach(footer => {
-      const view = footer.closest('.list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view')
+      const view = footer.closest(
+        '.list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view'
+      )
       footer.dataset.pageFooter = view?.classList.contains('list-view')
         ? 'list'
         : view?.classList.contains('customer-list-view')
@@ -71,9 +80,7 @@ export function createShell({setupAppSwitcher, renderSide, goToForYou, applySide
     d.querySelectorAll('.crumbs .sep').forEach(separator => {
       separator.setAttribute('aria-hidden', 'true')
     })
-    d.querySelectorAll('.side-toggle').forEach(b =>
-      b.addEventListener('click', toggleSideCollapse)
-    )
+    d.querySelectorAll('.side-toggle').forEach(b => b.addEventListener('click', toggleSideCollapse))
     d.querySelectorAll('.gtop .app').forEach(b => b.addEventListener('click', goToForYou))
     renderSide(side)
     d.querySelectorAll('.app-switcher-list').forEach(setupAppSwitcher)

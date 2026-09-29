@@ -240,4 +240,27 @@ test.describe('profile page', () => {
     await expect(page.locator('#profile-card-style')).toHaveValue('simple');
     await expect(page.locator('.profile-view')).toHaveAttribute('data-profile-card-style', 'simple');
   });
+
+  test('settings navigation style switches both settings pages and persists', async ({page}) => {
+    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
+    await openProfileSection(page, 'profile');
+
+    await expect(page.locator('#settings-navigation-style-group')).not.toHaveAttribute('hidden', '');
+    await page.locator('#settings-navigation-style').selectOption('standard', {force: true});
+    await expect(page.locator('.profile-view')).toHaveAttribute('data-settings-navigation-style', 'standard');
+    await expect(page.locator('.profile-scroll-nav')).toHaveCSS('display', 'flex');
+    await expect(page.locator('.profile-scroll-nav')).toHaveCSS('border-bottom-style', 'solid');
+
+    await page.locator('.avatar-btn').click();
+    await page.locator('.organization-menu[data-organization-section="overview"]').click();
+    await settle(page);
+    await expect(page.locator('.organization-view')).toHaveAttribute('data-settings-navigation-style', 'standard');
+    await expect(page.locator('.organization-nav')).toHaveCSS('display', 'flex');
+
+    await page.reload();
+    await settle(page);
+    await openProfileSection(page, 'profile');
+    await expect(page.locator('#settings-navigation-style')).toHaveValue('standard');
+    await expect(page.locator('.profile-view')).toHaveAttribute('data-settings-navigation-style', 'standard');
+  });
 });

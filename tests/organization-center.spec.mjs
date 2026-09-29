@@ -73,6 +73,52 @@ test.describe('organization center', () => {
     expect(overflow).toBe(false)
   })
 
+  test('manager overview fills its grid without gaps or horizontal overflow', async ({page}, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'Responsive geometry is covered once.')
+    await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173')
+    await page.locator('#active-role').selectOption('manager', {force: true})
+    await openOrganizationSection(page, 'overview')
+
+    const cards = page.locator('.org-stat-card')
+    await expect(cards).toHaveCount(4)
+
+    const boxesAt = async width => {
+      await page.setViewportSize({width, height: 1000})
+      await settle(page)
+      return cards.evaluateAll(items =>
+        Object.fromEntries(items.map(card => {
+          const title = card.querySelector('strong')?.textContent?.trim()
+          const box = card.getBoundingClientRect()
+          return [title, {
+            left: Math.round(box.left),
+            right: Math.round(box.right),
+            top: Math.round(box.top),
+            bottom: Math.round(box.bottom),
+          }]
+        }))
+      )
+    }
+
+    const wide = await boxesAt(1600)
+    expect(wide['Open alerts'].left).toBe(wide['Response time'].left)
+    expect(wide['Open alerts'].right).toBe(wide['Workflow exceptions'].right)
+    expect(wide['Open alerts'].top).toBeGreaterThan(wide['Response time'].top)
+    expect(wide['Active users'].bottom).toBe(wide['Open alerts'].bottom)
+
+    const tablet = await boxesAt(1050)
+    expect(tablet['Active users'].left).toBe(tablet['Response time'].left)
+    expect(tablet['Active users'].right).toBe(tablet['Workflow exceptions'].right)
+    expect(tablet['Open alerts'].left).toBe(tablet['Response time'].left)
+    expect(tablet['Open alerts'].right).toBe(tablet['Workflow exceptions'].right)
+
+    const phone = await boxesAt(390)
+    expect(new Set(Object.values(phone).map(box => box.left)).size).toBe(1)
+    const overflow = await page.locator('[data-organization-stat-grid]').evaluate(element =>
+      element.scrollWidth > element.clientWidth
+    )
+    expect(overflow).toBe(false)
+  })
+
   test('topbar menu groups organization links by active role', async ({page}) => {
     await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173')
     await page.locator('.avatar-btn').click()
@@ -103,6 +149,91 @@ test.describe('organization center', () => {
     await expect(page.locator('[data-organization-setting]')).toHaveCount(8)
     await expect(page.locator('[data-organization-setting]').first()).toHaveAttribute('readonly', '')
     await expect(page.locator('#organization-settings-save')).toHaveCount(0)
+  })
+
+  test('audit export lives in the table toolbar and stays compact on phones', async ({page}, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'Responsive geometry is covered once.')
+    await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173')
+    await openOrganizationSection(page, 'audit')
+
+    const toolbar = page.locator('#organization-audit-canvas .data-list-toolbar')
+    const exportButton = toolbar.locator('[data-organization-export-audit]')
+    await expect(exportButton).toBeVisible()
+    await expect(exportButton).toHaveAttribute('aria-label', 'Export audit log as CSV')
+    expect(await exportButton.evaluate(button => Boolean(button.closest('.data-toolbar-cluster.end')))).toBe(true)
+
+    const desktopOrder = await toolbar.locator('.data-toolbar-cluster.end').evaluate(cluster => {
+      const exportButton = cluster.querySelector('[data-organization-export-audit]')
+      const columns = cluster.querySelector('[aria-label="Visible columns"]')?.closest('details')
+      return exportButton.compareDocumentPosition(columns) & Node.DOCUMENT_POSITION_FOLLOWING
+    })
+    expect(desktopOrder).toBeTruthy()
+
+    await page.setViewportSize({width: 390, height: 900})
+    await settle(page)
+    await expect(exportButton.locator('span')).toBeHidden()
+    expect(await toolbar.evaluate(element => element.scrollWidth > element.clientWidth)).toBe(false)
+  })
+
+  test('session guidance uses a compact information section message', async ({page}) => {
+    await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173')
+    await openOrganizationSection(page, 'overview')
+    await page.locator('.organization-nav [data-organization-section="application-sessions"]').click()
+
+    const message = page.locator('#organization-section-application-sessions [data-organization-section-message]')
+    await expect(message).toBeVisible()
+    await expect(message).toHaveAttribute('role', 'note')
+    await expect(message).toContainText('Session safety')
+    await expect(message).toContainText('IP addresses are masked')
+    await expect(page.locator('#organization-section-application-sessions .org-card', {hasText: 'Session safety'})).toHaveCount(0)
+  })
+
+  test('system performance starts with responsive overview-style metrics', async ({page}, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'Responsive geometry is covered once.')
+    await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173')
+    await openOrganizationSection(page, 'performance')
+
+    const grid = page.locator('[data-organization-performance-metrics]')
+    const cards = grid.locator('[data-organization-performance-metric]')
+    await expect(cards).toHaveCount(4)
+    await expect(cards.locator('[data-organization-trend-chart]')).toHaveCount(3)
+    const availability = cards.filter({hasText: 'Availability'})
+    await expect(availability.locator('[data-organization-performance-gauge]')).toHaveCount(1)
+    await expect(availability.locator('[data-organization-availability-summary]')).toHaveCount(3)
+    await expect(availability.locator('[data-organization-trend-chart]')).toHaveCount(0)
+    await expect(cards.locator('[data-organization-period-change]')).toHaveCount(3)
+
+    async function cardBoxesAt(width) {
+      await page.setViewportSize({width, height: 1000})
+      await settle(page)
+      return cards.evaluateAll(items => Object.fromEntries(items.map(card => {
+        const label = card.querySelector('strong')?.textContent?.trim()
+        const box = card.getBoundingClientRect()
+        return [label, {
+          left: Math.round(box.left),
+          right: Math.round(box.right),
+          top: Math.round(box.top),
+          bottom: Math.round(box.bottom),
+        }]
+      })))
+    }
+
+    const desktop = await cardBoxesAt(1600)
+    expect(desktop.Availability.top).toBe(desktop['Median response time'].top)
+    expect(desktop.Availability.bottom).toBe(desktop['Queue depth'].bottom)
+    expect(desktop['Median response time'].left).toBe(desktop['Error rate'].left)
+    expect(desktop['Median response time'].left).toBe(desktop['Queue depth'].left)
+    expect(desktop.Availability.right).toBeLessThan(desktop['Median response time'].left)
+    const metricBottom = await grid.evaluate(element => Math.round(element.getBoundingClientRect().bottom))
+    const statusTop = await page.getByText(/systems (operational|degraded)/i).evaluate(element =>
+      Math.round(element.closest('div').getBoundingClientRect().top)
+    )
+    expect(metricBottom).toBeLessThanOrEqual(statusTop)
+    const tablet = await cardBoxesAt(1000)
+    expect(new Set(Object.values(tablet).map(box => box.left)).size).toBe(1)
+    const phone = await cardBoxesAt(390)
+    expect(new Set(Object.values(phone).map(box => box.left)).size).toBe(1)
+    expect(await grid.evaluate(element => element.scrollWidth > element.clientWidth)).toBe(false)
   })
 
   test('switching to User while Organization Center is open returns to Profile', async ({page}) => {

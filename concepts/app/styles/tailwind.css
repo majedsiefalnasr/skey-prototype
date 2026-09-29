@@ -18,7 +18,7 @@
 /* Dynamic utilities: DATA_FILTER_DATE_CONTROL_CLASS (concepts/app/components/data-list/date-fields.js). */
 @source inline("min-h-[32px] rounded-md border border-line bg-surface px-2 py-[5px] font-[inherit] text-[12.5px] text-ink");
 /* Dynamic utilities: DATA_LIST_FOOTER_CLASS (concepts/app/components/data-list/footer.js). */
-@source inline("fnav fnav-list empty:hidden flex flex-wrap items-center gap-5 border-t border-line bg-surface px-4 py-[9px]");
+@source inline("fnav fnav-list empty:hidden flex flex-wrap items-center gap-5 border-t border-line bg-surface py-[9px]");
 /* Dynamic utilities: DATA_TOOLBAR_BUTTON_CLASS (concepts/app/components/data-list/list.js). */
 @source inline("inline-flex min-h-[32px] items-center gap-[7px] rounded-md border! border-transparent! bg-transparent! px-[9px] py-[5px] font-[inherit]! font-semibold! text-[12.5px]! text-ink! whitespace-nowrap cursor-pointer hover:bg-[var(--line-2)]! disabled:cursor-not-allowed disabled:text-muted! disabled:opacity-55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--accent)]");
 /* Dynamic utilities: DATA_MENU_SUMMARY_CLASS (concepts/app/components/data-list/list.js). */
@@ -113,6 +113,57 @@
 @source inline("lp-logo mx-auto block h-[42px] w-auto object-contain");
 
 @layer utilities {
+  .profile-view[data-settings-navigation-style='standard'] .profile-layout,
+  .organization-view[data-settings-navigation-style='standard'] .organization-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .profile-view[data-settings-navigation-style='standard'] .profile-scroll-nav,
+  .organization-view[data-settings-navigation-style='standard'] .organization-nav {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    gap: 2px;
+    padding: 0;
+    overflow-x: auto;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    background: var(--surface);
+    box-shadow: none;
+    white-space: nowrap;
+  }
+
+  .profile-view[data-settings-navigation-style='standard'] .profile-scroll-nav button,
+  .organization-view[data-settings-navigation-style='standard'] .organization-nav button {
+    flex: none;
+    min-height: 40px;
+    padding: 8px 14px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    color: var(--muted);
+    background: transparent;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: start;
+  }
+
+  .profile-view[data-settings-navigation-style='standard'] .profile-scroll-nav button:hover,
+  .organization-view[data-settings-navigation-style='standard'] .organization-nav button:hover {
+    color: var(--ink);
+    background: var(--line-2);
+  }
+
+  .profile-view[data-settings-navigation-style='standard'] .profile-scroll-nav button[aria-current='page'],
+  .organization-view[data-settings-navigation-style='standard'] .organization-nav button[aria-current='page'] {
+    border-bottom-color: var(--accent);
+    color: var(--accent);
+    background: transparent;
+  }
+
   /* Profile-only flat group treatment. Standard mode intentionally leaves the
      shared .rec-card rules untouched, including body.cards-fieldset. */
   .profile-view[data-profile-card-style='simple'] .rec-card {

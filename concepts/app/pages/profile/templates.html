@@ -1,6 +1,7 @@
 <template class="profile-tpl">
   <div
     class="profile-view [&:not([hidden])]:flex [&:not([hidden])]:[flex:1] [&:not([hidden])]:min-h-0 [&:not([hidden])]:flex-col"
+    data-settings-navigation-style="sidebar"
     hidden>
     <div class="phead [.d1_&]:[padding:11px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5">
       <div class="l [.d1_.phead_&]:[flex:1]">
@@ -18,7 +19,7 @@
       class="canvas profile-canvas [flex:1] min-h-0 overflow-auto text-start"
       id="profile-canvas">
       <div
-        class="profile-layout grid [grid-template-columns:minmax(180px,_240px)_minmax(0,_1fr)] gap-5 items-start [padding:16px] [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
+        class="profile-layout grid [grid-template-columns:minmax(180px,_240px)_minmax(0,_1fr)] gap-5 items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
         <div id="profile-scroll-nav-mount" class="contents"></div>
         <div class="profile-scroll-content min-w-0" id="profile-scroll-content"></div>
       </div>

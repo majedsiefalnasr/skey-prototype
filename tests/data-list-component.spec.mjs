@@ -34,6 +34,26 @@ for (const view of ['list', 'responsive', 'adaptive', 'cards', 'kanban']) {
   });
 }
 
+test('rows-per-page control matches the page-jump field', async ({page}) => {
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
+  await openSurface(page, 'list');
+
+  const geometry = await page.locator('#list-fnav').evaluate(footer => {
+    const jump = footer.querySelector('.data-pagination-jump-input');
+    const pageSize = footer.querySelector('[data-list-page-size]');
+    const jumpRect = jump.getBoundingClientRect();
+    const pageSizeRect = pageSize.getBoundingClientRect();
+    const jumpStyle = getComputedStyle(jump);
+    const pageSizeStyle = getComputedStyle(pageSize);
+    return {
+      jump: {width: jumpRect.width, height: jumpRect.height, fontWeight: jumpStyle.fontWeight, textAlign: jumpStyle.textAlign},
+      pageSize: {width: pageSizeRect.width, height: pageSizeRect.height, fontWeight: pageSizeStyle.fontWeight, textAlign: pageSizeStyle.textAlign},
+    };
+  });
+
+  expect(geometry.pageSize).toEqual(geometry.jump);
+});
+
 test('statistics cards use compact values and Analytical KPIs keep responsive enhanced charts', async ({page}, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop', 'Responsive analytical geometry is covered once.');
   await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
