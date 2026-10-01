@@ -19,18 +19,12 @@ test('organization access policy scopes sections by role', () => {
     'users',
     'application-sessions',
     'database-sessions',
-    'audit',
-    'performance',
-    'staff',
   ])
   assert.deepEqual(organizationSectionsForRole('manager'), [
     'overview',
     'settings',
     'users',
     'application-sessions',
-    'audit',
-    'performance',
-    'staff',
   ])
   assert.deepEqual(organizationSectionsForRole('user'), [])
 })
@@ -60,22 +54,36 @@ test('prototype controls declare a persisted active-role selector', async () => 
 })
 
 test('organization section metadata covers the approved information architecture', async () => {
-  const {ORGANIZATION_SECTION_ORDER, ORGANIZATION_SECTIONS} = await import(
-    '../concepts/app/pages/organization/fields.js'
-  )
+  const {ORGANIZATION_SECTION_ORDER, ORGANIZATION_SECTIONS, ORGANIZATION_HIDDEN_SECTIONS} =
+    await import('../concepts/app/pages/organization/fields.js')
   assert.deepEqual(ORGANIZATION_SECTION_ORDER, [
     'overview',
     'settings',
     'users',
     'application-sessions',
     'database-sessions',
-    'audit',
-    'performance',
-    'staff',
   ])
-  ORGANIZATION_SECTION_ORDER.forEach(key => {
-    assert.equal(typeof ORGANIZATION_SECTIONS[key].title, 'string')
-    assert.equal(typeof ORGANIZATION_SECTIONS[key].description, 'string')
+  // The hidden tabs keep their metadata (so a tab can be brought back by
+  // dropping it from ORGANIZATION_HIDDEN_SECTIONS), but nothing renders an
+  // entry point to them.
+  assert.deepEqual(ORGANIZATION_HIDDEN_SECTIONS, ['audit', 'performance', 'staff'])
+  assert.deepEqual(
+    ORGANIZATION_HIDDEN_SECTIONS.filter(key => ORGANIZATION_SECTION_ORDER.includes(key)),
+    []
+  )
+  assert.deepEqual([...ORGANIZATION_SECTION_ORDER, ...ORGANIZATION_HIDDEN_SECTIONS].sort(), [
+    'application-sessions',
+    'audit',
+    'database-sessions',
+    'overview',
+    'performance',
+    'settings',
+    'staff',
+    'users',
+  ])
+  Object.values(ORGANIZATION_SECTIONS).forEach(section => {
+    assert.equal(typeof section.title, 'string')
+    assert.equal(typeof section.description, 'string')
   })
 })
 
@@ -170,9 +178,9 @@ test('topbar user menu is grouped and contains role-aware organization links', a
   assert.match(html, /data-organization-menu-group/)
   assert.match(html, /data-organization-section="overview"/)
   assert.match(html, /data-organization-section="users"/)
-  assert.match(html, /data-organization-section="audit"/)
-  assert.match(html, /data-organization-section="performance"/)
-  assert.match(html, /data-organization-section="staff"/)
+  assert.doesNotMatch(html, /data-organization-section="audit"/)
+  assert.doesNotMatch(html, /data-organization-section="performance"/)
+  assert.doesNotMatch(html, /data-organization-section="staff"/)
   assert.match(source, /navigateToOrganizationSection/)
   assert.match(source, /function setRole/)
   assert.match(source, /organization-menu/)

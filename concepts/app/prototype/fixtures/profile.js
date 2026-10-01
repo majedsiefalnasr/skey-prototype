@@ -57,10 +57,3 @@ export const LOGIN_LOG_ROWS = [
   {id: 'log-6', timestamp: '2026-09-20 14:02', ip: '102.45.9.180', device: 'Edge on Windows', status: 'success'},
   {id: 'log-7', timestamp: '2026-09-19 11:18', ip: '41.66.10.24', device: 'Chrome on macOS', status: 'success'},
 ]
-
-export const DEVICE_ROWS = [
-  {id: 'dev-1', name: 'Chrome on macOS', location: 'Cairo, EG', lastActive: 'Active now', current: true},
-  {id: 'dev-2', name: 'Safari on iPhone', location: 'Cairo, EG', lastActive: '1 day ago', current: false},
-  {id: 'dev-3', name: 'Firefox on Windows', location: 'Alexandria, EG', lastActive: '3 days ago', current: false},
-  {id: 'dev-4', name: 'Edge on Windows', location: 'Giza, EG', lastActive: '6 days ago', current: false},
-]

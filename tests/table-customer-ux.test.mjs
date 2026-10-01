@@ -7,6 +7,7 @@ import {
   renderDataListViewMenu,
 } from '../concepts/app/components/data-list/list.js'
 import {renderDataListGroupTrigger} from '../concepts/app/components/data-list/statistics.js'
+import {DATA_LIST_VALID_VIEWS} from '../concepts/app/components/data-list/model.js'
 
 const deps = {
   t: value => value,
@@ -66,7 +67,18 @@ test('table controls hide print, charts, and kanban without removing their imple
 
   assert.match(toolbar, /data-list-action="print"[^>]* hidden/)
   assert.match(toolbar, /data-list-action="chart"[^>]* hidden/)
-  assert.match(renderDataListViewMenu(config, state, deps), /data-list-view="kanban"[^>]* hidden/)
+  const invoiceMenu = renderDataListViewMenu('invoice', config, state, deps)
+  assert.match(invoiceMenu, /data-list-view="kanban"[^>]* hidden/)
+  // A list-only context (no second view) must not be offered views it
+  // cannot render: the menu is only rendered when the context declares
+  // more than one entry in DATA_LIST_VALID_VIEWS, and its options are
+  // filtered to that list.
+  assert.deepEqual(DATA_LIST_VALID_VIEWS.screenParameters, ['list'])
+  assert.deepEqual(DATA_LIST_VALID_VIEWS.journal, ['list', 'responsive'])
+  const journalMenu = renderDataListViewMenu('journal', config, state, deps)
+  assert.match(journalMenu, /data-list-view="responsive"/)
+  assert.doesNotMatch(journalMenu, /data-list-view="cards"/)
+  assert.doesNotMatch(journalMenu, /data-list-view="adaptive"/)
 })
 
 test('group-by choices use labels without decorative icons', () => {

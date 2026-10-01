@@ -1,15 +1,11 @@
+import {ORGANIZATION_SECTION_ORDER} from './fields.js'
+
 export const ORGANIZATION_ROLES = ['administrator', 'manager', 'user']
 
-const ADMIN_SECTIONS = [
-  'overview',
-  'settings',
-  'users',
-  'application-sessions',
-  'database-sessions',
-  'audit',
-  'performance',
-  'staff',
-]
+// Derived from the same visible-tab list the nav renders (fields.js), so
+// the role policy and the navigation can never disagree about which
+// sections exist.
+const ADMIN_SECTIONS = [...ORGANIZATION_SECTION_ORDER]
 
 const MANAGER_SECTIONS = ADMIN_SECTIONS.filter(key => key !== 'database-sessions')
 
@@ -33,4 +29,3 @@ export function canPerformOrganizationAction(role, action, row = {}) {
   if (normalizedRole === 'administrator') return true
   return normalizedRole === 'manager' && row.inManagerScope === true
 }
-

@@ -282,6 +282,11 @@ export const DATA_LIST_CONFIG = {
     key: 'accCode',
     rows: JOURNAL_ENTRY_ROWS,
     noRowActions: true,
+    // Opt out of list.js's percentage colgroup + `[table-layout:fixed]`:
+    // the journal table lays out naturally and scrolls horizontally inside
+    // the dialog's `.dbody` (record-dialogs.html) instead of squeezing
+    // its 11 columns into the dialog width.
+    scrollOverflow: true,
     columns: [
       {key: 'accCode', label: 'Acc. Code'},
       {key: 'detailAcc', label: 'Detail Acc.'},

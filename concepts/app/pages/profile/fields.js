@@ -12,5 +12,5 @@ export const PROFILE_SECTIONS = {
   account: {title: 'Account settings', icon: 'i-gear', description: 'Username, branch, and default landing page.'},
   appearance: {title: 'Appearance', icon: 'i-sun', description: 'Accent color, interface scale, typography, theme, layout, and density.'},
   security: {title: 'Security', icon: 'i-lock', description: 'Password and PIN settings for signing in.'},
-  sessions: {title: 'Sessions & devices', icon: 'i-clock', description: 'Recent account activity, sign-ins, and the devices currently signed in.'},
+  sessions: {title: 'Sessions & devices', icon: 'i-clock', description: 'Recent account activity, sign-ins, and the current session.'},
 }

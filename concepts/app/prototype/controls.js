@@ -88,6 +88,7 @@ const CONTROL_IDS = [
   'statistics-concept',
   'customer-mode',
   'customer-layout',
+  'journal-unbalanced',
   'settings-navigation-style',
   'profile-card-style',
   'active-role',
@@ -481,6 +482,7 @@ export function createPrototypeControls({root, settings, pages, onRoleChange = (
       'invoice-payment-group',
       'invoice-dirty-group',
       'invoice-emptyflow-group',
+      'journal-unbalanced-group',
     ].forEach(id => {
       doc.getElementById(id).hidden = nonInvoiceSurface
     })

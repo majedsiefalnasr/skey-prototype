@@ -1,8 +1,8 @@
 // Profile page lifecycle scenarios (Task 11). Covers the user-menu entry
 // point into the Page contract (Tasks 8-10), the six-section Scroll
-// Navigator layout with deep-linking (Task 3/7), the change-password dialog
-// (Task 5), and the sessions/devices list's sessionStorage-backed sign-out
-// persistence and current-device rule (Task 6).
+// Navigator layout with deep-linking (Task 3/7), and the change-password
+// dialog (Task 5). The Sessions & devices section no longer renders a
+// Devices card, so its sign-out scenarios are gone with it.
 import {test, expect} from '@playwright/test';
 import {boot, settle} from './support/browser.mjs';
 
@@ -192,27 +192,6 @@ test.describe('profile page', () => {
     await expect(page.locator('.toast')).toContainText('Password changed');
   });
 
-  test('signing out a non-current device removes it and persists across reload', async ({page}) => {
-    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
-    await openProfileSection(page, 'sessions');
-    const nonCurrentRow = page.locator('.profile-device-row', {hasNot: page.locator('[data-profile-current-device]')}).first();
-    const deviceId = await nonCurrentRow.getAttribute('data-profile-device');
-    await nonCurrentRow.locator('[data-profile-device-signout]').click();
-    await expect(page.locator(`[data-profile-device="${deviceId}"]`)).toHaveCount(0);
-
-    await page.reload();
-    await settle(page);
-    await openProfileSection(page, 'sessions');
-    await expect(page.locator(`[data-profile-device="${deviceId}"]`)).toHaveCount(0);
-  });
-
-  test('current device has no sign-out control', async ({page}) => {
-    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
-    await openProfileSection(page, 'sessions');
-    const currentRow = page.locator('.profile-device-row', {has: page.locator('[data-profile-current-device]')});
-    await expect(currentRow.locator('[data-profile-device-signout]')).toHaveCount(0);
-  });
-
   test('profile card style switches between inherited cards and simple groups', async ({page}) => {
     await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
     await openProfileSection(page, 'sessions');
@@ -222,8 +201,9 @@ test.describe('profile page', () => {
     await page.locator('#section-style').selectOption('fieldset', {force: true});
 
     const profile = page.locator('.profile-view');
+    // Recent activity + Login log; the Devices card is gone from this tab.
     const cards = page.locator('#profile-section-sessions .rec-card');
-    await expect(cards).toHaveCount(3);
+    await expect(cards).toHaveCount(2);
     await expect(cards.first()).toHaveCSS('border-top-style', 'solid');
     await expect(cards.first().locator('.rec-card-hd')).toHaveCSS('position', 'relative');
 

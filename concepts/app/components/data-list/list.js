@@ -26,7 +26,7 @@
 // legacy-app.js's own createDataList call sites), rather than this module
 // re-introducing a global itself.
 
-import {createListModel} from './model.js'
+import {createListModel, DATA_LIST_VALID_VIEWS} from './model.js'
 import {createListChart} from './charts.js'
 
 /* Shared literal utility strings for data-list toolbar/menu markup repeated
@@ -181,11 +181,25 @@ export function dataListViewPresentation(view) {
   return {icon: 'i-grid', label: 'List'}
 }
 
-export function renderDataListViewMenu(config, listState, deps) {
+/**
+ * The view switcher (List/Compact/Adaptive/Cards/Kanban). Which options
+ * it offers is decided by the context's entry in model.js's
+ * DATA_LIST_VALID_VIEWS — a context declares a view by adding it there,
+ * not by special-casing this menu, so the menu can never offer a view the
+ * context cannot render (Journal Entry gains Compact that way while
+ * staying list/responsive only).
+ * @param {string} context
+ * @param {object} config
+ * @param {object} listState
+ */
+export function renderDataListViewMenu(context, config, listState, deps) {
   const {t, dataListIcon} = deps
+  const validViews = DATA_LIST_VALID_VIEWS[context] || ['list']
   const current = dataListViewPresentation(listState.view)
   const option = (view, icon, label) =>
-    `<button type="button" role="menuitemradio" data-list-view="${view}" aria-checked="${listState.view === view}"${view === 'kanban' ? ' hidden' : ''}>${dataListIcon(icon)} ${t(label)}${listState.view === view ? dataListIcon('i-check', 13) : ''}</button>`
+    validViews.includes(view)
+      ? `<button type="button" role="menuitemradio" data-list-view="${view}" aria-checked="${listState.view === view}"${view === 'kanban' ? ' hidden' : ''}>${dataListIcon(icon)} ${t(label)}${listState.view === view ? dataListIcon('i-check', 13) : ''}</button>`
+      : ''
   return `<details class="data-menu end relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5"><summary class="${DATA_MENU_SUMMARY_CLASS}">${dataListIcon(current.icon)}<span class="data-toolbar-label-text max-[620px]:hidden">${t(current.label)}</span>${dataListIcon('i-caret', 11)}</summary><div class="${DATA_MENU_POPOVER_CLASS}" role="menu">${option('list', 'i-grid', 'List view')}${option('responsive', 'i-panel', 'Compact view')}${option('adaptive', 'i-panel', 'Adaptive view')}${option('cards', 'i-panel', 'Cards view')}${config.supportsKanban ? option('kanban', 'i-flow', 'Kanban view') : ''}</div></details>`
 }
 
@@ -269,7 +283,9 @@ export function renderDataListToolbar(context, config, listState, deps) {
       <span class="data-toolbar-cluster data-toolbar-inline flex min-w-0 flex-wrap items-center gap-1.5 max-[900px]:hidden">${printButton}${chartButton}${groupTrigger}</span>
       ${overflowMenu}
       ${listState.view === 'list' && !isAdaptive ? `<details class="data-menu end relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5"><summary class="${DATA_MENU_SUMMARY_CLASS}">${dataListIcon('i-sliders')}<span class="data-toolbar-label-text max-[620px]:hidden">${t('Columns', 'Columns')}</span>${dataListIcon('i-caret', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS}" role="group" aria-label="${t('Visible columns', 'Visible columns')}">${columnControls}</div></details>` : ''}
-      ${config.noRowActions ? '' : renderDataListViewMenu(config, listState, deps)}
+      ${(DATA_LIST_VALID_VIEWS[context] || ['list']).length > 1
+        ? renderDataListViewMenu(context, config, listState, deps)
+        : ''}
     </div>
   </div>`
 }
@@ -391,7 +407,12 @@ export function renderDataList(
           )
           .join('')}${config.noRowActions ? '' : '<col style="width:76px">'}</colgroup>`
       : ''
-  const actionlessColgroup = config.noRowActions
+  // `scrollOverflow` (Journal Entry) opts out of the percentage colgroup +
+  // fixed layout that keeps noRowActions tables inside their container:
+  // those tables then lay out at their natural (auto) width like every
+  // row-actions list does, and let their scroll container — the journal
+  // dialog's `.dbody` — scroll horizontally instead of squeezing columns.
+  const actionlessColgroup = config.noRowActions && !config.scrollOverflow
     ? (() => {
         const widths = visibleColumns.map(column => deps.responsiveWidthFor(column.key) || 130)
         const total = widths.reduce((sum, width) => sum + width, 0)
@@ -450,7 +471,7 @@ export function renderDataList(
                 listState.view === 'responsive'
                   ? 'data-table-scroll overflow-x-auto data-table-responsive max-w-full overflow-clip'
                   : 'data-table-scroll'
-              return `<div class="${scrollWrapperClass}"><table class="inv-grid borders-${deps.encodeHtml(listState.borderMode)} w-full${config.noRowActions ? ' [table-layout:fixed]' : ''} [border-collapse:collapse] [font-size:13px] [&_th]:text-start [&_th]:[padding:8px_12px] [&_th]:text-muted [&_th]:font-medium [&_th]:[border-bottom:1px_solid_var(--line)] [&_th]:whitespace-nowrap [&_th]:sticky [&_th]:top-0 [&_th]:z-[3] [&_td]:[padding:8px_12px] [&_td]:[border-bottom:1px_solid_var(--line-2)] [&_td]:text-ink [&_td]:whitespace-nowrap [&_td]:[text-overflow:ellipsis] [&_td]:overflow-hidden [&_td]:[max-width:200px] [&_tbody_tr:hover]:[background:var(--hover-overlay)] [&_tbody_tr:hover]:[cursor:pointer] [&_td_input]:w-full [&_td_input]:[padding:5px_7px] [&_td_input]:bg-surface [&_td_input]:text-ink [&_td_input]:[border:1px_solid_var(--line)] [&_td_input]:[border-radius:5px] [&_td_input]:[font:inherit]">${responsiveColgroup || actionlessColgroup}<thead><tr>${selectAllHeader}${deps.renderDataListHeader(visibleColumns, listState)}${actionsHeader}</tr></thead><tbody>${deps.renderDataListBody(rows, tableRenderContext)}</tbody></table></div>`
+              return `<div class="${scrollWrapperClass}"><table class="inv-grid borders-${deps.encodeHtml(listState.borderMode)} w-full${config.noRowActions && !config.scrollOverflow ? ' [table-layout:fixed]' : ''} [border-collapse:collapse] [font-size:13px] [&_th]:text-start [&_th]:[padding:8px_12px] [&_th]:text-muted [&_th]:font-medium [&_th]:[border-bottom:1px_solid_var(--line)] [&_th]:whitespace-nowrap [&_th]:sticky [&_th]:top-0 [&_th]:z-[3] [&_td]:[padding:8px_12px] [&_td]:[border-bottom:1px_solid_var(--line-2)] [&_td]:text-ink [&_td]:whitespace-nowrap [&_td]:[text-overflow:ellipsis] [&_td]:overflow-hidden [&_td]:[max-width:200px] [&_tbody_tr:hover]:[background:var(--hover-overlay)] [&_tbody_tr:hover]:[cursor:pointer] [&_td_input]:w-full [&_td_input]:[padding:5px_7px] [&_td_input]:bg-surface [&_td_input]:text-ink [&_td_input]:[border:1px_solid_var(--line)] [&_td_input]:[border-radius:5px] [&_td_input]:[font:inherit]">${responsiveColgroup || actionlessColgroup}<thead><tr>${selectAllHeader}${deps.renderDataListHeader(visibleColumns, listState)}${actionsHeader}</tr></thead><tbody>${deps.renderDataListBody(rows, tableRenderContext)}</tbody></table></div>`
             })()
   const statistics = listState.statisticsVisible
     ? deps.renderDataListStatistics(context, filteredRows, config)

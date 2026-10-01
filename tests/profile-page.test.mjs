@@ -6,7 +6,7 @@ import {PROFILE_SECTION_ORDER, PROFILE_SECTIONS} from '../concepts/app/pages/pro
 import {renderProfileScrollNav} from '../concepts/app/pages/profile/layout.js'
 import {renderProfileSections} from '../concepts/app/pages/profile/sections.js'
 
-const {CURRENT_USER, EMPLOYEE_DETAILS, CONTACT_DETAILS, LOGIN_LOG_ROWS, DEVICE_ROWS} = profileFixtures
+const {CURRENT_USER, EMPLOYEE_DETAILS, CONTACT_DETAILS, LOGIN_LOG_ROWS} = profileFixtures
 
 test('profile fixtures have the expected shape', () => {
   assert.equal(typeof CURRENT_USER.name, 'string')
@@ -28,14 +28,6 @@ test('profile fixtures have the expected shape', () => {
     assert.ok(['success', 'failed'].includes(row.status))
   })
 
-  assert.ok(DEVICE_ROWS.length >= 3 && DEVICE_ROWS.length <= 5)
-  const currentDevices = DEVICE_ROWS.filter(d => d.current === true)
-  assert.equal(currentDevices.length, 1)
-  DEVICE_ROWS.forEach(row => {
-    assert.equal(typeof row.id, 'string')
-    assert.equal(typeof row.name, 'string')
-    assert.equal(typeof row.lastActive, 'string')
-  })
 })
 
 test('profile section metadata covers all seven sections in order', () => {
@@ -147,7 +139,9 @@ test('profile sections include employee details, contact details, and omit remov
   assert.match(html, /data-profile-open-set-pin/)
 
   assert.match(html, /id="profile-login-log"/)
-  assert.match(html, /id="profile-device-list"/)
+  // The Sessions & devices tab no longer renders a Devices card.
+  assert.doesNotMatch(html, /id="profile-device-list"/)
+  assert.doesNotMatch(html, /profile-device-row/)
 })
 
 test('createProfile exposes the Page contract', async () => {

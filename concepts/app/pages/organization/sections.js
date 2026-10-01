@@ -1,6 +1,12 @@
 const tableClass =
   'w-full border-collapse text-[12.5px] [&_th]:sticky [&_th]:top-0 [&_th]:z-[1] [&_th]:bg-[linear-gradient(var(--line-2),var(--line-2)),var(--surface)] [&_th]:px-3 [&_th]:py-2 [&_th]:text-start [&_th]:font-semibold [&_th]:text-muted [&_td]:border-t [&_td]:border-line [&_td]:px-3 [&_td]:py-2.5 [&_td]:align-middle'
 
+/** The section keys this render pass actually mounts — set by
+    renderOrganizationSections() before any body renders, since a body can
+    only be built once per pass and every card helper above needs to know
+    up front whether its target tab exists. */
+let navigableSections = new Set()
+
 function card(title, body, options = '') {
   return `<section class="org-card [border:1px_solid_var(--line)] rounded-lg overflow-hidden bg-surface ${options}"><div class="org-card-hd flex items-center justify-between gap-2.5 [padding:8px_12px] [font-size:12.5px] font-bold bg-[var(--line-2)]"><span>${title}</span></div><div class="rec-card-body [padding:12px]">${body}</div></section>`
 }
@@ -73,8 +79,15 @@ function statHeader(label, subtitle, icon, dataListIcon, pill) {
   return `<div class="flex min-w-0 gap-2.5 items-start justify-between"><div class="flex min-w-0 gap-2.5 items-center"><span class="flex [flex:none] items-center justify-center [width:34px] [height:34px] rounded-lg [background:color-mix(in_srgb,_var(--stat-tone)_14%,_transparent)] [color:var(--stat-tone)]">${dataListIcon(icon, 18)}</span><div class="min-w-0"><strong class="block overflow-hidden text-ink text-[13.5px] font-bold text-ellipsis whitespace-nowrap">${label}</strong><span class="block overflow-hidden text-muted text-xs text-ellipsis whitespace-nowrap">${subtitle}</span></div></div><div class="flex [flex:none] items-center gap-1.5">${pill || ''}</div></div>`
 }
 
+/** Overview stat card. Cards whose target section is still navigable
+    render as a real button that jumps to it; a card pointing at a hidden
+    section (fields.js's ORGANIZATION_HIDDEN_SECTIONS) falls back to a
+    plain div with the same look, so the metric stays on the overview
+    without offering an entry point to a tab the nav no longer shows. */
 function statCardShell(section, tone, body) {
-  return `<button type="button" data-organization-open-section="${section}" data-tone="${tone}" class="org-stat-card flex h-full w-full min-w-0 flex-col gap-4 [--stat-tone:var(--accent)] [padding:16px] [border:1px_solid_var(--line)] [border-radius:12px] bg-surface [box-shadow:var(--shadow-1)] text-start [&[data-tone=success]]:[--stat-tone:var(--success)] [&[data-tone=warning]]:[--stat-tone:var(--st-pend-ink)] [&[data-tone=danger]]:[--stat-tone:var(--danger)] hover:[border-color:var(--stat-tone)] focus-visible:[outline:2px_solid_var(--focus)]">${body}</button>`
+  const classes = `org-stat-card flex h-full w-full min-w-0 flex-col gap-4 [--stat-tone:var(--accent)] [padding:16px] [border:1px_solid_var(--line)] [border-radius:12px] bg-surface [box-shadow:var(--shadow-1)] text-start [&[data-tone=success]]:[--stat-tone:var(--success)] [&[data-tone=warning]]:[--stat-tone:var(--st-pend-ink)] [&[data-tone=danger]]:[--stat-tone:var(--danger)]${navigableSections.has(section) ? ' hover:[border-color:var(--stat-tone)] focus-visible:[outline:2px_solid_var(--focus)]' : ''}`
+  if (!navigableSections.has(section)) return `<div data-tone="${tone}" class="${classes}">${body}</div>`
+  return `<button type="button" data-organization-open-section="${section}" data-tone="${tone}" class="${classes}">${body}</button>`
 }
 
 function statGridCell(cardMarkup, desktopPlacement) {
@@ -416,25 +429,22 @@ function renderOverview(data, role, encodeHtml, dataListIcon) {
         : '[@media((min-width:800px)_and_(max-width:1299px))]:col-span-2 [@media((min-width:1300px))]:col-start-2 [@media((min-width:1300px))]:col-span-2 [@media((min-width:1300px))]:row-start-2'
     ),
   ].join('')
-  const recent = data.auditRows
-    .slice(0, 4)
-    .map(
-      row =>
-        `<li class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-b border-line py-2 last:border-0"><span><strong class="block text-[12.5px]">${encodeHtml(row.action)} · ${encodeHtml(row.object)}</strong><small class="text-muted">${encodeHtml(row.actor)} · ${encodeHtml(row.source)}</small></span><time class="text-xs text-muted">${encodeHtml(row.timestamp.slice(11))}</time></li>`
-    )
-    .join('')
-
   const healthTrend = data.health.operationalHealthTrend
   const healthNow = healthTrend[healthTrend.length - 1]
   const healthTone =
     healthNow >= 95 ? 'var(--success)' : healthNow >= 80 ? 'var(--st-pend-ink)' : 'var(--danger)'
   const operationalStatus = `<div class="flex items-start justify-between gap-3"><div><span class="block text-xs text-muted">Composite health, last 7 days</span><strong class="mt-1 block text-[26px] font-bold [line-height:1.1]" style="color:${healthTone}">${healthNow}%</strong><span class="text-xs text-muted">${encodeHtml(data.details.environment)} · ${encodeHtml(data.details.defaultBranch)}</span></div><div class="w-[130px] [flex:none]" style="--stat-tone:${healthTone}">${sparklineChart(healthTrend)}</div></div><dl class="m-0 mt-3 divide-y divide-line border-t border-line">${statusDot('Background jobs', data.health.backgroundJobs, encodeHtml)}${statusDot('Integrations', data.health.integrations, encodeHtml)}</dl><div class="mt-3 grid grid-cols-2 gap-x-4 gap-y-2.5 border-t border-line pt-3 text-xs"><div><dt class="text-muted">Queue depth</dt><dd class="m-0 mt-0.5 font-semibold text-[13px]">${data.health.queueDepth} operations</dd></div><div><dt class="text-muted">Last deploy</dt><dd class="m-0 mt-0.5 font-semibold text-[13px]">${encodeHtml(relativeTimestamp(data.health.lastDeploy))}</dd></div><div><dt class="text-muted">Last backup</dt><dd class="m-0 mt-0.5 font-semibold text-[13px]">${encodeHtml(relativeTimestamp(data.health.lastBackup))}</dd></div><div><dt class="text-muted">Next maintenance</dt><dd class="m-0 mt-0.5 font-semibold text-[13px]">${encodeHtml(data.health.nextMaintenance.slice(0, 10))}</dd></div></div>`
 
-  return `<div data-organization-stat-grid class="mb-4 grid grid-cols-1 gap-3 [@media((min-width:800px)_and_(max-width:1299px))]:grid-cols-2 [@media((min-width:1300px))]:grid-cols-3 [@media((min-width:1300px))]:grid-rows-2">${statCells}</div><div class="grid grid-cols-2 gap-4 [@media((max-width:900px))]:grid-cols-1">${card('Operational status', operationalStatus)}${card('Recent activity', `<ul class="m-0 list-none p-0">${recent}</ul><button type="button" class="lbtn mt-3" data-organization-open-section="audit">View audit log</button>`)}</div>`
+  // The "Recent activity" card (audit-log rows + its "View audit log"
+  // shortcut) is gone with the hidden Audit log tab — Operational status
+  // now owns the full width below the stat grid.
+  return `<div data-organization-stat-grid class="mb-4 grid grid-cols-1 gap-3 [@media((min-width:800px)_and_(max-width:1299px))]:grid-cols-2 [@media((min-width:1300px))]:grid-cols-3 [@media((min-width:1300px))]:grid-rows-2">${statCells}</div>${card('Operational status', operationalStatus)}`
 }
 
-function renderSettings(details, role, encodeHtml) {
-  const readonly = role !== 'administrator'
+/** Organization settings is a read-only reference view for every role:
+    values render as plain text (no inputs, no save/undo bar), so the tab
+    can never imply an edit that this screen doesn't offer. */
+function renderSettings(details, encodeHtml) {
   const fields = [
     ['displayName', 'Display name'],
     ['legalName', 'Legal name'],
@@ -447,15 +457,12 @@ function renderSettings(details, role, encodeHtml) {
   ]
     .map(
       ([key, label]) =>
-        `<label class="grid gap-1 text-xs text-muted"><span>${label}</span><input id="organization-setting-${key}" data-organization-setting="${key}" value="${encodeHtml(details[key])}" ${readonly ? 'readonly' : ''} class="min-h-9 rounded-md border border-line bg-surface px-2.5 text-[13px] text-ink read-only:bg-[var(--line-2)] read-only:text-muted" /></label>`
+        `<div class="grid min-w-0 gap-1"><dt class="text-xs text-muted">${label}</dt><dd class="m-0 break-words text-[13px] font-semibold text-ink">${encodeHtml(details[key])}</dd></div>`
     )
     .join('')
-  const actions = readonly
-    ? `<p class="mb-0 text-xs text-muted">Managers can review these defaults. An administrator must make organization-wide changes.</p>`
-    : `<div class="flex justify-end gap-2 border-t border-line pt-3"><button type="button" class="lbtn out" id="organization-settings-undo" disabled>Undo</button><button type="button" class="lbtn pri" id="organization-settings-save" disabled>Save changes</button></div>`
   return card(
     'Organization identity and defaults',
-    `<div class="grid grid-cols-2 gap-3 [@media((max-width:720px))]:grid-cols-1">${fields}</div><div class="mt-4">${actions}</div>`
+    `<dl class="m-0 grid grid-cols-2 gap-x-4 gap-y-3 [@media((max-width:720px))]:grid-cols-1">${fields}</dl><p class="mt-4 mb-0 text-xs text-muted">Read-only view of the organization's legal identity, regional defaults, and fiscal configuration.</p>`
   )
 }
 
@@ -627,20 +634,23 @@ export function renderOrganizationSections({
   encodeHtml,
   dataListIcon,
 }) {
+  // Established before any body renders: stat cards ask this set whether
+  // their target tab is one this pass actually mounts.
+  navigableSections = new Set(sectionOrder)
   const bodies = {
-    overview: renderOverview(data, role, encodeHtml, dataListIcon),
-    settings: renderSettings(data.details, role, encodeHtml),
-    users: renderUsers(),
-    'application-sessions': renderApplicationSessions(dataListIcon),
-    'database-sessions': renderDatabaseSessions(dataListIcon),
-    audit: renderAudit(),
-    performance: renderPerformance(data.health, data.services, role, encodeHtml, dataListIcon),
-    staff: renderStaff(dataListIcon),
+    overview: () => renderOverview(data, role, encodeHtml, dataListIcon),
+    settings: () => renderSettings(data.details, encodeHtml),
+    users: () => renderUsers(),
+    'application-sessions': () => renderApplicationSessions(dataListIcon),
+    'database-sessions': () => renderDatabaseSessions(dataListIcon),
+    audit: () => renderAudit(),
+    performance: () => renderPerformance(data.health, data.services, role, encodeHtml, dataListIcon),
+    staff: () => renderStaff(dataListIcon),
   }
   return sectionOrder
     .map(
       key =>
-        `<section id="organization-section-${key}" data-organization-panel="${key}" role="tabpanel" aria-labelledby="organization-tab-${key}"${key === activeKey ? '' : ' hidden'}>${heading(key, sections, encodeHtml)}${bodies[key]}</section>`
+        `<section id="organization-section-${key}" data-organization-panel="${key}" role="tabpanel" aria-labelledby="organization-tab-${key}"${key === activeKey ? '' : ' hidden'}>${heading(key, sections, encodeHtml)}${bodies[key]()}</section>`
     )
     .join('')
 }

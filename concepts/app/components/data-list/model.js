@@ -92,7 +92,10 @@ export const DATA_LIST_VALID_VIEWS = {
   // List only: no per-row detail record to open, so Adaptive/Cards/Kanban
   // (all of which drill into one row) have nothing to show.
   screenParameters: ['list'],
-  journal: ['list'],
+  // Journal Entry also offers Compact (responsive) — the dialog table's
+  // columns collapse into the per-row details panel at narrow widths, the
+  // same way the invoices list's Compact view does.
+  journal: ['list', 'responsive'],
   orgUsers: ['list'],
   orgAppSessions: ['list'],
   orgDbSessions: ['list'],

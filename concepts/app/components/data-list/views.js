@@ -96,9 +96,13 @@ export function dataListDetailsId(context, key) {
   return `responsive-details-${context}-${String(key).replace(/[^a-z0-9_-]+/gi, '-')}`
 }
 
-function renderResponsiveRowDetails(context, row, overflowColumns, deps) {
+function renderResponsiveRowDetails(context, row, overflowColumns, noRowActions, deps) {
   const {encodeHtml, renderFieldValue} = deps
-  return `<dl class="data-responsive-details grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-[18px] gap-y-3 border-b border-line py-3 ps-[54px] pe-4 text-start">${overflowColumns
+  // Indent past the leading cells that actually exist: the select
+  // checkbox + expand button (rows with actions), or just the expand
+  // button the row's first cell carries (noRowActions rows).
+  const inset = noRowActions ? 'ps-[46px]' : 'ps-[54px]'
+  return `<dl class="data-responsive-details grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-[18px] gap-y-3 border-b border-line py-3 ${inset} pe-4 text-start">${overflowColumns
     .map(
       column =>
         `<div class="min-w-0"><dt class="mb-0.5 text-xs font-semibold text-muted">${encodeHtml(column.label)}</dt><dd class="text-[12.5px] font-semibold text-ink [overflow-wrap:anywhere]">${renderFieldValue(context, row, column)}</dd></div>`
@@ -130,11 +134,25 @@ export function renderDataListRecordRows(row, tableContext, deps) {
   const key = String(row[config.key])
   const selected = listState.selected.has(key)
   const expanded = listState.expandedRows.has(key) && overflowColumns.length > 0
+  // config.noRowActions rows have no actions cell to carry the responsive
+  // expand control, so it rides inside the first cell instead — otherwise
+  // the overflow columns Compact view collapses into would be unreachable
+  // (actions.js's handler matches [data-list-row-expand] anywhere in the
+  // row, so placement is free).
+  const leadingExpand =
+    config.noRowActions && overflowColumns.length
+      ? renderDataListExpandButton(context, key, expanded, overflowColumns, deps)
+      : ''
   const cells = visibleColumns
-    .map(column => {
+    .map((column, index) => {
       const title =
         column.key === 'avatar' ? '' : ` title="${encodeHtml(String(row[column.key] ?? ''))}"`
-      return `<td data-col="${encodeHtml(column.key)}"${title}>${renderCell(context, row, column)}</td>`
+      const content = renderCell(context, row, column)
+      const cellContent =
+        index === 0 && leadingExpand
+          ? `<span class="inline-flex items-center gap-1.5 min-w-0">${leadingExpand}<span class="min-w-0 truncate">${content}</span></span>`
+          : content
+      return `<td data-col="${encodeHtml(column.key)}"${title}>${cellContent}</td>`
     })
     .join('')
   // Rows with nothing to act on (config.noRowActions — e.g. Screen
@@ -151,7 +169,7 @@ export function renderDataListRecordRows(row, tableContext, deps) {
   if (!expanded) return recordRow
   const detailsId = dataListDetailsId(context, key)
   const detailsColspan = visibleColumns.length + (config.noRowActions ? 0 : 2)
-  return `${recordRow}<tr class="data-responsive-detail-row" id="${encodeHtml(detailsId)}"><td colspan="${detailsColspan}">${renderResponsiveRowDetails(context, row, overflowColumns, deps)}</td></tr>`
+  return `${recordRow}<tr class="data-responsive-detail-row" id="${encodeHtml(detailsId)}"><td colspan="${detailsColspan}">${renderResponsiveRowDetails(context, row, overflowColumns, config.noRowActions, deps)}</td></tr>`
 }
 
 export function renderDataListGroupedBody(rows, tableContext, deps, depth = 0, path = []) {

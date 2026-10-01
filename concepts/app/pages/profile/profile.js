@@ -7,7 +7,7 @@
 import {PROFILE_SECTION_ORDER, PROFILE_SECTIONS} from './fields.js'
 import {createProfileScrollNavigator, renderProfileScrollNav} from './layout.js'
 import {renderProfileSections} from './sections.js'
-import {renderLoginLogTable, createDeviceList} from './devices.js'
+import {renderLoginLogTable} from './devices.js'
 import {createSecurityDialogs} from './security-dialogs.js'
 
 // Every editable-fields tab (Profile, Employee details, Contact details,
@@ -73,7 +73,7 @@ function readSavedFields(storage, storageKey, editableFields) {
   }
 }
 
-export function createProfile({root, encodeHtml, currentUser, employeeDetails, contactDetails, loginLogRows, deviceRows, activityRows = [], storage, toast, trapFocus, releaseFocus, syncAppearanceControls, bindAppearanceSection}) {
+export function createProfile({root, encodeHtml, currentUser, employeeDetails, contactDetails, loginLogRows, activityRows = [], storage, toast, trapFocus, releaseFocus, syncAppearanceControls, bindAppearanceSection}) {
   const navMount = root.querySelector('#profile-scroll-nav-mount')
   const contentMount = root.querySelector('#profile-scroll-content')
   const canvas = root.querySelector('#profile-canvas')
@@ -89,7 +89,6 @@ export function createProfile({root, encodeHtml, currentUser, employeeDetails, c
   let initialSection = 'profile'
   const profileState = {activeSection: 'profile'}
   let scrollNavigator = null
-  let deviceList = null
   let securityDialogs = null
   let rendered = false
 
@@ -164,15 +163,6 @@ export function createProfile({root, encodeHtml, currentUser, employeeDetails, c
     contentMount.innerHTML = renderProfileSections({currentUser: savedProfileDetails, employeeDetails: savedEmployeeDetails, contactDetails: savedContactDetails, accountDetails: savedAccountDetails, encodeHtml, activityRows, activeKey: initialSection})
 
     document.getElementById('profile-login-log').innerHTML = renderLoginLogTable(loginLogRows, encodeHtml)
-
-    deviceList = createDeviceList({
-      root: document.getElementById('profile-device-list'),
-      deviceRows,
-      storage,
-      toast,
-      encodeHtml,
-    })
-    deviceList.render()
 
     securityDialogs = createSecurityDialogs({
       trapFocus,

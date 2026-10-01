@@ -15,7 +15,7 @@ import {createInvoicePayments} from './pages/invoices/payments.js'
 import {encodeHtml} from './core/locale.js'
 import {STATUSES, CHAIN} from './prototype/fixtures/invoices.js'
 import {CUSTOMER_ROWS, CUSTOMER_REFERENCE, UNIT_ROWS, CUSTOMER_LOOKUP_RESULTS} from './prototype/fixtures/customers.js'
-import {CURRENT_USER, EMPLOYEE_DETAILS, CONTACT_DETAILS, LOGIN_LOG_ROWS, DEVICE_ROWS, RECENT_ACTIVITY_ROWS} from './prototype/fixtures/profile.js'
+import {CURRENT_USER, EMPLOYEE_DETAILS, CONTACT_DETAILS, LOGIN_LOG_ROWS, RECENT_ACTIVITY_ROWS} from './prototype/fixtures/profile.js'
 import {ORGANIZATION_DETAILS, ORGANIZATION_USERS, APPLICATION_SESSIONS, DATABASE_SESSIONS, ORGANIZATION_AUDIT_ROWS, STAFF_OPERATION_ROWS, SYSTEM_HEALTH, SYSTEM_SERVICES} from './prototype/fixtures/organization.js'
 import {createDataList} from './components/data-list/list.js'
 import {createCustomers} from './pages/customers/customers.js'
@@ -436,7 +436,6 @@ const profile = createProfile({
   employeeDetails: EMPLOYEE_DETAILS,
   contactDetails: CONTACT_DETAILS,
   loginLogRows: LOGIN_LOG_ROWS,
-  deviceRows: DEVICE_ROWS,
   activityRows: RECENT_ACTIVITY_ROWS,
   storage: sessionStorage,
   toast,
@@ -557,6 +556,14 @@ const screenParametersDialog = createScreenParametersDialog({
 const journalEntryTable = createJournalEntryTable({
   encodeHtml,
   dataListInstance: listRuntime.dataListInstances.journal
+})
+
+// Prototype control for the journal dialog's unbalanced state. Attached
+// here, before createPrototypeControls() runs its restore below, so the
+// replayed `change` event from a saved "on" state lands on this listener.
+const journalUnbalancedControl = document.getElementById('journal-unbalanced')
+journalUnbalancedControl?.addEventListener('change', () => {
+  journalEntryTable.setUnbalanced(journalUnbalancedControl.checked)
 })
 
 const listMenus = createListMenus({

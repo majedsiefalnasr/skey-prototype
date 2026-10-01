@@ -3,9 +3,6 @@ import {ORGANIZATION_SECTION_ORDER, ORGANIZATION_SECTIONS} from './fields.js'
 import {renderOrganizationNav} from './layout.js'
 import {renderOrganizationSections} from './sections.js'
 import {readOrganizationSessionState} from './sessions.js'
-import {DATA_TOOLBAR_BUTTON_CLASS} from '../../components/data-list/list.js'
-
-const SETTINGS_KEY = 'skey-proto-organization-settings'
 
 // Maps each data-list-backed section key to its DATA_LIST_CONFIG context
 // and the canvas/fnav element id pair sections.js's dataListMount()
@@ -16,15 +13,6 @@ const TABLE_SECTIONS = {
   'database-sessions': {context: 'orgDbSessions', mount: 'db-sessions'},
   audit: {context: 'orgAudit', mount: 'audit'},
   staff: {context: 'orgStaff', mount: 'staff'},
-}
-
-function readObject(storage, key) {
-  try {
-    const value = JSON.parse(storage.getItem(key) || '{}')
-    return value && !Array.isArray(value) && typeof value === 'object' ? value : {}
-  } catch {
-    return {}
-  }
 }
 
 export function createOrganization({
@@ -48,7 +36,9 @@ export function createOrganization({
   let activeSection = 'overview'
   let rendered = false
   let sessionActions = null
-  let settings = {...fixtures.details, ...readObject(storage, SETTINGS_KEY)}
+  // Organization settings is a read-only view (sections.js), so the
+  // identity block is the fixture itself — nothing writes it back.
+  const settings = {...fixtures.details}
 
   const scoped = rows => activeRole === 'manager' ? rows.filter(row => row.inManagerScope) : rows
 
@@ -104,7 +94,6 @@ export function createOrganization({
         const canvas = root.querySelector(`#organization-${mount}-canvas`)
         const footer = root.querySelector(`#organization-${mount}-fnav`)
         if (canvas) instance.activate({root: canvas, footer})
-        if (sectionKey === 'audit') bindAuditExport()
       } else {
         instance.deactivate()
       }
@@ -127,64 +116,6 @@ export function createOrganization({
     activateTableSection(key)
   }
 
-  function bindSettings() {
-    if (activeRole !== 'administrator') return
-    const controls = [...root.querySelectorAll('[data-organization-setting]')]
-    const save = root.querySelector('#organization-settings-save')
-    const undo = root.querySelector('#organization-settings-undo')
-    if (!save || !undo) return
-    const setDirty = dirty => {
-      save.disabled = !dirty
-      undo.disabled = !dirty
-    }
-    const restore = () => {
-      controls.forEach(control => { control.value = settings[control.dataset.organizationSetting] })
-      setDirty(false)
-    }
-    controls.forEach(control => control.addEventListener('input', () => setDirty(true)))
-    undo.addEventListener('click', restore)
-    save.addEventListener('click', () => {
-      settings = Object.fromEntries(controls.map(control => [control.dataset.organizationSetting, control.value.trim()]))
-      storage.setItem(SETTINGS_KEY, JSON.stringify(settings))
-      setDirty(false)
-      toast({tone: 'ok', title: 'Organization settings saved'})
-    })
-  }
-
-  function createAuditExportButton() {
-    const button = document.createElement('button')
-    button.type = 'button'
-    button.className = `data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}`
-    button.dataset.organizationExportAudit = ''
-    button.setAttribute('aria-label', 'Export audit log as CSV')
-    button.title = 'Export CSV'
-    button.innerHTML = `${dataListIcon('i-doc')}<span class="data-toolbar-label-text max-[620px]:hidden">Export CSV</span>`
-    return button
-  }
-
-  function exportAuditRows() {
-    const rows = getData().auditRows
-    const escape = value => `"${String(value).replaceAll('"', '""')}"`
-    const csv = [['Timestamp', 'Actor', 'Action', 'Object', 'Source', 'Result'], ...rows.map(row => [row.timestamp, row.actor, row.action, row.object, row.source, row.result])]
-      .map(row => row.map(escape).join(','))
-      .join('\n')
-    const link = document.createElement('a')
-    link.href = URL.createObjectURL(new Blob([csv], {type: 'text/csv'}))
-    link.download = 'skey-organization-audit.csv'
-    link.click()
-    URL.revokeObjectURL(link.href)
-    toast({tone: 'ok', title: 'Audit log exported'})
-  }
-
-  function bindAuditExport() {
-    const controls = root.querySelector('#organization-audit-canvas .data-toolbar-cluster.end')
-    if (!controls || controls.querySelector('[data-organization-export-audit]')) return
-    const button = createAuditExportButton()
-    const columns = controls.querySelector('[aria-label="Visible columns"]')?.closest('details')
-    controls.insertBefore(button, columns || null)
-    button.addEventListener('click', exportAuditRows)
-  }
-
   function bind() {
     navMount.querySelectorAll('[data-organization-section]').forEach(button => {
       button.addEventListener('click', () => setActivePanel(button.dataset.organizationSection))
@@ -192,7 +123,6 @@ export function createOrganization({
     contentMount.querySelectorAll('[data-organization-open-section]').forEach(button => {
       button.addEventListener('click', () => setActivePanel(button.dataset.organizationOpenSection))
     })
-    bindSettings()
     sessionActions?.dispose()
     sessionActions = createSessionActions?.({
       root,

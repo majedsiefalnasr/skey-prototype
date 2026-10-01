@@ -414,8 +414,7 @@ export function renderSecuritySection() {
 function renderSessionsSection(activityRows, encodeHtml) {
   return (
     renderRecentActivitySection(activityRows, encodeHtml) +
-    renderCard('Login log', `<div id="profile-login-log"></div>`) +
-    renderCard('Devices', `<div id="profile-device-list"></div>`)
+    renderCard('Login log', `<div id="profile-login-log"></div>`)
   )
 }
 
