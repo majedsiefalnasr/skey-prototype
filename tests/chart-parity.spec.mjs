@@ -1,7 +1,7 @@
 import {test, expect} from '@playwright/test';
 import {readChart, chartURL} from '../scripts/cache-chart.mjs';
 import {serve} from '../scripts/serve.mjs';
-import {openSurface, settle, FIXTURE_TIME_EPOCH_MS} from './support/browser.mjs';
+import {openSurface, settle, openListChart, FIXTURE_TIME_EPOCH_MS} from './support/browser.mjs';
 
 // Real, integrity-checked ApexCharts bytes; no spy or replacement renderer.
 // Compare directly with the immutable Git baseline so no new golden can mask drift.
@@ -20,9 +20,11 @@ test('real chart matches baseline through theme changes and cleans up on navigat
     }));
     await target.goto(`${url}/concepts/app-shell.html`);
     await target.clock.resume();
-    await target.locator('#simulate-loading').uncheck();
+    if (await target.locator('#simulate-loading').isChecked()) {
+      await target.locator('#simulate-loading').uncheck();
+    }
     await openSurface(target, 'list');
-    await target.locator('[data-list-action="chart"]').first().click();
+    await openListChart(target);
     await expect(target.locator('.apexcharts-svg')).toBeVisible();
     await settle(target);
   };
@@ -42,8 +44,24 @@ test('real chart matches baseline through theme changes and cleans up on navigat
         )).toBe(true);
         await settle(target);
       }
-      const expected = await baseline.locator('.data-list-chart-canvas').screenshot({animations: 'disabled'});
-      const actual = await page.locator('.data-list-chart-canvas').screenshot({animations: 'disabled'});
+      // Snap the capture rect to whole device pixels: the element screenshot
+      // widens to a full pixel whenever the element sits on a fractional
+      // offset, so a layout shift above the chart would change the PNG size
+      // even with pixel-identical chart content.
+      const shot = async target => {
+        const box = await target.locator('.data-list-chart-canvas').boundingBox();
+        return target.screenshot({
+          clip: {
+            x: Math.round(box.x),
+            y: Math.round(box.y),
+            width: Math.round(box.width),
+            height: Math.round(box.height),
+          },
+          animations: 'disabled',
+        });
+      };
+      const expected = await shot(baseline);
+      const actual = await shot(page);
       await testInfo.attach(`${theme}-baseline`, {body: expected, contentType: 'image/png'});
       await testInfo.attach(`${theme}-candidate`, {body: actual, contentType: 'image/png'});
       expect(actual.equals(expected), `${theme} real chart pixels differ`).toBe(true);

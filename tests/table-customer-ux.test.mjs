@@ -120,13 +120,13 @@ test('appearance offers comfortable density and independent interface-scale pres
   assert.match(shellStyles, /\.dhd\s*\{[^}]*background:\s*var\(--line-2\)/s)
   assert.match(
     shellStyles,
-    /customer-modal-header,[^}]*customer-unit-drawer-header,[^}]*\.rhd,[^}]*\.drhd[^}]*background:\s*var\(--line-2\)/s
+    /customer-modal-header,[^}]*customer-unit-drawer-header,[^}]*\.drhd[^}]*background:\s*var\(--line-2\)/s
   )
   assert.doesNotMatch(shellStyles, /body\.layout-boxed \.frame/)
   assert.match(shell, /page-content flex min-h-0 flex-1 flex-col px-4/)
   assert.match(shellStyles, /body\.layout-boxed \.page-content\s*\{[^}]*max-width:\s*1296px/s)
   assert.doesNotMatch(shellStyles, /body\.layout-boxed :is\(\.arow, \.phead, \.canvas, \.fnav\)/)
-  assert.match(shellStyles, /\.lp-body\s*\{[^}]*max-width:\s*1296px/s)
+  assert.match(shellStyles, /\.lp-body\s*\{[^}]*max-width:\s*960px/s)
   assert.doesNotMatch(shellStyles, /body:not\(\.layout-boxed\) \.lp-body/)
   assert.match(shellStyles, /body\.density-comfortable \.lp-body/)
   assert.match(shellStyles, /body\.density-comfortable \.d1 \.arow/)
@@ -231,7 +231,26 @@ test('invoice record actions expose status changes outside the audit pill', asyn
   assert.match(operations, /if \(creating\) \{\s*nextInvoiceNo\+\+\s*setStatus\('open'\)/s)
   assert.match(operations, /openStatusDialog/)
   assert.match(dialogs, /data-dlg="status"/)
-  assert.match(shellStyles, /\.rdlg\[data-tone="danger"\] \.rhd/)
+  assert.match(shellStyles, /\.dlg\[data-tone='danger'\]\s*\{/)
+  assert.match(dialogs, /data-tone="danger"\s+data-dlg="delete"/)
+})
+
+test('invoice consequence notes use accessible Atlassian-style section messages', async () => {
+  const dialogs = await readFile(
+    new URL('../concepts/app/pages/invoices/record-dialogs.html', import.meta.url),
+    'utf8'
+  )
+  const messages = [...dialogs.matchAll(/<aside\s+class="effects ([^"]+)"\s+role="note"/g)]
+
+  assert.equal(messages.length, 3)
+  messages.forEach(([, classes]) => {
+    assert.match(classes, /flex items-start gap-3/)
+    assert.match(classes, /rounded-md/)
+    assert.match(classes, /p-4/)
+    assert.doesNotMatch(classes, /border/)
+  })
+  assert.match(dialogs, /data-tone=success.*?success-soft-bg/s)
+  assert.match(dialogs, /data-tone=danger.*?danger-soft-bg/s)
 })
 
 test('account menu describes the branch and uses the default system-user avatar', async () => {
@@ -242,7 +261,8 @@ test('account menu describes the branch and uses the default system-user avatar'
     readFile(new URL('../concepts/app/pages/email/email.js', import.meta.url), 'utf8'),
   ])
 
-  assert.match(shell, /<div class="glbl">Branch<\/div>/)
+  assert.match(shell, /<div class="glbl">Workspace<\/div>/)
+  assert.match(shell, /lastchance · Cairo HQ/)
   assert.doesNotMatch(shell, /Switch\s*account/)
   assert.doesNotMatch(sidebar, /tenant/i)
   assert.ok((shell.match(/<use href="#i-user"/g) || []).length >= 2)

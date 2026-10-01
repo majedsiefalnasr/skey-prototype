@@ -588,7 +588,7 @@ const pageAbort = new AbortController()
               ? ''
               : CHAIN.map(
                   c =>
-                    `<i class="seg block h-1 w-3.5 rounded-sm bg-current ${reached(c.id) ? 'on opacity-100' : 'opacity-[.28]'}"></i>`
+                    `<i class="seg block h-1 w-2 rounded-sm bg-current ${reached(c.id) ? 'on opacity-100' : 'opacity-[.28]'}"></i>`
                 ).join('')
             p.querySelector('.cnt').textContent = creating ? '' : `${n} of ${CHAIN.length}`
           })

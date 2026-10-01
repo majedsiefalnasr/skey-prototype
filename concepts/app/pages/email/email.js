@@ -26,7 +26,7 @@ export function createEmail({root, onUnreadChange, navigate, toast}) {
       if (m.day !== lastDay) {
         scroll.appendChild(
           Object.assign(document.createElement('div'), {
-            className: 'nc-group-lbl',
+            className: 'nc-group-lbl px-2.5 pb-1 pt-3.5 text-xs font-semibold uppercase tracking-[.04em] text-faint first:pt-1.5',
             textContent: m.day,
           })
         )
@@ -35,12 +35,12 @@ export function createEmail({root, onUnreadChange, navigate, toast}) {
       const row = document.createElement('button')
       row.type = 'button'
       row.className =
-        'email-list-row flex items-start gap-2.5 w-full border-0 bg-transparent font-[inherit] text-start cursor-pointer py-2.5 px-3.5 border-b border-line' +
+        'email-list-row flex items-start gap-2.5 w-full border-0 bg-transparent font-[inherit] text-start cursor-pointer py-2.5 px-3.5 border-b border-line [body.density-compact_&]:gap-2 [body.density-compact_&]:py-2 [body.density-compact_&]:px-3 [body.density-comfortable_&]:gap-3 [body.density-comfortable_&]:py-3.5 [body.density-comfortable_&]:px-[18px]' +
         (m.unread ? ' unread' : '')
       row.dataset.id = m.id
       row.innerHTML = `<span class="email-avatar relative flex-none w-7 h-7 rounded-full flex items-center justify-center bg-[var(--avatar-bg)] text-[var(--avatar-ink)] text-xs font-bold" style="--hue:${m.hue}"></span>
-      <span class="email-list-txt flex-1 min-w-0"><span class="email-list-top flex items-baseline justify-between gap-2"><b class="text-[13px] font-medium text-ink"></b><span class="email-list-time flex-none text-xs text-faint"></span></span>
-      <span class="email-list-subj block text-[12.5px] text-muted mt-0.5 overflow-hidden text-ellipsis whitespace-nowrap"></span></span>`
+      <span class="email-list-txt flex-1 min-w-0"><span class="email-list-top flex items-baseline justify-between gap-2 [body.density-compact_&]:gap-1.5 [body.density-comfortable_&]:gap-2.5"><b class="text-[13px] font-medium text-ink"></b><span class="email-list-time flex-none text-xs text-faint"></span></span>
+      <span class="email-list-subj block text-[12.5px] text-muted mt-0.5 [body.density-compact_&]:mt-0 [body.density-comfortable_&]:mt-1 overflow-hidden text-ellipsis whitespace-nowrap"></span></span>`
       row.querySelector('.email-avatar').innerHTML = isSystemUser(m.from)
         ? systemUserAvatar(14)
         : m.from.charAt(0)
@@ -71,10 +71,10 @@ export function createEmail({root, onUnreadChange, navigate, toast}) {
    new" — it always sits outside the pane's own scroll area, pinned to the
    bottom of the reading pane like a real inbox's reply box */
   function composerMarkup(toLine, placeholder, sendLabel) {
-    return `<div class="email-composer flex-none py-4 px-6 border-t border-line bg-surface">
+    return `<div class="email-composer flex-none py-4 px-6 border-t border-line bg-surface [body.density-compact_&]:py-3 [body.density-compact_&]:px-4 [body.density-comfortable_&]:py-5 [body.density-comfortable_&]:px-8">
       ${toLine}
-      <textarea class="email-composer-input w-full min-h-[70px] resize-y bg-surface border border-line rounded-lg py-2.5 px-3 font-[inherit] text-ink outline-none" placeholder="${placeholder}"></textarea>
-      <div class="email-composer-toolbar flex items-center gap-0.5 mt-2">
+      <textarea class="email-composer-input w-full min-h-[70px] resize-y bg-surface border border-line rounded-lg py-2.5 px-3 font-[inherit] text-ink outline-none [body.density-compact_&]:min-h-[56px] [body.density-compact_&]:py-2 [body.density-compact_&]:px-2.5 [body.density-comfortable_&]:min-h-[84px] [body.density-comfortable_&]:py-3.5 [body.density-comfortable_&]:px-4" placeholder="${placeholder}"></textarea>
+      <div class="email-composer-toolbar flex items-center gap-0.5 mt-2 [body.density-compact_&]:mt-1.5 [body.density-comfortable_&]:gap-1 [body.density-comfortable_&]:mt-3">
         <button type="button" class="ibtn" aria-label="Bold"><svg width="14" height="14" aria-hidden="true"><use href="#i-bold"/></svg></button>
         <button type="button" class="ibtn" aria-label="Italic"><svg width="14" height="14" aria-hidden="true"><use href="#i-italic"/></svg></button>
         <button type="button" class="ibtn" aria-label="Underline"><svg width="14" height="14" aria-hidden="true"><use href="#i-underline"/></svg></button>
@@ -106,44 +106,44 @@ export function createEmail({root, onUnreadChange, navigate, toast}) {
     const toChips = m.to
       .map(
         p =>
-          `<span class="email-chip inline-flex items-center bg-[var(--hover-overlay)] text-ink rounded-full py-0.5 px-2.5 text-[12.5px]">${p.name}</span>`
+          `<span class="email-chip inline-flex items-center bg-[var(--hover-overlay)] text-ink rounded-full py-0.5 px-2.5 text-[12.5px] [body.density-compact_&]:px-2 [body.density-comfortable_&]:py-1 [body.density-comfortable_&]:px-3">${p.name}</span>`
       )
       .join('')
     const ccField = m.cc.length
-      ? `<div class="email-field flex items-center gap-2 mb-1.5 text-[12.5px] text-faint"><span>Cc</span>${m.cc.map(p => `<span class="email-chip inline-flex items-center bg-[var(--hover-overlay)] text-ink rounded-full py-0.5 px-2.5 text-[12.5px]">${p.name}</span>`).join('')}</div>`
+      ? `<div class="email-field flex items-center gap-2 mb-1.5 text-[12.5px] text-faint [body.density-compact_&]:gap-1.5 [body.density-compact_&]:mb-1 [body.density-comfortable_&]:gap-2.5 [body.density-comfortable_&]:mb-2"><span>Cc</span>${m.cc.map(p => `<span class="email-chip inline-flex items-center bg-[var(--hover-overlay)] text-ink rounded-full py-0.5 px-2.5 text-[12.5px] [body.density-compact_&]:px-2 [body.density-comfortable_&]:py-1 [body.density-comfortable_&]:px-3">${p.name}</span>`).join('')}</div>`
       : ''
     const attach = m.attachments.length
-      ? `<div class="email-attachments flex flex-wrap gap-2 mt-3.5">${m.attachments
+      ? `<div class="email-attachments flex flex-wrap gap-2 mt-3.5 [body.density-compact_&]:gap-1.5 [body.density-compact_&]:mt-2.5 [body.density-comfortable_&]:gap-2.5 [body.density-comfortable_&]:mt-4">${m.attachments
           .map(
             a =>
-              `<span class="email-attach flex items-center gap-[7px] border border-line rounded-lg py-[7px] px-2.5 text-[12.5px] text-ink"><svg width="14" height="14" aria-hidden="true"><use href="#i-clip"/></svg><span>${a.name}</span><small class="text-faint text-xs">${a.size}</small></span>`
+              `<span class="email-attach flex items-center gap-[7px] border border-line rounded-lg py-[7px] px-2.5 text-[12.5px] text-ink [body.density-compact_&]:gap-1.5 [body.density-compact_&]:py-[5px] [body.density-compact_&]:px-2 [body.density-comfortable_&]:gap-2 [body.density-comfortable_&]:py-[9px] [body.density-comfortable_&]:px-3"><svg width="14" height="14" aria-hidden="true"><use href="#i-clip"/></svg><span>${a.name}</span><small class="text-faint text-xs">${a.size}</small></span>`
           )
           .join('')}</div>`
       : ''
     pane.innerHTML = `
-    <div class="email-reading-scroll nc-scroll flex-1 min-h-0 overflow-auto py-5 px-6">
-      <div class="email-reading-hd flex items-center gap-5">
+    <div class="email-reading-scroll nc-scroll flex-1 min-h-0 overflow-auto py-5 px-6 [body.density-compact_&]:py-3.5 [body.density-compact_&]:px-4 [body.density-comfortable_&]:py-6 [body.density-comfortable_&]:px-8">
+      <div class="email-reading-hd flex items-center gap-5 [body.density-compact_&]:gap-4 [body.density-comfortable_&]:gap-6">
         <span class="email-avatar lg relative flex-none w-10 h-10 rounded-full flex items-center justify-center bg-[var(--avatar-bg)] text-[var(--avatar-ink)] text-base font-bold" style="--hue:${m.hue}">${isSystemUser(m.from) ? systemUserAvatar(18) : m.from.charAt(0)}</span>
         <div class="email-reading-who flex-1 min-w-0 flex flex-col [&_b]:text-sm [&_span]:text-[12.5px] [&_span]:text-muted"><b>${m.from}</b><span>${m.email}</span></div>
         <span class="email-reading-time flex-none text-xs text-faint">${m.day}, ${m.time}</span>
       </div>
-      <h2 class="email-reading-subject text-[19px] font-bold my-4 mt-4 mb-3.5 text-ink">${m.subject}</h2>
-      <div class="email-field flex items-center gap-2 mb-1.5 text-[12.5px] text-faint"><span>To</span>${toChips}</div>
+      <h2 class="email-reading-subject text-[19px] font-bold my-4 mt-4 mb-3.5 text-ink [body.density-compact_&]:mt-3 [body.density-compact_&]:mb-2.5 [body.density-comfortable_&]:mt-5 [body.density-comfortable_&]:mb-4">${m.subject}</h2>
+      <div class="email-field flex items-center gap-2 mb-1.5 text-[12.5px] text-faint [body.density-compact_&]:gap-1.5 [body.density-compact_&]:mb-1 [body.density-comfortable_&]:gap-2.5 [body.density-comfortable_&]:mb-2"><span>To</span>${toChips}</div>
       ${ccField}
-      <div class="email-reading-body mt-4 text-sm leading-[1.65] text-ink [&_p]:mb-3 [&_p]:whitespace-pre-line">${m.body.map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('')}</div>
+      <div class="email-reading-body mt-4 text-sm leading-[1.65] text-ink [&_p]:mb-3 [&_p]:whitespace-pre-line [body.density-compact_&]:mt-3 [body.density-compact_&_p]:mb-2 [body.density-comfortable_&]:mt-5 [body.density-comfortable_&_p]:mb-4">${m.body.map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('')}</div>
       ${attach}
     </div>
-    ${composerMarkup(`<div class="email-composer-to text-[12.5px] text-muted mb-2">Reply to <b>${m.from}</b></div>`, 'Write a reply…', 'Reply')}`
+    ${composerMarkup(`<div class="email-composer-to text-[12.5px] text-muted mb-2 [body.density-compact_&]:mb-1.5 [body.density-comfortable_&]:mb-3">Reply to <b>${m.from}</b></div>`, 'Write a reply…', 'Reply')}`
     wireComposer(pane, () => `Your reply to ${m.from} was sent.`)
   }
   function renderComposeNew() {
     const pane = queryId('email-reading')
     root.querySelectorAll('.email-list-row').forEach(r => r.classList.remove('active'))
     pane.innerHTML = `
-    <div class="email-reading-scroll nc-scroll flex-1 min-h-0 overflow-auto py-5 px-6">
-      <h2 class="email-reading-subject text-[19px] font-bold my-4 mt-4 mb-3.5 text-ink">New message</h2>
-      <div class="email-compose-row flex items-center gap-5 py-2.5 border-b border-line [&_label]:flex-none [&_label]:w-14 [&_label]:text-[12.5px] [&_label]:text-faint [&_input]:flex-1 [&_input]:min-w-0 [&_input]:border-0 [&_input]:outline-none [&_input]:font-[inherit] [&_input]:text-sm [&_input]:text-ink [&_input]:bg-transparent"><label for="email-compose-to">To</label><input type="text" id="email-compose-to" placeholder="Recipient email…"></div>
-      <div class="email-compose-row flex items-center gap-5 py-2.5 border-b border-line [&_label]:flex-none [&_label]:w-14 [&_label]:text-[12.5px] [&_label]:text-faint [&_input]:flex-1 [&_input]:min-w-0 [&_input]:border-0 [&_input]:outline-none [&_input]:font-[inherit] [&_input]:text-sm [&_input]:text-ink [&_input]:bg-transparent"><label for="email-compose-subject">Subject</label><input type="text" id="email-compose-subject" placeholder="Subject…"></div>
+    <div class="email-reading-scroll nc-scroll flex-1 min-h-0 overflow-auto py-5 px-6 [body.density-compact_&]:py-3.5 [body.density-compact_&]:px-4 [body.density-comfortable_&]:py-6 [body.density-comfortable_&]:px-8">
+      <h2 class="email-reading-subject text-[19px] font-bold my-4 mt-4 mb-3.5 text-ink [body.density-compact_&]:mt-3 [body.density-compact_&]:mb-2.5 [body.density-comfortable_&]:mt-5 [body.density-comfortable_&]:mb-4">New message</h2>
+      <div class="email-compose-row flex items-center gap-5 py-2.5 border-b border-line [body.density-compact_&]:gap-4 [body.density-compact_&]:py-2 [body.density-comfortable_&]:gap-6 [body.density-comfortable_&]:py-3.5 [&_label]:flex-none [&_label]:w-14 [&_label]:text-[12.5px] [&_label]:text-faint [&_input]:flex-1 [&_input]:min-w-0 [&_input]:border-0 [&_input]:outline-none [&_input]:font-[inherit] [&_input]:text-sm [&_input]:text-ink [&_input]:bg-transparent"><label for="email-compose-to">To</label><input type="text" id="email-compose-to" placeholder="Recipient email…"></div>
+      <div class="email-compose-row flex items-center gap-5 py-2.5 border-b border-line [body.density-compact_&]:gap-4 [body.density-compact_&]:py-2 [body.density-comfortable_&]:gap-6 [body.density-comfortable_&]:py-3.5 [&_label]:flex-none [&_label]:w-14 [&_label]:text-[12.5px] [&_label]:text-faint [&_input]:flex-1 [&_input]:min-w-0 [&_input]:border-0 [&_input]:outline-none [&_input]:font-[inherit] [&_input]:text-sm [&_input]:text-ink [&_input]:bg-transparent"><label for="email-compose-subject">Subject</label><input type="text" id="email-compose-subject" placeholder="Subject…"></div>
     </div>
     ${composerMarkup('', 'Write your message…', 'Send')}`
     wireComposer(pane, () => {

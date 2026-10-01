@@ -85,7 +85,7 @@ export function createLocaleControls({t, formatLocaleCurrency, getLocale, setLoc
       }
       if (search) search.setAttribute('aria-label', t('Search apps and screens'))
       activeLaunchpad.querySelectorAll('.lp-quick-more').forEach(button => {
-        button.textContent = t('More')
+        button.textContent = t(button.dataset.moreLabel || 'More')
       })
       const currentLabel = activeLaunchpad.querySelector('.lp-current:not([hidden])')
       if (currentLabel) currentLabel.textContent = t('Current app')

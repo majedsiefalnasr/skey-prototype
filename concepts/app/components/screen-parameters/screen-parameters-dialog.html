@@ -18,7 +18,9 @@
     aria-modal="true"
     aria-labelledby="screen-parameters-title">
     <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
-      <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]"><use href="#i-sliders" /></svg>
+      <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]">
+        <use href="#i-sliders" />
+      </svg>
       <div>
         <h3 id="screen-parameters-title">Screen Parameters</h3>
         <p class="dhd-subtitle">Configuration values that control this screen's behavior</p>
@@ -30,8 +32,8 @@
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
-    <div class="dlg-inner min-h-0">
-      <div class="dbody [padding:16px] overflow-auto">
+    <div class="dlg-inner min-h-0 [padding:16px]">
+      <div class="dbody overflow-auto">
         <!-- .canvas is a page-header/list-canvas placeholder element
              elsewhere (its own overflow-y:auto scroll container on a
              standalone list page) — here it's nested inside .dbody, which
@@ -43,7 +45,7 @@
              shared `.canvas:not(#list-canvas)` rule (shell.css) has higher
              specificity (a :not() pseudo-class) than a single arbitrary-
              value class, so a plain override loses to it. -->
-        <div class="canvas [overflow:visible]!" id="screen-parameters-canvas"></div>
+        <div class="canvas [overflow:visible]! mt-0!" id="screen-parameters-canvas"></div>
       </div>
       <div
         class="fnav fnav-list flex items-center gap-5 [padding:9px_16px] bg-surface [border-top:1px_solid_var(--line)]"

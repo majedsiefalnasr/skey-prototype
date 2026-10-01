@@ -116,7 +116,7 @@ function renderDataListExpandButton(
   if (!overflowColumns.length) return ''
   const detailsId = dataListDetailsId(context, key)
   const label = expanded ? 'Collapse row details' : 'Expand row details'
-  return `<button type="button" class="data-row-expand grid w-8! min-h-8 place-items-center rounded-md text-muted! hover:bg-[var(--line-2)]! hover:text-ink!" data-list-row-expand="${encodeHtml(key)}" aria-controls="${encodeHtml(detailsId)}" aria-expanded="${expanded}" aria-label="${label}" title="${label}">${dataListIcon('i-caret', 12)}</button>`
+  return `<button type="button" class="data-row-expand grid w-8 min-h-8 place-items-center rounded-md text-muted! hover:bg-[var(--line-2)]! hover:text-ink!" data-list-row-expand="${encodeHtml(key)}" aria-controls="${encodeHtml(detailsId)}" aria-expanded="${expanded}" aria-label="${label}" title="${label}">${dataListIcon('i-caret', 12)}</button>`
 }
 
 /**
@@ -251,7 +251,7 @@ export function renderDataListAdaptiveRecord(context, row, config, listState, fi
   const hasGroups = fields.some(column => column.group)
   const key = String(row[config.key])
   if (!hasGroups) {
-    return `<div class="rec-card data-adaptive-record [border:1px_solid_var(--line)] rounded-lg mb-3! overflow-hidden [.rec-card-flow>&]:[flex:1_1_calc(var(--card-cols,_3)_*_200px)] [.rec-card-flow>&]:[min-width:min(100%,_320px)] [.rec-card-flow>&]:mb-0! grid [grid-template-columns:minmax(140px,_260px)_1fr]" data-list-row-key="${encodeHtml(key)}">${fields
+    return `<div class="rec-card data-adaptive-record [border:1px_solid_var(--line)] rounded-lg mb-3 overflow-hidden [.rec-card-flow>&]:[flex:1_1_calc(var(--card-cols,_3)_*_200px)] [.rec-card-flow>&]:[min-width:min(100%,_320px)] [.rec-card-flow>&]:mb-0! grid [grid-template-columns:minmax(140px,_260px)_1fr]" data-list-row-key="${encodeHtml(key)}">${fields
       .map(column => renderDataAdaptiveFieldRow(context, row, column, deps))
       .join('')}</div>`
   }
@@ -268,5 +268,5 @@ export function renderDataListAdaptiveRecord(context, row, config, listState, fi
       return `<section class="data-adaptive-section grid [grid-template-columns:minmax(140px,_260px)_1fr]"><div class="data-group-row [grid-column:1_/_-1] bg-[var(--line-2)] [border-bottom:1px_solid_var(--line)] [border-top:1px_solid_var(--line)]"><button type="button" class="data-group-toggle flex w-full min-h-9 items-center gap-[7px] py-1.5 pe-2.5 ps-2.5 text-start" data-list-group-toggle="${encodeHtml(groupId)}" aria-expanded="${expanded}">${dataListIcon('i-caret', 11)}<span class="data-group-label text-xs font-semibold text-muted">${encodeHtml(t(label))}</span><span class="data-group-count ms-auto text-xs font-medium text-muted">${groupFields.length} ${t('fields', 'fields')}</span></button></div>${expanded ? rowsHtml : ''}</section>`
     })
     .join('')
-  return `<div class="rec-card data-adaptive-sections [border:1px_solid_var(--line)] rounded-lg mb-3! overflow-hidden [.rec-card-flow>&]:[flex:1_1_calc(var(--card-cols,_3)_*_200px)] [.rec-card-flow>&]:[min-width:min(100%,_320px)] [.rec-card-flow>&]:mb-0!" data-list-row-key="${encodeHtml(key)}">${sections}</div>`
+  return `<div class="rec-card data-adaptive-sections [border:1px_solid_var(--line)] rounded-lg mb-3 overflow-hidden [.rec-card-flow>&]:[flex:1_1_calc(var(--card-cols,_3)_*_200px)] [.rec-card-flow>&]:[min-width:min(100%,_320px)] [.rec-card-flow>&]:mb-0!" data-list-row-key="${encodeHtml(key)}">${sections}</div>`
 }

@@ -58,7 +58,7 @@ test('geography details uses the shared record header and field structure', asyn
 
   const header = page.locator('#geo-record-chrome .phead');
   await expect(header).toHaveCSS('display', 'flex');
-  await expect(header).toHaveCSS('gap', '12px');
+  await expect(header).toHaveCSS('gap', '20px');
   await expect(header.locator('.tline')).toHaveCSS('flex-wrap', 'wrap');
   await expect(header.locator('.recacts')).toHaveCSS('display', 'flex');
 

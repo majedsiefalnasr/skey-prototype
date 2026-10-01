@@ -102,17 +102,22 @@ visual state, not an endorsement that the state is desired.
     `<head>` before body parsing, even though the initial Home screen never
     renders a chart.
 
-13. **Assistant drawer does not close with Escape.** `tests/messaging.spec.mjs`'s
-    "assistant proposal answers and closes with Escape" test fails: `#aiscrim` keeps
-    its `open` class after `Escape` is pressed. Found during the Tailwind utility
-    migration's (`docs/superpowers/plans/2026-09-14-tailwind-migration.md`) Task 6
-    and Task 7 test runs, but confirmed unrelated to that migration by two
-    independent checks (Task 6's implementer and its task reviewer, then Task 7):
-    every migration task's diff range is silent on `concepts/app/shell/main.js`,
-    any keyboard-handling file, and `concepts/app/components/assistant/*.js`. This
-    is a pre-existing defect in the prototype's Escape-key wiring, newly observed
-    during this migration's testing rather than introduced by it. Not fixed here;
-    out of scope for a CSS/utility migration.
+13. **Assistant drawer does not close with Escape.** *(Fixed 2026-09-30.)*
+    `tests/messaging.spec.mjs`'s "assistant proposal answers and closes with
+    Escape" test failed: `#aiscrim` kept its `open` class after `Escape` was
+    pressed. Found during the Tailwind utility migration's
+    (`docs/superpowers/plans/2026-09-14-tailwind-migration.md`) Task 6 and
+    Task 7 test runs, but confirmed unrelated to that migration by two
+    independent checks (Task 6's implementer and its task reviewer, then
+    Task 7): every migration task's diff range is silent on
+    `concepts/app/shell/main.js`, any keyboard-handling file, and
+    `concepts/app/components/assistant/*.js` — a pre-existing gap in the
+    prototype's Escape-key wiring, not something the migration introduced.
+    `components/assistant/assistant.js` now binds a `keydown` listener that
+    calls `closeAI()` (scoped by `pageAbort.signal`). The test's own
+    assertion was also repaired: `toHaveClass(/open/)` matches the
+    `[&.open]:block` utility in the element's class list, so the drawer's
+    open/closed state is now asserted with `toBeVisible()` / `toBeHidden()`.
 
 ## How this ledger is used by tests
 
@@ -126,5 +131,8 @@ visual state, not an endorsement that the state is desired.
   filtering anything out globally.
 - Defect 6 was the only entry expected to change status (from "expected
   failure" to "fixed") over the life of this plan; that transition landed
-  in Task 11 and is now complete. No other entry in this ledger changed
-  status as part of that task.
+  in Task 11 and is now complete. Defect 13 changed status later, on
+  2026-09-30, when its Escape handler was implemented — its test asserts
+  the fixed behaviour now, and the drawer's open/closed state is checked
+  through visibility rather than through the class token (see entry 13).
+  No other entry has changed status.

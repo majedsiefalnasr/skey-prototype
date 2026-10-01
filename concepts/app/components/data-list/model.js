@@ -45,6 +45,7 @@ import {rowMatchesFieldFilter} from './filters.js'
 /**
  * @typedef {Object} ListModelState
  * @property {unknown[]} sourceRows
+ * @property {unknown[]} baseRows Unfiltered rows a filter reset returns to; tracks setRows for dynamic contexts.
  * @property {Set<string|number>} selected
  * @property {Set<string>} hiddenColumns
  * @property {Set<string>} savedHiddenColumns
@@ -183,6 +184,7 @@ function createInitialState(config, rows, storage, context) {
   const statisticsVisible = config.noRowActions ? false : saved.statisticsVisible
   return {
     sourceRows: rows,
+    baseRows: rows,
     selected: new Set(),
     hiddenColumns: new Set(savedHiddenColumns),
     savedHiddenColumns: new Set(savedHiddenColumns),
@@ -349,6 +351,7 @@ export function createListModel({config, rows, storage, context = config.singula
   // since the previous page may no longer exist against the new row count.
   function setRows(nextRows) {
     state.sourceRows = nextRows
+    state.baseRows = nextRows
     state.page = 1
   }
 

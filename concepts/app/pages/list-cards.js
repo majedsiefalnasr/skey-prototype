@@ -4,7 +4,7 @@ import {encodeHtml} from '../core/locale.js'
 import {renderCustomerAvatar} from './customers/images.js'
 
 const DATA_RECORD_CARD_CLASS =
-  "data-record-card data-record-card-snapshot-layout relative grid min-w-0 gap-5 rounded-lg border border-line bg-surface p-3.5 transition-[border-color,box-shadow,transform] duration-150 ease-in-out hover:[box-shadow:var(--shadow-1)] [&[aria-selected='true']]:border-accent [&[aria-selected='true']]:bg-[var(--accent-soft)] [&[aria-selected='true']_.data-record-card-select]:bg-surface [body.density-compact_&]:gap-2 [body.density-compact_&]:p-2.5"
+  "data-record-card data-record-card-snapshot-layout relative grid min-w-0 gap-5 rounded-lg border border-line bg-surface p-3.5 transition-[border-color,box-shadow,transform] duration-150 ease-in-out hover:[box-shadow:var(--shadow-1)] [&[aria-selected='true']]:border-accent [&[aria-selected='true']]:bg-[var(--accent-soft)] [&[aria-selected='true']_.data-record-card-select]:bg-surface [body.density-compact_&]:gap-2 [body.density-compact_&]:p-2.5 [body.density-comfortable_&]:gap-8 [body.density-comfortable_&]:p-[18px]"
 const DATA_RECORD_CARD_IDENTITY_CLASS =
   'data-record-card-identity flex min-w-0 flex-1 cursor-pointer items-start gap-[9px] overflow-hidden rounded border-0 bg-transparent p-0 text-start font-[inherit] text-inherit focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent [&>div]:min-w-0 [&_span]:block [&_span]:truncate [&_strong]:block [&_strong]:truncate [&_strong]:text-sm [&_strong]:text-ink hover:[&_strong]:text-accent hover:[&_strong]:underline'
 
@@ -84,7 +84,7 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
   }
 
   function dataRecordCardSelectMarkup(config, key, selected) {
-    return `<label class="data-record-card-select grid size-7 flex-none cursor-pointer place-items-center self-center rounded-md hover:bg-[var(--line-2)] has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-1 has-[input:focus-visible]:outline-accent [body.density-compact_&]:size-6 [@media(pointer:coarse)]:size-11"><input class="m-0 size-[15px] accent-accent [body.density-compact_&]:size-[14px]" type="checkbox" data-list-row-select value="${encodeHtml(key)}" aria-label="Select ${encodeHtml(config.singular)} ${encodeHtml(key)}"${selected ? ' checked' : ''}></label>`
+    return `<label class="data-record-card-select grid size-7 flex-none cursor-pointer place-items-center self-center rounded-md hover:bg-[var(--line-2)] has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-1 has-[input:focus-visible]:outline-accent [body.density-compact_&]:size-6 [body.density-comfortable_&]:size-8 [@media(pointer:coarse)]:size-11"><input class="m-0 size-[15px] accent-accent [body.density-compact_&]:size-[14px] [body.density-comfortable_&]:size-[16px]" type="checkbox" data-list-row-select value="${encodeHtml(key)}" aria-label="Select ${encodeHtml(config.singular)} ${encodeHtml(key)}"${selected ? ' checked' : ''}></label>`
   }
 
   function dataRecordCardContext(context, row, config, listState) {
@@ -100,8 +100,8 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
     const avatar =
       context === 'customer'
         ? renderCustomerAvatar(row, {encodeHtml})
-        : `<span class="data-record-avatar grid size-9 flex-none place-items-center rounded-full bg-[var(--line-2)] text-[12px] font-bold text-ink [body.density-compact_&]:size-[30px]" aria-hidden="true">${card.model.avatar}</span>`
-    return `<header class="data-record-card-header flex min-w-0 items-center gap-[9px] [body.density-compact_&]:gap-[7px]">${dataRecordCardSelectMarkup(config, card.key, card.selected)}${avatar}<button class="${DATA_RECORD_CARD_IDENTITY_CLASS} [body.density-compact_&]:gap-[7px] [body.density-compact_&_[&_strong]]:text-[13px]" type="button" data-list-open-record="${encodeHtml(card.key)}" aria-label="Open ${encodeHtml(config.singular)} ${encodeHtml(card.key)}"><div><strong>${encodeHtml(card.model.title)}</strong><span>${encodeHtml(card.model.subtitle)}</span></div></button>${card.model.badge}</header>`
+        : `<span class="data-record-avatar grid size-9 flex-none place-items-center rounded-full bg-[var(--line-2)] text-[12px] font-bold text-ink [body.density-compact_&]:size-[30px] [body.density-comfortable_&]:size-[42px]" aria-hidden="true">${card.model.avatar}</span>`
+    return `<header class="data-record-card-header flex min-w-0 items-center gap-[9px] [body.density-compact_&]:gap-[7px] [body.density-comfortable_&]:gap-[12px]">${dataRecordCardSelectMarkup(config, card.key, card.selected)}${avatar}<button class="${DATA_RECORD_CARD_IDENTITY_CLASS} [body.density-compact_&]:gap-[7px] [body.density-comfortable_&]:gap-[12px] [body.density-compact_&_[&_strong]]:text-[13px]" type="button" data-list-open-record="${encodeHtml(card.key)}" aria-label="Open ${encodeHtml(config.singular)} ${encodeHtml(card.key)}"><div><strong>${encodeHtml(card.model.title)}</strong><span>${encodeHtml(card.model.subtitle)}</span></div></button>${card.model.badge}</header>`
   }
 
   function dataRecordActionButton(action, icon, label) {

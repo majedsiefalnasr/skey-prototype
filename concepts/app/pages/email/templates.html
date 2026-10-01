@@ -1,7 +1,7 @@
       <template class="email-tpl">
         <div class="email-view flex flex-1 min-h-0 flex-col" hidden>
-          <div class="phead email-phead">
-            <div class="l">
+          <div class="phead email-phead [.d1_&]:[padding:11px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5 px-4">
+              <div class="l [.d1_.phead_&]:flex-1">
               <nav class="crumbs" aria-label="Breadcrumb">
                 <a href="#" class="email-back">Home</a><span class="sep">›</span
                 ><span aria-current="page">Email</span>
@@ -14,9 +14,9 @@
               </button>
             </div>
           </div>
-          <div class="email-app flex-1 min-h-0 flex mx-4 my-3 rounded-[9px] border border-line overflow-hidden bg-surface">
+          <div class="email-app flex-1 min-h-0 flex mx-4 my-3 rounded-[9px] border border-line overflow-hidden bg-surface [body.density-compact_&]:mx-3 [body.density-compact_&]:my-2 [body.density-comfortable_&]:mx-5 [body.density-comfortable_&]:my-4">
             <div class="email-list w-[300px] flex-none flex flex-col min-h-0 border-e border-line">
-              <div class="email-search flex-none flex items-center gap-[7px] m-2.5 py-[7px] px-[9px] rounded-[7px] border border-line text-faint">
+              <div class="email-search flex-none flex items-center gap-[7px] m-2.5 py-[7px] px-[9px] rounded-[7px] border border-line text-faint [body.density-compact_&]:gap-1.5 [body.density-compact_&]:m-2 [body.density-compact_&]:py-[5px] [body.density-compact_&]:px-[7px] [body.density-comfortable_&]:gap-2 [body.density-comfortable_&]:m-3 [body.density-comfortable_&]:py-[9px] [body.density-comfortable_&]:px-[11px]">
                 <svg width="13" height="13" aria-hidden="true"><use href="#i-search" /></svg>
                 <input
                   type="search"
@@ -24,7 +24,7 @@
                   placeholder="Search email…"
                   aria-label="Search email"
                   autocomplete="off"
-                  class="border-0 outline-none bg-transparent font-[inherit] text-ink flex-1 min-w-0 placeholder:text-faint" />
+                  class="border-0 outline-none bg-transparent font-[inherit] text-ink flex-1 min-w-0 p-0 placeholder:text-faint" />
               </div>
               <div class="nc-scroll" id="email-list-scroll"></div>
             </div>

@@ -2,7 +2,7 @@
   <div
     class="geo-list-view flex-1 min-h-0 [&:not([hidden])]:flex [&:not([hidden])]:flex-col"
     hidden>
-    <div class="phead [.d1_&]:[padding:11px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5">
+    <div class="phead [.d1_&]:[padding:11px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5 px-4">
       <div class="l [.d1_.phead_&]:[flex:1]">
         <nav class="crumbs [.d3_.otitle_&]:[margin-bottom:3px]!" aria-label="Breadcrumb">
           <a href="#" data-i18n="Home">Home</a><span class="sep">›</span>
@@ -38,18 +38,18 @@
     class="geo-record-view flex-1 min-h-0 [&:not([hidden])]:flex [&:not([hidden])]:flex-col"
     hidden>
     <div id="geo-record-chrome"></div>
-    <div class="canvas customer-record-canvas geo-record-canvas min-h-0 flex-1 p-3 overflow-auto">
+    <div class="canvas customer-record-canvas geo-record-canvas min-h-0 flex-1 overflow-auto">
       <div
         class="geo-workspace grid min-h-full gap-5 items-start [grid-template-columns:clamp(330px,28vw,470px)_minmax(0,1fr)]"
         id="geo-workspace">
         <aside
-          class="geo-tree-panel flex min-w-0 flex-col overflow-hidden rounded-lg border border-line bg-surface [min-height:min(320px,calc(100vh-230px))]"
+          class="geo-tree-panel flex min-w-0 flex-col overflow-hidden rounded-lg border border-line bg-surface [min-height:min(320px,calc(100vh-230px))] [body.density-compact_&]:[min-height:min(280px,calc(100vh-212px))] [body.density-comfortable_&]:[min-height:min(360px,calc(100vh-254px))]"
           id="geo-hierarchy-panel"
           aria-label="Location hierarchy">
           <header
             class="geo-tree-header flex min-h-[58px] gap-2 items-center py-2 pe-[9px] ps-3 border-b border-line">
             <div
-              class="block min-w-0 flex-1 [&_h2]:overflow-hidden [&_h2]:text-sm [&_h2]:text-ellipsis [&_h2]:whitespace-nowrap [&_span]:mt-px [&_span]:block [&_span]:overflow-hidden [&_span]:text-xs [&_span]:text-muted [&_span]:text-ellipsis [&_span]:whitespace-nowrap">
+              class="block min-w-0 flex-1 [&_h2]:overflow-hidden [&_h2]:text-sm [&_h2]:text-ellipsis [&_h2]:whitespace-nowrap [&_span]:mt-px [body.density-compact_&]:[&_span]:mt-0 [body.density-comfortable_&]:[&_span]:mt-[3px] [&_span]:block [&_span]:overflow-hidden [&_span]:text-xs [&_span]:text-muted [&_span]:text-ellipsis [&_span]:whitespace-nowrap">
               <h2>Location hierarchy</h2>
               <span>Explore and select a location</span>
             </div>
@@ -228,7 +228,7 @@
           </h2>
           <div class="customer-section-body">
             <div
-              class="geo-form rec-card-body grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px] [&_.rec-field]:min-w-0 [&_.rec-field>label]:mb-[3px] [&_.rec-field>label]:block [&_.rec-field>label]:text-xs [&_.rec-field>label]:text-muted [&_input]:rounded-md [&_input]:border [&_input]:border-line [&_input]:bg-surface [&_input]:px-2 [&_input]:py-1.5 [&_input]:font-[inherit] [&_input]:text-ink [&_select]:rounded-md [&_select]:border [&_select]:border-line [&_select]:bg-surface [&_select]:px-2 [&_select]:py-1.5 [&_select]:font-[inherit] [&_select]:text-ink [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%2344546f%22%20d%3D%22M2.5%204.5%206%208l3.5-3.5z%22/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [&_textarea]:rounded-md [&_textarea]:border [&_textarea]:border-line [&_textarea]:bg-surface [&_textarea]:px-2 [&_textarea]:py-1.5 [&_textarea]:font-[inherit] [&_textarea]:text-ink [&_textarea]:resize-y [&_input:is(:hover,_:focus-visible)]:border-accent-line [&_select:is(:hover,_:focus-visible)]:border-accent-line [&_textarea:is(:hover,_:focus-visible)]:border-accent-line [&_input:focus-visible]:outline-none [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:outline-none [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:outline-none [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]">
+              class="geo-form rec-card-body grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px] [&_.rec-field]:min-w-0 [&_.rec-field>label]:mb-[3px] [&_.rec-field>label]:block [&_.rec-field>label]:text-xs [&_.rec-field>label]:text-muted [&_input]:rounded-md [&_input]:border [&_input]:border-line [&_input]:bg-surface [&_input]:px-2 [&_input]:py-1.5 [&_input]:[font:inherit] [&_input]:text-ink [&_select]:rounded-md [&_select]:border [&_select]:border-line [&_select]:bg-surface [&_select]:px-2 [&_select]:py-1.5 [&_select]:[font:inherit] [&_select]:text-ink [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%2344546f%22%20d%3D%22M2.5%204.5%206%208l3.5-3.5z%22/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [&_textarea]:rounded-md [&_textarea]:border [&_textarea]:border-line [&_textarea]:bg-surface [&_textarea]:px-2 [&_textarea]:py-1.5 [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:resize-y [&_input:is(:hover,_:focus-visible)]:border-accent-line [&_select:is(:hover,_:focus-visible)]:border-accent-line [&_textarea:is(:hover,_:focus-visible)]:border-accent-line [&_input:focus-visible]:outline-none [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:outline-none [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:outline-none [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]">
               <div class="rec-field">
                 <label for="geo-field-code">Location Code</label>
                 <input id="geo-field-code" type="text" readonly class="w-full" />
@@ -284,7 +284,8 @@
         </section>
       </div>
     </div>
-    <div class="fnav geo-record-footer">
+    <div
+      class="fnav geo-record-footer py-[9px] px-4 flex flex-1 flex-wrap items-center gap-x-4 gap-y-2.5">
       <span class="geo-record-pager-mount"></span>
       <span class="pos" id="geo-record-position" aria-live="polite">Record 1 of 12</span>
       <span

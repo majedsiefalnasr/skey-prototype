@@ -1,34 +1,54 @@
-    <!-- ===== record dialogs: Posting / Journal Entry / Cancellation ===== -->
-    <div class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]" id="rscrim">
-      <div
-        class="dlg [width:min(640px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh] [&.wide]:[width:min(1180px,_97vw)]"
-        data-tone="success"
-        data-dlg="posting"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="pf-title"
-        hidden>
-        <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
-          <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]"><use href="#i-post" /></svg>
-          <div>
-            <h3 id="pf-title">Post invoice 126</h3>
-            <p class="dhd-subtitle">This locks the invoice into the accounts</p>
-          </div>
-          <button class="ibtn x r-close [.rec-adjustment-row_&]:[margin-bottom:1px]!" aria-label="Close" style="margin-inline-start: auto">
-            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
-          </button>
-        </div>
-        <div class="dlg-inner min-h-0">
-        <div class="dbody [padding:16px] overflow-auto">
-          <!-- state: not posted yet — an operation to confirm -->
-          <div data-state="do">
-            <p class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!">
-              Posting writes this invoice into the accounts. After that it can be read but not
-              edited.
-            </p>
-            <div class="effects [border:1px_solid_var(--line)] [border-radius:9px] [padding:11px_13px] mb-3.5! bg-[var(--line-2)] [&_h5]:text-xs [&_h5]:[text-transform:uppercase] [&_h5]:[letter-spacing:0.04em] [&_h5]:[color:var(--faint)] [&_h5]:[margin-bottom:7px]! [&_ul]:[list-style:none] [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-1.5 [&_li]:flex [&_li]:gap-2 [&_li]:[font-size:12.5px] [&_li]:items-start [&_li_svg]:[margin-top:2px]! [&_li_svg]:text-muted [.dlg[data-tone=success]_&]:[background:var(--success-soft-bg)] [.dlg[data-tone=success]_&]:[border-color:var(--success-soft-line)] [.dlg[data-tone=success]_&_li_svg]:[color:var(--success)]">
-              <h5>What happens</h5>
-              <ul>
+<!-- ===== record dialogs: Posting / Journal Entry / Cancellation ===== -->
+<div
+  class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]"
+  id="rscrim">
+  <div
+    class="dlg [width:min(640px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh] [&.wide]:[width:min(1180px,_97vw)]"
+    data-tone="success"
+    data-dlg="posting"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="pf-title"
+    hidden>
+    <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+      <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]">
+        <use href="#i-post" />
+      </svg>
+      <div>
+        <h3 id="pf-title">Post invoice 126</h3>
+        <p class="dhd-subtitle">This locks the invoice into the accounts</p>
+      </div>
+      <button
+        class="ibtn x r-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
+        aria-label="Close"
+        style="margin-inline-start: auto">
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+      </button>
+    </div>
+    <div class="dlg-inner min-h-0 [padding:16px]">
+      <div class="dbody overflow-auto">
+        <!-- state: not posted yet — an operation to confirm -->
+        <div data-state="do">
+          <p class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!">
+            Posting writes this invoice into the accounts. After that it can be read but not edited.
+          </p>
+          <aside
+            class="effects mb-3.5! flex items-start gap-3 rounded-md bg-[var(--line-2)] p-4 [.dlg[data-tone=success]_&]:[background:var(--success-soft-bg)]"
+            role="note"
+            aria-labelledby="posting-effects-title">
+            <svg
+              width="18"
+              height="18"
+              aria-hidden="true"
+              class="mt-0.5 flex-none text-[var(--success)]">
+              <use href="#i-check" />
+            </svg>
+            <div class="min-w-0">
+              <h5 id="posting-effects-title" class="mb-2! text-[13px] font-semibold text-ink">
+                What happens
+              </h5>
+              <ul
+                class="m-0 flex list-none flex-col gap-1.5 p-0 text-[12.5px] leading-5 text-ink [&_li]:flex [&_li]:items-start [&_li]:gap-2 [&_li_svg]:mt-0.5 [&_li_svg]:flex-none [&_li_svg]:text-[var(--success)]">
                 <li>
                   <svg width="14" height="14"><use href="#i-doc" /></svg> A journal entry is created
                   and linked to this invoice.
@@ -43,107 +63,144 @@
                 </li>
               </ul>
             </div>
-            <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_textarea]:[min-height:96px] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]">
-              <label for="pf-dsc"
-                >Posting Description
-                <span class="hint [.rec-field_&]:text-xs [.rec-field_&]:[color:var(--faint)]" style="display: inline">optional</span></label
-              >
-              <textarea
-                id="pf-dsc"
-                placeholder="Anything the accounting team should know about this posting"></textarea>
-            </div>
-          </div>
-
-          <!-- state: already posted — a record of what happened -->
-          <div data-state="done" hidden>
-            <div class="donebox [border:1px_solid_var(--line)] [border-radius:9px] overflow-hidden mb-3.5! [&_dl]:grid [&_dl]:[grid-template-columns:auto_1fr] [&_dl]:[gap:7px_14px] [&_dl]:[padding:12px_13px] [&_dl]:[font-size:12.5px] [&_dl]:[margin:0]! [&_dt]:text-muted [&_dd]:[margin:0]!">
-              <div class="dbh [.donebox_&]:flex [.donebox_&]:items-center [.donebox_&]:[gap:9px] [.donebox_&]:[padding:10px_13px] [.donebox_&]:bg-[var(--line-2)] [.donebox_&]:[border-bottom:1px_solid_var(--line)] [.donebox_&]:font-semibold [.donebox_&]:[font-size:13px] [.dlg[data-tone=success]_.donebox_&]:[background:var(--success-soft-bg)]">
-                <svg width="15" height="15" style="color: var(--st-post-ink)">
-                  <use href="#i-check" />
-                </svg>
-                Posted and written into the accounts
-              </div>
-              <dl>
-                <dt>Last Posting User</dt>
-                <dd id="pf-usr">System admin</dd>
-                <dt>Posting Date</dt>
-                <dd id="pf-dat">22/02/2026 11:26:17</dd>
-                <dt>Posting Description</dt>
-                <dd id="pf-dsc-r">Posted after the price check passed</dd>
-                <dt>Journal entry</dt>
-                <dd>
-                  <a href="#" style="color: var(--accent); text-decoration: none"
-                    >Display Journal Entry →</a
-                  >
-                </dd>
-              </dl>
-            </div>
-            <details class="revbox [border-top:1px_dashed_var(--line)] [padding-top:13px] [margin-top:2px]! [&_summary]:[cursor:pointer] [&_summary]:[font-size:12.5px] [&_summary]:text-muted [&_summary]:[list-style:none] [&_summary]:inline-flex [&_summary]:items-center [&_summary]:[gap:7px] [&_summary_svg]:[transition:rotate_0.15s] [&[open]_summary_svg]:[rotate:180deg]">
-              <summary>
-                <svg width="12" height="12"><use href="#i-caret" /></svg> Undo this posting
-              </summary>
-              <div class="inner [.revbox_&]:[margin-top:11px]!">
-                <p class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!" style="margin-bottom: 9px">
-                  This deletes the journal entry and opens the invoice for editing again.
-                </p>
-                <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_textarea]:[min-height:96px] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]">
-                  <label for="pf-rev">Why are you undoing this? <span class="req [.rfld_label_&]:[color:var(--danger)] [.rec-field_&]:[color:var(--danger)]">*</span></label>
-                  <textarea
-                    id="pf-rev"
-                    placeholder="Kept with the record so accounting can trace the change"
-                    style="min-height: 70px"></textarea>
-                </div>
-                <button class="lbtn out danger" id="pf-unpost" disabled>Unpost invoice</button>
-              </div>
-            </details>
+          </aside>
+          <div
+            class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px] [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_textarea]:[min-height:96px] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]">
+            <label for="pf-dsc"
+              >Posting Description
+              <span
+                class="hint [.rec-field_&]:text-xs [.rec-field_&]:[color:var(--faint)]"
+                style="display: inline"
+                >optional</span
+              ></label
+            >
+            <textarea
+              id="pf-dsc"
+              placeholder="Anything the accounting team should know about this posting"></textarea>
           </div>
         </div>
 
-        <div class="dfoot flex items-center gap-2.5 [padding:12px_16px]">
-          <span class="sum" style="font-size: 12px; color: var(--muted)" data-state="do"
-            >Invoice 126 · 20,000.00 EGP</span
-          >
-          <span class="sum" style="font-size: 12px; color: var(--muted)" data-state="done" hidden
-            >This is what was recorded. Nothing here can be edited.</span
-          >
-          <span class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2">
-            <button class="lbtn out r-close" data-state="do">Not yet</button>
-            <button class="lbtn pri" data-state="do">
-              <svg width="15" height="15" aria-hidden="true"><use href="#i-post" /></svg> Post
-              invoice
-            </button>
-            <button class="lbtn out r-close" data-state="done" hidden>Close</button>
-          </span>
-        </div>
+        <!-- state: already posted — a record of what happened -->
+        <div data-state="done" hidden>
+          <div
+            class="donebox [border:1px_solid_var(--line)] [border-radius:9px] overflow-hidden mb-3.5! [&_dl]:grid [&_dl]:[grid-template-columns:auto_1fr] [&_dl]:[gap:7px_14px] [&_dl]:[padding:12px_13px] [&_dl]:[font-size:12.5px] [&_dl]:[margin:0]! [&_dt]:text-muted [&_dd]:[margin:0]!">
+            <div
+              class="dbh [.donebox_&]:flex [.donebox_&]:items-center [.donebox_&]:[gap:9px] [.donebox_&]:[padding:10px_13px] [.donebox_&]:bg-[var(--line-2)] [.donebox_&]:[border-bottom:1px_solid_var(--line)] [.donebox_&]:font-semibold [.donebox_&]:[font-size:13px] [.dlg[data-tone=success]_.donebox_&]:[background:var(--success-soft-bg)]">
+              <svg width="15" height="15" style="color: var(--st-post-ink)">
+                <use href="#i-check" />
+              </svg>
+              Posted and written into the accounts
+            </div>
+            <dl>
+              <dt>Last Posting User</dt>
+              <dd id="pf-usr">System admin</dd>
+              <dt>Posting Date</dt>
+              <dd id="pf-dat">22/02/2026 11:26:17</dd>
+              <dt>Posting Description</dt>
+              <dd id="pf-dsc-r">Posted after the price check passed</dd>
+              <dt>Journal entry</dt>
+              <dd>
+                <a href="#" style="color: var(--accent); text-decoration: none"
+                  >Display Journal Entry →</a
+                >
+              </dd>
+            </dl>
+          </div>
+          <details
+            class="revbox [border-top:1px_dashed_var(--line)] [padding-top:13px] [margin-top:2px]! [&_summary]:[cursor:pointer] [&_summary]:[font-size:12.5px] [&_summary]:text-muted [&_summary]:[list-style:none] [&_summary]:inline-flex [&_summary]:items-center [&_summary]:[gap:7px] [&_summary_svg]:[transition:rotate_0.15s] [&[open]_summary_svg]:[rotate:180deg]">
+            <summary>
+              <svg width="12" height="12"><use href="#i-caret" /></svg> Undo this posting
+            </summary>
+            <div class="inner [.revbox_&]:[margin-top:11px]!">
+              <p
+                class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!"
+                style="margin-bottom: 9px">
+                This deletes the journal entry and opens the invoice for editing again.
+              </p>
+              <div
+                class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px] [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_textarea]:[min-height:96px] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]">
+                <label for="pf-rev"
+                  >Why are you undoing this?
+                  <span
+                    class="req [.rfld_label_&]:[color:var(--danger)] [.rec-field_&]:[color:var(--danger)]"
+                    >*</span
+                  ></label
+                >
+                <textarea
+                  id="pf-rev"
+                  placeholder="Kept with the record so accounting can trace the change"
+                  style="min-height: 70px"></textarea>
+              </div>
+              <button class="lbtn out danger" id="pf-unpost" disabled>Unpost invoice</button>
+            </div>
+          </details>
         </div>
       </div>
 
-      <div
-        class="dlg [width:min(640px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh] [&.wide]:[width:min(1180px,_97vw)]"
-        data-tone="danger"
-        data-dlg="delete"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="del-title"
-        hidden>
-        <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
-          <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]"><use href="#i-trash" /></svg>
-          <div>
-            <h3 id="del-title">Delete invoice 126</h3>
-            <p class="dhd-subtitle">This removes the invoice completely</p>
-          </div>
-          <button class="ibtn x r-close [.rec-adjustment-row_&]:[margin-bottom:1px]!" aria-label="Close" style="margin-inline-start: auto">
-            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+      <div class="dfoot flex items-center gap-2.5 [padding:16px_0_0]!">
+        <span class="sum" style="font-size: 12px; color: var(--muted)" data-state="do"
+          >Invoice 126 · 20,000.00 EGP</span
+        >
+        <span class="sum" style="font-size: 12px; color: var(--muted)" data-state="done" hidden
+          >This is what was recorded. Nothing here can be edited.</span
+        >
+        <span
+          class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2">
+          <button class="lbtn out r-close" data-state="do">Not yet</button>
+          <button class="lbtn pri" data-state="do">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-post" /></svg> Post invoice
           </button>
-        </div>
-        <div class="dlg-inner min-h-0">
-        <div class="dbody [padding:16px] overflow-auto">
-          <p class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!">
-            This removes the invoice completely. Unlike cancelling, nothing is kept in the records.
-          </p>
-          <div class="effects [border:1px_solid_var(--line)] [border-radius:9px] [padding:11px_13px] mb-3.5! bg-[var(--line-2)] [&_h5]:text-xs [&_h5]:[text-transform:uppercase] [&_h5]:[letter-spacing:0.04em] [&_h5]:[color:var(--faint)] [&_h5]:[margin-bottom:7px]! [&_ul]:[list-style:none] [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-1.5 [&_li]:flex [&_li]:gap-2 [&_li]:[font-size:12.5px] [&_li]:items-start [&_li_svg]:[margin-top:2px]! [&_li_svg]:text-muted [.dlg[data-tone=danger]_&]:[background:var(--danger-soft-bg)] [.dlg[data-tone=danger]_&]:[border-color:var(--danger-soft-line)] [.dlg[data-tone=danger]_&_li_svg]:[color:var(--danger)]">
-            <h5>What happens</h5>
-            <ul>
+          <button class="lbtn out r-close" data-state="done" hidden>Close</button>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="dlg [width:min(640px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh] [&.wide]:[width:min(1180px,_97vw)]"
+    data-tone="danger"
+    data-dlg="delete"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="del-title"
+    hidden>
+    <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+      <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]">
+        <use href="#i-trash" />
+      </svg>
+      <div>
+        <h3 id="del-title">Delete invoice 126</h3>
+        <p class="dhd-subtitle">This removes the invoice completely</p>
+      </div>
+      <button
+        class="ibtn x r-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
+        aria-label="Close"
+        style="margin-inline-start: auto">
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+      </button>
+    </div>
+    <div class="dlg-inner min-h-0 [padding:16px]">
+      <div class="dbody overflow-auto">
+        <p class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!">
+          This removes the invoice completely. Unlike cancelling, nothing is kept in the records.
+        </p>
+        <aside
+          class="effects mb-3.5! flex items-start gap-3 rounded-md bg-[var(--line-2)] p-4 [.dlg[data-tone=danger]_&]:[background:var(--danger-soft-bg)]"
+          role="note"
+          aria-labelledby="delete-effects-title">
+          <svg
+            width="18"
+            height="18"
+            aria-hidden="true"
+            class="mt-0.5 flex-none text-[var(--danger)]">
+            <use href="#i-warn" />
+          </svg>
+          <div class="min-w-0">
+            <h5 id="delete-effects-title" class="mb-2! text-[13px] font-semibold text-ink">
+              What happens
+            </h5>
+            <ul
+              class="m-0 flex list-none flex-col gap-1.5 p-0 text-[12.5px] leading-5 text-ink [&_li]:flex [&_li]:items-start [&_li]:gap-2 [&_li_svg]:mt-0.5 [&_li_svg]:flex-none [&_li_svg]:text-[var(--danger)]">
               <li>
                 <svg width="14" height="14"><use href="#i-trash" /></svg> The invoice and its lines
                 are gone for good.
@@ -158,64 +215,94 @@
               </li>
             </ul>
           </div>
-          <div class="warnbox" id="del-unsaved" hidden>
-            <svg width="15" height="15"><use href="#i-warn" /></svg>
-            <span><b>You have unsaved changes</b>They are discarded along with the invoice.</span>
-          </div>
-          <p class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!" style="color: var(--muted)">
-            If you need a trace of it, use <b>Cancel Document</b> instead.
-          </p>
+        </aside>
+        <div class="warnbox" id="del-unsaved" hidden>
+          <svg width="15" height="15"><use href="#i-warn" /></svg>
+          <span><b>You have unsaved changes</b>They are discarded along with the invoice.</span>
         </div>
-        <div class="dfoot flex items-center gap-2.5 [padding:12px_16px]">
-          <span class="sum" style="font-size: 12px; color: var(--muted)"
-            >Invoice 126 · 20,000.00 EGP</span
-          >
-          <span class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2">
-            <button class="lbtn out r-close">Keep it</button>
-            <button class="lbtn pri" id="del-go">Delete for good</button>
-          </span>
-        </div>
-        </div>
+        <p
+          class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!"
+          style="color: var(--muted)">
+          If you need a trace of it, use <b>Cancel Document</b> instead.
+        </p>
       </div>
+      <div class="dfoot flex items-center gap-2.5 [padding:16px_0_0]!">
+        <span class="sum" style="font-size: 12px; color: var(--muted)"
+          >Invoice 126 · 20,000.00 EGP</span
+        >
+        <span
+          class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2">
+          <button class="lbtn out r-close">Keep it</button>
+          <button class="lbtn pri" id="del-go">Delete for good</button>
+        </span>
+      </div>
+    </div>
+  </div>
 
-      <div
-        class="dlg wide [width:min(640px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh] [&.wide]:[width:min(1180px,_97vw)]"
-        data-tone="info"
-        data-dlg="journal"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Display Journal Entry"
-        hidden>
-        <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
-          <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]"><use href="#i-doc" /></svg>
-          <div>
-            <h3>Display Journal Entry ( Sales Invoice )</h3>
-            <p class="dhd-subtitle">Read-only record of the linked journal entry</p>
+  <div
+    class="dlg wide [width:min(640px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh] [&.wide]:[width:min(1180px,_97vw)]"
+    data-tone="info"
+    data-dlg="journal"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Display Journal Entry"
+    hidden>
+    <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+      <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]">
+        <use href="#i-doc" />
+      </svg>
+      <div>
+        <h3>Display Journal Entry ( Sales Invoice )</h3>
+        <p class="dhd-subtitle">Read-only record of the linked journal entry</p>
+      </div>
+      <button
+        class="ibtn x r-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
+        aria-label="Close"
+        style="margin-inline-start: auto">
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+      </button>
+    </div>
+    <div class="dlg-inner min-h-0 [padding:16px]">
+      <div class="dbody overflow-auto">
+        <dl
+          class="jgrid-head m-0 mb-3.5! grid grid-cols-2 gap-x-4 gap-y-3 rounded-lg bg-[var(--line-2)] [padding:12px_16px] sm:grid-cols-3">
+          <div class="min-w-0">
+            <dt class="text-[11px] font-medium text-muted">Doc Sub-Type</dt>
+            <dd
+              class="m-0 mt-0.5 break-words text-[13px] font-semibold leading-5 text-ink [font-variant-numeric:tabular-nums]">
+              1 - عام
+            </dd>
           </div>
-          <button class="ibtn x r-close [.rec-adjustment-row_&]:[margin-bottom:1px]!" aria-label="Close" style="margin-inline-start: auto">
-            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
-          </button>
-        </div>
-        <div class="dlg-inner min-h-0">
-        <div class="dbody [padding:16px] overflow-auto">
-          <div class="jgrid-head grid [grid-template-columns:repeat(3,_1fr)] [gap:10px_14px] mb-3.5!">
-            <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)]! [&_input:disabled]:text-muted!">
-              <label for="jf-doc-subtype">Doc Sub-Type</label><input id="jf-doc-subtype" type="text" value="1 - عام" disabled />
-            </div>
-            <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)]! [&_input:disabled]:text-muted!">
-              <label for="jf-doc-sequence">Doc. Sequence</label><input id="jf-doc-sequence" type="text" value="001000352026126" disabled />
-            </div>
-            <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)]! [&_input:disabled]:text-muted!">
-              <label for="jf-doc-no">Doc No.</label><input id="jf-doc-no" type="text" value="126" disabled />
-            </div>
-            <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)]! [&_input:disabled]:text-muted!">
-              <label for="jf-doc-date">Doc Date</label><input id="jf-doc-date" type="text" value="29/07/2026" disabled />
-            </div>
-            <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)]! [&_input:disabled]:text-muted!">
-              <label for="jf-ref-no">Ref. No.</label><input id="jf-ref-no" type="text" value="" placeholder="—" disabled />
-            </div>
+          <div class="col-span-2 min-w-0 sm:col-span-1">
+            <dt class="text-[11px] font-medium text-muted">Doc. Sequence</dt>
+            <dd
+              class="m-0 mt-0.5 break-words text-[13px] font-semibold leading-5 text-ink [font-variant-numeric:tabular-nums]">
+              001000352026126
+            </dd>
           </div>
-          <!-- Real data-list instance (DATA_LIST_CONFIG.journal,
+          <div class="min-w-0">
+            <dt class="text-[11px] font-medium text-muted">Doc No.</dt>
+            <dd
+              class="m-0 mt-0.5 break-words text-[13px] font-semibold leading-5 text-ink [font-variant-numeric:tabular-nums]">
+              126
+            </dd>
+          </div>
+          <div class="min-w-0">
+            <dt class="text-[11px] font-medium text-muted">Doc Date</dt>
+            <dd
+              class="m-0 mt-0.5 break-words text-[13px] font-semibold leading-5 text-ink [font-variant-numeric:tabular-nums]">
+              29/07/2026
+            </dd>
+          </div>
+          <div class="min-w-0">
+            <dt class="text-[11px] font-medium text-muted">Ref. No.</dt>
+            <dd
+              class="m-0 mt-0.5 break-words text-[13px] font-semibold leading-5 text-ink [font-variant-numeric:tabular-nums]">
+              <span class="font-normal text-faint">—</span>
+            </dd>
+          </div>
+        </dl>
+        <!-- Real data-list instance (DATA_LIST_CONFIG.journal,
                screen-parameters.js's sibling wiring in main.js) — same
                Filter/Search/Columns/sort/pagination UX as the customer
                list, minus the row-level "..." menu and select-all
@@ -225,7 +312,7 @@
                Balanced badge live in the fixed strip below, computed from
                the full row set (unaffected by search/filter/pagination),
                since the shared table has no tfoot/totals concept. -->
-          <!-- [overflow:visible]! override: .canvas is normally its own
+        <!-- [overflow:visible]! override: .canvas is normally its own
                scroll container on a standalone list page — here it's
                nested inside .dbody, already this dialog's real scroller,
                so two stacked scroll containers would make .canvas the
@@ -234,54 +321,74 @@
                <th> styling). The `!` is required: shell.css's
                `.canvas:not(#list-canvas)` rule outranks a plain
                single-class override on specificity (:not() pseudo-class). -->
-          <div class="canvas [overflow:visible]!" id="journal-entry-canvas"></div>
-          <div id="journal-entry-totals"></div>
-          <div
-            class="fnav fnav-list flex items-center gap-5 [padding:9px_0_0]"
-            id="journal-entry-fnav"></div>
-        </div>
-        <div class="dfoot flex items-center gap-2.5 [padding:12px_16px]">
-          <span class="sum" style="font-size: 12px; color: var(--muted)"
-            >Created automatically when the invoice was posted. Read-only.</span
-          >
-          <span class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2"
-            ><button class="lbtn out r-close">Close</button
-            ><button class="lbtn out p-open">
-              <svg width="15" height="15" aria-hidden="true"><use href="#i-print" /></svg> Print
-            </button></span
-          >
-        </div>
-        </div>
+        <div class="canvas [overflow:visible]! mt-0!" id="journal-entry-canvas"></div>
+        <div id="journal-entry-totals"></div>
+        <div
+          class="fnav fnav-list flex items-center gap-5 [padding:9px_0_0]"
+          id="journal-entry-fnav"></div>
       </div>
+      <div class="dfoot flex items-center gap-2.5 [padding:16px_0_0]!">
+        <span class="sum" style="font-size: 12px; color: var(--muted)"
+          >Created automatically when the invoice was posted. Read-only.</span
+        >
+        <span
+          class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2"
+          ><button class="lbtn out r-close">Close</button
+          ><button class="lbtn out p-open">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-print" /></svg> Print
+          </button></span
+        >
+      </div>
+    </div>
+  </div>
 
-      <div
-        class="dlg [width:min(640px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh] [&.wide]:[width:min(1180px,_97vw)]"
-        data-tone="danger"
-        data-dlg="cancel"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="cf-title"
-        hidden>
-        <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
-          <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]"><use href="#i-x" /></svg>
-          <div>
-            <h3 id="cf-title">Cancel document 126</h3>
-            <p class="dhd-subtitle">This keeps a record but blocks further processing</p>
-          </div>
-          <button class="ibtn x r-close [.rec-adjustment-row_&]:[margin-bottom:1px]!" aria-label="Close" style="margin-inline-start: auto">
-            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
-          </button>
-        </div>
+  <div
+    class="dlg [width:min(640px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh] [&.wide]:[width:min(1180px,_97vw)]"
+    data-tone="danger"
+    data-dlg="cancel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="cf-title"
+    hidden>
+    <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+      <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]">
+        <use href="#i-x" />
+      </svg>
+      <div>
+        <h3 id="cf-title">Cancel document 126</h3>
+        <p class="dhd-subtitle">This keeps a record but blocks further processing</p>
+      </div>
+      <button
+        class="ibtn x r-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
+        aria-label="Close"
+        style="margin-inline-start: auto">
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+      </button>
+    </div>
 
-        <div class="dlg-inner min-h-0">
-        <div class="dbody [padding:16px] overflow-auto">
-          <div data-state="do">
-            <p class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!">
-              The invoice stays in the records as void, together with the reason you give below.
-            </p>
-            <div class="effects [border:1px_solid_var(--line)] [border-radius:9px] [padding:11px_13px] mb-3.5! bg-[var(--line-2)] [&_h5]:text-xs [&_h5]:[text-transform:uppercase] [&_h5]:[letter-spacing:0.04em] [&_h5]:[color:var(--faint)] [&_h5]:[margin-bottom:7px]! [&_ul]:[list-style:none] [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-1.5 [&_li]:flex [&_li]:gap-2 [&_li]:[font-size:12.5px] [&_li]:items-start [&_li_svg]:[margin-top:2px]! [&_li_svg]:text-muted [.dlg[data-tone=danger]_&]:[background:var(--danger-soft-bg)] [.dlg[data-tone=danger]_&]:[border-color:var(--danger-soft-line)] [.dlg[data-tone=danger]_&_li_svg]:[color:var(--danger)]">
-              <h5>What happens</h5>
-              <ul>
+    <div class="dlg-inner min-h-0 [padding:16px]">
+      <div class="dbody overflow-auto">
+        <div data-state="do">
+          <p class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!">
+            The invoice stays in the records as void, together with the reason you give below.
+          </p>
+          <aside
+            class="effects mb-3.5! flex items-start gap-3 rounded-md bg-[var(--line-2)] p-4 [.dlg[data-tone=danger]_&]:[background:var(--danger-soft-bg)]"
+            role="note"
+            aria-labelledby="cancel-effects-title">
+            <svg
+              width="18"
+              height="18"
+              aria-hidden="true"
+              class="mt-0.5 flex-none text-[var(--danger)]">
+              <use href="#i-warn" />
+            </svg>
+            <div class="min-w-0">
+              <h5 id="cancel-effects-title" class="mb-2! text-[13px] font-semibold text-ink">
+                What happens
+              </h5>
+              <ul
+                class="m-0 flex list-none flex-col gap-1.5 p-0 text-[12.5px] leading-5 text-ink [&_li]:flex [&_li]:items-start [&_li]:gap-2 [&_li_svg]:mt-0.5 [&_li_svg]:flex-none [&_li_svg]:text-[var(--danger)]">
                 <li>
                   <svg width="14" height="14"><use href="#i-x" /></svg> No receipt voucher or sales
                   return can be issued from it.
@@ -296,104 +403,129 @@
                 </li>
               </ul>
             </div>
-            <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_textarea]:[min-height:96px] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]">
-              <label for="cf-dsc">Cancellation Statement <span class="req [.rfld_label_&]:[color:var(--danger)] [.rec-field_&]:[color:var(--danger)]">*</span></label>
-              <textarea id="cf-dsc" placeholder="For example: duplicate of invoice 127"></textarea>
-              <span class="hint [.rec-field_&]:text-xs [.rec-field_&]:[color:var(--faint)]"
-                >Required. Whoever reads this later will only have your sentence to go on.</span
-              >
-            </div>
-          </div>
-
-          <div data-state="done" hidden>
-            <div class="donebox [border:1px_solid_var(--line)] [border-radius:9px] overflow-hidden mb-3.5! [&_dl]:grid [&_dl]:[grid-template-columns:auto_1fr] [&_dl]:[gap:7px_14px] [&_dl]:[padding:12px_13px] [&_dl]:[font-size:12.5px] [&_dl]:[margin:0]! [&_dt]:text-muted [&_dd]:[margin:0]!">
-              <div class="dbh [.donebox_&]:flex [.donebox_&]:items-center [.donebox_&]:[gap:9px] [.donebox_&]:[padding:10px_13px] [.donebox_&]:bg-[var(--line-2)] [.donebox_&]:[border-bottom:1px_solid_var(--line)] [.donebox_&]:font-semibold [.donebox_&]:[font-size:13px] [.dlg[data-tone=danger]_.donebox_&]:[background:var(--danger-soft-bg)]">
-                <svg width="15" height="15" style="color: var(--danger)"><use href="#i-x" /></svg>
-                Canceled and kept in the records
-              </div>
-              <dl>
-                <dt>Canceled By</dt>
-                <dd id="cf-usr">Majed Sief Alnasr</dd>
-                <dt>Cancellation Date</dt>
-                <dd id="cf-dat">23/02/2026 09:00:11</dd>
-                <dt>Cancellation Statement</dt>
-                <dd id="cf-dsc-r">Duplicate of invoice 127</dd>
-              </dl>
-            </div>
-            <details class="revbox [border-top:1px_dashed_var(--line)] [padding-top:13px] [margin-top:2px]! [&_summary]:[cursor:pointer] [&_summary]:[font-size:12.5px] [&_summary]:text-muted [&_summary]:[list-style:none] [&_summary]:inline-flex [&_summary]:items-center [&_summary]:[gap:7px] [&_summary_svg]:[transition:rotate_0.15s] [&[open]_summary_svg]:[rotate:180deg]">
-              <summary>
-                <svg width="12" height="12"><use href="#i-caret" /></svg> Bring this document back
-              </summary>
-              <div class="inner [.revbox_&]:[margin-top:11px]!">
-                <p class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!" style="margin-bottom: 9px">
-                  The invoice returns to the state it was in before cancellation, and its actions
-                  work again.
-                </p>
-                <div class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px]! [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_textarea]:[min-height:96px] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]">
-                  <label for="cf-rev"
-                    >Why are you bringing it back? <span class="req [.rfld_label_&]:[color:var(--danger)] [.rec-field_&]:[color:var(--danger)]">*</span></label
-                  >
-                  <textarea
-                    id="cf-rev"
-                    placeholder="Kept with the record next to the original cancellation"
-                    style="min-height: 70px"></textarea>
-                </div>
-                <button class="lbtn out" id="cf-restore" disabled>Restore document</button>
-              </div>
-            </details>
+          </aside>
+          <div
+            class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px] [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_textarea]:[min-height:96px] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]">
+            <label for="cf-dsc"
+              >Cancellation Statement
+              <span
+                class="req [.rfld_label_&]:[color:var(--danger)] [.rec-field_&]:[color:var(--danger)]"
+                >*</span
+              ></label
+            >
+            <textarea id="cf-dsc" placeholder="For example: duplicate of invoice 127"></textarea>
+            <span class="hint [.rec-field_&]:text-xs [.rec-field_&]:[color:var(--faint)]"
+              >Required. Whoever reads this later will only have your sentence to go on.</span
+            >
           </div>
         </div>
 
-        <div class="dfoot flex items-center gap-2.5 [padding:12px_16px]">
-          <span class="sum" style="font-size: 12px; color: var(--muted)" data-state="do"
-            >Invoice 126 · 20,000.00 EGP · Credit</span
-          >
-          <span class="sum" style="font-size: 12px; color: var(--muted)" data-state="done" hidden
-            >This is what was recorded. Nothing here can be edited.</span
-          >
-          <span class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2">
-            <button class="lbtn out r-close" data-state="do">Keep document</button>
-            <button class="lbtn pri" id="cf-save" data-state="do" disabled>
-              Cancel document
-            </button>
-            <button class="lbtn out r-close" data-state="done" hidden>Close</button>
-          </span>
-        </div>
+        <div data-state="done" hidden>
+          <div
+            class="donebox [border:1px_solid_var(--line)] [border-radius:9px] overflow-hidden mb-3.5! [&_dl]:grid [&_dl]:[grid-template-columns:auto_1fr] [&_dl]:[gap:7px_14px] [&_dl]:[padding:12px_13px] [&_dl]:[font-size:12.5px] [&_dl]:[margin:0]! [&_dt]:text-muted [&_dd]:[margin:0]!">
+            <div
+              class="dbh [.donebox_&]:flex [.donebox_&]:items-center [.donebox_&]:[gap:9px] [.donebox_&]:[padding:10px_13px] [.donebox_&]:bg-[var(--line-2)] [.donebox_&]:[border-bottom:1px_solid_var(--line)] [.donebox_&]:font-semibold [.donebox_&]:[font-size:13px] [.dlg[data-tone=danger]_.donebox_&]:[background:var(--danger-soft-bg)]">
+              <svg width="15" height="15" style="color: var(--danger)"><use href="#i-x" /></svg>
+              Canceled and kept in the records
+            </div>
+            <dl>
+              <dt>Canceled By</dt>
+              <dd id="cf-usr">Majed Sief Alnasr</dd>
+              <dt>Cancellation Date</dt>
+              <dd id="cf-dat">23/02/2026 09:00:11</dd>
+              <dt>Cancellation Statement</dt>
+              <dd id="cf-dsc-r">Duplicate of invoice 127</dd>
+            </dl>
+          </div>
+          <details
+            class="revbox [border-top:1px_dashed_var(--line)] [padding-top:13px] [margin-top:2px]! [&_summary]:[cursor:pointer] [&_summary]:[font-size:12.5px] [&_summary]:text-muted [&_summary]:[list-style:none] [&_summary]:inline-flex [&_summary]:items-center [&_summary]:[gap:7px] [&_summary_svg]:[transition:rotate_0.15s] [&[open]_summary_svg]:[rotate:180deg]">
+            <summary>
+              <svg width="12" height="12"><use href="#i-caret" /></svg> Bring this document back
+            </summary>
+            <div class="inner [.revbox_&]:[margin-top:11px]!">
+              <p
+                class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!"
+                style="margin-bottom: 9px">
+                The invoice returns to the state it was in before cancellation, and its actions work
+                again.
+              </p>
+              <div
+                class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px] [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_textarea]:[min-height:96px] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]">
+                <label for="cf-rev"
+                  >Why are you bringing it back?
+                  <span
+                    class="req [.rfld_label_&]:[color:var(--danger)] [.rec-field_&]:[color:var(--danger)]"
+                    >*</span
+                  ></label
+                >
+                <textarea
+                  id="cf-rev"
+                  placeholder="Kept with the record next to the original cancellation"
+                  style="min-height: 70px"></textarea>
+              </div>
+              <button class="lbtn out" id="cf-restore" disabled>Restore document</button>
+            </div>
+          </details>
         </div>
       </div>
-      <div
-        class="dlg [width:min(520px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
-        data-dlg="status"
-        data-tone="default"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="sf-title"
-        hidden>
-        <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
-          <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]"><use href="#i-flow" /></svg>
-          <div>
-            <h3 id="sf-title">Change invoice status</h3>
-            <p class="dhd-subtitle">Choose the invoice's next status</p>
-          </div>
-          <button class="ibtn x r-close" aria-label="Close" style="margin-inline-start: auto">
-            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
-          </button>
-        </div>
-        <div class="dlg-inner min-h-0">
-        <div class="dbody [padding:16px] overflow-auto">
-          <p id="sf-description" class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!"></p>
-          <div class="status-reason flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-lg [&_textarea]:[padding:9px_11px] [&_textarea]:[font:inherit] [&_textarea]:text-sm [&_textarea]:bg-surface [&_textarea:focus]:[outline:none] [&_textarea:focus]:[border-color:var(--accent)] [&_textarea:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_textarea]:[min-height:88px] [&_textarea]:[resize:vertical]" hidden>
-            <label for="sf-reason"></label>
-            <textarea id="sf-reason" placeholder="This is saved with the invoice status history"></textarea>
-          </div>
-        </div>
-        <div class="dfoot flex items-center gap-2.5 [padding:12px_16px]">
-          <span class="sum" style="font-size: 12px; color: var(--muted)">Invoice 126</span>
-          <span class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2">
-            <button class="lbtn out r-close">Keep current status</button>
-            <button class="lbtn pri" id="sf-confirm">Confirm</button>
-          </span>
-        </div>
-        </div>
+
+      <div class="dfoot flex items-center gap-2.5 [padding:16px_0_0]!">
+        <span class="sum" style="font-size: 12px; color: var(--muted)" data-state="do"
+          >Invoice 126 · 20,000.00 EGP · Credit</span
+        >
+        <span class="sum" style="font-size: 12px; color: var(--muted)" data-state="done" hidden
+          >This is what was recorded. Nothing here can be edited.</span
+        >
+        <span
+          class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2">
+          <button class="lbtn out r-close" data-state="do">Keep document</button>
+          <button class="lbtn pri" id="cf-save" data-state="do" disabled>Cancel document</button>
+          <button class="lbtn out r-close" data-state="done" hidden>Close</button>
+        </span>
       </div>
     </div>
+  </div>
+  <div
+    class="dlg [width:min(520px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+    data-dlg="status"
+    data-tone="default"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="sf-title"
+    hidden>
+    <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+      <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]">
+        <use href="#i-flow" />
+      </svg>
+      <div>
+        <h3 id="sf-title">Change invoice status</h3>
+        <p class="dhd-subtitle">Choose the invoice's next status</p>
+      </div>
+      <button class="ibtn x r-close" aria-label="Close" style="margin-inline-start: auto">
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+      </button>
+    </div>
+    <div class="dlg-inner min-h-0 [padding:16px]">
+      <div class="dbody overflow-auto">
+        <p
+          id="sf-description"
+          class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!"></p>
+        <div
+          class="status-reason flex flex-col [gap:5px] [&_label]:text-xs [&_label]:text-muted [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-lg [&_textarea]:[padding:9px_11px] [&_textarea]:[font:inherit] [&_textarea]:text-sm [&_textarea]:bg-surface [&_textarea:focus]:[outline:none] [&_textarea:focus]:[border-color:var(--accent)] [&_textarea:focus]:[box-shadow:0_0_0_1px_var(--accent)] [&_textarea]:[min-height:88px] [&_textarea]:[resize:vertical]"
+          hidden>
+          <label for="sf-reason"></label>
+          <textarea
+            id="sf-reason"
+            placeholder="This is saved with the invoice status history"></textarea>
+        </div>
+      </div>
+      <div class="dfoot flex items-center gap-2.5 [padding:16px_0_0]!">
+        <span class="sum" style="font-size: 12px; color: var(--muted)">Invoice 126</span>
+        <span class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2">
+          <button class="lbtn out r-close">Keep current status</button>
+          <button class="lbtn pri" id="sf-confirm">Confirm</button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

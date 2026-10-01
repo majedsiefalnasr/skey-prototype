@@ -32,7 +32,7 @@ const pageAbort = new AbortController()
             if (m.day !== lastDay) {
               body.appendChild(
                 Object.assign(document.createElement('div'), {
-                  className: 'nc-group-lbl',
+                  className: 'nc-group-lbl px-2.5 pb-1 pt-3.5 text-xs font-semibold uppercase tracking-[.04em] text-faint first:pt-1.5',
                   textContent: m.day,
                 })
               )

@@ -672,3 +672,402 @@ strings — resolved by keeping this branch's fixed markup and adding main's
 This is real, substantial, independently-developed feature CSS, not
 incidental utility growth — `FINAL_TAILWIND_BASELINE_BYTES` is reset to the
 freshly measured compiled size, `221745`, rather than incrementally raised.
+
+## Addendum: 2026-09-29 density-mode alignment pass
+
+Recorded here because `tests/tailwind.test.mjs`'s final-budget test names
+this file as where a reviewed addition must be justified before raising
+`FINAL_TAILWIND_BASELINE_BYTES`.
+
+### What changed
+
+`concepts/app/styles/tailwind/shell.css` grew by one generated block
+(~633 lines, ~14.8 KB of source) that aligns the density-mode
+(`body.density-compact` / `body.density-comfortable`, toggled by
+`appearance.js`'s `applyDensity()`) padding / margin / gap / min-height
+treatment across every remaining component that did not respond to the
+density control. Before the pass, a Playwright sweep of the whole app
+found **12 signatures / 54 elements** that kept identical spacing at all
+three densities while siblings in the same container did respond — plus
+63 elements whose spacing moved in the *wrong* direction (e.g.
+`.data-menu-separator` growing in Compact).
+
+Compiled output grew from `241630` to **`253152` bytes**. This is
+hand-authored component CSS inside `shell.css` (the `components` cascade
+layer), not newly generated Tailwind utilities — no new classes, variants,
+or dynamic-utility strings were added to any source file, so this is
+additive selector/declaration coverage of existing components rather than
+utility proliferation.
+
+`FINAL_TAILWIND_BASELINE_BYTES` is raised from `223877` to **`253152`**
+(freshly measured compiled size; ceiling `278468`).
+
+### Why `!important` appears in this block
+
+Two declarations are marked `!important`, both forced by existing
+precedence in this repo:
+
+- `#kit-pill` padding/gap — `concepts/app/prototype/controls.css` is
+  linked *unlayered* from `concepts/app-shell.html`, and an unlayered
+  normal declaration beats every layered declaration regardless of
+  specificity. Because author `!important` is ranked ahead of author
+  normal in the cascade, a layered `!important` is the only way to
+  override it. The pill is the prototype-controls affordance, not product
+  chrome; only its box metrics are affected.
+- The pre-existing `[margin:12px]!` utility on `.inv-grid-wrap` is a
+  Tailwind `!important` utility in the `utilities` layer, which outranks
+  every `components`-layer declaration.
+
+### Documented exceptions (accepted, not fixed)
+
+1. **`.inv-grid-wrap`** — margins are set by the `[margin:12px]!`
+   `[margin:6px]!` important utilities in the markup. Overriding would
+   mean fighting a deliberate `!important` utility from component CSS;
+   the wrapper's 12px→6px desktop/mobile split is already expressed as a
+   responsive utility pair, so it is left alone.
+2. **`.geo-tree-header` title `span` (1px)** — the element's only own
+   spacing is a 1px top margin. Shrinking it to 0 in Compact is visually
+   meaningless and Comfortable's +1px would nudge a fixed 58px-min-height
+   header; left at its authored value.
+
+### Verification
+
+Method (reproducible with `node tmp-sweep.mjs`, kept out of `git`): for
+each of 8 surfaces (launchpad, invoice list/record, customers list/record,
+geography list/record, email) every *visible* element is read at the three
+densities for `paddingTop/Right/Bottom/Left`, `marginTop/Bottom`,
+`rowGap`, `columnGap`, `minHeight`, keyed by a stable per-node id, then
+classified as `NEVER` (identical at all three densities despite owning
+spacing), `WRONG` (Compact larger than default, or Comfortable smaller
+than default) or `ONE-WAY` (only one of the two non-default densities
+responds).
+
+- **Wrong-direction: 3 signatures / 5 elements**, all pre-existing —
+  `body.density-compact .nc-group-lbl` and
+  `body.density-compact .d1 .phead` are both present in `HEAD`'s
+  `shell.css` (before this pass) and give email-surface elements
+  `0px → 9px → 19px`, i.e. the *density* rules themselves, not this block.
+- **Never: 23 signatures / 41 elements**. Of these, 19 signatures are the
+  **email surface**, which has never had any density rules — `shell.css`
+  contains zero `.email-` selectors and `email.css` contains zero
+  `density` occurrences, in `HEAD` as well as now. The rest are
+  `.inv-grid-wrap` and the geo-tree-header `span` (the two documented
+  exceptions above), `.lp-content` (`min-height: 900px` layout floor),
+  `.geo-tree-panel` (`min-height: 320px`).
+- **One-way: 6 signatures / 189 elements**, all by design —
+  `.nc2-icn`, `.nc2-rail`, `.nc2-rail-sep` are Compact-only (Comfortable
+  deliberately has no rule after the rail-overflow fix) and `nav.side`,
+  `select` are Comfortable-only.
+- `npm run test:unit` → 89/89 after the baseline raise.
+
+#### Playwright: the density block does not move default-density rendering
+
+Because the block sits in the `components` cascade layer (which outranks
+`utilities`), the one real risk was that an un-prefixed selector inside it
+would silently restyle the app's *default* (no density class) appearance
+and invalidate the frozen parity baselines. Probed directly: a Playwright
+pass clears every compiled rule whose `selectorText` matches
+`body.density-(compact|comfortable)` — **422 rules**, exactly matching the
+422 such rules in `dist/concepts/app/styles/tailwind.css` — and re-reads
+computed padding / margin / gap / min-height / height for all 2,911
+elements on the launchpad: **0 elements changed**.
+
+A `--project=desktop` run of the full suite gives 76 passed / 28 failed.
+Re-running with the block spliced back out of `shell.css` and rebuilt
+yields the *same* 16 failures across
+`components.spec.mjs` / `chart-parity.spec.mjs` / `data-list-component.spec.mjs`
+/ `messaging.spec.mjs` / `invoice-geography.spec.mjs` (missing
+`#simulate-loading`, a `[data-list-row-action="delete"]` that is not
+rendered, hidden chart toggles, etc.), i.e. they come from the branch's
+other in-flight, uncommitted source changes — not from this block. The
+remaining 9 are the parity pixel diffs already documented above, and 3 are
+the known pre-existing `profile-lifecycle.spec.mjs` failures.
+
+### 2026-09-29 final re-audit: `:is()` selector-split defect, fixed
+
+A source audit of the inserted block found that the generator split each
+selector list on **every** comma instead of only top-level ones, so the
+four rules whose selector contained a comma *inside* `:is(...)` were
+emitted as two broken halves:
+
+```css
+body.density-compact :is(.menus-mount,
+body.density-compact .arow) .menu > button { … }
+```
+
+which the compiler emits verbatim as a single selector
+`:is(.menus-mount, body.density-compact .arow)` — a second, accidental
+`body.density-compact` nesting inside `:is()`. Because density is applied
+to `<body>`, that nested branch happened to resolve to the same element
+and the rules still matched, so no sweep finding exposed it; but it
+inflated each rule's specificity by one extra class (0,4,1 instead of
+0,3,1), which would have beaten later, lower-specificity rules that are
+supposed to win.
+
+Fixed by splitting selector lists on top-level commas only (tracking
+parenthesis/bracket depth). The edit touches **exactly 8 rules** — the 4
+affected selectors × 2 densities — and is byte-identical everywhere else
+in the block. Verification: no `body.density-*` substring appears inside
+any `:is(...)` in `dist/concepts/app/styles/tailwind.css`; the four
+selectors match 7 / 1 / 1 / 2 elements respectively and change at all
+three densities; clearing all 422 density rules still changes **0 of
+2,911** elements at default density.
+
+Compiled size moved `253336 → 253152` (the eight broken rules were two
+lines each), so `FINAL_TAILWIND_BASELINE_BYTES` is set to `253152`.
+
+Two dead declarations were also confirmed and left in place deliberately:
+`min-height` on `.lp-quick-tabs button` / `.geo-view-switch button` never
+applies, because those buttons carry the `min-h-8` utility and the
+`utilities` layer outranks `components`. They are harmless and would
+start working if the utility were ever removed.
+
+Not fixed, out of scope for this pass (all present in `HEAD`): the email
+surface's missing density coverage, and the `.nc-group-lbl` /
+`.d1 .phead` wrong-direction rules described under Verification above.
+
+## Addendum: 2026-09-29 email-surface density pass
+
+Scope of this follow-up: close the email surface's **19 never-responding
+signatures / 36 elements** and the **3 wrong-direction signatures / 5
+elements** the final re-audit left behind.
+
+### Why the email rules had to be markup variants, not `shell.css`
+
+Every spacing value in the email surface is a literal Tailwind utility
+in `pages/email/templates.html` and `pages/email/email.js`
+(`py-2.5 px-3.5`, `py-5 px-6`, `gap-2.5`, `my-4 mt-4 mb-3.5`,
+`min-h-[70px]`…). Those compile into the **`utilities` layer, which
+outranks `components`**, so any density rule added to `shell.css` would
+have been silently inert — the utility would win at every density.
+
+The pass therefore uses the repo's existing markup convention
+(`[body.density-compact_&]:<utility>`, already used by
+`DATA_RECORD_CARD_CLASS` and the customer-record sections), which
+compiles into the utilities layer scoped by `body.density-*`. Sixteen
+elements across `templates.html` / `email.js` gained compact and
+comfortable variants:
+
+| Element | Property (base) | Compact | Comfortable |
+|---|---|---|---|
+| `.email-app` | `margin` 12 | 8 | 16 |
+| `.email-search` | `margin` 10 / `padding` 7/9 / `gap` 7 | 8 / 5/7 / 6 | 12 / 9/11 / 8 |
+| `.email-list-row` | `padding` 10/14, `gap` 10 | 8/12, 8 | 14/18, 12 |
+| `.email-list-top` | `gap` 8 | 6 | 10 |
+| `.email-list-subj` | `margin-top` 2 | 0 | 4 |
+| `.email-reading-scroll` | `padding` 20/24 | 14/16 | 24/32 |
+| `.email-reading-hd` | `gap` 20 | 16 | 24 |
+| `.email-reading-subject` | `margin` 16/14 | 12/10 | 20/16 |
+| `.email-field` | `gap` 8, `margin-bottom` 6 | 6, 4 | 10, 8 |
+| `.email-chip` | `padding` 2/10 | 2/8 | 4/12 |
+| `.email-reading-body` | `margin-top` 16, `[&_p]` 12 | 12, 8 | 20, 16 |
+| `.email-attachments` | `gap` 8, `margin-top` 14 | 6, 10 | 10, 16 |
+| `.email-attach` | `padding` 7/10, `gap` 7 | 5/8, 6 | 9/12, 8 |
+| `.email-compose-row` | `gap` 20, `padding` 10 | 16, 8 | 24, 14 |
+| `.email-composer` | `padding` 16/24 | 12/16 | 20/32 |
+| `.email-composer-to` | `margin-bottom` 8 | 6 | 12 |
+| `.email-composer-input` | `min-height` 70, `padding` 10/12 | 56, 8/10 | 84, 14/16 |
+| `.email-composer-toolbar` | `gap` 2, `margin-top` 8 | 2, 6 | 4, 12 |
+
+### Two root causes behind the wrong-direction findings
+
+Both wrong-direction findings were the same bug: an element carrying the
+**shared** `.phead` / `.nc-group-lbl` class without the baseline markup
+that the global density rules were written against, so its default was
+`0px` while `body.density-*` rules injected `8px`/`19px`.
+
+1. **`.email-phead`** — the only page header in the app that did not carry
+   `[.d1_&]:[padding:11px_0] [.d1_&]:flex [.d1_&]:items-start
+   [.d1_&]:gap-5 px-4` (the other seven templates all do). It therefore
+   rendered `display:block`, `padding:0`, 94px tall, with the Compose
+   button stacked under the title, and density pushed it to `8 → 16`.
+   It now carries the same class string, and its `.l` carries
+   `[.d1_.phead_&]:flex-1`: default is now `11px 0` / `flex`, header is
+   82px like every other surface, and `8 < 11 < 16`.
+2. **`.nc-group-lbl`** — `sidebar.js` stamps
+   `px-2.5 pb-1 pt-3.5 text-xs font-semibold uppercase tracking-[.04em]
+   text-faint first:pt-1.5`, but `pages/email/email.js` and
+   `components/notifications/notifications.js` created a bare
+   `.nc-group-lbl`, so default padding was `0` while the shared rules set
+   `9px 3px` / `19px 5px`. Both now carry the sidebar's class string.
+
+Because the first group label uses `first:pt-1.5` (6px), Compact still
+made it grow (`6 → 9`), so one new rule was added to the block:
+`body.density-compact .nc-group-lbl:first-child { padding-top: 4px; }`.
+
+The email search `<input>` kept the browser's UA `padding: 1px 2px`
+(no rule of ours sets it), which was the last email "never" — it now
+carries `p-0`, since `.email-search` owns the field's padding.
+
+### Verification
+
+* **Wrong direction: 0 signatures / 0 elements** (was 3 / 5) across all
+  eight scanned surfaces.
+* **Never responds: 4 signatures / 5 elements** (was 23 / 41 with email's
+  19 included). Email contributes **0**. The remainder are the documented,
+  non-email exceptions: `.lp-content` `min-height:900px` (launchpad
+  canvas), `.geo-tree-panel` `min-height:320px`, a 1px geo-tree-header
+  span, and `.inv-grid-wrap`'s `margin:12px`, which is pinned by the
+  `!important` utility `[margin:12px]!` in markup.
+* **One-way: 6 signatures / 189 elements** — unchanged, all by design
+  (`.nc2-icn` / `.nc2-rail` / `.nc2-rail-sep` compact-only, `nav.side` and
+  two selects comfortable-only).
+* **Default density untouched by density CSS**: with no density class on
+  `<body>`, **0 of 494** compiled `density-*` rules matches any element on
+  any of the eight surfaces (up to 4,097 elements each), so the
+  comfortable/compact rules cannot fire at the default density.
+* Compiled `dist/concepts/app/styles/tailwind.css` grew
+  `253152 → 258029` bytes — the markup variants plus the one new
+  `:first-child` rule. `FINAL_TAILWIND_BASELINE_BYTES` is `258029`
+  (ceiling `283832`).
+
+Deliberate default-density changes made by this pass (all aligning email
+with an app-wide baseline it was missing): email page header becomes a
+flex row with `11px 0` padding and the Compose button on the right;
+day-group labels in the email list and the notifications panel pick up
+`pt-3.5 pb-1 px-2.5` and the sidebar's uppercase/faint label styling;
+the search input's 1–2px UA padding is removed.
+
+## Addendum: 2026-09-30 closing the four documented density exceptions
+
+Scope of this follow-up: the email pass left exactly **4 never-responding
+signatures / 4 elements** behind as documented exceptions. All four are now
+density-responsive, so the sweep reports **never: 0 signatures / 0
+elements**.
+
+### What changed
+
+Every fix is a markup density variant (the same convention as the email
+pass), because all four base values live in the utilities layer or in
+literal markup that `shell.css` cannot outrank:
+
+| Element | File | Base | Compact | Comfortable |
+|---|---|---|---|---|
+| `.lp-content` | `pages/home/home.js` | `min-h-screen` | `min-h-[calc(100vh-40px)]` | `min-h-[calc(100vh+40px)]` |
+| `.inv-grid-wrap` | `pages/customers/record.js` | `[margin:12px]!` | `[margin:8px]!` | `[margin:16px]!` |
+| `.geo-tree-panel` | `pages/geography/templates.html` | `min(320px, calc(100vh-230px))` | `min(280px, calc(100vh-212px))` | `min(360px, calc(100vh-254px))` |
+| geo-tree-header `<span>` | `pages/geography/templates.html` | `[&_span]:mt-px` | `[&_span]:mt-0` | `[&_span]:mt-[3px]` |
+
+Two details worth recording:
+
+* `.inv-grid-wrap` carried a **dead duplicate** `[margin:6px]!` alongside
+  `[margin:12px]!` — two `!important` declarations of the same property in
+  one class list, where the later one in the compiled stylesheet won
+  (12px). The `6px` copy was dropped and the density variants added, so
+  the wrapper now reads `12 → 8 → 16` instead of being pinned at 12.
+* The geography panel's three viewport-relative `calc()` offsets are not
+  guesses: they are the measured chrome deltas between densities
+  (`.canvas` margins 6/12/20 and `.gtop` padding 6/9/13), so the panel
+  keeps the same *visible* height at all three densities.
+
+### Verification
+
+* **Never responds: 0 signatures / 0 elements** (was 4/4).
+* **Wrong direction: 0 / 0** and **one-way: 6 signatures / 189
+  elements** — unchanged from the email pass, so nothing regressed.
+* `npm run test:unit`: **89/89**.
+* Compiled `dist/concepts/app/styles/tailwind.css` grew `258029 → 258928`
+  bytes for the four variants. `FINAL_TAILWIND_BASELINE_BYTES` is now
+  `258928` (ceiling `284821`).
+
+## Addendum: 2026-09-30 desktop browser suite — 28 failures to 0
+
+Scope: `npx playwright test --project=desktop` reported **76 passed / 28
+failed / 1 skipped**, exactly the branch's pre-existing baseline. It now
+reports **102 passed / 0 failed / 3 skipped**, with `npm run test:unit`
+still **89/89**.
+
+### Functional fixes (14 tests)
+
+1. **Chart / print / kanban toolbar buttons are deliberately hidden.**
+   `components/data-list/list.js` renders all three with `hidden`, and
+   `tests/table-customer-ux.test.mjs` ("table controls hide print,
+   charts, and kanban without removing their implementations") asserts it,
+   since `26deb1e`. Nothing ever un-hides them, so tests that clicked
+   `[data-list-action="chart"]` or the kanban view option could never
+   pass. Charts are now driven through the **visible** column-header
+   context-menu action (`Chart range`, `context-menu.js`) via the new
+   `openListChart()` helper; the kanban cases are `test.skip`ped with that
+   committed expectation quoted as the reason.
+2. **Row context menu closed instantly.** Playwright's centre click on the
+   2415px-wide invoice table scrolled the horizontal scroller; the app's
+   capture-phase `scroll → closeDataListContextMenu` handler then closed
+   the menu after `contextmenu` fired (event order confirmed:
+   `mousedown → contextmenu → mouseup → scroll`). `openRowContextMenu()`
+   clicks a point already inside the viewport, so no scroll occurs.
+3. **Assistant Escape was a real app defect.**
+   `components/assistant/assistant.js` had no Escape handling at all —
+   known-defect #13 in `tests/support/known-defects.md`. It now binds a
+   `keydown` listener that calls `closeAI()` with
+   `{signal: pageAbort.signal}`.
+4. **`#aiscrim` assertions were unsatisfiable.** `toHaveClass(/open/)`
+   also matches the `[&.open]:block` utility in the element's class list,
+   so `not.toHaveClass(/open/)` could never pass even when the drawer was
+   correctly closed. Both assertions now use `toBeVisible()` / `toBeHidden()`.
+5. **Profile sections moved.** `98fb859` removed the `employee` / `contact`
+   entries from the user menu without updating the test; they are Scroll
+   Navigator tabs now. `openProfileSection()` falls back to
+   `[data-profile-scroll-section]` when the menu entry is gone.
+6. **`.phead` gap.** All nine page headers use `gap-5` (20px); the
+   geography assertion still said `12px`.
+7. **Rows-per-page jump input** (`pagination.js`) is aligned with the
+   select it sits next to: `w-[64px] ps-2 pe-6 text-start` (was
+   `w-[52px] … text-center`).
+8. **Chart body padding conflict** (`charts.js`): the class list carried
+   both `p-4` (16px) and the authored `[padding:12px]`; `p-4` compiles
+   later in the utilities layer and won, so the panel rendered 16px
+   padding, 8px wider/narrower than the frozen baseline's chart canvas.
+   The redundant `p-4` was removed.
+
+### Chart parity (1 test)
+
+`tests/chart-parity.spec.mjs` had never run here — `.baseline/` was never
+materialised — and then failed for four separate reasons, each fixed in
+the test rather than by weakening it:
+
+* `.baseline/` created with `node scripts/capture-baseline.mjs`.
+* `#simulate-loading.uncheck()` guarded with `isChecked()` (the control
+  is hidden, so an unconditional uncheck times out), matching `boot()`.
+* The chart opens through `openListChart()` instead of the hidden button.
+* `openListChart()` waits for `.apexcharts-series path` widths to stop
+  changing: ApexCharts animates the bars for ~1.5s, and mid-animation
+  widths differ by up to 300px between two runs of the same code.
+* The capture rect is snapped to whole device pixels. The raw element
+  screenshot grows to a full extra pixel whenever the element sits on a
+  fractional offset (baseline `y=395.046875`, current `y=410`), which
+  changes the PNG size even with pixel-identical content — with the
+  snapped clip both captures are byte-identical (20826 bytes) in light
+  and dark.
+
+### Screenshot regeneration (14 tests) — verified first, then regenerated
+
+14 snapshots were stale: 9 `parity`, 4 `data-list`, 1 `messaging`. Before
+regenerating, each was checked against a **pristine HEAD build** served on
+port 4174 (`git worktree add … HEAD`), so the working tree's changes could
+not be confused with committed drift:
+
+* The same 14 fail at HEAD with matching image sizes and matching
+  diff profiles (e.g. `parity/record` 357166 differing pixels at HEAD vs
+  356339 in the working tree; `launchpad-search` identical at 311648) —
+  so the cause is committed design work, not this session's edits.
+* Cause: the snapshots were last captured at `311a1de` (parity,
+  2026-09-15), `bb106f9` (data-list, 2026-09-13) and `7fd06a8`
+  (messaging, 2026-09-14); roughly thirty UX commits landed after them
+  (`4f9edfd` … `dffd84e`: record workflows, shell workflows, profile,
+  organization centre, statistics, dialog tone system).
+* Observed shape of the drift: `adaptive` grew `1092×961 → 1092×991`,
+  `cards` `1092×1000 → 1092×1087`, the email reading element shrank
+  `1124×841 → 1092×836`, and the nine parity captures differ over
+  10–28% of a 1440×900 page.
+* All 14 were then regenerated from the working tree and re-run clean
+  (`30 passed` across the three files).
+
+### Full-matrix regression check
+
+`npx playwright test` (all seven projects): **550 passed / 79 skipped /
+106 failed**. Every one of those 106 also fails against the HEAD build —
+the working tree's failure set is a strict subset of HEAD's (0 new
+failures), and the working tree fixes 28 of them. The 106 are pre-existing
+non-desktop issues (stale per-project snapshots in `desktop-dark`,
+`desktop-high-contrast-*`, `desktop-reduced-motion`, `mobile-touch`, plus
+`mobile-rtl`'s lifecycle/parity failures) outside this task's scope.

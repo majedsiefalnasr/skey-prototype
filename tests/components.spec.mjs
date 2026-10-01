@@ -10,7 +10,7 @@
 // check separately.
 
 import {test, expect} from '@playwright/test';
-import {boot, openSurface, settle} from './support/browser.mjs';
+import {boot, openSurface, settle, openRowContextMenu, openListChart} from './support/browser.mjs';
 
 async function visibleControlState(locator, pseudo = null) {
   await expect(locator).toBeVisible();
@@ -30,8 +30,7 @@ async function visibleControlState(locator, pseudo = null) {
 }
 
 async function captureSharedControls(page) {
-  const row = page.locator('[data-data-list="invoice"] [data-list-row-key]').first();
-  await row.click({button: 'right'});
+  await openRowContextMenu(page);
   const contextMenu = page.locator('#data-list-context-menu');
   const renderedRowAction = contextMenu.locator('[data-list-row-action]').first();
   const renderedDeleteAction = contextMenu.locator('[data-list-row-action="delete"]');
@@ -154,8 +153,11 @@ test('theme change re-renders an open data list chart', async ({page}, testInfo)
   await openSurface(page, 'list');
   await settle(page);
 
-  // Open the invoice list's chart panel using its existing toggle control.
-  await page.locator('[data-list-action="chart"]').first().click();
+  // The toolbar's Chart toggle renders hidden by design (see
+  // tests/table-customer-ux.test.mjs's "table controls hide print, charts,
+  // and kanban" expectation), so the chart is opened through the column
+  // header's "Chart range" action instead.
+  await openListChart(page);
   await expect.poll(() => page.evaluate(() => window.__chartInstances.length)).toBe(1);
 
   // Flip the existing theme control to dark — applyTheme() is expected to

@@ -1901,13 +1901,13 @@
     padding-block: 13px;
   }
   body.density-comfortable .canvas {
-    margin: 20px 24px;
+    margin-block: 20px;
   }
   body.density-comfortable .d1 .arow {
     padding-block: 11px;
   }
   body.density-comfortable .d1 .phead {
-    padding-block: 16px 4px;
+    padding-block: 16px 22px;
   }
   body.density-comfortable .side {
     padding-block: 8px;
@@ -1927,14 +1927,18 @@
     margin-bottom: 5px;
   }
   body.density-comfortable .rec-field input,
-  body.density-comfortable .rec-field select,
   body.density-comfortable .rec-field textarea {
     min-height: 38px;
     padding: 9px 11px;
   }
+
+  body.density-comfortable .rec-field select {
+    min-height: 38px;
+    padding-block: 9px;
+  }
   body.density-comfortable .inv-grid th,
   body.density-comfortable .inv-grid td {
-    padding-block: 13px;
+    padding: 13px 18px;
   }
   body.density-comfortable .data-list-controls {
     gap: 14px;
@@ -1948,7 +1952,7 @@
   body.density-comfortable .data-menu > summary,
   body.density-comfortable .data-page-manage > summary {
     min-height: 34px;
-    padding-block: 6px;
+    padding: 7px 10px;
   }
   body.density-comfortable .data-filter-chip {
     min-height: 34px;
@@ -1957,6 +1961,19 @@
   body.density-comfortable .fnav,
   body.density-comfortable .fnav-list {
     padding-block: 11px;
+  }
+  body.density-comfortable .profile-layout,
+  body.density-comfortable .customer-scroll-layout {
+    gap: 26px;
+  }
+  body.density-comfortable .profile-scroll-nav,
+  body.density-comfortable .customer-scroll-nav {
+    padding: 11px;
+    gap: 3px;
+  }
+  body.density-comfortable .profile-scroll-nav button {
+    min-height: 42px;
+    padding: 11px 11px;
   }
   body.density-compact .rec-card-hd {
     padding: 5px 8px;
@@ -1970,9 +1987,24 @@
     font-size: 12px;
   }
   body.density-compact .rec-field input,
-  body.density-compact .rec-field select,
   body.density-compact .rec-field textarea {
     padding: 3px 6px;
+  }
+  body.density-compact .rec-field select {
+    padding-block: 3px;
+  }
+  body.density-compact .profile-layout,
+  body.density-compact .customer-scroll-layout {
+    gap: 14px;
+  }
+  body.density-compact .profile-scroll-nav,
+  body.density-compact .customer-scroll-nav {
+    padding: 5px;
+    gap: 0;
+  }
+  body.density-compact .profile-scroll-nav button {
+    min-height: 30px;
+    padding: 5px 7px;
   }
   body.density-compact .rec-settlement {
     gap: 8px;
@@ -2079,7 +2111,10 @@
   }
   body.density-compact .data-list-toolbar {
     min-height: 36px;
-    padding: 4px 7px;
+    padding: 4px 0;
+  }
+  body.density-compact .data-selection-toolbar {
+    padding-inline: 7px;
   }
   body.density-compact .data-toolbar-button,
   body.density-compact .data-menu > summary,
@@ -2129,6 +2164,12 @@
   body.density-compact .fnav-list {
     padding-block: 6px;
   }
+  /* These two footers sit flush against their content (`[padding:9px_0_0]`),
+     so Compact must not invent bottom padding for them. */
+  body.density-compact #journal-entry-fnav,
+  body.density-compact [id^='organization-'][id$='-fnav'] {
+    padding-bottom: 0;
+  }
   body.density-compact .data-pagination-edge,
   body.density-compact .data-pagination-prev,
   body.density-compact .data-pagination-next,
@@ -2143,11 +2184,13 @@
   body.density-compact .gtop {
     padding-block: 6px;
   }
-  body.density-compact .gtop .right .chip {
+  body.density-compact .gtop .right .chip,
+  body.density-compact .lp-chrome .right .chip {
     min-height: 28px;
     padding-block: 3px;
   }
-  body.density-compact .gtop .avatar {
+  body.density-compact .gtop .avatar,
+  body.density-compact .lp-chrome .avatar {
     width: 24px;
     height: 24px;
   }
@@ -2167,6 +2210,9 @@
   }
   body.density-compact .nc2-icn {
     height: 30px;
+    padding-block: 0;
+    padding-inline-start: 8px;
+    gap: 7px;
   }
   body.density-compact .nc3-title {
     padding-block: 6px 3px;
@@ -2206,7 +2252,7 @@
   }
   /* Modal dialogs -- generic shell used by every .dlg (filters, manage columns,
      customize sidebar, etc.), plus their form fields. */
-  body.density-compact .dhd {
+  body.density-compact .dlg .dhd {
     padding-block: 9px;
   }
   body.density-compact .dbody {
@@ -2258,6 +2304,7 @@
     padding-block: 6px;
   }
   body.density-compact .lp-hero {
+    margin-top: 24px;
     padding-block-start: 24px;
   }
   body.density-compact .lp-logo {
@@ -2271,7 +2318,7 @@
     margin-top: 6px;
   }
   body.density-compact .lp-body {
-    padding: 16px 32px 32px;
+    padding: 16px 16px 32px;
     gap: 16px;
   }
   body.density-compact .lp-search {
@@ -2310,8 +2357,8 @@
     padding-block: 13px;
   }
   body.density-comfortable .lp-hero {
-    margin-top: 56px;
-    padding-block-start: 56px;
+    margin-top: 64px;
+    padding-block-start: 64px;
   }
   body.density-comfortable .lp-body {
     gap: 32px;
@@ -2327,24 +2374,1052 @@
     margin-top: 16px;
   }
   body.density-comfortable .lp-tag {
-    min-height: 38px;
-    padding-block: 7px;
+    padding-block: 12px;
   }
   body.density-comfortable .lp-section-hd {
     margin-bottom: 16px;
-    padding-top: 20px;
+    padding-top: 28px;
   }
   body.density-comfortable .lp-grid {
-    gap: 16px;
+    gap: 32px;
   }
   body.density-comfortable .lp-tile {
+    grid-template-columns: 44px minmax(0, 1fr) 14px;
     min-height: 120px;
-    gap: 14px;
+    gap: 32px;
     padding: 18px;
   }
   body.density-comfortable .lp-tile-ic {
     width: 44px;
     height: 44px;
+  }
+  body.density-comfortable .lp-logo {
+    height: 50px;
+  }
+  body.density-comfortable .lp-title {
+    margin-top: 34px;
+  }
+  body.density-comfortable .lp-subtitle {
+    margin-top: 14px;
+  }
+  /* Comfortable counterparts for every record/list/chrome compact rule above.
+     Spacing only -- Comfortable is not a font-size mode, so no rule here
+     changes a type size. */
+  body.density-comfortable .rec-card-hd {
+    padding: 11px 16px;
+  }
+  body.density-comfortable .rec-settlement {
+    gap: 24px;
+    margin-bottom: 16px;
+  }
+  body.density-comfortable .rec-adjustments-hd {
+    padding: 11px 16px;
+  }
+  body.density-comfortable .rec-adjustment-list {
+    padding: 18px;
+  }
+  body.density-comfortable .rec-summary-rows {
+    padding: 16px 18px;
+  }
+  body.density-comfortable .rec-adjustment-row {
+    gap: 11px;
+    padding: 14px;
+  }
+  body.density-comfortable .rec-pinned {
+    margin-top: 32px;
+    padding: 18px;
+  }
+  body.density-comfortable .rec-pinned-hd {
+    margin-bottom: 14px;
+  }
+  body.density-comfortable .rec-items {
+    margin-bottom: 18px;
+  }
+  body.density-comfortable .rec-items-hd {
+    margin-bottom: 11px;
+  }
+  body.density-comfortable .inv-grid td input {
+    padding: 7px 9px;
+  }
+  body.density-comfortable .rec-card-flow {
+    gap: 28px;
+  }
+  body.density-comfortable .rec-payment-row {
+    gap: 22px;
+    padding: 16px;
+  }
+  body.density-comfortable .rec-tabs {
+    gap: 4px;
+    margin-bottom: 16px;
+  }
+  body.density-comfortable .rec-tab {
+    padding: 11px 18px;
+  }
+  body.density-comfortable .lbtn {
+    padding: 9px 14px;
+  }
+  body.density-comfortable .ibtn {
+    min-width: 36px;
+    min-height: 36px;
+    padding: 8px 12px;
+  }
+  body.density-comfortable .data-statistics {
+    margin-bottom: 14px;
+    padding-block-end: 16px;
+  }
+  body.density-comfortable .data-stat-card {
+    gap: 11px;
+    padding: 18px 20px;
+  }
+  body.density-comfortable .data-search input {
+    min-height: 38px;
+    padding-block: 8px;
+  }
+  body.density-comfortable .data-list-shell .inv-grid th,
+  body.density-comfortable .data-list-shell .inv-grid td {
+    padding-block: 13px;
+  }
+  body.density-comfortable .data-row-menu > summary,
+  body.density-comfortable .data-row-expand {
+    width: 36px;
+    min-height: 36px;
+  }
+  body.density-comfortable .data-group-toggle {
+    min-height: 42px;
+    padding-block: 8px;
+  }
+  body.density-comfortable .data-responsive-details {
+    gap: 16px 22px;
+    padding-block: 16px;
+  }
+  body.density-comfortable .data-kanban-board {
+    padding: 16px;
+    gap: 16px;
+  }
+  body.density-comfortable .data-kanban-column {
+    padding: 14px;
+    gap: 11px;
+  }
+  body.density-comfortable .data-kanban-card {
+    padding: 14px;
+    gap: 11px;
+  }
+  body.density-comfortable .data-pagination-edge,
+  body.density-comfortable .data-pagination-prev,
+  body.density-comfortable .data-pagination-next,
+  body.density-comfortable .data-pagination-page,
+  body.density-comfortable .data-pagination-size select {
+    min-width: 36px;
+    min-height: 36px;
+    padding-block: 6px;
+  }
+  body.density-comfortable .gtop .right .chip,
+  body.density-comfortable .lp-chrome .right .chip {
+    min-height: 36px;
+    padding-block: 7px;
+  }
+  body.density-comfortable .gtop .avatar,
+  body.density-comfortable .lp-chrome .avatar {
+    width: 38px;
+    height: 38px;
+  }
+  body.density-comfortable .swrap .sbox {
+    padding-block: 10px;
+  }
+  body.density-comfortable .nc-group-lbl {
+    padding-block: 19px 5px;
+  }
+  body.density-comfortable .nc3-title {
+    padding-block: 11px 6px;
+  }
+  body.density-comfortable .sinp,
+  body.density-comfortable .sctx,
+  body.density-comfortable .sfoot {
+    padding-block: 11px;
+  }
+  body.density-comfortable .sitem {
+    padding-block: 11px;
+  }
+  body.density-comfortable .sgrp {
+    padding-block: 12px 5px;
+  }
+  body.density-comfortable .mlist button,
+  body.density-comfortable .mlist label {
+    min-height: 36px;
+    padding-block: 11px;
+  }
+  body.density-comfortable .data-menu-popover button,
+  body.density-comfortable .data-menu-popover label {
+    min-height: 36px;
+    padding-block: 8px;
+  }
+  body.density-comfortable .dlg .dhd {
+    padding-block: 14px 18px;
+  }
+  body.density-comfortable .dbody {
+    padding-block: 22px;
+  }
+  body.density-comfortable .dfoot {
+    padding-block: 16px;
+  }
+  body.density-comfortable .fset {
+    padding: 16px 18px;
+    margin-bottom: 16px;
+  }
+  body.density-comfortable .fld select,
+  body.density-comfortable .fld input {
+    min-height: 38px;
+    padding-block: 9px;
+  }
+  body.density-comfortable .data-stat-operation {
+    gap: 12px 16px;
+    padding: 16px;
+  }
+  body.density-comfortable .data-stat-operation-cue {
+    padding-top: 12px;
+  }
+  body.density-comfortable .data-stat-analytical {
+    gap: 11px;
+    padding: 18px 19px;
+  }
+  body.density-comfortable .data-stat-exception-lead {
+    padding: 20px;
+  }
+  body.density-comfortable .data-stat-exception-row {
+    padding: 14px 16px;
+  }
+  /* Compact rules for the shell surfaces Comfortable already covered. */
+  body.density-compact .canvas {
+    margin-block: 6px;
+  }
+  body.density-compact .d1 .arow {
+    padding-block: 4px;
+  }
+  /* Surfaces that had no density rules in either direction: the geography
+     workspace, dialog form grids, the in-record pager, list quick-filters and
+     the activity drawer. Both directions are defined together so the control
+     moves them the same way as the rest of the application. */
+  body.density-compact .geo-tree-node {
+    min-height: 34px;
+    padding-block: 4px;
+  }
+  body.density-comfortable .geo-tree-node {
+    min-height: 50px;
+    padding-block: 9px;
+  }
+  body.density-compact .geo-tree-header {
+    min-height: 46px;
+    padding-block: 6px;
+  }
+  body.density-comfortable .geo-tree-header {
+    min-height: 68px;
+    padding-block: 11px;
+  }
+  body.density-compact .geo-view-switch {
+    gap: 2px;
+    padding: 2px;
+  }
+  body.density-comfortable .geo-view-switch {
+    gap: 4px;
+    padding: 4px;
+  }
+  body.density-compact .geo-filter-quick,
+  body.density-compact .data-export-formats {
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+  body.density-comfortable .geo-filter-quick,
+  body.density-comfortable .data-export-formats {
+    gap: 9px;
+    margin-bottom: 20px;
+  }
+  body.density-compact .geo-filter-quick button,
+  body.density-compact .data-export-formats button {
+    padding: 4px 9px;
+  }
+  body.density-comfortable .geo-filter-quick button,
+  body.density-comfortable .data-export-formats button {
+    padding: 9px 14px;
+  }
+  body.density-compact .dgrid .dcard {
+    gap: 6px;
+    padding: 8px;
+  }
+  body.density-comfortable .dgrid .dcard {
+    gap: 13px;
+    padding: 15px;
+  }
+  body.density-compact .fgrid {
+    gap: 8px 10px;
+  }
+  body.density-comfortable .fgrid {
+    gap: 16px 18px;
+  }
+  body.density-compact .fld {
+    gap: 3px;
+  }
+  body.density-comfortable .fld {
+    gap: 7px;
+  }
+  body.density-compact .pager {
+    gap: 2px;
+  }
+  body.density-comfortable .pager {
+    gap: 6px;
+  }
+  body.density-compact .pager button {
+    min-width: 26px;
+    min-height: 26px;
+  }
+  body.density-comfortable .pager button {
+    min-width: 36px;
+    min-height: 36px;
+  }
+  body.density-compact .pager input {
+    min-height: 26px;
+  }
+  body.density-comfortable .pager input {
+    min-height: 36px;
+  }
+  body.density-compact .drbar {
+    padding-block: 6px;
+  }
+  body.density-comfortable .drbar {
+    padding-block: 13px;
+  }
+  body.density-compact .drfoot {
+    padding-block: 8px;
+  }
+  body.density-comfortable .drfoot {
+    padding-block: 16px;
+  }
+  body.density-compact .drhd {
+    padding-block: 9px 0;
+  }
+  body.density-comfortable .drhd {
+    padding-block: 19px 0;
+  }
+  body.density-compact .drtabs {
+    gap: 12px;
+    margin-top: 8px;
+  }
+  body.density-comfortable .drtabs {
+    gap: 24px;
+    margin-top: 16px;
+  }
+  body.density-compact .drtab {
+    padding-block: 5px;
+  }
+  body.density-comfortable .drtab {
+    padding-block: 11px;
+  }
+  body.density-compact .drbody .drnote {
+    padding-block: 9px;
+  }
+  body.density-comfortable .drbody .drnote {
+    padding-block: 17px;
+  }
+  body.density-compact .drbody .act {
+    padding-block: 9px;
+  }
+  body.density-comfortable .drbody .act {
+    padding-block: 19px;
+  }
+  body.density-compact .drbody .daysep {
+    padding-block: 6px;
+  }
+  body.density-comfortable .drbody .daysep {
+    padding-block: 11px;
+  }
+  body.density-compact .drbody .card {
+    gap: 12px;
+    padding-block: 9px;
+  }
+  body.density-comfortable .drbody .card {
+    gap: 28px;
+    padding-block: 19px;
+  }
+  /* Utility-styled surfaces that carry no base CSS of their own, so density has to
+     own the same gap/padding the markup utilities would otherwise freeze. */
+  body.density-compact .recacts {
+    gap: 4px;
+  }
+  body.density-comfortable .recacts {
+    gap: 10px;
+  }
+  body.density-compact .dgrid {
+    gap: 6px;
+  }
+  body.density-comfortable .dgrid {
+    gap: 14px;
+  }
+  body.density-compact #adv-search-scrim .as-fields {
+    gap: 6px;
+    padding: 8px 10px;
+  }
+  body.density-comfortable #adv-search-scrim .as-fields {
+    gap: 14px;
+    padding: 16px 18px;
+  }
+  body.density-compact #adv-search-scrim .as-field {
+    gap: 2px;
+  }
+  body.density-comfortable #adv-search-scrim .as-field {
+    gap: 6px;
+  }
+  body.density-compact .lockbanner {
+    gap: 4px;
+  }
+  body.density-comfortable .lockbanner {
+    gap: 8px;
+  }
+  body.density-compact .drbody .chips {
+    margin-top: 5px;
+    gap: 4px;
+  }
+  body.density-comfortable .drbody .chips {
+    margin-top: 9px;
+    gap: 10px;
+  }
+  body.density-compact .drbody .chip {
+    padding-block: 1px;
+  }
+  body.density-comfortable .drbody .chip {
+    padding-block: 5px;
+  }
+  /* .drbody has no padding of its own to tighten, so Comfortable only adds the
+     breathing room (same treatment as the sidebar). */
+  body.density-comfortable .drbody {
+    padding-block: 8px;
+  }
+
+  body.density-compact .nc2-rail {
+    padding: 5px 4px;
+    gap: 1px;
+  }
+  body.density-compact .nc2-rail-sep {
+    margin-block: 2px;
+  }
+  body.density-compact .nc-scroll.nc3-body {
+    padding-block: 1px 4px;
+    padding-inline: 4px;
+  }
+  body.density-compact .nc1-sub {
+    padding-inline-start: 10px;
+  }
+  body.density-compact .page-content {
+    padding-inline: 12px;
+  }
+  body.density-compact .crumbs {
+    gap: 4px;
+  }
+  body.density-compact .crumbs button {
+    padding-block: 0;
+    padding-inline: 4px;
+  }
+  body.density-compact .d1 .tline {
+    gap: 14px;
+  }
+  body.density-compact .phead .r {
+    gap: 3px;
+  }
+  body.density-compact .skip-link {
+    padding: 6px 10px;
+  }
+  body.density-compact :is(.menus-mount, .arow) .menu > button {
+    padding: 4px 8px;
+    gap: 4px;
+  }
+  body.density-compact .tip {
+    padding: 2px 6px;
+  }
+  body.density-compact .badge {
+    padding: 1px 5px;
+  }
+  body.density-compact .ctx {
+    padding: 4px 9px;
+    gap: 4px;
+  }
+  body.density-compact .gtop .left {
+    gap: 7px;
+  }
+  body.density-compact .swrap .sbox .ms-auto {
+    padding-block: 0;
+    padding-inline: 4px;
+  }
+  body.density-compact .recacts .car {
+    padding: 4px 8px;
+    gap: 4px;
+  }
+  body.density-compact .lp-actions-left,
+  body.density-compact .lp-actions {
+    gap: 5px;
+  }
+  body.density-compact :is(.gtop .right, .lp-actions .right) {
+    gap: 5px;
+  }
+  body.density-compact :is(.gtop .left, .lp-actions-left) .app {
+    padding: 4px 6px;
+    gap: 6px;
+  }
+  body.density-compact .lp-tile-desc {
+    margin-block-start: 4px;
+  }
+  body.density-compact .lp-tile-go {
+    margin-block-start: 2px;
+  }
+  body.density-compact .lp-keyboard-hint {
+    padding: 2px 6px;
+  }
+  body.density-compact .lp-quick-header {
+    gap: 8px;
+  }
+  body.density-compact .lp-quick-tabs {
+    padding: 2px;
+    gap: 2px;
+  }
+  body.density-compact .lp-quick-tabs button,
+  body.density-compact .geo-view-switch button {
+    padding: 3px 7px;
+    gap: 5px;
+    min-height: 28px;
+  }
+  body.density-compact .lp-quick-more {
+    padding-block: 0;
+    padding-inline: 4px;
+  }
+  body.density-compact .lp-tags {
+    gap: 6px;
+  }
+  body.density-compact .notif-badge {
+    padding-inline: 2px;
+  }
+  body.density-compact .avatar-btn {
+    padding: 4px 8px;
+    gap: 4px;
+  }
+  body.density-compact .toastwrap {
+    gap: 7px;
+  }
+  body.density-compact #kit-pill {
+    padding: 6px 12px !important;
+    gap: 5px !important;
+  }
+  body.density-compact .data-sort-button {
+    gap: 3px;
+  }
+  body.density-compact .data-row-actions {
+    gap: 1px;
+  }
+  body.density-compact .data-menu-popover {
+    padding: 4px;
+    gap: 1px;
+  }
+  body.density-compact .data-manage-copy {
+    gap: 0;
+  }
+  body.density-compact .data-manage-group-label {
+    padding: 5px 6px 3px;
+  }
+  body.density-compact .data-menu-separator.my-1 {
+    margin-block: 2px;
+  }
+  body.density-compact .data-menu-separator.my-0.5 {
+    margin-block: 1px;
+  }
+  body.density-compact .data-toolbar-cluster {
+    gap: 4px;
+  }
+  body.density-compact .data-list-pagination {
+    gap: 7px 12px;
+  }
+  body.density-compact .data-pagination-controls {
+    gap: 3px;
+  }
+  body.density-compact .data-pagination-jump {
+    padding-inline-start: 6px;
+  }
+  body.density-compact .data-pagination-jump-input {
+    min-height: 26px;
+    padding-block: 0;
+  }
+  body.density-compact .data-pagination-size {
+    gap: 4px;
+  }
+  body.density-compact .data-pagination-ellipsis {
+    padding-inline: 2px;
+  }
+  body.density-compact .data-stat-card-head {
+    gap: 6px;
+  }
+  body.density-compact .data-stat-card-head svg {
+    padding: 2px;
+  }
+  body.density-compact .customer-record-link {
+    padding-block: 0;
+    padding-inline: 4px;
+  }
+  body.density-compact .customer-avatar-trigger.image-fit-contain img {
+    padding: 3px;
+  }
+  body.density-compact .rec-summary-row {
+    gap: 11px;
+  }
+  body.density-compact .rec-summary-row.rec-summary-total {
+    padding-block-start: 8px;
+    margin-block-start: 1px;
+  }
+  body.density-compact .rec-summary h3 {
+    padding: 9px 12px;
+  }
+  body.density-compact .rec-summary-discount-control {
+    gap: 4px;
+  }
+  body.density-compact .rec-summary-discount-control :is(input, select) {
+    min-height: 26px;
+    padding-block: 2px;
+  }
+  body.density-compact .rec-summary-discount-value {
+    gap: 3px;
+  }
+  body.density-compact .rec-total-qty {
+    padding: 4px 10px;
+  }
+  body.density-compact .rec-adjustment-actions {
+    gap: 4px;
+  }
+  body.density-compact .rec-adjustment-empty {
+    padding: 8px;
+    min-height: 64px;
+  }
+  body.density-compact .pager .tot {
+    padding-inline: 6px;
+  }
+  body.density-compact .stpill {
+    padding: 3px 9px;
+    gap: 7px;
+  }
+  body.density-compact .stpill .segs {
+    gap: 2px;
+  }
+  body.density-compact .customer-section-heading,
+  body.density-compact .customer-section-titlebar {
+    padding: 6px 10px;
+    gap: 8px;
+  }
+  body.density-compact .customer-section-titlebar h2 {
+    gap: 6px;
+  }
+  body.density-compact .customer-section-label {
+    gap: 6px;
+  }
+  body.density-compact .customer-field-grid {
+    padding: 8px;
+    gap: 7px 12px;
+  }
+  body.density-compact .customer-identity-body {
+    gap: 14px;
+  }
+  body.density-compact .customer-identity-photo {
+    padding-inline-end: 8px;
+  }
+  body.density-compact .customer-photo {
+    padding: 8px;
+    gap: 6px;
+    min-height: 268px;
+  }
+  body.density-compact .customer-table-toolbar {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+  body.density-compact .customer-table-search {
+    padding: 4px 6px;
+    gap: 6px;
+  }
+  body.density-compact .customer-table-search input {
+    padding-block: 0;
+  }
+  body.density-compact .customer-table-pager {
+    padding: 10px;
+  }
+  body.density-compact .customer-empty-state {
+    padding: 20px;
+    gap: 4px;
+    min-height: 172px;
+  }
+  body.density-compact .customer-footer-note {
+    gap: 4px;
+  }
+  body.density-compact .customer-beneficiary-toggle {
+    padding-block: 1px;
+    gap: 14px;
+    min-height: 32px;
+  }
+  body.density-compact .customer-lookup-trigger {
+    padding-block: 0;
+    padding-inline: 4px;
+    min-height: 28px;
+  }
+  body.density-compact .geo-workspace {
+    gap: 14px;
+  }
+  body.density-compact .geo-tree-header-actions {
+    gap: 2px;
+  }
+  body.density-compact .geo-tree-tools {
+    padding: 6px;
+    gap: 3px;
+  }
+  body.density-compact .geo-tree-search input {
+    padding-block: 3px;
+    min-height: 30px;
+  }
+  body.density-compact .geo-tree {
+    padding-inline: 6px;
+    padding-block-end: 8px;
+  }
+  body.density-compact .geo-node-copy {
+    gap: 0;
+  }
+  body.density-compact .fnav .end,
+  body.density-compact .dfoot .end {
+    gap: 4px;
+  }
+  body.density-compact .print-group {
+    padding-block-end: 12px;
+  }
+  body.density-compact .print-group h4 {
+    margin-block-end: 10px;
+  }
+  body.density-compact .dlg .dhd-subtitle {
+    margin-block-start: 1px;
+  }
+  body.density-compact .dscrim {
+    padding: 20px;
+  }
+  body.density-compact .fld label {
+    gap: 5px;
+  }
+  body.density-compact .ctl > .ctl-trigger {
+    padding-block: 0;
+    min-height: 28px;
+  }
+  body.density-compact .dgrid .dcard > span {
+    gap: 1px;
+  }
+  body.density-compact .dgrid .dcard .t {
+    gap: 4px;
+  }
+
+  body.density-comfortable .nc-scroll.nc3-body {
+    padding-block: 4px 8px;
+    padding-inline: 8px;
+  }
+  body.density-comfortable .nc1-sub {
+    padding-inline-start: 18px;
+  }
+  body.density-comfortable .page-content {
+    padding-inline: 20px;
+  }
+  body.density-comfortable .crumbs {
+    gap: 8px;
+  }
+  body.density-comfortable .crumbs button {
+    padding-block: 2px;
+    padding-inline: 8px;
+  }
+  body.density-comfortable .d1 .tline {
+    gap: 26px;
+  }
+  body.density-comfortable .phead .r {
+    gap: 6px;
+  }
+  body.density-comfortable .skip-link {
+    padding: 10px 14px;
+  }
+  body.density-comfortable :is(.menus-mount, .arow) .menu > button {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  body.density-comfortable .tip {
+    padding: 4px 10px;
+  }
+  body.density-comfortable .badge {
+    padding: 2px 9px;
+  }
+  body.density-comfortable .ctx {
+    padding: 8px 13px;
+    gap: 8px;
+  }
+  body.density-comfortable .gtop .left {
+    gap: 13px;
+  }
+  body.density-comfortable .swrap .sbox .ms-auto {
+    padding-block: 2px;
+    padding-inline: 8px;
+  }
+  body.density-comfortable .recacts .car {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  body.density-comfortable .lp-actions-left,
+  body.density-comfortable .lp-actions {
+    gap: 9px;
+  }
+  body.density-comfortable :is(.gtop .right, .lp-actions .right) {
+    gap: 9px;
+  }
+  body.density-comfortable :is(.gtop .left, .lp-actions-left) .app {
+    padding: 8px 10px;
+    gap: 10px;
+  }
+  body.density-comfortable .lp-tile-desc {
+    margin-block-start: 8px;
+  }
+  body.density-comfortable .lp-tile-go {
+    margin-block-start: 4px;
+  }
+  body.density-comfortable .lp-keyboard-hint {
+    padding: 4px 10px;
+  }
+  body.density-comfortable .lp-quick-header {
+    gap: 16px;
+  }
+  body.density-comfortable .lp-quick-tabs {
+    padding: 4px;
+    gap: 4px;
+  }
+  body.density-comfortable .lp-quick-tabs button,
+  body.density-comfortable .geo-view-switch button {
+    padding: 7px 11px;
+    gap: 9px;
+    min-height: 36px;
+  }
+  body.density-comfortable .lp-quick-more {
+    padding-block: 2px;
+    padding-inline: 8px;
+  }
+  body.density-comfortable .lp-tags {
+    gap: 10px;
+  }
+  body.density-comfortable .notif-badge {
+    padding-inline: 4px;
+  }
+  body.density-comfortable .avatar-btn {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  body.density-comfortable .toastwrap {
+    gap: 11px;
+  }
+  body.density-comfortable #kit-pill {
+    padding: 10px 16px !important;
+    gap: 9px !important;
+  }
+  body.density-comfortable .data-sort-button {
+    gap: 7px;
+  }
+  body.density-comfortable .data-row-actions {
+    gap: 3px;
+  }
+  body.density-comfortable .data-menu-popover {
+    padding: 8px;
+    gap: 3px;
+  }
+  body.density-comfortable .data-manage-copy {
+    gap: 2px;
+  }
+  body.density-comfortable .data-manage-group-label {
+    padding: 9px 10px 5px;
+  }
+  body.density-comfortable .data-menu-separator {
+    margin-block: 6px;
+  }
+  body.density-comfortable .data-toolbar-cluster {
+    gap: 8px;
+  }
+  body.density-comfortable .data-list-pagination {
+    gap: 13px 20px;
+  }
+  body.density-comfortable .data-pagination-controls {
+    gap: 5px;
+  }
+  body.density-comfortable .data-pagination-jump {
+    padding-inline-start: 10px;
+  }
+  body.density-comfortable .data-pagination-jump-input {
+    min-height: 34px;
+    padding-block: 2px;
+  }
+  body.density-comfortable .data-pagination-size {
+    gap: 8px;
+  }
+  body.density-comfortable .data-pagination-ellipsis {
+    padding-inline: 6px;
+  }
+  body.density-comfortable .data-stat-card-head {
+    gap: 10px;
+  }
+  body.density-comfortable .data-stat-card-head svg {
+    padding: 6px;
+  }
+  body.density-comfortable .customer-record-link {
+    padding-block: 2px;
+    padding-inline: 8px;
+  }
+  body.density-comfortable .customer-avatar-trigger.image-fit-contain img {
+    padding: 7px;
+  }
+  body.density-comfortable .rec-summary-row {
+    gap: 21px;
+  }
+  body.density-comfortable .rec-summary-row.rec-summary-total {
+    padding-block-start: 14px;
+    margin-block-start: 3px;
+  }
+  body.density-comfortable .rec-summary h3 {
+    padding: 13px 16px;
+  }
+  body.density-comfortable .rec-summary-discount-control {
+    gap: 8px;
+  }
+  body.density-comfortable .rec-summary-discount-control :is(input, select) {
+    min-height: 34px;
+    padding-block: 6px;
+  }
+  body.density-comfortable .rec-summary-discount-value {
+    gap: 7px;
+  }
+  body.density-comfortable .rec-total-qty {
+    padding: 8px 14px;
+  }
+  body.density-comfortable .rec-adjustment-actions {
+    gap: 8px;
+  }
+  body.density-comfortable .rec-adjustment-empty {
+    padding: 16px;
+    min-height: 80px;
+  }
+  body.density-comfortable .pager .tot {
+    padding-inline: 10px;
+  }
+  body.density-comfortable .stpill {
+    padding: 7px 13px;
+    gap: 11px;
+  }
+  body.density-comfortable .stpill .segs {
+    gap: 4px;
+  }
+  body.density-comfortable .customer-section-heading,
+  body.density-comfortable .customer-section-titlebar {
+    padding: 10px 14px;
+    gap: 12px;
+  }
+  body.density-comfortable .customer-section-titlebar h2 {
+    gap: 10px;
+  }
+  body.density-comfortable .customer-section-label {
+    gap: 10px;
+  }
+  body.density-comfortable .customer-field-grid {
+    padding: 16px;
+    gap: 13px 20px;
+  }
+  body.density-comfortable .customer-identity-body {
+    gap: 26px;
+  }
+  body.density-comfortable .customer-identity-photo {
+    padding-inline-end: 16px;
+  }
+  body.density-comfortable .customer-photo {
+    padding: 16px;
+    gap: 10px;
+    min-height: 292px;
+  }
+  body.density-comfortable .customer-table-toolbar {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+  body.density-comfortable .customer-table-search {
+    padding: 8px 10px;
+    gap: 10px;
+  }
+  body.density-comfortable .customer-table-search input {
+    padding-block: 2px;
+  }
+  body.density-comfortable .customer-table-pager {
+    padding: 18px;
+  }
+  body.density-comfortable .customer-empty-state {
+    padding: 28px;
+    gap: 8px;
+    min-height: 188px;
+  }
+  body.density-comfortable .customer-footer-note {
+    gap: 8px;
+  }
+  body.density-comfortable .customer-beneficiary-toggle {
+    padding-block: 3px;
+    gap: 26px;
+    min-height: 40px;
+  }
+  body.density-comfortable .customer-lookup-trigger {
+    padding-block: 2px;
+    padding-inline: 8px;
+    min-height: 36px;
+  }
+  body.density-comfortable .geo-workspace {
+    gap: 26px;
+  }
+  body.density-comfortable .geo-tree-header-actions {
+    gap: 4px;
+  }
+  body.density-comfortable .geo-tree-tools {
+    padding: 10px;
+    gap: 7px;
+  }
+  body.density-comfortable .geo-tree-search input {
+    padding-block: 7px;
+    min-height: 38px;
+  }
+  body.density-comfortable .geo-tree {
+    padding-inline: 10px;
+    padding-block-end: 12px;
+  }
+  body.density-comfortable .geo-node-copy {
+    gap: 2px;
+  }
+  body.density-comfortable .fnav .end,
+  body.density-comfortable .dfoot .end {
+    gap: 10px;
+  }
+  body.density-comfortable .print-group {
+    padding-block-end: 20px;
+  }
+  body.density-comfortable .print-group h4 {
+    margin-block-end: 14px;
+  }
+  body.density-comfortable .dlg .dhd-subtitle {
+    margin-block-start: 3px;
+  }
+  body.density-comfortable .dscrim {
+    padding: 28px;
+  }
+  body.density-comfortable .fld label {
+    gap: 9px;
+  }
+  body.density-comfortable .ctl > .ctl-trigger {
+    padding-block: 2px;
+    min-height: 36px;
+  }
+  body.density-comfortable .dgrid .dcard > span {
+    gap: 3px;
+  }
+  body.density-comfortable .dgrid .dcard .t {
+    gap: 8px;
+  }
+  body.density-compact .nc-group-lbl:first-child {
+    padding-top: 4px;
   }
 
   /* ---- prototype input-style mode (concepts/app/styles/overrides-2.css) ----

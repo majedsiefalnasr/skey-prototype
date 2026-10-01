@@ -70,6 +70,9 @@ const schedule = (callback, delay) => { const timer = setTimeout(() => {timers.d
         aiscrim.addEventListener('click', e => {
           if (e.target === aiscrim || e.target.closest('.ai-close')) closeAI()
         }, {signal: pageAbort.signal})
+        document.addEventListener('keydown', e => {
+          if (e.key === 'Escape') closeAI()
+        }, {signal: pageAbort.signal})
         document
           .querySelectorAll('.ai-chip')
           .forEach(c => c.addEventListener('click', () => aiAsk(c.dataset.ai), {signal: pageAbort.signal}))

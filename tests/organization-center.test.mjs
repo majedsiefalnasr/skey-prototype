@@ -6,6 +6,7 @@ import {
   organizationSectionsForRole,
   canPerformOrganizationAction,
 } from '../concepts/app/pages/organization/access.js'
+import {renderOrganizationSessionTarget} from '../concepts/app/pages/organization/sessions.js'
 
 test('organization access policy defines the three prototype roles', () => {
   assert.deepEqual(ORGANIZATION_ROLES, ['administrator', 'manager', 'user'])
@@ -108,6 +109,39 @@ test('organization page is mounted and registered in the application shell', asy
   assert.match(operations, /\.organization-view/)
 })
 
+test('database session termination uses the dialog danger primary action', async () => {
+  const dialogs = await readFile(
+    new URL('../concepts/app/pages/organization/dialogs.html', import.meta.url),
+    'utf8'
+  )
+
+  assert.match(
+    dialogs,
+    /<button type="submit" class="lbtn pri" id="organization-session-confirm">/
+  )
+  assert.doesNotMatch(dialogs, /class="lbtn dan" id="organization-session-confirm"/)
+})
+
+test('database session termination summarizes the affected workload with labeled metadata', () => {
+  const markup = renderOrganizationSessionTarget(
+    'terminate',
+    {
+      id: 'db-2191',
+      workload: 'Reporting',
+      account: 'skey_app',
+      query: 'Aggregate inventory valuation',
+    },
+    value => value
+  )
+
+  assert.match(markup, /data-organization-session-summary/)
+  assert.match(markup, />Database session</)
+  assert.match(markup, />Account</)
+  assert.match(markup, />Current operation</)
+  assert.match(markup, /db-2191/)
+  assert.match(markup, /Aggregate inventory valuation/)
+})
+
 test('createOrganization exposes the standard page contract plus role and section setters', async () => {
   const source = await readFile(
     new URL('../concepts/app/pages/organization/organization.js', import.meta.url),
@@ -143,4 +177,12 @@ test('topbar user menu is grouped and contains role-aware organization links', a
   assert.match(source, /function setRole/)
   assert.match(source, /organization-menu/)
   assert.match(main, /navigateToOrganizationSection/)
+})
+
+test('data-list filter reset restores rows supplied through setRows, not the empty static config', async () => {
+  const controller = await readFile('concepts/app/components/data-list/filter-controller.js', 'utf8')
+  const model = await readFile('concepts/app/components/data-list/model.js', 'utf8')
+  assert.doesNotMatch(controller, /sourceRows = (config|DATA_LIST_CONFIG\[context\])\.rows/)
+  assert.match(controller, /sourceRows = listState\.baseRows/)
+  assert.match(model, /state\.baseRows = nextRows/)
 })

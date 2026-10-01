@@ -38,7 +38,9 @@ test('launchpad quick access uses a compact split header and intrinsic-width car
   if (direction === 'rtl') expect(tabsBox.x).toBeGreaterThan(moreBox.x);
   else expect(tabsBox.x).toBeLessThan(moreBox.x);
 
+  await expect(more).toHaveAttribute('data-more-label', 'View all starred');
   await page.locator('[data-lp-quick-tab="Recent"]').click();
+  await expect(more).toHaveAttribute('data-more-label', 'View all recent');
   const cards = page.locator('.lp-tags .lp-tag');
   await expect(cards).toHaveCount(10);
   await expect(more).toBeVisible();

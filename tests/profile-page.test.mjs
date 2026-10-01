@@ -188,6 +188,8 @@ test('main.js wires the profile page and topbar no longer opens an appearance di
   assert.match(topbar, /profile-menu/)
 
   const shell = await readFile(new URL('../concepts/app/shell/shell.html', import.meta.url), 'utf8')
-  assert.match(shell, /data-profile-section="employee"/)
+  for (const section of ['profile', 'account', 'appearance', 'security', 'sessions']) {
+    assert.match(shell, new RegExp(`data-profile-section="${section}"`))
+  }
   assert.doesNotMatch(shell, /data-profile-section="notifications"/)
 })

@@ -15,6 +15,20 @@ export function readOrganizationSessionState(storage) {
   }
 }
 
+export function renderOrganizationSessionTarget(kind, row, encodeHtml) {
+  const terminating = kind === 'terminate'
+  const label = terminating ? 'Database session' : 'Application session'
+  const title = terminating
+    ? `${encodeHtml(row.id)} · ${encodeHtml(row.workload)}`
+    : encodeHtml(row.user)
+  const firstLabel = terminating ? 'Account' : 'Device'
+  const firstValue = terminating ? row.account : row.device
+  const secondLabel = terminating ? 'Current operation' : 'Branch'
+  const secondValue = terminating ? row.query : row.branch
+
+  return `<div data-organization-session-summary class="flex items-start gap-3"><span class="flex size-9 flex-none items-center justify-center rounded-md bg-surface text-muted"><svg width="17" height="17" aria-hidden="true"><use href="#i-${terminating ? 'flow' : 'user'}" /></svg></span><div class="min-w-0"><span class="block text-[11px] font-medium text-muted">${label}</span><strong class="mt-0.5 block text-[14px] leading-5 text-ink">${title}</strong></div></div><dl class="mt-3 grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-1.5 border-t border-line pt-3 text-xs"><dt class="text-muted">${firstLabel}</dt><dd class="m-0 min-w-0 break-words text-ink">${encodeHtml(firstValue)}</dd><dt class="text-muted">${secondLabel}</dt><dd class="m-0 min-w-0 break-words text-ink">${encodeHtml(secondValue)}</dd></dl>`
+}
+
 export function createOrganizationSessionActions({root, role, data, storage, toast, encodeHtml, rerender, trapFocus, releaseFocus}) {
   const dialog = document.getElementById('organization-session-dialog')
   const form = document.getElementById('organization-session-form')
@@ -47,9 +61,7 @@ export function createOrganizationSessionActions({root, role, data, storage, toa
       ? 'The selected database workload will be interrupted immediately.'
       : 'The selected user will be signed out from this device immediately.'
     confirm.textContent = terminating ? 'Terminate session' : 'Revoke session'
-    target.innerHTML = terminating
-      ? `<strong class="block">${encodeHtml(row.id)} · ${encodeHtml(row.workload)}</strong><small class="text-muted">${encodeHtml(row.account)} · ${encodeHtml(row.query)}</small>`
-      : `<strong class="block">${encodeHtml(row.user)}</strong><small class="text-muted">${encodeHtml(row.device)} · ${encodeHtml(row.branch)}</small>`
+    target.innerHTML = renderOrganizationSessionTarget(kind, row, encodeHtml)
     dialog.classList.add('open')
     trapFocus(dialog.querySelector('.dlg'))
   }
@@ -145,4 +157,3 @@ export function createOrganizationSessionActions({root, role, data, storage, toa
 
   return {bind, open, dispose}
 }
-

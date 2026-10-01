@@ -11,12 +11,24 @@ import {boot, settle} from './support/browser.mjs';
  * avatar button's user menu — the plan's real entry point into the profile
  * page (reached this way rather than through openSurface's launchpad-tile
  * mechanism, since the profile page has no launchpad tile).
+ *
+ * The user menu only carries Profile/Account/Appearance/Security/Sessions
+ * since the organization-center rework dropped Employee details and Contact
+ * details from it; those two sections are reached the way the app now
+ * exposes them — open My Profile, then activate the section's own
+ * Scroll Navigator tab.
  * @param {import('@playwright/test').Page} page
  * @param {'profile'|'employee'|'contact'|'account'|'appearance'|'security'|'sessions'} section
  */
 async function openProfileSection(page, section) {
   await page.locator('.avatar-btn').click();
-  await page.locator(`.profile-menu[data-profile-section="${section}"]`).click();
+  const menuEntry = page.locator(`.profile-menu[data-profile-section="${section}"]`);
+  if (await menuEntry.count()) {
+    await menuEntry.click();
+  } else {
+    await page.locator('.profile-menu[data-profile-section="profile"]').click();
+    await page.locator(`[data-profile-scroll-section="${section}"]`).click();
+  }
   await settle(page);
 }
 

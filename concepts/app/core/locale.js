@@ -110,6 +110,8 @@ export function createLocale() {
           'Back to current screen': 'العودة إلى الشاشة الحالية',
           'Current app': 'التطبيق الحالي',
           More: 'المزيد',
+          'View all starred': 'عرض كل المفضلة',
+          'View all recent': 'عرض كل الأخيرة',
           'Overview and key activity': 'نظرة عامة وأهم الأنشطة',
           'Customer accounts and profiles': 'حسابات العملاء وملفاتهم',
           'Supplier accounts and profiles': 'حسابات الموردين وملفاتهم',

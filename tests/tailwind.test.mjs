@@ -178,15 +178,15 @@ test('Task 4 compatibility CSS excludes ordinary renderer presentation selectors
   assert.match(compatibility, /@keyframes skeleton-shimmer/);
   assert.match(compatibility, /@keyframes ai-orb-spin/);
   assert.match(compatibility, /\.notif-row\.unread \.notif-icn::after/);
-  assert.match(compatibility, /\.data-list-shell \.inv-grid th:first-child/);
+  assert.match(compatibility, /\.data-list-shell \.inv-grid th\.data-row-actions-cell/);
 });
 
 test('Task 5 invoice and customer owners retire legacy sheets behind literal utilities', async () => {
   const input = await readFile('concepts/app/styles/tailwind.css', 'utf8');
   const entry = await readFile('concepts/app-shell.html', 'utf8');
 
-  assert.match(input, /@import "\.\/tailwind\/invoices\.css" layer\(components\);/);
-  assert.match(input, /@import "\.\/tailwind\/customers\.css" layer\(components\);/);
+  assert.match(input, /@import ['"]\.\/tailwind\/invoices\.css['"] layer\(components\);/);
+  assert.match(input, /@import ['"]\.\/tailwind\/customers\.css['"] layer\(components\);/);
   assert.doesNotMatch(entry, /app\/pages\/invoices\/invoices(?:-[2-5])?\.css/);
   assert.doesNotMatch(entry, /app\/pages\/customers\/customers\.css/);
   const invoices = await readFile('concepts/app/styles/tailwind/invoices.css', 'utf8');
@@ -208,9 +208,9 @@ test('Tailwind input has explicit sources and the generated output includes expe
   const input = await readFile(path.join(root, 'concepts/app/styles/tailwind.css'), 'utf8');
 
   assert.doesNotMatch(input, /^@import\s+"tailwindcss"\s*;/m);
-  assert.match(input, /@import "tailwindcss\/theme" layer\(theme\);/);
-  assert.match(input, /@import "\.\/tailwind\/base\.css" layer\(base\);/);
-  assert.match(input, /@import "tailwindcss\/utilities" layer\(utilities\);/);
+  assert.match(input, /@import ['"]tailwindcss\/theme['"] layer\(theme\);/);
+  assert.match(input, /@import ['"]\.\/tailwind\/base\.css['"] layer\(base\);/);
+  assert.match(input, /@import ['"]tailwindcss\/utilities['"] layer\(utilities\);/);
   assert.match(input, /@source "\.\.\/\.\.\/app-shell\.html";/);
   assert.match(input, /@source "\.\.\/\*\*\/\*\.html";/);
   assert.match(input, /@source "\.\.\/\*\*\/\*\.js";/);
@@ -256,8 +256,15 @@ test('Tailwind input has explicit sources and the generated output includes expe
 // feature partway through. Both are real, reviewed feature CSS, not
 // incidental growth -- see docs/tailwind-migration-report.md's addenda
 // for each one's justification. Reset to the freshly measured merged
-// output (223877) rather than summing the two histories.
-const FINAL_TAILWIND_BASELINE_BYTES = 223877;
+// output (223877) rather than summing the two histories, then raised to
+// 253152 for the density-mode alignment pass over shell.css (see the
+// report's 2026-09-29 addendum for the justification and the two
+// documented exceptions), then 258029 for the email-surface density
+// pass (markup density variants in pages/email), then 258928 for the
+// four remaining density exceptions (launchpad canvas, invoice grid
+// wrapper, geography tree panel/header) -- see the report's
+// 2026-09-30 addendum.
+const FINAL_TAILWIND_BASELINE_BYTES = 258928;
 const FINAL_TAILWIND_CEILING_BYTES = Math.ceil(FINAL_TAILWIND_BASELINE_BYTES * 1.1);
 
 test('Task 7 final Tailwind budget: compiled output stays within baseline + 10%', async () => {

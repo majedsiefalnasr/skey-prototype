@@ -26,7 +26,7 @@ function table(headers, rows, emptyCopy = 'No matching records') {
     DATA_LIST_CONFIG instance inside a dialog/panel (real Filter/Search/
     Columns/sort/pagination UX), instead of the plain table() helper. */
 function dataListMount(id) {
-  return `<div class="canvas [overflow:visible]!" id="organization-${id}-canvas"></div><div class="fnav fnav-list flex items-center gap-5 [padding:9px_0_0]" id="organization-${id}-fnav"></div>`
+  return `<div class="canvas [overflow:visible]! mt-0!" id="organization-${id}-canvas"></div><div class="fnav fnav-list flex items-center gap-5 [padding:9px_0_0]" id="organization-${id}-fnav"></div>`
 }
 
 function sectionMessage(title, body, dataListIcon, icon = 'i-help') {

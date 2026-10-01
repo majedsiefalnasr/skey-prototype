@@ -188,3 +188,56 @@ export async function settle(page) {
     () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))
   );
 }
+
+/**
+ * Right-click the first data-list row and leave its context menu open.
+ *
+ * The invoice table is wider than the viewport, so Playwright's default
+ * center-point click scrolls the table's horizontal scroller first. That
+ * scroll event is dispatched after `contextmenu`, where it reaches the
+ * app's `window.addEventListener('scroll', closeDataListContextMenu, true)`
+ * handler and closes the menu before an assertion can see it. Clicking a
+ * point already inside the viewport triggers no scroll, so the menu stays.
+ * @param {Page} page
+ * @param {string} [context] data-list context, e.g. 'invoice'
+ */
+export async function openRowContextMenu(page, context = 'invoice') {
+  const row = page.locator(`[data-data-list="${context}"] [data-list-row-key]`).first();
+  const box = await row.boundingBox();
+  const x = Math.max(8, Math.min(40, Math.floor(box.width / 2)));
+  const y = Math.max(4, Math.min(24, Math.floor(box.height / 2)));
+  await row.click({button: 'right', position: {x, y}});
+}
+
+/**
+ * Open the invoice list's chart panel through a column header's "Chart
+ * range" context-menu action.
+ *
+ * The toolbar's Chart button — together with Print and the Kanban view
+ * option — renders with a deliberate `hidden` attribute (asserted by
+ * tests/table-customer-ux.test.mjs's "table controls hide print, charts,
+ * and kanban without removing their implementations"), so those controls
+ * have no clickable entry point. "Chart range" is the visible affordance
+ * that still flips `listState.chartVisible`, and it rerenders through the
+ * context menu's own column-action path.
+ * @param {Page} page
+ */
+export async function openListChart(page) {
+  const header = page.locator('[data-data-list="invoice"] th[data-col]').first();
+  await header.click({button: 'right', position: {x: 10, y: 12}});
+  await page.locator('[data-context-column-action="chart-range"]').click();
+  await settle(page);
+  if ((await page.locator('.apexcharts-svg').count()) === 0) return;
+  await page.waitForFunction(
+    () => {
+      const paths = [...document.querySelectorAll('.apexcharts-series path')];
+      if (!paths.length) return false;
+      const widths = paths.map(path => path.getBBox().width.toFixed(2)).join(',');
+      if (widths === window.__skeyChartWidths) return true;
+      window.__skeyChartWidths = widths;
+      return false;
+    },
+    undefined,
+    {polling: 120}
+  );
+}

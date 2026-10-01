@@ -304,6 +304,22 @@ test.describe('organization center', () => {
     await expect(page.locator('.toast')).toContainText('Database session terminated')
   })
 
+  test('clearing a table filter restores the section rows instead of emptying the table', async ({page}) => {
+    await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173')
+    await openOrganizationSection(page, 'overview')
+    await page.locator('.organization-nav [data-organization-section="users"]').click()
+
+    const rows = page.locator('#organization-users-canvas [data-list-row-key]')
+    const total = await rows.count()
+    expect(total).toBeGreaterThan(1)
+    await page.locator('#organization-users-canvas .data-menu summary').first().click()
+    await page.locator('#organization-users-canvas [data-list-add-filter="status"]').click()
+    await expect(rows).not.toHaveCount(total)
+    await page.locator('#organization-users-canvas [data-list-clear-filter]').click()
+
+    await expect(rows).toHaveCount(total)
+  })
+
   test('organization session tables keep every column inside their bordered shell', async ({page}, testInfo) => {
     test.skip(testInfo.project.name !== 'desktop', 'Table geometry is covered once.')
     await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173')

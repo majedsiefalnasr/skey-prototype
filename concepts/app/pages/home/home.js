@@ -303,7 +303,7 @@ export function createHome({
     lp.appendChild(orbs)
     const content = document.createElement('div')
     content.className =
-      'lp-content relative isolate z-[1] col-start-1 row-start-1 flex min-h-screen h-min min-w-0 flex-col'
+      'lp-content relative isolate z-[1] col-start-1 row-start-1 flex min-h-screen [body.density-compact_&]:min-h-[calc(100vh-40px)] [body.density-comfortable_&]:min-h-[calc(100vh+40px)] h-min min-w-0 flex-col'
     lp.appendChild(content)
     const skipLink = frame.ownerDocument.querySelector('.skip-link')
     if (skipLink) lp.prepend(skipLink)
@@ -423,7 +423,8 @@ export function createHome({
     quickPanel.appendChild(cards)
 
     const renderQuickList = list => {
-      more.textContent = t('More')
+      more.dataset.moreLabel = `View all ${list.label.toLowerCase()}`
+      more.textContent = t(more.dataset.moreLabel)
       more.onclick = () => side.querySelector('.nc2').activateByLabel(list.label)
       cards.replaceChildren()
       list.items.slice(0, QUICK_ROW_LIMIT).forEach(name => {

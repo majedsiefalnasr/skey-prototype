@@ -49,9 +49,9 @@ test('notification tabs preserve keyboard selection', async ({page}) => {
 test('assistant proposal answers and closes with Escape', async ({page}) => {
   await openSurface(page, 'list');
   await page.locator('.right button.chip').click();
-  await expect(page.locator('#aiscrim')).toHaveClass(/open/);
+  await expect(page.locator('#aiscrim')).toBeVisible();
   await page.locator('[data-ai="Summarize this invoice"]').first().click();
   await expect(page.locator('#ai-thread')).toContainText('Sales Invoice 126');
   await page.keyboard.press('Escape');
-  await expect(page.locator('#aiscrim')).not.toHaveClass(/open/);
+  await expect(page.locator('#aiscrim')).toBeHidden();
 });
