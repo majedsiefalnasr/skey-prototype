@@ -302,7 +302,11 @@ export function saveDataListLayout(listState, model, deps) {
   // control, then 'balanced'), exactly as before this extraction.
   listState.statisticsConcept = deps.activeDataListStatisticsConcept(listState)
   if (!model.saveLayout()) {
-    deps.toast({tone: 'bad', title: 'Table layout could not be saved in this browser'})
+    deps.toast({
+      tone: 'bad',
+      title: 'Table layout could not be saved in this browser',
+      body: 'Local storage is unavailable, so your column and view choices last only for this session.',
+    })
     return false
   }
   deps.rerender()

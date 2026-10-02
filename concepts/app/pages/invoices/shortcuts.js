@@ -14,14 +14,18 @@ export function createInvoiceShortcuts({toast, getState, blocked, renderActivity
       const b = firstEnabled('[data-act="Save"]')
       b
         ? doSave(b)
-        : toast({tone: 'bad', title: 'Nothing to save', body: blocked('Save') || ''})
+        : toast({
+            tone: 'info',
+            title: 'Nothing to save',
+            body: blocked('Save') || 'There are no unsaved changes on this invoice.',
+          })
       return
     }
     if (mod && k === 'p') {
       e.preventDefault()
       const why = blocked('Print')
       if (why) {
-        toast({tone: 'bad', title: 'Print is not available', body: why})
+        toast({tone: 'info', title: 'Print is not available', body: why})
         return
       }
       openPrintSettings()

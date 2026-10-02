@@ -358,9 +358,13 @@ const pageAbort = new AbortController()
           closeRDlg()
           setStatus(status)
           toast({
-            tone: status === 'returned' ? 'bad' : 'ok',
+            tone: status === 'returned' ? 'warn' : 'ok',
             title: `Invoice 126 is now ${STATUSES[status].label.toLowerCase()}`,
-            body: action.reason ? 'Your reason was saved with the status change.' : '',
+            body: action.reason
+              ? 'Your reason was saved with the status change.'
+              : status === 'returned'
+                ? 'Returned invoices wait on your changes before they can be posted.'
+                : '',
           })
         }
 
@@ -463,7 +467,7 @@ const pageAbort = new AbortController()
           }
           if (NOT_BUILT[act]) {
             closeAllMenus()
-            toast({tone: 'ok', title: `${act} is out of scope here`, body: NOT_BUILT[act]})
+            toast({tone: 'info', title: `${act} is out of scope here`, body: NOT_BUILT[act]})
             return
           }
           if (act === 'Modify') {
@@ -832,15 +836,26 @@ const pageAbort = new AbortController()
             document.getElementById('dirty').checked = false
             applyState()
           }
+          toast({
+            tone: 'ok',
+            title: 'Left without saving',
+            body: 'Nothing was written, so the invoice list is unchanged.',
+          })
         }
-        document.getElementById('g-save').onclick = () => {
+        document.getElementById('g-save').onclick = e => {
           gscrim.classList.remove('open')
           releaseFocus()
           const f = guardAfter
           guardAfter = null
-          modeSel.value = 'record'
-          applyMode('record')
-          f && f()
+          /* the button promises a save, so go through the real Save path —
+             doSave assigns the number, validates the lines and only runs
+             `after` (the pending leave) once the write has happened */
+          const recordSave = document.querySelector('.content .lbtn[data-act="Save"]')
+          doSave(recordSave || e.currentTarget, () => {
+            modeSel.value = 'record'
+            applyMode('record')
+            f && f()
+          })
         }
         gscrim.addEventListener('click', e => {
           if (e.target === gscrim) document.getElementById('g-stay').click()

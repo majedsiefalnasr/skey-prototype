@@ -86,7 +86,16 @@ export function createKanban({trapFocus, releaseFocus, toast, renderDataList, re
     }
     row.status = toStatus
     renderDataList(context)
-    toast({tone: 'ok', title: `Sales Invoice ${row.no} moved to ${toStatus}`})
+    const HOLD_BODY = {
+      Pending: 'Pending invoices stay on hold until the issue is resolved.',
+      Returned: 'Returned invoices wait on your changes before they can be posted.',
+      Canceled: 'Canceled invoices are closed and cannot be reopened.',
+    }
+    toast({
+      tone: HOLD_BODY[toStatus] ? 'warn' : 'ok',
+      title: `Sales Invoice ${row.no} moved to ${toStatus}`,
+      body: HOLD_BODY[toStatus] || '',
+    })
   }
 
   const kanbanBlockedScrim = document.getElementById('kanban-blocked-scrim')

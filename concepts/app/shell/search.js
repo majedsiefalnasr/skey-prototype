@@ -122,10 +122,27 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
       openRDlg(actionDialog(it.t))
       return
     }
-    if (it.kind === 'action') runAction(it.t)
+    if (it.kind === 'action') {
+      /* runAction only knows the invoice verbs; the palette also offers
+         Save and Help, which have their own homes in the UI — say so
+         instead of closing as if the command had run */
+      if (it.t === 'Save')
+        toast({
+          tone: 'info',
+          title: 'Save from the record',
+          body: 'Use the Save button in the invoice action row — it is live as soon as something changes.',
+        })
+      else if (it.t === 'Help')
+        toast({
+          tone: 'info',
+          title: 'Keyboard shortcuts',
+          body: 'Press F1 anywhere to open the shortcut sheet.',
+        })
+      else runAction(it.t)
+    }
     /* screens/records: opening them is out of scope for this shell prototype */ else
       toast({
-        tone: 'ok',
+        tone: 'info',
         title: it.t,
         body: 'Opening this is out of scope for the app-shell prototype.',
       })

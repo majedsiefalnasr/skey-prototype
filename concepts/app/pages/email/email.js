@@ -90,10 +90,18 @@ export function createEmail({root, onUnreadChange, navigate, toast}) {
       'click',
       () => {
         const input = pane.querySelector('.email-composer-input')
-        if (!input.value.trim()) return
+        if (!input.value.trim()) {
+          toast({
+            tone: 'info',
+            title: 'Write a message first',
+            body: 'The message is empty — the draft is kept here until you send it.',
+          })
+          input.focus()
+          return
+        }
         input.value = ''
         toast({
-          tone: 'ok',
+          tone: 'info',
           title: 'Message sent',
           body: `${describe()} This is a UI proposal — nothing is actually delivered.`,
         })

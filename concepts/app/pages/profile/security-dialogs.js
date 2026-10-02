@@ -55,7 +55,11 @@ export function createSecurityDialogs({trapFocus, releaseFocus, toast}) {
         return
       }
       closeDialog(passwordScrim)
-      toast({tone: 'ok', title: 'Password changed'})
+      toast({
+        tone: 'ok',
+        title: 'Password changed',
+        body: 'Use it the next time you sign in.',
+      })
     })
 
     pinForm.addEventListener('submit', e => {

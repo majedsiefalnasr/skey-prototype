@@ -390,7 +390,8 @@ const listGuard = createListGuard({
   trapFocus,
   releaseFocus,
   saveDataListLayout: (...args) => listRuntime.saveDataListLayout(...args),
-  getDataListState: () => listRuntime.dataListState
+  getDataListState: () => listRuntime.dataListState,
+  toast
 })
 
 const recordFields = createRecordFields()

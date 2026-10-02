@@ -137,7 +137,14 @@ export function createProfile({root, encodeHtml, currentUser, employeeDetails, c
     Object.values(controls).forEach(control =>
       control.addEventListener('input', () => setDirty(true))
     )
-    undoButton.addEventListener('click', restoreSavedDetails)
+    undoButton.addEventListener('click', () => {
+      restoreSavedDetails()
+      toast({
+        tone: 'ok',
+        title: 'Changes discarded',
+        body: `${PROFILE_SECTIONS[key].title} is back to its last saved values.`,
+      })
+    })
     saveButton.addEventListener('click', () => {
       const editableDetails = Object.fromEntries(
         Object.entries(controls).map(([field, control]) => [field, control.value.trim()])

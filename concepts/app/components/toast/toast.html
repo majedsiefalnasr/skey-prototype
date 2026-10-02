@@ -1,2 +1,5 @@
-    <div class="toastwrap fixed bottom-5 start-1/2 z-[300] flex -translate-x-1/2 flex-col items-center gap-[9px] pointer-events-none" id="toasts" role="status" aria-live="polite" aria-atomic="false"></div>
+    <!-- FlagGroup placement (atlassian.design/components/flag/flag-group):
+         fixed to the inline-start, 5pc in / 3pc up, 400px wide, stacking
+         upward — and full-bleed-ish on phones via start-4 + width clamp. -->
+    <div class="toastwrap fixed bottom-12 start-4 z-[300] w-[400px] max-w-[calc(100vw_-_2rem)] pointer-events-none [--flag-gap:16px] sm:start-20 max-[720px]:bottom-[72px]" id="toasts" role="status" aria-live="polite" aria-atomic="false"></div>
 

@@ -706,7 +706,7 @@ export function createLookups({refs, deps}) {
       })
     }
     if (event.target.closest('.customer-unit-photo')) {
-      toast({tone: 'ok', title: 'Unit photo selection is a prototype'})
+      toast({tone: 'info', title: 'Unit photo selection is a prototype'})
     }
   }
   unitDrawerScrim.addEventListener('click', onUnitDrawerScrimClick)

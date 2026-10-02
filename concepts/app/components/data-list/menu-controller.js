@@ -304,8 +304,9 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
       else if (action === 'export') openDataExport(context)
       else {
         toast({
-          tone: 'ok',
+          tone: 'info',
           title: `${manage.querySelector('strong')?.textContent || action} is ready for integration`,
+          body: 'This prototype stops before that screen.',
         })
       }
       details.removeAttribute('open')

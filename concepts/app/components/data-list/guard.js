@@ -1,7 +1,7 @@
 
 
 /** Owns list guard state and its DOM bindings. */
-export function createListGuard({trapFocus, releaseFocus, saveDataListLayout, getDataListState} = {}) {
+export function createListGuard({trapFocus, releaseFocus, saveDataListLayout, getDataListState, toast} = {}) {
   const listLayoutGuard = document.getElementById('list-layout-guard')
 
   let listLayoutGuardContext = ''
@@ -62,6 +62,11 @@ export function createListGuard({trapFocus, releaseFocus, saveDataListLayout, ge
     listState.statisticsConcept = listState.savedStatisticsConcept
     listState.layoutDirty = false
     closeListLayoutGuard()
+    toast?.({
+      tone: 'ok',
+      title: 'Table layout changes discarded',
+      body: 'Columns, grouping and the view are back to the saved layout.',
+    })
     after?.()
   })
 

@@ -486,7 +486,7 @@ export function createGeography({
         toast({
           tone: 'ok',
           title: 'Location tree deleted',
-          body: `${removedCount} location(s) removed.`,
+          body: `${removedCount} location${removedCount === 1 ? '' : 's'} removed.`,
         })
       }
     },
@@ -556,8 +556,9 @@ export function createGeography({
       }
     } else
       toast({
-        tone: 'ok',
+        tone: 'info',
         title: `${action[0].toUpperCase() + action.slice(1)} is ready for integration`,
+        body: 'This prototype stops before that screen.',
       })
     return true
   }

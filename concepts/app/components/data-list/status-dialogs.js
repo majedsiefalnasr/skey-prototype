@@ -86,10 +86,15 @@ export function createStatusDialogs({trapFocus, releaseFocus, toast, renderDataL
     if (event.target.closest('#invoice-status-confirm') && pendingInvoice) {
       const status = event.target.closest('#invoice-status-confirm').dataset.targetStatus
       const row = pendingInvoice
+      const action = INVOICE_STATUS_ACTIONS[status]
       row.status = status
       closeInvoiceStatusDialog()
       renderDataList('invoice')
-      toast({tone: 'ok', title: `Invoice ${row.no} changed to ${status}`})
+      toast({
+        tone: action.tone === 'default' ? 'ok' : 'warn',
+        title: `Invoice ${row.no} changed to ${status}`,
+        body: action.description,
+      })
     }
   })
   invScrim.addEventListener('input', event => {

@@ -294,10 +294,32 @@ export function createCustomize({trapFocus, releaseFocus, toast, childrenOf, lea
     trapFocus(cscrim.querySelector('.dlg'))
   }
 
+  /* Signature of what Save would write, so closing without saving can tell
+     a changed draft apart from a clean one (mirrors cs-save's own filter/
+     normalize pass). */
+  const savedSignature = () =>
+    JSON.stringify(
+      getForYouGroups().map(g => ({name: g.name, items: g.items}))
+    )
+
+  const draftSignature = () =>
+    JSON.stringify(
+      csDraft
+        .filter(g => g.items.length)
+        .map(g => ({name: g.name.trim() || 'Untitled group', items: g.items}))
+    )
+
   const closeCustomize = () => {
     if (cscrim.classList.contains('open')) {
+      const changed = draftSignature() !== savedSignature()
       cscrim.classList.remove('open')
       releaseFocus()
+      if (changed)
+        toast({
+          tone: 'ok',
+          title: 'Sidebar changes discarded',
+          body: 'Nothing was applied — the sidebar still shows the saved groups.',
+        })
     }
   }
 

@@ -32,7 +32,14 @@ const schedule = (callback, delay) => { const timer = setTimeout(() => {timers.d
         const AI_FALLBACK =
           "This is a UI proposal — there is no model wired up yet. In a real build, this would answer using the invoice's own data."
         const aiAsk = text => {
-          if (!text.trim()) return
+          if (!text.trim()) {
+            toast({
+              tone: 'info',
+              title: 'Type a question first',
+              body: 'The assistant answers what you write, or pick one of the suggestions.',
+            })
+            return
+          }
           if (aiThread.querySelector('.ai-empty')) aiThread.innerHTML = ''
           const me = document.createElement('div')
           me.className = 'ai-msg me max-w-[88%] self-end rounded-[10px] rounded-br-[3px] bg-accent px-3 py-2 text-[13px] leading-[1.5] text-inverse'
@@ -100,7 +107,7 @@ const schedule = (callback, delay) => { const timer = setTimeout(() => {timers.d
           b.addEventListener('click', () => {
             closeAllMenus()
             toast({
-              tone: 'ok',
+              tone: 'info',
               title: b.dataset.aiAttach === 'image' ? 'Attach image' : 'Attach file',
               body: 'This is a UI mock — nothing is actually uploaded.',
             })

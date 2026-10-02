@@ -62,7 +62,8 @@ export function createListExport({trapFocus, releaseFocus, toast, getDataListSta
     closeDataExport()
     toast({
       tone: 'ok',
-      title: `Exporting ${rows} ${rows === 1 ? config.singular : config.label} (${columnCount} columns) as ${fileName}.${format}`,
+      title: 'Export ready',
+      body: `${rows} ${rows === 1 ? config.singular : config.label} · ${columnCount} columns · ${fileName}.${format}`,
     })
   }
 

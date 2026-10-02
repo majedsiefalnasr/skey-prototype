@@ -334,6 +334,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
 
   function deleteCustomFilter(context, customFilterId) {
     const listState = getDataListState()[context]
+    const removed = listState.customFilters.find(item => item.id === customFilterId)
     listState.customFilters = listState.customFilters.filter(
       item => item.id !== customFilterId
     )
@@ -343,6 +344,11 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
       listState.fieldFilters = []
     }
     refreshDataListForContext(context)
+    toast({
+      tone: 'ok',
+      title: `Filter "${removed?.name || 'Untitled'}" deleted`,
+      body: 'The saved filter is gone from this list.',
+    })
   }
 
   function renderManageFiltersList(context) {

@@ -445,7 +445,11 @@ export function createCustomerRecord({root, deps}) {
           .querySelector(`#customer-field-${firstError.field.key}`)
           ?.scrollIntoView({block: 'center'})
       }
-      toast({tone: 'bad', title: 'Complete the highlighted customer fields'})
+      toast({
+        tone: 'bad',
+        title: 'Complete the highlighted customer fields',
+        body: 'Fix the fields marked in red, then choose Save again.',
+      })
       return false
     }
     customerSavedSnapshot = structuredClone(customerData)
@@ -602,9 +606,9 @@ export function createCustomerRecord({root, deps}) {
           return
         }
         const action = event.target.closest('[data-customer-action]')?.dataset.customerAction
-        if (action === 'photo') toast({tone: 'ok', title: 'Photo selection is a prototype'})
+        if (action === 'photo') toast({tone: 'info', title: 'Photo selection is a prototype'})
         if (action === 'add-sub-ledger')
-          toast({tone: 'ok', title: 'Adding a sub ledger is a prototype'})
+          toast({tone: 'info', title: 'Adding a sub ledger is a prototype'})
       },
       {signal}
     )
@@ -717,8 +721,9 @@ export function createCustomerRecord({root, deps}) {
           ].includes(action)
         ) {
           toast({
-            tone: 'ok',
+            tone: 'info',
             title: `${encodeHtml(actionButton.textContent.trim())} is a prototype`,
+            body: 'The real product runs that action here.',
           })
         }
         if (action) deps.closeAllMenus?.()
@@ -731,7 +736,7 @@ export function createCustomerRecord({root, deps}) {
         event => {
           const action = event.target.closest('[data-customer-footer-action]')
           if (!action) return
-          toast({tone: 'ok', title: `${encodeHtml(action.textContent.trim())} is a prototype`})
+          toast({tone: 'info', title: `${encodeHtml(action.textContent.trim())} is a prototype`})
         },
         {signal}
       )
@@ -793,6 +798,11 @@ export function createCustomerRecord({root, deps}) {
           customerState.dirty = false
           if (customerState.mode === 'edit') customerData = structuredClone(customerSavedSnapshot)
           closeGuard()
+          toast({
+            tone: 'ok',
+            title: 'Unsaved customer changes discarded',
+            body: 'The customer is back to its saved version.',
+          })
           after?.()
         },
         {signal}
