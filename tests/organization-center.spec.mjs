@@ -8,52 +8,64 @@ async function openOrganizationSection(page, section) {
 }
 
 test.describe('organization center', () => {
-  test('overview trend charts omit axis labels but retain the latest value', async ({page}) => {
+  test('overview keeps only the Active users and Database sessions cards', async ({page}) => {
     await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173')
     await openOrganizationSection(page, 'overview')
 
-    const responseCard = page.locator('.org-stat-card').filter({hasText: 'Response time'})
-    await expect(responseCard.locator('[data-organization-trend-chart] text')).toHaveCount(1)
-    await expect(responseCard.locator('[data-organization-trend-chart] text')).toContainText('ms')
-    await expect(responseCard.locator('[data-organization-trend-chart]')).not.toContainText('09:00')
+    const titles = await page.locator('.org-stat-card').evaluateAll(cards =>
+      cards.map(card => card.querySelector('strong')?.textContent.trim())
+    )
+    expect(titles).toEqual(['Active users', 'Database sessions'])
+    // The trend cards (Response time, Workflow exceptions, Open alerts) are
+    // gone, so no line chart renders on the overview any more.
+    await expect(page.locator('[data-organization-trend-chart]')).toHaveCount(0)
+    await expect(page.locator('.org-stat-card [data-organization-gauge-center]')).toHaveCount(2)
   })
 
-  test('overview bento reflows from three columns to two and one', async ({page}, testInfo) => {
+  test('overview cards reflow from two columns to stacked and single', async ({page}, testInfo) => {
     test.skip(testInfo.project.name !== 'desktop', 'Responsive geometry is covered once.')
     await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173')
     await openOrganizationSection(page, 'overview')
 
     const statCells = page.locator('[data-organization-stat-cell]')
-    await expect(statCells).toHaveCount(5)
+    await expect(statCells).toHaveCount(2)
 
-    async function columnCountAt(viewportWidth) {
+    const geometryAt = async viewportWidth => {
       await page.setViewportSize({width: viewportWidth, height: 1000})
       await settle(page)
-      const lefts = await statCells.evaluateAll(items =>
-        items.map(item => Math.round(item.getBoundingClientRect().left))
+      const cells = await statCells.evaluateAll(items =>
+        items.map(item => {
+          const box = item.getBoundingClientRect()
+          return {left: Math.round(box.left), right: Math.round(box.right), top: Math.round(box.top), bottom: Math.round(box.bottom)}
+        })
       )
-      return new Set(lefts).size
+      return cells
     }
 
-    expect(await columnCountAt(1600)).toBe(3)
+    // Side by side while there is room for both gauges...
+    const wide = await geometryAt(1600)
+    expect(new Set(wide.map(cell => cell.left)).size).toBe(2)
+    expect(wide[0].top).toBe(wide[1].top)
+    expect(wide[0].bottom).toBe(wide[1].bottom)
 
     const cardBoxes = await page.locator('.org-stat-card').evaluateAll(cards =>
       Object.fromEntries(
-        cards.slice(0, 5).map(card => {
+        cards.map(card => {
           const title = card.querySelector('strong')?.textContent?.trim()
           const box = card.getBoundingClientRect()
           return [title, {left: Math.round(box.left), top: Math.round(box.top), bottom: Math.round(box.bottom), height: Math.round(box.height)}]
         })
       )
     )
-    expect(cardBoxes['Active users'].top).toBe(cardBoxes['Response time'].top)
-    expect(cardBoxes['Active users'].top).toBe(cardBoxes['Workflow exceptions'].top)
-    expect(cardBoxes['Database sessions'].top).toBe(cardBoxes['Open alerts'].top)
-    expect(cardBoxes['Database sessions'].left).toBe(cardBoxes['Response time'].left)
-    expect(cardBoxes['Open alerts'].left).toBe(cardBoxes['Workflow exceptions'].left)
+    expect(cardBoxes['Active users'].top).toBe(cardBoxes['Database sessions'].top)
     expect(cardBoxes['Active users'].bottom).toBe(cardBoxes['Database sessions'].bottom)
-    expect(cardBoxes['Active users'].bottom).toBe(cardBoxes['Open alerts'].bottom)
-    expect(cardBoxes['Active users'].height).toBeGreaterThan(cardBoxes['Response time'].height * 1.8)
+    expect(cardBoxes['Active users'].left).not.toBe(cardBoxes['Database sessions'].left)
+
+    // ...then stacked full-width, then a single column on phones.
+    const stacked = await geometryAt(1050)
+    expect(new Set(stacked.map(cell => cell.left)).size).toBe(1)
+    expect(stacked[1].top).toBeGreaterThanOrEqual(stacked[0].bottom)
+    expect(await geometryAt(390).then(cells => new Set(cells.map(cell => cell.left)).size)).toBe(1)
 
     const gaugeAlignment = await page
       .locator('.org-stat-card', {hasText: 'Active users'})
@@ -64,55 +76,44 @@ test.describe('organization center', () => {
       })
     expect(gaugeAlignment).toEqual(['flex', 'center', 'center'])
 
-    expect(await columnCountAt(1050)).toBe(2)
-    expect(await columnCountAt(390)).toBe(1)
-
     const overflow = await page.locator('[data-organization-stat-grid]').evaluate(element =>
       element.scrollWidth > element.clientWidth
     )
     expect(overflow).toBe(false)
   })
 
-  test('manager overview fills its grid without gaps or horizontal overflow', async ({page}, testInfo) => {
+  test('manager overview shows a single full-width Active users card', async ({page}, testInfo) => {
     test.skip(testInfo.project.name !== 'desktop', 'Responsive geometry is covered once.')
     await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173')
     await page.locator('#active-role').selectOption('manager', {force: true})
     await openOrganizationSection(page, 'overview')
 
     const cards = page.locator('.org-stat-card')
-    await expect(cards).toHaveCount(4)
+    await expect(cards).toHaveCount(1)
+    // Database sessions stays privileged: no card and no section for manager.
+    await expect(page.locator('.org-stat-card', {hasText: 'Database sessions'})).toHaveCount(0)
 
-    const boxesAt = async width => {
+    for (const width of [1600, 1050]) {
       await page.setViewportSize({width, height: 1000})
       await settle(page)
-      return cards.evaluateAll(items =>
-        Object.fromEntries(items.map(card => {
-          const title = card.querySelector('strong')?.textContent?.trim()
-          const box = card.getBoundingClientRect()
-          return [title, {
-            left: Math.round(box.left),
-            right: Math.round(box.right),
-            top: Math.round(box.top),
-            bottom: Math.round(box.bottom),
-          }]
-        }))
-      )
+      const span = await page.evaluate(() => {
+        const grid = document.querySelector('[data-organization-stat-grid]').getBoundingClientRect()
+        const card = document.querySelector('.org-stat-card').getBoundingClientRect()
+        return {
+          left: Math.round(card.left - grid.left),
+          right: Math.round(grid.right - card.right),
+          width: Math.round(card.width),
+          gridWidth: Math.round(grid.width),
+        }
+      })
+      expect(span.left, JSON.stringify(span)).toBe(0)
+      expect(span.right, JSON.stringify(span)).toBe(0)
+      expect(span.width, JSON.stringify(span)).toBe(span.gridWidth)
     }
 
-    const wide = await boxesAt(1600)
-    expect(wide['Open alerts'].left).toBe(wide['Response time'].left)
-    expect(wide['Open alerts'].right).toBe(wide['Workflow exceptions'].right)
-    expect(wide['Open alerts'].top).toBeGreaterThan(wide['Response time'].top)
-    expect(wide['Active users'].bottom).toBe(wide['Open alerts'].bottom)
-
-    const tablet = await boxesAt(1050)
-    expect(tablet['Active users'].left).toBe(tablet['Response time'].left)
-    expect(tablet['Active users'].right).toBe(tablet['Workflow exceptions'].right)
-    expect(tablet['Open alerts'].left).toBe(tablet['Response time'].left)
-    expect(tablet['Open alerts'].right).toBe(tablet['Workflow exceptions'].right)
-
-    const phone = await boxesAt(390)
-    expect(new Set(Object.values(phone).map(box => box.left)).size).toBe(1)
+    await page.setViewportSize({width: 390, height: 1000})
+    await settle(page)
+    await expect(cards).toHaveCount(1)
     const overflow = await page.locator('[data-organization-stat-grid]').evaluate(element =>
       element.scrollWidth > element.clientWidth
     )

@@ -54,21 +54,6 @@ function statPill(text, tone, icon) {
   return `<span class="inline-flex items-center gap-1 rounded-full [padding:3px_10px] text-xs font-semibold [flex:none] ${toneClass}">${icon || ''}${text}</span>`
 }
 
-/** Directional trend pill computed from a metric's own history —
-    "↑12%" / "↓8%" comparing the last two points, colored by whether that
-    direction is good or bad for THIS metric (lowerIsBetter flips it). */
-function trendPill(trend, lowerIsBetter) {
-  const previous = trend[trend.length - 2]
-  const latest = trend[trend.length - 1]
-  const delta = previous ? Math.round(((latest - previous) / previous) * 100) : 0
-  const up = delta >= 0
-  const good = lowerIsBetter ? !up : up
-  const arrow = up
-    ? '<svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M9 3H4M9 3v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>'
-    : '<svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3 9 9M9 9H4M9 9V4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>'
-  return statPill(`${Math.abs(delta)}%`, good ? 'success' : 'danger', arrow)
-}
-
 const LIVE_PILL = `<span class="inline-flex items-center gap-1.5 rounded-full [padding:3px_10px] text-xs font-semibold [flex:none] bg-[var(--success-soft-bg)] text-[var(--success-soft-ink)]"><span class="[width:6px] [height:6px] rounded-full [background:currentColor]"></span>Live</span>`
 
 /** Card header: icon chip, title + subtitle stacked, and a trailing
@@ -123,7 +108,7 @@ function radialGauge(progress, size, scaleMax, value, detail) {
     scaleMax === undefined
       ? ''
       : `<div class="flex items-center justify-between text-xs text-muted px-1 -mt-1.5"><span>0</span><span>${scaleMax}</span></div>`
-  return `<div class="w-[80%] mb-2"><div class="relative"><svg class="w-full h-auto" viewBox="0 0 ${size} ${size * 0.56}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${ticks}</svg><div class="absolute inset-x-0 top-[52%] grid place-items-center text-center px-2"><strong class="[font-variant-numeric:tabular-nums] block text-ink text-[36px] font-bold leading-[1.1] tracking-[-0.01em] overflow-hidden text-ellipsis whitespace-nowrap max-w-full">${value}</strong><small class="mt-0.5 block overflow-hidden text-muted text-xs text-ellipsis whitespace-nowrap max-w-full">${detail}</small></div></div>${scale}</div>`
+  return `<div class="w-[80%] max-w-[440px] mb-2"><div class="relative"><svg class="w-full h-auto" viewBox="0 0 ${size} ${size * 0.56}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${ticks}</svg><div class="absolute inset-x-0 top-[52%] grid place-items-center text-center px-2"><strong class="[font-variant-numeric:tabular-nums] block text-ink text-[36px] font-bold leading-[1.1] tracking-[-0.01em] overflow-hidden text-ellipsis whitespace-nowrap max-w-full">${value}</strong><small class="mt-0.5 block overflow-hidden text-muted text-xs text-ellipsis whitespace-nowrap max-w-full">${detail}</small></div></div>${scale}</div>`
 }
 
 /** Gauge card: header row, a large arc with the value + repeated label
@@ -251,34 +236,6 @@ function metricTrendChart(trend, unit, encodeHtml) {
   return `<svg data-organization-trend-chart class="mt-auto mx-auto w-full max-w-[480px] h-auto" viewBox="0 0 ${width} ${height}" aria-hidden="true">${gridlineMarkup}<line x1="${last.x.toFixed(1)}" y1="${last.y.toFixed(1)}" x2="${last.x.toFixed(1)}" y2="${(height - padBottom).toFixed(1)}" stroke="var(--stat-tone)" stroke-width="1" stroke-dasharray="3 3" /><polygon points="${padInline},${height - padBottom} ${pointsAttr} ${width - padInline},${height - padBottom}" fill="color-mix(in srgb, var(--stat-tone) 14%, transparent)" stroke="none" /><polyline points="${pointsAttr}" fill="none" stroke="var(--stat-tone)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" /><circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="7" fill="var(--stat-tone)" opacity="0.18" /><circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="3.5" fill="var(--stat-tone)" stroke="var(--surface)" stroke-width="1.5" /><g transform="translate(${tooltipX.toFixed(1)}, ${Math.max(0, last.y - 22).toFixed(1)})"><rect width="${tooltipWidth}" height="16" rx="4" fill="var(--tooltip-bg)" /><text x="${tooltipWidth / 2}" y="11" font-size="10" font-weight="600" fill="var(--tooltip-ink)" text-anchor="middle">${encodeHtml(tooltipValue)}</text></g></svg>`
 }
 
-/** Trend card: header row, headline number (with an optional smaller
-    unit suffix) and a dot-marked detail pill, then the chart spanning
-    the full card width at the bottom — the layout a time-series or
-    count-over-time metric reads best in (Response time, Workflow
-    exceptions, Open alerts), distinct from the gauge card's layout
-    since these aren't fractions of a whole. */
-function statTrendCard(
-  label,
-  subtitle,
-  value,
-  unit,
-  detail,
-  detailGood,
-  section,
-  icon,
-  tone,
-  chart,
-  dataListIcon,
-  headerPill
-) {
-  const valueMarkup = unit
-    ? `${value} <span class="text-[16px] font-semibold text-muted">${unit}</span>`
-    : value
-  const dotTone = detailGood ? 'var(--success)' : 'var(--muted)'
-  const body = `${statHeader(label, subtitle, icon, dataListIcon, headerPill)}<div><strong class="[font-variant-numeric:tabular-nums] block overflow-hidden text-ink text-[28px] font-bold [line-height:1.1] [letter-spacing:-0.01em] text-ellipsis whitespace-nowrap">${valueMarkup}</strong><span class="mt-1 inline-flex items-center gap-1.5 text-xs text-muted"><span class="[width:6px] [height:6px] rounded-full [flex:none]" style="background:${dotTone}"></span>${detail}</span></div>${chart}`
-  return statCardShell(section, tone, body)
-}
-
 function fractionOf(text) {
   const match = /^(\d+)\s+of\s+(\d+)/.exec(text || '')
   if (!match) return null
@@ -320,13 +277,11 @@ function renderOverview(data, role, encodeHtml, dataListIcon) {
   const activeUsers = new Set(
     data.applicationSessions.filter(row => !row.protected).map(row => row.user)
   ).size
-  const exceptions = data.staff.reduce((sum, row) => sum + row.slaBreaches, 0)
   const blockingSessions = data.databaseSessions.filter(row => row.blocking !== 'No').length
-  const responseMs = Number.parseInt(data.health.responseTime, 10) || 0
-  // Wide screens use a fixed two-row bento: Active users owns the full
-  // first column, while the remaining metrics occupy one cell each.
-  // Below that breakpoint, source order drives the ordinary two- or
-  // one-column reflow without desktop placement leaving holes.
+  // Two fraction-of-a-whole gauges side by side from 800px up (stacked
+  // below it), Active users first. The trend cards that used to fill the
+  // remaining bento cells are gone; Operational status owns the row
+  // underneath.
   const activeUserNames = [
     ...new Set(data.applicationSessions.filter(row => !row.protected).map(row => row.user)),
   ]
@@ -345,34 +300,6 @@ function renderOverview(data, role, encodeHtml, dataListIcon) {
     'i-user',
     recentActiveUsers(activeUserNames, encodeHtml)
   )
-  const openAlertsCard = statTrendCard(
-    'Open alerts',
-    'Active system alerts',
-    data.health.openAlerts,
-    '',
-    `${data.health.slowOperations} slow operations`,
-    false,
-    'performance',
-    'i-warn',
-    data.health.openAlerts ? 'danger' : 'neutral',
-    metricTrendChart(data.health.openAlertsTrend, '', encodeHtml),
-    dataListIcon,
-    trendPill(data.health.openAlertsTrend, true)
-  )
-  const responseTimeCard = statTrendCard(
-    'Response time',
-    'Average API response time',
-    responseMs,
-    'ms',
-    `${data.health.availability} availability`,
-    true,
-    'performance',
-    'i-clock',
-    'success',
-    metricTrendChart(data.health.responseTimeTrend, 'ms', encodeHtml),
-    dataListIcon,
-    trendPill(data.health.responseTimeTrend, true)
-  )
   const databaseSessionsCard =
     role === 'administrator'
       ? statGaugeCard(
@@ -388,46 +315,20 @@ function renderOverview(data, role, encodeHtml, dataListIcon) {
           dataListIcon
         )
       : ''
-  const workflowExceptionsCard = statTrendCard(
-    'Workflow exceptions',
-    'Exceptions in workflow execution',
-    exceptions,
-    '',
-    'Needs operational review',
-    false,
-    'staff',
-    'i-warn',
-    exceptions ? 'warning' : 'neutral',
-    metricTrendChart(data.health.exceptionsTrend, '', encodeHtml),
-    dataListIcon,
-    trendPill(data.health.exceptionsTrend, true)
-  )
 
+  // Gauge cards need real width, so they span the full row between
+  // 800–1299px and only sit side by side from 1300px up. Without the
+  // privileged Database sessions card (manager), the lone gauge takes
+  // the whole row at every width.
+  const alone = databaseSessionsCard
+    ? ''
+    : '[@media((min-width:800px))]:col-span-2'
+  const stacked = databaseSessionsCard
+    ? '[@media((min-width:800px)_and_(max-width:1299px))]:col-span-2'
+    : alone
   const statCells = [
-    statGridCell(
-      activeUsersCard,
-      '[@media((min-width:800px)_and_(max-width:1299px))]:col-span-2 [@media((min-width:1300px))]:col-start-1 [@media((min-width:1300px))]:row-start-1 [@media((min-width:1300px))]:row-span-2'
-    ),
-    statGridCell(
-      responseTimeCard,
-      '[@media((min-width:1300px))]:col-start-2 [@media((min-width:1300px))]:row-start-1'
-    ),
-    statGridCell(
-      workflowExceptionsCard,
-      '[@media((min-width:1300px))]:col-start-3 [@media((min-width:1300px))]:row-start-1'
-    ),
-    databaseSessionsCard
-      ? statGridCell(
-          databaseSessionsCard,
-          '[@media((min-width:1300px))]:col-start-2 [@media((min-width:1300px))]:row-start-2'
-        )
-      : '',
-    statGridCell(
-      openAlertsCard,
-      role === 'administrator'
-        ? '[@media((min-width:1300px))]:col-start-3 [@media((min-width:1300px))]:row-start-2'
-        : '[@media((min-width:800px)_and_(max-width:1299px))]:col-span-2 [@media((min-width:1300px))]:col-start-2 [@media((min-width:1300px))]:col-span-2 [@media((min-width:1300px))]:row-start-2'
-    ),
+    statGridCell(activeUsersCard, stacked),
+    databaseSessionsCard ? statGridCell(databaseSessionsCard, stacked) : '',
   ].join('')
   const healthTrend = data.health.operationalHealthTrend
   const healthNow = healthTrend[healthTrend.length - 1]
@@ -438,7 +339,7 @@ function renderOverview(data, role, encodeHtml, dataListIcon) {
   // The "Recent activity" card (audit-log rows + its "View audit log"
   // shortcut) is gone with the hidden Audit log tab — Operational status
   // now owns the full width below the stat grid.
-  return `<div data-organization-stat-grid class="mb-4 grid grid-cols-1 gap-3 [@media((min-width:800px)_and_(max-width:1299px))]:grid-cols-2 [@media((min-width:1300px))]:grid-cols-3 [@media((min-width:1300px))]:grid-rows-2">${statCells}</div>${card('Operational status', operationalStatus)}`
+  return `<div data-organization-stat-grid class="mb-4 grid grid-cols-1 gap-3 [@media((min-width:800px))]:grid-cols-2">${statCells}</div>${card('Operational status', operationalStatus)}`
 }
 
 /** Organization settings is a read-only reference view for every role:
