@@ -241,11 +241,19 @@ const sidebar = createSidebar({
   guardDataListLeave: (...args) => listGuard.guardDataListLeave(...args)
 })
 
-const openForYou = app => {
+const openForYou = async app => {
   /* Highlight the app's rail/panel state exactly like v1's setNavCurrent
      did for the Dashboard tile, then navigate to its For You landing. */
   sidebar.applyNavCurrent(document.querySelector('.side'), app)
-  showContentView('foryou', {app})
+  const allowed = await navigation.navigate('foryou', {app})
+  if (!allowed) {
+    /* A refused guard must leave the URL and highlight on the view that
+       actually stayed on screen: the overlay-hide step already pushed the
+       destination before navigation ran. */
+    syncUrl(contentHost.getCurrentContentViewName(), lastNavData)
+    const currentLabel = NAV_ITEM_LABEL_BY_ID[navigation.current()]
+    if (currentLabel) sidebar.applyNavCurrent(document.querySelector('.side'), currentLabel)
+  }
 }
 
 const home = createHome({buildRailAndPanel: (...args) => sidebar.buildRailAndPanel(...args), findNavGroup: (...args) => sidebar.findNavGroup(...args), setNavCurrent: (...args) => sidebar.setNavCurrent(...args), t, getLocale, getLaunchpadEnabled, syncCustomerPrototypeControls: (...args) => syncPrototypeControlsPage(...args), getCurrentView: () => contentHost.getCurrentContentViewName(), queueSkeletonForCurrentView: (...args) => queueSkeletonForCurrentView(...args), closeEmailView: () => {
