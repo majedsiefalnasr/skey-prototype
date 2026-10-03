@@ -20,6 +20,7 @@ export function createHome({
   closeAllMenus,
   onLaunchpadShow,
   onLaunchpadHide,
+  openForYou,
 }) {
   const pageAbort = new AbortController()
   function buildNavLaunchpad(fbody) {
@@ -27,13 +28,6 @@ export function createHome({
     return buildRailAndPanel(fbody, side)
   }
 
-  function openLaunchpadListDestination(side, label) {
-    if (!['Customers', 'Sales Invoice', 'Geographical Structure', 'Dashboard'].includes(label)) return false
-    const group = findNavGroup(label)
-    if (group) side.querySelector('.nc2').activateByLabel(group[0])
-    setNavCurrent(side, label)
-    return true
-  }
   function launchpadTile(label, icon, onClick, {current = false} = {}) {
     const meta = NAV_APP_META[label] || {description: '', tone: 'overview'}
     const tile = document.createElement('button')
@@ -205,7 +199,7 @@ export function createHome({
     label.classList.remove('is-typing')
   }
 
-  function hideLaunchpad(frame, {restoreFocus = false, targetView = null} = {}) {
+  function hideLaunchpad(frame, {restoreFocus = false, targetRoute = null} = {}) {
     const lp = frame?.querySelector('.lp-view')
     if (!lp || lp.hidden) return false
     stopSearchTyping(lp)
@@ -219,7 +213,7 @@ export function createHome({
     }
     launchpadReturnFocus = null
     queueSkeletonForCurrentView()
-    onLaunchpadHide?.(targetView || undefined)
+    onLaunchpadHide?.(targetRoute || undefined)
     return true
   }
 
@@ -437,11 +431,9 @@ export function createHome({
              "Sales Invoice" needs its parent group's icon activated first so the
              panel renders the leaf, then setNavCurrent highlights the leaf itself
              and switches the content view, same as clicking it in the panel would */
-            if (!openLaunchpadListDestination(side, name)) {
-              const group = findNavGroup(name)
-              if (group) side.querySelector('.nc2').activateByLabel(group[0])
-              setNavCurrent(side, name)
-            }
+            const group = findNavGroup(name)
+            if (group) side.querySelector('.nc2').activateByLabel(group[0])
+            setNavCurrent(side, name)
           })
         )
       })
@@ -485,8 +477,10 @@ export function createHome({
         group[0],
         NAV_ICONS[group[0]] || 'i-doc',
         () => {
-          if (!openLaunchpadListDestination(side, group[0]))
-            side.querySelector('.nc2').activateByLabel(group[0])
+          side
+            .querySelector('.nc2')
+            .activateByLabel(group[0], {targetRoute: {id: 'foryou', data: {app: group[0]}}})
+          openForYou(group[0])
         },
         {current: mode === 'switcher' && group[0] === getCurrentApp()}
       )
@@ -534,7 +528,10 @@ export function createHome({
       row.addEventListener(
         'click',
         () => {
-          side.querySelector('.nc2').activateByLabel(label)
+          side
+            .querySelector('.nc2')
+            .activateByLabel(label, {targetRoute: {id: 'foryou', data: {app: label}}})
+          openForYou(label)
           rows
             .querySelectorAll('.app-switcher-row')
             .forEach(r => r.classList.toggle('active', r.dataset.label === label))

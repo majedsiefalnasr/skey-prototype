@@ -167,9 +167,16 @@ const onLaunchpadShow = () => {
   if (!booted || handlingPop || location.pathname === '/') return
   pushRoute('/')
 }
-const onLaunchpadHide = targetView => {
+const onLaunchpadHide = target => {
   if (!booted || handlingPop || location.pathname !== '/') return
-  const path = formatRouteUrl(targetView ?? contentHost.getCurrentContentViewName(), lastNavData)
+  /* `target` is either the view revealed underneath (name, resolved with
+     the last navigation data) or the {id, data} route plan the caller
+     navigated to (app-scoped For You targets). */
+  const plan =
+    target && typeof target === 'object'
+      ? target
+      : {id: target ?? contentHost.getCurrentContentViewName(), data: lastNavData}
+  const path = formatRouteUrl(plan.id, plan.data)
   if (path != null && path !== '/') pushRoute(path)
 }
 
@@ -221,6 +228,7 @@ const {state, editable, LOCK_COPY, needsSaved, blocked} = createInvoiceState()
 const sidebar = createSidebar({
   t,
   getShowContentView: () => showContentView,
+  openForYou: (...args) => openForYou(...args),
   getLaunchpadEnabled,
   buildNavLaunchpad: (...args) => buildNavLaunchpad(...args),
   restoreLaunchpadActions: (...args) => restoreLaunchpadActions(...args),
@@ -233,11 +241,18 @@ const sidebar = createSidebar({
   guardDataListLeave: (...args) => listGuard.guardDataListLeave(...args)
 })
 
+const openForYou = app => {
+  /* Highlight the app's rail/panel state exactly like v1's setNavCurrent
+     did for the Dashboard tile, then navigate to its For You landing. */
+  sidebar.applyNavCurrent(document.querySelector('.side'), app)
+  showContentView('foryou', {app})
+}
+
 const home = createHome({buildRailAndPanel: (...args) => sidebar.buildRailAndPanel(...args), findNavGroup: (...args) => sidebar.findNavGroup(...args), setNavCurrent: (...args) => sidebar.setNavCurrent(...args), t, getLocale, getLaunchpadEnabled, syncCustomerPrototypeControls: (...args) => syncPrototypeControlsPage(...args), getCurrentView: () => contentHost.getCurrentContentViewName(), queueSkeletonForCurrentView: (...args) => queueSkeletonForCurrentView(...args), closeEmailView: () => {
     /* Only a real email detail counts as "the email view": closing the
        launchpad must not bounce the content view through 'record'. */
     if (contentHost.getCurrentContentViewName() === 'email') showContentView('record')
-  }, visibleGroups: (...args) => sidebar.visibleGroups(...args), getCurrentApp: () => sidebar.getCurrentAppLabel(), closeAllMenus: (...args) => menus.closeAllMenus(...args), onLaunchpadShow, onLaunchpadHide})
+  }, visibleGroups: (...args) => sidebar.visibleGroups(...args), getCurrentApp: () => sidebar.getCurrentAppLabel(), closeAllMenus: (...args) => menus.closeAllMenus(...args), onLaunchpadShow, onLaunchpadHide, openForYou: (...args) => openForYou(...args)})
 
 const {buildNavLaunchpad, restoreLaunchpadActions, stopSearchTyping, startSearchTyping, hideLaunchpad, getLaunchpadUserName, showLaunchpad, setupAppSwitcher} = home
 
@@ -773,8 +788,8 @@ const navigation = createNavigation({
   },
 })
 
-showContentView = name => {
-  navigation.navigate(name)
+showContentView = (name, data) => {
+  navigation.navigate(name, data)
 }
 
 contentHost.setContentViewDeferralReady(true)

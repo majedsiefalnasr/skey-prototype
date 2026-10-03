@@ -2,7 +2,7 @@ import {encodeHtml} from '../core/locale.js'
 import {NAV_TREE, NAV_FAVORITES, NAV_RECENTS, NAV_ICONS} from '../prototype/fixtures/navigation.js'
 
 /** Owns sidebar state and its DOM bindings. */
-export function createSidebar({t, getShowContentView, getLaunchpadEnabled, buildNavLaunchpad, restoreLaunchpadActions, stopSearchTyping, hideLaunchpad, showLaunchpad, syncTopbarChrome, closeEmailView, visibleDirtyDataListContext, guardDataListLeave} = {}) {
+export function createSidebar({t, getShowContentView, getLaunchpadEnabled, buildNavLaunchpad, restoreLaunchpadActions, stopSearchTyping, hideLaunchpad, showLaunchpad, syncTopbarChrome, closeEmailView, visibleDirtyDataListContext, guardDataListLeave, openForYou} = {}) {
   const visibleGroups = () => NAV_TREE
 
   const childrenOf = entry => (Array.isArray(entry) ? entry.slice(1) : [])
@@ -84,23 +84,35 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       guardDataListLeave(() => setNavCurrent(root, label, {skipListLayoutGuard: true}))
     )
       return
-    applyNavState(label)
+    /* "For You" is the current app's landing row: resolve the owning app
+       before nav state moves, and don't let the row itself become the
+       current app (it is a screen of the app, not an app). Quick groups
+       (Starred/Recent) own no app, so their row falls back to the
+       default entry's app. */
+    const forYouApp =
+      label === 'For You' ? (findNavGroup(currentAppLabel)?.[0] ?? 'Dashboard') : null
+    if (forYouApp) navCurrentLabel = label
+    else applyNavState(label)
     closeEmailView() /* any real navigation leaves the email view, same as it would leave any other page */
     const viewByNavLabel = {
       'Sales Invoice': 'list',
       Customers: 'customers-list',
       'Geographical Structure': 'geo-list',
-      Dashboard: 'dashboard',
     }
-    getShowContentView()(viewByNavLabel[label] || 'record')
+    if (forYouApp) getShowContentView()('foryou', {app: forYouApp})
+    else getShowContentView()(viewByNavLabel[label] || 'record')
     const frame = root.closest('.frame')
     const lp = frame && frame.querySelector('.lp-view')
     if (lp && !lp.hidden) {
       /* Hide with the navigation target: the content view only swaps after
-         the async navigation settles, so the current view is still the old
-         one (or a transient) at this point — the URL must record where the
-         click is going, not what it left. */
-      hideLaunchpad(frame, {targetView: viewByNavLabel[label] || 'record'})
+         the async navigation settles, so the URL must record where the
+         click is going, not what it left. Route plans ({id, data}) carry
+         app-scoped targets; plain strings keep the v1 view-name shape. */
+      hideLaunchpad(frame, {
+        targetRoute: forYouApp
+          ? {id: 'foryou', data: {app: forYouApp}}
+          : viewByNavLabel[label] || 'record',
+      })
     }
     applyNavHighlight(root, label)
   }
@@ -201,7 +213,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       title.className = 'nc3-title px-2 pb-1 pt-2 text-[12.5px] font-bold text-ink'
       title.textContent = group[0]
       body.appendChild(title)
-      if (withForYou) body.appendChild(ncBuildItem('For you', 0, root))
+      if (withForYou) body.appendChild(ncBuildItem('For You', 0, root))
       childrenOf(group).forEach(entry => body.appendChild(ncBuildItem(entry, 0, root)))
     }
     /* a plain innerHTML swap reads as a hard cut when you're clicking rail icons in
@@ -232,23 +244,25 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
 
     /* every rail icon — Starred, Recent, and each app — feeds the same pinned
        panel the same way, so switching between them never changes behaviour.
-       Any of them also leaves the launchpad, same as picking a page would. */
+       Any of them also leaves the launchpad, same as picking a page would.
+       Returns false only when the collapsed-rail toggle closed the panel. */
     const activate = (btn, group, opts) => {
       const collapsed = side.classList.contains('collapsed')
       if (collapsed && btn.classList.contains('active') && !panel.hidden) {
         panel.hidden = true
         btn.classList.remove('active')
-        return
+        return false
       }
       const frame = fbody.closest('.frame')
       const lp = frame.querySelector('.lp-view')
       if (lp && !lp.hidden) {
-        hideLaunchpad(frame)
+        hideLaunchpad(frame, {targetRoute: opts?.targetRoute ?? null})
       }
       rail.querySelectorAll('.active').forEach(b => b.classList.remove('active'))
       btn.classList.add('active')
       show(group, opts)
       panel.hidden = false
+      return true
     }
     const railIcon = (label, icon, group, opts) => {
       const btn = document.createElement('button')
@@ -263,7 +277,11 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
          for a keyboard-triggered click, so keyboard users keep their focus ring
          (and the rail stays open for them to keep navigating). */
       btn.addEventListener('click', e => {
-        activate(btn, group, opts)
+        const opened = activate(btn, group, {
+          ...opts,
+          ...(opts?.withForYou ? {targetRoute: {id: 'foryou', data: {app: label}}} : {}),
+        })
+        if (opened && opts?.withForYou) openForYou(label)
         if (e.detail > 0) btn.blur()
       })
       return btn
@@ -330,8 +348,8 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     })
     root.append(rail, panel)
     /* selects an app's rail icon + opens its panel from outside the rail itself —
-       used by the topbar app-switcher and by the launchpad tiles */
-    root.activateByLabel = label => {
+       used by the topbar app-switcher, the launchpad tiles, and boot */
+    root.activateByLabel = (label, {targetRoute = null} = {}) => {
       currentAppLabel = label
       const btn = iconByLabel.get(label)
       if (btn) {
@@ -340,7 +358,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
         activate(
           btn,
           groups.find(g => g[0] === label) || quickGroupByLabel.get(label),
-          {withForYou: true}
+          {withForYou: true, targetRoute}
         )
         if (compactShell.matches) panel.hidden = true
       }
