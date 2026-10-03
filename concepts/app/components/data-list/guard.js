@@ -46,6 +46,11 @@ export function createListGuard({trapFocus, releaseFocus, saveDataListLayout, ge
     listLayoutGuardContext = ''
     listLayoutGuardAfter = null
     releaseFocus()
+    // Notify asynchronously so a synchronous `after?.()` callback in the
+    // closing action (discard/save) settles its navigation promise first;
+    // a close with no `after` (Keep editing, backdrop click) means the
+    // pending navigation must abort rather than hang forever.
+    queueMicrotask(() => listLayoutGuard.dispatchEvent(new CustomEvent('guardclosed')))
   }
 
   document.getElementById('list-layout-stay').addEventListener('click', closeListLayoutGuard)
@@ -86,7 +91,18 @@ export function createListGuard({trapFocus, releaseFocus, saveDataListLayout, ge
     if (fromId === 'list' || fromId === 'customers-list' || fromId === 'geo-list') {
       const context = {list: 'invoice', 'customers-list': 'customer', 'geo-list': 'geo'}[fromId]
       if (visibleDirtyDataListContext() !== context) return true
-      return new Promise(resolve => askListLayoutGuard(context, () => resolve(true)))
+      return new Promise(resolve => {
+        let settled = false
+        const done = allowed => {
+          if (settled) return
+          settled = true
+          listLayoutGuard.removeEventListener('guardclosed', onClosed)
+          resolve(allowed)
+        }
+        const onClosed = () => done(false)
+        listLayoutGuard.addEventListener('guardclosed', onClosed)
+        askListLayoutGuard(context, () => done(true))
+      })
     }
     return true
   }

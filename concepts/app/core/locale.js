@@ -397,6 +397,10 @@ export function createLocale() {
           'Locations in view': 'المواقع المعروضة',
           'Root locations ': 'مواقع رئيسية',
           'Hierarchy depth': 'عمق الهيكل',
+          // Dashboard screen
+          'Revenue this month': 'إيرادات الشهر الحالي',
+          'Open invoices': 'فواتير مفتوحة',
+          'Items in stock': 'أصناف بالمخزون',
           // Top-level modules (launchpad tiles / sidebar rail)
           Dashboard: 'لوحة التحكم',
           Vendors: 'الموردون',

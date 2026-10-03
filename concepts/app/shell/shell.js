@@ -2,6 +2,7 @@
 export function createShell({
   setupAppSwitcher,
   renderSide,
+  bootRenderFlags,
   goToForYou,
   applySideCollapsedState,
   toggleSideCollapse,
@@ -41,6 +42,7 @@ export function createShell({
     pageContent.append(d.querySelector('.geo-record-tpl').content.cloneNode(true))
     pageContent.append(d.querySelector('.profile-tpl').content.cloneNode(true))
     pageContent.append(d.querySelector('.organization-tpl').content.cloneNode(true))
+    pageContent.append(d.querySelector('.dashboard-tpl').content.cloneNode(true))
     const pageActionBar = document.createElement('div')
     pageActionBar.className = 'page-action-bar'
     pageContent.querySelectorAll(':scope > .arow').forEach(actionBar => {
@@ -82,7 +84,7 @@ export function createShell({
     })
     d.querySelectorAll('.side-toggle').forEach(b => b.addEventListener('click', toggleSideCollapse))
     d.querySelectorAll('.gtop .app').forEach(b => b.addEventListener('click', goToForYou))
-    renderSide(side)
+    renderSide(side, bootRenderFlags)
     d.querySelectorAll('.app-switcher-list').forEach(setupAppSwitcher)
     d.querySelectorAll('.app-switcher-menu').forEach(menu => {
       menu.hidden = !getLaunchpadEnabled()

@@ -19,9 +19,13 @@ npx playwright install chromium
 npm run dev
 ```
 
-Open <http://127.0.0.1:4173/concepts/app-shell.html>. The dev server rebuilds
+Open <http://127.0.0.1:4173/>. The dev server rebuilds
 `dist/` before each app-document response — refresh the browser after edits.
 `dist/` is generated and git-ignored; never open the authored HTML directly.
+Routes: `/` (default entry — Launchpad or Dashboard), `/dashboard`,
+`/invoices`, `/customers`, `/geography`, `/email`, `/profile`,
+`/organization`; the legacy `<http://127.0.0.1:4173/concepts/app-shell.html>`
+document still boots for parity testing.
 
 ## Static build
 
@@ -31,7 +35,8 @@ node scripts/serve.mjs --root dist --port 4183
 ```
 
 Serve the whole `dist/` tree (relative module, stylesheet, and image URLs depend
-on it) at <http://127.0.0.1:4183/concepts/app-shell.html>.
+on it) at <http://127.0.0.1:4183/> — `/concepts/app-shell.html` remains the
+legacy entry document.
 
 ## Tests
 

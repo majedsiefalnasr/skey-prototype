@@ -18,6 +18,8 @@ export function createHome({
   visibleGroups,
   getCurrentApp,
   closeAllMenus,
+  onLaunchpadShow,
+  onLaunchpadHide,
 }) {
   const pageAbort = new AbortController()
   function buildNavLaunchpad(fbody) {
@@ -26,7 +28,7 @@ export function createHome({
   }
 
   function openLaunchpadListDestination(side, label) {
-    if (!['Customers', 'Sales Invoice', 'Geographical Structure'].includes(label)) return false
+    if (!['Customers', 'Sales Invoice', 'Geographical Structure', 'Dashboard'].includes(label)) return false
     const group = findNavGroup(label)
     if (group) side.querySelector('.nc2').activateByLabel(group[0])
     setNavCurrent(side, label)
@@ -203,7 +205,7 @@ export function createHome({
     label.classList.remove('is-typing')
   }
 
-  function hideLaunchpad(frame, {restoreFocus = false} = {}) {
+  function hideLaunchpad(frame, {restoreFocus = false, targetView = null} = {}) {
     const lp = frame?.querySelector('.lp-view')
     if (!lp || lp.hidden) return false
     stopSearchTyping(lp)
@@ -217,6 +219,7 @@ export function createHome({
     }
     launchpadReturnFocus = null
     queueSkeletonForCurrentView()
+    onLaunchpadHide?.(targetView || undefined)
     return true
   }
 
@@ -498,6 +501,7 @@ export function createHome({
     startSearchTyping(search.querySelector('.lp-search-label'))
     if (focusWasInShell) requestAnimationFrame(() => search.focus())
     queueSkeletonForCurrentView()
+    onLaunchpadShow?.()
     return true
   }
 

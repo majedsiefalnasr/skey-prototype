@@ -17,6 +17,7 @@ export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCu
       'geo-record': '.geo-record-view:not([hidden])',
       profile: '.profile-view:not([hidden])',
       organization: '.organization-view:not([hidden])',
+      dashboard: '.dashboard-view:not([hidden])',
     }
     const selector = selectors[currentContentViewName]
     return selector ? document.querySelector(selector) : null
@@ -48,6 +49,7 @@ export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCu
       'geo-record': '.geo-record-view',
       profile: '.profile-view',
       organization: '.organization-view',
+      dashboard: '.dashboard-view',
     }
     const namedViews = Object.fromEntries(
       Object.entries(viewSelectors).map(([key, selector]) => {

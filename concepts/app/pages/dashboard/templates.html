@@ -1,0 +1,60 @@
+<template class="dashboard-tpl">
+  <div
+    class="dashboard-view [&:not([hidden])]:flex [&:not([hidden])]:[flex:1] [&:not([hidden])]:min-h-0 [&:not([hidden])]:flex-col"
+    hidden>
+    <div class="flex min-h-0 flex-1 flex-col overflow-auto pb-6">
+      <div class="px-4 pt-4">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="#" data-i18n="Home">Home</a><span class="sep">›</span
+          ><span aria-current="page" data-i18n="Dashboard">Dashboard</span>
+        </nav>
+        <div class="mt-2">
+          <h1 class="text-[20px] font-semibold leading-tight text-ink" data-i18n="Dashboard">
+            Dashboard
+          </h1>
+          <p class="mt-0.5 text-[13px] text-muted" data-i18n="Overview and key activity">
+            Overview and key activity
+          </p>
+        </div>
+      </div>
+      <div class="mt-4 grid grid-cols-1 gap-3 px-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div class="rounded-lg border border-line bg-surface p-4">
+          <div class="text-[12px] font-medium text-muted" data-i18n="Revenue this month">
+            Revenue this month
+          </div>
+          <div class="mt-1.5 text-[22px] font-semibold text-ink">1,284,500</div>
+          <div class="mt-1 text-[11.5px] font-medium">
+            <span dir="ltr" class="text-[color:var(--success)]">+12.4%</span>
+          </div>
+        </div>
+        <div class="rounded-lg border border-line bg-surface p-4">
+          <div class="text-[12px] font-medium text-muted" data-i18n="Open invoices">
+            Open invoices
+          </div>
+          <div class="mt-1.5 text-[22px] font-semibold text-ink">342</div>
+          <div class="mt-1 text-[11.5px] font-medium">
+            <span dir="ltr" class="text-[color:var(--success)]">+3.1%</span>
+          </div>
+        </div>
+        <div class="rounded-lg border border-line bg-surface p-4">
+          <div class="text-[12px] font-medium text-muted" data-i18n="Active customers">
+            Active customers
+          </div>
+          <div class="mt-1.5 text-[22px] font-semibold text-ink">1,128</div>
+          <div class="mt-1 text-[11.5px] font-medium">
+            <span dir="ltr" class="text-[color:var(--success)]">+1.8%</span>
+          </div>
+        </div>
+        <div class="rounded-lg border border-line bg-surface p-4">
+          <div class="text-[12px] font-medium text-muted" data-i18n="Items in stock">
+            Items in stock
+          </div>
+          <div class="mt-1.5 text-[22px] font-semibold text-ink">8,412</div>
+          <div class="mt-1 text-[11.5px] font-medium">
+            <span dir="ltr" class="text-[color:var(--danger)]">-4.2%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

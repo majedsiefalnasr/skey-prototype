@@ -8,6 +8,7 @@ import {createInvoices, createInvoiceState} from './pages/invoices/invoices.js'
 import {createInvoicePrint} from './pages/invoices/print.js'
 import {createInvoiceActivity} from './pages/invoices/activity.js'
 import {createGeography} from './pages/geography/geography.js'
+import {parse as parseRouteUrl, format as formatRouteUrl, resolveDefaultEntry} from './core/routes.js'
 import {createInvoiceRecord} from './pages/invoices/record.js'
 import {createInvoiceAdjustments} from './pages/invoices/adjustments.js'
 import {createInvoiceLines} from './pages/invoices/lines.js'
@@ -21,6 +22,7 @@ import {createDataList} from './components/data-list/list.js'
 import {createCustomers} from './pages/customers/customers.js'
 import {createProfile} from './pages/profile/profile.js'
 import {createOrganization} from './pages/organization/organization.js'
+import {createDashboard} from './pages/dashboard/dashboard.js'
 import {createOrganizationSessionActions} from './pages/organization/sessions.js'
 import {renderCustomerAvatar} from './pages/customers/images.js'
 import {createSidebar} from './shell/sidebar.js'
@@ -96,6 +98,81 @@ const setLaunchpadEnabled = enabled => {
   topbar.syncTopbarChrome()
 }
 
+/* ---- routing v1: deterministic URL <-> view mapping (core/routes.js).
+   parse() runs before the shell exists; the default-entry resolution for
+   '/' is the only step that reads launchpad configuration. `bootPlan` is
+   also what popstate falls back to for URLs this app does not own (e.g.
+   the legacy /concepts/app-shell.html entry). ---- */
+const bootRoute = parseRouteUrl(location.pathname, location.search)
+const bootPlan = (() => {
+  if (bootRoute === null) {
+    // Legacy entry document: keep today's boot outcome (Launchpad
+    // overlay when enabled, otherwise the invoice list).
+    return getLaunchpadEnabled() ? {kind: 'launchpad'} : {id: 'list', data: {}}
+  }
+  if (bootRoute.defaultEntry) return resolveDefaultEntry({launchpadEnabled: getLaunchpadEnabled()})
+  return bootRoute
+})()
+const bootRenderFlags = bootRoute === null
+  ? undefined
+  : bootRoute.defaultEntry
+    ? (getLaunchpadEnabled() ? {bootToLaunchpad: true} : {bootToLaunchpad: false, skipAutoNav: true})
+    : {bootToLaunchpad: false, skipAutoNav: true}
+const NAV_ITEM_LABEL_BY_ID = {
+  dashboard: 'Dashboard',
+  list: 'Sales Invoice',
+  'customers-list': 'Customers',
+  'geo-list': 'Geographical Structure',
+}
+const pendingBootId = bootPlan.kind === 'launchpad' ? 'record' : bootPlan.id
+
+/* The legacy /concepts/app-shell.html entry must keep working unchanged
+   (decision 12) — and it must never change its own URL: a pushState to '/'
+   would re-resolve every relative URL (customer avatars, fixture images)
+   against the site root. URL sync therefore only runs when the document
+   was itself booted from a route ('/' or a deep link). */
+const routingEnabled = bootRoute !== null || location.pathname === '/'
+
+let booted = false
+let handlingPop = false
+let suppressNextPop = false
+let routeIdx = 0
+let lastNavData
+
+const pushRoute = path => {
+  if (!routingEnabled) return
+  routeIdx += 1
+  history.pushState({routeIdx}, '', path)
+}
+
+const syncUrl = (id, data) => {
+  lastNavData = data
+  if (!booted || handlingPop) return
+  /* While the launchpad overlay is open it owns the URL: intermediate
+     content-view changes behind it (closing the email detail, pre-rendering
+     the target) must not create history entries. The overlay's hide handler
+     records the destination instead. */
+  if (document.querySelector('.lp-view:not([hidden])')) return
+  const path = formatRouteUrl(id, data)
+  if (path == null || path === location.pathname + location.search) return
+  pushRoute(path)
+}
+
+/* Launchpad is an overlay, not a navigation page: its URL sync hangs off
+   show/hide rather than onChange. Showing the overlay on the default-entry
+   route pushes '/'; hiding it records the destination — the view revealed
+   underneath, or the target the caller navigated to (overlay-open clicks
+   resolve their content view asynchronously, after hide has run). */
+const onLaunchpadShow = () => {
+  if (!booted || handlingPop || location.pathname === '/') return
+  pushRoute('/')
+}
+const onLaunchpadHide = targetView => {
+  if (!booted || handlingPop || location.pathname !== '/') return
+  const path = formatRouteUrl(targetView ?? contentHost.getCurrentContentViewName(), lastNavData)
+  if (path != null && path !== '/') pushRoute(path)
+}
+
 const localeControls = createLocaleControls({
   t,
   formatLocaleCurrency,
@@ -156,7 +233,11 @@ const sidebar = createSidebar({
   guardDataListLeave: (...args) => listGuard.guardDataListLeave(...args)
 })
 
-const home = createHome({buildRailAndPanel: (...args) => sidebar.buildRailAndPanel(...args), findNavGroup: (...args) => sidebar.findNavGroup(...args), setNavCurrent: (...args) => sidebar.setNavCurrent(...args), t, getLocale, getLaunchpadEnabled, syncCustomerPrototypeControls: (...args) => syncPrototypeControlsPage(...args), getCurrentView: () => contentHost.getCurrentContentViewName(), queueSkeletonForCurrentView: (...args) => queueSkeletonForCurrentView(...args), closeEmailView: () => showContentView('record'), visibleGroups: (...args) => sidebar.visibleGroups(...args), getCurrentApp: () => sidebar.getCurrentAppLabel(), closeAllMenus: (...args) => menus.closeAllMenus(...args)})
+const home = createHome({buildRailAndPanel: (...args) => sidebar.buildRailAndPanel(...args), findNavGroup: (...args) => sidebar.findNavGroup(...args), setNavCurrent: (...args) => sidebar.setNavCurrent(...args), t, getLocale, getLaunchpadEnabled, syncCustomerPrototypeControls: (...args) => syncPrototypeControlsPage(...args), getCurrentView: () => contentHost.getCurrentContentViewName(), queueSkeletonForCurrentView: (...args) => queueSkeletonForCurrentView(...args), closeEmailView: () => {
+    /* Only a real email detail counts as "the email view": closing the
+       launchpad must not bounce the content view through 'record'. */
+    if (contentHost.getCurrentContentViewName() === 'email') showContentView('record')
+  }, visibleGroups: (...args) => sidebar.visibleGroups(...args), getCurrentApp: () => sidebar.getCurrentAppLabel(), closeAllMenus: (...args) => menus.closeAllMenus(...args), onLaunchpadShow, onLaunchpadHide})
 
 const {buildNavLaunchpad, restoreLaunchpadActions, stopSearchTyping, startSearchTyping, hideLaunchpad, getLaunchpadUserName, showLaunchpad, setupAppSwitcher} = home
 
@@ -196,6 +277,7 @@ locale.subscribe(() => topbar.retranslate())
 const shell = createShell({
   setupAppSwitcher: (...args) => setupAppSwitcher(...args),
   renderSide: (...args) => sidebar.renderSide(...args),
+  bootRenderFlags,
   goToForYou: (...args) => topbar.goToForYou(...args),
   applySideCollapsedState: (...args) => sidebar.applySideCollapsedState(...args),
   toggleSideCollapse: (...args) => sidebar.toggleSideCollapse(...args),
@@ -455,6 +537,7 @@ const profile = createProfile({
     getSelected: () => localeControls.getSelectedLanguage(),
     select: code => localeControls.selectLanguage(code),
   },
+  onSectionChange: section => syncUrl('profile', {section}),
 })
 
 const organization = createOrganization({
@@ -486,6 +569,8 @@ const organization = createOrganization({
   createSessionActions: createOrganizationSessionActions,
   onAccessDenied: () => navigation.navigate('profile'),
 })
+
+const dashboard = createDashboard()
 
 const listDates = createListDates({
   t,
@@ -650,7 +735,7 @@ const invoices = createInvoices({
   templates: {
     listRoot: document.querySelector('.list-view'), listCanvas: document.getElementById('list-canvas'),
     listFooter: document.getElementById('list-fnav'), listInstance: listRuntime.dataListInstances.invoice,
-    recordRoots: [...document.querySelector('.page-content').children].filter(element => !element.matches('.email-view,.list-view,.customer-list-view,.customer-record-view,.geo-list-view,.geo-record-view,.profile-view,.organization-view')),
+    recordRoots: [...document.querySelector('.page-content').children].filter(element => !element.matches('.email-view,.list-view,.customer-list-view,.customer-record-view,.geo-list-view,.geo-record-view,.profile-view,.organization-view,.dashboard-view')),
   }, state, operations: {applyState, applyMode, modeSel, requestLeave: requestInvoiceLeave},
   record: {render: renderRecordA, dispose: () => { disposeRecordTabs(); disposeInvoiceLines(); disposeInvoicePayments(); disposeInvoiceAdjustments() }},
 })
@@ -666,6 +751,7 @@ const pageRegistry = new Map([
   ['email', email],
   ['profile', profile],
   ['organization', organization],
+  ['dashboard', dashboard],
 ])
 
 const navigation = createNavigation({
@@ -675,7 +761,16 @@ const navigation = createNavigation({
     if (page.id === 'launchpad') return
     contentHost.attachAndShowView(page.id)
   },
-  onChange: (...args) => contentHost.onNavigationChange(...args),
+  onChange: (id, data) => {
+    contentHost.onNavigationChange(id)
+    syncUrl(id, data)
+    /* The boot navigation itself must never create a history entry: flip
+       `booted` only after its URL sync has run (and been skipped). */
+    if (!booted && id === pendingBootId) {
+      booted = true
+      history.replaceState({routeIdx}, '')
+    }
+  },
 })
 
 showContentView = name => {
@@ -684,7 +779,73 @@ showContentView = name => {
 
 contentHost.setContentViewDeferralReady(true)
 
-navigation.navigate(contentHost.getCurrentContentViewName())
+if (bootRoute === null || (bootRoute.defaultEntry && getLaunchpadEnabled())) {
+  // Legacy entry document, and the launchpad flavor of the default entry:
+  // exactly today's boot navigation (record under the Launchpad overlay,
+  // or the auto-nav microtask to the invoice list when the overlay is off).
+  navigation.navigate(contentHost.getCurrentContentViewName())
+} else if (NAV_ITEM_LABEL_BY_ID[bootPlan.id]) {
+  // Routed screens that live on the sidebar rail boot through setNavCurrent
+  // so the highlight and the view come up together.
+  sidebar.setNavCurrent(document.querySelector('.side'), NAV_ITEM_LABEL_BY_ID[bootPlan.id])
+} else {
+  // profile / organization / email — no rail item, navigate directly.
+  navigation.navigate(bootPlan.id, bootPlan.data)
+}
+
+/* Back/Forward: re-resolve the URL to a plan and apply it with the same
+   guards as any other navigation. Unknown paths restore the boot plan;
+   '/' re-resolves the default entry (Launchpad toggles stay honest); a
+   guard refusal undoes the history move instead of stranding the URL. */
+const applyRoutePlan = async plan => {
+  if (plan.kind === 'launchpad') {
+    const fbody = document.querySelector('.fbody')
+    if (!fbody) return true
+    const frame = fbody.closest('.frame')
+    if (frame?.querySelector('.lp-view:not([hidden])')) return true
+    return showLaunchpad(fbody, {mode: 'home'}) !== false
+  }
+  const overlayFrame = document.querySelector('.lp-view:not([hidden])')?.closest('.frame')
+  if (overlayFrame) hideLaunchpad(overlayFrame)
+  const label = NAV_ITEM_LABEL_BY_ID[plan.id]
+  if (label) sidebar.applyNavCurrent(document.querySelector('.side'), label)
+  const sameView =
+    navigation.current() === plan.id &&
+    (lastNavData?.section ?? undefined) === (plan.data?.section ?? undefined)
+  if (sameView) return true
+  const allowed = await navigation.navigate(plan.id, plan.data)
+  if (!allowed) {
+    const currentLabel = NAV_ITEM_LABEL_BY_ID[navigation.current()]
+    if (currentLabel) sidebar.applyNavCurrent(document.querySelector('.side'), currentLabel)
+  }
+  return allowed
+}
+
+window.addEventListener('popstate', event => {
+  if (!routingEnabled) return
+  const idx = event.state?.routeIdx ?? 0
+  const delta = idx - routeIdx
+  if (suppressNextPop) {
+    suppressNextPop = false
+    routeIdx = idx
+    return
+  }
+  handlingPop = true
+  const route = parseRouteUrl(location.pathname, location.search)
+  const plan = route === null
+    ? bootPlan
+    : route.defaultEntry
+      ? resolveDefaultEntry({launchpadEnabled: getLaunchpadEnabled()})
+      : route
+  applyRoutePlan(plan).then(allowed => {
+    handlingPop = false
+    routeIdx = idx
+    if (!allowed && delta !== 0) {
+      suppressNextPop = true
+      history.go(-delta)
+    }
+  })
+})
 
 applyState()
 

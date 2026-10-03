@@ -72,7 +72,7 @@ function readSavedFields(storage, storageKey, editableFields) {
   }
 }
 
-export function createProfile({root, encodeHtml, currentUser, employeeDetails, contactDetails, loginLogRows, activityRows = [], storage, toast, trapFocus, releaseFocus, syncAppearanceControls, bindAppearanceSection, languageControls, applyDataI18n}) {
+export function createProfile({root, encodeHtml, currentUser, employeeDetails, contactDetails, loginLogRows, activityRows = [], storage, toast, trapFocus, releaseFocus, syncAppearanceControls, bindAppearanceSection, languageControls, applyDataI18n, onSectionChange}) {
   const navMount = root.querySelector('#profile-scroll-nav-mount')
   const contentMount = root.querySelector('#profile-scroll-content')
   const canvas = root.querySelector('#profile-canvas')
@@ -189,7 +189,7 @@ export function createProfile({root, encodeHtml, currentUser, employeeDetails, c
     languageSelect?.addEventListener('change', () => languageControls?.select?.(languageSelect.value))
 
     navMount.querySelectorAll('[data-profile-scroll-section]').forEach(button =>
-      button.addEventListener('click', () => scrollNavigator.activateSection(button.dataset.profileScrollSection))
+      button.addEventListener('click', () => setSection(button.dataset.profileScrollSection))
     )
 
     bindCardCollapse(contentMount)
@@ -201,6 +201,10 @@ export function createProfile({root, encodeHtml, currentUser, employeeDetails, c
   function setSection(key) {
     if (!PROFILE_SECTION_ORDER.includes(key)) return
     scrollNavigator?.activateSection(key)
+    /* Routing v1: explicit section choices are addressable as
+       /profile?section=… — the URL follows the selection (history pushes
+       are managed by the caller through syncUrl). */
+    onSectionChange?.(key)
   }
 
   function activate({section} = {}) {

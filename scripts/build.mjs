@@ -11,6 +11,7 @@
 import {readFile, realpath, mkdir, writeFile, readdir, lstat, rm, rename} from 'node:fs/promises';
 import path from 'node:path';
 import {compileTailwind} from './tailwind.mjs';
+import {ROUTE_PATHS} from '../concepts/app/core/routes.js';
 
 const sourceRoot = await realpath('concepts');
 
@@ -134,6 +135,23 @@ export async function build() {
     // published output has no residual include directives.
     const assembled = await assemble(path.join(repoRoot, 'concepts', 'app-shell.html'));
     await writeFile(path.join(staging, 'concepts', 'app-shell.html'), assembled, 'utf8');
+
+    // Routing v1 (build-time route folders): the same assembled document
+    // becomes the configured default entry at the site root and the entry
+    // for each real prototype screen under its own path. A <base> pointing
+    // at /concepts/ keeps the document's relative asset URLs resolving to
+    // the app's assets regardless of the document's own path; the legacy
+    // /concepts/app-shell.html copy stays untagged so its resolution (and
+    // the parity snapshot's literal asset URLs) are unchanged. This
+    // overwrites the copied project landing page at dist/index.html — the
+    // landing page itself remains in the repo.
+    const appDoc = assembled.replace('<head>', '<head><base href="/concepts/">');
+    await writeFile(path.join(staging, 'index.html'), appDoc, 'utf8');
+    for (const route of ROUTE_PATHS) {
+      const routeDir = path.join(staging, route.replace(/^\//, ''));
+      await mkdir(routeDir, {recursive: true});
+      await writeFile(path.join(routeDir, 'index.html'), appDoc, 'utf8');
+    }
 
     // Atomically swap staging in for the previous dist/, rather than
     // deleting dist/ first and rebuilding into it (which would leave a

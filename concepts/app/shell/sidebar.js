@@ -48,29 +48,12 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
 
   let currentAppLabel = findNavGroup(navCurrentLabel)?.[0] || navCurrentLabel
 
-  const setNavCurrent = (root, label, {skipListLayoutGuard = false} = {}) => {
-    const targetListContext =
-      label === 'Sales Invoice' ? 'invoice' : label === 'Customers' ? 'customer' : ''
-    if (
-      !skipListLayoutGuard &&
-      visibleDirtyDataListContext() !== targetListContext &&
-      guardDataListLeave(() => setNavCurrent(root, label, {skipListLayoutGuard: true}))
-    )
-      return
+  const applyNavState = label => {
     navCurrentLabel = label
     currentAppLabel = findNavGroup(label)?.[0] || label
-    closeEmailView() /* any real navigation leaves the email view, same as it would leave any other page */
-    const viewByNavLabel = {
-      'Sales Invoice': 'list',
-      Customers: 'customers-list',
-      'Geographical Structure': 'geo-list',
-    }
-    getShowContentView()(viewByNavLabel[label] || 'record')
-    const frame = root.closest('.frame')
-    const lp = frame && frame.querySelector('.lp-view')
-    if (lp && !lp.hidden) {
-      hideLaunchpad(frame)
-    }
+  }
+
+  const applyNavHighlight = (root, label) => {
     root.querySelectorAll('.current').forEach(el => el.classList.remove('current'))
     root.querySelectorAll('.on-path').forEach(el => el.classList.remove('on-path'))
     root.querySelectorAll('.nc1-item').forEach(el => {
@@ -82,6 +65,44 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
         n = n.parentElement.closest('.nc1-node')
       }
     })
+  }
+
+  /** Highlight + label state only — no navigation. Used when history
+   * restores drive navigation themselves (popstate), so the guard result
+   * stays with navigate() while the rail highlight follows the route. */
+  const applyNavCurrent = (root, label) => {
+    applyNavState(label)
+    applyNavHighlight(root, label)
+  }
+
+  const setNavCurrent = (root, label, {skipListLayoutGuard = false} = {}) => {
+    const targetListContext =
+      label === 'Sales Invoice' ? 'invoice' : label === 'Customers' ? 'customer' : ''
+    if (
+      !skipListLayoutGuard &&
+      visibleDirtyDataListContext() !== targetListContext &&
+      guardDataListLeave(() => setNavCurrent(root, label, {skipListLayoutGuard: true}))
+    )
+      return
+    applyNavState(label)
+    closeEmailView() /* any real navigation leaves the email view, same as it would leave any other page */
+    const viewByNavLabel = {
+      'Sales Invoice': 'list',
+      Customers: 'customers-list',
+      'Geographical Structure': 'geo-list',
+      Dashboard: 'dashboard',
+    }
+    getShowContentView()(viewByNavLabel[label] || 'record')
+    const frame = root.closest('.frame')
+    const lp = frame && frame.querySelector('.lp-view')
+    if (lp && !lp.hidden) {
+      /* Hide with the navigation target: the content view only swaps after
+         the async navigation settles, so the current view is still the old
+         one (or a transient) at this point — the URL must record where the
+         click is going, not what it left. */
+      hideLaunchpad(frame, {targetView: viewByNavLabel[label] || 'record'})
+    }
+    applyNavHighlight(root, label)
   }
 
   const clickedCollapseToggle = e =>
@@ -335,7 +356,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     side.classList.toggle('wide', !sideCollapsed)
   }
 
-  function renderSide(side, {bootToLaunchpad = true} = {}) {
+  function renderSide(side, {bootToLaunchpad = true, skipAutoNav = false} = {}) {
     const fbody = side.parentElement
     const frame = fbody.closest('.frame')
     const wasShowingLaunchpad = !!frame.querySelector('.lp-view:not([hidden])')
@@ -352,7 +373,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     side.prepend(built)
     if (getLaunchpadEnabled() && (bootToLaunchpad || wasShowingLaunchpad)) {
       showLaunchpad(fbody, {mode: 'home'})
-    } else {
+    } else if (!skipAutoNav) {
       queueMicrotask(() => setNavCurrent(side, navCurrentLabel))
     }
     if (sideCollapsed) side.classList.add('collapsed')
@@ -388,5 +409,5 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     applySideCollapsedState()
   })
 
-  return {visibleGroups, childrenOf, leavesOf, findNavGroup, getForYouGroups: () => forYouGroups, setForYouGroups: value => { forYouGroups = value }, getCurrentAppLabel: () => currentAppLabel, setNavCurrent, buildRailAndPanel, getSideCollapsed: () => sideCollapsed, renderSide, applySideCollapsedState, toggleSideCollapse}
+  return {visibleGroups, childrenOf, leavesOf, findNavGroup, getForYouGroups: () => forYouGroups, setForYouGroups: value => { forYouGroups = value }, getCurrentAppLabel: () => currentAppLabel, setNavCurrent, applyNavCurrent, buildRailAndPanel, getSideCollapsed: () => sideCollapsed, renderSide, applySideCollapsedState, toggleSideCollapse}
 }

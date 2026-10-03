@@ -3,8 +3,8 @@
 // by the composition root (main.js -> legacy-app.js today), which is the
 // only place that knows about individual pages.
 //
-// @typedef {'record'|'list'|'customers-list'|'customer-record'|'geo-list'|'geo-record'|'email'|'launchpad'} PageId
-// @typedef {{key?: string, mode?: string, messageId?: string}} NavigationData
+// @typedef {'record'|'list'|'customers-list'|'customer-record'|'geo-list'|'geo-record'|'email'|'profile'|'organization'|'dashboard'|'launchpad'} PageId
+// @typedef {{key?: string, mode?: string, messageId?: string, section?: string}} NavigationData
 // @typedef {{
 //   id: PageId,
 //   roots: HTMLElement[],
@@ -27,8 +27,9 @@
  *   (`from`); missing guards allow navigation.
  * @param {(page: Page) => void} params.showPage - performs the existing
  *   attachment/hiding operation for the target page.
- * @param {(id: string) => void} params.onChange - updates shell/prototype
- *   state after the target page has been activated.
+ * @param {(id: string, data?: NavigationData) => void} params.onChange - updates shell/prototype
+ *   state after the target page has been activated; receives the navigation
+ *   data so the composition root can keep the URL in step (routing v1).
  * @returns {Navigation}
  */
 export function createNavigation({resolvePage, requestLeave, showPage, onChange}) {
@@ -63,7 +64,7 @@ export function createNavigation({resolvePage, requestLeave, showPage, onChange}
     showPage(target)
     target.activate(data)
     currentId = id
-    onChange(id)
+    onChange(id, data)
     return true
   }
 

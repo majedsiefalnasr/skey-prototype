@@ -369,17 +369,37 @@ test('build: only copies allowlisted public paths into dist/', async () => {
   }
 })
 
-test('build: index.html links to public artifacts still resolve in dist/', async () => {
+test('build: root index.html is the app entry with a /concepts/ base and its assets resolve', async () => {
   await build()
   const html = await readFile('dist/index.html', 'utf8')
-  const hrefs = [...html.matchAll(/href="([^"#][^"]*)"/g)]
+  // The configured default entry is the app itself (routing v1); the
+  // project landing page stays in the repo but no longer ships at dist root.
+  assert.match(html, /<script type="module" src="app\/main\.js"><\/script>/)
+  assert.match(html, /<base href="\/concepts\/">/)
+  const hrefs = [...html.matchAll(/(?:href|src)="([^"#][^"]*)"/g)]
     .map(m => m[1])
-    .filter(href => !/^https?:\/\//.test(href))
-  assert.ok(hrefs.length > 0, 'expected at least one local href in index.html')
+    .filter(value => !/^(https?:|data:|mailto:)/.test(value))
+  assert.ok(hrefs.length > 0, 'expected at least one local asset reference in index.html')
   for (const href of hrefs) {
-    const target = path.join('dist', href.split('?')[0].split('#')[0])
+    const resolved = href.startsWith('/')
+      ? href
+      : path.posix.join('/concepts/', href.split('?')[0].split('#')[0])
+    const target = path.join('dist', resolved.replace(/^\//, ''))
     await assert.doesNotReject(stat(target), `missing dist target for href="${href}"`)
   }
+})
+
+test('build: every routed screen has a <route>/index.html entry and the legacy document stays unbased', async () => {
+  await build()
+  const {ROUTE_PATHS} = await import('../concepts/app/core/routes.js')
+  assert.ok(ROUTE_PATHS.length > 0)
+  for (const route of ROUTE_PATHS) {
+    const html = await readFile(path.join('dist', route.replace(/^\//, ''), 'index.html'), 'utf8')
+    assert.match(html, /<base href="\/concepts\/">/, `${route} entry must carry the app base`)
+    assert.match(html, /<script type="module" src="app\/main\.js"><\/script>/, `${route} entry must be the app document`)
+  }
+  const legacy = await readFile('dist/concepts/app-shell.html', 'utf8')
+  assert.doesNotMatch(legacy, /<base /, 'the legacy entry document must keep its own resolution')
 })
 
 test('build: rejects a symlink that escapes the public-path allowlist', async () => {
