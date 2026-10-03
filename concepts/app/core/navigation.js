@@ -4,7 +4,7 @@
 // only place that knows about individual pages.
 //
 // @typedef {'record'|'list'|'customers-list'|'customer-record'|'geo-list'|'geo-record'|'email'|'profile'|'organization'|'foryou'|'launchpad'} PageId
-// @typedef {{key?: string, mode?: string, messageId?: string, section?: string}} NavigationData
+// @typedef {{key?: string, mode?: string, messageId?: string, section?: string, app?: string}} NavigationData
 // @typedef {{
 //   id: PageId,
 //   roots: HTMLElement[],

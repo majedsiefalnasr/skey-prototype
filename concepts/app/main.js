@@ -119,7 +119,6 @@ const bootRenderFlags = bootRoute === null
     ? (getLaunchpadEnabled() ? {bootToLaunchpad: true} : {bootToLaunchpad: false, skipAutoNav: true})
     : {bootToLaunchpad: false, skipAutoNav: true}
 const NAV_ITEM_LABEL_BY_ID = {
-  dashboard: 'Dashboard',
   list: 'Sales Invoice',
   'customers-list': 'Customers',
   'geo-list': 'Geographical Structure',
@@ -807,6 +806,14 @@ if (bootRoute === null || (bootRoute.defaultEntry && getLaunchpadEnabled())) {
   // exactly today's boot navigation (record under the Launchpad overlay,
   // or the auto-nav microtask to the invoice list when the overlay is off).
   navigation.navigate(contentHost.getCurrentContentViewName())
+} else if (bootPlan.id === 'foryou' && bootPlan.data?.app) {
+  // App landing: select the app in the rail/panel (so highlight, current-app
+  // state, and the panel's For You row agree), then show its For You screen.
+  const side = document.querySelector('.side')
+  const appRoute = {id: 'foryou', data: {app: bootPlan.data.app}}
+  side.querySelector('.nc2')?.activateByLabel(bootPlan.data.app, {targetRoute: appRoute})
+  sidebar.applyNavCurrent(side, bootPlan.data.app)
+  navigation.navigate('foryou', bootPlan.data)
 } else if (NAV_ITEM_LABEL_BY_ID[bootPlan.id]) {
   // Routed screens that live on the sidebar rail boot through setNavCurrent
   // so the highlight and the view come up together.
@@ -834,8 +841,17 @@ const applyRoutePlan = async plan => {
   if (label) sidebar.applyNavCurrent(document.querySelector('.side'), label)
   const sameView =
     navigation.current() === plan.id &&
-    (lastNavData?.section ?? undefined) === (plan.data?.section ?? undefined)
+    (lastNavData?.section ?? undefined) === (plan.data?.section ?? undefined) &&
+    (plan.id !== 'foryou' || (lastNavData?.app ?? undefined) === (plan.data?.app ?? undefined))
   if (sameView) return true
+  if (plan.id === 'foryou' && plan.data?.app) {
+    /* Re-select the app so the rail icon, panel, and current-app state
+       follow the URL, not just the content view. */
+    const side = document.querySelector('.side')
+    const appRoute = {id: 'foryou', data: {app: plan.data.app}}
+    side.querySelector('.nc2')?.activateByLabel(plan.data.app, {targetRoute: appRoute})
+    sidebar.applyNavCurrent(side, plan.data.app)
+  }
   const allowed = await navigation.navigate(plan.id, plan.data)
   if (!allowed) {
     const currentLabel = NAV_ITEM_LABEL_BY_ID[navigation.current()]
