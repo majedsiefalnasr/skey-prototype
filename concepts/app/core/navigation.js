@@ -3,7 +3,7 @@
 // by the composition root (main.js -> legacy-app.js today), which is the
 // only place that knows about individual pages.
 //
-// @typedef {'record'|'list'|'customers-list'|'customer-record'|'geo-list'|'geo-record'|'email'|'profile'|'organization'|'dashboard'|'launchpad'} PageId
+// @typedef {'record'|'list'|'customers-list'|'customer-record'|'geo-list'|'geo-record'|'email'|'profile'|'organization'|'foryou'|'launchpad'} PageId
 // @typedef {{key?: string, mode?: string, messageId?: string, section?: string}} NavigationData
 // @typedef {{
 //   id: PageId,

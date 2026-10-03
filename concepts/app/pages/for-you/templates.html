@@ -1,18 +1,22 @@
-<template class="dashboard-tpl">
+<template class="foryou-tpl">
   <div
-    class="dashboard-view [&:not([hidden])]:flex [&:not([hidden])]:[flex:1] [&:not([hidden])]:min-h-0 [&:not([hidden])]:flex-col"
+    class="foryou-view [&:not([hidden])]:flex [&:not([hidden])]:[flex:1] [&:not([hidden])]:min-h-0 [&:not([hidden])]:flex-col"
     hidden>
     <div class="flex min-h-0 flex-1 flex-col overflow-auto pb-6">
       <div class="px-4 pt-4">
         <nav class="crumbs" aria-label="Breadcrumb">
           <a href="#" data-i18n="Home">Home</a><span class="sep">›</span
-          ><span aria-current="page" data-i18n="Dashboard">Dashboard</span>
+          ><span aria-current="page" data-foryou-app data-i18n="Dashboard">Dashboard</span>
         </nav>
         <div class="mt-2">
-          <h1 class="text-[20px] font-semibold leading-tight text-ink" data-i18n="Dashboard">
-            Dashboard
+          <h1 class="text-[20px] font-semibold leading-tight text-ink" data-i18n="For You">
+            For You
           </h1>
-          <p class="mt-0.5 text-[13px] text-muted" data-i18n="Overview and key activity">
+          <p
+            class="mt-0.5 text-[13px] text-muted"
+            data-foryou-subtitle
+            data-i18n="Overview and key activity"
+          >
             Overview and key activity
           </p>
         </div>

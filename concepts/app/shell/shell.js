@@ -42,7 +42,7 @@ export function createShell({
     pageContent.append(d.querySelector('.geo-record-tpl').content.cloneNode(true))
     pageContent.append(d.querySelector('.profile-tpl').content.cloneNode(true))
     pageContent.append(d.querySelector('.organization-tpl').content.cloneNode(true))
-    pageContent.append(d.querySelector('.dashboard-tpl').content.cloneNode(true))
+    pageContent.append(d.querySelector('.foryou-tpl').content.cloneNode(true))
     const pageActionBar = document.createElement('div')
     pageActionBar.className = 'page-action-bar'
     pageContent.querySelectorAll(':scope > .arow').forEach(actionBar => {

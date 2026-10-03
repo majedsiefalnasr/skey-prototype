@@ -22,7 +22,7 @@ import {createDataList} from './components/data-list/list.js'
 import {createCustomers} from './pages/customers/customers.js'
 import {createProfile} from './pages/profile/profile.js'
 import {createOrganization} from './pages/organization/organization.js'
-import {createDashboard} from './pages/dashboard/dashboard.js'
+import {createForYou} from './pages/for-you/for-you.js'
 import {createOrganizationSessionActions} from './pages/organization/sessions.js'
 import {renderCustomerAvatar} from './pages/customers/images.js'
 import {createSidebar} from './shell/sidebar.js'
@@ -570,7 +570,7 @@ const organization = createOrganization({
   onAccessDenied: () => navigation.navigate('profile'),
 })
 
-const dashboard = createDashboard()
+const forYou = createForYou({t})
 
 const listDates = createListDates({
   t,
@@ -735,7 +735,7 @@ const invoices = createInvoices({
   templates: {
     listRoot: document.querySelector('.list-view'), listCanvas: document.getElementById('list-canvas'),
     listFooter: document.getElementById('list-fnav'), listInstance: listRuntime.dataListInstances.invoice,
-    recordRoots: [...document.querySelector('.page-content').children].filter(element => !element.matches('.email-view,.list-view,.customer-list-view,.customer-record-view,.geo-list-view,.geo-record-view,.profile-view,.organization-view,.dashboard-view')),
+    recordRoots: [...document.querySelector('.page-content').children].filter(element => !element.matches('.email-view,.list-view,.customer-list-view,.customer-record-view,.geo-list-view,.geo-record-view,.profile-view,.organization-view,.foryou-view')),
   }, state, operations: {applyState, applyMode, modeSel, requestLeave: requestInvoiceLeave},
   record: {render: renderRecordA, dispose: () => { disposeRecordTabs(); disposeInvoiceLines(); disposeInvoicePayments(); disposeInvoiceAdjustments() }},
 })
@@ -751,7 +751,7 @@ const pageRegistry = new Map([
   ['email', email],
   ['profile', profile],
   ['organization', organization],
-  ['dashboard', dashboard],
+  ['foryou', forYou],
 ])
 
 const navigation = createNavigation({
