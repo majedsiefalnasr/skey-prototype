@@ -20,16 +20,8 @@
 
 /* entry = string (leaf) | [label, ...children] (branch). Verbatim labels, product typos included. */
 export const NAV_TREE = [
-  ['Dashboard', 'Key Performance Indicators', 'Favorite KPIs'],
-  [
-    'Customers',
-    'Drivers Data',
-    'Customers',
-    'Sales Representatives',
-    'Collectors',
-    'Marketers',
-    'Sub Customers',
-  ],
+  ['Dashboard'],
+  ['Customers', 'Customers', 'Sales Representatives', 'Collectors', 'Marketers', 'Sub Customers'],
   ['Vendors', 'Vendors', 'Pur. Representatives'],
   [
     'Inventory Systems Management',
@@ -53,13 +45,17 @@ export const NAV_TREE = [
   ],
   [
     'Sales Systems Management',
+    'Quotations Requests',
     'Quotations',
     'Sales Order',
+    'Sales Delivery Order',
     'Sales Invoice',
     'Sales Return',
     'Bill Outgoing Order',
+    'Bill Outgoing Order - Bulk',
     'Item pricing',
     'Return Incoming Order',
+    'Return Incoming Order - Bulk',
     [
       'Online Store',
       'Store data',
@@ -70,7 +66,14 @@ export const NAV_TREE = [
     ],
     ['Customer loyalty', ['Loyalty points system', 'Points Programs', 'Point Movement']],
   ],
-  ['Purchase Systems Management', 'Purchase Order', 'Purchase Invoice', 'Purchase Return'],
+  [
+    'Purchase Systems Management',
+    'Quotations',
+    'Purchase Request',
+    'Purchase Order',
+    'Purchase Invoice',
+    'Purchase Return',
+  ],
   [
     'POS System Management',
     'Point of Sale',
@@ -92,7 +95,7 @@ export const NAV_TREE = [
   [
     'Finance and Accounting',
     [
-      'Chart of accounts and subledgers',
+      'Chart of account and subleders',
       'Chart of Accounts',
       'Cost Centers',
       'Sub Ledger2',
@@ -103,7 +106,7 @@ export const NAV_TREE = [
       'Financial statistics',
     ],
     [
-      'Entries and Vouchers',
+      'Entires and Vouchers',
       'Debit Notes',
       'Credit Notes',
       'Journal Entry',
@@ -128,19 +131,41 @@ export const NAV_TREE = [
       'Cheques Payable Management',
       'Queries',
     ],
+    'Charitable organizations',
+    'External systems',
   ],
   [
-    'Fixed Assets System',
+    'Human Capital Management',
+    'Leave Management',
+    'Advance Management',
+    'Salaries Managment',
+    'Attendance Management',
+    'Legal affairs managment',
+    'Ticket and travel allowances managment',
+    'Adminstrative transaction managment',
+    'Evaluation managment',
+    'Employment managment',
+    'Training Managment',
+    'External Sites Conn. Managment',
+  ],
+  [
+    'Fixed Assests System',
     'Assets Groups',
-    'Asset locations',
+    'Asset locatioons',
     'Asset data',
-    'Asset increases',
+    'Assets Increas',
     'Asset Disposal',
     'Asset Depreciation',
   ],
   [
     'Manufacturing Resource Planning',
-    'Production Management Dashboard',
+    'Dashbord Production Management',
+    [
+      'Setup of Manufacturing Resource Planning',
+      'General Parameters',
+      'Definition of shifts',
+      'Definition of production classifications',
+    ],
     [
       'Setup of Production System',
       'Definition of Production Shop Floor',
@@ -155,10 +180,28 @@ export const NAV_TREE = [
       'Adoption of production processes',
     ],
     ['Queries', 'Monitoring production orders'],
+    [
+      'Industrial Facilities Management Reports',
+      'Reports - Production Halls',
+      'Reports - Definition of OverHead Cost Articles',
+      'Reports - Operations centers',
+      'Reports - Product Tree',
+      'Reports - Standard Cost',
+      'Reports - Production Order',
+      'Reports - Actual operating data',
+      'Reports - Production quantities',
+      'Reports - Production Cost',
+      'Reports - Raw Materials Consumption',
+      'Reports - Indirect Expenses Cost',
+    ],
   ],
+  ['Real Estate Management System', 'Owner Info', 'Services Information', 'Real Estate Information'],
+  ['Maintenance Workshop System', 'Workshop Information', 'Maintenance Types', 'Product Categories'],
   [
     'Customer Relations Management',
     'CRM Dashboard',
+    'Customer Follow-up',
+    'Customer Service & Technical Support',
     ['My Workspace', 'My Day', 'My Goals', 'Notification Builder'],
     ['Sales & Marketing', 'Leads', 'Campaigns', 'Deals', 'Activities', 'Goals Management'],
     ['Approvals', 'Deal Approvals'],
@@ -182,7 +225,7 @@ export const NAV_TREE = [
     ],
     ['Reception', 'Patients', 'Invoice Medical Services', 'Reports - Patients'],
     ['Appointments', 'Appointment Type', 'Monthly scheduling', 'Appointments'],
-    ['Clinic', 'Waiting list', 'Consultation', 'Vital Signs'],
+    ['CLinic', 'Waiting list', 'Consultation', 'Vital Signs'],
     [
       'Reports',
       'Reports - Key Performance Indicators',
@@ -196,6 +239,7 @@ export const NAV_TREE = [
       'Reports - Invoice Medical Services',
     ],
   ],
+  ['Car rent system', 'Configuration', 'Inputs', 'Transactions'],
   [
     'Reports',
     [
@@ -271,27 +315,14 @@ export const NAV_TREE = [
     ],
     ['POS reports', 'Reports - Point of Sale'],
     [
-      'Fixed assets reports',
+      'Fixed assests reports',
       'Reports - Assets Groups',
       'Reports - Asset locations',
       'Reports - Asset data',
       'Reports - Asset opening balances',
       'Reports - Asset movements',
     ],
-    [
-      'Industrial Facilities Management Reports',
-      'Reports - Production Halls',
-      'Reports - Definition of OverHead Cost Articles',
-      'Reports - Operations centers',
-      'Reports - Product Tree',
-      'Reports - Standard Cost',
-      'Reports - Production Order',
-      'Reports - Actual operating data',
-      'Reports - Production quantities',
-      'Reports - Production Cost',
-      'Reports - Raw Materials Consumption',
-      'Reports - Indirect Expenses Cost',
-    ],
+    'Human Capital Reports',
   ],
   [
     'System Administration',
@@ -332,15 +363,10 @@ export const NAV_TREE = [
       'Default data for Transactions',
     ],
     ['System Upgrade', 'Backup'],
+    'General Configuration',
   ],
   [
     'System Setup',
-    [
-      'Setup of Manufacturing Resource Planning',
-      'General Parameters',
-      'Definition of shifts',
-      'Definition of production classifications',
-    ],
     [
       'General Configuration',
       'General Parameters',
@@ -432,12 +458,14 @@ export const NAV_TREE = [
       'Item notes / cancel reasons',
       'Restaurant Staff',
     ],
+    'Human Capital Management Setup',
     ['Queries', 'Contact Details', 'Countries', 'Dynamic Reports'],
     [
       'Asset System Settings',
       'General Variables for Asset System',
       'General Coding for Asset System',
     ],
+    'Real Estate System Settings',
     [
       'Document approval settings',
       'Approval policy',
@@ -483,20 +511,24 @@ export const NAV_RECENTS = [
 /* icons borrowed from the shared symbol sprite -- structure over final icon design, per spec */
 export const NAV_ICONS = {
   Dashboard: 'i-grid',
-  Customers: 'i-user',
+  Customers: 'i-chat',
   Vendors: 'i-doc',
   'Inventory Systems Management': 'i-panel',
-  'Sales Systems Management': 'i-spark',
+  'Sales Systems Management': 'i-chart',
   'Purchase Systems Management': 'i-clip',
   'POS System Management': 'i-post',
   'Finance and Accounting': 'i-save',
-  'Fixed Assets System': 'i-lock',
+  'Human Capital Management': 'i-target',
+  'Fixed Assests System': 'i-archive',
   'Manufacturing Resource Planning': 'i-gear',
+  'Real Estate Management System': 'i-home',
+  'Maintenance Workshop System': 'i-refresh',
   'Customer Relations Management': 'i-bell',
   'Hospital Management': 'i-warn',
+  'Car rent system': 'i-location',
   Reports: 'i-print',
-  'System Administration': 'i-gear',
-  'System Setup': 'i-gear',
+  'System Administration': 'i-lock',
+  'System Setup': 'i-sliders',
   'Help Screens': 'i-help',
 }
 
@@ -524,12 +556,24 @@ export const NAV_APP_META = {
     description: 'Ledgers, journals, and finance',
     tone: 'finance',
   },
-  'Fixed Assets System': {
+  'Human Capital Management': {
+    description: 'People, leave, and payroll',
+    tone: 'crm',
+  },
+  'Fixed Assests System': {
     description: 'Assets, depreciation, and custody',
     tone: 'finance',
   },
   'Manufacturing Resource Planning': {
     description: 'Production, materials, and planning',
+    tone: 'manufacturing',
+  },
+  'Real Estate Management System': {
+    description: 'Properties, owners, and services',
+    tone: 'finance',
+  },
+  'Maintenance Workshop System': {
+    description: 'Workshop services and categories',
     tone: 'manufacturing',
   },
   'Customer Relations Management': {
@@ -539,6 +583,10 @@ export const NAV_APP_META = {
   'Hospital Management': {
     description: 'Healthcare operations and records',
     tone: 'health',
+  },
+  'Car rent system': {
+    description: 'Rental setup and transactions',
+    tone: 'sales',
   },
   Reports: {description: 'Operational and financial reports', tone: 'reports'},
   'System Administration': {
