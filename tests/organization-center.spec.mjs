@@ -122,12 +122,19 @@ test.describe('organization center', () => {
 
   test('topbar menu groups organization links by active role', async ({page}) => {
     await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173')
+    // The role chip label is translated with the shell chrome (setRole goes
+    // through t()), so assert against the boot language (mobile-rtl boots
+    // Arabic) instead of hard-coding English.
+    const roleLabels =
+      (await page.locator('html').getAttribute('lang')) === 'ar'
+        ? {administrator: 'مسؤول', manager: 'مدير', user: 'مستخدم'}
+        : {administrator: 'Administrator', manager: 'Manager', user: 'User'}
     await page.locator('.avatar-btn').click()
-    await expect(page.locator('[data-active-role-label]')).toHaveText('Administrator')
+    await expect(page.locator('[data-active-role-label]')).toHaveText(roleLabels.administrator)
     await expect(page.locator('.organization-menu:visible')).toHaveCount(2)
 
     await page.locator('#active-role').selectOption('manager', {force: true})
-    await expect(page.locator('[data-active-role-label]')).toHaveText('Manager')
+    await expect(page.locator('[data-active-role-label]')).toHaveText(roleLabels.manager)
     await expect(page.locator('.organization-menu:visible')).toHaveCount(1)
     // Audit log / System performance / Staff operations are hidden tabs, so
     // the avatar menu no longer links to them for any role.
@@ -136,7 +143,7 @@ test.describe('organization center', () => {
     await expect(page.locator('.organization-menu[data-organization-section="performance"]')).toHaveCount(0)
 
     await page.locator('#active-role').selectOption('user', {force: true})
-    await expect(page.locator('[data-active-role-label]')).toHaveText('User')
+    await expect(page.locator('[data-active-role-label]')).toHaveText(roleLabels.user)
     await expect(page.locator('[data-organization-menu-group]')).toBeHidden()
   })
 

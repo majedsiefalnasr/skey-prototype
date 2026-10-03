@@ -1,17 +1,72 @@
 
 
+import {LANGUAGES, isFunctionalLanguage, LANGUAGE_STORAGE_KEY} from '../core/locale.js'
+
 /** Owns locale controls state and its DOM bindings. */
 export function createLocaleControls({t, formatLocaleCurrency, getLocale, setLocale, getCurrentContentViewName, stopSearchTyping, startSearchTyping, getLaunchpadUserName, applyState, renderGeoRecord, getDataListState, renderDataList, getCustomers} = {}) {
   let appLocale = getLocale()
+  /* What the language selector displays. Tracks appLocale for the
+     functional locales (EN/AR) but can also hold a demo-only catalog code
+     (FR/DE/ES/PT/JA) that never reaches applyLocale() — see selectLanguage */
+  let selectedLanguage = getLocale()
 
   function applyDataI18n() {
     document.querySelectorAll('[data-i18n]').forEach(node => {
       node.textContent = t(node.dataset.i18n)
     })
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(node => {
+      node.placeholder = t(node.dataset.i18nPlaceholder)
+    })
+    document.querySelectorAll('[data-i18n-aria-label]').forEach(node => {
+      node.setAttribute('aria-label', t(node.dataset.i18nAriaLabel))
+    })
+  }
+
+  /* Reflects selectedLanguage onto every selector surface: the avatar
+     menu's Language submenu (trailing endonym in the summary + the checked
+     radio in the popover) and the Profile → Account settings Language
+     select. Safe to call before any of that DOM exists — each query just
+     no-ops on an empty document. */
+  function syncLanguageControls() {
+    const current = LANGUAGES.find(language => language.code === selectedLanguage) || LANGUAGES[0]
+    document.querySelectorAll('[data-language-current]').forEach(node => {
+      node.textContent = current.name
+    })
+    document.querySelectorAll('.language-submenu [data-language]').forEach(label => {
+      const input = label.querySelector('input[type="radio"]')
+      if (input) input.checked = label.dataset.language === current.code
+    })
+    const select = document.getElementById('profile-language')
+    if (select) select.value = current.code
+    /* Keep the #rtl harness checkbox mirroring the APPLICATION locale (not
+       the selector's demo display), so prototype-controls' session replay
+       of `rtl` can't drift from the language actually in effect. Setting
+       .checked programmatically fires no change event, so this never
+       re-enters applyLocale(). */
+    const rtlToggle = document.getElementById('rtl')
+    if (rtlToggle) rtlToggle.checked = appLocale === 'ar'
+  }
+
+  /* The one entry point behind both selector surfaces. Functional codes
+     switch the application locale (persisted for reload); demo-only codes
+     update the selector display alone — no language, direction, content,
+     or storage change. */
+  function selectLanguage(code) {
+    if (!LANGUAGES.some(language => language.code === code)) return
+    if (isFunctionalLanguage(code)) {
+      applyLocale(code)
+      try {
+        localStorage.setItem(LANGUAGE_STORAGE_KEY, code)
+      } catch {}
+    } else {
+      selectedLanguage = code
+      syncLanguageControls()
+    }
   }
 
   function applyLocale(locale) {
     appLocale = locale
+    selectedLanguage = locale
     setLocale(locale)
     document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr'
     document.documentElement.lang = locale === 'ar' ? 'ar' : 'en'
@@ -122,11 +177,56 @@ export function createLocaleControls({t, formatLocaleCurrency, getLocale, setLoc
       const lbl = btn.querySelector('span')
       if (lbl) lbl.textContent = t(btn.dataset.label)
     })
+    syncLanguageControls()
+  }
+
+  /* Wires the avatar menu's Language submenu — a details/summary inner
+     dropdown in the Statistics manage-submenu style: the menu-controller's
+     document listeners open it on hover, position its popover next to the
+     summary, and close it when the pointer or focus leaves, while the
+     summary click toggles it for touch/keyboard. Runs once from main.js
+     after the shell DOM exists and before the first
+     navigation.navigate(), so a stored العربية boots straight into RTL
+     with no English flash. Demo-only selections are never persisted, so
+     a reload always comes back on the last functional locale. */
+  function initLanguage() {
+    const submenu = document.querySelector('.language-submenu')
+    const popover = submenu?.querySelector(':scope > .data-menu-popover')
+    const avatarBtn = document.querySelector('.avatar-btn')
+    /* Statistics-style behavior: the popover stays open after a pick so
+       adjacent options remain reachable; only the menu-controller's
+       pointer/Escape/outside-click paths close it. */
+    popover?.addEventListener('change', event => {
+      const label = event.target.closest?.('[data-language]')
+      if (label) selectLanguage(label.dataset.language)
+    })
+    /* Reset the inner dropdown whenever the avatar menu closes (item
+       click, Escape, or outside click all funnel through aria-expanded),
+       so the menu always reopens with the Language list collapsed. */
+    if (avatarBtn && 'MutationObserver' in window) {
+      new MutationObserver(() => {
+        if (avatarBtn.getAttribute('aria-expanded') !== 'true' && submenu) submenu.open = false
+      }).observe(avatarBtn, {attributes: true, attributeFilter: ['aria-expanded']})
+    }
+    let stored = null
+    try {
+      stored = localStorage.getItem(LANGUAGE_STORAGE_KEY)
+    } catch {}
+    // Only functional codes are ever persisted, so anything found here is
+    // EN or AR — the harness checkbox follows through syncLanguageControls.
+    if (isFunctionalLanguage(stored)) applyLocale(stored)
+    syncLanguageControls()
   }
 
   document.getElementById('rtl').addEventListener('change', e => {
     applyLocale(e.target.checked ? 'ar' : 'en')
   })
 
-  return {getAppLocale: () => appLocale, applyDataI18n}
+  return {
+    getAppLocale: () => appLocale,
+    applyDataI18n,
+    getSelectedLanguage: () => selectedLanguage,
+    selectLanguage,
+    initLanguage,
+  }
 }

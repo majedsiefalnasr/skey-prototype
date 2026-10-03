@@ -37,13 +37,17 @@ test('email compose retains send feedback', async ({page}, testInfo) => {
 });
 
 test('notification tabs preserve keyboard selection', async ({page}) => {
-  await page.locator('button[aria-label="System Alerts"]').click();
+  // The alerts button's aria-label is data-i18n'd (System Alerts /
+  // تنبيهات النظام), so key the locator off aria-controls, which never
+  // translates.
+  const alertsButton = page.locator('button[aria-controls="notifications-popover"]');
+  await alertsButton.click();
   const direct = page.locator('.notif-tabs [data-tab="direct"]');
   await direct.focus();
   await page.keyboard.press('ArrowRight');
   await expect(page.locator('.notif-tabs [data-tab="email"]')).toHaveAttribute('aria-selected', 'true');
   await page.keyboard.press('Escape');
-  await expect(page.locator('button[aria-label="System Alerts"]')).toBeFocused();
+  await expect(alertsButton).toBeFocused();
 });
 
 test('assistant proposal answers and closes with Escape', async ({page}) => {

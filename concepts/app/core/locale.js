@@ -13,6 +13,31 @@
 // encodeHtml is also exported standalone (not part of the locale instance)
 // for safe rendering elsewhere, per the plan.
 
+// Language catalog behind the language selector (avatar menu → Language,
+// and the Profile → Account settings → Language row). The selector lists
+// every entry as an endonym + ISO code so it demonstrates the scalable
+// many-locale pattern, but only EN/AR are wired to applyLocale() in
+// shell/locale.js — the remaining entries are prototype/demo options:
+// selecting one updates the selector's own display state only and never
+// touches the application language, direction, or content. The functional
+// selection persists in localStorage under LANGUAGE_STORAGE_KEY; demo
+// selections are never persisted.
+export const LANGUAGES = [
+  {code: 'en', name: 'English', iso: 'EN'},
+  {code: 'ar', name: 'العربية', iso: 'AR'},
+  {code: 'fr', name: 'Français', iso: 'FR'},
+  {code: 'de', name: 'Deutsch', iso: 'DE'},
+  {code: 'es', name: 'Español', iso: 'ES'},
+  {code: 'pt', name: 'Português', iso: 'PT'},
+  {code: 'ja', name: '日本語', iso: 'JA'},
+]
+
+const FUNCTIONAL_LANGUAGE_CODES = new Set(['en', 'ar'])
+
+export const isFunctionalLanguage = code => FUNCTIONAL_LANGUAGE_CODES.has(code)
+
+export const LANGUAGE_STORAGE_KEY = 'skey-proto-language'
+
 export function createLocale() {
         let appLocale = 'en'
         const I18N = {
@@ -159,6 +184,68 @@ export function createLocale() {
             'لم يُحفظ بعد — تأخذ الفاتورة رقمها ومكانها في القائمة عند الحفظ',
           'Customer Statement': 'كشف حساب العميل',
           'Add Contact': 'إضافة جهة اتصال',
+          // Topbar chrome / help menu / user menu / language selector
+          'AI Assistant': 'مساعد الذكاء الاصطناعي',
+          Alerts: 'التنبيهات',
+          'System Alerts': 'تنبيهات النظام',
+          'Collapse sidebar': 'طي الشريط الجانبي',
+          'Expand sidebar': 'توسيع الشريط الجانبي',
+          'Show context panel': 'إظهار لوحة السياق',
+          'Hide context panel': 'إخفاء لوحة السياق',
+          "What's new": 'ما الجديد',
+          Documentation: 'التوثيق',
+          'Keyboard shortcuts': 'اختصارات لوحة المفاتيح',
+          Support: 'الدعم',
+          'Give feedback': 'إرسال ملاحظات',
+          Information: 'معلومات',
+          'About Skey ERP': 'عن نظام Skey ERP',
+          'System status': 'حالة النظام',
+          Legal: 'قانوني',
+          'Terms of service': 'شروط الخدمة',
+          'Privacy policy': 'سياسة الخصوصية',
+          Personal: 'شخصي',
+          Organization: 'المؤسسة',
+          Back: 'رجوع',
+          'My Profile': 'ملفي الشخصي',
+          'Account preferences': 'تفضيلات الحساب',
+          Appearance: 'المظهر',
+          Security: 'الأمان',
+          'Sessions & devices': 'الجلسات والأجهزة',
+          'Organization overview': 'نظرة عامة على المؤسسة',
+          'Users & access': 'المستخدمون والصلاحيات',
+          Workspace: 'مساحة العمل',
+          'Customize sidebar': 'تخصيص الشريط الجانبي',
+          'Add this page to Favorites': 'إضافة هذه الصفحة إلى المفضلة',
+          Session: 'الجلسة',
+          'Log out': 'تسجيل الخروج',
+          'Add to Favorites': 'إضافة إلى المفضلة',
+          'Remove from Favorites': 'إزالة من المفضلة',
+          'Added to Favorites': 'أُضيفت إلى المفضلة',
+          'Removed from Favorites': 'أُزيلت من المفضلة',
+          Administrator: 'مسؤول',
+          Manager: 'مدير',
+          User: 'مستخدم',
+          Language: 'اللغة',
+          'Search screens, customers and invoices, or type an action':
+            'ابحث في الشاشات والعملاء والفواتير، أو اكتب أمراً',
+          Scope: 'النطاق',
+          Everything: 'الكل',
+          Screens: 'الشاشات',
+          Records: 'السجلات',
+          Actions: 'الإجراءات',
+          Navigate: 'التنقل',
+          Open: 'فتح',
+          'Change scope': 'تغيير النطاق',
+          'Actions apply to invoice 126': 'الإجراءات تنطبق على الفاتورة 126',
+          'You are on': 'أنت الآن على',
+          // Profile → Account settings (the profile half of the language selector)
+          Username: 'اسم المستخدم',
+          Branch: 'الفرع',
+          'Default landing page': 'صفحة البداية الافتراضية',
+          'Account settings': 'إعدادات الحساب',
+          'Username, branch, language, and default landing page.':
+            'اسم المستخدم والفرع واللغة وصفحة البداية الافتراضية.',
+          Account: 'الحساب',
           // Data list toolbar / pagination / grouping
           'Clear all filters': 'إزالة كل الفلاتر',
           'Clear filter': 'إزالة الفلتر',

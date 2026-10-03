@@ -273,7 +273,7 @@ test('account menu describes the branch and uses the default system-user avatar'
     readFile(new URL('../concepts/app/pages/email/email.js', import.meta.url), 'utf8'),
   ])
 
-  assert.match(shell, /<div class="glbl">Workspace<\/div>/)
+  assert.match(shell, /<div class="glbl"[^>]*>Workspace<\/div>/)
   assert.match(shell, /lastchance · Cairo HQ/)
   assert.doesNotMatch(shell, /Switch\s*account/)
   assert.doesNotMatch(sidebar, /tenant/i)

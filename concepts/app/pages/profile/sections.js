@@ -10,13 +10,14 @@
 // bindAppearanceSection() depends on those exact ids existing.
 
 import {PROFILE_SECTIONS} from './fields.js'
+import {LANGUAGES} from '../../core/locale.js'
 
 // Exported so profile.js's refreshAccountAndSecurity (targeted re-render of
 // a single section after a dialog closes) can rebuild the exact same
 // heading markup instead of duplicating it and risking drift.
 export function renderSectionHeading(key, encodeHtml) {
   const section = PROFILE_SECTIONS[key]
-  return `<h2 class="profile-section-heading text-[19px] font-semibold text-ink mb-1">${encodeHtml(section.title)}</h2><p class="profile-section-description text-[13px] text-muted mb-3!">${encodeHtml(section.description)}</p>`
+  return `<h2 class="profile-section-heading text-[19px] font-semibold text-ink mb-1" data-i18n="${encodeHtml(section.title)}">${encodeHtml(section.title)}</h2><p class="profile-section-description text-[13px] text-muted mb-3!" data-i18n="${encodeHtml(section.description)}">${encodeHtml(section.description)}</p>`
 }
 
 // .rec-card-hd is the clickable collapse toggle — same contract
@@ -28,7 +29,7 @@ export function renderSectionHeading(key, encodeHtml) {
 function renderCard(title, bodyHtml, extraClass = '') {
   const classAttr = extraClass ? `${extraClass} rec-card` : 'rec-card'
   return `<div class="${classAttr} [border:1px_solid_var(--line)] rounded-lg mb-3! overflow-hidden">
-    <button type="button" class="rec-card-hd flex items-center justify-between gap-2.5 w-full text-start [padding:8px_12px] [font-size:12.5px]! font-bold! bg-[var(--line-2)]! border-0! [cursor:pointer]" aria-expanded="true"><span class="flex items-center gap-1.5">${title}</span></button>
+    <button type="button" class="rec-card-hd flex items-center justify-between gap-2.5 w-full text-start [padding:8px_12px] [font-size:12.5px]! font-bold! bg-[var(--line-2)]! border-0! [cursor:pointer]" aria-expanded="true"><span class="flex items-center gap-1.5" data-i18n="${title}">${title}</span></button>
     <div class="rec-card-body [padding:12px]">${bodyHtml}</div>
   </div>`
 }
@@ -69,12 +70,12 @@ function renderProfileField({
     const optionMarkup = options
       .map(
         opt =>
-          `<option value="${encodeHtml(opt.value)}"${opt.value === value ? ' selected' : ''}>${encodeHtml(opt.label)}</option>`
+          `<option value="${encodeHtml(opt.value)}"${opt.lang ? ` lang="${encodeHtml(opt.lang)}"` : ''}${opt.value === value ? ' selected' : ''}>${encodeHtml(opt.label)}</option>`
       )
       .join('')
-    return `<div class="${REC_FIELD_CLASS}"><label for="${id}">${encodeHtml(label)}</label><select id="${id}"${disabledAttr}>${optionMarkup}</select></div>`
+    return `<div class="${REC_FIELD_CLASS}"><label for="${id}" data-i18n="${encodeHtml(label)}">${encodeHtml(label)}</label><select id="${id}"${disabledAttr}>${optionMarkup}</select></div>`
   }
-  return `<div class="${REC_FIELD_CLASS}"><label for="${id}">${encodeHtml(label)}</label><input id="${id}" type="${type}" value="${encodeHtml(value)}"${disabledAttr}></div>`
+  return `<div class="${REC_FIELD_CLASS}"><label for="${id}" data-i18n="${encodeHtml(label)}">${encodeHtml(label)}</label><input id="${id}" type="${type}" value="${encodeHtml(value)}"${disabledAttr}></div>`
 }
 
 function renderActivityRow(entry, encodeHtml) {
@@ -133,17 +134,9 @@ function renderProfileSection(currentUser, encodeHtml) {
       value: currentUser.phone,
       encodeHtml,
     }),
-    renderProfileField({
-      id: 'profile-locale',
-      label: 'Locale',
-      type: 'select',
-      value: currentUser.locale,
-      encodeHtml,
-      options: [
-        {value: 'en', label: 'English'},
-        {value: 'ar', label: 'Arabic'},
-      ],
-    }),
+    // The language lives only in Account settings (the profile half of the
+    // language selector) — the old read-only Locale select here duplicated
+    // it without ever switching the app language, so it was removed.
     renderProfileField({
       id: 'profile-timezone',
       label: 'Timezone',
@@ -170,7 +163,7 @@ function renderProfileSection(currentUser, encodeHtml) {
   )
 }
 
-export function renderAccountSection(currentUser, accountDetails, encodeHtml) {
+export function renderAccountSection(currentUser, accountDetails, encodeHtml, language = 'en') {
   const fieldsHtml = [
     renderProfileField({
       id: 'profile-username',
@@ -197,6 +190,23 @@ export function renderAccountSection(currentUser, accountDetails, encodeHtml) {
         {value: 'invoices', label: 'Sales Invoices'},
         {value: 'customers', label: 'Customers'},
       ],
+    }),
+    // Profile half of the language selector: the same seven-catalog
+    // endonym + ISO list the avatar menu's Language submenu shows. The
+    // change handler (profile.js) routes it through localeControls'
+    // selectLanguage(), so EN/AR switch the app while the demo-only codes
+    // stay presentation-only.
+    renderProfileField({
+      id: 'profile-language',
+      label: 'Language',
+      type: 'select',
+      value: language,
+      encodeHtml,
+      options: LANGUAGES.map(entry => ({
+        value: entry.code,
+        label: `${entry.name} (${entry.iso})`,
+        lang: entry.code,
+      })),
     }),
   ].join('')
   return renderCard(
@@ -426,6 +436,7 @@ export function renderProfileSections({
   encodeHtml,
   activityRows = [],
   activeKey = 'profile',
+  language = 'en',
 }) {
   // Every editable-fields tab gets the identical Save/Undo bar appended
   // after its cards — Appearance applies instantly (no bar) and Security/
@@ -435,7 +446,7 @@ export function renderProfileSections({
     profile: renderProfileSection(currentUser, encodeHtml),
     employee: renderEmployeeSection(employeeDetails, encodeHtml),
     contact: renderContactSection(contactDetails, encodeHtml),
-    account: renderAccountSection(currentUser, accountDetails, encodeHtml),
+    account: renderAccountSection(currentUser, accountDetails, encodeHtml, language),
     appearance: renderAppearanceSectionFields(),
     security: renderSecuritySection(),
     sessions: renderSessionsSection(activityRows, encodeHtml),

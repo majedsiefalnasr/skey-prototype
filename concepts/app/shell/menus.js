@@ -11,7 +11,9 @@ export function createMenus({showLaunchpad, getLaunchpadEnabled} = {}) {
     })
 
   const enabledMenuItems = list =>
-    [...list.querySelectorAll('[role^="menuitem"]')].filter(item => !item.disabled)
+    [...list.querySelectorAll('[role^="menuitem"]')].filter(
+      item => !item.disabled && !item.closest('[hidden]')
+    )
 
   function openMenuFromKeyboard(trigger, edge) {
     const list = trigger.parentElement.querySelector('.mlist')
@@ -46,6 +48,11 @@ export function createMenus({showLaunchpad, getLaunchpadEnabled} = {}) {
       return
     }
     if (event.key === 'Tab') {
+      /* While focus sits inside an open inner dropdown (details/summary
+         submenu, e.g. user menu → Language), let Tab move into the popover
+         instead of closing the whole menu; pressing Tab anywhere else in
+         the menu still closes it as before. */
+      if (event.target.closest?.('details[open]')) return
       owner.setAttribute('aria-expanded', 'false')
       list.classList.remove('open')
       return

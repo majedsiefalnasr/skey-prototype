@@ -24,7 +24,6 @@ const EDITABLE_TABS = {
       jobTitle: 'profile-job-title',
       email: 'profile-email',
       phone: 'profile-phone',
-      locale: 'profile-locale',
       timezone: 'profile-timezone',
     },
   },
@@ -73,7 +72,7 @@ function readSavedFields(storage, storageKey, editableFields) {
   }
 }
 
-export function createProfile({root, encodeHtml, currentUser, employeeDetails, contactDetails, loginLogRows, activityRows = [], storage, toast, trapFocus, releaseFocus, syncAppearanceControls, bindAppearanceSection}) {
+export function createProfile({root, encodeHtml, currentUser, employeeDetails, contactDetails, loginLogRows, activityRows = [], storage, toast, trapFocus, releaseFocus, syncAppearanceControls, bindAppearanceSection, languageControls, applyDataI18n}) {
   const navMount = root.querySelector('#profile-scroll-nav-mount')
   const contentMount = root.querySelector('#profile-scroll-content')
   const canvas = root.querySelector('#profile-canvas')
@@ -167,7 +166,7 @@ export function createProfile({root, encodeHtml, currentUser, employeeDetails, c
   function render() {
     profileState.activeSection = initialSection
     navMount.innerHTML = renderProfileScrollNav(PROFILE_SECTION_ORDER, PROFILE_SECTIONS, profileState.activeSection, encodeHtml)
-    contentMount.innerHTML = renderProfileSections({currentUser: savedProfileDetails, employeeDetails: savedEmployeeDetails, contactDetails: savedContactDetails, accountDetails: savedAccountDetails, encodeHtml, activityRows, activeKey: initialSection})
+    contentMount.innerHTML = renderProfileSections({currentUser: savedProfileDetails, employeeDetails: savedEmployeeDetails, contactDetails: savedContactDetails, accountDetails: savedAccountDetails, encodeHtml, activityRows, activeKey: initialSection, language: languageControls?.getSelected?.() ?? 'en'})
 
     document.getElementById('profile-login-log').innerHTML = renderLoginLogTable(loginLogRows, encodeHtml)
 
@@ -180,6 +179,14 @@ export function createProfile({root, encodeHtml, currentUser, employeeDetails, c
     document.querySelector('[data-profile-open-change-password]').addEventListener('click', () => securityDialogs.openChangePassword())
     document.querySelector('[data-profile-open-set-pin]').addEventListener('click', () => securityDialogs.openSetPin())
     bindEditableTabs()
+
+    // The Language select is not part of the Save/Undo contract: picking a
+    // language applies immediately (like Appearance does) through the same
+    // selectLanguage() the avatar menu's Language submenu uses, so it never
+    // dirties the Account bar. localeControls keeps its value in sync when
+    // the language changes anywhere else.
+    const languageSelect = document.getElementById('profile-language')
+    languageSelect?.addEventListener('change', () => languageControls?.select?.(languageSelect.value))
 
     navMount.querySelectorAll('[data-profile-scroll-section]').forEach(button =>
       button.addEventListener('click', () => scrollNavigator.activateSection(button.dataset.profileScrollSection))
@@ -205,6 +212,16 @@ export function createProfile({root, encodeHtml, currentUser, employeeDetails, c
     } else {
       setSection(section || 'profile')
     }
+    // The section markup is generated in English, so data-i18n labels only
+    // become Arabic when applyDataI18n runs against them: on every
+    // activate — including re-activations after the language changed while
+    // this view was detached (applyLocale's document walk can't see it).
+    applyDataI18n?.()
+    // Same detachment caveat for the Language select: while detached,
+    // localeControls' syncLanguageControls can't reach it, so re-sync the
+    // current selection here instead of trusting the value render() wrote.
+    const languageSelect = document.getElementById('profile-language')
+    if (languageSelect) languageSelect.value = languageControls?.getSelected?.() ?? 'en'
   }
 
   function deactivate() {

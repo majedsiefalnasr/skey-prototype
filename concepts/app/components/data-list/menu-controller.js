@@ -200,13 +200,15 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
   }
 
   /* The inverse walk: given an element inside a submenu, find its nearest
-     open .data-menu/.data-page-manage ancestor — jumping through a parked
-     popover's __homeParent the same way menuContainsDetails does, since
-     plain .closest() stops at document.body once parking has moved the
-     popover out from under the row menu's <details>. */
+     open menu ancestor — jumping through a parked popover's __homeParent
+     the same way menuContainsDetails does, since plain .closest() stops at
+     document.body once parking has moved the popover out from under the
+     row menu's <details>. Shell menus (.mlist.open, e.g. the avatar user
+     menu hosting the Language submenu) count as open menus too so hover
+     open/close works inside them. */
   function closestOpenMenu(node) {
     for (let el = node; el; el = el.parentElement) {
-      if (el.matches?.('.data-menu[open], .data-page-manage[open]')) return el
+      if (el.matches?.('.data-menu[open], .data-page-manage[open], .mlist.open')) return el
       if (el.dataset?.parked && el.__homeParent?.open) return el.__homeParent
     }
     return null

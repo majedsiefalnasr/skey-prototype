@@ -162,6 +162,7 @@ const {buildNavLaunchpad, restoreLaunchpadActions, stopSearchTyping, startSearch
 
 const topbar = createTopbar({
   toast,
+  t,
   getSideCollapsed: () => sidebar.getSideCollapsed(),
   getLaunchpadEnabled,
   closeAllMenus: (...args) => menus.closeAllMenus(...args),
@@ -186,6 +187,11 @@ const topbar = createTopbar({
     if (lp && !lp.hidden) hideLaunchpad(frame)
   },
 })
+
+// Keep the topbar labels this module owns (role chip, sidebar tips,
+// favorites) in step with applyLocale(); setLocale() fires subscribers
+// after the dictionary switches, so retranslate() reads the new language.
+locale.subscribe(() => topbar.retranslate())
 
 const shell = createShell({
   setupAppSwitcher: (...args) => setupAppSwitcher(...args),
@@ -444,6 +450,11 @@ const profile = createProfile({
   releaseFocus: dialogFocus.releaseFocus,
   syncAppearanceControls: () => appearanceControls.syncAppearanceControls(),
   bindAppearanceSection: () => appearanceControls.bindAppearanceSection(),
+  applyDataI18n: () => localeControls.applyDataI18n(),
+  languageControls: {
+    getSelected: () => localeControls.getSelectedLanguage(),
+    select: code => localeControls.selectLanguage(code),
+  },
 })
 
 const organization = createOrganization({
@@ -703,3 +714,13 @@ const controls = createPrototypeControls({
   },
 })
 syncPrototypeControlsPage = controls.syncPage
+
+// Wire the avatar menu's Language submenu and restore the persisted
+// functional locale (EN/AR) — deliberately the LAST wiring step: it must
+// run after createPrototypeControls()'s restoreState(), which replays the
+// #rtl harness checkbox from sessionStorage and would otherwise clobber a
+// stored العربية/English choice with the last raw harness value. Still
+// inside module evaluation, so the restore re-renders before the first
+// paint and never flashes the wrong language. Demo-only catalog codes are
+// never persisted.
+localeControls.initLanguage()

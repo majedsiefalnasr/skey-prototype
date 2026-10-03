@@ -1,13 +1,13 @@
 
 
 /** Owns topbar state and its DOM bindings. */
-export function createTopbar({toast, getSideCollapsed, getLaunchpadEnabled, closeAllMenus, openKbd, openCustomize, navigateToProfileSection, navigateToOrganizationSection} = {}) {
+export function createTopbar({toast, t, getSideCollapsed, getLaunchpadEnabled, closeAllMenus, openKbd, openCustomize, navigateToProfileSection, navigateToOrganizationSection} = {}) {
   const ACTIVE_FISCAL_YEAR = '2026'
   let activeRole = 'administrator'
 
   function setRole(role) {
     activeRole = ['administrator', 'manager', 'user'].includes(role) ? role : 'administrator'
-    const label = activeRole === 'administrator' ? 'Administrator' : activeRole === 'manager' ? 'Manager' : 'User'
+    const label = activeRole === 'administrator' ? t('Administrator') : activeRole === 'manager' ? t('Manager') : t('User')
     document.querySelectorAll('[data-active-role-label]').forEach(element => { element.textContent = label })
     document.querySelectorAll('[data-organization-menu-group]').forEach(group => {
       group.hidden = activeRole === 'user'
@@ -46,20 +46,20 @@ export function createTopbar({toast, getSideCollapsed, getLaunchpadEnabled, clos
       b.style.order = getSideCollapsed() ? '-1' : '3'
       b.classList.toggle('rail-aligned', getSideCollapsed())
       b.setAttribute('aria-pressed', String(getSideCollapsed()))
-      b.setAttribute('aria-label', getSideCollapsed() ? 'Expand sidebar' : 'Collapse sidebar')
+      b.setAttribute('aria-label', getSideCollapsed() ? t('Expand sidebar') : t('Collapse sidebar'))
       b.querySelector('.tip').textContent = getSideCollapsed()
-        ? 'Expand sidebar'
-        : 'Collapse sidebar'
+        ? t('Expand sidebar')
+        : t('Collapse sidebar')
     })
     syncTopbarBrand()
   }
 
-  document.querySelectorAll('.panel-toggle').forEach(t =>
-    t.addEventListener('click', () => {
-      const d = t.closest('.design')
+  document.querySelectorAll('.panel-toggle').forEach(btn =>
+    btn.addEventListener('click', () => {
+      const d = btn.closest('.design')
       const c = d.classList.toggle('collapsed')
-      t.setAttribute('aria-expanded', String(!c))
-      t.setAttribute('aria-label', c ? 'Show context panel' : 'Hide context panel')
+      btn.setAttribute('aria-expanded', String(!c))
+      btn.setAttribute('aria-label', c ? t('Show context panel') : t('Hide context panel'))
     })
   )
 
@@ -113,15 +113,23 @@ export function createTopbar({toast, getSideCollapsed, getLaunchpadEnabled, clos
     btn.onclick = () => {
       const on = btn.getAttribute('aria-pressed') !== 'true'
       btn.setAttribute('aria-pressed', String(on))
-      btn.setAttribute('aria-label', on ? 'Remove from Favorites' : 'Add to Favorites')
+      btn.setAttribute('aria-label', on ? t('Remove from Favorites') : t('Add to Favorites'))
       btn.querySelector('.tip').textContent = on
-        ? 'Remove from Favorites'
-        : 'Add to Favorites'
-      toast({tone: 'ok', title: on ? 'Added to Favorites' : 'Removed from Favorites'})
+        ? t('Remove from Favorites')
+        : t('Add to Favorites')
+      toast({tone: 'ok', title: on ? t('Added to Favorites') : t('Removed from Favorites')})
     }
   })
   }
 
   setRole(activeRole)
-  return {goToForYou, syncTopbarChrome, bind, setRole}
+  /* Re-applies every locale-dependent label this module owns (role chip,
+     sidebar tips, favorites) after the language changes — main.js
+     subscribes it to the locale facility so the topbar chrome follows
+     applyLocale() without this module knowing about locale state. */
+  function retranslate() {
+    setRole(activeRole)
+    syncTopbarChrome()
+  }
+  return {goToForYou, syncTopbarChrome, bind, setRole, retranslate}
 }
