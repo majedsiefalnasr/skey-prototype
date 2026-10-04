@@ -576,7 +576,7 @@ const pageAbort = new AbortController()
           document.querySelectorAll('.crumbs [aria-current=page]').forEach(c => {
             if (
               c.closest(
-                '.d2, .email-view, .list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view, .profile-view, .organization-view'
+                '.d2, .email-view, .list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view, .profile-view, .organization-view, .foryou-view'
               )
             )
               return
