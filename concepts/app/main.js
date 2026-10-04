@@ -243,7 +243,7 @@ const sidebar = createSidebar({
 const openForYou = async app => {
   /* Highlight the app's rail/panel state exactly like v1's setNavCurrent
      did for the Dashboard tile, then navigate to its For You landing. */
-  sidebar.applyNavCurrent(document.querySelector('.side'), app)
+  sidebar.applyNavCurrent(document.querySelector('.side'), app, {forYou: true})
   const allowed = await navigation.navigate('foryou', {app})
   if (!allowed) {
     /* A refused guard must leave the URL and highlight on the view that
@@ -812,7 +812,7 @@ if (bootRoute === null || (bootRoute.defaultEntry && getLaunchpadEnabled())) {
   const side = document.querySelector('.side')
   const appRoute = {id: 'foryou', data: {app: bootPlan.data.app}}
   side.querySelector('.nc2')?.activateByLabel(bootPlan.data.app, {targetRoute: appRoute})
-  sidebar.applyNavCurrent(side, bootPlan.data.app)
+  sidebar.applyNavCurrent(side, bootPlan.data.app, {forYou: true})
   navigation.navigate('foryou', bootPlan.data)
 } else if (NAV_ITEM_LABEL_BY_ID[bootPlan.id]) {
   // Routed screens that live on the sidebar rail boot through setNavCurrent
@@ -850,7 +850,7 @@ const applyRoutePlan = async plan => {
     const side = document.querySelector('.side')
     const appRoute = {id: 'foryou', data: {app: plan.data.app}}
     side.querySelector('.nc2')?.activateByLabel(plan.data.app, {targetRoute: appRoute})
-    sidebar.applyNavCurrent(side, plan.data.app)
+    sidebar.applyNavCurrent(side, plan.data.app, {forYou: true})
   }
   const allowed = await navigation.navigate(plan.id, plan.data)
   if (!allowed) {

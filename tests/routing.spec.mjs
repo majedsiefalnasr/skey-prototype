@@ -133,6 +133,20 @@ test('the launchpad app tile opens the app’s For You screen', async ({page}) =
   await settle(page);
   await expectForYou(page, 'Sales Systems Management');
   await expect.poll(() => pathOf(page.url())).toBe('/sales-systems-management');
+  await expect(page.locator('.nc1-item[data-label="For You"].current')).toHaveCount(1);
+  // The pinned row owns the landing too: clicking it again must stay on
+  // this app's base (a stale currentAppLabel would send it to /dashboard).
+  // On compact viewports activateByLabel keeps the collapsed rail's panel
+  // hidden (on-demand flyout), so open it via the same app's rail icon —
+  // same landing, panel comes up — then click the row. The row is already
+  // active in the DOM either way.
+  if (!(await page.locator('.nc1-item[data-label="For You"]').isVisible())) {
+    await clickRailIcon(page, 'Sales Systems Management');
+    await settle(page);
+  }
+  await clickPinnedForYouRow(page);
+  await settle(page);
+  await expect.poll(() => pathOf(page.url())).toBe('/sales-systems-management');
 });
 
 test('the app switcher row opens the app’s For You screen', async ({page}) => {
@@ -142,6 +156,7 @@ test('the app switcher row opens the app’s For You screen', async ({page}) => 
   await settle(page);
   await expectForYou(page, 'Finance and Accounting');
   await expect.poll(() => pathOf(page.url())).toBe('/finance-and-accounting');
+  await expect(page.locator('.nc1-item[data-label="For You"].current')).toHaveCount(1);
 });
 
 test('sidebar rail app icons open the app’s For You screen', async ({page}) => {
@@ -150,6 +165,7 @@ test('sidebar rail app icons open the app’s For You screen', async ({page}) =>
   await settle(page);
   await expectForYou(page, 'Vendors');
   await expect.poll(() => pathOf(page.url())).toBe('/vendors');
+  await expect(page.locator('.nc1-item[data-label="For You"].current')).toHaveCount(1);
 });
 
 test('the panel’s pinned For You row lands on the current app’s landing', async ({page}) => {
@@ -159,6 +175,7 @@ test('the panel’s pinned For You row lands on the current app’s landing', as
   await settle(page);
   await expectForYou(page, 'System Setup');
   await expect.poll(() => pathOf(page.url())).toBe('/system-setup');
+  await expect(page.locator('.nc1-item[data-label="For You"].current')).toHaveCount(1);
 });
 
 test('in-app navigation keeps the URL in step and Back/Forward restores screens', async ({page}) => {

@@ -70,9 +70,10 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
   /** Highlight + label state only — no navigation. Used when history
    * restores drive navigation themselves (popstate), so the guard result
    * stays with navigate() while the rail highlight follows the route. */
-  const applyNavCurrent = (root, label) => {
+  const applyNavCurrent = (root, label, {forYou = false} = {}) => {
     applyNavState(label)
-    applyNavHighlight(root, label)
+    if (forYou) navCurrentLabel = 'For You'
+    applyNavHighlight(root, forYou ? 'For You' : label)
   }
 
   const setNavCurrent = (root, label, {skipListLayoutGuard = false} = {}) => {
@@ -208,15 +209,16 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     const fill = (group, withForYou) => {
       if (group === 'for-you') {
         fillForYou()
-        return
+      } else {
+        body.innerHTML = ''
+        const title = document.createElement('div')
+        title.className = 'nc3-title px-2 pb-1 pt-2 text-[12.5px] font-bold text-ink'
+        title.textContent = group[0]
+        body.appendChild(title)
+        if (withForYou) body.appendChild(ncBuildItem('For You', 0, root))
+        childrenOf(group).forEach(entry => body.appendChild(ncBuildItem(entry, 0, root)))
       }
-      body.innerHTML = ''
-      const title = document.createElement('div')
-      title.className = 'nc3-title px-2 pb-1 pt-2 text-[12.5px] font-bold text-ink'
-      title.textContent = group[0]
-      body.appendChild(title)
-      if (withForYou) body.appendChild(ncBuildItem('For You', 0, root))
-      childrenOf(group).forEach(entry => body.appendChild(ncBuildItem(entry, 0, root)))
+      applyNavHighlight(root, navCurrentLabel)
     }
     /* a plain innerHTML swap reads as a hard cut when you're clicking rail icons in
        quick succession — a short crossfade makes the panel feel like it's updating
