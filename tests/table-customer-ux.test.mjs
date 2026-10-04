@@ -274,7 +274,10 @@ test('account menu describes the branch and uses the default system-user avatar'
   ])
 
   assert.match(shell, /<div class="glbl"[^>]*>Workspace<\/div>/)
-  assert.match(shell, /lastchance · Cairo HQ/)
+  // The workspace row is now a branch switcher whose summary (and the user
+  // card's role/branch line) describes the tenant + current branch from
+  // stamped data, not a hardcoded `lastchance · Cairo HQ` button.
+  assert.match(shell, /<span data-user-tenant>lastchance<\/span> \/ <span data-user-branch>Cairo HQ<\/span>/)
   assert.doesNotMatch(shell, /Switch\s*account/)
   assert.doesNotMatch(sidebar, /tenant/i)
   assert.ok((shell.match(/<use href="#i-user"/g) || []).length >= 2)

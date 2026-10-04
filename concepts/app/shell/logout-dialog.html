@@ -1,0 +1,37 @@
+    <!-- ===== log out confirmation ===== -->
+    <div
+      class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:130] hidden items-center justify-center [padding:24px]"
+      id="loscrim">
+      <div
+        class="dlg lo-dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col"
+        data-tone="warning"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="lo-title"
+        aria-describedby="lo-sub">
+        <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+          <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]">
+            <use href="#i-signout" />
+          </svg>
+          <div>
+            <h3 id="lo-title" data-i18n="Log out?">Log out?</h3>
+            <p class="dhd-subtitle" id="lo-sub" data-i18n="You will be signed out of this session.">
+              You will be signed out of this session.
+            </p>
+          </div>
+          <button type="button" class="ibtn c-close ms-auto" aria-label="Close">
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+          </button>
+        </div>
+        <div class="dlg-inner">
+          <div class="dbody [padding:16px_18px] text-sm [line-height:1.55] text-ink">
+            <p class="text-[12.5px] text-muted" data-i18n="Signed in as">Signed in as</p>
+            <p class="mt-1 text-[13.5px] font-semibold text-ink"><span data-user-name>Majed Sief Alnasr</span><span class="text-[13px] font-normal text-muted"> · <span data-user-email>admin@lastchance</span></span></p>
+          </div>
+          <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
+            <button type="button" class="lbtn out c-close" data-i18n="Cancel">Cancel</button>
+            <button type="button" class="lbtn pri" id="lo-confirm" data-i18n="Log out">Log out</button>
+          </div>
+        </div>
+      </div>
+    </div>

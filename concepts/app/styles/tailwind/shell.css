@@ -478,6 +478,11 @@
   .mlist {
     position: absolute;
     overflow: auto;
+    /* The user menu (identity card, language/workspace submenus) is taller
+       than a phone viewport — cap every dropdown at the viewport and let
+       the list's own overflow scroll it, so the bottom rows (Log out)
+       stay reachable on compact screens. */
+    max-height: calc(100vh - 72px);
     inset-block-start: calc(100% + 4px);
     inset-inline-start: 0;
     z-index: 60;

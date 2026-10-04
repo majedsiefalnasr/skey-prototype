@@ -104,10 +104,17 @@
               <span class="avatar inline-flex size-8 items-center justify-center rounded-full bg-[var(--line-2)] text-muted" aria-hidden="true"><svg width="17" height="17"><use href="#i-user" /></svg></span>
             </button>
             <div class="mlist mend user-pop" role="menu" style="min-width: 270px">
-              <div class="user-card mb-0.5 flex items-center gap-2.5 px-2.5 pb-3 pt-2.5">
-                <span class="avatar inline-flex size-9 items-center justify-center rounded-full bg-[var(--line-2)] text-muted" aria-hidden="true"><svg width="19" height="19"><use href="#i-user" /></svg></span>
-                <div class="min-w-0"><b class="block truncate text-[13.5px] text-ink">Majed Sief Alnasr</b><span class="block truncate text-xs text-muted">admin@lastchance</span><span class="mt-1 block text-[11px] text-muted"><span data-active-role-label>Administrator</span> · lastchance / Cairo HQ</span></div>
-              </div>
+              <button role="menuitem" class="user-card profile-menu mb-0.5 flex w-full items-center gap-2.5 px-2.5! pt-2.5! pb-3! text-start" data-profile-section="profile">
+                <span class="avatar inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-[var(--line-2)] text-[12px] font-semibold text-muted" data-user-initials aria-hidden="true"></span>
+                <span class="min-w-0 block">
+                  <b class="block truncate text-[13.5px] text-ink" data-user-name>Majed Sief Alnasr</b>
+                  <span class="block truncate text-xs text-muted" data-user-email>admin@lastchance</span>
+                  <span class="mt-1 block text-[11px] text-muted"
+                    ><span class="badge gray"><span data-active-role-label>Administrator</span></span>
+                    · <span data-user-tenant>lastchance</span> / <span data-user-branch>Cairo HQ</span></span
+                  >
+                </span>
+              </button>
               <div class="glbl" data-i18n="Personal">Personal</div>
               <button role="menuitem" class="profile-menu" data-profile-section="profile">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-user" /></svg>
@@ -140,6 +147,7 @@
                   <label class="data-manage-radio" data-language="ja" lang="ja"><input type="radio" name="skey-language" value="ja"><span>日本語</span><span class="ms-auto text-xs text-muted">JA</span></label>
                 </div>
               </details>
+              <button role="menuitem" class="help-kbd"><svg width="15" height="15" aria-hidden="true"><use href="#i-kbd" /></svg><span data-i18n="Keyboard shortcuts">Keyboard shortcuts</span></button>
               <button role="menuitem" class="profile-menu" data-profile-section="security">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-lock" /></svg>
                 <span data-i18n="Security">Security</span>
@@ -162,10 +170,44 @@
               </div>
               <hr />
               <div class="glbl" data-i18n="Workspace">Workspace</div>
-              <button role="menuitem">
-                <svg width="15" height="15" aria-hidden="true"><use href="#i-home" /></svg>
-                lastchance · Cairo HQ
-              </button>
+              <details class="data-menu data-manage-submenu branch-submenu relative">
+                <summary
+                  role="menuitem"
+                  class="flex w-full min-h-[32px] items-center gap-[9px] rounded-[5px] px-2 py-1.5 text-[12.5px] font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden [&_svg:last-child]:ms-auto [&_svg:last-child]:text-muted rtl:[&_svg:last-child]:scale-x-[-1]">
+                  <svg width="15" height="15" aria-hidden="true"><use href="#i-location" /></svg>
+                  <span class="data-manage-copy grid min-w-0 gap-px">
+                    <strong class="text-[12.5px] font-semibold" data-i18n="Workspace">Workspace</strong>
+                    <small class="text-xs font-normal text-muted"
+                      ><span data-user-tenant>lastchance</span> / <span data-user-branch>Cairo HQ</span></small
+                    >
+                  </span>
+                  <svg width="10" height="10" aria-hidden="true"><use href="#i-next" /></svg>
+                </summary>
+                <div
+                  class="data-menu-popover fixed z-[120] grid min-w-[180px] max-w-[min(420px,calc(100vw-16px))] max-h-[min(420px,calc(100vh-16px))] gap-0.5 overflow-auto rounded-lg border border-line bg-surface p-1.5 [box-shadow:var(--shadow-1)] [&>button[aria-checked=true]]:bg-[var(--line-2)]"
+                  role="radiogroup"
+                  aria-label="Branch"
+                  data-i18n-aria-label="Branch">
+                  <button type="button" role="menuitemradio" aria-checked="true" data-branch="Cairo HQ">
+                    <span>Cairo HQ</span
+                    ><svg class="menu-check ms-auto shrink-0" width="13" height="13" aria-hidden="true" hidden
+                      ><use href="#i-check"
+                    /></svg>
+                  </button>
+                  <button type="button" role="menuitemradio" aria-checked="false" data-branch="Alexandria">
+                    <span>Alexandria</span
+                    ><svg class="menu-check ms-auto shrink-0" width="13" height="13" aria-hidden="true" hidden
+                      ><use href="#i-check"
+                    /></svg>
+                  </button>
+                  <button type="button" role="menuitemradio" aria-checked="false" data-branch="Giza">
+                    <span>Giza</span
+                    ><svg class="menu-check ms-auto shrink-0" width="13" height="13" aria-hidden="true" hidden
+                      ><use href="#i-check"
+                    /></svg>
+                  </button>
+                </div>
+              </details>
               <button role="menuitem" class="side-customize-menu">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-sliders" /></svg>
                 <span data-i18n="Customize sidebar">Customize sidebar</span>
@@ -176,7 +218,7 @@
               </button>
               <hr />
               <div class="glbl" data-i18n="Session">Session</div>
-              <button role="menuitem" class="dan">
+              <button role="menuitem" class="dan logout-menu">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
                 <span data-i18n="Log out">Log out</span>
               </button>
@@ -197,5 +239,6 @@
 <!-- include: ../pages/invoices/record-dialogs.html --><!-- include: ../components/screen-parameters/screen-parameters-dialog.html -->
 <!-- include: ../pages/invoices/dialogs.html --><!-- include: ../pages/invoices/print-dialog.html -->
 <!-- include: sidebar-dialog.html -->
+<!-- include: logout-dialog.html -->
 <!-- include: ../components/assistant/assistant.html -->
 <!-- include: ../components/data-list/context-menu.html -->

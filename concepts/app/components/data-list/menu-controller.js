@@ -17,6 +17,7 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
 
   function scheduleSubmenuClose(submenu) {
     cancelSubmenuClose()
+    if (submenu.dataset.pinned) return
     submenuCloseTimer = setTimeout(() => {
       submenu.removeAttribute('open')
       submenuCloseTimer = 0
@@ -221,6 +222,9 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
       if (!details) return
       if (!details.open) {
         unparkRowMenuPopover(details)
+        /* Any close path (outside click, Escape, hover-exclusivity) drops
+           the pin so a stale pin never keeps a closed popover "pinned". */
+        delete details.dataset.pinned
         return
       }
       document
@@ -259,6 +263,30 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
     },
     true
   )
+
+  /* Pin-on-click for inner submenus. Hover already opens them, but the
+     user's click then lands on the <summary> and the native toggle would
+     close it again — so a plain click always ended with the popover shut
+     and never seen (language-switcher.spec even documented a
+     click-until-open workaround). First mouse click on an open,
+     unpinned submenu cancels that native close and pins it open (and
+     cancels any hover-close already scheduled); the second click drops
+     the pin and lets the native toggle close it. Keyboard activation
+     (event.detail === 0) and clicks on a closed summary keep the native
+     toggle untouched. */
+  document.addEventListener('click', event => {
+    const summary = event.target.closest?.('.data-manage-submenu > summary')
+    if (!summary || event.detail === 0) return
+    const details = summary.parentElement
+    if (!details?.open) return
+    if (details.dataset.pinned) {
+      delete details.dataset.pinned
+      return
+    }
+    event.preventDefault()
+    cancelSubmenuClose()
+    details.dataset.pinned = 'true'
+  })
 
   const repositionOpenDataMenus = () =>
     document

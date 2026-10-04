@@ -22,11 +22,11 @@ import {boot, settle} from './support/browser.mjs';
  */
 async function openProfileSection(page, section) {
   await page.locator('.avatar-btn').click();
-  const menuEntry = page.locator(`.profile-menu[data-profile-section="${section}"]`);
+  const menuEntry = page.locator(`.profile-menu[data-profile-section="${section}"]:not(.user-card)`);
   if (await menuEntry.count()) {
     await menuEntry.click();
   } else {
-    await page.locator('.profile-menu[data-profile-section="profile"]').click();
+    await page.locator('.profile-menu[data-profile-section="profile"]:not(.user-card)').click();
     await page.locator(`[data-profile-scroll-section="${section}"]`).click();
   }
   await settle(page);

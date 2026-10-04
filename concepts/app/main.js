@@ -271,6 +271,21 @@ const topbar = createTopbar({
   closeAllMenus: (...args) => menus.closeAllMenus(...args),
   openKbd: (...args) => keyboard.openKbd(...args),
   openCustomize: (...args) => customize.openCustomize(...args),
+  trapFocus,
+  releaseFocus,
+  renderSide: (...args) => sidebar.renderSide(...args),
+  /* The user menu's Favorites row keys off "the page you are on": routed
+     For You/list screens own an explicit label, profile/organization/email
+     (and the launchpad overlay, which is a start screen, not a page) own
+     none, and *-record views inherit the sidebar's own nav-row label. */
+  getCurrentNavLabel: () => {
+    if (document.querySelector('.lp-view:not([hidden])')) return null
+    const view = contentHost.getCurrentContentViewName()
+    if (view === 'foryou') return 'For You'
+    if (NAV_ITEM_LABEL_BY_ID[view]) return NAV_ITEM_LABEL_BY_ID[view]
+    if (view === 'email' || view === 'profile' || view === 'organization') return null
+    return sidebar.getNavCurrentLabel()
+  },
   navigateToProfileSection: section => {
     navigation.navigate('profile', {section})
     // Mirrors sidebar.js's setNavCurrent: the launchpad overlay's visibility

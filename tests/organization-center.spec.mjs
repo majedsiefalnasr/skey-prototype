@@ -130,11 +130,11 @@ test.describe('organization center', () => {
         ? {administrator: 'مسؤول', manager: 'مدير', user: 'مستخدم'}
         : {administrator: 'Administrator', manager: 'Manager', user: 'User'}
     await page.locator('.avatar-btn').click()
-    await expect(page.locator('[data-active-role-label]')).toHaveText(roleLabels.administrator)
+    await expect(page.locator('.user-card [data-active-role-label]')).toHaveText(roleLabels.administrator)
     await expect(page.locator('.organization-menu:visible')).toHaveCount(2)
 
     await page.locator('#active-role').selectOption('manager', {force: true})
-    await expect(page.locator('[data-active-role-label]')).toHaveText(roleLabels.manager)
+    await expect(page.locator('.user-card [data-active-role-label]')).toHaveText(roleLabels.manager)
     await expect(page.locator('.organization-menu:visible')).toHaveCount(1)
     // Audit log / System performance / Staff operations are hidden tabs, so
     // the avatar menu no longer links to them for any role.
@@ -143,7 +143,7 @@ test.describe('organization center', () => {
     await expect(page.locator('.organization-menu[data-organization-section="performance"]')).toHaveCount(0)
 
     await page.locator('#active-role').selectOption('user', {force: true})
-    await expect(page.locator('[data-active-role-label]')).toHaveText(roleLabels.user)
+    await expect(page.locator('.user-card [data-active-role-label]')).toHaveText(roleLabels.user)
     await expect(page.locator('[data-organization-menu-group]')).toBeHidden()
   })
 

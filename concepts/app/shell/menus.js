@@ -11,9 +11,16 @@ export function createMenus({showLaunchpad, getLaunchpadEnabled} = {}) {
     })
 
   const enabledMenuItems = list =>
-    [...list.querySelectorAll('[role^="menuitem"]')].filter(
-      item => !item.disabled && !item.closest('[hidden]')
-    )
+    [...list.querySelectorAll('[role^="menuitem"]')].filter(item => {
+      if (item.disabled || item.closest('[hidden]')) return false
+      /* Items inside a collapsed details submenu (language/branch
+         popovers) are display:none — focusing them would strand arrow
+         navigation. The submenu's own summary stays reachable: it is the
+         opener, not a hidden popover row. */
+      const closedSubmenu = item.closest('details:not([open])')
+      if (closedSubmenu && closedSubmenu.querySelector(':scope > summary') !== item) return false
+      return true
+    })
 
   function openMenuFromKeyboard(trigger, edge) {
     const list = trigger.parentElement.querySelector('.mlist')
