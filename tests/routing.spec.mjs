@@ -153,12 +153,12 @@ test('sidebar rail app icons open the app’s For You screen', async ({page}) =>
 });
 
 test('the panel’s pinned For You row lands on the current app’s landing', async ({page}) => {
-  await gotoRoute(page, '/customers/list');
-  await clickRailIcon(page, 'Customers');
+  await gotoRoute(page, '/system-setup/geographical-structure');
+  await clickRailIcon(page, 'System Setup');
   await clickPinnedForYouRow(page);
   await settle(page);
-  await expectForYou(page, 'Customers');
-  await expect.poll(() => pathOf(page.url())).toBe('/customers');
+  await expectForYou(page, 'System Setup');
+  await expect.poll(() => pathOf(page.url())).toBe('/system-setup');
 });
 
 test('in-app navigation keeps the URL in step and Back/Forward restores screens', async ({page}) => {

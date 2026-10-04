@@ -90,7 +90,9 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
        (Starred/Recent) own no app, so their row falls back to the
        default entry's app. */
     const forYouApp =
-      label === 'For You' ? (findNavGroup(currentAppLabel)?.[0] ?? 'Dashboard') : null
+      label === 'For You'
+        ? (visibleGroups().find(group => group[0] === currentAppLabel)?.[0] ?? 'Dashboard')
+        : null
     if (forYouApp) navCurrentLabel = label
     else applyNavState(label)
     closeEmailView() /* any real navigation leaves the email view, same as it would leave any other page */
