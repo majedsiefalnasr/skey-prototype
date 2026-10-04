@@ -22,9 +22,13 @@ npm run dev
 Open <http://127.0.0.1:4173/>. The dev server rebuilds
 `dist/` before each app-document response — refresh the browser after edits.
 `dist/` is generated and git-ignored; never open the authored HTML directly.
-Routes: `/` (default entry — Launchpad or Dashboard), `/dashboard`,
-`/invoices`, `/customers`, `/geography`, `/email`, `/profile`,
-`/organization`; the legacy `<http://127.0.0.1:4173/concepts/app-shell.html>`
+Routes: `/` (default entry — Launchpad or the Dashboard app's For You
+landing); one base path per app (`/dashboard`, `/customers`, `/vendors`,
+`/sales-systems-management`, … — each boots that app's For You screen);
+inner screens nest under their app (`/sales-systems-management/sales-invoices`,
+`/customers/list`, `/system-setup/geographical-structure`); shell screens
+live under `/system` (`/system/profile?section=…`, `/system/organization`,
+`/system/email`); the legacy `<http://127.0.0.1:4173/concepts/app-shell.html>`
 document still boots for parity testing.
 
 ## Static build
