@@ -49,6 +49,7 @@ async function openAppSwitcher(page) {
 async function expectForYou(page, app) {
   await expect(page.locator('.foryou-view')).toBeVisible();
   await expect(page.locator('[data-foryou-app]')).toHaveText(app);
+  await expect(page.locator('[data-foryou-title]')).toHaveText(app);
 }
 
 const isRtl = page =>
@@ -123,6 +124,7 @@ test("the default entry '/' shows the Dashboard For You when the Launchpad is di
   await gotoRoute(page, '/');
   await expect(page.locator('.foryou-view')).toBeVisible();
   await expect(page.locator('[data-foryou-app]')).toHaveText('Dashboard');
+  await expect(page.locator('[data-foryou-title]')).toHaveText('Dashboard');
   await expect(page.locator('.lp-view')).toBeHidden();
   expect(pathOf(page.url())).toBe('/');
 });
