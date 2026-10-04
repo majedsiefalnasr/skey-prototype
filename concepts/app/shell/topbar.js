@@ -4,7 +4,7 @@ import {CURRENT_USER} from '../prototype/fixtures/profile.js'
 import {NAV_FAVORITES} from '../prototype/fixtures/navigation.js'
 
 /** Owns topbar state and its DOM bindings. */
-export function createTopbar({toast, t, getSideCollapsed, getLaunchpadEnabled, closeAllMenus, openKbd, openCustomize, navigateToProfileSection, navigateToOrganizationSection, getCurrentNavLabel, renderSide, trapFocus, releaseFocus} = {}) {
+export function createTopbar({toast, t, getSideCollapsed, getLaunchpadEnabled, closeAllMenus, openKbd, openCustomize, navigateToProfileSection, navigateToOrganizationSection, getCurrentNavLabel, renderSide, trapFocus, releaseFocus, onTakeTour} = {}) {
   const ACTIVE_FISCAL_YEAR = '2026'
   let activeRole = 'administrator'
   /* Workspace branch the card/switcher show — session-only prototype state,
@@ -134,6 +134,17 @@ export function createTopbar({toast, t, getSideCollapsed, getLaunchpadEnabled, c
     b.addEventListener('click', () => {
       closeAllMenus()
       openKbd()
+    })
+  )
+
+  /* Help → Take a tour: explicit trigger for the current surface's
+     spotlight tour. The item is hidden while the Prototype Controls Tour
+     kill switch is OFF (see syncTourMenu); on surfaces without a tour the
+     callback reports false and a Flag-style toast explains instead. */
+  document.querySelectorAll('.tour-menu').forEach(b =>
+    b.addEventListener('click', () => {
+      closeAllMenus()
+      if (onTakeTour?.() === false) toast({tone: 'info', title: t('No guided tour for this page yet')})
     })
   )
 
@@ -268,5 +279,13 @@ export function createTopbar({toast, t, getSideCollapsed, getLaunchpadEnabled, c
     syncFavoritesMenu()
     syncTopbarChrome()
   }
-  return {goToForYou, syncTopbarChrome, bind, setRole, retranslate}
+
+  /* Prototype-controls Tour kill switch reflection: hidden (not merely
+     disabled) so keyboard menu navigation skips it entirely. */
+  function syncTourMenu(enabled) {
+    document.querySelectorAll('.tour-menu').forEach(item => {
+      item.hidden = !enabled
+    })
+  }
+  return {goToForYou, syncTopbarChrome, bind, setRole, retranslate, syncTourMenu}
 }

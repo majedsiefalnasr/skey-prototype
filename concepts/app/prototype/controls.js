@@ -92,6 +92,7 @@ const CONTROL_IDS = [
   'settings-navigation-style',
   'profile-card-style',
   'active-role',
+  'tour-enabled',
   'lang',
 ]
 

@@ -193,6 +193,7 @@ export function createLocale() {
           'Show context panel': 'إظهار لوحة السياق',
           'Hide context panel': 'إخفاء لوحة السياق',
           "What's new": 'ما الجديد',
+          'Take a tour': 'جولة تعريفية',
           Documentation: 'التوثيق',
           'Keyboard shortcuts': 'اختصارات لوحة المفاتيح',
           Support: 'الدعم',
@@ -206,6 +207,58 @@ export function createLocale() {
           Personal: 'شخصي',
           Organization: 'المؤسسة',
           Back: 'رجوع',
+          Done: 'تم',
+          Dismiss: 'إغلاق',
+          // Guided spotlight tour (T1 invoice-shell onboarding)
+          'Move between records': 'التنقل بين السجلات',
+          'Jump to any invoice without losing your place.':
+            'انتقل إلى أي فاتورة دون أن تفقد مكانك.',
+          'Track document status': 'تتبع حالة المستند',
+          'Status is always named here, including Draft.':
+            'الحالة ظاهرة هنا دائماً، بما فيها المسودة.',
+          'Modify, then save': 'عدّل ثم احفظ',
+          'Modify to edit, then Save or Undo your changes.':
+            'عدّل للتحرير، ثم احفظ أو تراجع عن التغييرات.',
+          // Invoice list tour
+          'Search this list': 'ابحث في هذه القائمة',
+          'Filter these invoices as you type.':
+            'رشّح هذه الفواتير أثناء الكتابة.',
+          'Open a record': 'افتح سجلاً',
+          'Double-click any row to open it.':
+            'نقرة مزدوجة على أي صف لفتحه.',
+          'Page through results': 'تنقل بين الصفحات',
+          'Move across pages without losing filters.':
+            'تنقل بين الصفحات دون فقدان الفلاتر.',
+          // Profile tour
+          'Jump between sections': 'تنقل بين الأقسام',
+          'Profile, security, and sessions live here.':
+            'الملف والأمان والجلسات هنا.',
+          'Your details': 'بياناتك',
+          'Keep your name and contact current.':
+            'حافظ على تحديث اسمك وبيانات الاتصال.',
+          'Prefer Arabic?': 'تفضل العربية؟',
+          'Switch the whole app to العربية here.':
+            'بدّل التطبيق كله إلى العربية من هنا.',
+          // Organization tour
+          'Switch admin areas': 'تنقل بين مناطق الإدارة',
+          'Users, sessions, and audits live here.':
+            'المستخدمون والجلسات والتدقيق هنا.',
+          'Your access level': 'مستوى صلاحيتك',
+          'Menus follow this role.': 'القوائم تتبع هذا الدور.',
+          'Take action here': 'نفّذ إجراءً من هنا',
+          'Open users, sessions, and health.':
+            'افتح المستخدمين والجلسات والحالة.',
+          // Launchpad tour
+          'Find anything': 'اعثر على أي شيء',
+          'Apps and screens are one search away.':
+            'التطبيقات والشاشات على بعد بحث واحد.',
+          'Open an app': 'افتح تطبيقاً',
+          'Pick up where you left off.': 'تابع من حيث توقفت.',
+          'Starred and recent': 'المفضلة والأخيرة',
+          'Pin favorites for one-click return.':
+            'ثبّت المفضلة للعودة بنقرة واحدة.',
+          'No guided tour for this page yet':
+            'لا توجد جولة تعريفية لهذه الصفحة بعد',
           'My Profile': 'ملفي الشخصي',
           'Account preferences': 'تفضيلات الحساب',
           Appearance: 'المظهر',

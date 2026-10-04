@@ -69,6 +69,8 @@ import {createWork} from './core/work.js'
 import {createDialogFocus} from './components/dialog/dialog.js'
 import {createToast} from './components/toast/toast.js'
 import {createLoading} from './components/loading/loading.js'
+import {createSpotlight} from './components/spotlight/spotlight.js'
+import {tourStepsFor} from './components/spotlight/tour.js'
 import {readPrototypeState, createPrototypeControls} from './prototype/controls.js'
 
 const locale = createLocale()
@@ -88,6 +90,32 @@ const work = createWork({
 })
 
 const {t, formatDate: formatLocaleDate, formatCurrency: formatLocaleCurrency, getLocale, setLocale} = locale
+// Prototype spotlight tour (T1 invoice-shell onboarding). Never
+// auto-starts: it only runs after an explicit trigger (Help → Take a
+// tour, ?tour=1, or the Prototype Controls Start button), and only while
+// the Prototype Controls Tour kill switch is ON.
+const spotlight = createSpotlight({document, t})
+
+/* Context-aware tour triggers. Help → Take a tour, the Prototype
+   Controls Start button, and ?tour=1 all start the tour for the surface
+   currently on screen (launchpad overlay wins over the view beneath it);
+   ?tour=<surface> (list, record, profile, organization, launchpad) forces
+   one. Unknown surfaces and surfaces without visible targets return
+   false so callers can explain instead of starting nothing. */
+function currentTourSurface() {
+  if (document.querySelector('.lp-view:not([hidden])')) return 'launchpad'
+  // contentHost is composed below; this only runs on user/demo triggers,
+  // long after module evaluation finished.
+  return contentHost.getCurrentContentViewName()
+}
+function startTourForSurface(surface, invoker) {
+  const steps = tourStepsFor(surface ?? currentTourSurface())
+  if (!steps) return false
+  return spotlight.start(steps, invoker)
+}
+function explainNoTour() {
+  toast({tone: 'info', title: t('No guided tour for this page yet')})
+}
 const savedPrototypeState = readPrototypeState(sessionStorage)
 let activeRole = savedPrototypeState['active-role'] || 'administrator'
 let launchpadEnabled = savedPrototypeState.launchpad !== false
@@ -304,6 +332,7 @@ const topbar = createTopbar({
     const lp = frame && frame.querySelector('.lp-view')
     if (lp && !lp.hidden) hideLaunchpad(frame)
   },
+  onTakeTour: () => startTourForSurface(undefined, document.activeElement),
 })
 
 // Keep the topbar labels this module owns (role chip, sidebar tips,
@@ -939,3 +968,44 @@ syncPrototypeControlsPage = controls.syncPage
 // paint and never flashes the wrong language. Demo-only catalog codes are
 // never persisted.
 localeControls.initLanguage()
+
+/* Prototype Controls → Tour kill switch + explicit demo triggers.
+   The #tour-enabled checkbox (persisted by createPrototypeControls via
+   skey-proto-state like every other harness control) is prototype
+   configuration, not a product setting: OFF disables ALL spotlight
+   behavior — no auto-start, Help → Take a tour hidden, ?tour=1 ignored,
+   triggered spotlights suppressed — and immediately dismisses a running
+   tour (see spotlight.setEnabled). The #tour-start button is the third
+   explicit trigger alongside Help and ?tour=1. */
+const tourToggle = document.getElementById('tour-enabled')
+const tourStartButton = document.getElementById('tour-start')
+const applyTourEnabled = () => {
+  const on = tourToggle ? tourToggle.checked !== false : true
+  spotlight.setEnabled(on)
+  topbar.syncTourMenu(on)
+  if (tourStartButton) tourStartButton.disabled = !on
+}
+tourToggle?.addEventListener('change', applyTourEnabled)
+tourStartButton?.addEventListener('click', () => {
+  if (!startTourForSurface(undefined, tourStartButton)) explainNoTour()
+})
+applyTourEnabled()
+
+/* ?tour=1 demo entry (?tour=<surface> forces one) — gated by the same
+   kill switch, and never an auto-start: without the query param nothing
+   tours on its own. Deferred past boot navigation so the record-view
+   targets exist and are visible; retries briefly (then gives up) so the
+   trigger also survives a boot that lands under the launchpad overlay
+   until it is dismissed. */
+const tourQuery = new URLSearchParams(location.search).get('tour')
+if (tourQuery) {
+  const forcedSurface = tourQuery === '1' ? undefined : tourQuery
+  const attemptDemoStart = () => spotlight.isEnabled() && startTourForSurface(forcedSurface)
+  requestAnimationFrame(() => setTimeout(() => {
+    if (attemptDemoStart()) return
+    let tries = 0
+    const retry = setInterval(() => {
+      if (attemptDemoStart() || ++tries >= 10) clearInterval(retry)
+    }, 500)
+  }, 60))
+}
