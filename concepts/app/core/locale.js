@@ -224,8 +224,8 @@ export function createLocale() {
           'Filter these invoices as you type.':
             'رشّح هذه الفواتير أثناء الكتابة.',
           'Open a record': 'افتح سجلاً',
-          'Double-click any row to open it.':
-            'نقرة مزدوجة على أي صف لفتحه.',
+          'Double-click a row — or its number — to open it.':
+            'نقرة مزدوجة على أي صف — أو رقمه — لفتحه.',
           'Page through results': 'تنقل بين الصفحات',
           'Move across pages without losing filters.':
             'تنقل بين الصفحات دون فقدان الفلاتر.',

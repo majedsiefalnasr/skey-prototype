@@ -1,13 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createSpotlight, flipPlacementForRtl, SPOTLIGHT_STYLE_ID} from '../concepts/app/components/spotlight/spotlight.js';
+import {createSpotlight, flipPlacementForRtl, SPOTLIGHT_STYLE_ID, SPOTLIGHT_POPOVER_CLASS} from '../concepts/app/components/spotlight/spotlight.js';
 import {shellTourSteps, tourStepsFor, TOUR_SURFACES, SHELL_TOUR_ID} from '../concepts/app/components/spotlight/tour.js';
 
-/* Minimal fake DOM: just enough for the engine's DOM surface
-   (createElement, querySelectorAll, body, listeners, rects). */
+/* Minimal fake DOM: just enough for target resolution (querySelectorAll,
+   rects) and style injection. Positioning/rendering belong to driver.js
+   and are covered by browser smoke tests, not here. */
 
 function fakeEl(tag = 'div', rect = {left: 100, top: 200, width: 120, height: 36}) {
-  const listeners = {};
   const el = {
     tag,
     children: [],
@@ -17,28 +17,20 @@ function fakeEl(tag = 'div', rect = {left: 100, top: 200, width: 120, height: 36
     hidden: false,
     className: '',
     textContent: '',
-    type: '',
-    disabled: false,
     id: '',
     focused: false,
-    removed: false,
-    offsetWidth: 0,
-    offsetHeight: 0,
     setAttribute(k, v) { this.attributes[k] = v; },
     getAttribute(k) { return this.attributes[k] ?? null; },
-    addEventListener(type, fn) { (listeners[type] ??= []).push(fn); },
-    removeEventListener() {},
+    removeAttribute(k) { delete this.attributes[k]; },
     appendChild(child) { this.children.push(child); return child; },
     contains(node) {
       return node === this || this.children.some(c => c === node || c.contains?.(node));
     },
-    remove() { this.removed = true; },
     focus() { this.focused = true; },
     getBoundingClientRect() {
       return {left: rect.left, top: rect.top, right: rect.left + rect.width,
         bottom: rect.top + rect.height, width: rect.width, height: rect.height};
     },
-    dispatch(type, event = {}) { (listeners[type] || []).forEach(fn => fn(event)); },
   };
   return el;
 }
@@ -46,7 +38,6 @@ function fakeEl(tag = 'div', rect = {left: 100, top: 200, width: 120, height: 36
 const HIDDEN_RECT = {left: 0, top: 0, width: 0, height: 0};
 
 function fakeDocument({targets = {}, dir = 'ltr'} = {}) {
-  const listeners = {};
   const body = fakeEl('body');
   const findById = (node, id) => {
     if (node.id === id) return node;
@@ -64,31 +55,49 @@ function fakeDocument({targets = {}, dir = 'ltr'} = {}) {
     createElement: tag => fakeEl(tag),
     querySelectorAll: sel => targets[sel] || [],
     getElementById: id => findById(body, id),
-    addEventListener(type, fn) { (listeners[type] ??= []).push(fn); },
-    removeEventListener() {},
     contains(node) { return body.contains(node); },
-    dispatch(type, event = {}) { (listeners[type] || []).forEach(fn => fn(event)); },
+  };
+}
+
+/* Fake driver.js factory: records configs, runs onDestroyed on destroy. */
+function fakeDriverFactory(drivers) {
+  return config => {
+    const instance = {
+      config,
+      driven: false,
+      destroyed: false,
+      movedNext: 0,
+      movedPrev: 0,
+      drive() { this.driven = true; },
+      destroy() {
+        if (this.destroyed) return;
+        this.destroyed = true;
+        this.config.onDestroyed?.();
+      },
+      moveNext() { this.movedNext += 1; },
+      movePrevious() { this.movedPrev += 1; },
+    };
+    drivers.push(instance);
+    return instance;
   };
 }
 
 const STEPS = () => [
-  {id: 'a', target: '.pager', headline: 'Move between records', body: 'Jump anywhere.', placement: 'bottom', primary: 'Next'},
+  {id: 'a', target: '.pager', headline: 'Move between records', body: 'Jump anywhere.', placement: 'top', primary: 'Next'},
   {id: 'b', target: 'button.stpill', headline: 'Track document status', body: 'Always named.', placement: 'bottom', primary: 'Next'},
-  {id: 'c', target: '.phead [data-act="Save"]', headline: 'Save only when dirty', body: 'Unlocks on change.', placement: 'bottom', primary: 'Done'},
+  {id: 'c', targets: ['.save', '.modify'], headline: 'Modify, then save', body: 'Edit first.', placement: 'bottom', primary: 'Done'},
 ];
 
 function visibleTargets() {
   return {
     '.pager': [fakeEl('div')],
     'button.stpill': [fakeEl('button')],
-    '.phead [data-act="Save"]': [fakeEl('button')],
+    '.save': [fakeEl('button', HIDDEN_RECT)],
+    '.modify': [fakeEl('button')],
   };
 }
 
-const cardOf = doc => doc.body.children.find(c => c.id === 'spotlight-card');
-const primaryOf = card => card.children[2].children[1].children[1];
-const secondaryOf = card => card.children[2].children[1].children[0];
-const countOf = card => card.children[2].children[0];
+const tick = () => new Promise(resolve => setTimeout(resolve, 0));
 
 test('flipPlacementForRtl mirrors left/right and keeps top/bottom', () => {
   assert.equal(flipPlacementForRtl('left-start'), 'right-start');
@@ -104,7 +113,6 @@ test('tour definition is a 3-step, single-screen onboarding tour', () => {
   assert.equal(steps.length, 3);
   assert.deepEqual(steps.map(s => s.id), ['pager', 'status', 'save']);
   assert.ok(steps.every(s => (s.target || s.targets) && s.headline && s.body && s.placement));
-  // Engine must never mutate the shared definition.
   assert.notEqual(shellTourSteps(), shellTourSteps());
 });
 
@@ -121,147 +129,157 @@ test('every registered surface tour obeys the 1–3 step rule', () => {
   }
   assert.equal(tourStepsFor('nope'), null);
   assert.equal(tourStepsFor(undefined), null);
-  // Registry copies are independent.
   const a = tourStepsFor('record');
   const b = tourStepsFor('record');
   assert.notEqual(a, b);
   assert.notEqual(a[2].targets, b[2].targets);
 });
 
-test('the pulsing ring style is injected exactly once per document', () => {
+test('driver styles (base + Atlassian) inject exactly once', () => {
   const doc = fakeDocument({targets: visibleTargets()});
-  createSpotlight({document: doc, t: k => k});
-  createSpotlight({document: doc, t: k => k});
+  const drivers = [];
+  createSpotlight({document: doc, t: k => k, createDriver: fakeDriverFactory(drivers)});
+  createSpotlight({document: doc, t: k => k, createDriver: fakeDriverFactory(drivers)});
   const styles = doc.body.children.filter(c => c.id === SPOTLIGHT_STYLE_ID);
   assert.equal(styles.length, 1);
-  assert.match(styles[0].textContent, /spotlight-pulse/);
-  assert.match(styles[0].textContent, /prefers-reduced-motion/);
+  assert.match(styles[0].textContent, /\.driver-popover/);
+  assert.match(styles[0].textContent, /skey-spotlight/);
+  assert.ok(!styles[0].textContent.includes('spotlight-pulse'), 'no pulse ring on targets');
+  // A stray backtick would terminate the template literal and break boot.
+  assert.ok(!styles[0].textContent.includes('`'), 'injected CSS holds no backticks');
 });
 
-test('start shows step 1 with count and no Back', () => {
-  const pager = fakeEl('div');
-  const doc = fakeDocument({targets: {...visibleTargets(), '.pager': [pager]}});
-  const tour = createSpotlight({document: doc, t: k => k});
+test('start maps steps to driver config with resolved elements', () => {
+  const doc = fakeDocument({targets: visibleTargets()});
+  const drivers = [];
+  const dict = {'Move between records': 'التنقل بين السجلات', of: 'من', Next: 'التالي', Back: 'رجوع', Done: 'تم', Dismiss: 'إغلاق'};
+  const tour = createSpotlight({document: doc, t: k => dict[k] || k, createDriver: fakeDriverFactory(drivers)});
   assert.equal(tour.start(STEPS()), true);
   assert.equal(tour.isActive(), true);
-  const card = cardOf(doc);
-  assert.ok(card);
-  assert.equal(card.getAttribute('role'), 'dialog');
-  assert.equal(card.getAttribute('aria-label'), 'Move between records');
-  assert.equal(countOf(card).textContent, '1 of 3');
-  assert.equal(secondaryOf(card).hidden, true);
-  assert.equal(primaryOf(card).textContent, 'Next');
-  // Target ring marks the live target (attribute, never dataset keys —
-  // dataset['data-…'] throws in real browsers).
-  assert.equal(pager.getAttribute('data-spotlight-target'), '');
+  assert.equal(drivers.length, 1);
+  const [instance] = drivers;
+  assert.equal(instance.driven, true);
+  const {config} = instance;
+  assert.equal(config.popoverClass, SPOTLIGHT_POPOVER_CLASS);
+  assert.equal(config.nextBtnText, 'التالي');
+  assert.equal(config.prevBtnText, 'رجوع');
+  assert.equal(config.doneBtnText, 'تم');
+  assert.equal(config.closeBtnLabel, 'إغلاق');
+  assert.equal(config.progressText, '{{current}} من {{total}}');
+  assert.equal(config.showProgress, true);
+  assert.equal(config.steps.length, 3);
+  // side/align split from placement; elements are first-visible matches.
+  assert.deepEqual(config.steps.map(s => [s.popover.side, s.popover.align]), [['top', 'center'], ['bottom', 'center'], ['bottom', 'center']]);
+  assert.deepEqual(config.steps.map(s => s.popover.title), ['التنقل بين السجلات', 'Track document status', 'Modify, then save']);
+  const modify = doc.querySelectorAll('.modify')[0];
+  assert.equal(config.steps[2].element, modify);
 });
 
-test('next/back walk the tour; next on the last step dismisses', () => {
-  const doc = fakeDocument({targets: visibleTargets()});
-  const tour = createSpotlight({document: doc, t: k => k});
-  tour.start(STEPS());
-  tour.next();
-  let card = cardOf(doc);
-  assert.equal(card.getAttribute('aria-label'), 'Track document status');
-  assert.equal(countOf(card).textContent, '2 of 3');
-  assert.equal(secondaryOf(card).hidden, false);
-  tour.next();
-  card = cardOf(doc);
-  assert.equal(countOf(card).textContent, '3 of 3');
-  assert.equal(primaryOf(card).textContent, 'Done');
-  tour.back();
-  assert.equal(cardOf(doc).getAttribute('aria-label'), 'Track document status');
-  tour.next();
-  tour.next();
+test('hidden targets filter out; no visible target starts nothing', () => {
+  const doc = fakeDocument({targets: {'.pager': [fakeEl('div', HIDDEN_RECT)]}});
+  const drivers = [];
+  const tour = createSpotlight({document: doc, t: k => k, createDriver: fakeDriverFactory(drivers)});
+  assert.equal(tour.start(STEPS()), false);
   assert.equal(tour.isActive(), false);
-  assert.ok(cardOf(doc).removed);
+  assert.equal(drivers.length, 0);
 });
 
-test('primary/secondary buttons are wired', () => {
+test('kill switch OFF blocks start; turning OFF mid-tour destroys', () => {
   const doc = fakeDocument({targets: visibleTargets()});
-  const tour = createSpotlight({document: doc, t: k => k});
-  tour.start(STEPS());
-  primaryOf(cardOf(doc)).dispatch('click');
-  assert.equal(cardOf(doc).getAttribute('aria-label'), 'Track document status');
-  secondaryOf(cardOf(doc)).dispatch('click');
-  assert.equal(cardOf(doc).getAttribute('aria-label'), 'Move between records');
-});
-
-test('kill switch OFF blocks start; turning OFF mid-tour dismisses', () => {
-  const doc = fakeDocument({targets: visibleTargets()});
-  const tour = createSpotlight({document: doc, t: k => k});
+  const drivers = [];
+  const tour = createSpotlight({document: doc, t: k => k, createDriver: fakeDriverFactory(drivers)});
   tour.setEnabled(false);
   assert.equal(tour.isEnabled(), false);
   assert.equal(tour.start(STEPS()), false);
-  assert.equal(cardOf(doc), undefined);
-  assert.equal(tour.trigger(STEPS()[0]), false);
+  assert.equal(drivers.length, 0);
 
   tour.setEnabled(true);
   assert.equal(tour.start(STEPS()), true);
   assert.equal(tour.isActive(), true);
   tour.setEnabled(false);
+  assert.equal(drivers[0].destroyed, true);
   assert.equal(tour.isActive(), false);
-  assert.ok(cardOf(doc).removed);
   // Re-enabling starts nothing on its own.
   tour.setEnabled(true);
   assert.equal(tour.isActive(), false);
+  assert.equal(drivers.length, 1);
 });
 
-test('triggered single step has no count and a Done action', () => {
+test('trigger runs a single step without progress', () => {
   const doc = fakeDocument({targets: visibleTargets()});
-  const tour = createSpotlight({document: doc, t: k => k});
+  const drivers = [];
+  const tour = createSpotlight({document: doc, t: k => k, createDriver: fakeDriverFactory(drivers)});
   assert.equal(tour.trigger(STEPS()[0]), true);
-  const card = cardOf(doc);
-  assert.equal(countOf(card).textContent, '');
-  assert.equal(primaryOf(card).textContent, 'Done');
+  assert.equal(drivers[0].config.steps.length, 1);
+  assert.equal(drivers[0].config.showProgress, false);
+  assert.equal(tour.trigger(STEPS()[0]), false, 'no second tour while active');
 });
 
-test('hidden targets are skipped; no visible target starts nothing', () => {
-  const targets = visibleTargets();
-  targets['button.stpill'] = [fakeEl('button', HIDDEN_RECT)];
-  const doc = fakeDocument({targets});
-  const tour = createSpotlight({document: doc, t: k => k});
-  assert.equal(tour.start(STEPS()), true);
-  assert.equal(cardOf(doc).getAttribute('aria-label'), 'Move between records');
-  tour.next();
-  assert.equal(cardOf(doc).getAttribute('aria-label'), 'Save only when dirty');
-
-  const empty = fakeDocument({targets: {}});
-  const tour2 = createSpotlight({document: empty, t: k => k});
-  assert.equal(tour2.start(STEPS()), false);
-  assert.equal(tour2.isActive(), false);
-});
-
-test('a step with several selectors lands on the first visible one', () => {
-  const save = fakeEl('button', HIDDEN_RECT);
-  const modify = fakeEl('button');
-  const doc = fakeDocument({targets: {'.save': [save], '.modify': [modify]}});
-  const tour = createSpotlight({document: doc, t: k => k});
-  assert.equal(
-    tour.start([{id: 's', targets: ['.save', '.modify'], headline: 'H', body: 'B', placement: 'bottom'}]),
-    true
-  );
-  assert.equal(cardOf(doc).getAttribute('aria-label'), 'H');
-  assert.equal(modify.style.outline !== '', true);
-  assert.equal(save.style.outline || '', '');
-});
-
-test('Escape dismisses the active spotlight', () => {
+test('dismiss clears state even when the driver skips onDestroyed', async () => {
+  // Regression: driver.js skips onDestroyed when destroyed mid-transition
+  // (its step state lands only after the enter animation), so dismiss()
+  // must not depend on the hook firing.
+  const silentFactory = configs => {
+    const instances = [];
+    const factory = config => {
+      configs.push(config);
+      const instance = {
+        config,
+        drive() {},
+        destroy() {},
+        moveNext() {},
+        movePrevious() {},
+      };
+      instances.push(instance);
+      return instance;
+    };
+    factory.instances = instances;
+    return factory;
+  };
+  const configs = [];
+  const factory = silentFactory(configs);
+  const invoker = fakeEl('button');
   const doc = fakeDocument({targets: visibleTargets()});
-  const tour = createSpotlight({document: doc, t: k => k});
-  tour.start(STEPS());
-  assert.equal(tour.isActive(), true);
-  doc.dispatch('keydown', {key: 'Escape', preventDefault() {}});
+  doc.body.appendChild(invoker);
+  const tour = createSpotlight({document: doc, t: k => k, createDriver: factory});
+  assert.equal(tour.start(STEPS(), invoker), true);
+  tour.dismiss();
   assert.equal(tour.isActive(), false);
+  await tick();
+  assert.equal(invoker.focused, true);
+  // A fresh tour starts cleanly afterwards.
+  assert.equal(tour.start(STEPS(), invoker), true);
+  assert.equal(factory.instances.length, 2);
 });
 
-test('copy resolves through t() (EN/AR via the shared locale)', () => {
+test('next/back delegate to the driver; dismiss destroys and returns focus', async () => {
+  const invoker = fakeEl('button');
   const doc = fakeDocument({targets: visibleTargets()});
-  const dict = {'Move between records': 'التنقل بين السجلات', of: 'من', Next: 'التالي'};
-  const tour = createSpotlight({document: doc, t: k => dict[k] || k});
-  tour.start(STEPS());
-  const card = cardOf(doc);
-  assert.equal(card.getAttribute('aria-label'), 'التنقل بين السجلات');
-  assert.equal(countOf(card).textContent, '1 من 3');
-  assert.equal(primaryOf(card).textContent, 'التالي');
+  doc.body.appendChild(invoker);
+  const drivers = [];
+  const tour = createSpotlight({document: doc, t: k => k, createDriver: fakeDriverFactory(drivers)});
+  tour.next();
+  tour.back();
+  tour.dismiss();
+  tour.start(STEPS(), invoker);
+  tour.next();
+  tour.back();
+  assert.equal(drivers[0].movedNext, 1);
+  assert.equal(drivers[0].movedPrev, 1);
+  tour.dismiss();
+  assert.equal(drivers[0].destroyed, true);
+  assert.equal(tour.isActive(), false);
+  await tick();
+  assert.equal(invoker.focused, true);
+});
+
+test('RTL flips physical sides before handing to driver.js', () => {
+  const doc = fakeDocument({targets: {'.x': [fakeEl('div')]}});
+  const drivers = [];
+  const tour = createSpotlight({document: doc, t: k => k, getDirection: () => 'rtl', createDriver: fakeDriverFactory(drivers)});
+  tour.start([{id: 'x', target: '.x', headline: 'H', body: 'B', placement: 'left-start'}]);
+  assert.deepEqual(
+    [drivers[0].config.steps[0].popover.side, drivers[0].config.steps[0].popover.align],
+    ['right', 'start']
+  );
 });

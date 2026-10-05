@@ -56,9 +56,11 @@ const TOURS = {
     },
     {
       id: 'open',
-      target: '#list-canvas tbody tr',
+      // The whole row is too wide for a clean highlight (full table
+      // width, often scrolled) — point at its Doc No. button instead.
+      target: '#list-canvas tbody tr td button',
       headline: 'Open a record',
-      body: 'Double-click any row to open it.',
+      body: 'Double-click a row — or its number — to open it.',
       placement: 'top',
       primary: 'Next',
     },

@@ -452,25 +452,31 @@ export function renderDataList(
               // `--line-2` over opaque `--surface`, so row content cannot
               // show through while the header is stuck.
               //
-              // `overflow-x-auto` on this wrapper only applies in
-              // `responsive` view (where the table can genuinely be wider
-              // than its container and needs its own horizontal scrollbar).
-              // Every other view leaves this div at the default `visible`
-              // overflow, deliberately: per the CSS Overflow spec's
-              // computed-value rule, pairing `overflow-x: auto` with
-              // `overflow-y: visible` on the SAME element forces the
-              // `visible` axis to also compute as `auto` — no inline style
-              // or `!important` can override that (it's a computed-value
-              // resolution step, not a cascade/specificity one). An
-              // `overflow-x-auto` div would silently become its own
-              // vertical scrolling/sticky-positioning containing block,
-              // capturing the sticky `<thead>` inside its own (unscrolled)
-              // box instead of letting it stick to the real page/dialog
-              // scroll container — breaking the sticky header entirely.
+              // Scroll containment: the table scrolls INSIDE this wrapper on
+              // both axes — never pushing the page/canvas sideways, and
+              // never scrolling the page vertically past the table. The
+              // wrapper is therefore its own scroll container, which is
+              // exactly what the sticky `<thead>` (and frozen columns)
+              // bind to: header/columns stick to this box, not the page.
+              //
+              // `max-height` caps the box at the viewport minus the
+              // surrounding chrome (topbar, statistics, toolbar, footer),
+              // with a floor so short viewports fall back to page scroll
+              // instead of a crushed grid. Short tables are untouched
+              // (`max-height` never grows) — only tall ones scroll
+              // internally. `rounded-[inherit]` keeps the scrollbox inside
+              // the shell card's rounded corners.
+              //
+              // (An earlier revision tried `overflow-x: auto` with
+              // `overflow-y: clip` to preserve page-bound stickiness, but
+              // Chromium computes that pairing's y-axis to `hidden`,
+              // silently rebinding the sticky header to this never-scrolled
+              // box — verified live. Full containment is the correct
+              // pattern here.)
               const scrollWrapperClass =
                 listState.view === 'responsive'
                   ? 'data-table-scroll overflow-x-auto data-table-responsive max-w-full overflow-clip'
-                  : 'data-table-scroll'
+                  : 'data-table-scroll overflow-auto rounded-[inherit] max-w-full max-h-[max(280px,calc(100dvh-360px))]'
               return `<div class="${scrollWrapperClass}"><table class="inv-grid borders-${deps.encodeHtml(listState.borderMode)} w-full${config.noRowActions && !config.scrollOverflow ? ' [table-layout:fixed]' : ''} [border-collapse:collapse] [font-size:13px] [&_th]:text-start [&_th]:[padding:8px_12px] [&_th]:text-muted [&_th]:font-medium [&_th]:[border-bottom:1px_solid_var(--line)] [&_th]:whitespace-nowrap [&_th]:sticky [&_th]:top-0 [&_th]:z-[3] [&_td]:[padding:8px_12px] [&_td]:[border-bottom:1px_solid_var(--line-2)] [&_td]:text-ink [&_td]:whitespace-nowrap [&_td]:[text-overflow:ellipsis] [&_td]:overflow-hidden [&_td]:[max-width:200px] [&_tbody_tr:hover]:[background:var(--hover-overlay)] [&_tbody_tr:hover]:[cursor:pointer] [&_td_input]:w-full [&_td_input]:[padding:5px_7px] [&_td_input]:bg-surface [&_td_input]:text-ink [&_td_input]:[border:1px_solid_var(--line)] [&_td_input]:[border-radius:5px] [&_td_input]:[font:inherit]">${responsiveColgroup || actionlessColgroup}<thead><tr>${selectAllHeader}${deps.renderDataListHeader(visibleColumns, listState)}${actionsHeader}</tr></thead><tbody>${deps.renderDataListBody(rows, tableRenderContext)}</tbody></table></div>`
             })()
   const statistics = listState.statisticsVisible
