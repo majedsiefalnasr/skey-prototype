@@ -24,9 +24,11 @@ export function createLocaleControls({t, formatLocaleCurrency, getLocale, setLoc
 
   /* Reflects selectedLanguage onto every selector surface: the avatar
      menu's Language submenu (trailing endonym in the summary + the checked
-     radio in the popover) and the Profile → Account settings Language
-     select. Safe to call before any of that DOM exists — each query just
-     no-ops on an empty document. */
+     radio in the popover), the sign-in view's footer language submenu
+     (si-prefixed mirror so the avatar specs' strict selectors keep
+     matching exactly one surface), and the Profile → Account settings
+     Language select. Safe to call before any of that DOM exists — each
+     query just no-ops on an empty document. */
   function syncLanguageControls() {
     const current = LANGUAGES.find(language => language.code === selectedLanguage) || LANGUAGES[0]
     document.querySelectorAll('[data-language-current]').forEach(node => {
@@ -35,6 +37,13 @@ export function createLocaleControls({t, formatLocaleCurrency, getLocale, setLoc
     document.querySelectorAll('.language-submenu [data-language]').forEach(label => {
       const input = label.querySelector('input[type="radio"]')
       if (input) input.checked = label.dataset.language === current.code
+    })
+    document.querySelectorAll('[data-si-language-current]').forEach(node => {
+      node.textContent = current.name
+    })
+    document.querySelectorAll('.si-language [data-si-language]').forEach(label => {
+      const input = label.querySelector('input[type="radio"]')
+      if (input) input.checked = label.dataset.siLanguage === current.code
     })
     const select = document.getElementById('profile-language')
     if (select) select.value = current.code
@@ -199,6 +208,14 @@ export function createLocaleControls({t, formatLocaleCurrency, getLocale, setLoc
     popover?.addEventListener('change', event => {
       const label = event.target.closest?.('[data-language]')
       if (label) selectLanguage(label.dataset.language)
+    })
+    /* The sign-in footer owns a second seven-row submenu (si-language,
+       distinct radio group name). Delegated at document level so the
+       binding survives any mount order — same selectLanguage() entry
+       point, same "popover stays open after a pick" behavior. */
+    document.addEventListener('change', event => {
+      const label = event.target.closest?.('.si-language [data-si-language]')
+      if (label) selectLanguage(label.dataset.siLanguage)
     })
     /* Reset the inner dropdown whenever the avatar menu closes (item
        click, Escape, or outside click all funnel through aria-expanded),

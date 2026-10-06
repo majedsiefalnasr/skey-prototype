@@ -1,0 +1,346 @@
+<template class="signin-tpl">
+  <!-- Sign-in view (Slack-style minimal concept, promoted into the app).
+    Launchpad-style animated orb background — fixed inset-0 so it bleeds to
+    the viewport edges past page-content's padding, exactly like the
+    launchpad's frame-attached lp-view — behind an ADS card centered on
+    both axes; a twelve-pane router inside the card — tenant (1),
+    credentials (2), branch, pin, save, savepin, then reset / workspaces /
+    device / request / privacy / support reached through data-si-goto. ADS-aligned:
+    heading.xlarge 28/32 semibold, body 16/24, labels above fields,
+    6px-radius inputs on --line borders with the accent-line/accent-soft
+    focus treatment, surface card floating on the frame's own surface — the
+    view carries no background of its own (no bg-bg, and signed-out
+    page-content no longer paints --bg either), so the orb layer and the
+    frame's surface run edge to edge in both default and boxed layouts with
+    no canvas slab around the card. App tokens
+    only (follows theme/accent/direction), data-i18n copy, si-* ids
+    (unique across the built shell). The footer language submenu mirrors
+    the avatar menu's seven-row catalog under si- prefixed
+    classes/attributes so the avatar-menu specs' strict selectors keep
+    matching exactly one surface. Chrome (topbar/sidebar) hides behind
+    body.signed-out while this view is active. -->
+  <div
+    class="signin-view relative min-h-0 flex-1 flex-col items-center text-ink [&:not([hidden])]:flex"
+    hidden>
+    <!-- Animated background — the launchpad's seven orbs, verbatim;
+         fixed so the layer covers the viewport edge to edge (the view
+         itself sits inside page-content's 16px padding, and boxed layout
+         adds more). No transformed ancestor exists between here and the
+         viewport, so fixed resolves to it; a hidden view hides it too. -->
+    <div class="lp-orbs pointer-events-none fixed inset-0 overflow-hidden" aria-hidden="true">
+      <span class="lp-orb absolute z-[-1] rounded-full blur-[4px] bg-[radial-gradient(circle_at_30%_26%,color-mix(in_srgb,var(--accent)_18%,var(--surface))_0%,color-mix(in_srgb,var(--accent)_65%,var(--surface))_18%,color-mix(in_srgb,var(--accent)_96%,black_2%)_55%,color-mix(in_srgb,var(--accent)_82%,black_22%)_100%)] animate-[lp-float-1_16s_ease-in-out_infinite_alternate] top-[64%] left-[-4%] size-[6vmax] opacity-95"></span>
+      <span class="lp-orb absolute rounded-full blur-[4px] bg-[radial-gradient(circle_at_34%_30%,color-mix(in_srgb,var(--accent)_4%,var(--surface))_0%,color-mix(in_srgb,var(--accent)_30%,var(--surface))_45%,color-mix(in_srgb,var(--accent)_46%,var(--surface))_100%)] animate-[lp-float-2_22s_ease-in-out_infinite_alternate] top-[5%] left-[74%] size-[30vmax] opacity-50"></span>
+      <span class="lp-orb absolute z-[-1] rounded-full blur-[4px] bg-[radial-gradient(circle_at_30%_26%,color-mix(in_srgb,var(--accent)_18%,var(--surface))_0%,color-mix(in_srgb,var(--accent)_65%,var(--surface))_18%,color-mix(in_srgb,var(--accent)_96%,black_2%)_55%,color-mix(in_srgb,var(--accent)_82%,black_22%)_100%)] animate-[lp-float-3_18s_ease-in-out_infinite_alternate] top-[9%] left-[95%] size-[8vmax] opacity-90"></span>
+      <span class="lp-orb absolute rounded-full blur-[4px] bg-[radial-gradient(circle_at_34%_30%,color-mix(in_srgb,var(--accent)_4%,var(--surface))_0%,color-mix(in_srgb,var(--accent)_30%,var(--surface))_45%,color-mix(in_srgb,var(--accent)_46%,var(--surface))_100%)] animate-[lp-float-4_24s_ease-in-out_infinite_alternate] top-[84%] left-[42%] size-[24vmax] opacity-45"></span>
+      <span class="lp-orb absolute rounded-full blur-[4px] bg-[radial-gradient(circle_at_34%_30%,color-mix(in_srgb,var(--accent)_4%,var(--surface))_0%,color-mix(in_srgb,var(--accent)_30%,var(--surface))_45%,color-mix(in_srgb,var(--accent)_46%,var(--surface))_100%)] animate-[lp-float-5_20s_ease-in-out_infinite_alternate] top-[16%] left-[14%] size-[16vmax] opacity-35"></span>
+      <span class="lp-orb absolute z-[-1] rounded-full blur-[4px] bg-[radial-gradient(circle_at_30%_26%,color-mix(in_srgb,var(--accent)_18%,var(--surface))_0%,color-mix(in_srgb,var(--accent)_65%,var(--surface))_18%,color-mix(in_srgb,var(--accent)_96%,black_2%)_55%,color-mix(in_srgb,var(--accent)_82%,black_22%)_100%)] animate-[lp-float-6_14s_ease-in-out_infinite_alternate] top-[14%] left-[13%] size-[4vmax] opacity-80"></span>
+      <span class="lp-orb absolute z-[-1] rounded-full blur-[4px] bg-[radial-gradient(circle_at_30%_26%,color-mix(in_srgb,var(--accent)_18%,var(--surface))_0%,color-mix(in_srgb,var(--accent)_65%,var(--surface))_18%,color-mix(in_srgb,var(--accent)_96%,black_2%)_55%,color-mix(in_srgb,var(--accent)_82%,black_22%)_100%)] animate-[lp-float-7_19s_ease-in-out_infinite_alternate] top-[96%] left-[14%] size-[6vmax] opacity-85"></span>
+    </div>
+
+    <main class="relative z-[1] w-full min-w-0 flex-1 overflow-y-auto">
+      <div class="grid min-h-full w-full place-items-center px-4 py-8">
+        <div class="flex w-full max-w-[480px] flex-col items-center rounded-lg border border-line bg-surface px-6 py-8 text-center [box-shadow:var(--shadow-1)] sm:px-9">
+          <img src="/logo-skey.png" alt="Skey ERP" class="h-10 w-auto" />
+          <p class="mt-5 text-xs text-muted">
+            <span data-i18n="New to Skey?">New to Skey?</span>
+            <button type="button" class="border-0 bg-transparent p-0 font-semibold text-accent hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]" data-si-goto="request" data-i18n="Request access">Request access</button>
+          </p>
+
+          <!-- STEP 1 — tenant -->
+          <section class="si-step mt-6 w-full flex-col items-center [&:not([hidden])]:flex" data-si-pane="1" data-si-focus="#si-tenant" aria-labelledby="si-h1">
+            <h1 id="si-h1" tabindex="-1" class="text-[28px] font-semibold leading-8 text-balance" data-i18n="Sign in to your workspace">Sign in to your workspace</h1>
+            <p class="mt-2 text-base text-muted" data-i18n="Enter your Skey tenant name">Enter your Skey tenant name</p>
+            <div class="mt-6 w-full text-start">
+              <label for="si-tenant" class="block text-xs font-medium text-muted" data-i18n="Tenant name">Tenant name</label>
+              <div class="mt-1.5 flex items-stretch overflow-hidden rounded-md border border-line bg-surface hover:border-[var(--accent-line)] focus-within:border-[var(--accent-line)] focus-within:[box-shadow:0_0_0_3px_var(--accent-soft)]">
+                <input
+                  id="si-tenant" value="lastchance" autocomplete="organization" dir="ltr"
+                  placeholder="your-tenant"
+                  class="min-w-0 flex-1 border-0 bg-transparent px-2.5 py-1.5 text-sm text-ink outline-none placeholder:text-faint" />
+                <span class="flex-none self-center whitespace-nowrap pe-2.5 text-sm font-medium text-muted" dir="ltr" aria-hidden="true">.skeyerp.com</span>
+              </div>
+            </div>
+            <button
+              id="si-to2" type="button"
+              class="lbtn pri mt-4 w-full justify-center text-sm"
+              data-i18n="Continue">Continue</button>
+            <div class="mt-5 grid w-full gap-2 text-start text-sm text-muted">
+              <p><span data-i18n="Do not know your tenant?">Do not know your tenant?</span> <button type="button" class="border-0 bg-transparent p-0 font-semibold text-accent hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]" data-si-goto="workspaces" data-i18n="Find your workspaces">Find your workspaces</button></p>
+              <p><span data-i18n="Signing in from a branch device?">Signing in from a branch device?</span> <button type="button" class="border-0 bg-transparent p-0 font-semibold text-accent hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]" data-si-goto="device" data-i18n="Use device code">Use device code</button></p>
+            </div>
+          </section>
+
+          <!-- STEP 2 — credentials + SSO -->
+          <section class="si-step mt-6 w-full flex-col items-center [&:not([hidden])]:flex" data-si-pane="2" data-si-focus="#si-user" aria-labelledby="si-h2" hidden>
+            <h1 id="si-h2" tabindex="-1" class="text-[28px] font-semibold leading-8 text-balance" data-i18n="Enter your password to sign in">Enter your password to sign in</h1>
+            <p class="mt-2 text-base text-muted" data-i18n="Or choose another way to sign in.">Or choose another way to sign in.</p>
+            <p class="mt-4 inline-flex items-center gap-2 rounded-md border border-line bg-[var(--line-2)] px-2 py-1 text-sm">
+              <b dir="ltr" id="si-who">lastchance.skeyerp.com</b>
+              <button type="button" id="si-change" class="rounded-md border border-line bg-surface px-2.5 py-0.5 text-xs font-medium text-accent hover:border-[var(--accent-line)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]" data-i18n="Change">Change</button>
+            </p>
+            <div class="mt-4 w-full text-start">
+              <label for="si-user" class="block text-xs font-medium text-muted" data-i18n="Username">Username</label>
+              <input
+                id="si-user" autocomplete="username" dir="ltr" placeholder="admin"
+                class="mt-1.5 w-full rounded-md border border-line bg-surface px-2.5 py-1.5 text-sm text-ink outline-none hover:border-[var(--accent-line)] focus:border-[var(--accent-line)] focus:[box-shadow:0_0_0_3px_var(--accent-soft)]" />
+            </div>
+            <div class="mt-4 w-full text-start">
+              <label for="si-pass" class="block text-xs font-medium text-muted" data-i18n="Password">Password</label>
+              <div class="relative mt-1.5">
+                <input
+                  id="si-pass" type="password" autocomplete="current-password" dir="ltr"
+                  class="w-full rounded-md border border-line bg-surface px-2.5 py-1.5 pe-16 text-sm text-ink outline-none hover:border-[var(--accent-line)] focus:border-[var(--accent-line)] focus:[box-shadow:0_0_0_3px_var(--accent-soft)] aria-[invalid=true]:border-danger" />
+                <button type="button" id="si-show" class="absolute end-1.5 top-1/2 -translate-y-1/2 border-0 bg-transparent px-2 py-1 text-xs font-semibold text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]" data-i18n="Show">Show</button>
+              </div>
+              <p class="mt-1.5 hidden text-xs text-[var(--warn-ink)]" data-si-caps data-i18n="Caps Lock is on — passwords are case-sensitive.">Caps Lock is on — passwords are case-sensitive.</p>
+            </div>
+            <button
+              id="si-signin" type="button"
+              class="lbtn pri mt-4 w-full justify-center text-sm"
+              data-i18n="Sign in with password">Sign in with password</button>
+            <div class="my-5 flex w-full items-center gap-3 text-xs text-muted">
+              <span class="h-px flex-1 bg-line" aria-hidden="true"></span>
+              <span data-i18n="OR SIGN IN WITH">OR SIGN IN WITH</span>
+              <span class="h-px flex-1 bg-line" aria-hidden="true"></span>
+            </div>
+            <div class="grid w-full gap-2.5">
+              <button id="si-sso-ms" type="button" class="lbtn out w-full justify-center text-sm">
+                <svg width="16" height="16" viewBox="0 0 21 21" aria-hidden="true"><rect x="1" y="1" width="9" height="9" fill="#f25022"/><rect x="11" y="1" width="9" height="9" fill="#7fba00"/><rect x="1" y="11" width="9" height="9" fill="#00a4ef"/><rect x="11" y="11" width="9" height="9" fill="#ffb900"/></svg><span>Microsoft</span>
+              </button>
+              <button id="si-sso-gg" type="button" class="lbtn out w-full justify-center text-sm">
+                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.6 12.3c0-.8-.1-1.5-.2-2.3H12v4.3h6c-.3 1.4-1.1 2.5-2.3 3.3v2.8h3.7c2.2-2 3.4-4.9 3.2-8.1z"/><path fill="#34A853" d="M12 22c3.1 0 5.7-1 7.6-2.8l-3.7-2.8c-1 .7-2.4 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v2.9C3.7 19.5 7.6 22 12 22z"/><path fill="#FBBC05" d="M5.6 13.8c-.2-.7-.4-1.5-.4-2.3s.1-1.6.4-2.3V6.3H1.8C1.3 7.7 1 9.3 1 11s.3 3.3.8 4.7l3.8-2.9z"/><path fill="#EA4335" d="M12 5.5c1.7 0 3.2.6 4.4 1.7L19.7 4C17.8 2.2 15.1 1 12 1 7.6 1 3.7 3.5 1.8 7.2l3.8 2.9c.9-2.7 3.4-4.6 6.4-4.6z"/></svg><span>Google</span>
+              </button>
+            </div>
+            <p class="mt-4 hidden w-full rounded-md border border-[var(--danger-soft-line)] bg-[var(--danger-soft-bg)] px-3 py-2 text-start text-sm text-danger" data-si-err role="alert"></p>
+            <p class="mt-3 w-full text-xs text-faint" data-i18n="You land in Cairo HQ · 2026 — switchable after sign-in.">You land in Cairo HQ · 2026 — switchable after sign-in.</p>
+            <p class="mt-3 w-full text-start text-sm" id="si-usepin-wrap" hidden><button type="button" id="si-usepin" class="border-0 bg-transparent p-0 font-semibold text-accent hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]" data-i18n="Use PIN instead">Use PIN instead</button></p>
+            <p class="mt-5 text-sm text-muted"><span data-i18n="Having trouble?">Having trouble?</span> <button type="button" class="border-0 bg-transparent p-0 font-semibold text-accent hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]" data-si-goto="reset" data-i18n="Reset your password">Reset your password</button></p>
+          </section>
+
+          <!-- RESET PASSWORD -->
+          <section class="si-step mt-6 w-full flex-col items-center [&:not([hidden])]:flex" data-si-pane="reset" data-si-focus="#si-reset-user" aria-labelledby="si-reset-h" hidden>
+            <h1 id="si-reset-h" tabindex="-1" class="text-[28px] font-semibold leading-8 text-balance" data-i18n="Reset your password">Reset your password</h1>
+            <p class="mt-2 text-base text-muted" data-i18n="Enter your username and we will send a reset link to the address on file.">Enter your username and we will send a reset link to the address on file.</p>
+            <div class="mt-6 w-full text-start">
+              <label for="si-reset-user" class="block text-xs font-medium text-muted" data-i18n="Username">Username</label>
+              <input
+                id="si-reset-user" autocomplete="username" dir="ltr" placeholder="admin"
+                class="mt-1.5 w-full rounded-md border border-line bg-surface px-2.5 py-1.5 text-sm text-ink outline-none hover:border-[var(--accent-line)] focus:border-[var(--accent-line)] focus:[box-shadow:0_0_0_3px_var(--accent-soft)] aria-[invalid=true]:border-danger" />
+            </div>
+            <button id="si-reset-send" type="button" class="lbtn pri mt-4 w-full justify-center text-sm" data-i18n="Send reset link">Send reset link</button>
+            <p class="mt-4 hidden w-full rounded-md border border-[var(--success-soft-line)] bg-[var(--success-soft-bg)] px-3 py-2 text-start text-sm text-success" role="status" data-si-ok data-si-reset-ok></p>
+            <button type="button" class="lbtn out mt-5 w-full justify-center text-sm" data-si-goto="back" data-i18n="Back to sign in">Back to sign in</button>
+          </section>
+
+          <!-- FIND YOUR WORKSPACES — search only: type a tenant and continue
+               (no result list; the demo tenants live in step 1's input). -->
+          <section class="si-step mt-6 w-full flex-col items-center [&:not([hidden])]:flex" data-si-pane="workspaces" data-si-focus="#si-ws-q" aria-labelledby="si-ws-h" hidden>
+            <h1 id="si-ws-h" tabindex="-1" class="text-[28px] font-semibold leading-8 text-balance" data-i18n="Find your workspaces">Find your workspaces</h1>
+            <p class="mt-2 text-base text-muted" data-i18n="Search by organization, email, or tenant name.">Search by organization, email, or tenant name.</p>
+            <div class="mt-6 w-full text-start">
+              <label for="si-ws-q" class="block text-xs font-medium text-muted" data-i18n="Search">Search</label>
+              <input
+                id="si-ws-q" type="search" autocomplete="off" dir="ltr" placeholder="acme"
+                aria-describedby="si-ws-hint"
+                class="mt-1.5 w-full rounded-md border border-line bg-surface px-2.5 py-1.5 text-sm text-ink outline-none hover:border-[var(--accent-line)] focus:border-[var(--accent-line)] focus:[box-shadow:0_0_0_3px_var(--accent-soft)] aria-[invalid=true]:border-danger" />
+              <p class="mt-1.5 text-xs text-faint" id="si-ws-hint" data-i18n="Press Enter to continue.">Press Enter to continue.</p>
+            </div>
+            <button id="si-ws-go" type="button" class="lbtn pri mt-4 w-full justify-center text-sm" data-i18n="Continue">Continue</button>
+            <button type="button" class="lbtn out mt-5 w-full justify-center text-sm" data-si-goto="back" data-i18n="Back to sign in">Back to sign in</button>
+          </section>
+
+          <!-- BRANCH STEP — shown only for tenants that have branches;
+               radios are rendered by signin.js from the demo branch map. -->
+          <section class="si-step mt-6 w-full flex-col items-center [&:not([hidden])]:flex" data-si-pane="branch" data-si-focus="#si-branch-list input" aria-labelledby="si-branch-h" hidden>
+            <h1 id="si-branch-h" tabindex="-1" class="text-[28px] font-semibold leading-8 text-balance" data-i18n="Which branch are you working from?">Which branch are you working from?</h1>
+            <p class="mt-2 text-base text-muted" data-i18n="This workspace has more than one branch. Pick today's branch — you can switch after signing in.">This workspace has more than one branch. Pick today's branch — you can switch after signing in.</p>
+            <div class="mt-6 grid w-full gap-2 text-start" id="si-branch-list" role="radiogroup" aria-labelledby="si-branch-h"></div>
+            <button id="si-branch-go" type="button" class="lbtn pri mt-4 w-full justify-center text-sm" data-i18n="Continue">Continue</button>
+            <button type="button" class="lbtn out mt-5 w-full justify-center text-sm" data-si-goto="1" data-i18n="Start over">Start over</button>
+          </section>
+
+          <!-- ACCOUNTS — entry picker when 2+ saved identities exist
+               (round 5). Rows are rendered by signin.js. -->
+          <section class="si-step mt-6 w-full flex-col items-center [&:not([hidden])]:flex" data-si-pane="accounts" data-si-focus="#si-accounts-h" aria-labelledby="si-accounts-h" hidden>
+            <h1 id="si-accounts-h" tabindex="-1" class="text-[28px] font-semibold leading-8 text-balance" data-i18n="Who’s signing in?">Who’s signing in?</h1>
+            <div id="si-accounts-list" role="list" class="mt-6 grid w-full gap-2 text-start"></div>
+            <button type="button" id="si-accounts-other" class="lbtn out mt-5 w-full justify-center text-sm" data-si-goto="1" data-i18n="Use another account">Use another account</button>
+          </section>
+
+          <!-- PIN — auto-shown by activate() when the saved identity has a PIN (or picked from the accounts pane). -->
+          <section class="si-step mt-6 w-full flex-col items-center [&:not([hidden])]:flex" data-si-pane="pin" data-si-focus="#si-pin" aria-labelledby="si-pin-h" hidden>
+            <h1 id="si-pin-h" tabindex="-1" class="text-[28px] font-semibold leading-8 text-balance" data-i18n="Welcome back">Welcome back</h1>
+            <p class="mt-2 text-base text-muted" data-i18n="You saved this sign-in — enter your 6-digit PIN to continue.">You saved this sign-in — enter your 6-digit PIN to continue.</p>
+            <p class="mt-4 inline-flex items-center gap-2 rounded-md border border-line bg-[var(--line-2)] px-2 py-1 text-sm">
+              <b dir="ltr" id="si-pin-who">admin · lastchance.skeyerp.com</b>
+            </p>
+            <div class="mt-4 w-full text-start">
+              <label for="si-pin" class="block text-xs font-medium text-muted" data-i18n="PIN">PIN</label>
+              <input
+                id="si-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="6" dir="ltr"
+                class="mt-1.5 w-full rounded-md border border-line bg-surface px-2.5 py-1.5 text-sm text-ink outline-none hover:border-[var(--accent-line)] focus:border-[var(--accent-line)] focus:[box-shadow:0_0_0_3px_var(--accent-soft)] aria-[invalid=true]:border-danger" />
+            </div>
+            <button id="si-pin-signin" type="button" class="lbtn pri mt-4 w-full justify-center text-sm" data-i18n="Sign in with PIN">Sign in with PIN</button>
+            <p class="mt-3 w-full text-start text-sm"><button type="button" class="border-0 bg-transparent p-0 font-semibold text-accent hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]" data-si-goto="2" data-i18n="Use password instead">Use password instead</button></p>
+            <p class="mt-3 w-full text-start text-sm" id="si-pin-forget-wrap" hidden><button type="button" id="si-pin-forget" class="border-0 bg-transparent p-0 font-semibold text-danger hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]" data-i18n="Forget this account">Forget this account</button></p>
+            <p class="mt-4 hidden w-full rounded-md border border-[var(--danger-soft-line)] bg-[var(--danger-soft-bg)] px-3 py-2 text-start text-sm text-danger" id="si-pin-err" role="alert"></p>
+            <p class="mt-4 hidden w-full rounded-md border border-[var(--danger-soft-line)] bg-[var(--danger-soft-bg)] px-3 py-2 text-start text-sm" id="si-pin-else" role="status">
+              <button type="button" id="si-pin-someone" class="border-0 bg-transparent p-0 font-semibold text-accent hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]" data-i18n="Sign in as someone else">Sign in as someone else</button>
+            </p>
+            <button type="button" id="si-pin-back" class="lbtn out mt-5 w-full justify-center text-sm" data-i18n="Start over">Start over</button>
+          </section>
+
+          <!-- SAVE CREDENTIALS — post-auth step inside the card. The
+               session stays signed out until Not now or Save PIN. -->
+          <section class="si-step mt-6 w-full flex-col items-center [&:not([hidden])]:flex" data-si-pane="save" data-si-focus="#si-save-h" aria-labelledby="si-save-h" hidden>
+            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-accent" data-i18n="One more step">One more step</p>
+            <h1 id="si-save-h" tabindex="-1" class="mt-1.5 text-[28px] font-semibold leading-8 text-balance" data-i18n="Save your sign-in?">Save your sign-in?</h1>
+            <div class="mt-5 w-full rounded-md border border-line bg-surface px-3.5 py-3 text-start">
+              <p class="text-xs text-muted" data-i18n="Signing in as">Signing in as</p>
+              <p class="mt-1 text-sm font-semibold text-ink"><span dir="ltr" id="si-save-who">admin · lastchance.skeyerp.com</span></p>
+            </div>
+            <p class="mt-4 w-full text-start text-sm text-muted" data-i18n="Save this sign-in and next time a 6-digit PIN replaces your password on this device.">Save this sign-in and next time a 6-digit PIN replaces your password on this device.</p>
+            <button type="button" id="si-save-create" class="lbtn pri mt-5 w-full justify-center text-sm" data-si-goto="savepin" data-i18n="Create PIN">Create PIN</button>
+            <button type="button" id="si-save-not-now" class="lbtn out mt-3 w-full justify-center text-sm" data-i18n="Not now">Not now</button>
+          </section>
+
+          <!-- CREATE PIN -->
+          <section class="si-step mt-6 w-full flex-col items-center [&:not([hidden])]:flex" data-si-pane="savepin" data-si-focus="#si-save-pin" aria-labelledby="si-save-pin-h" hidden>
+            <h1 id="si-save-pin-h" tabindex="-1" class="text-[28px] font-semibold leading-8 text-balance" data-i18n="Create your PIN">Create your PIN</h1>
+            <div class="mt-5 w-full text-start">
+              <label for="si-save-pin" class="block text-xs font-medium text-muted" data-i18n="PIN">PIN</label>
+              <input
+                id="si-save-pin" type="password" inputmode="numeric" autocomplete="new-password" maxlength="6" dir="ltr"
+                class="mt-1.5 w-full rounded-md border border-line bg-surface px-2.5 py-1.5 text-sm text-ink outline-none hover:border-[var(--accent-line)] focus:border-[var(--accent-line)] focus:[box-shadow:0_0_0_3px_var(--accent-soft)] aria-[invalid=true]:border-danger" />
+            </div>
+            <div class="mt-3.5 w-full text-start">
+              <label for="si-save-pin2" class="block text-xs font-medium text-muted" data-i18n="Confirm PIN">Confirm PIN</label>
+              <input
+                id="si-save-pin2" type="password" inputmode="numeric" autocomplete="new-password" maxlength="6" dir="ltr"
+                class="mt-1.5 w-full rounded-md border border-line bg-surface px-2.5 py-1.5 text-sm text-ink outline-none hover:border-[var(--accent-line)] focus:border-[var(--accent-line)] focus:[box-shadow:0_0_0_3px_var(--accent-soft)] aria-[invalid=true]:border-danger" />
+            </div>
+            <p class="mt-3 hidden w-full rounded-md border border-[var(--danger-soft-line)] bg-[var(--danger-soft-bg)] px-3 py-2 text-start text-sm text-danger" id="si-save-pin-err" role="alert"></p>
+            <p class="mt-3 w-full text-start text-xs text-muted" data-i18n="Six digits — you will use it instead of your password next time.">Six digits — you will use it instead of your password next time.</p>
+            <button type="button" id="si-save-go" class="lbtn pri mt-5 w-full justify-center text-sm" data-i18n="Save PIN">Save PIN</button>
+            <button type="button" id="si-save-back" class="lbtn out mt-3 w-full justify-center text-sm" data-si-goto="save" data-i18n="Back">Back</button>
+          </section>
+
+          <!-- DEVICE CODE -->
+          <section class="si-step mt-6 w-full flex-col items-center [&:not([hidden])]:flex" data-si-pane="device" data-si-focus="#si-device-approve" aria-labelledby="si-device-h" hidden>
+            <h1 id="si-device-h" tabindex="-1" class="text-[28px] font-semibold leading-8 text-balance" data-i18n="Use device code">Use device code</h1>
+            <p class="mt-2 text-base text-muted" data-i18n="On another device, open skeyerp.com/activate and enter this code.">On another device, open skeyerp.com/activate and enter this code.</p>
+            <p class="mt-5 w-full rounded-md border border-line bg-[var(--line-2)] px-4 py-3 text-center font-mono text-xl font-semibold tracking-[0.2em] text-ink" dir="ltr">SQTF-93B7</p>
+            <p class="mt-3 inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-2 py-1 text-xs text-muted">
+              <span class="size-1.5 rounded-full bg-[var(--warn-fill)]" aria-hidden="true"></span>
+              <span data-i18n="Waiting for approval">Waiting for approval</span>
+            </p>
+            <button id="si-device-approve" type="button" class="lbtn pri mt-5 w-full justify-center text-sm" data-i18n="Simulate approval (demo)">Simulate approval (demo)</button>
+            <p class="mt-4 hidden w-full rounded-md border border-[var(--success-soft-line)] bg-[var(--success-soft-bg)] px-3 py-2 text-start text-sm text-success" role="status" data-si-ok data-si-device-ok></p>
+            <button type="button" class="lbtn out mt-5 w-full justify-center text-sm" data-si-goto="back" data-i18n="Start over">Start over</button>
+          </section>
+
+          <!-- REQUEST ACCESS -->
+          <section class="si-step mt-6 w-full flex-col items-center [&:not([hidden])]:flex" data-si-pane="request" data-si-focus="#si-req-name" aria-labelledby="si-req-h" hidden>
+            <h1 id="si-req-h" tabindex="-1" class="text-[28px] font-semibold leading-8 text-balance" data-i18n="Request access">Request access</h1>
+            <p class="mt-2 text-base text-muted" data-i18n="Tell us who you are and we will provision a workspace for your team.">Tell us who you are and we will provision a workspace for your team.</p>
+            <div class="mt-6 w-full text-start">
+              <label for="si-req-name" class="block text-xs font-medium text-muted" data-i18n="Full name">Full name</label>
+              <input
+                id="si-req-name" autocomplete="name" placeholder="Nour Hassan"
+                class="mt-1.5 w-full rounded-md border border-line bg-surface px-2.5 py-1.5 text-sm text-ink outline-none hover:border-[var(--accent-line)] focus:border-[var(--accent-line)] focus:[box-shadow:0_0_0_3px_var(--accent-soft)] aria-[invalid=true]:border-danger" />
+            </div>
+            <div class="mt-4 w-full text-start">
+              <label for="si-req-email" class="block text-xs font-medium text-muted" data-i18n="Work email">Work email</label>
+              <input
+                id="si-req-email" type="email" autocomplete="email" dir="ltr" placeholder="nour@acme.com"
+                class="mt-1.5 w-full rounded-md border border-line bg-surface px-2.5 py-1.5 text-sm text-ink outline-none hover:border-[var(--accent-line)] focus:border-[var(--accent-line)] focus:[box-shadow:0_0_0_3px_var(--accent-soft)] aria-[invalid=true]:border-danger" />
+            </div>
+            <div class="mt-4 w-full text-start">
+              <label for="si-req-org" class="block text-xs font-medium text-muted" data-i18n="Organization">Organization</label>
+              <input
+                id="si-req-org" autocomplete="organization" placeholder="Acme Industries"
+                class="mt-1.5 w-full rounded-md border border-line bg-surface px-2.5 py-1.5 text-sm text-ink outline-none hover:border-[var(--accent-line)] focus:border-[var(--accent-line)] focus:[box-shadow:0_0_0_3px_var(--accent-soft)] aria-[invalid=true]:border-danger" />
+            </div>
+            <button id="si-req-send" type="button" class="lbtn pri mt-4 w-full justify-center text-sm" data-i18n="Request access">Request access</button>
+            <p class="mt-4 hidden w-full rounded-md border border-[var(--success-soft-line)] bg-[var(--success-soft-bg)] px-3 py-2 text-start text-sm text-success" role="status" data-si-ok data-si-req-ok></p>
+            <button type="button" class="lbtn out mt-5 w-full justify-center text-sm" data-si-goto="back" data-i18n="Back to sign in">Back to sign in</button>
+          </section>
+
+          <!-- PRIVACY & TERMS -->
+          <section class="si-step mt-6 w-full flex-col items-center [&:not([hidden])]:flex" data-si-pane="privacy" data-si-focus="#si-privacy-h" aria-labelledby="si-privacy-h" hidden>
+            <h1 id="si-privacy-h" tabindex="-1" class="text-[28px] font-semibold leading-8 text-balance" data-i18n="Privacy &amp; terms">Privacy &amp; terms</h1>
+            <div class="mt-5 grid w-full gap-4 text-start text-sm text-muted">
+              <div>
+                <h2 class="text-sm font-semibold text-ink" data-i18n="Data processing">Data processing</h2>
+                <p class="mt-1 leading-5" data-i18n="Skey processes customer, invoice, and employee data only to provide the services your organization subscribes to. Data stays in your selected region.">Skey processes customer, invoice, and employee data only to provide the services your organization subscribes to. Data stays in your selected region.</p>
+              </div>
+              <div>
+                <h2 class="text-sm font-semibold text-ink" data-i18n="Security">Security</h2>
+                <p class="mt-1 leading-5" data-i18n="TLS 1.3 in transit, AES-256 at rest, SSO and MFA support, and quarterly access reviews. Sessions time out after 30 minutes of inactivity.">TLS 1.3 in transit, AES-256 at rest, SSO and MFA support, and quarterly access reviews. Sessions time out after 30 minutes of inactivity.</p>
+              </div>
+              <div>
+                <h2 class="text-sm font-semibold text-ink" data-i18n="Subprocessors">Subprocessors</h2>
+                <p class="mt-1 leading-5" data-i18n="Cloud hosting in EU and Cairo regions, transactional email, and error monitoring — each under a data-processing agreement.">Cloud hosting in EU and Cairo regions, transactional email, and error monitoring — each under a data-processing agreement.</p>
+              </div>
+              <div>
+                <h2 class="text-sm font-semibold text-ink" data-i18n="Your rights">Your rights</h2>
+                <p class="mt-1 leading-5" data-i18n="Export or delete your workspace data at any time from Organization → Data. Requests are honored within 30 days.">Export or delete your workspace data at any time from Organization → Data. Requests are honored within 30 days.</p>
+              </div>
+            </div>
+            <button type="button" class="lbtn out mt-6 w-full justify-center text-sm" data-si-goto="back" data-i18n="Back to sign in">Back to sign in</button>
+          </section>
+
+          <!-- SUPPORT -->
+          <section class="si-step mt-6 w-full flex-col items-center [&:not([hidden])]:flex" data-si-pane="support" data-si-focus="#si-support-h" aria-labelledby="si-support-h" hidden>
+            <h1 id="si-support-h" tabindex="-1" class="text-[28px] font-semibold leading-8 text-balance" data-i18n="Support">Support</h1>
+            <div class="mt-5 grid w-full text-start text-sm">
+              <div class="flex items-baseline justify-between gap-4 border-b border-line py-2.5">
+                <span class="text-muted" data-i18n="Help center">Help center</span>
+                <span class="font-medium text-ink" dir="ltr">help.skeyerp.com</span>
+              </div>
+              <div class="flex items-baseline justify-between gap-4 border-b border-line py-2.5">
+                <span class="text-muted" data-i18n="Email">Email</span>
+                <span class="font-medium text-ink" dir="ltr">support@skeyerp.com</span>
+              </div>
+              <div class="flex items-baseline justify-between gap-4 border-b border-line py-2.5">
+                <span class="text-muted" data-i18n="Phone">Phone</span>
+                <span class="font-medium text-ink" dir="ltr">+20 2 1234 5678</span>
+              </div>
+              <div class="flex items-baseline justify-between gap-4 py-2.5">
+                <span class="text-muted" data-i18n="Hours">Hours</span>
+                <span class="font-medium text-ink" data-i18n="Sun–Thu · 9:00–18:00 Cairo">Sun–Thu · 9:00–18:00 Cairo</span>
+              </div>
+            </div>
+            <p class="mt-4 w-full text-sm text-muted"><span data-i18n="Having trouble?">Having trouble?</span> <button type="button" class="border-0 bg-transparent p-0 font-semibold text-accent hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]" data-si-goto="reset" data-i18n="Reset your password">Reset your password</button></p>
+            <button type="button" class="lbtn out mt-5 w-full justify-center text-sm" data-si-goto="back" data-i18n="Back to sign in">Back to sign in</button>
+          </section>
+
+          <p class="mt-5 w-full text-xs text-faint" data-i18n="By continuing, you agree to the Skey subscription agreement and accept the terms of service.">By continuing, you agree to the Skey subscription agreement and accept the terms of service.</p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="relative z-[1] flex w-full flex-wrap items-center justify-center gap-x-6 gap-y-1 px-4 pb-4 pt-4 text-xs text-muted">
+      <button type="button" class="border-0 bg-transparent p-0 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]" data-si-goto="privacy" data-i18n="Privacy &amp; terms">Privacy &amp; terms</button>
+      <button type="button" class="border-0 bg-transparent p-0 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]" data-si-goto="support" data-i18n="Support">Support</button>
+      <details class="data-menu data-manage-submenu si-language relative">
+        <summary
+          id="si-lang"
+          class="flex min-h-[28px] cursor-pointer list-none items-center gap-1.5 rounded-md px-2 py-1 hover:bg-[var(--line-2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)] [&::-webkit-details-marker]:hidden">
+          <svg width="14" height="14" aria-hidden="true"><use href="#i-globe" /></svg>
+          <span data-si-language-current>English</span>
+          <svg width="10" height="10" class="text-muted rtl:scale-x-[-1]" aria-hidden="true"><use href="#i-next" /></svg>
+        </summary>
+        <div class="data-menu-popover fixed z-[120] grid min-w-[180px] max-w-[min(420px,calc(100vw-16px))] max-h-[min(420px,calc(100vh-16px))] gap-0.5 overflow-auto rounded-lg border border-line bg-surface p-1.5 [box-shadow:var(--shadow-1)] [&>label]:flex [&>label]:w-full [&>label]:min-h-8 [&>label]:cursor-pointer [&>label]:items-center [&>label]:gap-[9px] [&>label]:rounded-[5px] [&>label]:px-2 [&>label]:py-1.5 [&>label]:text-start [&>label]:font-[inherit]! [&>label]:text-[14px]! [&>label]:text-ink! [&>label:hover]:bg-[var(--line-2)]! [&>label:has(input:focus-visible)]:outline-2 [&>label:has(input:focus-visible)]:outline-offset-1 [&>label:has(input:focus-visible)]:outline-accent" role="radiogroup" aria-label="Language" data-i18n-aria-label="Language">
+          <label class="data-manage-radio" data-si-language="en" lang="en"><input type="radio" name="skey-signin-language" value="en" checked><span>English</span><span class="ms-auto text-xs text-muted">EN</span></label>
+          <label class="data-manage-radio" data-si-language="ar" lang="ar"><input type="radio" name="skey-signin-language" value="ar"><span>العربية</span><span class="ms-auto text-xs text-muted">AR</span></label>
+          <label class="data-manage-radio" data-si-language="fr" lang="fr"><input type="radio" name="skey-signin-language" value="fr"><span>Français</span><span class="ms-auto text-xs text-muted">FR</span></label>
+          <label class="data-manage-radio" data-si-language="de" lang="de"><input type="radio" name="skey-signin-language" value="de"><span>Deutsch</span><span class="ms-auto text-xs text-muted">DE</span></label>
+          <label class="data-manage-radio" data-si-language="es" lang="es"><input type="radio" name="skey-signin-language" value="es"><span>Español</span><span class="ms-auto text-xs text-muted">ES</span></label>
+          <label class="data-manage-radio" data-si-language="pt" lang="pt"><input type="radio" name="skey-signin-language" value="pt"><span>Português</span><span class="ms-auto text-xs text-muted">PT</span></label>
+          <label class="data-manage-radio" data-si-language="ja" lang="ja"><input type="radio" name="skey-signin-language" value="ja"><span>日本語</span><span class="ms-auto text-xs text-muted">JA</span></label>
+        </div>
+      </details>
+    </footer>
+  </div>
+</template>

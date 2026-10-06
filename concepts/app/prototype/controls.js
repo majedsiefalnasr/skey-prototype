@@ -93,6 +93,7 @@ const CONTROL_IDS = [
   'profile-card-style',
   'active-role',
   'tour-enabled',
+  'signed-in',
   'lang',
 ]
 

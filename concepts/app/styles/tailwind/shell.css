@@ -3895,4 +3895,15 @@
       inset-inline-start: 11px;
     }
   }
+
+  /* Signed-out session gate: the sign-in view owns the whole frame.
+     display:none (not visibility) drops the topbar, sidebar, and any open
+     launchpad overlay out of the tab order and the layout, so keyboard
+     and screen-reader users meet only the sign-in form. The floating
+     Prototype Controls panel (#kit) is demo chrome and stays mounted. */
+  body.signed-out .gtop,
+  body.signed-out .side,
+  body.signed-out .lp-view {
+    display: none !important;
+  }
 }

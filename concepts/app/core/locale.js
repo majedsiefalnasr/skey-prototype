@@ -282,6 +282,113 @@ export function createLocale() {
           'Signed in as': 'مسجَّل الدخول باسم',
           'Workspace switched': 'تم تبديل مساحة العمل',
           Cancel: 'إلغاء',
+          // Sign-in view (Slack-style minimal concept)
+          'Sign in to your workspace': 'سجّل الدخول إلى مساحة عملك',
+          'Enter your Skey tenant name': 'أدخل اسم مستأجر Skey الخاص بك',
+          Continue: 'متابعة',
+          'Tenant name': 'اسم المستأجر',
+          'Find your workspaces': 'اعثر على مساحات عملك',
+          'Do not know your tenant?': 'لا تعرف المستأجر؟',
+          'Signing in from a branch device?': 'تسجّل الدخول من جهاز فرع؟',
+          'Use device code': 'استخدم رمز الجهاز',
+          'Enter your password to sign in': 'أدخل كلمة المرور لتسجيل الدخول',
+          'Or choose another way to sign in.': 'أو اختر طريقة أخرى للدخول.',
+          Change: 'تغيير',
+          Password: 'كلمة المرور',
+          Show: 'إظهار',
+          Hide: 'إخفاء',
+          'Caps Lock is on — passwords are case-sensitive.':
+            'Caps Lock مفعّل — كلمات المرور حساسة لحالة الأحرف.',
+          'Sign in with password': 'تسجيل الدخول بكلمة المرور',
+          'OR SIGN IN WITH': 'أو سجّل الدخول عبر',
+          'You land in Cairo HQ · 2026 — switchable after sign-in.':
+            'ستدخل إلى القاهرة الرئيسية · 2026 — قابلة للتبديل بعد الدخول.',
+          'Having trouble?': 'تواجه مشكلة؟',
+          'Reset your password': 'أعد تعيين كلمة المرور',
+          'New to Skey?': 'جديد على Skey؟',
+          'Request access': 'طلب صلاحية',
+          'Privacy & terms': 'الخصوصية والشروط',
+          'Send reset link': 'أرسل رابط إعادة التعيين',
+          'Back to sign in': 'العودة إلى تسجيل الدخول',
+          'Enter your username and we will send a reset link to the address on file.':
+            'أدخل اسم المستخدم وسنرسل رابط إعادة التعيين إلى العنوان المسجَّل.',
+          'If an account exists for {user}, a reset link is on its way. (demo — no email is sent)':
+            'إذا كان هناك حساب لـ {user} فسيصلك رابط إعادة التعيين قريباً. (تجريبي — لا تُرسل أي رسائل)',
+          'Search by organization, email, or tenant name.':
+            'ابحث باسم المؤسسة أو البريد أو اسم المستأجر.',
+          'No workspaces found.': 'لا توجد مساحات عمل مطابقة.',
+          'On another device, open skeyerp.com/activate and enter this code.':
+            'على جهاز آخر، افتح skeyerp.com/activate وأدخل هذا الرمز.',
+          'Waiting for approval': 'بانتظار الموافقة',
+          'Simulate approval (demo)': 'محاكاة الموافقة (تجريبي)',
+          'Device approved — signing you in…': 'تمت الموافقة على الجهاز — جارٍ تسجيل دخولك…',
+          'Tell us who you are and we will provision a workspace for your team.':
+            'أخبرنا عنك وسنجهّز مساحة عمل لفريقك.',
+          'Full name': 'الاسم الكامل',
+          'Work email': 'البريد الإلكتروني للعمل',
+          'Request received — we will email {email} within one business day. (demo)':
+            'تم استلام الطلب — سنراسل {email} خلال يوم عمل واحد. (تجريبي)',
+          'Data processing': 'معالجة البيانات',
+          'Skey processes customer, invoice, and employee data only to provide the services your organization subscribes to. Data stays in your selected region.':
+            'تعالج Skey بيانات العملاء والفواتير والموظفين فقط لتقديم الخدمات التي تشترك فيها مؤسستك. وتبقى بياناتك في المنطقة التي اخترتها.',
+          'TLS 1.3 in transit, AES-256 at rest, SSO and MFA support, and quarterly access reviews. Sessions time out after 30 minutes of inactivity.':
+            'TLS 1.3 أثناء النقل، وAES-256 أثناء التخزين، ودعم لتسجيل الدخول الموحد والتحقق الثنائي، ومراجعات ربع سنوية للصلاحيات. تنتهي الجلسات بعد 30 دقيقة من عدم النشاط.',
+          'Subprocessors': 'المعالجون من الأطراف الثالثة',
+          'Cloud hosting in EU and Cairo regions, transactional email, and error monitoring — each under a data-processing agreement.':
+            'استضافة سحابية في مناطق الاتحاد الأوروبي والقاهرة، وبريد المعاملات، ومراقبة الأخطاء — كلها ضمن اتفاقية معالجة بيانات.',
+          'Your rights': 'حقوقك',
+          'Export or delete your workspace data at any time from Organization → Data. Requests are honored within 30 days.':
+            'صدّر بيانات مساحة عملك أو احذفها في أي وقت من المؤسسة ← البيانات. وتُلبَّى الطلبات خلال 30 يوماً.',
+          'Help center': 'مركز المساعدة',
+          Email: 'البريد الإلكتروني',
+          Hours: 'ساعات العمل',
+          'Sun–Thu · 9:00–18:00 Cairo': 'الأحد–الخميس · 9:00–18:00 بتوقيت القاهرة',
+          'By continuing, you agree to the Skey subscription agreement and accept the terms of service.':
+            'بالمتابعة أنت توافق على اتفاقية اشتراك Skey وتقبل شروط الخدمة.',
+          'Single sign-on is not enabled in this demo.':
+            'الدخول الموحد غير مفعّل في هذا العرض التجريبي.',
+          'Invalid credentials in this demo — try admin / skey123.':
+            'بيانات الدخول غير صحيحة في هذا العرض — جرّب admin / skey123.',
+          // Round 2 — workspace search, branch step, PIN sign-in, save dialog
+          'Press Enter to continue.': 'اضغط Enter للمتابعة.',
+          'Which branch are you working from?': 'من أي فرع تعمل اليوم؟',
+          "This workspace has more than one branch. Pick today's branch — you can switch after signing in.":
+            'هذه المساحة لها أكثر من فرع. اختر فرع اليوم — يمكنك التبديل بعد تسجيل الدخول.',
+          'Welcome back': 'مرحباً بعودتك',
+          'You saved this sign-in — enter your 6-digit PIN to continue.':
+            'لقد حفظت هذا الدخول — أدخل رمزك المكوّن من 6 أرقام للمتابعة.',
+          PIN: 'الرمز السري',
+          'Sign in with PIN': 'تسجيل الدخول بالرمز السري',
+          'Use password instead': 'استخدم كلمة المرور بدلاً منه',
+          'Incorrect PIN — try again, or use your password.':
+            'رمز سري غير صحيح — حاول مجدداً، أو استخدم كلمة المرور.',
+          'Save your sign-in?': 'هل تحفظ تسجيل دخولك؟',
+          'Create a 6-digit PIN to sign in faster next time.':
+            'أنشئ رمزاً سرياً من 6 أرقام لدخول أسرع في المرة القادمة.',
+          'Signing in as': 'مسجَّل الدخول باسم',
+          'Save this sign-in and next time a 6-digit PIN replaces your password on this device.':
+            'احفظ هذا الدخول وسيحل الرمز السري المكوّن من 6 أرقام محل كلمة المرور على هذا الجهاز في المرة القادمة.',
+          'Confirm PIN': 'تأكيد الرمز السري',
+          'Six digits — you will use it instead of your password next time.':
+            'ستة أرقام — ستستخدمه بدلاً من كلمة المرور في المرة القادمة.',
+          'Not now': 'ليس الآن',
+          'Create PIN': 'إنشاء رمز سري',
+          'Create your PIN': 'أنشئ رمزك السري',
+          'Save PIN': 'حفظ الرمز السري',
+          'PIN must be exactly 6 digits.': 'يجب أن يتكون الرمز السري من 6 أرقام بالضبط.',
+          'PINs do not match.': 'الرمزان السريان غير متطابقين.',
+          'PIN created — sign in with your PIN next time.':
+            'تم إنشاء الرمز السري — سجّل الدخول برمزك السري في المرة القادمة.',
+          'Who’s signing in?': 'من سيُسجِّل الدخول؟',
+          'Use another account': 'استخدام حساب آخر',
+          'Forget this account': 'نسيان هذا الحساب',
+          'Sign in as someone else': 'تسجيل الدخول كشخص آخر',
+          'Use PIN instead': 'استخدم الرمز السري بدلاً منه',
+          'Start over': 'البدء من جديد',
+          'One more step': 'خطوة أخيرة',
+          'Account removed from this device.': 'تمت إزالة الحساب من هذا الجهاز.',
+          'Remove account': 'إزالة الحساب',
+          'Signed in': 'تم تسجيل الدخول',
           Administrator: 'مسؤول',
           Manager: 'مدير',
           User: 'مستخدم',

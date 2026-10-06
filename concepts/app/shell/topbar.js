@@ -4,7 +4,7 @@ import {CURRENT_USER} from '../prototype/fixtures/profile.js'
 import {NAV_FAVORITES} from '../prototype/fixtures/navigation.js'
 
 /** Owns topbar state and its DOM bindings. */
-export function createTopbar({toast, t, getSideCollapsed, getLaunchpadEnabled, closeAllMenus, openKbd, openCustomize, navigateToProfileSection, navigateToOrganizationSection, getCurrentNavLabel, renderSide, trapFocus, releaseFocus, onTakeTour} = {}) {
+export function createTopbar({toast, t, getSideCollapsed, getLaunchpadEnabled, closeAllMenus, openKbd, openCustomize, navigateToProfileSection, navigateToOrganizationSection, getCurrentNavLabel, renderSide, trapFocus, releaseFocus, onTakeTour, onSignOut} = {}) {
   const ACTIVE_FISCAL_YEAR = '2026'
   let activeRole = 'administrator'
   /* Workspace branch the card/switcher show — session-only prototype state,
@@ -239,6 +239,7 @@ export function createTopbar({toast, t, getSideCollapsed, getLaunchpadEnabled, c
   document.getElementById('lo-confirm')?.addEventListener('click', () => {
     closeLogout()
     toast({tone: 'ok', title: t('Signed out'), body: t('You will be signed out of this session.')})
+    onSignOut?.()
   })
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') closeLogout()

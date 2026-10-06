@@ -74,7 +74,7 @@ test('routes: format maps views to their canonical URL', () => {
 })
 
 test('routes: format round-trips parse for every routed path', () => {
-  assert.equal(ROUTE_PATHS.length, 26)
+  assert.equal(ROUTE_PATHS.length, 27)
   for (const route of ROUTE_PATHS) {
     const parsed = parse(route)
     assert.notEqual(parsed, null, `${route} must parse`)

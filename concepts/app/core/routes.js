@@ -48,11 +48,12 @@ const AREA_VIEW_BY_PATH = {
   '/system-setup/geographical-structure': 'geo-list',
 }
 
-/** Shell screens under the /system namespace. */
+/** Shell screens: the /system namespace plus the session gate. */
 const SHELL_VIEW_BY_PATH = {
   '/system/profile': 'profile',
   '/system/organization': 'organization',
   '/system/email': 'email',
+  '/signin': 'signin',
 }
 
 /** Canonical path per routed view (format() target). The foryou view is
@@ -68,10 +69,11 @@ export const PATH_BY_VIEW = {
   email: '/system/email',
   profile: '/system/profile',
   organization: '/system/organization',
+  signin: '/signin',
 }
 
 /** Emitted as `<path>/index.html` route folders by scripts/build.mjs.
- *  20 app bases + 3 inner paths + 3 shell paths = 26. */
+ *  20 app bases + 3 inner paths + 4 shell paths = 27. */
 export const ROUTE_PATHS = [
   ...new Set([
     ...Object.values(APP_PATH_BY_LABEL),

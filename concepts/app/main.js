@@ -23,6 +23,7 @@ import {createCustomers} from './pages/customers/customers.js'
 import {createProfile} from './pages/profile/profile.js'
 import {createOrganization} from './pages/organization/organization.js'
 import {createForYou} from './pages/for-you/for-you.js'
+import {createSignIn} from './pages/signin/signin.js'
 import {createOrganizationSessionActions} from './pages/organization/sessions.js'
 import {renderCustomerAvatar} from './pages/customers/images.js'
 import {createSidebar} from './shell/sidebar.js'
@@ -151,7 +152,16 @@ const NAV_ITEM_LABEL_BY_ID = {
   'customers-list': 'Customers',
   'geo-list': 'Geographical Structure',
 }
-const pendingBootId = bootPlan.kind === 'launchpad' ? 'record' : bootPlan.id
+let pendingBootId = bootPlan.kind === 'launchpad' ? 'record' : bootPlan.id
+/* Signed-out boot (persisted control, or a direct /signin entry) skips the
+   app's own boot navigation: the gate below navigates to the sign-in view
+   instead, so the sign-in view IS the boot navigation. Two reasons: an
+   in-flight boot navigation would be superseded by the gate's navigate()
+   and strand `booted` off (URL sync would never run again), and the URL the
+   user asked for must stay in the address bar while they sign in. */
+const signedOutAtBoot =
+  bootPlan.id === 'signin' || savedPrototypeState['signed-in'] === false
+if (signedOutAtBoot) pendingBootId = 'signin'
 
 /* The legacy /concepts/app-shell.html entry must keep working unchanged
    (decision 12) — and it must never change its own URL: a pushState to '/'
@@ -333,6 +343,13 @@ const topbar = createTopbar({
     if (lp && !lp.hidden) hideLaunchpad(frame)
   },
   onTakeTour: () => startTourForSurface(undefined, document.activeElement),
+  onSignOut: () => {
+    const toggle = document.getElementById('signed-in')
+    if (toggle) {
+      toggle.checked = false
+      toggle.dispatchEvent(new Event('change', {bubbles: true}))
+    }
+  },
 })
 
 // Keep the topbar labels this module owns (role chip, sidebar tips,
@@ -638,6 +655,26 @@ const organization = createOrganization({
 
 const forYou = createForYou({t})
 
+/* Sign-in view (Slack-style minimal concept). onSignIn flips the session
+   control through the same change event a manual toggle produces, so the
+   gate, chrome, and persistence below all run identically. getElementById
+   (not a module const) keeps this closure free of declaration-order
+   coupling — it only ever runs on user action, long after boot. */
+const signin = createSignIn({
+  root: document.querySelector('.signin-view'),
+  t,
+  toast,
+  onSignIn: () => {
+    toast({tone: 'ok', title: t('Signed in')})
+    const toggle = document.getElementById('signed-in')
+    if (toggle) {
+      toggle.checked = true
+      toggle.dispatchEvent(new Event('change', {bubbles: true}))
+    }
+  },
+  subscribe: callback => locale.subscribe(callback),
+})
+
 const listDates = createListDates({
   t,
   formatLocaleDate,
@@ -818,6 +855,7 @@ const pageRegistry = new Map([
   ['profile', profile],
   ['organization', organization],
   ['foryou', forYou],
+  ['signin', signin],
 ])
 
 const navigation = createNavigation({
@@ -840,12 +878,22 @@ const navigation = createNavigation({
 })
 
 showContentView = (name, data) => {
+  /* While signed out the gate owns the view: rail clicks are hidden, but
+     boot-time microtasks and internal calls are not — none of them may
+     replace the sign-in view. */
+  if (document.body.classList.contains('signed-out') && name !== 'signin') return
   navigation.navigate(name, data)
 }
 
 contentHost.setContentViewDeferralReady(true)
 
-if (bootRoute === null || (bootRoute.defaultEntry && getLaunchpadEnabled())) {
+if (signedOutAtBoot) {
+  // The session gate further down performs the boot navigation to the
+  // sign-in view (and remembers bootPlan as the post-sign-in destination).
+  // Hide the shell chrome from the first line that can navigate, so no
+  // construction-time call can show an app view before the gate runs.
+  document.body.classList.add('signed-out')
+} else if (bootRoute === null || (bootRoute.defaultEntry && getLaunchpadEnabled())) {
   // Legacy entry document, and the launchpad flavor of the default entry:
   // exactly today's boot navigation (record under the Launchpad overlay,
   // or the auto-nav microtask to the invoice list when the overlay is off).
@@ -920,6 +968,21 @@ window.addEventListener('popstate', event => {
     : route.defaultEntry
       ? resolveDefaultEntry({launchpadEnabled: getLaunchpadEnabled()})
       : route
+  /* Same gate as boot: while signed out a history move may only land on the
+     sign-in view. The requested plan is remembered for after sign-in, and
+     the address bar keeps the URL the user asked for — URL sync is already
+     suppressed under handlingPop, so no '/signin' entry replaces it. */
+  if (document.body.classList.contains('signed-out') && plan.id !== 'signin') {
+    pendingRoutePlan = plan
+    const gated = navigation.current() === 'signin'
+      ? Promise.resolve()
+      : navigation.navigate('signin').then(() => {})
+    gated.then(() => {
+      handlingPop = false
+      routeIdx = idx
+    })
+    return
+  }
   applyRoutePlan(plan).then(allowed => {
     handlingPop = false
     routeIdx = idx
@@ -990,6 +1053,61 @@ tourStartButton?.addEventListener('click', () => {
   if (!startTourForSurface(undefined, tourStartButton)) explainNoTour()
 })
 applyTourEnabled()
+
+/* Prototype Controls → session gate. The #signed-in checkbox (persisted
+   like every other harness control) is prototype configuration: OFF hides
+   the shell chrome behind body.signed-out and routes to the sign-in view;
+   signing in lands on the plan the user asked for (the URL they opened
+   while signed out, remembered across the gate) or — with none pending —
+   on the default entry: the Launchpad when it is enabled, else the
+   Dashboard app. Defaults to signed-in so boot, deep links, and every
+   existing spec behave exactly as before. */
+let pendingRoutePlan = null
+const signedInToggle = document.getElementById('signed-in')
+const applySignedIn = (on, {destination = null} = {}) => {
+  document.body.classList.toggle('signed-out', !on)
+  if (!on) {
+    pendingRoutePlan = destination
+    const frame = document.querySelector('.frame')
+    const overlay = frame?.querySelector('.lp-view:not([hidden])')
+    if (overlay) hideLaunchpad(frame)
+    if (navigation.current() !== 'signin') navigation.navigate('signin')
+  } else if (navigation.current() === 'signin') {
+    const plan =
+      pendingRoutePlan ?? resolveDefaultEntry({launchpadEnabled: getLaunchpadEnabled()})
+    pendingRoutePlan = null
+    if (plan.kind === 'launchpad') {
+      const fbody = document.querySelector('.fbody')
+      /* Overlay first, content second: showing pushes '/' and the URL sync
+         pauses while the overlay is open, so the record view mounts
+         underneath with no history entry of its own — closing the Launchpad
+         reveals it, never the sign-in view left behind by the gate. */
+      if (fbody && showLaunchpad(fbody, {mode: 'home'}) !== false) {
+        navigation.navigate('record')
+        return
+      }
+      applyRoutePlan(resolveDefaultEntry({launchpadEnabled: false}))
+    } else {
+      applyRoutePlan(plan)
+    }
+  }
+}
+signedInToggle?.addEventListener('change', () => applySignedIn(signedInToggle.checked !== false))
+// A direct /signin boot means business: arrive signed out even when the
+// persisted control says otherwise (replayed through change so kit
+// persistence records it like a manual toggle).
+if (bootPlan && bootPlan.id === 'signin' && signedInToggle && signedInToggle.checked) {
+  signedInToggle.checked = false
+  signedInToggle.dispatchEvent(new Event('change', {bubbles: true}))
+} else {
+  const on = signedInToggle ? signedInToggle.checked !== false : true
+  // Booting signed out onto a real URL keeps that plan as the post-sign-in
+  // destination; an explicit /signin entry means "show the gate, then land
+  // on the default entry".
+  applySignedIn(on, {
+    destination: !on && bootPlan && bootPlan.id !== 'signin' ? bootPlan : null
+  })
+}
 
 /* ?tour=1 demo entry (?tour=<surface> forces one) — gated by the same
    kill switch, and never an auto-start: without the query param nothing
