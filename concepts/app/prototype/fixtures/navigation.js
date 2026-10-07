@@ -5,6 +5,11 @@
 // (including a couple of product typos) preserved on purpose -- see the
 // original inline comment kept below.
 //
+// NAV_ACCOUNT_GROUP and ACCOUNT_*_BY_* are the exception to "the rail is the
+// app tree": Profile, Organization Center and Email are shell screens, not
+// apps, so they share one non-app rail group and stay out of NAV_TREE --
+// which is exactly why the launchpad and the app switcher never offer them.
+//
 // SCREENS/RECORDS/ACTIONS are the shell's global search-overlay sample data
 // (the Ctrl+K "search or run an action" command palette) -- not
 // invoice-domain data despite living next to the invoice fixtures in the
@@ -506,6 +511,23 @@ export const NAV_RECENTS = [
   'Preparation Stations',
   'Printers',
 ]
+
+/* Profile / Organization Center / Email are screens of the shell itself: they
+   have pages and URLs but no app, so they never earn a place in NAV_TREE.
+   The sidebar gives them one shared rail group instead (label first, rows
+   after), and main.js uses the two maps to follow the route onto it. */
+export const NAV_ACCOUNT_GROUP = ['Account', 'Profile', 'Organization Center', 'Email']
+
+export const ACCOUNT_VIEW_BY_LABEL = {
+  Profile: 'profile',
+  'Organization Center': 'organization',
+  Email: 'email',
+}
+
+export const ACCOUNT_LABEL_BY_VIEW = Object.fromEntries(
+  Object.entries(ACCOUNT_VIEW_BY_LABEL).map(([label, view]) => [view, label])
+)
+
 /* icons borrowed from the shared symbol sprite — structure over final icon design, per spec */
 
 /* icons borrowed from the shared symbol sprite -- structure over final icon design, per spec */

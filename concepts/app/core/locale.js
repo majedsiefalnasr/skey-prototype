@@ -412,7 +412,10 @@ export function createLocale() {
           'Account settings': 'إعدادات الحساب',
           'Username, branch, language, and default landing page.':
             'اسم المستخدم والفرع واللغة وصفحة البداية الافتراضية.',
+          // Sidebar "Account" rail group — the shell screens that are not apps
           Account: 'الحساب',
+          Profile: 'الملف الشخصي',
+          'Organization Center': 'مركز المؤسسة',
           // Data list toolbar / pagination / grouping
           'Clear all filters': 'إزالة كل الفلاتر',
           'Clear filter': 'إزالة الفلتر',

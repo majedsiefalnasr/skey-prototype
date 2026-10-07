@@ -179,7 +179,11 @@
     inset-inline-start: var(--rail-w);
     margin-inline-start: 0;
     height: 100%;
-    z-index: 1;
+    /* The flyout overlays the page, so it has to sit above the sticky chrome
+       the page paints over itself at narrow widths (Profile/Organization's
+       scroll nav, table headers) — those top out at 2. The rail stays above
+       the panel, so an expanded rail still shows its labels over it. */
+    z-index: 3;
     box-shadow: var(--shadow-2);
   }
   .side-handle::before {

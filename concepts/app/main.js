@@ -15,6 +15,7 @@ import {createInvoiceLines} from './pages/invoices/lines.js'
 import {createInvoicePayments} from './pages/invoices/payments.js'
 import {encodeHtml} from './core/locale.js'
 import {STATUSES, CHAIN} from './prototype/fixtures/invoices.js'
+import {ACCOUNT_LABEL_BY_VIEW} from './prototype/fixtures/navigation.js'
 import {CUSTOMER_ROWS, CUSTOMER_REFERENCE, UNIT_ROWS, CUSTOMER_LOOKUP_RESULTS} from './prototype/fixtures/customers.js'
 import {CURRENT_USER, EMPLOYEE_DETAILS, CONTACT_DETAILS, LOGIN_LOG_ROWS, RECENT_ACTIVITY_ROWS} from './prototype/fixtures/profile.js'
 import {ORGANIZATION_DETAILS, ORGANIZATION_USERS, APPLICATION_SESSIONS, DATABASE_SESSIONS, ORGANIZATION_AUDIT_ROWS, STAFF_OPERATION_ROWS, SYSTEM_HEALTH, SYSTEM_SERVICES} from './prototype/fixtures/organization.js'
@@ -858,6 +859,26 @@ const pageRegistry = new Map([
   ['signin', signin],
 ])
 
+/* The rail follows the route. Profile, Organization Center and Email are
+   screens of the shell itself — they have pages and URLs but no app — so they
+   never enter the launchpad or the app switcher; the sidebar keeps them in one
+   Account group instead, and this is what puts that group on screen whenever
+   one of them is current (boot deep link, avatar menu, Back/Forward, the role
+   gate) and hands the rail back to the owning app when the route leaves them. */
+const syncRailToRoute = id => {
+  const side = document.querySelector('.side')
+  const root = side && side.querySelector('.nc2')
+  if (!root) return
+  const accountLabel = ACCOUNT_LABEL_BY_VIEW[id]
+  if (accountLabel) {
+    root.selectAccount(accountLabel)
+    return
+  }
+  const label = NAV_ITEM_LABEL_BY_ID[id]
+  const group = label && sidebar.findNavGroup(label)
+  if (group) root.releaseAccountGroup(group[0])
+}
+
 const navigation = createNavigation({
   resolvePage: id => pageRegistry.get(id),
   requestLeave: (fromId) => listGuard.requestPageLeave(fromId),
@@ -868,6 +889,7 @@ const navigation = createNavigation({
   onChange: (id, data) => {
     contentHost.onNavigationChange(id)
     syncUrl(id, data)
+    syncRailToRoute(id)
     /* The boot navigation itself must never create a history entry: flip
        `booted` only after its URL sync has run (and been skipped). */
     if (!booted && id === pendingBootId) {
@@ -911,7 +933,8 @@ if (signedOutAtBoot) {
   // so the highlight and the view come up together.
   sidebar.setNavCurrent(document.querySelector('.side'), NAV_ITEM_LABEL_BY_ID[bootPlan.id])
 } else {
-  // profile / organization / email — no rail item, navigate directly.
+  // profile / organization / email — no app of their own: the navigation's
+  // onChange above puts their shared Account group on the sidebar rail.
   navigation.navigate(bootPlan.id, bootPlan.data)
 }
 

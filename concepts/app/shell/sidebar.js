@@ -1,5 +1,12 @@
 import {encodeHtml} from '../core/locale.js'
-import {NAV_TREE, NAV_FAVORITES, NAV_RECENTS, NAV_ICONS} from '../prototype/fixtures/navigation.js'
+import {
+  NAV_TREE,
+  NAV_FAVORITES,
+  NAV_RECENTS,
+  NAV_ICONS,
+  NAV_ACCOUNT_GROUP,
+  ACCOUNT_VIEW_BY_LABEL,
+} from '../prototype/fixtures/navigation.js'
 
 /** Owns sidebar state and its DOM bindings. */
 export function createSidebar({t, getShowContentView, getLaunchpadEnabled, buildNavLaunchpad, restoreLaunchpadActions, stopSearchTyping, hideLaunchpad, showLaunchpad, syncTopbarChrome, closeEmailView, visibleDirtyDataListContext, guardDataListLeave, openForYou} = {}) {
@@ -96,14 +103,19 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
         : null
     if (forYouApp) navCurrentLabel = label
     else applyNavState(label)
-    closeEmailView() /* any real navigation leaves the email view, same as it would leave any other page */
     const viewByNavLabel = {
       'Sales Invoice': 'list',
       Customers: 'customers-list',
       'Geographical Structure': 'geo-list',
+      ...ACCOUNT_VIEW_BY_LABEL,
     }
+    const view = viewByNavLabel[label] || 'record'
+    /* Email is a destination when it comes from the Account group's own row,
+       not a view to leave: closeEmailView() would bounce the content through
+       'record' first and land on a history entry that never rendered. */
+    if (view !== 'email') closeEmailView() /* any real navigation leaves the email view, same as it would leave any other page */
     if (forYouApp) getShowContentView()('foryou', {app: forYouApp})
-    else getShowContentView()(viewByNavLabel[label] || 'record')
+    else getShowContentView()(view)
     const frame = root.closest('.frame')
     const lp = frame && frame.querySelector('.lp-view')
     if (lp && !lp.hidden) {
@@ -114,7 +126,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       hideLaunchpad(frame, {
         targetRoute: forYouApp
           ? {id: 'foryou', data: {app: forYouApp}}
-          : viewByNavLabel[label] || 'record',
+          : view,
       })
     }
     applyNavHighlight(root, label)
@@ -241,15 +253,28 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     const root = document.createElement('div')
     root.className = 'nc nc2 relative flex min-h-0 flex-1'
     const rail = document.createElement('div')
-    rail.className = 'nc2-rail absolute inset-s-0 inset-y-0 z-[3] flex h-full w-[var(--rail-w)] shrink-0 flex-col gap-0.5 overflow-x-hidden overflow-y-auto border-e border-line bg-surface px-1.5 py-2 transition-[width] duration-[120ms] ease-out'
+    rail.className = 'nc2-rail absolute inset-s-0 inset-y-0 z-[4] flex h-full w-[var(--rail-w)] shrink-0 flex-col overflow-hidden border-e border-line bg-surface px-1.5 transition-[width] duration-[120ms] ease-out'
+    /* Three blocks: the quick groups pin the top of the rail, the apps scroll
+       between them, and the Account group pins the bottom. Nothing but apps
+       lives in the scrolling middle, so neither end can drift out of reach —
+       all 20 apps overflow a 900px-tall viewport on their own, and anything
+       left to that scroll would end up below the fold where nobody could
+       click it. */
+    const railTop = document.createElement('div')
+    railTop.className = 'nc2-rail-top flex shrink-0 flex-col gap-0.5 pt-2'
+    const railScroll = document.createElement('div')
+    railScroll.className = 'nc2-rail-scroll flex min-h-0 flex-1 flex-col gap-0.5 overflow-x-hidden overflow-y-auto py-2'
+    rail.append(railTop, railScroll)
     const {el: panel, show} = makeGroupPanel(root, {
       showFavs: false,
     }) /* Starred now lives in the rail itself */
 
-    /* every rail icon — Starred, Recent, and each app — feeds the same pinned
-       panel the same way, so switching between them never changes behaviour.
-       Any of them also leaves the launchpad, same as picking a page would.
-       Returns false only when the collapsed-rail toggle closed the panel. */
+    /* every rail icon — Starred, Recent, each app, and the Account group —
+       feeds the same pinned panel the same way, so switching between them
+       never changes behaviour. Any of them also leaves the launchpad, same as
+       picking a page would, unless `keepOverlay` says the caller owns that
+       decision (the route sync only moves the icon). Returns false only when
+       the collapsed-rail toggle closed the panel. */
     const activate = (btn, group, opts) => {
       const collapsed = side.classList.contains('collapsed')
       if (collapsed && btn.classList.contains('active') && !panel.hidden) {
@@ -259,7 +284,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       }
       const frame = fbody.closest('.frame')
       const lp = frame.querySelector('.lp-view')
-      if (lp && !lp.hidden) {
+      if (lp && !lp.hidden && !opts?.keepOverlay) {
         hideLaunchpad(frame, {targetRoute: opts?.targetRoute ?? null})
       }
       rail.querySelectorAll('.active').forEach(b => b.classList.remove('active'))
@@ -296,7 +321,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     if (forYouGroups.length) {
       const forYouSep = document.createElement('div')
       forYouSep.className = 'nc2-rail-sep ms-[9px] my-1 h-px w-6 bg-line'
-      rail.append(railIcon('For You', 'i-user', 'for-you'), forYouSep)
+      railTop.append(railIcon('For You', 'i-user', 'for-you'), forYouSep)
     }
 
     const railSep = document.createElement('div')
@@ -305,7 +330,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     const recentGroup = ['Recent', ...NAV_RECENTS]
     const starredBtn = railIcon('Starred', 'i-spark', starredGroup)
     const recentBtn = railIcon('Recent', 'i-clock', recentGroup)
-    rail.append(starredBtn, recentBtn, railSep)
+    railTop.append(starredBtn, recentBtn, railSep)
 
     const groups = visibleGroups()
     /* Starred/Recent aren't NAV_TREE groups, so they're seeded here instead of
@@ -317,8 +342,25 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       const label = group[0]
       const btn = railIcon(label, NAV_ICONS[label] || 'i-doc', group, {withForYou: true})
       iconByLabel.set(label, btn)
-      rail.appendChild(btn)
+      railScroll.appendChild(btn)
     })
+    /* The Account group pins the bottom of the rail, below every app: it holds
+       the shell's own screens (Profile / Organization Center / Email), which
+       are not apps, so they share one icon instead of taking one each and
+       never enter NAV_TREE — which is also why the launchpad and the app
+       switcher can't offer them. Like Starred/Recent it only opens the panel;
+       its rows are what navigate. Deliberately left out of iconByLabel: it is
+       not an app and must never be resolved as one by activateByLabel.
+       It lives outside the scrolling list, so it is reachable without
+       scrolling, and the footer's bottom padding keeps it clear of the fixed
+       "Prototype controls" pill that sits over the rail's last 48px. */
+    const accountSep = document.createElement('div')
+    accountSep.className = 'nc2-rail-sep ms-[9px] my-1 h-px w-6 bg-line'
+    const accountBtn = railIcon(NAV_ACCOUNT_GROUP[0], 'i-account', NAV_ACCOUNT_GROUP)
+    const railFoot = document.createElement('div')
+    railFoot.className = 'nc2-rail-foot flex shrink-0 flex-col gap-0.5 pb-14'
+    railFoot.append(accountSep, accountBtn)
+    rail.appendChild(railFoot)
     document.addEventListener('click', e => {
       if (
         side.classList.contains('collapsed') &&
@@ -351,21 +393,56 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       next.focus()
     })
     root.append(rail, panel)
+    /* Selects a rail group from outside the rail itself. `keepLayout` leaves
+       the sidebar's own collapsed/expanded state alone — the route sync only
+       follows the view, it is not answering a click — and `keepOverlay` leaves
+       the launchpad up, because moving an icon is not a navigation action and
+       the overlay's own callers decide whether it goes down with one. */
+    const selectGroup = (
+      btn,
+      group,
+      {targetRoute = null, withForYou = true, keepLayout = false, keepOverlay = false} = {}
+    ) => {
+      if (!btn || !group) return
+      if (!keepLayout) {
+        side.classList.toggle('collapsed', compactShell.matches)
+        updateSideWidth(side)
+      }
+      activate(btn, group, {withForYou, targetRoute, keepOverlay})
+      if (compactShell.matches) panel.hidden = true
+    }
     /* selects an app's rail icon + opens its panel from outside the rail itself —
        used by the topbar app-switcher, the launchpad tiles, and boot */
     root.activateByLabel = (label, {targetRoute = null} = {}) => {
       currentAppLabel = label
-      const btn = iconByLabel.get(label)
-      if (btn) {
-        side.classList.toggle('collapsed', compactShell.matches)
-        updateSideWidth(side)
-        activate(
-          btn,
-          groups.find(g => g[0] === label) || quickGroupByLabel.get(label),
-          {withForYou: true, targetRoute}
-        )
-        if (compactShell.matches) panel.hidden = true
+      selectGroup(
+        iconByLabel.get(label),
+        groups.find(g => g[0] === label) || quickGroupByLabel.get(label),
+        {targetRoute}
+      )
+    }
+    /* Puts the Account group on screen for the shell's own screens — Profile,
+       Organization Center and Email have a page and a URL but no app to
+       activate. main.js calls this whenever one of them becomes current, no
+       matter which entry got there (boot deep link, avatar menu, Back/Forward,
+       the role gate). It only opens the panel when the Account group isn't
+       already the one on screen, so moving between the group's own screens
+       never re-fills — and re-fades — rows that are already up. */
+    root.selectAccount = label => {
+      if (!accountBtn.classList.contains('active')) {
+        selectGroup(accountBtn, NAV_ACCOUNT_GROUP, {withForYou: false, keepLayout: true, keepOverlay: true})
       }
+      applyNavCurrent(side, label)
+    }
+    /* The reverse: the route left the shell screens for a screen that does
+       belong to an app, so the Account group must not stay on screen claiming
+       a page it doesn't own. No-op unless it is the group on screen, so the
+       route sync can run this on every navigation without re-filling panels
+       that are already right. */
+    root.releaseAccountGroup = appLabel => {
+      if (!accountBtn.classList.contains('active')) return
+      currentAppLabel = appLabel
+      selectGroup(iconByLabel.get(appLabel), groups.find(g => g[0] === appLabel), {keepLayout: true})
     }
     return root
   }

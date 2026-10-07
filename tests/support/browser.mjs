@@ -165,7 +165,11 @@ async function waitForSkeletonToAppear(page) {
  * @param {Page} page
  */
 async function openEmailFromNotifications(page) {
-  await page.locator('button.ibtn[aria-label="System Alerts"]').click();
+  // Keyed off the app's own i18n source attribute, not the rendered
+  // aria-label: applyLocale() rewrites that label in place (System Alerts ->
+  // تنبيهات النظام), so an aria-label selector only ever matches in English
+  // and the whole surface is unreachable on the RTL project.
+  await page.locator('button.ibtn[data-i18n-aria-label="System Alerts"]').click();
   await page.locator('.notif-tabs button[data-tab="email"]').click();
   // Rows inside the notifications popover's Email tab are rendered by
   // renderEmailTab as `.notif-row` elements in `#notif-body` (clicking one
