@@ -117,13 +117,24 @@ function skeletonTextLines(overlay, bounds, element, rect) {
   const lineHeight = Number.parseFloat(style.lineHeight) || fontSize * 1.35
   const count = Math.max(1, Math.min(3, Math.round(rect.height / lineHeight)))
   const blockHeight = Math.max(7, Math.min(14, fontSize * 0.72))
+  // The bars sit where the real glyphs will land: start-aligned by default,
+  // but the sign-in card (and anything else that centers its copy) would
+  // otherwise jump sideways the moment the skeleton lifts. `start`/`end` are
+  // logical, so resolve them against the writing direction.
+  const align = style.textAlign
+  const rtl = style.direction === 'rtl'
+  const pinnedEnd = align === 'right' || (rtl ? align === 'start' : align === 'end')
+  const centered = align === 'center'
+  const span = rect.right - rect.left
   for (let index = 0; index < count; index += 1) {
     const lineTop = rect.top + Math.max(0, (lineHeight - blockHeight) / 2) + index * lineHeight
     const remainingHeight = rect.bottom - lineTop
     if (remainingHeight < 4) break
+    const width = span * (index === count - 1 && count > 1 ? 0.68 : 0.9)
+    const offset = centered ? (span - width) / 2 : pinnedEnd ? span - width : 0
     const lineRect = {
-      left: rect.left,
-      right: rect.right,
+      left: rect.left + offset,
+      right: rect.left + offset + width,
       top: lineTop,
       bottom: lineTop + Math.min(blockHeight, remainingHeight),
     }
@@ -131,7 +142,7 @@ function skeletonTextLines(overlay, bounds, element, rect) {
       rect: lineRect,
       kind: 'text',
       radius: blockHeight / 2,
-      widthScale: index === count - 1 && count > 1 ? 0.68 : 0.9,
+      widthScale: 1,
     })
   }
 }
