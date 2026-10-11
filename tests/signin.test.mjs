@@ -20,9 +20,14 @@ test('signin: every id and data hook the page module queries exists as a real at
   // attribute only counts when terminated by whitespace, `/`, `>`, or `=`.
   const template = await readFile('concepts/app/pages/signin/templates.html', 'utf8');
   const present = name => new RegExp(`(?:\\s)${name}(?=[\\s>\\/=])`).test(template);
-  for (const id of ['si-tenant', 'si-to2', 'si-change', 'si-who', 'si-user', 'si-pass', 'si-show', 'si-signin', 'si-sso-ms', 'si-sso-gg', 'si-lang', 'si-ws-q', 'si-ws-go', 'si-branch-list', 'si-branch-go', 'si-pin', 'si-pin-signin', 'si-pin-who', 'si-pin-err', 'si-pin-back', 'si-pin-forget', 'si-pin-forget-wrap', 'si-pin-else', 'si-pin-someone', 'si-usepin', 'si-usepin-wrap', 'si-accounts-h', 'si-accounts-list', 'si-accounts-other', 'si-save-h', 'si-save-who', 'si-save-not-now', 'si-save-create', 'si-save-pin-h', 'si-save-pin', 'si-save-pin2', 'si-save-pin-err', 'si-save-back', 'si-save-go']) {
+  for (const id of ['si-tenant', 'si-to2', 'si-change', 'si-who', 'si-user', 'si-pass', 'si-show', 'si-signin', 'si-lang', 'si-ws-q', 'si-ws-go', 'si-branch-list', 'si-branch-go', 'si-pin', 'si-pin-signin', 'si-pin-who', 'si-pin-err', 'si-pin-back', 'si-pin-forget', 'si-pin-forget-wrap', 'si-pin-else', 'si-pin-someone', 'si-usepin', 'si-usepin-wrap', 'si-accounts-h', 'si-accounts-list', 'si-accounts-other', 'si-save-h', 'si-save-who', 'si-save-not-now', 'si-save-create', 'si-save-pin-h', 'si-save-pin', 'si-save-pin2', 'si-save-pin-err', 'si-save-back', 'si-save-go']) {
     assert.ok(template.includes(`id="${id}"`), `template owns #${id}`);
   }
+  // The credentials pane signs in with a password, full stop: the Microsoft
+  // and Google buttons and the "OR SIGN IN WITH" divider that introduced
+  // them are gone.
+  assert.ok(!template.includes('si-sso-'), 'no single sign-on buttons remain');
+  assert.ok(!template.includes('OR SIGN IN WITH'), 'no SSO divider remains');
   for (const attr of ['data-si-pane', 'data-si-err', 'data-si-caps']) {
     assert.ok(present(attr), `template owns a parseable ${attr}`);
   }

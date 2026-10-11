@@ -410,13 +410,6 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
         }
       }, 800)
     })
-    const ssoDisabled = name => {
-      hideError()
-      errBox().textContent = `${name} — ${t('Single sign-on is not enabled in this demo.')}`
-      errBox().classList.remove('hidden')
-    }
-    $('#si-sso-ms').addEventListener('click', () => ssoDisabled('Microsoft'))
-    $('#si-sso-gg').addEventListener('click', () => ssoDisabled('Google'))
 
     /* RESET PASSWORD — 800ms demo latency, then a success box naming the
        address the link would go to (no email is sent in the prototype). */

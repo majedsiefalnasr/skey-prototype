@@ -292,7 +292,6 @@ export function createLocale() {
           'Signing in from a branch device?': 'تسجّل الدخول من جهاز فرع؟',
           'Use device code': 'استخدم رمز الجهاز',
           'Enter your password to sign in': 'أدخل كلمة المرور لتسجيل الدخول',
-          'Or choose another way to sign in.': 'أو اختر طريقة أخرى للدخول.',
           Change: 'تغيير',
           Password: 'كلمة المرور',
           Show: 'إظهار',
@@ -300,7 +299,6 @@ export function createLocale() {
           'Caps Lock is on — passwords are case-sensitive.':
             'Caps Lock مفعّل — كلمات المرور حساسة لحالة الأحرف.',
           'Sign in with password': 'تسجيل الدخول بكلمة المرور',
-          'OR SIGN IN WITH': 'أو سجّل الدخول عبر',
           'You land in Cairo HQ · 2026 — switchable after sign-in.':
             'ستدخل إلى القاهرة الرئيسية · 2026 — قابلة للتبديل بعد الدخول.',
           'Having trouble?': 'تواجه مشكلة؟',
@@ -345,8 +343,6 @@ export function createLocale() {
           'Sun–Thu · 9:00–18:00 Cairo': 'الأحد–الخميس · 9:00–18:00 بتوقيت القاهرة',
           'By continuing, you agree to the Skey subscription agreement and accept the terms of service.':
             'بالمتابعة أنت توافق على اتفاقية اشتراك Skey وتقبل شروط الخدمة.',
-          'Single sign-on is not enabled in this demo.':
-            'الدخول الموحد غير مفعّل في هذا العرض التجريبي.',
           'Invalid credentials in this demo — try admin / skey123.':
             'بيانات الدخول غير صحيحة في هذا العرض — جرّب admin / skey123.',
           // Round 2 — workspace search, branch step, PIN sign-in, save dialog
@@ -360,6 +356,7 @@ export function createLocale() {
           PIN: 'الرمز السري',
           'Sign in with PIN': 'تسجيل الدخول بالرمز السري',
           'Use password instead': 'استخدم كلمة المرور بدلاً منه',
+          'Don’t remember your PIN?': 'لا تتذكر رمزك السري؟',
           'Incorrect PIN — try again, or use your password.':
             'رمز سري غير صحيح — حاول مجدداً، أو استخدم كلمة المرور.',
           'Save your sign-in?': 'هل تحفظ تسجيل دخولك؟',
@@ -382,9 +379,11 @@ export function createLocale() {
           'Who’s signing in?': 'من سيُسجِّل الدخول؟',
           'Use another account': 'استخدام حساب آخر',
           'Forget this account': 'نسيان هذا الحساب',
+          'Not your account?': 'ليس حسابك؟',
           'Sign in as someone else': 'تسجيل الدخول كشخص آخر',
           'Use PIN instead': 'استخدم الرمز السري بدلاً منه',
-          'Start over': 'البدء من جديد',
+          'Saved this sign-in before?': 'حفظت هذا الدخول سابقاً؟',
+          'Start over with a different workspace': 'البدء من جديد مع مساحة عمل أخرى',
           'One more step': 'خطوة أخيرة',
           'Account removed from this device.': 'تمت إزالة الحساب من هذا الجهاز.',
           'Remove account': 'إزالة الحساب',
