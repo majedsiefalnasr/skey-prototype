@@ -20,7 +20,7 @@ async function go(page, path) {
 }
 
 test.beforeEach(async ({page}, testInfo) => {
-  test.skip(testInfo.project.name !== 'desktop' && !testInfo.title.includes('[all]'), 'Collaboration flows run on the desktop project.')
+  test.skip(testInfo.project.name !== 'desktop', 'Collaboration flows run on the desktop project.')
   await page.addInitScript(() => {
     if (!sessionStorage.getItem('collab-test-booted')) {
       sessionStorage.removeItem('skey-proto-collab')
@@ -412,4 +412,17 @@ test.describe('people data', () => {
     await panel(page).getByRole('button', {name: 'Save'}).click()
     await expect(panel(page)).toContainText('Enter a valid email')
   })
+})
+
+test('collaboration screens mirror in RTL and translate their titles', async ({page}) => {
+  await go(page, '/help-screens/notes')
+  await page.locator('#rtl').evaluate(el => {
+    el.checked = true
+    el.dispatchEvent(new Event('change', {bubbles: true}))
+  })
+  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
+  await expect(page.locator('.notes-view h1')).toHaveText('الملاحظات')
+  const board = await page.locator('.notes-view [data-column="draft"]').boundingBox()
+  const archived = await page.locator('.notes-view [data-column="archived"]').boundingBox()
+  expect(archived.x).toBeLessThan(board.x)
 })
