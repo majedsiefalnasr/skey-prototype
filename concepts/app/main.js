@@ -74,10 +74,15 @@ import {createLoading} from './components/loading/loading.js'
 import {createSpotlight} from './components/spotlight/spotlight.js'
 import {tourStepsFor} from './components/spotlight/tour.js'
 import {readPrototypeState, createPrototypeControls} from './prototype/controls.js'
+import {createCollabStore} from './core/collab-store.js'
+import {COLLAB_SEED, PROTOTYPE_NOW} from './prototype/fixtures/collaboration.js'
 
 const locale = createLocale()
 const dialogFocus = createDialogFocus(document)
 const toast = createToast(document.getElementById('toasts'))
+/* One store for Notes, Activities, Events, Internal Mail and People Data:
+   fixtures and the demo clock are injected so core/ never imports them. */
+const collabStore = createCollabStore({storage: sessionStorage, seed: COLLAB_SEED, now: () => PROTOTYPE_NOW})
 
 // The original's failNext() both read #failsim's checked state AND reset it
 // to false on a simulated failure (so the next click succeeds) — shouldFail
@@ -1041,6 +1046,10 @@ const controls = createPrototypeControls({
     activeRole = role
     organization.setRole(role)
     topbar.setRole?.(role)
+  },
+  onResetCollab: () => {
+    collabStore.reset()
+    toast({tone: 'info', title: 'Collaboration data reset', body: 'Notes, activities, events, mail and people are back to the demo data.'})
   },
 })
 syncPrototypeControlsPage = controls.syncPage
