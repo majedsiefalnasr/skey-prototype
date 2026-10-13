@@ -216,3 +216,76 @@ test.describe('events', () => {
     await expect(panel(page).locator('[data-related-row]', {hasText: 'ملاحظات اجتماع المبيعات'})).toBeVisible()
   })
 })
+
+test.describe('activities', () => {
+  const switchTo = (page, name) => page.locator('.activities-view [data-view-switch] button', {hasText: name}).click()
+
+  test('activities expose exactly Kanban and Calendar', async ({page}) => {
+    await go(page, '/help-screens/activities')
+    await expect(page.locator('.activities-view [data-view-switch] button')).toHaveText(['Kanban', 'Calendar'])
+    await expect(page.locator('.activities-view [data-column]')).toHaveCount(3)
+  })
+
+  test('overdue is shown with text, not color only', async ({page}) => {
+    await go(page, '/help-screens/activities')
+    await expect(page.locator('[data-card-id="act-2"]')).toContainText('Overdue')
+  })
+
+  test('unscheduled activities stay off the calendar', async ({page}) => {
+    await go(page, '/help-screens/activities')
+    await switchTo(page, 'Calendar')
+    const view = page.locator('.activities-view')
+    await expect(view.locator('[data-cal-item]', {hasText: 'Call Al Noor about quotation 884'})).toBeVisible()
+    await expect(view.locator('[data-cal-item]', {hasText: 'Send revised price list'})).toHaveCount(0)
+    await expect(view.locator('[data-cal-item]', {hasText: 'Confirm stock counts'})).toHaveCount(0)
+    await expect(view.locator('[data-unscheduled-notice]')).toContainText('unscheduled')
+    await expect(view.locator('[data-cal-item]', {hasText: 'Supplier visit'})).toHaveCount(0)
+  })
+
+  test('clearing the scheduled time removes it from the calendar', async ({page}) => {
+    await go(page, '/help-screens/activities')
+    await page.locator('[data-card-open="act-1"]').click()
+    await page.locator('#activity-schedule-clear').click()
+    await panel(page).getByRole('button', {name: 'Save'}).click()
+    await switchTo(page, 'Calendar')
+    await expect(page.locator('.activities-view [data-cal-item]', {hasText: 'Call Al Noor'})).toHaveCount(0)
+  })
+
+  test('meeting creates one linked event, never two', async ({page}) => {
+    await go(page, '/help-screens/activities')
+    await page.locator('[data-card-open="act-1"]').click()
+    await page.locator('#activity-kind').selectOption('meeting')
+    await panel(page).getByRole('button', {name: 'Save'}).click()
+    await page.locator('[data-card-open="act-1"]').click()
+    await panel(page).getByRole('button', {name: 'Create event'}).click()
+    await expect(page.locator('.events-view')).toBeVisible()
+    await expect(panel(page).locator('[data-related-row]', {hasText: 'Call Al Noor about quotation 884'})).toBeVisible()
+    await page.keyboard.press('Escape')
+    await go(page, '/help-screens/activities')
+    await page.locator('[data-card-open="act-1"]').click()
+    await expect(panel(page).getByRole('button', {name: 'Create event'})).toHaveCount(0)
+    await expect(panel(page).getByRole('button', {name: 'Open linked event'})).toBeVisible()
+  })
+
+  test('mark done offers a linked follow-up', async ({page}) => {
+    await go(page, '/help-screens/activities')
+    await page.locator('[data-card-open="act-6"]').click()
+    await panel(page).getByRole('button', {name: 'Mark done'}).click()
+    await panel(page).getByRole('button', {name: 'Schedule follow-up'}).click()
+    await expect(panel(page).locator('[data-related-row]', {hasText: 'Review password policy'})).toBeVisible()
+    await expect(page.locator('#activity-summary')).toHaveValue('Follow up: Review password policy')
+  })
+
+  test('linking an activity to an event changes neither', async ({page}) => {
+    await go(page, '/help-screens/activities')
+    await page.locator('[data-card-open="act-6"]').click()
+    await panel(page).getByRole('button', {name: 'Link existing…'}).click()
+    await page.locator('#collab-picker').getByRole('searchbox').fill('Quarter close')
+    await page.locator('#collab-picker').getByRole('option', {name: /Event Quarter close/}).click()
+    await page.locator('#collab-picker').getByRole('button', {name: 'Done'}).click()
+    await page.keyboard.press('Escape')
+    await expect(page.locator('[data-column="planned"] [data-card-id="act-6"]')).toBeVisible()
+    await switchTo(page, 'Calendar')
+    await expect(page.locator('.activities-view [data-cal-item]', {hasText: 'Review password policy'})).toHaveCount(0)
+  })
+})

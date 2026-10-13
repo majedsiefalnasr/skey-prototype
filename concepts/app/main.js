@@ -476,7 +476,7 @@ const openCollabItem = async ref => {
 const relatedItems = createRelatedItems({store: collabStore, toast, currentUserId: CURRENT_USER_ID, openItem: ref => openCollabItem(ref)})
 const collabDeps = {store: collabStore, toast, panel: collabPanel, related: relatedItems, confirm: collabConfirm, goHome: () => openForYou('Help Screens'), users: COLLAB_USERS, currentUserId: CURRENT_USER_ID}
 const notesPage = createNotes(collabDeps)
-const activitiesPage = createActivities()
+const activitiesPage = createActivities({...collabDeps, openItem: ref => openCollabItem(ref), composeMailFor: ref => email.composeLinked?.(ref)})
 const eventsPage = createEvents(collabDeps)
 const peoplePage = createPeople()
 
