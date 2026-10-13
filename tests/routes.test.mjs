@@ -73,8 +73,17 @@ test('routes: format maps views to their canonical URL', () => {
   assert.equal(format('launchpad'), '/')
 })
 
+test('routes: help-screens collaboration paths', () => {
+  assert.deepEqual(parse('/help-screens/notes'), {id: 'notes', data: {}})
+  assert.deepEqual(parse('/help-screens/activities'), {id: 'activities', data: {}})
+  assert.deepEqual(parse('/help-screens/events'), {id: 'events', data: {}})
+  assert.deepEqual(parse('/help-screens/people-data'), {id: 'people', data: {}})
+  assert.equal(format('people'), '/help-screens/people-data')
+  assert.deepEqual(parse('/help-screens'), {id: 'foryou', data: {app: 'Help Screens'}})
+})
+
 test('routes: format round-trips parse for every routed path', () => {
-  assert.equal(ROUTE_PATHS.length, 27)
+  assert.equal(ROUTE_PATHS.length, 31)
   for (const route of ROUTE_PATHS) {
     const parsed = parse(route)
     assert.notEqual(parsed, null, `${route} must parse`)

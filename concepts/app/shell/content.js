@@ -18,6 +18,10 @@ export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCu
       profile: '.profile-view:not([hidden])',
       organization: '.organization-view:not([hidden])',
       foryou: '.foryou-view:not([hidden])',
+      notes: '.notes-view:not([hidden])',
+      activities: '.activities-view:not([hidden])',
+      events: '.events-view:not([hidden])',
+      people: '.people-view:not([hidden])',
       signin: '.signin-view:not([hidden])',
     }
     const selector = selectors[currentContentViewName]
@@ -51,6 +55,10 @@ export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCu
       profile: '.profile-view',
       organization: '.organization-view',
       foryou: '.foryou-view',
+      notes: '.notes-view',
+      activities: '.activities-view',
+      events: '.events-view',
+      people: '.people-view',
       signin: '.signin-view',
     }
     const namedViews = Object.fromEntries(

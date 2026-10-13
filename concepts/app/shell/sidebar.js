@@ -107,6 +107,11 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       'Sales Invoice': 'list',
       Customers: 'customers-list',
       'Geographical Structure': 'geo-list',
+      'Internal Mail': 'email',
+      Events: 'events',
+      Activities: 'activities',
+      Notes: 'notes',
+      'People Data': 'people',
       ...ACCOUNT_VIEW_BY_LABEL,
     }
     const view = viewByNavLabel[label] || 'record'

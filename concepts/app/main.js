@@ -24,6 +24,10 @@ import {createCustomers} from './pages/customers/customers.js'
 import {createProfile} from './pages/profile/profile.js'
 import {createOrganization} from './pages/organization/organization.js'
 import {createForYou} from './pages/for-you/for-you.js'
+import {createNotes} from './pages/notes/notes.js'
+import {createActivities} from './pages/activities/activities.js'
+import {createEvents} from './pages/events/events.js'
+import {createPeople} from './pages/people/people.js'
 import {createSignIn} from './pages/signin/signin.js'
 import {createOrganizationSessionActions} from './pages/organization/sessions.js'
 import {renderCustomerAvatar} from './pages/customers/images.js'
@@ -157,6 +161,10 @@ const NAV_ITEM_LABEL_BY_ID = {
   list: 'Sales Invoice',
   'customers-list': 'Customers',
   'geo-list': 'Geographical Structure',
+  notes: 'Notes',
+  activities: 'Activities',
+  events: 'Events',
+  people: 'People Data',
 }
 let pendingBootId = bootPlan.kind === 'launchpad' ? 'record' : bootPlan.id
 /* Signed-out boot (persisted control, or a direct /signin entry) skips the
@@ -449,6 +457,11 @@ const {syncNotifBadge} = notifications
 const email = createEmail({root: document.querySelector('.email-view'), onUnreadChange: () => syncNotifBadge(), navigate: (...args) => showContentView(...args), toast})
 
 const {openEmailView, closeEmailView} = email
+
+const notesPage = createNotes()
+const activitiesPage = createActivities()
+const eventsPage = createEvents()
+const peoplePage = createPeople()
 
 topbar.bind()
 
@@ -844,7 +857,7 @@ const invoices = createInvoices({
   templates: {
     listRoot: document.querySelector('.list-view'), listCanvas: document.getElementById('list-canvas'),
     listFooter: document.getElementById('list-fnav'), listInstance: listRuntime.dataListInstances.invoice,
-    recordRoots: [...document.querySelector('.page-content').children].filter(element => !element.matches('.email-view,.list-view,.customer-list-view,.customer-record-view,.geo-list-view,.geo-record-view,.profile-view,.organization-view,.foryou-view')),
+    recordRoots: [...document.querySelector('.page-content').children].filter(element => !element.matches('.email-view,.list-view,.customer-list-view,.customer-record-view,.geo-list-view,.geo-record-view,.profile-view,.organization-view,.foryou-view,.notes-view,.activities-view,.events-view,.people-view')),
   }, state, operations: {applyState, applyMode, modeSel, requestLeave: requestInvoiceLeave},
   record: {render: renderRecordA, dispose: () => { disposeRecordTabs(); disposeInvoiceLines(); disposeInvoicePayments(); disposeInvoiceAdjustments() }},
 })
@@ -861,6 +874,10 @@ const pageRegistry = new Map([
   ['profile', profile],
   ['organization', organization],
   ['foryou', forYou],
+  ['notes', notesPage],
+  ['activities', activitiesPage],
+  ['events', eventsPage],
+  ['people', peoplePage],
   ['signin', signin],
 ])
 

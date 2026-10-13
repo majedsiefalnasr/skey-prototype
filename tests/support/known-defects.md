@@ -75,6 +75,10 @@ visual state, not an endorsement that the state is desired.
    parity test that opens Email must go through Notifications -> Email, not
    the Internal Mail shortcut, and must preserve this fallback rather than
    route around it silently.
+   *Update 2026-10-13 (collaboration suite):* Internal Mail, Events,
+   Activities, Notes and People Data now map to their own views; other
+   unmapped rows still fall back to the invoice. Parity tests keep opening
+   Email through Notifications.
 
 8. **Opening an invoice changes its number without loading matching data/status.**
    `openInvoiceRecord` only updates `state.docNo`; the shared invoice

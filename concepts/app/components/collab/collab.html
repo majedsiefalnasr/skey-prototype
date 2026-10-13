@@ -1,0 +1,84 @@
+<!-- Collaboration overlays, shared by Notes, Activities, Events, People Data
+     and Internal Mail: the side-panel editor, the Related Items picker and a
+     small confirm dialog. Behavior lives in components/collab/panel.js and
+     components/related-items/related-items.js. -->
+<div id="collab-panel-scrim" class="fixed inset-0 z-[130] hidden bg-[rgba(17,24,39,0.4)] [&.open]:block"></div>
+<aside
+  id="collab-panel"
+  class="fixed inset-y-0 end-0 z-[140] hidden w-[min(560px,94vw)] flex-col bg-surface shadow-shell [&.open]:flex"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="collab-panel-title"
+  tabindex="-1">
+  <header class="flex items-start gap-3 border-b border-line px-[18px] py-3.5">
+    <span class="badge inline-flex shrink-0 items-center gap-1.5" data-panel-type></span>
+    <h2 id="collab-panel-title" class="min-w-0 flex-1 text-[15px] font-semibold [overflow-wrap:anywhere]" dir="auto"></h2>
+    <div class="relative" data-panel-menu-wrap>
+      <button type="button" class="ibtn" data-panel-menu aria-haspopup="menu" aria-expanded="false" aria-label="More actions">
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-dots" /></svg>
+      </button>
+      <div
+        class="absolute end-0 top-full z-10 mt-1 hidden min-w-[190px] gap-0.5 rounded-lg border border-line bg-surface p-1.5 shadow-shell [&.open]:grid"
+        role="menu"
+        aria-label="More actions"
+        data-panel-menu-list></div>
+    </div>
+    <button type="button" class="ibtn" data-panel-close aria-label="Close">
+      <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+    </button>
+  </header>
+  <form class="flex min-h-0 flex-1 flex-col" data-panel-form novalidate>
+    <div class="min-h-0 flex-1 overflow-auto px-[18px] py-4">
+      <div data-panel-body></div>
+      <section class="mt-5 border-t border-line pt-4" data-panel-related aria-label="Related items"></section>
+    </div>
+    <footer class="flex justify-end gap-2 border-t border-line px-[18px] py-3">
+      <button type="button" class="lbtn" data-panel-cancel>Cancel</button>
+      <button type="submit" class="lbtn pri" data-panel-save>Save</button>
+    </footer>
+  </form>
+</aside>
+<div
+  id="collab-picker"
+  class="fixed inset-0 z-[150] hidden place-items-center bg-[rgba(17,24,39,0.4)] p-4 [&.open]:grid"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="collab-picker-title">
+  <div class="flex max-h-[80vh] w-[min(560px,94vw)] flex-col rounded-lg bg-surface shadow-shell" data-picker-box>
+    <div class="flex items-center gap-3 border-b border-line px-4 py-3">
+      <h2 id="collab-picker-title" class="flex-1 text-[15px] font-semibold">Link existing item</h2>
+    </div>
+    <div class="px-4 pt-3">
+      <input
+        type="search"
+        class="w-full rounded-md border border-line bg-surface px-2 py-1.5 text-ink"
+        placeholder="Search notes, activities, events, mail, people…"
+        aria-label="Search items"
+        aria-controls="collab-picker-results"
+        autocomplete="off"
+        data-picker-search />
+      <div class="mt-2 flex flex-wrap gap-1.5" role="group" aria-label="Filter by type" data-picker-types></div>
+    </div>
+    <ul id="collab-picker-results" class="m-0 min-h-[120px] flex-1 list-none overflow-auto p-2" role="listbox" aria-label="Results" data-picker-results></ul>
+    <div class="flex items-center justify-between gap-3 border-t border-line px-4 py-3">
+      <span class="text-xs text-muted" aria-live="polite" data-picker-status></span>
+      <button type="button" class="lbtn pri" data-picker-done>Done</button>
+    </div>
+  </div>
+</div>
+<div
+  id="collab-confirm"
+  class="fixed inset-0 z-[160] hidden place-items-center bg-[rgba(17,24,39,0.4)] p-4 [&.open]:grid"
+  role="alertdialog"
+  aria-modal="true"
+  aria-labelledby="collab-confirm-title"
+  aria-describedby="collab-confirm-body">
+  <div class="w-[min(440px,92vw)] rounded-lg bg-surface p-5 shadow-shell" data-confirm-box>
+    <h2 id="collab-confirm-title" class="text-[15px] font-semibold"></h2>
+    <p id="collab-confirm-body" class="mt-2 text-[13px] text-muted"></p>
+    <div class="mt-4 flex justify-end gap-2">
+      <button type="button" class="lbtn" data-confirm-cancel>Cancel</button>
+      <button type="button" class="lbtn pri" data-confirm-ok></button>
+    </div>
+  </div>
+</div>

@@ -481,8 +481,8 @@ export const NAV_TREE = [
   [
     'Help Screens',
     'Internal Mail',
-    'Calendar',
-    'Schedule Activity',
+    'Events',
+    'Activities',
     'Notes',
     'People Data',
     'Smart Query Engine',
