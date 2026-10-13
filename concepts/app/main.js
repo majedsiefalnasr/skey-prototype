@@ -452,14 +452,6 @@ const customize = createCustomize({
 
 const appearanceControls = createAppearanceControls({createAppearance, setLaunchpadEnabled})
 
-const notifications = createNotifications({closeAllMenus: (...args) => menus.closeAllMenus(...args), openEmailView: (...args) => openEmailView(...args), closeMenuAndRestoreFocus: (...args) => menus.closeMenuAndRestoreFocus(...args)})
-
-const {syncNotifBadge} = notifications
-
-const email = createEmail({root: document.querySelector('.email-view'), onUnreadChange: () => syncNotifBadge(), navigate: (...args) => showContentView(...args), toast})
-
-const {openEmailView, closeEmailView} = email
-
 /* ---- collaboration suite: one panel, one confirm, one Related Items
    component shared by Notes, Activities, Events, People Data and Mail.
    Opening a related item navigates to its own screen, which opens it. ---- */
@@ -475,8 +467,18 @@ const openCollabItem = async ref => {
 }
 const relatedItems = createRelatedItems({store: collabStore, toast, currentUserId: CURRENT_USER_ID, openItem: ref => openCollabItem(ref)})
 const collabDeps = {store: collabStore, toast, panel: collabPanel, related: relatedItems, confirm: collabConfirm, goHome: () => openForYou('Help Screens'), users: COLLAB_USERS, currentUserId: CURRENT_USER_ID}
+const email = createEmail({root: document.querySelector('.email-view'), store: collabStore, related: relatedItems, confirm: collabConfirm, users: COLLAB_USERS, currentUser: {id: CURRENT_USER_ID, name: CURRENT_USER.name, email: CURRENT_USER.email}, onUnreadChange: () => syncNotifBadge(), navigate: (...args) => showContentView(...args), openItem: ref => openCollabItem(ref), toast})
+
+const notifications = createNotifications({closeAllMenus: (...args) => menus.closeAllMenus(...args), openEmailView: (...args) => openEmailView(...args), closeMenuAndRestoreFocus: (...args) => menus.closeMenuAndRestoreFocus(...args), getEmailMessages: () => email.getInboxRows()})
+
+const {syncNotifBadge} = notifications
+/* Mail read/unread, sends and Reset all go through the store. */
+collabStore.subscribe(() => syncNotifBadge())
+
+const {openEmailView, closeEmailView} = email
+
 const notesPage = createNotes(collabDeps)
-const activitiesPage = createActivities({...collabDeps, openItem: ref => openCollabItem(ref), composeMailFor: ref => email.composeLinked?.(ref)})
+const activitiesPage = createActivities({...collabDeps, openItem: ref => openCollabItem(ref), composeMailFor: ref => email.composeLinked(ref)})
 const eventsPage = createEvents(collabDeps)
 const peoplePage = createPeople()
 

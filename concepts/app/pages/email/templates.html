@@ -4,9 +4,9 @@
               <div class="l [.d1_.phead_&]:flex-1">
               <nav class="crumbs" aria-label="Breadcrumb">
                 <a href="#" class="email-back">Home</a><span class="sep">›</span
-                ><span aria-current="page">Email</span>
+                ><span aria-current="page">Internal Mail</span>
               </nav>
-              <div class="tline"><h1>Email</h1></div>
+              <div class="tline"><h1>Internal Mail</h1></div>
             </div>
             <div class="r">
               <button type="button" class="lbtn pri email-compose">
@@ -15,18 +15,21 @@
             </div>
           </div>
           <div class="email-app flex-1 min-h-0 flex mx-4 my-3 rounded-[9px] border border-line overflow-hidden bg-surface [body.density-compact_&]:mx-3 [body.density-compact_&]:my-2 [body.density-comfortable_&]:mx-5 [body.density-comfortable_&]:my-4">
+            <nav class="email-folders w-[176px] flex-none overflow-auto border-e border-line p-2" aria-label="Mailboxes" data-folders></nav>
             <div class="email-list w-[300px] flex-none flex flex-col min-h-0 border-e border-line">
+              <label class="sr-only" for="email-folder-select">Mailbox</label>
+              <select id="email-folder-select" class="mx-2.5 mt-2.5 min-h-8 rounded-md border border-line bg-surface px-2 text-[13px] text-ink" data-folder-select hidden></select>
               <div class="email-search flex-none flex items-center gap-[7px] m-2.5 py-[7px] px-[9px] rounded-[7px] border border-line text-faint [body.density-compact_&]:gap-1.5 [body.density-compact_&]:m-2 [body.density-compact_&]:py-[5px] [body.density-compact_&]:px-[7px] [body.density-comfortable_&]:gap-2 [body.density-comfortable_&]:m-3 [body.density-comfortable_&]:py-[9px] [body.density-comfortable_&]:px-[11px]">
                 <svg width="13" height="13" aria-hidden="true"><use href="#i-search" /></svg>
                 <input
                   type="search"
                   id="email-search-input"
-                  placeholder="Search email…"
-                  aria-label="Search email"
+                  placeholder="Search this mailbox…"
+                  aria-label="Search this mailbox"
                   autocomplete="off"
                   class="border-0 outline-none bg-transparent font-[inherit] text-ink flex-1 min-w-0 p-0 placeholder:text-faint" />
               </div>
-              <div class="nc-scroll" id="email-list-scroll"></div>
+              <div class="nc-scroll min-h-0 flex-1 overflow-auto" id="email-list-scroll"></div>
             </div>
             <div class="email-reading flex-1 min-w-0 flex flex-col min-h-0" id="email-reading"></div>
           </div>
