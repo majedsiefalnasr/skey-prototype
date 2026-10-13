@@ -166,3 +166,53 @@ test.describe('related items', () => {
     await expect(panel(page).locator('[data-related-row]', {hasText: 'Warehouse 201 variance notes'})).toBeVisible()
   })
 })
+
+test.describe('events', () => {
+  test('events expose calendar only with Day/Week/Month', async ({page}) => {
+    await go(page, '/help-screens/events')
+    await expect(page.locator('.events-view [data-view-switch]')).toHaveCount(0)
+    await expect(page.locator('.events-view [data-cal-modes] button')).toHaveText(['Day', 'Week', 'Month'])
+    await expect(page.locator('.events-view [data-cal-title]')).toHaveText('October 2026')
+    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Monthly sales review'})).toBeVisible()
+    await page.locator('.events-view [data-cal-modes] button', {hasText: 'Week'}).click()
+    await expect(page.locator('.events-view [data-allday-row]')).toBeVisible()
+    await expect(page.locator('.events-view [data-timed] [data-cal-item]', {hasText: 'Supplier visit'})).toBeVisible()
+    await page.locator('.events-view [data-cal-next]').click()
+    await expect(page.locator('.events-view [data-cal-title]')).toContainText('18')
+    await page.locator('.events-view [data-cal-today]').click()
+    await expect(page.locator('.events-view [data-cal-title]')).toContainText('11')
+  })
+
+  test('create timed and all-day events', async ({page}) => {
+    await go(page, '/help-screens/events')
+    await page.locator('.events-view [data-collab-new]').click()
+    await page.locator('#event-title').fill('Budget sync')
+    await expect(page.locator('#event-start')).toHaveValue('2026-10-13T13:30')
+    await expect(page.locator('#event-end')).toHaveValue('2026-10-13T14:30')
+    await panel(page).getByRole('button', {name: 'Save'}).click()
+    await page.locator('.events-view [data-cal-modes] button', {hasText: 'Day'}).click()
+    await expect(page.locator('.events-view [data-timed] [data-cal-item]', {hasText: 'Budget sync'})).toBeVisible()
+    await page.locator('.events-view [data-collab-new]').click()
+    await page.locator('#event-title').fill('Offsite')
+    await page.locator('#event-allday').check()
+    await panel(page).getByRole('button', {name: 'Save'}).click()
+    await expect(page.locator('.events-view [data-allday-row] [data-cal-item]', {hasText: 'Offsite'})).toBeVisible()
+    await expect(page.locator('.events-view [data-timed] [data-cal-item]', {hasText: 'Offsite'})).toHaveCount(0)
+  })
+
+  test('end before start is rejected', async ({page}) => {
+    await go(page, '/help-screens/events')
+    await page.locator('.events-view [data-collab-new]').click()
+    await page.locator('#event-title').fill('Bad')
+    await page.locator('#event-end').fill('2026-10-13T09:00')
+    await panel(page).getByRole('button', {name: 'Save'}).click()
+    await expect(panel(page)).toContainText('End must be after start')
+  })
+
+  test('notes never appear on calendars even when linked to an event', async ({page}) => {
+    await go(page, '/help-screens/events')
+    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'ملاحظات اجتماع المبيعات'})).toHaveCount(0)
+    await page.locator('.events-view [data-cal-item]', {hasText: 'Monthly sales review'}).click()
+    await expect(panel(page).locator('[data-related-row]', {hasText: 'ملاحظات اجتماع المبيعات'})).toBeVisible()
+  })
+})

@@ -79,7 +79,7 @@ import {createSpotlight} from './components/spotlight/spotlight.js'
 import {tourStepsFor} from './components/spotlight/tour.js'
 import {readPrototypeState, createPrototypeControls} from './prototype/controls.js'
 import {createCollabStore} from './core/collab-store.js'
-import {COLLAB_SEED, PROTOTYPE_NOW, CURRENT_USER_ID} from './prototype/fixtures/collaboration.js'
+import {COLLAB_SEED, PROTOTYPE_NOW, CURRENT_USER_ID, COLLAB_USERS} from './prototype/fixtures/collaboration.js'
 import {createCollabPanel, createConfirm} from './components/collab/panel.js'
 import {createRelatedItems} from './components/related-items/related-items.js'
 
@@ -474,10 +474,10 @@ const openCollabItem = async ref => {
   showContentView(view, ref.type === 'mail' ? {messageId: ref.id} : {openId: ref.id})
 }
 const relatedItems = createRelatedItems({store: collabStore, toast, currentUserId: CURRENT_USER_ID, openItem: ref => openCollabItem(ref)})
-const collabDeps = {store: collabStore, toast, panel: collabPanel, related: relatedItems, confirm: collabConfirm, goHome: () => openForYou('Help Screens')}
+const collabDeps = {store: collabStore, toast, panel: collabPanel, related: relatedItems, confirm: collabConfirm, goHome: () => openForYou('Help Screens'), users: COLLAB_USERS, currentUserId: CURRENT_USER_ID}
 const notesPage = createNotes(collabDeps)
 const activitiesPage = createActivities()
-const eventsPage = createEvents()
+const eventsPage = createEvents(collabDeps)
 const peoplePage = createPeople()
 
 topbar.bind()
