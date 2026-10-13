@@ -152,3 +152,28 @@ export function searchText(entity) {
     .join(' ')
     .toLowerCase()
 }
+
+/* ---------- people duplicates ---------- */
+const phoneKey = value => String(value || '').replace(/\D/g, '').replace(/^00/, '').slice(-10)
+const emailKey = value => String(value || '').trim().toLowerCase()
+const nameKey = value => String(value || '').trim().replace(/\s+/g, ' ').toLowerCase()
+
+/** Other people that look like the same person: same phone (last 10
+ *  digits, so +20 / 0020 prefixes match), same email (case-insensitive),
+ *  or the same English name. One match per person, strongest field first. */
+export function findPersonDuplicates(candidate, people) {
+  const contacts = candidate.contacts || []
+  const phones = new Set(contacts.filter(c => c.kind !== 'email').map(c => phoneKey(c.value)).filter(v => v.length >= 7))
+  const emails = new Set(contacts.filter(c => c.kind === 'email').map(c => emailKey(c.value)).filter(Boolean))
+  const name = nameKey(candidate.nameEn)
+  const matches = []
+  for (const person of people) {
+    if (person.id === candidate.id) continue
+    const theirs = person.contacts || []
+    const phone = theirs.find(c => c.kind !== 'email' && phones.has(phoneKey(c.value)))
+    if (phone) matches.push({person, field: phone.kind})
+    else if (theirs.some(c => c.kind === 'email' && emails.has(emailKey(c.value)))) matches.push({person, field: 'email'})
+    else if (name && nameKey(person.nameEn) === name) matches.push({person, field: 'name'})
+  }
+  return matches
+}

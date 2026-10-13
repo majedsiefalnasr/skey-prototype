@@ -375,3 +375,41 @@ test.describe('internal mail', () => {
     await expect(page.locator('.email-view')).toContainText('Add at least one recipient')
   })
 })
+
+test.describe('people data', () => {
+  test('list shows bilingual names and conversion state', async ({page}) => {
+    await go(page, '/help-screens/people-data')
+    await expect(page.locator('.people-view table')).toContainText('أحمد علي')
+    await expect(page.locator('.people-view tr', {hasText: 'Khaled Ibrahim'})).toContainText('Converted to Customer')
+  })
+
+  test('duplicate warning and simulated conversion leave Customers untouched', async ({page}) => {
+    await go(page, '/customers/list')
+    const customerRows = await page.locator('.customer-list-view [data-list-open-record]').count()
+    await go(page, '/help-screens/people-data')
+    await page.locator('.people-view [data-collab-new]').click()
+    await page.locator('#person-name-en').fill('New Contact')
+    await page.locator('[data-contact-value]').first().fill('+20 122 555 0199')
+    await expect(panel(page).locator('[data-duplicate]')).toContainText('Sara Mahmoud')
+    await panel(page).getByRole('button', {name: 'Save'}).click()
+    await expect(page.locator('.people-view table')).toContainText('New Contact')
+    await page.locator('.people-view [data-row-open]', {hasText: 'Sara Mahmoud'}).click()
+    await panel(page).getByRole('button', {name: 'More actions'}).click()
+    await page.getByRole('menuitem', {name: 'Convert to Customer'}).click()
+    await expect(page.locator('#collab-confirm')).toContainText('No Customer record is created')
+    await page.locator('#collab-confirm').getByRole('button', {name: 'Convert'}).click()
+    await expect(page.locator('.people-view tr', {hasText: 'Sara Mahmoud'})).toContainText('Converted to Customer')
+    await go(page, '/customers/list')
+    await expect(page.locator('.customer-list-view [data-list-open-record]')).toHaveCount(customerRows)
+  })
+
+  test('invalid email contact is rejected', async ({page}) => {
+    await go(page, '/help-screens/people-data')
+    await page.locator('.people-view [data-collab-new]').click()
+    await page.locator('#person-name-en').fill('Mail Typo')
+    await page.locator('[data-contact-kind]').first().selectOption('email')
+    await page.locator('[data-contact-value]').first().fill('not-an-email')
+    await panel(page).getByRole('button', {name: 'Save'}).click()
+    await expect(panel(page)).toContainText('Enter a valid email')
+  })
+})

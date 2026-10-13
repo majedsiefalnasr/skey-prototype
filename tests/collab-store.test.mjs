@@ -143,3 +143,17 @@ test('date helpers', () => {
   assert.equal(nextHalfHour('2026-10-13T23:45'), '2026-10-14T00:00')
   assert.equal(relativeDay('2026-10-12', '2026-10-13'), 'Yesterday')
 })
+
+test('person duplicates match normalized phone, email, or name', async () => {
+  const {findPersonDuplicates} = await import('../concepts/app/components/collab/meta.js')
+  const people = [
+    {id: 'per-1', nameEn: 'Ahmed Ali', contacts: [{kind: 'mobile', value: '+20 100 555 0101'}]},
+    {id: 'per-2', nameEn: 'Sara', contacts: [{kind: 'email', value: 'Sara.M@example.com'}]},
+  ]
+  const fields = candidate => findPersonDuplicates(candidate, people).map(d => [d.person.id, d.field])
+  assert.deepEqual(fields({id: 'new', nameEn: 'X', contacts: [{kind: 'mobile', value: '0020-100-555-0101'}]}), [['per-1', 'mobile']])
+  assert.deepEqual(fields({id: 'new', nameEn: 'x', contacts: [{kind: 'email', value: 'sara.m@EXAMPLE.com'}]}), [['per-2', 'email']])
+  assert.deepEqual(fields({id: 'new', nameEn: ' ahmed  ali ', contacts: []}), [['per-1', 'name']])
+  assert.deepEqual(fields({id: 'per-1', nameEn: 'Ahmed Ali', contacts: []}), [])
+  assert.deepEqual(fields({id: 'new', nameEn: '', contacts: [{kind: 'mobile', value: '12'}]}), [])
+})

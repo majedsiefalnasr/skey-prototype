@@ -480,7 +480,7 @@ const {openEmailView, closeEmailView} = email
 const notesPage = createNotes(collabDeps)
 const activitiesPage = createActivities({...collabDeps, openItem: ref => openCollabItem(ref), composeMailFor: ref => email.composeLinked(ref)})
 const eventsPage = createEvents(collabDeps)
-const peoplePage = createPeople()
+const peoplePage = createPeople(collabDeps)
 
 topbar.bind()
 
