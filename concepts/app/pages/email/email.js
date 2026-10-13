@@ -105,7 +105,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       return
     }
     let lastDay = null
-    scroll.innerHTML = `<ul class="m-0 list-none p-0" aria-label="${escapeHtml(folderLabel(state.folder))} messages">${messages
+    scroll.innerHTML = `<ul role="listbox" class="m-0 list-none p-0" aria-label="${escapeHtml(folderLabel(state.folder))} messages">${messages
       .map(m => {
         const day = dayLabel(stampOf(m))
         const header =
@@ -115,7 +115,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         lastDay = day
         const relatedCount = store.getRelatedItems('mail', m.id).length
         const selected = m.id === state.selectedId
-        return `${header}<li><button type="button" data-id="${escapeHtml(m.id)}" ${selected ? 'aria-current="true"' : ''} class="email-list-row${m.unread ? ' unread' : ''}${selected ? ' active' : ''} flex w-full cursor-pointer items-start gap-2.5 border-0 border-b border-line bg-transparent px-3.5 py-2.5 text-start font-[inherit] hover:bg-[var(--hover-overlay)] aria-[current=true]:bg-[var(--accent-soft)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)] [body.density-compact_&]:py-2 [body.density-comfortable_&]:py-3.5">
+        return `${header}<li role="presentation"><button type="button" role="option" aria-selected="${selected}" data-id="${escapeHtml(m.id)}" ${selected ? 'aria-current="true"' : ''} class="email-list-row${m.unread ? ' unread' : ''}${selected ? ' active' : ''} flex w-full cursor-pointer items-start gap-2.5 border-0 border-b border-line bg-transparent px-3.5 py-2.5 text-start font-[inherit] hover:bg-[var(--hover-overlay)] aria-[current=true]:bg-[var(--accent-soft)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)] [body.density-compact_&]:py-2 [body.density-comfortable_&]:py-3.5">
           <span class="${AVATAR_CLASS} w-7 h-7 text-xs" style="--hue:${Number(m.hue) || 210}">${avatar(m.folder === 'sent' || m.folder === 'drafts' ? m.to?.[0] || me : m.from, 14)}</span>
           <span class="min-w-0 flex-1">
             <span class="flex items-baseline justify-between gap-2"><b class="truncate text-[13px] ${m.unread ? 'font-bold' : 'font-medium'} text-ink" dir="auto">${m.unread ? '<span class="sr-only">Unread. </span>' : ''}${escapeHtml(counterpart(m))}</b><span class="flex-none text-xs text-faint">${escapeHtml(formatTime(stampOf(m)))}</span></span>
@@ -231,6 +231,11 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     )
     pane.querySelector('[data-mail-back]')?.addEventListener('click', backToList)
     const quick = pane.querySelector('.email-composer-input')
+    const replyDraft = allMail()
+      .filter(x => x.folder === 'drafts' && x.replyToId === m.id)
+      .sort((a, b) => stampOf(b).localeCompare(stampOf(a)))[0]
+    state.draftId = replyDraft?.id || null
+    quick.value = replyDraft ? (Array.isArray(replyDraft.body) ? replyDraft.body.join('\n\n') : replyDraft.body || '') : ''
     quick.addEventListener('input', () => {
       if (!state.draftId) {
         const draft = createReplyDraft(m, 'reply', '')
@@ -260,6 +265,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     return store.createEntity('mail', {
       folder: 'drafts',
       threadId: kind === 'reply' ? m.threadId : `t-${Date.now()}`,
+      replyToId: kind === 'reply' ? m.id : null,
       from: me,
       to: kind === 'reply' ? replyTargets(m) : [],
       cc: [],
@@ -357,7 +363,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
   let composeTo = []
   let composeCc = []
 
-  function recipientRow(kind, people) {
+  function recipientRow(kind, people, pending = '') {
     const id = `email-compose-${kind}`
     return `<div class="${COMPOSE_ROW_CLASS} relative"><label for="${id}">${kind === 'to' ? 'To' : 'Cc'}</label>
       <span class="flex flex-1 flex-wrap items-center gap-1.5" data-recipients="${kind}">
@@ -367,7 +373,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
               `<span class="${CHIP_CLASS}" data-recipient-chip dir="auto">${escapeHtml(p.name || p.email)}<button type="button" class="ms-0.5 inline-grid size-4 place-items-center rounded-full border-0 bg-transparent text-muted hover:text-ink" data-remove-recipient="${kind}:${index}" aria-label="Remove ${escapeHtml(p.name || p.email)}">${icon('i-x', 10)}</button></span>`
           )
           .join('')}
-        <input type="text" id="${id}" class="${COMPOSE_INPUT_CLASS}" placeholder="${kind === 'to' ? 'Name or email…' : 'Add Cc…'}" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="${id}-suggestions">
+        <input type="text" id="${id}" class="${COMPOSE_INPUT_CLASS}" placeholder="${kind === 'to' ? 'Name or email…' : 'Add Cc…'}" value="${escapeHtml(pending)}" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="${id}-suggestions">
       </span>
       <ul id="${id}-suggestions" role="listbox" aria-label="Suggested recipients" class="absolute start-[68px] top-full z-20 m-0 hidden max-h-[220px] min-w-[260px] list-none overflow-auto rounded-lg border border-line bg-surface p-1 shadow-shell [&.open]:block"></ul>
     </div>`
@@ -384,8 +390,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         <span class="${HINT_CLASS}" data-draft-status aria-live="polite">${draft?.savedAt ? `Draft saved ${escapeHtml(formatTime(draft.savedAt))}` : 'Not saved yet'}</span>
       </div>
       <div class="email-reading-scroll nc-scroll min-h-0 flex-1 overflow-auto px-6 py-2 [body.density-compact_&]:px-4 [body.density-comfortable_&]:px-8">
-        ${recipientRow('to', composeTo)}
-        ${composeCc.length ? recipientRow('cc', composeCc) : `<div class="py-1"><button type="button" class="border-0 bg-transparent p-0 text-[12.5px] text-accent hover:underline" data-add-cc>Add Cc</button></div>`}
+        ${recipientRow('to', composeTo, draft?.toInput)}
+        ${composeCc.length || draft?.ccInput ? recipientRow('cc', composeCc, draft?.ccInput) : `<div class="py-1"><button type="button" class="border-0 bg-transparent p-0 text-[12.5px] text-accent hover:underline" data-add-cc>Add Cc</button></div>`}
         <div class="${COMPOSE_ROW_CLASS}"><label for="email-compose-subject">Subject</label><input type="text" id="email-compose-subject" class="${COMPOSE_INPUT_CLASS}" placeholder="Subject…" dir="auto" value="${escapeHtml(draft?.subject || '')}"></div>
         <label class="sr-only" for="email-compose-body">Message</label>
         <textarea id="email-compose-body" class="email-composer-input mt-3 w-full min-h-[180px] resize-y rounded-lg border border-line bg-surface px-3 py-2.5 font-[inherit] text-ink outline-none focus-visible:[box-shadow:0_0_0_3px_var(--accent-soft)]" placeholder="Write your message…" dir="auto">${escapeHtml(bodyText)}</textarea>
@@ -413,7 +419,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       pane.querySelector('#email-compose-cc').focus()
     })
     bindRecipients(pane, 'to')
-    if (composeCc.length) bindRecipients(pane, 'cc')
+    if (composeCc.length || draft?.ccInput) bindRecipients(pane, 'cc')
     ;['#email-compose-subject', '#email-compose-body'].forEach(selector =>
       pane.querySelector(selector).addEventListener('input', () => {
         ensureDraft()
@@ -437,6 +443,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     return {
       to: composeTo,
       cc: composeCc,
+      toInput: pane.querySelector('#email-compose-to')?.value ?? '',
+      ccInput: pane.querySelector('#email-compose-cc')?.value ?? '',
       subject: pane.querySelector('#email-compose-subject')?.value ?? '',
       body: (pane.querySelector('#email-compose-body')?.value ?? '').split(/\n{2,}/),
     }
@@ -498,6 +506,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         return
       }
       suggest()
+      ensureDraft()
+      scheduleSave(readCompose)
     })
     input.addEventListener('keydown', event => {
       if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && options.length) {
@@ -593,6 +603,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
   function sendDraft(id) {
     const typed = root.querySelector('#email-compose-to')
     if (typed?.value.trim() && !typed._commitTyped()) return
+    const ccTyped = root.querySelector('#email-compose-cc')
+    if (ccTyped?.value.trim() && !ccTyped._commitTyped()) return
     clearTimeout(saveTimer)
     pendingRead = null
     if (state.mode === 'compose') store.updateEntity('mail', id, readCompose())

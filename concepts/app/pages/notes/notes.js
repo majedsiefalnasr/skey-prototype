@@ -288,7 +288,10 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
       renderBody()
       unsubscribe?.()
       unsubscribe = store.subscribe(() => {
-        if (view() && !view().hidden) renderBody()
+        if (view() && !view().hidden) {
+          buildToolbar()
+          renderBody()
+        }
       })
       if (openId) openNote(openId)
     },

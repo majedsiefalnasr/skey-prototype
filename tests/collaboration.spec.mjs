@@ -96,6 +96,15 @@ test.describe('notes', () => {
     await expect(card(page, 'Visit plan')).toBeVisible()
   })
 
+  test('new tag is immediately available in the tag filter', async ({page}) => {
+    await go(page, '/help-screens/notes')
+    await page.locator('.notes-view [data-collab-new]').click()
+    await page.locator('#note-title').fill('Tagged note')
+    await page.locator('#note-tags').fill('Quarter close')
+    await panel(page).getByRole('button', {name: 'Save'}).click()
+    await expect(page.locator('#notes-tag option', {hasText: 'Quarter close'})).toHaveCount(1)
+  })
+
   test('search and view survive navigation', async ({page}) => {
     // Enter through the app landing: deep links to inner screens leave the
     // rail panel empty (pre-existing shell behavior, same for Geography).
@@ -168,6 +177,23 @@ test.describe('related items', () => {
 })
 
 test.describe('events', () => {
+  test('an overnight event appears on both days in every calendar mode', async ({page}) => {
+    await go(page, '/help-screens/events')
+    await page.locator('.events-view [data-collab-new]').click()
+    await page.locator('#event-title').fill('Overnight handoff')
+    await page.locator('#event-start').fill('2026-10-13T23:00')
+    await page.locator('#event-end').fill('2026-10-14T01:00')
+    await panel(page).getByRole('button', {name: 'Save'}).click()
+    await page.locator('.events-view [data-cal-modes] button', {hasText: 'Day'}).click()
+    await page.locator('.events-view [data-cal-next]').click()
+    await expect(page.locator('.events-view [data-timed] [data-cal-item]', {hasText: 'Overnight handoff'})).toHaveCount(1)
+    await page.locator('.events-view [data-cal-modes] button', {hasText: 'Week'}).click()
+    await expect(page.locator('.events-view [data-timed] [data-cal-item]', {hasText: 'Overnight handoff'})).toHaveCount(2)
+    await expect(page.locator('.events-view [data-timed] [data-cal-item]', {hasText: 'Overnight handoff'}).nth(1)).toContainText('Continues')
+    await page.locator('.events-view [data-cal-modes] button', {hasText: 'Month'}).click()
+    await expect(page.locator('.events-view [data-cal-month] [data-cal-item]', {hasText: 'Overnight handoff'})).toHaveCount(2)
+  })
+
   test('events expose calendar only with Day/Week/Month', async ({page}) => {
     await go(page, '/help-screens/events')
     await expect(page.locator('.events-view [data-view-switch]')).toHaveCount(0)
@@ -291,6 +317,53 @@ test.describe('activities', () => {
 })
 
 test.describe('internal mail', () => {
+  test('saved quick reply is restored after leaving and returning', async ({page}) => {
+    await go(page, '/system/email')
+    await row(page, 'Payment scheduled').click()
+    await page.locator('#email-quick-reply').fill('I will check the receipt')
+    await expect.poll(() => page.evaluate(() =>
+      JSON.parse(sessionStorage.getItem('skey-proto-collab')).entities.mail.some(m =>
+        m.folder === 'drafts' && m.body?.includes('I will check the receipt'))
+    )).toBe(true)
+    await go(page, '/help-screens/notes')
+    await go(page, '/system/email')
+    await expect(page.locator('#email-quick-reply')).toHaveValue('I will check the receipt')
+  })
+
+  test('unfinished recipient input survives navigation in Drafts', async ({page}) => {
+    await go(page, '/system/email')
+    await page.locator('.email-compose').click()
+    await page.locator('#email-compose-to').fill('reader@example.com')
+    await expect.poll(() => page.evaluate(() =>
+      JSON.parse(sessionStorage.getItem('skey-proto-collab')).entities.mail.some(m =>
+        m.folder === 'drafts' && m.toInput === 'reader@example.com')
+    )).toBe(true)
+    await go(page, '/help-screens/notes')
+    await go(page, '/system/email')
+    await folder(page, 'drafts').click()
+    await row(page, '(no subject)').first().click()
+    await expect(page.locator('#email-compose-to')).toHaveValue('reader@example.com')
+  })
+
+  test('typed Cc recipient is included when sending', async ({page}) => {
+    await go(page, '/system/email')
+    await page.locator('.email-compose').click()
+    await page.locator('#email-compose-to').fill('reader@example.com')
+    await page.locator('[data-add-cc]').click()
+    await page.locator('#email-compose-cc').fill('copy@example.com')
+    await page.locator('#email-compose-subject').fill('Cc check')
+    await page.locator('.email-send').click()
+    await expect(page.locator('.email-view')).toContainText('copy@example.com')
+  })
+
+  test('mail list exposes selected option semantics', async ({page}) => {
+    await go(page, '/system/email')
+    await expect(page.locator('#email-list-scroll [role="listbox"]')).toBeVisible()
+    await row(page, 'Payment scheduled').click()
+    await expect(row(page, 'Payment scheduled')).toHaveAttribute('role', 'option')
+    await expect(row(page, 'Payment scheduled')).toHaveAttribute('aria-selected', 'true')
+  })
+
   const folder = (page, id) => page.locator(`.email-view [data-folder="${id}"]`)
   const row = (page, text) => page.locator('.email-list-row', {hasText: text})
 

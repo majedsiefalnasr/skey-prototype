@@ -85,21 +85,23 @@ const itemLabel = item =>
 const ITEM_CLASS =
   'block w-full overflow-hidden rounded border-0 border-s-[3px] border-[var(--accent)] bg-[var(--accent-soft)] px-1.5 py-0.5 text-start text-xs text-ink hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
 
-const itemButton = (item, index, extraClass = '', style = '') =>
+const itemButton = (item, index, extraClass = '', style = '', timeLabel = formatTime(item.start)) =>
   `<button type="button" class="${ITEM_CLASS} ${extraClass}" ${style ? `style="${style}"` : ''} data-cal-item="${index}" aria-label="${escapeHtml(itemLabel(item))}">
-    ${item.allDay ? '' : `<span class="font-semibold">${escapeHtml(formatTime(item.start))}</span> `}<span dir="auto">${escapeHtml(item.title)}</span>
+    ${item.allDay ? '' : `<span class="font-semibold">${escapeHtml(timeLabel)}</span> `}<span dir="auto">${escapeHtml(item.title)}</span>
     <span class="sr-only"> (${escapeHtml(item.label)})</span>
   </button>`
 
 const coversDay = (item, day) =>
-  item.allDay ? item.start.slice(0, 10) <= day && item.end.slice(0, 10) >= day : item.start.slice(0, 10) === day
+  item.allDay
+    ? item.start.slice(0, 10) <= day && item.end.slice(0, 10) >= day
+    : item.start < `${addDays(day, 1)}T00:00` && item.end > `${day}T00:00`
 
 /** Greedy lanes so overlapping timed items sit side by side. */
 function layoutDay(items) {
-  const sorted = [...items].sort((a, b) => a.item.start.localeCompare(b.item.start))
+  const sorted = [...items].sort((a, b) => a.start - b.start)
   const lanes = []
   for (const entry of sorted) {
-    const start = minutesOf(entry.item.start)
+    const start = entry.start
     let lane = lanes.findIndex(end => end <= start)
     if (lane === -1) lane = lanes.length
     lanes[lane] = Math.max(start + 15, entry.end)
@@ -151,7 +153,7 @@ function renderMonth(host, {date, todayKey, items}) {
         return `<div role="gridcell" class="relative min-h-[104px] border-b border-e border-line p-1 ${outside ? 'bg-[var(--line-2)] text-faint' : 'bg-surface'}" data-date="${day}"${isToday ? ' aria-current="date"' : ''}>
           <button type="button" class="absolute inset-0 border-0 bg-transparent focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]" data-cal-slot="${day}" aria-label="New on ${escapeHtml(longDay(day))}"></button>
           <span class="relative inline-grid size-6 place-items-center rounded-full text-xs ${isToday ? 'bg-[var(--accent)] font-semibold text-inverse' : ''}">${Number(day.slice(8))}${isToday ? '<span class="sr-only"> (today)</span>' : ''}</span>
-          <div class="relative mt-0.5 grid gap-0.5">${shown.map(({item, index}) => itemButton(item, index, 'truncate')).join('')}
+          <div class="relative mt-0.5 grid gap-0.5">${shown.map(({item, index}) => itemButton(item, index, 'truncate', '', item.start.slice(0, 10) < day ? 'Continues' : formatTime(item.start))).join('')}
             ${dayItems.length > 3 ? `<button type="button" class="justify-self-start border-0 bg-transparent px-1 text-xs text-accent hover:underline" data-cal-more="${day}">+${dayItems.length - 3} more</button>` : ''}
           </div>
         </div>`
@@ -181,11 +183,12 @@ function renderTimeGrid(host, {days, todayKey, nowKey, items}) {
         ${days
           .map(day => {
             const timed = items
-              .map((item, index) => ({item, index, end: 0}))
-              .filter(({item}) => !item.allDay && item.start.slice(0, 10) === day)
+              .map((item, index) => ({item, index, start: 0, end: 0}))
+              .filter(({item}) => !item.allDay && coversDay(item, day))
             timed.forEach(entry => {
-              const start = minutesOf(entry.item.start)
+              const start = entry.item.start.slice(0, 10) < day ? 0 : minutesOf(entry.item.start)
               const end = entry.item.end.slice(0, 10) > day ? 24 * 60 : minutesOf(entry.item.end)
+              entry.start = start
               entry.end = Math.max(end, start + 30)
             })
             const {entries, laneCount} = layoutDay(timed)
@@ -196,11 +199,10 @@ function renderTimeGrid(host, {days, todayKey, nowKey, items}) {
             return `<div class="relative border-s border-line" style="height:${24 * HOUR_PX}px">
               ${hours.map(hour => `<button type="button" class="block h-12 w-full border-0 border-b border-[var(--line-2)] bg-transparent hover:bg-[var(--hover-overlay)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]" data-cal-slot="${day}" data-time="${pad(hour)}:00" aria-label="New at ${escapeHtml(longDay(day))} ${pad(hour)}:00"></button>`).join('')}
               ${entries
-                .map(({item, index, lane, end}) => {
-                  const start = minutesOf(item.start)
+                .map(({item, index, lane, start, end}) => {
                   const width = 100 / laneCount
                   const style = `position:absolute;top:${(start / 60) * HOUR_PX}px;height:${((end - start) / 60) * HOUR_PX - 2}px;inset-inline-start:calc(${lane * width}% + 2px);width:calc(${width}% - 4px);z-index:1`
-                  return itemButton(item, index, '', style)
+                  return itemButton(item, index, '', style, item.start.slice(0, 10) < day ? 'Continues' : formatTime(item.start))
                 })
                 .join('')}
               ${nowLine}
