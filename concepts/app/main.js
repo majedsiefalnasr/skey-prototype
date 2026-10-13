@@ -79,7 +79,9 @@ import {createSpotlight} from './components/spotlight/spotlight.js'
 import {tourStepsFor} from './components/spotlight/tour.js'
 import {readPrototypeState, createPrototypeControls} from './prototype/controls.js'
 import {createCollabStore} from './core/collab-store.js'
-import {COLLAB_SEED, PROTOTYPE_NOW} from './prototype/fixtures/collaboration.js'
+import {COLLAB_SEED, PROTOTYPE_NOW, CURRENT_USER_ID} from './prototype/fixtures/collaboration.js'
+import {createCollabPanel, createConfirm} from './components/collab/panel.js'
+import {createRelatedItems} from './components/related-items/related-items.js'
 
 const locale = createLocale()
 const dialogFocus = createDialogFocus(document)
@@ -458,7 +460,22 @@ const email = createEmail({root: document.querySelector('.email-view'), onUnread
 
 const {openEmailView, closeEmailView} = email
 
-const notesPage = createNotes()
+/* ---- collaboration suite: one panel, one confirm, one Related Items
+   component shared by Notes, Activities, Events, People Data and Mail.
+   Opening a related item navigates to its own screen, which opens it. ---- */
+const collabConfirm = createConfirm()
+const collabPanel = createCollabPanel({trapFocus, releaseFocus, confirm: collabConfirm})
+const COLLAB_VIEW_BY_TYPE = {note: 'notes', activity: 'activities', event: 'events', person: 'people', mail: 'email'}
+const openCollabItem = async ref => {
+  if (!(await collabPanel.close())) return
+  const view = COLLAB_VIEW_BY_TYPE[ref.type]
+  const label = NAV_ITEM_LABEL_BY_ID[view]
+  if (label) sidebar.applyNavCurrent(document.querySelector('.side'), label)
+  showContentView(view, ref.type === 'mail' ? {messageId: ref.id} : {openId: ref.id})
+}
+const relatedItems = createRelatedItems({store: collabStore, toast, currentUserId: CURRENT_USER_ID, openItem: ref => openCollabItem(ref)})
+const collabDeps = {store: collabStore, toast, panel: collabPanel, related: relatedItems, confirm: collabConfirm, goHome: () => openForYou('Help Screens')}
+const notesPage = createNotes(collabDeps)
 const activitiesPage = createActivities()
 const eventsPage = createEvents()
 const peoplePage = createPeople()
