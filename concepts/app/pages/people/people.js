@@ -10,9 +10,6 @@ import {
   textInput,
   textarea,
   setFieldError,
-  searchBox,
-  toolbarSelect,
-  toolbarToggle,
   emptyState,
   GRID_CLASS,
   SECTION_TITLE_CLASS,
@@ -22,6 +19,17 @@ import {
   VIEW_LIST_CLASS,
   viewRow,
 } from '../../components/collab/fields.js'
+import {
+  toolbarRow,
+  menuDetails,
+  menuItemRadio,
+  menuItemCheck,
+  menuGroupLabel,
+  filterChip,
+  clearFilterButton,
+  searchField,
+  closeOwnedMenu,
+} from '../../components/collab/list-toolbar.js'
 import {CONVERSION_TARGETS, conversionLabel, titleOf, searchText, findPersonDuplicates} from '../../components/collab/meta.js'
 
 const CONTACT_KINDS = [
@@ -32,6 +40,13 @@ const CONTACT_KINDS = [
 const LIFECYCLES = [
   ['lead', 'Lead'],
   ['contact', 'Contact'],
+]
+/* The quick menu mirrors the other collab pages: a radio group over the
+   lifecycle ("Status"), named in the summary. */
+const QUICK_FILTERS = [
+  ['', 'All people', 'i-user'],
+  ['lead', 'Lead', 'i-spark'],
+  ['contact', 'Contact', 'i-check'],
 ]
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const FIELD_LABEL = {mobile: 'mobile', phone: 'phone', email: 'email', name: 'name'}
@@ -57,22 +72,79 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
       .sort((a, b) => titleOf(a).localeCompare(titleOf(b)))
   }
 
+  /** Applied field filters, inline as removable chips like the invoices
+   *  list — the quick filter is already named by its own menu. */
+  const filterChips = () =>
+    (state.showArchived ? [filterChip({attr: 'filter-remove', value: 'archived', label: 'Show archived'})] : []).join('')
+
+  const filterActive = () => Boolean(state.lifecycle || state.showArchived)
+
   function buildToolbar() {
     const host = view().querySelector('[data-collab-toolbar]')
-    host.innerHTML = `${searchBox({id: 'people-search', label: 'Search name, company, phone or email', value: state.query})}
-      ${toolbarSelect({id: 'people-lifecycle', label: 'Status', value: state.lifecycle, options: [['', 'All'], ...LIFECYCLES]})}
-      ${toolbarToggle({id: 'people-archived', label: 'Show archived', checked: state.showArchived})}`
-    host.querySelector('#people-search').addEventListener('input', event => {
+    /* The shared list-toolbar chrome: quick (Status) menu and "+ Filter"
+       with an inline chip on the left, search on the right — People is
+       list-only, so there is no view menu. */
+    const quick = QUICK_FILTERS.find(([id]) => id === state.lifecycle) || QUICK_FILTERS[0]
+    const quickItems = QUICK_FILTERS.map(([id, label, iconName]) =>
+      menuItemRadio({attr: 'quick-filter', value: id, label, iconName, checked: state.lifecycle === id})
+    ).join('')
+    const filterItems = `${menuGroupLabel('Archived')}${menuItemCheck({
+      attr: 'filter-archived',
+      value: 'archived',
+      label: 'Show archived',
+      checked: state.showArchived,
+      iconName: 'i-eye',
+    })}`
+    host.innerHTML = `<div class="data-list-controls grid gap-2 mb-2.5">${toolbarRow({
+      ariaLabel: 'People table controls',
+      left: `${menuDetails({attr: 'quick-menu', iconName: quick[2], label: quick[1], items: quickItems})}${menuDetails({
+        attr: 'filter-menu',
+        iconName: 'i-plus',
+        label: 'Filter',
+        items: filterItems,
+      })}${filterChips()}${filterActive() ? clearFilterButton({attr: 'clear-filters'}) : ''}`,
+      right: `${searchField({attr: 'collab-search', label: 'people', value: state.query})}`,
+    })}</div>`
+    const refresh = () => {
+      buildToolbar()
+      renderBody()
+    }
+    host.querySelectorAll('[data-quick-filter]').forEach(item =>
+      item.addEventListener('click', event => {
+        state.lifecycle = item.dataset.quickFilter
+        closeOwnedMenu(event.currentTarget)
+        refresh()
+      })
+    )
+    host.querySelector('[data-filter-archived]')?.addEventListener('click', event => {
+      state.showArchived = !state.showArchived
+      closeOwnedMenu(event.currentTarget)
+      refresh()
+    })
+    host.querySelectorAll('[data-filter-remove]').forEach(item =>
+      item.addEventListener('click', () => {
+        if (item.dataset.filterRemove === 'archived') state.showArchived = false
+        refresh()
+      })
+    )
+    host.querySelector('[data-clear-filters]')?.addEventListener('click', () => {
+      state.lifecycle = ''
+      state.showArchived = false
+      refresh()
+    })
+    const search = host.querySelector('[data-collab-search]')
+    const searchClear = host.querySelector('[data-collab-search-clear]')
+    search.addEventListener('input', event => {
       state.query = event.target.value
+      searchClear.hidden = !state.query
       renderBody()
     })
-    host.querySelector('#people-lifecycle').addEventListener('change', event => {
-      state.lifecycle = event.target.value
+    searchClear.addEventListener('click', () => {
+      state.query = ''
+      search.value = ''
+      searchClear.hidden = true
       renderBody()
-    })
-    host.querySelector('#people-archived').addEventListener('change', event => {
-      state.showArchived = event.target.checked
-      renderBody()
+      search.focus()
     })
   }
 

@@ -874,6 +874,44 @@ test.describe('people data', () => {
     await expect(panel(page).locator('dt:text-is("Status") + dd .badge.gray')).toHaveText('Contact')
   })
 
+  test('toolbar matches the shared list-toolbar language (quick + filter + search, no view menu)', async ({page}) => {
+    await go(page, '/help-screens/people-data')
+    // People is list-only — the shared view menu must not appear.
+    await expect(page.locator('.people-view [data-view-menu]')).toHaveCount(0)
+    await expect(page.locator('.people-view [data-collab-search]')).toBeVisible()
+    const quickMenu = page.locator('.people-view [data-quick-menu]')
+    await expect(quickMenu.locator('summary')).toContainText('All people')
+    await quickMenu.locator('summary').click()
+    await quickMenu.getByRole('menuitemradio', {name: 'Lead', exact: true}).click()
+    // The lifecycle radio drives the list: only leads remain.
+    await expect(quickMenu.locator('summary')).toContainText('Lead')
+    await expect(page.locator('.people-view table')).toContainText('Ahmed Ali')
+    await expect(page.locator('.people-view table')).not.toContainText('Khaled Ibrahim')
+    const clear = page.locator('.people-view [data-clear-filters]')
+    await expect(clear).toBeVisible()
+    await clear.click()
+    await expect(page.locator('.people-view table')).toContainText('Khaled Ibrahim')
+    await expect(page.locator('.people-view [data-clear-filters]')).toHaveCount(0)
+  })
+
+  test('Show archived lives in the filter menu as a checkbox with an inline chip', async ({page}) => {
+    await go(page, '/help-screens/people-data')
+    await page.locator('.people-view [data-row-open]', {hasText: 'Sara Mahmoud'}).click()
+    await panel(page).getByRole('button', {name: 'More actions'}).click()
+    await page.getByRole('menuitem', {name: 'Archive', exact: true}).click()
+    await expect(page.locator('.people-view table')).not.toContainText('Sara Mahmoud')
+    const filterMenu = page.locator('.people-view [data-filter-menu]')
+    await filterMenu.locator('summary').click()
+    await filterMenu.getByRole('menuitemcheckbox', {name: 'Show archived'}).click()
+    await expect(page.locator('.people-view [data-filter-remove="archived"]')).toBeVisible()
+    await expect(page.locator('.people-view table')).toContainText('Sara Mahmoud')
+    await expect(page.locator('.people-view tr', {hasText: 'Sara Mahmoud'})).toContainText('Archived')
+    // Removing the chip turns the filter off again.
+    await page.locator('.people-view [data-filter-remove="archived"]').click()
+    await expect(page.locator('.people-view table')).not.toContainText('Sara Mahmoud')
+    await expect(page.locator('.people-view [data-clear-filters]')).toHaveCount(0)
+  })
+
   test('duplicate warning and simulated conversion leave Customers untouched', async ({page}) => {
     await go(page, '/customers/list')
     const customerRows = await page.locator('.customer-list-view [data-list-open-record]').count()
