@@ -76,6 +76,20 @@ test.describe('notes', () => {
     await expect(page.locator('.notes-view table')).not.toContainText('Old pricing assumptions')
   })
 
+  test('list view fits 1280px without horizontal scrolling (Title takes remaining width)', async ({page}) => {
+    await page.setViewportSize({width: 1280, height: 800})
+    await go(page, '/help-screens/notes')
+    const menu = page.locator('.notes-view [data-view-menu]')
+    await menu.locator('summary').click()
+    await menu.getByRole('menuitemradio', {name: 'List view'}).click()
+    await expect(page.locator('.notes-view table')).toBeVisible()
+    const scroll = page.locator('.notes-view .data-table-scroll')
+    expect(await scroll.evaluate(el => el.scrollWidth <= el.clientWidth + 1)).toBe(true)
+    // The Title column is wider than the fixed-width columns (colgroup).
+    const widths = await page.locator('.notes-view table col').evaluateAll(cols => cols.map(c => c.getBoundingClientRect().width))
+    expect(widths[0]).toBeGreaterThan(Math.max(...widths.slice(1)))
+  })
+
   test('quick add creates a draft note with only a title', async ({page}) => {
     await go(page, '/help-screens/notes')
     await page.locator('[data-column="draft"] [data-quick-add]').fill('Call back Sara')

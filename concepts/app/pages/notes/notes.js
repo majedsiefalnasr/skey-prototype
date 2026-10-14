@@ -258,7 +258,8 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
     }
     body.innerHTML = `<div class="data-list-shell relative overflow-visible rounded-lg border border-line bg-surface [box-shadow:var(--shadow-1)]">
       <div class="data-table-scroll overflow-auto rounded-[inherit] max-w-full max-h-[max(280px,calc(100dvh-360px))]">
-        <table class="${INV_GRID_CLASS}" data-notes-grid>
+        <table class="${INV_GRID_CLASS} [table-layout:fixed]" data-notes-grid>
+          <colgroup><col><col style="width:110px"><col style="width:160px"><col style="width:110px"><col style="width:140px"></colgroup>
           <thead><tr>${header('title', 'Title')}<th scope="col">Status</th><th scope="col">Tags</th><th scope="col">Related</th>${header('updated', 'Updated')}</tr></thead>
           <tbody>${rows
             .map(
