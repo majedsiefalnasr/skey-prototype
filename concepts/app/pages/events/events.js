@@ -20,7 +20,7 @@ import {
 } from '../../components/collab/fields.js'
 import {renderCalendar, calendarToolbar, bindCalendarToolbar, calendarRange, shiftDate, presetJump} from '../../components/collab/calendar.js'
 import {TYPE_META, titleOf, eventTiming} from '../../components/collab/meta.js'
-import {addMinutes, nextHalfHour, isValidDate, isValidDateTime} from '../../core/collab-dates.js'
+import {addMinutes, nextHalfHour, isValidDate, isValidDateTime, formatDate, formatTime} from '../../core/collab-dates.js'
 
 const REMINDERS = [
   ['none', 'No reminder'],
@@ -211,17 +211,21 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
     </div>`
   }
 
-  /* Read-only twin of the editor; the form waits behind Edit. */
+  /* Read-only twin of the editor; the form waits behind Edit.  Times are
+     spoken the way the panel header and the calendar speak them — "Thu 15
+     Oct 10:00", never the stored ISO key with its T separator; the editor
+     inputs keep the machine values. */
   function viewMarkup(event) {
     const labelOf = (list, id) => list.find(([value]) => value === id)?.[1] ?? id
     const participantNames = event.participantIds
       .map(id => users.find(user => user.id === id)?.name)
       .filter(Boolean)
+    const stamp = value => (isValidDateTime(value) ? `${formatDate(value)} ${formatTime(value)}` : formatDate(value))
     return `<dl class="${VIEW_LIST_CLASS}">
       ${viewRow('Title', escapeHtml(titleOf(event)))}
       ${viewRow('All day', event.allDay ? 'Yes' : 'No')}
-      ${viewRow('Starts', escapeHtml(event.start))}
-      ${viewRow('Ends', escapeHtml(event.end))}
+      ${viewRow('Starts', escapeHtml(stamp(event.start)))}
+      ${viewRow('Ends', escapeHtml(stamp(event.end)))}
       ${viewRow('Location', escapeHtml(event.location || '—'))}
       ${viewRow('Participants', participantNames.length ? escapeHtml(participantNames.join(', ')) : '—')}
       ${viewRow('Reminder', escapeHtml(labelOf(REMINDERS, event.reminder)))}

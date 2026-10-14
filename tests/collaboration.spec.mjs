@@ -114,6 +114,20 @@ test.describe('notes', () => {
     await expect(page.locator('.notes-view [data-card-open]', {hasText: 'Tagged note'})).toBeVisible()
   })
 
+  test('an emptied quick filter names itself in the empty state', async ({page}) => {
+    await go(page, '/help-screens/notes')
+    // The move-select is Notes' non-drag status path — moving the only
+    // draft empties the Draft quick filter, and the List view's empty
+    // state names the filter instead of a generic phrase.
+    await page.getByLabel('Move Month-end checklist to').selectOption('active')
+    await page.locator('.notes-view [data-view-menu] summary').click()
+    await page.getByRole('menuitemradio', {name: 'List view'}).click()
+    await page.locator('.notes-view [data-quick-menu] summary').click()
+    await page.getByRole('menuitemradio', {name: 'Draft', exact: true}).click()
+    await expect(page.locator('.notes-view [data-collab-body]')).toContainText('No draft notes')
+    await expect(page.locator('.notes-view [data-collab-body]')).not.toContainText('your filters')
+  })
+
   test('search and view survive navigation', async ({page}) => {
     // Enter through the app landing: deep links to inner screens leave the
     // rail panel empty (pre-existing shell behavior, same for Geography).
@@ -296,6 +310,11 @@ test.describe('events', () => {
     await expect(chip).toHaveClass(/fix/)
     await expect(panel(page).locator('[data-panel-description]')).toContainText('10:00')
     await expect(panel(page).locator('[data-panel-description]')).toContainText('Meeting room 2')
+    // Read-only rows speak the same human dates as the header — never the
+    // stored ISO keys with their T separator.
+    await expect(panel(page)).toContainText('Thu 15 Oct 10:00')
+    await expect(panel(page)).toContainText('Thu 15 Oct 11:00')
+    await expect(panel(page)).not.toContainText('2026-10-15T')
   })
 
   test('create timed and all-day events', async ({page}) => {
@@ -410,6 +429,11 @@ test.describe('activities', () => {
     await expect(panel(page).locator('[data-panel-status]')).toHaveText('Planned')
     await expect(panel(page).locator('[data-panel-type]')).toHaveCount(0)
     await expect(panel(page).locator('[data-panel-description]')).toContainText('Call')
+    // Due and scheduled rows are humanized like the cards; the stored ISO
+    // keys stay in the editor inputs behind Edit.
+    await expect(panel(page)).toContainText('Tue 13 Oct')
+    await expect(panel(page)).toContainText('15:00 · 30 min')
+    await expect(panel(page)).not.toContainText('2026-10-13T')
     await page.keyboard.press('Escape')
     // An overdue activity's note line reads in the danger color.
     await page.locator('[data-card-open="act-2"]').click()

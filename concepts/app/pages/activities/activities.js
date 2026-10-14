@@ -45,7 +45,7 @@ import {
   titleOf,
   searchText,
 } from '../../components/collab/meta.js'
-import {addDays, addMinutes, isValidDateTime} from '../../core/collab-dates.js'
+import {addDays, addMinutes, isValidDateTime, formatDate, formatTime} from '../../core/collab-dates.js'
 
 const DURATIONS = [15, 30, 45, 60, 90, 120].map(minutes => [String(minutes), `${minutes} min`])
 const CHIP = 'inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs'
@@ -480,7 +480,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
     const durationLabel = id => DURATIONS.find(([value]) => value === id)?.[1] ?? id
     const assignee = users.find(user => user.id === activity.assigneeId)
     const when = activity.scheduledStart
-      ? `${escapeHtml(activity.scheduledStart.replace('T', ' '))} · ${escapeHtml(durationLabel(String(activity.durationMin || 30)))}`
+      ? `${escapeHtml(formatDate(activity.scheduledStart))} ${escapeHtml(formatTime(activity.scheduledStart))} · ${escapeHtml(durationLabel(String(activity.durationMin || 30)))}`
       : '—'
     return `${actionsMarkup(activity)}<dl class="${VIEW_LIST_CLASS}">
       ${viewRow('Summary', escapeHtml(titleOf(activity)))}
@@ -488,7 +488,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       ${viewRow('Status', `<span class="badge gray">${escapeHtml(statusLabel(activity.status))}</span>`)}
       ${viewRow('Assigned to', escapeHtml(assignee ? `${assignee.name} · ${assignee.role}` : userName(activity.assigneeId)))}
       ${viewRow('Priority', escapeHtml(priorityLabel(activity.priority)))}
-      ${viewRow('Due date', escapeHtml(activity.dueDate || '—'))}
+      ${viewRow('Due date', escapeHtml(activity.dueDate ? formatDate(activity.dueDate) : '—'))}
       ${viewRow('Scheduled', when)}
       ${viewRow('Notes', activity.notes ? `<span class="whitespace-pre-line" dir="auto">${escapeHtml(activity.notes)}</span>` : '—')}
     </dl>`

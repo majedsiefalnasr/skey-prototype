@@ -232,7 +232,16 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
     }
     const rows = state.quick === 'archived' ? notes : notes.filter(note => note.status !== 'archived')
     if (!rows.length) {
-      body.innerHTML = emptyState({iconName: 'i-search', title: filtering ? `No notes match “${state.query.trim() || state.tag || 'your filters'}”` : 'No notes to show', body: 'Clear the search or filters to see every note.'})
+      /* Name the filter that actually emptied the list: the search text,
+         the tag, or the quick filter — never a generic quoted phrase. */
+      const emptyTitle = state.query.trim()
+        ? `No notes match “${state.query.trim()}”`
+        : state.tag
+          ? `No notes match the tag “${state.tag}”`
+          : state.quick !== 'all'
+            ? `No ${(QUICK_FILTERS.find(([id]) => id === state.quick)?.[1] ?? 'matching').toLowerCase()} notes`
+            : 'No notes to show'
+      body.innerHTML = emptyState({iconName: 'i-search', title: emptyTitle, body: 'Clear the search or filters to see every note.'})
       return
     }
     /* The invoices list shell: bordered surface, sticky-header grid, rows
