@@ -148,7 +148,7 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
       ${viewRow('Name (Arabic)', person.nameAr ? `<span dir="rtl" lang="ar">${escapeHtml(person.nameAr)}</span>` : '—')}
       ${viewRow('Job title', escapeHtml(person.jobTitle || '—'))}
       ${viewRow('Company', escapeHtml(person.company || '—'))}
-      ${viewRow('Status', escapeHtml(labelOf(LIFECYCLES, person.lifecycle)))}
+      ${viewRow('Status', `<span class="badge gray">${escapeHtml(labelOf(LIFECYCLES, person.lifecycle))}</span>`)}
       ${viewRow('Address', escapeHtml(location || '—'))}
       ${viewRow(
         'Contacts',

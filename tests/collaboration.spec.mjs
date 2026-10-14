@@ -828,6 +828,12 @@ test.describe('people data', () => {
     await expect(page.locator('.people-view tr', {hasText: 'Khaled Ibrahim'})).toContainText('Converted to Customer')
   })
 
+  test('panel Status is a badge chip like the other collab panels', async ({page}) => {
+    await go(page, '/help-screens/people-data')
+    await page.locator('.people-view [data-row-open]', {hasText: 'Khaled Ibrahim'}).click()
+    await expect(panel(page).locator('dt:text-is("Status") + dd .badge.gray')).toHaveText('Contact')
+  })
+
   test('duplicate warning and simulated conversion leave Customers untouched', async ({page}) => {
     await go(page, '/customers/list')
     const customerRows = await page.locator('.customer-list-view [data-list-open-record]').count()
