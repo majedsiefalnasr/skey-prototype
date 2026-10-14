@@ -228,7 +228,12 @@ test.describe('language selector', () => {
 
     // And choosing from the profile select drives the same selector state.
     // Close the open avatar menu first so it can't cover the select.
+    // Escape is layered: the first press dismisses the open Language
+    // submenu (menu-controller), the second reaches the shell menu.
     const stateAfterDemo = await appLanguageState(page);
+    await page.keyboard.press('Escape');
+    await settle(page);
+    await expect(page.locator(SUBMENU)).toHaveJSProperty('open', false);
     await page.keyboard.press('Escape');
     await settle(page);
     await select.selectOption('es');

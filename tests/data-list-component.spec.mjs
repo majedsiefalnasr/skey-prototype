@@ -365,6 +365,34 @@ test('right-clicking a row opens the row action context menu', async ({page}, te
 });
 
 // ---------------------------------------------------------------------
+// Toolbar data-menu dismissal (menu-controller Escape + outside click)
+// ---------------------------------------------------------------------
+test('toolbar data-menus dismiss with Escape and outside click', async ({page}) => {
+  await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
+  await openSurface(page, 'list');
+  await settle(page);
+
+  const columnsMenu = page
+    .locator('.list-view')
+    .locator('.data-menu')
+    .filter({has: page.locator(':scope > summary', {hasText: /^Columns$/})});
+  const summary = columnsMenu.locator(':scope > summary');
+
+  // Escape closes the popover and returns focus to its summary.
+  await summary.click();
+  await expect(columnsMenu).toHaveJSProperty('open', true);
+  await page.keyboard.press('Escape');
+  await expect(columnsMenu).toHaveJSProperty('open', false);
+  await expect(summary).toBeFocused();
+
+  // A pointer interaction outside the popover closes it too.
+  await summary.click();
+  await expect(columnsMenu).toHaveJSProperty('open', true);
+  await page.locator('.list-view .data-list-toolbar input[type="search"]').click();
+  await expect(columnsMenu).toHaveJSProperty('open', false);
+});
+
+// ---------------------------------------------------------------------
 // Constrained Kanban movement
 // ---------------------------------------------------------------------
 test('kanban drag to a disallowed status opens the blocked dialog instead of moving', async ({

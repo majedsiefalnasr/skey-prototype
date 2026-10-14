@@ -66,8 +66,14 @@ async function openMenu(page) {
 }
 
 async function closeMenu(page) {
-  await page.keyboard.press('Escape');
-  await settle(page);
+  // Escape is layered: an open inner data-menu (Language/Branch submenu)
+  // dismisses first and returns focus to its summary; the next press
+  // reaches the shell .mlist and closes the avatar menu itself.
+  for (let attempt = 0; attempt < 3; attempt++) {
+    await page.keyboard.press('Escape');
+    await settle(page);
+    if (!(await page.locator('.user-pop').evaluate(el => el.classList.contains('open')))) return;
+  }
   await expect(page.locator('.user-pop')).not.toHaveClass(/open/);
 }
 

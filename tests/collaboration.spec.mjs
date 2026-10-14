@@ -380,6 +380,12 @@ test.describe('activities', () => {
     ).toHaveCount(0)
     // The one primary action lives in the page header, not the toolbar.
     await expect(page.locator('.activities-view [data-collab-new]')).toContainText('New activity')
+    // Escape dismisses a toolbar popover and returns focus to its summary.
+    const quickMenu = page.locator('.activities-view [data-quick-menu]')
+    await quickMenu.locator('summary').click()
+    await page.keyboard.press('Escape')
+    await expect(quickMenu).toHaveJSProperty('open', false)
+    await expect(quickMenu.locator('summary')).toBeFocused()
   })
 
   test('quick filter and inline filters narrow the board', async ({page}) => {
