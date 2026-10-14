@@ -355,9 +355,8 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       renderCardActions: cardActionsMarkup,
       titleOf,
       emptyText: 'No activities here.',
-      /* No "Move to" select on an activity card: drag and drop moves it,
-         and the status field in the editor is the keyboard path. */
-      showMove: false,
+      /* Same "Move to" select as the notes board: the non-drag status
+         path for keyboard and touch users; drag keeps working too. */
       onOpen: id => openActivity(id),
       onMove: (id, status) => {
         const activity = store.getEntity('activity', id)

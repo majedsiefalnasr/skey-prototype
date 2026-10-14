@@ -142,6 +142,17 @@ test.describe('notes', () => {
     await expect(page.locator('.notes-view [data-collab-body]')).not.toContainText('your filters')
   })
 
+  test('zero-count columns stay visible under filters', async ({page}) => {
+    await go(page, '/help-screens/notes')
+    await expect(page.locator('.notes-view [data-column]')).toHaveCount(3)
+    await page.locator('.notes-view [data-quick-menu] summary').click()
+    await page.getByRole('menuitemradio', {name: 'Pinned', exact: true}).click()
+    // Documented behavior: filters never hide columns — empty ones keep
+    // their placeholder instead of collapsing away.
+    await expect(page.locator('.notes-view [data-column]')).toHaveCount(3)
+    await expect(page.locator('.notes-view [data-column="draft"]')).toContainText('No matching notes.')
+  })
+
   test('search and view survive navigation', async ({page}) => {
     // Enter through the app landing: deep links to inner screens leave the
     // rail panel empty (pre-existing shell behavior, same for Geography).
@@ -371,6 +382,21 @@ test.describe('activities', () => {
     await page.getByRole('menuitemradio', {name: `${name} view`}).click()
   }
 
+  test('activity move to changes status only', async ({page}) => {
+    await go(page, '/help-screens/activities')
+    const title = 'Call Al Noor about quotation 884'
+    const before = await card(page, title).textContent()
+    await page.getByLabel(`Move ${title} to`).selectOption('in_progress')
+    await expect(page.locator('.activities-view [data-column="in_progress"]')).toContainText(title)
+    await expect(page.locator('.toast')).toContainText('Moved to In progress')
+    // The card's status chip flips; every other part of the card is
+    // byte-identical — a status change touches nothing else.
+    const stripStatus = text => text.replace(/^(Planned|In progress|Done|Cancelled)/, '')
+    const after = await card(page, title).textContent()
+    expect(after.startsWith('In progress')).toBe(true)
+    expect(stripStatus(after)).toBe(stripStatus(before))
+  })
+
   test('activities expose Kanban and Calendar behind a view menu', async ({page}) => {
     await go(page, '/help-screens/activities')
     const menu = page.locator('.activities-view [data-view-menu]')
@@ -379,9 +405,9 @@ test.describe('activities', () => {
     await expect(menu.getByRole('menuitemradio')).toHaveText(['Kanban view', 'Calendar view'])
     await expect(menu.getByRole('menuitemradio', {name: 'Kanban view'})).toHaveAttribute('aria-checked', 'true')
     await expect(page.locator('.activities-view [data-column]')).toHaveCount(3)
-    // An activity's status lives in its editor — the cards carry no
-    // "Move to" select; drag and drop moves them on the board.
-    await expect(page.locator('.activities-view [data-move]')).toHaveCount(0)
+    // Same accessible "Move to" select as the notes board — the non-drag
+    // path; drag and drop still works on top of it.
+    await expect(page.locator('.activities-view [data-move]').first()).toBeVisible()
     // The toolbar is the invoices-style row: a quick-filter menu, an inline
     // "+ Filter" menu, search — and none of the old tab-strip chrome.
     await expect(page.locator('.activities-view [data-quick-menu] summary')).toContainText('All activities')
