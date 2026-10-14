@@ -100,7 +100,7 @@ test('inner screens and shell screens deep-link to their views', async ({page}) 
     ['/sales-systems-management/sales-invoices', '.list-view'],
     ['/customers/list', '.customer-list-view'],
     ['/system-setup/geographical-structure', '.geo-list-view'],
-    ['/system/email', '.email-view'],
+    ['/help-screens/email', '.email-view'],
     ['/system/profile', '.profile-view'],
     ['/system/organization', '.organization-view'],
   ];

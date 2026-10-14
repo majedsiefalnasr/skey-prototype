@@ -256,4 +256,19 @@
     color: var(--muted);
     font-size: 12px;
   }
+
+  /* ---- collaboration scroll (pages/{activities,events}) ----
+     On the collaboration pages the phead, toolbar and card/section chrome
+     already sit outside the single scrolling body ([data-collab-body]), so
+     they never move. What still scrolled away was the period toolbar drawn
+     *inside* that body: pin it so the period controls stay reachable while
+     the calendar scrolls, without a second nested scrollbar. The month
+     weekday row is not pinned — with the toolbar living outside the body on
+     the events page its sticky offset put week content above the stuck row. */
+  .collab-view [data-collab-body] [data-cal-toolbar] {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: var(--surface);
+  }
 }

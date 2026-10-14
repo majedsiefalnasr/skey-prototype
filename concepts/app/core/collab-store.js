@@ -1,8 +1,9 @@
 // Collaboration store — the single source of truth for Notes, Activities,
 // Events, Internal Mail and People Data plus the undirected links table
-// between them. Pure: no DOM, no page imports. Fixtures, the storage
-// object and the demo clock are injected by main.js. Every read returns a
-// copy, so callers can never mutate state behind the store's back.
+// between them, and for the user's custom mail folders. Pure: no DOM, no
+// page imports. Fixtures, the storage object and the demo clock are injected
+// by main.js. Every read returns a copy, so callers can never mutate state
+// behind the store's back.
 import {isValidDateTime} from './collab-dates.js'
 
 export const COLLAB_STORAGE_KEY = 'skey-proto-collab'
@@ -22,6 +23,7 @@ export function createCollabStore({storage, seed, now}) {
     seq: 1000,
     entities: Object.fromEntries(ENTITY_TYPES.map(type => [type, copy(seed.entities[type] || [])])),
     links: copy(seed.links || []),
+    folders: [],
   })
   const isUsable = saved =>
     saved?.version === COLLAB_SCHEMA_VERSION &&
@@ -30,7 +32,15 @@ export function createCollabStore({storage, seed, now}) {
   const load = () => {
     try {
       const saved = JSON.parse(storage?.getItem(COLLAB_STORAGE_KEY) ?? 'null')
-      if (isUsable(saved)) return saved
+      if (isUsable(saved)) {
+        /* `folders` arrived after the v1 schema: same version, older shape.
+           Normalize instead of bumping the version, so one persisted state
+           keeps working across the upgrade. */
+        if (!Array.isArray(saved.folders)) saved.folders = []
+        saved.folders = saved.folders.filter(folder => folder?.id && typeof folder.name === 'string')
+        if (typeof saved.seq !== 'number') saved.seq = 1000
+        return saved
+      }
     } catch {
       /* corrupt or unavailable storage: fall back to the seed */
     }
@@ -48,10 +58,69 @@ export function createCollabStore({storage, seed, now}) {
   }
   const find = (type, id) => state.entities[type]?.find(entity => entity.id === id) ?? null
 
+  /* Folder names are compared trimmed and case-insensitively, against both
+     the caller's reserved names (the system mailboxes) and the folders that
+     already exist, so "Inbox" and "inbox" can never both appear. */
+  const folderNameError = (name, id, reserved) => {
+    const clean = String(name ?? '').trim()
+    if (!clean) return 'empty'
+    if (clean.length > 40) return 'too-long'
+    const taken = new Set(reserved.map(value => String(value).trim().toLowerCase()))
+    state.folders.forEach(folder => {
+      if (folder.id !== id) taken.add(folder.name.trim().toLowerCase())
+    })
+    return taken.has(clean.toLowerCase()) ? 'duplicate' : null
+  }
+
   return {
     now,
     getEntity: (type, id) => copy(find(type, id)),
     listEntities: (type, filter = () => true) => copy((state.entities[type] || []).filter(filter)),
+    /** User-created mail folders: {id, name, createdAt}. The system
+     *  mailboxes (Inbox/Sent/…) are not stored here — they are the
+     *  constant list the mail screen owns. */
+    listFolders: () => copy(state.folders),
+    createFolder(name, {reserved = []} = {}) {
+      const error = folderNameError(name, null, reserved)
+      if (error) return {error}
+      const folder = {id: `fld-${++state.seq}`, name: String(name).trim(), createdAt: now()}
+      state.folders.push(folder)
+      commit()
+      return {folder: copy(folder)}
+    },
+    renameFolder(id, name, {reserved = []} = {}) {
+      const folder = state.folders.find(entry => entry.id === id)
+      if (!folder) return {error: 'missing'}
+      const error = folderNameError(name, id, reserved)
+      if (error) return {error}
+      folder.name = String(name).trim()
+      commit()
+      return {folder: copy(folder)}
+    },
+    /** Removes the folder and files its messages in Inbox — a message must
+     *  never be left pointing at a folder that no longer exists (nor at one
+     *  it would be restored back into). Returns how many moved. */
+    deleteFolder(id) {
+      const before = state.folders.length
+      state.folders = state.folders.filter(folder => folder.id !== id)
+      if (state.folders.length === before) return {removed: false, moved: 0}
+      let moved = 0
+      for (const mail of state.entities.mail) {
+        let touched = false
+        if (mail.previousFolder === id) {
+          mail.previousFolder = null
+          touched = true
+        }
+        if (mail.folder === id) {
+          mail.folder = 'inbox'
+          moved++
+          touched = true
+        }
+        if (touched) mail.updatedAt = now()
+      }
+      commit()
+      return {removed: true, moved}
+    },
     createEntity(type, data) {
       const stamp = now()
       const entity = {...copy(data), id: `${ID_PREFIX[type]}-${++state.seq}`, type, createdAt: stamp, updatedAt: stamp}

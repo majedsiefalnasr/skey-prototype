@@ -19,6 +19,9 @@ const typeBadge = type =>
 
 export function createRelatedItems({store, toast, currentUserId, openItem}) {
   const todayKey = () => store.now().slice(0, 10)
+  /** Summary line with the store's custom mail folders, so a linked message
+   *  filed in a folder the user created reports its name, not its id. */
+  const metaOf = entity => metaLine(entity, {todayKey: todayKey(), folders: store.listFolders()})
 
   /** Defaults for "Create related": minimal, so the relationship exists
    *  before the user edits anything. */
@@ -34,7 +37,9 @@ export function createRelatedItems({store, toast, currentUserId, openItem}) {
     const created = store.createEntity(type, defaultsFor(type))
     store.link(sourceRef, {type, id: created.id})
     toast({tone: 'ok', title: `${TYPE_META[type].label} created and linked`, body: titleOf(created)})
-    openItem({type, id: created.id})
+    /* Opened with edit: the record was just created here — the form is the
+       point, not the new read-only view. */
+    openItem({type, id: created.id}, {edit: true})
   }
 
   function sortedRelated(ref) {
@@ -58,7 +63,7 @@ export function createRelatedItems({store, toast, currentUserId, openItem}) {
     return `<li class="${ROW_CLASS}" data-related-row data-type="${ref.type}">
       <button type="button" class="${OPEN_CLASS}" data-related-open="${index}" aria-label="Open ${escapeHtml(TYPE_META[ref.type].label)}: ${escapeHtml(title)}">
         ${typeBadge(ref.type)}
-        <span class="min-w-0"><span class="rel-title block text-[13px] font-medium text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(title)}</span><span class="block text-xs text-muted">${escapeHtml(metaLine(entity, {todayKey: todayKey()}))}</span></span>
+        <span class="min-w-0"><span class="rel-title block text-[13px] font-medium text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(title)}</span><span class="block text-xs text-muted">${escapeHtml(metaOf(entity))}</span></span>
       </button>
       <button type="button" class="ibtn" data-related-remove="${index}" aria-label="Remove link to ${escapeHtml(title)}">${icon('i-x')}</button>
     </li>`
@@ -181,7 +186,7 @@ export function createRelatedItems({store, toast, currentUserId, openItem}) {
         ? options
             .map((entity, index) => {
               const title = titleOf(entity)
-              const meta = metaLine(entity, {todayKey: todayKey()})
+              const meta = metaOf(entity)
               return `<li role="option" id="collab-picker-option-${index}" data-index="${index}" aria-selected="${index === active}" aria-label="${escapeHtml(`${TYPE_META[entity.type].label} ${title}, ${meta}`)}" class="flex cursor-pointer items-start gap-2 rounded-md px-2 py-2 hover:bg-[var(--line-2)] aria-selected:bg-[var(--accent-soft)]">${typeBadge(entity.type)}<span class="min-w-0"><span class="block text-[13px] font-medium text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(title)}</span><span class="block text-xs text-muted">${escapeHtml(meta)}</span></span></li>`
             })
             .join('')

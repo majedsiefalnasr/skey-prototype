@@ -157,3 +157,66 @@ test('person duplicates match normalized phone, email, or name', async () => {
   assert.deepEqual(fields({id: 'per-1', nameEn: 'Ahmed Ali', contacts: []}), [])
   assert.deepEqual(fields({id: 'new', nameEn: '', contacts: [{kind: 'mobile', value: '12'}]}), [])
 })
+
+test('custom folders are created, validated and renamed in place', () => {
+  const store = make()
+  assert.deepEqual(store.listFolders(), [])
+
+  const created = store.createFolder('  Clients  ', {reserved: ['Inbox', 'Sent']})
+  assert.equal(created.error, undefined)
+  assert.equal(created.folder.name, 'Clients')
+  assert.match(created.folder.id, /^fld-\d+$/)
+  assert.equal(created.folder.createdAt, '2026-10-13T13:24')
+
+  // every read is a copy: mutating outside cannot touch store state
+  created.folder.name = 'mutated'
+  assert.equal(store.listFolders()[0].name, 'Clients')
+
+  assert.equal(store.createFolder('   ', {reserved: []}).error, 'empty')
+  assert.equal(store.createFolder('x'.repeat(41)).error, 'too-long')
+  assert.equal(store.createFolder('INBOX', {reserved: ['Inbox']}).error, 'duplicate')
+  assert.equal(store.createFolder(' clients').error, 'duplicate')
+  assert.equal(store.createFolder('Other', {reserved: ['Inbox']}).error, undefined)
+
+  const id = store.listFolders()[0].id
+  const renamed = store.renameFolder(id, ' Key accounts ', {reserved: ['Inbox']})
+  assert.equal(renamed.error, undefined)
+  assert.equal(renamed.folder.name, 'Key accounts')
+  assert.equal(store.renameFolder('fld-999', 'x').error, 'missing')
+  assert.equal(store.renameFolder(id, 'Sent', {reserved: ['Sent']}).error, 'duplicate')
+  assert.equal(store.renameFolder(id, 'key ACCOUNTS', {reserved: ['Sent']}).error, undefined)
+  assert.deepEqual(store.listFolders().map(folder => folder.name), ['key ACCOUNTS', 'Other'])
+})
+
+test('deleteFolder files its messages in Inbox and clears restore points', () => {
+  const store = make()
+  const {folder} = store.createFolder('Clients')
+  const filed = store.createEntity('mail', {subject: 'Filed', folder: folder.id})
+  const restored = store.createEntity('mail', {subject: 'Back', folder: 'inbox', previousFolder: folder.id})
+  const untouched = store.createEntity('mail', {subject: 'Elsewhere', folder: 'archive'})
+
+  assert.deepEqual(store.deleteFolder('fld-nope'), {removed: false, moved: 0})
+  assert.equal(store.listFolders().length, 1)
+
+  const {removed, moved} = store.deleteFolder(folder.id)
+  assert.equal(removed, true)
+  assert.equal(moved, 1)
+  assert.deepEqual(store.listFolders(), [])
+  assert.equal(store.getEntity('mail', filed.id).folder, 'inbox')
+  assert.equal(store.getEntity('mail', filed.id).updatedAt, '2026-10-13T13:24')
+  assert.equal(store.getEntity('mail', restored.id).folder, 'inbox')
+  assert.equal(store.getEntity('mail', restored.id).previousFolder, null)
+  assert.equal(store.getEntity('mail', untouched.id).folder, 'archive')
+})
+
+test('a saved state from before folders still loads without a version bump', () => {
+  const old = {
+    version: COLLAB_SCHEMA_VERSION,
+    entities: Object.fromEntries(['note', 'activity', 'event', 'mail', 'person'].map(type => [type, []])),
+    links: [],
+    folders: [{id: 'fld-1', name: 'Kept'}, null, {name: 'No id'}, {id: 'fld-2', name: 7}],
+  }
+  const store = make(memoryStorage({[COLLAB_STORAGE_KEY]: JSON.stringify(old)}))
+  assert.deepEqual(store.listFolders(), [{id: 'fld-1', name: 'Kept'}])
+  assert.match(store.createFolder('New').folder.id, /^fld-\d+$/)
+})

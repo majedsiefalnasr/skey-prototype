@@ -49,7 +49,9 @@ export function createConfirm() {
     dialog.querySelector('#collab-confirm-title').textContent = title
     dialog.querySelector('#collab-confirm-body').textContent = body
     ok.textContent = confirmLabel
-    ok.classList.toggle('dan', tone === 'danger')
+    /* The shared popup shell tones itself from the .dlg's data-tone: a
+       danger confirm repaints its border and the primary button. */
+    box.dataset.tone = tone === 'danger' ? 'danger' : 'default'
     const returnTo = document.activeElement
     dialog.classList.add('open')
     ok.focus()
@@ -87,17 +89,26 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm}) {
   const panel = document.getElementById('collab-panel')
   const scrim = document.getElementById('collab-panel-scrim')
   if (!panel || !scrim) throw new Error('collab panel markup missing')
-  const typeBadge = panel.querySelector('[data-panel-type]')
+  const statusBadge = panel.querySelector('[data-panel-status]')
   const titleEl = panel.querySelector('#collab-panel-title')
+  const descriptionEl = panel.querySelector('[data-panel-description]')
   const body = panel.querySelector('[data-panel-body]')
   const relatedHost = panel.querySelector('[data-panel-related]')
   const form = panel.querySelector('[data-panel-form]')
+  const footer = panel.querySelector('[data-panel-footer]')
+  const editButton = panel.querySelector('[data-panel-edit]')
   const menuButton = panel.querySelector('[data-panel-menu]')
   const menuList = panel.querySelector('[data-panel-menu-list]')
   const menuWrap = panel.querySelector('[data-panel-menu-wrap]')
 
   let current = null
   let snapshot = ''
+  /* An existing record opens read-only (mode 'view') when the page supplied
+     a view renderer; a new record — or a freshly created one the caller
+     opens with `edit: true` — goes straight to the form. Edit flips the
+     body to the form; Cancel from there returns to the read-only view
+     instead of closing, so browsing a record never risks its edits. */
+  let mode = 'edit'
 
   const closeMenu = () => {
     menuList.classList.remove('open')
@@ -125,29 +136,55 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm}) {
     current?.related?.(relatedHost)
   }
 
+  /** Paint the body for the current mode: the read-only view when one
+   *  exists and the record does, the editor otherwise. The footer only
+   *  belongs to the editor; view mode swaps it for the header's Edit. */
+  function applyMode() {
+    const viewing = mode === 'view'
+    editButton.hidden = !viewing
+    footer.hidden = viewing
+    body.innerHTML = ''
+    ;(viewing ? current.view : current.render)(body)
+    snapshot = formSnapshot(body)
+    ;(body.querySelector('[autofocus]') || body.querySelector(FOCUSABLE) || panel).focus()
+  }
+
   /**
-   * @param {{ref?: {type: string, id: string}, typeLabel: string, typeIcon: string,
-   *   title: string, render: (body: HTMLElement) => void,
+   * @param {{ref?: {type: string, id: string},
+   *   status?: {label: string, tone?: 'gray'|'fix'|'ok'|'warn'|'danger'},
+   *   title: string, description?: string, descriptionTone?: 'danger',
+   *   render: (body: HTMLElement) => void,
+   *   view?: (body: HTMLElement) => void, edit?: boolean,
    *   save: (body: HTMLElement) => boolean, menu?: {label: string, run: () => void, danger?: boolean, icon?: string}[],
    *   related?: (host: HTMLElement) => void, saveLabel?: string}} options
    */
   function open(options) {
     const wasOpen = Boolean(current)
     current = {menu: [], ...options}
-    typeBadge.className = 'badge gray inline-flex shrink-0 items-center gap-1.5'
-    typeBadge.innerHTML = `${icon(current.typeIcon, 12)}<span>${escapeHtml(current.typeLabel)}</span>`
+    /* The header carries a status chip and a note line — no type badge:
+       the record's own title already says what kind of thing it is. */
+    statusBadge.className = `badge ${current.status?.tone || 'gray'}`
+    statusBadge.textContent = current.status?.label || ''
+    statusBadge.hidden = !current.status
     titleEl.textContent = current.title
+    descriptionEl.textContent = current.description || ''
+    descriptionEl.hidden = !current.description
+    descriptionEl.classList.toggle('text-[color:var(--danger)]', current.descriptionTone === 'danger')
     panel.querySelector('[data-panel-save]').textContent = current.saveLabel || 'Save'
-    body.innerHTML = ''
-    current.render(body)
+    /* Existing records open read-only when the page supplied a view
+       renderer; new records — and freshly created ones the caller opens
+       right away with `edit: true` — go straight to the form. */
+    mode = current.view && current.ref && !current.edit ? 'view' : 'edit'
+    /* Show the panel before painting the body: focusing [autofocus] only
+       works once the panel is on screen, and Escape (bound to the panel)
+       needs focus inside it. */
+    panel.classList.add('open')
+    scrim.classList.add('open')
+    applyMode()
     renderMenu(current.menu)
     closeMenu()
     renderRelated()
-    snapshot = formSnapshot(body)
-    panel.classList.add('open')
-    scrim.classList.add('open')
     if (!wasOpen) trapFocus(panel)
-    ;(body.querySelector('[autofocus]') || body.querySelector(FOCUSABLE) || panel).focus()
   }
 
   async function close({force = false} = {}) {
@@ -182,7 +219,21 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm}) {
       close({force: true})
     }
   })
-  panel.querySelector('[data-panel-cancel]').addEventListener('click', () => close())
+  editButton.addEventListener('click', () => {
+    if (!current || mode !== 'view') return
+    mode = 'edit'
+    applyMode()
+  })
+  panel.querySelector('[data-panel-cancel]').addEventListener('click', () => {
+    /* Cancel inside the editor of an existing record returns to its
+       read-only view — the panel only closes from the view itself. */
+    if (current?.view && current?.ref && mode === 'edit') {
+      mode = 'view'
+      applyMode()
+      return
+    }
+    close()
+  })
   panel.querySelector('[data-panel-close]').addEventListener('click', () => close())
   scrim.addEventListener('click', () => close())
   menuButton.addEventListener('click', () => (menuList.classList.contains('open') ? closeMenu() : openMenu()))

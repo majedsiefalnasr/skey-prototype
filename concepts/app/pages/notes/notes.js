@@ -1,8 +1,9 @@
-// Notes — Kanban (Draft / Active / Archived) and List views over the
-// collaboration store. Notes carry no dates, priority or assignee: work
-// with an owner and a due date is an Activity, reachable through
-// "Create related". Page state (view, search, filters) lives here and
-// survives navigating away and back.
+// Notes — Kanban (Draft / Active / Archived) and a List view over the
+// collaboration store, with the invoices list chrome: a quick-filter menu,
+// a "+ Filter" menu with an inline chip, search, and a change-view menu.
+// Notes carry no dates, priority or assignee: work with an owner and a
+// due date is an Activity, reachable through "Create related". Page state
+// (view, search, filters) lives here and survives navigating away and back.
 import {
   escapeHtml,
   icon,
@@ -10,28 +11,54 @@ import {
   textInput,
   textarea,
   selectInput,
-  checkbox,
+  switchInput,
   setFieldError,
-  searchBox,
-  toolbarSelect,
-  toolbarToggle,
-  segmented,
   emptyState,
   GRID_CLASS,
   CHIP_CLASS,
-  TABLE_CLASS,
   ROW_BUTTON_CLASS,
+  VIEW_LIST_CLASS,
+  viewRow,
 } from '../../components/collab/fields.js'
+import {
+  menuItemRadio,
+  menuGroupLabel,
+  menuDetails,
+  filterChip,
+  clearFilterButton,
+  searchField,
+  viewMenu,
+  toolbarRow,
+  closeOwnedMenu,
+} from '../../components/collab/list-toolbar.js'
 import {renderBoard} from '../../components/collab/kanban.js'
-import {NOTE_STATUSES, TYPE_META, noteStatusLabel, titleOf, searchText} from '../../components/collab/meta.js'
+import {NOTE_STATUSES, noteStatusLabel, titleOf, searchText} from '../../components/collab/meta.js'
 import {formatDate, relativeDay} from '../../core/collab-dates.js'
 
 const parseTags = value =>
   [...new Set(String(value).split(',').map(tag => tag.trim()).filter(Boolean))]
 
+/* The change-view menu's entries. Notes have no calendar: the two views
+   are the board and the invoices-style table. */
+const VIEW_PRESENTATION = {
+  kanban: {label: 'Kanban', icon: 'i-board'},
+  list: {label: 'List', icon: 'i-list'},
+}
+const QUICK_FILTERS = [
+  ['all', 'All notes', 'i-doc'],
+  ['pinned', 'Pinned', 'i-spark'],
+  ['draft', 'Draft', 'i-clock'],
+  ['active', 'Active', 'i-check'],
+  ['archived', 'Archived', 'i-archive'],
+]
+/* The invoices list table, same classes as renderDataList emits — the
+   shell, the scroll box and the bordered sticky-header grid. */
+const INV_GRID_CLASS =
+  'inv-grid w-full [border-collapse:collapse] [font-size:13px] [&_th]:text-start [&_th]:[padding:8px_12px] [&_th]:text-muted [&_th]:font-medium [&_th]:[border-bottom:1px_solid_var(--line)] [&_th]:whitespace-nowrap [&_th]:sticky [&_th]:top-0 [&_th]:z-[3] [&_td]:[padding:8px_12px] [&_td]:[border-bottom:1px_solid_var(--line-2)] [&_td]:text-ink [&_td]:whitespace-nowrap [&_td]:[text-overflow:ellipsis] [&_td]:overflow-hidden [&_td]:[max-width:200px] [&_tbody_tr:hover]:[background:var(--hover-overlay)] [&_tbody_tr:hover]:[cursor:pointer]'
+
 export function createNotes({store, toast, panel, related, confirm, goHome}) {
   const view = () => document.querySelector('.notes-view')
-  const state = {view: 'kanban', query: '', tag: '', pinnedOnly: false, showArchived: false, sort: 'updated', archivedOpen: false}
+  const state = {view: 'kanban', query: '', quick: 'all', tag: '', sortKey: 'updated', sortDir: 'desc', archivedOpen: false}
   let built = false
   let unsubscribe = null
 
@@ -42,13 +69,21 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
     const query = state.query.trim().toLowerCase()
     return store
       .listEntities('note')
+      .filter(note =>
+        state.quick === 'pinned'
+          ? note.pinned
+          : state.quick === 'archived'
+            ? note.status === 'archived'
+            : state.quick === 'draft' || state.quick === 'active'
+              ? note.status === state.quick
+              : true
+      )
       .filter(note => !query || searchText(note).includes(query))
       .filter(note => !state.tag || (note.tags || []).includes(state.tag))
-      .filter(note => !state.pinnedOnly || note.pinned)
       .sort((a, b) =>
-        state.sort === 'title'
-          ? titleOf(a).localeCompare(titleOf(b))
-          : Number(b.pinned) - Number(a.pinned) || b.updatedAt.localeCompare(a.updatedAt)
+        state.sortKey === 'title'
+          ? titleOf(a).localeCompare(titleOf(b)) * (state.sortDir === 'asc' ? 1 : -1) || b.updatedAt.localeCompare(a.updatedAt)
+          : b.updatedAt.localeCompare(a.updatedAt) * (state.sortDir === 'asc' ? -1 : 1)
       )
   }
 
@@ -69,57 +104,104 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
       </span>`
   }
 
+  /** Applied field filters, inline as removable chips like the invoices
+   *  list — the quick filter is already named by its own menu. */
+  const filterChips = () =>
+    (state.tag ? [filterChip({attr: 'filter-remove', value: 'tag', label: `Tag: ${state.tag}`})] : []).join('')
+
   function buildToolbar() {
     const host = view().querySelector('[data-collab-toolbar]')
     const tags = [...new Set(store.listEntities('note').flatMap(note => note.tags || []))].sort()
-    host.innerHTML = `${searchBox({id: 'notes-search', label: 'Search notes', value: state.query})}
-      ${toolbarSelect({id: 'notes-tag', label: 'Tag', value: state.tag, options: [['', 'All tags'], ...tags.map(tag => [tag, tag])]})}
-      ${toolbarToggle({id: 'notes-pinned', label: 'Pinned only', checked: state.pinnedOnly})}
-      <span data-list-only class="contents">
-        ${toolbarSelect({id: 'notes-sort', label: 'Sort', value: state.sort, options: [['updated', 'Recently updated'], ['title', 'Title A–Z']]})}
-        ${toolbarToggle({id: 'notes-archived', label: 'Show archived', checked: state.showArchived})}
-      </span>
-      <span class="ms-auto">${segmented({label: 'View', views: [['kanban', 'Kanban'], ['list', 'List']], current: state.view})}</span>`
-    host.querySelector('#notes-search').addEventListener('input', event => {
-      state.query = event.target.value
+    /* The invoices list chrome: quick filter and "+ Filter" with an inline
+       chip on the left, search and the view menu on the right. Sorting is
+       done by the table's own headers, like the invoices grid. */
+    const quick = QUICK_FILTERS.find(([id]) => id === state.quick) || QUICK_FILTERS[0]
+    const quickItems = QUICK_FILTERS.map(([id, label, iconName]) =>
+      menuItemRadio({attr: 'quick-filter', value: id, label, iconName, checked: state.quick === id})
+    ).join('')
+    const filterItems = `${menuGroupLabel('Tag')}${menuItemRadio({
+      attr: 'filter-tag',
+      value: '',
+      label: 'All tags',
+      checked: !state.tag,
+    })}${tags.map(tag => menuItemRadio({attr: 'filter-tag', value: tag, label: tag, checked: state.tag === tag})).join('')}`
+    const presentation = VIEW_PRESENTATION[state.view]
+    const viewOptions = Object.entries(VIEW_PRESENTATION)
+      .map(([id, entry]) =>
+        menuItemRadio({attr: 'view-select', value: id, label: `${entry.label} view`, iconName: entry.icon, checked: state.view === id})
+      )
+      .join('')
+    host.innerHTML = `<div class="data-list-controls grid gap-2 mb-2.5">${toolbarRow({
+      ariaLabel: 'Notes table controls',
+      left: `${menuDetails({attr: 'quick-menu', iconName: quick[2], label: quick[1], items: quickItems})}${menuDetails({
+        attr: 'filter-menu',
+        iconName: 'i-plus',
+        label: 'Filter',
+        items: filterItems,
+      })}${filterChips()}${state.tag || state.quick !== 'all' ? clearFilterButton({attr: 'clear-filters'}) : ''}`,
+      right: `${searchField({attr: 'collab-search', label: 'notes', value: state.query})}${viewMenu({
+        attr: 'view-menu',
+        label: presentation.label,
+        iconName: presentation.icon,
+        options: viewOptions,
+      })}`,
+    })}</div>`
+    const refresh = () => {
+      buildToolbar()
       renderBody()
-    })
-    host.querySelector('#notes-tag').addEventListener('change', event => {
-      state.tag = event.target.value
-      renderBody()
-    })
-    host.querySelector('#notes-pinned').addEventListener('change', event => {
-      state.pinnedOnly = event.target.checked
-      renderBody()
-    })
-    host.querySelector('#notes-sort').addEventListener('change', event => {
-      state.sort = event.target.value
-      renderBody()
-    })
-    host.querySelector('#notes-archived').addEventListener('change', event => {
-      state.showArchived = event.target.checked
-      renderBody()
-    })
-    host.querySelectorAll('[data-view-switch] button').forEach(button =>
-      button.addEventListener('click', () => {
-        state.view = button.dataset.value
-        host.querySelectorAll('[data-view-switch] button').forEach(b => b.setAttribute('aria-pressed', String(b === button)))
-        syncToolbar()
-        renderBody()
+    }
+    host.querySelectorAll('[data-quick-filter]').forEach(item =>
+      item.addEventListener('click', event => {
+        state.quick = item.dataset.quickFilter
+        closeOwnedMenu(event.currentTarget)
+        refresh()
       })
     )
-    syncToolbar()
-  }
-
-  function syncToolbar() {
-    const listOnly = view().querySelector('[data-list-only]')
-    if (listOnly) listOnly.hidden = state.view !== 'list'
+    host.querySelectorAll('[data-filter-tag]').forEach(item =>
+      item.addEventListener('click', event => {
+        state.tag = item.dataset.filterTag
+        closeOwnedMenu(event.currentTarget)
+        refresh()
+      })
+    )
+    host.querySelectorAll('[data-filter-remove]').forEach(item =>
+      item.addEventListener('click', () => {
+        if (item.dataset.filterRemove === 'tag') state.tag = ''
+        refresh()
+      })
+    )
+    host.querySelector('[data-clear-filters]')?.addEventListener('click', () => {
+      state.quick = 'all'
+      state.tag = ''
+      refresh()
+    })
+    const search = host.querySelector('[data-collab-search]')
+    const searchClear = host.querySelector('[data-collab-search-clear]')
+    search.addEventListener('input', event => {
+      state.query = event.target.value
+      searchClear.hidden = !state.query
+      renderBody()
+    })
+    searchClear.addEventListener('click', () => {
+      state.query = ''
+      search.value = ''
+      searchClear.hidden = true
+      renderBody()
+      search.focus()
+    })
+    host.querySelectorAll('[data-view-select]').forEach(item =>
+      item.addEventListener('click', event => {
+        state.view = item.dataset.viewSelect
+        closeOwnedMenu(event.currentTarget)
+        refresh()
+      })
+    )
   }
 
   function renderBody() {
     const body = view().querySelector('[data-collab-body]')
     const notes = filtered()
-    const filtering = Boolean(state.query.trim() || state.tag || state.pinnedOnly)
+    const filtering = Boolean(state.query.trim() || state.tag || state.quick !== 'all')
     if (!store.listEntities('note').length) {
       body.innerHTML = emptyState({iconName: 'i-doc', title: 'No notes yet', body: 'Capture one with New note — only a title is needed.'})
       return
@@ -148,25 +230,57 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
       })
       return
     }
-    const rows = notes.filter(note => state.showArchived || note.status !== 'archived')
+    const rows = state.quick === 'archived' ? notes : notes.filter(note => note.status !== 'archived')
     if (!rows.length) {
       body.innerHTML = emptyState({iconName: 'i-search', title: filtering ? `No notes match “${state.query.trim() || state.tag || 'your filters'}”` : 'No notes to show', body: 'Clear the search or filters to see every note.'})
       return
     }
-    body.innerHTML = `<table class="${TABLE_CLASS}">
-      <thead><tr><th scope="col">Title</th><th scope="col">Status</th><th scope="col">Tags</th><th scope="col">Related</th><th scope="col">Updated</th></tr></thead>
-      <tbody>${rows
-        .map(
-          note => `<tr>
-          <td><button type="button" class="${ROW_BUTTON_CLASS}" data-row-open="${escapeHtml(note.id)}" dir="auto">${note.pinned ? `${icon('i-spark', 11)} <span class="sr-only">Pinned. </span>` : ''}${escapeHtml(titleOf(note))}</button></td>
-          <td><span class="badge gray">${escapeHtml(noteStatusLabel(note.status))}</span></td>
-          <td>${(note.tags || []).map(tag => `<span class="${CHIP_CLASS}">${escapeHtml(tag)}</span>`).join(' ')}</td>
-          <td>${relatedCount(note)}</td>
-          <td>${escapeHtml(updatedLabel(note))}</td>
-        </tr>`
-        )
-        .join('')}</tbody></table>`
-    body.querySelectorAll('[data-row-open]').forEach(button => button.addEventListener('click', () => openNote(button.dataset.rowOpen)))
+    /* The invoices list shell: bordered surface, sticky-header grid, rows
+       that open the note like the invoice list opens an invoice. Title and
+       Updated sort through their own headers — the invoices pattern — so
+       the toolbar carries no sort select. */
+    const header = (key, label) => {
+      const active = state.sortKey === key
+      return `<th scope="col" aria-sort="${active ? (state.sortDir === 'asc' ? 'ascending' : 'descending') : 'none'}">
+        <button type="button" class="inline-flex items-center gap-1 border-0 bg-transparent p-0 text-start font-[inherit] font-medium text-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]" data-sort="${key}">${escapeHtml(
+          label
+        )}<span class="${active && state.sortDir === 'asc' ? 'rotate-180' : ''}">${icon('i-caret', 11)}</span></button>
+      </th>`
+    }
+    body.innerHTML = `<div class="data-list-shell relative overflow-visible rounded-lg border border-line bg-surface [box-shadow:var(--shadow-1)]">
+      <div class="data-table-scroll overflow-auto rounded-[inherit] max-w-full max-h-[max(280px,calc(100dvh-360px))]">
+        <table class="${INV_GRID_CLASS}" data-notes-grid>
+          <thead><tr>${header('title', 'Title')}<th scope="col">Status</th><th scope="col">Tags</th><th scope="col">Related</th>${header('updated', 'Updated')}</tr></thead>
+          <tbody>${rows
+            .map(
+              note => `<tr data-row-id="${escapeHtml(note.id)}">
+            <td><button type="button" class="${ROW_BUTTON_CLASS}" data-row-open="${escapeHtml(note.id)}" dir="auto">${note.pinned ? `${icon('i-spark', 11)} <span class="sr-only">Pinned. </span>` : ''}${escapeHtml(titleOf(note))}</button></td>
+            <td><span class="badge gray">${escapeHtml(noteStatusLabel(note.status))}</span></td>
+            <td>${(note.tags || []).map(tag => `<span class="${CHIP_CLASS}">${escapeHtml(tag)}</span>`).join(' ')}</td>
+            <td>${relatedCount(note)}</td>
+            <td>${escapeHtml(updatedLabel(note))}</td>
+          </tr>`
+            )
+            .join('')}</tbody>
+        </table>
+      </div>
+    </div>`
+    body.querySelectorAll('tbody tr[data-row-id]').forEach(row =>
+      row.addEventListener('click', () => openNote(row.dataset.rowId))
+    )
+    body.querySelectorAll('[data-sort]').forEach(button =>
+      button.addEventListener('click', event => {
+        event.stopPropagation()
+        const key = button.dataset.sort
+        if (state.sortKey === key) state.sortDir = state.sortDir === 'asc' ? 'desc' : 'asc'
+        else {
+          state.sortKey = key
+          state.sortDir = key === 'title' ? 'asc' : 'desc'
+        }
+        renderBody()
+        view().querySelector(`[data-collab-body] [data-sort="${key}"]`)?.focus()
+      })
+    )
   }
 
   function quickAdd(status, title) {
@@ -189,8 +303,20 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
       ${field({id: 'note-body', label: 'Note', wide: true, control: textarea({id: 'note-body', value: note.body, rows: 7})})}
       ${field({id: 'note-status', label: 'Status', control: selectInput({id: 'note-status', value: note.status, options: NOTE_STATUSES})})}
       ${field({id: 'note-tags', label: 'Tags', hint: 'Separate tags with commas.', control: textInput({id: 'note-tags', value: (note.tags || []).join(', '), describedBy: 'note-tags-hint'})})}
-      <div class="sm:col-span-2">${checkbox({id: 'note-pinned', label: 'Pin this note to the top', checked: note.pinned})}</div>
+      <div class="sm:col-span-2">${switchInput({id: 'note-pinned', label: 'Pin this note to the top', checked: note.pinned})}</div>
     </div>`
+  }
+
+  /* Read-only twin of the editor: the panel opens an existing note here and
+     only swaps in the form when the user asks to edit. */
+  function viewMarkup(note) {
+    return `<dl class="${VIEW_LIST_CLASS}">
+      ${viewRow('Title', escapeHtml(titleOf(note)))}
+      ${viewRow('Status', `<span class="badge gray">${escapeHtml(noteStatusLabel(note.status))}</span>`)}
+      ${viewRow('Tags', (note.tags || []).length ? note.tags.map(tag => `<span class="${CHIP_CLASS}">${escapeHtml(tag)}</span>`).join(' ') : '—')}
+      ${viewRow('Pinned', note.pinned ? 'Yes' : 'No')}
+      ${viewRow('Note', note.body ? `<span class="whitespace-pre-line" dir="auto">${escapeHtml(note.body)}</span>` : '—')}
+    </dl>`
   }
 
   function readEditor(body) {
@@ -203,7 +329,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
     }
   }
 
-  function openNote(id) {
+  function openNote(id, {edit = false} = {}) {
     const existing = id ? store.getEntity('note', id) : null
     if (id && !existing) {
       toast({tone: 'warn', title: 'This note is no longer available', body: 'It may have been deleted.'})
@@ -211,13 +337,28 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
     }
     const note = existing || {title: '', body: '', status: 'draft', tags: [], pinned: false}
     const ref = existing ? {type: 'note', id: existing.id} : null
+    /* Header note for an existing note: the first line of the note itself,
+       so the panel says what the record is about, not just its status —
+       which the chip already carries. */
+    const excerpt = existing
+      ? ((existing.body || '')
+          .split('\n')
+          .map(line => line.trim())
+          .find(Boolean) || '')
+      : ''
     panel.open({
       ref,
-      typeLabel: TYPE_META.note.label,
-      typeIcon: TYPE_META.note.icon,
+      edit,
+      status: existing
+        ? {label: noteStatusLabel(existing.status), tone: {draft: 'warn', active: 'ok', archived: 'gray'}[existing.status] || 'gray'}
+        : undefined,
       title: existing ? titleOf(existing) : 'New note',
+      description: existing ? excerpt.slice(0, 160) : 'Capture a note — only a title is needed.',
       render: body => {
         body.innerHTML = editorMarkup(note)
+      },
+      view: body => {
+        body.innerHTML = viewMarkup(note)
       },
       save: body => {
         const values = readEditor(body)
@@ -302,5 +443,9 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
     dispose() {
       unsubscribe?.()
     },
+    /* Exposed so a Related Items row — anywhere, including a screen this
+       page has never visited — can open the note editor without the panel
+       owning the navigation. */
+    openNote,
   }
 }

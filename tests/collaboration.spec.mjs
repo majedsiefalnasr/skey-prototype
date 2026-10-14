@@ -60,14 +60,18 @@ const card = (page, title) => page.locator('[data-card-open]', {hasText: title})
 const panel = page => page.locator('#collab-panel')
 
 test.describe('notes', () => {
-  test('notes expose exactly Kanban and List', async ({page}) => {
+  test('notes expose exactly Kanban and List in the view menu', async ({page}) => {
     await go(page, '/help-screens/notes')
-    const views = page.locator('.notes-view [data-view-switch] button')
-    await expect(views).toHaveText(['Kanban', 'List'])
+    const menu = page.locator('.notes-view [data-view-menu]')
+    await expect(menu.locator('summary')).toContainText('Kanban')
+    await menu.locator('summary').click()
+    await expect(menu.getByRole('menuitemradio')).toHaveText(['Kanban view', 'List view'])
+    await expect(menu.getByRole('menuitemradio', {name: 'Kanban view'})).toHaveAttribute('aria-checked', 'true')
+    await expect(page.locator('.notes-view [data-move]').first()).toBeVisible()
     await expect(page.locator('.notes-view [data-column]')).toHaveCount(3)
     await expect(page.locator('.notes-view [data-column="archived"]')).toHaveAttribute('data-collapsed', 'true')
     await expect(page.locator('.notes-view')).not.toContainText('Old pricing assumptions')
-    await views.nth(1).click()
+    await menu.getByRole('menuitemradio', {name: 'List view'}).click()
     await expect(page.locator('.notes-view table')).toBeVisible()
     await expect(page.locator('.notes-view table')).not.toContainText('Old pricing assumptions')
   })
@@ -96,13 +100,18 @@ test.describe('notes', () => {
     await expect(card(page, 'Visit plan')).toBeVisible()
   })
 
-  test('new tag is immediately available in the tag filter', async ({page}) => {
+  test('new tag is immediately available in the filter menu', async ({page}) => {
     await go(page, '/help-screens/notes')
     await page.locator('.notes-view [data-collab-new]').click()
     await page.locator('#note-title').fill('Tagged note')
     await page.locator('#note-tags').fill('Quarter close')
     await panel(page).getByRole('button', {name: 'Save'}).click()
-    await expect(page.locator('#notes-tag option', {hasText: 'Quarter close'})).toHaveCount(1)
+    const menu = page.locator('.notes-view [data-filter-menu]')
+    await menu.locator('summary').click()
+    await expect(menu.getByRole('menuitemradio', {name: 'Quarter close'})).toHaveCount(1)
+    await menu.getByRole('menuitemradio', {name: 'Quarter close'}).click()
+    await expect(page.locator('.notes-view [data-filter-remove="tag"]')).toBeVisible()
+    await expect(page.locator('.notes-view [data-card-open]', {hasText: 'Tagged note'})).toBeVisible()
   })
 
   test('search and view survive navigation', async ({page}) => {
@@ -110,12 +119,14 @@ test.describe('notes', () => {
     // rail panel empty (pre-existing shell behavior, same for Geography).
     await go(page, '/help-screens')
     await page.locator('.nc1-item[data-label="Notes"]').first().click()
-    await page.locator('.notes-view [data-view-switch] button', {hasText: 'List'}).click()
+    await page.locator('.notes-view [data-view-menu] summary').click()
+    await page.getByRole('menuitemradio', {name: 'List view'}).click()
     await page.locator('.notes-view input[type=search]').fill('warehouse')
     await page.locator('.nc1-item[data-label="Events"]').first().click()
     await expect(page.locator('.events-view')).toBeVisible()
     await page.locator('.nc1-item[data-label="Notes"]').first().click()
     await expect(page.locator('.notes-view input[type=search]')).toHaveValue('warehouse')
+    await expect(page.locator('.notes-view [data-view-menu] summary')).toContainText('List')
     await expect(page.locator('.notes-view table tbody tr')).toHaveCount(1)
   })
 
@@ -141,7 +152,13 @@ test.describe('related items', () => {
     await picker.getByRole('button', {name: 'Done'}).click()
     await expect(panel(page).locator('[data-related-row]')).toHaveCount(1)
     await panel(page).locator('[data-related-row]', {hasText: 'Quarter close'}).locator('[data-related-open]').click()
-    await expect(page.locator('.events-view')).toBeVisible()
+    // Opening a linked record swaps the editor in place: the screen you were
+    // on stays put and only the panel changes hands.
+    await expect(page.locator('.notes-view')).toBeVisible()
+    await expect(page.locator('.events-view')).toBeHidden()
+    // Existing records open read-only; the form waits behind Edit.
+    await panel(page).getByRole('button', {name: 'Edit'}).click()
+    await expect(panel(page).locator('#event-title')).toHaveValue('Quarter close')
     await expect(panel(page).locator('[data-related-row]', {hasText: 'Month-end checklist'})).toBeVisible()
   })
 
@@ -171,7 +188,11 @@ test.describe('related items', () => {
     await card(page, 'Warehouse 201 variance notes').click()
     await panel(page).getByRole('button', {name: 'Create related'}).click()
     await page.getByRole('menuitem', {name: 'Activity'}).click()
-    await expect(page.locator('.activities-view')).toBeVisible()
+    // The new activity's editor opens over Notes — creating a related item
+    // never takes you to the other screen.
+    await expect(page.locator('.notes-view')).toBeVisible()
+    await expect(page.locator('.activities-view')).toBeHidden()
+    await expect(panel(page).locator('#activity-summary')).toBeVisible()
     await expect(panel(page).locator('[data-related-row]', {hasText: 'Warehouse 201 variance notes'})).toBeVisible()
   })
 })
@@ -209,6 +230,74 @@ test.describe('events', () => {
     await expect(page.locator('.events-view [data-cal-title]')).toContainText('11')
   })
 
+  test('the range control names the period and jumps between them', async ({page}) => {
+    await go(page, '/help-screens/events')
+    await expect(page.locator('.events-view [data-cal-preset]')).toHaveText('October 2026')
+    await expect(page.locator('.events-view [data-cal-range]')).toContainText('2026')
+    await page.locator('[data-cal-preset]').click()
+    const menu = page.locator('[data-cal-preset-menu]')
+    await expect(menu).toBeVisible()
+    await expect(menu.getByRole('menuitem')).toHaveText([
+      'Today',
+      'This week',
+      'This month',
+      'Next week',
+      'Next month',
+      'Previous month',
+    ])
+    await menu.getByRole('menuitem', {name: 'Next week'}).click()
+    await expect(menu).toBeHidden()
+    await expect(page.locator('.events-view [data-cal-preset]')).toHaveText('Week of 18 Oct')
+    await expect(page.locator('.events-view [data-cal-modes] [data-value="week"]')).toHaveAttribute('aria-pressed', 'true')
+    await expect(page.locator('.events-view [data-cal-range]')).toContainText('24 Oct 2026')
+  })
+
+  test('filter tabs split meetings from events and surface conflicts', async ({page}) => {
+    await go(page, '/help-screens/events')
+    const tabs = page.locator('.events-view [data-cal-tabs] button')
+    await expect(tabs).toHaveText(['All scheduled 4', 'Meetings 1', 'Events 3', 'Conflicted 0'])
+    // One meeting: the sales review linked to act-3.
+    await tabs.nth(1).click()
+    await expect(tabs.nth(1)).toHaveAttribute('aria-pressed', 'true')
+    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Monthly sales review'})).toBeVisible()
+    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Supplier visit'})).toHaveCount(0)
+    // The events tab hides that meeting but keeps the rest.
+    await tabs.nth(2).click()
+    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Monthly sales review'})).toHaveCount(0)
+    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Company holiday'})).toBeVisible()
+    await tabs.nth(0).click()
+    await expect(tabs.nth(0)).toHaveAttribute('aria-pressed', 'true')
+  })
+
+  test('overlapping events count and filter as Conflicted', async ({page}) => {
+    await go(page, '/help-screens/events')
+    await page.locator('.events-view [data-collab-new]').click()
+    await page.locator('#event-title').fill('Al Noor follow-up')
+    await page.locator('#event-start').fill('2026-10-13T11:30')
+    await page.locator('#event-end').fill('2026-10-13T12:30')
+    await panel(page).getByRole('button', {name: 'Save'}).click()
+    const tabs = page.locator('.events-view [data-cal-tabs] button')
+    await expect(tabs.nth(3)).toHaveText('Conflicted 2')
+    await tabs.nth(3).click()
+    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Supplier visit'})).toBeVisible()
+    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Al Noor follow-up'})).toBeVisible()
+    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Company holiday'})).toHaveCount(0)
+  })
+
+  test('the event panel reports its time state, not its type', async ({page}) => {
+    await go(page, '/help-screens/events')
+    await page.locator('.events-view [data-collab-new]').click()
+    await expect(panel(page).locator('[data-panel-status]')).toBeHidden()
+    await page.keyboard.press('Escape')
+    await page.locator('.events-view [data-cal-item]', {hasText: 'Monthly sales review'}).first().click()
+    await expect(panel(page).locator('[data-panel-type]')).toHaveCount(0)
+    const chip = panel(page).locator('[data-panel-status]')
+    await expect(chip).toHaveText('Upcoming')
+    await expect(chip).toHaveClass(/fix/)
+    await expect(panel(page).locator('[data-panel-description]')).toContainText('10:00')
+    await expect(panel(page).locator('[data-panel-description]')).toContainText('Meeting room 2')
+  })
+
   test('create timed and all-day events', async ({page}) => {
     await go(page, '/help-screens/events')
     await page.locator('.events-view [data-collab-new]').click()
@@ -244,12 +333,89 @@ test.describe('events', () => {
 })
 
 test.describe('activities', () => {
-  const switchTo = (page, name) => page.locator('.activities-view [data-view-switch] button', {hasText: name}).click()
+  const switchTo = async (page, name) => {
+    await page.locator('.activities-view [data-view-menu] summary').click()
+    await page.getByRole('menuitemradio', {name: `${name} view`}).click()
+  }
 
-  test('activities expose exactly Kanban and Calendar', async ({page}) => {
+  test('activities expose Kanban and Calendar behind a view menu', async ({page}) => {
     await go(page, '/help-screens/activities')
-    await expect(page.locator('.activities-view [data-view-switch] button')).toHaveText(['Kanban', 'Calendar'])
+    const menu = page.locator('.activities-view [data-view-menu]')
+    await expect(menu.locator('summary')).toContainText('Kanban')
+    await menu.locator('summary').click()
+    await expect(menu.getByRole('menuitemradio')).toHaveText(['Kanban view', 'Calendar view'])
+    await expect(menu.getByRole('menuitemradio', {name: 'Kanban view'})).toHaveAttribute('aria-checked', 'true')
     await expect(page.locator('.activities-view [data-column]')).toHaveCount(3)
+    // An activity's status lives in its editor — the cards carry no
+    // "Move to" select; drag and drop moves them on the board.
+    await expect(page.locator('.activities-view [data-move]')).toHaveCount(0)
+    // The toolbar is the invoices-style row: a quick-filter menu, an inline
+    // "+ Filter" menu, search — and none of the old tab-strip chrome.
+    await expect(page.locator('.activities-view [data-quick-menu] summary')).toContainText('All activities')
+    await expect(page.locator('.activities-view [data-filter-menu]')).toHaveCount(1)
+    await expect(page.locator('.activities-view [data-collab-search]')).toBeVisible()
+    await expect(
+      page.locator(
+        '.activities-view [data-filter-row], .activities-view [data-filter-toggle], .activities-view [data-add-activity], .activities-view [data-add-view], .activities-view [data-customize], .activities-view [data-view-switch]'
+      )
+    ).toHaveCount(0)
+    // The one primary action lives in the page header, not the toolbar.
+    await expect(page.locator('.activities-view [data-collab-new]')).toContainText('New activity')
+  })
+
+  test('quick filter and inline filters narrow the board', async ({page}) => {
+    await go(page, '/help-screens/activities')
+    // The quick menu narrows the board: only the done activity stays.
+    await page.locator('.activities-view [data-quick-menu] summary').click()
+    await page.getByRole('menuitemradio', {name: 'Done', exact: true}).click()
+    await expect(page.locator('.activities-view [data-column="planned"]')).toContainText('No activities here.')
+    await expect(page.locator('.activities-view [data-card-id="act-5"]')).toBeVisible()
+    await page.locator('.activities-view [data-clear-filters]').click()
+    await expect(page.locator('.activities-view [data-card-id="act-1"]')).toBeVisible()
+    // Overdue only shows up as an inline chip, not a collapsed filter row.
+    await page.locator('.activities-view [data-filter-menu] summary').click()
+    await page.getByRole('menuitemcheckbox', {name: 'Overdue only'}).click()
+    await expect(page.locator('.activities-view [data-filter-remove="overdue"]')).toBeVisible()
+    await expect(page.locator('.activities-view [data-card-id="act-2"]')).toBeVisible()
+    await expect(page.locator('.activities-view [data-card-id="act-1"]')).toHaveCount(0)
+    await page.locator('.activities-view [data-filter-remove="overdue"]').click()
+    await expect(page.locator('.activities-view [data-card-id="act-1"]')).toBeVisible()
+    await expect(page.locator('.activities-view [data-filter-remove="overdue"]')).toHaveCount(0)
+    // Search filters the body in place; the toolbar (and its focus) survives.
+    const search = page.locator('.activities-view [data-collab-search]')
+    await search.fill('password')
+    await expect(page.locator('.activities-view [data-card-id]')).toHaveCount(1)
+    await expect(page.locator('.activities-view [data-card-id="act-6"]')).toBeVisible()
+    await expect(page.locator('.activities-view [data-collab-search]')).toBeFocused()
+  })
+
+  test('card kebab offers edit, mark done and delete', async ({page}) => {
+    await go(page, '/help-screens/activities')
+    await page.locator('[data-card-menu-btn="act-1"]').click()
+    const menu = page.locator('[data-card-id="act-1"] .mlist')
+    await expect(menu).toBeVisible()
+    await expect(menu.getByRole('menuitem')).toHaveText(['Edit', 'Mark done', 'Delete'])
+    await menu.getByRole('menuitem', {name: 'Edit'}).click()
+    await expect(menu).toBeHidden()
+    await expect(panel(page).locator('#activity-summary')).toHaveValue('Call Al Noor about quotation 884')
+    await page.keyboard.press('Escape')
+    // A done activity's card offers no "Mark done".
+    await page.locator('[data-card-menu-btn="act-5"]').click()
+    await expect(page.locator('[data-card-id="act-5"] .mlist').getByRole('menuitem')).toHaveText(['Edit', 'Delete'])
+  })
+
+  test('the panel header carries a status chip, not a type badge', async ({page}) => {
+    await go(page, '/help-screens/activities')
+    await page.locator('[data-card-open="act-1"]').click()
+    await expect(panel(page).locator('[data-panel-status]')).toHaveText('Planned')
+    await expect(panel(page).locator('[data-panel-type]')).toHaveCount(0)
+    await expect(panel(page).locator('[data-panel-description]')).toContainText('Call')
+    await page.keyboard.press('Escape')
+    // An overdue activity's note line reads in the danger color.
+    await page.locator('[data-card-open="act-2"]').click()
+    await expect(panel(page).locator('[data-panel-status]')).toHaveText('Planned')
+    await expect(panel(page).locator('[data-panel-description]')).toContainText('Overdue')
+    await expect(panel(page).locator('[data-panel-description]')).toHaveClass(/text-\[color:var\(--danger\)\]/)
   })
 
   test('overdue is shown with text, not color only', async ({page}) => {
@@ -271,6 +437,9 @@ test.describe('activities', () => {
   test('clearing the scheduled time removes it from the calendar', async ({page}) => {
     await go(page, '/help-screens/activities')
     await page.locator('[data-card-open="act-1"]').click()
+    // An existing activity opens read-only; the schedule controls wait
+    // behind Edit.
+    await panel(page).getByRole('button', {name: 'Edit'}).click()
     await page.locator('#activity-schedule-clear').click()
     await panel(page).getByRole('button', {name: 'Save'}).click()
     await switchTo(page, 'Calendar')
@@ -280,11 +449,15 @@ test.describe('activities', () => {
   test('meeting creates one linked event, never two', async ({page}) => {
     await go(page, '/help-screens/activities')
     await page.locator('[data-card-open="act-1"]').click()
+    await panel(page).getByRole('button', {name: 'Edit'}).click()
     await page.locator('#activity-kind').selectOption('meeting')
     await panel(page).getByRole('button', {name: 'Save'}).click()
     await page.locator('[data-card-open="act-1"]').click()
     await panel(page).getByRole('button', {name: 'Create event'}).click()
-    await expect(page.locator('.events-view')).toBeVisible()
+    // The event editor opens over Activities — same screen, new editor.
+    await expect(page.locator('.activities-view')).toBeVisible()
+    await expect(page.locator('.events-view')).toBeHidden()
+    await expect(panel(page).locator('#event-title')).toBeVisible()
     await expect(panel(page).locator('[data-related-row]', {hasText: 'Call Al Noor about quotation 884'})).toBeVisible()
     await page.keyboard.press('Escape')
     await go(page, '/help-screens/activities')
@@ -318,7 +491,7 @@ test.describe('activities', () => {
 
 test.describe('internal mail', () => {
   test('saved quick reply is restored after leaving and returning', async ({page}) => {
-    await go(page, '/system/email')
+    await go(page, '/help-screens/email')
     await row(page, 'Payment scheduled').click()
     await page.locator('#email-quick-reply').fill('I will check the receipt')
     await expect.poll(() => page.evaluate(() =>
@@ -326,12 +499,12 @@ test.describe('internal mail', () => {
         m.folder === 'drafts' && m.body?.includes('I will check the receipt'))
     )).toBe(true)
     await go(page, '/help-screens/notes')
-    await go(page, '/system/email')
+    await go(page, '/help-screens/email')
     await expect(page.locator('#email-quick-reply')).toHaveValue('I will check the receipt')
   })
 
   test('unfinished recipient input survives navigation in Drafts', async ({page}) => {
-    await go(page, '/system/email')
+    await go(page, '/help-screens/email')
     await page.locator('.email-compose').click()
     await page.locator('#email-compose-to').fill('reader@example.com')
     await expect.poll(() => page.evaluate(() =>
@@ -339,14 +512,14 @@ test.describe('internal mail', () => {
         m.folder === 'drafts' && m.toInput === 'reader@example.com')
     )).toBe(true)
     await go(page, '/help-screens/notes')
-    await go(page, '/system/email')
+    await go(page, '/help-screens/email')
     await folder(page, 'drafts').click()
     await row(page, '(no subject)').first().click()
     await expect(page.locator('#email-compose-to')).toHaveValue('reader@example.com')
   })
 
   test('typed Cc recipient is included when sending', async ({page}) => {
-    await go(page, '/system/email')
+    await go(page, '/help-screens/email')
     await page.locator('.email-compose').click()
     await page.locator('#email-compose-to').fill('reader@example.com')
     await page.locator('[data-add-cc]').click()
@@ -357,18 +530,61 @@ test.describe('internal mail', () => {
   })
 
   test('mail list exposes selected option semantics', async ({page}) => {
-    await go(page, '/system/email')
+    await go(page, '/help-screens/email')
     await expect(page.locator('#email-list-scroll [role="listbox"]')).toBeVisible()
     await row(page, 'Payment scheduled').click()
     await expect(row(page, 'Payment scheduled')).toHaveAttribute('role', 'option')
     await expect(row(page, 'Payment scheduled')).toHaveAttribute('aria-selected', 'true')
   })
 
+  test('checkboxes multi-select and the bulk bar acts on the whole selection', async ({page}) => {
+    await go(page, '/help-screens/email')
+    await row(page, 'Payment scheduled').locator('[data-mail-check]').check()
+    await row(page, 'New quotation').locator('[data-mail-check]').check()
+    // Two or more selected: the reading toolbar becomes the bulk bar, and
+    // the pane shows a stack of the selected messages' own cards — never
+    // any single message's content.
+    const bulk = page.getByRole('toolbar', {name: 'Selection actions'})
+    await expect(bulk).toContainText('2 selected')
+    await expect(page.locator('.email-sel-card')).toHaveCount(2)
+    await expect(page.locator('.email-reading-body')).toHaveCount(0)
+    await expect(page.locator('.email-sel-card', {hasText: 'Payment scheduled for Sales Invoice 126'})).toBeVisible()
+    await bulk.getByRole('button', {name: 'Delete'}).click()
+    await expect(row(page, 'Payment scheduled')).toHaveCount(0)
+    await expect(row(page, 'New quotation')).toHaveCount(0)
+    await folder(page, 'trash').click()
+    await expect(row(page, 'Payment scheduled')).toBeVisible()
+    await expect(row(page, 'New quotation')).toBeVisible()
+  })
+
+  test('list header names the mailbox, filters unread and selects all', async ({page}) => {
+    await go(page, '/help-screens/email')
+    // The header carries the open mailbox's title above the search row.
+    await expect(page.locator('[data-mail-folder-title]')).toHaveText('Inbox')
+    // Unread-only hides the read messages; the toggle carries the state.
+    const unread = page.locator('[data-mail-unread-filter]')
+    await expect(unread).toHaveAttribute('aria-pressed', 'false')
+    const before = await page.locator('.email-list-row').count()
+    await unread.click()
+    await expect(unread).toHaveAttribute('aria-pressed', 'true')
+    expect(await page.locator('.email-list-row').count()).toBeLessThan(before)
+    await unread.click()
+    await expect(unread).toHaveAttribute('aria-pressed', 'false')
+    await expect(page.locator('.email-list-row')).toHaveCount(before)
+    // Select-all picks up every visible row (the bulk bar appears), and
+    // clearing it drops them all.
+    const selectAll = page.locator('[data-mail-select-all]')
+    await selectAll.check()
+    await expect(page.getByRole('toolbar', {name: 'Selection actions'})).toContainText(`${before} selected`)
+    await selectAll.uncheck()
+    await expect(page.getByRole('toolbar', {name: 'Selection actions'})).toHaveCount(0)
+  })
+
   const folder = (page, id) => page.locator(`.email-view [data-folder="${id}"]`)
   const row = (page, text) => page.locator('.email-list-row', {hasText: text})
 
   test('folders exist and show the right messages', async ({page}) => {
-    await go(page, '/system/email')
+    await go(page, '/help-screens/email')
     await expect(page.locator('.email-view [data-folder]')).toHaveText([/Inbox/, /Starred/, /Sent/, /Drafts/, /Archive/, /Trash/])
     await folder(page, 'sent').click()
     await expect(row(page, 'Re: Stock check needed')).toBeVisible()
@@ -377,8 +593,127 @@ test.describe('internal mail', () => {
     await expect(row(page, 'Payment scheduled')).toBeVisible()
   })
 
+  test('custom folders are created, renamed, hold moved messages and survive a reload', async ({page}) => {
+    await go(page, '/help-screens/email')
+    const rail = page.locator('.email-view [data-folders]')
+    const named = name => rail.locator('[data-folder]', {hasText: name})
+    // The rail is an icon rail: the New folder button and the row actions
+    // live past its content box when collapsed and only answer once the
+    // list header's own expand button has pinned the rail open. The toggle
+    // steps out while the rail is hover-peeked (so it never floats above
+    // the open rail), so the pointer leaves the rail before clicking it.
+    const expandRail = async () => {
+      const toggle = page.locator('[data-rail-toggle]')
+      if ((await toggle.getAttribute('aria-expanded')) === 'false') {
+        await page.mouse.move(1200, 40)
+        await toggle.click()
+      }
+    }
+    await expandRail()
+
+    await page.locator('[data-new-folder]').click()
+    await page.locator('[data-folder-name]').fill('Clients')
+    await page.locator('[data-folder-form]').getByRole('button', {name: 'Add'}).click()
+    await expect(named('Clients')).toBeVisible()
+    await expect(rail.locator('[data-folder]')).toHaveCount(7)
+
+    // A system mailbox name is reserved, in any casing — refused in place,
+    // with the reason, and the row never appears.
+    await page.locator('[data-new-folder]').click()
+    await page.locator('[data-folder-name]').fill('INBOX')
+    await page.locator('[data-folder-form]').getByRole('button', {name: 'Add'}).click()
+    await expect(page.locator('[data-folder-error]')).toHaveText('A folder with that name already exists.')
+    await page.locator('[data-folder-cancel]').click()
+    await expect(page.locator('[data-folder-name]')).toHaveCount(0)
+    await expect(rail.locator('[data-folder]')).toHaveCount(7)
+
+    // Move a message into it from the reading toolbar.
+    await row(page, 'New quotation').click()
+    await page.getByRole('button', {name: 'Move to', exact: true}).click()
+    await page.getByRole('menuitem', {name: 'Clients'}).click()
+    await expect(row(page, 'New quotation')).toHaveCount(0)
+    await named('Clients').click()
+    await expect(row(page, 'New quotation')).toBeVisible()
+    await expect(named('Clients')).toContainText('1')
+
+    // Renaming keeps what was filed in it.
+    await expandRail()
+    await page.getByRole('button', {name: 'Rename Clients'}).click()
+    await page.locator('[data-folder-name]').fill('Key accounts')
+    await page.locator('[data-folder-form]').getByRole('button', {name: 'Save'}).click()
+    await expect(named('Key accounts')).toBeVisible()
+    await expect(row(page, 'New quotation')).toBeVisible()
+
+    // The folder is store state, so a fresh document load still has both.
+    await go(page, '/help-screens/email')
+    await expect(named('Key accounts')).toBeVisible()
+    await named('Key accounts').click()
+    await expect(row(page, 'New quotation')).toBeVisible()
+
+    // Deleting files its messages back in Inbox instead of losing them.
+    await expandRail()
+    await page.getByRole('button', {name: 'Delete Key accounts'}).click()
+    await expect(page.locator('#collab-confirm')).toContainText('move to Inbox')
+    await page.locator('#collab-confirm').getByRole('button', {name: 'Delete folder'}).click()
+    await expect(rail.locator('[data-folder]')).toHaveCount(6)
+    await expect(named('Key accounts')).toHaveCount(0)
+    await expect(row(page, 'New quotation')).toBeVisible()
+  })
+
+  test('mailbox rail peeks on hover and pins open from its own button', async ({page}) => {
+    await go(page, '/help-screens/email')
+    const rail = page.locator('.email-view [data-folders]')
+    const list = page.locator('.email-view .email-list')
+    const toggle = page.locator('.email-view [data-rail-toggle]')
+    const inboxLabel = rail.locator('[data-folder="inbox"] .ef-lbl').first()
+
+    // Collapsed at the same 52px the shell's nav rail sits at, labels
+    // clipped, and the list reserving the collapsed strip beside it.
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    await expect(rail).toHaveCSS('width', '52px')
+    await expect(inboxLabel).toHaveCSS('opacity', '0')
+    await expect(list).toHaveCSS('margin-inline-start', '52px')
+
+    // Hover peeks it open as a temporary flyout over the list — the shell
+    // rail's own contract — with the labels back. The list header's expand
+    // button steps out while the rail peeks, so no control floats above the
+    // open rail.
+    await rail.hover()
+    await expect(rail).toHaveCSS('width', '176px')
+    await expect(inboxLabel).toHaveCSS('opacity', '1')
+    await expect(toggle).toBeHidden()
+
+    // Leaving folds it back; the list never moved and the button returns.
+    await page.mouse.move(1200, 40)
+    await expect(rail).toHaveCSS('width', '52px')
+    await expect(list).toHaveCSS('margin-inline-start', '52px')
+    await expect(toggle).toBeVisible()
+
+    // Its own button pins it open: the rail takes its 176px in the layout
+    // and the list drops the collapsed reservation, so the kept-open rail
+    // sits in the row instead of over the messages.
+    await toggle.click()
+    await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    await expect(rail).toHaveCSS('width', '176px')
+    await expect(inboxLabel).toHaveCSS('opacity', '1')
+    await expect(list).toHaveCSS('margin-inline-start', '0px')
+
+    // Collapsing unpins; with the pointer moved off, the rail is collapsed
+    // again (hover would only peek it back open temporarily).
+    await toggle.click()
+    await page.mouse.move(1200, 40)
+    await expect(rail).toHaveCSS('width', '52px')
+    await expect(list).toHaveCSS('margin-inline-start', '52px')
+
+    // Small screens collapse it outright, the moment the shell compacts —
+    // the mailbox select takes over, exactly as the shell's sidebar does.
+    await page.setViewportSize({width: 880, height: 900})
+    await expect(rail).toBeHidden()
+    await expect(page.locator('[data-folder-select]')).toBeVisible()
+  })
+
   test('draft survives navigation and reload, send moves it to Sent', async ({page}) => {
-    await go(page, '/system/email')
+    await go(page, '/help-screens/email')
     await page.locator('.email-compose').click()
     await page.locator('#email-compose-to').fill('Mariam')
     await page.getByRole('option', {name: /Mariam Adel/}).click()
@@ -387,7 +722,7 @@ test.describe('internal mail', () => {
     await expect(page.locator('[data-draft-status]')).toContainText('Draft saved')
     await go(page, '/help-screens/notes')
     await page.reload()
-    await go(page, '/system/email')
+    await go(page, '/help-screens/email')
     await folder(page, 'drafts').click()
     await row(page, 'Quarter close plan').click()
     await expect(page.locator('.email-composer-input')).toHaveValue('Draft body text')
@@ -400,11 +735,16 @@ test.describe('internal mail', () => {
   })
 
   test('create activity from a message preserves the relationship', async ({page}) => {
-    await go(page, '/system/email')
+    await go(page, '/help-screens/email')
     await row(page, 'Payment scheduled').click()
-    await page.getByRole('toolbar', {name: 'Message actions'}).getByRole('button', {name: 'Create activity'}).click()
-    await expect(page.locator('.activities-view')).toBeVisible()
+    await page.getByRole('toolbar', {name: 'Message actions'}).getByRole('button', {name: 'More actions'}).click()
+    await page.getByRole('menuitem', {name: 'Create activity'}).click()
+    // The activity editor opens over the message you started from.
+    await expect(page.locator('.email-view')).toBeVisible()
+    await expect(page.locator('.activities-view')).toBeHidden()
+    await expect(panel(page).locator('#activity-summary')).toBeVisible()
     await expect(panel(page).locator('[data-related-row]', {hasText: 'Payment scheduled for Sales Invoice 126'})).toBeVisible()
+    // Mail is the one type that still travels: it has a screen of its own.
     await panel(page).locator('[data-related-row]', {hasText: 'Payment scheduled'}).locator('[data-related-open]').click()
     await expect(page.locator('.email-view')).toBeVisible()
     await expect(page.locator('.email-view [data-related-row]', {hasText: 'Follow up: Payment scheduled'})).toBeVisible()
@@ -419,9 +759,11 @@ test.describe('internal mail', () => {
   })
 
   test('delete moves to trash and archive moves to archive', async ({page}) => {
-    await go(page, '/system/email')
+    await go(page, '/help-screens/email')
     await row(page, 'password expires').click()
-    await page.getByRole('toolbar', {name: 'Message actions'}).getByRole('button', {name: 'Delete', exact: true}).click()
+    // Delete lives behind the toolbar's More menu now.
+    await page.getByRole('toolbar', {name: 'Message actions'}).getByRole('button', {name: 'More actions'}).click()
+    await page.getByRole('menuitem', {name: 'Delete', exact: true}).click()
     await expect(row(page, 'password expires')).toHaveCount(0)
     await folder(page, 'trash').click()
     await expect(row(page, 'password expires')).toBeVisible()
@@ -433,7 +775,7 @@ test.describe('internal mail', () => {
   })
 
   test('search filters within the folder', async ({page}) => {
-    await go(page, '/system/email')
+    await go(page, '/help-screens/email')
     await page.locator('#email-search-input').fill('quotation')
     await expect(page.locator('.email-list-row')).toHaveCount(1)
     await page.locator('#email-search-input').fill('zzz-nothing')
@@ -441,7 +783,7 @@ test.describe('internal mail', () => {
   })
 
   test('send without recipients is blocked with a message', async ({page}) => {
-    await go(page, '/system/email')
+    await go(page, '/help-screens/email')
     await page.locator('.email-compose').click()
     await page.locator('.email-composer-input').fill('Body only')
     await page.locator('.email-send').click()

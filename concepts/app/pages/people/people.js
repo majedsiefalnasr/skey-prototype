@@ -19,8 +19,10 @@ import {
   ERROR_CLASS,
   TABLE_CLASS,
   ROW_BUTTON_CLASS,
+  VIEW_LIST_CLASS,
+  viewRow,
 } from '../../components/collab/fields.js'
-import {TYPE_META, CONVERSION_TARGETS, conversionLabel, titleOf, searchText, findPersonDuplicates} from '../../components/collab/meta.js'
+import {CONVERSION_TARGETS, conversionLabel, titleOf, searchText, findPersonDuplicates} from '../../components/collab/meta.js'
 
 const CONTACT_KINDS = [
   ['mobile', 'Mobile'],
@@ -137,6 +139,33 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
       ${person.convertedTo ? `<p class="mt-4 rounded-md bg-[var(--line-2)] px-3 py-2 text-[13px] text-ink">${icon('i-check')} Converted to ${escapeHtml(conversionLabel(person.convertedTo.target))} (simulated — no ${escapeHtml(conversionLabel(person.convertedTo.target))} record exists).</p>` : ''}`
   }
 
+  /* Read-only twin of the editor; the form waits behind Edit. */
+  function viewMarkup(person) {
+    const labelOf = (list, id) => list.find(([value]) => value === id)?.[1] ?? id
+    const location = [person.city, person.country].filter(Boolean).join(', ')
+    return `<dl class="${VIEW_LIST_CLASS}">
+      ${viewRow('Name (English)', escapeHtml(titleOf(person)))}
+      ${viewRow('Name (Arabic)', person.nameAr ? `<span dir="rtl" lang="ar">${escapeHtml(person.nameAr)}</span>` : '—')}
+      ${viewRow('Job title', escapeHtml(person.jobTitle || '—'))}
+      ${viewRow('Company', escapeHtml(person.company || '—'))}
+      ${viewRow('Status', escapeHtml(labelOf(LIFECYCLES, person.lifecycle)))}
+      ${viewRow('Address', escapeHtml(location || '—'))}
+      ${viewRow(
+        'Contacts',
+        person.contacts?.length
+          ? `<ul class="m-0 grid list-none gap-1 p-0">${person.contacts
+              .map(
+                contact =>
+                  `<li class="flex items-baseline gap-2"><span class="text-xs font-semibold uppercase tracking-[.04em] text-faint">${escapeHtml(labelOf(CONTACT_KINDS, contact.kind))}</span><span dir="ltr">${escapeHtml(contact.value)}</span>${contact.primary ? '<span class="badge gray">Primary</span>' : ''}</li>`
+              )
+              .join('')}</ul>`
+          : '—'
+      )}
+      ${viewRow('Notes', person.notes ? `<span class="whitespace-pre-line" dir="auto">${escapeHtml(person.notes)}</span>` : '—')}
+      ${person.convertedTo ? viewRow('Converted', `${icon('i-check')} ${escapeHtml(conversionLabel(person.convertedTo.target))} (simulated)`) : ''}
+    </dl>`
+  }
+
   function readContacts(body) {
     return [...body.querySelectorAll('[data-contact-row]')]
       .map(row => ({
@@ -230,7 +259,7 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
     return !firstInvalid
   }
 
-  function openPerson(id) {
+  function openPerson(id, {edit = false} = {}) {
     const existing = id ? store.getEntity('person', id) : null
     if (id && !existing) {
       toast({tone: 'warn', title: 'This person is no longer available', body: 'The record may have been deleted.'})
@@ -240,12 +269,22 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
     const ref = existing ? {type: 'person', id: existing.id} : null
     panel.open({
       ref,
-      typeLabel: TYPE_META.person.label,
-      typeIcon: TYPE_META.person.icon,
+      edit,
+      status: existing
+        ? existing.convertedTo
+          ? {label: conversionLabel(existing.convertedTo.target), tone: 'ok'}
+          : {label: existing.lifecycle === 'contact' ? 'Contact' : 'Lead', tone: existing.lifecycle === 'contact' ? 'fix' : 'gray'}
+        : undefined,
       title: existing ? titleOf(existing) : 'New person',
+      description: existing
+        ? [existing.company, existing.jobTitle].filter(Boolean).join(' · ')
+        : 'Add someone — only a name is required.',
       render: body => {
         body.innerHTML = editorMarkup(person)
         bindEditor(body, existing?.id)
+      },
+      view: body => {
+        body.innerHTML = viewMarkup(person)
       },
       save: body => {
         const values = readEditor(body)
@@ -338,5 +377,7 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
     dispose() {
       unsubscribe?.()
     },
+    /* Exposed so a Related Items row can open the person editor in place. */
+    openPerson,
   }
 }

@@ -57,7 +57,8 @@ export const kindLabel = kind => labelFrom(ACTIVITY_KINDS, kind)
 export const kindIcon = kind => ACTIVITY_KINDS.find(([id]) => id === kind)?.[2] ?? 'i-check'
 export const statusLabel = status => labelFrom(ACTIVITY_STATUSES, status)
 export const noteStatusLabel = status => labelFrom(NOTE_STATUSES, status)
-export const folderLabel = folder => labelFrom(MAIL_FOLDERS, folder)
+export const folderLabel = (folder, folders = []) =>
+  MAIL_FOLDERS.find(([id]) => id === folder)?.[1] ?? folders.find(entry => entry.id === folder)?.name ?? folder
 export const conversionLabel = target => labelFrom(CONVERSION_TARGETS, target)
 
 export const isOpenActivity = activity => activity.status === 'planned' || activity.status === 'in_progress'
@@ -108,7 +109,9 @@ export function eventTiming(event, todayKey) {
   return `${dayLabel(event.start, todayKey)} ${formatTime(event.start)}–${formatTime(event.end)}`
 }
 
-export function metaLine(entity, {todayKey}) {
+/** One-line summary. `folders` is the store's custom mail folder list, so a
+ *  message filed in a folder the user created reports its name, not its id. */
+export function metaLine(entity, {todayKey, folders = []}) {
   switch (entity.type) {
     case 'note':
       return noteStatusLabel(entity.status)
@@ -118,7 +121,7 @@ export function metaLine(entity, {todayKey}) {
       return eventTiming(entity, todayKey)
     case 'mail': {
       const at = entity.sentAt || entity.savedAt || entity.createdAt
-      return `${folderLabel(entity.folder)} · ${dayLabel(at, todayKey)} ${formatTime(at)}`
+      return `${folderLabel(entity.folder, folders)} · ${dayLabel(at, todayKey)} ${formatTime(at)}`
     }
     case 'person':
       return entity.convertedTo

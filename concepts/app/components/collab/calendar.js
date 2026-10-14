@@ -60,22 +60,91 @@ export function shiftDate(mode, date, direction) {
 const NAV_BUTTON_CLASS =
   'inline-grid min-h-8 min-w-8 place-items-center rounded-md border border-line bg-surface text-ink hover:bg-[var(--line-2)] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)] rtl:[&_svg]:scale-x-[-1]'
 
-/** Toolbar markup: ‹ › Today, period title, Day | Week | Month. */
-export const calendarToolbar = ({mode, date, modes = CALENDAR_MODES}) =>
+/** Jump presets behind the range control: each maps to a mode plus the
+ *  anchor date it should show. Labels are the menu rows themselves. */
+const RANGE_PRESETS = [
+  ['today', 'Today'],
+  ['week', 'This week'],
+  ['month', 'This month'],
+  ['next-week', 'Next week'],
+  ['next-month', 'Next month'],
+  ['prev-month', 'Previous month'],
+]
+
+/** Mode + date a preset jumps to; `today` is the store's current day key. */
+export function presetJump(id, today) {
+  if (id === 'today') return {mode: 'day', date: today}
+  if (id === 'week') return {mode: 'week', date: today}
+  if (id === 'month') return {mode: 'month', date: today}
+  if (id === 'next-week') return {mode: 'week', date: addDays(today, 7)}
+  if (id === 'next-month') return {mode: 'month', date: shiftDate('month', today, 1)}
+  if (id === 'prev-month') return {mode: 'month', date: shiftDate('month', today, -1)}
+  return {mode: 'month', date: today}
+}
+
+/** What the range control calls the period on screen — a preset name when
+ *  the calendar sits on one, otherwise the period's own label. */
+const presetLabel = (mode, date, today) => {
+  if (mode === 'day') {
+    return date === today ? 'Today' : `${parseLocal(date).toLocaleDateString('en-GB', {weekday: 'short'})} ${shortDay(date)}`
+  }
+  if (mode === 'week') {
+    const from = startOfWeek(date)
+    return startOfWeek(today) === from ? 'This week' : `Week of ${shortDay(from)}`
+  }
+  return formatMonthTitle(date)
+}
+
+const rangeText = (mode, date) => {
+  const {from, to} = calendarRange(mode, date)
+  return from === to ? `${shortDay(from)} ${from.slice(0, 4)}` : `${shortDay(from)} – ${shortDay(to)} ${to.slice(0, 4)}`
+}
+
+/** Toolbar markup: ‹ › Today, the optional range control (jump presets plus
+ *  the exact dates), the period title, Day | Week | Month. Callers that show
+ *  the range control (`presets: true`) hide the title — the range chip
+ *  already names the period — but keep it in the DOM for aria-live. */
+export const calendarToolbar = ({mode, date, modes = CALENDAR_MODES, presets = false, today = '', titleHidden = false}) =>
   `<div class="flex flex-wrap items-center gap-2" data-cal-toolbar>
     <button type="button" class="${NAV_BUTTON_CLASS}" data-cal-prev aria-label="Previous ${escapeHtml(mode)}">${icon('i-prev')}</button>
     <button type="button" class="${NAV_BUTTON_CLASS}" data-cal-next aria-label="Next ${escapeHtml(mode)}">${icon('i-next')}</button>
     <button type="button" class="lbtn" data-cal-today>Today</button>
-    <h2 class="min-w-[180px] text-[15px] font-semibold text-ink" data-cal-title aria-live="polite">${escapeHtml(calendarTitle(mode, date))}</h2>
+    ${
+      presets
+        ? `<div class="menu">
+            <button type="button" class="border border-line bg-surface text-[13px] text-ink" data-cal-preset aria-haspopup="menu" aria-expanded="false">${escapeHtml(presetLabel(mode, date, today))}${icon('i-caret', 11)}</button>
+            <div class="mlist" role="menu" aria-label="Jump to range" data-cal-preset-menu>${RANGE_PRESETS.map(
+              ([id, label]) => `<button type="button" role="menuitem" data-preset="${id}">${escapeHtml(label)}</button>`
+            ).join('')}</div>
+          </div>
+          <span class="inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-2 py-1 text-[13px] text-ink" data-cal-range>${icon(
+            'i-cal',
+            13
+          )}<span dir="ltr">${escapeHtml(rangeText(mode, date))}</span></span>`
+        : ''
+    }
+    <h2 class="${titleHidden ? 'sr-only' : 'min-w-[180px] text-[15px] font-semibold text-ink'}" data-cal-title aria-live="polite">${escapeHtml(calendarTitle(mode, date))}</h2>
     <span class="ms-auto">${segmented({label: 'Calendar view', views: modes, current: mode, dataAttr: 'data-cal-modes'})}</span>
   </div>`
 
-export function bindCalendarToolbar(host, {onPrev, onNext, onToday, onMode}) {
+export function bindCalendarToolbar(host, {onPrev, onNext, onToday, onMode, onPreset}) {
   host.querySelector('[data-cal-prev]').addEventListener('click', onPrev)
   host.querySelector('[data-cal-next]').addEventListener('click', onNext)
   host.querySelector('[data-cal-today]').addEventListener('click', onToday)
   host.querySelectorAll('[data-cal-modes] button').forEach(button =>
     button.addEventListener('click', () => onMode(button.dataset.value))
+  )
+  if (!onPreset) return
+  host.querySelectorAll('[data-cal-preset-menu] [data-preset]').forEach(item =>
+    item.addEventListener('click', () => {
+      /* Close the menu here as well: the jump re-renders the toolbar, but
+         a preset that lands on the range already shown still repaints it —
+         either way the menu must not outlive the pick. */
+      const list = item.closest('.mlist')
+      list.classList.remove('open')
+      list.parentElement.querySelector('[aria-haspopup="menu"]')?.setAttribute('aria-expanded', 'false')
+      onPreset(item.dataset.preset)
+    })
   )
 }
 

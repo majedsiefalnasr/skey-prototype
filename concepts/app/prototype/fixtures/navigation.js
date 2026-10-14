@@ -6,9 +6,11 @@
 // original inline comment kept below.
 //
 // NAV_ACCOUNT_GROUP and ACCOUNT_*_BY_* are the exception to "the rail is the
-// app tree": Profile, Organization Center and Email are shell screens, not
-// apps, so they share one non-app rail group and stay out of NAV_TREE --
-// which is exactly why the launchpad and the app switcher never offer them.
+// app tree": Profile and Organization Center are shell screens, not apps, so
+// they share one non-app rail group and stay out of NAV_TREE -- which is
+// exactly why the launchpad and the app switcher never offer them. Internal
+// Mail is a Help Screens row with its own /help-screens/email address, so
+// its route keeps that group on screen rather than claiming Account.
 //
 // SCREENS/RECORDS/ACTIONS are the shell's global search-overlay sample data
 // (the Ctrl+K "search or run an action" command palette) -- not
@@ -512,16 +514,18 @@ export const NAV_RECENTS = [
   'Printers',
 ]
 
-/* Profile / Organization Center / Email are screens of the shell itself: they
-   have pages and URLs but no app, so they never earn a place in NAV_TREE.
-   The sidebar gives them one shared rail group instead (label first, rows
-   after), and main.js uses the two maps to follow the route onto it. */
-export const NAV_ACCOUNT_GROUP = ['Account', 'Profile', 'Organization Center', 'Email']
+/* Profile / Organization Center are screens of the shell itself: they have
+   pages and URLs but no app, so they never earn a place in NAV_TREE. The
+   sidebar gives them one shared rail group instead (label first, rows
+   after), and main.js uses the two maps to follow the route onto it.
+   Internal Mail deliberately stays OUT of both: it is a Help Screens row
+   with its own /help-screens/email address, so its route keeps the Help
+   Screens group on screen — the Account group only ever claims these two. */
+export const NAV_ACCOUNT_GROUP = ['Account', 'Profile', 'Organization Center']
 
 export const ACCOUNT_VIEW_BY_LABEL = {
   Profile: 'profile',
   'Organization Center': 'organization',
-  Email: 'email',
 }
 
 export const ACCOUNT_LABEL_BY_VIEW = Object.fromEntries(

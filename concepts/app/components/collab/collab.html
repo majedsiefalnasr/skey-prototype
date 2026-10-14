@@ -1,7 +1,9 @@
 <!-- Collaboration overlays, shared by Notes, Activities, Events, People Data
      and Internal Mail: the side-panel editor, the Related Items picker and a
      small confirm dialog. Behavior lives in components/collab/panel.js and
-     components/related-items/related-items.js. -->
+     components/related-items/related-items.js. The editor follows the customer
+     drawers' anatomy (title + description header, scrollable body, tinted
+     footer) at the wider width an item editor needs. -->
 <div id="collab-panel-scrim" class="fixed inset-0 z-[130] hidden bg-[rgba(17,24,39,0.4)] [&.open]:block"></div>
 <aside
   id="collab-panel"
@@ -10,30 +12,38 @@
   aria-modal="true"
   aria-labelledby="collab-panel-title"
   tabindex="-1">
-  <header class="flex items-start gap-3 border-b border-line px-[18px] py-3.5">
-    <span class="badge inline-flex shrink-0 items-center gap-1.5" data-panel-type></span>
-    <h2 id="collab-panel-title" class="min-w-0 flex-1 text-[15px] font-semibold [overflow-wrap:anywhere]" dir="auto"></h2>
-    <div class="relative" data-panel-menu-wrap>
-      <button type="button" class="ibtn" data-panel-menu aria-haspopup="menu" aria-expanded="false" aria-label="More actions">
-        <svg width="15" height="15" aria-hidden="true"><use href="#i-dots" /></svg>
-      </button>
-      <div
-        class="absolute end-0 top-full z-10 mt-1 hidden min-w-[190px] gap-0.5 rounded-lg border border-line bg-surface p-1.5 shadow-shell [&.open]:grid"
-        role="menu"
-        aria-label="More actions"
-        data-panel-menu-list></div>
+  <header class="flex flex-none items-start gap-5 border-b border-line bg-[var(--line-2)] px-5 py-2.5">
+    <div class="min-w-0 flex-1">
+      <div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+        <h2 id="collab-panel-title" class="min-w-0 text-[16px] font-semibold [overflow-wrap:anywhere]" dir="auto"></h2>
+        <span class="badge shrink-0" data-panel-status hidden></span>
+      </div>
+      <p class="mt-0.5 text-xs text-muted" data-panel-description hidden dir="auto"></p>
     </div>
-    <button type="button" class="ibtn" data-panel-close aria-label="Close">
-      <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
-    </button>
+    <div class="flex flex-none items-center gap-2">
+      <button type="button" class="lbtn out" data-panel-edit hidden>Edit</button>
+      <div class="relative" data-panel-menu-wrap>
+        <button type="button" class="ibtn" data-panel-menu aria-haspopup="menu" aria-expanded="false" aria-label="More actions">
+          <svg width="15" height="15" aria-hidden="true"><use href="#i-dots" /></svg>
+        </button>
+        <div
+          class="absolute end-0 top-full z-10 mt-1 hidden min-w-[190px] gap-0.5 rounded-lg border border-line bg-surface p-1.5 shadow-shell [&.open]:grid"
+          role="menu"
+          aria-label="More actions"
+          data-panel-menu-list></div>
+      </div>
+      <button type="button" class="ibtn" data-panel-close aria-label="Close">
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
+      </button>
+    </div>
   </header>
   <form class="flex min-h-0 flex-1 flex-col" data-panel-form novalidate>
-    <div class="min-h-0 flex-1 overflow-auto px-[18px] py-4">
+    <div class="min-h-0 flex-1 overflow-auto px-5 py-4">
       <div data-panel-body></div>
       <section class="mt-5 border-t border-line pt-4" data-panel-related aria-label="Related items"></section>
     </div>
-    <footer class="flex justify-end gap-2 border-t border-line px-[18px] py-3">
-      <button type="button" class="lbtn" data-panel-cancel>Cancel</button>
+    <footer class="flex flex-none items-center justify-end gap-2 border-t border-line bg-[var(--line-2)] px-5 py-3" data-panel-footer>
+      <button type="button" class="lbtn out" data-panel-cancel>Cancel</button>
       <button type="submit" class="lbtn pri" data-panel-save>Save</button>
     </footer>
   </form>
@@ -66,19 +76,34 @@
     </div>
   </div>
 </div>
+<!-- Confirm dialog: the app's shared popup shell (.dscrim > .dlg > .dhd +
+     .dlg-inner > .dbody + .dfoot), the same one the invoice/customer status
+     dialogs use — toned header, body copy, footer buttons right. -->
 <div
   id="collab-confirm"
-  class="fixed inset-0 z-[160] hidden place-items-center bg-[rgba(17,24,39,0.4)] p-4 [&.open]:grid"
+  class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:160] hidden items-center justify-center [padding:24px]"
   role="alertdialog"
   aria-modal="true"
   aria-labelledby="collab-confirm-title"
   aria-describedby="collab-confirm-body">
-  <div class="w-[min(440px,92vw)] rounded-lg bg-surface p-5 shadow-shell" data-confirm-box>
-    <h2 id="collab-confirm-title" class="text-[15px] font-semibold"></h2>
-    <p id="collab-confirm-body" class="mt-2 text-[13px] text-muted"></p>
-    <div class="mt-4 flex justify-end gap-2">
-      <button type="button" class="lbtn" data-confirm-cancel>Cancel</button>
-      <button type="button" class="lbtn pri" data-confirm-ok></button>
+  <div
+    class="dlg [width:min(440px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+    data-tone="default"
+    data-confirm-box>
+    <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+      <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]"><use href="#i-warn" /></svg>
+      <h3 id="collab-confirm-title"></h3>
+    </div>
+    <div class="dlg-inner min-h-0 [padding:16px]">
+      <div class="dbody text-sm [line-height:1.55] text-ink">
+        <p id="collab-confirm-body"></p>
+      </div>
+      <div class="dfoot flex items-center gap-2.5 [padding:16px_0_0]!">
+        <span class="end ms-auto flex gap-2">
+          <button type="button" class="lbtn out" data-confirm-cancel>Cancel</button>
+          <button type="button" class="lbtn pri" data-confirm-ok></button>
+        </span>
+      </div>
     </div>
   </div>
 </div>
