@@ -7,7 +7,7 @@ import {encodeHtml} from '../../core/locale.js'
 export const escapeHtml = encodeHtml
 
 export const FIELD_CLASS =
-  'rec-field grid gap-1 [&>label]:text-xs [&>label]:text-muted [&_input:not([type=checkbox]):not([type=radio])]:w-full [&_input:not([type=checkbox]):not([type=radio])]:[padding:6px_8px] [&_input:not([type=checkbox]):not([type=radio])]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_28px_6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_select]:[appearance:none] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg_xmlns=http://www.w3.org/2000/svg_width=12_height=12_viewBox=0_0_12_12%3E%3Cpath_fill=%2344546f_d=M2.5_4.5_6_8l3.5-3.5z/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding:6px_8px_6px_28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_:is(input,select,textarea):hover]:[border-color:var(--accent-line)] [&_:is(input,select,textarea):focus-visible]:[outline:none] [&_:is(input,select,textarea):focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_:is(input,select,textarea):focus-visible]:[border-color:var(--accent)] [&_[aria-invalid=true]]:[border-color:var(--danger)]!'
+  'rec-field grid gap-1 [&>label]:text-xs [&>label]:text-muted [&_input:not([type=checkbox]):not([type=radio])]:w-full [&_input:not([type=checkbox]):not([type=radio])]:[padding:6px_8px] [&_input:not([type=checkbox]):not([type=radio])]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[height:34px] [&_select]:[padding:6px_28px_6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_select]:[appearance:none] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding:6px_8px_6px_28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_:is(input,select,textarea):hover]:[border-color:var(--accent-line)] [&_:is(input,select,textarea):focus-visible]:[outline:none] [&_:is(input,select,textarea):focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_:is(input,select,textarea):focus-visible]:[border-color:var(--accent)] [&_[aria-invalid=true]]:[border-color:var(--danger)]!'
 
 export const GRID_CLASS = 'grid grid-cols-1 gap-3 sm:grid-cols-2'
 export const SECTION_TITLE_CLASS = 'mb-2 text-xs font-semibold uppercase tracking-[.04em] text-faint'
@@ -65,6 +65,15 @@ export const switchInput = ({id, label, checked = false} = {}) =>
     </span> ${escapeHtml(label)}
   </label>`
 
+export const switchRow = ({id, label, checked = false} = {}) =>
+  `<label class="flex w-full min-h-[38px] cursor-pointer items-center justify-between gap-4 rounded-md border border-line bg-surface px-3 py-1.5 hover:border-[var(--accent-line)] focus-within:[box-shadow:0_0_0_3px_var(--accent-soft)]" for="${escapeHtml(id)}">
+    <span class="text-[13px] font-normal text-ink">${escapeHtml(label)}</span>
+    <span class="relative inline-flex h-5 w-[34px] flex-none">
+      <input type="checkbox" role="switch" id="${escapeHtml(id)}" name="${escapeHtml(id)}" class="peer absolute inset-0 m-0 cursor-pointer opacity-0"${checked ? ' checked' : ''}>
+      <span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-colors duration-[120ms] before:absolute before:start-[3px] before:top-[3px] before:size-4 before:rounded-full before:bg-inverse before:transition-transform before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[14px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[14px]"></span>
+    </span>
+  </label>`
+
 /** Show/clear an inline error under a field built with field(). */
 export function setFieldError(root, id, message) {
   const control = root.querySelector(`#${CSS.escape(id)}`)
@@ -92,10 +101,10 @@ export const icon = (name, size = 14) =>
 const CONTROL_BASE =
   'min-h-8 rounded-md border border-line bg-surface py-1 text-[13px] text-ink focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
 const SELECT_SKIN =
-  '[appearance:none] [background-image:url(data:image/svg+xml,%3Csvg_xmlns=http://www.w3.org/2000/svg_width=12_height=12_viewBox=0_0_12_12%3E%3Cpath_fill=%2344546f_d=M2.5_4.5_6_8l3.5-3.5z/%3E%3C/svg%3E)] [background-repeat:no-repeat] [background-position:right_8px_center] [background-size:12px] rtl:[background-position:left_8px_center]'
+  '[appearance:none] [background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [background-repeat:no-repeat] [background-position:right_8px_center] [background-size:12px] rtl:[background-position:left_8px_center]'
 
 export const TOOLBAR_CONTROL_CLASS = `${CONTROL_BASE} ps-2 pe-2`
-export const SELECT_CONTROL_CLASS = `${CONTROL_BASE} ps-2 pe-7 ${SELECT_SKIN}`
+export const SELECT_CONTROL_CLASS = `${CONTROL_BASE} h-8 ps-2 pe-7 ${SELECT_SKIN}`
 
 export const searchBox = ({id, label, value = ''}) =>
   `<label class="flex min-h-8 min-w-[160px] flex-1 items-center gap-2 rounded-md border border-line bg-surface px-2 text-faint sm:max-w-[240px] focus-within:[box-shadow:0_0_0_3px_var(--accent-soft)]" for="${id}">${icon('i-search', 13)}<input type="search" id="${id}" class="min-w-0 flex-1 border-0 bg-transparent py-1 text-[13px] text-ink outline-none" placeholder="${escapeHtml(label)}" aria-label="${escapeHtml(label)}" value="${escapeHtml(value)}" autocomplete="off"></label>`

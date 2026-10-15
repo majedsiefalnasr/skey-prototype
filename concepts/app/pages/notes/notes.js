@@ -11,7 +11,7 @@ import {
   textInput,
   textarea,
   selectInput,
-  switchInput,
+  switchRow,
   setFieldError,
   emptyState,
   GRID_CLASS,
@@ -313,7 +313,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
       ${field({id: 'note-body', label: 'Note', wide: true, control: textarea({id: 'note-body', value: note.body, rows: 7})})}
       ${field({id: 'note-status', label: 'Status', control: selectInput({id: 'note-status', value: note.status, options: NOTE_STATUSES})})}
       ${field({id: 'note-tags', label: 'Tags', hint: 'Separate tags with commas.', control: textInput({id: 'note-tags', value: (note.tags || []).join(', '), describedBy: 'note-tags-hint'})})}
-      <div class="sm:col-span-2">${switchInput({id: 'note-pinned', label: 'Pin this note to the top', checked: note.pinned})}</div>
+      <div class="sm:col-span-2">${switchRow({id: 'note-pinned', label: 'Pin this note to the top', checked: note.pinned})}</div>
     </div>`
   }
 
