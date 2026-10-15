@@ -40,10 +40,13 @@
               </div>
               <div class="email-list-tools mx-2.5 mt-1.5 mb-0 grid gap-1 [body.density-compact_&]:mx-2 [body.density-comfortable_&]:mx-3">
                 <div class="flex items-center justify-between gap-2 whitespace-nowrap">
-                  <span class="flex items-center gap-1.5">
-                    <input type="checkbox" data-mail-select-all aria-label="Select all messages" class="size-3.5 flex-none cursor-pointer accent-[var(--accent)]" />
-                    <span class="text-[12.5px] text-muted">Select all</span>
-                  </span>
+                  <label class="flex min-h-[28px] cursor-pointer items-center gap-1.5 text-[12.5px] text-muted">
+                    <span>Select all</span>
+                    <span class="relative inline-flex h-[17px] w-[30px] flex-none">
+                      <input type="checkbox" role="switch" data-mail-select-all class="peer absolute inset-0 m-0 cursor-pointer opacity-0" />
+                      <span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-[background] duration-[120ms] before:absolute before:start-0.5 before:top-0.5 before:size-[13px] before:rounded-full before:bg-inverse before:transition-[translate] before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[13px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[13px]"></span>
+                    </span>
+                  </label>
                   <label class="flex min-h-[28px] cursor-pointer items-center gap-1.5 text-[12.5px] text-muted">
                     <span>Unread only</span>
                     <span class="relative inline-flex h-[17px] w-[30px] flex-none">

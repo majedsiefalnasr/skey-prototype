@@ -12,7 +12,6 @@
   .email-list-row.active { background: var(--line-2); }
 
   .email-list-row { position: relative; }
-  .email-list-row.unread::before,
   .email-list-row.active::before {
     content: '';
     position: absolute;
@@ -23,21 +22,23 @@
     border-radius: 0 2px 2px 0;
     background: var(--accent);
   }
-  html[dir='rtl'] .email-list-row.unread::before,
   html[dir='rtl'] .email-list-row.active::before {
     border-radius: 2px 0 0 2px;
   }
 
-  /* The multi-selection deck stacks full-row cards: each back card is
-     inset a step further from the reading edge and overlaps the one in
-     front of it, so only the offset signs depend on writing direction —
-     margin-inline handles both. */
+  /* The multi-selection deck stacks full-row cards: each back card steps
+     further from the reading edge (never the far edge), with the front
+     card separated below the pile — margin-inline-start handles both
+     writing directions. */
   .email-sel-card[data-deck-edge] {
-    margin-inline: calc(var(--deck-k, 1) * 6px);
-    margin-top: -14px;
+    margin-inline-start: calc(var(--deck-k, 1) * 16px);
+    margin-top: 6px;
   }
   .email-sel-card[data-deck-edge].deck-first {
     margin-top: 0;
+  }
+  .email-sel-card.deck-front {
+    margin-top: 20px;
   }
 
 

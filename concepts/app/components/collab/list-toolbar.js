@@ -124,7 +124,7 @@ export const collabFilterChip = ({field, filter}) => {
       .map(option => {
         const value = optionValue(option)
         const selected = picked.includes(value)
-        return `<button class="flex min-h-8 w-full cursor-pointer items-center gap-2 rounded-[5px] px-2 text-[12.5px] text-ink hover:bg-[var(--line-2)] aria-selected:bg-[var(--line-2)]" type="button" role="option" aria-selected="${selected}" data-collab-multi-option="${escapeHtml(
+        return `<button class="flex min-h-8 w-full cursor-pointer items-center gap-2 rounded-[5px] px-2 text-start text-[12.5px] text-ink hover:bg-[var(--line-2)] aria-selected:bg-[var(--line-2)]" type="button" role="option" aria-selected="${selected}" data-collab-multi-option="${escapeHtml(
           field.key
         )}" data-value="${escapeHtml(value)}"><span class="grid size-4 flex-none place-items-center text-muted" data-collab-multi-check aria-hidden="true">${
           selected ? icon('i-check', 13) : ''

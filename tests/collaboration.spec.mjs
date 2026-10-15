@@ -755,12 +755,13 @@ test.describe('internal mail', () => {
     await unread.click()
     await expect(unread).not.toBeChecked()
     await expect(page.locator('.email-list-row')).toHaveCount(before)
-    // Select-all picks up every visible row: the Selection actions bar
-    // carries the count, and both unchecking and Clear drop it all.
+    // Select-all is a switch like the unread one: it picks up every visible
+    // row, the Selection actions bar carries the count, and both flipping
+    // it off and Clear drop it all.
     const selectAll = page.locator('[data-mail-select-all]')
+    await expect(selectAll).toHaveAttribute('role', 'switch')
     await selectAll.check()
     await expect(bulk).toContainText(`${before} selected`)
-    await expect(bulk.locator('[data-bulk-select-all]')).toBeChecked()
     await selectAll.uncheck()
     await expect(bulk).toHaveCount(0)
     await selectAll.check()
@@ -768,15 +769,15 @@ test.describe('internal mail', () => {
     await expect(bulk).toHaveCount(0)
   })
 
-  test('unread rows carry a start rail, the opened row a neutral band', async ({page}) => {
+  test('an unread row carries no start rail, the opened row a rail and neutral band', async ({page}) => {
     await go(page, '/help-screens/email')
     const unreadRow = page.locator('.email-list-row.unread').first()
     await expect(unreadRow).toBeVisible()
     const unreadStyles = await unreadRow.evaluate(el => ({
-      railWidth: getComputedStyle(el, '::before').width,
+      railContent: getComputedStyle(el, '::before').content,
       background: getComputedStyle(el).backgroundColor,
     }))
-    expect(unreadStyles.railWidth).toBe('3px')
+    expect(unreadStyles.railContent).toBe('none')
     expect(unreadStyles.background).toBe('rgba(0, 0, 0, 0)')
     await unreadRow.click()
     const activeRow = page.locator('.email-list-row.active')
@@ -814,6 +815,23 @@ test.describe('internal mail', () => {
     expect(geometry[0].width).toBeLessThan(geometry[1].width)
     // The front card still previews the first selected message.
     await expect(cards.nth(1)).toContainText('Payment scheduled for Sales Invoice 126')
+    // The whole block sits centred in the reading pane, both ways.
+    const layout = await page.evaluate(() => {
+      const scroll = document.querySelector('#email-reading .email-reading-scroll')
+      const head = document.querySelector('[data-sel-count]')
+      const hint = [...scroll.querySelectorAll('p')].find(p => p.textContent.includes('Use the bar'))
+      const s = scroll.getBoundingClientRect()
+      const h = head.getBoundingClientRect()
+      const f = hint.getBoundingClientRect()
+      return {
+        topGap: h.top - s.top,
+        bottomGap: s.bottom - f.bottom,
+        headCenter: (h.left + h.right) / 2,
+        scrollCenter: (s.left + s.right) / 2,
+      }
+    })
+    expect(Math.abs(layout.topGap - layout.bottomGap)).toBeLessThan(6)
+    expect(Math.abs(layout.headCenter - layout.scrollCenter)).toBeLessThan(2)
   })
 
   test('entering a mailbox opens no message until one is clicked', async ({page}) => {
