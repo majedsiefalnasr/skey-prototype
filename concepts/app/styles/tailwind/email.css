@@ -7,9 +7,16 @@
   .email-list-row.unread .email-list-subj { color: var(--ink); }
 
   /* Hover and active are both toggled via row state; kept in the same rule group so
-     the active row's background always wins over hover, matching the original cascade. */
+      the active row's background always wins over hover, matching the original cascade. */
   .email-list-row:hover { background: var(--hover-overlay); }
   .email-list-row.active { background: var(--accent-soft); }
+
+  /* The multi-selection deck fans its back cards up and to the reading end;
+     only the offset sign depends on writing direction, so it lives here
+     rather than in the inline stack markup. */
+  .email-sel-card[data-deck-edge] { transform: translateX(var(--deck-x, 0)); }
+  html[dir='rtl'] .email-sel-card[data-deck-edge] { transform: translateX(calc(-1 * var(--deck-x, 0))); }
+
 
   /* Placeholder color needs the ::placeholder pseudo-element selector. */
   .email-search input::placeholder { color: var(--faint); }

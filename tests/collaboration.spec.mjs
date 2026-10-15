@@ -696,6 +696,8 @@ test.describe('internal mail', () => {
     await go(page, '/help-screens/email')
     // The header carries the open mailbox's title above the search row.
     await expect(page.locator('[data-mail-folder-title]')).toHaveText('Inbox')
+    // The selection row stays tucked away until messages are picked.
+    await expect(page.locator('[data-mail-selection-tools]')).toBeHidden()
     // Unread-only hides the read messages; the switch carries the state.
     const unread = page.locator('[data-mail-unread-filter]')
     await expect(unread).not.toBeChecked()
@@ -712,12 +714,46 @@ test.describe('internal mail', () => {
     await selectAll.check()
     await expect(page.getByRole('toolbar', {name: 'Selection actions'})).toContainText(`${before} selected`)
     await expect(page.locator('[data-mail-select-label]')).toHaveText(`${before} selected`)
+    await expect(page.locator('[data-mail-selection-tools]')).toBeVisible()
     await selectAll.uncheck()
     await expect(page.getByRole('toolbar', {name: 'Selection actions'})).toHaveCount(0)
+    await expect(page.locator('[data-mail-selection-tools]')).toBeHidden()
     await selectAll.check()
     await page.locator('[data-mail-clear-selection]').click()
     await expect(page.getByRole('toolbar', {name: 'Selection actions'})).toHaveCount(0)
-    await expect(page.locator('[data-mail-select-label]')).toBeHidden()
+    await expect(page.locator('[data-mail-selection-tools]')).toBeHidden()
+  })
+
+  test('unread rows carry a tinted background and the header count is labelled', async ({page}) => {
+    await go(page, '/help-screens/email')
+    const unreadRow = page.locator('.email-list-row.unread').first()
+    const readRow = page.locator('.email-list-row:not(.unread)').first()
+    await expect(unreadRow).toBeVisible()
+    const unreadBg = await unreadRow.evaluate(el => getComputedStyle(el).backgroundColor)
+    const readBg = await readRow.evaluate(el => getComputedStyle(el).backgroundColor)
+    expect(unreadBg).not.toBe(readBg)
+    // The header number is a tag that says what it counts.
+    const count = page.locator('[data-mail-folder-count]')
+    await expect(count).toBeVisible()
+    await expect(count).toHaveText(/^\d+ unread$/)
+  })
+
+  test('multi-selection fans a deck of card edges behind the front card', async ({page}) => {
+    await go(page, '/help-screens/email')
+    await row(page, 'Payment scheduled').locator('[data-mail-check]').check()
+    await row(page, 'New quotation').locator('[data-mail-check]').check()
+    await expect(page.locator('[data-sel-count]')).toHaveText('2 messages selected')
+    const cards = page.locator('.email-sel-card')
+    await expect(cards).toHaveCount(2)
+    const edge = page.locator('[data-deck-edge]')
+    await expect(edge).toHaveCount(1)
+    const geometry = await cards.evaluateAll(els =>
+      els.map(el => ({position: getComputedStyle(el).position, top: el.getBoundingClientRect().top}))
+    )
+    expect(geometry[0].position).toBe('absolute')
+    expect(geometry[0].top).toBeLessThan(geometry[1].top)
+    // The front card still previews the first selected message.
+    await expect(cards.nth(1)).toContainText('Payment scheduled for Sales Invoice 126')
   })
 
   test('entering a mailbox opens no message until one is clicked', async ({page}) => {

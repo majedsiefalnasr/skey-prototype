@@ -159,7 +159,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     const count = root.querySelector('[data-mail-folder-count]')
     const n = folderCount(state.folder, customFolders().some(f => f.id === state.folder))
     if (count) {
-      count.textContent = n ? String(n) : ''
+      const label = state.folder === 'inbox' ? `${n} unread` : String(n)
+      count.textContent = n ? label : ''
       count.hidden = !n
     }
   }
@@ -329,12 +330,9 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     box.checked = ids.length > 0 && picked === ids.length
     box.indeterminate = picked > 0 && picked < ids.length
     const label = root.querySelector('[data-mail-select-label]')
-    if (label) {
-      label.textContent = state.selectedIds.size ? `${state.selectedIds.size} selected` : ''
-      label.hidden = !state.selectedIds.size
-    }
-    const clear = root.querySelector('[data-mail-clear-selection]')
-    if (clear) clear.hidden = !state.selectedIds.size
+    if (label) label.textContent = state.selectedIds.size ? `${state.selectedIds.size} selected` : ''
+    const tools = root.querySelector('[data-mail-selection-tools]')
+    if (tools) tools.hidden = !state.selectedIds.size
   }
 
   function renderList() {
@@ -372,7 +370,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         const subject = titleOf(m)
         return `${header}<li role="option" aria-selected="${selected}" data-id="${escapeHtml(m.id)}" ${opened ? 'aria-current="true"' : ''} tabindex="${
           m.id === state.focusedId || (!state.focusedId && (opened || index === 0)) ? 0 : -1
-        }" class="email-list-row${m.unread ? ' unread' : ''}${opened ? ' active' : ''} flex w-full cursor-pointer items-start gap-2.5 border-0 border-b border-line bg-transparent px-3.5 py-2.5 text-start font-[inherit] hover:bg-[var(--hover-overlay)] aria-[current=true]:bg-[var(--accent-soft)] aria-selected=true:bg-[var(--accent-soft)] aria-selected=true:[box-shadow:inset_2px_0_0_var(--accent)] rtl:aria-selected=true:[box-shadow:inset_-2px_0_0_var(--accent)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)] [body.density-compact_&]:py-2 [body.density-comfortable_&]:py-3.5">
+        }" class="email-list-row${m.unread ? ' unread' : ''}${opened ? ' active' : ''} flex w-full cursor-pointer items-start gap-2.5 border-0 border-b border-line ${m.unread ? 'bg-[var(--accent-soft)]' : 'bg-transparent'} px-3.5 py-2.5 text-start font-[inherit] hover:bg-[var(--hover-overlay)] aria-[current=true]:bg-[var(--accent-soft)] aria-selected=true:bg-[var(--accent-soft)] aria-selected=true:[box-shadow:inset_2px_0_0_var(--accent)] rtl:aria-selected=true:[box-shadow:inset_-2px_0_0_var(--accent)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)] [body.density-compact_&]:py-2 [body.density-comfortable_&]:py-3.5">
           <span class="flex-none pt-1"><input type="checkbox" data-mail-check aria-label="Select “${escapeHtml(subject)}”"${selected ? ' checked' : ''} class="size-3.5 cursor-pointer accent-[var(--accent)]"></span>
           <span class="${AVATAR_CLASS} w-7 h-7 text-xs" style="--hue:${Number(m.hue) || 210}">${avatar(m.folder === 'sent' || m.folder === 'drafts' ? m.to?.[0] || me : m.from, 14)}</span>
           <span class="min-w-0 flex-1">
@@ -1205,39 +1203,57 @@ export function createEmail({root, store, toast, related, confirm, users, curren
   /** Shown while two or more rows are selected: a stack of one card per
    *  selected message, so the pane itself signals a multi-selection instead
    *  of any single message's content. */
-  /* Two or more selected messages render as a centered stack of overlapping
-     cards — a preview of "these are the messages you are about to act on"
-     rather than a second list — under a count header and the bulk bar. */
+  /* Two or more selected messages render as a deck: the earlier messages in
+     the selection fan out as card edges behind the front card — sender line
+     on each edge — on a sunken stage under the count header and bulk bar. */
   function renderSelectionStack(ids) {
     const messages = ids.map(id => store.getEntity('mail', id)).filter(Boolean)
     const pane = queryId('email-reading')
-    pane.innerHTML = `<div class="flex-none" data-mail-toolbar>${bulkToolbarMarkup()}</div>
-      <div class="email-reading-scroll nc-scroll min-h-0 flex-1 overflow-auto p-4 [body.density-compact_&]:p-3 [body.density-comfortable_&]:p-5">
-        <div class="mx-auto w-full max-w-[480px]">
-          <p class="mb-2.5 text-center text-[12.5px] font-semibold text-muted" data-sel-count>${messages.length} messages selected</p>
-          <ul class="m-0 flex list-none flex-col p-0" aria-label="Selected messages">${messages
-            .map((m, i) => {
-              const text = Array.isArray(m.body) ? m.body.join(' ') : m.body || ''
-              return `<li class="email-sel-card relative flex cursor-pointer items-start gap-3 rounded-lg border border-line bg-surface px-3.5 py-3 shadow-[var(--shadow-1)] transition-colors hover:border-[var(--accent-line)] hover:bg-[var(--hover-overlay)] focus-visible:outline-2 focus-visible:outline-[var(--focus)]${
-                i ? ' -mt-2.5 pt-4' : ''
-              }" style="z-index:${i}" tabindex="0" data-sel-card data-id="${escapeHtml(m.id)}">
-              <span class="${AVATAR_CLASS} w-8 h-8 flex-none text-[13px] mt-0.5" style="--hue:${Number(m.hue) || 210}">${avatar(m.from, 15)}</span>
+    const STEP = 26
+    const FAN = 8
+    const edges = messages
+      .slice(1)
+      .reverse()
+      .map((m, reverseIndex) => {
+        const k = messages.length - 1 - reverseIndex
+        const time = `${formatTime(stampOf(m))}`
+        return `<li class="email-sel-card overflow-hidden rounded-xl border border-line bg-surface shadow-[var(--shadow-1)]" tabindex="0" data-sel-card data-deck-edge data-id="${escapeHtml(
+          m.id
+        )}" style="position:absolute;inset-inline:0;top:${
+          (messages.length - 1 - k) * STEP
+        }px;height:${k * STEP + 12}px;z-index:${19 - k};--deck-x:${k * FAN}px">
+          <span class="flex h-full items-center gap-2 px-3.5" dir="auto">
+            <span class="min-w-0 flex-1 truncate text-[12.5px]"><b class="font-semibold text-ink">${escapeHtml(counterpart(m))}</b><span class="text-muted"> — ${escapeHtml(titleOf(m))}</span></span>
+            <span class="flex-none text-[11px] text-faint">${escapeHtml(time)}</span>
+          </span>
+        </li>`
+      })
+      .join('')
+    const front = messages[0]
+    const frontText = Array.isArray(front.body) ? front.body.join(' ') : front.body || ''
+    const frontCard = `<li class="email-sel-card relative z-20 flex cursor-pointer items-start gap-3 rounded-xl border border-line bg-surface px-3.5 py-3 shadow-[var(--shadow-1)] transition-colors hover:border-[var(--accent-line)] hover:bg-[var(--hover-overlay)] focus-visible:outline-2 focus-visible:outline-[var(--focus)]" tabindex="0" data-sel-card data-id="${escapeHtml(front.id)}">
+              <span class="${AVATAR_CLASS} w-8 h-8 flex-none text-[13px] mt-0.5" style="--hue:${Number(front.hue) || 210}">${avatar(front.from, 15)}</span>
               <span class="min-w-0 flex-1">
                 <span class="flex items-baseline justify-between gap-2">
-                  <b class="truncate text-[13px] font-semibold text-ink" dir="auto">${escapeHtml(counterpart(m))}</b>
-                  <span class="flex-none text-xs text-faint">${escapeHtml(formatTime(stampOf(m)))}</span>
+                  <b class="truncate text-[13px] font-semibold text-ink" dir="auto">${escapeHtml(counterpart(front))}</b>
+                  <span class="flex-none text-xs text-faint">${escapeHtml(formatTime(stampOf(front)))}</span>
                 </span>
                 <span class="mt-0.5 flex items-center gap-1.5 text-[12.5px] text-muted">
-                  ${m.starred ? `<span class="text-accent">${icon('i-spark', 11)}<span class="sr-only">Starred</span></span>` : ''}
-                  <span class="min-w-0 flex-1 truncate" dir="auto">${escapeHtml(titleOf(m))}</span>
+                  ${front.starred ? `<span class="text-accent">${icon('i-spark', 11)}<span class="sr-only">Starred</span></span>` : ''}
+                  <span class="min-w-0 flex-1 truncate" dir="auto">${escapeHtml(titleOf(front))}</span>
                 </span>
-                <span class="mt-1 block text-[12.5px] leading-snug text-faint" dir="auto">${escapeHtml(text.slice(0, 120))}${text.length > 120 ? '…' : ''}</span>
+                <span class="mt-1 block text-[12.5px] leading-snug text-faint" dir="auto">${escapeHtml(frontText.slice(0, 120))}${frontText.length > 120 ? '…' : ''}</span>
               </span>
             </li>`
-            })
-            .join('')}</ul>
+    pane.innerHTML = `<div class="flex-none" data-mail-toolbar>${bulkToolbarMarkup()}</div>
+      <div class="email-reading-scroll nc-scroll min-h-0 flex-1 overflow-auto p-4 [body.density-compact_&]:p-3 [body.density-comfortable_&]:p-5">
+        <div class="mx-auto w-full max-w-[560px]">
+          <p class="mb-3 text-center text-[12.5px] font-semibold text-muted" data-sel-count>${messages.length} messages selected</p>
+          <div class="rounded-xl bg-bg p-5 [body.density-compact_&]:p-4 [body.density-comfortable_&]:p-6">
+            <ul class="relative m-0 list-none p-0" style="padding-top:${(messages.length - 1) * STEP}px" aria-label="Selected messages">${edges}${frontCard}</ul>
+          </div>
+          <p class="${HINT_CLASS} mt-3 text-center">Use the bar above to act on them all.</p>
         </div>
-        <p class="${HINT_CLASS} mt-3 text-center">Use the bar above to act on them all.</p>
       </div>`
     bindBulkToolbar(pane.querySelector('[data-mail-toolbar]'))
     pane.querySelectorAll('[data-sel-card]').forEach(card => {

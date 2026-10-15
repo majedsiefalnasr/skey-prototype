@@ -24,7 +24,7 @@
                   <svg width="16" height="16" aria-hidden="true"><use href="#i-panel" /></svg>
                 </button>
                 <span class="min-w-0 flex-1 truncate font-[inherit] text-[15px] font-semibold text-ink" data-mail-folder-title dir="auto">Inbox</span>
-                <span class="flex-none text-[12px] text-faint" data-mail-folder-count></span>
+                <span class="inline-flex flex-none items-center rounded-full bg-[var(--accent-soft)] px-1.5 py-0.5 text-[11px] font-semibold text-accent" data-mail-folder-count hidden></span>
               </div>
               <div class="email-list-hd flex items-center gap-1.5 m-2.5 mb-0 [body.density-compact_&]:m-2 [body.density-compact_&]:mb-0 [body.density-comfortable_&]:m-3 [body.density-comfortable_&]:mb-0">
                 <div class="email-search flex-1 flex items-center gap-[7px] py-[7px] px-[9px] rounded-[7px] border border-line text-faint [body.density-compact_&]:gap-1.5 [body.density-compact_&]:py-[5px] [body.density-compact_&]:px-[7px] [body.density-comfortable_&]:gap-2 [body.density-comfortable_&]:py-[9px] [body.density-comfortable_&]:px-[11px]">
@@ -38,20 +38,24 @@
                     class="border-0 outline-none bg-transparent font-[inherit] text-ink flex-1 min-w-0 p-0 placeholder:text-faint" />
                 </div>
               </div>
-              <div class="email-list-tools mx-2.5 mt-1.5 mb-0 flex items-center gap-1.5 [body.density-compact_&]:mx-2 [body.density-comfortable_&]:mx-3">
-                <span class="flex items-center gap-1.5">
-                  <input type="checkbox" data-mail-select-all aria-label="Select all messages" class="size-3.5 flex-none cursor-pointer accent-[var(--accent)]" />
-                  <span class="text-[12.5px] text-muted">Select all</span>
-                </span>
-                <span class="rounded-full bg-[var(--line-2)] px-1.5 py-0.5 text-[11px] font-semibold text-ink" data-mail-select-label hidden></span>
-                <button type="button" class="lbtn" data-mail-clear-selection hidden>Clear</button>
-                <label class="ms-auto flex min-h-[28px] cursor-pointer items-center gap-2 text-[12.5px] text-muted">
-                  <span>Unread only</span>
-                  <span class="relative inline-flex h-[17px] w-[30px] flex-none">
-                    <input type="checkbox" role="switch" data-mail-unread-filter class="peer absolute inset-0 m-0 cursor-pointer opacity-0" />
-                    <span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-[background] duration-[120ms] before:absolute before:start-0.5 before:top-0.5 before:size-[13px] before:rounded-full before:bg-inverse before:transition-[translate] before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[13px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[13px]"></span>
+              <div class="email-list-tools mx-2.5 mt-1.5 mb-0 grid gap-1 [body.density-compact_&]:mx-2 [body.density-comfortable_&]:mx-3">
+                <div class="flex items-center justify-between gap-2 whitespace-nowrap">
+                  <span class="flex items-center gap-1.5">
+                    <input type="checkbox" data-mail-select-all aria-label="Select all messages" class="size-3.5 flex-none cursor-pointer accent-[var(--accent)]" />
+                    <span class="text-[12.5px] text-muted">Select all</span>
                   </span>
-                </label>
+                  <label class="flex min-h-[28px] cursor-pointer items-center gap-1.5 text-[12.5px] text-muted">
+                    <span>Unread only</span>
+                    <span class="relative inline-flex h-[17px] w-[30px] flex-none">
+                      <input type="checkbox" role="switch" data-mail-unread-filter class="peer absolute inset-0 m-0 cursor-pointer opacity-0" />
+                      <span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-[background] duration-[120ms] before:absolute before:start-0.5 before:top-0.5 before:size-[13px] before:rounded-full before:bg-inverse before:transition-[translate] before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[13px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[13px]"></span>
+                    </span>
+                  </label>
+                </div>
+                <div class="flex items-center gap-1.5 whitespace-nowrap" data-mail-selection-tools hidden>
+                  <span class="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-[11px] font-semibold text-accent" data-mail-select-label></span>
+                  <button type="button" class="lbtn" data-mail-clear-selection>Clear</button>
+                </div>
               </div>
               <div class="nc-scroll min-h-0 flex-1 overflow-auto" id="email-list-scroll"></div>
             </div>
