@@ -1025,11 +1025,11 @@ test.describe('people data', () => {
     await expect(panel(page).locator('dt:text-is("Status") + dd .badge.gray')).toHaveText('Contact')
   })
 
-  test('toolbar matches the shared list-toolbar language (quick + filter + search, no view menu)', async ({page}) => {
+  test('toolbar matches the shared list-toolbar language (quick + filter + search + view menu)', async ({page}) => {
     await go(page, '/help-screens/people-data')
-    // People is list-only — the shared view menu must not appear.
-    await expect(page.locator('.people-view [data-view-menu]')).toHaveCount(0)
     await expect(page.locator('.people-view [data-collab-search]')).toBeVisible()
+    const viewMenu = page.locator('.people-view [data-view-menu]')
+    await expect(viewMenu.locator('summary')).toContainText('List')
     const quickMenu = page.locator('.people-view [data-quick-menu]')
     await expect(quickMenu.locator('summary')).toContainText('All people')
     await quickMenu.locator('summary').click()
@@ -1043,6 +1043,26 @@ test.describe('people data', () => {
     await clear.click()
     await expect(page.locator('.people-view table')).toContainText('Khaled Ibrahim')
     await expect(page.locator('.people-view [data-clear-filters]')).toHaveCount(0)
+  })
+
+  test('the view menu switches People between List and Cards like Customers', async ({page}) => {
+    await go(page, '/help-screens/people-data')
+    await expect(page.locator('.people-view table')).toBeVisible()
+    const viewMenu = page.locator('.people-view [data-view-menu]')
+    await viewMenu.locator('summary').click()
+    await viewMenu.getByRole('menuitemradio', {name: 'Cards view'}).click()
+    await expect(viewMenu.locator('summary')).toContainText('Cards')
+    await expect(page.locator('.people-view table')).toHaveCount(0)
+    await expect(page.locator('.people-view .data-card-grid')).toBeVisible()
+    const identity = page.locator('.people-view .data-record-card [data-row-open]', {hasText: 'Khaled Ibrahim'})
+    await expect(identity).toBeVisible()
+    await identity.click()
+    await expect(panel(page).locator('dt:text-is("Name (English)") + dd')).toContainText('Khaled Ibrahim')
+    await page.keyboard.press('Escape')
+    await viewMenu.locator('summary').click()
+    await viewMenu.getByRole('menuitemradio', {name: 'List view'}).click()
+    await expect(page.locator('.people-view table')).toBeVisible()
+    await expect(page.locator('.people-view .data-card-grid')).toHaveCount(0)
   })
 
   test('Archived lives in the quick menu and hides archived people by default', async ({page}) => {

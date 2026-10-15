@@ -14,7 +14,6 @@ import {
   GRID_CLASS,
   SECTION_TITLE_CLASS,
   ERROR_CLASS,
-  TABLE_CLASS,
   ROW_BUTTON_CLASS,
   VIEW_LIST_CLASS,
   viewRow,
@@ -25,6 +24,7 @@ import {
   menuItemRadio,
   clearFilterButton,
   searchField,
+  viewMenu,
   closeOwnedMenu,
   collabFieldChoices,
   collabFilterChips,
@@ -32,6 +32,7 @@ import {
   bindCollabFieldFilters,
   restoreCollabFilterFocus,
 } from '../../components/collab/list-toolbar.js'
+import {DATA_RECORD_CARD_CLASS, DATA_RECORD_CARD_IDENTITY_CLASS} from '../list-cards.js'
 import {CONVERSION_TARGETS, conversionLabel, titleOf, searchText, findPersonDuplicates} from '../../components/collab/meta.js'
 
 const CONTACT_KINDS = [
@@ -51,6 +52,16 @@ const QUICK_FILTERS = [
   ['contact', 'Contact', 'i-check'],
   ['archived', 'Archived', 'i-archive'],
 ]
+/* The change-view menu mirrors the Customers table: the invoices-style
+   list and a card grid over the same rows. */
+const VIEW_PRESENTATION = {
+  list: {label: 'List', icon: 'i-grid'},
+  cards: {label: 'Cards', icon: 'i-panel'},
+}
+/* The invoices list table, same classes as renderDataList emits — the
+   shell, the scroll box and the bordered sticky-header grid. */
+const INV_GRID_CLASS =
+  'inv-grid w-full [border-collapse:collapse] [font-size:13px] [&_th]:text-start [&_th]:[padding:8px_12px] [&_th]:text-muted [&_th]:font-medium [&_th]:[border-bottom:1px_solid_var(--line)] [&_th]:whitespace-nowrap [&_th]:sticky [&_th]:top-0 [&_th]:z-[3] [&_td]:[padding:8px_12px] [&_td]:[border-bottom:1px_solid_var(--line-2)] [&_td]:text-ink [&_td]:whitespace-nowrap [&_td]:[text-overflow:ellipsis] [&_td]:overflow-hidden [&_td]:[max-width:200px] [&_tbody_tr:hover]:[background:var(--hover-overlay)]'
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const FIELD_LABEL = {mobile: 'mobile', phone: 'phone', email: 'email', name: 'name'}
 const SMALL_CONTROL =
@@ -61,7 +72,7 @@ const primaryOf = (person, kind) =>
 
 export function createPeople({store, toast, panel, related, confirm, goHome}) {
   const view = () => document.querySelector('.people-view')
-  const state = {query: '', lifecycle: '', fieldFilters: []}
+  const state = {view: 'list', query: '', lifecycle: '', fieldFilters: []}
   let built = false
   let unsubscribe = null
 
@@ -108,13 +119,18 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
     const fields = filterFields()
     /* The shared list-toolbar chrome: quick (Status) menu and "+ Filter" —
        the field chooser, like Customers — with editable value chips on the
-       left, search on the right — People is list-only, so there is no view
-       menu. */
+       left; search and the change-view menu on the right. */
     const quick = QUICK_FILTERS.find(([id]) => id === state.lifecycle) || QUICK_FILTERS[0]
     const quickItems = QUICK_FILTERS.map(([id, label, iconName]) =>
       menuItemRadio({attr: 'quick-filter', value: id, label, iconName, checked: state.lifecycle === id})
     ).join('')
     const filterItems = collabFieldChoices({fields, activeKeys: new Set(state.fieldFilters.map(filter => filter.key))})
+    const presentation = VIEW_PRESENTATION[state.view]
+    const viewOptions = Object.entries(VIEW_PRESENTATION)
+      .map(([id, entry]) =>
+        menuItemRadio({attr: 'view-select', value: id, label: `${entry.label} view`, iconName: entry.icon, checked: state.view === id})
+      )
+      .join('')
     host.innerHTML = `<div class="data-list-controls grid gap-2 mb-2.5">${toolbarRow({
       ariaLabel: 'People table controls',
       left: `${menuDetails({attr: 'quick-menu', iconName: quick[2], label: quick[1], items: quickItems})}${menuDetails({
@@ -125,7 +141,12 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
       })}${collabFilterChips({fields, filters: state.fieldFilters})}${
         filterActive() ? clearFilterButton({attr: 'clear-filters'}) : ''
       }`,
-      right: `${searchField({attr: 'collab-search', label: 'people', value: state.query})}`,
+      right: `${searchField({attr: 'collab-search', label: 'people', value: state.query})}${viewMenu({
+        attr: 'view-menu',
+        label: presentation.label,
+        iconName: presentation.icon,
+        options: viewOptions,
+      })}`,
     })}</div>`
     const refresh = () => {
       buildToolbar()
@@ -148,6 +169,13 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
       state.fieldFilters.splice(0, state.fieldFilters.length)
       refresh()
     })
+    host.querySelectorAll('[data-view-select]').forEach(item =>
+      item.addEventListener('click', event => {
+        state.view = item.dataset.viewSelect
+        closeOwnedMenu(event.currentTarget)
+        refresh()
+      })
+    )
     const search = host.querySelector('[data-collab-search]')
     const searchClear = host.querySelector('[data-collab-search-clear]')
     search.addEventListener('input', event => {
@@ -176,21 +204,74 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
           : emptyState({iconName: 'i-user', title: 'No people yet', body: 'Add someone with New person — only an English name is required.'})
       return
     }
-    body.innerHTML = `<table class="${TABLE_CLASS}">
-      <thead><tr><th scope="col">Name</th><th scope="col">Company</th><th scope="col">Mobile / phone</th><th scope="col">Email</th><th scope="col">Status</th></tr></thead>
-      <tbody>${people
-        .map(
-          p => `<tr>
-          <td><button type="button" class="${ROW_BUTTON_CLASS}" data-row-open="${escapeHtml(p.id)}"><span class="block" dir="auto">${escapeHtml(p.nameEn)}</span>${p.nameAr ? `<span class="block text-xs font-normal text-muted" dir="rtl" lang="ar">${escapeHtml(p.nameAr)}</span>` : ''}</button></td>
-          <td dir="auto">${escapeHtml(p.company || '—')}</td>
-          <td dir="ltr" class="text-start">${escapeHtml(primaryOf(p, 'phone') || '—')}</td>
-          <td>${escapeHtml(primaryOf(p, 'email') || '—')}</td>
-          <td><span class="flex flex-wrap gap-1"><span class="badge gray">${p.lifecycle === 'contact' ? 'Contact' : 'Lead'}</span>${p.convertedTo ? `<span class="badge ok">Converted to ${escapeHtml(conversionLabel(p.convertedTo.target))}</span>` : ''}${p.archived ? '<span class="badge gray">Archived</span>' : ''}</span></td>
-        </tr>`
-        )
-        .join('')}</tbody></table>`
+    body.innerHTML = state.view === 'cards' ? cardsMarkup(people) : listMarkup(people)
     body.querySelectorAll('[data-row-open]').forEach(button => button.addEventListener('click', () => openPerson(button.dataset.rowOpen)))
   }
+
+  const listMarkup = people => `<div class="data-list-shell relative overflow-visible rounded-lg border border-line bg-surface [box-shadow:var(--shadow-1)]">
+      <div class="data-table-scroll overflow-auto rounded-[inherit] max-w-full max-h-[max(280px,calc(100dvh-360px))]">
+        <table class="${INV_GRID_CLASS} [table-layout:fixed]" data-people-grid>
+          <colgroup><col><col style="width:160px"><col style="width:150px"><col style="width:180px"><col style="width:220px"></colgroup>
+          <thead><tr><th scope="col">Name</th><th scope="col">Company</th><th scope="col">Mobile / phone</th><th scope="col">Email</th><th scope="col">Status</th></tr></thead>
+          <tbody>${people
+            .map(
+              p => `<tr>
+            <td><button type="button" class="${ROW_BUTTON_CLASS}" data-row-open="${escapeHtml(p.id)}"><span class="block" dir="auto">${escapeHtml(
+                p.nameEn
+              )}</span>${p.nameAr ? `<span class="block text-xs font-normal text-muted" dir="rtl" lang="ar">${escapeHtml(p.nameAr)}</span>` : ''}</button></td>
+            <td dir="auto">${escapeHtml(p.company || '—')}</td>
+            <td dir="ltr" class="text-start">${escapeHtml(primaryOf(p, 'phone') || '—')}</td>
+            <td dir="ltr" class="text-start">${escapeHtml(primaryOf(p, 'email') || '—')}</td>
+            <td><span class="flex flex-wrap gap-1"><span class="badge gray">${p.lifecycle === 'contact' ? 'Contact' : 'Lead'}</span>${
+              p.convertedTo ? `<span class="badge ok">Converted to ${escapeHtml(conversionLabel(p.convertedTo.target))}</span>` : ''
+            }${p.archived ? '<span class="badge gray">Archived</span>' : ''}</span></td>
+          </tr>`
+            )
+            .join('')}</tbody>
+        </table>
+      </div>
+    </div>`
+
+  const personFact = ([label, value, dir]) =>
+    `<div class="min-w-0"><dt class="mb-0.5! text-[12px] text-muted">${escapeHtml(label)}</dt><dd class="m-0! truncate text-[12.5px] font-semibold text-ink"${
+      dir ? ` dir="${dir}"` : ''
+    }>${escapeHtml(String(value ?? '—'))}</dd></div>`
+
+  const personCardMarkup = p => {
+    const location = [p.city, p.country].filter(Boolean).join(', ')
+    return `<article class="${DATA_RECORD_CARD_CLASS} data-record-card-person" role="listitem" data-list-row-key="${escapeHtml(p.id)}">
+      <header class="data-record-card-header flex min-w-0 items-center gap-[9px]">
+        <span class="data-record-avatar grid size-9 flex-none place-items-center rounded-full bg-[var(--line-2)] text-[12px] font-bold text-ink" aria-hidden="true">${escapeHtml(
+          titleOf(p).charAt(0)
+        )}</span>
+        <button class="${DATA_RECORD_CARD_IDENTITY_CLASS}" type="button" data-row-open="${escapeHtml(p.id)}"><div><strong dir="auto">${escapeHtml(
+          titleOf(p)
+        )}</strong><span dir="auto">${escapeHtml(p.company || '—')}</span></div></button>
+        <span class="badge gray">${p.lifecycle === 'contact' ? 'Contact' : 'Lead'}</span>
+      </header>
+      <div class="data-record-card-snapshot grid grid-cols-[minmax(0,1fr)_auto] items-end gap-5 rounded-md bg-[var(--line-2)] px-3.5 py-3 [&>div]:min-w-0 [&_small]:block [&_small]:text-[12px] [&_small]:text-muted [&_span]:block [&_span]:text-[12px] [&_span]:text-muted">
+        <div><span>Profile</span><strong class="my-0.5! block truncate text-[13px] text-ink" dir="auto">${escapeHtml(
+          p.jobTitle || 'No job title'
+        )}</strong>${p.nameAr ? `<small dir="rtl" lang="ar">${escapeHtml(p.nameAr)}</small>` : `<small>${escapeHtml(p.lifecycle === 'contact' ? 'Contact' : 'Lead')}</small>`}</div>
+        <div class="data-record-card-snapshot-value text-end"><span>Mobile / phone</span><strong class="my-0.5! block truncate text-[14px] text-ink" dir="ltr">${escapeHtml(
+          primaryOf(p, 'phone') || '—'
+        )}</strong></div>
+      </div>
+      <dl class="data-record-card-meta m-0! grid grid-cols-2 gap-x-3.5 gap-y-2.5">${[
+        ['Email', primaryOf(p, 'email') || '—', 'ltr'],
+        ['Converted', p.convertedTo ? `Converted to ${conversionLabel(p.convertedTo.target)}` : '—'],
+        ['Address', location || '—'],
+        ['Status', p.archived ? 'Archived' : p.lifecycle === 'contact' ? 'Contact' : 'Lead'],
+      ]
+        .map(personFact)
+        .join('')}</dl>
+    </article>`
+  }
+
+  const cardsMarkup = people =>
+    `<div class="data-card-grid grid grid-cols-3 gap-5 rounded-[10px] bg-bg p-3 max-[1240px]:grid-cols-2 max-[720px]:grid-cols-1" role="list" aria-label="People cards">${people
+      .map(personCardMarkup)
+      .join('')}</div>`
 
   /* ---------- editor ---------- */
   const contactRow = (contact, index) => `<div class="grid gap-1" data-contact-row>
