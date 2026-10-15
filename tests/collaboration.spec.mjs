@@ -632,6 +632,9 @@ test.describe('internal mail', () => {
     )).toBe(true)
     await go(page, '/help-screens/notes')
     await go(page, '/help-screens/email')
+    // Entering the mailbox no longer opens a message on its own — reopen it
+    // and the half-typed reply is still there.
+    await row(page, 'Payment scheduled').click()
     await expect(page.locator('#email-quick-reply')).toHaveValue('I will check the receipt')
   })
 
@@ -693,23 +696,41 @@ test.describe('internal mail', () => {
     await go(page, '/help-screens/email')
     // The header carries the open mailbox's title above the search row.
     await expect(page.locator('[data-mail-folder-title]')).toHaveText('Inbox')
-    // Unread-only hides the read messages; the toggle carries the state.
+    // Unread-only hides the read messages; the switch carries the state.
     const unread = page.locator('[data-mail-unread-filter]')
-    await expect(unread).toHaveAttribute('aria-pressed', 'false')
+    await expect(unread).not.toBeChecked()
     const before = await page.locator('.email-list-row').count()
     await unread.click()
-    await expect(unread).toHaveAttribute('aria-pressed', 'true')
+    await expect(unread).toBeChecked()
     expect(await page.locator('.email-list-row').count()).toBeLessThan(before)
     await unread.click()
-    await expect(unread).toHaveAttribute('aria-pressed', 'false')
+    await expect(unread).not.toBeChecked()
     await expect(page.locator('.email-list-row')).toHaveCount(before)
-    // Select-all picks up every visible row (the bulk bar appears), and
-    // clearing it drops them all.
+    // Select-all picks up every visible row (the bulk bar appears), the
+    // chip counts the selection, and both unchecking and Clear drop it all.
     const selectAll = page.locator('[data-mail-select-all]')
     await selectAll.check()
     await expect(page.getByRole('toolbar', {name: 'Selection actions'})).toContainText(`${before} selected`)
+    await expect(page.locator('[data-mail-select-label]')).toHaveText(`${before} selected`)
     await selectAll.uncheck()
     await expect(page.getByRole('toolbar', {name: 'Selection actions'})).toHaveCount(0)
+    await selectAll.check()
+    await page.locator('[data-mail-clear-selection]').click()
+    await expect(page.getByRole('toolbar', {name: 'Selection actions'})).toHaveCount(0)
+    await expect(page.locator('[data-mail-select-label]')).toBeHidden()
+  })
+
+  test('entering a mailbox opens no message until one is clicked', async ({page}) => {
+    await go(page, '/help-screens/email')
+    // The reading pane waits behind the first click: no auto-opened message,
+    // and the first row carries the roving tabindex so the list is
+    // reachable by keyboard straight away.
+    await expect(page.locator('#email-reading')).toContainText('Select a message to read it')
+    await expect(page.locator('.email-reading-body')).toHaveCount(0)
+    await expect(page.locator('.email-list-row').first()).toHaveAttribute('tabindex', '0')
+    await row(page, 'Payment scheduled').click()
+    await expect(page.locator('.email-reading-body')).toBeVisible()
+    await expect(row(page, 'Payment scheduled')).toHaveAttribute('aria-selected', 'true')
   })
 
   const folder = (page, id) => page.locator(`.email-view [data-folder="${id}"]`)

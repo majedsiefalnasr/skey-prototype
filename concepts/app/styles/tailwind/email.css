@@ -75,14 +75,14 @@
     .email-list {
       margin-inline-start: var(--rail-w);
     }
-    /* The peek covers the list header's expand button spot — the button used
-       to sit above the open rail (z-6), which read as a stray control
-       floating on the rail. Now it steps out while the rail peeks (hover or
-       focus) and steps back when the rail folds; collapsed the rail is only
-       its 52px strip, so the button is reachable outside it, and pinned the
-       rail is layout and the header shifts with the list. */
+    /* The peek covers the mailbox title row's expand button spot — the
+        button used to sit above the open rail (z-6), which read as a stray
+        control floating on the rail. Now it steps out while the rail peeks
+        (hover or focus) and steps back when the rail folds; collapsed the
+        rail is only its 52px strip, so the button is reachable outside it,
+        and pinned the rail is layout and the header shifts with the list. */
     .email-app:has(.email-folders:not(.is-open):is(:hover, :focus-within))
-      .email-list-hd
+      .email-list-title
       [data-rail-toggle] {
       visibility: hidden;
     }

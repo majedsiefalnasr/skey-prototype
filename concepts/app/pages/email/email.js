@@ -331,7 +331,10 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     const label = root.querySelector('[data-mail-select-label]')
     if (label) {
       label.textContent = state.selectedIds.size ? `${state.selectedIds.size} selected` : ''
+      label.hidden = !state.selectedIds.size
     }
+    const clear = root.querySelector('[data-mail-clear-selection]')
+    if (clear) clear.hidden = !state.selectedIds.size
   }
 
   function renderList() {
@@ -356,7 +359,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
        the bulk bar. Roving tabindex: the focused/selected row carries
        tabindex 0, the rest -1. */
     scroll.innerHTML = `<ul role="listbox" aria-multiselectable="true" class="m-0 list-none p-0" aria-label="${escapeHtml(folderLabel(state.folder))} messages">${messages
-      .map(m => {
+      .map((m, index) => {
         const day = dayLabel(stampOf(m))
         const header =
           day !== lastDay
@@ -367,7 +370,9 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         const opened = m.id === state.selectedId
         const selected = state.selectedIds.has(m.id)
         const subject = titleOf(m)
-        return `${header}<li role="option" aria-selected="${selected}" data-id="${escapeHtml(m.id)}" ${opened ? 'aria-current="true"' : ''} tabindex="${m.id === state.focusedId || (!state.focusedId && opened) ? 0 : -1}" class="email-list-row${m.unread ? ' unread' : ''}${opened ? ' active' : ''} flex w-full cursor-pointer items-start gap-2.5 border-0 border-b border-line bg-transparent px-3.5 py-2.5 text-start font-[inherit] hover:bg-[var(--hover-overlay)] aria-[current=true]:bg-[var(--accent-soft)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)] [body.density-compact_&]:py-2 [body.density-comfortable_&]:py-3.5">
+        return `${header}<li role="option" aria-selected="${selected}" data-id="${escapeHtml(m.id)}" ${opened ? 'aria-current="true"' : ''} tabindex="${
+          m.id === state.focusedId || (!state.focusedId && (opened || index === 0)) ? 0 : -1
+        }" class="email-list-row${m.unread ? ' unread' : ''}${opened ? ' active' : ''} flex w-full cursor-pointer items-start gap-2.5 border-0 border-b border-line bg-transparent px-3.5 py-2.5 text-start font-[inherit] hover:bg-[var(--hover-overlay)] aria-[current=true]:bg-[var(--accent-soft)] aria-selected=true:bg-[var(--accent-soft)] aria-selected=true:[box-shadow:inset_2px_0_0_var(--accent)] rtl:aria-selected=true:[box-shadow:inset_-2px_0_0_var(--accent)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)] [body.density-compact_&]:py-2 [body.density-comfortable_&]:py-3.5">
           <span class="flex-none pt-1"><input type="checkbox" data-mail-check aria-label="Select “${escapeHtml(subject)}”"${selected ? ' checked' : ''} class="size-3.5 cursor-pointer accent-[var(--accent)]"></span>
           <span class="${AVATAR_CLASS} w-7 h-7 text-xs" style="--hue:${Number(m.hue) || 210}">${avatar(m.folder === 'sent' || m.folder === 'drafts' ? m.to?.[0] || me : m.from, 14)}</span>
           <span class="min-w-0 flex-1">
@@ -1200,15 +1205,22 @@ export function createEmail({root, store, toast, related, confirm, users, curren
   /** Shown while two or more rows are selected: a stack of one card per
    *  selected message, so the pane itself signals a multi-selection instead
    *  of any single message's content. */
+  /* Two or more selected messages render as a centered stack of overlapping
+     cards — a preview of "these are the messages you are about to act on"
+     rather than a second list — under a count header and the bulk bar. */
   function renderSelectionStack(ids) {
     const messages = ids.map(id => store.getEntity('mail', id)).filter(Boolean)
     const pane = queryId('email-reading')
     pane.innerHTML = `<div class="flex-none" data-mail-toolbar>${bulkToolbarMarkup()}</div>
       <div class="email-reading-scroll nc-scroll min-h-0 flex-1 overflow-auto p-4 [body.density-compact_&]:p-3 [body.density-comfortable_&]:p-5">
-        <ul class="m-0 flex list-none flex-col gap-2 p-0" aria-label="Selected messages">${messages
-          .map(m => {
-            const text = Array.isArray(m.body) ? m.body.join(' ') : m.body || ''
-            return `<li class="email-sel-card flex cursor-pointer items-start gap-3 rounded-lg border border-line bg-surface px-3.5 py-3 transition-colors hover:border-[var(--accent-line)] hover:bg-[var(--hover-overlay)] focus-visible:outline-2 focus-visible:outline-[var(--focus)]" tabindex="0" data-sel-card data-id="${escapeHtml(m.id)}">
+        <div class="mx-auto w-full max-w-[480px]">
+          <p class="mb-2.5 text-center text-[12.5px] font-semibold text-muted" data-sel-count>${messages.length} messages selected</p>
+          <ul class="m-0 flex list-none flex-col p-0" aria-label="Selected messages">${messages
+            .map((m, i) => {
+              const text = Array.isArray(m.body) ? m.body.join(' ') : m.body || ''
+              return `<li class="email-sel-card relative flex cursor-pointer items-start gap-3 rounded-lg border border-line bg-surface px-3.5 py-3 shadow-[var(--shadow-1)] transition-colors hover:border-[var(--accent-line)] hover:bg-[var(--hover-overlay)] focus-visible:outline-2 focus-visible:outline-[var(--focus)]${
+                i ? ' -mt-2.5 pt-4' : ''
+              }" style="z-index:${i}" tabindex="0" data-sel-card data-id="${escapeHtml(m.id)}">
               <span class="${AVATAR_CLASS} w-8 h-8 flex-none text-[13px] mt-0.5" style="--hue:${Number(m.hue) || 210}">${avatar(m.from, 15)}</span>
               <span class="min-w-0 flex-1">
                 <span class="flex items-baseline justify-between gap-2">
@@ -1222,9 +1234,10 @@ export function createEmail({root, store, toast, related, confirm, users, curren
                 <span class="mt-1 block text-[12.5px] leading-snug text-faint" dir="auto">${escapeHtml(text.slice(0, 120))}${text.length > 120 ? '…' : ''}</span>
               </span>
             </li>`
-          })
-          .join('')}</ul>
-        <p class="${HINT_CLASS} mt-3">${messages.length} messages are selected. Use the bar above to act on them all.</p>
+            })
+            .join('')}</ul>
+        </div>
+        <p class="${HINT_CLASS} mt-3 text-center">Use the bar above to act on them all.</p>
       </div>`
     bindBulkToolbar(pane.querySelector('[data-mail-toolbar]'))
     pane.querySelectorAll('[data-sel-card]').forEach(card => {
@@ -1255,8 +1268,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     applyLayout()
   }
 
-  /* The expand/collapse toggle lives in the list header, outside the rail
-     that renderFolders rebuilds, so it binds once. */
+  /* The expand/collapse toggle lives in the mailbox title row, outside the
+     rail that renderFolders rebuilds, so it binds once. */
   root.querySelector('[data-rail-toggle]').addEventListener('click', event => {
     state.railOpen = !state.railOpen
     renderFolders()
@@ -1294,14 +1307,12 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       closeFolderForm()
     }
   }, {signal})
-  /* The unread quick-filter and the select-all checkbox live in the list
-     header, outside the list renderFolders/renderList rebuild, so they bind
+  /* The unread switch and the select-all controls live in the list tools
+     row, outside the list renderFolders/renderList rebuild, so they bind
      once. Select-all works on the visible rows — search and the unread
-     filter included — and the header checkbox reflects them via
-     syncSelectAll. */
-  root.querySelector('[data-mail-unread-filter]').addEventListener('click', event => {
-    state.unreadOnly = !state.unreadOnly
-    event.currentTarget.setAttribute('aria-pressed', String(state.unreadOnly))
+     filter included — and the row reflects them via syncSelectAll. */
+  root.querySelector('[data-mail-unread-filter]').addEventListener('change', event => {
+    state.unreadOnly = event.currentTarget.checked
     renderList()
   }, {signal})
   root.querySelector('[data-mail-select-all]').addEventListener('change', event => {
@@ -1309,6 +1320,12 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     const ids = visibleMessages().map(m => m.id)
     if (box.checked) ids.forEach(id => state.selectedIds.add(id))
     else ids.forEach(id => state.selectedIds.delete(id))
+    renderList()
+    refreshToolbar()
+  }, {signal})
+  root.querySelector('[data-mail-clear-selection]').addEventListener('click', () => {
+    state.selectedIds.clear()
+    state.selectionAnchor = state.selectedId
     renderList()
     refreshToolbar()
   }, {signal})
@@ -1348,10 +1365,9 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         }
         toast({tone: 'warn', title: 'This message is no longer available', body: 'It may have been deleted.'})
       }
-      if (state.mode === 'read' && !state.selectedId) {
-        const first = folderMail(state.folder)[0]
-        if (first && !narrow()) return selectMessage(first.id)
-      }
+      /* Entering the mailbox never opens a message on its own — the reading
+         pane waits behind the first click (notification deep links still
+         arrive through the messageId path above). */
       renderAll()
     },
     deactivate() {
