@@ -1,3 +1,5 @@
+import {uiLocale} from '../../core/locale.js'
+const {t} = uiLocale
 // Kanban board shared by Notes and Activities. Columns are status buckets;
 // moving a card only reports (id, column) to the page, which changes that
 // one status field. Drag and drop is mouse sugar: Notes also carries a
@@ -33,12 +35,12 @@ export function renderBoard(host, {columns, renderCard, renderCardActions, title
   host.innerHTML = `<div class="flex items-start gap-3 overflow-x-auto pb-2" data-board>${columns
     .map(column => {
       const collapsed = Boolean(column.collapsed)
-      return `<section class="${COLUMN_CLASS}" data-column="${escapeHtml(column.id)}" data-collapsed="${collapsed}" aria-label="${escapeHtml(column.label)}">
+      return `<section class="${COLUMN_CLASS}" data-column="${escapeHtml(column.id)}" data-collapsed="${collapsed}" aria-label="${escapeHtml(t(column.label))}">
         <header class="flex items-center gap-2 px-3 py-2.5">
-          <h3 class="flex-1 text-[13px] font-semibold text-ink">${escapeHtml(column.label)} <span class="font-normal text-muted">· ${column.items.length}</span></h3>
+          <h3 class="flex-1 text-[13px] font-semibold text-ink">${escapeHtml(t(column.label))} <span class="font-normal text-muted">· ${column.items.length}</span></h3>
           ${
             onToggleColumn && column.collapsible
-              ? `<button type="button" class="lbtn" data-toggle-column="${escapeHtml(column.id)}" aria-expanded="${!collapsed}">${collapsed ? 'Show' : 'Hide'}</button>`
+              ? `<button type="button" class="lbtn" data-toggle-column="${escapeHtml(column.id)}" aria-expanded="${!collapsed}">${t(collapsed ? 'Show' : 'Hide')}</button>`
               : ''
           }
         </header>
@@ -48,7 +50,7 @@ export function renderBoard(host, {columns, renderCard, renderCardActions, title
             : `<div class="flex flex-1 flex-col gap-2 px-2 pb-2">
           ${
             column.quickAdd && onQuickAdd
-              ? `<label class="sr-only" for="quick-add-${escapeHtml(column.id)}">Add to ${escapeHtml(column.label)}</label><input id="quick-add-${escapeHtml(column.id)}" data-quick-add="${escapeHtml(column.id)}" dir="auto" autocomplete="off" placeholder="${escapeHtml(column.quickAdd)}" class="min-h-8 w-full rounded-md border border-dashed border-line bg-surface px-2.5 text-[13px] text-ink placeholder:text-muted focus-visible:border-solid focus-visible:border-[var(--accent)] focus-visible:outline-none">`
+              ? `<label class="sr-only" for="quick-add-${escapeHtml(column.id)}">${t('Add to')} ${escapeHtml(t(column.label))}</label><input id="quick-add-${escapeHtml(column.id)}" data-quick-add="${escapeHtml(column.id)}" dir="auto" autocomplete="off" placeholder="${escapeHtml(t(column.quickAdd))}" class="min-h-8 w-full rounded-md border border-dashed border-line bg-surface px-2.5 text-[13px] text-ink placeholder:text-muted focus-visible:border-solid focus-visible:border-[var(--accent)] focus-visible:outline-none">`
               : ''
           }
           ${
@@ -66,10 +68,10 @@ export function renderBoard(host, {columns, renderCard, renderCardActions, title
                 ${
                   showMove
                     ? `<div class="flex items-center justify-end gap-1 px-2 pb-2">
-                  <label class="sr-only" for="move-${escapeHtml(item.id)}">Move ${escapeHtml(title)} to</label>
+                  <label class="sr-only" for="move-${escapeHtml(item.id)}">${t('Move')} ${escapeHtml(title)} ${t('to')}</label>
                   <span class="text-faint" aria-hidden="true">${icon('i-next', 12)}</span>
                   <select id="move-${escapeHtml(item.id)}" data-move="${escapeHtml(item.id)}" class="max-w-[140px] rounded border border-transparent bg-transparent px-1 py-0.5 text-xs text-muted hover:border-line focus-visible:border-[var(--accent)] focus-visible:outline-none">
-                    ${moveOptions.map(([id, label]) => `<option value="${escapeHtml(id)}"${id === column.id ? ' selected' : ''}>${escapeHtml(label)}</option>`).join('')}
+                    ${moveOptions.map(([id, label]) => `<option value="${escapeHtml(id)}"${id === column.id ? ' selected' : ''}>${escapeHtml(t(label))}</option>`).join('')}
                   </select>
                 </div>`
                     : ''
@@ -77,7 +79,7 @@ export function renderBoard(host, {columns, renderCard, renderCardActions, title
               </article>`
                   })
                   .join('')
-              : `<p class="px-1 py-3 text-center text-xs text-muted">${escapeHtml(emptyText)}</p>`
+              : `<p class="px-1 py-3 text-center text-xs text-muted">${escapeHtml(t(emptyText))}</p>`
           }
         </div>`
         }

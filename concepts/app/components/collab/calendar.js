@@ -1,3 +1,5 @@
+import {uiLocale} from '../../core/locale.js'
+const {t} = uiLocale
 // Day / Week / Month calendar shared by Events and the Activities calendar
 // view. It only draws what the caller passes in: callers decide which items
 // qualify (events by their own dates, activities only with a scheduled
@@ -18,8 +20,8 @@ const DAY_START_SCROLL = 7
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 const longDay = key =>
-  parseLocal(key).toLocaleDateString('en-GB', {weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'})
-const shortDay = key => parseLocal(key).toLocaleDateString('en-GB', {day: 'numeric', month: 'short'})
+  parseLocal(key).toLocaleDateString(uiLocale.getLocale() === 'ar' ? 'ar-EG' : 'en-GB', {weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'})
+const shortDay = key => parseLocal(key).toLocaleDateString(uiLocale.getLocale() === 'ar' ? 'ar-EG' : 'en-GB', {day: 'numeric', month: 'short'})
 const minutesOf = key => Number(key.slice(11, 13)) * 60 + Number(key.slice(14, 16))
 const pad = n => String(n).padStart(2, '0')
 
@@ -86,7 +88,7 @@ export function presetJump(id, today) {
  *  the calendar sits on one, otherwise the period's own label. */
 const presetLabel = (mode, date, today) => {
   if (mode === 'day') {
-    return date === today ? 'Today' : `${parseLocal(date).toLocaleDateString('en-GB', {weekday: 'short'})} ${shortDay(date)}`
+    return date === today ? 'Today' : `${parseLocal(date).toLocaleDateString(uiLocale.getLocale() === 'ar' ? 'ar-EG' : 'en-GB', {weekday: 'short'})} ${shortDay(date)}`
   }
   if (mode === 'week') {
     const from = startOfWeek(date)
@@ -106,15 +108,15 @@ const rangeText = (mode, date) => {
  *  already names the period — but keep it in the DOM for aria-live. */
 export const calendarToolbar = ({mode, date, modes = CALENDAR_MODES, presets = false, today = '', titleHidden = false}) =>
   `<div class="flex flex-wrap items-center gap-2" data-cal-toolbar>
-    <button type="button" class="${NAV_BUTTON_CLASS}" data-cal-prev aria-label="Previous ${escapeHtml(mode)}">${icon('i-prev')}</button>
-    <button type="button" class="${NAV_BUTTON_CLASS}" data-cal-next aria-label="Next ${escapeHtml(mode)}">${icon('i-next')}</button>
-    <button type="button" class="lbtn" data-cal-today>Today</button>
+    <button type="button" class="${NAV_BUTTON_CLASS}" data-cal-prev aria-label="${escapeHtml(t('Previous ' + mode))}">${icon('i-prev')}</button>
+    <button type="button" class="${NAV_BUTTON_CLASS}" data-cal-next aria-label="${escapeHtml(t('Next ' + mode))}">${icon('i-next')}</button>
+    <button type="button" class="lbtn" data-cal-today>${t("Today")}</button>
     ${
       presets
         ? `<div class="menu">
-            <button type="button" class="border border-line bg-surface text-[13px] text-ink" data-cal-preset aria-haspopup="menu" aria-expanded="false">${escapeHtml(presetLabel(mode, date, today))}${icon('i-caret', 11)}</button>
-            <div class="mlist" role="menu" aria-label="Jump to range" data-cal-preset-menu>${RANGE_PRESETS.map(
-              ([id, label]) => `<button type="button" role="menuitem" data-preset="${id}">${escapeHtml(label)}</button>`
+            <button type="button" class="border border-line bg-surface text-[13px] text-ink" data-cal-preset aria-haspopup="menu" aria-expanded="false">${escapeHtml(t(presetLabel(mode, date, today)))}${icon('i-caret', 11)}</button>
+            <div class="mlist" role="menu" aria-label="${escapeHtml(t("Jump to range"))}" data-cal-preset-menu>${RANGE_PRESETS.map(
+              ([id, label]) => `<button type="button" role="menuitem" data-preset="${id}">${escapeHtml(t(label))}</button>`
             ).join('')}</div>
           </div>
           <span class="inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-2 py-1 text-[13px] text-ink" data-cal-range>${icon(
@@ -124,13 +126,18 @@ export const calendarToolbar = ({mode, date, modes = CALENDAR_MODES, presets = f
         : ''
     }
     <h2 class="${titleHidden ? 'sr-only' : 'min-w-[180px] text-[15px] font-semibold text-ink'}" data-cal-title aria-live="polite">${escapeHtml(calendarTitle(mode, date))}</h2>
-    <span class="ms-auto">${segmented({label: 'Calendar view', views: modes, current: mode, dataAttr: 'data-cal-modes'})}</span>
+    <span class="ms-auto">${segmented({label: t("Calendar view"), views: modes, current: mode, dataAttr: 'data-cal-modes'})}</span>
   </div>`
 
 export function bindCalendarToolbar(host, {onPrev, onNext, onToday, onMode, onPreset}) {
-  host.querySelector('[data-cal-prev]').addEventListener('click', onPrev)
-  host.querySelector('[data-cal-next]').addEventListener('click', onNext)
-  host.querySelector('[data-cal-today]').addEventListener('click', onToday)
+  const scope = host.closest('.collab-view') || host
+  const runAndFocus = (callback, selector) => {
+    callback()
+    scope.querySelector(selector)?.focus()
+  }
+  host.querySelector('[data-cal-prev]').addEventListener('click', () => runAndFocus(onPrev, '[data-cal-prev]'))
+  host.querySelector('[data-cal-next]').addEventListener('click', () => runAndFocus(onNext, '[data-cal-next]'))
+  host.querySelector('[data-cal-today]').addEventListener('click', () => runAndFocus(onToday, '[data-cal-today]'))
   host.querySelectorAll('[data-cal-modes] button').forEach(button =>
     button.addEventListener('click', () => onMode(button.dataset.value))
   )
@@ -143,7 +150,7 @@ export function bindCalendarToolbar(host, {onPrev, onNext, onToday, onMode, onPr
       const list = item.closest('.mlist')
       list.classList.remove('open')
       list.parentElement.querySelector('[aria-haspopup="menu"]')?.setAttribute('aria-expanded', 'false')
-      onPreset(item.dataset.preset)
+      runAndFocus(() => onPreset(item.dataset.preset), '[data-cal-preset]')
     })
   )
 }
@@ -159,7 +166,7 @@ const CONFLICT_CLASS = '![border-color:var(--danger)] ![background-color:var(--d
 const itemButton = (item, index, extraClass = '', style = '', timeLabel = formatTime(item.start)) =>
   `<button type="button" class="${ITEM_CLASS} ${item.conflict ? CONFLICT_CLASS : ''} ${extraClass}" ${style ? `style="${style}"` : ''} data-cal-item="${index}"${item.conflict ? ' data-cal-conflict="true"' : ''} aria-label="${escapeHtml(itemLabel(item))}">
     ${item.allDay ? '' : `<span class="font-semibold">${escapeHtml(timeLabel)}</span> `}<span dir="auto">${escapeHtml(item.title)}</span>
-    <span class="sr-only"> (${escapeHtml(item.label)})</span>
+    <span class="sr-only"> (${escapeHtml(t(item.label))})</span>
   </button>`
 
 const coversDay = (item, day) =>
@@ -190,6 +197,7 @@ function layoutDay(items) {
  *   onMore: (date: string) => void}} options
  */
 export function renderCalendar(host, {mode, date, todayKey, nowKey, items, onSlot, onOpen, onMore}) {
+  host.classList.add('collab-calendar-scroll')
   if (mode === 'month') renderMonth(host, {date, todayKey, items})
   else renderTimeGrid(host, {days: mode === 'day' ? [date] : Array.from({length: 7}, (_, i) => addDays(startOfWeek(date), i)), todayKey, nowKey, items})
 
@@ -202,6 +210,36 @@ export function renderCalendar(host, {mode, date, todayKey, nowKey, items, onSlo
   host.querySelectorAll('[data-cal-more]').forEach(button =>
     button.addEventListener('click', () => onMore(button.dataset.calMore))
   )
+  const slots = [...host.querySelectorAll('[data-cal-slot]')]
+  const initial = slots.find(slot => slot.dataset.calSlot === todayKey && (!slot.dataset.time || slot.dataset.time === '09:00')) || slots[0]
+  slots.forEach(slot => {
+    slot.tabIndex = slot === initial ? 0 : -1
+    slot.addEventListener('focus', () => slots.forEach(other => { other.tabIndex = other === slot ? 0 : -1 }))
+    slot.addEventListener('keydown', event => {
+      const rtl = document.documentElement.dir === 'rtl'
+      const horizontal = event.key === 'ArrowRight' ? (rtl ? -1 : 1) : event.key === 'ArrowLeft' ? (rtl ? 1 : -1) : 0
+      let next
+      if (mode === 'month') {
+        const index = slots.indexOf(slot)
+        const delta = horizontal || (event.key === 'ArrowDown' ? 7 : event.key === 'ArrowUp' ? -7 : 0)
+        if (delta) next = slots[index + delta]
+        else if (event.key === 'Home') next = slots[index - index % 7]
+        else if (event.key === 'End') next = slots[index + 6 - index % 7]
+      } else {
+        const day = horizontal ? addDays(slot.dataset.calSlot, horizontal) : slot.dataset.calSlot
+        let hour = Number(slot.dataset.time.slice(0, 2))
+        if (event.key === 'ArrowDown') hour++
+        if (event.key === 'ArrowUp') hour--
+        if (event.key === 'Home') hour = 0
+        if (event.key === 'End') hour = 23
+        next = slots.find(candidate => candidate.dataset.calSlot === day && candidate.dataset.time === `${pad(hour)}:00`)
+      }
+      if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {
+        event.preventDefault()
+        next?.focus()
+      }
+    })
+  })
   const scroller = host.querySelector('[data-timed]')
   if (scroller) scroller.scrollTop = DAY_START_SCROLL * HOUR_PX
 }
@@ -210,7 +248,7 @@ function renderMonth(host, {date, todayKey, items}) {
   const month = date.slice(0, 7)
   const days = monthGridDays(date)
   host.innerHTML = `<div class="overflow-hidden rounded-lg border border-line" role="grid" aria-label="${escapeHtml(formatMonthTitle(date))}" data-cal-month>
-    <div class="grid grid-cols-7 border-b border-line bg-[var(--line-2)]" role="row">${WEEKDAYS.map(day => `<div role="columnheader" class="px-2 py-1.5 text-xs font-semibold text-muted">${day}</div>`).join('')}</div>
+    <div class="grid grid-cols-7 border-b border-line bg-[var(--line-2)]" role="row">${WEEKDAYS.map(day => `<div role="columnheader" class="px-2 py-1.5 text-xs font-semibold text-muted">${t(day)}</div>`).join('')}</div>
     ${Array.from({length: 6}, (_, week) => `<div class="grid grid-cols-7" role="row">${days
       .slice(week * 7, week * 7 + 7)
       .map(day => {
@@ -221,9 +259,9 @@ function renderMonth(host, {date, todayKey, items}) {
         const shown = dayItems.slice(0, 3)
         const outside = day.slice(0, 7) !== month
         const isToday = day === todayKey
-        return `<div role="gridcell" class="relative min-h-[104px] border-b border-e border-line p-1 ${outside ? 'bg-[var(--line-2)] text-faint' : 'bg-surface'}" data-date="${day}"${isToday ? ' aria-current="date"' : ''}>
-          <button type="button" class="absolute inset-0 border-0 bg-transparent focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]" data-cal-slot="${day}" aria-label="New on ${escapeHtml(longDay(day))}"></button>
-          <span class="relative inline-grid size-6 place-items-center rounded-full text-xs ${isToday ? 'bg-[var(--accent)] font-semibold text-inverse' : ''}">${Number(day.slice(8))}${isToday ? '<span class="sr-only"> (today)</span>' : ''}</span>
+        return `<div role="gridcell" class="relative min-h-[104px] border-b border-e border-line p-1 ${outside ? 'bg-[var(--line-2)] text-faint' : 'bg-surface'}" data-date="${day}"${outside ? ' data-outside="true"' : ''}${isToday ? ' aria-current="date"' : ''}>
+          <button type="button" class="absolute inset-0 border-0 bg-transparent focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]" data-cal-slot="${day}" aria-label="${t('New on')} ${escapeHtml(longDay(day))}"></button>
+          <span class="relative inline-grid size-6 place-items-center rounded-full text-xs ${isToday ? 'bg-[var(--accent)] font-semibold text-inverse' : ''}">${Number(day.slice(8)).toLocaleString(uiLocale.getLocale() === 'ar' ? 'ar-EG' : 'en-GB')}${isToday ? `<span class="sr-only"> ${t('(today)')}</span>` : ''}</span>
           <div class="relative mt-0.5 grid gap-0.5">${shown.map(({item, index}) => itemButton(item, index, 'truncate', '', item.start.slice(0, 10) < day ? 'Continues' : formatTime(item.start))).join('')}
             ${dayItems.length > 3 ? `<button type="button" class="justify-self-start border-0 bg-transparent px-1 text-xs text-accent hover:underline" data-cal-more="${day}">+${dayItems.length - 3} more</button>` : ''}
           </div>
@@ -239,13 +277,13 @@ function renderTimeGrid(host, {days, todayKey, nowKey, items}) {
     items.map((item, index) => ({item, index})).filter(({item}) => item.allDay && coversDay(item, day))
   )
   const hours = Array.from({length: 24}, (_, hour) => hour)
-  host.innerHTML = `<div class="overflow-hidden rounded-lg border border-line bg-surface">
+  host.innerHTML = `<div class="overflow-hidden rounded-lg border border-line bg-surface" ${days.length > 1 ? 'data-cal-week' : 'data-cal-day'}>
     <div class="grid border-b border-line" style="${columns}">
       <div></div>
       ${days.map(day => `<div class="border-s border-line px-2 py-1.5 text-xs ${day === todayKey ? 'font-semibold text-accent' : 'text-muted'}"${day === todayKey ? ' aria-current="date"' : ''}>${escapeHtml(longDay(day))}</div>`).join('')}
     </div>
-    <div class="grid border-b border-line" style="${columns}" data-allday-row aria-label="All-day">
-      <div class="px-1.5 py-1 text-[11px] text-muted">All day</div>
+    <div class="grid border-b border-line" style="${columns}" data-allday-row aria-label="${escapeHtml(t("All-day"))}">
+      <div class="px-1.5 py-1 text-[11px] text-muted">${t("All day")}</div>
       ${allDay.map(entries => `<div class="grid min-h-8 gap-0.5 border-s border-line p-1">${entries.map(({item, index}) => itemButton(item, index, 'truncate')).join('')}</div>`).join('')}
     </div>
     <div class="relative max-h-[560px] overflow-auto" data-timed>
@@ -268,7 +306,7 @@ function renderTimeGrid(host, {days, todayKey, nowKey, items}) {
                 ? `<div class="pointer-events-none absolute inset-x-0 z-[2] border-t-2 border-[var(--danger)]" style="top:${(minutesOf(nowKey) / 60) * HOUR_PX}px"><span class="sr-only">Now ${escapeHtml(formatTime(nowKey))}</span></div>`
                 : ''
             return `<div class="relative border-s border-line" style="height:${24 * HOUR_PX}px">
-              ${hours.map(hour => `<button type="button" class="block h-12 w-full border-0 border-b border-[var(--line-2)] bg-transparent hover:bg-[var(--hover-overlay)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]" data-cal-slot="${day}" data-time="${pad(hour)}:00" aria-label="New at ${escapeHtml(longDay(day))} ${pad(hour)}:00"></button>`).join('')}
+              ${hours.map(hour => `<button type="button" class="block h-12 w-full border-0 border-b border-[var(--line-2)] bg-transparent hover:bg-[var(--hover-overlay)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]" data-cal-slot="${day}" data-time="${pad(hour)}:00" aria-label="${t('New at')} ${escapeHtml(longDay(day))} ${pad(hour)}:00"></button>`).join('')}
               ${entries
                 .map(({item, index, lane, start, end}) => {
                   const width = 100 / laneCount

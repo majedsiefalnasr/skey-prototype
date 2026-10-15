@@ -1,6 +1,17 @@
 /* email selector relationships and behavior state that cannot be expressed by one
    element's static utilities. */
 @layer components {
+  @media (max-width: 720px) {
+    .email-composer { flex-wrap: wrap; padding-inline: 12px; }
+    .email-composer > span { flex-basis: 100%; margin-inline-start: 0; }
+    .email-compose-row [role='listbox'] { inset-inline-start: 0; min-width: 0; width: 100%; }
+    /* Bulk selection on a phone: the selection bar sits above the list;
+       the checked rows already show what the deck would. */
+    .email-app[data-narrow-selecting] { flex-direction: column; }
+    .email-app[data-narrow-selecting] .email-reading { order: -1; flex: none; }
+    .email-app[data-narrow-selecting] .email-reading-scroll { display: none; }
+    .email-app[data-narrow-selecting] .email-list { flex: 1 1 auto; border-inline-end: 0; }
+  }
   /* Unread state changes a sibling row's own descendants' weight/color -- a
      class-relationship rule, not a literal utility on the row itself. */
   .email-list-row.unread .email-list-top b { font-weight: 700; }
@@ -26,19 +37,16 @@
     border-radius: 2px 0 0 2px;
   }
 
-  /* The multi-selection deck stacks full-row cards: each back card steps
-     further from the reading edge (never the far edge), with the front
-     card separated below the pile — margin-inline-start handles both
-     writing directions. */
+  /* The multi-selection deck is a pile: each back card tucks 10px under the
+     one in front of it and is inset 12px per level of depth on both sides,
+     so deeper cards read as further away. The deck is a preview only. */
+  .email-sel-deck { cursor: default; user-select: none; }
+  .email-sel-card { position: relative; }
   .email-sel-card[data-deck-edge] {
-    margin-inline-start: calc(var(--deck-k, 1) * 16px);
-    margin-top: 6px;
-  }
-  .email-sel-card[data-deck-edge].deck-first {
-    margin-top: 0;
-  }
-  .email-sel-card.deck-front {
-    margin-top: 20px;
+    margin-inline: calc(var(--deck-k, 1) * 12px);
+    margin-bottom: -10px;
+    padding-bottom: 10px;
+    height: 56px;
   }
 
 

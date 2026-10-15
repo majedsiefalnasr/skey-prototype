@@ -285,6 +285,7 @@
      leave every other consumer needing this rule, so shell (the shared-atom owner)
      keeps it as a compatibility rule rather than literal per-usage utilities. */
   .ibtn {
+    color: var(--ink);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -311,6 +312,7 @@
     outline-offset: 2px;
   }
   .lbtn {
+    color: var(--ink);
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -3456,7 +3458,9 @@
   body.style-floated .rec-field:has(input:not(:placeholder-shown)) label,
   body.style-floated .rec-field:has(select) label,
   body.style-floated .rec-field:has(input[type='date']) label,
-  body.style-floated .rec-field:has(input:disabled) label {
+  body.style-floated .rec-field:has(input:disabled) label,
+  body.style-floated .rec-field:has(textarea) > label,
+  body.style-floated .rec-field:has([data-ms]) > label {
     top: 4px;
     font-size: 12px;
   }

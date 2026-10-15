@@ -1,3 +1,5 @@
+import {uiLocale} from '../../core/locale.js'
+const {t} = uiLocale
 // Side-panel editor shared by Notes, Activities, Events and People Data,
 // plus the small confirm dialog every collaboration screen uses. Markup
 // lives in components/collab/collab.html.
@@ -46,9 +48,9 @@ export function createConfirm() {
     const box = dialog.querySelector('[data-confirm-box]')
     const ok = dialog.querySelector('[data-confirm-ok]')
     const cancel = dialog.querySelector('[data-confirm-cancel]')
-    dialog.querySelector('#collab-confirm-title').textContent = title
-    dialog.querySelector('#collab-confirm-body').textContent = body
-    ok.textContent = confirmLabel
+    dialog.querySelector('#collab-confirm-title').textContent = t(title)
+    dialog.querySelector('#collab-confirm-body').textContent = t(body)
+    ok.textContent = t(confirmLabel)
     /* The shared popup shell tones itself from the .dlg's data-tone: a
        danger confirm repaints its border and the primary button. */
     box.dataset.tone = tone === 'danger' ? 'danger' : 'default'
@@ -125,7 +127,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm}) {
     menuList.innerHTML = items
       .map(
         (item, index) =>
-          `<button type="button" role="menuitem" tabindex="-1" data-index="${index}" class="flex min-h-8 w-full items-center gap-2 rounded-[5px] border-0 bg-transparent px-2 py-1.5 text-start text-[13px] ${item.danger ? 'text-[color:var(--danger)]' : 'text-ink'} hover:bg-[var(--line-2)] focus-visible:bg-[var(--line-2)] focus-visible:outline-none">${item.icon ? icon(item.icon) : ''}${escapeHtml(item.label)}</button>`
+          `<button type="button" role="menuitem" tabindex="-1" data-index="${index}" class="flex min-h-8 w-full items-center gap-2 rounded-[5px] border-0 bg-transparent px-2 py-1.5 text-start text-[13px] ${item.danger ? 'text-[color:var(--danger)]' : 'text-ink'} hover:bg-[var(--line-2)] focus-visible:bg-[var(--line-2)] focus-visible:outline-none">${item.icon ? icon(item.icon) : ''}${escapeHtml(t(item.label))}</button>`
       )
       .join('')
   }
@@ -164,13 +166,13 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm}) {
     /* The header carries a status chip and a note line — no type badge:
        the record's own title already says what kind of thing it is. */
     statusBadge.className = `badge ${current.status?.tone || 'gray'}`
-    statusBadge.textContent = current.status?.label || ''
+    statusBadge.textContent = t(current.status?.label) || ''
     statusBadge.hidden = !current.status
-    titleEl.textContent = current.title
-    descriptionEl.textContent = current.description || ''
+    titleEl.textContent = current.ref ? current.title : t(current.title)
+    descriptionEl.textContent = current.ref ? (current.description || '') : t(current.description || '')
     descriptionEl.hidden = !current.description
     descriptionEl.classList.toggle('text-[color:var(--danger)]', current.descriptionTone === 'danger')
-    panel.querySelector('[data-panel-save]').textContent = current.saveLabel || 'Save'
+    panel.querySelector('[data-panel-save]').textContent = t(current.saveLabel || 'Save')
     /* Existing records open read-only when the page supplied a view
        renderer; new records — and freshly created ones the caller opens
        right away with `edit: true` — go straight to the form. */
@@ -189,11 +191,12 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm}) {
 
   async function close({force = false} = {}) {
     if (!current) return true
+    if (form.getAttribute('aria-busy') === 'true') return false
     if (!force && formSnapshot(body) !== snapshot) {
       const discard = await confirm({
         title: 'Discard changes?',
         body: 'Your edits to this item have not been saved.',
-        confirmLabel: 'Discard',
+        confirmLabel: t("Discard"),
         tone: 'danger',
       })
       if (!discard) return false
@@ -212,8 +215,10 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm}) {
 
   form.addEventListener('submit', async event => {
     event.preventDefault()
-    if (!current) return
-    const saved = await current.save(body)
+    if (!current || form.getAttribute('aria-busy') === 'true') return
+    form.setAttribute('aria-busy', 'true')
+    let saved
+    try { saved = await current.save(body) } finally { form.removeAttribute('aria-busy') }
     if (saved) {
       snapshot = formSnapshot(body)
       close({force: true})

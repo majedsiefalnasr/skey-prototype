@@ -13,7 +13,7 @@ import {createInvoiceRecord} from './pages/invoices/record.js'
 import {createInvoiceAdjustments} from './pages/invoices/adjustments.js'
 import {createInvoiceLines} from './pages/invoices/lines.js'
 import {createInvoicePayments} from './pages/invoices/payments.js'
-import {encodeHtml} from './core/locale.js'
+import {encodeHtml, uiLocale} from './core/locale.js'
 import {STATUSES, CHAIN} from './prototype/fixtures/invoices.js'
 import {ACCOUNT_LABEL_BY_VIEW} from './prototype/fixtures/navigation.js'
 import {CUSTOMER_ROWS, CUSTOMER_REFERENCE, UNIT_ROWS, CUSTOMER_LOOKUP_RESULTS} from './prototype/fixtures/customers.js'
@@ -83,7 +83,7 @@ import {COLLAB_SEED, PROTOTYPE_NOW, CURRENT_USER_ID, COLLAB_USERS} from './proto
 import {createCollabPanel, createConfirm} from './components/collab/panel.js'
 import {createRelatedItems} from './components/related-items/related-items.js'
 
-const locale = createLocale()
+const locale = uiLocale
 const dialogFocus = createDialogFocus(document)
 const toast = createToast(document.getElementById('toasts'))
 /* One store for Notes, Activities, Events, Internal Mail and People Data:
@@ -97,7 +97,10 @@ const work = createWork({
   shouldFail: () => {
     const failsim = document.getElementById('failsim')
     const failed = Boolean(failsim?.checked)
-    if (failed && failsim) failsim.checked = false
+    if (failed && failsim) {
+      failsim.checked = false
+      failsim.dispatchEvent(new Event('change', {bubbles: true}))
+    }
     return failed
   },
 })
@@ -249,6 +252,11 @@ const onLaunchpadHide = target => {
 }
 
 const localeControls = createLocaleControls({
+  onLocaleChange: () => {
+    const current = contentHost.getCurrentContentViewName()
+    const page = {notes: notesPage, activities: activitiesPage, events: eventsPage, email}[current]
+    page?.refreshLocale?.()
+  },
   t,
   formatLocaleCurrency,
   getLocale,
@@ -497,9 +505,26 @@ const openCollabItem = async (ref, options = {}) => {
   if (label) sidebar.applyNavCurrent(document.querySelector('.side'), label)
   showContentView(view, ref.type === 'mail' ? {messageId: ref.id} : {openId: ref.id})
 }
-const relatedItems = createRelatedItems({store: collabStore, toast, currentUserId: CURRENT_USER_ID, openItem: (ref, options) => openCollabItem(ref, options)})
-const collabDeps = {store: collabStore, toast, panel: collabPanel, related: relatedItems, confirm: collabConfirm, goHome: () => openForYou('Help Screens'), users: COLLAB_USERS, currentUserId: CURRENT_USER_ID}
-const email = createEmail({root: document.querySelector('.email-view'), store: collabStore, related: relatedItems, confirm: collabConfirm, users: COLLAB_USERS, currentUser: {id: CURRENT_USER_ID, name: CURRENT_USER.name, email: CURRENT_USER.email}, onUnreadChange: () => syncNotifBadge(), navigate: (...args) => showContentView(...args), openItem: (ref, options) => openCollabItem(ref, options), toast})
+const relatedItems = createRelatedItems({beforeAction, store: collabStore, toast, currentUserId: CURRENT_USER_ID, openItem: (ref, options) => openCollabItem(ref, options)})
+// Explicit collaboration actions share the prototype work lifecycle. Local draft
+// autosave and navigation do not consume the next-action failure switch.
+let collaborationWorking = false
+async function beforeAction(button = document.activeElement) {
+  if (collaborationWorking) return false
+  collaborationWorking = true
+  const trigger = button?.matches?.('button') ? button : null
+  if (trigger) trigger.disabled = true
+  try {
+    const ok = await work(trigger, t('Working…'), 150)
+    if (!ok) toast({tone: 'bad', title: t('Action failed'), body: t('Nothing was changed. Please try again.'), avoid: trigger})
+    return ok
+  } finally {
+    collaborationWorking = false
+    if (trigger) trigger.disabled = false
+  }
+}
+const collabDeps = {beforeAction, store: collabStore, toast, panel: collabPanel, related: relatedItems, confirm: collabConfirm, goHome: () => openForYou('Help Screens'), users: COLLAB_USERS, currentUserId: CURRENT_USER_ID}
+const email = createEmail({beforeAction, goHome: () => openForYou('Help Screens'), root: document.querySelector('.email-view'), store: collabStore, related: relatedItems, confirm: collabConfirm, users: COLLAB_USERS, currentUser: {id: CURRENT_USER_ID, name: CURRENT_USER.name, email: CURRENT_USER.email}, onUnreadChange: () => syncNotifBadge(), navigate: (...args) => showContentView(...args), openItem: (ref, options) => openCollabItem(ref, options), toast})
 
 const notifications = createNotifications({closeAllMenus: (...args) => menus.closeAllMenus(...args), openEmailView: (...args) => openEmailView(...args), closeMenuAndRestoreFocus: (...args) => menus.closeMenuAndRestoreFocus(...args), getEmailMessages: () => email.getInboxRows()})
 

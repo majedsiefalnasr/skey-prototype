@@ -11,6 +11,7 @@ import {
   textarea,
   setFieldError,
   emptyState,
+  FIELD_CLASS,
   GRID_CLASS,
   SECTION_TITLE_CLASS,
   ERROR_CLASS,
@@ -64,8 +65,6 @@ const INV_GRID_CLASS =
   'inv-grid w-full [border-collapse:collapse] [font-size:13px] [&_th]:text-start [&_th]:[padding:8px_12px] [&_th]:text-muted [&_th]:font-medium [&_th]:[border-bottom:1px_solid_var(--line)] [&_th]:whitespace-nowrap [&_th]:sticky [&_th]:top-0 [&_th]:z-[3] [&_td]:[padding:8px_12px] [&_td]:[border-bottom:1px_solid_var(--line-2)] [&_td]:text-ink [&_td]:whitespace-nowrap [&_td]:[text-overflow:ellipsis] [&_td]:overflow-hidden [&_td]:[max-width:200px] [&_tbody_tr:hover]:[background:var(--hover-overlay)]'
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const FIELD_LABEL = {mobile: 'mobile', phone: 'phone', email: 'email', name: 'name'}
-const SMALL_CONTROL =
-  'min-h-8 rounded-md border border-line bg-surface px-2 text-[13px] text-ink focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_var(--accent-soft)]'
 
 const primaryOf = (person, kind) =>
   (person.contacts || []).filter(c => (kind === 'email' ? c.kind === 'email' : c.kind !== 'email')).sort((a, b) => Number(b.primary) - Number(a.primary))[0]?.value || ''
@@ -210,7 +209,7 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
 
   const listMarkup = people => `<div class="data-list-shell relative overflow-visible rounded-lg border border-line bg-surface [box-shadow:var(--shadow-1)]">
       <div class="data-table-scroll overflow-auto rounded-[inherit] max-w-full max-h-[max(280px,calc(100dvh-360px))]">
-        <table class="${INV_GRID_CLASS} [table-layout:fixed]" data-people-grid>
+        <table class="${INV_GRID_CLASS} min-w-[910px] [table-layout:fixed]" data-people-grid>
           <colgroup><col><col style="width:160px"><col style="width:150px"><col style="width:180px"><col style="width:220px"></colgroup>
           <thead><tr><th scope="col">Name</th><th scope="col">Company</th><th scope="col">Mobile / phone</th><th scope="col">Email</th><th scope="col">Status</th></tr></thead>
           <tbody>${people
@@ -274,13 +273,15 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
       .join('')}</div>`
 
   /* ---------- editor ---------- */
-  const contactRow = (contact, index) => `<div class="grid gap-1" data-contact-row>
+  // The row reuses the editor's field skin (34px controls, drawn select
+  // arrow, accent focus ring) so it reads as part of the same form.
+  const contactRow = (contact, index) => `<div class="${FIELD_CLASS}" data-contact-row>
       <div class="flex flex-wrap items-center gap-2">
         <label class="sr-only" for="person-contact-kind-${index}">Contact type</label>
-        <select id="person-contact-kind-${index}" class="${SMALL_CONTROL}" data-contact-kind>${CONTACT_KINDS.map(([id, label]) => `<option value="${id}"${id === contact.kind ? ' selected' : ''}>${label}</option>`).join('')}</select>
+        <select id="person-contact-kind-${index}" class="w-32!" data-contact-kind>${CONTACT_KINDS.map(([id, label]) => `<option value="${id}"${id === contact.kind ? ' selected' : ''}>${label}</option>`).join('')}</select>
         <label class="sr-only" for="person-contact-value-${index}">Contact value</label>
-        <input id="person-contact-value-${index}" class="${SMALL_CONTROL} min-w-[180px] flex-1" data-contact-value dir="ltr" value="${escapeHtml(contact.value)}" autocomplete="off">
-        <label class="inline-flex items-center gap-1 text-xs text-muted"><input type="radio" name="person-primary" data-contact-primary${contact.primary ? ' checked' : ''}> Primary</label>
+        <input id="person-contact-value-${index}" class="w-auto! min-w-[180px] flex-1" data-contact-value dir="ltr" value="${escapeHtml(contact.value)}" autocomplete="off">
+        <label class="inline-flex min-h-8 cursor-pointer items-center gap-1.5 text-[13px] text-ink"><input type="radio" class="m-0 size-4 cursor-pointer accent-[var(--accent)]" name="person-primary" data-contact-primary${contact.primary ? ' checked' : ''}> Primary</label>
         <button type="button" class="ibtn" data-contact-remove aria-label="Remove this contact">${icon('i-x')}</button>
       </div>
       <p class="${ERROR_CLASS}" data-contact-error hidden></p>
@@ -300,9 +301,9 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
       <h3 class="${SECTION_TITLE_CLASS} mt-5">Contact</h3>
       <div class="grid gap-2" data-contacts>${contacts.map(contactRow).join('')}</div>
       <button type="button" class="lbtn mt-2" data-contact-add>${icon('i-plus')} Add contact</button>
-      <details class="mt-5 rounded-md border border-line px-3 py-2"${person.city || person.country ? ' open' : ''}>
-        <summary class="cursor-pointer text-[13px] font-medium text-ink">Address</summary>
-        <div class="${GRID_CLASS} mt-3">
+      <details class="mt-5 rounded-md border border-line bg-surface"${person.city || person.country ? ' open' : ''}>
+        <summary class="flex cursor-pointer list-none items-center gap-2 rounded-md px-3 py-2.5 text-[13px] font-medium text-ink hover:bg-[var(--line-2)] [&::-webkit-details-marker]:hidden">${icon('i-location', 14)}<span>Address</span></summary>
+        <div class="${GRID_CLASS} border-t border-line px-3 py-3">
           ${field({id: 'person-country', label: 'Country', control: textInput({id: 'person-country', value: person.country})})}
           ${field({id: 'person-city', label: 'City', control: textInput({id: 'person-city', value: person.city})})}
         </div>

@@ -1,3 +1,5 @@
+import {uiLocale} from '../../core/locale.js'
+const {t} = uiLocale
 import {escapeHtml, icon, field} from './fields.js'
 
 export const multiselect = ({id, label, options, selected = [], required = false, hint = '', placeholder = 'Search…', wide = false}) => {
@@ -7,26 +9,22 @@ export const multiselect = ({id, label, options, selected = [], required = false
     const text = option ? option[1] : value
     return `<span class="inline-flex items-center gap-1 rounded-full bg-[var(--line-2)] px-2 py-0.5 text-xs text-ink">${escapeHtml(
       text
-    )}<button type="button" class="grid size-[15px] place-items-center rounded-full border-0 bg-transparent p-0 text-muted hover:text-ink" data-ms-off="${escapeHtml(
+    )}<button type="button" class="grid size-[15px] place-items-center rounded-full border-0 bg-transparent p-0 text-muted hover:text-ink [@media(pointer:coarse)]:size-6 [@media(pointer:coarse)]:min-h-0! [@media(pointer:coarse)]:min-w-0! [@media(pointer:coarse)]:-my-1" data-ms-off="${escapeHtml(
       value
     )}" aria-label="Remove ${escapeHtml(text)}">${icon('i-x', 10)}</button></span>`
   }
   const control = `<div class="relative" data-ms="${escapeHtml(id)}">
-    <div class="flex min-h-[34px] flex-wrap items-center gap-1.5 rounded-md border border-line bg-surface px-2 py-1.5 hover:border-[var(--accent-line)] focus-within:border-[var(--accent)] focus-within:[box-shadow:0_0_0_3px_var(--accent-soft)]">
+    <div class="flex min-h-[34px] flex-wrap items-center gap-1.5 rounded-md border border-line bg-surface px-2 py-[4px] hover:border-[var(--accent-line)] focus-within:border-[var(--accent)] focus-within:[box-shadow:0_0_0_3px_var(--accent-soft)]">
       <span data-ms-chips class="contents">${[...chosen].map(chip).join('')}</span>
       <input type="text" id="${escapeHtml(id)}" name="${escapeHtml(
     id
-  )}" data-ms-input role="combobox" aria-expanded="false" aria-controls="${escapeHtml(id)}-list" aria-autocomplete="list" autocomplete="off" class="min-w-[120px] flex-1 border-0 bg-transparent px-0.5 py-0.5 text-[13px] text-ink outline-none" placeholder="${escapeHtml(
-    placeholder
-  )}">
+  )}" data-ms-input role="combobox" aria-expanded="false" aria-controls="${escapeHtml(id)}-list" aria-autocomplete="list" autocomplete="off" class="min-w-[120px] flex-1 w-auto! h-6! border-0! rounded-none! bg-transparent! px-0.5! py-0! text-[14px] text-ink outline-none shadow-none!" placeholder="${escapeHtml(t(placeholder))}">
       ${[...chosen].map(value => `<input type="hidden" value="${escapeHtml(value)}" data-ms-val="${escapeHtml(value)}">`).join('')}
-      <button type="button" class="grid size-[22px] flex-none place-items-center rounded border-0 bg-transparent p-0 text-muted hover:text-ink" data-ms-clear aria-label="Clear selection" title="Clear selection"${
+      <button type="button" class="grid size-[22px] flex-none place-items-center rounded border-0 bg-transparent p-0 text-muted hover:text-ink" data-ms-clear aria-label="${escapeHtml(t("Clear selection"))}" title="${escapeHtml(t("Clear selection"))}"${
         chosen.size ? '' : ' hidden'
       }>${icon('i-x', 13)}</button>
     </div>
-    <ul id="${escapeHtml(id)}-list" role="listbox" aria-multiselectable="true" aria-label="${escapeHtml(
-    label
-  )}" hidden class="absolute inset-x-0 top-full z-[130] mt-1 max-h-52 overflow-auto rounded-md border border-line bg-surface p-1 [box-shadow:var(--shadow-1)]">${options
+    <ul id="${escapeHtml(id)}-list" role="listbox" aria-multiselectable="true" aria-label="${escapeHtml(t(label))}" hidden class="absolute inset-x-0 top-full z-[130] mt-1 max-h-52 overflow-auto rounded-md border border-line bg-surface p-1 [box-shadow:var(--shadow-1)]">${options
       .map(
         ([value, text]) =>
           `<li role="option" id="${escapeHtml(id)}-opt-${escapeHtml(
@@ -95,7 +93,7 @@ export function bindMultiselect(root) {
           'beforeend',
           `<span class="inline-flex items-center gap-1 rounded-full bg-[var(--line-2)] px-2 py-0.5 text-xs text-ink">${escapeHtml(
             labels.get(value) || value
-          )}<button type="button" class="grid size-[15px] place-items-center rounded-full border-0 bg-transparent p-0 text-muted hover:text-ink" data-ms-off="${escapeHtml(
+          )}<button type="button" class="grid size-[15px] place-items-center rounded-full border-0 bg-transparent p-0 text-muted hover:text-ink [@media(pointer:coarse)]:size-6 [@media(pointer:coarse)]:min-h-0! [@media(pointer:coarse)]:min-w-0! [@media(pointer:coarse)]:-my-1" data-ms-off="${escapeHtml(
             value
           )}" aria-label="Remove ${escapeHtml(labels.get(value) || value)}">${icon('i-x', 10)}</button></span>`
         )

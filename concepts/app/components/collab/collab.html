@@ -21,7 +21,7 @@
       <p class="mt-0.5 text-xs text-muted" data-panel-description hidden dir="auto"></p>
     </div>
     <div class="flex flex-none items-center gap-2">
-      <button type="button" class="lbtn out" data-panel-edit hidden>Edit</button>
+      <button type="button" class="lbtn out" data-panel-edit hidden data-i18n="Edit">Edit</button>
       <div class="relative" data-panel-menu-wrap>
         <button type="button" class="ibtn" data-panel-menu aria-haspopup="menu" aria-expanded="false" aria-label="More actions">
           <svg width="15" height="15" aria-hidden="true"><use href="#i-dots" /></svg>
@@ -43,8 +43,8 @@
       <section class="mt-5 border-t border-line pt-4" data-panel-related aria-label="Related items"></section>
     </div>
     <footer class="flex flex-none items-center justify-end gap-2 border-t border-line bg-[var(--line-2)] px-5 py-3" data-panel-footer>
-      <button type="button" class="lbtn out" data-panel-cancel>Cancel</button>
-      <button type="submit" class="lbtn pri" data-panel-save>Save</button>
+      <button type="button" class="lbtn out" data-panel-cancel data-i18n="Cancel">Cancel</button>
+      <button type="submit" class="lbtn pri" data-panel-save data-i18n="Save">Save</button>
     </footer>
   </form>
 </aside>
@@ -56,7 +56,7 @@
   aria-labelledby="collab-picker-title">
   <div class="flex max-h-[80vh] w-[min(560px,94vw)] flex-col rounded-lg bg-surface shadow-shell" data-picker-box>
     <div class="flex items-center gap-3 border-b border-line px-4 py-3">
-      <h2 id="collab-picker-title" class="flex-1 text-[15px] font-semibold">Link existing item</h2>
+      <h2 id="collab-picker-title" class="flex-1 text-[15px] font-semibold" data-i18n="Link existing item">Link existing item</h2>
     </div>
     <div class="px-4 pt-3">
       <input
@@ -72,7 +72,7 @@
     <ul id="collab-picker-results" class="m-0 min-h-[120px] flex-1 list-none overflow-auto p-2" role="listbox" aria-label="Results" data-picker-results></ul>
     <div class="flex items-center justify-between gap-3 border-t border-line px-4 py-3">
       <span class="text-xs text-muted" aria-live="polite" data-picker-status></span>
-      <button type="button" class="lbtn pri" data-picker-done>Done</button>
+      <button type="button" class="lbtn pri" data-picker-done data-i18n="Done">Done</button>
     </div>
   </div>
 </div>
@@ -100,7 +100,7 @@
       </div>
       <div class="dfoot flex items-center gap-2.5 [padding:16px_0_0]!">
         <span class="end ms-auto flex gap-2">
-          <button type="button" class="lbtn out" data-confirm-cancel>Cancel</button>
+          <button type="button" class="lbtn out" data-confirm-cancel data-i18n="Cancel">Cancel</button>
           <button type="button" class="lbtn pri" data-confirm-ok></button>
         </span>
       </div>

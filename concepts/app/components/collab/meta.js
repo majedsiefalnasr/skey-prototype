@@ -1,3 +1,5 @@
+import {uiLocale} from '../../core/locale.js'
+const {t} = uiLocale
 // Per-type identity and one-line summaries for collaboration items, used
 // wherever an item is shown outside its own screen (Related Items rows,
 // the picker, mail lists, cards). Type is always icon + text label.
@@ -51,7 +53,7 @@ export const CONVERSION_TARGETS = [
   ['user', 'User'],
 ]
 
-const labelFrom = (list, value) => list.find(([id]) => id === value)?.[1] ?? value
+const labelFrom = (list, value) => t(list.find(([id]) => id === value)?.[1] ?? value)
 
 export const kindLabel = kind => labelFrom(ACTIVITY_KINDS, kind)
 export const kindIcon = kind => ACTIVITY_KINDS.find(([id]) => id === kind)?.[2] ?? 'i-check'
@@ -95,11 +97,11 @@ const dayLabel = (key, todayKey) => relativeDay(key, todayKey) ?? formatDate(key
 export function activityTiming(activity, todayKey) {
   const parts = []
   if (activity.dueDate) {
-    if (isOverdue(activity, todayKey)) parts.push(`Overdue · ${formatDate(activity.dueDate)}`)
-    else parts.push(activity.dueDate === todayKey ? 'Due today' : `Due ${dayLabel(activity.dueDate, todayKey)}`)
+    if (isOverdue(activity, todayKey)) parts.push(`${t('Overdue')} · ${formatDate(activity.dueDate)}`)
+    else parts.push(activity.dueDate === todayKey ? t('Due today') : `${t('Due')} ${dayLabel(activity.dueDate, todayKey)}`)
   }
   if (isValidDateTime(activity.scheduledStart)) {
-    parts.push(`Scheduled ${dayLabel(activity.scheduledStart, todayKey)} ${formatTime(activity.scheduledStart)}`)
+    parts.push(`${t('Scheduled')} ${dayLabel(activity.scheduledStart, todayKey)} ${formatTime(activity.scheduledStart)}`)
   }
   return parts
 }

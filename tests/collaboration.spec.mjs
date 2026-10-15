@@ -160,6 +160,9 @@ test.describe('notes', () => {
     // draft empties the Draft quick filter, and the List view's empty
     // state names the filter instead of a generic phrase.
     await page.getByLabel('Move Month-end checklist to').selectOption('active')
+    // The move runs through the shared work lifecycle; let it commit before
+    // opening menus that its re-render would otherwise close.
+    await expect(page.locator('.toast')).toContainText('Moved to Active')
     await page.locator('.notes-view [data-view-menu] summary').click()
     await page.getByRole('menuitemradio', {name: 'List view'}).click()
     await page.locator('.notes-view [data-quick-menu] summary').click()
@@ -243,6 +246,8 @@ test.describe('related items', () => {
     await panel(page).getByRole('button', {name: 'More actions'}).click()
     await page.getByRole('menuitem', {name: 'Delete'}).click()
     await page.locator('#collab-confirm').getByRole('button', {name: 'Delete'}).click()
+    // Delete runs through the shared work lifecycle; wait for it to commit.
+    await expect(card(page, 'Payment terms for Al Noor')).toHaveCount(0)
     await go(page, '/help-screens/people-data')
     await page.locator('.people-view [data-row-open]', {hasText: 'Ahmed Ali'}).click()
     await expect(panel(page)).toContainText('Unavailable item')

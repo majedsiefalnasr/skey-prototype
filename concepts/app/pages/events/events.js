@@ -1,3 +1,5 @@
+import {uiLocale} from '../../core/locale.js'
+const {t} = uiLocale
 // Events — calendar only (Day / Week / Month). Events show by their own
 // start/end; nothing else is drawn here (timed activities live on the
 // Activities calendar, notes never appear on a calendar). Reminder and
@@ -45,7 +47,7 @@ const REPEATS = [
   ['monthly', 'Monthly'],
 ]
 
-export function createEvents({store, toast, panel, related, confirm, goHome, users}) {
+export function createEvents({store, toast, panel, related, confirm, goHome, users, beforeAction = async () => true}) {
   const view = () => document.querySelector('.events-view')
   const state = {mode: 'month', date: null, fieldFilters: []}
   let built = false
@@ -57,7 +59,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
   const filterFields = () => [
     {
       key: 'participant',
-      label: 'Participant',
+      label: t("Participant"),
       icon: 'i-user',
       type: 'multi',
       emptyLabel: 'Anyone',
@@ -68,7 +70,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
         return picked.some(id => (event.participantIds || []).includes(id))
       },
     },
-    {key: 'title', label: 'Event title', icon: 'i-doc', type: 'text'},
+    {key: 'title', label: t("Event title"), icon: 'i-doc', type: 'text'},
   ]
 
   const overlaps = (a, b) =>
@@ -103,10 +105,10 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
     const now = store.now()
     const start = event.allDay ? `${event.start}T00:00` : event.start
     const end = event.allDay ? `${event.end}T23:59` : event.end
-    if (end < now) return {label: 'Past', tone: 'gray'}
-    if (start <= now) return {label: 'Now', tone: 'warn'}
-    if (start.slice(0, 10) === todayKey()) return {label: 'Today', tone: 'fix'}
-    return {label: 'Upcoming', tone: 'fix'}
+    if (end < now) return {label: t("Past"), tone: 'gray'}
+    if (start <= now) return {label: t("Now"), tone: 'warn'}
+    if (start.slice(0, 10) === todayKey()) return {label: t("Today"), tone: 'fix'}
+    return {label: t("Upcoming"), tone: 'fix'}
   }
 
   function renderToolbar() {
@@ -117,7 +119,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
       calendarToolbar({mode: state.mode, date: state.date, presets: true, today: todayKey(), titleHidden: true}) +
       `<div class="data-list-controls mt-2 w-full">${toolbarRow({
         ariaLabel: 'Events filters',
-        left: `${menuDetails({attr: 'filter-menu', iconName: 'i-plus', label: 'Filter', items: filterItems})}${collabFilterChips({
+        left: `${menuDetails({attr: 'filter-menu', iconName: 'i-plus', label: t("Filter"), items: filterItems})}${collabFilterChips({
           fields,
           filters: state.fieldFilters,
         })}${state.fieldFilters.length ? clearFilterButton({attr: 'clear-filters'}) : ''}`,
@@ -210,37 +212,36 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
   function editorMarkup(event) {
     const type = event.allDay ? 'date' : 'datetime-local'
     return `<div class="${GRID_CLASS}">
-      ${field({id: 'event-title', label: 'Title', required: true, wide: true, control: textInput({id: 'event-title', value: event.title, required: true, extra: {autofocus: true}})})}
-      <div class="sm:col-span-2">${switchRow({id: 'event-allday', label: 'All day', checked: event.allDay})}</div>
-      ${field({id: 'event-start', label: 'Starts', required: true, control: textInput({id: 'event-start', type, value: event.start, required: true})})}
-      ${field({id: 'event-end', label: 'Ends', required: true, control: textInput({id: 'event-end', type, value: event.end, required: true})})}
+      ${field({id: 'event-title', label: t("Title"), required: true, wide: true, control: textInput({id: 'event-title', value: event.title, required: true, extra: {autofocus: true}})})}
+      <div class="sm:col-span-2">${switchRow({id: 'event-allday', label: t("All day"), checked: event.allDay})}</div>
+      ${field({id: 'event-start', label: t("Starts"), required: true, control: textInput({id: 'event-start', type, value: event.start, required: true})})}
+      ${field({id: 'event-end', label: t("Ends"), required: true, control: textInput({id: 'event-end', type, value: event.end, required: true})})}
       ${field({
         id: 'event-location',
-        label: 'Location',
+        label: t("Location"),
         wide: true,
         control: `${textInput({id: 'event-location', value: event.location})}<div class="relative mt-2 h-[180px] overflow-hidden rounded-md border border-line bg-[var(--line-2)]" data-location-map aria-hidden="true">
           <svg viewBox="0 0 480 180" class="absolute inset-0 size-full" preserveAspectRatio="xMidYMid slice">
             <path d="M0 60 H480 M0 130 H480 M140 0 V180 M330 0 V180" stroke="var(--line)" stroke-width="12"/>
             <path d="M-12 165 L492 30" stroke="var(--line)" stroke-width="9"/>
-            <rect x="165" y="78" width="150" height="32" rx="3" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
           </svg>
           <div class="absolute inset-0 flex items-center justify-center gap-1.5">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-muted" data-map-pin><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
-            <span class="max-w-[70%] truncate rounded-full bg-surface px-2.5 py-1 text-[11px] font-semibold text-ink [box-shadow:var(--shadow-1)]" data-map-label>No location</span>
+            <span class="max-w-[70%] truncate rounded-full bg-surface px-2.5 py-1 text-[11px] font-semibold text-ink [box-shadow:var(--shadow-1)]" data-map-label>${t("No location")}</span>
           </div>
         </div>`,
       })}
       ${multiselect({
         id: 'event-participants',
-        label: 'Participants',
+        label: t("Participants"),
         options: users.map(user => [user.id, `${user.name} · ${user.role}`]),
         selected: event.participantIds || [],
-        placeholder: 'Search people…',
+        placeholder: t("Search people\u2026"),
         wide: true,
       })}
-      ${field({id: 'event-reminder', label: 'Reminder', hint: 'Prototype: no notification is sent.', control: selectInput({id: 'event-reminder', value: event.reminder, options: REMINDERS})})}
-      ${field({id: 'event-repeat', label: 'Repeat', hint: 'Prototype: only the first occurrence is shown on the calendar.', control: selectInput({id: 'event-repeat', value: event.repeat, options: REPEATS})})}
-      ${field({id: 'event-description', label: 'Description', wide: true, control: textarea({id: 'event-description', value: event.description, rows: 4})})}
+      ${field({id: 'event-reminder', label: t("Reminder"), hint: t("Prototype: no notification is sent."), control: selectInput({id: 'event-reminder', value: event.reminder, options: REMINDERS})})}
+      ${field({id: 'event-repeat', label: t("Repeat"), hint: t("Prototype: only the first occurrence is shown on the calendar."), control: selectInput({id: 'event-repeat', value: event.repeat, options: REPEATS})})}
+      ${field({id: 'event-description', label: t("Description"), wide: true, control: textarea({id: 'event-description', value: event.description, rows: 4})})}
     </div>`
   }
 
@@ -298,7 +299,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
     if (!input || !label || !pin) return
     const sync = () => {
       const value = input.value.trim()
-      label.textContent = value || 'No location'
+      label.textContent = value || t('No location')
       pin.classList.toggle('text-accent', Boolean(value))
       pin.classList.toggle('text-muted', !value)
     }
@@ -380,9 +381,10 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
           body.insertAdjacentHTML('afterbegin', `<p class="${HINT_CLASS} mb-3">Repeats ${escapeHtml(existing.repeat)} — only this first occurrence is shown in the prototype.</p>`)
         }
       },
-      save: body => {
+      save: async body => {
         const values = readEditor(body)
         if (!validate(body, values)) return false
+        if (!(await beforeAction(document.querySelector('[data-panel-save]')))) return false
         if (existing) {
           store.updateEntity('event', existing.id, values)
           toast({tone: 'ok', title: 'Event saved', body: values.title})
@@ -392,7 +394,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
         }
         return true
       },
-      menu: existing ? [{label: 'Delete', icon: 'i-trash', danger: true, run: () => deleteEvent(existing)}] : [],
+      menu: existing ? [{label: t("Delete"), icon: 'i-trash', danger: true, run: () => deleteEvent(existing)}] : [],
       related: ref ? host => related.render(host, ref) : null,
     })
   }
@@ -401,10 +403,10 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
     const ok = await confirm({
       title: 'Delete this event?',
       body: 'The event is removed. Linked items keep the link and show it as unavailable until someone removes it. Linked activities are not changed.',
-      confirmLabel: 'Delete',
+      confirmLabel: t("Delete"),
       tone: 'danger',
     })
-    if (!ok) return
+    if (!ok || !(await beforeAction())) return
     store.deleteEntity('event', event.id)
     await panel.close({force: true})
     toast({tone: 'info', title: 'Event deleted', body: titleOf(event)})
@@ -422,6 +424,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
 
   return {
     id: 'events',
+    refreshLocale() { if (built) { renderAll() } },
     get roots() {
       return view() ? [view()] : []
     },

@@ -3,27 +3,27 @@
           <div class="phead email-phead [.d1_&]:[padding:11px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5 px-4">
               <div class="l [.d1_.phead_&]:flex-1">
               <nav class="crumbs" aria-label="Breadcrumb">
-                <a href="#" class="email-back">Home</a><span class="sep">›</span
-                ><span aria-current="page">Internal Mail</span>
+                <a href="#" class="email-back" data-i18n="Help Screens">Help Screens</a><span class="sep">›</span
+                ><span aria-current="page" data-i18n="Internal Mail">Internal Mail</span>
               </nav>
-              <div class="tline"><h1>Internal Mail</h1></div>
+              <div class="mt-2"><h1 class="text-[23px]! font-semibold leading-tight text-ink [body.density-compact_&]:text-[20px]!" data-i18n="Internal Mail">Internal Mail</h1></div>
             </div>
             <div class="r">
               <button type="button" class="lbtn pri email-compose">
-                <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> Compose
+                <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> <span data-i18n="Compose">Compose</span>
               </button>
             </div>
           </div>
           <div class="email-app flex-1 min-h-0 flex mx-4 my-3 rounded-[9px] border border-line overflow-hidden bg-surface [body.density-compact_&]:mx-3 [body.density-compact_&]:my-2 [body.density-comfortable_&]:mx-5 [body.density-comfortable_&]:my-4">
             <nav class="email-folders flex-none border-e border-line" aria-label="Mailboxes" data-folders></nav>
             <div class="email-list w-[300px] flex-none flex flex-col min-h-0 border-e border-line">
-              <label class="sr-only" for="email-folder-select">Mailbox</label>
+              <label class="sr-only" for="email-folder-select" data-i18n="Mailbox">Mailbox</label>
               <select id="email-folder-select" class="mx-2.5 mt-2.5 min-h-8 rounded-md border border-line bg-surface px-2 text-[13px] text-ink" data-folder-select hidden></select>
               <div class="email-list-title mx-2.5 mt-2.5 mb-0 flex items-center gap-1.5 px-0.5 [body.density-compact_&]:mx-2 [body.density-compact_&]:mt-2 [body.density-comfortable_&]:mx-3 [body.density-comfortable_&]:mt-3">
                 <button type="button" class="ibtn flex-none" data-rail-toggle aria-expanded="false" aria-controls="email-folder-list" aria-label="Expand mailboxes" title="Expand mailboxes">
                   <svg width="16" height="16" aria-hidden="true"><use href="#i-panel" /></svg>
                 </button>
-                <span class="min-w-0 flex-1 truncate font-[inherit] text-[15px] font-semibold text-ink" data-mail-folder-title dir="auto">Inbox</span>
+                <span class="min-w-0 flex-1 truncate font-[inherit] text-[15px] font-semibold text-ink" data-mail-folder-title dir="auto" data-i18n="Inbox">Inbox</span>
                 <span class="inline-flex flex-none items-center rounded-full bg-[var(--accent-soft)] px-1.5 py-0.5 text-[11px] font-semibold text-accent" data-mail-folder-count hidden></span>
               </div>
               <div class="email-list-hd flex items-center gap-1.5 m-2.5 mb-0 [body.density-compact_&]:m-2 [body.density-compact_&]:mb-0 [body.density-comfortable_&]:m-3 [body.density-comfortable_&]:mb-0">
@@ -32,8 +32,8 @@
                   <input
                     type="search"
                     id="email-search-input"
-                    placeholder="Search this mailbox…"
-                    aria-label="Search this mailbox"
+                    placeholder="Search this mailbox…" data-i18n-placeholder="Search this mailbox…"
+                    aria-label="Search this mailbox" data-i18n-aria-label="Search this mailbox"
                     autocomplete="off"
                     class="border-0 outline-none bg-transparent font-[inherit] text-ink flex-1 min-w-0 p-0 placeholder:text-faint" />
                 </div>
@@ -41,14 +41,14 @@
               <div class="email-list-tools mx-2.5 mt-1.5 mb-0 grid gap-1 [body.density-compact_&]:mx-2 [body.density-comfortable_&]:mx-3">
                 <div class="flex items-center justify-between gap-2 whitespace-nowrap">
                   <label class="flex min-h-[28px] cursor-pointer items-center gap-1.5 text-[12.5px] text-muted">
-                    <span>Select all</span>
+                    <span data-i18n="Select all">Select all</span>
                     <span class="relative inline-flex h-[17px] w-[30px] flex-none">
                       <input type="checkbox" role="switch" data-mail-select-all class="peer absolute inset-0 m-0 cursor-pointer opacity-0" />
                       <span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-[background] duration-[120ms] before:absolute before:start-0.5 before:top-0.5 before:size-[13px] before:rounded-full before:bg-inverse before:transition-[translate] before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[13px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[13px]"></span>
                     </span>
                   </label>
                   <label class="flex min-h-[28px] cursor-pointer items-center gap-1.5 text-[12.5px] text-muted">
-                    <span>Unread only</span>
+                    <span data-i18n="Unread only">Unread only</span>
                     <span class="relative inline-flex h-[17px] w-[30px] flex-none">
                       <input type="checkbox" role="switch" data-mail-unread-filter class="peer absolute inset-0 m-0 cursor-pointer opacity-0" />
                       <span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-[background] duration-[120ms] before:absolute before:start-0.5 before:top-0.5 before:size-[13px] before:rounded-full before:bg-inverse before:transition-[translate] before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[13px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[13px]"></span>

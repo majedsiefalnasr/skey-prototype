@@ -1,3 +1,5 @@
+import {uiLocale} from '../../core/locale.js'
+const {t} = uiLocale
 // Internal Mail — mailboxes (Inbox, Starred, Sent, Drafts, Archive,
 // Trash) plus the folders the user creates, a message list, and a reading /
 // compose pane, all over the collaboration store's `mail` entities. Custom
@@ -32,7 +34,7 @@ const COMPOSE_INPUT_CLASS = 'min-w-[120px] flex-1 border-0 bg-transparent text-s
 const AVATAR_CLASS =
   'email-avatar relative flex-none rounded-full flex items-center justify-center bg-[var(--avatar-bg)] text-[var(--avatar-ink)] font-bold'
 
-export function createEmail({root, store, toast, related, confirm, users, currentUser, onUnreadChange, navigate, openItem}) {
+export function createEmail({root, store, toast, related, confirm, users, currentUser, onUnreadChange, navigate, openItem, goHome, beforeAction = async () => true}) {
   const pageAbort = new AbortController()
   const signal = pageAbort.signal
   const queryId = id => root.querySelector('#' + CSS.escape(id))
@@ -68,7 +70,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
   /** Names the user may not reuse — the system mailboxes, so the rail never
    *  carries two rows reading "Inbox". */
   const reservedFolderNames = () => systemFolders.map(folder => folder.label)
-  const folderLabel = id => allFolders().find(folder => folder.id === id)?.label ?? id
+  const folderLabel = id => { const folder = allFolders().find(folder => folder.id === id); return folder?.custom ? folder.label : t(folder?.label ?? id) }
   const folderCount = (id, custom) => {
     const list = folderMail(id)
     if (id === 'inbox') return list.filter(m => m.unread).length
@@ -92,8 +94,12 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     if (compact()) state.railOpen = false
     const list = root.querySelector('.email-list')
     const pane = queryId('email-reading')
-    list.hidden = narrow() && state.pane === 'detail'
-    pane.hidden = narrow() && state.pane === 'list'
+    // On a phone a bulk selection keeps the list and shows the pane's
+    // selection bar above it (email.css), so checked rows can be acted on.
+    const selecting = narrow() && state.mode !== 'compose' && isBulkSelection()
+    root.querySelector('.email-app').toggleAttribute('data-narrow-selecting', selecting)
+    list.hidden = narrow() && state.pane === 'detail' && !selecting
+    pane.hidden = narrow() && state.pane === 'list' && !selecting
     list.classList.toggle('w-full', narrow())
   }
   matchMedia('(max-width: 720px)').addEventListener('change', applyLayout, {signal})
@@ -115,18 +121,18 @@ export function createEmail({root, store, toast, related, confirm, users, curren
   const folderButton = ({id, label, iconName, custom}, {wide = false} = {}) => {
     const count = folderCount(id, custom)
     const countLabel = id === 'inbox' ? 'unread' : id === 'drafts' ? 'drafts' : 'messages'
-    return `<button type="button" data-folder="${escapeHtml(id)}"${state.folder === id ? ' aria-current="true"' : ''} class="${EF_ROW_CLASS} ${wide ? 'w-full shrink-0' : 'flex-1'}">${icon(iconName, 18)}<span class="ef-lbl min-w-0 flex-1 overflow-hidden whitespace-nowrap text-[13px]">${escapeHtml(label)}</span>${count ? `<span class="ef-lbl flex-none text-xs">${count}<span class="sr-only"> ${countLabel}</span></span>` : ''}</button>`
+    return `<button type="button" data-folder="${escapeHtml(id)}"${state.folder === id ? ' aria-current="true"' : ''} class="${EF_ROW_CLASS} ${wide ? 'w-full shrink-0' : 'flex-1'}">${icon(iconName, 18)}<span class="ef-lbl min-w-0 flex-1 overflow-hidden whitespace-nowrap text-[13px]">${escapeHtml(t(label))}</span>${count ? `<span class="ef-lbl flex-none text-xs">${count}<span class="sr-only"> ${countLabel}</span></span>` : ''}</button>`
   }
 
   /** Inline create / rename form. Replaces the row (or the New folder
    *  button) in place, so naming a folder never opens a dialog. */
   const folderFormMarkup = (value, submitLabel) =>
     `<form class="flex flex-col gap-1.5 px-1 py-1" data-folder-form novalidate>
-      <label class="sr-only" for="email-folder-name">Folder name</label>
-      <input type="text" id="email-folder-name" class="${FOLDER_FORM_INPUT_CLASS}" data-folder-name placeholder="Folder name" maxlength="40" autocomplete="off" value="${escapeHtml(value)}" dir="auto">
+      <label class="sr-only" for="email-folder-name">${t("Folder name")}</label>
+      <input type="text" id="email-folder-name" class="${FOLDER_FORM_INPUT_CLASS}" data-folder-name placeholder="${escapeHtml(t("Folder name"))}" maxlength="40" autocomplete="off" value="${escapeHtml(value)}" dir="auto">
       <span class="flex items-center gap-1.5">
-        <button type="submit" class="lbtn pri">${escapeHtml(submitLabel)}</button>
-        <button type="button" class="lbtn" data-folder-cancel>Cancel</button>
+        <button type="submit" class="lbtn pri">${escapeHtml(t(submitLabel))}</button>
+        <button type="button" class="lbtn" data-folder-cancel>${t("Cancel")}</button>
       </span>
       <span class="${ERROR_CLASS}" role="alert" data-folder-error></span>
     </form>`
@@ -144,7 +150,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     const toggle = root.querySelector('[data-rail-toggle]')
     if (!toggle) return
     toggle.setAttribute('aria-expanded', String(state.railOpen))
-    const label = state.railOpen ? 'Collapse mailboxes' : 'Expand mailboxes'
+    const label = t(state.railOpen ? 'Collapse mailboxes' : 'Expand mailboxes')
     toggle.setAttribute('aria-label', label)
     toggle.setAttribute('title', label)
   }
@@ -159,7 +165,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     const count = root.querySelector('[data-mail-folder-count]')
     const n = folderCount(state.folder, customFolders().some(f => f.id === state.folder))
     if (count) {
-      const label = state.folder === 'inbox' ? `${n} unread` : String(n)
+      const label = state.folder === 'inbox' ? `${n} ${t('unread')}` : String(n)
       count.textContent = n ? label : ''
       count.hidden = !n
     }
@@ -176,9 +182,9 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       .join('')}</ul>
       <div class="flex-none"><div class="${EF_SEPARATOR_CLASS}"></div>
         <div class="flex items-center gap-1 ps-[11px] pe-2 pb-1 pt-2">
-          <span class="ef-lbl min-w-0 flex-1 text-xs font-semibold uppercase tracking-[.04em] text-faint">Folders</span>
+          <span class="ef-lbl min-w-0 flex-1 text-xs font-semibold uppercase tracking-[.04em] text-faint">${t("Folders")}</span>
           <span class="ef-act flex flex-none items-center gap-0.5">
-            <button type="button" class="${FOLDER_ICON_BTN_CLASS}" data-new-folder aria-label="New folder" title="New folder">${icon('i-plus', 14)}</button>
+            <button type="button" class="${FOLDER_ICON_BTN_CLASS}" data-new-folder aria-label="${escapeHtml(t("New folder"))}" title="${escapeHtml(t("New folder"))}">${icon('i-plus', 14)}</button>
           </span>
         </div>
         ${
@@ -189,8 +195,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
                     ? `<li>${folderFormMarkup(folder.name, 'Save')}</li>`
                     : `<li class="flex items-center gap-1">${folderButton(folder)}
                         <span class="ef-act flex flex-none items-center gap-0.5 pe-1">
-                          <button type="button" class="${FOLDER_ICON_BTN_CLASS}" data-folder-rename="${escapeHtml(folder.id)}" aria-label="Rename ${escapeHtml(folder.label)}">${icon('i-edit', 12)}</button>
-                          <button type="button" class="${FOLDER_ICON_BTN_CLASS}" data-folder-delete="${escapeHtml(folder.id)}" aria-label="Delete ${escapeHtml(folder.label)}">${icon('i-trash', 12)}</button>
+                          <button type="button" class="${FOLDER_ICON_BTN_CLASS}" data-folder-rename="${escapeHtml(folder.id)}" aria-label="Rename ${escapeHtml(folder.custom ? folder.label : t(folder.label))}">${icon('i-edit', 12)}</button>
+                          <button type="button" class="${FOLDER_ICON_BTN_CLASS}" data-folder-delete="${escapeHtml(folder.id)}" aria-label="Delete ${escapeHtml(folder.custom ? folder.label : t(folder.label))}">${icon('i-trash', 12)}</button>
                         </span>
                       </li>`
                 )
@@ -203,7 +209,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     root.querySelector('[data-folder-select]').innerHTML = allFolders()
       .map(folder => {
         const count = folderCount(folder.id, folder.custom)
-        return `<option value="${escapeHtml(folder.id)}"${state.folder === folder.id ? ' selected' : ''}>${escapeHtml(folder.label)}${count ? ` (${count})` : ''}</option>`
+        return `<option value="${escapeHtml(folder.id)}"${state.folder === folder.id ? ' selected' : ''}>${escapeHtml(folder.custom ? folder.label : t(folder.label))}${count ? ` (${count})` : ''}</option>`
       })
       .join('')
     const input = rail.querySelector('[data-folder-name]')
@@ -250,6 +256,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     const input = root.querySelector('[data-folder-name]')
     if (!input) return
     const value = input.value
+    if (!(await beforeAction())) return
     if (state.folderForm === 'new') {
       const {folder, error} = store.createFolder(value, {reserved: reservedFolderNames()})
       if (error) return showFolderError(error)
@@ -277,10 +284,10 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       body: count
         ? `${count} message${count === 1 ? '' : 's'} in it move to Inbox. Nothing is lost.`
         : 'Its messages (if any) move to Inbox.',
-      confirmLabel: 'Delete folder',
+      confirmLabel: t("Delete folder"),
       tone: 'danger',
     })
-    if (!ok) return
+    if (!ok || !(await beforeAction())) return
     const {moved} = store.deleteFolder(id)
     if (state.folderForm === id) state.folderForm = null
     toast({
@@ -370,13 +377,13 @@ export function createEmail({root, store, toast, related, confirm, users, curren
           <span class="flex-none pt-1"><input type="checkbox" data-mail-check aria-label="Select “${escapeHtml(subject)}”"${selected ? ' checked' : ''} class="size-3.5 cursor-pointer accent-[var(--accent)]"></span>
           <span class="${AVATAR_CLASS} w-7 h-7 text-xs" style="--hue:${Number(m.hue) || 210}">${avatar(m.folder === 'sent' || m.folder === 'drafts' ? m.to?.[0] || me : m.from, 14)}</span>
           <span class="min-w-0 flex-1">
-            <span class="flex items-baseline justify-between gap-2"><b class="truncate text-[13px] ${m.unread ? 'font-bold' : 'font-medium'} text-ink" dir="auto">${m.unread ? '<span class="sr-only">Unread. </span>' : ''}${escapeHtml(counterpart(m))}</b><span class="flex-none text-xs text-faint">${escapeHtml(formatTime(stampOf(m)))}</span></span>
+            <span class="flex items-baseline justify-between gap-2"><b class="truncate text-[13px] ${m.unread ? 'font-bold' : 'font-medium'} text-ink" dir="auto">${m.unread ? `<span class="sr-only">${t("Unread.")} </span>` : ''}${escapeHtml(counterpart(m))}</b><span class="flex-none text-xs text-faint">${escapeHtml(formatTime(stampOf(m)))}</span></span>
             <span class="mt-0.5 flex items-center gap-1.5 text-[12.5px] text-muted">
-              ${m.folder === 'drafts' ? '<span class="badge warn">Draft</span>' : ''}
+              ${m.folder === 'drafts' ? `<span class="badge warn">${t("Draft")}</span>` : ''}
               <span class="email-list-subj min-w-0 flex-1 truncate" dir="auto">${escapeHtml(subject)}</span>
-              ${m.starred ? `<span class="text-accent">${icon('i-spark', 11)}<span class="sr-only">Starred</span></span>` : ''}
-              ${m.attachments?.length ? `<span>${icon('i-clip', 11)}<span class="sr-only">Has attachments</span></span>` : ''}
-              ${relatedCount ? `<span class="inline-flex items-center gap-0.5">${icon('i-flow', 11)}${relatedCount}<span class="sr-only"> related items</span></span>` : ''}
+              ${m.starred ? `<span class="text-accent">${icon('i-spark', 11)}<span class="sr-only">${t("Starred")}</span></span>` : ''}
+              ${m.attachments?.length ? `<span>${icon('i-clip', 11)}<span class="sr-only">${t("Has attachments")}</span></span>` : ''}
+              ${relatedCount ? `<span class="inline-flex items-center gap-0.5">${icon('i-flow', 11)}${relatedCount}<span class="sr-only"> ${t("related items")}</span></span>` : ''}
             </span>
           </span>
         </li>`
@@ -516,14 +523,14 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         <div class="email-reading-who flex min-w-0 flex-1 flex-col"><b class="text-sm" dir="auto">${escapeHtml(m.from?.name || '')}</b><span class="text-[12.5px] text-muted">${escapeHtml(m.from?.email || '')}</span></div>
         <span class="email-reading-time flex-none text-xs text-faint">${escapeHtml(dayLabel(stampOf(m)))}, ${escapeHtml(formatTime(stampOf(m)))}</span>
       </div>`
-    const details = `<div class="email-field mt-3 flex flex-wrap items-center gap-1.5 text-[12.5px] text-faint"><span>To</span>${chips(m.to)}</div>
-      ${m.cc?.length ? `<div class="email-field mt-1 flex flex-wrap items-center gap-1.5 text-[12.5px] text-faint"><span>Cc</span>${chips(m.cc)}</div>` : ''}
+    const details = `<div class="email-field mt-3 flex flex-wrap items-center gap-1.5 text-[12.5px] text-faint"><span>${t("To")}</span>${chips(m.to)}</div>
+      ${m.cc?.length ? `<div class="email-field mt-1 flex flex-wrap items-center gap-1.5 text-[12.5px] text-faint"><span>${t("Cc")}</span>${chips(m.cc)}</div>` : ''}
       <div class="email-reading-body mt-4 text-sm leading-[1.65] text-ink">${body}</div>
       ${
         m.attachments?.length
           ? `<div class="email-attachments mt-3 flex flex-wrap gap-2">${m.attachments
               .map(a => `<span class="email-attach flex items-center gap-[7px] rounded-lg border border-line px-2.5 py-[7px] text-[12.5px] text-ink">${icon('i-clip')}<span>${escapeHtml(a.name)}</span><small class="text-xs text-faint">${escapeHtml(a.size)}</small></span>`)
-              .join('')}<span class="${HINT_CLASS} self-center">Attachments are sample files in the prototype.</span></div>`
+              .join('')}<span class="${HINT_CLASS} self-center">${t("Attachments are sample files in the prototype.")}</span></div>`
           : ''
       }`
     return expanded
@@ -557,10 +564,10 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       if (action === 'move')
         return `<span class="menu relative inline-flex">
             <button type="button" class="${TOOL_CLASS}" data-mail-action="move" aria-haspopup="menu" aria-expanded="false">${icon(iconName)}<span>${label}</span>${icon('i-caret', 12)}</button>
-            <div class="mlist mend" role="menu" aria-label="Move to folder">
-              <div class="glbl">Move to</div>
+            <div class="mlist mend" role="menu" aria-label="${escapeHtml(t("Move to folder"))}">
+              <div class="glbl">${t("Move to")}</div>
               ${moveTargets
-                .map(folder => `<button role="menuitem" type="button" data-move-to="${escapeHtml(folder.id)}">${icon(folder.iconName)} ${escapeHtml(folder.label)}</button>`)
+                .map(folder => `<button role="menuitem" type="button" data-move-to="${escapeHtml(folder.id)}">${icon(folder.iconName)} ${escapeHtml(folder.custom ? folder.label : t(folder.label))}</button>`)
                 .join('')}
             </div>
           </span>`
@@ -573,8 +580,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       ['activity', 'i-check', 'Create activity'],
     ]
     const more = `<span class="menu relative inline-flex ms-auto">
-        <button type="button" class="ibtn" data-more-trigger aria-haspopup="menu" aria-expanded="false" aria-label="More actions" title="More actions">${icon('i-dots')}</button>
-        <div class="mlist mend" role="menu" aria-label="More actions" style="min-width:210px">
+        <button type="button" class="ibtn" data-more-trigger aria-haspopup="menu" aria-expanded="false" aria-label="${escapeHtml(t("More actions"))}" title="${escapeHtml(t("More actions"))}">${icon('i-dots')}</button>
+        <div class="mlist mend" role="menu" aria-label="${escapeHtml(t("More actions"))}" style="min-width:210px">
           ${moreItems
             .map(([action, iconName, label]) => {
               const starred = action === 'star'
@@ -584,8 +591,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
           <hr><button role="menuitem" type="button" class="dan" data-mail-action="${inTrash ? 'purge' : 'trash'}">${icon('i-trash')} ${inTrash ? 'Delete permanently' : 'Delete'}</button>
         </div>
       </span>`
-    return `<div class="flex flex-wrap items-center gap-0.5 border-b border-line px-4 py-2" role="toolbar" aria-label="Message actions">
-      ${narrow() ? `<button type="button" class="${TOOL_CLASS}" data-mail-back>${icon('i-prev')} Back</button>${SEP}` : ''}
+    return `<div class="flex flex-wrap items-center gap-0.5 border-b border-line px-4 py-2" role="toolbar" aria-label="${escapeHtml(t("Message actions"))}">
+      ${narrow() ? `<button type="button" class="${TOOL_CLASS}" data-mail-back>${icon('i-prev')} ${t('Back')}</button>${SEP}` : ''}
       ${groups
         .map((group, index) => `${index ? SEP : ''}<span class="flex flex-wrap items-center gap-0.5">${group.map(tool).join('')}</span>`)
         .join('')}
@@ -599,22 +606,22 @@ export function createEmail({root, store, toast, related, confirm, users, curren
   function bulkToolbarMarkup() {
     const count = state.selectedIds.size
     const moveTargets = allFolders()
-    return `<div class="flex flex-wrap items-center gap-0.5 border-b border-line px-4 py-2" role="toolbar" aria-label="Selection actions">
-      <span class="mr-1.5 text-[13px] font-semibold text-ink">${count} selected</span>
+    return `<div class="flex flex-wrap items-center gap-0.5 border-b border-line px-4 py-2" role="toolbar" aria-label="${escapeHtml(t("Selection actions"))}">
+      <span class="mr-1.5 text-[13px] font-semibold text-ink">${count} ${t('selected')}</span>
       <span class="mx-1.5 h-5 w-px flex-none bg-line" aria-hidden="true"></span>
-      <button type="button" class="${TOOL_CLASS}" data-bulk="read">${icon('i-mail')}<span>Mark read</span></button>
-      <button type="button" class="${TOOL_CLASS}" data-bulk="archive">${icon('i-archive')}<span>Archive</span></button>
+      <button type="button" class="${TOOL_CLASS}" data-bulk="read">${icon('i-mail')}<span>${t("Mark read")}</span></button>
+      <button type="button" class="${TOOL_CLASS}" data-bulk="archive">${icon('i-archive')}<span>${t("Archive")}</span></button>
       <span class="menu relative inline-flex">
-        <button type="button" class="${TOOL_CLASS}" data-bulk="move" aria-haspopup="menu" aria-expanded="false">${icon('i-folder')}<span>Move to</span>${icon('i-caret', 12)}</button>
-        <div class="mlist mend" role="menu" aria-label="Move selection to folder">
-          <div class="glbl">Move to</div>
+        <button type="button" class="${TOOL_CLASS}" data-bulk="move" aria-haspopup="menu" aria-expanded="false">${icon('i-folder')}<span>${t("Move to")}</span>${icon('i-caret', 12)}</button>
+        <div class="mlist mend" role="menu" aria-label="${escapeHtml(t("Move selection to folder"))}">
+          <div class="glbl">${t("Move to")}</div>
           ${moveTargets
-            .map(folder => `<button role="menuitem" type="button" data-bulk-move-to="${escapeHtml(folder.id)}">${icon(folder.iconName)} ${escapeHtml(folder.label)}</button>`)
+            .map(folder => `<button role="menuitem" type="button" data-bulk-move-to="${escapeHtml(folder.id)}">${icon(folder.iconName)} ${escapeHtml(folder.custom ? folder.label : t(folder.label))}</button>`)
             .join('')}
         </div>
       </span>
-      <button type="button" class="${TOOL_DANGER_CLASS}" data-bulk="trash">${icon('i-trash')}<span>Delete</span></button>
-      <button type="button" class="ibtn ms-auto" data-bulk="clear" aria-label="Clear selection" title="Clear selection">${icon('i-x')}</button>
+      <button type="button" class="${TOOL_DANGER_CLASS}" data-bulk="trash">${icon('i-trash')}<span>${t("Delete")}</span></button>
+      <button type="button" class="ibtn ms-auto" data-bulk="clear" aria-label="${escapeHtml(t("Clear selection"))}" title="${escapeHtml(t("Clear selection"))}">${icon('i-x')}</button>
     </div>`
   }
 
@@ -660,7 +667,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     state.selectionAnchor = state.selectedId
   }
 
-  function runBulk(action) {
+  async function runBulk(action) {
     const messages = [...state.selectedIds]
       .map(id => store.getEntity('mail', id))
       .filter(Boolean)
@@ -671,6 +678,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       refreshToolbar()
       return
     }
+    if (!(await beforeAction())) return
     if (action === 'read') {
       messages.forEach(m => {
         if (m.unread) store.updateEntity('mail', m.id, {unread: false})
@@ -693,11 +701,12 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     root.querySelector('.email-list-row')?.focus()
   }
 
-  function runBulkMove(folderId) {
+  async function runBulkMove(folderId) {
     const messages = [...state.selectedIds]
       .map(id => store.getEntity('mail', id))
       .filter(Boolean)
     if (!messages.length) return
+    if (!(await beforeAction())) return
     messages.forEach(m => {
       if (m.folder !== folderId) store.updateEntity('mail', m.id, {folder: folderId, previousFolder: null})
     })
@@ -722,12 +731,12 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         <h2 class="email-reading-subject mb-1 text-[19px] font-bold text-ink" dir="auto">${escapeHtml(titleOf(m))}</h2>
         <p class="${HINT_CLASS}">${escapeHtml(folderLabel(m.folder))}${messages.length > 1 ? ` · ${messages.length} messages in this conversation` : ''}</p>
         ${messages.map(x => messageMarkup(x, x.id === m.id || messages.length === 1)).join('')}
-        <section class="mt-4 border-t border-line pt-4" data-mail-related aria-label="Related items"></section>
+        <section class="mt-4 border-t border-line pt-4" data-mail-related aria-label="${escapeHtml(t("Related items"))}"></section>
       </div>
       <div class="email-composer flex-none border-t border-line bg-surface px-6 py-3 [body.density-compact_&]:px-4 [body.density-comfortable_&]:px-8">
-        <label class="email-composer-to mb-2 block text-[12.5px] text-muted" for="email-quick-reply">Reply to <b dir="auto">${escapeHtml(replyTargets(m).map(p => p.name).join(', '))}</b></label>
-        <textarea id="email-quick-reply" class="email-composer-input w-full min-h-[64px] resize-y rounded-lg border border-line bg-surface px-3 py-2.5 font-[inherit] text-ink outline-none focus-visible:[box-shadow:0_0_0_3px_var(--accent-soft)]" placeholder="Write a reply…" dir="auto"></textarea>
-        <div class="mt-2 flex items-center gap-2"><span class="${HINT_CLASS} flex-1">Typing saves a reply draft.</span><button type="button" class="lbtn pri email-send">${icon('i-reply')} Reply</button></div>
+        <label class="email-composer-to mb-2 block text-[12.5px] text-muted" for="email-quick-reply">${t("Reply to")} <b dir="auto">${escapeHtml(replyTargets(m).map(p => p.name).join(', '))}</b></label>
+        <textarea id="email-quick-reply" class="email-composer-input w-full min-h-[64px] resize-y rounded-lg border border-line bg-surface px-3 py-2.5 font-[inherit] text-ink outline-none focus-visible:[box-shadow:0_0_0_3px_var(--accent-soft)]" placeholder="${escapeHtml(t("Write a reply\u2026"))}" dir="auto"></textarea>
+        <div class="mt-2 flex items-center gap-2"><span class="${HINT_CLASS} flex-1">${t("Typing saves a reply draft.")}</span><button type="button" class="lbtn pri email-send">${icon('i-reply')} ${t('Reply')}</button></div>
       </div>`
     related.render(pane.querySelector('[data-mail-related]'), {type: 'mail', id: m.id})
     const toolbarHostEl = pane.querySelector('[data-mail-toolbar]')
@@ -792,6 +801,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
 
   async function runAction(action, m) {
     const ref = {type: 'mail', id: m.id}
+    if (!['reply', 'forward', 'purge'].includes(action) && !(await beforeAction())) return
     switch (action) {
       case 'reply':
       case 'forward': {
@@ -821,10 +831,10 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         const ok = await confirm({
           title: 'Delete this message permanently?',
           body: 'It is removed from Trash. Items linked to it keep the link and show it as unavailable.',
-          confirmLabel: 'Delete permanently',
+          confirmLabel: t("Delete permanently"),
           tone: 'danger',
         })
-        if (!ok) return
+        if (!ok || !(await beforeAction())) return
         store.deleteEntity('mail', m.id)
         toast({tone: 'info', title: 'Message deleted', body: titleOf(m)})
         return afterMove()
@@ -869,8 +879,9 @@ export function createEmail({root, store, toast, related, confirm, users, curren
 
   /** Refile a message into any mailbox, system or user-created. The explicit
    *  move clears previousFolder: there is no "restore" to undo it back to. */
-  function moveTo(m, folderId) {
+  async function moveTo(m, folderId) {
     if (folderId === m.folder) return
+    if (!(await beforeAction())) return
     store.updateEntity('mail', m.id, {folder: folderId, previousFolder: null})
     toast({tone: 'info', title: `Moved to ${folderLabel(folderId)}`, body: titleOf(m)})
     afterMove()
@@ -900,7 +911,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
           .join('')}
         <input type="text" id="${id}" class="${COMPOSE_INPUT_CLASS}" placeholder="${kind === 'to' ? 'Name or email…' : 'Add Cc…'}" value="${escapeHtml(pending)}" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="${id}-suggestions">
       </span>
-      <ul id="${id}-suggestions" role="listbox" aria-label="Suggested recipients" class="absolute start-[68px] top-full z-20 m-0 hidden max-h-[220px] min-w-[260px] list-none overflow-auto rounded-lg border border-line bg-surface p-1 shadow-shell [&.open]:block"></ul>
+      <ul id="${id}-suggestions" role="listbox" aria-label="${escapeHtml(t("Suggested recipients"))}" class="absolute start-[68px] top-full z-20 m-0 hidden max-h-[220px] min-w-[260px] list-none overflow-auto rounded-lg border border-line bg-surface p-1 shadow-shell [&.open]:block"></ul>
     </div>`
   }
 
@@ -909,31 +920,31 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     composeTo = draft ? [...(draft.to || [])] : composeTo
     composeCc = draft ? [...(draft.cc || [])] : composeCc
     const bodyText = draft ? (Array.isArray(draft.body) ? draft.body.join('\n\n') : draft.body || '') : ''
-    pane.innerHTML = `<div class="flex flex-wrap items-center gap-1 border-b border-line px-4 py-2" role="toolbar" aria-label="Draft actions">
-        ${narrow() ? `<button type="button" class="${TOOL_CLASS}" data-mail-back>${icon('i-prev')} Back</button>` : ''}
+    pane.innerHTML = `<div class="flex flex-wrap items-center gap-1 border-b border-line px-4 py-2" role="toolbar" aria-label="${escapeHtml(t("Draft actions"))}">
+        ${narrow() ? `<button type="button" class="${TOOL_CLASS}" data-mail-back>${icon('i-prev')} ${t('Back')}</button>` : ''}
         <h2 class="me-auto text-[15px] font-semibold text-ink">${draft ? 'Draft' : 'New message'}</h2>
         <span class="${HINT_CLASS}" data-draft-status aria-live="polite">${draft?.savedAt ? `Draft saved ${escapeHtml(formatTime(draft.savedAt))}` : 'Not saved yet'}</span>
       </div>
       <div class="email-reading-scroll nc-scroll min-h-0 flex-1 overflow-auto px-6 py-2 [body.density-compact_&]:px-4 [body.density-comfortable_&]:px-8">
         ${recipientRow('to', composeTo, draft?.toInput)}
-        ${composeCc.length || draft?.ccInput ? recipientRow('cc', composeCc, draft?.ccInput) : `<div class="py-1"><button type="button" class="border-0 bg-transparent p-0 text-[12.5px] text-accent hover:underline" data-add-cc>Add Cc</button></div>`}
-        <div class="${COMPOSE_ROW_CLASS}"><label for="email-compose-subject">Subject</label><input type="text" id="email-compose-subject" class="${COMPOSE_INPUT_CLASS}" placeholder="Subject…" dir="auto" value="${escapeHtml(draft?.subject || '')}"></div>
-        <label class="sr-only" for="email-compose-body">Message</label>
-        <textarea id="email-compose-body" class="email-composer-input mt-3 w-full min-h-[180px] resize-y rounded-lg border border-line bg-surface px-3 py-2.5 font-[inherit] text-ink outline-none focus-visible:[box-shadow:0_0_0_3px_var(--accent-soft)]" placeholder="Write your message…" dir="auto">${escapeHtml(bodyText)}</textarea>
+        ${composeCc.length || draft?.ccInput ? recipientRow('cc', composeCc, draft?.ccInput) : `<div class="py-1"><button type="button" class="border-0 bg-transparent p-0 text-[12.5px] text-accent hover:underline" data-add-cc>${t("Add Cc")}</button></div>`}
+        <div class="${COMPOSE_ROW_CLASS}"><label for="email-compose-subject">${t("Subject")}</label><input type="text" id="email-compose-subject" class="${COMPOSE_INPUT_CLASS}" placeholder="${escapeHtml(t("Subject\u2026"))}" dir="auto" value="${escapeHtml(draft?.subject || '')}"></div>
+        <label class="sr-only" for="email-compose-body">${t("Message")}</label>
+        <textarea id="email-compose-body" class="email-composer-input mt-3 w-full min-h-[180px] resize-y rounded-lg border border-line bg-surface px-3 py-2.5 font-[inherit] text-ink outline-none focus-visible:[box-shadow:0_0_0_3px_var(--accent-soft)]" placeholder="${escapeHtml(t("Write your message\u2026"))}" dir="auto">${escapeHtml(bodyText)}</textarea>
         ${draft?.attachments?.length ? `<div class="mt-2 flex flex-wrap gap-2">${draft.attachments.map(a => `<span class="${CHIP_CLASS}">${icon('i-clip', 11)}${escapeHtml(a.name)}</span>`).join('')}</div>` : ''}
         <p class="${ERROR_CLASS} mt-2" role="alert" data-compose-error>${escapeHtml(state.composeError)}</p>
-        <section class="mt-4 border-t border-line pt-4" data-mail-related aria-label="Related items"></section>
+        <section class="mt-4 border-t border-line pt-4" data-mail-related aria-label="${escapeHtml(t("Related items"))}"></section>
       </div>
       <div class="email-composer flex flex-none items-center gap-2 border-t border-line bg-surface px-6 py-3">
-        <button type="button" class="lbtn pri email-send">${icon('i-reply')} Send</button>
-        <button type="button" class="lbtn" data-save-draft>Save draft</button>
-        <button type="button" class="lbtn" data-discard-draft>Discard</button>
-        <span class="${HINT_CLASS} ms-auto">Prototype: sending files the message in Sent; nothing is delivered.</span>
+        <button type="button" class="lbtn pri email-send">${icon('i-reply')} ${t('Send')}</button>
+        <button type="button" class="lbtn" data-save-draft>${t("Save draft")}</button>
+        <button type="button" class="lbtn" data-discard-draft>${t("Discard")}</button>
+        <span class="${HINT_CLASS} ms-auto">${t("Prototype: sending files the message in Sent; nothing is delivered." )}</span>
       </div>`
 
     const relatedHost = pane.querySelector('[data-mail-related]')
     if (draft) related.render(relatedHost, {type: 'mail', id: draft.id})
-    else relatedHost.innerHTML = `<h3 class="text-[13px] font-semibold text-ink">Related items</h3><p class="${HINT_CLASS} mt-1">Start writing to save a draft — then you can link notes, activities, events and people.</p>`
+    else relatedHost.innerHTML = `<h3 class="text-[13px] font-semibold text-ink">${t("Related items")}</h3><p class="${HINT_CLASS} mt-1">${t("Start writing to save a draft \u2014 then you can link notes, activities, events and people." )}</p>`
 
     pane.querySelector('[data-mail-back]')?.addEventListener('click', backToList)
     pane.querySelector('[data-add-cc]')?.addEventListener('click', () => {
@@ -955,7 +966,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       ensureDraft()
       sendDraft(state.draftId)
     })
-    pane.querySelector('[data-save-draft]').addEventListener('click', () => {
+    pane.querySelector('[data-save-draft]').addEventListener('click', async () => {
+      if (!(await beforeAction())) return
       ensureDraft()
       saveNow(readCompose)
       toast({tone: 'ok', title: 'Draft saved', body: 'Find it in Drafts.'})
@@ -1076,6 +1088,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
   }
 
   function setComposeError(message) {
+    message = t(message)
     state.composeError = message
     const el = root.querySelector('[data-compose-error]')
     if (el) el.textContent = message
@@ -1129,7 +1142,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     if (pendingRead) saveNow(pendingRead)
   }
 
-  function sendDraft(id) {
+  async function sendDraft(id) {
     const typed = root.querySelector('#email-compose-to')
     if (typed?.value.trim() && !typed._commitTyped()) return
     const ccTyped = root.querySelector('#email-compose-cc')
@@ -1149,6 +1162,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       root.querySelector('#email-compose-subject')?.focus()
       return
     }
+    if (!(await beforeAction(root.querySelector('.email-send')))) return
     setComposeError('')
     store.updateEntity('mail', id, {folder: 'sent', sentAt: store.now(), unread: false})
     toast({tone: 'ok', title: 'Message sent', body: 'Prototype only — nothing is delivered. It is filed in Sent.'})
@@ -1169,10 +1183,10 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       const ok = await confirm({
         title: 'Discard this draft?',
         body: linked ? 'The draft is deleted. Linked items will show it as unavailable.' : 'The draft is deleted.',
-        confirmLabel: 'Discard',
+        confirmLabel: t("Discard"),
         tone: 'danger',
       })
-      if (!ok) return
+      if (!ok || !(await beforeAction())) return
       clearTimeout(saveTimer)
       pendingRead = null
       store.deleteEntity('mail', id)
@@ -1209,64 +1223,54 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     root.querySelector('#email-compose-to')?.focus()
   }
 
-  /** Shown while the selection is bulk context: a stack of full-row cards,
-   *  one per selected message — the back cards above the front card each
-   *  show avatar, sender, subject and time, each stepped a little further
-   *  from the reading edge so the pile reads as stacked mail, never as any
-   *  single message's content, centred in the pane. */
+  /** Shown while the selection is bulk context: a read-only preview of the
+   *  pile. The back cards are one-line strips (avatar, sender, subject,
+   *  time) tucked behind each other, each deeper one inset further on both
+   *  sides; the front card previews the first selected message. Nothing in
+   *  it is interactive — the bar above acts on the whole selection. */
+  const DECK_BACK_LIMIT = 4
   let deckPrevCount = -1
   function renderSelectionStack(ids) {
     const messages = ids.map(id => store.getEntity('mail', id)).filter(Boolean)
     const pane = queryId('email-reading')
-    const backCards = messages
-      .slice(1)
+    const backs = messages.slice(1, 1 + DECK_BACK_LIMIT)
+    const backCards = backs
       .map((m, index) => {
-        const k = index + 1
-        return `<li class="email-sel-card${k === 1 ? ' deck-first' : ''} flex cursor-pointer items-center gap-2.5 rounded-[10px] border border-line bg-surface px-3 py-2 shadow-[var(--shadow-1)] transition-colors hover:border-[var(--accent-line)] hover:bg-[var(--hover-overlay)] focus-visible:outline-2 focus-visible:outline-[var(--focus)]" tabindex="0" data-sel-card data-deck-edge data-id="${escapeHtml(
-          m.id
-        )}" style="--deck-k:${k}">
-          <span class="${AVATAR_CLASS} w-6 h-6 mt-px flex-none text-[11px]" style="--hue:${Number(m.hue) || 210}">${avatar(m.from, 12)}</span>
-          <span class="min-w-0 flex-1 flex items-baseline justify-between gap-2" dir="auto">
-            <span class="min-w-0 truncate text-[12.5px]"><b class="font-semibold text-ink">${escapeHtml(counterpart(m))}</b><span class="text-muted"> — ${escapeHtml(titleOf(m))}</span></span>
-            <span class="flex-none text-[11px] text-faint">${escapeHtml(formatTime(stampOf(m)))}</span>
-          </span>
+        const depth = backs.length - index
+        return `<li class="email-sel-card grid grid-cols-[28px_minmax(0,9.5rem)_minmax(0,1fr)_auto] items-center gap-3 rounded-[10px] border border-line bg-surface px-4 shadow-[var(--shadow-1)]" data-sel-card data-deck-edge data-id="${escapeHtml(m.id)}" style="--deck-k:${depth};z-index:${index + 1}">
+          <span class="${AVATAR_CLASS} size-7 text-[12px]" style="--hue:${Number(m.hue) || 210}">${avatar(m.from, 13)}</span>
+          <b class="truncate text-[13px] font-semibold text-ink" dir="auto">${escapeHtml(counterpart(m))}</b>
+          <span class="truncate text-[13px] text-muted" dir="auto">${escapeHtml(titleOf(m))}</span>
+          <span class="text-xs text-faint">${escapeHtml(formatTime(stampOf(m)))}</span>
         </li>`
       })
       .join('')
     const front = messages[0]
     const frontText = Array.isArray(front.body) ? front.body.join(' ') : front.body || ''
-    const frontCard = `<li class="email-sel-card deck-front relative flex cursor-pointer items-start gap-3 rounded-[10px] border border-line bg-surface px-3.5 py-3 shadow-[var(--shadow-1)] transition-colors hover:border-[var(--accent-line)] hover:bg-[var(--hover-overlay)] focus-visible:outline-2 focus-visible:outline-[var(--focus)]" tabindex="0" data-sel-card data-id="${escapeHtml(front.id)}">
-              <span class="${AVATAR_CLASS} w-8 h-8 flex-none text-[13px] mt-0.5" style="--hue:${Number(front.hue) || 210}">${avatar(front.from, 15)}</span>
+    const frontCard = `<li class="email-sel-card deck-front relative flex items-start gap-4 rounded-xl border border-line bg-surface px-5 py-4 shadow-[var(--shadow-2)]" data-sel-card data-id="${escapeHtml(front.id)}" style="z-index:${backs.length + 1}">
+              <span class="${AVATAR_CLASS} size-11 flex-none text-[17px]" style="--hue:${Number(front.hue) || 210}">${avatar(front.from, 20)}</span>
               <span class="min-w-0 flex-1">
-                <span class="flex items-baseline justify-between gap-2">
-                  <b class="truncate text-[13px] font-semibold text-ink" dir="auto">${escapeHtml(counterpart(front))}</b>
-                  <span class="flex-none text-xs text-faint">${escapeHtml(formatTime(stampOf(front)))}</span>
+                <span class="flex items-baseline justify-between gap-3">
+                  <b class="truncate text-[15px] font-semibold text-ink" dir="auto">${escapeHtml(counterpart(front))}</b>
+                  <span class="flex-none text-[13px] text-faint">${escapeHtml(formatTime(stampOf(front)))}</span>
                 </span>
-                <span class="mt-0.5 flex items-center gap-1.5 text-[12.5px] text-muted">
-                  ${front.starred ? `<span class="text-accent">${icon('i-spark', 11)}<span class="sr-only">Starred</span></span>` : ''}
+                <span class="mt-1 flex items-center gap-1.5 text-[14px] font-semibold text-ink">
+                  ${front.starred ? `<span class="flex-none text-accent">${icon('i-spark', 14)}<span class="sr-only">${t("Starred")}</span></span>` : ''}
                   <span class="min-w-0 flex-1 truncate" dir="auto">${escapeHtml(titleOf(front))}</span>
                 </span>
-                <span class="mt-1 block text-[12.5px] leading-snug text-faint" dir="auto">${escapeHtml(frontText.slice(0, 120))}${frontText.length > 120 ? '…' : ''}</span>
+                <span class="mt-1 line-clamp-2 text-[13px] leading-[1.45] text-muted" dir="auto">${escapeHtml(frontText.slice(0, 180))}${frontText.length > 180 ? '…' : ''}</span>
               </span>
             </li>`
-    const countLabel = `${messages.length} message${messages.length === 1 ? '' : 's'} selected`
+    const countLabel = `${messages.length} ${t(messages.length === 1 ? 'message selected' : 'messages selected')}`
     pane.innerHTML = `<div class="flex-none" data-mail-toolbar>${bulkToolbarMarkup()}</div>
       <div class="email-reading-scroll nc-scroll min-h-0 flex-1 overflow-auto p-4 [body.density-compact_&]:p-3 [body.density-comfortable_&]:p-5">
-        <div class="mx-auto flex min-h-full w-full max-w-[560px] flex-col items-center justify-center">
+        <div class="mx-auto flex min-h-full w-full max-w-[640px] flex-col items-center justify-center">
           <p class="mb-3 text-center text-[14px] font-bold text-ink" data-sel-count>${countLabel}</p>
-          <ul class="mt-4 w-full list-none p-0 flex flex-col items-stretch" aria-label="Selected messages">${backCards}${frontCard}</ul>
-          <p class="${HINT_CLASS} mt-4 text-center">Use the bar above to act on them all.</p>
+          <ul class="email-sel-deck mt-4 w-full list-none p-0 flex flex-col items-stretch" aria-label="${escapeHtml(t("Selected messages"))}">${backCards}${frontCard}</ul>
+          <p class="${HINT_CLASS} mt-4 text-center">${t("Use the bar above to act on them all.")}</p>
         </div>
       </div>`
     bindBulkToolbar(pane.querySelector('[data-mail-toolbar]'))
-    pane.querySelectorAll('[data-sel-card]').forEach(card => {
-      card.addEventListener('click', () => selectMessage(card.dataset.id))
-      card.addEventListener('keydown', event => {
-        if (event.key !== 'Enter' && event.key !== ' ') return
-        event.preventDefault()
-        selectMessage(card.dataset.id)
-      })
-    })
     if (messages.length !== deckPrevCount && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
       const grew = messages.length > deckPrevCount
       pane.querySelector('[data-sel-card]:last-child')?.animate(
@@ -1295,7 +1299,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       const m = state.selectedId && store.getEntity('mail', state.selectedId)
       if (m) renderReading(m)
       else
-        pane.innerHTML = `<div class="m-auto grid max-w-[340px] justify-items-center gap-2 p-8 text-center text-muted">${icon('i-mail', 28)}<p class="text-[13px]">Select a message to read it, or press Compose to write one.</p></div>`
+        pane.innerHTML = `<div class="m-auto grid max-w-[340px] justify-items-center gap-2 p-8 text-center text-muted">${icon('i-mail', 28)}<p class="text-[13px]">${t("Select a message to read it, or press Compose to write one." )}</p></div>`
     }
     applyLayout()
   }
@@ -1372,11 +1376,12 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     navigate('email', id ? {messageId: id} : {})
   }
   function closeEmailView() {
-    navigate('record')
+    goHome()
   }
 
   return {
     id: 'email',
+    refreshLocale() { flushDraft(); renderAll() },
     roots: [root],
     activate({messageId} = {}) {
       queryId('email-search-input').value = state.query

@@ -1,3 +1,5 @@
+import {uiLocale} from '../../core/locale.js'
+const {t} = uiLocale
 // Related Items — one component for every collaboration screen. Renders the
 // "Related items" section for an item, the "Link existing…" picker and the
 // "Create related" menu. All relationship state lives in the collaboration
@@ -15,9 +17,9 @@ const MENU_ITEM_CLASS =
   'flex min-h-8 w-full items-center gap-2 rounded-[5px] border-0 bg-transparent px-2 py-1.5 text-start text-[13px] text-ink hover:bg-[var(--line-2)] focus-visible:bg-[var(--line-2)] focus-visible:outline-none'
 
 const typeBadge = type =>
-  `<span class="badge gray inline-flex shrink-0 items-center gap-1">${icon(TYPE_META[type].icon, 11)}<span>${escapeHtml(TYPE_META[type].label)}</span></span>`
+  `<span class="badge gray inline-flex shrink-0 items-center gap-1">${icon(TYPE_META[type].icon, 11)}<span>${escapeHtml(t(TYPE_META[type].label))}</span></span>`
 
-export function createRelatedItems({store, toast, currentUserId, openItem}) {
+export function createRelatedItems({store, toast, currentUserId, openItem, beforeAction = async () => true}) {
   const todayKey = () => store.now().slice(0, 10)
   /** Summary line with the store's custom mail folders, so a linked message
    *  filed in a folder the user created reports its name, not its id. */
@@ -33,7 +35,8 @@ export function createRelatedItems({store, toast, currentUserId, openItem}) {
     return {title: 'New event', allDay: false, start, end: addMinutes(start, 60), location: '', participantIds: [currentUserId], reminder: 'none', repeat: 'none', description: ''}
   }
 
-  function createRelated(type, sourceRef) {
+  async function createRelated(type, sourceRef) {
+    if (!(await beforeAction())) return
     const created = store.createEntity(type, defaultsFor(type))
     store.link(sourceRef, {type, id: created.id})
     toast({tone: 'ok', title: `${TYPE_META[type].label} created and linked`, body: titleOf(created)})
@@ -55,13 +58,13 @@ export function createRelatedItems({store, toast, currentUserId, openItem}) {
   function rowMarkup({ref, entity}, index) {
     if (!entity) {
       return `<li class="${ROW_CLASS} border-dashed text-muted" data-related-row data-unavailable>
-        <span class="flex min-w-0 flex-1 items-start gap-2">${typeBadge(ref.type)}<span><span class="block text-[13px] font-medium">Unavailable item</span><span class="block text-xs">This ${escapeHtml(TYPE_META[ref.type].label.toLowerCase())} was deleted.</span></span></span>
-        <button type="button" class="ibtn" data-related-remove="${index}" aria-label="Remove link to unavailable item">${icon('i-x')}</button>
+        <span class="flex min-w-0 flex-1 items-start gap-2">${typeBadge(ref.type)}<span><span class="block text-[13px] font-medium">${t("Unavailable item")}</span><span class="block text-xs">This ${escapeHtml(TYPE_META[ref.type].label.toLowerCase())} was deleted.</span></span></span>
+        <button type="button" class="ibtn" data-related-remove="${index}" aria-label="${escapeHtml(t("Remove link to unavailable item"))}">${icon('i-x')}</button>
       </li>`
     }
     const title = titleOf(entity)
     return `<li class="${ROW_CLASS}" data-related-row data-type="${ref.type}">
-      <button type="button" class="${OPEN_CLASS}" data-related-open="${index}" aria-label="Open ${escapeHtml(TYPE_META[ref.type].label)}: ${escapeHtml(title)}">
+      <button type="button" class="${OPEN_CLASS}" data-related-open="${index}" aria-label="Open ${escapeHtml(t(TYPE_META[ref.type].label))}: ${escapeHtml(title)}">
         ${typeBadge(ref.type)}
         <span class="min-w-0"><span class="rel-title block text-[13px] font-medium text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(title)}</span><span class="block text-xs text-muted">${escapeHtml(metaOf(entity))}</span></span>
       </button>
@@ -78,12 +81,12 @@ export function createRelatedItems({store, toast, currentUserId, openItem}) {
   function render(host, ref, {allowCreate = true} = {}) {
     const items = sortedRelated(ref)
     host.innerHTML = `<div class="flex items-center gap-2">
-        <h3 class="flex-1 text-[13px] font-semibold text-ink">Related items <span class="font-normal text-muted">(${items.length})</span></h3>
+        <h3 class="flex-1 text-[13px] font-semibold text-ink">${t("Related items")} <span class="font-normal text-muted">(${items.length})</span></h3>
       </div>
       ${
         items.length
           ? `<ul class="mt-2 grid list-none gap-1.5 p-0">${items.map(rowMarkup).join('')}</ul>`
-          : '<p class="mt-1.5 text-[13px] text-muted" data-related-empty>No related items yet. Link existing work or create something new from here.</p>'
+          : `<p class="mt-1.5 text-[13px] text-muted" data-related-empty>${t("No related items yet. Link existing work or create something new from here.")}</p>`
       }
       <div class="mt-3 flex flex-wrap gap-2">
         <button type="button" class="lbtn" data-related-link>${icon('i-plus')} Link existing…</button>
@@ -91,7 +94,7 @@ export function createRelatedItems({store, toast, currentUserId, openItem}) {
           allowCreate
             ? `<div class="relative" data-related-create-wrap>
           <button type="button" class="lbtn" data-related-create aria-haspopup="menu" aria-expanded="false">Create related ${icon('i-caret', 12)}</button>
-          <div class="absolute bottom-full start-0 z-10 mb-1 hidden min-w-[160px] gap-0.5 rounded-lg border border-line bg-surface p-1.5 shadow-shell [&.open]:grid" role="menu" aria-label="Create related">
+          <div class="absolute bottom-full start-0 z-10 mb-1 hidden min-w-[160px] gap-0.5 rounded-lg border border-line bg-surface p-1.5 shadow-shell [&.open]:grid" role="menu" aria-label="${escapeHtml(t("Create related"))}">
             ${['note', 'activity', 'event']
               .map(type => `<button type="button" role="menuitem" class="${MENU_ITEM_CLASS}" data-create-type="${type}">${icon(TYPE_META[type].icon)}${TYPE_META[type].label}</button>`)
               .join('')}
@@ -105,7 +108,8 @@ export function createRelatedItems({store, toast, currentUserId, openItem}) {
       button.addEventListener('click', () => openItem(items[Number(button.dataset.relatedOpen)].ref))
     )
     host.querySelectorAll('[data-related-remove]').forEach(button =>
-      button.addEventListener('click', () => {
+      button.addEventListener('click', async () => {
+        if (!(await beforeAction())) return
         const item = items[Number(button.dataset.relatedRemove)]
         store.unlink(ref, item.ref)
         toast({tone: 'info', title: 'Link removed', body: item.entity ? `${titleOf(item.entity)} was not deleted.` : ''})
@@ -166,7 +170,7 @@ export function createRelatedItems({store, toast, currentUserId, openItem}) {
       .filter(([id]) => types.length > 1 || id !== 'all')
       .map(
         ([id, label]) =>
-          `<button type="button" data-type="${id}" aria-pressed="${id === filter}" class="min-h-7 rounded-full border border-line bg-surface px-2.5 text-xs text-ink hover:bg-[var(--line-2)] aria-pressed:border-[var(--accent)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:text-accent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]">${escapeHtml(label)}</button>`
+          `<button type="button" data-type="${id}" aria-pressed="${id === filter}" class="min-h-7 rounded-full border border-line bg-surface px-2.5 text-xs text-ink hover:bg-[var(--line-2)] aria-pressed:border-[var(--accent)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:text-accent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]">${escapeHtml(t(label))}</button>`
       )
       .join('')
 
@@ -194,9 +198,9 @@ export function createRelatedItems({store, toast, currentUserId, openItem}) {
       search.setAttribute('aria-activedescendant', options.length ? `collab-picker-option-${active}` : '')
     }
 
-    function choose(index) {
+    async function choose(index) {
       const entity = options[index]
-      if (!entity) return
+      if (!entity || !(await beforeAction())) return
       const {created} = store.link(ref, {type: entity.type, id: entity.id})
       if (created) {
         linkedCount += 1

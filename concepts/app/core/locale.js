@@ -1,3 +1,4 @@
+import {COLLAB_AR} from './collaboration-translations.js'
 // Shared locale facility — extracted verbatim from the single-file legacy
 // application script (concepts/app/legacy-app.js). Owns the Arabic
 // translation dictionary, the encodeHtml() sanitizer, and date/currency
@@ -41,6 +42,7 @@ export const LANGUAGE_STORAGE_KEY = 'skey-proto-language'
 export function createLocale() {
         let appLocale = 'en'
         const I18N = {
+          ...COLLAB_AR,
           // Customer record
           Customer: 'العميل',
           'Customer No.': 'رقم العميل',
@@ -675,3 +677,6 @@ export const encodeHtml = value =>
     character =>
       ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[character]
   )
+
+// Shared by app composition and dynamically rendered collaboration components.
+export const uiLocale = createLocale()

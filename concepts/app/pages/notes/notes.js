@@ -1,3 +1,5 @@
+import {uiLocale} from '../../core/locale.js'
+const {t} = uiLocale
 // Notes — Kanban (Draft / Active / Archived) and a List view over the
 // collaboration store, with the invoices list chrome: a quick-filter menu,
 // a "+ Filter" menu with an inline chip, search, and a change-view menu.
@@ -45,8 +47,8 @@ const parseTags = value =>
 /* The change-view menu's entries. Notes have no calendar: the two views
    are the board and the invoices-style table. */
 const VIEW_PRESENTATION = {
-  kanban: {label: 'Kanban', icon: 'i-board'},
-  list: {label: 'List', icon: 'i-list'},
+  kanban: {label: t("Kanban"), icon: 'i-board'},
+  list: {label: t("List"), icon: 'i-list'},
 }
 const QUICK_FILTERS = [
   ['all', 'All notes', 'i-doc'],
@@ -60,7 +62,7 @@ const QUICK_FILTERS = [
 const INV_GRID_CLASS =
   'inv-grid w-full [border-collapse:collapse] [font-size:13px] [&_th]:text-start [&_th]:[padding:8px_12px] [&_th]:text-muted [&_th]:font-medium [&_th]:[border-bottom:1px_solid_var(--line)] [&_th]:whitespace-nowrap [&_th]:sticky [&_th]:top-0 [&_th]:z-[3] [&_td]:[padding:8px_12px] [&_td]:[border-bottom:1px_solid_var(--line-2)] [&_td]:text-ink [&_td]:whitespace-nowrap [&_td]:[text-overflow:ellipsis] [&_td]:overflow-hidden [&_td]:[max-width:200px] [&_tbody_tr:hover]:[background:var(--hover-overlay)] [&_tbody_tr:hover]:[cursor:pointer]'
 
-export function createNotes({store, toast, panel, related, confirm, goHome}) {
+export function createNotes({store, toast, panel, related, confirm, goHome, beforeAction = async () => true}) {
   const view = () => document.querySelector('.notes-view')
   const state = {view: 'kanban', query: '', quick: 'all', fieldFilters: [], sortKey: 'updated', sortDir: 'desc', archivedOpen: false}
   let built = false
@@ -74,13 +76,13 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
     return [
       {
         key: 'tag',
-        label: 'Tag',
+        label: t("Tag"),
         icon: 'i-spark',
         type: 'select',
-        options: tags.length ? tags.map(tag => ({value: tag, label: tag})) : [{value: '', label: 'No tags yet'}],
+        options: tags.length ? tags.map(tag => ({value: tag, label: tag})) : [{value: '', label: t("No tags yet")}],
         match: (note, filter) => (note.tags || []).includes(filter.value),
       },
-      {key: 'title', label: 'Note title', icon: 'i-doc', type: 'text'},
+      {key: 'title', label: t("Note title"), icon: 'i-doc', type: 'text'},
     ]
   }
 
@@ -115,13 +117,13 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
     const excerpt = String(note.body || '').replace(/\s+/g, ' ').trim()
     const count = relatedCount(note)
     return `<span class="flex items-start gap-1.5">
-        ${note.pinned ? `<span class="mt-0.5 text-accent">${icon('i-spark', 12)}<span class="sr-only">Pinned. </span></span>` : ''}
+        ${note.pinned ? `<span class="mt-0.5 text-accent">${icon('i-spark', 12)}<span class="sr-only">${t("Pinned.")} </span></span>` : ''}
         <span class="card-title min-w-0 flex-1 text-[13px] font-semibold text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(titleOf(note))}</span>
       </span>
       ${excerpt ? `<span class="mt-1 line-clamp-2 block text-xs text-muted" dir="auto">${escapeHtml(excerpt)}</span>` : ''}
       <span class="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-muted">
         ${(note.tags || []).map(tag => `<span class="${CHIP_CLASS}">${escapeHtml(tag)}</span>`).join('')}
-        ${count ? `<span class="inline-flex items-center gap-1">${icon('i-flow', 11)}${count} related</span>` : ''}
+        ${count ? `<span class="inline-flex items-center gap-1">${icon('i-flow', 11)}${count} ${t('related')}</span>` : ''}
         <span class="ms-auto">${escapeHtml(updatedLabel(note))}</span>
       </span>`
   }
@@ -149,12 +151,12 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
       left: `${menuDetails({attr: 'quick-menu', iconName: quick[2], label: quick[1], items: quickItems})}${menuDetails({
         attr: 'filter-menu',
         iconName: 'i-plus',
-        label: 'Filter',
+        label: t("Filter"),
         items: filterItems,
       })}${collabFilterChips({fields, filters: state.fieldFilters})}${
         state.fieldFilters.length || state.quick !== 'all' ? clearFilterButton({attr: 'clear-filters'}) : ''
       }`,
-      right: `${searchField({attr: 'collab-search', label: 'notes', value: state.query})}${viewMenu({
+      right: `${searchField({attr: 'collab-search', label: t("notes"), value: state.query})}${viewMenu({
         attr: 'view-menu',
         label: presentation.label,
         iconName: presentation.icon,
@@ -265,20 +267,18 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
     const header = (key, label) => {
       const active = state.sortKey === key
       return `<th scope="col" aria-sort="${active ? (state.sortDir === 'asc' ? 'ascending' : 'descending') : 'none'}">
-        <button type="button" class="inline-flex items-center gap-1 border-0 bg-transparent p-0 text-start font-[inherit] font-medium text-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]" data-sort="${key}">${escapeHtml(
-          label
-        )}<span class="${active && state.sortDir === 'asc' ? 'rotate-180' : ''}">${icon('i-caret', 11)}</span></button>
+        <button type="button" class="inline-flex items-center gap-1 border-0 bg-transparent p-0 text-start font-[inherit] font-medium text-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]" data-sort="${key}">${escapeHtml(t(label))}<span class="${active && state.sortDir === 'asc' ? 'rotate-180' : ''}">${icon('i-caret', 11)}</span></button>
       </th>`
     }
     body.innerHTML = `<div class="data-list-shell relative overflow-visible rounded-lg border border-line bg-surface [box-shadow:var(--shadow-1)]">
       <div class="data-table-scroll overflow-auto rounded-[inherit] max-w-full max-h-[max(280px,calc(100dvh-360px))]">
-        <table class="${INV_GRID_CLASS} [table-layout:fixed]" data-notes-grid>
+        <table class="${INV_GRID_CLASS} min-w-[720px] [table-layout:fixed]" data-notes-grid>
           <colgroup><col><col style="width:110px"><col style="width:160px"><col style="width:110px"><col style="width:140px"></colgroup>
-          <thead><tr>${header('title', 'Title')}<th scope="col">Status</th><th scope="col">Tags</th><th scope="col">Related</th>${header('updated', 'Updated')}</tr></thead>
+          <thead><tr>${header('title', 'Title')}<th scope="col">${t("Status")}</th><th scope="col">${t("Tags")}</th><th scope="col">${t("Related")}</th>${header('updated', 'Updated')}</tr></thead>
           <tbody>${rows
             .map(
               note => `<tr data-row-id="${escapeHtml(note.id)}">
-            <td><button type="button" class="${ROW_BUTTON_CLASS}" data-row-open="${escapeHtml(note.id)}" dir="auto">${note.pinned ? `${icon('i-spark', 11)} <span class="sr-only">Pinned. </span>` : ''}${escapeHtml(titleOf(note))}</button></td>
+            <td><button type="button" class="${ROW_BUTTON_CLASS}" data-row-open="${escapeHtml(note.id)}" dir="auto">${note.pinned ? `${icon('i-spark', 11)} <span class="sr-only">${t("Pinned.")} </span>` : ''}${escapeHtml(titleOf(note))}</button></td>
             <td><span class="badge gray">${escapeHtml(noteStatusLabel(note.status))}</span></td>
             <td>${(note.tags || []).map(tag => `<span class="${CHIP_CLASS}">${escapeHtml(tag)}</span>`).join(' ')}</td>
             <td>${relatedCount(note)}</td>
@@ -307,13 +307,15 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
     )
   }
 
-  function quickAdd(status, title) {
+  async function quickAdd(status, title) {
+    if (!(await beforeAction())) return
     const note = store.createEntity('note', {title, body: '', status, tags: [], pinned: false})
     toast({tone: 'ok', title: 'Note added', body: titleOf(note)})
     view().querySelector(`[data-quick-add="${status}"]`)?.focus()
   }
 
-  function moveNote(id, status) {
+  async function moveNote(id, status) {
+    if (!(await beforeAction())) { renderBody(); return }
     const note = store.getEntity('note', id)
     if (!note || note.status === status) return
     store.updateEntity('note', id, {status})
@@ -323,11 +325,11 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
 
   function editorMarkup(note) {
     return `<div class="${GRID_CLASS}">
-      ${field({id: 'note-title', label: 'Title', required: true, wide: true, control: textInput({id: 'note-title', value: note.title, required: true, extra: {autofocus: true}})})}
-      ${field({id: 'note-body', label: 'Note', wide: true, control: textarea({id: 'note-body', value: note.body, rows: 7})})}
-      ${field({id: 'note-status', label: 'Status', control: selectInput({id: 'note-status', value: note.status, options: NOTE_STATUSES})})}
-      ${field({id: 'note-tags', label: 'Tags', hint: 'Separate tags with commas.', control: textInput({id: 'note-tags', value: (note.tags || []).join(', '), describedBy: 'note-tags-hint'})})}
-      <div class="sm:col-span-2">${switchRow({id: 'note-pinned', label: 'Pin this note to the top', checked: note.pinned})}</div>
+      ${field({id: 'note-title', label: t("Title"), required: true, wide: true, control: textInput({id: 'note-title', value: note.title, required: true, extra: {autofocus: true}})})}
+      ${field({id: 'note-body', label: t("Note"), wide: true, control: textarea({id: 'note-body', value: note.body, rows: 7})})}
+      ${field({id: 'note-status', label: t("Status"), control: selectInput({id: 'note-status', value: note.status, options: NOTE_STATUSES})})}
+      ${field({id: 'note-tags', label: t("Tags"), hint: t("Separate tags with commas."), control: textInput({id: 'note-tags', value: (note.tags || []).join(', '), describedBy: 'note-tags-hint'})})}
+      <div class="sm:col-span-2">${switchRow({id: 'note-pinned', label: t("Pin this note to the top"), checked: note.pinned})}</div>
     </div>`
   }
 
@@ -384,13 +386,14 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
       view: body => {
         body.innerHTML = viewMarkup(note)
       },
-      save: body => {
+      save: async body => {
         const values = readEditor(body)
         setFieldError(body, 'note-title', values.title ? '' : 'Title is required.')
         if (!values.title) {
           body.querySelector('#note-title').focus()
           return false
         }
+        if (!(await beforeAction(document.querySelector('[data-panel-save]')))) return false
         if (existing) {
           store.updateEntity('note', existing.id, values)
           toast({tone: 'ok', title: 'Note saved', body: values.title})
@@ -403,9 +406,9 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
       menu: existing
         ? [
             existing.status === 'archived'
-              ? {label: 'Restore', icon: 'i-undo', run: () => setStatus(existing, 'active', 'Note restored')}
-              : {label: 'Archive', icon: 'i-archive', run: () => setStatus(existing, 'archived', 'Note archived')},
-            {label: 'Delete', icon: 'i-trash', danger: true, run: () => deleteNote(existing)},
+              ? {label: t("Restore"), icon: 'i-undo', run: () => setStatus(existing, 'active', 'Note restored')}
+              : {label: t("Archive"), icon: 'i-archive', run: () => setStatus(existing, 'archived', 'Note archived')},
+            {label: t("Delete"), icon: 'i-trash', danger: true, run: () => deleteNote(existing)},
           ]
         : [],
       related: ref ? host => related.render(host, ref) : null,
@@ -413,6 +416,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
   }
 
   async function setStatus(note, status, message) {
+    if (!(await beforeAction())) return
     store.updateEntity('note', note.id, {status})
     toast({tone: 'info', title: message, body: titleOf(note)})
     await panel.close({force: true})
@@ -422,10 +426,10 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
     const ok = await confirm({
       title: 'Delete this note?',
       body: 'The note is removed. Items linked to it keep the link and show it as unavailable until someone removes it.',
-      confirmLabel: 'Delete',
+      confirmLabel: t("Delete"),
       tone: 'danger',
     })
-    if (!ok) return
+    if (!ok || !(await beforeAction())) return
     store.deleteEntity('note', note.id)
     await panel.close({force: true})
     toast({tone: 'info', title: 'Note deleted', body: titleOf(note)})
@@ -443,6 +447,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
 
   return {
     id: 'notes',
+    refreshLocale() { if (built) { buildToolbar(); renderBody() } },
     get roots() {
       return view() ? [view()] : []
     },

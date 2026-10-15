@@ -1,6 +1,7 @@
 // Pure local-time date helpers for the collaboration screens. Keys are
 // strings ('YYYY-MM-DD' / 'YYYY-MM-DDTHH:mm') so stored data never carries
 // a timezone; Date objects only exist inside these functions.
+import {uiLocale} from './locale.js'
 const pad = n => String(n).padStart(2, '0')
 export const DATE_TIME_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
 export const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
@@ -43,15 +44,15 @@ export const daysBetween = (a, b) =>
   Math.round((parseLocal(b.slice(0, 10)) - parseLocal(a.slice(0, 10))) / 86400000)
 export function relativeDay(key, todayKey) {
   const diff = daysBetween(todayKey, key)
-  if (diff === 0) return 'Today'
-  if (diff === -1) return 'Yesterday'
-  if (diff === 1) return 'Tomorrow'
+  if (diff === 0) return uiLocale.t('Today')
+  if (diff === -1) return uiLocale.t('Yesterday')
+  if (diff === 1) return uiLocale.t('Tomorrow')
   return null
 }
 export const formatDate = key =>
-  parseLocal(key.slice(0, 10)).toLocaleDateString('en-GB', {weekday: 'short', day: 'numeric', month: 'short'})
+  parseLocal(key.slice(0, 10)).toLocaleDateString(uiLocale.getLocale() === 'ar' ? 'ar-EG' : 'en-GB', {weekday: 'short', day: 'numeric', month: 'short'})
 export const formatMonthTitle = key =>
-  parseLocal(key.slice(0, 10)).toLocaleDateString('en-GB', {month: 'long', year: 'numeric'})
+  parseLocal(key.slice(0, 10)).toLocaleDateString(uiLocale.getLocale() === 'ar' ? 'ar-EG' : 'en-GB', {month: 'long', year: 'numeric'})
 export const formatTime = key => key.slice(11, 16)
 export function nextHalfHour(key) {
   const date = parseLocal(key)

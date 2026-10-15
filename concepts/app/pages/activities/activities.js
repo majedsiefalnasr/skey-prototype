@@ -1,3 +1,5 @@
+import {uiLocale} from '../../core/locale.js'
+const {t} = uiLocale
 // Activities — assignable work, in Kanban (by status) and Calendar views.
 // Due date and scheduled time are separate: only a scheduled start puts an
 // activity on the calendar; a due date alone keeps it in Kanban, and no
@@ -57,8 +59,8 @@ const CHIP = 'inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs'
    the panel badge uses the same tones so one status reads one color
    everywhere. The board is the default; the calendar is the other view. */
 const VIEW_PRESENTATION = {
-  kanban: {label: 'Kanban', icon: 'i-board'},
-  calendar: {label: 'Calendar', icon: 'i-cal'},
+  kanban: {label: t("Kanban"), icon: 'i-board'},
+  calendar: {label: t("Calendar"), icon: 'i-cal'},
 }
 const QUICK_FILTERS = [
   ['all', 'All activities', 'i-list'],
@@ -73,7 +75,7 @@ const STATUS_DOT = {
   cancelled: 'bg-[var(--danger)]',
 }
 
-export function createActivities({store, toast, panel, related, confirm, goHome, users, currentUserId, openItem, composeMailFor}) {
+export function createActivities({store, toast, panel, related, confirm, goHome, users, currentUserId, openItem, composeMailFor, beforeAction = async () => true}) {
   const view = () => document.querySelector('.activities-view')
   const state = {
     view: 'kanban',
@@ -94,32 +96,32 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
   const filterFields = () => [
     {
       key: 'assignee',
-      label: 'Assigned to',
+      label: t("Assigned to"),
       icon: 'i-user',
       type: 'select',
-      options: [{value: 'me', label: 'Me'}, ...users.map(user => ({value: user.id, label: user.name}))],
+      options: [{value: 'me', label: t("Me")}, ...users.map(user => ({value: user.id, label: user.name}))],
       match: (activity, filter) => assigneeIdsOf(activity).includes(filter.value === 'me' ? currentUserId : filter.value),
     },
-    {key: 'kind', label: 'Kind', icon: 'i-list', type: 'select', options: ACTIVITY_KINDS.map(([id, label]) => ({value: id, label}))},
+    {key: 'kind', label: t("Kind"), icon: 'i-list', type: 'select', options: ACTIVITY_KINDS.map(([id, label]) => ({value: id, label}))},
     {
       key: 'overdue',
-      label: 'Overdue',
+      label: t("Overdue"),
       icon: 'i-warn',
       type: 'select',
       options: [
-        {value: 'yes', label: 'Overdue only'},
-        {value: 'no', label: 'Not overdue'},
+        {value: 'yes', label: t("Overdue only")},
+        {value: 'no', label: t("Not overdue")},
       ],
       match: (activity, filter) => (filter.value === 'yes' ? isOverdue(activity, todayKey()) : !isOverdue(activity, todayKey())),
     },
     {
       key: 'visibility',
-      label: 'Cancelled & archived',
+      label: t("Cancelled & archived"),
       icon: 'i-eye',
       type: 'select',
       options: [
-        {value: 'show', label: 'Show them'},
-        {value: 'hide', label: 'Hide them'},
+        {value: 'show', label: t("Show them")},
+        {value: 'hide', label: t("Hide them")},
       ],
       match: (activity, filter) => filter.value === 'show' || (!activity.archived && activity.status !== 'cancelled'),
     },
@@ -147,8 +149,8 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
   const priorityChip = priority => {
     const label = PRIORITIES.find(([value]) => value === priority)?.[1] ?? priority
     return priority === 'high'
-      ? '<span class="rounded-full border border-[var(--danger-soft-line)] bg-[var(--danger-soft-bg)] px-2 py-0.5 text-[11px] font-semibold text-[color:var(--danger)]">High</span>'
-      : `<span class="rounded-full border border-line bg-surface px-2 py-0.5 text-[11px] font-semibold text-muted">${escapeHtml(label)}</span>`
+      ? `<span class="rounded-full border border-[var(--danger-soft-line)] bg-[var(--danger-soft-bg)] px-2 py-0.5 text-[11px] font-semibold text-[color:var(--danger)]">${t("High")}</span>`
+      : `<span class="rounded-full border border-line bg-surface px-2 py-0.5 text-[11px] font-semibold text-muted">${escapeHtml(t(label))}</span>`
   }
 
   /** Card: status and priority chips (the kebab sits over the reserved end
@@ -165,7 +167,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       .map(line => line.trim())
       .find(Boolean)
     return `<span class="flex flex-wrap items-center gap-1.5 pe-10">${statusChip(activity.status)}${priorityChip(activity.priority)}${
-      activity.archived ? '<span class="badge gray ms-auto">Archived</span>' : ''
+      activity.archived ? `<span class="badge gray ms-auto">${t("Archived")}</span>` : ''
     }</span>
       <span class="card-title mt-1.5 block text-[13px] font-semibold text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(titleOf(activity))}</span>
       ${excerpt ? `<span class="mt-1 line-clamp-2 block text-xs text-muted" dir="auto">${escapeHtml(excerpt)}</span>` : ''}
@@ -173,7 +175,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
         kindLabel(activity.kind)
       )}</span>${timing
         .map(text =>
-          text.startsWith('Overdue')
+          text.startsWith(t('Overdue'))
             ? `<span class="${CHIP} bg-[var(--danger-soft-bg)] font-semibold text-[color:var(--danger)]">${icon('i-warn', 11)}${escapeHtml(text)}</span>`
             : `<span class="${CHIP} bg-[var(--line-2)] text-ink">${icon(text.startsWith('Scheduled') ? 'i-clock' : 'i-cal', 11)}${escapeHtml(text)}</span>`
         )
@@ -191,7 +193,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
         }</span>
         ${
           links
-            ? `<span class="ms-auto inline-flex items-center gap-1">${icon('i-flow', 11)}${links}<span class="sr-only"> related items</span></span>`
+            ? `<span class="ms-auto inline-flex items-center gap-1">${icon('i-flow', 11)}${links}<span class="sr-only"> ${t("related items")}</span></span>`
             : ''
         }
       </span>`
@@ -206,14 +208,14 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       <button type="button" class="text-muted hover:text-ink" data-card-menu-btn="${id}" aria-haspopup="menu" aria-expanded="false" aria-label="Actions for ${escapeHtml(
         titleOf(activity)
       )}">${icon('i-dots', 14)}</button>
-      <div class="mlist mend" role="menu" aria-label="Card actions">
-        <button type="button" role="menuitem" data-card-action="edit">${icon('i-edit', 14)}<span>Edit</span></button>
+      <div class="mlist mend" role="menu" aria-label="${escapeHtml(t("Card actions"))}">
+        <button type="button" role="menuitem" data-card-action="edit">${icon('i-edit', 14)}<span>${t("Edit")}</span></button>
         ${
           isOpenActivity(activity)
-            ? `<button type="button" role="menuitem" data-card-action="done">${icon('i-check', 14)}<span>Mark done</span></button>`
+            ? `<button type="button" role="menuitem" data-card-action="done">${icon('i-check', 14)}<span>${t("Mark done")}</span></button>`
             : ''
         }
-        <button type="button" role="menuitem" class="dan" data-card-action="delete">${icon('i-trash', 14)}<span>Delete</span></button>
+        <button type="button" role="menuitem" class="dan" data-card-action="delete">${icon('i-trash', 14)}<span>${t("Delete")}</span></button>
       </div>
     </div>`
   }
@@ -265,10 +267,10 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       left: `${menuDetails({attr: 'quick-menu', iconName: quick[2], label: quick[1], items: quickItems})}${menuDetails({
         attr: 'filter-menu',
         iconName: 'i-plus',
-        label: 'Filter',
+        label: t("Filter"),
         items: filterItems,
       })}${collabFilterChips({fields, filters: state.fieldFilters})}${filterActive() ? clearFilterButton({attr: 'clear-filters'}) : ''}`,
-      right: `${searchField({attr: 'collab-search', label: 'activities', value: state.query})}${viewMenu({
+      right: `${searchField({attr: 'collab-search', label: t("activities"), value: state.query})}${viewMenu({
         attr: 'view-menu',
         label: presentation.label,
         iconName: presentation.icon,
@@ -336,13 +338,14 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       renderCard: cardMarkup,
       renderCardActions: cardActionsMarkup,
       titleOf,
-      emptyText: 'No activities here.',
+      emptyText: t("No activities here."),
       /* Same "Move to" select as the notes board: the non-drag status
          path for keyboard and touch users; drag keeps working too. */
       onOpen: id => openActivity(id),
-      onMove: (id, status) => {
+      onMove: async (id, status) => {
         const activity = store.getEntity('activity', id)
         if (!activity || activity.status === status) return
+        if (!(await beforeAction())) { renderBody(); return }
         store.updateEntity('activity', id, {status})
         toast({tone: 'info', title: `Moved to ${statusLabel(status)}`, body: titleOf(activity)})
         view().querySelector(`[data-card-open="${CSS.escape(id)}"]`)?.focus()
@@ -366,7 +369,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
     body.innerHTML = `${calendarToolbar({mode: state.calMode, date: state.calDate})}
       <p class="my-2 flex flex-wrap items-center gap-2 rounded-md bg-[var(--line-2)] px-3 py-2 text-[13px] text-ink" data-unscheduled-notice>
         ${icon('i-info')}<span>${unscheduled} unscheduled ${unscheduled === 1 ? 'activity isn’t' : 'activities aren’t'} shown here — only activities with a scheduled time appear on the calendar. They stay in Kanban.</span>
-        <button type="button" class="lbtn ms-auto" data-show-kanban>Show Kanban</button>
+        <button type="button" class="lbtn ms-auto" data-show-kanban>${t("Show Kanban")}</button>
       </p>
       <div data-calendar></div>`
     bindCalendarToolbar(body, {
@@ -419,7 +422,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
           `<button type="button" class="lbtn" data-action="create-event"${scheduled ? '' : ' disabled aria-describedby="activity-event-hint"'}>${icon('i-plus')} Create event</button>`,
           `<button type="button" class="lbtn" data-action="link-event">${icon('i-flow')} Link existing event…</button>`
         )
-        if (!scheduled) buttons.push(`<p class="${HINT_CLASS} w-full" id="activity-event-hint">Schedule a time and save to create an event from this meeting.</p>`)
+        if (!scheduled) buttons.push(`<p class="${HINT_CLASS} w-full" id="activity-event-hint">${t("Schedule a time and save to create an event from this meeting.")}</p>`)
       }
     }
     return `<div class="mb-4 flex flex-wrap gap-2" data-activity-actions>${buttons.join('')}</div>`
@@ -428,36 +431,36 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
   function editorMarkup(activity) {
     const scheduled = Boolean(activity.scheduledStart)
     return `${actionsMarkup(activity)}<div class="${GRID_CLASS}">
-      ${field({id: 'activity-kind', label: 'Kind', required: true, control: selectInput({id: 'activity-kind', value: activity.kind, options: ACTIVITY_KINDS.map(([id, label]) => [id, label])})})}
-      ${multiselect({id: 'activity-assignee', label: 'Assigned to', required: true, options: users.map(user => [user.id, `${user.name} · ${user.role}`]), selected: assigneeIdsOf(activity), placeholder: 'Search people…'})}
-      ${field({id: 'activity-summary', label: 'Summary', required: true, wide: true, control: textInput({id: 'activity-summary', value: activity.summary, required: true, extra: {autofocus: true}})})}
-      ${field({id: 'activity-status', label: 'Status', control: selectInput({id: 'activity-status', value: activity.status, options: ACTIVITY_STATUSES})})}
-      ${field({id: 'activity-priority', label: 'Priority', control: selectInput({id: 'activity-priority', value: activity.priority, options: PRIORITIES})})}
+      ${field({id: 'activity-kind', label: t("Kind"), required: true, control: selectInput({id: 'activity-kind', value: activity.kind, options: ACTIVITY_KINDS.map(([id, label]) => [id, label])})})}
+      ${multiselect({id: 'activity-assignee', label: t("Assigned to"), required: true, options: users.map(user => [user.id, `${user.name} · ${user.role}`]), selected: assigneeIdsOf(activity), placeholder: t("Search people\u2026")})}
+      ${field({id: 'activity-summary', label: t("Summary"), required: true, wide: true, control: textInput({id: 'activity-summary', value: activity.summary, required: true, extra: {autofocus: true}})})}
+      ${field({id: 'activity-status', label: t("Status"), control: selectInput({id: 'activity-status', value: activity.status, options: ACTIVITY_STATUSES})})}
+      ${field({id: 'activity-priority', label: t("Priority"), control: selectInput({id: 'activity-priority', value: activity.priority, options: PRIORITIES})})}
       ${field({
         id: 'activity-due',
-        label: 'Due date',
-        hint: 'A due date alone does not put the activity on the calendar.',
+        label: t("Due date"),
+        hint: t("A due date alone does not put the activity on the calendar."),
         wide: true,
         control: `<div class="flex flex-wrap items-center gap-2">${textInput({id: 'activity-due', type: 'date', value: activity.dueDate || '', describedBy: 'activity-due-hint', extra: {class: 'max-w-[200px]'}})}
-          <button type="button" class="lbtn" data-due-shift="1">+1 day</button><button type="button" class="lbtn" data-due-shift="7">+1 week</button></div>`,
+          <button type="button" class="lbtn" data-due-shift="1">${t("+1 day")}</button><button type="button" class="lbtn" data-due-shift="7">${t("+1 week")}</button></div>`,
       })}
       <details class="sm:col-span-2 rounded-md border border-line bg-surface"${scheduled ? ' open' : ''}>
         <summary class="flex cursor-pointer list-none items-center gap-2 rounded-md px-3 py-2.5 text-[13px] font-medium text-ink hover:bg-[var(--line-2)] [&::-webkit-details-marker]:hidden">
-          ${icon('i-clock', 14)}<span>Schedule a time</span>
-          <span class="ms-auto rounded-full px-2 py-0.5 text-[11px] font-semibold ${scheduled ? 'bg-[var(--line-2)] text-ink' : 'text-muted'}" data-schedule-state>${scheduled ? 'Scheduled' : 'Not scheduled'}</span>
+          ${icon('i-clock', 14)}<span>${t("Schedule a time")}</span>
+          <span class="ms-auto rounded-full px-2 py-0.5 text-[11px] font-semibold ${scheduled ? 'bg-[var(--line-2)] text-ink' : 'text-muted'}" data-schedule-state>${t(scheduled ? 'Scheduled' : 'Not scheduled')}</span>
         </summary>
         <div class="border-t border-line px-3 py-3">
           <div class="grid grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
-            ${field({id: 'activity-start', label: 'Starts', control: textInput({id: 'activity-start', type: 'datetime-local', value: activity.scheduledStart || ''})})}
-            ${field({id: 'activity-duration', label: 'Duration', control: selectInput({id: 'activity-duration', value: String(activity.durationMin || 30), options: DURATIONS})})}
+            ${field({id: 'activity-start', label: t("Starts"), control: textInput({id: 'activity-start', type: 'datetime-local', value: activity.scheduledStart || ''})})}
+            ${field({id: 'activity-duration', label: t("Duration"), control: selectInput({id: 'activity-duration', value: String(activity.durationMin || 30), options: DURATIONS})})}
           </div>
           <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
             <button type="button" class="lbtn" id="activity-schedule-clear">${icon('i-x')} Remove scheduled time</button>
-            <span class="${HINT_CLASS}">Scheduled activities appear on the Activities calendar.</span>
+            <span class="${HINT_CLASS}">${t("Scheduled activities appear on the Activities calendar.")}</span>
           </div>
         </div>
       </details>
-      ${field({id: 'activity-notes', label: 'Notes', wide: true, control: textarea({id: 'activity-notes', value: activity.notes, rows: 4})})}
+      ${field({id: 'activity-notes', label: t("Notes"), wide: true, control: textarea({id: 'activity-notes', value: activity.notes, rows: 4})})}
     </div>`
   }
 
@@ -507,7 +510,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       const stateEl = body.querySelector('[data-schedule-state]')
       if (!stateEl) return
       const scheduled = Boolean(startInput.value)
-      stateEl.textContent = scheduled ? 'Scheduled' : 'Not scheduled'
+      stateEl.textContent = t(scheduled ? 'Scheduled' : 'Not scheduled')
       stateEl.classList.toggle('bg-[var(--line-2)]', scheduled)
       stateEl.classList.toggle('text-ink', scheduled)
       stateEl.classList.toggle('text-muted', !scheduled)
@@ -542,14 +545,16 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
     }
   }
 
-  function markDone(activity) {
+  async function markDone(activity) {
+    if (!(await beforeAction())) return
     store.updateEntity('activity', activity.id, {status: 'done'})
     const done = store.getEntity('activity', activity.id)
     toast({tone: 'ok', title: 'Activity done', body: titleOf(done), action: 'Schedule follow-up', onAction: () => followUp(done)})
     openActivity(activity.id)
   }
 
-  function followUp(source) {
+  async function followUp(source) {
+    if (!(await beforeAction())) return
     const assigneeIds = assigneeIdsOf(source)
     const next = store.createEntity('activity', {
       kind: 'todo',
@@ -566,7 +571,8 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
     openActivity(next.id, {}, {edit: true})
   }
 
-  function createEvent(activity) {
+  async function createEvent(activity) {
+    if (!(await beforeAction())) return
     if (linkedEvent(activity)) return openItem(linkedEvent(activity).ref)
     const event = store.createEntity('event', {
       title: titleOf(activity),
@@ -626,9 +632,10 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
            queries are optional-chained and no-op without the form. */
         bindEditor(body, activity)
       },
-      save: body => {
+      save: async body => {
         const values = readEditor(body)
         if (!validate(body, values)) return false
+        if (!(await beforeAction(document.querySelector('[data-panel-save]')))) return false
         if (existing) {
           store.updateEntity('activity', existing.id, values)
           toast({tone: 'ok', title: 'Activity saved', body: values.summary})
@@ -641,9 +648,9 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       menu: existing
         ? [
             existing.archived
-              ? {label: 'Restore', icon: 'i-undo', run: () => setArchived(existing, false)}
-              : {label: 'Archive', icon: 'i-archive', run: () => setArchived(existing, true)},
-            {label: 'Delete', icon: 'i-trash', danger: true, run: () => deleteActivity(existing)},
+              ? {label: t("Restore"), icon: 'i-undo', run: () => setArchived(existing, false)}
+              : {label: t("Archive"), icon: 'i-archive', run: () => setArchived(existing, true)},
+            {label: t("Delete"), icon: 'i-trash', danger: true, run: () => deleteActivity(existing)},
           ]
         : [],
       related: ref ? host => related.render(host, ref) : null,
@@ -651,6 +658,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
   }
 
   async function setArchived(activity, archived) {
+    if (!(await beforeAction())) return
     store.updateEntity('activity', activity.id, {archived})
     await panel.close({force: true})
     toast({tone: 'info', title: archived ? 'Activity archived' : 'Activity restored', body: archived ? 'Hidden from default views. Turn on “Show cancelled & archived” in the Filter menu to find it.' : titleOf(activity)})
@@ -660,10 +668,10 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
     const ok = await confirm({
       title: 'Delete this activity?',
       body: 'The activity is removed. Linked items keep the link and show it as unavailable until someone removes it.',
-      confirmLabel: 'Delete',
+      confirmLabel: t("Delete"),
       tone: 'danger',
     })
-    if (!ok) return
+    if (!ok || !(await beforeAction())) return
     store.deleteEntity('activity', activity.id)
     await panel.close({force: true})
     toast({tone: 'info', title: 'Activity deleted', body: titleOf(activity)})
@@ -681,6 +689,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
 
   return {
     id: 'activities',
+    refreshLocale() { if (built) { buildToolbar(); renderBody() } },
     get roots() {
       return view() ? [view()] : []
     },
