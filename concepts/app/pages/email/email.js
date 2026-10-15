@@ -838,6 +838,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
           kind: 'todo',
           summary: `Follow up: ${titleOf(m)}`,
           notes: '',
+          assigneeIds: [me.id],
           assigneeId: me.id,
           status: 'planned',
           priority: 'normal',

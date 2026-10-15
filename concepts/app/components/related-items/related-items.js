@@ -29,7 +29,7 @@ export function createRelatedItems({store, toast, currentUserId, openItem}) {
     const start = nextHalfHour(store.now())
     if (type === 'note') return {title: 'Untitled note', body: '', status: 'draft', tags: [], pinned: false}
     if (type === 'activity')
-      return {kind: 'todo', summary: 'Follow up', notes: '', assigneeId: currentUserId, status: 'planned', priority: 'normal', archived: false}
+      return {kind: 'todo', summary: 'Follow up', notes: '', assigneeIds: [currentUserId], assigneeId: currentUserId, status: 'planned', priority: 'normal', archived: false}
     return {title: 'New event', allDay: false, start, end: addMinutes(start, 60), location: '', participantIds: [currentUserId], reminder: 'none', repeat: 'none', description: ''}
   }
 

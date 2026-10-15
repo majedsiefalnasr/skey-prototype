@@ -67,6 +67,9 @@ export const isOverdue = (activity, todayKey) =>
 
 export const userName = (id, users) => users.find(user => user.id === id)?.name ?? 'Unassigned'
 
+export const assigneeIdsOf = activity =>
+  activity?.assigneeIds?.length ? [...activity.assigneeIds] : activity?.assigneeId ? [activity.assigneeId] : []
+
 export function titleOf(entity) {
   if (!entity) return ''
   switch (entity.type) {

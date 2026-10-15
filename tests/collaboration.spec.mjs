@@ -545,6 +545,52 @@ test.describe('activities', () => {
     await expect(page.locator('#activity-summary')).toHaveValue('Follow up: Review password policy')
   })
 
+  test('assigned to is a searchable multi-assignee field', async ({page}) => {
+    await go(page, '/help-screens/activities')
+    await page.locator('[data-card-open="act-1"]').click()
+    await panel(page).getByRole('button', {name: 'Edit'}).click()
+    await expect(page.locator('[data-ms-off="usr-1"]')).toBeVisible()
+    const search = page.locator('#activity-assignee')
+    await search.click()
+    await search.fill('omar')
+    await page.locator('#activity-assignee-list [data-ms-opt="usr-3"]').click()
+    await expect(page.locator('[data-ms-off="usr-3"]')).toBeVisible()
+    await panel(page).getByRole('button', {name: 'Save'}).click()
+    await page.locator('[data-card-open="act-1"]').click()
+    const assigned = panel(page).locator('dt:text-is("Assigned to") + dd')
+    await expect(assigned).toContainText('Majed Sief')
+    await expect(assigned).toContainText('Omar Hassan')
+    await page.keyboard.press('Escape')
+    await expect(page.locator('[data-card-id="act-1"]')).toContainText('+1')
+  })
+
+  test('the assignee filter matches activities assigned to that person', async ({page}) => {
+    await go(page, '/help-screens/activities')
+    await page.locator('.activities-view [data-filter-menu] summary').click()
+    await page.locator('[data-filter-assignee="usr-3"]').click()
+    await expect(page.locator('.activities-view [data-filter-remove="assignee"]')).toBeVisible()
+    await expect(page.locator('[data-card-open="act-2"]')).toBeVisible()
+    await expect(page.locator('[data-card-open="act-1"]')).toHaveCount(0)
+  })
+
+  test('an activity keeps at least one assignee', async ({page}) => {
+    await go(page, '/help-screens/activities')
+    await page.locator('[data-card-open="act-1"]').click()
+    await panel(page).getByRole('button', {name: 'Edit'}).click()
+    await page.locator('[data-ms-off="usr-1"]').click()
+    await panel(page).getByRole('button', {name: 'Save'}).click()
+    await expect(panel(page)).toContainText('Choose at least one assignee.')
+  })
+
+  test('schedule a time tracks its scheduled state', async ({page}) => {
+    await go(page, '/help-screens/activities')
+    await page.locator('[data-card-open="act-1"]').click()
+    await panel(page).getByRole('button', {name: 'Edit'}).click()
+    await expect(page.locator('[data-schedule-state]')).toHaveText('Scheduled')
+    await page.locator('#activity-schedule-clear').click()
+    await expect(page.locator('[data-schedule-state]')).toHaveText('Not scheduled')
+  })
+
   test('linking an activity to an event changes neither', async ({page}) => {
     await go(page, '/help-screens/activities')
     await page.locator('[data-card-open="act-6"]').click()

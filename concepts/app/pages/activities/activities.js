@@ -44,7 +44,9 @@ import {
   userName,
   titleOf,
   searchText,
+  assigneeIdsOf,
 } from '../../components/collab/meta.js'
+import {multiselect, multiselectValues, bindMultiselect} from '../../components/collab/multiselect.js'
 import {addDays, addMinutes, isValidDateTime, formatDate, formatTime} from '../../core/collab-dates.js'
 
 const DURATIONS = [15, 30, 45, 60, 90, 120].map(minutes => [String(minutes), `${minutes} min`])
@@ -97,7 +99,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       .filter(a => state.showHidden || (!a.archived && a.status !== 'cancelled'))
       .filter(a => (state.quick === 'open' ? isOpenActivity(a) : state.quick === 'done' ? a.status === 'done' : true))
       .filter(a => !query || searchText(a).includes(query))
-      .filter(a => !state.assignee || a.assigneeId === (state.assignee === 'me' ? currentUserId : state.assignee))
+      .filter(a => !state.assignee || assigneeIdsOf(a).includes(state.assignee === 'me' ? currentUserId : state.assignee))
       .filter(a => !state.kind || a.kind === state.kind)
       .filter(a => !state.overdueOnly || isOverdue(a, todayKey()))
       .sort((a, b) => (a.dueDate || '9999').localeCompare(b.dueDate || '9999') || titleOf(a).localeCompare(titleOf(b)))
@@ -121,7 +123,8 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
    *  only, the prototype has no subtasks or comments to count. */
   function cardMarkup(activity) {
     const timing = activityTiming(activity, todayKey())
-    const owner = userName(activity.assigneeId, users)
+    const owners = assigneeIdsOf(activity).map(id => userName(id, users))
+    const owner = owners[0] || 'Unassigned'
     const links = store.getRelatedItems('activity', activity.id).length
     const excerpt = (activity.notes || '')
       .split('\n')
@@ -143,9 +146,15 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
         .join('')}</span>
       <span class="mt-2 flex items-center gap-1.5 [border-top:1px_dashed_var(--line)] pt-2 text-xs text-muted">
         <span class="inline-grid size-5 flex-none place-items-center rounded-full bg-[var(--line-2)] text-[10px] font-semibold text-ink" aria-hidden="true">${escapeHtml(
-          (owner || '?').charAt(0)
+          owner.charAt(0)
         )}</span>
-        <span class="min-w-0 truncate">${escapeHtml(owner)}</span>
+        <span class="min-w-0 truncate" title="${escapeHtml(owners.join(', '))}">${escapeHtml(owner)}${
+          owners.length > 1
+            ? `<span class="ms-1 rounded-full bg-[var(--line-2)] px-1.5 py-px text-[10px] font-semibold text-ink" title="${escapeHtml(
+                owners.slice(1).join(', ')
+              )}">+${owners.length - 1}</span>`
+            : ''
+        }</span>
         ${
           links
             ? `<span class="ms-auto inline-flex items-center gap-1">${icon('i-flow', 11)}${links}<span class="sr-only"> related items</span></span>`
@@ -447,7 +456,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
     const scheduled = Boolean(activity.scheduledStart)
     return `${actionsMarkup(activity)}<div class="${GRID_CLASS}">
       ${field({id: 'activity-kind', label: 'Kind', required: true, control: selectInput({id: 'activity-kind', value: activity.kind, options: ACTIVITY_KINDS.map(([id, label]) => [id, label])})})}
-      ${field({id: 'activity-assignee', label: 'Assigned to', required: true, control: selectInput({id: 'activity-assignee', value: activity.assigneeId, options: users.map(user => [user.id, `${user.name} · ${user.role}`])})})}
+      ${multiselect({id: 'activity-assignee', label: 'Assigned to', required: true, options: users.map(user => [user.id, `${user.name} · ${user.role}`]), selected: assigneeIdsOf(activity), placeholder: 'Search people…'})}
       ${field({id: 'activity-summary', label: 'Summary', required: true, wide: true, control: textInput({id: 'activity-summary', value: activity.summary, required: true, extra: {autofocus: true}})})}
       ${field({id: 'activity-status', label: 'Status', control: selectInput({id: 'activity-status', value: activity.status, options: ACTIVITY_STATUSES})})}
       ${field({id: 'activity-priority', label: 'Priority', control: selectInput({id: 'activity-priority', value: activity.priority, options: PRIORITIES})})}
@@ -459,12 +468,20 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
         control: `<div class="flex flex-wrap items-center gap-2">${textInput({id: 'activity-due', type: 'date', value: activity.dueDate || '', describedBy: 'activity-due-hint', extra: {class: 'max-w-[200px]'}})}
           <button type="button" class="lbtn" data-due-shift="1">+1 day</button><button type="button" class="lbtn" data-due-shift="7">+1 week</button></div>`,
       })}
-      <details class="sm:col-span-2 rounded-md border border-line px-3 py-2"${scheduled ? ' open' : ''}>
-        <summary class="cursor-pointer text-[13px] font-medium text-ink">Schedule a time</summary>
-        <div class="${GRID_CLASS} mt-3">
-          ${field({id: 'activity-start', label: 'Starts', control: textInput({id: 'activity-start', type: 'datetime-local', value: activity.scheduledStart || ''})})}
-          ${field({id: 'activity-duration', label: 'Duration', control: selectInput({id: 'activity-duration', value: String(activity.durationMin || 30), options: DURATIONS})})}
-          <div class="sm:col-span-2 flex flex-wrap items-center gap-2"><button type="button" class="lbtn" id="activity-schedule-clear">${icon('i-x')} Remove scheduled time</button><span class="${HINT_CLASS}">Scheduled activities appear on the Activities calendar.</span></div>
+      <details class="sm:col-span-2 rounded-md border border-line bg-surface"${scheduled ? ' open' : ''}>
+        <summary class="flex cursor-pointer list-none items-center gap-2 rounded-md px-3 py-2.5 text-[13px] font-medium text-ink hover:bg-[var(--line-2)] [&::-webkit-details-marker]:hidden">
+          ${icon('i-clock', 14)}<span>Schedule a time</span>
+          <span class="ms-auto rounded-full px-2 py-0.5 text-[11px] font-semibold ${scheduled ? 'bg-[var(--line-2)] text-ink' : 'text-muted'}" data-schedule-state>${scheduled ? 'Scheduled' : 'Not scheduled'}</span>
+        </summary>
+        <div class="border-t border-line px-3 py-3">
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+            ${field({id: 'activity-start', label: 'Starts', control: textInput({id: 'activity-start', type: 'datetime-local', value: activity.scheduledStart || ''})})}
+            ${field({id: 'activity-duration', label: 'Duration', control: selectInput({id: 'activity-duration', value: String(activity.durationMin || 30), options: DURATIONS})})}
+          </div>
+          <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
+            <button type="button" class="lbtn" id="activity-schedule-clear">${icon('i-x')} Remove scheduled time</button>
+            <span class="${HINT_CLASS}">Scheduled activities appear on the Activities calendar.</span>
+          </div>
         </div>
       </details>
       ${field({id: 'activity-notes', label: 'Notes', wide: true, control: textarea({id: 'activity-notes', value: activity.notes, rows: 4})})}
@@ -477,7 +494,12 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
   function viewMarkup(activity) {
     const priorityLabel = id => PRIORITIES.find(([value]) => value === id)?.[1] ?? id
     const durationLabel = id => DURATIONS.find(([value]) => value === id)?.[1] ?? id
-    const assignee = users.find(user => user.id === activity.assigneeId)
+    const assigned = assigneeIdsOf(activity)
+      .map(id => {
+        const user = users.find(candidate => candidate.id === id)
+        return user ? `${user.name} · ${user.role}` : userName(id, users)
+      })
+      .join(', ')
     const when = activity.scheduledStart
       ? `${escapeHtml(formatDate(activity.scheduledStart))} ${escapeHtml(formatTime(activity.scheduledStart))} · ${escapeHtml(durationLabel(String(activity.durationMin || 30)))}`
       : '—'
@@ -485,7 +507,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       ${viewRow('Summary', escapeHtml(titleOf(activity)))}
       ${viewRow('Kind', escapeHtml(kindLabel(activity.kind)))}
       ${viewRow('Status', `<span class="badge gray">${escapeHtml(statusLabel(activity.status))}</span>`)}
-      ${viewRow('Assigned to', escapeHtml(assignee ? `${assignee.name} · ${assignee.role}` : userName(activity.assigneeId)))}
+      ${viewRow('Assigned to', assigned ? escapeHtml(assigned) : '—')}
       ${viewRow('Priority', escapeHtml(priorityLabel(activity.priority)))}
       ${viewRow('Due date', escapeHtml(activity.dueDate ? formatDate(activity.dueDate) : '—'))}
       ${viewRow('Scheduled', when)}
@@ -505,7 +527,19 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
     )
     body.querySelector('#activity-schedule-clear')?.addEventListener('click', () => {
       body.querySelector('#activity-start').value = ''
+      updateScheduleState()
     })
+    const startInput = body.querySelector('#activity-start')
+    const updateScheduleState = () => {
+      const stateEl = body.querySelector('[data-schedule-state]')
+      if (!stateEl) return
+      const scheduled = Boolean(startInput.value)
+      stateEl.textContent = scheduled ? 'Scheduled' : 'Not scheduled'
+      stateEl.classList.toggle('bg-[var(--line-2)]', scheduled)
+      stateEl.classList.toggle('text-ink', scheduled)
+      stateEl.classList.toggle('text-muted', !scheduled)
+    }
+    startInput?.addEventListener('input', updateScheduleState)
     body.querySelector('[data-action="done"]')?.addEventListener('click', () => markDone(activity))
     body.querySelector('[data-action="follow-up"]')?.addEventListener('click', () => followUp(activity))
     body.querySelector('[data-action="compose"]')?.addEventListener('click', async () => {
@@ -520,9 +554,11 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
 
   function readEditor(body) {
     const start = body.querySelector('#activity-start').value
+    const assigneeIds = multiselectValues(body, 'activity-assignee')
     return {
       kind: body.querySelector('#activity-kind').value,
-      assigneeId: body.querySelector('#activity-assignee').value,
+      assigneeIds,
+      assigneeId: assigneeIds[0] || '',
       summary: body.querySelector('#activity-summary').value.trim(),
       status: body.querySelector('#activity-status').value,
       priority: body.querySelector('#activity-priority').value,
@@ -541,11 +577,13 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
   }
 
   function followUp(source) {
+    const assigneeIds = assigneeIdsOf(source)
     const next = store.createEntity('activity', {
       kind: 'todo',
       summary: `Follow up: ${titleOf(source)}`,
       notes: '',
-      assigneeId: source.assigneeId,
+      assigneeIds,
+      assigneeId: assigneeIds[0] || '',
       status: 'planned',
       priority: 'normal',
       archived: false,
@@ -563,7 +601,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       start: activity.scheduledStart,
       end: addMinutes(activity.scheduledStart, Number(activity.durationMin) || 60),
       location: '',
-      participantIds: [activity.assigneeId],
+      participantIds: assigneeIdsOf(activity),
       reminder: 'none',
       repeat: 'none',
       description: activity.notes || '',
@@ -575,11 +613,13 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
 
   function validate(body, values) {
     setFieldError(body, 'activity-summary', values.summary ? '' : 'Summary is required.')
+    setFieldError(body, 'activity-assignee', values.assigneeIds.length ? '' : 'Choose at least one assignee.')
     const startInvalid = values.scheduledStart && !isValidDateTime(values.scheduledStart)
     setFieldError(body, 'activity-start', startInvalid ? 'Enter a valid date and time, or remove the scheduled time.' : '')
     if (!values.summary) body.querySelector('#activity-summary').focus()
+    else if (!values.assigneeIds.length) body.querySelector('#activity-assignee').focus()
     else if (startInvalid) body.querySelector('#activity-start').focus()
-    return values.summary && !startInvalid
+    return values.summary && values.assigneeIds.length && !startInvalid
   }
 
   function openActivity(id, prefill = {}, {edit = false} = {}) {
@@ -588,7 +628,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       toast({tone: 'warn', title: 'This activity is no longer available', body: 'It may have been deleted.'})
       return
     }
-    const activity = existing || {kind: 'todo', summary: '', notes: '', assigneeId: currentUserId, status: 'planned', priority: 'normal', dueDate: '', scheduledStart: '', durationMin: 30, archived: false, ...prefill}
+    const activity = existing || {kind: 'todo', summary: '', notes: '', assigneeIds: [currentUserId], assigneeId: currentUserId, status: 'planned', priority: 'normal', dueDate: '', scheduledStart: '', durationMin: 30, archived: false, ...prefill}
     const ref = existing ? {type: 'activity', id: existing.id} : null
     panel.open({
       ref,
@@ -603,6 +643,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       descriptionTone: existing && isOverdue(activity, todayKey()) ? 'danger' : undefined,
       render: body => {
         body.innerHTML = editorMarkup(activity)
+        bindMultiselect(body)
         bindEditor(body, activity)
       },
       view: body => {
