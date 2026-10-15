@@ -22,14 +22,18 @@ import {
 } from '../../components/collab/fields.js'
 import {
   menuItemRadio,
-  menuGroupLabel,
   menuDetails,
-  filterChip,
   clearFilterButton,
   searchField,
   viewMenu,
   toolbarRow,
   closeOwnedMenu,
+  collabFieldChoices,
+  collabFilterChips,
+  collabFilterValueLabel,
+  collabFilterMatches,
+  bindCollabFieldFilters,
+  restoreCollabFilterFocus,
 } from '../../components/collab/list-toolbar.js'
 import {renderBoard} from '../../components/collab/kanban.js'
 import {NOTE_STATUSES, noteStatusLabel, titleOf, searchText} from '../../components/collab/meta.js'
@@ -58,15 +62,31 @@ const INV_GRID_CLASS =
 
 export function createNotes({store, toast, panel, related, confirm, goHome}) {
   const view = () => document.querySelector('.notes-view')
-  const state = {view: 'kanban', query: '', quick: 'all', tag: '', sortKey: 'updated', sortDir: 'desc', archivedOpen: false}
+  const state = {view: 'kanban', query: '', quick: 'all', fieldFilters: [], sortKey: 'updated', sortDir: 'desc', archivedOpen: false}
   let built = false
   let unsubscribe = null
 
   const todayKey = () => store.now().slice(0, 10)
   const updatedLabel = note => relativeDay(note.updatedAt, todayKey()) ?? formatDate(note.updatedAt)
 
+  const filterFields = () => {
+    const tags = [...new Set(store.listEntities('note').flatMap(note => note.tags || []))].sort()
+    return [
+      {
+        key: 'tag',
+        label: 'Tag',
+        icon: 'i-spark',
+        type: 'select',
+        options: tags.length ? tags.map(tag => ({value: tag, label: tag})) : [{value: '', label: 'No tags yet'}],
+        match: (note, filter) => (note.tags || []).includes(filter.value),
+      },
+      {key: 'title', label: 'Note title', icon: 'i-doc', type: 'text'},
+    ]
+  }
+
   function filtered() {
     const query = state.query.trim().toLowerCase()
+    const fields = filterFields()
     return store
       .listEntities('note')
       .filter(note =>
@@ -79,7 +99,9 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
               : true
       )
       .filter(note => !query || searchText(note).includes(query))
-      .filter(note => !state.tag || (note.tags || []).includes(state.tag))
+      .filter(note =>
+        state.fieldFilters.every(filter => collabFilterMatches(note, filter, fields.find(field => field.key === filter.key)))
+      )
       .sort((a, b) =>
         state.sortKey === 'title'
           ? titleOf(a).localeCompare(titleOf(b)) * (state.sortDir === 'asc' ? 1 : -1) || b.updatedAt.localeCompare(a.updatedAt)
@@ -104,27 +126,18 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
       </span>`
   }
 
-  /** Applied field filters, inline as removable chips like the invoices
-   *  list — the quick filter is already named by its own menu. */
-  const filterChips = () =>
-    (state.tag ? [filterChip({attr: 'filter-remove', value: 'tag', label: `Tag: ${state.tag}`})] : []).join('')
-
   function buildToolbar() {
     const host = view().querySelector('[data-collab-toolbar]')
-    const tags = [...new Set(store.listEntities('note').flatMap(note => note.tags || []))].sort()
-    /* The invoices list chrome: quick filter and "+ Filter" with an inline
-       chip on the left, search and the view menu on the right. Sorting is
-       done by the table's own headers, like the invoices grid. */
+    const fields = filterFields()
+    /* The invoices list chrome: quick filter and "+ Filter" — the field
+       chooser, like Customers — with editable value chips on the left,
+       search and the view menu on the right. Sorting is done by the
+       table's own headers, like the invoices grid. */
     const quick = QUICK_FILTERS.find(([id]) => id === state.quick) || QUICK_FILTERS[0]
     const quickItems = QUICK_FILTERS.map(([id, label, iconName]) =>
       menuItemRadio({attr: 'quick-filter', value: id, label, iconName, checked: state.quick === id})
     ).join('')
-    const filterItems = `${menuGroupLabel('Tag')}${menuItemRadio({
-      attr: 'filter-tag',
-      value: '',
-      label: 'All tags',
-      checked: !state.tag,
-    })}${tags.map(tag => menuItemRadio({attr: 'filter-tag', value: tag, label: tag, checked: state.tag === tag})).join('')}`
+    const filterItems = collabFieldChoices({fields, activeKeys: new Set(state.fieldFilters.map(filter => filter.key))})
     const presentation = VIEW_PRESENTATION[state.view]
     const viewOptions = Object.entries(VIEW_PRESENTATION)
       .map(([id, entry]) =>
@@ -138,7 +151,9 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
         iconName: 'i-plus',
         label: 'Filter',
         items: filterItems,
-      })}${filterChips()}${state.tag || state.quick !== 'all' ? clearFilterButton({attr: 'clear-filters'}) : ''}`,
+      })}${collabFilterChips({fields, filters: state.fieldFilters})}${
+        state.fieldFilters.length || state.quick !== 'all' ? clearFilterButton({attr: 'clear-filters'}) : ''
+      }`,
       right: `${searchField({attr: 'collab-search', label: 'notes', value: state.query})}${viewMenu({
         attr: 'view-menu',
         label: presentation.label,
@@ -150,6 +165,10 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
       buildToolbar()
       renderBody()
     }
+    const onChange = ({focusKey = '', caret = null} = {}) => {
+      refresh()
+      restoreCollabFilterFocus(view().querySelector('[data-collab-toolbar]'), focusKey, caret)
+    }
     host.querySelectorAll('[data-quick-filter]').forEach(item =>
       item.addEventListener('click', event => {
         state.quick = item.dataset.quickFilter
@@ -157,22 +176,10 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
         refresh()
       })
     )
-    host.querySelectorAll('[data-filter-tag]').forEach(item =>
-      item.addEventListener('click', event => {
-        state.tag = item.dataset.filterTag
-        closeOwnedMenu(event.currentTarget)
-        refresh()
-      })
-    )
-    host.querySelectorAll('[data-filter-remove]').forEach(item =>
-      item.addEventListener('click', () => {
-        if (item.dataset.filterRemove === 'tag') state.tag = ''
-        refresh()
-      })
-    )
+    bindCollabFieldFilters(host, {fields, filters: state.fieldFilters, onChange})
     host.querySelector('[data-clear-filters]')?.addEventListener('click', () => {
       state.quick = 'all'
-      state.tag = ''
+      state.fieldFilters.splice(0, state.fieldFilters.length)
       refresh()
     })
     const search = host.querySelector('[data-collab-search]')
@@ -201,7 +208,9 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
   function renderBody() {
     const body = view().querySelector('[data-collab-body]')
     const notes = filtered()
-    const filtering = Boolean(state.query.trim() || state.tag || state.quick !== 'all')
+    const filtering = Boolean(
+      state.query.trim() || state.fieldFilters.some(filter => filter.value) || state.quick !== 'all'
+    )
     if (!store.listEntities('note').length) {
       body.innerHTML = emptyState({iconName: 'i-doc', title: 'No notes yet', body: 'Capture one with New note — only a title is needed.'})
       return
@@ -233,11 +242,16 @@ export function createNotes({store, toast, panel, related, confirm, goHome}) {
     const rows = state.quick === 'archived' ? notes : notes.filter(note => note.status !== 'archived')
     if (!rows.length) {
       /* Name the filter that actually emptied the list: the search text,
-         the tag, or the quick filter — never a generic quoted phrase. */
+         an applied field filter, or the quick filter — never a generic
+         quoted phrase. */
+      const valued = state.fieldFilters.find(filter => filter.value)
+      const valuedField = valued ? filterFields().find(field => field.key === valued.key) : null
       const emptyTitle = state.query.trim()
         ? `No notes match “${state.query.trim()}”`
-        : state.tag
-          ? `No notes match the tag “${state.tag}”`
+        : valuedField
+          ? valuedField.type === 'select'
+            ? `No notes match the ${valuedField.label.toLowerCase()} “${collabFilterValueLabel(valuedField, valued)}”`
+            : `No notes match “${valued.value}”`
           : state.quick !== 'all'
             ? `No ${(QUICK_FILTERS.find(([id]) => id === state.quick)?.[1] ?? 'matching').toLowerCase()} notes`
             : 'No notes to show'

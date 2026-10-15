@@ -23,12 +23,14 @@ import {
   toolbarRow,
   menuDetails,
   menuItemRadio,
-  menuItemCheck,
-  menuGroupLabel,
-  filterChip,
   clearFilterButton,
   searchField,
   closeOwnedMenu,
+  collabFieldChoices,
+  collabFilterChips,
+  collabFilterMatches,
+  bindCollabFieldFilters,
+  restoreCollabFilterFocus,
 } from '../../components/collab/list-toolbar.js'
 import {CONVERSION_TARGETS, conversionLabel, titleOf, searchText, findPersonDuplicates} from '../../components/collab/meta.js'
 
@@ -42,11 +44,12 @@ const LIFECYCLES = [
   ['contact', 'Contact'],
 ]
 /* The quick menu mirrors the other collab pages: a radio group over the
-   lifecycle ("Status"), named in the summary. */
+   lifecycle ("Status") plus Archived, named in the summary. */
 const QUICK_FILTERS = [
   ['', 'All people', 'i-user'],
   ['lead', 'Lead', 'i-spark'],
   ['contact', 'Contact', 'i-check'],
+  ['archived', 'Archived', 'i-archive'],
 ]
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const FIELD_LABEL = {mobile: 'mobile', phone: 'phone', email: 'email', name: 'name'}
@@ -58,43 +61,60 @@ const primaryOf = (person, kind) =>
 
 export function createPeople({store, toast, panel, related, confirm, goHome}) {
   const view = () => document.querySelector('.people-view')
-  const state = {query: '', lifecycle: '', showArchived: false}
+  const state = {query: '', lifecycle: '', fieldFilters: []}
   let built = false
   let unsubscribe = null
 
+  const filterFields = () => [
+    {
+      key: 'name',
+      label: 'Name',
+      icon: 'i-user',
+      type: 'text',
+      match: (person, filter) =>
+        String(`${person.nameEn} ${person.nameAr || ''}`)
+          .toLowerCase()
+          .includes(String(filter.value).toLowerCase()),
+    },
+    {key: 'company', label: 'Company', icon: 'i-grid', type: 'text'},
+    {
+      key: 'email',
+      label: 'Email',
+      icon: 'i-mail',
+      type: 'text',
+      match: (person, filter) => primaryOf(person, 'email').toLowerCase().includes(String(filter.value).toLowerCase()),
+    },
+  ]
+
   function filtered() {
     const query = state.query.trim().toLowerCase()
+    const fields = filterFields()
     return store
       .listEntities('person')
-      .filter(p => state.showArchived || !p.archived)
-      .filter(p => !state.lifecycle || p.lifecycle === state.lifecycle)
+      .filter(p =>
+        state.lifecycle === 'archived'
+          ? p.archived
+          : !p.archived && (!state.lifecycle || p.lifecycle === state.lifecycle)
+      )
+      .filter(p => state.fieldFilters.every(filter => collabFilterMatches(p, filter, fields.find(field => field.key === filter.key))))
       .filter(p => !query || searchText(p).includes(query))
       .sort((a, b) => titleOf(a).localeCompare(titleOf(b)))
   }
 
-  /** Applied field filters, inline as removable chips like the invoices
-   *  list — the quick filter is already named by its own menu. */
-  const filterChips = () =>
-    (state.showArchived ? [filterChip({attr: 'filter-remove', value: 'archived', label: 'Show archived'})] : []).join('')
-
-  const filterActive = () => Boolean(state.lifecycle || state.showArchived)
+  const filterActive = () => Boolean(state.lifecycle || state.fieldFilters.length)
 
   function buildToolbar() {
     const host = view().querySelector('[data-collab-toolbar]')
-    /* The shared list-toolbar chrome: quick (Status) menu and "+ Filter"
-       with an inline chip on the left, search on the right — People is
-       list-only, so there is no view menu. */
+    const fields = filterFields()
+    /* The shared list-toolbar chrome: quick (Status) menu and "+ Filter" —
+       the field chooser, like Customers — with editable value chips on the
+       left, search on the right — People is list-only, so there is no view
+       menu. */
     const quick = QUICK_FILTERS.find(([id]) => id === state.lifecycle) || QUICK_FILTERS[0]
     const quickItems = QUICK_FILTERS.map(([id, label, iconName]) =>
       menuItemRadio({attr: 'quick-filter', value: id, label, iconName, checked: state.lifecycle === id})
     ).join('')
-    const filterItems = `${menuGroupLabel('Archived')}${menuItemCheck({
-      attr: 'filter-archived',
-      value: 'archived',
-      label: 'Show archived',
-      checked: state.showArchived,
-      iconName: 'i-eye',
-    })}`
+    const filterItems = collabFieldChoices({fields, activeKeys: new Set(state.fieldFilters.map(filter => filter.key))})
     host.innerHTML = `<div class="data-list-controls grid gap-2 mb-2.5">${toolbarRow({
       ariaLabel: 'People table controls',
       left: `${menuDetails({attr: 'quick-menu', iconName: quick[2], label: quick[1], items: quickItems})}${menuDetails({
@@ -102,12 +122,18 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
         iconName: 'i-plus',
         label: 'Filter',
         items: filterItems,
-      })}${filterChips()}${filterActive() ? clearFilterButton({attr: 'clear-filters'}) : ''}`,
+      })}${collabFilterChips({fields, filters: state.fieldFilters})}${
+        filterActive() ? clearFilterButton({attr: 'clear-filters'}) : ''
+      }`,
       right: `${searchField({attr: 'collab-search', label: 'people', value: state.query})}`,
     })}</div>`
     const refresh = () => {
       buildToolbar()
       renderBody()
+    }
+    const onChange = ({focusKey = '', caret = null} = {}) => {
+      refresh()
+      restoreCollabFilterFocus(view().querySelector('[data-collab-toolbar]'), focusKey, caret)
     }
     host.querySelectorAll('[data-quick-filter]').forEach(item =>
       item.addEventListener('click', event => {
@@ -116,20 +142,10 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
         refresh()
       })
     )
-    host.querySelector('[data-filter-archived]')?.addEventListener('click', event => {
-      state.showArchived = !state.showArchived
-      closeOwnedMenu(event.currentTarget)
-      refresh()
-    })
-    host.querySelectorAll('[data-filter-remove]').forEach(item =>
-      item.addEventListener('click', () => {
-        if (item.dataset.filterRemove === 'archived') state.showArchived = false
-        refresh()
-      })
-    )
+    bindCollabFieldFilters(host, {fields, filters: state.fieldFilters, onChange})
     host.querySelector('[data-clear-filters]')?.addEventListener('click', () => {
       state.lifecycle = ''
-      state.showArchived = false
+      state.fieldFilters.splice(0, state.fieldFilters.length)
       refresh()
     })
     const search = host.querySelector('[data-collab-search]')
@@ -152,9 +168,12 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
     const body = view().querySelector('[data-collab-body]')
     const people = filtered()
     if (!people.length) {
+      const valued = state.fieldFilters.find(filter => filter.value)
       body.innerHTML = state.query.trim()
         ? emptyState({iconName: 'i-search', title: `No people match “${state.query.trim()}”`, body: 'Try a name, company, phone number or email.'})
-        : emptyState({iconName: 'i-user', title: 'No people yet', body: 'Add someone with New person — only an English name is required.'})
+        : valued
+          ? emptyState({iconName: 'i-search', title: `No people match “${valued.value}”`, body: 'Clear the filter to see every person.'})
+          : emptyState({iconName: 'i-user', title: 'No people yet', body: 'Add someone with New person — only an English name is required.'})
       return
     }
     body.innerHTML = `<table class="${TABLE_CLASS}">
@@ -400,7 +419,7 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
   async function setArchived(person, archived) {
     store.updateEntity('person', person.id, {archived})
     await panel.close({force: true})
-    toast({tone: 'info', title: archived ? 'Person archived' : 'Person restored', body: archived ? 'Hidden from the list. Turn on “Show archived” to find them.' : titleOf(person)})
+    toast({tone: 'info', title: archived ? 'Person archived' : 'Person restored', body: archived ? 'Hidden from the list. Pick “Archived” in the quick menu to find them.' : titleOf(person)})
   }
 
   async function deletePerson(person) {

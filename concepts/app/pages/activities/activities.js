@@ -21,15 +21,17 @@ import {renderBoard} from '../../components/collab/kanban.js'
 import {renderCalendar, calendarToolbar, bindCalendarToolbar, calendarRange, shiftDate} from '../../components/collab/calendar.js'
 import {
   menuItemRadio,
-  menuItemCheck,
-  menuGroupLabel,
   menuDetails,
-  filterChip,
   clearFilterButton,
   searchField,
   viewMenu,
   toolbarRow,
   closeOwnedMenu,
+  collabFieldChoices,
+  collabFilterChips,
+  collabFilterMatches,
+  bindCollabFieldFilters,
+  restoreCollabFilterFocus,
 } from '../../components/collab/list-toolbar.js'
 import {
   ACTIVITY_KINDS,
@@ -77,10 +79,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
     view: 'kanban',
     query: '',
     quick: 'all',
-    assignee: '',
-    kind: '',
-    overdueOnly: false,
-    showHidden: false,
+    fieldFilters: [],
     calMode: 'week',
     calDate: null,
   }
@@ -92,16 +91,51 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
   const linkedEvent = activity =>
     store.getRelatedItems('activity', activity.id).find(item => item.ref.type === 'event' && item.entity)
 
+  const filterFields = () => [
+    {
+      key: 'assignee',
+      label: 'Assigned to',
+      icon: 'i-user',
+      type: 'select',
+      options: [{value: 'me', label: 'Me'}, ...users.map(user => ({value: user.id, label: user.name}))],
+      match: (activity, filter) => assigneeIdsOf(activity).includes(filter.value === 'me' ? currentUserId : filter.value),
+    },
+    {key: 'kind', label: 'Kind', icon: 'i-list', type: 'select', options: ACTIVITY_KINDS.map(([id, label]) => ({value: id, label}))},
+    {
+      key: 'overdue',
+      label: 'Overdue',
+      icon: 'i-warn',
+      type: 'select',
+      options: [
+        {value: 'yes', label: 'Overdue only'},
+        {value: 'no', label: 'Not overdue'},
+      ],
+      match: (activity, filter) => (filter.value === 'yes' ? isOverdue(activity, todayKey()) : !isOverdue(activity, todayKey())),
+    },
+    {
+      key: 'visibility',
+      label: 'Cancelled & archived',
+      icon: 'i-eye',
+      type: 'select',
+      options: [
+        {value: 'show', label: 'Show them'},
+        {value: 'hide', label: 'Hide them'},
+      ],
+      match: (activity, filter) => filter.value === 'show' || (!activity.archived && activity.status !== 'cancelled'),
+    },
+  ]
+
   function filtered() {
     const query = state.query.trim().toLowerCase()
+    const fields = filterFields()
+    const effective = state.fieldFilters.some(filter => filter.key === 'visibility')
+      ? state.fieldFilters
+      : [...state.fieldFilters, {key: 'visibility', value: 'hide'}]
     return store
       .listEntities('activity')
-      .filter(a => state.showHidden || (!a.archived && a.status !== 'cancelled'))
+      .filter(a => effective.every(filter => collabFilterMatches(a, filter, fields.find(field => field.key === filter.key))))
       .filter(a => (state.quick === 'open' ? isOpenActivity(a) : state.quick === 'done' ? a.status === 'done' : true))
       .filter(a => !query || searchText(a).includes(query))
-      .filter(a => !state.assignee || assigneeIdsOf(a).includes(state.assignee === 'me' ? currentUserId : state.assignee))
-      .filter(a => !state.kind || a.kind === state.kind)
-      .filter(a => !state.overdueOnly || isOverdue(a, todayKey()))
       .sort((a, b) => (a.dueDate || '9999').localeCompare(b.dueDate || '9999') || titleOf(a).localeCompare(titleOf(b)))
   }
 
@@ -205,54 +239,21 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
     )
   }
 
-  const fieldFilterCount = () => [state.assignee, state.kind, state.overdueOnly, state.showHidden].filter(Boolean).length
+  const fieldFilterCount = () => state.fieldFilters.length
   const filterActive = () => Boolean(fieldFilterCount() || state.quick !== 'all')
-
-  /** Applied field filters, inline as removable chips like the invoices
-   *  list — the quick filter is already named by its own menu. */
-  const filterChips = () =>
-    [
-      state.assignee
-        ? filterChip({attr: 'filter-remove', value: 'assignee', label: `Assignee: ${state.assignee === 'me' ? 'Me' : userName(state.assignee, users)}`})
-        : '',
-      state.kind ? filterChip({attr: 'filter-remove', value: 'kind', label: `Kind: ${kindLabel(state.kind)}`}) : '',
-      state.overdueOnly ? filterChip({attr: 'filter-remove', value: 'overdue', label: 'Overdue only'}) : '',
-      state.showHidden ? filterChip({attr: 'filter-remove', value: 'hidden', label: 'Show cancelled & archived'}) : '',
-    ]
-      .filter(Boolean)
-      .join('')
 
   function buildToolbar() {
     const host = view().querySelector('[data-collab-toolbar]')
-    /* The invoices list chrome: quick filter and "+ Filter" with inline
-       chips on the left, search and the view menu on the right. The page
-       header owns the one primary action — the toolbar never repeats it. */
+    const fields = filterFields()
+    /* The invoices list chrome: quick filter and "+ Filter" — the field
+       chooser, like Customers — with editable value chips on the left,
+       search and the view menu on the right. The page header owns the one
+       primary action — the toolbar never repeats it. */
     const quick = QUICK_FILTERS.find(([id]) => id === state.quick) || QUICK_FILTERS[0]
     const quickItems = QUICK_FILTERS.map(([id, label, iconName]) =>
       menuItemRadio({attr: 'quick-filter', value: id, label, iconName, checked: state.quick === id})
     ).join('')
-    const filterItems = `${menuGroupLabel('Assignee')}${menuItemRadio({
-      attr: 'filter-assignee',
-      value: '',
-      label: 'Everyone',
-      checked: !state.assignee,
-    })}${menuItemRadio({attr: 'filter-assignee', value: 'me', label: 'Me', checked: state.assignee === 'me'})}${users
-      .map(user => menuItemRadio({attr: 'filter-assignee', value: user.id, label: user.name, checked: state.assignee === user.id}))
-      .join('')}${menuGroupLabel('Kind')}${menuItemRadio({attr: 'filter-kind', value: '', label: 'All kinds', checked: !state.kind})}${ACTIVITY_KINDS.map(
-      ([id, label]) => menuItemRadio({attr: 'filter-kind', value: id, label, checked: state.kind === id})
-    ).join('')}${menuItemCheck({
-      attr: 'filter-overdue',
-      value: 'overdue',
-      label: 'Overdue only',
-      checked: state.overdueOnly,
-      iconName: 'i-warn',
-    })}${menuItemCheck({
-      attr: 'filter-hidden',
-      value: 'hidden',
-      label: 'Show cancelled & archived',
-      checked: state.showHidden,
-      iconName: 'i-eye',
-    })}`
+    const filterItems = collabFieldChoices({fields, activeKeys: new Set(state.fieldFilters.map(filter => filter.key))})
     const presentation = VIEW_PRESENTATION[state.view]
     const viewOptions = Object.entries(VIEW_PRESENTATION)
       .map(([id, entry]) =>
@@ -266,7 +267,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
         iconName: 'i-plus',
         label: 'Filter',
         items: filterItems,
-      })}${filterChips()}${filterActive() ? clearFilterButton({attr: 'clear-filters'}) : ''}`,
+      })}${collabFilterChips({fields, filters: state.fieldFilters})}${filterActive() ? clearFilterButton({attr: 'clear-filters'}) : ''}`,
       right: `${searchField({attr: 'collab-search', label: 'activities', value: state.query})}${viewMenu({
         attr: 'view-menu',
         label: presentation.label,
@@ -278,6 +279,10 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       buildToolbar()
       renderBody()
     }
+    const onChange = ({focusKey = '', caret = null} = {}) => {
+      refresh()
+      restoreCollabFilterFocus(view().querySelector('[data-collab-toolbar]'), focusKey, caret)
+    }
     host.querySelectorAll('[data-quick-filter]').forEach(item =>
       item.addEventListener('click', event => {
         state.quick = item.dataset.quickFilter
@@ -285,44 +290,10 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
         refresh()
       })
     )
-    host.querySelectorAll('[data-filter-assignee]').forEach(item =>
-      item.addEventListener('click', event => {
-        state.assignee = item.dataset.filterAssignee
-        closeOwnedMenu(event.currentTarget)
-        refresh()
-      })
-    )
-    host.querySelectorAll('[data-filter-kind]').forEach(item =>
-      item.addEventListener('click', event => {
-        state.kind = item.dataset.filterKind
-        closeOwnedMenu(event.currentTarget)
-        refresh()
-      })
-    )
-    host.querySelectorAll('[data-filter-overdue], [data-filter-hidden]').forEach(item =>
-      item.addEventListener('click', event => {
-        if (item.hasAttribute('data-filter-overdue')) state.overdueOnly = !state.overdueOnly
-        else state.showHidden = !state.showHidden
-        closeOwnedMenu(event.currentTarget)
-        refresh()
-      })
-    )
-    host.querySelectorAll('[data-filter-remove]').forEach(item =>
-      item.addEventListener('click', () => {
-        const key = item.dataset.filterRemove
-        if (key === 'assignee') state.assignee = ''
-        else if (key === 'kind') state.kind = ''
-        else if (key === 'overdue') state.overdueOnly = false
-        else if (key === 'hidden') state.showHidden = false
-        refresh()
-      })
-    )
+    bindCollabFieldFilters(host, {fields, filters: state.fieldFilters, onChange})
     host.querySelector('[data-clear-filters]')?.addEventListener('click', () => {
       state.quick = 'all'
-      state.assignee = ''
-      state.kind = ''
-      state.overdueOnly = false
-      state.showHidden = false
+      state.fieldFilters.splice(0, state.fieldFilters.length)
       refresh()
     })
     const search = host.querySelector('[data-collab-search]')
@@ -356,7 +327,9 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       ['planned', 'Planned'],
       ['in_progress', 'In progress'],
       ['done', 'Done'],
-      ...(state.showHidden ? [['cancelled', 'Cancelled']] : []),
+      ...(state.fieldFilters.some(filter => filter.key === 'visibility' && filter.value === 'show')
+        ? [['cancelled', 'Cancelled']]
+        : []),
     ]
     renderBoard(body, {
       columns: columns.map(([id, label]) => ({id, label, items: activities.filter(a => a.status === id)})),

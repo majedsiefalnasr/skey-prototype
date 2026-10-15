@@ -114,18 +114,44 @@ test.describe('notes', () => {
     await expect(card(page, 'Visit plan')).toBeVisible()
   })
 
-  test('new tag is immediately available in the filter menu', async ({page}) => {
+  test('a new tag is immediately available in the tag filter chip', async ({page}) => {
     await go(page, '/help-screens/notes')
     await page.locator('.notes-view [data-collab-new]').click()
     await page.locator('#note-title').fill('Tagged note')
     await page.locator('#note-tags').fill('Quarter close')
     await panel(page).getByRole('button', {name: 'Save'}).click()
+    // Customers flow: "+ Filter" lists fields; picking Tag opens the chip
+    // editor so the value is chosen inside the chip itself.
     const menu = page.locator('.notes-view [data-filter-menu]')
     await menu.locator('summary').click()
-    await expect(menu.getByRole('menuitemradio', {name: 'Quarter close'})).toHaveCount(1)
-    await menu.getByRole('menuitemradio', {name: 'Quarter close'}).click()
-    await expect(page.locator('.notes-view [data-filter-remove="tag"]')).toBeVisible()
+    await menu.getByRole('menuitem', {name: 'Tag', exact: true}).click()
+    const chip = page.locator('.notes-view [data-collab-editor-key="tag"]')
+    await expect(chip).toHaveJSProperty('open', true)
+    await chip.getByRole('option', {name: 'Quarter close', exact: true}).click()
+    await expect(page.locator('.notes-view [data-collab-remove-filter="tag"]')).toBeVisible()
     await expect(page.locator('.notes-view [data-card-open]', {hasText: 'Tagged note'})).toBeVisible()
+  })
+
+  test('a text filter chip takes its value inside the chip, like Customers', async ({page}) => {
+    await go(page, '/help-screens/notes')
+    await page.locator('.notes-view [data-filter-menu] summary').click()
+    await page.getByRole('menuitem', {name: 'Note title', exact: true}).click()
+    const chip = page.locator('.notes-view [data-collab-editor-key="title"]')
+    await expect(chip).toHaveJSProperty('open', true)
+    const input = chip.locator('[data-collab-filter-value="title"]')
+    await expect(input).toBeFocused()
+    await input.fill('checklist')
+    await expect(page.locator('.notes-view [data-collab-remove-filter="title"]')).toBeVisible()
+    await expect(page.locator('.notes-view [data-card-open]')).toHaveCount(1)
+    await expect(page.locator('.notes-view [data-card-open]', {hasText: 'Month-end checklist'})).toBeVisible()
+    await expect(input).toBeFocused()
+    // The operator row lives in the same chip popover and re-filters live.
+    await chip.getByRole('button', {name: 'starts with'}).click()
+    await expect(chip.locator('summary')).toContainText('starts with')
+    await expect(page.locator('.notes-view [data-card-open]')).toHaveCount(0)
+    await expect(chip.locator('[data-collab-filter-value="title"]')).toBeFocused()
+    await chip.locator('[data-collab-filter-value="title"]').fill('month')
+    await expect(page.locator('.notes-view [data-card-open]', {hasText: 'Month-end checklist'})).toBeVisible()
   })
 
   test('an emptied quick filter names itself in the empty state', async ({page}) => {
@@ -295,8 +321,11 @@ test.describe('events', () => {
     await go(page, '/help-screens/events')
     await expect(page.locator('.events-view [data-cal-tabs]')).toHaveCount(0)
     await page.locator('.events-view [data-filter-menu] summary').click()
-    await page.locator('[data-filter-participant="usr-2"]').click()
-    await expect(page.locator('.events-view [data-filter-remove="participant-usr-2"]')).toBeVisible()
+    await page.getByRole('menuitem', {name: 'Participant', exact: true}).click()
+    const chip = page.locator('.events-view [data-collab-editor-key="participant"]')
+    await expect(chip).toHaveJSProperty('open', true)
+    await chip.getByRole('option', {name: /^Mariam/}).click()
+    await expect(page.locator('.events-view [data-collab-remove-filter="participant"]')).toBeVisible()
     await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Monthly sales review'})).toBeVisible()
     await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Supplier visit'})).toHaveCount(0)
     await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Company holiday'})).toHaveCount(0)
@@ -453,15 +482,15 @@ test.describe('activities', () => {
     await expect(page.locator('.activities-view [data-card-id="act-5"]')).toBeVisible()
     await page.locator('.activities-view [data-clear-filters]').click()
     await expect(page.locator('.activities-view [data-card-id="act-1"]')).toBeVisible()
-    // Overdue only shows up as an inline chip, not a collapsed filter row.
+    // The Overdue field shows up as an inline chip with an editable value.
     await page.locator('.activities-view [data-filter-menu] summary').click()
-    await page.getByRole('menuitemcheckbox', {name: 'Overdue only'}).click()
-    await expect(page.locator('.activities-view [data-filter-remove="overdue"]')).toBeVisible()
+    await page.getByRole('menuitem', {name: 'Overdue', exact: true}).click()
+    await expect(page.locator('.activities-view [data-collab-remove-filter="overdue"]')).toBeVisible()
     await expect(page.locator('.activities-view [data-card-id="act-2"]')).toBeVisible()
     await expect(page.locator('.activities-view [data-card-id="act-1"]')).toHaveCount(0)
-    await page.locator('.activities-view [data-filter-remove="overdue"]').click()
+    await page.locator('.activities-view [data-collab-remove-filter="overdue"]').click()
     await expect(page.locator('.activities-view [data-card-id="act-1"]')).toBeVisible()
-    await expect(page.locator('.activities-view [data-filter-remove="overdue"]')).toHaveCount(0)
+    await expect(page.locator('.activities-view [data-collab-remove-filter="overdue"]')).toHaveCount(0)
     // Search filters the body in place; the toolbar (and its focus) survives.
     const search = page.locator('.activities-view [data-collab-search]')
     await search.fill('password')
@@ -583,10 +612,13 @@ test.describe('activities', () => {
   test('the assignee filter matches activities assigned to that person', async ({page}) => {
     await go(page, '/help-screens/activities')
     await page.locator('.activities-view [data-filter-menu] summary').click()
-    await page.locator('[data-filter-assignee="usr-3"]').click()
-    await expect(page.locator('.activities-view [data-filter-remove="assignee"]')).toBeVisible()
-    await expect(page.locator('[data-card-open="act-2"]')).toBeVisible()
-    await expect(page.locator('[data-card-open="act-1"]')).toHaveCount(0)
+    await page.getByRole('menuitem', {name: 'Assigned to', exact: true}).click()
+    const chip = page.locator('.activities-view [data-collab-editor-key="assignee"]')
+    await expect(chip).toHaveJSProperty('open', true)
+    await chip.getByRole('option', {name: 'Omar Hassan', exact: true}).click()
+    await expect(page.locator('.activities-view [data-collab-remove-filter="assignee"]')).toBeVisible()
+    await expect(page.locator('.activities-view [data-card-open="act-2"]')).toBeVisible()
+    await expect(page.locator('.activities-view [data-card-open="act-1"]')).toHaveCount(0)
   })
 
   test('an activity keeps at least one assignee', async ({page}) => {
@@ -1013,20 +1045,20 @@ test.describe('people data', () => {
     await expect(page.locator('.people-view [data-clear-filters]')).toHaveCount(0)
   })
 
-  test('Show archived lives in the filter menu as a checkbox with an inline chip', async ({page}) => {
+  test('Archived lives in the quick menu and hides archived people by default', async ({page}) => {
     await go(page, '/help-screens/people-data')
     await page.locator('.people-view [data-row-open]', {hasText: 'Sara Mahmoud'}).click()
     await panel(page).getByRole('button', {name: 'More actions'}).click()
     await page.getByRole('menuitem', {name: 'Archive', exact: true}).click()
     await expect(page.locator('.people-view table')).not.toContainText('Sara Mahmoud')
-    const filterMenu = page.locator('.people-view [data-filter-menu]')
-    await filterMenu.locator('summary').click()
-    await filterMenu.getByRole('menuitemcheckbox', {name: 'Show archived'}).click()
-    await expect(page.locator('.people-view [data-filter-remove="archived"]')).toBeVisible()
+    const quickMenu = page.locator('.people-view [data-quick-menu]')
+    await quickMenu.locator('summary').click()
+    await quickMenu.getByRole('menuitemradio', {name: 'Archived', exact: true}).click()
+    await expect(quickMenu.locator('summary')).toContainText('Archived')
     await expect(page.locator('.people-view table')).toContainText('Sara Mahmoud')
     await expect(page.locator('.people-view tr', {hasText: 'Sara Mahmoud'})).toContainText('Archived')
-    // Removing the chip turns the filter off again.
-    await page.locator('.people-view [data-filter-remove="archived"]').click()
+    // Clearing returns to All people: the archived row is hidden again.
+    await page.locator('.people-view [data-clear-filters]').click()
     await expect(page.locator('.people-view table')).not.toContainText('Sara Mahmoud')
     await expect(page.locator('.people-view [data-clear-filters]')).toHaveCount(0)
   })

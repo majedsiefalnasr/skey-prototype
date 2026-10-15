@@ -19,13 +19,14 @@ import {
 } from '../../components/collab/fields.js'
 import {multiselect, multiselectValues, bindMultiselect} from '../../components/collab/multiselect.js'
 import {
-  menuItemCheck,
-  menuGroupLabel,
   menuDetails,
-  filterChip,
   clearFilterButton,
   toolbarRow,
-  closeOwnedMenu,
+  collabFieldChoices,
+  collabFilterChips,
+  collabFilterMatches,
+  bindCollabFieldFilters,
+  restoreCollabFilterFocus,
 } from '../../components/collab/list-toolbar.js'
 import {renderCalendar, calendarToolbar, bindCalendarToolbar, calendarRange, shiftDate, presetJump} from '../../components/collab/calendar.js'
 import {TYPE_META, titleOf, eventTiming} from '../../components/collab/meta.js'
@@ -46,12 +47,24 @@ const REPEATS = [
 
 export function createEvents({store, toast, panel, related, confirm, goHome, users}) {
   const view = () => document.querySelector('.events-view')
-  const state = {mode: 'month', date: null, participants: []}
+  const state = {mode: 'month', date: null, fieldFilters: []}
   let built = false
   let unsubscribe = null
   let visibleItems = []
 
   const todayKey = () => store.now().slice(0, 10)
+
+  const filterFields = () => [
+    {
+      key: 'participant',
+      label: 'Participant',
+      icon: 'i-user',
+      type: 'select',
+      options: users.map(user => ({value: user.id, label: `${user.name} · ${user.role}`})),
+      match: (event, filter) => (event.participantIds || []).includes(filter.value),
+    },
+    {key: 'title', label: 'Event title', icon: 'i-doc', type: 'text'},
+  ]
 
   const overlaps = (a, b) =>
     a.allDay === b.allDay &&
@@ -93,27 +106,16 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
 
   function renderToolbar() {
     const host = view().querySelector('[data-collab-toolbar]')
-    const userNameOf = id => users.find(user => user.id === id)?.name ?? id
-    const chips = state.participants
-      .map(id => filterChip({attr: 'filter-remove', value: `participant-${id}`, label: `Participant: ${userNameOf(id)}`}))
-      .join('')
-    const filterItems = `${menuGroupLabel('Show events involving')}${users
-      .map(user =>
-        menuItemCheck({
-          attr: 'filter-participant',
-          value: user.id,
-          label: `${user.name} · ${user.role}`,
-          checked: state.participants.includes(user.id),
-        })
-      )
-      .join('')}`
+    const fields = filterFields()
+    const filterItems = collabFieldChoices({fields, activeKeys: new Set(state.fieldFilters.map(filter => filter.key))})
     host.innerHTML =
       calendarToolbar({mode: state.mode, date: state.date, presets: true, today: todayKey(), titleHidden: true}) +
       `<div class="data-list-controls mt-2 w-full">${toolbarRow({
         ariaLabel: 'Events filters',
-        left: `${menuDetails({attr: 'filter-menu', iconName: 'i-plus', label: 'Filter', items: filterItems})}${chips}${
-          state.participants.length ? clearFilterButton({attr: 'clear-filters'}) : ''
-        }`,
+        left: `${menuDetails({attr: 'filter-menu', iconName: 'i-plus', label: 'Filter', items: filterItems})}${collabFilterChips({
+          fields,
+          filters: state.fieldFilters,
+        })}${state.fieldFilters.length ? clearFilterButton({attr: 'clear-filters'}) : ''}`,
         right: '',
       })}</div>`
     host.firstElementChild.classList.add('w-full')
@@ -132,25 +134,13 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
         go(jump.date)
       },
     })
-    host.querySelectorAll('[data-filter-participant]').forEach(item =>
-      item.addEventListener('click', event => {
-        const id = item.dataset.filterParticipant
-        state.participants = state.participants.includes(id)
-          ? state.participants.filter(existing => existing !== id)
-          : [...state.participants, id]
-        closeOwnedMenu(event.currentTarget)
-        renderAll()
-      })
-    )
-    host.querySelectorAll('[data-filter-remove]').forEach(item =>
-      item.addEventListener('click', () => {
-        const id = item.dataset.filterRemove.replace('participant-', '')
-        state.participants = state.participants.filter(existing => existing !== id)
-        renderAll()
-      })
-    )
+    const onChange = ({focusKey = '', caret = null} = {}) => {
+      renderAll()
+      restoreCollabFilterFocus(view().querySelector('[data-collab-toolbar]'), focusKey, caret)
+    }
+    bindCollabFieldFilters(host, {fields, filters: state.fieldFilters, onChange})
     host.querySelector('[data-clear-filters]')?.addEventListener('click', () => {
-      state.participants = []
+      state.fieldFilters.splice(0, state.fieldFilters.length)
       renderAll()
     })
   }
@@ -167,8 +157,9 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
 
   function renderBody() {
     const body = view().querySelector('[data-collab-body]')
-    const events = rangeEvents().filter(
-      event => !state.participants.length || (event.participantIds || []).some(id => state.participants.includes(id))
+    const fields = filterFields()
+    const events = rangeEvents().filter(event =>
+      state.fieldFilters.every(filter => collabFilterMatches(event, filter, fields.find(field => field.key === filter.key)))
     )
     const conflicts = classify(events)
     visibleItems = events.map(event => ({
