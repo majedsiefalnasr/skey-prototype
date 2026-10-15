@@ -10,14 +10,23 @@ import {
   textInput,
   textarea,
   selectInput,
-  switchInput,
+  switchRow,
   setFieldError,
   GRID_CLASS,
-  SECTION_TITLE_CLASS,
   HINT_CLASS,
   VIEW_LIST_CLASS,
   viewRow,
 } from '../../components/collab/fields.js'
+import {multiselect, multiselectValues, bindMultiselect} from '../../components/collab/multiselect.js'
+import {
+  menuItemCheck,
+  menuGroupLabel,
+  menuDetails,
+  filterChip,
+  clearFilterButton,
+  toolbarRow,
+  closeOwnedMenu,
+} from '../../components/collab/list-toolbar.js'
 import {renderCalendar, calendarToolbar, bindCalendarToolbar, calendarRange, shiftDate, presetJump} from '../../components/collab/calendar.js'
 import {TYPE_META, titleOf, eventTiming} from '../../components/collab/meta.js'
 import {addMinutes, nextHalfHour, isValidDate, isValidDateTime, formatDate, formatTime} from '../../core/collab-dates.js'
@@ -34,28 +43,15 @@ const REPEATS = [
   ['weekly', 'Weekly'],
   ['monthly', 'Monthly'],
 ]
-/* Filter tabs under the calendar: what is on the screen, split the way the
-   prototype can honestly split it — a meeting is an event linked to an
-   activity of kind "meeting", a conflict is two events overlapping in time
-   (or two all-day events overlapping in dates). */
-const EVENT_TABS = [
-  ['all', 'All scheduled', 'i-cal'],
-  ['meetings', 'Meetings', 'i-user'],
-  ['events', 'Events', 'i-clock'],
-  ['conflicts', 'Conflicted', 'i-warn'],
-]
 
 export function createEvents({store, toast, panel, related, confirm, goHome, users}) {
   const view = () => document.querySelector('.events-view')
-  const state = {mode: 'month', date: null, tab: 'all'}
+  const state = {mode: 'month', date: null, participants: []}
   let built = false
   let unsubscribe = null
   let visibleItems = []
 
   const todayKey = () => store.now().slice(0, 10)
-
-  const isMeeting = event =>
-    store.getRelatedItems('event', event.id).some(item => item.ref.type === 'activity' && item.entity?.kind === 'meeting')
 
   const overlaps = (a, b) =>
     a.allDay === b.allDay &&
@@ -63,10 +59,9 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
       ? a.start.slice(0, 10) <= b.end.slice(0, 10) && b.start.slice(0, 10) <= a.end.slice(0, 10)
       : a.start < b.end && b.start < a.end)
 
-  /** Meeting and conflict membership for the events currently in range —
-   *  the tabs count and filter from this one pass. */
+  /** Conflicting membership for the events currently in range — two events
+   *  overlapping in time, or two all-day events overlapping in dates. */
   function classify(events) {
-    const meetings = new Set(events.filter(isMeeting).map(event => event.id))
     const conflicts = new Set()
     events.forEach((a, index) =>
       events.slice(index + 1).forEach(b => {
@@ -76,7 +71,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
         }
       })
     )
-    return {meetings, conflicts}
+    return conflicts
   }
 
   const rangeEvents = () => {
@@ -98,23 +93,29 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
 
   function renderToolbar() {
     const host = view().querySelector('[data-collab-toolbar]')
-    const events = rangeEvents()
-    const {meetings, conflicts} = classify(events)
-    const counts = {
-      all: events.length,
-      meetings: meetings.size,
-      events: events.length - meetings.size,
-      conflicts: conflicts.size,
-    }
+    const userNameOf = id => users.find(user => user.id === id)?.name ?? id
+    const chips = state.participants
+      .map(id => filterChip({attr: 'filter-remove', value: `participant-${id}`, label: `Participant: ${userNameOf(id)}`}))
+      .join('')
+    const filterItems = `${menuGroupLabel('Show events involving')}${users
+      .map(user =>
+        menuItemCheck({
+          attr: 'filter-participant',
+          value: user.id,
+          label: `${user.name} · ${user.role}`,
+          checked: state.participants.includes(user.id),
+        })
+      )
+      .join('')}`
     host.innerHTML =
       calendarToolbar({mode: state.mode, date: state.date, presets: true, today: todayKey(), titleHidden: true}) +
-      `<div class="flex w-full flex-wrap items-center gap-1 border-b border-line" role="group" aria-label="Filter events" data-cal-tabs>${EVENT_TABS.map(
-        ([id, label, iconName]) =>
-          `<button type="button" class="inline-flex min-h-8 -mb-px items-center gap-1.5 border-b-2 border-transparent px-2.5 text-[13px] font-medium text-muted hover:text-ink aria-pressed:border-accent aria-pressed:text-ink focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]" data-cal-tab="${id}" aria-pressed="${state.tab === id}">${icon(
-            iconName,
-            14
-          )}<span>${label} <span class="rounded-full bg-[var(--line-2)] px-1.5 text-[11px] font-semibold text-muted">${counts[id]}</span></span></button>`
-      ).join('')}</div>`
+      `<div class="data-list-controls mt-2 w-full">${toolbarRow({
+        ariaLabel: 'Events filters',
+        left: `${menuDetails({attr: 'filter-menu', iconName: 'i-plus', label: 'Filter', items: filterItems})}${chips}${
+          state.participants.length ? clearFilterButton({attr: 'clear-filters'}) : ''
+        }`,
+        right: '',
+      })}</div>`
     host.firstElementChild.classList.add('w-full')
     bindCalendarToolbar(host, {
       onPrev: () => go(shiftDate(state.mode, state.date, -1)),
@@ -131,15 +132,27 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
         go(jump.date)
       },
     })
-    host.querySelectorAll('[data-cal-tab]').forEach(button =>
-      button.addEventListener('click', () => {
-        state.tab = button.dataset.calTab
-        host
-          .querySelectorAll('[data-cal-tab]')
-          .forEach(tab => tab.setAttribute('aria-pressed', String(tab.dataset.calTab === state.tab)))
-        renderBody()
+    host.querySelectorAll('[data-filter-participant]').forEach(item =>
+      item.addEventListener('click', event => {
+        const id = item.dataset.filterParticipant
+        state.participants = state.participants.includes(id)
+          ? state.participants.filter(existing => existing !== id)
+          : [...state.participants, id]
+        closeOwnedMenu(event.currentTarget)
+        renderAll()
       })
     )
+    host.querySelectorAll('[data-filter-remove]').forEach(item =>
+      item.addEventListener('click', () => {
+        const id = item.dataset.filterRemove.replace('participant-', '')
+        state.participants = state.participants.filter(existing => existing !== id)
+        renderAll()
+      })
+    )
+    host.querySelector('[data-clear-filters]')?.addEventListener('click', () => {
+      state.participants = []
+      renderAll()
+    })
   }
 
   function go(date) {
@@ -153,26 +166,30 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
   }
 
   function renderBody() {
-    const events = rangeEvents()
-    const {meetings, conflicts} = classify(events)
-    const shown = events.filter(event =>
-      state.tab === 'all'
-        ? true
-        : state.tab === 'meetings'
-          ? meetings.has(event.id)
-          : state.tab === 'events'
-            ? !meetings.has(event.id)
-            : conflicts.has(event.id)
+    const body = view().querySelector('[data-collab-body]')
+    const events = rangeEvents().filter(
+      event => !state.participants.length || (event.participantIds || []).some(id => state.participants.includes(id))
     )
-    visibleItems = shown.map(event => ({
+    const conflicts = classify(events)
+    visibleItems = events.map(event => ({
       id: event.id,
       title: titleOf(event),
       start: event.start,
       end: event.end,
       allDay: event.allDay,
       label: TYPE_META.event.label,
+      conflict: conflicts.has(event.id),
     }))
-    renderCalendar(view().querySelector('[data-collab-body]'), {
+    const conflictCount = conflicts.size
+    body.innerHTML = `${
+      conflictCount
+        ? `<p class="my-2 flex items-start gap-2 rounded-md border border-[var(--danger-soft-line)] bg-[var(--danger-soft-bg)] px-3 py-2 text-[13px] text-ink" data-conflict-notice role="status">${icon(
+            'i-warn',
+            14
+          )}<span>${conflictCount} ${conflictCount === 1 ? 'event overlaps' : 'events overlap'} another event in this period. Conflicted events are marked in red on the calendar.</span></p>`
+        : ''
+    }<div data-calendar></div>`
+    renderCalendar(body.querySelector('[data-calendar]'), {
       mode: state.mode,
       date: state.date,
       todayKey: todayKey(),
@@ -194,17 +211,35 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
     const type = event.allDay ? 'date' : 'datetime-local'
     return `<div class="${GRID_CLASS}">
       ${field({id: 'event-title', label: 'Title', required: true, wide: true, control: textInput({id: 'event-title', value: event.title, required: true, extra: {autofocus: true}})})}
-      <div class="sm:col-span-2">${switchInput({id: 'event-allday', label: 'All day', checked: event.allDay})}</div>
+      <div class="sm:col-span-2">${switchRow({id: 'event-allday', label: 'All day', checked: event.allDay})}</div>
       ${field({id: 'event-start', label: 'Starts', required: true, control: textInput({id: 'event-start', type, value: event.start, required: true})})}
       ${field({id: 'event-end', label: 'Ends', required: true, control: textInput({id: 'event-end', type, value: event.end, required: true})})}
-      ${field({id: 'event-location', label: 'Location', wide: true, control: textInput({id: 'event-location', value: event.location})})}
-      <div class="sm:col-span-2 border-t border-line pt-3 mt-1">
-        <h3 class="${SECTION_TITLE_CLASS}">Participants</h3>
-        <div class="grid grid-cols-1 gap-x-3 sm:grid-cols-2">${users
-          .map(user => switchInput({id: `event-participant-${user.id}`, label: `${user.name} · ${user.role}`, checked: event.participantIds.includes(user.id)}))
-          .join('')}</div>
-      </div>
-      <div class="sm:col-span-2 border-t border-line mt-1"></div>
+      ${field({
+        id: 'event-location',
+        label: 'Location',
+        wide: true,
+        control: `<div class="grid items-center gap-2 sm:grid-cols-[minmax(0,1fr)_168px]">${textInput(
+          {id: 'event-location', value: event.location}
+        )}<div class="relative h-[72px] overflow-hidden rounded-md border border-line bg-[var(--line-2)]" data-location-map aria-hidden="true">
+          <svg viewBox="0 0 168 72" class="absolute inset-0 size-full" preserveAspectRatio="xMidYMid slice">
+            <path d="M0 24 H168 M0 52 H168 M48 0 V72 M116 0 V72" stroke="var(--line)" stroke-width="7"/>
+            <path d="M-8 66 L176 10" stroke="var(--line)" stroke-width="5"/>
+            <rect x="56" y="30" width="52" height="14" rx="2" fill="var(--surface)" stroke="var(--line)" stroke-width="1.5"/>
+          </svg>
+          <div class="absolute inset-0 flex items-center justify-center gap-1.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-muted" data-map-pin><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            <span class="max-w-[70%] truncate rounded-full bg-surface px-2 py-0.5 text-[10px] font-semibold text-ink [box-shadow:var(--shadow-1)]" data-map-label>No location</span>
+          </div>
+        </div></div>`,
+      })}
+      ${multiselect({
+        id: 'event-participants',
+        label: 'Participants',
+        options: users.map(user => [user.id, `${user.name} · ${user.role}`]),
+        selected: event.participantIds || [],
+        placeholder: 'Search people…',
+        wide: true,
+      })}
       ${field({id: 'event-reminder', label: 'Reminder', hint: 'Prototype: no notification is sent.', control: selectInput({id: 'event-reminder', value: event.reminder, options: REMINDERS})})}
       ${field({id: 'event-repeat', label: 'Repeat', hint: 'Prototype: only the first occurrence is shown on the calendar.', control: selectInput({id: 'event-repeat', value: event.repeat, options: REPEATS})})}
       ${field({id: 'event-description', label: 'Description', wide: true, control: textarea({id: 'event-description', value: event.description, rows: 4})})}
@@ -258,6 +293,21 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
     })
   }
 
+  function bindLocationMap(body) {
+    const input = body.querySelector('#event-location')
+    const label = body.querySelector('[data-map-label]')
+    const pin = body.querySelector('[data-map-pin]')
+    if (!input || !label || !pin) return
+    const sync = () => {
+      const value = input.value.trim()
+      label.textContent = value || 'No location'
+      pin.classList.toggle('text-accent', Boolean(value))
+      pin.classList.toggle('text-muted', !value)
+    }
+    input.addEventListener('input', sync)
+    sync()
+  }
+
   function readEditor(body) {
     return {
       title: body.querySelector('#event-title').value.trim(),
@@ -265,7 +315,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
       start: body.querySelector('#event-start').value,
       end: body.querySelector('#event-end').value,
       location: body.querySelector('#event-location').value.trim(),
-      participantIds: users.filter(user => body.querySelector(`#event-participant-${user.id}`).checked).map(user => user.id),
+      participantIds: multiselectValues(body, 'event-participants'),
       reminder: body.querySelector('#event-reminder').value,
       repeat: body.querySelector('#event-repeat').value,
       description: body.querySelector('#event-description').value,
@@ -319,7 +369,9 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
         : 'Meetings, holidays and other time on the calendar.',
       render: body => {
         body.innerHTML = editorMarkup(event)
+        bindMultiselect(body)
         bindAllDay(body)
+        bindLocationMap(body)
         if (existing?.repeat && existing.repeat !== 'none') {
           body.insertAdjacentHTML('afterbegin', `<p class="${HINT_CLASS} mb-3">Repeats ${escapeHtml(existing.repeat)} — only this first occurrence is shown in the prototype.</p>`)
         }
@@ -385,8 +437,9 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
       }
       renderAll()
       unsubscribe?.()
-      /* Toolbar counts and the tab filter both read the store, so a save or
-         delete repaints the whole screen, not just the grid. */
+      /* The participants filter row and the conflict notice both read the
+         store, so a save or delete repaints the whole screen, not just the
+         grid. */
       unsubscribe = store.subscribe(() => {
         if (view() && !view().hidden) renderAll()
       })

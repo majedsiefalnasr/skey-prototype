@@ -149,13 +149,15 @@ export function bindCalendarToolbar(host, {onPrev, onNext, onToday, onMode, onPr
 }
 
 const itemLabel = item =>
-  `${item.label}: ${item.title}, ${item.allDay ? 'all day' : `${formatTime(item.start)} to ${formatTime(item.end)}`}`
+  `${item.label}: ${item.title}, ${item.allDay ? 'all day' : `${formatTime(item.start)} to ${formatTime(item.end)}`}${item.conflict ? ' (conflicting)' : ''}`
 
 const ITEM_CLASS =
   'block w-full overflow-hidden rounded border-0 border-s-[3px] border-[var(--accent)] bg-[var(--accent-soft)] px-1.5 py-0.5 text-start text-xs text-ink hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
 
+const CONFLICT_CLASS = '![border-color:var(--danger)] ![background-color:var(--danger-soft-bg)]'
+
 const itemButton = (item, index, extraClass = '', style = '', timeLabel = formatTime(item.start)) =>
-  `<button type="button" class="${ITEM_CLASS} ${extraClass}" ${style ? `style="${style}"` : ''} data-cal-item="${index}" aria-label="${escapeHtml(itemLabel(item))}">
+  `<button type="button" class="${ITEM_CLASS} ${item.conflict ? CONFLICT_CLASS : ''} ${extraClass}" ${style ? `style="${style}"` : ''} data-cal-item="${index}"${item.conflict ? ' data-cal-conflict="true"' : ''} aria-label="${escapeHtml(itemLabel(item))}">
     ${item.allDay ? '' : `<span class="font-semibold">${escapeHtml(timeLabel)}</span> `}<span dir="auto">${escapeHtml(item.title)}</span>
     <span class="sr-only"> (${escapeHtml(item.label)})</span>
   </button>`
