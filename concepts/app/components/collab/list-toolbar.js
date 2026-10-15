@@ -76,6 +76,13 @@ const optionValue = option => String(typeof option === 'object' && option !== nu
 const optionLabel = option => String(typeof option === 'object' && option !== null ? option.label : option)
 
 export const collabFilterValueLabel = (field, filter) => {
+  if (field.type === 'multi') {
+    const picked = Array.isArray(filter.value) ? filter.value : []
+    if (!picked.length) return field.emptyLabel || 'Anyone'
+    const option = (field.options || []).find(item => optionValue(item) === String(picked[0]))
+    const first = option ? optionLabel(option) : picked[0]
+    return picked.length === 1 ? first : `${first} +${picked.length - 1}`
+  }
   if (field.type !== 'select') return filter.value || ''
   const option = (field.options || []).find(item => optionValue(item) === String(filter.value))
   return option ? optionLabel(option) : filter.value || 'Choose value'
@@ -104,13 +111,38 @@ export const collabFieldChoices = ({fields, activeKeys}) => {
 export const collabFilterChip = ({field, filter}) => {
   const operator = DATA_FILTER_OPERATORS.find(item => item.key === filter.operator) || DATA_FILTER_OPERATORS[0]
   const valueLabel = collabFilterValueLabel(field, filter)
-  const summaryValue = field.type === 'select' ? valueLabel : `${operator.label} ${filter.value || '…'}`
+  const summaryValue = field.type === 'select' || field.type === 'multi' ? valueLabel : `${operator.label} ${filter.value || '…'}`
   const summary = `<summary class="${EDITOR_SUMMARY_CLASS}">${icon(field.icon, 14)}<strong>${escapeHtml(
     field.label
   )}:</strong><span class="data-filter-value overflow-hidden text-ellipsis text-accent">${escapeHtml(summaryValue)}</span></summary>`
   const remove = `<button type="button" class="${REMOVE_BUTTON_CLASS}" data-collab-remove-filter="${escapeHtml(
     field.key
   )}" aria-label="Remove ${escapeHtml(field.label)} filter">${icon('i-x', 12)}</button>`
+  if (field.type === 'multi') {
+    const picked = Array.isArray(filter.value) ? filter.value : []
+    const options = (field.options || [])
+      .map(option => {
+        const value = optionValue(option)
+        const selected = picked.includes(value)
+        return `<button class="flex min-h-8 w-full cursor-pointer items-center gap-2 rounded-[5px] px-2 text-[12.5px] text-ink hover:bg-[var(--line-2)] aria-selected:bg-[var(--line-2)]" type="button" role="option" aria-selected="${selected}" data-collab-multi-option="${escapeHtml(
+          field.key
+        )}" data-value="${escapeHtml(value)}"><span class="grid size-4 flex-none place-items-center text-muted" data-collab-multi-check aria-hidden="true">${
+          selected ? icon('i-check', 13) : ''
+        }</span><span class="min-w-0 flex-1 truncate">${escapeHtml(optionLabel(option))}</span></button>`
+      })
+      .join('')
+    return `<span class="${DATA_FILTER_CHIP_CLASS}"><details class="data-menu data-filter-editor relative min-w-0" data-collab-editor-key="${escapeHtml(
+      field.key
+    )}">${summary}<div class="${DATA_MENU_POPOVER_CLASS} min-w-[min(240px,calc(100vw-16px))] p-1.5" role="listbox" aria-multiselectable="true" aria-label="${escapeHtml(
+      field.label
+    )} filter values"><input type="search" class="mb-1 w-full min-h-[30px] rounded-md border border-line bg-surface px-2 py-1 font-[inherit] text-[12.5px] text-ink" data-collab-filter-search="${escapeHtml(
+      field.key
+    )}" placeholder="Search ${escapeHtml(field.label.toLowerCase())}" aria-label="Search ${escapeHtml(
+      field.label
+    )}" autocomplete="off"><div class="grid max-h-52 gap-0.5 overflow-auto" data-collab-multi-options="${escapeHtml(
+      field.key
+    )}">${options}</div></div></details>${remove}</span>`
+  }
   if (field.type === 'select') {
     const options = (field.options || [])
       .map(option => {
@@ -160,8 +192,8 @@ export const applyCollabFilterClick = (event, {fields, filters, onChange}) => {
     if (field && !filters.some(item => item.key === field.key)) {
       filters.push({
         key: field.key,
-        operator: field.type === 'select' ? 'equals' : 'contains',
-        value: field.type === 'select' ? optionValue((field.options || [])[0] ?? '') : '',
+        operator: field.type === 'text' ? 'contains' : 'equals',
+        value: field.type === 'multi' ? [] : field.type === 'select' ? optionValue((field.options || [])[0] ?? '') : '',
       })
     }
     closeOwnedMenu(add)
@@ -191,12 +223,34 @@ export const applyCollabFilterClick = (event, {fields, filters, onChange}) => {
     onChange({focusKey: key})
     return true
   }
+  const multi = event.target.closest('[data-collab-multi-option]')
+  if (multi) {
+    const key = multi.dataset.collabMultiOption
+    const filter = filters.find(item => item.key === key)
+    const field = fields.find(item => item.key === key)
+    if (filter) {
+      const value = multi.dataset.value
+      const picked = Array.isArray(filter.value) ? [...filter.value] : []
+      const at = picked.indexOf(value)
+      if (at >= 0) picked.splice(at, 1)
+      else picked.push(value)
+      filter.value = picked
+      const selected = picked.includes(value)
+      multi.setAttribute('aria-selected', String(selected))
+      const check = multi.querySelector('[data-collab-multi-check]')
+      if (check) check.innerHTML = selected ? icon('i-check', 13) : ''
+      const summaryValue = multi.closest('.data-menu')?.querySelector('summary .data-filter-value')
+      if (summaryValue && field) summaryValue.textContent = collabFilterValueLabel(field, filter)
+      onChange({soft: true})
+    }
+    return true
+  }
   return false
 }
 
 export const bindCollabFieldFilters = (host, {fields, filters, onChange}) => {
   host
-    .querySelectorAll('[data-collab-add-filter], [data-collab-remove-filter], [data-collab-filter-operator], [data-collab-filter-select-option]')
+    .querySelectorAll('[data-collab-add-filter], [data-collab-remove-filter], [data-collab-filter-operator], [data-collab-filter-select-option], [data-collab-multi-option]')
     .forEach(item => item.addEventListener('click', event => applyCollabFilterClick(event, {fields, filters, onChange})))
   host.querySelectorAll('[data-collab-filter-value]').forEach(input =>
     input.addEventListener('input', event => {
@@ -206,6 +260,17 @@ export const bindCollabFieldFilters = (host, {fields, filters, onChange}) => {
       onChange({focusKey: filter.key, caret: event.target.selectionStart})
     })
   )
+  host.querySelectorAll('[data-collab-filter-search]').forEach(input =>
+    input.addEventListener('input', () => {
+      const query = input.value.trim().toLowerCase()
+      const optionsHost = input.closest('.data-menu')?.querySelector('[data-collab-multi-options]')
+      if (!optionsHost) return
+      optionsHost.querySelectorAll('[data-collab-multi-option]').forEach(option => {
+        const label = option.lastElementChild?.textContent?.toLowerCase() || ''
+        option.hidden = query ? !label.includes(query) : false
+      })
+    })
+  )
 }
 
 export const restoreCollabFilterFocus = (host, focusKey, caret = null) => {
@@ -213,6 +278,11 @@ export const restoreCollabFilterFocus = (host, focusKey, caret = null) => {
   const editor = host.querySelector(`[data-collab-editor-key="${CSS.escape(focusKey)}"]`)
   if (!editor) return
   editor.open = true
+  const search = editor.querySelector('[data-collab-filter-search]')
+  if (search) {
+    search.focus()
+    return
+  }
   const input = editor.querySelector('[data-collab-filter-value]')
   if (input) {
     input.focus()

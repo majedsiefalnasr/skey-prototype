@@ -317,18 +317,31 @@ test.describe('events', () => {
     await expect(page.locator('.events-view [data-cal-range]')).toContainText('24 Oct 2026')
   })
 
-  test('the participants filter narrows the calendar', async ({page}) => {
+  test('the participants filter is a searchable multiselect', async ({page}) => {
     await go(page, '/help-screens/events')
     await expect(page.locator('.events-view [data-cal-tabs]')).toHaveCount(0)
     await page.locator('.events-view [data-filter-menu] summary').click()
     await page.getByRole('menuitem', {name: 'Participant', exact: true}).click()
     const chip = page.locator('.events-view [data-collab-editor-key="participant"]')
     await expect(chip).toHaveJSProperty('open', true)
+    const summary = chip.locator('summary .data-filter-value')
+    await expect(summary).toHaveText('Anyone')
+    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Supplier visit'})).toBeVisible()
+    const search = chip.locator('[data-collab-filter-search]')
+    await search.fill('mariam')
+    await expect(chip.getByRole('option', {name: /^Mariam/})).toBeVisible()
+    await expect(chip.getByRole('option', {name: /^Omar/})).toBeHidden()
     await chip.getByRole('option', {name: /^Mariam/}).click()
-    await expect(page.locator('.events-view [data-collab-remove-filter="participant"]')).toBeVisible()
+    await expect(chip).toHaveJSProperty('open', true)
+    await expect(summary).toHaveText(/^Mariam Adel/)
     await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Monthly sales review'})).toBeVisible()
     await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Supplier visit'})).toHaveCount(0)
     await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Company holiday'})).toHaveCount(0)
+    await search.fill('omar')
+    await chip.getByRole('option', {name: /^Omar/}).click()
+    await expect(summary).toHaveText(/\+1$/)
+    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Monthly sales review'})).toBeVisible()
+    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Supplier visit'})).toHaveCount(0)
     await page.locator('.events-view [data-clear-filters]').click()
     await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Supplier visit'})).toBeVisible()
     await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Company holiday'})).toBeVisible()
@@ -728,8 +741,10 @@ test.describe('internal mail', () => {
     await go(page, '/help-screens/email')
     // The header carries the open mailbox's title above the search row.
     await expect(page.locator('[data-mail-folder-title]')).toHaveText('Inbox')
-    // The selection row stays tucked away until messages are picked.
-    await expect(page.locator('[data-mail-selection-tools]')).toBeHidden()
+    // The count and Clear live in the reading pane's Selection actions bar —
+    // nothing selection-related is shown in the list until rows are picked.
+    const bulk = page.getByRole('toolbar', {name: 'Selection actions'})
+    await expect(bulk).toHaveCount(0)
     // Unread-only hides the read messages; the switch carries the state.
     const unread = page.locator('[data-mail-unread-filter]')
     await expect(unread).not.toBeChecked()
@@ -740,37 +755,46 @@ test.describe('internal mail', () => {
     await unread.click()
     await expect(unread).not.toBeChecked()
     await expect(page.locator('.email-list-row')).toHaveCount(before)
-    // Select-all picks up every visible row (the bulk bar appears), the
-    // chip counts the selection, and both unchecking and Clear drop it all.
+    // Select-all picks up every visible row: the Selection actions bar
+    // carries the count, and both unchecking and Clear drop it all.
     const selectAll = page.locator('[data-mail-select-all]')
     await selectAll.check()
-    await expect(page.getByRole('toolbar', {name: 'Selection actions'})).toContainText(`${before} selected`)
-    await expect(page.locator('[data-mail-select-label]')).toHaveText(`${before} selected`)
-    await expect(page.locator('[data-mail-selection-tools]')).toBeVisible()
+    await expect(bulk).toContainText(`${before} selected`)
+    await expect(bulk.locator('[data-bulk-select-all]')).toBeChecked()
     await selectAll.uncheck()
-    await expect(page.getByRole('toolbar', {name: 'Selection actions'})).toHaveCount(0)
-    await expect(page.locator('[data-mail-selection-tools]')).toBeHidden()
+    await expect(bulk).toHaveCount(0)
     await selectAll.check()
-    await page.locator('[data-mail-clear-selection]').click()
-    await expect(page.getByRole('toolbar', {name: 'Selection actions'})).toHaveCount(0)
-    await expect(page.locator('[data-mail-selection-tools]')).toBeHidden()
+    await bulk.getByRole('button', {name: 'Clear selection'}).click()
+    await expect(bulk).toHaveCount(0)
   })
 
-  test('unread rows carry a tinted background and the header count is labelled', async ({page}) => {
+  test('unread rows carry a start rail, the opened row a neutral band', async ({page}) => {
     await go(page, '/help-screens/email')
     const unreadRow = page.locator('.email-list-row.unread').first()
-    const readRow = page.locator('.email-list-row:not(.unread)').first()
     await expect(unreadRow).toBeVisible()
-    const unreadBg = await unreadRow.evaluate(el => getComputedStyle(el).backgroundColor)
-    const readBg = await readRow.evaluate(el => getComputedStyle(el).backgroundColor)
-    expect(unreadBg).not.toBe(readBg)
+    const unreadStyles = await unreadRow.evaluate(el => ({
+      railWidth: getComputedStyle(el, '::before').width,
+      background: getComputedStyle(el).backgroundColor,
+    }))
+    expect(unreadStyles.railWidth).toBe('3px')
+    expect(unreadStyles.background).toBe('rgba(0, 0, 0, 0)')
+    await unreadRow.click()
+    const activeRow = page.locator('.email-list-row.active')
+    await expect(activeRow).toHaveCount(1)
+    await page.mouse.move(0, 0)
+    const activeStyles = await activeRow.evaluate(el => ({
+      railWidth: getComputedStyle(el, '::before').width,
+      background: getComputedStyle(el).backgroundColor,
+    }))
+    expect(activeStyles.railWidth).toBe('3px')
+    expect(activeStyles.background).not.toBe('rgba(0, 0, 0, 0)')
     // The header number is a tag that says what it counts.
     const count = page.locator('[data-mail-folder-count]')
     await expect(count).toBeVisible()
     await expect(count).toHaveText(/^\d+ unread$/)
   })
 
-  test('multi-selection fans a deck of card edges behind the front card', async ({page}) => {
+  test('multi-selection stacks full-row cards behind the front card', async ({page}) => {
     await go(page, '/help-screens/email')
     await row(page, 'Payment scheduled').locator('[data-mail-check]').check()
     await row(page, 'New quotation').locator('[data-mail-check]').check()
@@ -779,11 +803,15 @@ test.describe('internal mail', () => {
     await expect(cards).toHaveCount(2)
     const edge = page.locator('[data-deck-edge]')
     await expect(edge).toHaveCount(1)
+    await expect(edge).toContainText('New quotation')
     const geometry = await cards.evaluateAll(els =>
-      els.map(el => ({position: getComputedStyle(el).position, top: el.getBoundingClientRect().top}))
+      els.map(el => {
+        const rect = el.getBoundingClientRect()
+        return {top: rect.top, width: rect.width}
+      })
     )
-    expect(geometry[0].position).toBe('absolute')
     expect(geometry[0].top).toBeLessThan(geometry[1].top)
+    expect(geometry[0].width).toBeLessThan(geometry[1].width)
     // The front card still previews the first selected message.
     await expect(cards.nth(1)).toContainText('Payment scheduled for Sales Invoice 126')
   })

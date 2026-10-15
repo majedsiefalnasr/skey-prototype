@@ -20,6 +20,9 @@ export const multiselect = ({id, label, options, selected = [], required = false
     placeholder
   )}">
       ${[...chosen].map(value => `<input type="hidden" value="${escapeHtml(value)}" data-ms-val="${escapeHtml(value)}">`).join('')}
+      <button type="button" class="grid size-[22px] flex-none place-items-center rounded border-0 bg-transparent p-0 text-muted hover:text-ink" data-ms-clear aria-label="Clear selection" title="Clear selection"${
+        chosen.size ? '' : ' hidden'
+      }>${icon('i-x', 13)}</button>
     </div>
     <ul id="${escapeHtml(id)}-list" role="listbox" aria-multiselectable="true" aria-label="${escapeHtml(
     label
@@ -108,6 +111,7 @@ export function bindMultiselect(root) {
       } else {
         close()
       }
+      syncClear()
     }
 
     const hiddenFor = value => {
@@ -116,6 +120,26 @@ export function bindMultiselect(root) {
       hidden.value = value
       hidden.setAttribute('data-ms-val', value)
       return hidden
+    }
+
+    const syncClear = () => {
+      const clear = box.querySelector('[data-ms-clear]')
+      if (clear) clear.hidden = !values().length
+    }
+
+    const clearAll = () => {
+      values().forEach(value => {
+        chips.querySelector(`[data-ms-off="${CSS.escape(value)}"]`)?.closest('span')?.remove()
+        box.querySelector(`[data-ms-val="${CSS.escape(value)}"]`)?.remove()
+        const option = options.find(candidate => candidate.dataset.msOpt === value)
+        option?.setAttribute('aria-selected', 'false')
+        if (option) option.firstElementChild.innerHTML = ''
+      })
+      syncClear()
+      input.value = ''
+      applyFilter()
+      open()
+      input.focus()
     }
 
     const toggle = value => sync(value)
@@ -163,9 +187,13 @@ export function bindMultiselect(root) {
       }
     })
     box.addEventListener('mousedown', event => {
-      if (event.target.closest('[data-ms-opt], [data-ms-off]')) event.preventDefault()
+      if (event.target.closest('[data-ms-opt], [data-ms-off], [data-ms-clear]')) event.preventDefault()
     })
     box.addEventListener('click', event => {
+      if (event.target.closest('[data-ms-clear]')) {
+        clearAll()
+        return
+      }
       const off = event.target.closest('[data-ms-off]')
       if (off) {
         toggle(off.dataset.msOff)

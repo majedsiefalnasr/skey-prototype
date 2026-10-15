@@ -67,6 +67,16 @@ test('form primitives', async ({page}) => {
     [...document.querySelectorAll('[data-ms="probe-ms"] [data-ms-val]')].map(h => h.value)
   )
   expect(vals2).toEqual(['usr-3'])
+  await expect(page.locator('#probe-host [data-ms-clear]')).toBeVisible()
+  await page.locator('#probe-host [data-ms-clear]').click()
+  const vals3 = await page.evaluate(() =>
+    [...document.querySelectorAll('[data-ms="probe-ms"] [data-ms-val]')].map(h => h.value)
+  )
+  expect(vals3).toEqual([])
+  await expect(page.locator('#probe-host [data-ms-clear]')).toBeHidden()
+  await expect(page.locator('#probe-ms-list [data-ms-opt][aria-selected="true"]')).toHaveCount(0)
+  await input.press('Escape')
+  await expect(page.locator('#probe-ms-list')).toBeHidden()
   if (SHOT) await page.screenshot({path: `${SHOT}/probe-multiselect.png`})
 
   const toggle = page.locator('#probe-toggle')

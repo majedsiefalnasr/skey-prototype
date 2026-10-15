@@ -4,18 +4,41 @@
   /* Unread state changes a sibling row's own descendants' weight/color -- a
      class-relationship rule, not a literal utility on the row itself. */
   .email-list-row.unread .email-list-top b { font-weight: 700; }
-  .email-list-row.unread .email-list-subj { color: var(--ink); }
+  .email-list-row.unread .email-list-subj { color: var(--ink); font-weight: 600; }
 
   /* Hover and active are both toggled via row state; kept in the same rule group so
       the active row's background always wins over hover, matching the original cascade. */
   .email-list-row:hover { background: var(--hover-overlay); }
-  .email-list-row.active { background: var(--accent-soft); }
+  .email-list-row.active { background: var(--line-2); }
 
-  /* The multi-selection deck fans its back cards up and to the reading end;
-     only the offset sign depends on writing direction, so it lives here
-     rather than in the inline stack markup. */
-  .email-sel-card[data-deck-edge] { transform: translateX(var(--deck-x, 0)); }
-  html[dir='rtl'] .email-sel-card[data-deck-edge] { transform: translateX(calc(-1 * var(--deck-x, 0))); }
+  .email-list-row { position: relative; }
+  .email-list-row.unread::before,
+  .email-list-row.active::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 3px;
+    border-radius: 0 2px 2px 0;
+    background: var(--accent);
+  }
+  html[dir='rtl'] .email-list-row.unread::before,
+  html[dir='rtl'] .email-list-row.active::before {
+    border-radius: 2px 0 0 2px;
+  }
+
+  /* The multi-selection deck stacks full-row cards: each back card is
+     inset a step further from the reading edge and overlaps the one in
+     front of it, so only the offset signs depend on writing direction —
+     margin-inline handles both. */
+  .email-sel-card[data-deck-edge] {
+    margin-inline: calc(var(--deck-k, 1) * 6px);
+    margin-top: -14px;
+  }
+  .email-sel-card[data-deck-edge].deck-first {
+    margin-top: 0;
+  }
 
 
   /* Placeholder color needs the ::placeholder pseudo-element selector. */

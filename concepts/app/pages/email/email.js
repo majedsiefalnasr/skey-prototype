@@ -321,7 +321,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
 
   /** The header's checkbox mirrors the visible rows: checked when every
    *  one is in the selection, indeterminate when only some are, and clear
-   *  when none are — clicking it selects all or drops them all. */
+   *  when none are — clicking it selects all or drops them all. The count
+   *  and Clear live in the reading pane's Selection actions toolbar. */
   function syncSelectAll() {
     const box = root.querySelector('[data-mail-select-all]')
     if (!box) return
@@ -329,10 +330,6 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     const picked = ids.filter(id => state.selectedIds.has(id)).length
     box.checked = ids.length > 0 && picked === ids.length
     box.indeterminate = picked > 0 && picked < ids.length
-    const label = root.querySelector('[data-mail-select-label]')
-    if (label) label.textContent = state.selectedIds.size ? `${state.selectedIds.size} selected` : ''
-    const tools = root.querySelector('[data-mail-selection-tools]')
-    if (tools) tools.hidden = !state.selectedIds.size
   }
 
   function renderList() {
@@ -353,9 +350,9 @@ export function createEmail({root, store, toast, related, confirm, users, curren
        (a checkbox inside a button is invalid nesting). A plain click opens
        the message and makes it the whole selection — the reading pane keeps
        its single-message actions. The checkbox (or Space) adds to or drops
-       from the selection; two or more selected swap the reading toolbar for
-       the bulk bar. Roving tabindex: the focused/selected row carries
-       tabindex 0, the rest -1. */
+       from the selection; a selection that is not just the open message
+       swaps the reading toolbar for the bulk bar. Roving tabindex: the
+       focused/selected row carries tabindex 0, the rest -1. */
     scroll.innerHTML = `<ul role="listbox" aria-multiselectable="true" class="m-0 list-none p-0" aria-label="${escapeHtml(folderLabel(state.folder))} messages">${messages
       .map((m, index) => {
         const day = dayLabel(stampOf(m))
@@ -370,7 +367,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         const subject = titleOf(m)
         return `${header}<li role="option" aria-selected="${selected}" data-id="${escapeHtml(m.id)}" ${opened ? 'aria-current="true"' : ''} tabindex="${
           m.id === state.focusedId || (!state.focusedId && (opened || index === 0)) ? 0 : -1
-        }" class="email-list-row${m.unread ? ' unread' : ''}${opened ? ' active' : ''} flex w-full cursor-pointer items-start gap-2.5 border-0 border-b border-line ${m.unread ? 'bg-[var(--accent-soft)]' : 'bg-transparent'} px-3.5 py-2.5 text-start font-[inherit] hover:bg-[var(--hover-overlay)] aria-[current=true]:bg-[var(--accent-soft)] aria-selected=true:bg-[var(--accent-soft)] aria-selected=true:[box-shadow:inset_2px_0_0_var(--accent)] rtl:aria-selected=true:[box-shadow:inset_-2px_0_0_var(--accent)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)] [body.density-compact_&]:py-2 [body.density-comfortable_&]:py-3.5">
+        }" class="email-list-row${m.unread ? ' unread' : ''}${opened ? ' active' : ''} flex w-full cursor-pointer items-start gap-2.5 border-0 border-b border-line px-3.5 py-2.5 text-start font-[inherit] hover:bg-[var(--hover-overlay)] aria-selected=true:bg-[var(--accent-soft)] aria-selected=true:[box-shadow:inset_2px_0_0_var(--accent)] rtl:aria-selected=true:[box-shadow:inset_-2px_0_0_var(--accent)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)] [body.density-compact_&]:py-2 [body.density-comfortable_&]:py-3.5">
           <span class="flex-none pt-1"><input type="checkbox" data-mail-check aria-label="Select “${escapeHtml(subject)}”"${selected ? ' checked' : ''} class="size-3.5 cursor-pointer accent-[var(--accent)]"></span>
           <span class="${AVATAR_CLASS} w-7 h-7 text-xs" style="--hue:${Number(m.hue) || 210}">${avatar(m.folder === 'sent' || m.folder === 'drafts' ? m.to?.[0] || me : m.from, 14)}</span>
           <span class="min-w-0 flex-1">
@@ -439,7 +436,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       root.querySelector(`.email-list-row[data-id="${CSS.escape(id)}"]`)?.focus()
       return
     }
-    if (event.key === 'Escape' && state.selectedIds.size > 1) {
+    if (event.key === 'Escape' && state.selectedIds.size > 0 && isBulkSelection()) {
       event.preventDefault()
       state.selectedIds = state.selectedId ? new Set([state.selectedId]) : new Set()
       state.selectionAnchor = state.selectedId
@@ -468,7 +465,10 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     root.querySelector(`.email-list-row[data-id="${CSS.escape(id)}"]`)?.focus()
   }
 
-  /** Re-paint after a selection change. Two or more selected swap the whole
+  const isBulkSelection = () =>
+    state.selectedIds.size > 1 || (state.selectedIds.size === 1 && !state.selectedIds.has(state.selectedId || ''))
+
+  /** Re-paint after a selection change. A bulk selection swaps the whole
    *  pane for the stacked-card preview (and back again), so this is a full
    *  re-render — with any half-typed reply draft flushed first, since the
    *  composer only exists in the single-message view. Compose has no
@@ -594,13 +594,24 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     </div>`
   }
 
-  /** Shown while two or more rows are selected: operate on the whole
-   *  selection instead of the open message. */
+  /** Shown while the selection is bulk context (anything beyond the open
+   *  message): the count and Clear live here, in the actions row, next to
+   *  the commands that act on the whole selection. */
   function bulkToolbarMarkup() {
     const count = state.selectedIds.size
     const moveTargets = allFolders()
+    const ids = visibleMessages().map(m => m.id)
+    const picked = ids.filter(id => state.selectedIds.has(id)).length
+    const allChecked = ids.length > 0 && picked === ids.length
+    const someChecked = picked > 0 && picked < ids.length
     return `<div class="flex flex-wrap items-center gap-0.5 border-b border-line px-4 py-2" role="toolbar" aria-label="Selection actions">
-      <span class="mr-1.5 text-[13px] font-semibold text-ink">${count} selected</span>
+      <span class="flex items-center gap-1.5 mr-1.5">
+        <input type="checkbox" data-bulk-select-all aria-label="Select all messages" aria-checked="${
+          someChecked ? 'mixed' : String(allChecked)
+        }"${allChecked ? ' checked' : ''} class="size-3.5 flex-none cursor-pointer accent-[var(--accent)]">
+        <span class="text-[13px] font-semibold text-ink">${count} selected</span>
+      </span>
+      <span class="mx-1.5 h-5 w-px flex-none bg-line" aria-hidden="true"></span>
       <button type="button" class="${TOOL_CLASS}" data-bulk="read">${icon('i-mail')}<span>Mark read</span></button>
       <button type="button" class="${TOOL_CLASS}" data-bulk="archive">${icon('i-archive')}<span>Archive</span></button>
       <span class="menu relative inline-flex">
@@ -619,7 +630,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
 
   /** Wire a freshly painted toolbar (message actions or the bulk bar). */
   function bindToolbar(host, m) {
-    if (state.selectedIds.size >= 2) {
+    if (isBulkSelection()) {
       bindBulkToolbar(host)
       return
     }
@@ -652,6 +663,17 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     host.querySelectorAll('[data-bulk-move-to]').forEach(item =>
       item.addEventListener('click', () => runBulkMove(item.dataset.bulkMoveTo))
     )
+    const box = host.querySelector('[data-bulk-select-all]')
+    if (box) {
+      const ids = visibleMessages().map(m => m.id)
+      box.indeterminate = box.getAttribute('aria-checked') === 'mixed'
+      box.addEventListener('change', () => {
+        if (box.checked) ids.forEach(id => state.selectedIds.add(id))
+        else ids.forEach(id => state.selectedIds.delete(id))
+        renderList()
+        refreshToolbar()
+      })
+    }
   }
 
   function clearSelection() {
@@ -731,7 +753,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     related.render(pane.querySelector('[data-mail-related]'), {type: 'mail', id: m.id})
     const toolbarHostEl = pane.querySelector('[data-mail-toolbar]')
     const paintToolbar = () => {
-      if (state.selectedIds.size >= 2) {
+      if (isBulkSelection()) {
         toolbarHostEl.innerHTML = bulkToolbarMarkup()
         bindBulkToolbar(toolbarHostEl)
       } else {
@@ -796,6 +818,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       case 'forward': {
         const draft = createReplyDraft(m, action, '')
         state.selectedId = draft.id
+        state.selectedIds = new Set([draft.id])
+        state.selectionAnchor = draft.id
         state.draftId = draft.id
         state.mode = 'compose'
         renderAll()
@@ -1098,6 +1122,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     })
     state.draftId = draft.id
     state.selectedId = draft.id
+    state.selectedIds = new Set([draft.id])
+    state.selectionAnchor = draft.id
     const relatedHost = root.querySelector('[data-mail-related]')
     if (relatedHost) related.render(relatedHost, {type: 'mail', id: draft.id})
   }
@@ -1150,6 +1176,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     state.mode = 'read'
     state.draftId = null
     state.selectedId = id
+    state.selectedIds = new Set([id])
+    state.selectionAnchor = id
     composeTo = []
     composeCc = []
     renderAll()
@@ -1174,6 +1202,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     state.mode = 'read'
     state.draftId = null
     state.selectedId = null
+    state.selectedIds = new Set()
+    state.selectionAnchor = null
     state.pane = 'list'
     composeTo = []
     composeCc = []
@@ -1200,38 +1230,33 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     root.querySelector('#email-compose-to')?.focus()
   }
 
-  /** Shown while two or more rows are selected: a stack of one card per
-   *  selected message, so the pane itself signals a multi-selection instead
-   *  of any single message's content. */
-  /* Two or more selected messages render as a deck: the earlier messages in
-     the selection fan out as card edges behind the front card — sender line
-     on each edge — on a sunken stage under the count header and bulk bar. */
+  /** Shown while the selection is bulk context: a stack of full-row cards,
+   *  one per selected message — the back cards behind the front card each
+   *  show avatar, sender, subject and time, inset a step further from the
+   *  reading edge so the pile reads as stacked mail, never as any single
+   *  message's content. */
+  let deckPrevCount = -1
   function renderSelectionStack(ids) {
     const messages = ids.map(id => store.getEntity('mail', id)).filter(Boolean)
     const pane = queryId('email-reading')
-    const STEP = 26
-    const FAN = 8
-    const edges = messages
+    const backCards = messages
       .slice(1)
-      .reverse()
-      .map((m, reverseIndex) => {
-        const k = messages.length - 1 - reverseIndex
-        const time = `${formatTime(stampOf(m))}`
-        return `<li class="email-sel-card overflow-hidden rounded-xl border border-line bg-surface shadow-[var(--shadow-1)]" tabindex="0" data-sel-card data-deck-edge data-id="${escapeHtml(
+      .map((m, index) => {
+        const k = index + 1
+        return `<li class="email-sel-card${k === 1 ? ' deck-first' : ''} flex cursor-pointer items-start gap-2.5 rounded-[10px] border border-line bg-surface px-3.5 py-2.5 shadow-[var(--shadow-1)] transition-colors hover:border-[var(--accent-line)] hover:bg-[var(--hover-overlay)] focus-visible:outline-2 focus-visible:outline-[var(--focus)]" tabindex="0" data-sel-card data-deck-edge data-id="${escapeHtml(
           m.id
-        )}" style="position:absolute;inset-inline:0;top:${
-          (messages.length - 1 - k) * STEP
-        }px;height:${k * STEP + 12}px;z-index:${19 - k};--deck-x:${k * FAN}px">
-          <span class="flex h-full items-center gap-2 px-3.5" dir="auto">
-            <span class="min-w-0 flex-1 truncate text-[12.5px]"><b class="font-semibold text-ink">${escapeHtml(counterpart(m))}</b><span class="text-muted"> — ${escapeHtml(titleOf(m))}</span></span>
-            <span class="flex-none text-[11px] text-faint">${escapeHtml(time)}</span>
+        )}" style="--deck-k:${k}">
+          <span class="${AVATAR_CLASS} w-6 h-6 mt-px flex-none text-[11px]" style="--hue:${Number(m.hue) || 210}">${avatar(m.from, 12)}</span>
+          <span class="min-w-0 flex-1 flex items-baseline justify-between gap-2" dir="auto">
+            <span class="min-w-0 truncate text-[12.5px]"><b class="font-semibold text-ink">${escapeHtml(counterpart(m))}</b><span class="text-muted"> — ${escapeHtml(titleOf(m))}</span></span>
+            <span class="flex-none text-[11px] text-faint">${escapeHtml(formatTime(stampOf(m)))}</span>
           </span>
         </li>`
       })
       .join('')
     const front = messages[0]
     const frontText = Array.isArray(front.body) ? front.body.join(' ') : front.body || ''
-    const frontCard = `<li class="email-sel-card relative z-20 flex cursor-pointer items-start gap-3 rounded-xl border border-line bg-surface px-3.5 py-3 shadow-[var(--shadow-1)] transition-colors hover:border-[var(--accent-line)] hover:bg-[var(--hover-overlay)] focus-visible:outline-2 focus-visible:outline-[var(--focus)]" tabindex="0" data-sel-card data-id="${escapeHtml(front.id)}">
+    const frontCard = `<li class="email-sel-card relative flex cursor-pointer items-start gap-3 rounded-[10px] border border-line bg-surface px-3.5 py-3 shadow-[var(--shadow-1)] transition-colors hover:border-[var(--accent-line)] hover:bg-[var(--hover-overlay)] focus-visible:outline-2 focus-visible:outline-[var(--focus)]" tabindex="0" data-sel-card data-id="${escapeHtml(front.id)}">
               <span class="${AVATAR_CLASS} w-8 h-8 flex-none text-[13px] mt-0.5" style="--hue:${Number(front.hue) || 210}">${avatar(front.from, 15)}</span>
               <span class="min-w-0 flex-1">
                 <span class="flex items-baseline justify-between gap-2">
@@ -1245,13 +1270,12 @@ export function createEmail({root, store, toast, related, confirm, users, curren
                 <span class="mt-1 block text-[12.5px] leading-snug text-faint" dir="auto">${escapeHtml(frontText.slice(0, 120))}${frontText.length > 120 ? '…' : ''}</span>
               </span>
             </li>`
+    const countLabel = `${messages.length} message${messages.length === 1 ? '' : 's'} selected`
     pane.innerHTML = `<div class="flex-none" data-mail-toolbar>${bulkToolbarMarkup()}</div>
       <div class="email-reading-scroll nc-scroll min-h-0 flex-1 overflow-auto p-4 [body.density-compact_&]:p-3 [body.density-comfortable_&]:p-5">
         <div class="mx-auto w-full max-w-[560px]">
-          <p class="mb-3 text-center text-[12.5px] font-semibold text-muted" data-sel-count>${messages.length} messages selected</p>
-          <div class="rounded-xl bg-bg p-5 [body.density-compact_&]:p-4 [body.density-comfortable_&]:p-6">
-            <ul class="relative m-0 list-none p-0" style="padding-top:${(messages.length - 1) * STEP}px" aria-label="Selected messages">${edges}${frontCard}</ul>
-          </div>
+          <p class="mb-3 text-center text-[12.5px] font-semibold text-muted" data-sel-count>${countLabel}</p>
+          <ul class="m-0 list-none p-0" aria-label="Selected messages">${backCards}${frontCard}</ul>
           <p class="${HINT_CLASS} mt-3 text-center">Use the bar above to act on them all.</p>
         </div>
       </div>`
@@ -1264,6 +1288,17 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         selectMessage(card.dataset.id)
       })
     })
+    if (messages.length !== deckPrevCount && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const grew = messages.length > deckPrevCount
+      pane.querySelector('[data-sel-card]:last-child')?.animate(
+        [
+          {opacity: 0, transform: `translateY(${grew ? 10 : -6}px) scale(${grew ? 0.98 : 1})`},
+          {opacity: 1, transform: 'none'},
+        ],
+        {duration: 180, easing: 'ease-out'}
+      )
+    }
+    deckPrevCount = messages.length
   }
 
   /* ---------- render ---------- */
@@ -1272,10 +1307,12 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     renderList()
     const pane = queryId('email-reading')
     if (state.mode === 'compose') {
+      deckPrevCount = -1
       renderCompose(state.draftId ? store.getEntity('mail', state.draftId) : null)
-    } else if (state.selectedIds.size >= 2) {
+    } else if (isBulkSelection()) {
       renderSelectionStack([...state.selectedIds])
     } else {
+      deckPrevCount = -1
       const m = state.selectedId && store.getEntity('mail', state.selectedId)
       if (m) renderReading(m)
       else
@@ -1336,12 +1373,6 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     const ids = visibleMessages().map(m => m.id)
     if (box.checked) ids.forEach(id => state.selectedIds.add(id))
     else ids.forEach(id => state.selectedIds.delete(id))
-    renderList()
-    refreshToolbar()
-  }, {signal})
-  root.querySelector('[data-mail-clear-selection]').addEventListener('click', () => {
-    state.selectedIds.clear()
-    state.selectionAnchor = state.selectedId
     renderList()
     refreshToolbar()
   }, {signal})

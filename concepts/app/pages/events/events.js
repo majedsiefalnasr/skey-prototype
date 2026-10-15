@@ -59,9 +59,14 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
       key: 'participant',
       label: 'Participant',
       icon: 'i-user',
-      type: 'select',
+      type: 'multi',
+      emptyLabel: 'Anyone',
       options: users.map(user => ({value: user.id, label: `${user.name} · ${user.role}`})),
-      match: (event, filter) => (event.participantIds || []).includes(filter.value),
+      match: (event, filter) => {
+        const picked = Array.isArray(filter.value) ? filter.value : []
+        if (!picked.length) return true
+        return picked.some(id => (event.participantIds || []).includes(id))
+      },
     },
     {key: 'title', label: 'Event title', icon: 'i-doc', type: 'text'},
   ]
@@ -134,7 +139,11 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
         go(jump.date)
       },
     })
-    const onChange = ({focusKey = '', caret = null} = {}) => {
+    const onChange = ({focusKey = '', caret = null, soft = false} = {}) => {
+      if (soft) {
+        renderBody()
+        return
+      }
       renderAll()
       restoreCollabFilterFocus(view().querySelector('[data-collab-toolbar]'), focusKey, caret)
     }
@@ -209,19 +218,17 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
         id: 'event-location',
         label: 'Location',
         wide: true,
-        control: `<div class="grid items-center gap-2 sm:grid-cols-[minmax(0,1fr)_168px]">${textInput(
-          {id: 'event-location', value: event.location}
-        )}<div class="relative h-[72px] overflow-hidden rounded-md border border-line bg-[var(--line-2)]" data-location-map aria-hidden="true">
-          <svg viewBox="0 0 168 72" class="absolute inset-0 size-full" preserveAspectRatio="xMidYMid slice">
-            <path d="M0 24 H168 M0 52 H168 M48 0 V72 M116 0 V72" stroke="var(--line)" stroke-width="7"/>
-            <path d="M-8 66 L176 10" stroke="var(--line)" stroke-width="5"/>
-            <rect x="56" y="30" width="52" height="14" rx="2" fill="var(--surface)" stroke="var(--line)" stroke-width="1.5"/>
+        control: `${textInput({id: 'event-location', value: event.location})}<div class="relative mt-2 h-[180px] overflow-hidden rounded-md border border-line bg-[var(--line-2)]" data-location-map aria-hidden="true">
+          <svg viewBox="0 0 480 180" class="absolute inset-0 size-full" preserveAspectRatio="xMidYMid slice">
+            <path d="M0 60 H480 M0 130 H480 M140 0 V180 M330 0 V180" stroke="var(--line)" stroke-width="12"/>
+            <path d="M-12 165 L492 30" stroke="var(--line)" stroke-width="9"/>
+            <rect x="165" y="78" width="150" height="32" rx="3" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
           </svg>
           <div class="absolute inset-0 flex items-center justify-center gap-1.5">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-muted" data-map-pin><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
-            <span class="max-w-[70%] truncate rounded-full bg-surface px-2 py-0.5 text-[10px] font-semibold text-ink [box-shadow:var(--shadow-1)]" data-map-label>No location</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-muted" data-map-pin><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            <span class="max-w-[70%] truncate rounded-full bg-surface px-2.5 py-1 text-[11px] font-semibold text-ink [box-shadow:var(--shadow-1)]" data-map-label>No location</span>
           </div>
-        </div></div>`,
+        </div>`,
       })}
       ${multiselect({
         id: 'event-participants',
