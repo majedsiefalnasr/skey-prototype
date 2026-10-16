@@ -1,6 +1,31 @@
 import {test, expect} from '@playwright/test';
 import {boot, openSurface} from './support/browser.mjs';
 
+test('invoice create footer contains pager, status and related actions in both locales', async ({page}, info) => {
+  await page.goto('/sales-systems-management/sales-invoices');
+  await page.locator('#simulate-loading').evaluate(el=>{el.checked=false;el.dispatchEvent(new Event('change',{bubbles:true}));});
+  const hide=page.locator('#kit-hide');if(await hide.isVisible()) await hide.click();
+  if(info.project.use.isMobile) await page.setViewportSize({width:390,height:1200});
+  await page.locator('[data-list-open-record]').first().evaluate(el=>el.click());
+  await page.locator('#mode').evaluate(el=>{el.value='create';el.dispatchEvent(new Event('change',{bubbles:true}));});
+  const footer=page.locator('.page-footer [data-page-footer="record"]');
+  for(const rtl of [false,true]) {
+    await page.locator('#rtl').evaluate((el,rtl)=>{el.checked=rtl;el.dispatchEvent(new Event('change',{bubbles:true}));},rtl);
+    await expect(page.locator('html')).toHaveAttribute('lang',rtl?'ar':'en');
+    await expect(page.locator('html')).toHaveAttribute('dir',rtl?'rtl':'ltr');
+    await expect(footer.locator('.ctx')).toHaveCount(2);
+    const layout=await footer.evaluate(footer=>{
+      const f=footer.getBoundingClientRect();
+      return {fits:[...footer.querySelectorAll('button,.pos')].filter(el=>el.getClientRects().length).every(el=>{const r=el.getBoundingClientRect();return r.width>0&&r.left>=f.left-1&&r.right<=f.right+1&&r.top>=f.top-1&&r.bottom<=f.bottom+1;}),
+        width:document.documentElement.clientWidth,scrollWidth:document.documentElement.scrollWidth};
+    });
+    expect(layout.fits,'every footer control and status stays within its container').toBe(true);
+    expect(layout.scrollWidth,'record footer must not inflate the document width').toBeLessThanOrEqual(layout.width+1);
+    await expect(page.locator('#invoice-summary-subtotal')).toHaveText('200.00');
+    await expect(page.locator('#invoice-summary-tax')).toHaveText('+ 0.00');
+  }
+});
+
 const pageErrors = new WeakMap();
 test.beforeEach(async ({page}) => {
   const errors = [];
