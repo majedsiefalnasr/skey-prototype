@@ -287,6 +287,22 @@ async function runEntry(browser, {project, state, destination}) {
       await page.evaluate(()=>document.activeElement?.blur());
       await page.locator(state.target.locator).evaluate(el=>el.scrollIntoView({block:'center',inline:'nearest',behavior:'instant'}));
       await page.locator('.inv-grid-wrap').evaluate((el,{end,rtl})=>{el.scrollLeft=end?(rtl?-1:1)*(el.scrollWidth-el.clientWidth):0;},{end:id==='invoice-lines-end',rtl});
+      if(id==='invoice-tax-totals' && touch) {
+        await page.locator('.frame').scrollIntoViewIfNeeded();
+        await page.mouse.move(0,0);
+        await page.locator('.nc2-rail').evaluate(rail=>Promise.all(rail.getAnimations().map(animation=>animation.finished)));
+        await settle(page);
+        const neutral=await page.locator('.nc2-rail').evaluate(rail=>({
+          visualOffsets:{x:visualViewport.offsetLeft,y:visualViewport.offsetTop},
+          hovered:rail.matches(':hover'),focusedWithin:rail.matches(':focus-within'),
+          width:rail.getBoundingClientRect().width,
+          reservation:rail.closest('.side').getBoundingClientRect().width,
+        }));
+        assert.deepEqual(neutral.visualOffsets,{x:0,y:0},'Invoice visual viewport must return to origin');
+        assert.equal(neutral.hovered,false,'Invoice navigation rail must not be hovered');
+        assert.equal(neutral.focusedWithin,false,'Invoice navigation rail must not contain focus');
+        assert.equal(neutral.width,neutral.reservation,'Settled rail must match collapsed sidebar reservation');
+      }
       if(id.startsWith('invoice-lines')) {
         const grid=page.locator('.inv-grid-wrap');
         const scroll=await grid.evaluate(el=>({left:el.scrollLeft,max:el.scrollWidth-el.clientWidth}));
