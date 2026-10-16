@@ -369,6 +369,12 @@ export function createLocale() {
           'PINs do not match.': 'الرمزان السريان غير متطابقين.',
           'PIN created — sign in with your PIN next time.':
             'تم إنشاء الرمز السري — سجّل الدخول برمزك السري في المرة القادمة.',
+          'Only admin@lastchance.local can sign in to this demo. Other saved identities can be used for workspace discovery.':
+            'يمكن فقط للحساب admin@lastchance.local تسجيل الدخول إلى هذا العرض. يمكن استخدام الهويات المحفوظة الأخرى لاستكشاف مساحة العمل.',
+          'Demo sign-in available': 'تسجيل الدخول التجريبي متاح',
+          'Workspace discovery only': 'استكشاف مساحة العمل فقط',
+          'This demo only supports signing in as admin@lastchance.local. Use another account to continue.':
+            'يدعم هذا العرض تسجيل الدخول بالحساب admin@lastchance.local فقط. استخدم حساباً آخر للمتابعة.',
           'Who’s signing in?': 'من سيُسجِّل الدخول؟',
           'Use another account': 'استخدام حساب آخر',
           'Forget this account': 'نسيان هذا الحساب',

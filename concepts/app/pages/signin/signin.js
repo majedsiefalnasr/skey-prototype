@@ -158,6 +158,7 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
     if (id === 'request') $('#si-req-email').value = normalizeEmail(email().value)
     if (id === 'pin') {
       const record = currentAccount()
+      refreshPinIntro()
       pinInput().value = ''
       pinInput().removeAttribute('aria-invalid')
       pinErr().classList.add('hidden')
@@ -265,6 +266,14 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
   /* Picker rows for 2+ saved accounts: the row picks (identity syncs, PIN
      pane), the × forgets just that record. Rendered with t() because
      dynamic strings own no data-i18n. */
+  const eligibilityMessage = 'This demo only supports signing in as admin@lastchance.local. Use another account to continue.'
+
+  function refreshPinIntro() {
+    $('#si-pin-intro').textContent = t(currentAccount()?.email === ADMIN_EMAIL
+      ? 'You saved this sign-in — enter your 6-digit PIN to continue.'
+      : eligibilityMessage)
+  }
+
   function renderAccounts() {
     const accounts = loadAccounts()
     $('#si-accounts-list').innerHTML = accounts
@@ -279,6 +288,7 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
               <span class="min-w-0 flex-1">
                 <span class="block truncate text-sm font-semibold text-ink" dir="ltr">${encodeHtml(record.email)} · ${host}</span>
                 <span class="block truncate text-xs text-muted" dir="ltr">${secondary}</span>
+                <span class="block text-xs text-muted">${t(record.email === ADMIN_EMAIL ? 'Demo sign-in available' : 'Workspace discovery only')}</span>
               </span>
             </button>
             <button type="button" class="size-8 shrink-0 rounded-md border border-line bg-surface text-sm font-semibold text-danger hover:border-[var(--accent-line)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]" data-si-remove="${index}" aria-label="${t('Remove account')}" title="${t('Remove account')}">&times;</button>
@@ -337,6 +347,7 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
     showBtn().textContent = pass().type === 'password' ? t('Show') : t('Hide')
     defaultSigninLabel()
     pinSigninBtn().textContent = t('Sign in with PIN')
+    refreshPinIntro()
     hideError()
     if (!$('#si-discovery').hidden) renderDiscovery(normalizeEmail(email().value))
     if (panes().find(pane => !pane.hidden)?.dataset.siPane === 'accounts') renderAccounts()
@@ -411,7 +422,9 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
           }, 350)
         } else {
           pass().setAttribute('aria-invalid', 'true')
-          errBox().textContent = t('Invalid credentials — use admin@lastchance.local / skey123 in this demo.')
+          errBox().textContent = t(attemptEmail === ADMIN_EMAIL
+            ? 'Invalid credentials — use admin@lastchance.local / skey123 in this demo.'
+            : eligibilityMessage)
           errBox().classList.remove('hidden')
         }
       }, 800)
@@ -515,7 +528,9 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
           }, 350)
         } else {
           pinInput().setAttribute('aria-invalid', 'true')
-          pinErr().textContent = t('Incorrect PIN — try again, or use your password.')
+          pinErr().textContent = t(record.email === ADMIN_EMAIL
+            ? 'Incorrect PIN — try again, or use your password.'
+            : eligibilityMessage)
           pinErr().classList.remove('hidden')
           $('#si-pin-else').classList.remove('hidden')
           pinInput().focus()

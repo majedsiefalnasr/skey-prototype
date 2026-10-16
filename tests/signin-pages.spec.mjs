@@ -279,7 +279,7 @@ test('recognized non-admin discovery never grants access with the correct demo p
     await expect(page.locator('#si-who')).toContainText(email);
     await page.locator('#si-pass').fill('skey123');
     await page.locator('#si-signin').click();
-    await expect(page.locator('[data-si-err]')).toContainText('Invalid credentials');
+    await expect(page.locator('[data-si-err]')).toHaveText('This demo only supports signing in as admin@lastchance.local. Use another account to continue.');
     await expect(page.locator('body')).toHaveClass(/signed-out/);
     expect(await page.locator('[data-user-email]').allTextContents()).toEqual(identityBefore);
     await page.locator('#si-change').click();
@@ -444,6 +444,90 @@ test('picker retains email-keyed accounts but a non-admin PIN cannot authenticat
   await page.locator('[data-si-remove="0"]').click();
   await expect(pane(page, '1')).toBeVisible();
 });
+
+for (const language of ['en', 'ar']) {
+  test(`saved identity eligibility is clear and rejected attempts preserve identity (${language})`, async ({page}) => {
+    await startSignedOut(page);
+    await seedAccounts(page, [savedAdmin(), savedManager()]);
+    await page.addInitScript(() => {
+      sessionStorage.setItem('skey-proto-profile-personal', JSON.stringify({name: 'Existing Person', email: 'existing@acme.local'}));
+    });
+    await goto(page);
+    if (language === 'ar') {
+      await page.locator('#rtl').evaluate(el => {
+        el.checked = true;
+        el.dispatchEvent(new Event('change', {bubbles: true}));
+      });
+      await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
+      await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+    }
+    const copy = language === 'ar' ? {
+      notice: 'يمكن فقط للحساب admin@lastchance.local تسجيل الدخول إلى هذا العرض. يمكن استخدام الهويات المحفوظة الأخرى لاستكشاف مساحة العمل.',
+      admin: 'تسجيل الدخول التجريبي متاح', other: 'استكشاف مساحة العمل فقط',
+      rejection: 'يدعم هذا العرض تسجيل الدخول بالحساب admin@lastchance.local فقط. استخدم حساباً آخر للمتابعة.',
+      intro: 'لقد حفظت هذا الدخول — أدخل رمزك المكوّن من 6 أرقام للمتابعة.',
+      pinError: 'رمز سري غير صحيح — حاول مجدداً، أو استخدم كلمة المرور.',
+    } : {
+      notice: 'Only admin@lastchance.local can sign in to this demo. Other saved identities can be used for workspace discovery.',
+      admin: 'Demo sign-in available', other: 'Workspace discovery only',
+      rejection: 'This demo only supports signing in as admin@lastchance.local. Use another account to continue.',
+      intro: 'You saved this sign-in — enter your 6-digit PIN to continue.',
+      pinError: 'Incorrect PIN — try again, or use your password.',
+    };
+    const identity = () => page.evaluate(() => ({
+      names: [...document.querySelectorAll('[data-user-name]')].map(el => el.textContent),
+      emails: [...document.querySelectorAll('[data-user-email]')].map(el => el.textContent),
+      profile: sessionStorage.getItem('skey-proto-profile-personal'),
+      signedIn: JSON.parse(sessionStorage.getItem('skey-proto-state'))['signed-in'],
+      accounts: localStorage.getItem('skey-proto-accounts'),
+    }));
+    const before = await identity();
+    expect(before.signedIn).toBe(false);
+    await expect(page.locator('#si-accounts-notice')).toHaveText(copy.notice);
+    await expect(page.locator('[data-si-pick="0"]')).toContainText(copy.admin);
+    await expect(page.locator('[data-si-pick="1"]')).toContainText(copy.other);
+    await page.locator('[data-si-pick="1"]').click();
+    await expect(page.locator('#si-pin-intro')).toHaveText(copy.rejection);
+    await page.locator('#si-pin').fill('654321');
+    await page.locator('#si-pin-signin').click();
+    await expect(page.locator('#si-pin-err')).toHaveText(copy.rejection);
+    await expect(page.locator('#si-pin')).toHaveAttribute('aria-invalid', 'true');
+    expect(await identity()).toEqual(before);
+    await pane(page, 'pin').locator('[data-si-goto="2"]').click();
+    await page.locator('#si-pass').fill('skey123');
+    await page.locator('#si-signin').click();
+    await expect(page.locator('[data-si-err]')).toHaveText(copy.rejection);
+    await expect(page.locator('#si-pass')).toHaveAttribute('aria-invalid', 'true');
+    expect(await identity()).toEqual(before);
+    await expect(page.locator('body')).toHaveClass(/signed-out/);
+    await page.locator('#si-change').click();
+    await continueToCredentials(page);
+    await page.locator('#si-usepin').click();
+    await expect(page.locator('#si-pin-intro')).toHaveText(copy.intro);
+    await page.locator('#si-pin').fill('000000');
+    await page.locator('#si-pin-signin').click();
+    await expect(page.locator('#si-pin-err')).toHaveText(copy.pinError);
+    expect(await identity()).toEqual(before);
+  });
+}
+
+for (const [label, raw] of [
+  ['empty', '[]'], ['malformed JSON', '{broken'], ['non-array', '{}'],
+  ['invalid records', JSON.stringify([null, {user: 'admin', tenant: 'lastchance', pinHash: djb2('123456')},
+    {email: 'unknown@acme.local', pinHash: djb2('123456')}, {email: 'pending@lastchance.local', pinHash: djb2('123456')},
+    {email: 'admin@lastchance.local', pinHash: ''}])],
+]) {
+  test(`saved accounts fall back to email entry: ${label}`, async ({page}) => {
+    await startSignedOut(page);
+    await page.addInitScript(value => localStorage.setItem('skey-proto-accounts', value), raw);
+    await goto(page);
+    await expect(pane(page, '1')).toBeVisible();
+    await expect(page.locator('#si-email')).toHaveValue('');
+    await expect(page.locator('#si-email')).toBeFocused();
+    await expect(pane(page, 'accounts')).toBeHidden();
+    expect(await page.evaluate(() => JSON.parse(localStorage.getItem('skey-proto-accounts')))).toEqual([]);
+  });
+}
 
 test('changing email clears the saved branch and saving admin preserves the other record', async ({page}) => {
   await startSignedOut(page);
