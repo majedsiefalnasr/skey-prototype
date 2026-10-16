@@ -9,7 +9,8 @@
 // FlagGroup enter / reposition / stack order.
 //
 //   createToast(host) returns toast({tone, title, body, action,
-//   onAction, ms}).
+//   onAction, ms, avoid}) — `avoid` is a control the flag must not
+//   cover; the group lifts above it while that flag is on top.
 //
 // Tone → Flag appearance (atlassian.design/components/flag):
 //   ok    success  surface flag, green check, auto-dismiss (8s)
@@ -78,6 +79,8 @@ const TONES = {
  * @param {HTMLElement} host
  */
 export function createToast(host) {
+  /** flag → the control it must not cover (`avoid` option). */
+  const avoids = new WeakMap()
   // Slot 0 is the flag you read (its bottom edge sits on the anchor);
   // every older flag is translated one own-height + `--flag-gap` (16px,
   // atlaskit's inter-flag gap) further down, so the next one up shows a
@@ -86,7 +89,22 @@ export function createToast(host) {
   const restack = () => {
     const stack = [...host.children].filter(el => !el.hasAttribute('data-exit'))
     const gap = parseFloat(getComputedStyle(host).getPropertyValue('--flag-gap')) || 16
-    const anchor = host.getBoundingClientRect().bottom
+    host.style.translate = ''
+    let anchor = host.getBoundingClientRect().bottom
+    // A flag never sits on the control it reports on (e.g. the Send that
+    // retries a failed send on a phone): the group lifts above it.
+    const avoid = avoids.get(stack[stack.length - 1])
+    if (avoid?.isConnected) {
+      const a = avoid.getBoundingClientRect()
+      const box = host.getBoundingClientRect()
+      const h = stack[stack.length - 1].offsetHeight
+      const covers = a.width > 0 && a.bottom > anchor - h && a.top < anchor && a.right > box.left && a.left < box.right
+      const lift = covers ? Math.min(anchor - a.top + gap, anchor - h - gap) : 0
+      if (lift > 0) {
+        host.style.translate = `0 ${-lift}px`
+        anchor -= lift
+      }
+    }
     const vh = window.innerHeight
     for (let i = stack.length - 1, slot = 0; i >= 0; i--, slot++) {
       const el = stack[i]
@@ -94,9 +112,14 @@ export function createToast(host) {
       el.style.transform = `translateY(calc(${slot} * (100% + var(--flag-gap))))`
       el.style.visibility = anchor - h + slot * (h + gap) < vh ? '' : 'hidden'
     }
+    // On a phone the flag spans the screen: publish its footprint so page
+    // scrollers can add room to scroll content out from under it.
+    const front = stack[stack.length - 1]
+    const reserve = front && matchMedia('(max-width: 720px)').matches ? Math.max(0, vh - (anchor - front.offsetHeight)) : 0
+    document.documentElement.style.setProperty('--flag-reserve', `${Math.round(reserve)}px`)
   }
 
-  const toast = ({tone = 'ok', title, body, action, onAction, ms}) => {
+  const toast = ({tone = 'ok', title, body, action, onAction, ms, avoid}) => {
     const kind = TONES[tone] || TONES.ok
     const t = document.createElement('div')
     t.className = `toast ${kind.cls} pointer-events-auto absolute bottom-0 start-0 flex w-full items-start gap-2.5 rounded-lg px-3.5 py-3 shadow-shell transition-[transform,visibility] duration-[250ms] ease-[cubic-bezier(0.4,0,0,1)] motion-reduce:transition-none [animation:toastin_250ms_cubic-bezier(0,0.4,0,1)_both] motion-reduce:animate-none ${kind.box}`
@@ -122,6 +145,7 @@ export function createToast(host) {
         close()
         onAction && onAction()
       }
+    if (avoid) avoids.set(t, avoid)
     host.append(t)
     restack()
     if (kind.auto) setTimeout(close, ms ?? AUTO_DISMISS_MS)

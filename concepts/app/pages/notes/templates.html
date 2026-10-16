@@ -1,0 +1,22 @@
+<template class="notes-tpl">
+  <div class="notes-view collab-view flex min-h-0 flex-1 flex-col" hidden>
+    <div class="phead flex items-start gap-5 px-4 [.d1_&]:[padding:11px_0]">
+      <div class="l min-w-0 flex-1">
+        <nav class="flex items-center gap-1.5 text-[13px] text-muted [&_a]:text-accent [&_a]:no-underline [&_a:hover]:underline" aria-label="Breadcrumb">
+          <a href="#" data-collab-home data-i18n="Help Screens">Help Screens</a><span aria-hidden="true">›</span
+          ><span aria-current="page" data-i18n="Notes">Notes</span>
+        </nav>
+        <div class="mt-2"><h1 class="text-[23px] font-semibold leading-tight text-ink [body.density-compact_&]:text-[20px]" data-i18n="Notes">Notes</h1></div>
+        <p class="mt-0.5 text-[13px] text-muted" data-i18n="Notes you capture for yourself or link to work in progress.">Notes you capture for yourself or link to work in progress.</p>
+      </div>
+      <div class="r">
+        <button type="button" class="lbtn pri" data-collab-new>
+          <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg>
+          <span data-i18n="New note">New note</span>
+        </button>
+      </div>
+    </div>
+    <div class="px-4 pb-2 pt-1" data-collab-toolbar></div>
+    <div class="min-h-0 flex-1 overflow-auto px-4 pb-4 max-[720px]:pb-[calc(1rem+var(--flag-reserve,0px))]" data-collab-body></div>
+  </div>
+</template>

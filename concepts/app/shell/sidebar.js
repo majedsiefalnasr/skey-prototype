@@ -20,7 +20,14 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     return kids.flatMap(leavesOf)
   }
 
-  const findNavGroup = label => NAV_TREE.find(group => leavesOf(group).includes(label))
+  /** The owning group for a nav label. Some rows exist in more than one
+   *  group (Activities sits in both CRM and Help Screens), so a plain
+   *  first-match lookup lights up the wrong panel — pass `preferred` to
+   *  pin the group the caller knows the row belongs to; it wins when that
+   *  group actually lists the label. */
+  const findNavGroup = (label, preferred) =>
+    (preferred ? visibleGroups().find(group => group[0] === preferred && leavesOf(group).includes(label)) : null) ||
+    visibleGroups().find(group => leavesOf(group).includes(label))
 
   let forYouGroups = [
     {
@@ -55,9 +62,16 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
 
   let currentAppLabel = findNavGroup(navCurrentLabel)?.[0] || navCurrentLabel
 
-  const applyNavState = label => {
+  const applyNavState = (label, groupLabel) => {
     navCurrentLabel = label
-    currentAppLabel = findNavGroup(label)?.[0] || label
+    /* Resolve the owning group: an explicit hint first (deep links pass the
+       route's known group), then the group the rail is already showing if
+       it lists this label — so clicking Help Screens' Activities keeps the
+       Help Screens panel up instead of jumping to CRM's — and only then the
+       first group that has the label at all. */
+    const explicit = groupLabel ? findNavGroup(label, groupLabel) : null
+    const current = visibleGroups().find(group => group[0] === currentAppLabel && leavesOf(group).includes(label))
+    currentAppLabel = (explicit || current || findNavGroup(label))?.[0] || label
   }
 
   const applyNavHighlight = (root, label) => {
@@ -77,8 +91,8 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
   /** Highlight + label state only — no navigation. Used when history
    * restores drive navigation themselves (popstate), so the guard result
    * stays with navigate() while the rail highlight follows the route. */
-  const applyNavCurrent = (root, label, {forYou = false} = {}) => {
-    applyNavState(label)
+  const applyNavCurrent = (root, label, {forYou = false, groupLabel} = {}) => {
+    applyNavState(label, groupLabel)
     if (forYou) navCurrentLabel = 'For You'
     applyNavHighlight(root, forYou ? 'For You' : label)
   }
@@ -107,12 +121,17 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       'Sales Invoice': 'list',
       Customers: 'customers-list',
       'Geographical Structure': 'geo-list',
+      'Internal Mail': 'email',
+      Events: 'events',
+      Activities: 'activities',
+      Notes: 'notes',
+      'People Data': 'people',
       ...ACCOUNT_VIEW_BY_LABEL,
     }
     const view = viewByNavLabel[label] || 'record'
-    /* Email is a destination when it comes from the Account group's own row,
-       not a view to leave: closeEmailView() would bounce the content through
-       'record' first and land on a history entry that never rendered. */
+    /* Internal Mail's own row IS the email destination, not a view to
+       leave: closeEmailView() would bounce the content through 'record'
+       first and land on a history entry that never rendered. */
     if (view !== 'email') closeEmailView() /* any real navigation leaves the email view, same as it would leave any other page */
     if (forYouApp) getShowContentView()('foryou', {app: forYouApp})
     else getShowContentView()(view)
@@ -345,8 +364,8 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       railScroll.appendChild(btn)
     })
     /* The Account group pins the bottom of the rail, below every app: it holds
-       the shell's own screens (Profile / Organization Center / Email), which
-       are not apps, so they share one icon instead of taking one each and
+        the shell's own screens (Profile / Organization Center), which
+        are not apps, so they share one icon instead of taking one each and
        never enter NAV_TREE — which is also why the launchpad and the app
        switcher can't offer them. Like Starred/Recent it only opens the panel;
        its rows are what navigate. Deliberately left out of iconByLabel: it is
@@ -412,18 +431,23 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       if (compactShell.matches) panel.hidden = true
     }
     /* selects an app's rail icon + opens its panel from outside the rail itself —
-       used by the topbar app-switcher, the launchpad tiles, and boot */
-    root.activateByLabel = (label, {targetRoute = null} = {}) => {
+        used by the topbar app-switcher, the launchpad tiles, and boot */
+    root.activateByLabel = (label, {targetRoute = null, keepLayout = false} = {}) => {
       currentAppLabel = label
       selectGroup(
         iconByLabel.get(label),
         groups.find(g => g[0] === label) || quickGroupByLabel.get(label),
-        {targetRoute}
+        {targetRoute, keepLayout}
       )
     }
-    /* Puts the Account group on screen for the shell's own screens — Profile,
-       Organization Center and Email have a page and a URL but no app to
-       activate. main.js calls this whenever one of them becomes current, no
+    /* Whether the given app's icon is the one on screen. Route sync uses it
+       to decide if the rail needs re-pointing at a route's owning group —
+       activate/selectGroup always re-fill, so they must not run on every
+       navigation that already lands on the right group. */
+    root.showingApp = label => Boolean(iconByLabel.get(label)?.classList.contains('active'))
+    /* Puts the Account group on screen for the shell's own screens — Profile
+        and Organization Center have a page and a URL but no app to
+        activate. main.js calls this whenever one of them becomes current, no
        matter which entry got there (boot deep link, avatar menu, Back/Forward,
        the role gate). It only opens the panel when the Account group isn't
        already the one on screen, so moving between the group's own screens
@@ -438,11 +462,15 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
        belong to an app, so the Account group must not stay on screen claiming
        a page it doesn't own. No-op unless it is the group on screen, so the
        route sync can run this on every navigation without re-filling panels
-       that are already right. */
+       that are already right. Returns whether it released anything, so the
+       caller knows it also just moved the rail onto a different group — and
+       can put that route's row in it (the highlight would otherwise stay on
+       whatever the shell screen left behind). */
     root.releaseAccountGroup = appLabel => {
-      if (!accountBtn.classList.contains('active')) return
+      if (!accountBtn.classList.contains('active')) return false
       currentAppLabel = appLabel
       selectGroup(iconByLabel.get(appLabel), groups.find(g => g[0] === appLabel), {keepLayout: true})
+      return true
     }
     return root
   }

@@ -1,11 +1,13 @@
-// The sidebar's Account rail group. Profile, Organization Center and Email
-// are screens of the shell itself — they have pages and URLs but no app —
-// so they share one non-app rail group at the bottom of the rail instead of
+// The sidebar's Account rail group. Profile and Organization Center are
+// screens of the shell itself — they have pages and URLs but no app — so
+// they share one non-app rail group at the bottom of the rail instead of
 // taking a rail icon each. These scenarios pin the three things that have to
 // hold together: the group comes up whenever one of those views is current
 // (whatever the entry point), its rows navigate to the views, and the group
 // never leaks into the launchpad or the app switcher, which are both built
-// from NAV_TREE alone.
+// from NAV_TREE alone. Internal Mail is deliberately NOT one of them: it is
+// a Help Screens row with its own /help-screens/email address, so its route keeps
+// that group (and its own row) on screen.
 //
 // Deep links are used for the URL-bearing cases (like routing.spec): boot()
 // enters through the legacy /concepts/app-shell.html document, which never
@@ -24,6 +26,13 @@ const pathOf = url => new URL(url).pathname;
  *  whichever of the two survived. */
 const ACCOUNT_ICON =
   '.nc2-icn[data-i18n-original="Account"], .nc2-icn[aria-label="Account"], .nc2-icn[aria-label="الحساب"]';
+
+/** Help Screens owns Internal Mail (and the other collaboration rows), so
+ *  its rail icon is the entry point for every "keeps that group on screen"
+ *  assertion below. The label has no AR translation, but the stamp-first
+ *  pattern matches ACCOUNT_ICON so a late translation cannot strand it. */
+const HELP_SCREENS_ICON =
+  '.nc2-icn[data-i18n-original="Help Screens"], .nc2-icn[aria-label="Help Screens"]';
 
 const isRtl = page => page.evaluate(() => getComputedStyle(document.body).direction === 'rtl');
 
@@ -62,18 +71,6 @@ async function openAccountPanel(page) {
   await clickRailIcon(page, ACCOUNT_ICON);
 }
 
-/** Panel rows sit under the hover-expanded rail's first 264px, so click the
- *  row's trailing edge (routing.spec's clickPinnedForYouRow). */
-async function clickPanelRow(page, label) {
-  await openAccountPanel(page);
-  const row = page.locator(`.nc3-panel .nc1-item[data-label="${label}"]`);
-  await expect(row).toBeVisible();
-  const box = await row.boundingBox();
-  const rtl = await isRtl(page);
-  await row.click({position: {x: rtl ? 8 : box.width - 8, y: box.height / 2}});
-  await settle(page);
-}
-
 async function openAvatarMenu(page) {
   await page.locator('.avatar-btn').click();
   await settle(page);
@@ -102,12 +99,15 @@ test('a shell-screen deep link brings up the Account group in the rail', async (
   await expect(page.locator(ACCOUNT_ICON)).toHaveClass(/active/);
   await openAccountPanel(page);
   await expect(page.locator('.nc3-panel .nc3-title')).toHaveText('Account');
-  await expect(page.locator('.nc3-panel .nc1-item')).toHaveCount(3);
+  // Profile + Organization Center only: the group holds two screens, and the
+  // row Internal Mail used to take is gone from it (it lives in Help Screens).
+  await expect(page.locator('.nc3-panel .nc1-item')).toHaveCount(2);
   await expect(page.locator('.nc3-panel .nc1-item[data-label="Profile"]')).toHaveClass(/current/);
   await expect(
     page.locator('.nc3-panel .nc1-item[data-label="Organization Center"]')
   ).toHaveCount(1);
-  await expect(page.locator('.nc3-panel .nc1-item[data-label="Email"]')).toHaveCount(1);
+  await expect(page.locator('.nc3-panel .nc1-item[data-label="Email"]')).toHaveCount(0);
+  await expect(page.locator('.nc3-panel .nc1-item[data-label="Internal Mail"]')).toHaveCount(0);
   // It is a group of screens, not an app landing: no pinned For You row.
   await expect(page.locator('.nc3-panel .nc1-item[data-label="For You"]')).toHaveCount(0);
   // ...and it pins the bottom of the rail instead of sitting among the apps:
@@ -180,14 +180,61 @@ test('the avatar menu’s Organization Center entry lands in the Account group',
   );
 });
 
-test('the Account group’s Email row opens Email', async ({page}) => {
-  await gotoRoute(page, '/system/profile');
-  await clickPanelRow(page, 'Email');
+/** The Notifications popover's Email tab — the app's own way into Internal
+ *  Mail, and the only one that navigates without a rail click, so the group
+ *  on screen when the route lands is whatever the user was looking at. */
+async function openMailFromNotifications(page) {
+  await page.locator('button.ibtn[data-i18n-aria-label="System Alerts"]').click();
+  await settle(page);
+  await page.locator('.notif-tabs button[data-tab="email"]').click();
+  await page.locator('#notif-body .notif-row').first().click();
+  await settle(page);
+}
 
-  await expect(page.locator('.email-view')).toBeVisible();
-  await expect.poll(() => pathOf(page.url())).toBe('/system/email');
+/** The Account group used to claim /help-screens/email through an "Email" row of
+ *  its own. The route now belongs to Help Screens: whatever group is on
+ *  screen when /help-screens/email resolves, Account must let go of it and Internal
+ *  Mail's own row must be the current one. */
+test('the Internal Mail route hands the rail back to Help Screens', async ({page}) => {
+  await gotoRoute(page, '/system/profile');
+  await expect(page.locator('.profile-view')).toBeVisible();
   await expect(page.locator(ACCOUNT_ICON)).toHaveClass(/active/);
-  await expect(page.locator('.nc3-panel .nc1-item[data-label="Email"]')).toHaveClass(/current/);
+
+  // Notifications navigates straight to the view, so Account is still the
+  // group on screen when /help-screens/email resolves.
+  await openMailFromNotifications(page);
+  await expect(page.locator('.email-view')).toBeVisible();
+  await expect.poll(() => pathOf(page.url())).toBe('/help-screens/email');
+
+  // The Account group must not keep claiming a route it doesn't own...
+  await expect(page.locator(ACCOUNT_ICON)).not.toHaveClass(/active/);
+  // ...the route resolves onto Help Screens' own row, current, with the
+  // group's icon on screen...
+  await expect(page.locator(HELP_SCREENS_ICON)).toHaveClass(/active/);
+  await expect(page.locator('.nc3-panel .nc3-title')).toHaveText('Help Screens');
+  await expect(
+    page.locator('.nc3-panel .nc1-item[data-label="Internal Mail"]')
+  ).toHaveClass(/current/);
+
+  // ...and opening Account back up lists only the two shell screens.
+  await openAccountPanel(page);
+  await expect(page.locator('.nc3-panel .nc3-title')).toHaveText('Account');
+  await expect(page.locator('.nc3-panel .nc1-item')).toHaveCount(2);
+  await expect(page.locator('.nc3-panel .nc1-item[data-label="Email"]')).toHaveCount(0);
+  await expect(page.locator('.nc3-panel .nc1-item[data-label="Internal Mail"]')).toHaveCount(0);
+});
+
+test('a /help-screens/email deep link boots the email view, not the Account group', async ({page}) => {
+  await gotoRoute(page, '/help-screens/email');
+  await expect(page.locator('.email-view')).toBeVisible();
+  await expect.poll(() => pathOf(page.url())).toBe('/help-screens/email');
+
+  // Nothing on this route belongs to Account — no selection, no Email row.
+  await expect(page.locator(ACCOUNT_ICON)).not.toHaveClass(/active/);
+  await openAccountPanel(page);
+  await expect(page.locator('.nc3-panel .nc1-item')).toHaveCount(2);
+  await expect(page.locator('.nc3-panel .nc1-item[data-label="Email"]')).toHaveCount(0);
+  await expect(page.locator('.nc3-panel .nc1-item[data-label="Internal Mail"]')).toHaveCount(0);
 });
 
 test('Back out of Profile hands the rail back to the owning app', async ({page}) => {

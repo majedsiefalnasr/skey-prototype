@@ -1,6 +1,15 @@
 @layer components {
   /* State, pseudo-element, and named-animation compatibility only. */
 
+  /* The toolbars pair type=search inputs with their own clear button;
+     WebKit/Chromium paint a native cancel button next to it otherwise. */
+  input[type='search']::-webkit-search-cancel-button,
+  input[type='search']::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+  }
+
   /* ---- toast (concepts/app/components/toast) ---- */
   @keyframes toastin {
     from { opacity: 0; translate: -50% 0; }
@@ -256,4 +265,40 @@
     color: var(--muted);
     font-size: 12px;
   }
+
+  /* ---- collaboration scroll (pages/{activities,events}) ----
+     On the collaboration pages the phead, toolbar and card/section chrome
+     already sit outside the single scrolling body ([data-collab-body]), so
+     they never move. What still scrolled away was the period toolbar drawn
+     *inside* that body: pin it so the period controls stay reachable while
+     the calendar scrolls, without a second nested scrollbar. The month
+     weekday row is not pinned — with the toolbar living outside the body on
+     the events page its sticky offset put week content above the stuck row. */
+  .collab-view [data-collab-body] [data-cal-toolbar] {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: var(--surface);
+  }
+}
+
+@layer components {
+  /* Collaboration content follows the existing density and input-style settings. */
+  #collab-panel .rec-field, #collab-panel [data-ms] { min-width: 0; }
+  body.style-inline #collab-panel [data-panel-body] > .grid { grid-template-columns: minmax(0, 1fr); }
+  body.style-inline #collab-panel [data-panel-body] > .grid > * { grid-column: 1 / -1; }
+  body.style-inline #collab-panel .rec-field > p { grid-column: 2; }
+  body.style-inline #collab-panel [data-ms-input] { min-width: 0; width: 100%; }
+  body.style-floated #collab-panel .rec-field > label { z-index: 1; }
+  body.density-compact .collab-view [data-card-open] { padding: 8px; }
+  body.density-comfortable .collab-view [data-card-open] { padding: 16px; }
+  body.density-compact .collab-view [data-date] { min-height: 88px; }
+  body.density-comfortable .collab-view [data-date] { min-height: 120px; }
+  .collab-calendar-scroll { overflow-x: auto; max-width: 100%; }
+  .collab-calendar-scroll [data-cal-month] { min-width: 840px; }
+  .collab-calendar-scroll [data-cal-week] { min-width: 840px; }
+  .collab-view [data-date] { color: var(--ink); }
+  .collab-view [data-date][data-outside] { color: var(--muted); }
+  /* Modal editors own the viewport; the prototype launcher must not cover Save. */
+  body:has(#collab-panel.open, #collab-confirm.open, #collab-picker.open) #kit-pill { visibility: hidden; }
 }

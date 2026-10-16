@@ -1,15 +1,54 @@
 /* email selector relationships and behavior state that cannot be expressed by one
    element's static utilities. */
 @layer components {
+  @media (max-width: 720px) {
+    .email-composer { flex-wrap: wrap; padding-inline: 12px; }
+    .email-composer > span { flex-basis: 100%; margin-inline-start: 0; }
+    .email-compose-row [role='listbox'] { inset-inline-start: 0; min-width: 0; width: 100%; }
+    /* Bulk selection on a phone: the selection bar sits above the list;
+       the checked rows already show what the deck would. */
+    .email-app[data-narrow-selecting] { flex-direction: column; }
+    .email-app[data-narrow-selecting] .email-reading { order: -1; flex: none; }
+    .email-app[data-narrow-selecting] .email-reading-scroll { display: none; }
+    .email-app[data-narrow-selecting] .email-list { flex: 1 1 auto; border-inline-end: 0; }
+  }
   /* Unread state changes a sibling row's own descendants' weight/color -- a
      class-relationship rule, not a literal utility on the row itself. */
   .email-list-row.unread .email-list-top b { font-weight: 700; }
-  .email-list-row.unread .email-list-subj { color: var(--ink); }
+  .email-list-row.unread .email-list-subj { color: var(--ink); font-weight: 600; }
 
   /* Hover and active are both toggled via row state; kept in the same rule group so
-     the active row's background always wins over hover, matching the original cascade. */
+      the active row's background always wins over hover, matching the original cascade. */
   .email-list-row:hover { background: var(--hover-overlay); }
-  .email-list-row.active { background: var(--accent-soft); }
+  .email-list-row.active { background: var(--line-2); }
+
+  .email-list-row { position: relative; }
+  .email-list-row.active::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 3px;
+    border-radius: 0 2px 2px 0;
+    background: var(--accent);
+  }
+  html[dir='rtl'] .email-list-row.active::before {
+    border-radius: 2px 0 0 2px;
+  }
+
+  /* The multi-selection deck is a pile: each back card tucks 10px under the
+     one in front of it and is inset 12px per level of depth on both sides,
+     so deeper cards read as further away. The deck is a preview only. */
+  .email-sel-deck { cursor: default; user-select: none; }
+  .email-sel-card { position: relative; }
+  .email-sel-card[data-deck-edge] {
+    margin-inline: calc(var(--deck-k, 1) * 12px);
+    margin-bottom: -10px;
+    padding-bottom: 10px;
+    height: 56px;
+  }
+
 
   /* Placeholder color needs the ::placeholder pseudo-element selector. */
   .email-search input::placeholder { color: var(--faint); }
@@ -22,5 +61,114 @@
   .email-composer-input:focus {
     border-color: var(--accent-line);
     box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  /* The mailbox rail is the shell's icon rail (`.nc2-rail`) rebuilt: the same
+     --rail-w collapsed width, the same 36px rows carrying an 18px icon and a
+     13px label, the same 6px gutters, separators and 120ms width easing — so
+     the two rails read as one component at the same sizes. Two opening modes,
+     the same split the shell rail's `wide` state uses: hovering (or focusing
+     into) the collapsed rail peeks it open as a temporary flyout over the
+     message list, while the rail's own Expand button pins it — a pinned rail
+     re-joins the flex row at full open width and the list drops its
+     collapsed-width reservation, so the kept-open rail sits in the layout and
+     never over the messages. Both modes are dropped the moment the shell's
+     compact breakpoint arrives, the same instant the shell's sidebar
+     auto-collapses — below it the mail screen swaps the rail for its mailbox
+     select, which is the automatic collapse on small devices. */
+  @media (min-width: 901px) {
+    .email-app {
+      position: relative;
+    }
+    .email-folders {
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 0;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      width: var(--rail-w);
+      padding-inline: 6px;
+      overflow: hidden;
+      background: var(--surface);
+      transition: width 120ms ease-out;
+    }
+    /* The temporary view: peek open over the list, shadow and all, and fold
+       back the moment the pointer or focus leaves — the shell rail's own
+       hover contract. */
+    .email-folders:not(.is-open):is(:hover, :focus-within) {
+      width: 176px;
+      box-shadow: var(--shadow-2);
+    }
+    /* The kept-open view: pinned by the rail's button, the rail is back in
+       the flex row at full width, so it takes its part of the container and
+       the list stops reserving the collapsed strip — in this state the rail
+       is layout, never an overlay. */
+    .email-folders.is-open {
+      position: relative;
+      width: 176px;
+    }
+    .email-folders.is-open ~ .email-list {
+      margin-inline-start: 0;
+    }
+    .email-list {
+      margin-inline-start: var(--rail-w);
+    }
+    /* The peek covers the mailbox title row's expand button spot — the
+        button used to sit above the open rail (z-6), which read as a stray
+        control floating on the rail. Now it steps out while the rail peeks
+        (hover or focus) and steps back when the rail folds; collapsed the
+        rail is only its 52px strip, so the button is reachable outside it,
+        and pinned the rail is layout and the header shifts with the list. */
+    .email-app:has(.email-folders:not(.is-open):is(:hover, :focus-within))
+      .email-list-title
+      [data-rail-toggle] {
+      visibility: hidden;
+    }
+    .ef-scroll {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      flex-direction: column;
+      gap: 2px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding-block: 8px;
+    }
+    /* Collapsed and neither hovered nor focused, labels go invisible and row
+       actions stop answering the keyboard; both live past the rail's content
+       box and are clipped by it either way, the same way the shell rail
+       clips its labels. Either open mode — peek or pinned — brings them
+       back. */
+    .email-folders:not(.is-open):not(:hover):not(:focus-within) .ef-lbl {
+      opacity: 0;
+    }
+    .email-folders:not(.is-open):not(:hover):not(:focus-within) .ef-act {
+      visibility: hidden;
+    }
+    /* Density and touch parity with the shell rail. */
+    body.density-compact .email-folders {
+      padding: 5px 4px;
+    }
+    body.density-compact .ef-row {
+      height: 30px;
+      padding-inline-start: 8px;
+      gap: 7px;
+    }
+    body.density-compact .ef-scroll {
+      gap: 1px;
+      padding-block: 4px;
+    }
+    body.density-compact .ef-sep {
+      margin-block: 2px;
+    }
+  }
+  @media (pointer: coarse) and (min-width: 901px) {
+    .email-folders {
+      padding-inline: 4px;
+    }
+    .ef-row {
+      height: 44px;
+    }
   }
 }

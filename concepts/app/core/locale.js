@@ -1,3 +1,4 @@
+import {COLLAB_AR} from './collaboration-translations.js'
 // Shared locale facility — extracted verbatim from the single-file legacy
 // application script (concepts/app/legacy-app.js). Owns the Arabic
 // translation dictionary, the encodeHtml() sanitizer, and date/currency
@@ -41,6 +42,7 @@ export const LANGUAGE_STORAGE_KEY = 'skey-proto-language'
 export function createLocale() {
         let appLocale = 'en'
         const I18N = {
+          ...COLLAB_AR,
           // Customer record
           Customer: 'العميل',
           'Customer No.': 'رقم العميل',
@@ -588,6 +590,21 @@ export function createLocale() {
           'Hospital Management': 'إدارة المستشفى',
           'System Administration': 'إدارة النظام',
           'System Setup': 'إعداد النظام',
+          // Collaboration suite (Help Screens). The app label and the
+          // "Internal Mail" favorite stay untranslated like before: both are
+          // drawn on the launchpad, outside this feature's scope.
+          Notes: 'الملاحظات',
+          Activities: 'الأنشطة',
+          Events: 'الأحداث',
+          'People Data': 'بيانات الأشخاص',
+          'New note': 'ملاحظة جديدة',
+          'New activity': 'نشاط جديد',
+          'New event': 'حدث جديد',
+          'New person': 'شخص جديد',
+          'Notes you capture for yourself or link to work in progress.': 'ملاحظات تدوّنها لنفسك أو تربطها بالعمل الجاري.',
+          'Assignable work: calls, meetings, emails and to-dos.': 'أعمال قابلة للإسناد: مكالمات واجتماعات ورسائل ومهام.',
+          'Meetings, holidays and other time on the calendar.': 'الاجتماعات والعطلات وغيرها من المواعيد في التقويم.',
+          'People you deal with, before they become customers, suppliers or users.': 'الأشخاص الذين تتعامل معهم قبل أن يصبحوا عملاء أو موردين أو مستخدمين.',
         }
         const t = (key, fallback = key) => (appLocale === 'ar' ? I18N[key] || fallback : fallback)
 
@@ -660,3 +677,6 @@ export const encodeHtml = value =>
     character =>
       ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[character]
   )
+
+// Shared by app composition and dynamically rendered collaboration components.
+export const uiLocale = createLocale()

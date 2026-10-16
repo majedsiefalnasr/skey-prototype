@@ -3,7 +3,7 @@
 import {LANGUAGES, isFunctionalLanguage, LANGUAGE_STORAGE_KEY} from '../core/locale.js'
 
 /** Owns locale controls state and its DOM bindings. */
-export function createLocaleControls({t, formatLocaleCurrency, getLocale, setLocale, getCurrentContentViewName, stopSearchTyping, startSearchTyping, getLaunchpadUserName, applyState, renderGeoRecord, getDataListState, renderDataList, getCustomers} = {}) {
+export function createLocaleControls({t, formatLocaleCurrency, getLocale, setLocale, getCurrentContentViewName, stopSearchTyping, startSearchTyping, getLaunchpadUserName, applyState, renderGeoRecord, getDataListState, renderDataList, getCustomers, onLocaleChange = () => {}} = {}) {
   let appLocale = getLocale()
   /* What the language selector displays. Tracks appLocale for the
      functional locales (EN/AR) but can also hold a demo-only catalog code
@@ -93,6 +93,7 @@ export function createLocaleControls({t, formatLocaleCurrency, getLocale, setLoc
       renderDataList('customer')
     else if (getCurrentContentViewName() === 'geo-list' && getDataListState().geo.canvas)
       renderDataList('geo')
+    onLocaleChange()
     applyDataI18n()
     const topbarSearch = document.querySelector('.gtop .sbox')
     const topbarSearchLabel = topbarSearch?.querySelector('.shell-search-label')

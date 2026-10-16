@@ -297,6 +297,42 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
 
   document.addEventListener('scroll', repositionOpenDataMenus, true)
 
+  /* Escape closes the innermost open data-menu popover and returns focus
+     to its summary — the missing half of the dismissal story (outside
+     click already closes these popovers in the click listener below, and
+     the toggle listener unparks row menus on any close). The walk mirrors
+     closestOpenMenu: a parked row-menu popover counts as inside its
+     details. Capture phase + stopPropagation scopes the key to the menu
+     layer, so a second Escape still reaches the shell's .mlist handler,
+     the panel, and the rest of keyboard.js's Escape cascade. The handler
+     is stateless (it inspects the live DOM), matching the positioning
+     listeners — nothing to tear down per menu. */
+  const openDataMenuFor = node => {
+    for (let el = node; el; el = el.parentElement) {
+      if (el.matches?.('.data-menu[open], .data-page-manage[open]')) return el
+      if (el.dataset?.parked && el.__homeParent?.open) return el.__homeParent
+    }
+    return null
+  }
+
+  document.addEventListener(
+    'keydown',
+    event => {
+      if (event.key !== 'Escape') return
+      const openMenus = [...document.querySelectorAll('.data-menu[open], .data-page-manage[open]')]
+      if (!openMenus.length) return
+      /* Innermost wins: an open manage/language submenu closes before its
+         parent menu; with focus outside every popover, the last open one
+         (DOM order) still dismisses so Escape never strands a popover. */
+      const menu = openDataMenuFor(event.target) || openMenus.at(-1)
+      event.preventDefault()
+      event.stopPropagation()
+      menu.removeAttribute('open')
+      menu.querySelector(':scope > summary')?.focus()
+    },
+    true
+  )
+
   document.addEventListener('click', event => {
     const parkedRowAction = event.target.closest(
       '.data-menu-popover[data-parked] [data-list-row-action]'

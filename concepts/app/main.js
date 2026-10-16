@@ -13,7 +13,7 @@ import {createInvoiceRecord} from './pages/invoices/record.js'
 import {createInvoiceAdjustments} from './pages/invoices/adjustments.js'
 import {createInvoiceLines} from './pages/invoices/lines.js'
 import {createInvoicePayments} from './pages/invoices/payments.js'
-import {encodeHtml} from './core/locale.js'
+import {encodeHtml, uiLocale} from './core/locale.js'
 import {STATUSES, CHAIN} from './prototype/fixtures/invoices.js'
 import {ACCOUNT_LABEL_BY_VIEW} from './prototype/fixtures/navigation.js'
 import {CUSTOMER_ROWS, CUSTOMER_REFERENCE, UNIT_ROWS, CUSTOMER_LOOKUP_RESULTS} from './prototype/fixtures/customers.js'
@@ -24,6 +24,10 @@ import {createCustomers} from './pages/customers/customers.js'
 import {createProfile} from './pages/profile/profile.js'
 import {createOrganization} from './pages/organization/organization.js'
 import {createForYou} from './pages/for-you/for-you.js'
+import {createNotes} from './pages/notes/notes.js'
+import {createActivities} from './pages/activities/activities.js'
+import {createEvents} from './pages/events/events.js'
+import {createPeople} from './pages/people/people.js'
 import {createSignIn} from './pages/signin/signin.js'
 import {createOrganizationSessionActions} from './pages/organization/sessions.js'
 import {renderCustomerAvatar} from './pages/customers/images.js'
@@ -74,10 +78,17 @@ import {createLoading} from './components/loading/loading.js'
 import {createSpotlight} from './components/spotlight/spotlight.js'
 import {tourStepsFor} from './components/spotlight/tour.js'
 import {readPrototypeState, createPrototypeControls} from './prototype/controls.js'
+import {createCollabStore} from './core/collab-store.js'
+import {COLLAB_SEED, PROTOTYPE_NOW, CURRENT_USER_ID, COLLAB_USERS} from './prototype/fixtures/collaboration.js'
+import {createCollabPanel, createConfirm} from './components/collab/panel.js'
+import {createRelatedItems} from './components/related-items/related-items.js'
 
-const locale = createLocale()
+const locale = uiLocale
 const dialogFocus = createDialogFocus(document)
 const toast = createToast(document.getElementById('toasts'))
+/* One store for Notes, Activities, Events, Internal Mail and People Data:
+   fixtures and the demo clock are injected so core/ never imports them. */
+const collabStore = createCollabStore({storage: sessionStorage, seed: COLLAB_SEED, now: () => PROTOTYPE_NOW})
 
 // The original's failNext() both read #failsim's checked state AND reset it
 // to false on a simulated failure (so the next click succeeds) — shouldFail
@@ -86,7 +97,10 @@ const work = createWork({
   shouldFail: () => {
     const failsim = document.getElementById('failsim')
     const failed = Boolean(failsim?.checked)
-    if (failed && failsim) failsim.checked = false
+    if (failed && failsim) {
+      failsim.checked = false
+      failsim.dispatchEvent(new Event('change', {bubbles: true}))
+    }
     return failed
   },
 })
@@ -148,10 +162,29 @@ const bootRenderFlags = bootRoute === null
   : bootRoute.defaultEntry
     ? (getLaunchpadEnabled() ? {bootToLaunchpad: true} : {bootToLaunchpad: false, skipAutoNav: true})
     : {bootToLaunchpad: false, skipAutoNav: true}
+/* Screens that live on a NAV_TREE row: the rail follows the route through
+   the row's owning group, so a deep link / Back / Forward lands on exactly
+   the state the row click produces. Internal Mail maps to its Help Screens
+   row — never to the Account group, which no longer lists it. */
 const NAV_ITEM_LABEL_BY_ID = {
   list: 'Sales Invoice',
   'customers-list': 'Customers',
   'geo-list': 'Geographical Structure',
+  notes: 'Notes',
+  activities: 'Activities',
+  events: 'Events',
+  people: 'People Data',
+  email: 'Internal Mail',
+}
+/* Rows that exist in more than one group (Activities in CRM and Help
+   Screens) need an owning group, or first-match lookup lights up the CRM
+   panel when a Help Screens route arrives. */
+const NAV_GROUP_LABEL_BY_ID = {
+  notes: 'Help Screens',
+  activities: 'Help Screens',
+  events: 'Help Screens',
+  people: 'Help Screens',
+  email: 'Help Screens',
 }
 let pendingBootId = bootPlan.kind === 'launchpad' ? 'record' : bootPlan.id
 /* Signed-out boot (persisted control, or a direct /signin entry) skips the
@@ -219,6 +252,11 @@ const onLaunchpadHide = target => {
 }
 
 const localeControls = createLocaleControls({
+  onLocaleChange: () => {
+    const current = contentHost.getCurrentContentViewName()
+    const page = {notes: notesPage, activities: activitiesPage, events: eventsPage, email}[current]
+    page?.refreshLocale?.()
+  },
   t,
   formatLocaleCurrency,
   getLocale,
@@ -321,8 +359,11 @@ const topbar = createTopbar({
     if (document.querySelector('.lp-view:not([hidden])')) return null
     const view = contentHost.getCurrentContentViewName()
     if (view === 'foryou') return 'For You'
-    if (NAV_ITEM_LABEL_BY_ID[view]) return NAV_ITEM_LABEL_BY_ID[view]
+    /* profile / organization / email own no favorites row of their own —
+       checked before the nav-row map, which does know 'email' (its Help
+       Screens row) purely so the rail can follow the route. */
     if (view === 'email' || view === 'profile' || view === 'organization') return null
+    if (NAV_ITEM_LABEL_BY_ID[view]) return NAV_ITEM_LABEL_BY_ID[view]
     return sidebar.getNavCurrentLabel()
   },
   navigateToProfileSection: section => {
@@ -437,13 +478,75 @@ const customize = createCustomize({
 
 const appearanceControls = createAppearanceControls({createAppearance, setLaunchpadEnabled})
 
-const notifications = createNotifications({closeAllMenus: (...args) => menus.closeAllMenus(...args), openEmailView: (...args) => openEmailView(...args), closeMenuAndRestoreFocus: (...args) => menus.closeMenuAndRestoreFocus(...args)})
+/* ---- collaboration suite: one panel, one confirm, one Related Items
+   component shared by Notes, Activities, Events, People Data and Mail.
+   Opening a related record opens its own editor in the panel over whatever
+   screen you are on — the Related items list of an activity can create a
+   note without taking you to Notes — and only mail, which has a screen of
+   its own, navigates. ---- */
+const collabConfirm = createConfirm()
+const collabPanel = createCollabPanel({trapFocus, releaseFocus, confirm: collabConfirm})
+const COLLAB_VIEW_BY_TYPE = {note: 'notes', activity: 'activities', event: 'events', person: 'people', mail: 'email'}
+/* Filled in once the page factories below exist; see COLL BY_TYPE. */
+let collabEditors = {}
+/* `options.edit` forwards to the in-place editor: a caller that just
+   created the record (Create related, Create event, Schedule follow-up,
+   Create activity from a message) opens it in the form, not in the new
+   read-only view. */
+const openCollabItem = async (ref, options = {}) => {
+  if (!(await collabPanel.close())) return
+  const openEditor = collabEditors[ref.type]
+  if (openEditor) {
+    openEditor(ref.id, options)
+    return
+  }
+  const view = COLLAB_VIEW_BY_TYPE[ref.type]
+  const label = NAV_ITEM_LABEL_BY_ID[view]
+  if (label) sidebar.applyNavCurrent(document.querySelector('.side'), label)
+  showContentView(view, ref.type === 'mail' ? {messageId: ref.id} : {openId: ref.id})
+}
+const relatedItems = createRelatedItems({beforeAction, store: collabStore, toast, currentUserId: CURRENT_USER_ID, openItem: (ref, options) => openCollabItem(ref, options)})
+// Explicit collaboration actions share the prototype work lifecycle. Local draft
+// autosave and navigation do not consume the next-action failure switch.
+let collaborationWorking = false
+async function beforeAction(button = document.activeElement) {
+  if (collaborationWorking) return false
+  collaborationWorking = true
+  const trigger = button?.matches?.('button') ? button : null
+  if (trigger) trigger.disabled = true
+  try {
+    const ok = await work(trigger, t('Working…'), 150)
+    if (!ok) toast({tone: 'bad', title: t('Action failed'), body: t('Nothing was changed. Please try again.'), avoid: trigger})
+    return ok
+  } finally {
+    collaborationWorking = false
+    if (trigger) trigger.disabled = false
+  }
+}
+const collabDeps = {beforeAction, store: collabStore, toast, panel: collabPanel, related: relatedItems, confirm: collabConfirm, goHome: () => openForYou('Help Screens'), users: COLLAB_USERS, currentUserId: CURRENT_USER_ID}
+const email = createEmail({beforeAction, goHome: () => openForYou('Help Screens'), root: document.querySelector('.email-view'), store: collabStore, related: relatedItems, confirm: collabConfirm, users: COLLAB_USERS, currentUser: {id: CURRENT_USER_ID, name: CURRENT_USER.name, email: CURRENT_USER.email}, onUnreadChange: () => syncNotifBadge(), navigate: (...args) => showContentView(...args), openItem: (ref, options) => openCollabItem(ref, options), toast})
+
+const notifications = createNotifications({closeAllMenus: (...args) => menus.closeAllMenus(...args), openEmailView: (...args) => openEmailView(...args), closeMenuAndRestoreFocus: (...args) => menus.closeMenuAndRestoreFocus(...args), getEmailMessages: () => email.getInboxRows()})
 
 const {syncNotifBadge} = notifications
-
-const email = createEmail({root: document.querySelector('.email-view'), onUnreadChange: () => syncNotifBadge(), navigate: (...args) => showContentView(...args), toast})
+/* Mail read/unread, sends and Reset all go through the store. */
+collabStore.subscribe(() => syncNotifBadge())
 
 const {openEmailView, closeEmailView} = email
+
+const notesPage = createNotes(collabDeps)
+const activitiesPage = createActivities({...collabDeps, openItem: (ref, options) => openCollabItem(ref, options), composeMailFor: ref => email.composeLinked(ref)})
+const eventsPage = createEvents(collabDeps)
+const peoplePage = createPeople(collabDeps)
+/* Which factory owns an in-place open. Mail is absent on purpose: its
+   reader and composer live on the mail screen, so those refs fall through
+   to navigation in openCollabItem. */
+collabEditors = {
+  note: (id, options) => notesPage.openNote(id, options),
+  activity: (id, options) => activitiesPage.openActivity(id, {}, options),
+  event: (id, options) => eventsPage.openEvent(id, {}, options),
+  person: (id, options) => peoplePage.openPerson(id, options),
+}
 
 topbar.bind()
 
@@ -839,7 +942,7 @@ const invoices = createInvoices({
   templates: {
     listRoot: document.querySelector('.list-view'), listCanvas: document.getElementById('list-canvas'),
     listFooter: document.getElementById('list-fnav'), listInstance: listRuntime.dataListInstances.invoice,
-    recordRoots: [...document.querySelector('.page-content').children].filter(element => !element.matches('.email-view,.list-view,.customer-list-view,.customer-record-view,.geo-list-view,.geo-record-view,.profile-view,.organization-view,.foryou-view')),
+    recordRoots: [...document.querySelector('.page-content').children].filter(element => !element.matches('.email-view,.list-view,.customer-list-view,.customer-record-view,.geo-list-view,.geo-record-view,.profile-view,.organization-view,.foryou-view,.notes-view,.activities-view,.events-view,.people-view')),
   }, state, operations: {applyState, applyMode, modeSel, requestLeave: requestInvoiceLeave},
   record: {render: renderRecordA, dispose: () => { disposeRecordTabs(); disposeInvoiceLines(); disposeInvoicePayments(); disposeInvoiceAdjustments() }},
 })
@@ -856,16 +959,26 @@ const pageRegistry = new Map([
   ['profile', profile],
   ['organization', organization],
   ['foryou', forYou],
+  ['notes', notesPage],
+  ['activities', activitiesPage],
+  ['events', eventsPage],
+  ['people', peoplePage],
   ['signin', signin],
 ])
 
-/* The rail follows the route. Profile, Organization Center and Email are
-   screens of the shell itself — they have pages and URLs but no app — so they
-   never enter the launchpad or the app switcher; the sidebar keeps them in one
+/* The rail follows the route. Profile and Organization Center are screens of
+   the shell itself — they have pages and URLs but no app — so they never
+   enter the launchpad or the app switcher; the sidebar keeps them in one
    Account group instead, and this is what puts that group on screen whenever
    one of them is current (boot deep link, avatar menu, Back/Forward, the role
-   gate) and hands the rail back to the owning app when the route leaves them. */
-const syncRailToRoute = id => {
+   gate) and hands the rail back to the owning app when the route leaves them.
+   Every other routed screen that lives on a NAV_TREE row (Sales Invoice,
+   Customers, Geographical Structure, and all the Help Screens rows including
+   Internal Mail) follows the same rule from the other side: whichever group
+   owns the row is the group on screen, and the row itself is current — no
+   matter how the navigation arrived (rail click, boot deep link, a
+   notification, a related-item jump, Back/Forward). */
+const syncRailToRoute = (id, data) => {
   const side = document.querySelector('.side')
   const root = side && side.querySelector('.nc2')
   if (!root) return
@@ -875,8 +988,22 @@ const syncRailToRoute = id => {
     return
   }
   const label = NAV_ITEM_LABEL_BY_ID[id]
-  const group = label && sidebar.findNavGroup(label)
-  if (group) root.releaseAccountGroup(group[0])
+  const groupLabel = NAV_GROUP_LABEL_BY_ID[id]
+  const group = label && sidebar.findNavGroup(label, groupLabel)
+  if (!group) return
+  /* Re-point the rail at the route's owning group when it is showing a
+     different one — the Account group releasing on the way out, or any
+     other app's panel still up when a deep link or programmatic navigation
+     lands on one of these rows. Then the row becomes current every time:
+     the highlight is cheap and must not depend on whether a group switch
+     just happened (the old release-only gate left in-app arrivals — e.g.
+     Notifications -> Internal Mail, or any help-screens view opened from
+     elsewhere — with no current row at all). */
+  const released = root.releaseAccountGroup(group[0])
+  if (!released && !root.showingApp(group[0])) {
+    root.activateByLabel(group[0], {targetRoute: {id, data}, keepLayout: true})
+  }
+  sidebar.applyNavCurrent(side, label, {groupLabel})
 }
 
 const navigation = createNavigation({
@@ -889,7 +1016,7 @@ const navigation = createNavigation({
   onChange: (id, data) => {
     contentHost.onNavigationChange(id)
     syncUrl(id, data)
-    syncRailToRoute(id)
+    syncRailToRoute(id, data)
     /* The boot navigation itself must never create a history entry: flip
        `booted` only after its URL sync has run (and been skipped). */
     if (!booted && id === pendingBootId) {
@@ -933,8 +1060,10 @@ if (signedOutAtBoot) {
   // so the highlight and the view come up together.
   sidebar.setNavCurrent(document.querySelector('.side'), NAV_ITEM_LABEL_BY_ID[bootPlan.id])
 } else {
-  // profile / organization / email — no app of their own: the navigation's
-  // onChange above puts their shared Account group on the sidebar rail.
+  // profile / organization — no app of their own: the navigation's onChange
+  // above puts their shared Account group on the sidebar rail. (Internal Mail
+  // no longer lands here: it resolves through NAV_ITEM_LABEL_BY_ID above, so
+  // its own Help Screens row stays the group on screen.)
   navigation.navigate(bootPlan.id, bootPlan.data)
 }
 
@@ -1041,6 +1170,10 @@ const controls = createPrototypeControls({
     activeRole = role
     organization.setRole(role)
     topbar.setRole?.(role)
+  },
+  onResetCollab: () => {
+    collabStore.reset()
+    toast({tone: 'info', title: 'Collaboration data reset', body: 'Notes, activities, events, mail and people are back to the demo data.'})
   },
 })
 syncPrototypeControlsPage = controls.syncPage

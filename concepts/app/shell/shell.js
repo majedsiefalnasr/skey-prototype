@@ -43,6 +43,12 @@ export function createShell({
     pageContent.append(d.querySelector('.profile-tpl').content.cloneNode(true))
     pageContent.append(d.querySelector('.organization-tpl').content.cloneNode(true))
     pageContent.append(d.querySelector('.foryou-tpl').content.cloneNode(true))
+    /* The collaboration screens' templates are included from shell.html,
+       outside the invoice-owned .design section, so they resolve from the
+       document rather than from `d`. */
+    ;['.notes-tpl', '.activities-tpl', '.events-tpl', '.people-tpl'].forEach(selector =>
+      pageContent.append(document.querySelector(selector).content.cloneNode(true))
+    )
     pageContent.append(d.querySelector('.signin-tpl').content.cloneNode(true))
     const pageActionBar = document.createElement('div')
     pageActionBar.className = 'page-action-bar'

@@ -26,6 +26,14 @@ import {normalizeHexColor, deriveAccentPair} from '../core/appearance.js'
  * `pages/profile/profile.js`'s `render()`), so it also looks up Category B
  * elements fresh rather than relying on construction-time references. */
 export function createAppearanceControls({createAppearance, setLaunchpadEnabled} = {}) {
+  const preferenceKey = 'skey-appearance-preferences'
+  let preferences = {}
+  try { preferences = JSON.parse(localStorage.getItem(preferenceKey) || '{}') || {} } catch {}
+  if (typeof preferences !== 'object' || Array.isArray(preferences)) preferences = {}
+  let fontChoice = 'system'
+  const persistPreferences = () => {
+    try { localStorage.setItem(preferenceKey, JSON.stringify({font: fontChoice, accent: appearanceAccentState})) } catch {}
+  }
   const interfaceScaleSelect = document.getElementById('interface-scale')
   const scaleOptions = ['90', '100', '110', '125']
   const fontFamilies = {
@@ -56,10 +64,12 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
   }
 
   function applyFontFamily(value) {
-    const fontFamily = fontFamilies[value] || fontFamilies.system
+    fontChoice = Object.hasOwn(fontFamilies, value) ? value : 'system'
+    const fontFamily = fontFamilies[fontChoice]
     loadFont(value)
     document.documentElement.style.setProperty('--app-font-family', fontFamily)
     document.body.style.fontFamily = fontFamily
+    persistPreferences()
   }
 
   function applyInterfaceScale(value) {
@@ -87,6 +97,12 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
     dark: '#669DF1',
     seed: '#1868DB',
   }
+
+  const savedAccent = preferences.accent
+  if (savedAccent && ['preset', 'custom'].includes(savedAccent.kind) && normalizeHexColor(savedAccent.seed) && normalizeHexColor(savedAccent.light) && normalizeHexColor(savedAccent.dark)) {
+    Object.assign(appearanceAccentState, {kind: savedAccent.kind, seed: normalizeHexColor(savedAccent.seed), light: normalizeHexColor(savedAccent.light), dark: normalizeHexColor(savedAccent.dark)})
+  }
+  applyFontFamily(preferences.font)
 
   function clearCustomAccentError() {
     const appearanceCustomHex = document.getElementById('appearance-custom-hex')
@@ -164,7 +180,7 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
     syncInterfaceScaleControl()
     if (appearanceHighContrast) appearanceHighContrast.checked = highContrastToggle.checked
     if (appearanceLaunchpad) appearanceLaunchpad.checked = document.getElementById('launchpad').checked
-    if (appearanceFontFamily) applyFontFamily(appearanceFontFamily.value)
+    if (appearanceFontFamily) appearanceFontFamily.value = fontChoice
   }
 
   function bindAppearanceRadioKeys(group, selector) {
@@ -350,6 +366,7 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
   }
 
   function applyAppearanceAccent() {
+    persistPreferences()
     appearance.apply({
       accentLight: appearanceAccentState.light,
       accentDark: appearanceAccentState.dark,

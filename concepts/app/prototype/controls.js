@@ -118,7 +118,7 @@ const REPLAYED_CONTROL_IDS = CONTROL_IDS.filter(id => id !== 'customer-mode' && 
  *   - the finite set of page-scenario operations this component may call.
  * @returns {{syncPage: (id: string) => void, dispose: () => void}}
  */
-export function createPrototypeControls({root, settings, pages, onRoleChange = () => {}}) {
+export function createPrototypeControls({root, settings, pages, onRoleChange = () => {}, onResetCollab = () => {}}) {
   const doc = root && root.nodeType === 9 ? root : root?.ownerDocument || document
   const bar = doc.querySelector('.demo-bar')
   void settings // reserved; appearance restoration is driven by main.js's composition order, not replayed here.
@@ -241,6 +241,9 @@ export function createPrototypeControls({root, settings, pages, onRoleChange = (
   kit.addEventListener('click', e => {
     if (e.target.closest('.kit-b button.tab')) setTimeout(() => writeJSON(sessionStorage, STATE_KEY, captureState()), 0)
   })
+  /* Collaboration data lives in its own store/key; the button only asks the
+     composition root to reset it, never touching the harness state here. */
+  doc.getElementById('collab-reset')?.addEventListener('click', onResetCollab)
 
   /* ---------- panel chrome: collapse, hide, drag, all remembered ---------- */
   const compactControls = matchMedia('(max-width: 720px)')
@@ -474,6 +477,9 @@ export function createPrototypeControls({root, settings, pages, onRoleChange = (
     if (isSettingsPage) applySettingsNavigationStyle()
     if (isProfile) applyProfileCardStyle()
     doc.getElementById('section-style-group').hidden = !hasCardSections
+    const isCollaboration = ['notes', 'activities', 'events', 'email', 'people'].includes(viewName)
+    doc.getElementById('collab-group-heading').hidden = !isCollaboration
+    doc.getElementById('collab-reset-group').hidden = !isCollaboration
     doc.getElementById('table-group-heading').hidden = !isTablePage
     doc.getElementById('filter-mode-group').hidden = !isTablePage
     doc.getElementById('statistics-concept-group').hidden = !isTablePage

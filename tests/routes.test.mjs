@@ -12,6 +12,7 @@ test('routes: paths this app does not own parse to null (legacy/unknown entry)',
   assert.equal(parse('/invoices'), null)
   assert.equal(parse('/geography'), null)
   assert.equal(parse('/email'), null)
+  assert.equal(parse('/system/email'), null)
   assert.equal(parse('/profile'), null)
   assert.equal(parse('/organization'), null)
 })
@@ -34,7 +35,6 @@ test('routes: inner screens and shell screens parse to their views', () => {
   assert.deepEqual(parse('/sales-systems-management/sales-invoices'), {id: 'list', data: {}})
   assert.deepEqual(parse('/customers/list'), {id: 'customers-list', data: {}})
   assert.deepEqual(parse('/system-setup/geographical-structure'), {id: 'geo-list', data: {}})
-  assert.deepEqual(parse('/system/email'), {id: 'email', data: {}})
   assert.deepEqual(parse('/system/profile'), {id: 'profile', data: {}})
   assert.deepEqual(parse('/system/organization'), {id: 'organization', data: {}})
 })
@@ -67,14 +67,24 @@ test('routes: format maps views to their canonical URL', () => {
   assert.equal(format('customer-record'), '/customers/list')
   assert.equal(format('geo-list'), '/system-setup/geographical-structure')
   assert.equal(format('geo-record'), '/system-setup/geographical-structure')
-  assert.equal(format('email'), '/system/email')
   assert.equal(format('profile'), '/system/profile')
   assert.equal(format('organization'), '/system/organization')
   assert.equal(format('launchpad'), '/')
 })
 
+test('routes: help-screens collaboration paths', () => {
+  assert.deepEqual(parse('/help-screens/notes'), {id: 'notes', data: {}})
+  assert.deepEqual(parse('/help-screens/activities'), {id: 'activities', data: {}})
+  assert.deepEqual(parse('/help-screens/events'), {id: 'events', data: {}})
+  assert.deepEqual(parse('/help-screens/people-data'), {id: 'people', data: {}})
+  assert.equal(format('people'), '/help-screens/people-data')
+  assert.deepEqual(parse('/help-screens/email'), {id: 'email', data: {}})
+  assert.equal(format('email'), '/help-screens/email')
+  assert.deepEqual(parse('/help-screens'), {id: 'foryou', data: {app: 'Help Screens'}})
+})
+
 test('routes: format round-trips parse for every routed path', () => {
-  assert.equal(ROUTE_PATHS.length, 27)
+  assert.equal(ROUTE_PATHS.length, 31)
   for (const route of ROUTE_PATHS) {
     const parsed = parse(route)
     assert.notEqual(parsed, null, `${route} must parse`)

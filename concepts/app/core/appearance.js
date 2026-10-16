@@ -94,7 +94,22 @@ function deriveAccentPair(seed) {
     dark: accessibleAccent(normalized, '#1F1F21', '#FFFFFF'),
   }
 }
-function setAccentTone(root, hex) {
+// ADS surfaces a focus ring can sit on (surface, hovered, overlay, sunken).
+const FOCUS_SURFACES = {
+  light: ['#FFFFFF', '#F0F1F2', '#F8F8F8'],
+  dark: ['#1F1F21', '#242528', '#2B2C2F', '#18191A'],
+}
+/** The accent softened toward the surface only as far as it keeps the 3:1
+ *  a focus indicator needs against every surface (WCAG 1.4.11). */
+function focusRing(hex, isDark) {
+  const surfaces = FOCUS_SURFACES[isDark ? 'dark' : 'light']
+  for (let step = 9; step > 0; step -= 1) {
+    const candidate = blendHex(hex, surfaces[0], step * 0.05)
+    if (surfaces.every(surface => colorContrast(candidate, surface) >= 3)) return candidate
+  }
+  return hex
+}
+function setAccentTone(root, hex, highContrast = false) {
   const style = root.style
   const isDark = root.dataset.colorMode === 'dark'
   style.setProperty('--accent', hex)
@@ -104,7 +119,8 @@ function setAccentTone(root, hex) {
   )
   style.setProperty('--accent-soft', `color-mix(in srgb, ${hex} 14%, var(--surface))`)
   style.setProperty('--accent-line', `color-mix(in srgb, ${hex} 70%, var(--surface))`)
-  style.setProperty('--focus', `color-mix(in srgb, ${hex} 55%, var(--surface))`)
+  // High contrast keeps the ring at the accent's full strength.
+  style.setProperty('--focus', highContrast ? hex : focusRing(hex, isDark))
 }
 function applyAppearanceAccent(root, accent) {
   const isDark = root.dataset.colorMode === 'dark'
@@ -118,7 +134,8 @@ function applyAppearanceAccent(root, accent) {
         isDark ? '#1F1F21' : '#FFFFFF',
         isDark ? '#FFFFFF' : '#000000',
         7
-      )
+      ),
+      true
     )
     return
   }

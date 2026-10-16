@@ -15,13 +15,18 @@ const EMAIL_AVATAR_TONE_CLASSES = [
 const isSystemUser = name => /^(system|system admin)$/i.test(name || '')
 const systemUserAvatar = '<svg width="14" height="14" aria-hidden="true"><use href="#i-user"/></svg>'
 
-export function createNotifications({closeAllMenus, openEmailView, closeMenuAndRestoreFocus}) {
+/* getEmailMessages returns the inbox in the popover's row shape
+   ({id, day, from, subject, time, unread, hue}); the composition root
+   passes the collaboration store's inbox, the fixture list is only the
+   standalone default. */
+export function createNotifications({closeAllMenus, openEmailView, closeMenuAndRestoreFocus, getEmailMessages = () => EMAIL_DATA}) {
 const pageAbort = new AbortController()
         const emailAvatarTone = hue => (Math.abs(Math.round(Number(hue) / 60)) % 5) + 1
         const emailAvatarToneClass = hue => EMAIL_AVATAR_TONE_CLASSES[emailAvatarTone(hue) - 1]
         const unreadOnly = () => document.getElementById('notif-unread-only')?.checked
         const renderEmailTab = body => {
-          const messages = unreadOnly() ? EMAIL_DATA.filter(message => message.unread) : EMAIL_DATA
+          const inbox = getEmailMessages()
+          const messages = unreadOnly() ? inbox.filter(message => message.unread) : inbox
           if (!messages.length) {
             body.innerHTML = `<div class="notif-empty flex flex-col items-center gap-2.5 px-6 pb-[30px] pt-9 text-center text-faint"><svg width="34" height="34" aria-hidden="true"><use href="#i-mail"/></svg><p class="max-w-[26ch] text-[13px] text-muted">No email yet.</p></div>`
             return
@@ -128,7 +133,7 @@ const pageAbort = new AbortController()
           const count =
             Object.values(NOTIF_DATA)
               .flat()
-              .filter(n => n.unread).length + EMAIL_DATA.filter(m => m.unread).length
+              .filter(n => n.unread).length + getEmailMessages().filter(m => m.unread).length
           const badge = document.getElementById('notif-badge')
           badge.textContent = count
           badge.hidden = !count
