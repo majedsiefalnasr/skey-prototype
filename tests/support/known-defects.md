@@ -163,6 +163,46 @@ baseline was changed to make them pass.
     `components` ("print dialog traps Tab…", "a simulated failure resets
     busy state…") on desktop-high-contrast-dark failed in the full parallel
     run but passed in isolated reruns (`--repeat-each=2`).
+    *Update 2026-10-16:* later investigation traced these, and similar
+    boot-time failures in other full runs, to the dev server: `npm run dev`
+    rebuilds `dist/` before every document request, and `build.mjs`'s
+    removal of the previous `.dist-old-*` directory intermittently fails
+    with `ENOTEMPTY` when macOS writes a `.DS_Store` into it, so the
+    request is answered `500 Build failed`. A full run against one frozen
+    static build (`node scripts/serve.mjs --root <copy of dist> --port
+    4177`, `PARITY_URL` pointed at it, `--workers=2 --retries=0` under
+    `caffeinate -dims`) showed none of them.
+
+19. **Sign-in focus race: a delayed autofocus can move a password into the
+    username field (exists on `main`).** `show()` in
+    `concepts/app/pages/signin/signin.js:226` focuses the newly shown pane's
+    `data-si-focus` target after `setTimeout(..., 60)`; for pane 2 that is
+    `#si-user`. When that timer fires late (busy main thread), focus
+    returns to `#si-user` while the password is being filled, so the
+    password text is appended to the username and the demo check rejects
+    the credentials.
+    - **Confirmed** for `signin-pages.spec.mjs` › "password sign-in as a
+      different identity does not carry the prefilled branch". In every
+      captured failure the page snapshot shows `Username: adminskey123`, an
+      empty Password, and the alert "Invalid credentials in this demo — try
+      admin / skey123.", so the save pane never appears. Failed in the
+      static full run on desktop-high-contrast-light and mobile-rtl.
+      Targeted reruns (frozen static build, `--workers=2 --retries=0`,
+      `--repeat-each=10`): desktop-high-contrast-light 2/10, desktop 1/10,
+      mobile-touch 2/10, mobile-rtl 0/10, desktop-dark 0/10; mobile-touch
+      with `--trace=retain-on-failure` 6/10 (higher under trace-recording
+      load). A standalone script without the test runner's parallel load
+      reproduced 0/75.
+    - **Inferred, not confirmed** for `signin-gate.spec.mjs` › "logging
+      out shows the gate, and signing in again lands on the default entry"
+      (failed once on desktop-dark in the static full run, waiting for
+      `#si-save-not-now`). Its `signIn()` helper fills `#si-user` then
+      `#si-pass` right after a pane change, and the symptom matches (the
+      save step never appears), but 20 reruns (desktop-dark, desktop)
+      passed and no failing snapshot was captured.
+    - Not introduced by the collaboration-suite merge: `ab21018..9386bdd`
+      does not touch `signin.js` or either test; the delayed focus dates
+      from `82708ac` (2026-10-06).
 
 ## How this ledger is used by tests
 
