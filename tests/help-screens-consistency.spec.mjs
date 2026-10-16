@@ -351,6 +351,39 @@ async function goPeople(page, rtl) {
   await expect(page.locator('.people-view table')).toBeVisible()
 }
 const personRow = (page, name) => page.locator('.people-view [data-row-open]', {hasText: name})
+
+test('people locale changes refresh conversion labels without resetting view or data', async ({page}) => {
+  await goPeople(page, false)
+  const root=page.locator('.people-view')
+  const storedBefore=await page.evaluate(()=>sessionStorage.getItem('skey-proto-collab'))
+  await root.locator('[data-quick-menu] summary').click()
+  await root.locator('[data-quick-filter="contact"]').click()
+  await root.locator('[data-collab-search]').fill('Khaled')
+  for(const view of ['list','cards']) {
+    if(view==='cards') {
+      await root.locator('[data-view-menu] summary').click()
+      await root.locator('[data-view-select="cards"]').click()
+    }
+    for(const rtl of [true,false]) {
+      await control(page,'rtl',rtl)
+      await expectLocale(page,rtl)
+      expect(await page.evaluate(async()=>{
+        const {uiLocale}=await import('/concepts/app/core/locale.js')
+        return {locale:uiLocale.getLocale(),customer:uiLocale.t('Customer')}
+      })).toEqual({locale:rtl?'ar':'en',customer:rtl?'العميل':'Customer'})
+      await expect(root.locator('h1')).toHaveText(rtl?'بيانات الأشخاص':'People Data')
+      await expect(root.locator('[data-collab-search]')).toHaveValue('Khaled')
+      await expect(root.locator('[data-quick-filter="contact"]')).toHaveAttribute('aria-checked','true')
+      await expect(root.locator('[data-row-open]')).toHaveCount(1)
+      const record=view==='list'?root.locator('tbody tr'):root.locator('[data-list-row-key="per-3"]')
+      await expect(record).toContainText(rtl?'Converted to العميل':'Converted to Customer')
+      await expect(record).toContainText('Khaled Ibrahim')
+      await expect(root.locator(view==='list'?'[data-people-grid]':'.data-card-grid')).toBeVisible()
+      expect(await page.evaluate(()=>sessionStorage.getItem('skey-proto-collab'))).toBe(storedBefore)
+    }
+  }
+})
+
 async function expectTappable(locator, label) {
   await locator.scrollIntoViewIfNeeded()
   expect(await locator.evaluate(el => {

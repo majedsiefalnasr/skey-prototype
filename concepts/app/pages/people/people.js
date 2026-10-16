@@ -529,6 +529,7 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
 
   return {
     id: 'people',
+    refreshLocale() { if (built) { buildToolbar(); renderBody() } },
     get roots() {
       return view() ? [view()] : []
     },

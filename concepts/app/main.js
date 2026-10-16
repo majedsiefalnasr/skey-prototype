@@ -254,7 +254,7 @@ const onLaunchpadHide = target => {
 const localeControls = createLocaleControls({
   onLocaleChange: () => {
     const current = contentHost.getCurrentContentViewName()
-    const page = {notes: notesPage, activities: activitiesPage, events: eventsPage, email}[current]
+    const page = {notes: notesPage, activities: activitiesPage, events: eventsPage, people: peoplePage, email}[current]
     page?.refreshLocale?.()
   },
   t,
