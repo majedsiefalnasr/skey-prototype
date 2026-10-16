@@ -768,7 +768,10 @@ const signin = createSignIn({
   root: document.querySelector('.signin-view'),
   t,
   toast,
-  onSignIn: () => {
+  onSignIn: identity => {
+    if (identity.email !== CURRENT_USER.email) return
+    topbar.setIdentity(CURRENT_USER)
+    profile.setIdentity(CURRENT_USER)
     toast({tone: 'ok', title: t('Signed in')})
     const toggle = document.getElementById('signed-in')
     if (toggle) {

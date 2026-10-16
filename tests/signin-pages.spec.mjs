@@ -41,9 +41,10 @@ async function goto(page, path = '/') {
 
 const pane = (page, id) => page.locator(`[data-si-pane="${id}"]`);
 
-/** Continue from the tenant step through the branch pane (lastchance and
+/** Continue from the email step through the branch pane (lastchance and
  *  acme both have branches) to the credentials step. */
-async function continueToCredentials(page) {
+async function continueToCredentials(page, email = 'admin@lastchance.local') {
+  await page.locator('#si-email').fill(email);
   await page.locator('#si-to2').click();
   const branchGo = page.locator('#si-branch-go');
   if (await branchGo.isVisible()) await branchGo.click();
@@ -73,115 +74,12 @@ async function seedAccounts(page, accounts) {
   }, accounts);
 }
 
-test('reset password accepts a username and confirms the demo link', async ({page}) => {
-  await startSignedOut(page);
-  await goto(page);
-
-  await continueToCredentials(page);
-  await settle(page);
-  await page.locator('[data-si-pane="2"] [data-si-goto="reset"]').click();
-  await settle(page);
-
-  await expect(pane(page, 'reset')).toBeVisible();
-  // Prefilled from the credentials step (empty there → the demo admin).
-  await expect(page.locator('#si-reset-user')).toHaveValue('admin');
-  await page.locator('#si-reset-send').click();
-  await expect(pane(page, 'reset').locator('[data-si-reset-ok]')).toBeVisible();
-  await expect(pane(page, 'reset').locator('[data-si-reset-ok]')).toContainText(
-    'admin@lastchance.skeyerp.com'
-  );
-
-  // Back returns to the auth pane the user came from — step 2, not step 1.
-  await pane(page, 'reset').locator('[data-si-goto="back"]').click();
-  await settle(page);
-  await expect(pane(page, '2')).toBeVisible();
-});
-
-test('workspace search shows no result list and Enter or Continue picks the tenant', async ({page}) => {
-  await startSignedOut(page);
-  await goto(page);
-
-  await page.locator('[data-si-pane="1"] [data-si-goto="workspaces"]').click();
-  await settle(page);
-  await expect(pane(page, 'workspaces')).toBeVisible();
-
-  // Round 2: the always-visible demo list is gone — search input + hint
-  // + Continue button only, no rows and no empty state.
-  await expect(page.locator('[data-si-ws]')).toHaveCount(0);
-  await expect(page.locator('#si-ws-empty')).toHaveCount(0);
-  await expect(page.locator('#si-ws-hint')).toContainText('Press Enter to continue.');
-  await expect(page.locator('#si-ws-go')).toBeVisible();
-
-  // An empty submit keeps you on the pane and flags the field.
-  await page.locator('#si-ws-go').click();
-  await expect(pane(page, 'workspaces')).toBeVisible();
-  await expect(page.locator('#si-ws-q')).toHaveAttribute('aria-invalid', 'true');
-
-  // Enter submits; a pasted suffix is stripped into the tenant step, and
-  // acme (branch-bearing) parks on the branch pane rather than step 2.
-  await page.locator('#si-ws-q').fill('acme.skeyerp.com');
-  await page.locator('#si-ws-q').press('Enter');
-  await settle(page);
-  await expect(pane(page, 'branch')).toBeVisible();
-  await expect(page.locator('#si-tenant')).toHaveValue('acme');
-  await expect(page.locator('#si-branch-list input')).toHaveCount(2);
-
-  await page.locator('#si-branch-go').click();
-  await settle(page);
-  await expect(pane(page, '2')).toBeVisible();
-  await expect(page.locator('#si-who')).toHaveText('acme.skeyerp.com · Cairo HQ');
-});
-
-test('branch-bearing workspaces route through the branch step, others skip it', async ({page}) => {
-  await startSignedOut(page);
-  await goto(page);
-
-  // lastchance → three branches, Cairo HQ preselected, pick a different one.
-  await page.locator('#si-to2').click();
-  await settle(page);
-  await expect(pane(page, 'branch')).toBeVisible();
-  await expect(page.locator('#si-branch-list input')).toHaveCount(3);
-  await expect(page.locator('#si-branch-list input[value="Cairo HQ"]')).toBeChecked();
-  await page.locator('#si-branch-list input[value="Alexandria"]').check();
-  await page.locator('#si-branch-go').click();
-  await settle(page);
-  await expect(pane(page, '2')).toBeVisible();
-  await expect(page.locator('#si-who')).toHaveText('lastchance.skeyerp.com · Alexandria');
-
-  // Back to the tenant step; a branch-less workspace skips the pane and
-  // the who line drops the branch suffix.
-  await page.locator('#si-change').click();
-  await page.locator('#si-tenant').fill('northwind');
-  await page.locator('#si-to2').click();
-  await settle(page);
-  await expect(pane(page, '2')).toBeVisible();
-  await expect(pane(page, 'branch')).toBeHidden();
-  await expect(page.locator('#si-who')).toHaveText('northwind.skeyerp.com');
-});
-
-test('device code approval signs the demo session in', async ({page}) => {
-  await startSignedOut(page);
-  await goto(page);
-
-  await page.locator('[data-si-pane="1"] [data-si-goto="device"]').click();
-  await settle(page);
-  await expect(pane(page, 'device')).toBeVisible();
-  await expect(pane(page, 'device')).toContainText('SQTF-93B7');
-  await expect(pane(page, 'device')).toContainText('Waiting for approval');
-
-  await page.locator('#si-device-approve').click();
-  await expect(pane(page, 'device').locator('[data-si-device-ok]')).toBeVisible();
-  // Round 5: device approval completes directly — no save step.
-  await expect(page.locator('.signin-view')).toBeHidden();
-  await expect(page.locator('.lp-view')).toBeVisible();
-});
-
 test('request access validates required fields and confirms the demo submission', async ({page}) => {
   await startSignedOut(page);
   await goto(page);
 
   // The Request entry lives in the card header, above the pane stack.
-  await page.locator('[data-si-goto="request"]').click();
+  await page.locator('[data-si-goto="request"]').first().click();
   await settle(page);
   await expect(pane(page, 'request')).toBeVisible();
 
@@ -277,7 +175,7 @@ test('functional Arabic from the footer menu translates the sign-in view and fli
   await expect(page.locator('[data-si-language-current]')).toHaveText('العربية');
   const arabicHeading = await page.locator('#si-h1').textContent();
   expect(arabicHeading).not.toBe(englishHeading);
-  await expect(page.locator('#si-h1')).toHaveText('سجّل الدخول إلى مساحة عملك');
+  await expect(page.locator('#si-h1')).toHaveText('سجّل الدخول إلى Skey');
   await expect(page.locator('[data-si-goto="privacy"]')).toHaveText('الخصوصية والشروط');
 
   // A sub-pane opened after the switch is translated too (data-i18n walk).
@@ -325,360 +223,378 @@ test('the orb background fills the viewport edge to edge and animates like the l
   expect(animation.state).toBe('running');
 });
 
-test('signing in offers to save credentials behind a PIN, then the PIN signs in next time', async ({page}) => {
+
+test('email validation normalizes identity and branches; a branchless workspace skips selection', async ({page}) => {
   await startSignedOut(page);
   await goto(page);
+  await expect(page.locator('#si-email')).toHaveValue('');
+  await page.locator('#si-to2').click();
+  await expect(page.locator('#si-email-error')).toHaveText('Enter your work email.');
+  await expect(page.locator('#si-email')).toBeFocused();
+  for (const value of ['admin', 'a@@company.com', 'a b@company.com', 'admin@company']) {
+    await page.locator('#si-email').fill(value);
+    await page.locator('#si-to2').click();
+    await expect(page.locator('#si-email')).toHaveAttribute('aria-invalid', 'true');
+    await expect(pane(page, '1')).toBeVisible();
+  }
+  await page.locator('#si-email').fill('  ADMIN@LastChance.local ');
+  await page.locator('#si-email').press('Enter');
+  await expect(pane(page, 'branch')).toBeVisible();
+  await expect(page.locator('#si-email')).toHaveValue('admin@lastchance.local');
+  await expect(page.locator('#si-branch-list input')).toHaveCount(3);
+  await expect(page.locator('#si-branch-list input:checked')).toHaveValue('Cairo HQ');
+  await page.locator('#si-branch-list input[value="Alexandria"]').check();
+  await page.locator('#si-branch-go').click();
+  await expect(page.locator('#si-who')).toHaveText('admin@lastchance.local · lastchance.skeyerp.com · Alexandria');
+  await page.locator('#si-change').click();
+  await continueToCredentials(page, 'omar@nilefoods.local');
+  await expect(pane(page, 'branch')).toBeHidden();
+  await expect(page.locator('#si-who')).toHaveText('omar@nilefoods.local · nilefoods.skeyerp.com');
+  await expect(page.locator('#si-pass')).toHaveValue('');
+});
 
+test('unknown and unassigned emails stay signed out and prefill Request access', async ({page}) => {
+  await startSignedOut(page);
+  await goto(page);
+  for (const [email, message] of [['unknown@acme.local', "We couldn't find"], ['pending@lastchance.local', "isn't linked"]]) {
+    await page.locator('#si-email').fill(email);
+    await page.locator('#si-to2').click();
+    await expect(page.locator('#si-discovery-message')).toContainText(message);
+    await expect(page.locator('#si-discovery-message bdi')).toHaveText(email);
+    await expect(page.locator('#si-email')).toBeFocused();
+    await expect(page.locator('body')).toHaveClass(/signed-out/);
+    await page.locator('#si-discovery [data-si-goto="request"]').click();
+    await expect(page.locator('#si-req-email')).toHaveValue(email);
+    await pane(page, 'request').locator('[data-si-goto="back"]').click();
+  }
+  await expect(page.locator('[data-si-pane="device"], [data-si-pane="workspaces"], #si-user, #si-tenant')).toHaveCount(0);
+});
+
+test('recognized non-admin discovery never grants access with the correct demo password', async ({page}) => {
+  await startSignedOut(page);
+  await goto(page);
+  const identityBefore = await page.locator('[data-user-email]').allTextContents();
+  for (const email of ['manager@lastchance.local', 'sara@acme.local', 'omar@nilefoods.local']) {
+    await continueToCredentials(page, email);
+    await expect(page.locator('#si-who')).toContainText(email);
+    await page.locator('#si-pass').fill('skey123');
+    await page.locator('#si-signin').click();
+    await expect(page.locator('[data-si-err]')).toContainText('Invalid credentials');
+    await expect(page.locator('body')).toHaveClass(/signed-out/);
+    expect(await page.locator('[data-user-email]').allTextContents()).toEqual(identityBefore);
+    await page.locator('#si-change').click();
+  }
+});
+
+async function passwordSignIn(page) {
   await continueToCredentials(page);
-  await page.locator('#si-user').fill('admin');
   await page.locator('#si-pass').fill('skey123');
   await page.locator('#si-signin').click();
-
-  // The save step lives INSIDE the card and defers the session.
   await expect(pane(page, 'save')).toBeVisible();
-  await expect(page.locator('#si-save-who')).toContainText('admin');
-  await expect(page.locator('body')).toHaveClass(/signed-out/);
+}
 
+async function savePin(page, pin = '123456') {
   await page.locator('#si-save-create').click();
-  await expect(pane(page, 'savepin')).toBeVisible();
+  await page.locator('#si-save-pin').fill(pin);
+  await page.locator('#si-save-pin2').fill(pin);
+  await page.locator('#si-save-go').click();
+  await expect(page.locator('.signin-view')).toBeHidden();
+}
 
-  // Validation: too short, then mismatched, then accepted.
+const savedAdmin = (branch = 'Cairo HQ') => ({email: 'admin@lastchance.local', tenant: 'lastchance', branch, pinHash: djb2('123456'), savedAt: Date.now()});
+const savedManager = () => ({email: 'manager@lastchance.local', tenant: 'lastchance', branch: 'Giza', pinHash: djb2('654321'), savedAt: Date.now()});
+
+test('admin authentication publishes consistent Shell and Profile identity, with no changes on failure', async ({page}) => {
+  await startSignedOut(page);
+  // A previous editable Profile must not override authenticated identity.
+  await page.addInitScript(() => {
+    if (!sessionStorage.getItem('skey-proto-profile-personal')) {
+      sessionStorage.setItem('skey-proto-profile-personal', JSON.stringify({name: 'Other Person', email: 'other@acme.local'}));
+    }
+  });
+  await goto(page);
+  await page.locator('#si-email').fill('admin@lastchance.local');
+  await page.locator('#si-to2').click();
+  await page.locator('#si-branch-list input[value="Alexandria"]').check();
+  await page.locator('#si-branch-go').click();
+  await page.locator('#si-pass').fill('wrong');
+  await page.locator('#si-signin').click();
+  await expect(page.locator('[data-si-err]')).toBeVisible();
+  await expect(page.locator('body')).toHaveClass(/signed-out/);
+  await page.locator('#si-pass').fill('skey123');
+  await page.locator('#si-signin').click();
+  await expect(pane(page, 'save')).toBeVisible();
+  await expect(page.locator('body')).toHaveClass(/signed-out/);
+  await page.locator('#si-save-not-now').click();
+  await expect(page.locator('.lp-view')).toBeVisible();
+  await expect(page.locator('.branch-submenu [data-branch="Alexandria"]')).toHaveAttribute('aria-checked', 'true');
+  for (const email of await page.locator('[data-user-email]').allTextContents()) expect(email).toBe('admin@lastchance.local');
+  await page.locator('.avatar-btn').click();
+  await page.locator('.user-card.profile-menu').click();
+  await expect(page.locator('.profile-view')).toBeVisible();
+  await expect(page.locator('#profile-email')).toHaveValue('admin@lastchance.local');
+  await expect(page.locator('#profile-name')).toHaveValue('Majed Sief Alnasr');
+  await goto(page, '/system/profile');
+  await expect(page.locator('#profile-email')).toHaveValue('admin@lastchance.local');
+  await expect(page.locator('#profile-name')).toHaveValue('Majed Sief Alnasr');
+});
+
+test('reset password prefills the entered email and confirms that actual address', async ({page}) => {
+  await startSignedOut(page);
+  await goto(page);
+  await continueToCredentials(page);
+  await pane(page, '2').locator('[data-si-goto="reset"]').click();
+  await expect(page.locator('#si-reset-user')).toHaveValue('admin@lastchance.local');
+  await page.locator('#si-reset-send').click();
+  await expect(page.locator('[data-si-reset-ok]')).toContainText('admin@lastchance.local');
+  await pane(page, 'reset').locator('[data-si-goto="back"]').click();
+  await expect(pane(page, '2')).toBeVisible();
+});
+
+test('saving a new email-keyed PIN validates it and supports subsequent sign-in', async ({page}) => {
+  await startSignedOut(page);
+  await goto(page);
+  await passwordSignIn(page);
+  await page.locator('#si-save-create').click();
   await page.locator('#si-save-pin').fill('123');
-  await page.locator('#si-save-pin2').fill('123');
   await page.locator('#si-save-go').click();
   await expect(page.locator('#si-save-pin-err')).toContainText('6 digits');
   await page.locator('#si-save-pin').fill('123456');
   await page.locator('#si-save-pin2').fill('654321');
   await page.locator('#si-save-go').click();
   await expect(page.locator('#si-save-pin-err')).toContainText('do not match');
-  await page.locator('#si-save-pin').fill('123456');
   await page.locator('#si-save-pin2').fill('123456');
   await page.locator('#si-save-go').click();
-
   await expect(page.locator('.signin-view')).toBeHidden();
-  // Container-level assertions: "PIN created" and "Signed in" stack, and
-  // a multi-element locator would violate Playwright's strict mode.
-  await expect(page.locator('#toasts')).toContainText('PIN created');
-  await expect(page.locator('#toasts')).toContainText('Signed in');
   const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('skey-proto-accounts')));
   expect(stored).toHaveLength(1);
-  expect(stored[0].pinHash).toBeTruthy();
+  expect(stored[0]).toMatchObject({email: 'admin@lastchance.local', tenant: 'lastchance', branch: 'Cairo HQ', pinHash: djb2('123456')});
+  expect(stored[0].user).toBeUndefined();
   expect(stored[0].pin).toBeUndefined();
-  expect(stored[0].tenant).toBe('lastchance');
-  expect(stored[0].branch).toBe('Cairo HQ');
-  // The round-4 single-record key is retired — nothing migrates back.
-  expect(await page.evaluate(() => localStorage.getItem('skey-proto-cred'))).toBeNull();
-
-  // Next visit: the view opens on the PIN pane, prefilled from the record.
   await signOut(page);
   await expect(pane(page, 'pin')).toBeVisible();
-  await expect(page.locator('#si-pin-who')).toContainText('admin');
-
   await page.locator('#si-pin').fill('654321');
   await page.locator('#si-pin-signin').click();
   await expect(page.locator('#si-pin-err')).toContainText('Incorrect PIN');
-  await expect(pane(page, 'pin')).toBeVisible();
   await expect(page.locator('#si-pin-else')).toBeVisible();
-
   await page.locator('#si-pin').fill('123456');
+  await expect(page.locator('#si-pin-else')).toBeHidden();
   await page.locator('#si-pin-signin').click();
-  await expect(page.locator('.signin-view')).toBeHidden();
-  // Saved credentials exist, so the save step never reappears.
-  await expect(pane(page, 'save')).toBeHidden();
-  // The saved branch is applied to the shell's branch menu.
+  await expect(page.locator('.lp-view')).toBeVisible();
   await expect(page.locator('.branch-submenu [data-branch="Cairo HQ"]')).toHaveAttribute('aria-checked', 'true');
 });
 
-test('"Not now" completes sign-in without saving, and the prompt returns next visit', async ({page}) => {
-  await startSignedOut(page);
-  await goto(page);
-
-  await continueToCredentials(page);
-  await page.locator('#si-user').fill('admin');
-  await page.locator('#si-pass').fill('skey123');
-  await page.locator('#si-signin').click();
-  await expect(pane(page, 'save')).toBeVisible();
-  await expect(page.locator('body')).toHaveClass(/signed-out/);
-
-  await page.locator('#si-save-not-now').click();
-  await expect(page.locator('.signin-view')).toBeHidden();
-  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('skey-proto-accounts') || '[]'))).toHaveLength(0);
-  expect(await page.evaluate(() => localStorage.getItem('skey-proto-cred'))).toBeNull();
-
-  // The prompt returns on the next sign-in — nothing was persisted.
-  await signOut(page);
-  await expect(pane(page, '1')).toBeVisible();
-  await continueToCredentials(page);
-  await page.locator('#si-user').fill('admin');
-  await page.locator('#si-pass').fill('skey123');
-  await page.locator('#si-signin').click();
-  await expect(pane(page, 'save')).toBeVisible();
-});
-
-test('password sign-in skips the save step when a saved PIN exists', async ({page}) => {
+test('legacy saved accounts and the single-record key are discarded without migration', async ({page}) => {
   await startSignedOut(page);
   await page.addInitScript(() => {
-    if (!window.localStorage.getItem('skey-proto-cred')) {
-      window.localStorage.setItem(
-        'skey-proto-cred',
-        JSON.stringify({tenant: 'lastchance', user: 'admin', branch: 'Cairo HQ', pinHash: 'zz', savedAt: Date.now()})
-      );
-    }
+    localStorage.setItem('skey-proto-cred', JSON.stringify({tenant: 'lastchance', user: 'admin', pinHash: 'zz'}));
+    localStorage.setItem('skey-proto-accounts', JSON.stringify([{tenant: 'lastchance', user: 'admin', pinHash: 'zz'}]));
   });
   await goto(page);
+  await expect(pane(page, '1')).toBeVisible();
+  expect(await page.evaluate(() => localStorage.getItem('skey-proto-cred'))).toBeNull();
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('skey-proto-accounts')))).toEqual([]);
+});
 
-  // The view short-circuits to the PIN pane; the password fallback must
-  // complete without re-offering the save step.
-  await expect(pane(page, 'pin')).toBeVisible();
-  await page.locator('[data-si-pane="pin"] [data-si-goto="2"]').click();
-  await page.locator('#si-user').fill('admin');
-  await page.locator('#si-pass').fill('skey123');
-  await page.locator('#si-signin').click();
-  await expect(page.locator('.signin-view')).toBeHidden();
-  await expect(pane(page, 'save')).toBeHidden();
+test('Not now leaves no saved record and the prompt returns on the next sign-in', async ({page}) => {
+  await startSignedOut(page);
+  await goto(page);
+  await passwordSignIn(page);
+  await page.locator('#si-save-not-now').click();
   await expect(page.locator('.lp-view')).toBeVisible();
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('skey-proto-accounts')))).toEqual([]);
+  await signOut(page);
+  await passwordSignIn(page);
 });
 
-test('two saved accounts open the picker; picking one continues to its PIN pane', async ({page}) => {
+test('saved admin password fallback skips saving and offers Use PIN', async ({page}) => {
   await startSignedOut(page);
-  await seedAccounts(page, [
-    {tenant: 'lastchance', user: 'admin', branch: 'Cairo HQ', pinHash: djb2('123456'), savedAt: Date.now()},
-    {tenant: 'lastchance', user: 'manager', branch: 'Giza', pinHash: djb2('654321'), savedAt: Date.now()},
-  ]);
+  await seedAccounts(page, [savedAdmin()]);
   await goto(page);
-
-  await expect(pane(page, 'accounts')).toBeVisible();
-  await expect(page.locator('#si-accounts-list')).toHaveAttribute('role', 'list');
-  await expect(page.locator('#si-accounts-list [role="listitem"]')).toHaveCount(2);
-  await expect(page.locator('#si-accounts-list')).toContainText('admin · lastchance.skeyerp.com');
-  await expect(page.locator('#si-accounts-list')).toContainText('manager · lastchance.skeyerp.com');
-  await expect(page.locator('#si-accounts-list')).toContainText('Giza');
-
-  await page.locator('[data-si-pick="1"]').click();
   await expect(pane(page, 'pin')).toBeVisible();
-  await expect(page.locator('#si-pin-who')).toContainText('manager · Giza · lastchance.skeyerp.com');
-
-  await page.locator('#si-pin').fill('654321');
-  await page.locator('#si-pin-signin').click();
-  await expect(page.locator('.signin-view')).toBeHidden();
-  await expect(page.locator('.branch-submenu [data-branch="Giza"]')).toHaveAttribute('aria-checked', 'true');
-});
-
-test('the picker × forgets one account at a time and falls back when none remain', async ({page}) => {
-  await startSignedOut(page);
-  await seedAccounts(page, [
-    {tenant: 'lastchance', user: 'admin', branch: 'Cairo HQ', pinHash: djb2('123456'), savedAt: Date.now()},
-    {tenant: 'lastchance', user: 'manager', branch: 'Giza', pinHash: djb2('654321'), savedAt: Date.now()},
-  ]);
-  await goto(page);
-  await expect(pane(page, 'accounts')).toBeVisible();
-
-  await page.locator('[data-si-remove="0"]').click();
-  await expect(page.locator('#toasts')).toContainText('Account removed from this device.');
-  await expect(page.locator('#si-accounts-list')).not.toContainText('admin');
-  await expect(page.locator('#si-accounts-list')).toContainText('manager');
-  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('skey-proto-accounts')))).toHaveLength(1);
-
-  await page.locator('[data-si-remove="0"]').click();
-  await expect(pane(page, '1')).toBeVisible();
-  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('skey-proto-accounts')))).toHaveLength(0);
-});
-
-test('Forget this account clears the record and routes by what remains', async ({page}) => {
-  await startSignedOut(page);
-  await seedAccounts(page, [
-    {tenant: 'lastchance', user: 'admin', branch: 'Cairo HQ', pinHash: djb2('123456'), savedAt: Date.now()},
-    {tenant: 'lastchance', user: 'manager', branch: 'Giza', pinHash: djb2('654321'), savedAt: Date.now()},
-  ]);
-  await goto(page);
-
-  await page.locator('[data-si-pick="0"]').click();
-  await expect(pane(page, 'pin')).toBeVisible();
-  await expect(page.locator('#si-pin-forget')).toBeVisible();
-  await page.locator('#si-pin-forget').click();
-
-  await expect(page.locator('#toasts')).toContainText('Account removed from this device.');
-  // One account remains → back to the picker, not the tenant step.
-  await expect(pane(page, 'accounts')).toBeVisible();
-  await expect(page.locator('#si-accounts-list')).toContainText('manager');
-  await expect(page.locator('#si-accounts-list')).not.toContainText('admin');
-
-  // The last one goes → tenant step.
-  await page.locator('[data-si-remove="0"]').click();
-  await expect(pane(page, '1')).toBeVisible();
-  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('skey-proto-accounts')))).toHaveLength(0);
-});
-
-test('credentials offer Use PIN instead only while the identity has a saved PIN', async ({page}) => {
-  await startSignedOut(page);
-  await seedAccounts(page, [
-    {tenant: 'lastchance', user: 'admin', branch: 'Cairo HQ', pinHash: djb2('123456'), savedAt: Date.now()},
-  ]);
-  await goto(page);
-
-  await expect(pane(page, 'pin')).toBeVisible();
-  await page.locator('[data-si-pane="pin"] [data-si-goto="2"]').click();
-  await expect(pane(page, '2')).toBeVisible();
-  await expect(page.locator('#si-who')).toContainText('admin · lastchance.skeyerp.com');
+  await pane(page, 'pin').locator('[data-si-goto="2"]').click();
   await expect(page.locator('#si-usepin')).toBeVisible();
-
-  // A different username has no saved PIN — the link disappears.
-  await page.locator('#si-user').fill('someone');
-  await expect(page.locator('#si-usepin')).toBeHidden();
-  await page.locator('#si-user').fill('admin');
-  await expect(page.locator('#si-usepin')).toBeVisible();
-
   await page.locator('#si-usepin').click();
   await expect(pane(page, 'pin')).toBeVisible();
-  await expect(page.locator('#si-pin-who')).toContainText('admin · Cairo HQ · lastchance.skeyerp.com');
-});
-
-test('a wrong PIN offers Sign in as someone else back to the tenant step', async ({page}) => {
-  await startSignedOut(page);
-  await seedAccounts(page, [
-    {tenant: 'lastchance', user: 'admin', branch: 'Cairo HQ', pinHash: djb2('123456'), savedAt: Date.now()},
-  ]);
-  await goto(page);
-
-  await expect(pane(page, 'pin')).toBeVisible();
-  await page.locator('#si-pin').fill('999999');
-  await page.locator('#si-pin-signin').click();
-  await expect(page.locator('#si-pin-err')).toContainText('Incorrect PIN');
-  await expect(page.locator('#si-pin-else')).toBeVisible();
-  await expect(page.locator('#si-pin-else')).toHaveAttribute('role', 'status');
-
-  // Typing again tucks the escape hatch away.
-  await page.locator('#si-pin').fill('111111');
-  await expect(page.locator('#si-pin-else')).toBeHidden();
-
-  await page.locator('#si-pin').fill('999999');
-  await page.locator('#si-pin-signin').click();
-  await expect(page.locator('#si-pin-else')).toBeVisible();
-  await page.locator('#si-pin-someone').click();
-  await expect(pane(page, '1')).toBeVisible();
-});
-
-test('saving a second identity appends to the accounts list instead of replacing', async ({page}) => {
-  await startSignedOut(page);
-  await seedAccounts(page, [
-    {tenant: 'lastchance', user: 'manager', branch: 'Cairo HQ', pinHash: djb2('111111'), savedAt: Date.now()},
-  ]);
-  await goto(page);
-
-  // One saved account → its PIN pane; the password fallback signs in as
-  // a different identity, which must still see the save step (the
-  // round-5 wrong-skip fix: an existing account never hides it for a
-  // different user).
-  await expect(pane(page, 'pin')).toBeVisible();
-  await page.locator('[data-si-pane="pin"] [data-si-goto="2"]').click();
-  await page.locator('#si-user').fill('admin');
+  await pane(page, 'pin').locator('[data-si-goto="2"]').click();
   await page.locator('#si-pass').fill('skey123');
   await page.locator('#si-signin').click();
-  await expect(pane(page, 'save')).toBeVisible();
-
-  await page.locator('#si-save-create').click();
-  await page.locator('#si-save-pin').fill('123456');
-  await page.locator('#si-save-pin2').fill('123456');
-  await page.locator('#si-save-go').click();
-  await expect(page.locator('.signin-view')).toBeHidden();
-
-  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('skey-proto-accounts')));
-  expect(stored).toHaveLength(2);
-  expect(stored[0].user).toBe('manager');
-  expect(stored[0].pinHash).toBe(djb2('111111'));
-  expect(stored[1].user).toBe('admin');
-  expect(stored[1].tenant).toBe('lastchance');
-  expect(await page.evaluate(() => localStorage.getItem('skey-proto-cred'))).toBeNull();
-
-  // Next visit: two identities → the picker opens.
-  await signOut(page);
-  await expect(pane(page, 'accounts')).toBeVisible();
-  await expect(page.locator('#si-accounts-list')).toContainText('manager');
-  await expect(page.locator('#si-accounts-list')).toContainText('admin');
+  await expect(page.locator('.lp-view')).toBeVisible();
+  await expect(pane(page, 'save')).toBeHidden();
 });
 
-test('Start over from the PIN pane returns to the picker when 2+ accounts are saved', async ({page}) => {
+test('picker retains email-keyed accounts but a non-admin PIN cannot authenticate', async ({page}) => {
   await startSignedOut(page);
-  await seedAccounts(page, [
-    {tenant: 'lastchance', user: 'admin', branch: 'Cairo HQ', pinHash: djb2('123456'), savedAt: Date.now()},
-    {tenant: 'lastchance', user: 'manager', branch: 'Giza', pinHash: djb2('654321'), savedAt: Date.now()},
-  ]);
+  await seedAccounts(page, [savedAdmin(), savedManager()]);
   await goto(page);
-
   await expect(pane(page, 'accounts')).toBeVisible();
-  await page.locator('[data-si-pick="0"]').click();
-  await expect(pane(page, 'pin')).toBeVisible();
+  await expect(page.locator('#si-accounts-list [role="listitem"]')).toHaveCount(2);
+  await page.locator('[data-si-pick="1"]').click();
+  await expect(page.locator('#si-pin-who')).toContainText('manager@lastchance.local');
+  await page.locator('#si-pin').fill('654321');
+  await page.locator('#si-pin-signin').click();
+  await expect(page.locator('#si-pin-err')).toBeVisible();
+  await expect(page.locator('body')).toHaveClass(/signed-out/);
   await page.locator('#si-pin-back').click();
   await expect(pane(page, 'accounts')).toBeVisible();
-  await expect(page.locator('#si-accounts-list')).toContainText('admin');
+  await page.locator('[data-si-pick="0"]').click();
+  await page.locator('#si-pin-forget').click();
+  await expect(pane(page, 'accounts')).toBeVisible();
+  await expect(page.locator('#si-accounts-list')).not.toContainText('admin@lastchance.local');
+  await page.locator('[data-si-remove="0"]').click();
+  await expect(pane(page, '1')).toBeVisible();
 });
 
-test('password sign-in as a different identity does not carry the prefilled branch', async ({page}) => {
+test('changing email clears the saved branch and saving admin preserves the other record', async ({page}) => {
   await startSignedOut(page);
-  await seedAccounts(page, [
-    {tenant: 'lastchance', user: 'manager', branch: 'Giza', pinHash: djb2('111111'), savedAt: Date.now()},
-  ]);
+  await seedAccounts(page, [savedManager()]);
   await goto(page);
-
-  await expect(pane(page, 'pin')).toBeVisible();
-  await expect(page.locator('#si-pin-who')).toContainText('Giza');
-  await page.locator('[data-si-pane="pin"] [data-si-goto="2"]').click();
-  await expect(pane(page, '2')).toBeVisible();
+  await pane(page, 'pin').locator('[data-si-goto="2"]').click();
   await expect(page.locator('#si-who')).toContainText('Giza');
+  await page.locator('#si-change').click();
+  await passwordSignIn(page);
+  await savePin(page);
+  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('skey-proto-accounts')));
+  expect(stored).toHaveLength(2);
+  expect(stored.find(r => r.email === 'manager@lastchance.local').branch).toBe('Giza');
+  expect(stored.find(r => r.email === 'admin@lastchance.local').branch).toBe('Cairo HQ');
+  await signOut(page);
+  await page.locator('#si-accounts-other').click();
+  await page.locator('#si-email').fill('admin@lastchance.local');
+  await page.locator('#si-to2').click();
+  await expect(page.locator('#si-branch-list input:checked')).toHaveValue('Cairo HQ');
+});
 
-  // Switching identity drops the record-prefilled branch from display…
-  await page.locator('#si-user').fill('admin');
-  await expect(page.locator('#si-who')).not.toContainText('Giza');
+test('delayed focus preserves fast sequential PIN entry and request-field interaction', async ({page}) => {
+  await startSignedOut(page);
+  await goto(page);
+  await passwordSignIn(page);
+  await page.clock.install();
+  await page.clock.pauseAt(new Date(Date.now() + 1000));
+  await page.evaluate(() => document.querySelector('#si-save-create').click());
+  await page.locator('#si-save-pin').fill('123456');
+  await page.locator('#si-save-pin2').focus();
+  await page.clock.runFor(61);
+  await expect(page.locator('#si-save-pin2')).toBeFocused();
+  await page.keyboard.insertText('123456');
+  await expect(page.locator('#si-save-pin')).toHaveValue('123456');
+  await expect(page.locator('#si-save-pin2')).toHaveValue('123456');
+  await page.evaluate(() => document.querySelector('[data-si-goto="request"]').click());
+  // Header Request access is independent of the pane's save controls.
+  await expect(pane(page, 'request')).toBeVisible();
+  await page.locator('#si-req-name').fill('Fast User');
+  await page.locator('#si-req-email').fill('');
+  await page.locator('#si-req-email').focus();
+  await page.clock.runFor(61);
+  await expect(page.locator('#si-req-email')).toBeFocused();
+  await page.keyboard.insertText('fast@acme.local');
+  await expect(page.locator('#si-req-name')).toHaveValue('Fast User');
+  await expect(page.locator('#si-req-email')).toHaveValue('fast@acme.local');
+});
 
+test('interaction history prevents deferred focus stealing even after the field loses focus', async ({page}) => {
+  await startSignedOut(page);
+  await goto(page);
+  await page.clock.install();
+  await page.clock.pauseAt(new Date(Date.now() + 1000));
+  await page.evaluate(() => document.querySelector('[data-si-goto="request"]').click());
+  await page.locator('#si-req-email').fill('fast@acme.local');
+  await page.locator('#si-lang').focus();
+  await page.clock.runFor(61);
+  await expect(page.locator('#si-lang')).toBeFocused();
+});
+
+test('password-manager-like focused and value-only filling survives the pane transition', async ({page}) => {
+  await startSignedOut(page);
+  await goto(page);
+  await page.locator('#si-email').fill('admin@lastchance.local');
+  await page.locator('#si-to2').click();
+  await expect(pane(page, 'branch')).toBeVisible();
+  await page.clock.install();
+  await page.clock.pauseAt(new Date(Date.now() + 1000));
+  await page.evaluate(() => document.querySelector('#si-branch-go').click());
+  await page.locator('#si-pass').focus();
+  await page.clock.runFor(61);
+  await page.keyboard.insertText('skey123');
+  await expect(page.locator('#si-pass')).toHaveValue('skey123');
+  await expect(page.locator('#si-auth-email')).toHaveAttribute('autocomplete', 'username');
+  await expect(page.locator('#si-auth-email')).toHaveValue('admin@lastchance.local');
+  await page.evaluate(() => {
+    document.querySelector('#si-change').click();
+    document.querySelector('#si-to2').click();
+    document.querySelector('#si-branch-go').click();
+    const password = document.querySelector('#si-pass');
+    password.value = 'skey123';
+    password.dispatchEvent(new Event('input', {bubbles: true}));
+  });
+  await page.clock.runFor(61);
+  await expect(page.locator('#si-pass')).toHaveValue('skey123');
+  await page.locator('#si-signin').click();
+  await page.clock.runFor(1200);
+  await expect(pane(page, 'save')).toBeVisible();
+});
+
+test('keyboard initial focus, tab order and superseded pane callbacks', async ({page}) => {
+  await startSignedOut(page);
+  await goto(page);
+  await page.locator('[data-si-goto="privacy"]').click();
+  await pane(page, 'privacy').locator('[data-si-goto="back"]').click();
+  await expect(page.locator('#si-email')).toBeFocused();
+  await page.locator('#si-email').fill('admin@lastchance.local');
+  await page.locator('#si-email').press('Enter');
+  await expect(page.locator('#si-branch-list input:checked')).toBeFocused();
+  await page.locator('#si-branch-go').focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#si-pass')).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.locator('#si-show')).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.locator('#si-signin')).toBeFocused();
+  await page.clock.install();
+  await page.clock.pauseAt(new Date(Date.now() + 1000));
+  await page.evaluate(() => {
+    document.activeElement.blur();
+    document.querySelector('[data-si-goto="request"]').click();
+    document.querySelector('[data-si-goto="privacy"]').click();
+    document.querySelector('[data-si-pane="privacy"] [data-si-goto="back"]').click();
+  });
+  await page.clock.runFor(61);
+  await expect(page.locator('#si-pass')).toBeFocused();
+  await page.locator('#si-pass').fill('skey123');
+  await page.locator('#si-pass').press('Enter');
+  await page.clock.runFor(1200);
+  await expect(pane(page, 'save')).toBeVisible();
+});
+
+test('email/password mobile attributes and Arabic RTL preserve LTR identities', async ({page}, testInfo) => {
+  await startSignedOut(page);
+  await goto(page);
+  const email = page.locator('#si-email');
+  for (const [attr, value] of Object.entries({type: 'email', inputmode: 'email', autocapitalize: 'off', spellcheck: 'false', enterkeyhint: 'next', dir: 'ltr'})) {
+    await expect(email).toHaveAttribute(attr, value);
+  }
+  await page.locator('#si-lang').click();
+  await page.locator('.si-language [data-si-language="ar"]').click();
+  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+  await email.fill('unknown@acme.local');
+  if (testInfo.project.use.hasTouch) await page.locator('#si-to2').tap();
+  else await page.locator('#si-to2').click();
+  await expect(page.locator('#si-discovery-message')).toContainText('لم نعثر');
+  await expect(page.locator('#si-discovery-message bdi')).toHaveAttribute('dir', 'ltr');
+  await email.fill('admin@lastchance.local');
+  if (testInfo.project.use.hasTouch) await page.locator('#si-to2').tap();
+  else await page.locator('#si-to2').click();
+  await page.locator('#si-branch-go').click();
+  await expect(page.locator('#si-pass')).toHaveAttribute('dir', 'ltr');
+  await expect(page.locator('#si-pass')).toHaveAttribute('enterkeyhint', 'go');
+  await expect(page.locator('#si-who')).toContainText('admin@lastchance.local');
   await page.locator('#si-pass').fill('skey123');
   await page.locator('#si-signin').click();
   await expect(pane(page, 'save')).toBeVisible();
-
-  await page.locator('#si-save-create').click();
-  await page.locator('#si-save-pin').fill('123456');
-  await page.locator('#si-save-pin2').fill('123456');
-  await page.locator('#si-save-go').click();
-  await expect(page.locator('.signin-view')).toBeHidden();
-
-  // …and from the record the save step writes: the original account
-  // keeps its branch, the new one carries none.
-  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('skey-proto-accounts')));
-  expect(stored).toHaveLength(2);
-  expect(stored.find(record => record.user === 'manager').branch).toBe('Giza');
-  expect(stored.find(record => record.user === 'admin').branch).toBeNull();
-});
-
-test('a stale branch from a previous attempt never pre-checks the next one', async ({page}) => {
-  await startSignedOut(page);
-  await seedAccounts(page, [
-    {tenant: 'lastchance', user: 'manager', branch: 'Giza', pinHash: djb2('111111'), savedAt: Date.now()},
-  ]);
-  await goto(page);
-
-  // Sign in with the prefilled identity's PIN — branch ends the session
-  // holding 'Giza' at module scope.
+  await savePin(page);
+  await signOut(page);
   await expect(pane(page, 'pin')).toBeVisible();
-  await page.locator('#si-pin').fill('111111');
+  await page.locator('#si-pin').fill('123456');
   await page.locator('#si-pin-signin').click();
   await expect(page.locator('.lp-view')).toBeVisible();
-
-  // A second account shows up while still signed in, so the sign-out
-  // re-activation — the "next visit", same page life, so the module-scope
-  // branch from the previous attempt is still around — must start fresh
-  // instead of pre-checking it. (A page reload would erase the state
-  // under test, hence no goto() here.)
-  await page.evaluate(hash => {
-    const list = JSON.parse(localStorage.getItem('skey-proto-accounts'));
-    list.push({tenant: 'lastchance', user: 'admin', branch: null, pinHash: hash, savedAt: Date.now()});
-    localStorage.setItem('skey-proto-accounts', JSON.stringify(list));
-  }, djb2('123456'));
-  await signOut(page);
-
-  await expect(pane(page, 'accounts')).toBeVisible();
-  await page.locator('#si-accounts-other').click();
-  await expect(pane(page, '1')).toBeVisible();
-  await page.locator('#si-tenant').fill('lastchance');
-  await page.locator('#si-to2').click();
-  await expect(pane(page, 'branch')).toBeVisible();
-  await expect(page.locator('#si-branch-list input:checked')).toHaveValue('Cairo HQ');
 });

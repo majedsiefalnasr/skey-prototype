@@ -204,6 +204,30 @@ baseline was changed to make them pass.
       does not touch `signin.js` or either test; the delayed focus dates
       from `82708ac` (2026-10-06).
 
+
+    *Update 2026-10-16, `feat/prototype-quality-pass`: fixed and verified.*
+    The email-first password pane removes `#si-user`, eliminating the
+    original two-field failure path. Shared pane focus now cancels older
+    callbacks, checks the active transition/visibility, and skips autofocus
+    after focus, pointer, keyboard or input interaction in the new pane,
+    including when focus subsequently leaves it. Deactivation also cancels
+    pending focus. The historical `signin-gate` connection above remains
+    inferred; this update does not retroactively establish its cause.
+    - Both deterministic focus regressions fail with the guard disabled
+      in a temporary build, and pass with the guard enabled.
+    - Four focus/password-manager/keyboard regressions repeated 20 times
+      across all seven projects: **560 passed**, two workers, no retries.
+    - Final revision: **182/182 sign-in tests passed** within the complete
+      frozen-build run; the identity/reload test also passed separately on
+      all seven projects. Unit tests: **143 passed**; build succeeded.
+    - Full regression: **1,193 passed, 76 failed, 516 skipped** (29.1 min).
+      Exact project/test-name comparison reproduces entries 14/15/16/17
+      as 1/18/2/55 failures, with no additions or missing failures. This
+      preserves the known-failure baseline; it does not make the suite
+      healthy. All nine existing parity surfaces ran on every project.
+    - No visual baselines were updated. This fix is on the feature branch;
+      `main` remains at `61f5200` with the original defect documented.
+
 ## How this ledger is used by tests
 
 - No test in `tests/parity.spec.mjs` or elsewhere may assert that any of
@@ -220,4 +244,5 @@ baseline was changed to make them pass.
   2026-09-30, when its Escape handler was implemented — its test asserts
   the fixed behaviour now, and the drawer's open/closed state is checked
   through visibility rather than through the class token (see entry 13).
-  No other entry has changed status.
+  Entry 19 was additionally fixed and verified on the email-first sign-in
+  feature branch on 2026-10-16, as recorded above.

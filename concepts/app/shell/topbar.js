@@ -5,6 +5,7 @@ import {NAV_FAVORITES} from '../prototype/fixtures/navigation.js'
 
 /** Owns topbar state and its DOM bindings. */
 export function createTopbar({toast, t, getSideCollapsed, getLaunchpadEnabled, closeAllMenus, openKbd, openCustomize, navigateToProfileSection, navigateToOrganizationSection, getCurrentNavLabel, renderSide, trapFocus, releaseFocus, onTakeTour, onSignOut} = {}) {
+  let currentUser = CURRENT_USER
   const ACTIVE_FISCAL_YEAR = '2026'
   let activeRole = 'administrator'
   /* Workspace branch the card/switcher show — session-only prototype state,
@@ -26,19 +27,19 @@ export function createTopbar({toast, t, getSideCollapsed, getLaunchpadEnabled, c
      the markup's hands. */
   function syncUserPop() {
     document.querySelectorAll('[data-user-name]').forEach(el => {
-      el.textContent = CURRENT_USER.name
+      el.textContent = currentUser.name
     })
     document.querySelectorAll('[data-user-email]').forEach(el => {
-      el.textContent = CURRENT_USER.email
+      el.textContent = currentUser.email
     })
     document.querySelectorAll('[data-user-tenant]').forEach(el => {
-      el.textContent = CURRENT_USER.branch
+      el.textContent = currentUser.branch
     })
     document.querySelectorAll('[data-user-initials]').forEach(el => {
-      el.textContent = initialsOf(CURRENT_USER.name)
+      el.textContent = initialsOf(currentUser.name)
     })
     const avatarBtn = document.querySelector('.avatar-btn')
-    if (avatarBtn) avatarBtn.setAttribute('aria-label', CURRENT_USER.name)
+    if (avatarBtn) avatarBtn.setAttribute('aria-label', currentUser.name)
     syncBranchMenu()
   }
 
@@ -288,5 +289,11 @@ export function createTopbar({toast, t, getSideCollapsed, getLaunchpadEnabled, c
       item.hidden = !enabled
     })
   }
-  return {goToForYou, syncTopbarChrome, bind, setRole, retranslate, syncTourMenu}
+  function setIdentity(identity) {
+    currentUser = identity
+    activeBranch = document.querySelector('.branch-submenu [data-branch][aria-checked="true"]')?.dataset.branch || activeBranch
+    syncUserPop()
+  }
+
+  return {setIdentity, goToForYou, syncTopbarChrome, bind, setRole, retranslate, syncTourMenu}
 }

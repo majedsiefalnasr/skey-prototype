@@ -530,3 +530,42 @@ are NOT renamed this round.
   suites × 7 projects (flake protocol: re-run failures in isolation;
   never re-baseline snapshots), impeccable `detect` on changed files.
   No commits.
+
+## 2026-10-16: approved email-first sign-in
+
+The email step replaces tenant-name entry. Normalize by trimming and
+lowercasing, then resolve the workspace from the prototype directory.
+Discovery and authentication are separate: manager@lastchance.local,
+sara@acme.local and omar@nilefoods.local demonstrate discovery, but only
+admin@lastchance.local with skey123 can authenticate. The pending account
+has no workspace; unknown and unassigned emails offer Request access,
+prefilled with the entered email. Branch selection appears only for
+workspaces with multiple branches. Workspace search and device approval
+have been removed after checking their callers.
+
+The password pane displays the resolved email/workspace and has one visible
+password field plus a hidden, readonly autocomplete=username email input.
+Reset uses the entered email directly. Successful password or PIN auth
+passes the authenticated admin identity to main.js, which updates Shell and
+Profile before opening the session. Failed authentication leaves both
+unchanged. Existing admin data uses admin@lastchance.local, including Mail.
+
+Saved accounts use normalized email keys. Legacy {tenant, user} records and
+the old single-record key are discarded without migration. Directory data,
+not saved tenant values, determines the workspace. Existing supported
+picker, forget, password fallback, save and PIN paths remain; non-admin
+PIN records cannot grant access.
+
+Deferred initial focus remains at 60 ms. Each pane transition cancels the
+previous callback, checks the active transition and visibility, and records
+focus, pointer, keyboard and input interaction until the timer fires. A
+callback skips initial focus once interaction begins, even if focus later
+moves outside that pane. Deactivation invalidates pending callbacks.
+English/Arabic strings, LTR identity fields within RTL layouts, email/mobile
+input attributes and keyboard navigation remain part of acceptance.
+
+Functional verification uses one frozen build served by scripts/serve.mjs,
+all seven Playwright projects, two workers, no retries, and caffeinate.
+The existing 76-failure baseline remains a limitation. New visual coverage
+for collaboration and lower invoice content requires separate review;
+this change does not refresh snapshot baselines.

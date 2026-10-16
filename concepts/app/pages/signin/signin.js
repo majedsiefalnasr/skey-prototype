@@ -1,32 +1,20 @@
-// Sign-in page (Slack-style minimal concept, promoted into the app).
-// A thirteen-pane router inside one card — tenant (1), credentials (2),
-// branch, pin, accounts (2+ saved identities), save, savepin, then the
-// six demo sub-pages (reset / workspaces / device / request / privacy /
-// support) reached through data-si-goto — rendered from
-// pages/signin/templates.html. The only local import is core/locale.js's
-// encodeHtml (core imports no pages, so no cycle); everything else
-// arrives via the factory (same packages the other pages receive).
-//
-// Demo auth only: admin / skey123 signs in through onSignIn() (main.js
-// flips the session control and navigates back); SSO buttons explain
-// they are disabled in the prototype. Password auth parks on the save
-// step only for identities with no saved PIN; device approval completes
-// directly. Saved identities live in the accounts list — one saved
-// account short-circuits the view to its PIN pane, two or more open the
-// picker.
-
+// Email-first demo sign-in: directory discovery routes to a workspace;
+// only the admin email can authenticate. Saved PINs are keyed by email.
 import {encodeHtml} from '../../core/locale.js'
 
-/* localStorage: saved accounts under `skey-proto-accounts` —
-   [{tenant, user, branch, pinHash, savedAt}, ...] — written by this
-   module's save step; main.js never touches it. The pre-round-5
-   single-record key is migrated on first load and always deleted, so
-   forgetting the last account can never resurrect it. */
 const ACCOUNTS_KEY = 'skey-proto-accounts'
 const LEGACY_CRED_KEY = 'skey-proto-cred'
 
-const accountKey = (tenantName, userName) =>
-  `${String(tenantName || '').trim().toLowerCase()}|${String(userName || '').trim().toLowerCase()}`
+const normalizeEmail = value => String(value || '').trim().toLowerCase()
+const ADMIN_EMAIL = 'admin@lastchance.local'
+// Discovery is not authorization: only ADMIN_EMAIL can authenticate.
+const DEMO_DIRECTORY = new Map([
+  [ADMIN_EMAIL, 'lastchance'],
+  ['manager@lastchance.local', 'lastchance'],
+  ['sara@acme.local', 'acme'],
+  ['omar@nilefoods.local', 'nilefoods'],
+  ['pending@lastchance.local', null],
+])
 
 function saveAccounts(list) {
   localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(list))
@@ -34,49 +22,39 @@ function saveAccounts(list) {
 }
 
 function loadAccounts() {
-  let list = []
-  try {
-    list = JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || '[]')
-  } catch {
-    list = []
-  }
+  let list
+  try { list = JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || '[]') } catch { list = [] }
   if (!Array.isArray(list)) list = []
-  list = list.filter(record => record && record.pinHash)
-  let legacy = null
-  try {
-    const raw = localStorage.getItem(LEGACY_CRED_KEY)
-    legacy = raw ? JSON.parse(raw) : null
-  } catch {
-    legacy = null
+  // Retire old {tenant, user} records without migrating them. Workspace
+  // always comes from the directory, never from a stored credential.
+  const records = new Map()
+  for (const record of list) {
+    if (!record || record.user !== undefined || !record.email || typeof record.pinHash !== 'string' || !record.pinHash) continue
+    const email = normalizeEmail(record.email)
+    const tenant = DEMO_DIRECTORY.get(email)
+    if (!tenant) continue
+    records.set(email, {...record, email, tenant,
+      branch: branchesFor(tenant).includes(record.branch) ? record.branch : null})
   }
-  if (legacy) {
-    if (!list.length && legacy.pinHash) {
-      list = [legacy]
-      saveAccounts(list)
-    } else {
-      localStorage.removeItem(LEGACY_CRED_KEY)
-    }
-  }
-  return list
+  const valid = [...records.values()]
+  saveAccounts(valid)
+  return valid
 }
 
-function findAccount(tenantName, userName) {
-  const key = accountKey(tenantName, userName)
-  return loadAccounts().find(record => accountKey(record.tenant, record.user) === key) || null
+function findAccount(email) {
+  return loadAccounts().find(record => record.email === normalizeEmail(email)) || null
 }
 
 function upsertAccount(record) {
-  const key = accountKey(record.tenant, record.user)
   const list = loadAccounts()
-  const at = list.findIndex(existing => accountKey(existing.tenant, existing.user) === key)
+  const at = list.findIndex(existing => existing.email === record.email)
   if (at >= 0) list[at] = record
   else list.push(record)
   saveAccounts(list)
 }
 
-function forgetAccount(tenantName, userName) {
-  const key = accountKey(tenantName, userName)
-  saveAccounts(loadAccounts().filter(record => accountKey(record.tenant, record.user) !== key))
+function forgetAccount(email) {
+  saveAccounts(loadAccounts().filter(record => record.email !== normalizeEmail(email)))
 }
 
 /* Demo branches per workspace — names match the shell's .branch-submenu
@@ -100,8 +78,11 @@ function hashPin(pin) {
 export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
   const $ = selector => root.querySelector(selector)
   const panes = () => [...root.querySelectorAll('[data-si-pane]')]
-  const tenant = () => $('#si-tenant')
-  const user = () => $('#si-user')
+  const email = () => $('#si-email')
+  let tenantName = ''
+  let authenticatedEmail = null
+  let focusToken = 0
+  let activeFocusCleanup = null
   const pass = () => $('#si-pass')
   const showBtn = () => $('#si-show')
   const signinBtn = () => $('#si-signin')
@@ -110,37 +91,28 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
   const pinInput = () => $('#si-pin')
   const pinSigninBtn = () => $('#si-pin-signin')
   const pinErr = () => $('#si-pin-err')
-  const wsQuery = () => $('#si-ws-q')
 
-  /* The saved account this attempt is authenticating right now — derived
-     from the tenant/user fields, which every route into the PIN pane
-     syncs first (activate, picker pick, Use PIN instead). */
-  const currentAccount = () => findAccount(tenant().value, user().value)
+  const currentAccount = () => findAccount(email().value)
 
   function refreshWho() {
-    const base = `${tenant().value.trim() || '—'}.skeyerp.com`
-    const who = user().value.trim()
-    const suffix = branch ? ` · ${branch}` : ''
-    $('#si-who').textContent = who ? `${who} · ${base}${suffix}` : `${base}${suffix}`
+    $('#si-who').textContent = `${normalizeEmail(email().value)} · ${tenantName}.skeyerp.com${branch ? ` · ${branch}` : ''}`
+    $('#si-auth-email').value = normalizeEmail(email().value)
   }
 
   function refreshUsePin() {
     $('#si-usepin-wrap').hidden = !currentAccount()?.pinHash
   }
 
-  /* A record-prefilled branch is bound to its identity: once the tenant
-     or username stops matching, drop it before it can be displayed or
-     saved onto someone else's record. */
-  function syncBranchSource() {
-    if (branchSource === null) return
-    if (accountKey(tenant().value, user().value) !== branchSource) {
-      branch = null
-      branchSource = null
-    }
+  function clearAttempt() {
+    branch = null
+    tenantName = ''
+    authenticatedEmail = null
+    pass().value = ''
+    hideError()
   }
 
   /* Where "start over" lands: the picker when 2+ accounts are saved,
-     otherwise the tenant step (round-5 entry rules). */
+     otherwise the email step. */
   const startOver = () => show(loadAccounts().length >= 2 ? 'accounts' : 1)
 
   let unsubscribeLocale = null
@@ -150,12 +122,6 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
   /* Branch picked for this sign-in attempt (null until the branch pane —
       or a saved credential — decides one). */
   let branch = null
-  /* Identity key whose saved record supplied the prefilled branch — a
-     record-derived branch belongs to that identity; a tenant/user that
-     no longer matches drops it so it can never be saved onto another
-     account. Branch-pane picks are attempt-scoped and unaffected. */
-  let branchSource = null
-
   /* Drops per-pane transient state (success boxes, disabled flow buttons)
      when a pane is (re)entered, so a completed demo flow never replays. */
   function resetPaneState(pane) {
@@ -170,6 +136,10 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
 
   function show(paneId) {
     const id = String(paneId)
+    activeFocusCleanup?.()
+    const token = ++focusToken
+    if (['1', '2', 'pin', 'accounts'].includes(id)) authenticatedEmail = null
+    if (id === '1') clearAttempt()
     panes().forEach(pane => {
       pane.hidden = pane.dataset.siPane !== id
     })
@@ -183,12 +153,9 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
     if (id === 'accounts') renderAccounts()
     if (id === 'reset') {
       const resetUser = $('#si-reset-user')
-      if (!resetUser.value) resetUser.value = user().value.trim() || 'admin'
+      resetUser.value = normalizeEmail(email().value)
     }
-    if (id === 'workspaces') {
-      wsQuery().value = ''
-      wsQuery().removeAttribute('aria-invalid')
-    }
+    if (id === 'request') $('#si-req-email').value = normalizeEmail(email().value)
     if (id === 'pin') {
       const record = currentAccount()
       pinInput().value = ''
@@ -200,14 +167,14 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
       $('#si-pin-forget-wrap').hidden = !record
       if (record) {
         $('#si-pin-who').textContent = record.branch
-          ? `${record.user} · ${record.branch} · ${record.tenant}.skeyerp.com`
-          : `${record.user} · ${record.tenant}.skeyerp.com`
+          ? `${record.email} · ${record.branch} · ${record.tenant}.skeyerp.com`
+          : `${record.email} · ${record.tenant}.skeyerp.com`
       } else {
-        $('#si-pin-who').textContent = `${user().value.trim() || 'admin'} · ${tenant().value.trim() || '—'}.skeyerp.com`
+        $('#si-pin-who').textContent = `${normalizeEmail(email().value)} · ${tenantName}.skeyerp.com`
       }
     }
     if (id === 'save') {
-      $('#si-save-who').textContent = `${user().value.trim() || 'admin'} · ${tenant().value.trim() || 'lastchance'}.skeyerp.com`
+      $('#si-save-who').textContent = `${normalizeEmail(email().value)} · ${tenantName}.skeyerp.com`
     }
     if (id === 'savepin') {
       const pin1 = $('#si-save-pin')
@@ -223,7 +190,24 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
     resetPaneState(active)
     const selector = active.dataset.siFocus
     const target = (selector && active.querySelector(selector)) || active.querySelector('h1')
-    setTimeout(() => target?.focus(), 60)
+    // Cancel even if the user interacts and then leaves the pane before
+    // the timer runs. Looking only at activeElement would lose that history.
+    let interacted = active.contains(active.ownerDocument.activeElement)
+    const markInteraction = () => { interacted = true }
+    const events = ['focusin', 'pointerdown', 'keydown', 'input']
+    events.forEach(type => active.addEventListener(type, markInteraction, true))
+    const timer = setTimeout(() => {
+      cleanup()
+      if (token !== focusToken || active.hidden || interacted) return
+      if (active.contains(active.ownerDocument.activeElement)) return
+      target?.focus()
+    }, 60)
+    function cleanup() {
+      clearTimeout(timer)
+      events.forEach(type => active.removeEventListener(type, markInteraction, true))
+      if (activeFocusCleanup === cleanup) activeFocusCleanup = null
+    }
+    activeFocusCleanup = cleanup
   }
 
   function defaultSigninLabel() {
@@ -250,10 +234,11 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
      branch to the shell, then let main.js flip the session (toast +
      toggle). Password auth routes through postAuth() first, which parks
      on the save step only when the signing-in identity has no saved
-     PIN; device approval completes directly (round 5). */
+     PIN. */
   function complete() {
+    if (authenticatedEmail !== ADMIN_EMAIL) return
     applyBranch()
-    onSignIn?.()
+    onSignIn?.({email: authenticatedEmail, tenant: DEMO_DIRECTORY.get(authenticatedEmail)})
   }
   function postAuth() {
     if (currentAccount()?.pinHash) complete()
@@ -277,7 +262,7 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
       .join('')
   }
 
-  /* Picker rows for 2+ saved accounts: the row picks (fields sync, PIN
+  /* Picker rows for 2+ saved accounts: the row picks (identity syncs, PIN
      pane), the × forgets just that record. Rendered with t() because
      dynamic strings own no data-i18n. */
   function renderAccounts() {
@@ -285,14 +270,14 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
     $('#si-accounts-list').innerHTML = accounts
       .map((record, index) => {
         const host = `${encodeHtml(record.tenant)}.skeyerp.com`
-        const initial = encodeHtml((record.user || '?').trim().charAt(0).toUpperCase())
+        const initial = encodeHtml((record.email || '?').trim().charAt(0).toUpperCase())
         const secondary = record.branch ? encodeHtml(record.branch) : host
         return `
           <div class="flex items-center gap-2 rounded-md border border-line bg-surface px-3 py-2 hover:border-[var(--accent-line)] focus-within:[box-shadow:0_0_0_3px_var(--accent-soft)]" role="listitem">
             <button type="button" class="flex min-w-0 flex-1 items-start gap-3 border-0 bg-transparent p-0 text-start" data-si-pick="${index}">
               <span class="grid size-8 shrink-0 place-items-center rounded-full bg-[var(--line-2)] text-sm font-semibold text-ink" aria-hidden="true">${initial}</span>
               <span class="min-w-0 flex-1">
-                <span class="block truncate text-sm font-semibold text-ink" dir="ltr">${encodeHtml(record.user)} · ${host}</span>
+                <span class="block truncate text-sm font-semibold text-ink" dir="ltr">${encodeHtml(record.email)} · ${host}</span>
                 <span class="block truncate text-xs text-muted" dir="ltr">${secondary}</span>
               </span>
             </button>
@@ -302,30 +287,48 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
       .join('')
   }
 
-  /* The one path from the tenant step (Continue) and the workspaces
-     search: normalize the tenant, then route around — branch-bearing
-     workspaces stop at the branch pane, everything else goes straight to
-     credentials. */
-  function advanceFromTenant() {
-    const value = tenant().value.trim().replace(/\.skeyerp\.com$/i, '')
-    if (!value) {
-      tenant().setAttribute('aria-invalid', 'true')
-      tenant().focus()
+  function emailError(message) {
+    email().setAttribute('aria-invalid', 'true')
+    $('#si-email-error').dataset.i18n = message
+    $('#si-email-error').textContent = t(message)
+    $('#si-email-error').hidden = false
+    email().focus()
+  }
+
+  function renderDiscovery(value) {
+    const message = DEMO_DIRECTORY.has(value)
+      ? "{email} isn't linked to a workspace yet. Ask your administrator to add you."
+      : "We couldn't find a Skey workspace for {email}."
+    const [before, after] = t(message).split('{email}')
+    const address = root.ownerDocument.createElement('bdi')
+    address.dir = 'ltr'
+    address.textContent = value
+    $('#si-discovery-message').replaceChildren(before, address, after)
+    $('#si-discovery').hidden = false
+  }
+
+  function advanceFromEmail() {
+    const value = normalizeEmail(email().value)
+    email().value = value
+    clearAttempt()
+    $('#si-discovery').hidden = true
+    if (!value) return emailError('Enter your work email.')
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return emailError('Enter an email like name@company.com.')
+    email().removeAttribute('aria-invalid')
+    $('#si-email-error').hidden = true
+    const workspace = DEMO_DIRECTORY.get(value)
+    if (!workspace) {
+      renderDiscovery(value)
+      email().focus()
       return
     }
-    tenant().removeAttribute('aria-invalid')
-    tenant().value = value
-    const branches = branchesFor(value)
-    if (!branches.includes(branch)) {
-      branch = branches.length ? branches[0] : null
-      branchSource = null
-    }
-    if (branches.length) {
+    tenantName = workspace
+    const branches = branchesFor(workspace)
+    branch = branches[0] || null
+    if (branches.length > 1) {
       renderBranches(branches)
       show('branch')
-      return
-    }
-    show(2)
+    } else show('2')
   }
 
   /* Dynamic strings own no data-i18n (they are set at runtime), so
@@ -335,6 +338,7 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
     defaultSigninLabel()
     pinSigninBtn().textContent = t('Sign in with PIN')
     hideError()
+    if (!$('#si-discovery').hidden) renderDiscovery(normalizeEmail(email().value))
     if (panes().find(pane => !pane.hidden)?.dataset.siPane === 'accounts') renderAccounts()
   }
 
@@ -358,12 +362,14 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
       menu.open = false
       menu.querySelector('summary')?.focus()
     })
-    $('#si-to2').addEventListener('click', () => advanceFromTenant())
-    tenant().addEventListener('input', () => {
-      syncBranchSource()
-      tenant().removeAttribute('aria-invalid')
+    $('#si-to2').addEventListener('click', advanceFromEmail)
+    email().addEventListener('input', () => {
+      clearAttempt()
+      email().removeAttribute('aria-invalid')
+      $('#si-email-error').hidden = true
+      $('#si-discovery').hidden = true
     })
-    tenant().addEventListener('keydown', e => {
+    email().addEventListener('keydown', e => {
       if (e.key === 'Enter') {
         e.preventDefault()
         $('#si-to2').click()
@@ -380,12 +386,6 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
       capsNote().classList.toggle('hidden', !(e.getModifierState && e.getModifierState('CapsLock')))
     })
     pass().addEventListener('input', () => pass().removeAttribute('aria-invalid'))
-    user().addEventListener('keydown', e => {
-      if (e.key === 'Enter') {
-        e.preventDefault()
-        pass().focus()
-      }
-    })
     pass().addEventListener('keydown', e => {
       if (e.key === 'Enter') {
         e.preventDefault()
@@ -394,18 +394,24 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
     })
     signinBtn().addEventListener('click', () => {
       hideError()
+      const attemptEmail = normalizeEmail(email().value)
+      const attemptPassword = pass().value
+      const attemptToken = focusToken
       signinBtn().disabled = true
       setTimeout(() => {
+        if (attemptToken !== focusToken) return
         signinBtn().disabled = false
-        if (user().value.trim() === 'admin' && pass().value === 'skey123') {
+        if (attemptEmail === ADMIN_EMAIL && tenantName === DEMO_DIRECTORY.get(attemptEmail) && attemptPassword === 'skey123') {
+          authenticatedEmail = attemptEmail
           signinBtn().textContent = `✓ ${t('Sign in with password')}`
           setTimeout(() => {
+            if (attemptToken !== focusToken) return
             defaultSigninLabel()
             postAuth()
           }, 350)
         } else {
           pass().setAttribute('aria-invalid', 'true')
-          errBox().textContent = t('Invalid credentials in this demo — try admin / skey123.')
+          errBox().textContent = t('Invalid credentials — use admin@lastchance.local / skey123 in this demo.')
           errBox().classList.remove('hidden')
         }
       }, 800)
@@ -418,7 +424,7 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
     const resetOk = $('[data-si-reset-ok]')
     resetSend.addEventListener('click', () => {
       const id = resetUser.value.trim()
-      if (!id) {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(id)) {
         resetUser.setAttribute('aria-invalid', 'true')
         resetUser.focus()
         return
@@ -426,7 +432,7 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
       resetUser.removeAttribute('aria-invalid')
       resetSend.disabled = true
       setTimeout(() => {
-        const address = `${id}@${tenant().value.trim() || 'lastchance'}.skeyerp.com`
+        const address = normalizeEmail(id)
         resetOk.textContent = t(
           'If an account exists for {user}, a reset link is on its way. (demo — no email is sent)'
         ).replace('{user}', address)
@@ -436,57 +442,29 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
     })
     resetUser.addEventListener('input', () => resetUser.removeAttribute('aria-invalid'))
 
-    /* FIND YOUR WORKSPACES — no result list: type a tenant and submit
-       (Enter or the Continue button); the shared advance fills the
-       tenant step and routes onward (branch pane when the workspace has
-       branches). */
-    const wsSubmit = () => {
-      const value = wsQuery().value.trim()
-      if (!value) {
-        wsQuery().setAttribute('aria-invalid', 'true')
-        wsQuery().focus()
-        return
-      }
-      wsQuery().removeAttribute('aria-invalid')
-      tenant().value = value
-      tenant().removeAttribute('aria-invalid')
-      syncBranchSource()
-      advanceFromTenant()
-    }
-    wsQuery().addEventListener('input', () => wsQuery().removeAttribute('aria-invalid'))
-    wsQuery().addEventListener('keydown', event => {
-      if (event.key === 'Enter') {
-        event.preventDefault()
-        wsSubmit()
-      }
-    })
-    $('#si-ws-go').addEventListener('click', wsSubmit)
-
     /* BRANCH STEP — the radio list is re-rendered per tenant, so the
        change listener is delegated; Continue carries the pick to step 2. */
     $('#si-branch-list').addEventListener('change', event => {
       if (event.target.name === 'skey-signin-branch') {
         branch = event.target.value
-        branchSource = null
       }
     })
     $('#si-branch-go').addEventListener('click', () => {
       const checked = $('#si-branch-list input:checked')
       if (checked) {
         branch = checked.value
-        branchSource = null
       }
       show(2)
     })
 
-    /* ACCOUNTS PICKER — delegated: the row picks (fields sync, PIN
+    /* ACCOUNTS PICKER — delegated: the row picks (identity syncs, PIN
        pane), the × forgets that record only; the last removal falls
-       back to the tenant step. */
+       back to the email step. */
     $('#si-accounts-list').addEventListener('click', event => {
       const remove = event.target.closest('[data-si-remove]')
       if (remove) {
         const record = loadAccounts()[Number(remove.dataset.siRemove)]
-        if (record) forgetAccount(record.tenant, record.user)
+        if (record) forgetAccount(record.email)
         toast?.({tone: 'info', title: t('Account removed from this device.')})
         if (!loadAccounts().length) {
           show(1)
@@ -499,10 +477,9 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
       if (!pick) return
       const record = loadAccounts()[Number(pick.dataset.siPick)]
       if (!record) return
-      tenant().value = record.tenant
-      user().value = record.user
+      tenantName = DEMO_DIRECTORY.get(record.email)
+      email().value = record.email
       branch = record.branch || null
-      branchSource = accountKey(record.tenant, record.user)
       show('pin')
     })
 
@@ -519,18 +496,21 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
       pinErr().textContent = ''
       $('#si-pin-else').classList.add('hidden')
       pinInput().removeAttribute('aria-invalid')
+      const attemptToken = focusToken
       pinSigninBtn().disabled = true
       setTimeout(() => {
+        if (attemptToken !== focusToken) return
         pinSigninBtn().disabled = false
         const pin = pinInput().value
-        if (/^\d{6}$/.test(pin) && hashPin(pin) === record.pinHash) {
+        if (record.email === ADMIN_EMAIL && /^\d{6}$/.test(pin) && hashPin(pin) === record.pinHash) {
           pinSigninBtn().textContent = `✓ ${t('Sign in with PIN')}`
           setTimeout(() => {
+            if (attemptToken !== focusToken) return
+            authenticatedEmail = record.email
             pinSigninBtn().textContent = t('Sign in with PIN')
-            tenant().value = record.tenant
-            user().value = record.user
+            tenantName = DEMO_DIRECTORY.get(record.email)
+            email().value = record.email
             branch = record.branch || null
-            branchSource = accountKey(record.tenant, record.user)
             complete()
           }, 350)
         } else {
@@ -558,7 +538,7 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
     $('#si-pin-forget').addEventListener('click', () => {
       const record = currentAccount()
       if (!record) return
-      forgetAccount(record.tenant, record.user)
+      forgetAccount(record.email)
       toast?.({tone: 'info', title: t('Account removed from this device.')})
       show(loadAccounts().length ? 'accounts' : 1)
     })
@@ -574,17 +554,12 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
       if (!currentAccount()?.pinHash) return
       show('pin')
     })
-    user().addEventListener('input', () => {
-      syncBranchSource()
-      refreshWho()
-      refreshUsePin()
-    })
-
     /* SAVE STEP — Not now completes the visit without writing anything;
        Save PIN validates, stores the digest, toasts, and completes.
        Same validations and error strings the removed dialog used. */
     const saveGo = $('#si-save-go')
     const saveSubmit = () => {
+      if (authenticatedEmail !== ADMIN_EMAIL) return
       const pin = $('#si-save-pin')
       const pin2 = $('#si-save-pin2')
       const err = $('#si-save-pin-err')
@@ -607,8 +582,8 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
         return
       }
       upsertAccount({
-        tenant: tenant().value.trim() || 'lastchance',
-        user: user().value.trim() || 'admin',
+        tenant: DEMO_DIRECTORY.get(authenticatedEmail),
+        email: authenticatedEmail,
         branch,
         pinHash: hashPin(pin.value),
         savedAt: Date.now(),
@@ -629,18 +604,6 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
         saveSubmit()
       })
     }
-
-    /* DEVICE CODE — "Simulate approval" completes the demo handshake directly (round 5 skips the save step). */
-    $('#si-device-approve').addEventListener('click', event => {
-      const button = event.currentTarget
-      const ok = $('[data-si-device-ok]')
-      button.disabled = true
-      ok.textContent = t('Device approved — signing you in…')
-      ok.classList.remove('hidden')
-      setTimeout(() => {
-        complete()
-      }, 800)
-    })
 
     /* REQUEST ACCESS — required fields, then an 800ms confirmation. */
     const reqFields = ['#si-req-name', '#si-req-email', '#si-req-org'].map($)
@@ -683,17 +646,16 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
        over from the previous visit so it can never be pre-checked or
        saved under a different identity. */
     branch = null
-    branchSource = null
     /* Round-5 entry rules: one saved account opens on its PIN pane
-       (prefilled), 2+ open the picker, none fall through to the tenant
+       (prefilled), 2+ open the picker, none fall through to the email
        step; escaping to another pane never bounces back — only the next
        activation re-offers. */
     const accounts = loadAccounts()
     if (accounts.length === 1) {
-      tenant().value = accounts[0].tenant
-      user().value = accounts[0].user
+      tenantName = DEMO_DIRECTORY.get(accounts[0].email)
+      email().value = accounts[0].email
       branch = accounts[0].branch || null
-      branchSource = accountKey(accounts[0].tenant, accounts[0].user)
+
       lastAuthPane = '1'
       show('pin')
       return
@@ -706,9 +668,14 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
     show(1)
   }
 
-  function deactivate() {}
+  function deactivate() {
+    ++focusToken
+    activeFocusCleanup?.()
+    authenticatedEmail = null
+  }
 
   function dispose() {
+    deactivate()
     unsubscribeLocale?.()
     unsubscribeLocale = null
   }

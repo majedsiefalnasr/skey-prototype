@@ -170,12 +170,12 @@ export function createProfile({root, encodeHtml, currentUser, employeeDetails, c
 
     document.getElementById('profile-login-log').innerHTML = renderLoginLogTable(loginLogRows, encodeHtml)
 
-    securityDialogs = createSecurityDialogs({
-      trapFocus,
-      releaseFocus,
-      toast,
-    })
-    securityDialogs.bind()
+    // Dialogs live outside the rendered sections. Bind their shared forms
+    // once, including when authentication refreshes the Profile identity.
+    if (!securityDialogs) {
+      securityDialogs = createSecurityDialogs({trapFocus, releaseFocus, toast})
+      securityDialogs.bind()
+    }
     document.querySelector('[data-profile-open-change-password]').addEventListener('click', () => securityDialogs.openChangePassword())
     document.querySelector('[data-profile-open-set-pin]').addEventListener('click', () => securityDialogs.openSetPin())
     bindEditableTabs()
@@ -237,5 +237,13 @@ export function createProfile({root, encodeHtml, currentUser, employeeDetails, c
     rendered = false
   }
 
-  return {id: 'profile', roots: {root}, activate, deactivate, dispose, setSection}
+  function setIdentity(identity) {
+    // Authentication owns identity; stale saved profile fields must not
+    // replace the authenticated name or email on the next activation.
+    Object.assign(savedProfileDetails, {name: identity.name, email: identity.email})
+    storage.setItem(EDITABLE_TABS.profile.storageKey, JSON.stringify(savedProfileDetails))
+    dispose()
+  }
+
+  return {setIdentity, id: 'profile', roots: {root}, activate, deactivate, dispose, setSection}
 }

@@ -20,7 +20,7 @@ test('signin: every id and data hook the page module queries exists as a real at
   // attribute only counts when terminated by whitespace, `/`, `>`, or `=`.
   const template = await readFile('concepts/app/pages/signin/templates.html', 'utf8');
   const present = name => new RegExp(`(?:\\s)${name}(?=[\\s>\\/=])`).test(template);
-  for (const id of ['si-tenant', 'si-to2', 'si-change', 'si-who', 'si-user', 'si-pass', 'si-show', 'si-signin', 'si-lang', 'si-ws-q', 'si-ws-go', 'si-branch-list', 'si-branch-go', 'si-pin', 'si-pin-signin', 'si-pin-who', 'si-pin-err', 'si-pin-back', 'si-pin-forget', 'si-pin-forget-wrap', 'si-pin-else', 'si-pin-someone', 'si-usepin', 'si-usepin-wrap', 'si-accounts-h', 'si-accounts-list', 'si-accounts-other', 'si-save-h', 'si-save-who', 'si-save-not-now', 'si-save-create', 'si-save-pin-h', 'si-save-pin', 'si-save-pin2', 'si-save-pin-err', 'si-save-back', 'si-save-go']) {
+  for (const id of ['si-email', 'si-to2', 'si-change', 'si-who', 'si-auth-email', 'si-pass', 'si-show', 'si-signin', 'si-lang', 'si-branch-list', 'si-branch-go', 'si-pin', 'si-pin-signin', 'si-pin-who', 'si-pin-err', 'si-pin-back', 'si-pin-forget', 'si-pin-forget-wrap', 'si-pin-else', 'si-pin-someone', 'si-usepin', 'si-usepin-wrap', 'si-accounts-h', 'si-accounts-list', 'si-accounts-other', 'si-save-h', 'si-save-who', 'si-save-not-now', 'si-save-create', 'si-save-pin-h', 'si-save-pin', 'si-save-pin2', 'si-save-pin-err', 'si-save-back', 'si-save-go']) {
     assert.ok(template.includes(`id="${id}"`), `template owns #${id}`);
   }
   // The credentials pane signs in with a password, full stop: the Microsoft
@@ -37,15 +37,15 @@ test('signin: every id and data hook the page module queries exists as a real at
   assert.ok(!template.includes('si-ws-empty'), 'no empty-state element remains');
 });
 
-test('signin: every data-si-goto target resolves to a real pane, and all thirteen panes exist', async () => {
+test('signin: every data-si-goto target resolves to a real pane, and all eleven panes exist', async () => {
   const template = await readFile('concepts/app/pages/signin/templates.html', 'utf8');
   const panes = [...template.matchAll(/data-si-pane="([^"]+)"/g)].map(match => match[1]);
   const gotos = [...new Set([...template.matchAll(/data-si-goto="([^"]+)"/g)].map(match => match[1]))];
   assert.equal(new Set(panes).size, panes.length, 'pane ids are unique');
-  for (const pane of ['1', '2', 'branch', 'pin', 'accounts', 'save', 'savepin', 'reset', 'workspaces', 'device', 'request', 'privacy', 'support']) {
+  for (const pane of ['1', '2', 'branch', 'pin', 'accounts', 'save', 'savepin', 'reset', 'request', 'privacy', 'support']) {
     assert.ok(panes.includes(pane), `template owns pane ${pane}`);
   }
-  assert.equal(panes.length, 13, 'exactly thirteen panes — no strays');
+  assert.equal(panes.length, 11, 'exactly eleven panes — no strays');
   // `back` is the router's alias for "the auth pane the user came from";
   // every other jump must land on a pane that exists.
   for (const target of gotos) {

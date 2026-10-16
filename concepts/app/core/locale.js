@@ -284,15 +284,17 @@ export function createLocale() {
           'Signed in as': 'مسجَّل الدخول باسم',
           'Workspace switched': 'تم تبديل مساحة العمل',
           Cancel: 'إلغاء',
+          'Sign in to Skey': 'سجّل الدخول إلى Skey',
+          "Use your work email — we'll find your workspace.": 'استخدم بريد العمل الإلكتروني — سنجد مساحة عملك.',
+          'Enter your work email.': 'أدخل بريد العمل الإلكتروني.',
+          'Enter an email like name@company.com.': 'أدخل بريداً إلكترونياً مثل name@company.com.',
+          "We couldn't find a Skey workspace for {email}.": 'لم نعثر على مساحة عمل Skey للبريد {email}.',
+          "{email} isn't linked to a workspace yet. Ask your administrator to add you.": 'البريد {email} غير مرتبط بمساحة عمل بعد. اطلب من المسؤول إضافتك.',
+          'Use a different email': 'استخدم بريداً إلكترونياً آخر',
+          'Enter your work email and we will send a reset link.': 'أدخل بريد العمل الإلكتروني وسنرسل رابط إعادة التعيين.',
+          'Invalid credentials — use admin@lastchance.local / skey123 in this demo.': 'بيانات الدخول غير صحيحة — استخدم admin@lastchance.local / skey123 في هذا العرض.',
           // Sign-in view (Slack-style minimal concept)
-          'Sign in to your workspace': 'سجّل الدخول إلى مساحة عملك',
-          'Enter your Skey tenant name': 'أدخل اسم مستأجر Skey الخاص بك',
           Continue: 'متابعة',
-          'Tenant name': 'اسم المستأجر',
-          'Find your workspaces': 'اعثر على مساحات عملك',
-          'Do not know your tenant?': 'لا تعرف المستأجر؟',
-          'Signing in from a branch device?': 'تسجّل الدخول من جهاز فرع؟',
-          'Use device code': 'استخدم رمز الجهاز',
           'Enter your password to sign in': 'أدخل كلمة المرور لتسجيل الدخول',
           Change: 'تغيير',
           Password: 'كلمة المرور',
@@ -310,18 +312,9 @@ export function createLocale() {
           'Privacy & terms': 'الخصوصية والشروط',
           'Send reset link': 'أرسل رابط إعادة التعيين',
           'Back to sign in': 'العودة إلى تسجيل الدخول',
-          'Enter your username and we will send a reset link to the address on file.':
-            'أدخل اسم المستخدم وسنرسل رابط إعادة التعيين إلى العنوان المسجَّل.',
           'If an account exists for {user}, a reset link is on its way. (demo — no email is sent)':
             'إذا كان هناك حساب لـ {user} فسيصلك رابط إعادة التعيين قريباً. (تجريبي — لا تُرسل أي رسائل)',
-          'Search by organization, email, or tenant name.':
-            'ابحث باسم المؤسسة أو البريد أو اسم المستأجر.',
           'No workspaces found.': 'لا توجد مساحات عمل مطابقة.',
-          'On another device, open skeyerp.com/activate and enter this code.':
-            'على جهاز آخر، افتح skeyerp.com/activate وأدخل هذا الرمز.',
-          'Waiting for approval': 'بانتظار الموافقة',
-          'Simulate approval (demo)': 'محاكاة الموافقة (تجريبي)',
-          'Device approved — signing you in…': 'تمت الموافقة على الجهاز — جارٍ تسجيل دخولك…',
           'Tell us who you are and we will provision a workspace for your team.':
             'أخبرنا عنك وسنجهّز مساحة عمل لفريقك.',
           'Full name': 'الاسم الكامل',
@@ -345,8 +338,6 @@ export function createLocale() {
           'Sun–Thu · 9:00–18:00 Cairo': 'الأحد–الخميس · 9:00–18:00 بتوقيت القاهرة',
           'By continuing, you agree to the Skey subscription agreement and accept the terms of service.':
             'بالمتابعة أنت توافق على اتفاقية اشتراك Skey وتقبل شروط الخدمة.',
-          'Invalid credentials in this demo — try admin / skey123.':
-            'بيانات الدخول غير صحيحة في هذا العرض — جرّب admin / skey123.',
           // Round 2 — workspace search, branch step, PIN sign-in, save dialog
           'Press Enter to continue.': 'اضغط Enter للمتابعة.',
           'Which branch are you working from?': 'من أي فرع تعمل اليوم؟',
@@ -385,7 +376,6 @@ export function createLocale() {
           'Sign in as someone else': 'تسجيل الدخول كشخص آخر',
           'Use PIN instead': 'استخدم الرمز السري بدلاً منه',
           'Saved this sign-in before?': 'حفظت هذا الدخول سابقاً؟',
-          'Start over with a different workspace': 'البدء من جديد مع مساحة عمل أخرى',
           'One more step': 'خطوة أخيرة',
           'Account removed from this device.': 'تمت إزالة الحساب من هذا الجهاز.',
           'Remove account': 'إزالة الحساب',

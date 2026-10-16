@@ -43,10 +43,10 @@ async function goto(page, path) {
  *  cares about reaching step 2. With fresh state the card then parks on
  *  the save step; the helper answers "Not now". */
 async function signIn(page) {
+  await page.locator('#si-email').fill('admin@lastchance.local');
   await page.locator('#si-to2').click();
   const branchGo = page.locator('#si-branch-go');
   if (await branchGo.isVisible()) await branchGo.click();
-  await page.locator('#si-user').fill('admin');
   await page.locator('#si-pass').fill('skey123');
   await page.locator('#si-signin').click();
   // Fresh state has no saved PIN — the card parks on the save step and
