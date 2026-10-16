@@ -142,7 +142,9 @@ async function runEntry(browser, {project, state, destination}) {
     const area=id.startsWith('notes')||id.startsWith('note-')?'notes':id.startsWith('activities')?'activities':id.startsWith('events')||id.startsWith('event-')?'events':id.startsWith('people')?'people-data':id.startsWith('mail')?'email':null;
     await page.goto(base+(area?`/help-screens/${area}`:state.fixture==='invoice'?manifest.fixtures.invoice.route:'/signin'));
     await expect(page.locator('#simulate-loading')).not.toBeChecked();
-    await page.locator('#kit-hide').click();
+    const kitHide=page.locator('#kit-hide');
+    if(await kitHide.isVisible()) await kitHide.click();
+    await expect(page.locator('#kit')).toBeHidden();
     await settle(page);
     if(rtl) await page.locator('#rtl').evaluate(el=>{el.checked=true;el.dispatchEvent(new Event('change',{bubbles:true}));});
     if(state.fixture==='invoice' && invoiceViewportOverride) await page.setViewportSize(invoiceViewportOverride);
