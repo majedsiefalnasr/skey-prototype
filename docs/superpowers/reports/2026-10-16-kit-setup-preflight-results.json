@@ -1,0 +1,853 @@
+{
+  "sourceRevision": "792082abc6254d311bb973f68ea0d43f728e6c72",
+  "manifestSha256": "84a6ca14241b2b8246420c031918ed4d45eca3895da7cf00a227d7d65aed09c5",
+  "runnerSha256": "6dc50e45a42b10feeb4679c0119bc424ad480d7bd9fea7c904ca84b4e8fe5bbe",
+  "frozenBuild": {
+    "root": "/private/tmp/skey-kit-setup-visual/frozen",
+    "fileCount": 272,
+    "inventory": "/private/tmp/skey-kit-setup-visual/frozen-build.json",
+    "inventorySha256": "bc3eb6badb438a85f03bfdf6f054eaceb31c71db73d786be2994d30df2307cc1"
+  },
+  "preflight": {
+    "passed": 34,
+    "failed": 1,
+    "unrun": 93
+  },
+  "byProject": [
+    {
+      "project": "desktop",
+      "passed": 18,
+      "failed": 0,
+      "unrun": 0
+    },
+    {
+      "project": "mobile-touch",
+      "passed": 16,
+      "failed": 1,
+      "unrun": 2
+    },
+    {
+      "project": "desktop-dark",
+      "passed": 0,
+      "failed": 0,
+      "unrun": 18
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "passed": 0,
+      "failed": 0,
+      "unrun": 18
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "passed": 0,
+      "failed": 0,
+      "unrun": 18
+    },
+    {
+      "project": "mobile-rtl",
+      "passed": 0,
+      "failed": 0,
+      "unrun": 19
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "passed": 0,
+      "failed": 0,
+      "unrun": 18
+    }
+  ],
+  "failedEntries": [
+    {
+      "project": "mobile-touch",
+      "name": "invoice-tax-totals.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/invoice-tax-totals.png",
+      "status": "failed",
+      "imageCreated": false,
+      "error": "AssertionError [ERR_ASSERTION]: Clipped/obscured locator('.rec-summary'): {\"rect\":{\"x\":84,\"y\":577.40625,\"width\":274,\"height\":296.171875},\"bounds\":[{\"x\":0,\"y\":125,\"width\":390,\"height\":1200},{\"x\":76,\"y\":480,\"width\":290,\"height\":414.34375},{\"x\":0,\"y\":0,\"width\":390,\"height\":1200}],\"hit\":false,\"fits\":true}\n    at visibleInCrop (file:///Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/scripts/visual-coverage.mjs:90:3)\n    at async runEntry (file:///Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/scripts/visual-coverage.mjs:359:16)\n    at async worker (file:///Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/scripts/visual-coverage.mjs:384:48)\n    at async Promise.all (index 1)\n    at async file:///Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/scripts/visual-coverage.mjs:389:6"
+    }
+  ],
+  "audit": {
+    "preservedExistingPngs": 124,
+    "knownFailureBaselineUnchanged": true,
+    "shotScriptsUnchanged": true,
+    "otherBranchRefsUnchanged": true,
+    "otherWorktreesUnchanged": true,
+    "frozenBuildUnchanged": true,
+    "onlyApprovedRunnerChange": true,
+    "manifestUnchanged": true,
+    "newImages": 0,
+    "existingSnapshotsUpdated": 0,
+    "pushed": false
+  },
+  "entries": [
+    {
+      "project": "desktop",
+      "name": "notes-kanban.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/notes-kanban.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "notes-list-archived.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/notes-list-archived.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "activities-kanban.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/activities-kanban.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "activities-calendar-week.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/activities-calendar-week.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "events-calendar-month.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/events-calendar-month.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "people-list.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/people-list.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "people-cards.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/people-cards.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "mail-inbox-list.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/mail-inbox-list.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "mail-reading-e1.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/mail-reading-e1.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "mail-compose-draft.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/mail-compose-draft.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "note-editor-related.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/note-editor-related.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "event-editor-validation.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/event-editor-validation.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "invoice-lines-start.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/invoice-lines-start.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "invoice-charges.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/invoice-charges.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "invoice-tax-totals.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/invoice-tax-totals.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "signin-email.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/signin-email.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "signin-unknown-workspace.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/signin-unknown-workspace.png",
+      "status": "passed"
+    },
+    {
+      "project": "desktop",
+      "name": "signin-password-identity.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop/signin-password-identity.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "notes-kanban.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/notes-kanban.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "notes-list-archived.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/notes-list-archived.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "activities-kanban.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/activities-kanban.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "activities-calendar-week.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/activities-calendar-week.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "events-calendar-month.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/events-calendar-month.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "people-list.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/people-list.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "people-cards.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/people-cards.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "mail-inbox-list.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/mail-inbox-list.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "mail-reading-e1.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/mail-reading-e1.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "mail-compose-draft.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/mail-compose-draft.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "note-editor-related.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/note-editor-related.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "event-editor-validation.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/event-editor-validation.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "invoice-lines-start.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/invoice-lines-start.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "invoice-lines-end.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/invoice-lines-end.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "invoice-charges.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/invoice-charges.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "invoice-tax-totals.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/invoice-tax-totals.png",
+      "status": "failed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "signin-email.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/signin-email.png",
+      "status": "passed"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "signin-unknown-workspace.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/signin-unknown-workspace.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-touch",
+      "name": "signin-password-identity.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/signin-password-identity.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "notes-kanban.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/notes-kanban.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "notes-list-archived.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/notes-list-archived.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "activities-kanban.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/activities-kanban.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "activities-calendar-week.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/activities-calendar-week.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "events-calendar-month.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/events-calendar-month.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "people-list.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/people-list.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "people-cards.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/people-cards.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "mail-inbox-list.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/mail-inbox-list.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "mail-reading-e1.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/mail-reading-e1.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "mail-compose-draft.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/mail-compose-draft.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "note-editor-related.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/note-editor-related.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "event-editor-validation.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/event-editor-validation.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "invoice-lines-start.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/invoice-lines-start.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "invoice-charges.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/invoice-charges.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "invoice-tax-totals.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/invoice-tax-totals.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "signin-email.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/signin-email.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "signin-unknown-workspace.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/signin-unknown-workspace.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-dark",
+      "name": "signin-password-identity.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/signin-password-identity.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "notes-kanban.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/notes-kanban.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "notes-list-archived.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/notes-list-archived.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "activities-kanban.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-kanban.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "activities-calendar-week.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "events-calendar-month.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/events-calendar-month.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "people-list.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/people-list.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "people-cards.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/people-cards.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "mail-inbox-list.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/mail-inbox-list.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "mail-reading-e1.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/mail-reading-e1.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "mail-compose-draft.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/mail-compose-draft.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "note-editor-related.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/note-editor-related.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "event-editor-validation.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/event-editor-validation.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "invoice-lines-start.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/invoice-lines-start.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "invoice-charges.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/invoice-charges.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "invoice-tax-totals.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/invoice-tax-totals.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "signin-email.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/signin-email.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "signin-unknown-workspace.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/signin-unknown-workspace.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "signin-password-identity.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/signin-password-identity.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "notes-kanban.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/notes-kanban.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "notes-list-archived.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/notes-list-archived.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "activities-kanban.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/activities-kanban.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "activities-calendar-week.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/activities-calendar-week.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "events-calendar-month.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "people-list.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/people-list.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "people-cards.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/people-cards.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "mail-inbox-list.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/mail-inbox-list.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "mail-reading-e1.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/mail-reading-e1.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "mail-compose-draft.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/mail-compose-draft.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "note-editor-related.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/note-editor-related.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "event-editor-validation.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/event-editor-validation.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "invoice-lines-start.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/invoice-lines-start.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "invoice-charges.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/invoice-charges.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "invoice-tax-totals.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/invoice-tax-totals.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "signin-email.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/signin-email.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "signin-unknown-workspace.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/signin-unknown-workspace.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "signin-password-identity.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/signin-password-identity.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "notes-kanban.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/notes-kanban.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "notes-list-archived.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/notes-list-archived.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "activities-kanban.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/activities-kanban.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "activities-calendar-week.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/activities-calendar-week.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "events-calendar-month.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/events-calendar-month.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "people-list.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/people-list.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "people-cards.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/people-cards.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "mail-inbox-list.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/mail-inbox-list.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "mail-reading-e1.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/mail-reading-e1.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "mail-compose-draft.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/mail-compose-draft.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "note-editor-related.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/note-editor-related.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "event-editor-validation.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/event-editor-validation.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "invoice-lines-start.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/invoice-lines-start.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "invoice-lines-end.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/invoice-lines-end.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "invoice-charges.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/invoice-charges.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "invoice-tax-totals.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/invoice-tax-totals.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "signin-email.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/signin-email.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "signin-unknown-workspace.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/signin-unknown-workspace.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "signin-password-identity.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/signin-password-identity.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "notes-kanban.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/notes-kanban.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "notes-list-archived.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/notes-list-archived.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "activities-kanban.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/activities-kanban.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "activities-calendar-week.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/activities-calendar-week.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "events-calendar-month.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/events-calendar-month.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "people-list.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/people-list.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "people-cards.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/people-cards.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "mail-inbox-list.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/mail-inbox-list.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "mail-reading-e1.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/mail-reading-e1.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "mail-compose-draft.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/mail-compose-draft.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "note-editor-related.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/note-editor-related.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "event-editor-validation.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/event-editor-validation.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "invoice-lines-start.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/invoice-lines-start.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "invoice-charges.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/invoice-charges.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "invoice-tax-totals.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/invoice-tax-totals.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "signin-email.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/signin-email.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "signin-unknown-workspace.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/signin-unknown-workspace.png",
+      "status": "blocked-unrun"
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "signin-password-identity.png",
+      "destination": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/signin-password-identity.png",
+      "status": "blocked-unrun"
+    }
+  ]
+}
