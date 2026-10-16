@@ -123,6 +123,47 @@ visual state, not an endorsement that the state is desired.
     `[&.open]:block` utility in the element's class list, so the drawer's
     open/closed state is now asserted with `toBeVisible()` / `toBeHidden()`.
 
+## Known failing tests at the collaboration-suite merge (2026-10-16)
+
+Measured with `npx playwright test` (all 7 projects) against `npm run dev`,
+on `main` at `ab21018` and on `feat/collaboration-suite` at `566756e`.
+`main` fails 57 tests; the branch fails 80 (55 shared, 2 fixed by the
+branch, 25 branch-only). These are recorded, not hidden: no test or
+baseline was changed to make them pass.
+
+14. **`parity › record` fails on desktop (out of scope).**
+    `record.png` differs by 18 pixels around the title's star icon and the
+    Customer No. lookup's dropdown arrow. Kept as a deliberate, documented
+    failure; the baseline is not re-captured.
+
+15. **Non-desktop parity baselines predate intentional collaboration-suite
+    UI changes.** The branch re-captured only `desktop/email.png`; the other
+    six projects still hold the earlier images, so 18 snapshots fail:
+    - `customer-record` on all six non-desktop projects, and `record` on
+      all of them except desktop-high-contrast-dark — a few-pixel
+      select-arrow difference from the form primitives change (`d2e7a64`).
+    - `email` on all six non-desktop projects — the Internal Mail redesign.
+    - `launchpad` on mobile-rtl.
+    Re-capturing them is pending an explicit decision.
+
+16. **`data-list-component › toolbar data-menus dismiss with Escape and
+    outside click` fails on mobile-touch and mobile-rtl (test design).** At
+    390px the Columns popover covers the search input the test clicks as its
+    "outside" target, so the click lands inside the popover and times out.
+    Passes on all desktop projects. The app behaviour is not at fault.
+
+17. **Failures inherited from `main` (55 tests).** Mostly mobile-rtl (25)
+    and mobile-touch (11): customer-record lifecycle and invoice record
+    flows time out on clicks, and several data-list / messaging element
+    screenshots differ. Present on `main` before the merge; not introduced
+    by the collaboration suite.
+
+18. **Load-sensitive tests.** `help-screens-consistency` ("a new person can
+    be saved…", "translated copy keeps its spacing…") on desktop-dark and
+    `components` ("print dialog traps Tab…", "a simulated failure resets
+    busy state…") on desktop-high-contrast-dark failed in the full parallel
+    run but passed in isolated reruns (`--repeat-each=2`).
+
 ## How this ledger is used by tests
 
 - No test in `tests/parity.spec.mjs` or elsewhere may assert that any of
