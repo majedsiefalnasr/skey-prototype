@@ -135,7 +135,7 @@ test.describe('user menu', () => {
       await localized(page, 'Signed in as')
     );
     await expect(page.locator('#loscrim [data-user-name]')).toHaveText('Majed Sief Alnasr');
-    await expect(page.locator('#loscrim [data-user-email]')).toHaveText('admin@lastchance');
+    await expect(page.locator('#loscrim [data-user-email]')).toHaveText('admin@lastchance.local');
 
     // The row closes the dropdown behind the dialog.
     await expect(page.locator('.user-pop')).not.toHaveClass(/open/);
@@ -259,7 +259,7 @@ test.describe('user menu', () => {
     await expect(card).toHaveAttribute('role', 'menuitem');
     await expect(card.locator('[data-user-initials]')).toHaveText('MS');
     await expect(card.locator('[data-user-name]')).toHaveText('Majed Sief Alnasr');
-    await expect(card.locator('[data-user-email]')).toHaveText('admin@lastchance');
+    await expect(card.locator('[data-user-email]')).toHaveText('admin@lastchance.local');
     await expect(card.locator('[data-user-tenant]')).toHaveText('lastchance');
     await expect(card.locator('[data-user-branch]')).toHaveText('Cairo HQ');
     await expect(card.locator('[data-active-role-label]')).toHaveText(

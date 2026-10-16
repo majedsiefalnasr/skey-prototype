@@ -4,7 +4,7 @@
 
 export const CURRENT_USER = {
   name: 'Majed Sief Alnasr',
-  email: 'admin@lastchance',
+  email: 'admin@lastchance.local',
   phone: '+20 100 123 4567',
   jobTitle: 'ERP Administrator',
   username: 'msiefalnasr',
@@ -35,7 +35,7 @@ export const CONTACT_DETAILS = {
   country: 'EG - Egypt',
   postalCode: '11511',
   phone: '+20 2 2345 6789',
-  email: 'admin@lastchance',
+  email: 'admin@lastchance.local',
   mobile: '+20 100 123 4567',
   website: '',
 }
