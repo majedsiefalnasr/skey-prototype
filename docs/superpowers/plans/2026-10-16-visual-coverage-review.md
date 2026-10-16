@@ -1,5 +1,11 @@
 # Final proposed capture manifest — approval required
 
+Approval record (2026-10-16): the user approved the 128-image manifest and then
+the separate Sunday-start resolution proposal. The Activities week is corrected
+to October 11–17, 2026; every other capture requirement is retained. The review
+and feasibility evidence below otherwise records the historical review state.
+Fresh complete preflight is required before capture.
+
 This is a review artifact, not authorization to capture. No screenshots were
 created during this review. Application code, browser tests, snapshots and
 the known 76-failure baseline remain unchanged. Nothing has been pushed.
@@ -205,7 +211,7 @@ month in view. These mobile images do not show every day or event at once.
 | `notes-kanban.png` | All | Default All, empty query; three columns; note-1..4 visible, archive collapsed; note-1 pinned | Viewport, origin |
 | `notes-list-archived.png` | All | List + Archived quick filter; exactly note-5 “Old pricing assumptions” | Viewport, origin |
 | `activities-kanban.png` | All | All; act-1..6; planned 4, in_progress 1, done 1 | Viewport, origin |
-| `activities-calendar-week.png` | All | Week Oct 12–18; act-1 Oct 13 15:00/30m and act-3 Oct 15 10:00/60m; 3 unscheduled | Viewport; desktop timeline 09:00; mobile native-pan to act-1 |
+| `activities-calendar-week.png` | All | Week Oct 11–17; act-1 Oct 13 15:00/30m and act-3 Oct 15 10:00/60m; 3 unscheduled | Viewport; desktop timeline 09:00; mobile native-pan to act-1 |
 | `events-calendar-month.png` | All | October 2026; evt-1..4; timed and all-day entries; five rendered event buttons including two dates for evt-4 | Viewport; mobile native-pan to Oct 13 cell so Oct 6 holiday and Oct 13 supplier visit are visible |
 | `people-list.png` | All | List; per-1..4; per-3 Contact/Converted to Customer; no filters | Viewport, origin |
 | `people-cards.png` | All | Cards; per-1..4; company/contact facts retained; no table | Viewport, origin |

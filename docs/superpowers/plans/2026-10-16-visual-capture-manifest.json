@@ -396,7 +396,7 @@
       "setup": [
         "Open /help-screens/activities.",
         "Click [data-view-menu] summary then [data-view-select=\"calendar\"].",
-        "Week is 2026-10-12 through 2026-10-18. Set .activities-view [data-timed].scrollTop=432 (09:00 at 48 CSS px/hour).",
+        "Week is 2026-10-11 through 2026-10-17. Set .activities-view [data-timed].scrollTop=432 (09:00 at 48 CSS px/hour).",
         "Mobile only: native center-scroll .activities-view [data-cal-item=\"0\"] into its scroll ancestors. Desktop keeps 09:00 timeline origin."
       ],
       "assertions": [

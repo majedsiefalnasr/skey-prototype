@@ -181,7 +181,7 @@ async function runEntry(browser, {project, state, destination}) {
       await expect(page.locator(`${root} [data-cal-week]`)).toBeVisible();
       await expect(page.locator(`${root} [data-cal-modes] [data-value="week"]`)).toHaveAttribute('aria-pressed','true');
       await expect(page.locator(`${root} [data-unscheduled-notice]`)).toContainText('3 unscheduled');
-      await ids(page.locator(`${root} [data-timed] [data-cal-slot][data-time="00:00"]`),'data-cal-slot',Array.from({length:7},(_,i)=>`2026-10-${12+i}`));
+      await ids(page.locator(`${root} [data-timed] [data-cal-slot][data-time="00:00"]`),'data-cal-slot',Array.from({length:7},(_,i)=>`2026-10-${11+i}`));
       const items=page.locator(`${root} [data-cal-item]`);await expect(items).toHaveCount(2);
       await expect(items.nth(0)).toHaveAttribute('aria-label',/Call Al Noor about quotation 884, 15:00 to 15:30/);
       await expect(items.nth(1)).toHaveAttribute('aria-label',/Monthly sales review, 10:00 to 11:00/);
