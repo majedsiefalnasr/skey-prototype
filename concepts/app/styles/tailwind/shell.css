@@ -517,7 +517,7 @@
     inset-block-start: auto;
     inset-block-end: calc(100% + 4px);
   }
-  .mlist button {
+  .mlist button:not([role='tab']) {
     display: flex;
     width: 100%;
     align-items: center;
@@ -526,7 +526,7 @@
     border-radius: 6px;
     text-align: start;
   }
-  .mlist button:hover:not(:disabled) {
+  .mlist button:not([role='tab']):hover:not(:disabled) {
     background: var(--line-2);
   }
   .mlist hr {
@@ -2255,7 +2255,7 @@
     padding-block: 6px 2px;
   }
   /* Dropdown / overflow menus (topbar menus, row "..." menus, manage menus) */
-  body.density-compact .mlist button,
+  body.density-compact .mlist button:not([role='tab']),
   body.density-compact .mlist label {
     min-height: 28px;
     padding-block: 4px;
@@ -2559,7 +2559,7 @@
   body.density-comfortable .sgrp {
     padding-block: 12px 5px;
   }
-  body.density-comfortable .mlist button,
+  body.density-comfortable .mlist button:not([role='tab']),
   body.density-comfortable .mlist label {
     min-height: 36px;
     padding-block: 11px;
