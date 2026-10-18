@@ -1108,6 +1108,15 @@ if (signedOutAtBoot) {
   navigation.navigate(bootPlan.id, bootPlan.data)
 }
 
+document.addEventListener('click', event => {
+  const link = event.target.closest('a[data-home-link]')
+  if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+  event.preventDefault()
+  const plan = resolveDefaultEntry({launchpadEnabled: getLaunchpadEnabled()})
+  if (plan.kind === 'launchpad') navigation.navigate('launchpad')
+  else applyRoutePlan(plan)
+})
+
 /* Back/Forward: re-resolve the URL to a plan and apply it with the same
    guards as any other navigation. Unknown paths restore the boot plan;
    '/' re-resolves the default entry (Launchpad toggles stay honest); a

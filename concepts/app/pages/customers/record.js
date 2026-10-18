@@ -304,7 +304,7 @@ export function createCustomerRecord({root, deps}) {
     </div>
     <div class="phead [.d1_&]:[padding:11px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5 px-4">
       <div class="l [.d1_.phead_&]:[flex:1]">
-        <nav class="crumbs [.d3_.otitle_&]:[margin-bottom:3px]!" aria-label="Breadcrumb"><a href="#">${t('Home')}</a><span class="sep">›</span><button class="customer-back" type="button">${t('Customers')}</button><span class="sep">›</span><span aria-current="page">${creating ? t('New') : t('All')}</span></nav>
+        <nav class="crumbs [.d3_.otitle_&]:[margin-bottom:3px]!" aria-label="Breadcrumb"><a href="/" data-home-link>${t('Home')}</a><span class="sep">›</span><button class="customer-back" type="button">${t('Customers')}</button><span class="sep">›</span><span aria-current="page">${creating ? t('New') : t('All')}</span></nav>
         <div class="tline [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-5 [.d1_&]:mt-2! [.d1_&]:flex-wrap [.d1_&_h1]:[font-size:23px] [.d1_&_h1]:font-semibold"><h1>${title}</h1>${customerData.deactivationFrom ? `<span class="badge danger">${t('Inactive')}</span>` : ''}</div>
         ${deactivationNote}
       </div>

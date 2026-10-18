@@ -4,7 +4,7 @@
      components/related-items/related-items.js. The editor follows the customer
      drawers' anatomy (title + description header, scrollable body, tinted
      footer) at the wider width an item editor needs. -->
-<div id="collab-panel-scrim" class="fixed inset-0 z-[130] hidden bg-[rgba(17,24,39,0.4)] [&.open]:block"></div>
+<div id="collab-panel-scrim" class="fixed inset-0 z-[130] hidden [background:var(--scrim)] backdrop-blur-[4px] [&.open]:block"></div>
 <aside
   id="collab-panel"
   class="fixed inset-y-0 end-0 z-[140] hidden w-[min(560px,94vw)] flex-col bg-surface shadow-shell [&.open]:flex"
@@ -50,7 +50,7 @@
 </aside>
 <div
   id="collab-picker"
-  class="fixed inset-0 z-[150] hidden place-items-center bg-[rgba(17,24,39,0.4)] p-4 [&.open]:grid"
+  class="fixed inset-0 z-[150] hidden place-items-center [background:var(--scrim)] backdrop-blur-[4px] p-4 [&.open]:grid"
   role="dialog"
   aria-modal="true"
   aria-labelledby="collab-picker-title">
@@ -81,7 +81,7 @@
      dialogs use — toned header, body copy, footer buttons right. -->
 <div
   id="collab-confirm"
-  class="dscrim fixed [inset:0] [background:rgba(17,_24,_39,_0.45)] [z-index:160] hidden items-center justify-center [padding:24px]"
+  class="dscrim fixed [inset:0] [background:var(--scrim)] backdrop-blur-[4px] [z-index:160] hidden items-center justify-center [padding:24px]"
   role="alertdialog"
   aria-modal="true"
   aria-labelledby="collab-confirm-title"

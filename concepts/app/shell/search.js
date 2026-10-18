@@ -218,7 +218,7 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
 
   const sscrim = document.createElement('div')
 
-  sscrim.className = 'sscrim fixed inset-0 z-[150] hidden bg-transparent'
+  sscrim.className = 'sscrim fixed inset-0 z-[150] hidden [background:var(--scrim)] backdrop-blur-[4px]'
 
   sscrim.id = 'sscrim'
 

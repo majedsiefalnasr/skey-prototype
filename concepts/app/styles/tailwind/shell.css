@@ -683,7 +683,6 @@
   #adv-search-scrim {
     position: fixed;
     inset: 0;
-    background: transparent;
     z-index: 150;
     display: none;
   }

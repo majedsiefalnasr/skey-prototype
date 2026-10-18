@@ -129,6 +129,47 @@ test("the default entry '/' shows the Dashboard For You when the Launchpad is di
   expect(pathOf(page.url())).toBe('/');
 });
 
+for (const launchpad of [true, false]) {
+  test(`Home breadcrumbs return home without reloading (launchpad ${launchpad})`, async ({page}) => {
+    await page.addInitScript(enabled => {
+      window.sessionStorage.setItem('skey-proto-state', JSON.stringify({launchpad: enabled}));
+    }, launchpad);
+    for (const [path, view] of [
+      ['/dashboard', '.foryou-view'],
+      ['/customers/list', '.customer-list-view'],
+      ['/system/profile', '.profile-view'],
+    ]) {
+      await gotoRoute(page, path);
+      await page.evaluate(() => { window.breadcrumbNavigationMarker = true; });
+      const link = page.locator(`${view} [data-home-link]`);
+      await expect(link).toHaveAttribute('href', '/');
+      await link.click();
+      await expect.poll(() => pathOf(page.url())).toBe(launchpad ? '/' : '/dashboard');
+      if (launchpad) await expect(page.locator('.lp-view')).toBeVisible();
+      else await expectForYou(page, 'Dashboard');
+      expect(await page.evaluate(() => window.breadcrumbNavigationMarker)).toBe(true);
+    }
+  });
+}
+
+test('Home breadcrumb respects the unsaved list layout guard', async ({page}, testInfo) => {
+  test.skip(testInfo.project.use.viewport?.width < 900, 'Columns menu needs a desktop viewport.');
+  await gotoRoute(page, '/sales-systems-management/sales-invoices');
+  const columnsMenu = page.locator('.list-view .data-menu').filter({
+    has: page.locator(':scope > summary', {hasText: /^Columns$/}),
+  });
+  await columnsMenu.locator(':scope > summary').click();
+  await columnsMenu.locator('[data-list-column]').first().uncheck();
+  await columnsMenu.locator(':scope > summary').click();
+  await page.locator('.list-view [data-home-link]').click();
+  await expect(page.locator('#list-layout-guard')).toHaveClass(/open/);
+  await page.locator('#list-layout-stay').click();
+  await expect(page.locator('#list-layout-guard')).not.toHaveClass(/open/);
+  await expect(page.locator('.list-view')).toBeVisible();
+  await expect(page.locator('.lp-view')).toBeHidden();
+  expect(pathOf(page.url())).toBe('/sales-systems-management/sales-invoices');
+});
+
 test('the launchpad app tile opens the app’s For You screen', async ({page}) => {
   await gotoRoute(page, '/');
   await page.locator('.lp-tile').filter({hasText: 'Sales Systems Management'}).first().click();
