@@ -1,0 +1,56 @@
+
+Running 1 test using 1 worker
+
+(node:39609) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [desktop] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+  1) [desktop] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator: locator('.list-view .data-page-manage').locator('.data-manage-group-label')
+    Timeout: 5000ms
+    - Expected  - 4
+    + Received  + 4
+
+      Array [
+    -   "تبادل البيانات",
+    -   "التحليل",
+    -   "التقارير",
+    -   "تفضيلات الجدول",
+    +   "Data exchange",
+    +   "Analysis",
+    +   "Reporting",
+    +   "Table preferences",
+      ]
+
+    Call log:
+      - Expect "toHaveText" locator('.list-view .data-page-manage').locator('.data-manage-group-label') with timeout 5000ms
+      - waiting for locator('.list-view .data-page-manage').locator('.data-manage-group-label')
+        14 × locator resolved to 4 elements
+
+
+       8 |   const menu = page.locator('.list-view .data-page-manage');
+       9 |   await menu.locator(':scope > summary').click();
+    > 10 |   await expect(menu.locator('.data-manage-group-label')).toHaveText(['تبادل البيانات', 'التحليل', 'التقارير', 'تفضيلات الجدول']);
+         |                                                          ^
+      11 |   await expect(menu.locator('[data-list-manage-action="save-layout"] strong')).toHaveText('حفظ تخطيط الجدول');
+      12 |   const borders = menu.locator('.data-manage-submenu').filter({has:page.locator('[data-list-manage-border]')});
+      13 |   await borders.locator(':scope > summary').click();
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/delivery-locale.spec.mjs:10:58
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/manage-red-out/delivery-locale-Arabic-inv-dd54d-hout-changing-border-values-desktop/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/manage-red-out/delivery-locale-Arabic-inv-dd54d-hout-changing-border-values-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/manage-red-out/delivery-locale-Arabic-inv-dd54d-hout-changing-border-values-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    [desktop] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values 

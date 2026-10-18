@@ -1,0 +1,440 @@
+{
+  "config": {
+    "argv": [
+      "/Users/majedsiefalnasr/.dotfiles/node/.nvm/versions/node/v23.11.0/bin/node",
+      "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/node_modules/.bin/playwright",
+      "test",
+      "tests/messaging.spec.mjs",
+      "--project=desktop",
+      "--project=mobile-touch",
+      "--project=mobile-rtl",
+      "--grep",
+      "reading a notification email",
+      "--workers=2",
+      "--retries=0",
+      "--update-snapshots=none",
+      "--reporter=line,json",
+      "--output=/private/tmp/skey-release-y5dvntbs/mail-reading-out"
+    ],
+    "configFile": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/playwright.config.mjs",
+    "rootDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/private/tmp/skey-release-y5dvntbs/mail-reading-out",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-release-y5dvntbs/mail-reading-out",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "mobile-touch",
+        "name": "mobile-touch",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-release-y5dvntbs/mail-reading-out",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "desktop-dark",
+        "name": "desktop-dark",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-release-y5dvntbs/mail-reading-out",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "desktop-high-contrast-light",
+        "name": "desktop-high-contrast-light",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-release-y5dvntbs/mail-reading-out",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "desktop-high-contrast-dark",
+        "name": "desktop-high-contrast-dark",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-release-y5dvntbs/mail-reading-out",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "mobile-rtl",
+        "name": "mobile-rtl",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-release-y5dvntbs/mail-reading-out",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "desktop-reduced-motion",
+        "name": "desktop-reduced-motion",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "line"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "none",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "messaging.spec.mjs",
+      "file": "messaging.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "reading a notification email preserves unread state and appearance",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2524,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.email-view')\n  30027 pixels (ratio 0.04 of all image pixels) are different.\n\n  Snapshot: email-reading.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(email-reading.png)\" locator('.email-view') with timeout 5000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - 30027 pixels (ratio 0.04 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - captured a stable screenshot\u001b[22m\n\u001b[2m  - 30027 pixels (ratio 0.04 of all image pixels) are different.\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.email-view')\n  30027 pixels (ratio 0.04 of all image pixels) are different.\n\n  Snapshot: email-reading.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(email-reading.png)\" locator('.email-view') with timeout 5000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - 30027 pixels (ratio 0.04 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - captured a stable screenshot\u001b[22m\n\u001b[2m  - 30027 pixels (ratio 0.04 of all image pixels) are different.\u001b[22m\n\n    at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs:23:45",
+                    "location": {
+                      "file": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs",
+                      "column": 45,
+                      "line": 23
+                    },
+                    "snippet": "  21 |   await expect(page.locator('.email-reading-scroll')).toBeVisible();\n  22 |   await expect(page.locator('#notif-badge')).toHaveText(String(unread - 1));\n> 23 |   await expect(page.locator('.email-view')).toHaveScreenshot('email-reading.png', {animations: 'disabled', maxDiffPixels: 0});\n     |                                             ^\n  24 | });\n  25 |\n  26 | test('email compose retains send feedback', async ({page}, testInfo) => {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs",
+                        "column": 45,
+                        "line": 23
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.email-view')\n  30027 pixels (ratio 0.04 of all image pixels) are different.\n\n  Snapshot: email-reading.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(email-reading.png)\" locator('.email-view') with timeout 5000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - 30027 pixels (ratio 0.04 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - captured a stable screenshot\u001b[22m\n\u001b[2m  - 30027 pixels (ratio 0.04 of all image pixels) are different.\u001b[22m\n\n\n  21 |   await expect(page.locator('.email-reading-scroll')).toBeVisible();\n  22 |   await expect(page.locator('#notif-badge')).toHaveText(String(unread - 1));\n> 23 |   await expect(page.locator('.email-view')).toHaveScreenshot('email-reading.png', {animations: 'disabled', maxDiffPixels: 0});\n     |                                             ^\n  24 | });\n  25 |\n  26 | test('email compose retains send feedback', async ({page}, testInfo) => {\n    at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs:23:45"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:00:19.383Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "email-reading-expected.png",
+                      "contentType": "image/png",
+                      "path": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs-snapshots/desktop/email-reading.png"
+                    },
+                    {
+                      "name": "email-reading-actual.png",
+                      "contentType": "image/png",
+                      "path": "/private/tmp/skey-release-y5dvntbs/mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/email-reading-actual.png"
+                    },
+                    {
+                      "name": "email-reading-diff.png",
+                      "contentType": "image/png",
+                      "path": "/private/tmp/skey-release-y5dvntbs/mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/email-reading-diff.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/skey-release-y5dvntbs/mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/private/tmp/skey-release-y5dvntbs/mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs",
+                    "column": 45,
+                    "line": 23
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-8dfc3aecb011df6ee33a",
+          "file": "messaging.spec.mjs",
+          "line": 16,
+          "column": 1
+        },
+        {
+          "title": "reading a notification email preserves unread state and appearance",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 2318,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.email-view')\n  12154 pixels (ratio 0.06 of all image pixels) are different.\n\n  Snapshot: email-reading.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(email-reading.png)\" locator('.email-view') with timeout 5000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - 12154 pixels (ratio 0.06 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - captured a stable screenshot\u001b[22m\n\u001b[2m  - 12154 pixels (ratio 0.06 of all image pixels) are different.\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.email-view')\n  12154 pixels (ratio 0.06 of all image pixels) are different.\n\n  Snapshot: email-reading.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(email-reading.png)\" locator('.email-view') with timeout 5000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - 12154 pixels (ratio 0.06 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - captured a stable screenshot\u001b[22m\n\u001b[2m  - 12154 pixels (ratio 0.06 of all image pixels) are different.\u001b[22m\n\n    at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs:23:45",
+                    "location": {
+                      "file": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs",
+                      "column": 45,
+                      "line": 23
+                    },
+                    "snippet": "  21 |   await expect(page.locator('.email-reading-scroll')).toBeVisible();\n  22 |   await expect(page.locator('#notif-badge')).toHaveText(String(unread - 1));\n> 23 |   await expect(page.locator('.email-view')).toHaveScreenshot('email-reading.png', {animations: 'disabled', maxDiffPixels: 0});\n     |                                             ^\n  24 | });\n  25 |\n  26 | test('email compose retains send feedback', async ({page}, testInfo) => {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs",
+                        "column": 45,
+                        "line": 23
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.email-view')\n  12154 pixels (ratio 0.06 of all image pixels) are different.\n\n  Snapshot: email-reading.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(email-reading.png)\" locator('.email-view') with timeout 5000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - 12154 pixels (ratio 0.06 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - captured a stable screenshot\u001b[22m\n\u001b[2m  - 12154 pixels (ratio 0.06 of all image pixels) are different.\u001b[22m\n\n\n  21 |   await expect(page.locator('.email-reading-scroll')).toBeVisible();\n  22 |   await expect(page.locator('#notif-badge')).toHaveText(String(unread - 1));\n> 23 |   await expect(page.locator('.email-view')).toHaveScreenshot('email-reading.png', {animations: 'disabled', maxDiffPixels: 0});\n     |                                             ^\n  24 | });\n  25 |\n  26 | test('email compose retains send feedback', async ({page}, testInfo) => {\n    at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs:23:45"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:00:19.383Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "email-reading-expected.png",
+                      "contentType": "image/png",
+                      "path": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs-snapshots/mobile-touch/email-reading.png"
+                    },
+                    {
+                      "name": "email-reading-actual.png",
+                      "contentType": "image/png",
+                      "path": "/private/tmp/skey-release-y5dvntbs/mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-touch/email-reading-actual.png"
+                    },
+                    {
+                      "name": "email-reading-diff.png",
+                      "contentType": "image/png",
+                      "path": "/private/tmp/skey-release-y5dvntbs/mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-touch/email-reading-diff.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/skey-release-y5dvntbs/mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-touch/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/private/tmp/skey-release-y5dvntbs/mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-touch/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs",
+                    "column": 45,
+                    "line": 23
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-8dafb9e3a1803b35e7eb",
+          "file": "messaging.spec.mjs",
+          "line": 16,
+          "column": 1
+        },
+        {
+          "title": "reading a notification email preserves unread state and appearance",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 2014,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.email-view')\n  11942 pixels (ratio 0.06 of all image pixels) are different.\n\n  Snapshot: email-reading.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(email-reading.png)\" locator('.email-view') with timeout 5000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - 11942 pixels (ratio 0.06 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - captured a stable screenshot\u001b[22m\n\u001b[2m  - 11942 pixels (ratio 0.06 of all image pixels) are different.\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.email-view')\n  11942 pixels (ratio 0.06 of all image pixels) are different.\n\n  Snapshot: email-reading.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(email-reading.png)\" locator('.email-view') with timeout 5000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - 11942 pixels (ratio 0.06 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - captured a stable screenshot\u001b[22m\n\u001b[2m  - 11942 pixels (ratio 0.06 of all image pixels) are different.\u001b[22m\n\n    at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs:23:45",
+                    "location": {
+                      "file": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs",
+                      "column": 45,
+                      "line": 23
+                    },
+                    "snippet": "  21 |   await expect(page.locator('.email-reading-scroll')).toBeVisible();\n  22 |   await expect(page.locator('#notif-badge')).toHaveText(String(unread - 1));\n> 23 |   await expect(page.locator('.email-view')).toHaveScreenshot('email-reading.png', {animations: 'disabled', maxDiffPixels: 0});\n     |                                             ^\n  24 | });\n  25 |\n  26 | test('email compose retains send feedback', async ({page}, testInfo) => {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs",
+                        "column": 45,
+                        "line": 23
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.email-view')\n  11942 pixels (ratio 0.06 of all image pixels) are different.\n\n  Snapshot: email-reading.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(email-reading.png)\" locator('.email-view') with timeout 5000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - 11942 pixels (ratio 0.06 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('.email-view')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"email-view flex flex-1 min-h-0 flex-col\">…</div>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - captured a stable screenshot\u001b[22m\n\u001b[2m  - 11942 pixels (ratio 0.06 of all image pixels) are different.\u001b[22m\n\n\n  21 |   await expect(page.locator('.email-reading-scroll')).toBeVisible();\n  22 |   await expect(page.locator('#notif-badge')).toHaveText(String(unread - 1));\n> 23 |   await expect(page.locator('.email-view')).toHaveScreenshot('email-reading.png', {animations: 'disabled', maxDiffPixels: 0});\n     |                                             ^\n  24 | });\n  25 |\n  26 | test('email compose retains send feedback', async ({page}, testInfo) => {\n    at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs:23:45"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:00:22.181Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "email-reading-expected.png",
+                      "contentType": "image/png",
+                      "path": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs-snapshots/mobile-rtl/email-reading.png"
+                    },
+                    {
+                      "name": "email-reading-actual.png",
+                      "contentType": "image/png",
+                      "path": "/private/tmp/skey-release-y5dvntbs/mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-rtl/email-reading-actual.png"
+                    },
+                    {
+                      "name": "email-reading-diff.png",
+                      "contentType": "image/png",
+                      "path": "/private/tmp/skey-release-y5dvntbs/mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-rtl/email-reading-diff.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/skey-release-y5dvntbs/mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-rtl/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/private/tmp/skey-release-y5dvntbs/mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-rtl/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs",
+                    "column": 45,
+                    "line": 23
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-a2cda6d50663125a64c8",
+          "file": "messaging.spec.mjs",
+          "line": 16,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-18T12:00:19.063Z",
+    "duration": 5298.557,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}

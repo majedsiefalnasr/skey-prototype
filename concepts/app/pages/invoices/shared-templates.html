@@ -10,54 +10,54 @@
     <template id="t-menus">
       <div class="menu">
         <button aria-haspopup="menu" aria-expanded="false">
-          Record <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg>
+          <span data-i18n="Record">Record</span> <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg>
         </button>
         <div class="mlist" role="menu">
-          <button role="menuitem" data-act="New">New</button>
-          <button role="menuitem" data-act="Add From">Add From</button>
-          <button role="menuitem" data-act="Search">Search</button>
+          <button role="menuitem" data-act="New" data-i18n="New">New</button>
+          <button role="menuitem" data-act="Add From" data-i18n="Add From">Add From</button>
+          <button role="menuitem" data-act="Search" data-i18n="Search">Search</button>
         </div>
       </div>
       <div class="menu">
         <button aria-haspopup="menu" aria-expanded="false">
-          Procedure <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg>
+          <span data-i18n="Procedure">Procedure</span> <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg>
         </button>
         <div class="mlist" role="menu">
-          <button role="menuitem" data-act="Save">Save</button>
-          <button role="menuitem" data-act="Undo">Undo</button>
+          <button role="menuitem" data-act="Save" data-i18n="Save">Save</button>
+          <button role="menuitem" data-act="Undo" data-i18n="Undo">Undo</button>
           <hr />
-          <button role="menuitem" data-act="Print" class="p-open">Print</button>
-          <button role="menuitem" data-act="Reports">Reports</button>
-          <button role="menuitem" data-act="Lock Screen">Lock Screen</button>
+          <button role="menuitem" data-act="Print" class="p-open" data-i18n="Print">Print</button>
+          <button role="menuitem" data-act="Reports" data-i18n="Reports">Reports</button>
+          <button role="menuitem" data-act="Lock Screen" data-i18n="Lock Screen">Lock Screen</button>
         </div>
       </div>
       <div class="menu">
         <button aria-haspopup="menu" aria-expanded="false">
-          Transactions <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg>
+          <span data-i18n="Transactions">Transactions</span> <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg>
         </button>
         <div class="mlist" role="menu">
-          <button role="menuitem" data-act="Posting">Posting</button>
-          <button role="menuitem" data-act="Display Journal Entry">Display Journal Entry</button>
+          <button role="menuitem" data-act="Posting" data-i18n="Posting">Posting</button>
+          <button role="menuitem" data-act="Display Journal Entry" data-i18n="Display Journal Entry">Display Journal Entry</button>
           <hr />
-          <button role="menuitem" data-act="Cancel Document" class="dan">Cancel Document</button>
+          <button role="menuitem" data-act="Cancel Document" class="dan" data-i18n="Cancel Document">Cancel Document</button>
         </div>
       </div>
       <div class="menu">
         <button aria-haspopup="menu" aria-expanded="false">
-          More <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg>
+          <span data-i18n="More">More</span> <svg width="12" height="12" aria-hidden="true"><use href="#i-caret" /></svg>
         </button>
         <div class="mlist" role="menu">
-          <button role="menuitem" data-act="Screen Parameters">Screen Parameters</button>
-          <button role="menuitem" data-act="Help">Help</button>
+          <button role="menuitem" data-act="Screen Parameters" data-i18n="Screen Parameters">Screen Parameters</button>
+          <button role="menuitem" data-act="Help" data-i18n="Help">Help</button>
         </div>
       </div>
     </template>
 
     <template id="t-ctx">
       <button class="ctx [.d4_.cp-act_&]:w-full [.d4_.cp-act_&]:justify-start" data-act="Receipt Voucher">
-        <svg width="15" height="15" aria-hidden="true"><use href="#i-doc" /></svg> Receipt Voucher
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-doc" /></svg> <span data-i18n="Receipt Voucher">Receipt Voucher</span>
       </button>
       <button class="ctx [.d4_.cp-act_&]:w-full [.d4_.cp-act_&]:justify-start" data-act="Sales Return">
-        <svg width="15" height="15" aria-hidden="true"><use href="#i-doc" /></svg> Sales Return
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-doc" /></svg> <span data-i18n="Sales Return">Sales Return</span>
       </button>
     </template>

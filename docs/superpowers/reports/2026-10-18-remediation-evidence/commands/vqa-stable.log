@@ -1,0 +1,110 @@
+
+Running 49 tests using 2 workers
+
+(node:50985) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:50984) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/49] [desktop] › tests/visual-qa-batch1.spec.mjs:39:1 › VQA-01: opening Mail gives body and attachment visible reading space
+[2/49] [desktop] › tests/visual-qa-batch1.spec.mjs:67:1 › VQA-01: Reply drafts, Back, Archive and Move remain usable
+[3/49] [desktop] › tests/visual-qa-batch2.spec.mjs:36:1 › VQA-04: week context stays visible through the approved pan and native scrolling
+[4/49] [desktop] › tests/visual-qa-batch2.spec.mjs:64:1 › VQA-04: month weekday context remains visible while panning the approved cells
+[5/49] [desktop] › tests/visual-qa-batch2.spec.mjs:79:1 › VQA-08: painted duration geometry is independent of the touch target
+[6/49] [desktop] › tests/visual-qa-batch2.spec.mjs:99:1 › VQA-08: adjacent half-hour activities remain independently tappable
+[7/49] [desktop] › tests/visual-qa-batch2.spec.mjs:138:1 › VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens
+(node:50999) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[8/49] [mobile-touch] › tests/visual-qa-batch1.spec.mjs:39:1 › VQA-01: opening Mail gives body and attachment visible reading space
+[9/49] [mobile-touch] › tests/visual-qa-batch2.spec.mjs:36:1 › VQA-04: week context stays visible through the approved pan and native scrolling
+(node:51004) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[10/49] [mobile-touch] › tests/visual-qa-batch1.spec.mjs:67:1 › VQA-01: Reply drafts, Back, Archive and Move remain usable
+[11/49] [mobile-touch] › tests/visual-qa-batch2.spec.mjs:64:1 › VQA-04: month weekday context remains visible while panning the approved cells
+[12/49] [mobile-touch] › tests/visual-qa-batch2.spec.mjs:79:1 › VQA-08: painted duration geometry is independent of the touch target
+[13/49] [mobile-touch] › tests/visual-qa-batch2.spec.mjs:99:1 › VQA-08: adjacent half-hour activities remain independently tappable
+[14/49] [mobile-touch] › tests/visual-qa-batch2.spec.mjs:138:1 › VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens
+(node:51046) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[15/49] [desktop-dark] › tests/visual-qa-batch1.spec.mjs:39:1 › VQA-01: opening Mail gives body and attachment visible reading space
+[16/49] [desktop-dark] › tests/visual-qa-batch1.spec.mjs:67:1 › VQA-01: Reply drafts, Back, Archive and Move remain usable
+(node:51052) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[17/49] [desktop-dark] › tests/visual-qa-batch2.spec.mjs:36:1 › VQA-04: week context stays visible through the approved pan and native scrolling
+[18/49] [desktop-dark] › tests/visual-qa-batch2.spec.mjs:64:1 › VQA-04: month weekday context remains visible while panning the approved cells
+[19/49] [desktop-dark] › tests/visual-qa-batch2.spec.mjs:79:1 › VQA-08: painted duration geometry is independent of the touch target
+[20/49] [desktop-dark] › tests/visual-qa-batch2.spec.mjs:99:1 › VQA-08: adjacent half-hour activities remain independently tappable
+[21/49] [desktop-dark] › tests/visual-qa-batch2.spec.mjs:138:1 › VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens
+(node:51061) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[22/49] [desktop-high-contrast-light] › tests/visual-qa-batch1.spec.mjs:39:1 › VQA-01: opening Mail gives body and attachment visible reading space
+[23/49] [desktop-high-contrast-light] › tests/visual-qa-batch2.spec.mjs:36:1 › VQA-04: week context stays visible through the approved pan and native scrolling
+[24/49] [desktop-high-contrast-light] › tests/visual-qa-batch2.spec.mjs:64:1 › VQA-04: month weekday context remains visible while panning the approved cells
+[25/49] [desktop-high-contrast-light] › tests/visual-qa-batch2.spec.mjs:79:1 › VQA-08: painted duration geometry is independent of the touch target
+[26/49] [desktop-high-contrast-light] › tests/visual-qa-batch2.spec.mjs:99:1 › VQA-08: adjacent half-hour activities remain independently tappable
+(node:51068) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[27/49] [desktop-high-contrast-light] › tests/visual-qa-batch2.spec.mjs:138:1 › VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens
+[28/49] [desktop-high-contrast-light] › tests/visual-qa-batch1.spec.mjs:67:1 › VQA-01: Reply drafts, Back, Archive and Move remain usable
+(node:51074) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[29/49] [desktop-high-contrast-dark] › tests/visual-qa-batch1.spec.mjs:39:1 › VQA-01: opening Mail gives body and attachment visible reading space
+[30/49] [desktop-high-contrast-dark] › tests/visual-qa-batch1.spec.mjs:67:1 › VQA-01: Reply drafts, Back, Archive and Move remain usable
+(node:51085) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[31/49] [desktop-high-contrast-dark] › tests/visual-qa-batch2.spec.mjs:36:1 › VQA-04: week context stays visible through the approved pan and native scrolling
+[32/49] [desktop-high-contrast-dark] › tests/visual-qa-batch2.spec.mjs:64:1 › VQA-04: month weekday context remains visible while panning the approved cells
+[33/49] [desktop-high-contrast-dark] › tests/visual-qa-batch2.spec.mjs:79:1 › VQA-08: painted duration geometry is independent of the touch target
+[34/49] [desktop-high-contrast-dark] › tests/visual-qa-batch2.spec.mjs:99:1 › VQA-08: adjacent half-hour activities remain independently tappable
+[35/49] [desktop-high-contrast-dark] › tests/visual-qa-batch2.spec.mjs:138:1 › VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens
+(node:51095) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[36/49] [mobile-rtl] › tests/visual-qa-batch1.spec.mjs:39:1 › VQA-01: opening Mail gives body and attachment visible reading space
+(node:51100) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[37/49] [mobile-rtl] › tests/visual-qa-batch1.spec.mjs:67:1 › VQA-01: Reply drafts, Back, Archive and Move remain usable
+[38/49] [mobile-rtl] › tests/visual-qa-batch2.spec.mjs:36:1 › VQA-04: week context stays visible through the approved pan and native scrolling
+[39/49] [mobile-rtl] › tests/visual-qa-batch2.spec.mjs:64:1 › VQA-04: month weekday context remains visible while panning the approved cells
+[40/49] [mobile-rtl] › tests/visual-qa-batch2.spec.mjs:79:1 › VQA-08: painted duration geometry is independent of the touch target
+[41/49] [mobile-rtl] › tests/visual-qa-batch2.spec.mjs:99:1 › VQA-08: adjacent half-hour activities remain independently tappable
+[42/49] [mobile-rtl] › tests/visual-qa-batch2.spec.mjs:138:1 › VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens
+(node:51113) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[43/49] [desktop-reduced-motion] › tests/visual-qa-batch1.spec.mjs:39:1 › VQA-01: opening Mail gives body and attachment visible reading space
+[44/49] [desktop-reduced-motion] › tests/visual-qa-batch1.spec.mjs:67:1 › VQA-01: Reply drafts, Back, Archive and Move remain usable
+(node:51119) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[45/49] [desktop-reduced-motion] › tests/visual-qa-batch2.spec.mjs:36:1 › VQA-04: week context stays visible through the approved pan and native scrolling
+[46/49] [desktop-reduced-motion] › tests/visual-qa-batch2.spec.mjs:64:1 › VQA-04: month weekday context remains visible while panning the approved cells
+[47/49] [desktop-reduced-motion] › tests/visual-qa-batch2.spec.mjs:79:1 › VQA-08: painted duration geometry is independent of the touch target
+[48/49] [desktop-reduced-motion] › tests/visual-qa-batch2.spec.mjs:99:1 › VQA-08: adjacent half-hour activities remain independently tappable
+[49/49] [desktop-reduced-motion] › tests/visual-qa-batch2.spec.mjs:138:1 › VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens
+  25 skipped
+  24 passed (34.7s)

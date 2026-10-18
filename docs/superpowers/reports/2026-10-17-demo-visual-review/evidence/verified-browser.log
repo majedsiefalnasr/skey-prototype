@@ -1,0 +1,222 @@
+
+Running 161 tests using 2 workers
+
+(node:45547) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:45546) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/161] [desktop] › tests/components.spec.mjs:177:1 › Arabic locale switch updates direction and field formatting
+[2/161] [desktop] › tests/components.spec.mjs:214:1 › print dialog returns keyboard focus
+[3/161] [desktop] › tests/components.spec.mjs:225:1 › print dialog traps Tab within its focusable controls
+[4/161] [desktop] › tests/components.spec.mjs:250:1 › a simulated failure resets busy state and shows the existing toast
+[5/161] [desktop] › tests/delivery-locale.spec.mjs:4:1 › Arabic geography labels retain stable type and status values
+[6/161] [desktop] › tests/delivery-locale.spec.mjs:15:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[7/161] [desktop] › tests/delivery-locale.spec.mjs:28:1 › Arabic Organization headings and session action dialog are translated
+[8/161] [desktop] › tests/delivery-locale.spec.mjs:41:1 › Arabic invoice and customer primary record controls are translated
+[9/161] [desktop] › tests/delivery-locale.spec.mjs:54:1 › Arabic mail reading toolbar labels are translated
+[10/161] [desktop] › tests/delivery-locale.spec.mjs:64:1 › invoice posting dialog follows a locale switch when reopened
+[11/161] [desktop] › tests/delivery-locale.spec.mjs:88:1 › Arabic customer changes save back with Arabic feedback
+[12/161] [desktop] › tests/delivery-locale.spec.mjs:103:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[13/161] [desktop] › tests/delivery-locale.spec.mjs:116:1 › new Arabic payment rows keep stable method values and translated labels
+[14/161] [desktop] › tests/dialog-option-values.spec.mjs:4:1 › translated dialog options retain their stored values across language switches
+[15/161] [desktop] › tests/invoice-geography.spec.mjs:56:1 › invoice payments retain method-specific fields and removal
+[16/161] [desktop] › tests/invoice-geography.spec.mjs:82:1 › geography details uses the shared record header and field structure
+[17/161] [desktop] › tests/invoice-geography.spec.mjs:216:1 › invoice print settings and activity drawer retain their document context
+[18/161] [desktop] › tests/invoice-geography.spec.mjs:234:1 › invoice print settings groups reflow at narrow widths
+[19/161] [desktop] › tests/invoice-geography.spec.mjs:259:3 › screen parameters table header paints opaquely above scrolling content
+[20/161] [desktop] › tests/invoice-geography.spec.mjs:259:3 › journal entry table header paints opaquely above scrolling content
+[21/161] [desktop] › tests/organization-center.spec.mjs:12:3 › organization center › overview keeps only the Active users and Database sessions cards
+[22/161] [desktop] › tests/visual-qa-batch2.spec.mjs:138:1 › VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens
+[23/161] [desktop] › tests/zz-probe-t34.spec.mjs:3:1 › probe
+(node:45668) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[24/161] [mobile-touch] › tests/components.spec.mjs:177:1 › Arabic locale switch updates direction and field formatting
+(node:45675) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[25/161] [mobile-touch] › tests/components.spec.mjs:214:1 › print dialog returns keyboard focus
+[26/161] [mobile-touch] › tests/components.spec.mjs:225:1 › print dialog traps Tab within its focusable controls
+[27/161] [mobile-touch] › tests/components.spec.mjs:250:1 › a simulated failure resets busy state and shows the existing toast
+[28/161] [mobile-touch] › tests/delivery-locale.spec.mjs:4:1 › Arabic geography labels retain stable type and status values
+[29/161] [mobile-touch] › tests/delivery-locale.spec.mjs:15:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[30/161] [mobile-touch] › tests/delivery-locale.spec.mjs:28:1 › Arabic Organization headings and session action dialog are translated
+[31/161] [mobile-touch] › tests/delivery-locale.spec.mjs:41:1 › Arabic invoice and customer primary record controls are translated
+[32/161] [mobile-touch] › tests/delivery-locale.spec.mjs:54:1 › Arabic mail reading toolbar labels are translated
+[33/161] [mobile-touch] › tests/delivery-locale.spec.mjs:64:1 › invoice posting dialog follows a locale switch when reopened
+[34/161] [mobile-touch] › tests/delivery-locale.spec.mjs:88:1 › Arabic customer changes save back with Arabic feedback
+[35/161] [mobile-touch] › tests/delivery-locale.spec.mjs:103:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[36/161] [mobile-touch] › tests/delivery-locale.spec.mjs:116:1 › new Arabic payment rows keep stable method values and translated labels
+[37/161] [mobile-touch] › tests/dialog-option-values.spec.mjs:4:1 › translated dialog options retain their stored values across language switches
+[38/161] [mobile-touch] › tests/invoice-geography.spec.mjs:56:1 › invoice payments retain method-specific fields and removal
+[39/161] [mobile-touch] › tests/invoice-geography.spec.mjs:82:1 › geography details uses the shared record header and field structure
+[40/161] [mobile-touch] › tests/invoice-geography.spec.mjs:216:1 › invoice print settings and activity drawer retain their document context
+[41/161] [mobile-touch] › tests/invoice-geography.spec.mjs:234:1 › invoice print settings groups reflow at narrow widths
+[42/161] [mobile-touch] › tests/invoice-geography.spec.mjs:259:3 › screen parameters table header paints opaquely above scrolling content
+[43/161] [mobile-touch] › tests/invoice-geography.spec.mjs:259:3 › journal entry table header paints opaquely above scrolling content
+[44/161] [mobile-touch] › tests/organization-center.spec.mjs:12:3 › organization center › overview keeps only the Active users and Database sessions cards
+[45/161] [mobile-touch] › tests/visual-qa-batch2.spec.mjs:138:1 › VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens
+[46/161] [mobile-touch] › tests/zz-probe-t34.spec.mjs:3:1 › probe
+(node:45720) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[47/161] [desktop-dark] › tests/components.spec.mjs:177:1 › Arabic locale switch updates direction and field formatting
+[48/161] [desktop-dark] › tests/components.spec.mjs:214:1 › print dialog returns keyboard focus
+[49/161] [desktop-dark] › tests/components.spec.mjs:225:1 › print dialog traps Tab within its focusable controls
+(node:45731) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[50/161] [desktop-dark] › tests/delivery-locale.spec.mjs:4:1 › Arabic geography labels retain stable type and status values
+[51/161] [desktop-dark] › tests/components.spec.mjs:250:1 › a simulated failure resets busy state and shows the existing toast
+[52/161] [desktop-dark] › tests/delivery-locale.spec.mjs:15:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[53/161] [desktop-dark] › tests/delivery-locale.spec.mjs:28:1 › Arabic Organization headings and session action dialog are translated
+[54/161] [desktop-dark] › tests/delivery-locale.spec.mjs:41:1 › Arabic invoice and customer primary record controls are translated
+[55/161] [desktop-dark] › tests/delivery-locale.spec.mjs:54:1 › Arabic mail reading toolbar labels are translated
+[56/161] [desktop-dark] › tests/delivery-locale.spec.mjs:64:1 › invoice posting dialog follows a locale switch when reopened
+[57/161] [desktop-dark] › tests/delivery-locale.spec.mjs:88:1 › Arabic customer changes save back with Arabic feedback
+[58/161] [desktop-dark] › tests/delivery-locale.spec.mjs:103:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[59/161] [desktop-dark] › tests/delivery-locale.spec.mjs:116:1 › new Arabic payment rows keep stable method values and translated labels
+[60/161] [desktop-dark] › tests/dialog-option-values.spec.mjs:4:1 › translated dialog options retain their stored values across language switches
+[61/161] [desktop-dark] › tests/invoice-geography.spec.mjs:56:1 › invoice payments retain method-specific fields and removal
+[62/161] [desktop-dark] › tests/invoice-geography.spec.mjs:82:1 › geography details uses the shared record header and field structure
+[63/161] [desktop-dark] › tests/invoice-geography.spec.mjs:216:1 › invoice print settings and activity drawer retain their document context
+[64/161] [desktop-dark] › tests/invoice-geography.spec.mjs:234:1 › invoice print settings groups reflow at narrow widths
+[65/161] [desktop-dark] › tests/invoice-geography.spec.mjs:259:3 › screen parameters table header paints opaquely above scrolling content
+[66/161] [desktop-dark] › tests/invoice-geography.spec.mjs:259:3 › journal entry table header paints opaquely above scrolling content
+[67/161] [desktop-dark] › tests/organization-center.spec.mjs:12:3 › organization center › overview keeps only the Active users and Database sessions cards
+[68/161] [desktop-dark] › tests/visual-qa-batch2.spec.mjs:138:1 › VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens
+[69/161] [desktop-dark] › tests/zz-probe-t34.spec.mjs:3:1 › probe
+(node:45765) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[70/161] [desktop-high-contrast-light] › tests/components.spec.mjs:177:1 › Arabic locale switch updates direction and field formatting
+(node:45771) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[71/161] [desktop-high-contrast-light] › tests/components.spec.mjs:214:1 › print dialog returns keyboard focus
+[72/161] [desktop-high-contrast-light] › tests/components.spec.mjs:225:1 › print dialog traps Tab within its focusable controls
+[73/161] [desktop-high-contrast-light] › tests/components.spec.mjs:250:1 › a simulated failure resets busy state and shows the existing toast
+[74/161] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:4:1 › Arabic geography labels retain stable type and status values
+[75/161] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:15:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[76/161] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:28:1 › Arabic Organization headings and session action dialog are translated
+[77/161] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:41:1 › Arabic invoice and customer primary record controls are translated
+[78/161] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:54:1 › Arabic mail reading toolbar labels are translated
+[79/161] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:64:1 › invoice posting dialog follows a locale switch when reopened
+[80/161] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:88:1 › Arabic customer changes save back with Arabic feedback
+[81/161] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:103:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[82/161] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:116:1 › new Arabic payment rows keep stable method values and translated labels
+[83/161] [desktop-high-contrast-light] › tests/dialog-option-values.spec.mjs:4:1 › translated dialog options retain their stored values across language switches
+[84/161] [desktop-high-contrast-light] › tests/invoice-geography.spec.mjs:56:1 › invoice payments retain method-specific fields and removal
+[85/161] [desktop-high-contrast-light] › tests/invoice-geography.spec.mjs:82:1 › geography details uses the shared record header and field structure
+[86/161] [desktop-high-contrast-light] › tests/invoice-geography.spec.mjs:216:1 › invoice print settings and activity drawer retain their document context
+[87/161] [desktop-high-contrast-light] › tests/invoice-geography.spec.mjs:234:1 › invoice print settings groups reflow at narrow widths
+[88/161] [desktop-high-contrast-light] › tests/invoice-geography.spec.mjs:259:3 › screen parameters table header paints opaquely above scrolling content
+[89/161] [desktop-high-contrast-light] › tests/invoice-geography.spec.mjs:259:3 › journal entry table header paints opaquely above scrolling content
+[90/161] [desktop-high-contrast-light] › tests/organization-center.spec.mjs:12:3 › organization center › overview keeps only the Active users and Database sessions cards
+[91/161] [desktop-high-contrast-light] › tests/visual-qa-batch2.spec.mjs:138:1 › VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens
+[92/161] [desktop-high-contrast-light] › tests/zz-probe-t34.spec.mjs:3:1 › probe
+(node:45843) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[93/161] [desktop-high-contrast-dark] › tests/components.spec.mjs:177:1 › Arabic locale switch updates direction and field formatting
+(node:45849) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[94/161] [desktop-high-contrast-dark] › tests/components.spec.mjs:214:1 › print dialog returns keyboard focus
+[95/161] [desktop-high-contrast-dark] › tests/components.spec.mjs:225:1 › print dialog traps Tab within its focusable controls
+[96/161] [desktop-high-contrast-dark] › tests/components.spec.mjs:250:1 › a simulated failure resets busy state and shows the existing toast
+[97/161] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:4:1 › Arabic geography labels retain stable type and status values
+[98/161] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:15:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[99/161] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:28:1 › Arabic Organization headings and session action dialog are translated
+[100/161] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:41:1 › Arabic invoice and customer primary record controls are translated
+[101/161] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:54:1 › Arabic mail reading toolbar labels are translated
+[102/161] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:64:1 › invoice posting dialog follows a locale switch when reopened
+[103/161] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:88:1 › Arabic customer changes save back with Arabic feedback
+[104/161] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:103:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[105/161] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:116:1 › new Arabic payment rows keep stable method values and translated labels
+[106/161] [desktop-high-contrast-dark] › tests/dialog-option-values.spec.mjs:4:1 › translated dialog options retain their stored values across language switches
+[107/161] [desktop-high-contrast-dark] › tests/invoice-geography.spec.mjs:56:1 › invoice payments retain method-specific fields and removal
+[108/161] [desktop-high-contrast-dark] › tests/invoice-geography.spec.mjs:82:1 › geography details uses the shared record header and field structure
+[109/161] [desktop-high-contrast-dark] › tests/invoice-geography.spec.mjs:216:1 › invoice print settings and activity drawer retain their document context
+[110/161] [desktop-high-contrast-dark] › tests/invoice-geography.spec.mjs:234:1 › invoice print settings groups reflow at narrow widths
+[111/161] [desktop-high-contrast-dark] › tests/invoice-geography.spec.mjs:259:3 › screen parameters table header paints opaquely above scrolling content
+[112/161] [desktop-high-contrast-dark] › tests/invoice-geography.spec.mjs:259:3 › journal entry table header paints opaquely above scrolling content
+[113/161] [desktop-high-contrast-dark] › tests/organization-center.spec.mjs:12:3 › organization center › overview keeps only the Active users and Database sessions cards
+[114/161] [desktop-high-contrast-dark] › tests/visual-qa-batch2.spec.mjs:138:1 › VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens
+[115/161] [desktop-high-contrast-dark] › tests/zz-probe-t34.spec.mjs:3:1 › probe
+(node:45892) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[116/161] [mobile-rtl] › tests/components.spec.mjs:177:1 › Arabic locale switch updates direction and field formatting
+(node:45917) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[117/161] [mobile-rtl] › tests/components.spec.mjs:214:1 › print dialog returns keyboard focus
+[118/161] [mobile-rtl] › tests/components.spec.mjs:225:1 › print dialog traps Tab within its focusable controls
+[119/161] [mobile-rtl] › tests/components.spec.mjs:250:1 › a simulated failure resets busy state and shows the existing toast
+[120/161] [mobile-rtl] › tests/delivery-locale.spec.mjs:4:1 › Arabic geography labels retain stable type and status values
+[121/161] [mobile-rtl] › tests/delivery-locale.spec.mjs:15:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[122/161] [mobile-rtl] › tests/delivery-locale.spec.mjs:28:1 › Arabic Organization headings and session action dialog are translated
+[123/161] [mobile-rtl] › tests/delivery-locale.spec.mjs:41:1 › Arabic invoice and customer primary record controls are translated
+[124/161] [mobile-rtl] › tests/delivery-locale.spec.mjs:54:1 › Arabic mail reading toolbar labels are translated
+[125/161] [mobile-rtl] › tests/delivery-locale.spec.mjs:64:1 › invoice posting dialog follows a locale switch when reopened
+[126/161] [mobile-rtl] › tests/delivery-locale.spec.mjs:88:1 › Arabic customer changes save back with Arabic feedback
+[127/161] [mobile-rtl] › tests/delivery-locale.spec.mjs:103:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[128/161] [mobile-rtl] › tests/delivery-locale.spec.mjs:116:1 › new Arabic payment rows keep stable method values and translated labels
+[129/161] [mobile-rtl] › tests/dialog-option-values.spec.mjs:4:1 › translated dialog options retain their stored values across language switches
+[130/161] [mobile-rtl] › tests/invoice-geography.spec.mjs:56:1 › invoice payments retain method-specific fields and removal
+[131/161] [mobile-rtl] › tests/invoice-geography.spec.mjs:82:1 › geography details uses the shared record header and field structure
+[132/161] [mobile-rtl] › tests/invoice-geography.spec.mjs:216:1 › invoice print settings and activity drawer retain their document context
+[133/161] [mobile-rtl] › tests/invoice-geography.spec.mjs:234:1 › invoice print settings groups reflow at narrow widths
+[134/161] [mobile-rtl] › tests/invoice-geography.spec.mjs:259:3 › screen parameters table header paints opaquely above scrolling content
+[135/161] [mobile-rtl] › tests/invoice-geography.spec.mjs:259:3 › journal entry table header paints opaquely above scrolling content
+[136/161] [mobile-rtl] › tests/organization-center.spec.mjs:12:3 › organization center › overview keeps only the Active users and Database sessions cards
+[137/161] [mobile-rtl] › tests/visual-qa-batch2.spec.mjs:138:1 › VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens
+[138/161] [mobile-rtl] › tests/zz-probe-t34.spec.mjs:3:1 › probe
+(node:45967) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[139/161] [desktop-reduced-motion] › tests/components.spec.mjs:177:1 › Arabic locale switch updates direction and field formatting
+[140/161] [desktop-reduced-motion] › tests/components.spec.mjs:214:1 › print dialog returns keyboard focus
+[141/161] [desktop-reduced-motion] › tests/components.spec.mjs:250:1 › a simulated failure resets busy state and shows the existing toast
+(node:45978) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[142/161] [desktop-reduced-motion] › tests/components.spec.mjs:225:1 › print dialog traps Tab within its focusable controls
+[143/161] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:4:1 › Arabic geography labels retain stable type and status values
+[144/161] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:15:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[145/161] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:28:1 › Arabic Organization headings and session action dialog are translated
+[146/161] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:41:1 › Arabic invoice and customer primary record controls are translated
+[147/161] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:54:1 › Arabic mail reading toolbar labels are translated
+[148/161] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:64:1 › invoice posting dialog follows a locale switch when reopened
+[149/161] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:88:1 › Arabic customer changes save back with Arabic feedback
+[150/161] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:103:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[151/161] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:116:1 › new Arabic payment rows keep stable method values and translated labels
+[152/161] [desktop-reduced-motion] › tests/dialog-option-values.spec.mjs:4:1 › translated dialog options retain their stored values across language switches
+[153/161] [desktop-reduced-motion] › tests/invoice-geography.spec.mjs:56:1 › invoice payments retain method-specific fields and removal
+[154/161] [desktop-reduced-motion] › tests/invoice-geography.spec.mjs:82:1 › geography details uses the shared record header and field structure
+[155/161] [desktop-reduced-motion] › tests/invoice-geography.spec.mjs:216:1 › invoice print settings and activity drawer retain their document context
+[156/161] [desktop-reduced-motion] › tests/invoice-geography.spec.mjs:234:1 › invoice print settings groups reflow at narrow widths
+[157/161] [desktop-reduced-motion] › tests/invoice-geography.spec.mjs:259:3 › screen parameters table header paints opaquely above scrolling content
+[158/161] [desktop-reduced-motion] › tests/invoice-geography.spec.mjs:259:3 › journal entry table header paints opaquely above scrolling content
+[159/161] [desktop-reduced-motion] › tests/organization-center.spec.mjs:12:3 › organization center › overview keeps only the Active users and Database sessions cards
+[160/161] [desktop-reduced-motion] › tests/visual-qa-batch2.spec.mjs:138:1 › VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens
+[161/161] [desktop-reduced-motion] › tests/zz-probe-t34.spec.mjs:3:1 › probe
+  5 skipped
+  156 passed (1.3m)

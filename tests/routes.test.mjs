@@ -84,7 +84,7 @@ test('routes: help-screens collaboration paths', () => {
 })
 
 test('routes: format round-trips parse for every routed path', () => {
-  assert.equal(ROUTE_PATHS.length, 31)
+  assert.equal(ROUTE_PATHS.length, 51)
   for (const route of ROUTE_PATHS) {
     const parsed = parse(route)
     assert.notEqual(parsed, null, `${route} must parse`)
@@ -105,4 +105,38 @@ test('routes: the default entry resolves launchpad-vs-Dashboard-For-You from con
     id: 'foryou',
     data: {app: 'Dashboard'},
   })
+})
+
+test('routes: placeholder route round-trips', () => {
+  assert.deepEqual(parse('/vendors/unavailable', '?screen=Vendor%20Invoice'), {
+    id: 'placeholder',
+    data: {app: 'Vendors', label: 'Vendor Invoice'},
+  })
+  assert.equal(
+    format('placeholder', {app: 'Vendors', label: 'Vendor Invoice'}),
+    '/vendors/unavailable?screen=Vendor%20Invoice'
+  )
+})
+
+test('routes: placeholder labels survive encoding and every app owns an unavailable path', () => {
+  const label = 'Reports - Assembly orders & مرحبا #1?'
+  const url = format('placeholder', {app: 'Inventory Systems Management', label})
+  const [pathname, search] = url.split('?')
+  assert.equal(pathname, '/inventory-systems-management/unavailable')
+  assert.deepEqual(parse(pathname, `?${search}`), {
+    id: 'placeholder',
+    data: {app: 'Inventory Systems Management', label},
+  })
+  for (const [app, base] of Object.entries(APP_PATH_BY_LABEL)) {
+    assert.ok(ROUTE_PATHS.includes(`${base}/unavailable`), `${app} owns an unavailable path`)
+    assert.deepEqual(parse(`${base}/unavailable`, '?screen=X'), {id: 'placeholder', data: {app, label: 'X'}})
+  }
+})
+
+test('routes: placeholder without a screen name or with an unknown app degrades safely', () => {
+  assert.deepEqual(parse('/vendors/unavailable'), {id: 'placeholder', data: {app: 'Vendors', label: ''}})
+  assert.equal(format('placeholder', {app: 'Vendors'}), '/vendors/unavailable')
+  assert.equal(format('placeholder', {app: 'Not An App', label: 'X'}), '/dashboard/unavailable?screen=X')
+  assert.equal(parse('/unavailable'), null)
+  assert.equal(parse('/not-an-app/unavailable', '?screen=X'), null)
 })

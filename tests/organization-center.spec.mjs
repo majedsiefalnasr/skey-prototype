@@ -1,5 +1,6 @@
 import {test, expect} from '@playwright/test'
 import {boot, settle} from './support/browser.mjs'
+const localized = (english, arabic) => test.info().project.use.rtl ? arabic : english
 
 async function openOrganizationSection(page, section) {
   await page.locator('.avatar-btn').click()
@@ -15,7 +16,7 @@ test.describe('organization center', () => {
     const titles = await page.locator('.org-stat-card').evaluateAll(cards =>
       cards.map(card => card.querySelector('strong')?.textContent.trim())
     )
-    expect(titles).toEqual(['Active users', 'Database sessions'])
+    expect(titles).toEqual([localized('Active users', 'المستخدمون النشطون'), localized('Database sessions', 'جلسات قاعدة البيانات')])
     // The trend cards (Response time, Workflow exceptions, Open alerts) are
     // gone, so no line chart renders on the overview any more.
     await expect(page.locator('[data-organization-trend-chart]')).toHaveCount(0)
@@ -178,8 +179,8 @@ test.describe('organization center', () => {
     const message = page.locator('#organization-section-application-sessions [data-organization-section-message]')
     await expect(message).toBeVisible()
     await expect(message).toHaveAttribute('role', 'note')
-    await expect(message).toContainText('Session safety')
-    await expect(message).toContainText('IP addresses are masked')
+    await expect(message).toContainText(localized('Session safety', 'أمان الجلسات'))
+    await expect(message).toContainText(localized('IP addresses are masked', 'عناوين الشبكة مخفية جزئيا'))
     await expect(page.locator('#organization-section-application-sessions .org-card', {hasText: 'Session safety'})).toHaveCount(0)
   })
 
@@ -220,12 +221,12 @@ test.describe('organization center', () => {
     await row.locator('[data-organization-session-action="revoke"]').click()
     await expect(page.locator('#organization-session-dialog')).toHaveClass(/open/)
     await page.locator('#organization-session-form button[type="submit"]').click()
-    await expect(page.locator('#organization-session-error')).toContainText('reason')
+    await expect(page.locator('#organization-session-error')).toContainText(localized('reason', 'سببا تشغيليا'))
     await page.locator('#organization-session-reason').fill('Unexpected device reported by manager')
     await page.locator('#organization-session-form button[type="submit"]').click()
 
     await expect(row).toHaveCount(0)
-    await expect(page.locator('.toast')).toContainText('Application session revoked')
+    await expect(page.locator('.toast')).toContainText(localized('Application session revoked', 'تم إنهاء جلسة التطبيق'))
 
     await page.reload()
     await settle(page)
@@ -245,7 +246,7 @@ test.describe('organization center', () => {
     await page.locator('#organization-session-form button[type="submit"]').click()
 
     await expect(page.locator('#organization-db-sessions-canvas [data-list-row-key="db-2191"]')).toHaveCount(0)
-    await expect(page.locator('.toast')).toContainText('Database session terminated')
+    await expect(page.locator('.toast')).toContainText(localized('Database session terminated', 'تم إنهاء جلسة قاعدة البيانات'))
   })
 
   test('clearing a table filter restores the section rows instead of emptying the table', async ({page}) => {

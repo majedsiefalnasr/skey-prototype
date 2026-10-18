@@ -97,6 +97,15 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     applyNavHighlight(root, forYou ? 'For You' : label)
   }
 
+  /** The app that owns a row with no screen: the group the rail resolved
+   *  (applyNavState has just run), else the For You group's own app. */
+  const placeholderApp = label => {
+    if (visibleGroups().some(group => group[0] === currentAppLabel)) return currentAppLabel
+    const owner = forYouGroups.flatMap(group => group.items).find(item => item.label === label)
+    currentAppLabel = owner?.appLabel ?? visibleGroups()[0][0]
+    return currentAppLabel
+  }
+
   const setNavCurrent = (root, label, {skipListLayoutGuard = false} = {}) => {
     const targetListContext =
       label === 'Sales Invoice' ? 'invoice' : label === 'Customers' ? 'customer' : ''
@@ -128,13 +137,18 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       'People Data': 'people',
       ...ACCOUNT_VIEW_BY_LABEL,
     }
-    const view = viewByNavLabel[label] || 'record'
+    /* A row with no screen opens the "not in this prototype" placeholder
+       naming that row and its app — never another screen's content. */
+    const view = viewByNavLabel[label] || 'placeholder'
+    const placeholderData = view === 'placeholder' ? {label, app: placeholderApp(label)} : undefined
     /* Internal Mail's own row IS the email destination, not a view to
        leave: closeEmailView() would bounce the content through 'record'
-       first and land on a history entry that never rendered. */
-    if (view !== 'email') closeEmailView() /* any real navigation leaves the email view, same as it would leave any other page */
+       first and land on a history entry that never rendered. Only an open
+       email view needs closing — from any other page it would navigate to
+       Help Screens' For You and leave that entry in history. */
+    if (view !== 'email' && document.querySelector('.email-view:not([hidden])')) closeEmailView()
     if (forYouApp) getShowContentView()('foryou', {app: forYouApp})
-    else getShowContentView()(view)
+    else getShowContentView()(view, placeholderData)
     const frame = root.closest('.frame')
     const lp = frame && frame.querySelector('.lp-view')
     if (lp && !lp.hidden) {
@@ -145,10 +159,21 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       hideLaunchpad(frame, {
         targetRoute: forYouApp
           ? {id: 'foryou', data: {app: forYouApp}}
-          : view,
+          : placeholderData
+            ? {id: view, data: placeholderData}
+            : view,
       })
     }
     applyNavHighlight(root, label)
+  }
+
+  /** Opens a nav row from outside the rail (the search palette): the same
+   *  navigation a rail click performs, pinned to the app that owns the row
+   *  when the caller knows it. Labels that are not nav rows are ignored. */
+  const openScreen = (label, groupLabel) => {
+    if (!findNavGroup(label, groupLabel)) return
+    if (findNavGroup(label, groupLabel)?.[0] === groupLabel) currentAppLabel = groupLabel
+    setNavCurrent(document.querySelector('.side'), label)
   }
 
   const clickedCollapseToggle = e =>
@@ -536,5 +561,5 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     applySideCollapsedState()
   })
 
-  return {visibleGroups, childrenOf, leavesOf, findNavGroup, getForYouGroups: () => forYouGroups, setForYouGroups: value => { forYouGroups = value }, getCurrentAppLabel: () => currentAppLabel, getNavCurrentLabel: () => navCurrentLabel, setNavCurrent, applyNavCurrent, buildRailAndPanel, getSideCollapsed: () => sideCollapsed, renderSide, applySideCollapsedState, toggleSideCollapse}
+  return {visibleGroups, childrenOf, leavesOf, findNavGroup, getForYouGroups: () => forYouGroups, setForYouGroups: value => { forYouGroups = value }, getCurrentAppLabel: () => currentAppLabel, getNavCurrentLabel: () => navCurrentLabel, setNavCurrent, openScreen, applyNavCurrent, buildRailAndPanel, getSideCollapsed: () => sideCollapsed, renderSide, applySideCollapsedState, toggleSideCollapse}
 }

@@ -1,0 +1,9 @@
+{
+  "inventorySha256": "d7579212b09d1822641ed6e352c0d454d9f2a06f45f4bd8323d87dffb97b4e1d",
+  "fileCount": 1591,
+  "mailRouteSha256": "5bf903bfc781d216a8635b8f8b7d60fa61a34f70eedfe7d5e08cc61854a9a1fd",
+  "cssSha256": "9667d1660dadea9062513a706be4183a47b2c675c612ce7bc1a22e0625de13cd",
+  "cssBytes": 278940,
+  "previousFullRun": "2006 passed / 42 failed / 556 skipped; historical pre-spacing measurement, not relabeled as current",
+  "fullSuiteRerun": false
+}

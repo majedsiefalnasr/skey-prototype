@@ -1,0 +1,326 @@
+{
+  "scope": "Eight independent contexts, four consecutive captures each, original manifest state assertions and screenshot options; original frozen build",
+  "captures": [
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "capture": "desktop-high-contrast-light-activities-calendar-week.png-0-0.png",
+      "sha256": "1584075ec5fdd8769420d1cefcf2082fcbad4ddcc498d2c60517f30c29daf842",
+      "bounds": [
+        1031,
+        172,
+        1035,
+        174
+      ],
+      "differentPixels": 5,
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "capture": "desktop-high-contrast-light-activities-calendar-week.png-0-1.png",
+      "sha256": "1584075ec5fdd8769420d1cefcf2082fcbad4ddcc498d2c60517f30c29daf842",
+      "bounds": [
+        1031,
+        172,
+        1035,
+        174
+      ],
+      "differentPixels": 5,
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "capture": "desktop-high-contrast-light-activities-calendar-week.png-0-2.png",
+      "sha256": "1584075ec5fdd8769420d1cefcf2082fcbad4ddcc498d2c60517f30c29daf842",
+      "bounds": [
+        1031,
+        172,
+        1035,
+        174
+      ],
+      "differentPixels": 5,
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "capture": "desktop-high-contrast-light-activities-calendar-week.png-0-3.png",
+      "sha256": "1584075ec5fdd8769420d1cefcf2082fcbad4ddcc498d2c60517f30c29daf842",
+      "bounds": [
+        1031,
+        172,
+        1035,
+        174
+      ],
+      "differentPixels": 5,
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "capture": "desktop-high-contrast-dark-events-calendar-month.png-1-0.png",
+      "sha256": "3eef7b09ebf30c83b80db575cc6c4201b596d7e36e1e4bdb4baca2f3de0a6776",
+      "bounds": [
+        1250,
+        206,
+        1406,
+        208
+      ],
+      "differentPixels": 6,
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "capture": "desktop-high-contrast-dark-events-calendar-month.png-1-1.png",
+      "sha256": "3eef7b09ebf30c83b80db575cc6c4201b596d7e36e1e4bdb4baca2f3de0a6776",
+      "bounds": [
+        1250,
+        206,
+        1406,
+        208
+      ],
+      "differentPixels": 6,
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "capture": "desktop-high-contrast-dark-events-calendar-month.png-1-2.png",
+      "sha256": "3eef7b09ebf30c83b80db575cc6c4201b596d7e36e1e4bdb4baca2f3de0a6776",
+      "bounds": [
+        1250,
+        206,
+        1406,
+        208
+      ],
+      "differentPixels": 6,
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "capture": "desktop-high-contrast-dark-events-calendar-month.png-1-3.png",
+      "sha256": "3eef7b09ebf30c83b80db575cc6c4201b596d7e36e1e4bdb4baca2f3de0a6776",
+      "bounds": [
+        1250,
+        206,
+        1406,
+        208
+      ],
+      "differentPixels": 6,
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "capture": "desktop-high-contrast-light-activities-calendar-week.png-2-0.png",
+      "sha256": "503df351f597c25171a9e1b427b298d6182d06b23f5eb265b4ca73fa7efea909",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "capture": "desktop-high-contrast-light-activities-calendar-week.png-2-1.png",
+      "sha256": "503df351f597c25171a9e1b427b298d6182d06b23f5eb265b4ca73fa7efea909",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "capture": "desktop-high-contrast-light-activities-calendar-week.png-2-2.png",
+      "sha256": "503df351f597c25171a9e1b427b298d6182d06b23f5eb265b4ca73fa7efea909",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "capture": "desktop-high-contrast-light-activities-calendar-week.png-2-3.png",
+      "sha256": "503df351f597c25171a9e1b427b298d6182d06b23f5eb265b4ca73fa7efea909",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "capture": "desktop-high-contrast-dark-events-calendar-month.png-3-0.png",
+      "sha256": "2590d76ca005b5bd92d71f483ae60ca9c94ecd265da2fe72f60648fbac30ed73",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "capture": "desktop-high-contrast-dark-events-calendar-month.png-3-1.png",
+      "sha256": "2590d76ca005b5bd92d71f483ae60ca9c94ecd265da2fe72f60648fbac30ed73",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "capture": "desktop-high-contrast-dark-events-calendar-month.png-3-2.png",
+      "sha256": "2590d76ca005b5bd92d71f483ae60ca9c94ecd265da2fe72f60648fbac30ed73",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "capture": "desktop-high-contrast-dark-events-calendar-month.png-3-3.png",
+      "sha256": "2590d76ca005b5bd92d71f483ae60ca9c94ecd265da2fe72f60648fbac30ed73",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "capture": "desktop-high-contrast-light-activities-calendar-week.png-4-0.png",
+      "sha256": "503df351f597c25171a9e1b427b298d6182d06b23f5eb265b4ca73fa7efea909",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "capture": "desktop-high-contrast-light-activities-calendar-week.png-4-1.png",
+      "sha256": "503df351f597c25171a9e1b427b298d6182d06b23f5eb265b4ca73fa7efea909",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "capture": "desktop-high-contrast-light-activities-calendar-week.png-4-2.png",
+      "sha256": "503df351f597c25171a9e1b427b298d6182d06b23f5eb265b4ca73fa7efea909",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "capture": "desktop-high-contrast-light-activities-calendar-week.png-4-3.png",
+      "sha256": "503df351f597c25171a9e1b427b298d6182d06b23f5eb265b4ca73fa7efea909",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "capture": "desktop-high-contrast-dark-events-calendar-month.png-5-0.png",
+      "sha256": "3eef7b09ebf30c83b80db575cc6c4201b596d7e36e1e4bdb4baca2f3de0a6776",
+      "bounds": [
+        1250,
+        206,
+        1406,
+        208
+      ],
+      "differentPixels": 6,
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "capture": "desktop-high-contrast-dark-events-calendar-month.png-5-1.png",
+      "sha256": "3eef7b09ebf30c83b80db575cc6c4201b596d7e36e1e4bdb4baca2f3de0a6776",
+      "bounds": [
+        1250,
+        206,
+        1406,
+        208
+      ],
+      "differentPixels": 6,
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "capture": "desktop-high-contrast-dark-events-calendar-month.png-5-2.png",
+      "sha256": "3eef7b09ebf30c83b80db575cc6c4201b596d7e36e1e4bdb4baca2f3de0a6776",
+      "bounds": [
+        1250,
+        206,
+        1406,
+        208
+      ],
+      "differentPixels": 6,
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "capture": "desktop-high-contrast-dark-events-calendar-month.png-5-3.png",
+      "sha256": "3eef7b09ebf30c83b80db575cc6c4201b596d7e36e1e4bdb4baca2f3de0a6776",
+      "bounds": [
+        1250,
+        206,
+        1406,
+        208
+      ],
+      "differentPixels": 6,
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "capture": "desktop-high-contrast-light-activities-calendar-week.png-6-0.png",
+      "sha256": "503df351f597c25171a9e1b427b298d6182d06b23f5eb265b4ca73fa7efea909",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "capture": "desktop-high-contrast-light-activities-calendar-week.png-6-1.png",
+      "sha256": "503df351f597c25171a9e1b427b298d6182d06b23f5eb265b4ca73fa7efea909",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "capture": "desktop-high-contrast-light-activities-calendar-week.png-6-2.png",
+      "sha256": "503df351f597c25171a9e1b427b298d6182d06b23f5eb265b4ca73fa7efea909",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "capture": "desktop-high-contrast-light-activities-calendar-week.png-6-3.png",
+      "sha256": "503df351f597c25171a9e1b427b298d6182d06b23f5eb265b4ca73fa7efea909",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "capture": "desktop-high-contrast-dark-events-calendar-month.png-7-0.png",
+      "sha256": "2590d76ca005b5bd92d71f483ae60ca9c94ecd265da2fe72f60648fbac30ed73",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "capture": "desktop-high-contrast-dark-events-calendar-month.png-7-1.png",
+      "sha256": "2590d76ca005b5bd92d71f483ae60ca9c94ecd265da2fe72f60648fbac30ed73",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "capture": "desktop-high-contrast-dark-events-calendar-month.png-7-2.png",
+      "sha256": "2590d76ca005b5bd92d71f483ae60ca9c94ecd265da2fe72f60648fbac30ed73",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "capture": "desktop-high-contrast-dark-events-calendar-month.png-7-3.png",
+      "sha256": "2590d76ca005b5bd92d71f483ae60ca9c94ecd265da2fe72f60648fbac30ed73",
+      "bounds": null,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    }
+  ],
+  "observedDomVariantsByState": {
+    "activities-calendar-week.png": 1,
+    "events-calendar-month.png": 1
+  },
+  "conclusion": "Repeatable raster variation at rounded control borders with identical recorded DOM/style/media/font/focus/bounds. Exact underlying rendering cause remains unresolved; no product CSS fix, tolerance, mask or snapshot replacement."
+}

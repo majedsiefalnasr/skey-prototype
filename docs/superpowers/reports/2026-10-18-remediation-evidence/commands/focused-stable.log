@@ -1,0 +1,158 @@
+
+Running 98 tests using 2 workers
+
+(node:49923) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:49924) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/98] [desktop] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[2/98] [desktop] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[3/98] [desktop] › tests/delivery-locale.spec.mjs:27:1 › Arabic geography labels retain stable type and status values
+[4/98] [desktop] › tests/delivery-locale.spec.mjs:38:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[5/98] [desktop] › tests/delivery-locale.spec.mjs:51:1 › Arabic Organization headings and session action dialog are translated
+[6/98] [desktop] › tests/delivery-locale.spec.mjs:64:1 › Arabic invoice and customer primary record controls are translated
+[7/98] [desktop] › tests/delivery-locale.spec.mjs:77:1 › Arabic mail reading toolbar labels are translated
+[8/98] [desktop] › tests/delivery-locale.spec.mjs:87:1 › invoice posting dialog follows a locale switch when reopened
+[9/98] [desktop] › tests/delivery-locale.spec.mjs:111:1 › Arabic customer changes save back with Arabic feedback
+[10/98] [desktop] › tests/delivery-locale.spec.mjs:126:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[11/98] [desktop] › tests/delivery-locale.spec.mjs:139:1 › new Arabic payment rows keep stable method values and translated labels
+[12/98] [desktop] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+[13/98] [desktop] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[14/98] [desktop] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+(node:50011) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[15/98] [mobile-touch] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[16/98] [mobile-touch] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[17/98] [mobile-touch] › tests/delivery-locale.spec.mjs:27:1 › Arabic geography labels retain stable type and status values
+[18/98] [mobile-touch] › tests/delivery-locale.spec.mjs:38:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[19/98] [mobile-touch] › tests/delivery-locale.spec.mjs:51:1 › Arabic Organization headings and session action dialog are translated
+[20/98] [mobile-touch] › tests/delivery-locale.spec.mjs:64:1 › Arabic invoice and customer primary record controls are translated
+[21/98] [mobile-touch] › tests/delivery-locale.spec.mjs:77:1 › Arabic mail reading toolbar labels are translated
+[22/98] [mobile-touch] › tests/delivery-locale.spec.mjs:87:1 › invoice posting dialog follows a locale switch when reopened
+[23/98] [mobile-touch] › tests/delivery-locale.spec.mjs:111:1 › Arabic customer changes save back with Arabic feedback
+(node:50085) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[24/98] [mobile-touch] › tests/delivery-locale.spec.mjs:126:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[25/98] [mobile-touch] › tests/delivery-locale.spec.mjs:139:1 › new Arabic payment rows keep stable method values and translated labels
+[26/98] [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+[27/98] [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[28/98] [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+(node:50133) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[29/98] [desktop-dark] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[30/98] [desktop-dark] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[31/98] [desktop-dark] › tests/delivery-locale.spec.mjs:27:1 › Arabic geography labels retain stable type and status values
+[32/98] [desktop-dark] › tests/delivery-locale.spec.mjs:38:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[33/98] [desktop-dark] › tests/delivery-locale.spec.mjs:51:1 › Arabic Organization headings and session action dialog are translated
+[34/98] [desktop-dark] › tests/delivery-locale.spec.mjs:64:1 › Arabic invoice and customer primary record controls are translated
+[35/98] [desktop-dark] › tests/delivery-locale.spec.mjs:77:1 › Arabic mail reading toolbar labels are translated
+[36/98] [desktop-dark] › tests/delivery-locale.spec.mjs:87:1 › invoice posting dialog follows a locale switch when reopened
+[37/98] [desktop-dark] › tests/delivery-locale.spec.mjs:111:1 › Arabic customer changes save back with Arabic feedback
+(node:50180) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[38/98] [desktop-dark] › tests/delivery-locale.spec.mjs:139:1 › new Arabic payment rows keep stable method values and translated labels
+[39/98] [desktop-dark] › tests/delivery-locale.spec.mjs:126:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[40/98] [desktop-dark] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+[41/98] [desktop-dark] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[42/98] [desktop-dark] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+(node:50254) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[43/98] [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[44/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[45/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:27:1 › Arabic geography labels retain stable type and status values
+[46/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:38:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[47/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:51:1 › Arabic Organization headings and session action dialog are translated
+[48/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:64:1 › Arabic invoice and customer primary record controls are translated
+[49/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:77:1 › Arabic mail reading toolbar labels are translated
+[50/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:87:1 › invoice posting dialog follows a locale switch when reopened
+[51/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:111:1 › Arabic customer changes save back with Arabic feedback
+(node:50286) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[52/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:139:1 › new Arabic payment rows keep stable method values and translated labels
+[53/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:126:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[54/98] [desktop-high-contrast-light] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+[55/98] [desktop-high-contrast-light] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[56/98] [desktop-high-contrast-light] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+(node:50298) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[57/98] [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[58/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[59/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:27:1 › Arabic geography labels retain stable type and status values
+[60/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:38:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[61/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:51:1 › Arabic Organization headings and session action dialog are translated
+[62/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:64:1 › Arabic invoice and customer primary record controls are translated
+[63/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:77:1 › Arabic mail reading toolbar labels are translated
+[64/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:87:1 › invoice posting dialog follows a locale switch when reopened
+[65/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:111:1 › Arabic customer changes save back with Arabic feedback
+[66/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:139:1 › new Arabic payment rows keep stable method values and translated labels
+(node:50311) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[67/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:126:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[68/98] [desktop-high-contrast-dark] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+[69/98] [desktop-high-contrast-dark] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[70/98] [desktop-high-contrast-dark] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+(node:50386) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[71/98] [mobile-rtl] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[72/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[73/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:27:1 › Arabic geography labels retain stable type and status values
+[74/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:38:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[75/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:51:1 › Arabic Organization headings and session action dialog are translated
+[76/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:64:1 › Arabic invoice and customer primary record controls are translated
+[77/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:77:1 › Arabic mail reading toolbar labels are translated
+[78/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:87:1 › invoice posting dialog follows a locale switch when reopened
+[79/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:126:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+(node:50429) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[80/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:111:1 › Arabic customer changes save back with Arabic feedback
+[81/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:139:1 › new Arabic payment rows keep stable method values and translated labels
+[82/98] [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+[83/98] [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[84/98] [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+(node:50474) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[85/98] [desktop-reduced-motion] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[86/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[87/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:27:1 › Arabic geography labels retain stable type and status values
+[88/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:38:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[89/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:51:1 › Arabic Organization headings and session action dialog are translated
+[90/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:64:1 › Arabic invoice and customer primary record controls are translated
+[91/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:77:1 › Arabic mail reading toolbar labels are translated
+[92/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:87:1 › invoice posting dialog follows a locale switch when reopened
+[93/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:111:1 › Arabic customer changes save back with Arabic feedback
+[94/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:139:1 › new Arabic payment rows keep stable method values and translated labels
+(node:50524) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[95/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:126:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[96/98] [desktop-reduced-motion] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+[97/98] [desktop-reduced-motion] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[98/98] [desktop-reduced-motion] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+  98 passed (2.2m)

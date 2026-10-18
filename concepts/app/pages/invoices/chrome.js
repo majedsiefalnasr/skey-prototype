@@ -9,7 +9,7 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
       modify.className = 'lbtn pri'
       modify.dataset.act = 'Modify'
       modify.innerHTML =
-        '<svg width="15" height="15" aria-hidden="true"><use href="#i-edit"/></svg> Modify'
+        '<svg width="15" height="15" aria-hidden="true"><use href="#i-edit"/></svg> <span data-i18n="Modify">Modify</span>'
       btn.parentNode.insertBefore(modify, btn)
     })
 
@@ -23,21 +23,21 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
       host.className = 'recacts inline-flex items-center [gap:7px] flex-wrap'
       host.innerHTML =
         '<span class="statuswrap menu relative inline-flex [flex:none]">' +
-        '<button class="lbtn out" data-act="Change status" aria-haspopup="menu" aria-expanded="false"><svg width="15" height="15" aria-hidden="true"><use href="#i-flow"/></svg> Transition <svg width="11" height="11" aria-hidden="true"><use href="#i-caret"/></svg></button>' +
+        '<button class="lbtn out" data-act="Change status" aria-haspopup="menu" aria-expanded="false"><svg width="15" height="15" aria-hidden="true"><use href="#i-flow"/></svg> <span data-i18n="Transition">Transition</span> <svg width="11" height="11" aria-hidden="true"><use href="#i-caret"/></svg></button>' +
         '<div class="mlist mend" role="menu" style="min-width:210px">' +
-        '<button role="menuitem" data-status-action="open"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc"/></svg> Open invoice</button>' +
-        '<button role="menuitem" data-status-action="pending"><svg width="14" height="14" aria-hidden="true"><use href="#i-clock"/></svg> Mark as pending</button>' +
-        '<button role="menuitem" data-status-action="posted"><svg width="14" height="14" aria-hidden="true"><use href="#i-post"/></svg> Post invoice</button>' +
-        '<button role="menuitem" data-status-action="returned"><svg width="14" height="14" aria-hidden="true"><use href="#i-undo"/></svg> Return invoice</button>' +
-        '<hr><button role="menuitem" class="dan" data-status-action="canceled"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg> Cancel invoice</button>' +
+        '<button role="menuitem" data-status-action="open"><svg width="14" height="14" aria-hidden="true"><use href="#i-doc"/></svg> <span data-i18n="Open invoice">Open invoice</span></button>' +
+        '<button role="menuitem" data-status-action="pending"><svg width="14" height="14" aria-hidden="true"><use href="#i-clock"/></svg> <span data-i18n="Mark as pending">Mark as pending</span></button>' +
+        '<button role="menuitem" data-status-action="posted"><svg width="14" height="14" aria-hidden="true"><use href="#i-post"/></svg> <span data-i18n="Post invoice">Post invoice</span></button>' +
+        '<button role="menuitem" data-status-action="returned"><svg width="14" height="14" aria-hidden="true"><use href="#i-undo"/></svg> <span data-i18n="Return invoice">Return invoice</span></button>' +
+        '<hr><button role="menuitem" class="dan" data-status-action="canceled"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg> <span data-i18n="Cancel invoice">Cancel invoice</span></button>' +
         '</div></span>' +
         '<span class="menu relative inline-flex [flex:none]">' +
         '<button class="ibtn" data-act="More" aria-haspopup="menu" aria-expanded="false" aria-label="More actions"><svg width="16" height="16" aria-hidden="true"><use href="#i-dots"/></svg></button>' +
         '<div class="mlist mend" role="menu" style="min-width:210px">' +
-        '<button role="menuitem" data-act="New"><svg width="14" height="14" aria-hidden="true"><use href="#i-plus"/></svg> New</button>' +
+        '<button role="menuitem" data-act="New"><svg width="14" height="14" aria-hidden="true"><use href="#i-plus"/></svg> <span data-i18n="New">New</span></button>' +
         '<button role="menuitem" data-act="Add From">Add From</button>' +
-        '<button role="menuitem" data-act="New in new tab"><svg width="14" height="14" aria-hidden="true"><use href="#i-next"/></svg> Open in new tab</button>' +
-        '<hr><button role="menuitem" class="dan" data-act="Delete"><svg width="14" height="14" aria-hidden="true"><use href="#i-trash"/></svg> Delete</button>' +
+        '<button role="menuitem" data-act="New in new tab"><svg width="14" height="14" aria-hidden="true"><use href="#i-next"/></svg> <span data-i18n="Open in new tab">Open in new tab</span></button>' +
+        '<hr><button role="menuitem" class="dan" data-act="Delete"><svg width="14" height="14" aria-hidden="true"><use href="#i-trash"/></svg> <span data-i18n="Delete">Delete</span></button>' +
         '</div></span>'
       const undo = row.querySelector('[data-act="Undo"]')
       ;(undo || btn).after(host)
@@ -68,7 +68,7 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
       list.setAttribute('role', 'menu')
       list.style.minWidth = '210px'
       list.innerHTML =
-        '<button role="menuitem" data-save="new">Save and start another</button>'
+        '<button role="menuitem" data-save="new" data-i18n="Save and start another">Save and start another</button>'
       wrap.append(car, list)
       const chip = document.createElement('span')
       chip.className = 'reqchip inline-flex items-center gap-1.5 text-xs font-semibold [background:var(--warn-bg)] [color:var(--warn-ink)] [border-radius:999px] [padding:4px_11px]'
@@ -94,7 +94,7 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
       b.className = 'backlist inline-flex items-center gap-1.5 [padding:6px_11px] [border:1px_solid_var(--line)] [border-radius:7px] bg-surface [font-size:13px] whitespace-nowrap [&:hover]:bg-[var(--line-2)]'
       b.hidden = true
       b.innerHTML =
-        '<svg width="14" height="14" aria-hidden="true"><use href="#i-prev"/></svg> Back to the invoice list'
+        '<svg width="14" height="14" aria-hidden="true"><use href="#i-prev"/></svg> <span data-i18n="Back to the invoice list">Back to the invoice list</span>'
       m.parentNode.insertBefore(b, m.nextSibling)
     })
   })

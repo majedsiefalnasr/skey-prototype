@@ -26,6 +26,7 @@ export function createOrganization({
   dataListInstances,
   onAccessDenied = () => {},
   createSessionActions,
+  applyDataI18n = () => {},
   trapFocus,
   releaseFocus,
 }) {
@@ -175,6 +176,8 @@ export function createOrganization({
     setTableRows(data)
     activateTableSection(activeSection)
     bind()
+    roleBadge.dataset.i18n = activeRole === 'administrator' ? 'Administrator' : 'Manager · restricted'
+    applyDataI18n()
     rendered = true
   }
 
@@ -201,6 +204,13 @@ export function createOrganization({
     render()
   }
 
+  function refreshLocale() {
+    const table = TABLE_SECTIONS[activeSection]
+    if (table) dataListInstances[table.context]?.render()
+    sessionActions?.refreshLocale?.()
+    applyDataI18n()
+  }
+
   function deactivate() {
     sessionActions?.dispose()
     Object.values(TABLE_SECTIONS).forEach(({context}) => dataListInstances[context]?.deactivate())
@@ -211,7 +221,7 @@ export function createOrganization({
     rendered = false
   }
 
-  return {id: 'organization', roots: {root}, activate, deactivate, dispose, setRole, setSection}
+  return {id: 'organization', roots: {root}, activate, deactivate, dispose, setRole, setSection, refreshLocale}
 }
 
 export {ORGANIZATION_SECTION_ORDER}

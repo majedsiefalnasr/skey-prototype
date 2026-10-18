@@ -1,0 +1,12 @@
+[
+  {
+    "op": "test",
+    "path": "/captureStates/3/setup/2",
+    "value": "Week is 2026-10-12 through 2026-10-18. Set .activities-view [data-timed].scrollTop=432 (09:00 at 48 CSS px/hour)."
+  },
+  {
+    "op": "replace",
+    "path": "/captureStates/3/setup/2",
+    "value": "Week is 2026-10-11 through 2026-10-17. Set .activities-view [data-timed].scrollTop=432 (09:00 at 48 CSS px/hour)."
+  }
+]

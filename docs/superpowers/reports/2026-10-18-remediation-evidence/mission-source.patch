@@ -1,0 +1,381 @@
+--- before/concepts/app/components/data-list/menu-controller.js
++++ after/concepts/app/components/data-list/menu-controller.js
+@@ -73,15 +73,19 @@
+   const applyFrozenDataListColumns = applySharedFrozenDataListColumns
+ 
+   function dataManageAction(action, icon, title, support, {disabled = false} = {}) {
+-    return `<button type="button" role="menuitem" data-list-manage-action="${action}"${disabled ? ' disabled' : ''}>${dataListIcon(icon)}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-[12.5px] font-semibold">${title}</strong><small class="text-xs font-normal text-muted">${support}</small></span></button>`
++    return `<button type="button" role="menuitem" data-list-manage-action="${action}"${disabled ? ' disabled' : ''}>${dataListIcon(icon)}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-[12.5px] font-semibold">${encodeHtml(t(title))}</strong><small class="text-xs font-normal text-muted">${encodeHtml(t(support))}</small></span></button>`
+   }
+ 
+   const DATA_BORDER_MODES = ['default', 'both', 'none', 'horizontal', 'vertical']
++
++  function borderModeLabel(mode) {
++    return t(`Border ${mode}`, mode[0].toUpperCase() + mode.slice(1))
++  }
+ 
+   function renderDataManageBorderControls(context, listState) {
+     return DATA_BORDER_MODES.map(
+       mode =>
+-        `<label class="data-manage-radio"><input type="radio" name="${encodeHtml(context)}-border" data-list-manage-border="${mode}"${listState.borderMode === mode ? ' checked' : ''}><span>${mode[0].toUpperCase() + mode.slice(1)}</span></label>`
++        `<label class="data-manage-radio"><input type="radio" name="${encodeHtml(context)}-border" data-list-manage-border="${mode}"${listState.borderMode === mode ? ' checked' : ''}><span>${encodeHtml(borderModeLabel(mode))}</span></label>`
+     ).join('')
+   }
+ 
+@@ -107,11 +111,11 @@
+     const columns = listState.columnOrder
+       .map(key => config.columns.find(column => column.key === key))
+       .filter(Boolean)
+-    if (!columns.length) return `<p class="data-manage-empty">No columns to freeze.</p>`
++    if (!columns.length) return `<p class="data-manage-empty">${t('No columns to freeze.')}</p>`
+     return columns
+       .map(
+         column =>
+-          `<label><input type="checkbox" data-list-manage-frozen="${encodeHtml(column.key)}"${listState.frozenColumns.has(column.key) ? ' checked' : ''}><span>${encodeHtml(column.label)}</span></label>`
++          `<label><input type="checkbox" data-list-manage-frozen="${encodeHtml(column.key)}"${listState.frozenColumns.has(column.key) ? ' checked' : ''}><span>${encodeHtml(t(column.label))}</span></label>`
+       )
+       .join('')
+   }
+@@ -127,10 +131,11 @@
+     if (summary)
+       summary.className = `${DATA_MENU_SUMMARY_CLASS} border-line! bg-surface!`
+     popover.className = `${DATA_MENU_POPOVER_CLASS} inset-x-auto`
++    popover.setAttribute('aria-label', t(`Manage ${config.label}`))
+     const singular = config.singular[0].toUpperCase() + config.singular.slice(1)
+     const borderLabel = DATA_BORDER_MODES.includes(listState.borderMode)
+-      ? listState.borderMode[0].toUpperCase() + listState.borderMode.slice(1)
+-      : 'Default'
++      ? borderModeLabel(listState.borderMode)
++      : borderModeLabel('default')
+     const statisticsConceptLabel =
+       DATA_LIST_STATISTICS_CONCEPT_OPTIONS.find(
+         option => option.key === activeDataListStatisticsConcept(listState)
+@@ -139,23 +144,23 @@
+     const submenuSummaryClass = DATA_MANAGE_SUBMENU_SUMMARY_CLASS
+     const tablePrefs =
+       listState.view === 'list'
+-        ? `<div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Table preferences</div>
++        ? `<div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">${t('Table preferences')}</div>
+       ${dataManageAction('save-layout', 'i-save', 'Save table layout', 'Keep columns, grouping, view and statistics', {disabled: !listState.layoutDirty})}
+       ${dataManageAction('reset-layout', 'i-undo', 'Reset table layout', 'Restore the system default')}
+-      <details class="${submenuClass}"><summary class="${submenuSummaryClass}">${dataListIcon('i-sliders')}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-[12.5px] font-semibold">Borders</strong><small class="text-xs font-normal text-muted">${borderLabel}</small></span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[180px] gap-0.5" role="radiogroup" aria-label="Table borders">${renderDataManageBorderControls(context, listState)}</div></details>
+-      <details class="${submenuClass}"><summary class="${submenuSummaryClass}">${dataListIcon('i-lock')}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-[12.5px] font-semibold">Freeze columns</strong><small class="text-xs font-normal text-muted">${listState.frozenColumns.size ? `${listState.frozenColumns.size} frozen` : 'None'}</small></span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[180px] gap-0.5" role="group" aria-label="Frozen columns">${renderDataManageFrozenControls(config, listState)}</div></details>`
+-        : `<div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Table preferences</div>
++      <details class="${submenuClass}"><summary class="${submenuSummaryClass}">${dataListIcon('i-sliders')}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-[12.5px] font-semibold">${t('Borders')}</strong><small class="text-xs font-normal text-muted">${borderLabel}</small></span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[180px] gap-0.5" role="radiogroup" aria-label="${encodeHtml(t('Table borders'))}">${renderDataManageBorderControls(context, listState)}</div></details>
++      <details class="${submenuClass}"><summary class="${submenuSummaryClass}">${dataListIcon('i-lock')}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-[12.5px] font-semibold">${t('Freeze columns')}</strong><small class="text-xs font-normal text-muted">${listState.frozenColumns.size ? t('{count} frozen').replace('{count}', String(listState.frozenColumns.size)) : t('No frozen columns', 'None')}</small></span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[180px] gap-0.5" role="group" aria-label="${encodeHtml(t('Frozen columns'))}">${renderDataManageFrozenControls(config, listState)}</div></details>`
++        : `<div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">${t('Table preferences')}</div>
+       ${dataManageAction('save-layout', 'i-save', 'Save table layout', 'Keep columns, grouping, view and statistics', {disabled: !listState.layoutDirty})}
+       ${dataManageAction('reset-layout', 'i-undo', 'Reset table layout', 'Restore the system default')}`
+     popover.innerHTML = `
+-      <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Data exchange</div>
++      <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">${t('Data exchange')}</div>
+       ${dataManageAction('export', 'i-external', 'Export', 'Excel, PDF, CSV or Word')}
+       <div class="data-menu-separator h-px my-1 mx-0.5 bg-line"></div>
+-      <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Analysis</div>
++      <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">${t('Analysis')}</div>
+       ${dataManageAction('statistics-status', 'i-grid', listState.statisticsVisible ? 'Hide statistics' : 'Show statistics', 'Toggle the statistics summary for this view')}
+-      <details class="${submenuClass}"><summary class="${submenuSummaryClass}">${dataListIcon('i-chart')}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-[12.5px] font-semibold">Statistics style</strong><small class="text-xs font-normal text-muted">${encodeHtml(t(statisticsConceptLabel))}</small></span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[180px] gap-0.5" role="radiogroup" aria-label="Statistics style">${renderDataManageStatisticsControls(context, listState)}</div></details>
++      <details class="${submenuClass}"><summary class="${submenuSummaryClass}">${dataListIcon('i-chart')}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-[12.5px] font-semibold">${t('Statistics style')}</strong><small class="text-xs font-normal text-muted">${encodeHtml(t(statisticsConceptLabel))}</small></span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[180px] gap-0.5" role="radiogroup" aria-label="${encodeHtml(t('Statistics style'))}">${renderDataManageStatisticsControls(context, listState)}</div></details>
+       <div class="data-menu-separator h-px my-1 mx-0.5 bg-line"></div>
+-      <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Reporting</div>
++      <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">${t('Reporting')}</div>
+       ${dataManageAction('report', 'i-doc', `${singular} report`, 'Create a configurable report')}
+       <div class="data-menu-separator h-px my-1 mx-0.5 bg-line"></div>
+       ${tablePrefs}`
+--- before/concepts/app/core/delivery-translations.js
++++ after/concepts/app/core/delivery-translations.js
+@@ -1,5 +1,64 @@
+ // Arabic delivery copy; P-07 approved on 2026-10-17.
+ export const DELIVERY_AR = {
++  "PO Reference": "مرجع أمر الشراء",
++  "Price List": "قائمة الأسعار",
++  "Tax Amount": "مبلغ الضريبة",
++  "Discount": "الخصم",
++  "Net Total": "صافي الإجمالي",
++  "Sales Rep": "مندوب المبيعات",
++  "Warehouse": "المستودع",
++  "Created By": "أنشئ بواسطة",
++  "Last Modified": "آخر تعديل",
++  "Parameter Name": "اسم المعلمة",
++  "Value": "القيمة",
++  "Detail Acc.": "الحساب التفصيلي",
++  "Acc. Name": "اسم الحساب",
++  "Debit": "مدين",
++  "Local Debit": "مدين محلي",
++  "Local Credit": "دائن محلي",
++  "Manage parameters": "إدارة المعلمات",
++  "Parameter report": "تقرير المعلمات",
++  "Manage lines": "إدارة السطور",
++  "Line report": "تقرير السطور",
++  "Manage accounts": "إدارة الحسابات",
++  "Account report": "تقرير الحسابات",
++  "Manage sessions": "إدارة الجلسات",
++  "Session report": "تقرير الجلسات",
++  "Balanced cards": "بطاقات متوازنة",
++  "Operational workspace": "مساحة عمل تشغيلية",
++  "Analytical KPIs": "مؤشرات أداء تحليلية",
++  "Data exchange": "تبادل البيانات",
++  "Analysis": "التحليل",
++  "Reporting": "التقارير",
++  "Table preferences": "تفضيلات الجدول",
++  "Save table layout": "حفظ تخطيط الجدول",
++  "Keep columns, grouping, view and statistics": "الاحتفاظ بالأعمدة والتجميع والعرض والإحصاءات",
++  "Reset table layout": "إعادة تعيين تخطيط الجدول",
++  "Restore the system default": "استعادة الإعداد الافتراضي للنظام",
++  "Borders": "الحدود",
++  "Table borders": "حدود الجدول",
++  "Border default": "افتراضي",
++  "Border both": "كل الحدود",
++  "Border none": "بلا حدود",
++  "Border horizontal": "أفقية",
++  "Border vertical": "رأسية",
++  "Freeze columns": "تثبيت الأعمدة",
++  "Frozen columns": "الأعمدة المثبتة",
++  "No frozen columns": "لا شيء",
++  "No columns to freeze.": "لا توجد أعمدة لتثبيتها.",
++  "{count} frozen": "{count} مثبتة",
++  "Statistics style": "نمط الإحصاءات",
++  "Hide statistics": "إخفاء الإحصاءات",
++  "Show statistics": "إظهار الإحصاءات",
++  "Toggle the statistics summary for this view": "إظهار ملخص الإحصاءات لهذا العرض أو إخفاؤه",
++  "Excel, PDF, CSV or Word": "Excel أو PDF أو CSV أو Word",
++  "Create a configurable report": "إنشاء تقرير قابل للتخصيص",
++  "Invoice report": "تقرير الفاتورة",
++  "Customer report": "تقرير العميل",
++  "Location report": "تقرير الموقع",
++  "Manage invoices": "إدارة الفواتير",
++  "Manage customers": "إدارة العملاء",
++  "Manage locations": "إدارة المواقع",
+   "Saving…": "جار الحفظ…",
+   "Posting…": "جار الترحيل…",
+   "Canceling…": "جار الإلغاء…",
+--- before/concepts/app/pages/invoices/operations.js
++++ after/concepts/app/pages/invoices/operations.js
+@@ -709,7 +709,7 @@
+           document.querySelectorAll('.crumbs [aria-current=page]').forEach(c => {
+             if (
+               c.closest(
+-                '.d2, .email-view, .list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view, .profile-view, .organization-view, .foryou-view'
++                '.d2, .email-view, .list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view, .profile-view, .organization-view, .foryou-view, .placeholder-view'
+               )
+             )
+               return
+--- before/tests/data-list-component.spec.mjs
++++ after/tests/data-list-component.spec.mjs
+@@ -375,7 +375,8 @@
+   const columnsMenu = page
+     .locator('.list-view')
+     .locator('.data-menu')
+-    .filter({has: page.locator(':scope > summary', {hasText: /^Columns$/})});
++    .filter({has: page.locator('[data-list-column]')});
++  await expect(columnsMenu).toHaveCount(1);
+   const summary = columnsMenu.locator(':scope > summary');
+ 
+   // Escape closes the popover and returns focus to its summary.
+@@ -388,7 +389,18 @@
+   // A pointer interaction outside the popover closes it too.
+   await summary.click();
+   await expect(columnsMenu).toHaveJSProperty('open', true);
+-  await page.locator('.list-view .data-list-toolbar input[type="search"]').click();
++  // On narrow screens the open columns popover covers the search field.
++  // Click real shell chrome outside the menu, in either locale, and verify
++  // the hit target before dispatching the same physical pointer interaction.
++  const shellHeader = page.locator('header.gtop');
++  await expect(shellHeader).toBeVisible();
++  const outsideHit = await shellHeader.evaluate(header => {
++    const rect = header.getBoundingClientRect();
++    const hit = document.elementFromPoint(rect.x + 1, rect.y + 1);
++    return Boolean(hit && header.contains(hit) && !hit.closest('.data-menu, .data-page-manage'));
++  });
++  expect(outsideHit).toBe(true);
++  await shellHeader.click({position: {x: 1, y: 1}});
+   await expect(columnsMenu).toHaveJSProperty('open', false);
+ });
+ 
+--- before/tests/delivery-locale.spec.mjs
++++ after/tests/delivery-locale.spec.mjs
+@@ -1,5 +1,33 @@
+ import {test, expect} from '@playwright/test';
+ import {boot, openSurface} from './support/browser.mjs';
++
++test('Arabic invoice Manage menu translates preferences without changing border values', async ({page}) => {
++  await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173');
++  await openSurface(page, 'list');
++  await page.locator('#rtl').evaluate(el => {el.checked=true;el.dispatchEvent(new Event('change',{bubbles:true}));});
++  const menu = page.locator('.list-view .data-page-manage');
++  await menu.locator(':scope > summary').click();
++  await expect(menu.locator('.data-manage-group-label')).toHaveText(['تبادل البيانات', 'التحليل', 'التقارير', 'تفضيلات الجدول']);
++  await expect(menu.locator('[data-list-manage-action="save-layout"] strong')).toHaveText('حفظ تخطيط الجدول');
++  const statistics = menu.locator('.data-manage-submenu').filter({has:page.locator('[data-list-manage-statistics-concept]')});
++  await expect(statistics.locator(':scope > summary small')).toHaveText('بطاقات متوازنة');
++  await expect(statistics.locator('label')).toHaveText(['بطاقات متوازنة','مساحة عمل تشغيلية','مؤشرات أداء تحليلية']);
++  expect(await statistics.locator('[data-list-manage-statistics-concept]').evaluateAll(els=>els.map(el=>el.dataset.listManageStatisticsConcept))).toEqual(['balanced','operational','analytical']);
++  for (const label of await menu.locator('[data-list-manage-frozen]').locator('..').allTextContents()) expect(label).toMatch(/[\u0600-\u06ff]/);
++  const borders = menu.locator('.data-manage-submenu').filter({has:page.locator('[data-list-manage-border]')});
++  await borders.locator(':scope > summary').click();
++  await expect(borders.locator('label').filter({has:page.locator('[data-list-manage-border="none"]')})).toHaveText('بلا حدود');
++  await borders.locator('[data-list-manage-border="none"]').check();
++  await expect(page.locator('.list-view .inv-grid')).toHaveClass(/borders-none/);
++  await page.locator('#rtl').evaluate(el => {el.checked=false;el.dispatchEvent(new Event('change',{bubbles:true}));});
++  await expect(page.locator('.list-view .inv-grid')).toHaveClass(/borders-none/);
++  await page.keyboard.press('Escape');
++  await expect(menu).toHaveJSProperty('open', false);
++  await menu.locator(':scope > summary').click();
++  const restored = menu.locator('[data-list-manage-border="none"]');
++  await expect(restored).toBeChecked();
++  await expect(restored.locator('..')).toHaveText('None');
++});
+ 
+ test('Arabic geography labels retain stable type and status values', async ({page}) => {
+   await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173');
+--- before/concepts/app/pages/email/templates.html
++++ after/concepts/app/pages/email/templates.html
+@@ -14,7 +14,7 @@
+               </button>
+             </div>
+           </div>
+-          <div class="email-app flex-1 min-h-0 flex mx-4 my-3 rounded-[9px] border border-line overflow-hidden bg-surface [body.density-compact_&]:mx-3 [body.density-compact_&]:my-2 [body.density-comfortable_&]:mx-5 [body.density-comfortable_&]:my-4">
++          <div class="email-app [@media(max-width:900px)]:mx-2 flex-1 min-h-0 flex rounded-[9px] border border-line overflow-hidden bg-surface">
+             <nav class="email-folders flex-none border-e border-line" aria-label="Mailboxes" data-folders></nav>
+             <div class="email-list w-[300px] flex-none flex flex-col min-h-0 border-e border-line">
+               <label class="sr-only" for="email-folder-select" data-i18n="Mailbox">Mailbox</label>
+--- before/concepts/app/pages/notes/templates.html
++++ after/concepts/app/pages/notes/templates.html
+@@ -16,7 +16,7 @@
+         </button>
+       </div>
+     </div>
+-    <div class="px-4 pb-2 pt-1" data-collab-toolbar></div>
+-    <div class="min-h-0 flex-1 overflow-auto px-4 pb-4 max-[720px]:pb-[calc(1rem+var(--flag-reserve,0px))]" data-collab-body></div>
++    <div class="pb-2 pt-1 [@media(max-width:900px)]:px-2" data-collab-toolbar></div>
++    <div class="min-h-0 flex-1 overflow-auto pb-4 [@media(max-width:900px)]:mx-2 max-[720px]:pb-[calc(1rem+var(--flag-reserve,0px))]" data-collab-body></div>
+   </div>
+ </template>
+--- before/concepts/app/pages/activities/templates.html
++++ after/concepts/app/pages/activities/templates.html
+@@ -16,7 +16,7 @@
+         </button>
+       </div>
+     </div>
+-    <div class="px-4 pb-2 pt-1" data-collab-toolbar></div>
+-    <div class="min-h-0 flex-1 overflow-auto px-4 pb-4 max-[720px]:pb-[calc(1rem+var(--flag-reserve,0px))]" data-collab-body></div>
++    <div class="pb-2 pt-1 [@media(max-width:900px)]:px-2" data-collab-toolbar></div>
++    <div class="min-h-0 flex-1 overflow-auto pb-4 [@media(max-width:900px)]:mx-2 max-[720px]:pb-[calc(1rem+var(--flag-reserve,0px))]" data-collab-body></div>
+   </div>
+ </template>
+--- before/concepts/app/pages/events/templates.html
++++ after/concepts/app/pages/events/templates.html
+@@ -16,7 +16,7 @@
+         </button>
+       </div>
+     </div>
+-    <div class="flex flex-wrap items-center gap-2 px-4 pb-2 pt-3" data-collab-toolbar></div>
+-    <div class="min-h-0 flex-1 overflow-auto px-4 pb-4 max-[720px]:pb-[calc(1rem+var(--flag-reserve,0px))]" data-collab-body></div>
++    <div class="flex flex-wrap items-center gap-2 pb-2 pt-3 [@media(max-width:900px)]:px-2" data-collab-toolbar></div>
++    <div class="min-h-0 flex-1 overflow-auto pb-4 [@media(max-width:900px)]:mx-2 max-[720px]:pb-[calc(1rem+var(--flag-reserve,0px))]" data-collab-body></div>
+   </div>
+ </template>
+--- before/concepts/app/pages/for-you/templates.html
++++ after/concepts/app/pages/for-you/templates.html
+@@ -3,7 +3,7 @@
+     class="foryou-view [&:not([hidden])]:flex [&:not([hidden])]:[flex:1] [&:not([hidden])]:min-h-0 [&:not([hidden])]:flex-col"
+     hidden>
+     <div class="flex min-h-0 flex-1 flex-col overflow-auto pb-6">
+-      <div class="px-4 pt-4">
++      <div class="pt-4 [@media(max-width:620px)]:px-2.5">
+         <nav class="crumbs" aria-label="Breadcrumb">
+           <a href="#" data-i18n="Home">Home</a><span class="sep">›</span
+           ><span aria-current="page" data-foryou-app data-i18n="Dashboard">Dashboard</span>
+@@ -24,7 +24,7 @@
+           </p>
+         </div>
+       </div>
+-      <div class="mt-4 grid grid-cols-1 gap-3 px-4 sm:grid-cols-2 xl:grid-cols-4">
++      <div class="mt-4 [@media(max-width:900px)]:mx-2 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+         <div class="rounded-lg border border-line bg-surface p-4">
+           <div class="text-[12px] font-medium text-muted" data-i18n="Revenue this month">
+             Revenue this month
+--- before/concepts/app/pages/placeholder/templates.html
++++ after/concepts/app/pages/placeholder/templates.html
+@@ -3,7 +3,7 @@
+     class="placeholder-view [&:not([hidden])]:flex [&:not([hidden])]:[flex:1] [&:not([hidden])]:min-h-0 [&:not([hidden])]:flex-col"
+     hidden>
+     <div class="flex min-h-0 flex-1 flex-col overflow-auto pb-6">
+-      <div class="px-4 pt-4">
++      <div class="pt-4 [@media(max-width:620px)]:px-2.5">
+         <nav class="crumbs" aria-label="Breadcrumb">
+           <a href="#" data-placeholder-app></a><span class="sep">›</span
+           ><span aria-current="page" data-placeholder-crumb></span>
+@@ -13,7 +13,7 @@
+         </div>
+       </div>
+       <div
+-        class="mx-4 mt-6 flex max-w-[520px] flex-col items-start gap-3 rounded-lg border border-line bg-surface p-6">
++        class="mt-6 [@media(max-width:900px)]:mx-2 flex max-w-[520px] flex-col items-start gap-3 rounded-lg border border-line bg-surface p-6">
+         <span
+           class="inline-flex rounded-full bg-[var(--line-2)] px-2.5 py-0.5 text-xs font-medium text-muted"
+           data-i18n="Not in this prototype"
+--- /dev/null
++++ after/tests/page-gutters.spec.mjs
+@@ -0,0 +1,61 @@
++import {test, expect} from '@playwright/test';
++import {boot} from './support/browser.mjs';
++
++const surfaces = [
++  ['/help-screens/email', '.email-view', '.email-app', false],
++  ['/help-screens/notes', '.notes-view', '[data-collab-body]', true],
++  ['/help-screens/activities', '.activities-view', '[data-collab-body]', true],
++  ['/help-screens/events', '.events-view', '[data-collab-body]', true],
++  ['/customers', '.foryou-view', '.grid > div:first-child', false],
++  ['/dashboard', '.foryou-view', '.grid > div:first-child', false],
++  ['/customers/unavailable?screen=Marketers', '.placeholder-view', '[data-placeholder-back]', false],
++];
++
++for (const [density, layout] of [['default', 'fluid'], ['compact', 'fluid'], ['comfortable', 'boxed']]) {
++  test(`${density} ${layout}: page gutters align with Customers`, async ({page}, info) => {
++    test.setTimeout(60000);
++    const base = process.env.PARITY_URL ?? 'http://127.0.0.1:4173';
++    await boot(page, base);
++    for (const [id,value] of [['density',density],['content-layout',layout]]) {
++      await page.locator('#'+id).evaluate((el,value)=>{el.value=value;el.dispatchEvent(new Event('change',{bubbles:true}));},value);
++    }
++    const go = async path => {
++      await page.goto(base+path);
++      await page.locator('.skeleton-overlay').waitFor({state:'hidden'});
++      await expect(page.locator('html')).toHaveCSS('direction',info.project.use.rtl?'rtl':'ltr');
++      await expect(page.locator('#density')).toHaveValue(density);
++      await expect(page.locator('#content-layout')).toHaveValue(layout);
++    };
++    const inset = (locator, includePadding = false) => locator.evaluate((el, includePadding) => {
++      const root = document.querySelector('.page-content').getBoundingClientRect();
++      const box = el.getBoundingClientRect();
++      const rtl = document.documentElement.dir === 'rtl';
++      const padding = includePadding ? parseFloat(getComputedStyle(el).paddingInlineStart) : 0;
++      return (rtl ? root.right-box.right : box.left-root.left)+padding;
++    }, includePadding);
++    await go('/customers/list');
++    const expectedHeading = await inset(page.locator('.customer-list-view h1'));
++    const expectedContent = await inset(page.locator('#customer-list-canvas'));
++    for (const [path,root,body,includePadding] of surfaces) {
++      await go(path);
++      await expect(page.locator(root)).toBeVisible();
++      if (root === '.placeholder-view') {
++        await expect(page.locator('[data-placeholder-crumb]')).toHaveText(await page.locator(root+' h1').innerText());
++      }
++      expect(await inset(page.locator(root+' h1')), path+' heading').toBe(expectedHeading);
++      // Placeholder content has its own card padding; compare the card edge.
++      const content = root === '.placeholder-view'
++        ? page.locator(root+' [data-placeholder-back]').locator('..')
++        : page.locator(root+' '+body);
++      expect(await inset(content,includePadding),path+' content').toBe(expectedContent);
++      if (root === '.email-view') {
++        const margins = await content.evaluate(el=>({top:getComputedStyle(el).marginTop,bottom:getComputedStyle(el).marginBottom}));
++        expect(margins).toEqual({top:'0px',bottom:'0px'});
++      }
++      if (root.endsWith('s-view') && root !== '.placeholder-view') {
++        const toolbar = page.locator(root+' [data-collab-toolbar]');
++        if (await toolbar.count()) expect(await inset(toolbar,true),path+' toolbar').toBe(expectedContent);
++      }
++    }
++  });
++}

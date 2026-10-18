@@ -1,3 +1,4 @@
+import {uiLocale} from '../../core/locale.js'
 import {encodeHtml} from '../../core/locale.js'
 import {GEO_ROWS} from '../../prototype/fixtures/geography.js'
 import {createGeographyHierarchy, enableFlowPan} from './hierarchy.js'
@@ -79,32 +80,46 @@ export function createGeography({
     }
   }
 
+  /* The rows the list shows right now (its filter and sort). Falls back to
+     every row when the open location is not among them, e.g. it was filtered
+     out after opening. Position and Prev/Next both read this one order. */
+  function geoRecordOrder() {
+    const inView = getList().model.rowsInView()
+    return inView.some(row => row.code === geoState.code) ? inView : GEO_ROWS
+  }
+
   function syncGeoRecordPager() {
     const pager = document.querySelector('.geo-record-footer .pager')
     const input = pager?.querySelector('.pg-i')
     const total = pager?.querySelector('.tot')
-    const position = GEO_ROWS.findIndex(row => row.code === geoState.code) + 1
     if (!pager || !input || !total) return
+    const rows = geoRecordOrder()
+    const position = rows.findIndex(row => row.code === geoState.code) + 1
+    const creating = geoState.mode === 'create'
+    // Moving to another record would drop unsaved edits, so only View mode navigates.
+    const locked = geoState.mode !== 'view'
     const setPosition = value => {
-      const next = Math.min(GEO_ROWS.length, Math.max(1, Number(value) || 1))
-      geoState.code = GEO_ROWS[next - 1].code
+      const next = Math.min(rows.length, Math.max(1, Number(value) || 1))
+      geoState.code = rows[next - 1].code
       renderGeoRecord()
     }
-    total.textContent = `${t('of', 'of')} ${GEO_ROWS.length}`
-    input.max = String(GEO_ROWS.length)
-    input.value = String(position)
-    input.dataset.last = String(position)
-    pager.querySelector('.pg-f').disabled = position === 1
-    pager.querySelector('.pg-p').disabled = position === 1
-    pager.querySelector('.pg-n').disabled = position === GEO_ROWS.length
-    pager.querySelector('.pg-l').disabled = position === GEO_ROWS.length
+    total.textContent = `${t('of', 'of')} ${rows.length}`
+    input.max = String(rows.length)
+    input.value = creating ? '' : String(position)
+    input.dataset.last = input.value
+    input.readOnly = locked
+    pager.querySelector('.pg-f').disabled = locked || position === 1
+    pager.querySelector('.pg-p').disabled = locked || position === 1
+    pager.querySelector('.pg-n').disabled = locked || position === rows.length
+    pager.querySelector('.pg-l').disabled = locked || position === rows.length
     pager.querySelector('.pg-f').onclick = () => setPosition(1)
     pager.querySelector('.pg-p').onclick = () => setPosition(position - 1)
     pager.querySelector('.pg-n').onclick = () => setPosition(position + 1)
-    pager.querySelector('.pg-l').onclick = () => setPosition(GEO_ROWS.length)
+    pager.querySelector('.pg-l').onclick = () => setPosition(rows.length)
     input.onchange = () => setPosition(input.value)
-    queryId('geo-record-position').textContent =
-      `${t('Record', 'Record')} ${position} ${t('of', 'of')} ${GEO_ROWS.length}`
+    queryId('geo-record-position').textContent = creating
+      ? t('New location', 'New location')
+      : `${t('Record', 'Record')} ${position} ${t('of', 'of')} ${rows.length}`
   }
 
   function geoDescendantCodes(code) {
@@ -175,6 +190,7 @@ export function createGeography({
     syncGeoHierarchyView()
     syncGeoTreePanelToggle()
     queryId('geo-field-code').value = row.code
+    queryId('geo-field-code').readOnly = !creating
     renderGeoParentOptions(row, creating)
     queryId('geo-field-name').value = row.name
     queryId('geo-field-level').value = row.level
@@ -194,8 +210,10 @@ export function createGeography({
         : editing
           ? t('Editing location. Save or Undo your changes.')
           : t('Saved location. Choose Modify to edit.')
-      note.lastChild.textContent = ` ${message}`
+      note.querySelector('[data-geo-note]').textContent = message
     }
+    root.querySelectorAll('[data-i18n]').forEach(node => {node.textContent = t(node.dataset.i18n)})
+    root.querySelectorAll('[data-i18n-placeholder]').forEach(node => {node.placeholder = t(node.dataset.i18nPlaceholder)})
     syncGeoRecordPager()
     syncGeoFlowNodeDialog()
   }
@@ -450,10 +468,8 @@ export function createGeography({
   }
 
   // Real removal (splice, not a soft-delete flag): GEO_ROWS is this
-  // prototype's full/literal geo dataset -- nothing else reads a paired
-  // simulated-total constant off its length (checked: components/data-list/
-  // model.js's DATA_LIST_SIMULATED_TOTAL.geo=12 is otherwise unread), so
-  // shrinking the array is safe and makes a deleted tree disappear from
+  // prototype's complete in-memory geo dataset. Pagers read its actual
+  // length, so shrinking the array makes a deleted tree disappear from
   // every GEO_ROWS consumer (list, pickers, tree, flow) by construction.
   function deleteGeoTree(code) {
     const codes = geoFlowLineageCodes(code)
@@ -486,7 +502,7 @@ export function createGeography({
         toast({
           tone: 'ok',
           title: 'Location tree deleted',
-          body: `${removedCount} location${removedCount === 1 ? '' : 's'} removed.`,
+          body: uiLocale.t("{v0} location{v1} removed.").replace('{v0}', () => uiLocale.t(String(removedCount))).replace('{v1}', () => uiLocale.t(String(removedCount === 1 ? '' : 's'))),
         })
       }
     },
@@ -536,7 +552,17 @@ export function createGeography({
       renderGeoRecord()
     } else if (action === 'new') openNewDataListRecord('geo')
     else if (action === 'save') {
-      if (geoState.mode === 'edit') saveGeoRecord()
+      if (geoState.mode === 'create') {
+        const code = queryId('geo-field-code').value.trim()
+        const name = queryId('geo-field-name').value.trim()
+        if (!code || !name || GEO_ROWS.some(row => row.code === code)) {
+          toast({tone: 'bad', title: t('Enter a unique location code and a name', 'Enter a unique location code and a name')})
+          return true
+        }
+        GEO_ROWS.push({code, name, parentCode: '', parent: '', level: 1, type: '', active: true, remarks: ''})
+        geoState.code = code
+      }
+      saveGeoRecord()
       geoState.mode = 'view'
       renderGeoRecord()
       toast({tone: 'ok', title: 'Location saved'})
@@ -557,7 +583,7 @@ export function createGeography({
     } else
       toast({
         tone: 'info',
-        title: `${action[0].toUpperCase() + action.slice(1)} is ready for integration`,
+        title: uiLocale.t("{v0} is ready for integration").replace('{v0}', () => uiLocale.t(String(action[0].toUpperCase() + action.slice(1)))),
         body: 'This prototype stops before that screen.',
       })
     return true

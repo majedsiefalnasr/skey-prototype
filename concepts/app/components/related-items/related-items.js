@@ -39,7 +39,7 @@ export function createRelatedItems({store, toast, currentUserId, openItem, befor
     if (!(await beforeAction())) return
     const created = store.createEntity(type, defaultsFor(type))
     store.link(sourceRef, {type, id: created.id})
-    toast({tone: 'ok', title: `${TYPE_META[type].label} created and linked`, body: titleOf(created)})
+    toast({tone: 'ok', title: uiLocale.t("{v0} created and linked").replace('{v0}', () => uiLocale.t(String(TYPE_META[type].label))), body: titleOf(created)})
     /* Opened with edit: the record was just created here — the form is the
        point, not the new read-only view. */
     openItem({type, id: created.id}, {edit: true})
@@ -112,7 +112,7 @@ export function createRelatedItems({store, toast, currentUserId, openItem, befor
         if (!(await beforeAction())) return
         const item = items[Number(button.dataset.relatedRemove)]
         store.unlink(ref, item.ref)
-        toast({tone: 'info', title: 'Link removed', body: item.entity ? `${titleOf(item.entity)} was not deleted.` : ''})
+        toast({tone: 'info', title: 'Link removed', body: item.entity ? uiLocale.t('{name} was not deleted.').replace('{name}', titleOf(item.entity)) : ''})
         render(host, ref, {allowCreate})
         host.querySelector('[data-related-link]')?.focus()
       })
@@ -205,7 +205,7 @@ export function createRelatedItems({store, toast, currentUserId, openItem, befor
       if (created) {
         linkedCount += 1
         status.textContent = `Linked to ${titleOf(entity)}`
-        toast({tone: 'ok', title: 'Linked', body: `${TYPE_META[entity.type].label}: ${titleOf(entity)}`})
+        toast({tone: 'ok', title: 'Linked', body: uiLocale.t("{v0}: {v1}").replace('{v0}', () => uiLocale.t(String(TYPE_META[entity.type].label))).replace('{v1}', () => uiLocale.t(String(titleOf(entity))))})
       }
       renderResults()
       search.focus()

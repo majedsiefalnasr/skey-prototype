@@ -1,0 +1,22 @@
+{
+  "checks": [
+    {
+      "url": "http://127.0.0.1:4262",
+      "status": 200,
+      "bytes": 276907,
+      "sha256": "8f0c10c160b47217acd1d67bc8c3849c2308dd2d704ddc1fd047178a236ecc50",
+      "matchesDisk": true
+    },
+    {
+      "url": "http://127.0.0.1:4260",
+      "status": 200,
+      "bytes": 278373,
+      "sha256": "bb30f503d1250d5968fd60c894e11065bb51f25c34e425ef21adc95790c1cd65",
+      "matchesDisk": true
+    }
+  ],
+  "playwrightConfigSha256": "66de907a4963f0ae032839a1378c972ac9374e92f055ceb2d8805de1d3cb0654",
+  "historicalConfigSha256": "66de907a4963f0ae032839a1378c972ac9374e92f055ceb2d8805de1d3cb0654",
+  "configUnchanged": true,
+  "browserVersion": "153.0.8010.12"
+}

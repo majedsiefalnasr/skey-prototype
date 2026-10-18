@@ -1,7 +1,8 @@
 import {SCREENS, RECORDS, ACTIONS} from '../prototype/fixtures/navigation.js'
+import {uiLocale} from '../core/locale.js'
 
 /** Owns search state and its DOM bindings. */
-export function createSearch({actionDialog,toast, getState, blocked, stopSearchTyping, startSearchTyping, openDrawer, openPrintSettings, openRDlg, runAction} = {}) {
+export function createSearch({actionDialog,toast, getState, blocked, stopSearchTyping, startSearchTyping, openDrawer, openPrintSettings, openRDlg, runAction, openScreen, openApp, openCustomer, openInvoice, openPlaceholder, openScreenParameters} = {}) {
   let sScope = 'all',
     sSel = 0,
     sRows = [],
@@ -27,14 +28,36 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
 
   const activeList = () => activePanel().querySelector('.slist')
 
-  const renderSearch = () => {
-    document.querySelectorAll('.sctx').forEach(c => {
-      const b = c.querySelector('b')
-      if (!b) return
-      b.nextSibling &&
-        (b.nextSibling.textContent =
-          getState().mode === 'create' ? ' · new invoice, not saved yet' : ' · 001000352026126')
+  /* The invoice record is the page whose action row is showing; the palette
+     lives on every page, so its invoice context must not. */
+  const onInvoiceRecord = () =>
+    !document.querySelector('.lp-view:not([hidden])') &&
+    !!document.querySelector(
+      '.page-action-bar:not([hidden]) > [data-page-action-bar="record"]:not([hidden])'
+    )
+
+  /* "You are on" line and "Actions apply to" footer name the open invoice and
+     disappear (emptied, not just hidden) away from the record. */
+  const renderInvoiceContext = () => {
+    const {docNo, docSeq, mode} = getState()
+    const on = onInvoiceRecord()
+    const creating = mode === 'create'
+    document.querySelectorAll('.sctx-current').forEach(c => {
+      c.hidden = !on
+      c.querySelector('.sctx-no').textContent = !on
+        ? ''
+        : creating
+          ? uiLocale.t(' · new invoice, not saved yet')
+          : ` · ${docSeq}`
     })
+    document.querySelectorAll('.sfoot-ctx').forEach(c => {
+      c.hidden = !on || creating
+      c.textContent = c.hidden ? '' : uiLocale.t('Actions apply to invoice {no}').replace('{no}', docNo)
+    })
+  }
+
+  const renderSearch = () => {
+    renderInvoiceContext()
     const q = activeInput().value.trim().toLowerCase()
     const m = x =>
       !q || x.t.toLowerCase().includes(q) || (x.s || '').toLowerCase().includes(q)
@@ -140,12 +163,29 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
         })
       else runAction(it.t)
     }
-    /* screens/records: opening them is out of scope for this shell prototype */ else
-      toast({
-        tone: 'info',
-        title: it.t,
-        body: 'Opening this is out of scope for the app-shell prototype.',
-      })
+    else if (it.kind === 'screen') openScreenResult(it)
+    else openRecordResult(it)
+  }
+
+  /* A screen result opens the screen the rail would open for that row — its
+     view, or the "not in this prototype" placeholder; a module opens its
+     For You page. Screen Parameters is not a nav row: it is the dialog the
+     prototype already has. */
+  const openScreenResult = it => {
+    if (it.s === 'Module' || it.t === 'Dashboard') openApp(it.t)
+    else if (it.t === 'Screen Parameters') openScreenParameters()
+    else openScreen(it.t, it.s)
+  }
+
+  /* RECORDS carry no type, so it is read from the sample titles: an invoice
+     opens when the prototype holds it, a customer opens its record, and
+     anything else (items) has no record screen and says so. */
+  const openRecordResult = it => {
+    const invoiceNo = /Invoice (\d+)$/.exec(it.t)?.[1]
+    if (invoiceNo) {
+      if (!openInvoice(invoiceNo)) openPlaceholder(it.t, 'Sales Systems Management')
+    } else if (it.s === 'Customer') openCustomer(it.t.split(' · ')[0])
+    else openPlaceholder(it.t, 'Inventory Systems Management')
   }
 
   const openSearch = (screensOnly = true) => {

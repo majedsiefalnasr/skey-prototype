@@ -1,0 +1,26 @@
+[
+  {
+    "path": "tests/messaging.spec.mjs-snapshots/desktop/email-reading.png",
+    "before": "45eb1e17146c8b63fed24aae6fdc40c90657003107897d53c4bdda7fd0a699ad",
+    "after": "d15faff49c73312e2da4d5f791b28386d768d8ce891aeac2e0e9a8451838d97a",
+    "candidate": "docs/superpowers/reports/2026-10-18-remediation-evidence/full-failures/desktop/messaging-email-reading-candidate.png"
+  },
+  {
+    "path": "tests/messaging.spec.mjs-snapshots/mobile-touch/email-reading.png",
+    "before": "bfe66786a48b3f9374a73e54290343db51976132192b77bb66ecdbac4307df1f",
+    "after": "df5ccafde180ad5b38e94659320221c7e899b45a22d4ea8a9fc1dcb4abbe53ea",
+    "candidate": "docs/superpowers/reports/2026-10-18-remediation-evidence/full-failures/mobile-touch/messaging-email-reading-candidate.png"
+  },
+  {
+    "path": "tests/messaging.spec.mjs-snapshots/mobile-rtl/email-reading.png",
+    "before": "542896e6f65092474c31220a4e55149f6f4e83a5fb98c431d318879a22a55859",
+    "after": "8da6d85fd4f4b7caf6cfa2a22ae31162093cbe41699f495d09ab210ee10d765f",
+    "candidate": "docs/superpowers/reports/2026-10-18-remediation-evidence/full-failures/mobile-rtl/messaging-email-reading-candidate.png"
+  },
+  {
+    "path": "tests/parity.spec.mjs-snapshots/desktop/email.png",
+    "before": "e6755f502451480409d6ac380c8afc90931868b90071d3a87ed8e525cc88cc83",
+    "after": "ec8c1b5f6ccb2334253cf6a09f28f375cbf55da5e325005825d1e0d30d3f70d2",
+    "candidate": "docs/superpowers/reports/2026-10-18-remediation-evidence/full-failures/desktop/parity-email-candidate.png"
+  }
+]

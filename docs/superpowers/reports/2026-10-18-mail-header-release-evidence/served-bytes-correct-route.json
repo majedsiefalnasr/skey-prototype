@@ -1,0 +1,16 @@
+[
+  {
+    "path": "help-screens/email/index.html",
+    "url": "/help-screens/email",
+    "match": true,
+    "sha256": "5bf903bfc781d216a8635b8f8b7d60fa61a34f70eedfe7d5e08cc61854a9a1fd",
+    "bytes": 615019
+  },
+  {
+    "path": "concepts/app/styles/tailwind.css",
+    "url": "/concepts/app/styles/tailwind.css",
+    "match": true,
+    "sha256": "9667d1660dadea9062513a706be4183a47b2c675c612ce7bc1a22e0625de13cd",
+    "bytes": 278940
+  }
+]

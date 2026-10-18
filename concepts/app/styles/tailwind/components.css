@@ -297,6 +297,18 @@
   .collab-calendar-scroll { overflow-x: auto; max-width: 100%; }
   .collab-calendar-scroll [data-cal-month] { min-width: 840px; }
   .collab-calendar-scroll [data-cal-week] { min-width: 840px; }
+  .collab-calendar-context { display: none; }
+  @media (max-width: 720px) {
+    .collab-calendar-context {
+      position: sticky; top: 0; z-index: 4; display: grid; gap: 2px;
+      padding-block: 4px; border-bottom: 1px solid var(--line);
+      background: var(--surface); color: var(--ink); font-size: 12px; line-height: 18px;
+    }
+    .collab-view [data-cal-toolbar] > .collab-calendar-context {
+      position: static; flex: 1 0 100%; width: 100%;
+    }
+    .collab-calendar-scroll [data-cal-item] { scroll-margin-block-start: var(--cal-context-inset, 0px); }
+  }
   .collab-view [data-date] { color: var(--ink); }
   .collab-view [data-date][data-outside] { color: var(--muted); }
   /* Modal editors own the viewport; the prototype launcher must not cover Save. */

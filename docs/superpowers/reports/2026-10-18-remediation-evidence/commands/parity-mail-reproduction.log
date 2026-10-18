@@ -1,0 +1,61 @@
+
+Running 1 test using 1 worker
+
+(node:13908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [desktop] › tests/parity.spec.mjs:8:3 › email: baseline appearance
+  1) [desktop] › tests/parity.spec.mjs:8:3 › email: baseline appearance ────────────────────────────
+
+    Error: expect(page).toHaveScreenshot(expected) failed
+
+      34074 pixels (ratio 0.03 of all image pixels) are different.
+
+      Snapshot: email.png
+
+    Call log:
+      - Expect "toHaveScreenshot(email.png)" with timeout 5000ms
+        - verifying given screenshot expectation
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - 34074 pixels (ratio 0.03 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - captured a stable screenshot
+      - 34074 pixels (ratio 0.03 of all image pixels) are different.
+
+
+      34 |       expect(linkedStylesheets).not.toContain('app/styles/overrides-2.css');
+      35 |     }
+    > 36 |     await expect(page).toHaveScreenshot(`${id}.png`, {
+         |                        ^
+      37 |       animations: 'disabled', maxDiffPixels: 0
+      38 |     });
+      39 |   });
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/parity.spec.mjs:36:24
+
+    attachment #1: email (image/png) ───────────────────────────────────────────────────────────────
+    Expected: tests/parity.spec.mjs-snapshots/desktop/email.png
+    Received: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/parity-mail-reproduction-out/parity-email-baseline-appearance-desktop/email-actual.png
+    Diff:     ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/parity-mail-reproduction-out/parity-email-baseline-appearance-desktop/email-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/parity-mail-reproduction-out/parity-email-baseline-appearance-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/parity-mail-reproduction-out/parity-email-baseline-appearance-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/parity-mail-reproduction-out/parity-email-baseline-appearance-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    [desktop] › tests/parity.spec.mjs:8:3 › email: baseline appearance ─────────────────────────────

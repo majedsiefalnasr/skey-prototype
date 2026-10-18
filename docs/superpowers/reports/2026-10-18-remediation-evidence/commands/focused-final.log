@@ -1,0 +1,347 @@
+
+Running 98 tests using 2 workers
+
+(node:45677) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:45676) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/98] [desktop] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[2/98] [desktop] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[3/98] [desktop] › tests/delivery-locale.spec.mjs:27:1 › Arabic geography labels retain stable type and status values
+[4/98] [desktop] › tests/delivery-locale.spec.mjs:38:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[5/98] [desktop] › tests/delivery-locale.spec.mjs:51:1 › Arabic Organization headings and session action dialog are translated
+[6/98] [desktop] › tests/delivery-locale.spec.mjs:64:1 › Arabic invoice and customer primary record controls are translated
+[7/98] [desktop] › tests/delivery-locale.spec.mjs:77:1 › Arabic mail reading toolbar labels are translated
+[8/98] [desktop] › tests/delivery-locale.spec.mjs:87:1 › invoice posting dialog follows a locale switch when reopened
+[9/98] [desktop] › tests/delivery-locale.spec.mjs:111:1 › Arabic customer changes save back with Arabic feedback
+[10/98] [desktop] › tests/delivery-locale.spec.mjs:126:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[11/98] [desktop] › tests/delivery-locale.spec.mjs:139:1 › new Arabic payment rows keep stable method values and translated labels
+[12/98] [desktop] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+[13/98] [desktop] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[14/98] [desktop] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+(node:45761) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[15/98] [mobile-touch] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[16/98] [mobile-touch] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[17/98] [mobile-touch] › tests/delivery-locale.spec.mjs:27:1 › Arabic geography labels retain stable type and status values
+[18/98] [mobile-touch] › tests/delivery-locale.spec.mjs:38:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[19/98] [mobile-touch] › tests/delivery-locale.spec.mjs:51:1 › Arabic Organization headings and session action dialog are translated
+[20/98] [mobile-touch] › tests/delivery-locale.spec.mjs:64:1 › Arabic invoice and customer primary record controls are translated
+[21/98] [mobile-touch] › tests/delivery-locale.spec.mjs:77:1 › Arabic mail reading toolbar labels are translated
+[22/98] [mobile-touch] › tests/delivery-locale.spec.mjs:87:1 › invoice posting dialog follows a locale switch when reopened
+[23/98] [mobile-touch] › tests/delivery-locale.spec.mjs:111:1 › Arabic customer changes save back with Arabic feedback
+(node:46108) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[24/98] [mobile-touch] › tests/delivery-locale.spec.mjs:126:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[25/98] [mobile-touch] › tests/delivery-locale.spec.mjs:139:1 › new Arabic payment rows keep stable method values and translated labels
+[26/98] [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+[27/98] [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+  1) [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers 
+
+    Error: /help-screens/email content
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 20
+    Received: 12
+
+      45 |         ? page.locator(root+' [data-placeholder-back]').locator('..')
+      46 |         : page.locator(root+' '+body);
+    > 47 |       expect(await inset(content,includePadding),path+' content').toBe(expectedContent);
+         |                                                                   ^
+      48 |       if (root === '.email-view') {
+      49 |         const margins = await content.evaluate(el=>({top:getComputedStyle(el).marginTop,bottom:getComputedStyle(el).marginBottom}));
+      50 |         expect(margins).toEqual({top:'0px',bottom:'0px'});
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/page-gutters.spec.mjs:47:67
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-compact-fluid-page-gutters-align-with-Customers-mobile-touch/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-compact-fluid-page-gutters-align-with-Customers-mobile-touch/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-compact-fluid-page-gutters-align-with-Customers-mobile-touch/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  2) [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+
+    Error: /help-screens/email content
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 24
+    Received: 16
+
+      45 |         ? page.locator(root+' [data-placeholder-back]').locator('..')
+      46 |         : page.locator(root+' '+body);
+    > 47 |       expect(await inset(content,includePadding),path+' content').toBe(expectedContent);
+         |                                                                   ^
+      48 |       if (root === '.email-view') {
+      49 |         const margins = await content.evaluate(el=>({top:getComputedStyle(el).marginTop,bottom:getComputedStyle(el).marginBottom}));
+      50 |         expect(margins).toEqual({top:'0px',bottom:'0px'});
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/page-gutters.spec.mjs:47:67
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-default-fluid-page-gutters-align-with-Customers-mobile-touch/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-default-fluid-page-gutters-align-with-Customers-mobile-touch/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-default-fluid-page-gutters-align-with-Customers-mobile-touch/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:46119) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:46118) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[28/98] [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+[29/98] [desktop-dark] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[30/98] [desktop-dark] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[31/98] [desktop-dark] › tests/delivery-locale.spec.mjs:27:1 › Arabic geography labels retain stable type and status values
+  3) [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers 
+
+    Error: /help-screens/email content
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 28
+    Received: 20
+
+      45 |         ? page.locator(root+' [data-placeholder-back]').locator('..')
+      46 |         : page.locator(root+' '+body);
+    > 47 |       expect(await inset(content,includePadding),path+' content').toBe(expectedContent);
+         |                                                                   ^
+      48 |       if (root === '.email-view') {
+      49 |         const margins = await content.evaluate(el=>({top:getComputedStyle(el).marginTop,bottom:getComputedStyle(el).marginBottom}));
+      50 |         expect(margins).toEqual({top:'0px',bottom:'0px'});
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/page-gutters.spec.mjs:47:67
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-comfortable-b-e448e-utters-align-with-Customers-mobile-touch/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-comfortable-b-e448e-utters-align-with-Customers-mobile-touch/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-comfortable-b-e448e-utters-align-with-Customers-mobile-touch/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:46243) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[32/98] [desktop-dark] › tests/delivery-locale.spec.mjs:38:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[33/98] [desktop-dark] › tests/delivery-locale.spec.mjs:51:1 › Arabic Organization headings and session action dialog are translated
+[34/98] [desktop-dark] › tests/delivery-locale.spec.mjs:64:1 › Arabic invoice and customer primary record controls are translated
+[35/98] [desktop-dark] › tests/delivery-locale.spec.mjs:77:1 › Arabic mail reading toolbar labels are translated
+[36/98] [desktop-dark] › tests/delivery-locale.spec.mjs:87:1 › invoice posting dialog follows a locale switch when reopened
+[37/98] [desktop-dark] › tests/delivery-locale.spec.mjs:111:1 › Arabic customer changes save back with Arabic feedback
+[38/98] [desktop-dark] › tests/delivery-locale.spec.mjs:126:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[39/98] [desktop-dark] › tests/delivery-locale.spec.mjs:139:1 › new Arabic payment rows keep stable method values and translated labels
+[40/98] [desktop-dark] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+[41/98] [desktop-dark] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[42/98] [desktop-dark] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+(node:46631) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[43/98] [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[44/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[45/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:27:1 › Arabic geography labels retain stable type and status values
+[46/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:38:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[47/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:51:1 › Arabic Organization headings and session action dialog are translated
+[48/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:64:1 › Arabic invoice and customer primary record controls are translated
+[49/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:77:1 › Arabic mail reading toolbar labels are translated
+[50/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:87:1 › invoice posting dialog follows a locale switch when reopened
+[51/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:111:1 › Arabic customer changes save back with Arabic feedback
+[52/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:139:1 › new Arabic payment rows keep stable method values and translated labels
+(node:46662) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[53/98] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:126:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[54/98] [desktop-high-contrast-light] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+[55/98] [desktop-high-contrast-light] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[56/98] [desktop-high-contrast-light] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+(node:46755) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[57/98] [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[58/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[59/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:27:1 › Arabic geography labels retain stable type and status values
+[60/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:38:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[61/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:51:1 › Arabic Organization headings and session action dialog are translated
+[62/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:64:1 › Arabic invoice and customer primary record controls are translated
+[63/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:77:1 › Arabic mail reading toolbar labels are translated
+[64/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:87:1 › invoice posting dialog follows a locale switch when reopened
+[65/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:111:1 › Arabic customer changes save back with Arabic feedback
+(node:46816) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[66/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:126:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[67/98] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:139:1 › new Arabic payment rows keep stable method values and translated labels
+[68/98] [desktop-high-contrast-dark] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+[69/98] [desktop-high-contrast-dark] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[70/98] [desktop-high-contrast-dark] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+(node:46925) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[71/98] [mobile-rtl] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[72/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[73/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:27:1 › Arabic geography labels retain stable type and status values
+[74/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:38:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[75/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:51:1 › Arabic Organization headings and session action dialog are translated
+[76/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:64:1 › Arabic invoice and customer primary record controls are translated
+[77/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:77:1 › Arabic mail reading toolbar labels are translated
+[78/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:87:1 › invoice posting dialog follows a locale switch when reopened
+[79/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:111:1 › Arabic customer changes save back with Arabic feedback
+(node:46977) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[80/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:126:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[81/98] [mobile-rtl] › tests/delivery-locale.spec.mjs:139:1 › new Arabic payment rows keep stable method values and translated labels
+[82/98] [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+[83/98] [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+  4) [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+
+    Error: /help-screens/email content
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 24
+    Received: 16
+
+      45 |         ? page.locator(root+' [data-placeholder-back]').locator('..')
+      46 |         : page.locator(root+' '+body);
+    > 47 |       expect(await inset(content,includePadding),path+' content').toBe(expectedContent);
+         |                                                                   ^
+      48 |       if (root === '.email-view') {
+      49 |         const margins = await content.evaluate(el=>({top:getComputedStyle(el).marginTop,bottom:getComputedStyle(el).marginBottom}));
+      50 |         expect(margins).toEqual({top:'0px',bottom:'0px'});
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/page-gutters.spec.mjs:47:67
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-default-fluid-page-gutters-align-with-Customers-mobile-rtl/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-default-fluid-page-gutters-align-with-Customers-mobile-rtl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-default-fluid-page-gutters-align-with-Customers-mobile-rtl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:47001) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[84/98] [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+  5) [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers 
+
+    Error: /help-screens/email content
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 20
+    Received: 12
+
+      45 |         ? page.locator(root+' [data-placeholder-back]').locator('..')
+      46 |         : page.locator(root+' '+body);
+    > 47 |       expect(await inset(content,includePadding),path+' content').toBe(expectedContent);
+         |                                                                   ^
+      48 |       if (root === '.email-view') {
+      49 |         const margins = await content.evaluate(el=>({top:getComputedStyle(el).marginTop,bottom:getComputedStyle(el).marginBottom}));
+      50 |         expect(margins).toEqual({top:'0px',bottom:'0px'});
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/page-gutters.spec.mjs:47:67
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-compact-fluid-page-gutters-align-with-Customers-mobile-rtl/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-compact-fluid-page-gutters-align-with-Customers-mobile-rtl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-compact-fluid-page-gutters-align-with-Customers-mobile-rtl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:47004) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[85/98] [desktop-reduced-motion] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[86/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+  6) [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers 
+
+    Error: /help-screens/email content
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 28
+    Received: 20
+
+      45 |         ? page.locator(root+' [data-placeholder-back]').locator('..')
+      46 |         : page.locator(root+' '+body);
+    > 47 |       expect(await inset(content,includePadding),path+' content').toBe(expectedContent);
+         |                                                                   ^
+      48 |       if (root === '.email-view') {
+      49 |         const margins = await content.evaluate(el=>({top:getComputedStyle(el).marginTop,bottom:getComputedStyle(el).marginBottom}));
+      50 |         expect(margins).toEqual({top:'0px',bottom:'0px'});
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/page-gutters.spec.mjs:47:67
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-comfortable-b-e448e-utters-align-with-Customers-mobile-rtl/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-comfortable-b-e448e-utters-align-with-Customers-mobile-rtl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/focused-final-out/page-gutters-comfortable-b-e448e-utters-align-with-Customers-mobile-rtl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[87/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:38:1 › Arabic Profile headings and Save controls localize without discarding typed values
+(node:47029) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[88/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:27:1 › Arabic geography labels retain stable type and status values
+[89/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:51:1 › Arabic Organization headings and session action dialog are translated
+[90/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:64:1 › Arabic invoice and customer primary record controls are translated
+[91/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:77:1 › Arabic mail reading toolbar labels are translated
+[92/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:87:1 › invoice posting dialog follows a locale switch when reopened
+[93/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:111:1 › Arabic customer changes save back with Arabic feedback
+[94/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:126:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[95/98] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:139:1 › new Arabic payment rows keep stable method values and translated labels
+[96/98] [desktop-reduced-motion] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+[97/98] [desktop-reduced-motion] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[98/98] [desktop-reduced-motion] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+  6 failed
+    [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+    [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers 
+    [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers 
+    [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+    [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers 
+    [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers 
+  92 passed (2.0m)

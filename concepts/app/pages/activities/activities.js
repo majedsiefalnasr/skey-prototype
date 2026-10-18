@@ -347,7 +347,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
         if (!activity || activity.status === status) return
         if (!(await beforeAction())) { renderBody(); return }
         store.updateEntity('activity', id, {status})
-        toast({tone: 'info', title: `Moved to ${statusLabel(status)}`, body: titleOf(activity)})
+        toast({tone: 'info', title: uiLocale.t("Moved to {v0}").replace('{v0}', () => uiLocale.t(String(statusLabel(status)))), body: titleOf(activity)})
         view().querySelector(`[data-card-open="${CSS.escape(id)}"]`)?.focus()
       },
     })

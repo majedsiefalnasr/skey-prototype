@@ -1,0 +1,10 @@
+/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/node_modules/playwright/lib/common/index.js:2216
+        throw new Error("test.info() can only be called while test is running");
+              ^
+
+Error: test.info() can only be called while test is running
+    at test.info (/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/node_modules/playwright/lib/common/index.js:2216:15)
+    at boot (file:///Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/support/browser.mjs:68:33)
+    at async file:///private/tmp/skey-remediation-20261018-fux37ka6/review-layout.mjs:9:3
+
+Node.js v23.11.0

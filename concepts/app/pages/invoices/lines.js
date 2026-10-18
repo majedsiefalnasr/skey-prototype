@@ -1,4 +1,5 @@
 // Mechanically extracted invoice behavior; fixture values and markup are preserved.
+import {notifyInvoiceEdited} from './operations.js'
 export function createInvoiceLines({applyRecordValueDirections, applyState}) {
   const abort = new AbortController()
        let itemRowCount = 0
@@ -10,14 +11,14 @@ export function createInvoiceLines({applyRecordValueDirections, applyState}) {
          const tr = document.createElement('tr')
          tr.dataset.itemRow = id
          tr.innerHTML =
-           '<td><input data-field placeholder="Item"></td>' +
+           '<td><input data-field placeholder="Item" class="items-code"></td>' +
            '<td><input data-field placeholder="UoM"></td>' +
-           '<td><input data-field placeholder="Expiry"></td>' +
-           '<td><input data-field placeholder="Batch"></td>' +
+           '<td><input data-field placeholder="Expiry" class="items-expiry"></td>' +
+           '<td><input data-field placeholder="Batch" class="items-batch"></td>' +
            '<td><input data-field type="number" value="1" class="items-qty"></td>' +
            '<td><input data-field type="number" value="0"></td>' +
            '<td><input data-field disabled placeholder="—"></td>' +
-           '<td><input data-field type="number" value="0"></td>' +
+           '<td><input data-field type="number" value="0" class="items-price"></td>' +
            '<td><input data-field type="number" value="0"></td>' +
            '<td><input data-field disabled value="0"></td>' +
            '<td><input data-field disabled value="0"></td>' +
@@ -45,6 +46,7 @@ export function createInvoiceLines({applyRecordValueDirections, applyState}) {
          tr.querySelector('.rec-remove-item').addEventListener('click', () => {
            tr.remove()
            recalcTotalQty(bodyId, totalId)
+           notifyInvoiceEdited()
          })
          tr.querySelector('.items-qty').addEventListener('input', () =>
            recalcTotalQty(bodyId, totalId)
@@ -95,6 +97,7 @@ export function createInvoiceLines({applyRecordValueDirections, applyState}) {
            if (next) moveTo(next)
            else if (body.id === 'items-body') {
              addItemRow('items-body', 'items-total-qty')
+             notifyInvoiceEdited()
              moveTo(body.lastElementChild)
            }
            return
@@ -115,6 +118,7 @@ export function createInvoiceLines({applyRecordValueDirections, applyState}) {
              if (!field.disabled) field.value = values[index] ?? field.value
            })
            recalcTotalQty('items-body', 'items-total-qty')
+           notifyInvoiceEdited()
            moveTo(newRow)
          }
        }, {signal: abort.signal})
@@ -150,6 +154,7 @@ export function createInvoiceLines({applyRecordValueDirections, applyState}) {
            })
          })
          recalcTotalQty('items-body', 'items-total-qty')
+         notifyInvoiceEdited()
        }, {signal: abort.signal})
 
   return {addItemRow, recalcTotalQty, dispose: () => abort.abort()}

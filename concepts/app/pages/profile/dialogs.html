@@ -13,8 +13,8 @@
         <use href="#i-lock" />
       </svg>
       <div>
-        <h3 id="change-password-title">Change password</h3>
-        <p class="dhd-subtitle">Use a strong password you don't reuse elsewhere</p>
+        <h3 id="change-password-title" data-i18n="Change password">Change password</h3>
+        <p class="dhd-subtitle" data-i18n="Use a strong password you don&#x27;t reuse elsewhere">Use a strong password you don't reuse elsewhere</p>
       </div>
       <button class="ibtn c-close" aria-label="Close" style="margin-inline-start: auto">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
@@ -23,7 +23,7 @@
     <form class="dlg-inner min-h-0 [padding:16px]" id="change-password-form" novalidate>
       <div class="dbody flex flex-col gap-5 [padding:16px_18px] overflow-auto">
         <label class="grid gap-1.5 text-[13px] font-semibold" for="current-password">
-          Current password
+          <span data-i18n="Current password">Current password</span>
           <input
             class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink"
             id="current-password"
@@ -32,7 +32,7 @@
             autocomplete="current-password" />
         </label>
         <label class="grid gap-1.5 text-[13px] font-semibold" for="new-password">
-          New password
+          <span data-i18n="New password">New password</span>
           <input
             class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink"
             id="new-password"
@@ -42,7 +42,7 @@
             autocomplete="new-password" />
         </label>
         <label class="grid gap-1.5 text-[13px] font-semibold" for="confirm-password">
-          Confirm new password
+          <span data-i18n="Confirm new password">Confirm new password</span>
           <input
             class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink"
             id="confirm-password"
@@ -56,8 +56,8 @@
           role="status"></span>
       </div>
       <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
-        <button type="button" class="lbtn out c-close">Cancel</button>
-        <button type="submit" class="lbtn pri">Change password</button>
+        <button type="button" class="lbtn out c-close" data-i18n="Cancel">Cancel</button>
+        <button type="submit" class="lbtn pri" data-i18n="Change password">Change password</button>
       </div>
     </form>
   </div>
@@ -78,8 +78,8 @@
         <use href="#i-lock" />
       </svg>
       <div>
-        <h3 id="set-pin-title">Set / change PIN code</h3>
-        <p class="dhd-subtitle">Used for quick sign-in on this device</p>
+        <h3 id="set-pin-title" data-i18n="Set / change PIN code">Set / change PIN code</h3>
+        <p class="dhd-subtitle" data-i18n="Used for quick sign-in on this device">Used for quick sign-in on this device</p>
       </div>
       <button class="ibtn c-close" aria-label="Close" style="margin-inline-start: auto">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
@@ -88,7 +88,7 @@
     <form class="dlg-inner min-h-0 [padding:16px]" id="set-pin-form" novalidate>
       <div class="dbody flex flex-col gap-5 [padding:16px_18px] overflow-auto">
         <label class="grid gap-1.5 text-[13px] font-semibold" for="current-pin">
-          Current PIN (leave blank if none set)
+          <span data-i18n="Current PIN (leave blank if none set)">Current PIN (leave blank if none set)</span>
           <input
             class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]"
             id="current-pin"
@@ -99,7 +99,7 @@
             autocomplete="off" />
         </label>
         <label class="grid gap-1.5 text-[13px] font-semibold" for="new-pin">
-          New PIN (4–6 digits)
+          <span data-i18n="New PIN (4–6 digits)">New PIN (4–6 digits)</span>
           <input
             class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]"
             id="new-pin"
@@ -112,7 +112,7 @@
             autocomplete="off" />
         </label>
         <label class="grid gap-1.5 text-[13px] font-semibold" for="confirm-pin">
-          Confirm new PIN
+          <span data-i18n="Confirm new PIN">Confirm new PIN</span>
           <input
             class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink [font-variant-numeric:tabular-nums]"
             id="confirm-pin"
@@ -129,8 +129,8 @@
           role="status"></span>
       </div>
       <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
-        <button type="button" class="lbtn out c-close">Cancel</button>
-        <button type="submit" class="lbtn pri">Save PIN</button>
+        <button type="button" class="lbtn out c-close" data-i18n="Cancel">Cancel</button>
+        <button type="submit" class="lbtn pri" data-i18n="Save PIN">Save PIN</button>
       </div>
     </form>
   </div>

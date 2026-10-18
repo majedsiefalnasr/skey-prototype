@@ -1,3 +1,4 @@
+import {uiLocale} from '../../core/locale.js'
 import {encodeHtml} from '../../core/locale.js'
 import {DATA_LIST_CONFIG} from './columns.js'
 
@@ -63,7 +64,7 @@ export function createListExport({trapFocus, releaseFocus, toast, getDataListSta
     toast({
       tone: 'ok',
       title: 'Export ready',
-      body: `${rows} ${rows === 1 ? config.singular : config.label} · ${columnCount} columns · ${fileName}.${format}`,
+      body: uiLocale.t("{v0} {v1} · {v2} columns · {v3}.{v4}").replace('{v0}', () => uiLocale.t(String(rows))).replace('{v1}', () => uiLocale.t(String(rows === 1 ? config.singular : config.label))).replace('{v2}', () => uiLocale.t(String(columnCount))).replace('{v3}', () => uiLocale.t(String(fileName))).replace('{v4}', () => uiLocale.t(String(format))),
     })
   }
 

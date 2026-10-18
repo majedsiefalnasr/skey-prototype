@@ -14,7 +14,7 @@ import {createInvoiceAdjustments} from './pages/invoices/adjustments.js'
 import {createInvoiceLines} from './pages/invoices/lines.js'
 import {createInvoicePayments} from './pages/invoices/payments.js'
 import {encodeHtml, uiLocale} from './core/locale.js'
-import {STATUSES, CHAIN} from './prototype/fixtures/invoices.js'
+import {STATUSES, CHAIN, LIST_ROWS} from './prototype/fixtures/invoices.js'
 import {ACCOUNT_LABEL_BY_VIEW} from './prototype/fixtures/navigation.js'
 import {CUSTOMER_ROWS, CUSTOMER_REFERENCE, UNIT_ROWS, CUSTOMER_LOOKUP_RESULTS} from './prototype/fixtures/customers.js'
 import {CURRENT_USER, EMPLOYEE_DETAILS, CONTACT_DETAILS, LOGIN_LOG_ROWS, RECENT_ACTIVITY_ROWS} from './prototype/fixtures/profile.js'
@@ -28,6 +28,7 @@ import {createNotes} from './pages/notes/notes.js'
 import {createActivities} from './pages/activities/activities.js'
 import {createEvents} from './pages/events/events.js'
 import {createPeople} from './pages/people/people.js'
+import {createPlaceholder} from './pages/placeholder/placeholder.js'
 import {createSignIn} from './pages/signin/signin.js'
 import {createOrganizationSessionActions} from './pages/organization/sessions.js'
 import {renderCustomerAvatar} from './pages/customers/images.js'
@@ -256,6 +257,7 @@ const localeControls = createLocaleControls({
     const current = contentHost.getCurrentContentViewName()
     const page = {notes: notesPage, activities: activitiesPage, events: eventsPage, people: peoplePage, email}[current]
     page?.refreshLocale?.()
+    if (current === 'organization') organization.refreshLocale()
   },
   t,
   formatLocaleCurrency,
@@ -444,7 +446,23 @@ const search = createSearch({
   openDrawer: (...args) => openDrawer(...args),
   openPrintSettings,
   openRDlg: (...args) => openRDlg(...args),
-  runAction: (...args) => runAction(...args)
+  runAction: (...args) => runAction(...args),
+  openScreen: (...args) => sidebar.openScreen(...args),
+  openApp: app => openForYou(app),
+  openCustomer: no => pageListActions.openCustomerRecord(no, 'view'),
+  /* An invoice the prototype holds opens as its record: a list row, or the
+     record already loaded in the invoice view. Anything else is not here. */
+  openInvoice: no => {
+    if (LIST_ROWS.some(row => row.no === no)) {
+      pageListActions.dataListActions.invoice.openRecord(no, 'view')
+      return true
+    }
+    if (state.docNo !== no) return false
+    showContentView('record')
+    return true
+  },
+  openPlaceholder: (label, app) => showContentView('placeholder', {label, app}),
+  openScreenParameters: () => screenParametersDialog.open('Sales Invoice')
 })
 
 const {actionDialog, requestLeave: requestInvoiceLeave, rscrim, openRDlg, closeRDlg, showInlineError, clearInlineError, doSave, runAction, applyState, gscrim, atRisk, askGuard, runGuarded, modeSel, applyMode} = createInvoiceOperations({t, trapFocus, state, releaseFocus, closeAllMenus: (...args) => menus.closeAllMenus(...args), closeSearch: (...args) => search.closeSearch(...args), getLocale, encodeHtml, blocked, toast, runWork, doPrint, openSearch: (...args) => search.openSearch(...args), STATUSES, CHAIN, reached: (...args) => status.reached(...args), editable, LOCK_COPY, pop: status.pop, renderPop: (...args) => status.renderPop(...args), drawer, renderCards, renderSearch: (...args) => search.renderSearch(...args), openScreenParameters: () => screenParametersDialog.open('Sales Invoice'), journalEntryTable: {activate: (...args) => journalEntryTable.activate(...args), deactivate: (...args) => journalEntryTable.deactivate(...args)}})
@@ -754,10 +772,15 @@ const organization = createOrganization({
   trapFocus,
   releaseFocus,
   createSessionActions: createOrganizationSessionActions,
+  applyDataI18n: () => localeControls.applyDataI18n(),
   onAccessDenied: () => navigation.navigate('profile'),
 })
 
 const forYou = createForYou({t})
+
+/* "Not in this prototype": what a nav row, quick-list entry or search
+   result without a screen opens. */
+const placeholder = createPlaceholder({t, locale, openForYou: app => openForYou(app)})
 
 /* Sign-in view (Slack-style minimal concept). onSignIn flips the session
    control through the same change event a manual toggle produces, so the
@@ -966,6 +989,7 @@ const pageRegistry = new Map([
   ['activities', activitiesPage],
   ['events', eventsPage],
   ['people', peoplePage],
+  ['placeholder', placeholder],
   ['signin', signin],
 ])
 
@@ -990,8 +1014,9 @@ const syncRailToRoute = (id, data) => {
     root.selectAccount(accountLabel)
     return
   }
-  const label = NAV_ITEM_LABEL_BY_ID[id]
-  const groupLabel = NAV_GROUP_LABEL_BY_ID[id]
+  /* A placeholder names its row and owning app in its own route data. */
+  const label = id === 'placeholder' ? data?.label : NAV_ITEM_LABEL_BY_ID[id]
+  const groupLabel = id === 'placeholder' ? data?.app : NAV_GROUP_LABEL_BY_ID[id]
   const group = label && sidebar.findNavGroup(label, groupLabel)
   if (!group) return
   /* Re-point the rail at the route's owning group when it is showing a
@@ -1011,7 +1036,20 @@ const syncRailToRoute = (id, data) => {
 
 const navigation = createNavigation({
   resolvePage: id => pageRegistry.get(id),
-  requestLeave: (fromId) => listGuard.requestPageLeave(fromId),
+  /* Contract C1: the list-layout guard first, then the page's own
+     requestLeave() (true when it has none). Either one can refuse. A guard
+     that throws or rejects counts as a refusal, so a broken hook can never
+     let unsaved work be discarded or surface as an unhandled rejection. */
+  requestLeave: async fromId => {
+    try {
+      return (
+        (await listGuard.requestPageLeave(fromId)) && (await (pageRegistry.get(fromId)?.requestLeave?.() ?? true))
+      )
+    } catch (error) {
+      console.error(error)
+      return false
+    }
+  },
   showPage(page) {
     if (page.id === 'launchpad') return
     contentHost.attachAndShowView(page.id)
@@ -1089,7 +1127,10 @@ const applyRoutePlan = async plan => {
   const sameView =
     navigation.current() === plan.id &&
     (lastNavData?.section ?? undefined) === (plan.data?.section ?? undefined) &&
-    (plan.id !== 'foryou' || (lastNavData?.app ?? undefined) === (plan.data?.app ?? undefined))
+    (plan.id !== 'foryou' || (lastNavData?.app ?? undefined) === (plan.data?.app ?? undefined)) &&
+    (plan.id !== 'placeholder' ||
+      ((lastNavData?.app ?? undefined) === (plan.data?.app ?? undefined) &&
+        (lastNavData?.label ?? undefined) === (plan.data?.label ?? undefined)))
   if (sameView) return true
   if (plan.id === 'foryou' && plan.data?.app) {
     /* Re-select the app so the rail icon, panel, and current-app state
@@ -1138,7 +1179,12 @@ window.addEventListener('popstate', event => {
     })
     return
   }
-  applyRoutePlan(plan).then(allowed => {
+  /* A rejected navigation is handled like a refusal: log it, then restore
+     the history entry we left so the URL and routeIdx stay in step. */
+  applyRoutePlan(plan).catch(error => {
+    console.error(error)
+    return false
+  }).then(allowed => {
     handlingPop = false
     routeIdx = idx
     if (!allowed && delta !== 0) {

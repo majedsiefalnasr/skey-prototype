@@ -1,3 +1,4 @@
+import {uiLocale} from '../../core/locale.js'
 import {encodeHtml} from '../../core/locale.js'
 import {DATA_FILTER_OPERATORS, dataFilterOptionValue, dataFilterOptionLabel, parseDateFilterValue, dataListNextDatePresetValue} from './filters.js'
 import {DATA_LIST_CONFIG} from './columns.js'
@@ -292,7 +293,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     persistCustomFilters(context, listState.customFilters)
     listState.activeCustomFilterId = customFilter.id
     closeSaveFilterDialog()
-    toast({tone: 'ok', title: `Filter "${name}" saved`})
+    toast({tone: 'ok', title: uiLocale.t("Filter \"{v0}\" saved").replace('{v0}', () => uiLocale.t(String(name)))})
     refreshDataListForContext(context)
   }
 
@@ -346,7 +347,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     refreshDataListForContext(context)
     toast({
       tone: 'ok',
-      title: `Filter "${removed?.name || 'Untitled'}" deleted`,
+      title: uiLocale.t("Filter \"{v0}\" deleted").replace('{v0}', () => uiLocale.t(String(removed?.name || 'Untitled'))),
       body: 'The saved filter is gone from this list.',
     })
   }
@@ -479,7 +480,7 @@ export function createListFilters({t, trapFocus, releaseFocus, toast, getDataLis
     if (listState.activeCustomFilterId === custom.id)
       listState.fieldFilters = custom.fieldFilters.map(item => ({...item}))
     renderManageFiltersList(context)
-    toast({tone: 'ok', title: `Filter "${name}" updated`})
+    toast({tone: 'ok', title: uiLocale.t("Filter \"{v0}\" updated").replace('{v0}', () => uiLocale.t(String(name)))})
     refreshDataListForContext(context)
   }
 

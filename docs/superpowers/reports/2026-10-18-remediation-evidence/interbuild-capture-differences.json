@@ -1,0 +1,171 @@
+[
+  {
+    "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/invoice-charges.png",
+    "differentPixels": 2,
+    "bounds": [
+      17,
+      70,
+      19,
+      71
+    ],
+    "maxChannelDelta": 2,
+    "currentSha256": "dabfbbbe1f5d2d00863cbae05761db7bf745ac9ccde395672567ae86a7a6153e",
+    "precedingSha256": "8fc1566bb1832b4443b73b37b6c262c783f0675a7f269cb31c284cf3e1d0fc13"
+  },
+  {
+    "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/invoice-lines-start.png",
+    "differentPixels": 4,
+    "bounds": [
+      301,
+      117,
+      635,
+      118
+    ],
+    "maxChannelDelta": 1,
+    "currentSha256": "ee5d219a121126133cfb5e69f72b252f1d2d531c3bb11b623e93bc958c56c902",
+    "precedingSha256": "2268aac344ec3c70759dad8a8029bf954531e2a062059eca471fac114ca46870"
+  },
+  {
+    "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/mail-compose-draft.png",
+    "differentPixels": 3,
+    "bounds": [
+      333,
+      144,
+      335,
+      146
+    ],
+    "maxChannelDelta": 5,
+    "currentSha256": "0547c2c685400654395196a787e5c8b9a77ae5eb09c176d2c2bbde93370623da",
+    "precedingSha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608"
+  },
+  {
+    "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/invoice-charges.png",
+    "differentPixels": 2,
+    "bounds": [
+      17,
+      70,
+      19,
+      71
+    ],
+    "maxChannelDelta": 2,
+    "currentSha256": "ba73b4162da1ca6c6b43f43776018fcd752ee3ad25ff80167011915a3fd1377a",
+    "precedingSha256": "d98ddd2e5d800d71019077d72cb7becada84d13713d6e22123f80454aa8de9b0"
+  },
+  {
+    "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/mail-compose-draft.png",
+    "differentPixels": 5,
+    "bounds": [
+      333,
+      144,
+      335,
+      150
+    ],
+    "maxChannelDelta": 4,
+    "currentSha256": "f245e2ec4033a3b89a2f6132b1aa30e3fa02c281cbad16d80dd89e1317993c7e",
+    "precedingSha256": "8696020af9379d03c15c5a1a028d47e4f42f6dd9dba93225572140e2a0f96da5"
+  },
+  {
+    "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/invoice-charges.png",
+    "differentPixels": 11,
+    "bounds": [
+      0,
+      70,
+      19,
+      156
+    ],
+    "maxChannelDelta": 2,
+    "currentSha256": "de0ea6222f9df47470cbbb9390eade944cb15e3328c9191acadbbc6e6245ecc6",
+    "precedingSha256": "cc73abe2a26415e453c9c23939f815da772ace023de29e887b397f730c8c0849"
+  },
+  {
+    "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/invoice-lines-start.png",
+    "differentPixels": 198,
+    "bounds": [
+      9,
+      88,
+      946,
+      168
+    ],
+    "maxChannelDelta": 2,
+    "currentSha256": "27722bc6fb23e63987d6916e66ab30d0c4c41549266d3dd91918530f61af82a7",
+    "precedingSha256": "c70aca8e7f681751f9629f1c596ea09d1633f9f25090c6b738ed91409cd42924"
+  },
+  {
+    "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/notes-list-archived.png",
+    "differentPixels": 6,
+    "bounds": [
+      1331,
+      172,
+      1335,
+      174
+    ],
+    "maxChannelDelta": 1,
+    "currentSha256": "8cefee212e985ea85939c4e203bafaad94def94fccd55a9c7e77aff4f1c604a4",
+    "precedingSha256": "f6bad16a4eaf656eab4c3e547236fcbaad284d0b32dd28f7f8d49cc7f65e7056"
+  },
+  {
+    "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+    "differentPixels": 5,
+    "bounds": [
+      1047,
+      172,
+      1051,
+      174
+    ],
+    "maxChannelDelta": 2,
+    "currentSha256": "c1a5020d0cc0d185172b033ecf8c34f2157c5d739fccd0538dfdac16d3967881",
+    "precedingSha256": "899cea16d5760f9d33fd030937a5a804ac7ad381a612a2002015716683dfe71e"
+  },
+  {
+    "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/invoice-lines-start.png",
+    "differentPixels": 353,
+    "bounds": [
+      9,
+      88,
+      946,
+      168
+    ],
+    "maxChannelDelta": 2,
+    "currentSha256": "ccc03e6e95ab66a1e34db0fd5092de0ed9caf8647989d3d5938fabadbcab9e91",
+    "precedingSha256": "a95b20dae68d3e9ef325d4867fddcd87009407e4eb62a8850c7277ccd315699c"
+  },
+  {
+    "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/notes-list-archived.png",
+    "differentPixels": 7,
+    "bounds": [
+      1331,
+      172,
+      1335,
+      175
+    ],
+    "maxChannelDelta": 1,
+    "currentSha256": "577d14c755a51e89d3d6a91c249ea478ade13922312990079212e49e5a598123",
+    "precedingSha256": "0618f9031dc153462809a4a885e72d10c1c4f442dc5d540347d31b28df65d680"
+  },
+  {
+    "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/invoice-charges.png",
+    "differentPixels": 2,
+    "bounds": [
+      17,
+      70,
+      19,
+      71
+    ],
+    "maxChannelDelta": 2,
+    "currentSha256": "8fc1566bb1832b4443b73b37b6c262c783f0675a7f269cb31c284cf3e1d0fc13",
+    "precedingSha256": "dabfbbbe1f5d2d00863cbae05761db7bf745ac9ccde395672567ae86a7a6153e"
+  },
+  {
+    "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/mail-compose-draft.png",
+    "differentPixels": 3,
+    "bounds": [
+      333,
+      144,
+      335,
+      146
+    ],
+    "maxChannelDelta": 5,
+    "currentSha256": "0547c2c685400654395196a787e5c8b9a77ae5eb09c176d2c2bbde93370623da",
+    "precedingSha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608"
+  }
+]

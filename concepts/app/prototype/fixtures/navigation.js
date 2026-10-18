@@ -642,13 +642,14 @@ export const SCREENS = [
   {t: 'Dashboard', s: 'Home', icon: 'i-home'},
 ]
 export const RECORDS = [
+  /* invoice entries are real LIST_ROWS rows (fixtures/invoices.js), same number, customer, total and payment */
   {
-    t: '001000352026126 · Invoice 126',
-    s: 'العميل الاول · 20,000.00 EGP · Credit',
+    t: '001000352026140 · Invoice 140',
+    s: 'العميل الاول · 5,600.00 EGP · Credit',
     icon: 'i-doc',
   },
-  {t: '001000352026128 · Invoice 128', s: 'العميل الاول · Cash', icon: 'i-doc'},
-  {t: '0010003520263 · Invoice 3', s: 'Canceled', icon: 'i-doc'},
+  {t: '001000352026145 · Invoice 145', s: 'العميل الاول · 3,200.00 EGP · Credit', icon: 'i-doc'},
+  {t: '001000352026147 · Invoice 147', s: 'العميل الاول · 480.00 EGP · Credit', icon: 'i-doc'},
   {t: '200001 · العميل الاول', s: 'Customer', icon: 'i-user'},
   {t: '7603 · keyboard', s: 'Item · UoM حبة · 181 available', icon: 'i-grid'},
 ]

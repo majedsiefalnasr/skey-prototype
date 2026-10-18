@@ -1,10 +1,8 @@
 // Customer fixtures -- moved verbatim (by name, unmodified bodies) out of
 // concepts/app/legacy-app.js as part of Task 5's fixture-ownership split.
 //
-// CUSTOMER_ROWS is the Customers list's sample row data (paired with
-// DATA_LIST_SIMULATED_TOTAL.customer = 72 in components/data-list/model.js
-// -- these 3 rows are a representative sample, not the full simulated
-// dataset).
+// CUSTOMER_ROWS is the complete in-memory Customers dataset. List and
+// record pagers report its real length, including newly saved customers.
 //
 // customerField()/CUSTOMER_SECTIONS/CUSTOMER_REFERENCE describe the
 // customer record's field layout and reference values -- moved here per the
@@ -23,14 +21,13 @@
 // names: sample data for the Operation Unit / Customer Type / etc. lookup
 // pickers on the customer record form.
 //
-// Read-only sample/reference data throughout: legacy-app.js never mutates
-// any of these in place (CUSTOMER_REFERENCE.photo reads CUSTOMER_ROWS[0]
-// once at module-evaluation time, same as the original -- not a mutation).
+// CUSTOMER_ROWS is mutable demo state; reload restores this seed (P-05).
+// CUSTOMER_REFERENCE supplies representative fields not held on a seed row.
 
 export const CUSTOMER_ROWS = [
   {
     customerNo: '200010',
-    customerName: 'customer_412',
+    customerName: 'Al Noor Trading',
     operationUnit: '2 - lastchance',
     customerType: 'Retail',
     customerGroup: 'General',
@@ -40,7 +37,7 @@ export const CUSTOMER_ROWS = [
     active: true,
     photo: {
       src: 'assets/customers/customer-200010-portrait.webp',
-      alt: 'Portrait of customer_412',
+      alt: 'Portrait of Al Noor Trading',
       fit: 'cover',
     },
   },
@@ -70,6 +67,7 @@ export const CUSTOMER_ROWS = [
     country: 'EG - Egypt',
     phone: '010 1000 1000',
     active: false,
+    statusDate: '2026-09-01',
     statusReason: 'Account on hold pending updated trade license.',
     photo: null,
   },
@@ -189,7 +187,7 @@ export const CUSTOMER_SECTIONS = {
 
 export const CUSTOMER_REFERENCE = {
   customerNo: '200010',
-  customerName: 'customer_412',
+  customerName: 'Al Noor Trading',
   operationUnit: '2 - lastchance',
   customerType: '',
   primeCustomer: '',
@@ -261,16 +259,16 @@ export const CUSTOMER_LOOKUP_RESULTS = {
   ],
   unitLocation: [
     {
-      value: 'Cairo',
-      code: '2',
+      value: 'Cairo Governorate',
+      code: 'CAI',
       parent: 'Egypt',
       level: '2',
       type: 'Governorate',
       status: 'Active',
     },
     {
-      value: 'Alexandria',
-      code: '3',
+      value: 'Alexandria Governorate',
+      code: 'ALX',
       parent: 'Egypt',
       level: '2',
       type: 'Governorate',
@@ -278,8 +276,8 @@ export const CUSTOMER_LOOKUP_RESULTS = {
     },
     {
       value: 'Nasr City',
-      code: '21',
-      parent: 'Cairo',
+      code: 'NSC',
+      parent: 'Cairo Governorate',
       level: '3',
       type: 'District',
       status: 'Active',

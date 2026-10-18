@@ -1,0 +1,651 @@
+docs/superpowers/plans/2026-10-17-skey-demo-prototype-delivery.md:79: trailing whitespace.
++  
+docs/superpowers/plans/2026-10-17-skey-demo-prototype-delivery.md:136: trailing whitespace.
++  
+docs/superpowers/plans/2026-10-17-skey-demo-prototype-delivery.md:199: trailing whitespace.
++  
+docs/superpowers/plans/2026-10-17-skey-demo-prototype-delivery.md:515: trailing whitespace.
++  
+docs/superpowers/reports/2026-10-16-visual-qa-audit.md:374: new blank line at EOF.
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:147: trailing whitespace.
++  3) [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:554: trailing whitespace.
++  10) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:619: trailing whitespace.
++  11) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:684: trailing whitespace.
++  12) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:759: trailing whitespace.
++  13) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:834: trailing whitespace.
++  14) [mobile-touch] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:1353: trailing whitespace.
++  23) [desktop-dark] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:1418: trailing whitespace.
++  24) [desktop-dark] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:1483: trailing whitespace.
++  25) [desktop-dark] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:1548: trailing whitespace.
++  26) [desktop-dark] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:1956: trailing whitespace.
++  33) [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:2021: trailing whitespace.
++  34) [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:2086: trailing whitespace.
++  35) [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:2151: trailing whitespace.
++  36) [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:2216: trailing whitespace.
++  37) [desktop-high-contrast-light] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:2394: trailing whitespace.
++  40) [desktop-high-contrast-light] › tests/parity.spec.mjs:8:3 › customers-list: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:2450: trailing whitespace.
++  41) [desktop-high-contrast-light] › tests/parity.spec.mjs:8:3 › customer-record: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:2624: trailing whitespace.
++  44) [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:2689: trailing whitespace.
++  45) [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:2754: trailing whitespace.
++  46) [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:2819: trailing whitespace.
++  47) [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:2884: trailing whitespace.
++  48) [desktop-high-contrast-dark] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:3062: trailing whitespace.
++  51) [desktop-high-contrast-dark] › tests/parity.spec.mjs:8:3 › customers-list: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:3118: trailing whitespace.
++  52) [desktop-high-contrast-dark] › tests/parity.spec.mjs:8:3 › customer-record: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:3357: trailing whitespace.
++  56) [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:3422: trailing whitespace.
++  57) [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:3572: trailing whitespace.
++  59) [mobile-rtl] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4090: trailing whitespace.
++  68) [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4155: trailing whitespace.
++  69) [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4220: trailing whitespace.
++  70) [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4285: trailing whitespace.
++  71) [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4351: trailing whitespace.
++  72) [desktop-reduced-motion] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4751: trailing whitespace.
++    [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4759: trailing whitespace.
++    [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4760: trailing whitespace.
++    [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4762: trailing whitespace.
++    [mobile-touch] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4771: trailing whitespace.
++    [desktop-dark] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4772: trailing whitespace.
++    [desktop-dark] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4774: trailing whitespace.
++    [desktop-dark] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4781: trailing whitespace.
++    [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4782: trailing whitespace.
++    [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4783: trailing whitespace.
++    [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4784: trailing whitespace.
++    [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4785: trailing whitespace.
++    [desktop-high-contrast-light] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4788: trailing whitespace.
++    [desktop-high-contrast-light] › tests/parity.spec.mjs:8:3 › customers-list: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4789: trailing whitespace.
++    [desktop-high-contrast-light] › tests/parity.spec.mjs:8:3 › customer-record: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4792: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4793: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4794: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4795: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4796: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4800: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/parity.spec.mjs:8:3 › customer-record: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4804: trailing whitespace.
++    [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4805: trailing whitespace.
++    [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4807: trailing whitespace.
++    [mobile-rtl] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4816: trailing whitespace.
++    [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4817: trailing whitespace.
++    [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4818: trailing whitespace.
++    [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4819: trailing whitespace.
++    [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-approval.log:4820: trailing whitespace.
++    [desktop-reduced-motion] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:147: trailing whitespace.
++  3) [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:554: trailing whitespace.
++  10) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:619: trailing whitespace.
++  11) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:684: trailing whitespace.
++  12) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:759: trailing whitespace.
++  13) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:834: trailing whitespace.
++  14) [mobile-touch] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:1353: trailing whitespace.
++  23) [desktop-dark] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:1418: trailing whitespace.
++  24) [desktop-dark] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:1483: trailing whitespace.
++  25) [desktop-dark] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:1548: trailing whitespace.
++  26) [desktop-dark] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:1956: trailing whitespace.
++  33) [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:2021: trailing whitespace.
++  34) [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:2086: trailing whitespace.
++  35) [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:2151: trailing whitespace.
++  36) [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:2217: trailing whitespace.
++  37) [desktop-high-contrast-light] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:2394: trailing whitespace.
++  40) [desktop-high-contrast-light] › tests/parity.spec.mjs:8:3 › customers-list: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:2450: trailing whitespace.
++  41) [desktop-high-contrast-light] › tests/parity.spec.mjs:8:3 › customer-record: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:2624: trailing whitespace.
++  44) [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:2689: trailing whitespace.
++  45) [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:2754: trailing whitespace.
++  46) [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:2819: trailing whitespace.
++  47) [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:2884: trailing whitespace.
++  48) [desktop-high-contrast-dark] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:3062: trailing whitespace.
++  51) [desktop-high-contrast-dark] › tests/parity.spec.mjs:8:3 › customers-list: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:3118: trailing whitespace.
++  52) [desktop-high-contrast-dark] › tests/parity.spec.mjs:8:3 › customer-record: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:3357: trailing whitespace.
++  56) [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:3422: trailing whitespace.
++  57) [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:3572: trailing whitespace.
++  59) [mobile-rtl] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4090: trailing whitespace.
++  68) [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4155: trailing whitespace.
++  69) [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4220: trailing whitespace.
++  70) [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4285: trailing whitespace.
++  71) [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4351: trailing whitespace.
++  72) [desktop-reduced-motion] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4751: trailing whitespace.
++    [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4759: trailing whitespace.
++    [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4760: trailing whitespace.
++    [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4762: trailing whitespace.
++    [mobile-touch] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4771: trailing whitespace.
++    [desktop-dark] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4772: trailing whitespace.
++    [desktop-dark] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4774: trailing whitespace.
++    [desktop-dark] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4781: trailing whitespace.
++    [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4782: trailing whitespace.
++    [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4783: trailing whitespace.
++    [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4784: trailing whitespace.
++    [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4785: trailing whitespace.
++    [desktop-high-contrast-light] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4788: trailing whitespace.
++    [desktop-high-contrast-light] › tests/parity.spec.mjs:8:3 › customers-list: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4789: trailing whitespace.
++    [desktop-high-contrast-light] › tests/parity.spec.mjs:8:3 › customer-record: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4792: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4793: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4794: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4795: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4796: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4800: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/parity.spec.mjs:8:3 › customer-record: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4804: trailing whitespace.
++    [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4805: trailing whitespace.
++    [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4807: trailing whitespace.
++    [mobile-rtl] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4816: trailing whitespace.
++    [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4817: trailing whitespace.
++    [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4818: trailing whitespace.
++    [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4819: trailing whitespace.
++    [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-contracts.log:4820: trailing whitespace.
++    [desktop-reduced-motion] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:147: trailing whitespace.
++  3) [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:554: trailing whitespace.
++  10) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:619: trailing whitespace.
++  11) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:684: trailing whitespace.
++  12) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:759: trailing whitespace.
++  13) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:834: trailing whitespace.
++  14) [mobile-touch] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:1353: trailing whitespace.
++  23) [desktop-dark] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:1418: trailing whitespace.
++  24) [desktop-dark] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:1483: trailing whitespace.
++  25) [desktop-dark] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:1548: trailing whitespace.
++  26) [desktop-dark] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:1956: trailing whitespace.
++  33) [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:2021: trailing whitespace.
++  34) [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:2086: trailing whitespace.
++  35) [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:2151: trailing whitespace.
++  36) [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:2216: trailing whitespace.
++  37) [desktop-high-contrast-light] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:2394: trailing whitespace.
++  40) [desktop-high-contrast-light] › tests/parity.spec.mjs:8:3 › customers-list: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:2445: trailing whitespace.
++  41) [desktop-high-contrast-light] › tests/parity.spec.mjs:8:3 › customer-record: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:2624: trailing whitespace.
++  44) [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:2689: trailing whitespace.
++  45) [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:2754: trailing whitespace.
++  46) [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:2819: trailing whitespace.
++  47) [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:2885: trailing whitespace.
++  48) [desktop-high-contrast-dark] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:3062: trailing whitespace.
++  51) [desktop-high-contrast-dark] › tests/parity.spec.mjs:8:3 › customers-list: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:3118: trailing whitespace.
++  52) [desktop-high-contrast-dark] › tests/parity.spec.mjs:8:3 › customer-record: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:3357: trailing whitespace.
++  56) [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:3422: trailing whitespace.
++  57) [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:3572: trailing whitespace.
++  59) [mobile-rtl] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4090: trailing whitespace.
++  68) [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4155: trailing whitespace.
++  69) [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4220: trailing whitespace.
++  70) [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4285: trailing whitespace.
++  71) [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4351: trailing whitespace.
++  72) [desktop-reduced-motion] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4751: trailing whitespace.
++    [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4759: trailing whitespace.
++    [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4760: trailing whitespace.
++    [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4762: trailing whitespace.
++    [mobile-touch] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4771: trailing whitespace.
++    [desktop-dark] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4772: trailing whitespace.
++    [desktop-dark] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4774: trailing whitespace.
++    [desktop-dark] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4781: trailing whitespace.
++    [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4782: trailing whitespace.
++    [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4783: trailing whitespace.
++    [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4784: trailing whitespace.
++    [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4785: trailing whitespace.
++    [desktop-high-contrast-light] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4788: trailing whitespace.
++    [desktop-high-contrast-light] › tests/parity.spec.mjs:8:3 › customers-list: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4789: trailing whitespace.
++    [desktop-high-contrast-light] › tests/parity.spec.mjs:8:3 › customer-record: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4792: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4793: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4794: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4795: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4796: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4800: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/parity.spec.mjs:8:3 › customer-record: baseline appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4804: trailing whitespace.
++    [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4805: trailing whitespace.
++    [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4807: trailing whitespace.
++    [mobile-rtl] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4816: trailing whitespace.
++    [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice list retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4817: trailing whitespace.
++    [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4818: trailing whitespace.
++    [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4819: trailing whitespace.
++    [desktop-reduced-motion] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-17-demo-visual-review/evidence/snapshot-verified.log:4820: trailing whitespace.
++    [desktop-reduced-motion] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-mail-header-release-evidence/mail-reading.log:14: trailing whitespace.
++  1) [mobile-touch] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-mail-header-release-evidence/mail-reading.log:78: trailing whitespace.
++  2) [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-mail-header-release-evidence/mail-reading.log:139: trailing whitespace.
++  3) [mobile-rtl] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-mail-header-release-evidence/mail-reading.log:200: trailing whitespace.
++    [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-mail-header-release-evidence/mail-reading.log:201: trailing whitespace.
++    [mobile-touch] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-mail-header-release-evidence/mail-reading.log:202: trailing whitespace.
++    [mobile-rtl] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/final-focused-reproduction.log:19: trailing whitespace.
++  1) [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/final-focused-reproduction.log:84: trailing whitespace.
++  2) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/final-focused-reproduction.log:158: trailing whitespace.
++  3) [mobile-touch] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/final-focused-reproduction.log:224: trailing whitespace.
++  4) [mobile-rtl] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/final-focused-reproduction.log:284: trailing whitespace.
++  5) [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/final-focused-reproduction.log:355: trailing whitespace.
++    [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/final-focused-reproduction.log:356: trailing whitespace.
++    [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/final-focused-reproduction.log:357: trailing whitespace.
++    [mobile-touch] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/final-focused-reproduction.log:358: trailing whitespace.
++    [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/final-focused-reproduction.log:359: trailing whitespace.
++    [mobile-rtl] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/focused-final.log:47: trailing whitespace.
++  1) [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/focused-final.log:76: trailing whitespace.
++  2) [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/focused-final.log:117: trailing whitespace.
++  3) [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/focused-final.log:226: trailing whitespace.
++  4) [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/focused-final.log:260: trailing whitespace.
++  5) [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/focused-final.log:295: trailing whitespace.
++  6) [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/focused-final.log:341: trailing whitespace.
++    [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/focused-final.log:342: trailing whitespace.
++    [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/focused-final.log:343: trailing whitespace.
++    [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/focused-final.log:344: trailing whitespace.
++    [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/focused-final.log:345: trailing whitespace.
++    [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/focused-final.log:346: trailing whitespace.
++    [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:279: trailing whitespace.
++  1) [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:684: trailing whitespace.
++  4) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:749: trailing whitespace.
++  5) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:828: trailing whitespace.
++  6) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice cards retains list behavior 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:1054: trailing whitespace.
++  7) [mobile-touch] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:1938: trailing whitespace.
++  16) [desktop-dark] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:2546: trailing whitespace.
++  20) [desktop-high-contrast-light] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:2700: trailing whitespace.
++  22) [desktop-high-contrast-light] › tests/parity.spec.mjs:8:3 › customer-record: baseline appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:3156: trailing whitespace.
++  24) [desktop-high-contrast-dark] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:3252: trailing whitespace.
++  25) [desktop-high-contrast-dark] › tests/parity.spec.mjs:8:3 › customer-record: baseline appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:3616: trailing whitespace.
++  28) [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:3681: trailing whitespace.
++  29) [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:3986: trailing whitespace.
++  31) [mobile-rtl] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:4813: trailing whitespace.
++  39) [desktop-reduced-motion] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:5153: trailing whitespace.
++    [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:5156: trailing whitespace.
++    [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:5157: trailing whitespace.
++    [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:5159: trailing whitespace.
++    [mobile-touch] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:5168: trailing whitespace.
++    [desktop-dark] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:5172: trailing whitespace.
++    [desktop-high-contrast-light] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:5174: trailing whitespace.
++    [desktop-high-contrast-light] › tests/parity.spec.mjs:8:3 › customer-record: baseline appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:5176: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:5177: trailing whitespace.
++    [desktop-high-contrast-dark] › tests/parity.spec.mjs:8:3 › customer-record: baseline appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:5180: trailing whitespace.
++    [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice responsive retains list behavior 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:5181: trailing whitespace.
++    [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:5183: trailing whitespace.
++    [mobile-rtl] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-final.log:5191: trailing whitespace.
++    [desktop-reduced-motion] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-stable.log:254: trailing whitespace.
++  1) [desktop] › tests/lifecycle.spec.mjs:133:3 › customer record lifecycle › lookup menu selects a value into the target field 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-stable.log:288: trailing whitespace.
++  2) [desktop] › tests/lifecycle.spec.mjs:121:3 › customer record lifecycle › Scroll Navigator layout renders a scroll nav and tracks the active section 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-stable.log:322: trailing whitespace.
++    [desktop] › tests/lifecycle.spec.mjs:121:3 › customer record lifecycle › Scroll Navigator layout renders a scroll nav and tracks the active section 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/full-stable.log:323: trailing whitespace.
++    [desktop] › tests/lifecycle.spec.mjs:133:3 › customer record lifecycle › lookup menu selects a value into the target field 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/gutters-confirmed-red.log:9: trailing whitespace.
++  1) [desktop] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/gutters-confirmed-red.log:39: trailing whitespace.
++    [desktop] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/gutters-red.log:9: trailing whitespace.
++  1) [desktop] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/gutters-red.log:47: trailing whitespace.
++    [desktop] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/layout-locale-focused.log:47: trailing whitespace.
++  1) [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/layout-locale-focused.log:81: trailing whitespace.
++  2) [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/layout-locale-focused.log:116: trailing whitespace.
++  3) [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/layout-locale-focused.log:226: trailing whitespace.
++  4) [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/layout-locale-focused.log:259: trailing whitespace.
++  5) [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/layout-locale-focused.log:295: trailing whitespace.
++  6) [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/layout-locale-focused.log:341: trailing whitespace.
++    [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/layout-locale-focused.log:342: trailing whitespace.
++    [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/layout-locale-focused.log:343: trailing whitespace.
++    [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/layout-locale-focused.log:344: trailing whitespace.
++    [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/layout-locale-focused.log:345: trailing whitespace.
++    [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/layout-locale-focused.log:346: trailing whitespace.
++    [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/locale-focused.log:83: trailing whitespace.
++  1) [mobile-touch] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/locale-focused.log:177: trailing whitespace.
++  2) [mobile-rtl] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/locale-focused.log:230: trailing whitespace.
++    [mobile-touch] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/locale-focused.log:231: trailing whitespace.
++    [mobile-rtl] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/manage-red.log:9: trailing whitespace.
++  1) [desktop] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/manage-red.log:56: trailing whitespace.
++    [desktop] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/placeholder-red.log:9: trailing whitespace.
++  1) [desktop] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/placeholder-red.log:46: trailing whitespace.
++    [desktop] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/reproduce.log:19: trailing whitespace.
++  1) [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/reproduce.log:89: trailing whitespace.
++  2) [mobile-touch] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/reproduce.log:181: trailing whitespace.
++  3) [mobile-rtl] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/reproduce.log:211: trailing whitespace.
++    [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/reproduce.log:212: trailing whitespace.
++    [mobile-touch] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/reproduce.log:213: trailing whitespace.
++    [mobile-rtl] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/style-label-red.log:9: trailing whitespace.
++  1) [desktop] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/style-label-red.log:46: trailing whitespace.
++    [desktop] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/toolbar-fixed.log:39: trailing whitespace.
++  1) [mobile-rtl] › tests/data-list-component.spec.mjs:371:1 › toolbar data-menus dismiss with Escape and outside click 
+docs/superpowers/reports/2026-10-18-remediation-evidence/commands/toolbar-fixed.log:69: trailing whitespace.
++    [mobile-rtl] › tests/data-list-component.spec.mjs:371:1 › toolbar data-menus dismiss with Escape and outside click 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:404: trailing whitespace.
++  284 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:435: trailing whitespace.
++  315 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:440: trailing whitespace.
++  320 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:454: trailing whitespace.
++  334 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:461: trailing whitespace.
++  341 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:468: trailing whitespace.
++  348 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:477: trailing whitespace.
++  357 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:482: trailing whitespace.
++  362 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:486: trailing whitespace.
++  366 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:494: trailing whitespace.
++  374 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:500: trailing whitespace.
++  380 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:508: trailing whitespace.
++  387 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:515: trailing whitespace.
++  394 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:534: trailing whitespace.
++  413 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:544: trailing whitespace.
++  423 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:563: trailing whitespace.
++  442 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md:569: trailing whitespace.
++  448 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:545: trailing whitespace.
++  315 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:550: trailing whitespace.
++  320 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:564: trailing whitespace.
++  334 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:571: trailing whitespace.
++  341 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:578: trailing whitespace.
++  348 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:587: trailing whitespace.
++  357 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:592: trailing whitespace.
++  362 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:596: trailing whitespace.
++  366 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:604: trailing whitespace.
++  374 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:610: trailing whitespace.
++  380 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:617: trailing whitespace.
++  387 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:625: trailing whitespace.
++  394 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:644: trailing whitespace.
++  413 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:654: trailing whitespace.
++  423 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:673: trailing whitespace.
++  442 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:679: trailing whitespace.
++  448 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md:720: trailing whitespace.
++  489 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/error-context.md:280: trailing whitespace.
++  3  | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/error-context.md:284: trailing whitespace.
++  7  | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/error-context.md:292: trailing whitespace.
++  15 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/error-context.md:303: trailing whitespace.
++  25 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/error-context.md:316: trailing whitespace.
++  38 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/error-context.md:330: trailing whitespace.
++  52 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/initial-diagnosis/reproduce-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/error-context.md:340: trailing whitespace.
++  62 | 
+docs/superpowers/reports/2026-10-18-remediation-evidence/mission-source.patch:5: trailing whitespace.
++ 
+docs/superpowers/reports/2026-10-18-remediation-evidence/mission-source.patch:10: trailing whitespace.
++ 
+docs/superpowers/reports/2026-10-18-remediation-evidence/mission-source.patch:16: trailing whitespace.
++ 
+docs/superpowers/reports/2026-10-18-remediation-evidence/mission-source.patch:24: trailing whitespace.
++ 
+docs/superpowers/reports/2026-10-18-remediation-evidence/mission-source.patch:173: trailing whitespace.
++ 
+docs/superpowers/reports/2026-10-18-remediation-evidence/mission-source.patch:194: trailing whitespace.
++ 
+docs/superpowers/reports/2026-10-18-remediation-evidence/mission-source.patch:228: trailing whitespace.
++ 

@@ -1,3 +1,4 @@
+import {uiLocale} from '../../core/locale.js'
 // People Data — people you deal with before (or instead of) them becoming
 // a customer, supplier, employee or user. A list + side-panel record with
 // bilingual names, repeatable contacts, live duplicate feedback, and a
@@ -197,9 +198,9 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
     if (!people.length) {
       const valued = state.fieldFilters.find(filter => filter.value)
       body.innerHTML = state.query.trim()
-        ? emptyState({iconName: 'i-search', title: `No people match “${state.query.trim()}”`, body: 'Try a name, company, phone number or email.'})
+        ? emptyState({iconName: 'i-search', title: uiLocale.t("No people match “{v0}”").replace('{v0}', () => uiLocale.t(String(state.query.trim()))), body: 'Try a name, company, phone number or email.'})
         : valued
-          ? emptyState({iconName: 'i-search', title: `No people match “${valued.value}”`, body: 'Clear the filter to see every person.'})
+          ? emptyState({iconName: 'i-search', title: uiLocale.t("No people match “{v0}”").replace('{v0}', () => uiLocale.t(String(valued.value))), body: 'Clear the filter to see every person.'})
           : emptyState({iconName: 'i-user', title: 'No people yet', body: 'Add someone with New person — only an English name is required.'})
       return
     }
@@ -488,14 +489,17 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
     const label = conversionLabel(target)
     const current = person.convertedTo ? conversionLabel(person.convertedTo.target) : null
     const ok = await confirm({
-      title: current ? `Replace conversion to ${current}?` : `Convert ${titleOf(person)} to ${label}?`,
-      body: `Prototype: this only marks the person as converted to ${label}. No ${label} record is created and the Customers screens are not changed.${current ? ` The current mark (${current}) is replaced.` : ''}`,
+      title: current
+        ? uiLocale.t('Replace conversion to {type}?').replace('{type}', current)
+        : uiLocale.t('Convert {name} to {type}?').replace('{name}', titleOf(person)).replace('{type}', label),
+      body: uiLocale.t('Prototype: this only marks the person as converted to {type}. No {type} record is created and the Customers screens are not changed.')
+        .replaceAll('{type}', label) + (current ? uiLocale.t(' The current mark ({type}) is replaced.').replace('{type}', current) : ''),
       confirmLabel: 'Convert',
     })
     if (!ok) return
     store.updateEntity('person', person.id, {convertedTo: {target, at: store.now()}, lifecycle: 'contact'})
     await panel.close({force: true})
-    toast({tone: 'ok', title: `Marked as converted to ${label}`, body: `${titleOf(person)} — simulated, no ${label} record was created.`})
+    toast({tone: 'ok', title: uiLocale.t("Marked as converted to {v0}").replace('{v0}', () => uiLocale.t(String(label))), body: uiLocale.t("{v0} — simulated, no {v1} record was created.").replace('{v0}', () => uiLocale.t(String(titleOf(person)))).replace('{v1}', () => uiLocale.t(String(label)))})
   }
 
   async function setArchived(person, archived) {

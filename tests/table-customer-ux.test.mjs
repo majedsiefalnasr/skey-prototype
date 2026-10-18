@@ -240,7 +240,7 @@ test('invoice record actions expose status changes outside the audit pill', asyn
   assert.match(chrome, /data-status-action="pending"/)
   assert.match(chrome, /data-status-action="returned"/)
   assert.match(operations, /const STATUS_TRANSITIONS/)
-  assert.match(operations, /if \(creating\) \{\s*nextInvoiceNo\+\+\s*setStatus\('open'\)/s)
+  assert.match(operations, /if \(creating\) \{\s*nextInvoiceNo = no \+ 1\s*const row =.*LIST_ROWS\.unshift\(row\).*setStatus\('open'\)/s)
   assert.match(operations, /openStatusDialog/)
   assert.match(dialogs, /data-dlg="status"/)
   assert.match(shellStyles, /\.dlg\[data-tone='danger'\]\s*\{/)

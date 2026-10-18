@@ -91,7 +91,7 @@ export function createTopbar({toast, t, getSideCollapsed, getLaunchpadEnabled, c
        needs the year badge/label filled in there too */
     document.querySelectorAll('.gtop .app, .lp-actions-left .app').forEach(el => {
       el.innerHTML =
-        '<svg width="16" height="16" aria-hidden="true"><use href="#i-home"/></svg><span class="app-name"></span><span class="badge gray year-badge"></span><span class="tip"></span>'
+        '<svg class="shrink-0" width="16" height="16" aria-hidden="true"><use href="#i-home"/></svg><span class="app-name min-w-0 truncate"></span><span class="badge gray year-badge shrink-0"></span><span class="tip"></span>'
       el.querySelector('.app-name').textContent = 'lastchance'
       el.querySelector('.year-badge').textContent = ACTIVE_FISCAL_YEAR
       el.querySelector('.tip').textContent = 'lastchance'

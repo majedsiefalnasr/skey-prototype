@@ -1,13 +1,9 @@
 // Geography fixtures -- moved verbatim (by name, unmodified body) out of
 // concepts/app/legacy-app.js as part of Task 5's fixture-ownership split.
-// GEO_ROWS is the Geographical Structure list/tree's sample row data
-// (paired with DATA_LIST_SIMULATED_TOTAL.geo = 12 in
-// components/data-list/model.js -- these 12 rows ARE the full simulated
-// dataset for this context, unlike invoice/customer which sample a larger
-// simulated total).
+// GEO_ROWS is the complete in-memory Geographical Structure dataset.
+// Pagers report its real length, including locations created in this tab.
 //
-// Read-only sample/reference data: legacy-app.js only ever reads GEO_ROWS
-// via find/filter/map/reduce/some, never mutates it in place.
+// Creates and edits mutate these rows; reload restores the seed (P-05).
 
 export const GEO_ROWS = [
   {

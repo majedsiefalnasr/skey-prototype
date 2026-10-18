@@ -1,3 +1,4 @@
+import {uiLocale} from '../../core/locale.js'
 // Customer record page: model glue, chrome/layout rendering, save/undo/
 // guard, and the record's Page-contract lifecycle — moved out of
 // concepts/app/legacy-app.js as part of Task 7.
@@ -39,6 +40,7 @@
 // section's "DOM rendering uses the retained record root."
 
 import {
+  CUSTOMER_DEACTIVATION_DATE,
   CUSTOMER_GUIDED_TABS,
   CUSTOMER_SECTION_ORDER,
   createBlankCustomerData,
@@ -98,7 +100,8 @@ function resolveRefs(root) {
  * @param {object} params.deps - page-level facilities: t, encodeHtml, toast,
  *   trapFocus, releaseFocus, showContentView, applyRecordValueDirections,
  *   customerRows (CUSTOMER_ROWS), customerReference (CUSTOMER_REFERENCE),
- *   lookupResults (CUSTOMER_LOOKUP_RESULTS), unitRows (UNIT_ROWS)
+ *   lookupResults (CUSTOMER_LOOKUP_RESULTS), unitRows (UNIT_ROWS),
+ *   listRows (optional: the rows the list shows now, in its order; default customerRows)
  * @returns {object} Page contract: {id, roots, activate, deactivate, dispose,
  *   setMode, setLayout, getModel}
  */
@@ -115,6 +118,7 @@ export function createCustomerRecord({root, deps}) {
     customerReference,
     lookupResults,
     unitRows,
+    listRows = () => customerRows,
   } = deps
 
   const refs = resolveRefs(root)
@@ -140,6 +144,11 @@ export function createCustomerRecord({root, deps}) {
   let scrollNavigator = null
   let abortController = null
   let guardAfter = null
+  let guardOnStay = null
+  /* Set when the user has already agreed to leave through the guard dialog
+     (or pressed Undo on a new customer), so the navigation that follows does
+     not ask a second time. The next requestLeave() consumes it. */
+  let leaveApproved = false
   let active = false
 
   // The same preview trigger appears in customer list rows, so its
@@ -212,7 +221,7 @@ export function createCustomerRecord({root, deps}) {
     const section = CUSTOMER_SECTIONS.identity
     const meta = sectionMeta('identity')
     const conceptAttribute = concept ? ` data-customer-concept="${encodeHtml(concept)}"` : ''
-    return `<section class="customer-section customer-identity-section overflow-hidden mb-3! [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [&[data-customer-has-errors=true]]:[border-color:var(--danger)] [.customer-record-canvas_&>h2]:w-full [.customer-record-canvas_&>h2]:[padding:8px_12px] [.customer-record-canvas_&>h2]:bg-[var(--line-2)] [.customer-record-canvas_&>h2]:[font-size:12.5px] [.customer-record-canvas_&>h2]:font-bold [.customer-record-canvas_&>h2]:text-start [.customer-compact-card_&]:h-full [.customer-compact-card_&]:mb-0! [body.density-compact_&]:mb-1.5! [body.density-comfortable_&]:mb-[18px]! [body.density-compact_.customer-record-canvas_&>h2]:[padding:5px_8px] [body.density-comfortable_.customer-record-canvas_&>h2]:[padding:11px_16px]" data-customer-section="identity"${conceptAttribute} data-customer-has-errors="${meta.hasErrors}"><div class="customer-section-titlebar w-full [padding:8px_12px] bg-[var(--line-2)] [font-size:12.5px] font-bold text-start flex gap-2.5 justify-between items-center [.customer-record-canvas_&>h2]:flex [.customer-record-canvas_&>h2]:min-w-0 [.customer-record-canvas_&>h2]:gap-2 [.customer-record-canvas_&>h2]:items-center [.customer-record-canvas_&>h2]:[margin:0]! [.customer-record-canvas_&>h2]:[font:inherit]"><h2><span>${encodeHtml(section.title)}</span>${sectionStatus('identity')}</h2></div><div class="customer-section-body">${renderSectionBody('identity', sectionsDeps)}</div></section>`
+    return `<section class="customer-section customer-identity-section overflow-hidden mb-3! [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [&[data-customer-has-errors=true]]:[border-color:var(--danger)] [.customer-record-canvas_&>h2]:w-full [.customer-record-canvas_&>h2]:[padding:8px_12px] [.customer-record-canvas_&>h2]:bg-[var(--line-2)] [.customer-record-canvas_&>h2]:[font-size:12.5px] [.customer-record-canvas_&>h2]:font-bold [.customer-record-canvas_&>h2]:text-start [.customer-compact-card_&]:h-full [.customer-compact-card_&]:mb-0! [body.density-compact_&]:mb-1.5! [body.density-comfortable_&]:mb-[18px]! [body.density-compact_.customer-record-canvas_&>h2]:[padding:5px_8px] [body.density-comfortable_.customer-record-canvas_&>h2]:[padding:11px_16px]" data-customer-section="identity"${conceptAttribute} data-customer-has-errors="${meta.hasErrors}"><div class="customer-section-titlebar w-full [padding:8px_12px] bg-[var(--line-2)] [font-size:12.5px] font-bold text-start flex gap-2.5 justify-between items-center [.customer-record-canvas_&>h2]:flex [.customer-record-canvas_&>h2]:min-w-0 [.customer-record-canvas_&>h2]:gap-2 [.customer-record-canvas_&>h2]:items-center [.customer-record-canvas_&>h2]:[margin:0]! [.customer-record-canvas_&>h2]:[font:inherit]"><h2><span>${encodeHtml(t(section.title))}</span>${sectionStatus('identity')}</h2></div><div class="customer-section-body">${renderSectionBody('identity', sectionsDeps)}</div></section>`
   }
 
   function renderTabSection(key, sectionsDeps) {
@@ -224,7 +233,7 @@ export function createCustomerRecord({root, deps}) {
     const {CUSTOMER_SECTIONS} = sectionsDeps
     const section = CUSTOMER_SECTIONS[key]
     const meta = sectionMeta(key)
-    return `<section class="customer-section overflow-hidden mb-3! [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [&[data-customer-has-errors=true]]:[border-color:var(--danger)] [.customer-record-canvas_&>h2]:w-full [.customer-record-canvas_&>h2]:[padding:8px_12px] [.customer-record-canvas_&>h2]:bg-[var(--line-2)] [.customer-record-canvas_&>h2]:[font-size:12.5px] [.customer-record-canvas_&>h2]:font-bold [.customer-record-canvas_&>h2]:text-start [.customer-compact-card_&]:h-full [.customer-compact-card_&]:mb-0! [body.density-compact_&]:mb-1.5! [body.density-comfortable_&]:mb-[18px]! [body.density-compact_.customer-record-canvas_&>h2]:[padding:5px_8px] [body.density-comfortable_.customer-record-canvas_&>h2]:[padding:11px_16px]" data-customer-section="${encodeHtml(key)}" data-customer-has-errors="${meta.hasErrors}"><h2 class="customer-section-titlebar w-full [padding:8px_12px] bg-[var(--line-2)] [font-size:12.5px] font-bold text-start flex gap-2.5 justify-between items-center [.customer-record-canvas_&>h2]:flex [.customer-record-canvas_&>h2]:min-w-0 [.customer-record-canvas_&>h2]:gap-2 [.customer-record-canvas_&>h2]:items-center [.customer-record-canvas_&>h2]:[margin:0]! [.customer-record-canvas_&>h2]:[font:inherit]"><span>${encodeHtml(section.title)}</span>${sectionStatus(key)}</h2><div class="customer-section-body">${renderSectionBody(key, sectionsDeps)}</div></section>`
+    return `<section class="customer-section overflow-hidden mb-3! [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [&[data-customer-has-errors=true]]:[border-color:var(--danger)] [.customer-record-canvas_&>h2]:w-full [.customer-record-canvas_&>h2]:[padding:8px_12px] [.customer-record-canvas_&>h2]:bg-[var(--line-2)] [.customer-record-canvas_&>h2]:[font-size:12.5px] [.customer-record-canvas_&>h2]:font-bold [.customer-record-canvas_&>h2]:text-start [.customer-compact-card_&]:h-full [.customer-compact-card_&]:mb-0! [body.density-compact_&]:mb-1.5! [body.density-comfortable_&]:mb-[18px]! [body.density-compact_.customer-record-canvas_&>h2]:[padding:5px_8px] [body.density-comfortable_.customer-record-canvas_&>h2]:[padding:11px_16px]" data-customer-section="${encodeHtml(key)}" data-customer-has-errors="${meta.hasErrors}"><h2 class="customer-section-titlebar w-full [padding:8px_12px] bg-[var(--line-2)] [font-size:12.5px] font-bold text-start flex gap-2.5 justify-between items-center [.customer-record-canvas_&>h2]:flex [.customer-record-canvas_&>h2]:min-w-0 [.customer-record-canvas_&>h2]:gap-2 [.customer-record-canvas_&>h2]:items-center [.customer-record-canvas_&>h2]:[margin:0]! [.customer-record-canvas_&>h2]:[font:inherit]"><span>${encodeHtml(t(section.title))}</span>${sectionStatus(key)}</h2><div class="customer-section-body">${renderSectionBody(key, sectionsDeps)}</div></section>`
   }
 
   function renderCollapsible(key, concept, sectionsDeps) {
@@ -233,7 +242,7 @@ export function createCustomerRecord({root, deps}) {
     const expanded = customerState.expanded.has(key)
     const meta = sectionMeta(key)
     const bodyId = `customer-${concept}-${key}-body`
-    return `<section class="customer-section overflow-hidden mb-3! [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [&[data-customer-has-errors=true]]:[border-color:var(--danger)] [.customer-record-canvas_&>h2]:w-full [.customer-record-canvas_&>h2]:[padding:8px_12px] [.customer-record-canvas_&>h2]:bg-[var(--line-2)]! [.customer-record-canvas_&>h2]:[font-size:12.5px]! [.customer-record-canvas_&>h2]:font-bold! [.customer-record-canvas_&>h2]:text-start [.customer-compact-card_&]:h-full [.customer-compact-card_&]:mb-0! [body.density-compact_&]:mb-1.5! [body.density-comfortable_&]:mb-[18px]! [body.density-compact_.customer-record-canvas_&>h2]:[padding:5px_8px] [body.density-comfortable_.customer-record-canvas_&>h2]:[padding:11px_16px]" data-customer-section="${encodeHtml(key)}" data-customer-concept="${encodeHtml(concept)}" data-customer-has-errors="${meta.hasErrors}"><button class="customer-section-heading w-full [padding:8px_12px] bg-[var(--line-2)]! [font-size:12.5px]! font-bold! text-start flex gap-2.5 justify-between items-center [border:0] [cursor:pointer] [&:hover]:[background:var(--accent-soft)] [&:focus-visible]:[outline:2px_solid_var(--accent)] [&:focus-visible]:[outline-offset:-2px] [.customer-record-canvas_&>svg]:[flex:none] [.customer-record-canvas_&>svg]:[transition:transform_0.18s_ease-out] [padding:5px_8px] motion-reduce:[.customer-record-canvas_&>svg]:[transition:none]" type="button" data-customer-collapse="${encodeHtml(key)}" aria-controls="${encodeHtml(bodyId)}" aria-expanded="${expanded}"><span class="customer-section-label flex min-w-0 gap-2 items-center"><span>${encodeHtml(section.title)}</span>${sectionStatus(key)}</span><svg width="14" height="14" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="customer-section-body" id="${encodeHtml(bodyId)}"${expanded ? '' : ' hidden'}>${renderSectionBody(key, sectionsDeps)}</div></section>`
+    return `<section class="customer-section overflow-hidden mb-3! [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [&[data-customer-has-errors=true]]:[border-color:var(--danger)] [.customer-record-canvas_&>h2]:w-full [.customer-record-canvas_&>h2]:[padding:8px_12px] [.customer-record-canvas_&>h2]:bg-[var(--line-2)]! [.customer-record-canvas_&>h2]:[font-size:12.5px]! [.customer-record-canvas_&>h2]:font-bold! [.customer-record-canvas_&>h2]:text-start [.customer-compact-card_&]:h-full [.customer-compact-card_&]:mb-0! [body.density-compact_&]:mb-1.5! [body.density-comfortable_&]:mb-[18px]! [body.density-compact_.customer-record-canvas_&>h2]:[padding:5px_8px] [body.density-comfortable_.customer-record-canvas_&>h2]:[padding:11px_16px]" data-customer-section="${encodeHtml(key)}" data-customer-concept="${encodeHtml(concept)}" data-customer-has-errors="${meta.hasErrors}"><button class="customer-section-heading w-full [padding:8px_12px] bg-[var(--line-2)]! [font-size:12.5px]! font-bold! text-start flex gap-2.5 justify-between items-center [border:0] [cursor:pointer] [&:hover]:[background:var(--accent-soft)] [&:focus-visible]:[outline:2px_solid_var(--accent)] [&:focus-visible]:[outline-offset:-2px] [.customer-record-canvas_&>svg]:[flex:none] [.customer-record-canvas_&>svg]:[transition:transform_0.18s_ease-out] [padding:5px_8px] motion-reduce:[.customer-record-canvas_&>svg]:[transition:none]" type="button" data-customer-collapse="${encodeHtml(key)}" aria-controls="${encodeHtml(bodyId)}" aria-expanded="${expanded}"><span class="customer-section-label flex min-w-0 gap-2 items-center"><span>${encodeHtml(t(section.title))}</span>${sectionStatus(key)}</span><svg width="14" height="14" aria-hidden="true"><use href="#i-caret" /></svg></button><div class="customer-section-body" id="${encodeHtml(bodyId)}"${expanded ? '' : ' hidden'}>${renderSectionBody(key, sectionsDeps)}</div></section>`
   }
 
   function layoutRenderDeps({CUSTOMER_SECTIONS}) {
@@ -269,6 +278,11 @@ export function createCustomerRecord({root, deps}) {
     const statusActionItem = creating
       ? ''
       : `<button role="menuitem" type="button" class="${customerData.deactivationFrom ? '' : 'dan'}" data-customer-action="change-status"><svg width="14" height="14" aria-hidden="true"><use href="#i-${customerData.deactivationFrom ? 'check' : 'archive'}" /></svg> ${customerData.deactivationFrom ? t('Activate customer') : t('Deactivate customer')}</button>`
+    /* An inactive customer states when and why it was deactivated, right under
+       the title, so the reason is visible without opening the Deactivate section. */
+    const deactivationNote = customerData.deactivationFrom
+      ? `<p class="customer-deactivation-note text-sm text-muted mt-1!">${t('Deactivated on')} <span data-customer-deactivation-date>${encodeHtml(customerData.deactivationFrom)}</span>${customerData.deactivationReason ? ` · ${t('Reason')}: <span data-customer-deactivation-reason>${encodeHtml(customerData.deactivationReason)}</span>` : ''}</p>`
+      : ''
     /* Capped at two full-visible slots plus one "more actions" overflow so
        the header never grows past three visible controls regardless of how
        many record actions exist. */
@@ -292,6 +306,7 @@ export function createCustomerRecord({root, deps}) {
       <div class="l [.d1_.phead_&]:[flex:1]">
         <nav class="crumbs [.d3_.otitle_&]:[margin-bottom:3px]!" aria-label="Breadcrumb"><a href="#">${t('Home')}</a><span class="sep">›</span><button class="customer-back" type="button">${t('Customers')}</button><span class="sep">›</span><span aria-current="page">${creating ? t('New') : t('All')}</span></nav>
         <div class="tline [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-5 [.d1_&]:mt-2! [.d1_&]:flex-wrap [.d1_&_h1]:[font-size:23px] [.d1_&_h1]:font-semibold"><h1>${title}</h1>${customerData.deactivationFrom ? `<span class="badge danger">${t('Inactive')}</span>` : ''}</div>
+        ${deactivationNote}
       </div>
       <div class="r [.d1_.phead_&]:flex [.d1_.phead_&]:items-center [.d1_.phead_&]:gap-1 [.d1_.phead_&]:mt-1.5!"><span class="recacts inline-flex items-center [gap:7px] flex-wrap">${editing ? editActions : viewActions}</span></div>
     </div>`
@@ -307,42 +322,48 @@ export function createCustomerRecord({root, deps}) {
     syncFooter()
   }
 
+  /* The rows the list shows right now (its filter and sort). Falls back to
+     every row when the open customer is not among them, e.g. it was filtered
+     out after opening. Position and Prev/Next both read this one order. */
+  function recordOrder() {
+    const inView = listRows()
+    return inView.some(row => row.customerNo === customerData.customerNo) ? inView : customerRows
+  }
+
   function syncFooter() {
     const footer = refs.footer
     if (!footer) return
-    const rowIndex = customerRows.findIndex(
-      customer => customer.customerNo === customerData.customerNo
-    )
-    const position = Math.max(1, rowIndex + 1)
+    const rows = recordOrder()
+    const position = rows.findIndex(customer => customer.customerNo === customerData.customerNo) + 1
     const pager = footer.querySelector('.pager')
     const input = pager?.querySelector('.pg-i')
     const total = pager?.querySelector('.tot')
-    if (total) total.textContent = `${t('of', 'of')} 72`
     const positionLabel = refs.footerPositionLabel
-    const setPosition = value => {
-      const next = Math.min(72, Math.max(1, Number(value) || 1))
-      input.value = String(next)
-      input.dataset.last = String(next)
-      pager.querySelector('.pg-f').disabled = next === 1
-      pager.querySelector('.pg-p').disabled = next === 1
-      pager.querySelector('.pg-n').disabled = next === 72
-      pager.querySelector('.pg-l').disabled = next === 72
-      positionLabel.textContent = `${t('Record', 'Record')} ${next} ${t('of', 'of')} 72`
-    }
     if (input && pager && positionLabel) {
-      input.max = '72'
-      pager.querySelector('.pg-f').onclick = () => setPosition(1)
-      pager.querySelector('.pg-p').onclick = () => setPosition(Number(input.value) - 1)
-      pager.querySelector('.pg-n').onclick = () => setPosition(Number(input.value) + 1)
-      pager.querySelector('.pg-l').onclick = () => setPosition(72)
-      input.onchange = () => setPosition(input.value)
-      setPosition(position)
       const creating = customerState.mode === 'create'
-      input.readOnly = creating
-      if (creating) {
-        pager.querySelectorAll('button').forEach(button => (button.disabled = true))
-        positionLabel.textContent = 'New customer'
+      // Moving to another record would drop unsaved edits, so only View mode navigates.
+      const locked = customerState.mode !== 'view'
+      const go = value => {
+        const next = Math.min(rows.length, Math.max(1, Number(value) || 1))
+        openRecord(rows[next - 1].customerNo, 'view', sectionsDepsRef)
       }
+      if (total) total.textContent = `${t('of', 'of')} ${rows.length}`
+      input.max = String(rows.length)
+      input.value = creating ? '' : String(position)
+      input.dataset.last = input.value
+      input.readOnly = locked
+      pager.querySelector('.pg-f').disabled = locked || position === 1
+      pager.querySelector('.pg-p').disabled = locked || position === 1
+      pager.querySelector('.pg-n').disabled = locked || position === rows.length
+      pager.querySelector('.pg-l').disabled = locked || position === rows.length
+      pager.querySelector('.pg-f').onclick = () => go(1)
+      pager.querySelector('.pg-p').onclick = () => go(position - 1)
+      pager.querySelector('.pg-n').onclick = () => go(position + 1)
+      pager.querySelector('.pg-l').onclick = () => go(rows.length)
+      input.onchange = () => go(input.value)
+      positionLabel.textContent = creating
+        ? t('New customer', 'New customer')
+        : `${t('Record', 'Record')} ${position} ${t('of', 'of')} ${rows.length}`
     }
     const note = refs.footerNote
     if (note) {
@@ -394,6 +415,7 @@ export function createCustomerRecord({root, deps}) {
   function setMode(mode) {
     customerState.mode = mode
     customerState.dirty = false
+    leaveApproved = false
     if (mode === 'view') customerState.errors.clear()
     if (refs.modeSelect) refs.modeSelect.value = mode
     if (active) render()
@@ -427,6 +449,9 @@ export function createCustomerRecord({root, deps}) {
   }
 
   function saveCustomer() {
+    if (customerState.mode === 'create') {
+      customerData.customerNo = String(Math.max(0, ...customerRows.map(row => Number(row.customerNo))) + 1)
+    }
     if (!validateCustomerRecord(customerData, customerState)) {
       const firstError = CUSTOMER_SECTION_ORDER.flatMap(sectionKey =>
         sectionsDepsRef.CUSTOMER_SECTIONS[sectionKey].fields.map(f => ({field: f, sectionKey}))
@@ -452,6 +477,18 @@ export function createCustomerRecord({root, deps}) {
       })
       return false
     }
+    let row = customerRows.find(row => row.customerNo === customerData.customerNo)
+    if (!row) { row = {}; customerRows.unshift(row) }
+    Object.assign(row, {
+      customerNo: customerData.customerNo, customerName: customerData.customerName,
+      operationUnit: customerData.operationUnit, customerType: customerData.customerType,
+      customerGroup: customerData.customerGroup, currency: customerData.currency.split(' - ')[0],
+      country: customerData.otherCountry, phone: customerData.contactPhone,
+      active: !customerData.deactivationFrom, statusReason: customerData.deactivationReason,
+      statusDate: customerData.deactivationFrom, photo: customerData.photo,
+      recordData: structuredClone(customerData),
+    })
+    customerState.customerNo = row.customerNo
     customerSavedSnapshot = structuredClone(customerData)
     setMode('view')
     toast({tone: 'ok', title: 'Customer saved'})
@@ -461,6 +498,7 @@ export function createCustomerRecord({root, deps}) {
   function undoCustomer() {
     if (customerState.mode === 'create') {
       customerState.dirty = false
+      leaveApproved = true
       showContentView('customers-list')
       return
     }
@@ -484,10 +522,13 @@ export function createCustomerRecord({root, deps}) {
   }
 
   const customerAtRisk = () =>
-    customerState.mode === 'create' || (customerState.mode === 'edit' && customerState.dirty)
+    !leaveApproved &&
+    (customerState.mode === 'create' || (customerState.mode === 'edit' && customerState.dirty))
 
-  function askGuard(after, label) {
+  function askGuard(after, label, onStay) {
+    guardOnStay?.()
     guardAfter = after
+    guardOnStay = onStay || null
     if (refs.guardMessage) {
       refs.guardMessage.textContent =
         customerState.mode === 'create'
@@ -502,6 +543,34 @@ export function createCustomerRecord({root, deps}) {
   function closeGuard() {
     refs.guardScrim?.classList.remove('open')
     releaseFocus()
+  }
+
+  /* Takes the pending guard's callbacks and clears them, so each choice runs once. */
+  function takeGuard() {
+    const pending = {after: guardAfter, onStay: guardOnStay}
+    guardAfter = null
+    guardOnStay = null
+    return pending
+  }
+
+  /* Page contract: asked by the global navigation before this page is left.
+     Resolves true to go ahead, false to stay (Stay here, or Save failing
+     validation). A new ask supersedes one still open. */
+  function requestLeave() {
+    if (!customerAtRisk()) {
+      leaveApproved = false
+      return true
+    }
+    return new Promise(resolve => {
+      askGuard(
+        () => {
+          leaveApproved = false
+          resolve(true)
+        },
+        'leave this customer record',
+        () => resolve(false)
+      )
+    })
   }
 
   function refreshSectionStatus(sectionKey, sectionsDeps) {
@@ -559,6 +628,7 @@ export function createCustomerRecord({root, deps}) {
       const fieldKey = control.dataset.customerField
       customerData[fieldKey] = control.type === 'checkbox' ? control.checked : control.value
       customerState.dirty = true
+      leaveApproved = false
       const sectionKey = customerSectionKeyForField(fieldKey)
       const fieldDef = CUSTOMER_SECTIONS[sectionKey]?.fields.find(item => item.key === fieldKey)
       if (fieldDef) refreshFieldError(control, fieldDef)
@@ -703,7 +773,8 @@ export function createCustomerRecord({root, deps}) {
             deps.openCustomerStatusDialog?.(row, {
               onDone: updatedRows => {
                 const updatedRow = Array.isArray(updatedRows) ? updatedRows[0] : updatedRows
-                customerData.deactivationFrom = updatedRow.active ? '' : '2026-08-01'
+                customerData.deactivationFrom = updatedRow.active ? '' : updatedRow.statusDate || CUSTOMER_DEACTIVATION_DATE
+                customerData.deactivationReason = updatedRow.active ? '' : updatedRow.statusReason || ''
                 render()
               },
             })
@@ -722,7 +793,7 @@ export function createCustomerRecord({root, deps}) {
         ) {
           toast({
             tone: 'info',
-            title: `${encodeHtml(actionButton.textContent.trim())} is a prototype`,
+            title: uiLocale.t("{v0} is a prototype").replace('{v0}', () => uiLocale.t(String(encodeHtml(actionButton.textContent.trim())))),
             body: 'The real product runs that action here.',
           })
         }
@@ -736,7 +807,7 @@ export function createCustomerRecord({root, deps}) {
         event => {
           const action = event.target.closest('[data-customer-footer-action]')
           if (!action) return
-          toast({tone: 'info', title: `${encodeHtml(action.textContent.trim())} is a prototype`})
+          toast({tone: 'info', title: uiLocale.t("{v0} is a prototype").replace('{v0}', () => uiLocale.t(String(encodeHtml(action.textContent.trim()))))})
         },
         {signal}
       )
@@ -785,17 +856,18 @@ export function createCustomerRecord({root, deps}) {
       document.getElementById('customer-g-stay')?.addEventListener(
         'click',
         () => {
-          guardAfter = null
+          const {onStay} = takeGuard()
           closeGuard()
+          onStay?.()
         },
         {signal}
       )
       document.getElementById('customer-g-discard')?.addEventListener(
         'click',
         () => {
-          const after = guardAfter
-          guardAfter = null
+          const {after} = takeGuard()
           customerState.dirty = false
+          leaveApproved = true
           if (customerState.mode === 'edit') customerData = structuredClone(customerSavedSnapshot)
           closeGuard()
           toast({
@@ -810,13 +882,13 @@ export function createCustomerRecord({root, deps}) {
       document.getElementById('customer-g-save')?.addEventListener(
         'click',
         () => {
-          const after = guardAfter
           if (!saveCustomer()) {
-            guardAfter = null
+            const {onStay} = takeGuard()
             closeGuard()
+            onStay?.()
             return
           }
-          guardAfter = null
+          const {after} = takeGuard()
           closeGuard()
           after?.()
         },
@@ -871,6 +943,7 @@ export function createCustomerRecord({root, deps}) {
     customerState.mode = mode
     customerState.customerNo = customerNo || ''
     customerState.dirty = false
+    leaveApproved = false
     customerState.errors.clear()
     customerState.activeSection = 'identity'
     customerData =
@@ -944,6 +1017,7 @@ export function createCustomerRecord({root, deps}) {
     activate,
     deactivate,
     dispose,
+    requestLeave,
     setMode,
     setLayout,
     openRecord,

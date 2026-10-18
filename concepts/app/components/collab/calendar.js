@@ -163,11 +163,16 @@ const ITEM_CLASS =
 
 const CONFLICT_CLASS = '![border-color:var(--danger)] ![background-color:var(--danger-soft-bg)]'
 
-const itemButton = (item, index, extraClass = '', style = '', timeLabel = formatTime(item.start)) =>
-  `<button type="button" class="${ITEM_CLASS} ${item.conflict ? CONFLICT_CLASS : ''} ${extraClass}" ${style ? `style="${style}"` : ''} data-cal-item="${index}"${item.conflict ? ' data-cal-conflict="true"' : ''} aria-label="${escapeHtml(itemLabel(item))}">
-    ${item.allDay ? '' : `<span class="font-semibold">${escapeHtml(timeLabel)}</span> `}<span dir="auto">${escapeHtml(item.title)}</span>
-    <span class="sr-only"> (${escapeHtml(t(item.label))})</span>
+const itemButton = (item, index, extraClass = '', style = '', timeLabel = formatTime(item.start)) => {
+  const content = `${item.allDay ? '' : `<span class="font-semibold">${escapeHtml(timeLabel)}</span> `}<span dir="auto">${escapeHtml(item.title)}</span><span class="sr-only"> (${escapeHtml(t(item.label))})</span>`
+  const paintClass = `${ITEM_CLASS} ${item.conflict ? CONFLICT_CLASS : ''} ${extraClass}`
+  // Timed events keep a normal coarse-pointer button. Only its painted
+  // child represents duration; the larger transparent target is not a
+  // second, misleading duration block. Month/all-day chips are unchanged.
+  return `<button type="button" class="${style ? 'cal-timed-event flex w-full items-start border-0 bg-transparent p-0 text-start focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]' : paintClass}" ${style ? `style="${style}"` : ''} data-cal-item="${index}"${item.conflict ? ' data-cal-conflict="true"' : ''} aria-label="${escapeHtml(itemLabel(item))}">
+    ${style ? `<span class="cal-event-paint ${paintClass} max-[720px]:truncate min-[721px]:[align-content:safe_center]" style="height:var(--cal-event-height)">${content}</span>` : content}
   </button>`
+}
 
 const coversDay = (item, day) =>
   item.allDay
@@ -186,6 +191,60 @@ function layoutDay(items) {
     entry.lane = lane
   }
   return {entries: sorted, laneCount: Math.max(lanes.length, 1)}
+}
+
+/* The grid's headers cannot stick through both its horizontal scroll host
+ * and the page's vertical scrollport. Keep a small, non-panning context
+ * strip in that outer scrollport instead of changing the grid geometry. */
+function bindMobileContext(host) {
+  const viewport = host.closest('[data-collab-body]')
+  if (!viewport) return
+  viewport._calendarContextAbort?.abort()
+  const controller = new AbortController(), {signal} = controller
+  viewport._calendarContextAbort = controller
+  const context = document.createElement('div')
+  context.className = 'collab-calendar-context'
+  context.setAttribute('data-cal-context', '')
+  context.setAttribute('aria-label', t('Calendar'))
+  context.innerHTML = '<span data-cal-context-dates></span><span data-cal-context-time dir="ltr"></span>'
+  const toolbar = viewport.querySelector('[data-cal-toolbar]')
+  if (toolbar) toolbar.append(context)
+  else host.before(context)
+  const timed = host.querySelector('[data-timed]')
+  const dateFormat = new Intl.DateTimeFormat(uiLocale.getLocale() === 'ar' ? 'ar-EG' : 'en-GB', {weekday: 'short', day: 'numeric', month: 'short'})
+  const update = () => {
+    if (signal.aborted || !host.isConnected) return
+    const h = host.getBoundingClientRect(), v = viewport.getBoundingClientRect()
+    const columns = [...host.querySelectorAll('[data-cal-column-date], [data-cal-weekday]')].filter(el => {
+      const r = el.getBoundingClientRect()
+      return r.right > Math.max(h.left, v.left) + 1 && r.left < Math.min(h.right, v.right) - 1
+    })
+    context.querySelector('[data-cal-context-dates]').textContent = columns.map(el =>
+      el.dataset.calColumnDate ? dateFormat.format(parseLocal(el.dataset.calColumnDate)) : t(el.dataset.calWeekday)
+    ).join(' · ')
+    const time = context.querySelector('[data-cal-context-time]')
+    time.hidden = !timed
+    if (timed) {
+      const r = timed.getBoundingClientRect(), grid = timed.firstElementChild.getBoundingClientRect()
+      const top = Math.max(r.top, v.top, context.getBoundingClientRect().bottom), bottom = Math.min(r.bottom, v.bottom, innerHeight)
+      const minute = y => Math.max(0, Math.min(24 * 60, Math.round((y - grid.top) / HOUR_PX * 60)))
+      const clock = n => `${pad(Math.floor(n / 60))}:${pad(n % 60)}`
+      time.textContent = `${clock(minute(top))}–${clock(minute(Math.max(top, bottom)))}`
+    }
+    host.style.setProperty('--cal-context-inset', `${(toolbar || context).getBoundingClientRect().height}px`)
+  }
+  let frame = 0
+  const schedule = () => {
+    if (!frame) frame = requestAnimationFrame(() => { frame = 0; update() })
+  }
+  host.addEventListener('scroll', schedule, {capture: true, passive: true, signal})
+  viewport.addEventListener('scroll', schedule, {passive: true, signal})
+  const resize = new ResizeObserver(schedule)
+  resize.observe(viewport)
+  resize.observe(context)
+  signal.addEventListener('abort', () => { resize.disconnect(); cancelAnimationFrame(frame); context.remove() }, {once: true})
+  update()
+  schedule()
 }
 
 /**
@@ -242,13 +301,14 @@ export function renderCalendar(host, {mode, date, todayKey, nowKey, items, onSlo
   })
   const scroller = host.querySelector('[data-timed]')
   if (scroller) scroller.scrollTop = DAY_START_SCROLL * HOUR_PX
+  bindMobileContext(host)
 }
 
 function renderMonth(host, {date, todayKey, items}) {
   const month = date.slice(0, 7)
   const days = monthGridDays(date)
   host.innerHTML = `<div class="overflow-hidden rounded-lg border border-line" role="grid" aria-label="${escapeHtml(formatMonthTitle(date))}" data-cal-month>
-    <div class="grid grid-cols-7 border-b border-line bg-[var(--line-2)]" role="row">${WEEKDAYS.map(day => `<div role="columnheader" class="px-2 py-1.5 text-xs font-semibold text-muted">${t(day)}</div>`).join('')}</div>
+    <div class="grid grid-cols-7 border-b border-line bg-[var(--line-2)]" role="row">${WEEKDAYS.map(day => `<div role="columnheader" data-cal-weekday="${day}" class="px-2 py-1.5 text-xs font-semibold text-muted">${t(day)}</div>`).join('')}</div>
     ${Array.from({length: 6}, (_, week) => `<div class="grid grid-cols-7" role="row">${days
       .slice(week * 7, week * 7 + 7)
       .map(day => {
@@ -280,7 +340,7 @@ function renderTimeGrid(host, {days, todayKey, nowKey, items}) {
   host.innerHTML = `<div class="overflow-hidden rounded-lg border border-line bg-surface" ${days.length > 1 ? 'data-cal-week' : 'data-cal-day'}>
     <div class="grid border-b border-line" style="${columns}">
       <div></div>
-      ${days.map(day => `<div class="border-s border-line px-2 py-1.5 text-xs ${day === todayKey ? 'font-semibold text-accent' : 'text-muted'}"${day === todayKey ? ' aria-current="date"' : ''}>${escapeHtml(longDay(day))}</div>`).join('')}
+      ${days.map(day => `<div data-cal-column-date="${day}" class="border-s border-line px-2 py-1.5 text-xs ${day === todayKey ? 'font-semibold text-accent' : 'text-muted'}"${day === todayKey ? ' aria-current="date"' : ''}>${escapeHtml(longDay(day))}</div>`).join('')}
     </div>
     <div class="grid border-b border-line" style="${columns}" data-allday-row aria-label="${escapeHtml(t("All-day"))}">
       <div class="px-1.5 py-1 text-[11px] text-muted">${t("All day")}</div>
@@ -310,7 +370,8 @@ function renderTimeGrid(host, {days, todayKey, nowKey, items}) {
               ${entries
                 .map(({item, index, lane, start, end}) => {
                   const width = 100 / laneCount
-                  const style = `position:absolute;top:${(start / 60) * HOUR_PX}px;height:${((end - start) / 60) * HOUR_PX - 2}px;inset-inline-start:calc(${lane * width}% + 2px);width:calc(${width}% - 4px);z-index:1`
+                  const height = ((end - start) / 60) * HOUR_PX - 2
+                  const style = `position:absolute;top:${(start / 60) * HOUR_PX}px;height:${height}px;--cal-event-height:${height}px;inset-inline-start:calc(${lane * width}% + 2px);width:calc(${width}% - 4px);z-index:1`
                   return itemButton(item, index, '', style, item.start.slice(0, 10) < day ? 'Continues' : formatTime(item.start))
                 })
                 .join('')}

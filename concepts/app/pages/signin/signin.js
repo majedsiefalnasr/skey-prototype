@@ -66,6 +66,21 @@ const TENANT_BRANCHES = {
 
 const branchesFor = name => TENANT_BRANCHES[String(name || '').trim().toLowerCase()] || []
 
+// Keep identity values intact when they fit; exceptional tokens may wrap
+// inside their own unit instead of forcing the whole card wider.
+export function renderSignInIdentity(target, {email, workspace, branch}) {
+  target.replaceChildren()
+  for (const [kind, value] of [['email', email], ['workspace', workspace], ...(branch ? [['branch', branch]] : [])]) {
+    if (target.childNodes.length) target.append(' · ')
+    const token = target.ownerDocument.createElement('span')
+    token.dataset.siIdentity = kind
+    token.className = 'inline-block max-w-full align-top [word-break:normal] ' +
+      (kind === 'branch' ? '[overflow-wrap:break-word]' : '[overflow-wrap:anywhere]')
+    token.textContent = value
+    target.append(token)
+  }
+}
+
 /* Prototype-only PIN digest (djb2) — keeps the raw PIN out of the stored
    record without pretending to be real security for a 6-digit demo code.
    One digest for both the save panes' create and the PIN pane's verify. */
@@ -95,7 +110,7 @@ export function createSignIn({root, t, onSignIn, subscribe, toast} = {}) {
   const currentAccount = () => findAccount(email().value)
 
   function refreshWho() {
-    $('#si-who').textContent = `${normalizeEmail(email().value)} · ${tenantName}.skeyerp.com${branch ? ` · ${branch}` : ''}`
+    renderSignInIdentity($('#si-who'), {email: normalizeEmail(email().value), workspace: `${tenantName}.skeyerp.com`, branch})
     $('#si-auth-email').value = normalizeEmail(email().value)
   }
 

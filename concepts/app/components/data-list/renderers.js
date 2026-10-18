@@ -18,7 +18,7 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
   // engine, not re-derived here.
   function orgStatusBadge(value, tone) {
     if (!value || value === 'Active') return ''
-    return `<span class="badge ${tone}">${encodeHtml(String(value))}</span>`
+    return `<span class="badge ${tone}">${encodeHtml(t(String(value)))}</span>`
   }
 
   // Revoke/Terminate render as ordinary "State" column cell content —
@@ -34,11 +34,11 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
     const stateBadge =
       context === 'orgAppSessions'
         ? row.current
-          ? '<span class="badge ok">Current</span>'
+          ? '<span class="badge ok" data-i18n="Current">' + t('Current') + '</span>'
           : row.protected
-            ? '<span class="badge gray">Protected</span>'
+            ? '<span class="badge gray" data-i18n="Protected">' + t('Protected') + '</span>'
             : ''
-        : `<span class="badge ${row.state === 'Waiting' ? 'warn' : 'ok'}">${encodeHtml(String(row.state))}</span>`
+        : `<span class="badge ${row.state === 'Waiting' ? 'warn' : 'ok'}">${encodeHtml(t(String(row.state)))}</span>`
     if (!allowed) {
       const reason =
         context === 'orgAppSessions'
@@ -50,10 +50,10 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
           : row.current
             ? 'Current connection'
             : 'Protected'
-      return `<div class="flex items-center justify-between gap-2">${stateBadge}<span class="text-xs text-muted">${encodeHtml(reason)}</span></div>`
+      return `<div class="flex items-center justify-between gap-2">${stateBadge}<span class="text-xs text-muted">${encodeHtml(t(reason))}</span></div>`
     }
     const label = kind === 'revoke' ? 'Revoke' : 'Terminate'
-    return `<div class="flex items-center justify-between gap-2">${stateBadge}<button type="button" class="lbtn out" data-organization-session-action="${kind}" data-session-id="${encodeHtml(String(row.id))}">${label}</button></div>`
+    return `<div class="flex items-center justify-between gap-2">${stateBadge}<button type="button" class="lbtn out" data-organization-session-action="${kind}" data-session-id="${encodeHtml(String(row.id))}">${t(label)}</button></div>`
   }
 
   function renderDataListCell(context, row, column) {
@@ -107,16 +107,10 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
     return encodeHtml(String(value ?? ''))
   }
 
-  /* Statuses the table row's own menu can offer — posting and cancellation
-     stay record-only (they need fields a table row doesn't carry), so only
-     the reasoned/simple transitions from status-dialogs.js's
-     INVOICE_STATUS_ACTIONS are listed here. */
-  const INVOICE_ROW_MENU_STATUSES = ['Open', 'Pending', 'Returned']
-
   function customerStatusMenuItem(row) {
     return row.active
-      ? `<button class="text-danger" type="button" role="menuitem" data-list-row-action="change-status">${dataListIcon('i-archive')} Deactivate customer</button>`
-      : `<button type="button" role="menuitem" data-list-row-action="change-status">${dataListIcon('i-check')} Activate customer</button>`
+      ? `<button class="text-danger" type="button" role="menuitem" data-list-row-action="change-status">${dataListIcon('i-archive')} ${t('Deactivate customer', 'Deactivate customer')}</button>`
+      : `<button type="button" role="menuitem" data-list-row-action="change-status">${dataListIcon('i-check')} ${t('Activate customer', 'Activate customer')}</button>`
   }
 
   function geoStatusMenuItem(row) {
@@ -126,16 +120,18 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
   }
 
   function invoiceStatusMenuItem(row) {
+    /* Every lifecycle target from the one status table (kanban.js derives it from
+       fixtures/invoices.js). Posting and cancellation collect fields a row does not
+       carry, so choosing them opens the record's own dialog (actions.js). */
     const next = (invoiceStatusTransitions?.() || {})[row.status] || []
-    const offered = next.filter(status => INVOICE_ROW_MENU_STATUSES.includes(status))
-    if (!offered.length) return ''
-    const options = offered
+    if (!next.length) return ''
+    const options = next
       .map(
         status =>
-          `<button type="button" role="menuitem" data-list-row-action="change-status" data-status-target="${encodeHtml(status)}">${encodeHtml(status)}</button>`
+          `<button type="button" role="menuitem" data-list-row-action="change-status" data-status-target="${encodeHtml(status)}">${encodeHtml(t('Invoice status: ' + status, status))}</button>`
       )
       .join('')
-    return `<details class="data-menu data-manage-submenu relative"><summary class="flex w-full min-h-[32px] items-center gap-[9px] rounded-[5px] px-2 py-1.5 text-[14px]! font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden [&_svg:last-child]:ms-auto [&_svg:last-child]:text-muted rtl:[&_svg:last-child]:scale-x-[-1]">${dataListIcon('i-flow', 14)}<span>Change status</span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[160px] gap-0.5" role="menu">${options}</div></details>`
+    return `<details class="data-menu data-manage-submenu relative"><summary class="flex w-full min-h-[32px] items-center gap-[9px] rounded-[5px] px-2 py-1.5 text-[14px]! font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden [&_svg:last-child]:ms-auto [&_svg:last-child]:text-muted rtl:[&_svg:last-child]:scale-x-[-1]">${dataListIcon('i-flow', 14)}<span>${t('Change status', 'Change status')}</span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[160px] gap-0.5" role="menu">${options}</div></details>`
   }
 
   function rowMenuItems(context, row, view) {
@@ -148,18 +144,18 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
             : context === 'geo'
               ? `<button type="button" role="menuitem" data-list-row-action="view-hierarchy">${dataListIcon('i-flow')} ${t('View in hierarchy', 'View in hierarchy')}</button>${geoStatusMenuItem(row)}`
               : ''
-      const deleteAction = `<button class="text-danger" type="button" role="menuitem" data-list-row-action="delete">${dataListIcon('i-trash')} ${t('Delete', 'Delete')}</button>`
+      const deleteAction = `<button class="text-danger" type="button" role="menuitem" data-list-row-action="delete"${context === 'invoice' && ['Posted', 'Canceled', 'Deactivated'].includes(row.status) ? ' disabled' : ''}>${dataListIcon('i-trash')} ${t('Delete', 'Delete')}</button>`
       return `${contextActions}<div class="data-menu-separator"></div>${deleteAction}`
     }
     const quickViewDisabled = view === 'kanban'
-    const commonActions = `<button type="button" role="menuitem" data-list-row-action="quick-view"${quickViewDisabled ? ' disabled aria-disabled="true" title="Switch out of Kanban to jump to a single record"' : ''}>${dataListIcon('i-panel')} Open in Adaptive view</button><button type="button" role="menuitem" data-list-row-action="display">${dataListIcon('i-external')} Display</button><button type="button" role="menuitem" data-list-row-action="modify">${dataListIcon('i-edit')} Modify</button>`
+    const commonActions = `<button type="button" role="menuitem" data-list-row-action="quick-view"${quickViewDisabled ? ' disabled aria-disabled="true" title="Switch out of Kanban to jump to a single record"' : ''}>${dataListIcon('i-panel')} ${t('Open in Adaptive view', 'Open in Adaptive view')}</button><button type="button" role="menuitem" data-list-row-action="display">${dataListIcon('i-external')} ${t('Display', 'Display')}</button><button type="button" role="menuitem" data-list-row-action="modify">${dataListIcon('i-edit')} ${t('Modify', 'Modify')}</button>`
     const recordActions =
       context === 'customer'
-        ? `<button type="button" role="menuitem" data-list-row-action="accounts-movement">${dataListIcon('i-flow')} Accounts movement</button>${customerStatusMenuItem(row)}`
+        ? `<button type="button" role="menuitem" data-list-row-action="accounts-movement">${dataListIcon('i-flow')} ${t('Accounts movement', 'Accounts movement')}</button>${customerStatusMenuItem(row)}`
         : context === 'geo'
-          ? `<button type="button" role="menuitem" data-list-row-action="view-hierarchy">${dataListIcon('i-flow')} View in hierarchy</button>${geoStatusMenuItem(row)}`
-          : `<button type="button" role="menuitem" data-list-row-action="print">${dataListIcon('i-print')} Print</button><button type="button" role="menuitem" data-list-row-action="user-log">${dataListIcon('i-user')} User log</button><button type="button" role="menuitem" data-list-row-action="documents-flow">${dataListIcon('i-flow')} Documents flow</button>${invoiceStatusMenuItem(row)}`
-    const deleteAction = `<button class="text-danger" type="button" role="menuitem" data-list-row-action="delete">${dataListIcon('i-trash')} Delete</button>`
+          ? `<button type="button" role="menuitem" data-list-row-action="view-hierarchy">${dataListIcon('i-flow')} ${t('View in hierarchy', 'View in hierarchy')}</button>${geoStatusMenuItem(row)}`
+          : `<button type="button" role="menuitem" data-list-row-action="print">${dataListIcon('i-print')} ${t('Print', 'Print')}</button><button type="button" role="menuitem" data-list-row-action="user-log">${dataListIcon('i-user')} ${t('User log', 'User log')}</button><button type="button" role="menuitem" data-list-row-action="documents-flow">${dataListIcon('i-flow')} ${t('Documents flow', 'Documents flow')}</button>${invoiceStatusMenuItem(row)}`
+    const deleteAction = `<button class="text-danger" type="button" role="menuitem" data-list-row-action="delete"${context === 'invoice' && ['Posted', 'Canceled', 'Deactivated'].includes(row.status) ? ' disabled' : ''}>${dataListIcon('i-trash')} ${t('Delete', 'Delete')}</button>`
     return `${commonActions}<div class="data-menu-separator"></div>${recordActions}<div class="data-menu-separator"></div>${deleteAction}`
   }
 

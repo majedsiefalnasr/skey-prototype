@@ -1,5 +1,13 @@
 # Known defects (baseline ledger)
 
+**Delivery update — 2026-10-17:** the preservation-only wording below describes
+the original component refactor. The approved
+`docs/superpowers/plans/2026-10-17-skey-demo-prototype-delivery.md` explicitly
+authorizes correcting #1–5 and #7–12. Their current implementation and
+verification status is recorded below. Historical regression measurements,
+including the 76-failure record, remain unchanged. Prototype acceptance is
+pending per-path visual approval and the final full regression run.
+
 Source: `audit/app-shell-prototype-audit-2026-09-13.md` (untracked in the main
 worktree; preserved there per the plan's execution rules). 12 distinct issues
 were found against the current `concepts/app-shell.html` prototype: 1 P0,
@@ -228,7 +236,40 @@ baseline was changed to make them pass.
     - No visual baselines were updated. This fix is on the feature branch;
       `main` remains at `61f5200` with the original defect documented.
 
+*Pre-delivery measurement 2026-10-17 (does not replace the 76 record above):*
+full suite on a frozen build of the tree before demo-prototype delivery work:
+**1,360 passed, 73 failed, 541 skipped** (30.2 min). Classified by entry
+description (the exact 76-name list was not retained): #14 = 1, #16 = 2,
+#15 + #17 = 70, unclassified new = 0. Evidence:
+`docs/superpowers/reports/2026-10-17-pre-delivery-suite.json`.
+
 ## How this ledger is used by tests
+
+### Demo delivery corrections (2026-10-17)
+
+Evidence and outstanding gates:
+`docs/superpowers/reports/2026-10-17-demo-prototype-acceptance.md`.
+
+| Entry | Correction | Regression evidence |
+|---|---|---|
+| #1 | Mobile reader/composer space corrected by accepted VQA-01 | `visual-qa-batch1.spec.mjs`; original acceptance retained |
+| #2 | Previous/Next list controls have accessible names | `a11y-ledger.spec.mjs` |
+| #3 | Mobile toolbar summaries retain independent names | `a11y-ledger.spec.mjs` |
+| #4 | Selected navigation/pagination contrast meets 4.5:1 in measured states | `a11y-ledger.spec.mjs` |
+| #5 | Existing draft flush/recovery verified on message switching; no replacement storage mechanism | `mail-draft-exit.spec.mjs` |
+| #7 | Unbuilt leaves open named prototype placeholders; built collaboration routes open their own screens | `navigation-honesty.spec.mjs`, `routing.spec.mjs` |
+| #8 | Invoice identity, status and list header fields follow the selected row; shared details/totals are disclosed | `invoice-selection.spec.mjs`, `invoice-journey.spec.mjs` |
+| #9 | List and record pagers use actual rows and current position | `data-list.test.mjs`, `a11y-ledger.spec.mjs`, customer/invoice journeys |
+| #10 | Shared list controls receive coarse-pointer sizing | `a11y-ledger.spec.mjs`; density review-aid limitation retained |
+| #11 | Mobile invoice statistics start collapsed and can be shown | `a11y-ledger.spec.mjs` |
+| #12 | ApexCharts is deferred with integrity/crossorigin retained | `chart-parity.spec.mjs`, build/static checks |
+| GEO-03 | Geography status labels and feedback assertions follow the active locale | `invoice-geography.spec.mjs` |
+
+These are implementation corrections with focused evidence, not a claim that
+the complete suite or visual acceptance gate has passed. #14–18 and the open
+raster investigations remain recorded until exact-name comparison and review.
+
+### Original component-refactor policy (historical)
 
 - No test in `tests/parity.spec.mjs` or elsewhere may assert that any of
   defects 1-5 or 7-12 are *fixed*; screenshots simply capture whatever the
@@ -246,3 +287,15 @@ baseline was changed to make them pass.
   through visibility rather than through the class token (see entry 13).
   Entry 19 was additionally fixed and verified on the email-first sign-in
   feature branch on 2026-10-16, as recorded above.
+
+### Delivery comparison evidence — 2026-10-18
+
+The exact-name T0.1 comparison now observes all 73 recorded baseline failures.
+Thirteen customer lifecycle cases pass in the completed behavioral sweep;
+58 original visual failures and two #16 toolbar timeouts remain. Twenty
+additional failures are screenshot differences awaiting visual review.
+Final focused checks pass after ten new behavioral test failures were corrected.
+This combines a prior-build sweep with final-build focused evidence; G7 is
+still unrun. Historical 55/76 counts above remain historical records.
+See `docs/superpowers/reports/2026-10-17-delivery-regression-comparison.json`
+and the consolidated acceptance record for exact names and provenance.

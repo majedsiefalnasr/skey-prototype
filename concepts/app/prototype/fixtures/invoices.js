@@ -3,22 +3,58 @@
 // STATUSES/CHAIN/CARDS describe the audit-trail popover's verified model;
 // RULES is the action-availability matrix keyed by action label; ACTIVITY
 // is the record's activity-feed sample data; LIST_ROWS is the Sales
-// Invoice list's sample row data (paired with DATA_LIST_SIMULATED_TOTAL.
-// invoice = 125 in components/data-list/model.js -- these 8 rows are a
-// representative sample, not the full simulated dataset).
+// Invoice list's complete in-memory demo dataset. List and record pagers
+// report its real length; created/deleted rows last until reload (P-05).
 //
-// Everything here is read-only sample/reference data: legacy-app.js never
-// mutates these arrays/objects in place (verified: no .push/.splice/
-// .unshift/reassignment against any of them), only reads via
-// find/filter/map/sort, so moving them changes no observable behavior.
+// LIST_ROWS is mutable demo state. Audit cards and unsupported financial
+// details remain shared representative fixtures under the record disclosure.
 
 export const STATUSES = {
+  draft: {label: 'Draft', short: 'Draft'},
   open: {label: 'Open', short: 'Open'},
   pending: {label: 'Pending', short: 'Pending'},
   posted: {label: 'Posted', short: 'Posted'},
   returned: {label: 'Returned', short: 'Returned'},
   canceled: {label: 'Canceled', short: 'Canceled'},
   inactive: {label: 'Deactivated', short: 'Deactivated'},
+}
+
+/* The one lifecycle table (spec 3.2): the record's Change status menu, the list
+   row menu and the kanban all read it. Keys are STATUSES keys; deactivated is
+   `inactive` and, like returned and canceled, terminal. */
+export const INVOICE_TRANSITIONS = {
+  draft: ['open', 'canceled'],
+  open: ['pending', 'canceled'],
+  pending: ['open', 'posted'],
+  posted: ['pending', 'returned', 'canceled'],
+  returned: [],
+  canceled: [],
+  inactive: [],
+}
+
+/* List rows store the status label ('Deactivated'); the record works with the
+   key ('inactive'). Map a stored label back to its key, or null if unknown. */
+export function statusKeyFromLabel(label) {
+  return Object.keys(STATUSES).find(key => STATUSES[key].label === label) ?? null
+}
+
+/* The header fields a list row already carries (A-13). The record shows these
+   from the selected row; totals, lines and the rest stay shared demo data. */
+export const INVOICE_HEADER_KEYS = [
+  'custNo',
+  'custName',
+  'date',
+  'dueDate',
+  'pay',
+  'currency',
+  'branch',
+  'warehouse',
+  'salesRep',
+  'priceList',
+]
+
+export function invoiceHeaderFromRow(row) {
+  return Object.fromEntries(INVOICE_HEADER_KEYS.map(key => [key, row[key]]))
 }
 
 /* the chain shown in the popover: two audit cards that always exist,
@@ -29,7 +65,7 @@ export const CHAIN = [
     name: 'Entry Data',
     always: true,
     who: 'Majed Sief Alnasr',
-    when: '22/02/2026 08:25:32',
+    when: '17/08/2026 08:25:32',
     dur: '01:39:12',
     decision: 'Invoice created',
   },
@@ -38,21 +74,21 @@ export const CHAIN = [
     name: 'Modification Data',
     always: true,
     who: 'Majed Sief Alnasr',
-    when: '22/02/2026 10:04:18',
+    when: '17/08/2026 10:04:18',
     decision: 'Last update recorded',
   },
   {
     id: 'pending',
     name: 'Pending',
     who: 'Sales manager',
-    when: '22/02/2026 09:40:02',
+    when: '17/08/2026 09:40:02',
     decision: 'Pending',
   },
   {
     id: 'posted',
     name: 'Posted',
     who: 'System admin',
-    when: '22/02/2026 11:26:17',
+    when: '17/08/2026 11:26:17',
     decision: 'Posted',
     link: 'Display Journal Entry',
   },
@@ -61,14 +97,14 @@ export const CHAIN = [
     id: 'canceled',
     name: 'Canceled',
     who: 'Majed Sief Alnasr',
-    when: '23/02/2026 09:00:11',
+    when: '18/08/2026 09:00:11',
     decision: 'Canceled',
   },
   {
     id: 'inactive',
     name: 'Deactivated',
     who: 'Majed Sief Alnasr',
-    when: '24/02/2026 14:20:05',
+    when: '19/08/2026 14:20:05',
     decision: 'Deactivated',
   },
 ]
@@ -81,8 +117,8 @@ export const CARDS = [
     always: true,
     rows: [
       ['Entered By', 'Majed Sief Alnasr'],
-      ['Entry Date', '22/02/2026 08:25:32'],
-      ['Entry Start Date', '22/02/2026 06:46:20'],
+      ['Entry Date', '17/08/2026 08:25:32'],
+      ['Entry Start Date', '17/08/2026 06:46:20'],
       ['Entry Duration', '01:39:12'],
       ['No. of Prints', '__PRINTS__'],
     ],
@@ -94,7 +130,7 @@ export const CARDS = [
     badge: '3 updates',
     rows: [
       ['Last Update By', 'Majed Sief Alnasr'],
-      ['Last Update Date', '22/02/2026 10:04:18'],
+      ['Last Update Date', '17/08/2026 10:04:18'],
       ['No. of Updates', '3'],
     ],
   },
@@ -103,7 +139,7 @@ export const CARDS = [
     name: 'Pending-related Data',
     rows: [
       ['Pending User', 'Sales manager'],
-      ['Pending Date', '22/02/2026 09:40:02'],
+      ['Pending Date', '17/08/2026 09:40:02'],
       ['Reason for Pending', 'Waiting for the customer purchase order'],
     ],
   },
@@ -113,7 +149,7 @@ export const CARDS = [
     link: 'Display Journal Entry',
     rows: [
       ['Last Posting User', 'System admin'],
-      ['Posting Date', '22/02/2026 11:26:17'],
+      ['Posting Date', '17/08/2026 11:26:17'],
       ['Posting Description', 'Posted after the price check passed'],
     ],
   },
@@ -122,7 +158,7 @@ export const CARDS = [
     name: 'Cancellation Data',
     rows: [
       ['Canceled By', 'Majed Sief Alnasr'],
-      ['Cancellation Date', '23/02/2026 09:00:11'],
+      ['Cancellation Date', '18/08/2026 09:00:11'],
       ['Cancellation Statement', 'Duplicate of invoice 127'],
     ],
   },
@@ -170,7 +206,7 @@ export const RULES = {
 
 export const ACTIVITY = [
   {
-    day: 'Today · 22 February 2026',
+    day: '17 August 2026',
     items: [
       {
         who: 'System admin',
@@ -280,7 +316,7 @@ export const LIST_ROWS = [
     pay: 'Credit',
     custNo: '200001',
     custName: 'العميل الاول',
-    branch: '1 - headoffice',
+    branch: '2 - lastchance',
     status: 'Posted',
     currency: 'EGP',
     priceList: 'Wholesale 2026',
@@ -324,7 +360,7 @@ export const LIST_ROWS = [
     pay: 'Credit',
     custNo: '200001',
     custName: 'العميل الاول',
-    branch: '1 - headoffice',
+    branch: '2 - lastchance',
     status: 'Open',
     currency: 'EGP',
     priceList: 'Wholesale 2026',
@@ -368,7 +404,7 @@ export const LIST_ROWS = [
     pay: 'Credit',
     custNo: '200001',
     custName: 'العميل الاول',
-    branch: '1 - headoffice',
+    branch: '2 - lastchance',
     status: 'Returned',
     currency: 'EGP',
     priceList: 'Wholesale 2026',

@@ -1,0 +1,18 @@
+{
+  "exactProtectedPath": "tests/messaging.spec.mjs-snapshots/desktop/email-reading.png",
+  "protectedSha256": "45eb1e17146c8b63fed24aae6fdc40c90657003107897d53c4bdda7fd0a699ad",
+  "candidateSha256": "d15faff49c73312e2da4d5f791b28386d768d8ce891aeac2e0e9a8451838d97a",
+  "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/full-final-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/email-reading-actual.png",
+  "differentPixels": 126755,
+  "bounds": [
+    0,
+    78,
+    1092,
+    836
+  ],
+  "rationale": "Approved canonical user/date/customer-role changes plus explicitly requested Mail margin removal; unread behavior assertions precede the exact protected screenshot and passed. No baseline replacement performed.",
+  "originalPreLayoutCandidateSha256": "8ce9d89cb96d5f559584e02b3db8e267d0563cd8b8688a634d82464287196b08",
+  "originalPreLayoutDifferentPixels": 1172,
+  "playwrightReportedDifferentPixels": 33987,
+  "differentPixelsMeasurement": "Exact decoded RGB differences; separate from Playwright pixel-match report"
+}

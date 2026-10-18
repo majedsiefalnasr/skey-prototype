@@ -1,0 +1,393 @@
+{
+ "measured": "2026-10-17",
+ "purpose": "T0.1 pre-delivery full-suite measurement (plan 2026-10-17-skey-demo-prototype-delivery)",
+ "tree": "HEAD f29d61c + uncommitted accepted 2026-10-17 work, before any delivery edits",
+ "command": "caffeinate -dims env PARITY_URL=http://127.0.0.1:4220 npx playwright test --workers=2 --retries=0 --reporter=json (frozen copy of dist built in /private/tmp/skey-delivery/t0/source)",
+ "build_note": "isolated copy symlinked node_modules; Tailwind auto-detection scanned it (CSS larger than repo build; unit 'Task 7 final Tailwind budget' failed only in the copy and passes in the repo). Any failure later suspected to stem from this is rechecked on a clean build.",
+ "unit": "142/143 in copy (budget artifact above)",
+ "stats": {
+  "passed": 1360,
+  "failed": 73,
+  "skipped": 541,
+  "flaky": 0,
+  "duration_min": 30.2
+ },
+ "comparison_2026_10_16": "1193 passed / 76 failed / 516 skipped. The exact 76-name list is not retained (evidence dir /private/tmp/skey-signin-resume no longer exists); classification below is by ledger entry description.",
+ "classification": {
+  "ledger_14_desktop_record_parity": 1,
+  "ledger_16_mobile_escape_outside_click": 2,
+  "ledger_15_and_17_parity_datalist_lifecycle_messaging": 70,
+  "new_unclassified": 0
+ },
+ "notes": [
+  "geography record status toggle (mobile-rtl) did NOT fail in this run although it failed in a separate run on the same tree (GEO-03); treated as unstable until GEO-03 test fix lands",
+  "no invoice record flow failures on mobile in this run; mobile J4 blockers: 15 lifecycle customer-record failures (mobile-rtl 11, mobile-touch 4) -> T-M1 scope"
+ ],
+ "failures": [
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice list retains list behavior",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice responsive retains list behavior",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice adaptive retains list behavior",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice cards retains list behavior",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "toolbar data-menus dismiss with Escape and outside click",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice responsive retains list behavior",
+   "project": "desktop-dark"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice adaptive retains list behavior",
+   "project": "desktop-dark"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice cards retains list behavior",
+   "project": "desktop-dark"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice list retains list behavior",
+   "project": "desktop-high-contrast-light"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice responsive retains list behavior",
+   "project": "desktop-high-contrast-light"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice adaptive retains list behavior",
+   "project": "desktop-high-contrast-light"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice cards retains list behavior",
+   "project": "desktop-high-contrast-light"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice list retains list behavior",
+   "project": "desktop-high-contrast-dark"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice responsive retains list behavior",
+   "project": "desktop-high-contrast-dark"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice adaptive retains list behavior",
+   "project": "desktop-high-contrast-dark"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice cards retains list behavior",
+   "project": "desktop-high-contrast-dark"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice list retains list behavior",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice responsive retains list behavior",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice adaptive retains list behavior",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice cards retains list behavior",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "toolbar data-menus dismiss with Escape and outside click",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice list retains list behavior",
+   "project": "desktop-reduced-motion"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice responsive retains list behavior",
+   "project": "desktop-reduced-motion"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice adaptive retains list behavior",
+   "project": "desktop-reduced-motion"
+  },
+  {
+   "file": "data-list-component.spec.mjs",
+   "title": "invoice cards retains list behavior",
+   "project": "desktop-reduced-motion"
+  },
+  {
+   "file": "lifecycle.spec.mjs",
+   "title": "customer record lifecycle › lookup advanced search selects a value into the target field",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "lifecycle.spec.mjs",
+   "title": "customer record lifecycle › nested unit drawer opens from the operation-unit lookup menu",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "lifecycle.spec.mjs",
+   "title": "customer record lifecycle › dirty-leave guard \"Stay here\" cancels navigation and keeps the change",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "lifecycle.spec.mjs",
+   "title": "customer record lifecycle › save in create mode with empty required fields surfaces validation errors",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "lifecycle.spec.mjs",
+   "title": "customer record lifecycle › view mode switches to edit via Modify, and Undo returns to view",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "lifecycle.spec.mjs",
+   "title": "customer record lifecycle › Scroll Navigator layout renders a scroll nav and tracks the active section",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "lifecycle.spec.mjs",
+   "title": "customer record lifecycle › lookup advanced search selects a value into the target field",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "lifecycle.spec.mjs",
+   "title": "customer record lifecycle › nested unit drawer opens from the operation-unit lookup menu",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "lifecycle.spec.mjs",
+   "title": "customer record lifecycle › save persists edits and returns to view mode",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "lifecycle.spec.mjs",
+   "title": "customer record lifecycle › undo in edit mode discards changes and returns to view",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "lifecycle.spec.mjs",
+   "title": "customer record lifecycle › dirty-leave guard blocks navigation away from an edited record, then discard leaves",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "lifecycle.spec.mjs",
+   "title": "customer record lifecycle › dirty-leave guard \"Stay here\" cancels navigation and keeps the change",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "lifecycle.spec.mjs",
+   "title": "customer record lifecycle › event handlers still work after navigating away from the record and back",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "messaging.spec.mjs",
+   "title": "reading a notification email preserves unread state and appearance",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "messaging.spec.mjs",
+   "title": "reading a notification email preserves unread state and appearance",
+   "project": "desktop-dark"
+  },
+  {
+   "file": "messaging.spec.mjs",
+   "title": "reading a notification email preserves unread state and appearance",
+   "project": "desktop-high-contrast-light"
+  },
+  {
+   "file": "messaging.spec.mjs",
+   "title": "reading a notification email preserves unread state and appearance",
+   "project": "desktop-high-contrast-dark"
+  },
+  {
+   "file": "messaging.spec.mjs",
+   "title": "reading a notification email preserves unread state and appearance",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "messaging.spec.mjs",
+   "title": "reading a notification email preserves unread state and appearance",
+   "project": "desktop-reduced-motion"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "record: baseline appearance",
+   "project": "desktop"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "launchpad: baseline appearance",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "list: baseline appearance",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "record: baseline appearance",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "customers-list: baseline appearance",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "customer-record: baseline appearance",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "geo-list: baseline appearance",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "geo-record: baseline appearance",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "email: baseline appearance",
+   "project": "mobile-touch"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "record: baseline appearance",
+   "project": "desktop-dark"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "customer-record: baseline appearance",
+   "project": "desktop-dark"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "email: baseline appearance",
+   "project": "desktop-dark"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "record: baseline appearance",
+   "project": "desktop-high-contrast-light"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "customer-record: baseline appearance",
+   "project": "desktop-high-contrast-light"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "email: baseline appearance",
+   "project": "desktop-high-contrast-light"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "record: baseline appearance",
+   "project": "desktop-high-contrast-dark"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "customer-record: baseline appearance",
+   "project": "desktop-high-contrast-dark"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "email: baseline appearance",
+   "project": "desktop-high-contrast-dark"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "launchpad: baseline appearance",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "list: baseline appearance",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "record: baseline appearance",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "customers-list: baseline appearance",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "customer-record: baseline appearance",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "geo-list: baseline appearance",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "geo-record: baseline appearance",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "email: baseline appearance",
+   "project": "mobile-rtl"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "record: baseline appearance",
+   "project": "desktop-reduced-motion"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "customer-record: baseline appearance",
+   "project": "desktop-reduced-motion"
+  },
+  {
+   "file": "parity.spec.mjs",
+   "title": "email: baseline appearance",
+   "project": "desktop-reduced-motion"
+  }
+ ]
+}

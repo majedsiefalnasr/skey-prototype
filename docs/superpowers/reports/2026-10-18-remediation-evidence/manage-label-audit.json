@@ -1,0 +1,390 @@
+[
+  {
+    "context": "invoice",
+    "labels": [
+      {
+        "label": "Manage invoices",
+        "arabic": "إدارة الفواتير"
+      },
+      {
+        "label": "Invoice report",
+        "arabic": "تقرير الفاتورة"
+      },
+      {
+        "label": "Doc. Sequence",
+        "arabic": "تسلسل المستند"
+      },
+      {
+        "label": "Doc No.",
+        "arabic": "رقم المستند"
+      },
+      {
+        "label": "Invoice Status",
+        "arabic": "حالة الفاتورة"
+      },
+      {
+        "label": "Doc Date",
+        "arabic": "تاريخ المستند"
+      },
+      {
+        "label": "Due Date",
+        "arabic": "تاريخ الاستحقاق"
+      },
+      {
+        "label": "Doc Sub-type Name",
+        "arabic": "اسم النوع الفرعي للمستند"
+      },
+      {
+        "label": "PO Reference",
+        "arabic": "مرجع أمر الشراء"
+      },
+      {
+        "label": "Customer No.",
+        "arabic": "رقم العميل"
+      },
+      {
+        "label": "Customer Name",
+        "arabic": "اسم العميل"
+      },
+      {
+        "label": "Branch",
+        "arabic": "الفرع"
+      },
+      {
+        "label": "Payment method",
+        "arabic": "طريقة الدفع"
+      },
+      {
+        "label": "Currency",
+        "arabic": "العملة"
+      },
+      {
+        "label": "Price List",
+        "arabic": "قائمة الأسعار"
+      },
+      {
+        "label": "Tax Amount",
+        "arabic": "مبلغ الضريبة"
+      },
+      {
+        "label": "Discount",
+        "arabic": "الخصم"
+      },
+      {
+        "label": "Net Total",
+        "arabic": "صافي الإجمالي"
+      },
+      {
+        "label": "Sales Rep",
+        "arabic": "مندوب المبيعات"
+      },
+      {
+        "label": "Warehouse",
+        "arabic": "المستودع"
+      },
+      {
+        "label": "Created By",
+        "arabic": "أنشئ بواسطة"
+      },
+      {
+        "label": "Last Modified",
+        "arabic": "آخر تعديل"
+      }
+    ],
+    "untranslated": []
+  },
+  {
+    "context": "customer",
+    "labels": [
+      {
+        "label": "Manage customers",
+        "arabic": "إدارة العملاء"
+      },
+      {
+        "label": "Customer report",
+        "arabic": "تقرير العميل"
+      },
+      {
+        "label": "Photo",
+        "arabic": "الصورة"
+      },
+      {
+        "label": "Customer No.",
+        "arabic": "رقم العميل"
+      },
+      {
+        "label": "Customer Name",
+        "arabic": "اسم العميل"
+      },
+      {
+        "label": "Operation Unit",
+        "arabic": "وحدة التشغيل"
+      },
+      {
+        "label": "Customer Type",
+        "arabic": "نوع العميل"
+      },
+      {
+        "label": "Customer Group",
+        "arabic": "مجموعة العملاء"
+      },
+      {
+        "label": "Currency",
+        "arabic": "العملة"
+      },
+      {
+        "label": "Country",
+        "arabic": "الدولة"
+      },
+      {
+        "label": "Phone",
+        "arabic": "الهاتف"
+      },
+      {
+        "label": "Active status",
+        "arabic": "حالة التفعيل"
+      }
+    ],
+    "untranslated": []
+  },
+  {
+    "context": "geo",
+    "labels": [
+      {
+        "label": "Manage locations",
+        "arabic": "إدارة المواقع"
+      },
+      {
+        "label": "Location report",
+        "arabic": "تقرير الموقع"
+      },
+      {
+        "label": "Location Code",
+        "arabic": "رمز الموقع"
+      },
+      {
+        "label": "Location Name",
+        "arabic": "اسم الموقع"
+      },
+      {
+        "label": "Parent Location",
+        "arabic": "الموقع الرئيسي"
+      },
+      {
+        "label": "Type",
+        "arabic": "النوع"
+      },
+      {
+        "label": "Level",
+        "arabic": "المستوى"
+      },
+      {
+        "label": "Active status",
+        "arabic": "حالة التفعيل"
+      },
+      {
+        "label": "Remarks",
+        "arabic": "ملاحظات"
+      }
+    ],
+    "untranslated": []
+  },
+  {
+    "context": "screenParameters",
+    "labels": [
+      {
+        "label": "Manage parameters",
+        "arabic": "إدارة المعلمات"
+      },
+      {
+        "label": "Parameter report",
+        "arabic": "تقرير المعلمات"
+      },
+      {
+        "label": "Parameter Name",
+        "arabic": "اسم المعلمة"
+      },
+      {
+        "label": "Value",
+        "arabic": "القيمة"
+      },
+      {
+        "label": "Type",
+        "arabic": "النوع"
+      }
+    ],
+    "untranslated": []
+  },
+  {
+    "context": "journal",
+    "labels": [
+      {
+        "label": "Manage lines",
+        "arabic": "إدارة السطور"
+      },
+      {
+        "label": "Line report",
+        "arabic": "تقرير السطور"
+      },
+      {
+        "label": "Acc. Code",
+        "arabic": "رمز الحساب"
+      },
+      {
+        "label": "Detail Acc.",
+        "arabic": "الحساب التفصيلي"
+      },
+      {
+        "label": "Acc. Name",
+        "arabic": "اسم الحساب"
+      },
+      {
+        "label": "Currency",
+        "arabic": "العملة"
+      },
+      {
+        "label": "Debit",
+        "arabic": "مدين"
+      },
+      {
+        "label": "Credit",
+        "arabic": "آجل"
+      },
+      {
+        "label": "Local Debit",
+        "arabic": "مدين محلي"
+      },
+      {
+        "label": "Local Credit",
+        "arabic": "دائن محلي"
+      },
+      {
+        "label": "Statement",
+        "arabic": "البيان"
+      },
+      {
+        "label": "Cost Center No.",
+        "arabic": "رقم مركز التكلفة"
+      },
+      {
+        "label": "Sub Ledger2 No.",
+        "arabic": "رقم الحساب الفرعي 2"
+      }
+    ],
+    "untranslated": []
+  },
+  {
+    "context": "orgUsers",
+    "labels": [
+      {
+        "label": "Manage accounts",
+        "arabic": "إدارة الحسابات"
+      },
+      {
+        "label": "Account report",
+        "arabic": "تقرير الحسابات"
+      },
+      {
+        "label": "User",
+        "arabic": "مستخدم"
+      },
+      {
+        "label": "Role",
+        "arabic": "الدور"
+      },
+      {
+        "label": "Branch",
+        "arabic": "الفرع"
+      },
+      {
+        "label": "Status",
+        "arabic": "الحالة"
+      },
+      {
+        "label": "Last active",
+        "arabic": "آخر نشاط"
+      },
+      {
+        "label": "MFA",
+        "arabic": "المصادقة متعددة العوامل"
+      }
+    ],
+    "untranslated": []
+  },
+  {
+    "context": "orgAppSessions",
+    "labels": [
+      {
+        "label": "Manage sessions",
+        "arabic": "إدارة الجلسات"
+      },
+      {
+        "label": "Session report",
+        "arabic": "تقرير الجلسات"
+      },
+      {
+        "label": "User",
+        "arabic": "مستخدم"
+      },
+      {
+        "label": "Branch",
+        "arabic": "الفرع"
+      },
+      {
+        "label": "Device and location",
+        "arabic": "الجهاز والموقع"
+      },
+      {
+        "label": "Started",
+        "arabic": "وقت البدء"
+      },
+      {
+        "label": "Last active",
+        "arabic": "آخر نشاط"
+      },
+      {
+        "label": "Session state",
+        "arabic": "حالة الجلسة"
+      }
+    ],
+    "untranslated": []
+  },
+  {
+    "context": "orgDbSessions",
+    "labels": [
+      {
+        "label": "Manage sessions",
+        "arabic": "إدارة الجلسات"
+      },
+      {
+        "label": "Session report",
+        "arabic": "تقرير الجلسات"
+      },
+      {
+        "label": "Session",
+        "arabic": "الجلسة"
+      },
+      {
+        "label": "Workload",
+        "arabic": "عبء العمل"
+      },
+      {
+        "label": "Session state",
+        "arabic": "حالة الجلسة"
+      },
+      {
+        "label": "Duration",
+        "arabic": "المدة"
+      },
+      {
+        "label": "Operation",
+        "arabic": "العملية"
+      },
+      {
+        "label": "Blocking",
+        "arabic": "الحظر"
+      }
+    ],
+    "untranslated": []
+  }
+]

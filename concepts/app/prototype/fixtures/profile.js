@@ -18,7 +18,7 @@ export const EMPLOYEE_DETAILS = {
   employeeNumber: 'EMP-00142',
   jobTitle: 'ERP Administrator',
   department: 'Information Technology',
-  manager: 'Ahmed Hassan',
+  manager: 'Mariam Adel',
   branch: 'lastchance',
   hireDate: '2021-03-15',
   employmentStatus: 'Active',

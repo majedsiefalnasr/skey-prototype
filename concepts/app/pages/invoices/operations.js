@@ -1,5 +1,75 @@
+import {uiLocale} from '../../core/locale.js'
+import {LIST_ROWS, INVOICE_TRANSITIONS, invoiceHeaderFromRow, statusKeyFromLabel} from '../../prototype/fixtures/invoices.js'
+import {createRecordPager} from '../../components/record-pager/pager.js'
+
+/* Edits that never fire a field input/change (rows added or removed, cells pasted or
+   duplicated) call this after changing the open document; createInvoiceOperations listens
+   and arms the same unsaved-changes state a typed edit does. */
+const INVOICE_EDITED = 'invoice:edited'
+export const notifyInvoiceEdited = () => document.dispatchEvent(new Event(INVOICE_EDITED))
+
 export function createInvoiceOperations({t, trapFocus, state, releaseFocus, closeAllMenus, closeSearch, getLocale, encodeHtml, blocked, toast, runWork, doPrint, openSearch, STATUSES, CHAIN, reached, editable, LOCK_COPY, pop, renderPop, drawer, renderCards, renderSearch, openScreenParameters, journalEntryTable}) {
 const pageAbort = new AbortController()
+/* the payment type the markup ships with (the kit's selected option): what Create starts from */
+const templatePay = [...document.getElementById('pay').options].find(option => option.defaultSelected).value
+let editSnapshot = null
+const captureEditSnapshot = () => {
+  const root = document.getElementById('canvas-root')
+  return {
+    groups: [...root.querySelectorAll('#items-body, #payment-rows, #invoice-adjustment-list, .rec-payment-extra')]
+      .map(element => ({element, children: [...element.childNodes]})),
+    fields: [...root.querySelectorAll('input, select, textarea')]
+      .map(element => ({element, value: element.value, checked: element.checked})),
+  }
+}
+const restoreEditSnapshot = () => {
+  if (editSnapshot) {
+    // Reattach the original nodes so their row handlers remain intact.
+    editSnapshot.groups.forEach(({element, children}) => element.replaceChildren(...children))
+    editSnapshot.fields.forEach(({element, value, checked}) => {
+      element.value = value
+      if (typeof checked === 'boolean') element.checked = checked
+    })
+    document.querySelectorAll('#canvas-root [data-i18n]').forEach(element => {
+      element.textContent = t(element.dataset.i18n)
+    })
+    document.querySelector('#items-body .items-qty')?.dispatchEvent(new Event('input', {bubbles: true}))
+    document.getElementById('invoice-discount-value')?.dispatchEvent(new Event('input', {bubbles: true}))
+    clearInvoiceLineValidation()
+    editSnapshot = null
+  }
+  bindHeader(state.header)
+  state.pay = state.header.pay.toLowerCase()
+}
+
+/* The invoice record's own navigator(s): the record footers' .pager, not the customer/geography
+   record pagers or the list's adaptive pager (those drive themselves). Its position is the open
+   invoice's place among the list rows; arrows open the neighbouring invoice
+   within that range, and the total is the real number of rows. */
+const openRowPosition = () => Math.max(1, LIST_ROWS.findIndex(row => String(row.no) === String(state.docNo)) + 1)
+let pagerDoc = state.docNo
+let pagerIndex = openRowPosition()
+const recordPagers = new Map(
+  [...document.querySelectorAll('.pager')]
+    .filter(p => !p.closest('.list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view'))
+    .map(root => [root, createRecordPager({
+      root,
+      getPosition: () => ({index: pagerIndex, total: LIST_ROWS.length}),
+      onNavigate: value => {
+        if (state.mode !== 'record') return
+        const row = LIST_ROWS[value - 1]
+        if (!row) return
+        state.docNo = String(row.no)
+        state.docSeq = row.seq
+        state.sourceInvoiceNo = String(row.no)
+        state.status = statusKeyFromLabel(row.status)
+        state.header = invoiceHeaderFromRow(row)
+        state.pay = row.pay.toLowerCase()
+        document.getElementById('st').value = state.status
+        applyState()
+      },
+    })])
+)
 
         const rscrim = document.getElementById('rscrim')
         const ACT_DLG = {
@@ -9,30 +79,23 @@ const pageAbort = new AbortController()
         }
         /* Status is changed from the record action row, never from the audit pill.
            The menu only exposes the next legitimate document states. */
-        const STATUS_TRANSITIONS = {
-          open: ['pending', 'canceled'],
-          pending: ['open', 'posted'],
-          posted: ['pending', 'returned', 'canceled'],
-          returned: [],
-          canceled: [],
-          inactive: [],
-        }
+        const STATUS_TRANSITIONS = INVOICE_TRANSITIONS
         const STATUS_ACTIONS = {
           open: {
-            title: 'Open invoice 126',
+            title: () => t('Open invoice {no}').replace('{no}', state.docNo),
             description: 'This makes the invoice available for normal processing again.',
             confirm: 'Open invoice',
             tone: 'default',
           },
           pending: {
-            title: 'Mark invoice 126 as pending',
+            title: () => t('Mark invoice {no} as pending').replace('{no}', state.docNo),
             description: 'Pending invoices stay on hold until the issue below is resolved.',
             confirm: 'Mark as pending',
             tone: 'warning',
             reason: 'Why is this invoice pending?',
           },
           returned: {
-            title: 'Return invoice 126',
+            title: () => t('Return invoice {no}').replace('{no}', state.docNo),
             description: 'This records the return and prevents further processing of this invoice.',
             confirm: 'Return invoice',
             tone: 'danger',
@@ -43,6 +106,8 @@ const pageAbort = new AbortController()
         const setStatus = status => {
           document.getElementById('st').value = status
           state.status = status
+          const row = state.sourceInvoiceNo && LIST_ROWS.find(row => String(row.no) === state.sourceInvoiceNo)
+          if (row && state.mode !== 'create') row.status = STATUSES[status].label
           applyState()
         }
         const openRDlg = kind => {
@@ -72,9 +137,10 @@ const pageAbort = new AbortController()
             .forEach(el => (el.hidden = (el.dataset.state === 'done') !== done))
           const title = dlg.querySelector('.dhd h3')
           if (kind === 'posting')
-            title.textContent = done ? 'Posting details · invoice 126' : 'Post invoice 126'
+            title.textContent = t(done ? 'Posting details · invoice {no}' : 'Post invoice {no}').replace('{no}', state.docNo)
           if (kind === 'cancel')
-            title.textContent = done ? 'Cancellation details · document 126' : 'Cancel document 126'
+            title.textContent = t(done ? 'Cancellation details · document {no}' : 'Cancel document {no}').replace('{no}', state.docNo)
+          if (kind === 'delete') title.textContent = t('Delete invoice {no}').replace('{no}', state.docNo)
           if (kind === 'delete') {
             const warn = document.getElementById('del-unsaved')
             if (warn) warn.hidden = !state.dirty
@@ -101,12 +167,12 @@ const pageAbort = new AbortController()
           pendingStatusAction = status
           const dlg = rscrim.querySelector('.dlg[data-dlg="status"]')
           dlg.dataset.tone = action.tone
-          dlg.querySelector('#sf-title').textContent = action.title
-          dlg.querySelector('#sf-description').textContent = action.description
-          dlg.querySelector('#sf-confirm').textContent = action.confirm
+          dlg.querySelector('#sf-title').textContent = action.title()
+          dlg.querySelector('#sf-description').textContent = t(action.description)
+          dlg.querySelector('#sf-confirm').textContent = t(action.confirm)
           const reason = dlg.querySelector('.status-reason')
           reason.hidden = !action.reason
-          reason.querySelector('label').textContent = action.reason || ''
+          reason.querySelector('label').textContent = action.reason ? t(action.reason) : ''
           const field = reason.querySelector('textarea')
           field.value = ''
           field.required = Boolean(action.reason)
@@ -240,7 +306,17 @@ const pageAbort = new AbortController()
         }, {signal: pageAbort.signal})
 
         /* ================= the three operations that take time ================= */
-        let nextInvoiceNo = 129
+        let nextInvoiceNo = Math.max(...LIST_ROWS.map(row => Number(row.no))) + 1
+        const saveHeader = row => {
+          const fields = document.querySelectorAll('.design.active [data-invoice-field]')
+          const header = Object.fromEntries([...fields].map(field => [field.dataset.invoiceField,
+            field.type === 'date' ? field.value.split('-').reverse().join('/') : field.value]))
+          header.custNo = (header.custNo || '').split(' - ')[0]
+          header.pay = state.pay === 'cash' ? 'Cash' : 'Credit'
+          if (header.currency) header.currency = header.currency.split(' - ')[0]
+          Object.assign(row, header)
+          state.header = invoiceHeaderFromRow(row)
+        }
 
         /* Save — the moment a draft becomes a record with a number */
         const doSave = async (btn, after) => {
@@ -252,7 +328,7 @@ const pageAbort = new AbortController()
             toast({
               tone: 'bad',
               title: 'Could not save the invoice',
-              body: `${lineProblems.length} line ${lineProblems.length === 1 ? 'field needs' : 'fields need'} attention before saving.`,
+              body: uiLocale.t("{v0} line {v1} attention before saving.").replace('{v0}', () => uiLocale.t(String(lineProblems.length))).replace('{v1}', () => uiLocale.t(String(lineProblems.length === 1 ? 'field needs' : 'fields need'))),
             })
             return
           }
@@ -266,13 +342,24 @@ const pageAbort = new AbortController()
             })
             return
           }
-          const no = nextInvoiceNo
+          const no = Math.max(nextInvoiceNo, ...LIST_ROWS.map(row => Number(row.no) + 1))
           if (creating) {
-            nextInvoiceNo++
+            nextInvoiceNo = no + 1
+            const row = {no: String(no), seq: String(no), status: 'Open',
+              subtype: '', poRef: '', createdBy: '', modifiedAt: '',
+              total: document.getElementById('invoice-summary-net').textContent.trim().split(/\s+/)[0],
+              taxAmount: '0.00', discount: '0.00'}
+            saveHeader(row)
+            LIST_ROWS.unshift(row)
+            state.docNo = row.no
+            state.docSeq = row.seq
+            state.sourceInvoiceNo = row.no
             setStatus('open')
             modeSel.value = 'record'
             applyMode('record')
           } else {
+            const row = LIST_ROWS.find(row => String(row.no) === String(state.sourceInvoiceNo))
+            if (row) saveHeader(row)
             state.dirty = false
             document.getElementById('dirty').checked = false
             if (state.mode === 'edit') {
@@ -282,10 +369,11 @@ const pageAbort = new AbortController()
           }
           toast({
             tone: 'ok',
-            title: creating ? `Saved as invoice ${no}` : 'Changes saved',
+            title: creating ? t('Saved as invoice {no}').replace('{no}', no) : t('Changes saved'),
             body: creating ? 'It now has a number and a place in the list.' : '',
-            action: creating ? 'Open it' : null,
+            action: null,
           })
+          editSnapshot = null
           after && after()
         }
 
@@ -305,7 +393,7 @@ const pageAbort = new AbortController()
           setStatus('posted')
           toast({
             tone: 'ok',
-            title: 'Invoice 126 posted',
+            title: uiLocale.t("Invoice {v0} posted").replace('{v0}', () => uiLocale.t(String(state.docNo))),
             body: 'Journal entry 4521 was created.',
             action: 'Display Journal Entry',
             onAction: () => openRDlg('journal'),
@@ -327,7 +415,7 @@ const pageAbort = new AbortController()
           setStatus('canceled')
           toast({
             tone: 'ok',
-            title: 'Document 126 canceled',
+            title: uiLocale.t("Document {v0} canceled").replace('{v0}', () => uiLocale.t(String(state.docNo))),
             body: 'Your reason is kept in the Cancellation Data card.',
             action: 'See the record',
             onAction: () => openRDlg('cancel'),
@@ -347,10 +435,10 @@ const pageAbort = new AbortController()
             })
             return
           }
-          const ok = await runWork(btn, `${action.confirm}…`)
+          const ok = await runWork(btn, `${t(action.confirm)}…`)
           if (!ok) {
             showInlineError(dlg, {
-              title: `Could not ${action.confirm.toLowerCase()}`,
+              title: uiLocale.t("Could not {v0}").replace('{v0}', () => uiLocale.t(String(action.confirm.toLowerCase()))),
               body: 'The invoice status was not changed. Please try again.',
             })
             return
@@ -359,7 +447,7 @@ const pageAbort = new AbortController()
           setStatus(status)
           toast({
             tone: status === 'returned' ? 'warn' : 'ok',
-            title: `Invoice 126 is now ${STATUSES[status].label.toLowerCase()}`,
+            title: uiLocale.t("Invoice {v0} is now {v1}").replace('{v0}', () => uiLocale.t(String(state.docNo))).replace('{v1}', () => uiLocale.t(String(STATUSES[status].label.toLowerCase()))),
             body: action.reason
               ? 'Your reason was saved with the status change.'
               : status === 'returned'
@@ -454,9 +542,9 @@ const pageAbort = new AbortController()
           if (act === 'Receipt Voucher' || act === 'Sales Return') {
             closeAllMenus()
             toast({
-              tone: 'ok',
-              title: `${act} started from invoice 126`,
-              body: 'The new document opens with the invoice already filled in.',
+              tone: 'info',
+              title: t('Prototype only: {action}').replace('{action}', t(act)),
+              body: t('This prototype does not create a related document.'),
             })
             return
           }
@@ -467,7 +555,7 @@ const pageAbort = new AbortController()
           }
           if (NOT_BUILT[act]) {
             closeAllMenus()
-            toast({tone: 'info', title: `${act} is out of scope here`, body: NOT_BUILT[act]})
+            toast({tone: 'info', title: uiLocale.t("{v0} is out of scope here").replace('{v0}', () => uiLocale.t(String(act))), body: NOT_BUILT[act]})
             return
           }
           if (act === 'Modify') {
@@ -485,6 +573,7 @@ const pageAbort = new AbortController()
             return
           }
           if (act === 'Undo' && state.mode === 'edit') {
+            restoreEditSnapshot()
             state.dirty = false
             document.getElementById('dirty').checked = false
             modeSel.value = 'record'
@@ -515,6 +604,7 @@ const pageAbort = new AbortController()
 
         /* ---- deleting asks first, and says what cannot be undone ---- */
         const doDelete = async btn => {
+          if (blocked('Delete')) return
           const dlg = rscrim.querySelector('.dlg[data-dlg=delete]')
           const ok = await runWork(btn, 'Deleting…')
           if (!ok) {
@@ -525,6 +615,9 @@ const pageAbort = new AbortController()
             return
           }
           closeRDlg()
+          const index = LIST_ROWS.findIndex(row => String(row.no) === String(state.sourceInvoiceNo))
+          if (index < 0) return
+          LIST_ROWS.splice(index, 1)
           const hadEdits = state.dirty
           state.dirty = false
           document.getElementById('dirty').checked = false
@@ -532,18 +625,58 @@ const pageAbort = new AbortController()
           applyMode('record')
           toast({
             tone: 'ok',
-            title: 'Invoice 126 deleted',
+            title: uiLocale.t("Invoice {v0} deleted").replace('{v0}', () => uiLocale.t(String(state.docNo))),
             body: hadEdits
               ? 'It no longer appears in the list, and the unsaved changes went with it.'
               : 'It no longer appears in the list.',
           })
+          document.querySelector('.design.active .record-back')?.click()
         }
 
+
+        /* The header fields the list row carries (A-13). They are bound when the open
+           document changes, not on every applyState, so edits in progress survive a
+           status or dirty change. A new invoice gets the template's own defaults. */
+        const headerDefaults = new Map()
+        let boundHeader
+        const isoDate = text => text.split('/').reverse().join('-')
+        const headerText = (key, header) =>
+          key === 'custNo' ? `${header.custNo} - ${header.custName}` : header[key]
+        const bindHeader = header => {
+          const fields = [...document.querySelectorAll('[data-invoice-field]:not([data-invoice-field="pay"])')]
+          if (!fields.length) return false
+          fields.forEach(el => {
+            const key = el.dataset.invoiceField
+            const isSelect = el.tagName === 'SELECT'
+            if (!headerDefaults.has(el)) headerDefaults.set(el, isSelect ? el.innerHTML : el.value)
+            if (!header) {
+              if (isSelect) el.innerHTML = headerDefaults.get(el)
+              else el.value = headerDefaults.get(el)
+            } else if (isSelect) el.replaceChildren(new Option(headerText(key, header), headerText(key, header), true, true))
+            else el.value = el.type === 'date' ? isoDate(header[key]) : header[key]
+          })
+          return true
+        }
 
         const applyState = () => {
           const creating = state.mode === 'create'
           const st = state.status,
             info = STATUSES[st]
+
+          const wantedHeader = creating ? null : state.header
+          if (wantedHeader !== boundHeader && bindHeader(wantedHeader)) boundHeader = wantedHeader
+          /* payment type: the row sets it on open; the Prototype Controls payment select and
+             the header select both change the same state afterwards */
+          document.querySelectorAll('[data-invoice-field="pay"]').forEach(el => (el.value = state.pay))
+          const payControl = document.getElementById('pay')
+          if (payControl) payControl.value = state.pay
+
+          // Only the selected row's identity/status is record-specific here.
+          document.querySelectorAll('[data-invoice-number], [data-invoice-sequence]').forEach(el => {
+            const value = creating ? '' : el.hasAttribute('data-invoice-number') ? state.docNo : state.docSeq
+            if (el.tagName === 'INPUT') el.value = value
+            else el.textContent = value
+          })
 
           /* identity — a new invoice has no number to show. Skip anything inside the
      email view or list view: they reuse .phead/.tline/.crumbs for a consistent
@@ -555,15 +688,15 @@ const pageAbort = new AbortController()
               )
             )
               return
-            h.textContent = creating ? 'New sales invoice' : `Sales Invoice ${state.docNo}`
+            h.textContent = creating ? t('New sales invoice') : t('Sales Invoice {no}').replace('{no}', state.docNo)
           })
           document
             .querySelectorAll('.d3 .otitle h1')
             .forEach(
               h =>
                 (h.textContent = creating
-                  ? 'New sales invoice'
-                  : `Sales Invoice ${state.docNo} · 001000352026126`)
+                  ? t('New sales invoice')
+                  : t('Sales Invoice {no} · {seq}').replace('{no}', state.docNo).replace('{seq}', state.docSeq))
             )
           document
             .querySelectorAll('.d2 .idty .cr')
@@ -576,7 +709,7 @@ const pageAbort = new AbortController()
           document.querySelectorAll('.crumbs [aria-current=page]').forEach(c => {
             if (
               c.closest(
-                '.d2, .email-view, .list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view, .profile-view, .organization-view, .foryou-view'
+                '.d2, .email-view, .list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view, .profile-view, .organization-view, .foryou-view, .placeholder-view'
               )
             )
               return
@@ -586,7 +719,7 @@ const pageAbort = new AbortController()
           /* status chip — a draft is not the same thing as a saved invoice with no flags */
           document.querySelectorAll('.stpill').forEach(p => {
             p.dataset.s = creating ? 'draft' : st
-            p.querySelector('.nm').textContent = creating ? 'Draft — not saved yet' : info.short
+            p.querySelector('.nm').textContent = creating ? t('Draft — not saved yet') : t('Invoice status: ' + info.short, info.short)
             const n = CHAIN.filter(c => reached(c.id)).length
             p.querySelector('.segs').innerHTML = creating
               ? ''
@@ -594,7 +727,7 @@ const pageAbort = new AbortController()
                   c =>
                     `<i class="seg block h-1 w-2 rounded-sm bg-current ${reached(c.id) ? 'on opacity-100' : 'opacity-[.28]'}"></i>`
                 ).join('')
-            p.querySelector('.cnt').textContent = creating ? '' : `${n} of ${CHAIN.length}`
+            p.querySelector('.cnt').textContent = creating ? '' : t('{n} of {total}').replace('{n}', n).replace('{total}', CHAIN.length)
           })
 
           /* payment status is independent of the document lifecycle above --
@@ -608,22 +741,24 @@ const pageAbort = new AbortController()
           document.querySelectorAll('.badge-mount').forEach(m => {
             const info = PAYMENT_STATUS_BADGE[state.paymentStatus]
             m.innerHTML =
-              !creating && info ? `<span class="badge ${info.cls}">${info.label}</span>` : ''
+              !creating && info ? `<span class="badge ${info.cls}">${t(info.label)}</span>` : ''
           })
 
-          /* the record navigator stays where it is. A draft has no position in the list,
-     so the box is blank — and using it asks about the unsaved work first. */
-          document.querySelectorAll('.pager').forEach(p => {
-            if (
-              p.closest(
-                '.customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view'
-              )
-            )
-              return
+          /* the record navigator shows where the open invoice sits among the list rows. A draft
+     has no position in the list, so the box is blank — and using it asks about the
+     unsaved work first. */
+          if (state.docNo !== pagerDoc) {
+            pagerDoc = state.docNo
+            pagerIndex = openRowPosition()
+          }
+          recordPagers.forEach((pager, p) => {
             p.hidden = false
             const inp = p.querySelector('.pg-i')
+            inp.max = String(LIST_ROWS.length)
+            p.querySelector('.tot').textContent = `${t('of', 'of')} ${LIST_ROWS.length}`
+            pager.sync()
             inp.readOnly = creating
-            inp.value = creating ? '' : inp.dataset.last || '1'
+            inp.value = creating ? '' : String(pagerIndex)
             inp.placeholder = creating ? '—' : ''
             inp.title = creating ? 'This invoice has no number until you save it' : ''
             /* keep every arrow clickable in create mode so the guard can catch it */
@@ -639,18 +774,18 @@ const pageAbort = new AbortController()
               )
             )
               return
-            const inp = el.closest('.design')?.querySelector('.pg-i')
             el.textContent = creating
               ? t(
                   'Not saved yet — this invoice takes its number and its place in the list when you save'
                 )
-              : `${t('Record', 'Record')} ${inp ? inp.value : 1} ${t('of', 'of')} 125`
+              : `${t('Record', 'Record')} ${pagerIndex} ${t('of', 'of')} ${LIST_ROWS.length}`
           })
 
-          /* the invoice record and list canvases now hold real markup, so the old
-     click-anywhere-to-dirty stand-in (which overwrote a canvas's textContent)
-     must not touch those or the separately managed Customer/Geography/Profile
-     views. */
+          /* The invoice record and list canvases hold real fields, and editing them arms the
+     unsaved-changes state through the document input/change listener (markEdited) and
+     notifyInvoiceEdited, further down. This click-anywhere stand-in is only for the
+     placeholder canvases that have no [data-field]; it must not touch the real record, the
+     list, or the separately managed Customer/Geography/Profile views. */
           document.querySelectorAll('.canvas').forEach(c => {
             if (
               c.closest(
@@ -749,7 +884,7 @@ const pageAbort = new AbortController()
           document.querySelectorAll('.lockbanner').forEach(b => {
             const locked = !(creating || (editing && editable(state)))
             b.hidden = !locked
-            if (locked) b.querySelector('span').textContent = LOCK_COPY[st]
+            if (locked) b.querySelector('span').textContent = t(LOCK_COPY[st])
           })
 
           /* design 4 panel: name the section honestly on a draft */
@@ -825,6 +960,7 @@ const pageAbort = new AbortController()
         document.getElementById('g-discard').onclick = () => {
           gscrim.classList.remove('open')
           releaseFocus()
+          if (state.mode === 'edit') restoreEditSnapshot()
           const f = guardAfter
           guardAfter = null
           if (f) f()
@@ -889,15 +1025,20 @@ const pageAbort = new AbortController()
 
         const modeSel = document.getElementById('mode')
         const applyMode = m => {
+          if (m === 'edit' && state.mode !== 'edit') editSnapshot = captureEditSnapshot()
           state.mode = m
+          if (m === 'create') {
+            state.sourceInvoiceNo = null
+            /* a new invoice starts from the template's payment type, not the previously opened row's */
+            state.pay = templatePay
+          }
           /* every header field in this template already carries a value, so there is
              no real "still empty" header state to simulate — Save's real gate is the
              line-item validation that runs when Save is actually clicked. */
           state.missing = 0
           /* only an editable document can be in edit mode */
           if (m === 'edit' && !editable(state)) {
-            state.status = 'open'
-            document.getElementById('st').value = 'open'
+            setStatus('open')
           }
           if (m === 'record') state.dirty = false
           document.getElementById('dirty').checked = state.dirty
@@ -921,10 +1062,14 @@ const pageAbort = new AbortController()
           applyMode(next)
         }, {signal: pageAbort.signal})
         document.getElementById('st').addEventListener('change', e => {
-          state.status = e.target.value
-          applyState()
+          setStatus(e.target.value)
         }, {signal: pageAbort.signal})
         document.getElementById('pay').addEventListener('change', e => {
+          state.pay = e.target.value
+          applyState()
+        }, {signal: pageAbort.signal})
+        document.addEventListener('change', e => {
+          if (!e.target.matches('[data-invoice-field="pay"]')) return
           state.pay = e.target.value
           applyState()
         }, {signal: pageAbort.signal})
@@ -932,6 +1077,27 @@ const pageAbort = new AbortController()
           state.dirty = e.target.checked
           applyState()
         }, {signal: pageAbort.signal})
+        /* A user's edit in the open record arms the unsaved-changes state. Typed edits arrive as
+           the browser's own input/change events: values the page writes itself (binding a row's
+           header, syncing the payment select, Create defaults) never fire them. Disabled and
+           read-only controls (document number, calculated cells) cannot be edited, and the
+           Prototype Controls panel and search boxes sit outside the record root. Structural
+           edits (rows added/removed, cells pasted) report themselves through notifyInvoiceEdited. */
+        const armDirty = () => {
+          if (state.mode === 'record' || state.dirty) return
+          state.dirty = true
+          document.getElementById('dirty').checked = true
+          applyState()
+        }
+        const markEdited = e => {
+          const control = e.target
+          if (!control.matches?.('[data-field]') || control.disabled || control.readOnly) return
+          if (!control.closest('#canvas-root')) return
+          armDirty()
+        }
+        document.addEventListener(INVOICE_EDITED, armDirty, {signal: pageAbort.signal})
+        document.addEventListener('input', markEdited, {signal: pageAbort.signal})
+        document.addEventListener('change', markEdited, {signal: pageAbort.signal})
 
 let pendingLeave = null
 function requestLeave() {
@@ -947,5 +1113,5 @@ function requestLeave() {
     askGuard(() => finish(true), 'leave this invoice')
   })
 }
-return {actionDialog: action => ACT_DLG[action], dispose: () => pageAbort.abort(), requestLeave, rscrim, openRDlg, closeRDlg, showInlineError, clearInlineError, doSave, runAction, applyState, gscrim, atRisk, askGuard, runGuarded, modeSel, applyMode}
+return {actionDialog: action => ACT_DLG[action], dispose: () => { pageAbort.abort(); recordPagers.forEach(pager => pager.dispose()) }, requestLeave, rscrim, openRDlg, closeRDlg, showInlineError, clearInlineError, doSave, runAction, applyState, gscrim, atRisk, askGuard, runGuarded, modeSel, applyMode}
 }

@@ -1,3 +1,4 @@
+import {uiLocale} from '../../core/locale.js'
 // Profile page factory — composes the identity header, Scroll Navigator,
 // section bodies, security dialogs, and device list into one Page-contract
 // object, the same shape pages/customers/record.js's recordPage returns
@@ -141,7 +142,7 @@ export function createProfile({root, encodeHtml, currentUser, employeeDetails, c
       toast({
         tone: 'ok',
         title: 'Changes discarded',
-        body: `${PROFILE_SECTIONS[key].title} is back to its last saved values.`,
+        body: uiLocale.t("{v0} is back to its last saved values.").replace('{v0}', () => uiLocale.t(String(PROFILE_SECTIONS[key].title))),
       })
     })
     saveButton.addEventListener('click', () => {
@@ -151,7 +152,7 @@ export function createProfile({root, encodeHtml, currentUser, employeeDetails, c
       storage.setItem(storageKey, JSON.stringify(editableDetails))
       Object.assign(savedDetails, editableDetails)
       restoreSavedDetails()
-      toast({tone: 'ok', title: `${PROFILE_SECTIONS[key].title} saved`})
+      toast({tone: 'ok', title: uiLocale.t("{v0} saved").replace('{v0}', () => uiLocale.t(String(PROFILE_SECTIONS[key].title)))})
     })
     setDirty(false)
   }

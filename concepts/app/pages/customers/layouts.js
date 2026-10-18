@@ -1,3 +1,4 @@
+import {uiLocale} from '../../core/locale.js'
 // Customer record layout renderers (guided/focused/compact/scroll) plus the
 // Scroll Navigator — moved out of concepts/app/legacy-app.js as part of
 // Task 7. Only `guided` and `scroll` are exposed through the record page's
@@ -182,7 +183,7 @@ export function renderCustomerGuided(root, customerData, customerState, deps) {
   const tabs = CUSTOMER_GUIDED_TABS.map(key => {
     const selected = activeKey === key
     const section = CUSTOMER_SECTIONS[key]
-    return `<button class="rec-tab${selected ? ' on' : ''} inline-flex items-center gap-[7px] whitespace-nowrap border-0! border-b-2! border-b-transparent! bg-transparent! px-3.5 py-2 text-[13px]! font-semibold! text-muted! aria-selected:border-b-accent! aria-selected:text-accent! hover:not-aria-selected:bg-[var(--line-2)]! hover:not-aria-selected:text-ink!" id="customer-tab-${encodeHtml(key)}" type="button" role="tab" data-customer-tab="${encodeHtml(key)}" aria-controls="customer-guided-panel" aria-selected="${selected}" tabindex="${selected ? '0' : '-1'}"><span>${encodeHtml(section.title)}</span>${renderCustomerSectionStatus(key)}</button>`
+    return `<button class="rec-tab${selected ? ' on' : ''} inline-flex items-center gap-[7px] whitespace-nowrap border-0! border-b-2! border-b-transparent! bg-transparent! px-3.5 py-2 text-[13px]! font-semibold! text-muted! aria-selected:border-b-accent! aria-selected:text-accent! hover:not-aria-selected:bg-[var(--line-2)]! hover:not-aria-selected:text-ink!" id="customer-tab-${encodeHtml(key)}" type="button" role="tab" data-customer-tab="${encodeHtml(key)}" aria-controls="customer-guided-panel" aria-selected="${selected}" tabindex="${selected ? '0' : '-1'}"><span>${encodeHtml(uiLocale.t(section.title))}</span>${renderCustomerSectionStatus(key)}</button>`
   }).join('')
   root.innerHTML = `<div class="customer-guided [.customer-record-canvas_&_[role=tab]:focus-visible]:[outline:2px_solid_var(--accent)] [.customer-record-canvas_&_[role=tab]:focus-visible]:[outline-offset:-2px]">${top}<div class="customer-guided-details"><div class="rec-tabs sticky [top:0] [z-index:2] flex gap-0.5 bg-surface [border-bottom:1px_solid_var(--line)] mb-3 overflow-x-auto" role="tablist" aria-label="Customer details">${tabs}</div><div class="customer-guided-panel min-w-0" id="customer-guided-panel" role="tabpanel" aria-labelledby="customer-tab-${encodeHtml(activeKey)}">${renderCustomerTabSection(activeKey)}</div></div></div>`
 }
@@ -251,7 +252,7 @@ export function renderCustomerScroll(root, customerData, customerState, deps) {
   }
   const nav = CUSTOMER_SECTION_ORDER.map(key => {
     const current = customerState.activeSection === key
-    return `<button type="button" data-customer-scroll-section="${encodeHtml(key)}" aria-controls="customer-section-${encodeHtml(key)}" aria-current="${current ? 'page' : 'false'}">${encodeHtml(CUSTOMER_SECTIONS[key].title)}</button>`
+    return `<button type="button" data-customer-scroll-section="${encodeHtml(key)}" aria-controls="customer-section-${encodeHtml(key)}" aria-current="${current ? 'page' : 'false'}">${encodeHtml(uiLocale.t(CUSTOMER_SECTIONS[key].title))}</button>`
   }).join('')
   const sections = CUSTOMER_SECTION_ORDER.map(key => {
     const section =

@@ -123,12 +123,12 @@ test('statistics cards use compact values and Analytical KPIs keep responsive en
 // ---------------------------------------------------------------------
 // Selected-row actions
 // ---------------------------------------------------------------------
-test('selecting a row surfaces bulk actions and delete removes it', async ({page}) => {
+test('selecting a row surfaces bulk actions and delete removes it', async ({page}, info) => {
   await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'list');
   await settle(page);
 
-  const firstRow = page.locator('[data-data-list="invoice"] [data-list-row-key]').first();
+  const firstRow = page.locator('[data-data-list="invoice"] [data-list-row-key="145"]');
   const rowKey = await firstRow.getAttribute('data-list-row-key');
   const checkbox = firstRow.locator('[data-list-row-select]');
   await checkbox.check();
@@ -140,13 +140,13 @@ test('selecting a row surfaces bulk actions and delete removes it', async ({page
   await expect(
     page.locator(`[data-data-list="invoice"] [data-list-row-key="${rowKey}"]`)
   ).toHaveCount(0);
-  await expect(page.locator('.toast.ok')).toContainText('deleted');
+  await expect(page.locator('.toast.ok')).toContainText(info.project.use.rtl ? 'تم حذف' : 'deleted');
 });
 
 // ---------------------------------------------------------------------
 // Customer status dialog (reasoned deactivate, reason-shown activate)
 // ---------------------------------------------------------------------
-test('customer row menu activates with the stored reason and deactivates with a new one', async ({page}) => {
+test('customer row menu activates with the stored reason and deactivates with a new one', async ({page}, info) => {
   await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'customers-list');
   await settle(page);
@@ -166,7 +166,7 @@ test('customer row menu activates with the stored reason and deactivates with a 
   await expect(page.locator('#customer-status-reason')).toBeHidden();
   await expect(page.locator('#customer-status-reason-text')).toHaveText('Account on hold pending updated trade license.');
   await page.locator('#customer-status-confirm').click();
-  await expect(page.locator('.toast').last()).toContainText('activated');
+  await expect(page.locator('.toast').last()).toContainText(info.project.use.rtl ? 'تم التفعيل' : 'activated');
   await expect(row.locator('.badge.danger')).toHaveCount(0);
 
   await rowMenuTrigger.click();
@@ -178,7 +178,7 @@ test('customer row menu activates with the stored reason and deactivates with a 
   await expect(page.locator('#customer-status-scrim .dlg')).toHaveAttribute('data-tone', 'danger');
   await page.locator('#customer-status-reason').fill('Trade license expired again.');
   await page.locator('#customer-status-confirm').click();
-  await expect(page.locator('.toast').last()).toContainText('deactivated');
+  await expect(page.locator('.toast').last()).toContainText(info.project.use.rtl ? 'تم الإيقاف' : 'deactivated');
   await expect(row.locator('.badge.danger')).toHaveText('Inactive');
 });
 
@@ -375,7 +375,8 @@ test('toolbar data-menus dismiss with Escape and outside click', async ({page}) 
   const columnsMenu = page
     .locator('.list-view')
     .locator('.data-menu')
-    .filter({has: page.locator(':scope > summary', {hasText: /^Columns$/})});
+    .filter({has: page.locator('[data-list-column]')});
+  await expect(columnsMenu).toHaveCount(1);
   const summary = columnsMenu.locator(':scope > summary');
 
   // Escape closes the popover and returns focus to its summary.
@@ -388,7 +389,18 @@ test('toolbar data-menus dismiss with Escape and outside click', async ({page}) 
   // A pointer interaction outside the popover closes it too.
   await summary.click();
   await expect(columnsMenu).toHaveJSProperty('open', true);
-  await page.locator('.list-view .data-list-toolbar input[type="search"]').click();
+  // On narrow screens the open columns popover covers the search field.
+  // Click real shell chrome outside the menu, in either locale, and verify
+  // the hit target before dispatching the same physical pointer interaction.
+  const shellHeader = page.locator('header.gtop');
+  await expect(shellHeader).toBeVisible();
+  const outsideHit = await shellHeader.evaluate(header => {
+    const rect = header.getBoundingClientRect();
+    const hit = document.elementFromPoint(rect.x + 1, rect.y + 1);
+    return Boolean(hit && header.contains(hit) && !hit.closest('.data-menu, .data-page-manage'));
+  });
+  expect(outsideHit).toBe(true);
+  await shellHeader.click({position: {x: 1, y: 1}});
   await expect(columnsMenu).toHaveJSProperty('open', false);
 });
 
@@ -504,7 +516,7 @@ test('repeated chart open/close cycles never leave more than one live chart inst
 
 test('opening a record and returning to the invoice list does not duplicate row-delete handling', async ({
   page,
-}) => {
+}, info) => {
   await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'list');
   await settle(page);
@@ -526,12 +538,12 @@ test('opening a record and returning to the invoice list does not duplicate row-
   // registrations from repeated wireDataList calls would instead fire the
   // handler N times per click.
   const before = await page.locator('[data-data-list="invoice"] [data-list-row-key]').count();
-  const firstRow = page.locator('[data-data-list="invoice"] [data-list-row-key]').first();
+  const firstRow = page.locator('[data-data-list="invoice"] [data-list-row-key="145"]');
   await firstRow.locator('[data-list-row-select]').check();
   await page.locator('[data-list-action="delete"]').click();
   const toasts = page.locator('.toast.ok');
   await expect(toasts).toHaveCount(1);
-  await expect(toasts).toContainText('1 invoice deleted');
+  await expect(toasts).toContainText(info.project.use.rtl ? 'تم حذف 1 فاتورة' : '1 invoice deleted');
   const after = await page.locator('[data-data-list="invoice"] [data-list-row-key]').count();
   expect(after).toBe(before - 1);
 });

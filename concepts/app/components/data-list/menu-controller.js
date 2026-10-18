@@ -1,3 +1,4 @@
+import {uiLocale} from '../../core/locale.js'
 import {encodeHtml} from '../../core/locale.js'
 import {DATA_LIST_CONFIG, DATA_LIST_STATISTICS_CONCEPT_OPTIONS} from './columns.js'
 import {applyFrozenDataListColumns as applySharedFrozenDataListColumns} from './menus.js'
@@ -72,15 +73,19 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
   const applyFrozenDataListColumns = applySharedFrozenDataListColumns
 
   function dataManageAction(action, icon, title, support, {disabled = false} = {}) {
-    return `<button type="button" role="menuitem" data-list-manage-action="${action}"${disabled ? ' disabled' : ''}>${dataListIcon(icon)}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-[12.5px] font-semibold">${title}</strong><small class="text-xs font-normal text-muted">${support}</small></span></button>`
+    return `<button type="button" role="menuitem" data-list-manage-action="${action}"${disabled ? ' disabled' : ''}>${dataListIcon(icon)}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-[12.5px] font-semibold">${encodeHtml(t(title))}</strong><small class="text-xs font-normal text-muted">${encodeHtml(t(support))}</small></span></button>`
   }
 
   const DATA_BORDER_MODES = ['default', 'both', 'none', 'horizontal', 'vertical']
 
+  function borderModeLabel(mode) {
+    return t(`Border ${mode}`, mode[0].toUpperCase() + mode.slice(1))
+  }
+
   function renderDataManageBorderControls(context, listState) {
     return DATA_BORDER_MODES.map(
       mode =>
-        `<label class="data-manage-radio"><input type="radio" name="${encodeHtml(context)}-border" data-list-manage-border="${mode}"${listState.borderMode === mode ? ' checked' : ''}><span>${mode[0].toUpperCase() + mode.slice(1)}</span></label>`
+        `<label class="data-manage-radio"><input type="radio" name="${encodeHtml(context)}-border" data-list-manage-border="${mode}"${listState.borderMode === mode ? ' checked' : ''}><span>${encodeHtml(borderModeLabel(mode))}</span></label>`
     ).join('')
   }
 
@@ -106,11 +111,11 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
     const columns = listState.columnOrder
       .map(key => config.columns.find(column => column.key === key))
       .filter(Boolean)
-    if (!columns.length) return `<p class="data-manage-empty">No columns to freeze.</p>`
+    if (!columns.length) return `<p class="data-manage-empty">${t('No columns to freeze.')}</p>`
     return columns
       .map(
         column =>
-          `<label><input type="checkbox" data-list-manage-frozen="${encodeHtml(column.key)}"${listState.frozenColumns.has(column.key) ? ' checked' : ''}><span>${encodeHtml(column.label)}</span></label>`
+          `<label><input type="checkbox" data-list-manage-frozen="${encodeHtml(column.key)}"${listState.frozenColumns.has(column.key) ? ' checked' : ''}><span>${encodeHtml(t(column.label))}</span></label>`
       )
       .join('')
   }
@@ -126,10 +131,11 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
     if (summary)
       summary.className = `${DATA_MENU_SUMMARY_CLASS} border-line! bg-surface!`
     popover.className = `${DATA_MENU_POPOVER_CLASS} inset-x-auto`
+    popover.setAttribute('aria-label', t(`Manage ${config.label}`))
     const singular = config.singular[0].toUpperCase() + config.singular.slice(1)
     const borderLabel = DATA_BORDER_MODES.includes(listState.borderMode)
-      ? listState.borderMode[0].toUpperCase() + listState.borderMode.slice(1)
-      : 'Default'
+      ? borderModeLabel(listState.borderMode)
+      : borderModeLabel('default')
     const statisticsConceptLabel =
       DATA_LIST_STATISTICS_CONCEPT_OPTIONS.find(
         option => option.key === activeDataListStatisticsConcept(listState)
@@ -138,23 +144,23 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
     const submenuSummaryClass = DATA_MANAGE_SUBMENU_SUMMARY_CLASS
     const tablePrefs =
       listState.view === 'list'
-        ? `<div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Table preferences</div>
+        ? `<div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">${t('Table preferences')}</div>
       ${dataManageAction('save-layout', 'i-save', 'Save table layout', 'Keep columns, grouping, view and statistics', {disabled: !listState.layoutDirty})}
       ${dataManageAction('reset-layout', 'i-undo', 'Reset table layout', 'Restore the system default')}
-      <details class="${submenuClass}"><summary class="${submenuSummaryClass}">${dataListIcon('i-sliders')}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-[12.5px] font-semibold">Borders</strong><small class="text-xs font-normal text-muted">${borderLabel}</small></span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[180px] gap-0.5" role="radiogroup" aria-label="Table borders">${renderDataManageBorderControls(context, listState)}</div></details>
-      <details class="${submenuClass}"><summary class="${submenuSummaryClass}">${dataListIcon('i-lock')}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-[12.5px] font-semibold">Freeze columns</strong><small class="text-xs font-normal text-muted">${listState.frozenColumns.size ? `${listState.frozenColumns.size} frozen` : 'None'}</small></span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[180px] gap-0.5" role="group" aria-label="Frozen columns">${renderDataManageFrozenControls(config, listState)}</div></details>`
-        : `<div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Table preferences</div>
+      <details class="${submenuClass}"><summary class="${submenuSummaryClass}">${dataListIcon('i-sliders')}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-[12.5px] font-semibold">${t('Borders')}</strong><small class="text-xs font-normal text-muted">${borderLabel}</small></span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[180px] gap-0.5" role="radiogroup" aria-label="${encodeHtml(t('Table borders'))}">${renderDataManageBorderControls(context, listState)}</div></details>
+      <details class="${submenuClass}"><summary class="${submenuSummaryClass}">${dataListIcon('i-lock')}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-[12.5px] font-semibold">${t('Freeze columns')}</strong><small class="text-xs font-normal text-muted">${listState.frozenColumns.size ? t('{count} frozen').replace('{count}', String(listState.frozenColumns.size)) : t('No frozen columns', 'None')}</small></span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[180px] gap-0.5" role="group" aria-label="${encodeHtml(t('Frozen columns'))}">${renderDataManageFrozenControls(config, listState)}</div></details>`
+        : `<div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">${t('Table preferences')}</div>
       ${dataManageAction('save-layout', 'i-save', 'Save table layout', 'Keep columns, grouping, view and statistics', {disabled: !listState.layoutDirty})}
       ${dataManageAction('reset-layout', 'i-undo', 'Reset table layout', 'Restore the system default')}`
     popover.innerHTML = `
-      <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Data exchange</div>
+      <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">${t('Data exchange')}</div>
       ${dataManageAction('export', 'i-external', 'Export', 'Excel, PDF, CSV or Word')}
       <div class="data-menu-separator h-px my-1 mx-0.5 bg-line"></div>
-      <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Analysis</div>
+      <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">${t('Analysis')}</div>
       ${dataManageAction('statistics-status', 'i-grid', listState.statisticsVisible ? 'Hide statistics' : 'Show statistics', 'Toggle the statistics summary for this view')}
-      <details class="${submenuClass}"><summary class="${submenuSummaryClass}">${dataListIcon('i-chart')}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-[12.5px] font-semibold">Statistics style</strong><small class="text-xs font-normal text-muted">${encodeHtml(t(statisticsConceptLabel))}</small></span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[180px] gap-0.5" role="radiogroup" aria-label="Statistics style">${renderDataManageStatisticsControls(context, listState)}</div></details>
+      <details class="${submenuClass}"><summary class="${submenuSummaryClass}">${dataListIcon('i-chart')}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-[12.5px] font-semibold">${t('Statistics style')}</strong><small class="text-xs font-normal text-muted">${encodeHtml(t(statisticsConceptLabel))}</small></span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[180px] gap-0.5" role="radiogroup" aria-label="${encodeHtml(t('Statistics style'))}">${renderDataManageStatisticsControls(context, listState)}</div></details>
       <div class="data-menu-separator h-px my-1 mx-0.5 bg-line"></div>
-      <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Reporting</div>
+      <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">${t('Reporting')}</div>
       ${dataManageAction('report', 'i-doc', `${singular} report`, 'Create a configurable report')}
       <div class="data-menu-separator h-px my-1 mx-0.5 bg-line"></div>
       ${tablePrefs}`
@@ -354,8 +360,11 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
       const context =
         homeParent?.closest('[data-data-list]')?.dataset.dataList ||
         homeParent?.dataset.listContext
-      if (context) applyDataListRowAction(context, parkedRowAction)
       homeParent?.removeAttribute('open')
+      // A record action can detach the list before its toggle event bubbles.
+      // Return the popup now so it cannot remain over the destination page.
+      if (homeParent) unparkRowMenuPopover(homeParent)
+      if (context) applyDataListRowAction(context, parkedRowAction)
       return
     }
     const manage = event.target.closest('[data-list-manage-action]')
@@ -371,7 +380,7 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
       else {
         toast({
           tone: 'info',
-          title: `${manage.querySelector('strong')?.textContent || action} is ready for integration`,
+          title: uiLocale.t("{v0} is ready for integration").replace('{v0}', () => uiLocale.t(String(manage.querySelector('strong')?.textContent || action))),
           body: 'This prototype stops before that screen.',
         })
       }

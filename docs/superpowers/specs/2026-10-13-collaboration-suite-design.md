@@ -30,7 +30,7 @@ Make the five `Help Screens` collaboration rows real, interconnected prototype s
 | View visibility toggled by selector map | `concepts/app/shell/content.js` (`attachAndShowView`, `currentSkeletonContainer`) |
 | Sidebar leaf label → view map; unknown labels fall back to `'record'` (invoice) | `concepts/app/shell/sidebar.js:107-111` |
 | Help Screens rows: `Internal Mail, Calendar, Schedule Activity, Notes, People Data` | `concepts/app/prototype/fixtures/navigation.js:481-491` |
-| Mail view `email` lives at `/system/email`, also reachable from the Account rail group | `core/routes.js`, `NAV_ACCOUNT_GROUP` |
+| Mail view `email` lives at `/help-screens/email`, also reachable from the Account rail group | `core/routes.js`, `NAV_ACCOUNT_GROUP` |
 | Mail fixtures `EMAIL_DATA` (no `threadId` today), read directly by notifications | `prototype/fixtures/messages.js`, `components/notifications/notifications.js` |
 | Users for assignees/recipients | `ORGANIZATION_USERS`, `CURRENT_USER` fixtures |
 | Arch rule: no circular imports; `core/` and `components/data-list/` never import `pages/` | `tests/architecture.test.mjs` |
@@ -45,7 +45,7 @@ Keep the `Help Screens` group. Rows become (order): **Internal Mail, Events, Act
 
 | Row | View id | URL |
 |---|---|---|
-| Internal Mail | `email` (existing) | `/system/email` (unchanged; Account group `Email` row stays) |
+| Internal Mail | `email` (existing) | `/help-screens/email` (unchanged; Account group `Email` row stays) |
 | Events | `events` | `/help-screens/events` |
 | Activities | `activities` | `/help-screens/activities` |
 | Notes | `notes` | `/help-screens/notes` |
@@ -252,6 +252,6 @@ New group **Collaboration** (shown on `notes`, `activities`, `events`, `email`, 
 
 - **Tailwind budget**: new screens add utilities; mitigate with shared class constants; raise baseline with documented addendum (existing practice).
 - **Email snapshot churn**: intentional; approval checkpoint before regenerating.
-- **Rail jump for Internal Mail** to the Account group: accepted to avoid changing `/system/email`.
+- **Rail jump for Internal Mail** to the Account group: accepted to avoid changing `/help-screens/email`.
 - **Recurrence/reminders** stored but not executed — labeled in UI.
 - **Mail fixtures migration**: `EMAIL_DATA` stays exported as the seed source; the seed maps each message to a `mail` entity with the same id plus `folder`, `threadId`, `starred`, `sentAt`. Notifications switch to an injected store getter.

@@ -1,0 +1,360 @@
+
+Running 6 tests using 2 workers
+
+(node:13718) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:13719) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/6] [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance
+[2/6] [desktop] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior
+(node:13756) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[3/6] [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior
+  1) [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+
+    Error: expect(locator).toHaveScreenshot(expected) failed
+
+    Locator: locator('.email-view')
+      33987 pixels (ratio 0.04 of all image pixels) are different.
+
+      Snapshot: email-reading.png
+
+    Call log:
+      - Expect "toHaveScreenshot(email-reading.png)" locator('.email-view') with timeout 5000ms
+        - verifying given screenshot expectation
+      - waiting for locator('.email-view')
+        - locator resolved to <div class="email-view flex flex-1 min-h-0 flex-col">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - 33987 pixels (ratio 0.04 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - waiting for locator('.email-view')
+        - locator resolved to <div class="email-view flex flex-1 min-h-0 flex-col">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - captured a stable screenshot
+      - 33987 pixels (ratio 0.04 of all image pixels) are different.
+
+
+      21 |   await expect(page.locator('.email-reading-scroll')).toBeVisible();
+      22 |   await expect(page.locator('#notif-badge')).toHaveText(String(unread - 1));
+    > 23 |   await expect(page.locator('.email-view')).toHaveScreenshot('email-reading.png', {animations: 'disabled', maxDiffPixels: 0});
+         |                                             ^
+      24 | });
+      25 |
+      26 | test('email compose retains send feedback', async ({page}, testInfo) => {
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs:23:45
+
+    attachment #1: email-reading (image/png) ───────────────────────────────────────────────────────
+    Expected: tests/messaging.spec.mjs-snapshots/desktop/email-reading.png
+    Received: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/email-reading-actual.png
+    Diff:     ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/email-reading-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:13761) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[4/6] [mobile-touch] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance
+  2) [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+
+    Error: expect(locator).toHaveScreenshot(expected) failed
+
+    Locator: locator('[data-data-list="invoice"]')
+      Expected an image 322px by 1036px, received 290px by 1072px. 9018 pixels (ratio 0.03 of all image pixels) are different.
+
+      Snapshot: adaptive.png
+
+    Call log:
+      - Expect "toHaveScreenshot(adaptive.png)" locator('[data-data-list="invoice"]') with timeout 5000ms
+        - verifying given screenshot expectation
+      - waiting for locator('[data-data-list="invoice"]')
+        - locator resolved to <div data-data-list="invoice" class="data-list-shell relative overflow-visible rounded-lg border border-line bg-surface [box-shadow:var(--shadow-1)]">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - Expected an image 322px by 1036px, received 290px by 1104px. 9638 pixels (ratio 0.03 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - waiting for locator('[data-data-list="invoice"]')
+        - locator resolved to <div data-data-list="invoice" class="data-list-shell relative overflow-visible rounded-lg border border-line bg-surface [box-shadow:var(--shadow-1)]">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - Expected an image 290px by 1104px, received 290px by 1072px. 8283 pixels (ratio 0.03 of all image pixels) are different.
+      - waiting 250ms before taking screenshot
+      - waiting for locator('[data-data-list="invoice"]')
+        - locator resolved to <div data-data-list="invoice" class="data-list-shell relative overflow-visible rounded-lg border border-line bg-surface [box-shadow:var(--shadow-1)]">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - captured a stable screenshot
+      - Expected an image 322px by 1036px, received 290px by 1072px. 9018 pixels (ratio 0.03 of all image pixels) are different.
+
+
+      28 |     await settle(page);
+      29 |     await expect(page.locator('[data-data-list="invoice"]')).toBeVisible();
+    > 30 |     await expect(page.locator('[data-data-list="invoice"]')).toHaveScreenshot(`${view}.png`, {
+         |                                                              ^
+      31 |       animations: 'disabled',
+      32 |       maxDiffPixels: 0,
+      33 |     });
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/data-list-component.spec.mjs:30:62
+
+    attachment #1: adaptive (image/png) ────────────────────────────────────────────────────────────
+    Expected: tests/data-list-component.spec.mjs-snapshots/mobile-touch/adaptive.png
+    Received: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/data-list-component-invoice-adaptive-retains-list-behavior-mobile-touch/adaptive-actual.png
+    Diff:     ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/data-list-component-invoice-adaptive-retains-list-behavior-mobile-touch/adaptive-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/data-list-component-invoice-adaptive-retains-list-behavior-mobile-touch/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/data-list-component-invoice-adaptive-retains-list-behavior-mobile-touch/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/data-list-component-invoice-adaptive-retains-list-behavior-mobile-touch/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:13766) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+  3) [mobile-touch] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+
+    Error: expect(locator).toHaveScreenshot(expected) failed
+
+    Locator: locator('.email-view')
+      11676 pixels (ratio 0.06 of all image pixels) are different.
+
+      Snapshot: email-reading.png
+
+    Call log:
+      - Expect "toHaveScreenshot(email-reading.png)" locator('.email-view') with timeout 5000ms
+        - verifying given screenshot expectation
+      - waiting for locator('.email-view')
+        - locator resolved to <div class="email-view flex flex-1 min-h-0 flex-col">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - 11676 pixels (ratio 0.06 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - waiting for locator('.email-view')
+        - locator resolved to <div class="email-view flex flex-1 min-h-0 flex-col">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - captured a stable screenshot
+      - 11676 pixels (ratio 0.06 of all image pixels) are different.
+
+
+      21 |   await expect(page.locator('.email-reading-scroll')).toBeVisible();
+      22 |   await expect(page.locator('#notif-badge')).toHaveText(String(unread - 1));
+    > 23 |   await expect(page.locator('.email-view')).toHaveScreenshot('email-reading.png', {animations: 'disabled', maxDiffPixels: 0});
+         |                                             ^
+      24 | });
+      25 |
+      26 | test('email compose retains send feedback', async ({page}, testInfo) => {
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs:23:45
+
+    attachment #1: email-reading (image/png) ───────────────────────────────────────────────────────
+    Expected: tests/messaging.spec.mjs-snapshots/mobile-touch/email-reading.png
+    Received: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-touch/email-reading-actual.png
+    Diff:     ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-touch/email-reading-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-touch/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-touch/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-touch/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[5/6] [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior
+(node:13767) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[6/6] [mobile-rtl] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance
+  4) [mobile-rtl] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+
+    Error: expect(locator).toHaveScreenshot(expected) failed
+
+    Locator: locator('.email-view')
+      11894 pixels (ratio 0.06 of all image pixels) are different.
+
+      Snapshot: email-reading.png
+
+    Call log:
+      - Expect "toHaveScreenshot(email-reading.png)" locator('.email-view') with timeout 5000ms
+        - verifying given screenshot expectation
+      - waiting for locator('.email-view')
+        - locator resolved to <div class="email-view flex flex-1 min-h-0 flex-col">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - 11894 pixels (ratio 0.06 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - waiting for locator('.email-view')
+        - locator resolved to <div class="email-view flex flex-1 min-h-0 flex-col">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - captured a stable screenshot
+      - 11894 pixels (ratio 0.06 of all image pixels) are different.
+
+
+      21 |   await expect(page.locator('.email-reading-scroll')).toBeVisible();
+      22 |   await expect(page.locator('#notif-badge')).toHaveText(String(unread - 1));
+    > 23 |   await expect(page.locator('.email-view')).toHaveScreenshot('email-reading.png', {animations: 'disabled', maxDiffPixels: 0});
+         |                                             ^
+      24 | });
+      25 |
+      26 | test('email compose retains send feedback', async ({page}, testInfo) => {
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs:23:45
+
+    attachment #1: email-reading (image/png) ───────────────────────────────────────────────────────
+    Expected: tests/messaging.spec.mjs-snapshots/mobile-rtl/email-reading.png
+    Received: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-rtl/email-reading-actual.png
+    Diff:     ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-rtl/email-reading-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-rtl/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-rtl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-rtl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  5) [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+
+    Error: expect(locator).toHaveScreenshot(expected) failed
+
+    Locator: locator('[data-data-list="invoice"]')
+      Expected an image 322px by 1036px, received 290px by 1072px. 7383 pixels (ratio 0.03 of all image pixels) are different.
+
+      Snapshot: adaptive.png
+
+    Call log:
+      - Expect "toHaveScreenshot(adaptive.png)" locator('[data-data-list="invoice"]') with timeout 5000ms
+        - verifying given screenshot expectation
+      - waiting for locator('[data-data-list="invoice"]')
+        - locator resolved to <div data-data-list="invoice" class="data-list-shell relative overflow-visible rounded-lg border border-line bg-surface [box-shadow:var(--shadow-1)]">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - Expected an image 322px by 1036px, received 290px by 1104px. 7960 pixels (ratio 0.03 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - waiting for locator('[data-data-list="invoice"]')
+        - locator resolved to <div data-data-list="invoice" class="data-list-shell relative overflow-visible rounded-lg border border-line bg-surface [box-shadow:var(--shadow-1)]">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - Expected an image 290px by 1104px, received 290px by 1072px. 6528 pixels (ratio 0.03 of all image pixels) are different.
+      - waiting 250ms before taking screenshot
+      - waiting for locator('[data-data-list="invoice"]')
+        - locator resolved to <div data-data-list="invoice" class="data-list-shell relative overflow-visible rounded-lg border border-line bg-surface [box-shadow:var(--shadow-1)]">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - captured a stable screenshot
+      - Expected an image 322px by 1036px, received 290px by 1072px. 7383 pixels (ratio 0.03 of all image pixels) are different.
+
+
+      28 |     await settle(page);
+      29 |     await expect(page.locator('[data-data-list="invoice"]')).toBeVisible();
+    > 30 |     await expect(page.locator('[data-data-list="invoice"]')).toHaveScreenshot(`${view}.png`, {
+         |                                                              ^
+      31 |       animations: 'disabled',
+      32 |       maxDiffPixels: 0,
+      33 |     });
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/data-list-component.spec.mjs:30:62
+
+    attachment #1: adaptive (image/png) ────────────────────────────────────────────────────────────
+    Expected: tests/data-list-component.spec.mjs-snapshots/mobile-rtl/adaptive.png
+    Received: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/data-list-component-invoice-adaptive-retains-list-behavior-mobile-rtl/adaptive-actual.png
+    Diff:     ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/data-list-component-invoice-adaptive-retains-list-behavior-mobile-rtl/adaptive-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/data-list-component-invoice-adaptive-retains-list-behavior-mobile-rtl/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/data-list-component-invoice-adaptive-retains-list-behavior-mobile-rtl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/final-focused-reproduction-out/data-list-component-invoice-adaptive-retains-list-behavior-mobile-rtl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  5 failed
+    [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+    [mobile-touch] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+    [mobile-touch] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+    [mobile-rtl] › tests/data-list-component.spec.mjs:21:3 › invoice adaptive retains list behavior 
+    [mobile-rtl] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+  1 passed (7.9s)

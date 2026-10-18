@@ -1,0 +1,1177 @@
+{
+  "config": {
+    "argv": [
+      "/Users/majedsiefalnasr/.dotfiles/node/.nvm/versions/node/v23.11.0/bin/node",
+      "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/node_modules/.bin/playwright",
+      "test",
+      "tests/messaging.spec.mjs",
+      "--grep-invert",
+      "reading a notification email",
+      "--workers=2",
+      "--retries=0",
+      "--update-snapshots=none",
+      "--reporter=line,json",
+      "--output=/private/tmp/skey-release-y5dvntbs/mail-functional-out"
+    ],
+    "configFile": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/playwright.config.mjs",
+    "rootDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/private/tmp/skey-release-y5dvntbs/mail-functional-out",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-release-y5dvntbs/mail-functional-out",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "mobile-touch",
+        "name": "mobile-touch",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-release-y5dvntbs/mail-functional-out",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "desktop-dark",
+        "name": "desktop-dark",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-release-y5dvntbs/mail-functional-out",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "desktop-high-contrast-light",
+        "name": "desktop-high-contrast-light",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-release-y5dvntbs/mail-functional-out",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "desktop-high-contrast-dark",
+        "name": "desktop-high-contrast-dark",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-release-y5dvntbs/mail-functional-out",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "mobile-rtl",
+        "name": "mobile-rtl",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-release-y5dvntbs/mail-functional-out",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "desktop-reduced-motion",
+        "name": "desktop-reduced-motion",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "line"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "none",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "messaging.spec.mjs",
+      "file": "messaging.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Home restores the same topbar actions and releases the inert shell",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 782,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:00:59.316Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-36b889e54a02df69f881",
+          "file": "messaging.spec.mjs",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "email compose retains send feedback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2131,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:00:59.316Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-e7d7821cab73fe1dbb60",
+          "file": "messaging.spec.mjs",
+          "line": 26,
+          "column": 1
+        },
+        {
+          "title": "notification tabs preserve keyboard selection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 403,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:00.221Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-6468cdc1609a4b8571f6",
+          "file": "messaging.spec.mjs",
+          "line": 39,
+          "column": 1
+        },
+        {
+          "title": "assistant proposal answers and closes with Escape",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2404,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:00.631Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-f8ca3db90ea62ed2ccee",
+          "file": "messaging.spec.mjs",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "Home restores the same topbar actions and releases the inert shell",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 632,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:01.862Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-e87bb9a1c05b4ae8ccda",
+          "file": "messaging.spec.mjs",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "email compose retains send feedback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Known baseline mobile email layout clips the composer.",
+                  "location": {
+                    "file": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs",
+                    "line": 27,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 1,
+                  "status": "skipped",
+                  "duration": 273,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:02.580Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Known baseline mobile email layout clips the composer.",
+                      "location": {
+                        "file": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs",
+                        "line": 27,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "b21374e618d235eefe56-8b52634371e9c9bf0064",
+          "file": "messaging.spec.mjs",
+          "line": 26,
+          "column": 1
+        },
+        {
+          "title": "notification tabs preserve keyboard selection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 383,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:02.859Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-cea564afc337ba2cb29d",
+          "file": "messaging.spec.mjs",
+          "line": 39,
+          "column": 1
+        },
+        {
+          "title": "assistant proposal answers and closes with Escape",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2423,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:03.483Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-f35d1764742473581486",
+          "file": "messaging.spec.mjs",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "Home restores the same topbar actions and releases the inert shell",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 523,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:03.678Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-f346b7963e03b12c6896",
+          "file": "messaging.spec.mjs",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "email compose retains send feedback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1826,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:04.322Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-ab465be2588164c94bf2",
+          "file": "messaging.spec.mjs",
+          "line": 26,
+          "column": 1
+        },
+        {
+          "title": "notification tabs preserve keyboard selection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 412,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:06.355Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-8fe10dbed58241ccbd34",
+          "file": "messaging.spec.mjs",
+          "line": 39,
+          "column": 1
+        },
+        {
+          "title": "assistant proposal answers and closes with Escape",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2322,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:06.153Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-9c0d234b96aab9d2da33",
+          "file": "messaging.spec.mjs",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "Home restores the same topbar actions and releases the inert shell",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 459,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:07.152Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-136dfadf2c5fa725bab9",
+          "file": "messaging.spec.mjs",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "email compose retains send feedback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1754,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:07.697Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-c1de5f69e72cbfa5fcdf",
+          "file": "messaging.spec.mjs",
+          "line": 26,
+          "column": 1
+        },
+        {
+          "title": "notification tabs preserve keyboard selection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 419,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:08.771Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-a6f1e51d0fa25083c103",
+          "file": "messaging.spec.mjs",
+          "line": 39,
+          "column": 1
+        },
+        {
+          "title": "assistant proposal answers and closes with Escape",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2330,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:09.278Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-221428a2195436f53c4a",
+          "file": "messaging.spec.mjs",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "Home restores the same topbar actions and releases the inert shell",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 456,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:09.789Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-6f9ea6ad46d1417bdd43",
+          "file": "messaging.spec.mjs",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "email compose retains send feedback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1777,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:10.336Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-c8a674afce613ecb7172",
+          "file": "messaging.spec.mjs",
+          "line": 26,
+          "column": 1
+        },
+        {
+          "title": "notification tabs preserve keyboard selection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 616,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:11.984Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-dc6cfef28b2714e9cae1",
+          "file": "messaging.spec.mjs",
+          "line": 39,
+          "column": 1
+        },
+        {
+          "title": "assistant proposal answers and closes with Escape",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2591,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:12.120Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-d621f4db0e7ce290c777",
+          "file": "messaging.spec.mjs",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "Home restores the same topbar actions and releases the inert shell",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 565,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:13.124Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-1fbfc14e5b818e3f0687",
+          "file": "messaging.spec.mjs",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "email compose retains send feedback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Known baseline mobile email layout clips the composer.",
+                  "location": {
+                    "file": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs",
+                    "line": 27,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 1,
+                  "status": "skipped",
+                  "duration": 359,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:13.784Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Known baseline mobile email layout clips the composer.",
+                      "location": {
+                        "file": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs",
+                        "line": 27,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "b21374e618d235eefe56-4517833b33b399a3ea64",
+          "file": "messaging.spec.mjs",
+          "line": 26,
+          "column": 1
+        },
+        {
+          "title": "notification tabs preserve keyboard selection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 490,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:14.148Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-4808cd568232f2e03873",
+          "file": "messaging.spec.mjs",
+          "line": 39,
+          "column": 1
+        },
+        {
+          "title": "assistant proposal answers and closes with Escape",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2523,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:14.644Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-3a051ac80c6184a5df3e",
+          "file": "messaging.spec.mjs",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "Home restores the same topbar actions and releases the inert shell",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 526,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:15.093Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-183fd7b3377735a0eb2f",
+          "file": "messaging.spec.mjs",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "email compose retains send feedback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1803,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:15.765Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-d9591119a59758ee7549",
+          "file": "messaging.spec.mjs",
+          "line": 26,
+          "column": 1
+        },
+        {
+          "title": "notification tabs preserve keyboard selection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 12,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 524,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:17.518Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-5e3bdfa99789bb6fc161",
+          "file": "messaging.spec.mjs",
+          "line": 39,
+          "column": 1
+        },
+        {
+          "title": "assistant proposal answers and closes with Escape",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2433,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:01:17.573Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b21374e618d235eefe56-f0eb5f3c0017dba886c9",
+          "file": "messaging.spec.mjs",
+          "line": 53,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-18T12:00:58.980Z",
+    "duration": 21063.934,
+    "expected": 26,
+    "skipped": 2,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

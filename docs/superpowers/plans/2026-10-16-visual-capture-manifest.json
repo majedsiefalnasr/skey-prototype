@@ -183,7 +183,7 @@
   "fixtures": {
     "collaboration": {
       "source": "concepts/app/prototype/fixtures/collaboration.js",
-      "sha256": "9a90cd47f575cbe5619d211304cb2f584072f8b4f5081f8065a611e172d780ff",
+      "sha256": "b7766aca307eac0255c829af33ddc9b5ecf463623ded4bc92de4616cab52142d",
       "schema": {
         "version": 1,
         "seq": 1000,

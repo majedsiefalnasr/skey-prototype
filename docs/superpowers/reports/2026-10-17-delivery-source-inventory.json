@@ -1,0 +1,359 @@
+{
+  "comparison": "Recovered source snapshot vs final source; generated Tailwind CSS and .DS_Store excluded",
+  "frozenSourceMismatches": [],
+  "changes": [
+    {
+      "path": "concepts/app/main.js",
+      "beforeSha256": "58561b422112c360c4d28f8e900ad58a351fb74d9a7e5a9be660e5659eb17ce5",
+      "afterSha256": "c44e807a82ba22a849d7b0455c2ba971980993a5c7662e6b66dbefcf62d66a4c"
+    },
+    {
+      "path": "concepts/app/core/delivery-translations.js",
+      "beforeSha256": null,
+      "afterSha256": "94bb6f259db3f27a443903bb5df5c73f6d336d2cfce38ec9111c10aa3a3a475a"
+    },
+    {
+      "path": "concepts/app/core/locale.js",
+      "beforeSha256": "e56504dd49f01749686fae40f3f2cfe7551f30c0e4521e1f17723eae32c548a9",
+      "afterSha256": "8e5aeb9de3dbcc3c578bb18e983bb858f6d5b11796e692a2081e0eed451a782d"
+    },
+    {
+      "path": "concepts/app/shell/search.js",
+      "beforeSha256": "a9a60129d81ad8444e75c017f9fb76eacc0a39fe8a1209b81992a5bbbc859da7",
+      "afterSha256": "8502fcad1ee32b2e57627aee39b0e2587727bc87b843dc74e2018d497d19c8c5"
+    },
+    {
+      "path": "concepts/app/pages/list-cards.js",
+      "beforeSha256": "1a74ee1d38abc350601364cd4a297fd4749268816e3783fb3e16252449307185",
+      "afterSha256": "0468bfea0995405d6f0c18408c3b88a4f02ca1ca6a946840bf3071c9a27f13dc"
+    },
+    {
+      "path": "concepts/app/pages/organization/layout.js",
+      "beforeSha256": "0fec507a0a10b819ac81862dd522c3cfffab0f0540231b0917bb8ea0c2b3b7f2",
+      "afterSha256": "a7f862aa39635ae08faf455187a022f1bf541c5f84cf1bc0a139aa08ef8791bb"
+    },
+    {
+      "path": "concepts/app/pages/organization/dialogs.html",
+      "beforeSha256": "03fbcf8f57cebd657de07277eb2ad83791cfcfd87c627e9e969f2efa97b6e1c5",
+      "afterSha256": "25212a6673341d9f087a5517eb7263de89de1de0f7c00f8ad961b57c41b5c6ee"
+    },
+    {
+      "path": "concepts/app/pages/organization/organization.js",
+      "beforeSha256": "e346605d806babbb6b8599e75153350c51e963e4e0b721066cefe0ddf513c7ad",
+      "afterSha256": "750ef3a69dc44f1ad580982ff4595cc2e3dd91b728c64ead8058b09b45edb0ce"
+    },
+    {
+      "path": "concepts/app/pages/organization/sessions.js",
+      "beforeSha256": "ae354988cde76a523202a6d58a021fcc76b88738df59bf71b06737346dd2d964",
+      "afterSha256": "9fe545e48a133179c16e1190cd74d23ed772a77eac3a05268a5eee72c6461b2d"
+    },
+    {
+      "path": "concepts/app/pages/organization/sections.js",
+      "beforeSha256": "2a4f2f6194bfc7a2d42c386c25b4ced13f6db8e0c27dcea7f4111cec1e067a82",
+      "afterSha256": "cd4437a3e15b07739762c2cfbc07fdb4249781095636ebbde7ef02751e150c58"
+    },
+    {
+      "path": "concepts/app/pages/organization/templates.html",
+      "beforeSha256": "d030b45fa4ec91e95b446dca426527c88ea9c1f8cfdf686f2c73a5039ca42ce9",
+      "afterSha256": "29aff411b0e1cc23c05c0098df5a3b406972a74ec0d98908e5610f82bbf4808f"
+    },
+    {
+      "path": "concepts/app/pages/customers/dialogs.html",
+      "beforeSha256": "40db0ab0a872597dc17ed0c2fd3c647b3cad0788865a966bb34b2ebbbf4b876b",
+      "afterSha256": "19b9a5928e37f08259e3107f88b80ff85af4a40a9a8c0f5c0e7340ca29bf89e5"
+    },
+    {
+      "path": "concepts/app/pages/customers/fields.js",
+      "beforeSha256": "bc85067581debdb551557212c6a792bea4b6d48b8683d716c7d6044cb287ca53",
+      "afterSha256": "40f721c1cc1dbbf971c5965cb37fb430bf07e6c88a7f7b393d01a1a2d7feec7d"
+    },
+    {
+      "path": "concepts/app/pages/customers/layouts.js",
+      "beforeSha256": "ebc4b971a7906bdc2e27c8eaf3362ce27f3b7d2a5b7ef2cf00585f49d4ec0a16",
+      "afterSha256": "1b05fe12e6022801b00347eba66cb22e4e76cb1ea2bbc219935d3ba56fe3989f"
+    },
+    {
+      "path": "concepts/app/pages/customers/record.js",
+      "beforeSha256": "5bc7019271817cbea481beababd73aa0692ca44c3578f9f0133b00ce20e0de18",
+      "afterSha256": "6ab8f94dec8ce61b5f7509dec547e75fd5b1ca9b2d95f20613e9d840ee25a1f2"
+    },
+    {
+      "path": "concepts/app/pages/invoices/record-dialogs.html",
+      "beforeSha256": "3497556ce396542226fd94c68cdc4e4b89cfe9694ec49c9990c092a7e743ae64",
+      "afterSha256": "00564005b1096cc440c3ac471c1125a30c79362612de0bd0b46a513c63f0e1eb"
+    },
+    {
+      "path": "concepts/app/pages/invoices/shared-templates.html",
+      "beforeSha256": "d30ae7f3b40abd3343d7eebcf7173f7cbeee00779b00c570aa58873bb5bc3cd2",
+      "afterSha256": "2d3663f0c0e99ce78370631dcc0b8f9414fe21d0bc72ccff27b24db94411cb13"
+    },
+    {
+      "path": "concepts/app/pages/invoices/adjustments.js",
+      "beforeSha256": "c426bd2b73905951b03cecdc190a052af1760966dd27ce85a16798e9041f0a94",
+      "afterSha256": "a3fa900cb261a36abdee5fdf633b08f1b39f5875cc892658002ee81ba7c3bfd9"
+    },
+    {
+      "path": "concepts/app/pages/invoices/print-dialog.html",
+      "beforeSha256": "c73fd016b7ccb6fae5d2105bc94a52b2e08441b579681266200b1efbd3b37a41",
+      "afterSha256": "cb43831ab85a885f5e960edd89a69c015a4fdddd7ec699dc26adc738427eaf25"
+    },
+    {
+      "path": "concepts/app/pages/invoices/payments.js",
+      "beforeSha256": "8bb48d1eaac3c0b60033f695bfae73f2882055d8ae687f88ee73f1e01b45c3d4",
+      "afterSha256": "36e257eb43032ac0a19ff8c4f987861d89f15a8a9d079b01bbdab610338ab865"
+    },
+    {
+      "path": "concepts/app/pages/invoices/templates.html",
+      "beforeSha256": "fda91e19740f53085e840ce648f2b0faf9c871d9c03b5502e44574ce1e96da9f",
+      "afterSha256": "d7c65606297fb227df9c96f5f0fe982b92b56c9b0626be3d89e4fb2d3e44b36e"
+    },
+    {
+      "path": "concepts/app/pages/invoices/kanban.js",
+      "beforeSha256": "c3227f5a76bd1569e130fe09e31d9d08a3eea0d82e527cef1398e265a6df6734",
+      "afterSha256": "819b011b9414a349878a0bbb4d4388f0e62efbc790549790aa2ae31d1755d2a5"
+    },
+    {
+      "path": "concepts/app/pages/invoices/chrome.js",
+      "beforeSha256": "79d34279b643e5d6b023a62a7168d13b9ea4b8a97e6fdf1f98dadee20bde54ad",
+      "afterSha256": "18ef5b3366948e3a2907b9195e6b07cfb6cd93b841e8bc7e074bb773817250e0"
+    },
+    {
+      "path": "concepts/app/pages/invoices/operations.js",
+      "beforeSha256": "4be69e4aebef9003c0e576a2024b4d98023bcc70a36cb26efadf7b27d933abf6",
+      "afterSha256": "33bca07fc99db09130ab1ea42fd4beea390af3e81325446616a2c55bbece0a85"
+    },
+    {
+      "path": "concepts/app/pages/invoices/print.js",
+      "beforeSha256": "424d6a9999e18c2604ef728ea29fdfe22bd9f08069e2025294bae770cf404571",
+      "afterSha256": "ebfed95c75a1b917b17f92d717201f559ae271f24c5266b6ac4c8335cc364b11"
+    },
+    {
+      "path": "concepts/app/pages/notes/notes.js",
+      "beforeSha256": "000b0696e10fc097b02372c6c5ed30334864ab9cfe921b8e9ac1e8998c5ec8ab",
+      "afterSha256": "308a8c115fb2cecefc562515b0ae39785d28969a42a5dafff048ac61bfa82c85"
+    },
+    {
+      "path": "concepts/app/pages/profile/profile.js",
+      "beforeSha256": "49bcf3178f587d63241e23f8274e0c71827ae1e0f765fa1c806cad866864c4d8",
+      "afterSha256": "fb088822c491d414765c495600cfab2b24b0edcb8d36f2b7166e5f8a0abd41b3"
+    },
+    {
+      "path": "concepts/app/pages/profile/layout.js",
+      "beforeSha256": "dcfc6e6573f4a9e6d20f6cae4d44ca6f9239a03e43a2a56e9ff9aba2ede6c363",
+      "afterSha256": "d48211a19b41a841611271f082ad681a206b79b2580dadf61402809932afcd00"
+    },
+    {
+      "path": "concepts/app/pages/profile/dialogs.html",
+      "beforeSha256": "cba830894b9eacb1c2a069448a02b36af169bbf399a5024e9f6fba83d3c75083",
+      "afterSha256": "8e694812ab365026fa401ca8846be451bd4c59d6d26879a3ba0a900e5d7d5723"
+    },
+    {
+      "path": "concepts/app/pages/profile/security-dialogs.js",
+      "beforeSha256": "4c42f9ef9d8dbd984d30994da3e6bdcc2b59342c999e2ab835dc012383d9ae55",
+      "afterSha256": "f9fd58db0ddfb4d4e72aa12749dcfee17285bef1f46d21cfedefe5dfacab9a2d"
+    },
+    {
+      "path": "concepts/app/pages/profile/sections.js",
+      "beforeSha256": "91939af127a511355e5562279a1eddf687a104aca8384523a86a2cf8401154ed",
+      "afterSha256": "5031550cc15cd511f0a9e8fa03f48a6b49340a59f42179216464fe4edff4fa62"
+    },
+    {
+      "path": "concepts/app/pages/profile/devices.js",
+      "beforeSha256": "e4126d716fbf714b563edd3b58317deeaff3067859f604f4cada4edc8aa57383",
+      "afterSha256": "0dbdff383e07208df08671068cfaece1adb0186f6b0680061b2fe7d4554245ce"
+    },
+    {
+      "path": "concepts/app/pages/people/people.js",
+      "beforeSha256": "ee7625e44104d798ce214b9ae114c6371bc3f2cf8430a7a2bc5607c37a814b75",
+      "afterSha256": "555a014c888aa2a13ffa68e54ee5def5167e0a540a11d4d7ad2751ee9c1118cf"
+    },
+    {
+      "path": "concepts/app/pages/activities/activities.js",
+      "beforeSha256": "0730fd2ebd687fc17be0329fb3fcc1c3b33d44211cf495c3ed118b20214c093f",
+      "afterSha256": "ed8aeb7b095127e3df033d35b8dff9d1e7841277d3e1a68946fbf3e9c7064ef9"
+    },
+    {
+      "path": "concepts/app/pages/email/email.js",
+      "beforeSha256": "bd1ef8d0202dcbe02968f1a8ebf0d468c39cfbfd4fbddcd79c4032faf15a3705",
+      "afterSha256": "8eedacff2bf90ae7836d28bdaeeb77105a9b598d7f820ab8defbaab16faddacf"
+    },
+    {
+      "path": "concepts/app/pages/geography/dialogs.html",
+      "beforeSha256": "1b6f8fd0e4753e488b74f2b20444c86ac7775f12328eee145229d55a62cf579c",
+      "afterSha256": "5be0b8a66e5212b3a2bf9285f852c54e65dc5cf2ff4f616ed8d26df568e156f1"
+    },
+    {
+      "path": "concepts/app/pages/geography/hierarchy.js",
+      "beforeSha256": "d48eadc54627d79acbed4650abdf8888b40076d5572bc076e8967d822f01d64b",
+      "afterSha256": "ce3f16758ea8be6323f7b3ea9c778fa9414d514d5536373c1724dd2db31e6902"
+    },
+    {
+      "path": "concepts/app/pages/geography/geography.js",
+      "beforeSha256": "0296a131c4d27861365bc10b492f0a465bdd88e010bf53190b1526e7ac48f6fa",
+      "afterSha256": "a4647199f9dab522ce5891a97780bc385b7a9a11e7357cc7dc9838712194df7a"
+    },
+    {
+      "path": "concepts/app/pages/geography/templates.html",
+      "beforeSha256": "41f9e6add03d9854107da1c94e335db0160adee5b56b432572fc8c7d35189062",
+      "afterSha256": "ef225bb6624e4a83cc9ce71aa3138825b187054ae6c79aaeea66eea83ed69d54"
+    },
+    {
+      "path": "concepts/app/components/assistant/assistant.js",
+      "beforeSha256": "9c398b260190bd7c24633cd0434b43d5cd1518203af11e7295d3b80851fa34f5",
+      "afterSha256": "1159e25cc2f0546fc9fbdd75e62f78265db68c6db4c073f5df64ce09f1cd12c1"
+    },
+    {
+      "path": "concepts/app/components/toast/toast.js",
+      "beforeSha256": "dbf7157ac56aeaa254ccc46266d45700c96eb98678746b932cc61b1d6b335836",
+      "afterSha256": "05076eddfc2ceda3ee35b470ffef57804b2d45acb28e6a622c4532d95c41c9a5"
+    },
+    {
+      "path": "concepts/app/components/related-items/related-items.js",
+      "beforeSha256": "5f20bfe2c20be1fc15affb55c20860b14f9c5eed46d8c573d609d621d2d5639a",
+      "afterSha256": "b1f80979829515bac076fcb684687e066a7fdbf1c8c01a1ff26b1ca8c1334bdc"
+    },
+    {
+      "path": "concepts/app/components/data-list/menu-controller.js",
+      "beforeSha256": "d54c5666f65b75108a5b06e7d38faa95e04959929e9587b1ccf4fe10db409d8a",
+      "afterSha256": "d1a10e7e0906c1066566d12eaf5f6b05ccf0173996aff1cf296de2cef3cc2412"
+    },
+    {
+      "path": "concepts/app/components/data-list/renderers.js",
+      "beforeSha256": "d66441664e186ea41e1eb9092406a31fb435b4fb6a5c3710b0bfa5b8801aab3d",
+      "afterSha256": "5cb63f17559f63aaa9d30f139b21aec0856ac9a18f624fe7a66ecf35658f7856"
+    },
+    {
+      "path": "concepts/app/components/data-list/export.js",
+      "beforeSha256": "aded384bec8f6eefd6c10f98ebef0678d345c9a914fc85aaed639bb07aa69969",
+      "afterSha256": "46c32c85a50e2efefd69378ed4e92b446099aac0ffc8e68a2f731f608e5f8248"
+    },
+    {
+      "path": "concepts/app/components/data-list/actions.js",
+      "beforeSha256": "95fdee19e705ad404ac88b2a04b5e7303eb793a5c0da9876c16dec502abc9d2b",
+      "afterSha256": "e926bb4b6c23c2839935b5e476f704ed90aacbec9b43aaf168f5e2e8d79b5855"
+    },
+    {
+      "path": "concepts/app/components/data-list/filter-controller.js",
+      "beforeSha256": "d0baeae71f3c30e2699bd35176820737f383df6a8c887b79b731508fa4a473ea",
+      "afterSha256": "9548a05ed4c80d04ac9d7b8930e4d2ce5bcfbef382961ee59f2c7b01cc28e3a4"
+    },
+    {
+      "path": "concepts/app/components/data-list/list.js",
+      "beforeSha256": "6b7cdb0f2b23ba572465743fb0dbd264743531d6c4d22914de35674b064aa2f8",
+      "afterSha256": "9deaf495ac11a6bfc7c992988dbd8b9864cb7ea876a94a3876178b636bd4daef"
+    },
+    {
+      "path": "concepts/app/components/data-list/context-menu.js",
+      "beforeSha256": "22a8344f44afdb8073ae6ba7da1ec3c55f7ba958803bc5676952cf7fe9a8d2ee",
+      "afterSha256": "683a5dd5f35f80944bc00217191cc3c05e2cac492d345e9af22c57aa345b5296"
+    },
+    {
+      "path": "concepts/app/components/data-list/status-dialogs.js",
+      "beforeSha256": "91cfe029f49cd2bd59548fd210b32fc5aeb3f81eedbcba48f4a0a14b70f9810b",
+      "afterSha256": "ca8633b8e03f54a6f162f629902e70b3a63180fd18fd37ff23a63273f76b5015"
+    },
+    {
+      "path": "concepts/app/components/data-list/columns.js",
+      "beforeSha256": "cac39f00825903b85a83b31ecf503dceeab17f1e8512f0f5aed44859af13420f",
+      "afterSha256": "8a61791f385740a103bda1f5dc4a9505279dec26ceca9f4b5486b8b600484c8c"
+    },
+    {
+      "path": "concepts/app/components/data-list/list-dialogs.html",
+      "beforeSha256": "c270cd0cffb03403d27e1ef83b4a3ba317c0032af667cbb13f79117f6d233260",
+      "afterSha256": "d6d3c06d971bbd6b55bd51a08740c2cd6ad15c9cc17467326e033f3f232aeaae"
+    },
+    {
+      "path": "concepts/app/prototype/fixtures/profile.js",
+      "beforeSha256": "2e24f6aab0d7a02e6725cbcd4f047b39182421f7d9a5273a14cdf52a7956ba30",
+      "afterSha256": "a7f8bb0ef9a05df1c5b75cba344f3b1229c47dadf6bd6b68f2f73a2d348a978f"
+    },
+    {
+      "path": "concepts/app/prototype/fixtures/organization.js",
+      "beforeSha256": "609fa13c3e2328373d06333630c11a60d7689c9081dce71d9cf98d42ed79b7f6",
+      "afterSha256": "d7eaec92bf0b9c8b2cde4ce4338a87b42f572938e7bb10f9aea1300ceeaf3b7b"
+    },
+    {
+      "path": "concepts/app/prototype/fixtures/geography.js",
+      "beforeSha256": "64444eaac32ae17718c9a240bfa6f2c4164648c292d9a505e350d4f7e59ccf5c",
+      "afterSha256": "38cb2dce8e05d5aed97da0c79addd45d9fdb9ac1bed61e1e62b5839673f933b3"
+    },
+    {
+      "path": "concepts/app/prototype/fixtures/customers.js",
+      "beforeSha256": "5bc2a7efe91593920f041a4d45e43e7ebf6b92371578e3d704c4f2556f50c82a",
+      "afterSha256": "645424bc198b424123cfb786be0043ddbb7787184101673aece20853a6bbf710"
+    },
+    {
+      "path": "concepts/app/prototype/fixtures/invoices.js",
+      "beforeSha256": "bbc8760ad65b7369bd3969beb707b484512d172dca418b94f3726830f5082f91",
+      "afterSha256": "7217363b46b2c24318d6a2d3ea7e3cbb0bffebfa5eab86699e44d92ed3d69e77"
+    },
+    {
+      "path": "concepts/app/prototype/fixtures/messages.js",
+      "beforeSha256": "89206a38f90f423b0336a2ed1c4c2d1e70fefab1a217fb79d4e804296bb8f60a",
+      "afterSha256": "9173abc7045a513fe576345cfb99f807ceb38d6fea8aa392797f1f3e29783395"
+    },
+    {
+      "path": "concepts/app/prototype/fixtures/collaboration.js",
+      "beforeSha256": "9a90cd47f575cbe5619d211304cb2f584072f8b4f5081f8065a611e172d780ff",
+      "afterSha256": "b7766aca307eac0255c829af33ddc9b5ecf463623ded4bc92de4616cab52142d"
+    },
+    {
+      "path": "concepts/app/core/work.js",
+      "beforeSha256": "aea12026cfb4fbc048825890b70a3167174894306aff34e78c4a6d70763f0688",
+      "afterSha256": "3c26761506cae30d76e981b0ecfcea914d5b73f08e89ec0e96a38db2c27e235b"
+    }
+  ],
+  "testFiles": {
+    "tests/a11y-ledger.spec.mjs": "a7bea87d573a2bc1e9ef4d37f2d83c0ba51d378630a0da404c5824d6b4c35dbf",
+    "tests/account-rail.spec.mjs": "543258a9d498503838f7157925ba646245887c4e817ce8ac7e3ed9bafbe68429",
+    "tests/architecture.test.mjs": "0a637cef56c65a83fa5fc3fda949841a283a8a9ff5b95bdd2bdbcf83fedfb88f",
+    "tests/build.test.mjs": "f0b2c42b2bc148d38670973bfa4cc422eb226119c051c0b894e95e1dd181adcd",
+    "tests/chart-parity.spec.mjs": "0c78a8544c225626ea2fed0eba20ea8ac0803b243927c1e5cbb89b58129beae2",
+    "tests/collab-form-primitives.spec.mjs": "1994ca90ed2772a167a528967ecec1835b1465231dfb2a23cefb6e86e746026e",
+    "tests/collab-seed.test.mjs": "d6543a75d2edd1e3d9866cb9ff0470e6d6aaac51f0f9d3ada49c743eaa6d4c04",
+    "tests/collab-store.test.mjs": "6dc2acfa5c634434fa78c34745ff0b665cb527cb5a3f64c2b067e90a263c5b7b",
+    "tests/collaboration.spec.mjs": "a0ba985c345197a396b767919d4bd805c195f1713142e661a28b07cf1b63b591",
+    "tests/components.spec.mjs": "18576576f3830649e4d0479383f800961d713afc168c19bdbc975c202acb8c16",
+    "tests/customer-journey.spec.mjs": "7c1d39642237e37fd191733d3f3152d1fe8f936a7c5b75a383f02ff8a53f214b",
+    "tests/data-list-component.spec.mjs": "b5292297b700c02f62ee93e55a81bcdeb36eebb6bf67e4f904dc0c066a8ab7dc",
+    "tests/data-list.test.mjs": "bf9a3608048b8586f81c2aa277f34509629c5bc283ba364669718e2c2c6013bb",
+    "tests/delivery-locale.spec.mjs": "831fc02559438410a600c5951fdd8be49931ade3469f428c5e3ace49902f2078",
+    "tests/delivery-locale.test.mjs": "21da3ca6187e41a1dcc71c764704b2ba8cb8d2dbce671f65e8919b2ce375f363",
+    "tests/demo-data.test.mjs": "65a717ea2215e55b009bcb938235547ca0cf295f9f4f6123fae6caed9ca197ed",
+    "tests/help-screens-consistency.spec.mjs": "99568a05b8b3fd1b4ea1bcb85dc2edc9c9ac17a0a28ba1372b17bbd01dc1ab2e",
+    "tests/i18n-coverage.test.mjs": "a267e411249dae55de30c4282cef3a7ed130ba9c5e93a5de99617315df2644fd",
+    "tests/invoice-geography.spec.mjs": "92cd6556ea3b7f33109914f6f300e0066377b69fb9b1a90e185f0bb698bd735d",
+    "tests/invoice-journey.spec.mjs": "c8b10fb5d630f06a4bd85465a83d4e64b3723de1e86aa74c3ea0f33b1d9f9334",
+    "tests/invoice-selection.spec.mjs": "afe708994b164c9adfe6d55eb726bf895da7015978f92d9fcae0486e91d54450",
+    "tests/language-selector.test.mjs": "fd72e786c51f21af19f7eb148c5d1cd77c341cc75696f299cbee874f2892a2b7",
+    "tests/language-switcher.spec.mjs": "c24bd09e21d63162c8eb15f6526a44ef922bf2109ca069d74949c2866088e494",
+    "tests/launchpad-quick-access.spec.mjs": "e7685ab0c95a90f0333e47f92c2f925201adf3ae08d91aa0de83402958e0db90",
+    "tests/leave-guard.spec.mjs": "cf38f39fd6529984fba9972c08aa1b9a32ee8bbb29d6494359591ca22aa17db2",
+    "tests/lifecycle.spec.mjs": "d7c7be8ee5a0c8fa1dabad19104c09b9fd64a74a968cf0f520856c2667f195e4",
+    "tests/mail-draft-exit.spec.mjs": "7534022db3a5ca1a151a0d20a7a7fed4c692c6fa558135882189bef2bb8a8ceb",
+    "tests/messaging.spec.mjs": "c54dfca9efdcbfc8130b4bc130968fd61bb6f7efff4ae99080ad637d3bc06653",
+    "tests/navigation-honesty.spec.mjs": "5e979c22ae02da875994b1c3bb6bfa6568aeb0adbee5193b59f066d393034dd4",
+    "tests/navigation.test.mjs": "cd68e51abc0b493c802462d583717f864083a3fe04ad7e8c230a61e99d4564ad",
+    "tests/organization-center.spec.mjs": "5e4527595ba8fc484d153a813a1b225ccb41a595ebbfecf3eae098223e895fc1",
+    "tests/organization-center.test.mjs": "06ba9ed56e07d2a5ad49adaadd141b59f17c382cb8fbc31c7a1a143c60feba56",
+    "tests/parity.spec.mjs": "44a56503f6ac752628c44eea0ce2d36f2e714642b42aff9c42c67b53f0670e0d",
+    "tests/profile-lifecycle.spec.mjs": "ab34de96f52fb9c57cbd25eb96083c7dae0602c1b7fa1e7667cfe234152341db",
+    "tests/profile-page.test.mjs": "1204927e73bb8a256981b48f5fc6eecad6f86d17f30b6a55932c219bf57f74bb",
+    "tests/routes.test.mjs": "568b56e625e891b5dd145751d27b1195890aaec3c809d921e716d938d3f36434",
+    "tests/routing.spec.mjs": "798b62558818137c9ae97e9e58387d09cdcd98748cc905887128173a27f21c7e",
+    "tests/settings-navigation-style.test.mjs": "2196e00fbce50d144e473e6bfb17116b1e68b244697236993f101891e012dd21",
+    "tests/signin-gate.spec.mjs": "398fcce2a383ba7425077e51cea318f573091512d2cc003d921232bd86c18d91",
+    "tests/signin-pages.spec.mjs": "f7c39275d6237757219a7d9acb2cf85bc29c0bd16ad5c19c1ffb5fca1d4531e6",
+    "tests/signin.test.mjs": "c6b3e2b5f7e87246a095eb86f5805918c25b53e1ea0ab1c1b3947de3988bc35f",
+    "tests/spotlight.test.mjs": "2fe8ef4b6302c8ac7b0ff287e0216d4d6d108e3483258d12177041691626ad1d",
+    "tests/table-customer-ux.test.mjs": "141c4d04aae5734bfd3908d22fe0928ddab7b6375b28b9559d308e070c543de7",
+    "tests/tailwind.test.mjs": "faa777394684440c5124849ed81141fb019918a068ae890e9b17b810eff8d23b",
+    "tests/user-menu.spec.mjs": "e183ddd76e0339c36ed9c8e8600da414748cc8e9752cdbded456e0b678280644",
+    "tests/visual-qa-batch1.spec.mjs": "b72a07a3b0cf5a32133197b8b5975573dad59ca5a45e915995171e6f2426f3b1",
+    "tests/visual-qa-batch2.spec.mjs": "08a87869e09d617b74d417b1bf0e0e54c6b91c76577c1d16c64c68bd6d22d3ce",
+    "tests/visual-qa-batch3.spec.mjs": "5821625e00b286706e92b44e22856729e7b281d0d2244c2fb8b33873512ef26a",
+    "tests/workflow-contracts.test.mjs": "0f379a5ffc1e29c9dc8af19352d56124acd49a2d174990e0ee10b4a147f6d7a7",
+    "tests/zz-probe-t34.spec.mjs": "465b00ce2d387871da462b2764943f42b1d31b77199e7a00fc6a71550a12988f",
+    "tests/dialog-option-values.spec.mjs": "c80de07a461a9c40a067394b2ab3248ea89c69cac1df1ef860e451aa5c7e1eed"
+  }
+}

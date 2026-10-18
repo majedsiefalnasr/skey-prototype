@@ -1,0 +1,232 @@
+
+Running 77 tests using 2 workers
+
+(node:40146) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:40145) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/77] [desktop] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[2/77] [desktop] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[3/77] [desktop] › tests/delivery-locale.spec.mjs:25:1 › Arabic geography labels retain stable type and status values
+[4/77] [desktop] › tests/delivery-locale.spec.mjs:36:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[5/77] [desktop] › tests/delivery-locale.spec.mjs:49:1 › Arabic Organization headings and session action dialog are translated
+[6/77] [desktop] › tests/delivery-locale.spec.mjs:62:1 › Arabic invoice and customer primary record controls are translated
+[7/77] [desktop] › tests/delivery-locale.spec.mjs:75:1 › Arabic mail reading toolbar labels are translated
+[8/77] [desktop] › tests/delivery-locale.spec.mjs:85:1 › invoice posting dialog follows a locale switch when reopened
+[9/77] [desktop] › tests/delivery-locale.spec.mjs:109:1 › Arabic customer changes save back with Arabic feedback
+[10/77] [desktop] › tests/delivery-locale.spec.mjs:124:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[11/77] [desktop] › tests/delivery-locale.spec.mjs:137:1 › new Arabic payment rows keep stable method values and translated labels
+(node:40202) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[12/77] [mobile-touch] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+(node:40204) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[13/77] [mobile-touch] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[14/77] [mobile-touch] › tests/delivery-locale.spec.mjs:25:1 › Arabic geography labels retain stable type and status values
+[15/77] [mobile-touch] › tests/delivery-locale.spec.mjs:36:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[16/77] [mobile-touch] › tests/delivery-locale.spec.mjs:49:1 › Arabic Organization headings and session action dialog are translated
+[17/77] [mobile-touch] › tests/delivery-locale.spec.mjs:62:1 › Arabic invoice and customer primary record controls are translated
+[18/77] [mobile-touch] › tests/delivery-locale.spec.mjs:75:1 › Arabic mail reading toolbar labels are translated
+[19/77] [mobile-touch] › tests/delivery-locale.spec.mjs:85:1 › invoice posting dialog follows a locale switch when reopened
+[20/77] [mobile-touch] › tests/delivery-locale.spec.mjs:109:1 › Arabic customer changes save back with Arabic feedback
+[21/77] [mobile-touch] › tests/delivery-locale.spec.mjs:124:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[22/77] [mobile-touch] › tests/delivery-locale.spec.mjs:137:1 › new Arabic payment rows keep stable method values and translated labels
+(node:40223) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[23/77] [desktop-dark] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[24/77] [desktop-dark] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[25/77] [desktop-dark] › tests/delivery-locale.spec.mjs:25:1 › Arabic geography labels retain stable type and status values
+[26/77] [desktop-dark] › tests/delivery-locale.spec.mjs:36:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[27/77] [desktop-dark] › tests/delivery-locale.spec.mjs:49:1 › Arabic Organization headings and session action dialog are translated
+[28/77] [desktop-dark] › tests/delivery-locale.spec.mjs:62:1 › Arabic invoice and customer primary record controls are translated
+[29/77] [desktop-dark] › tests/delivery-locale.spec.mjs:75:1 › Arabic mail reading toolbar labels are translated
+[30/77] [desktop-dark] › tests/delivery-locale.spec.mjs:85:1 › invoice posting dialog follows a locale switch when reopened
+[31/77] [desktop-dark] › tests/delivery-locale.spec.mjs:109:1 › Arabic customer changes save back with Arabic feedback
+[32/77] [desktop-dark] › tests/delivery-locale.spec.mjs:124:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[33/77] [desktop-dark] › tests/delivery-locale.spec.mjs:137:1 › new Arabic payment rows keep stable method values and translated labels
+(node:40238) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[34/77] [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[35/77] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[36/77] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:25:1 › Arabic geography labels retain stable type and status values
+[37/77] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:36:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[38/77] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:49:1 › Arabic Organization headings and session action dialog are translated
+[39/77] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:62:1 › Arabic invoice and customer primary record controls are translated
+[40/77] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:75:1 › Arabic mail reading toolbar labels are translated
+[41/77] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:85:1 › invoice posting dialog follows a locale switch when reopened
+[42/77] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:109:1 › Arabic customer changes save back with Arabic feedback
+[43/77] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:124:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[44/77] [desktop-high-contrast-light] › tests/delivery-locale.spec.mjs:137:1 › new Arabic payment rows keep stable method values and translated labels
+(node:40260) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[45/77] [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[46/77] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[47/77] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:25:1 › Arabic geography labels retain stable type and status values
+[48/77] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:36:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[49/77] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:49:1 › Arabic Organization headings and session action dialog are translated
+[50/77] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:62:1 › Arabic invoice and customer primary record controls are translated
+[51/77] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:75:1 › Arabic mail reading toolbar labels are translated
+  1) [mobile-touch] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('.list-view .data-page-manage').locator(':scope > summary')
+        - locator resolved to <summary class="inline-flex min-h-[32px] items-center gap-[7px] rounded-md border border-transparent px-[9px] py-[5px] font-semibold text-[12.5px] text-ink whitespace-nowrap cursor-pointer list-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11 [@media(pointer:coarse)]:justify-center [&::-webkit-details-marker]:hidden hover:bg-[var(--line-2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--accent)] border-line! bg-surface!">…</summary>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Reporting</div> from <div role="group" aria-label="Manage invoices" class="data-menu-popover fixed z-[120] grid min-w-[140px] max-w-[min(420px,calc(100vw-16px))] max-h-[min(420px,calc(100vh-16px))] gap-0.5 overflow-auto rounded-lg border border-line bg-surface p-1.5 [box-shadow:var(--shadow-1)] [&:has([data-list-custom-filter-apply])]:min-w-[220px] [&>button]:flex [&>button]:w-full [&>button]:min-h-8 [&>button]:cursor-pointer [&>button]:items-center [&>button]:gap-[9px] [&>button]:rounded-[5px] [&>button]:border-0! [&>…>…</div> subtree intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Reporting</div> from <div role="group" aria-label="Manage invoices" class="data-menu-popover fixed z-[120] grid min-w-[140px] max-w-[min(420px,calc(100vw-16px))] max-h-[min(420px,calc(100vh-16px))] gap-0.5 overflow-auto rounded-lg border border-line bg-surface p-1.5 [box-shadow:var(--shadow-1)] [&:has([data-list-custom-filter-apply])]:min-w-[220px] [&>button]:flex [&>button]:w-full [&>button]:min-h-8 [&>button]:cursor-pointer [&>button]:items-center [&>button]:gap-[9px] [&>button]:rounded-[5px] [&>button]:border-0! [&>…>…</div> subtree intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        56 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Reporting</div> from <div role="group" aria-label="Manage invoices" class="data-menu-popover fixed z-[120] grid min-w-[140px] max-w-[min(420px,calc(100vw-16px))] max-h-[min(420px,calc(100vh-16px))] gap-0.5 overflow-auto rounded-lg border border-line bg-surface p-1.5 [box-shadow:var(--shadow-1)] [&:has([data-list-custom-filter-apply])]:min-w-[220px] [&>button]:flex [&>button]:w-full [&>button]:min-h-8 [&>button]:cursor-pointer [&>button]:items-center [&>button]:gap-[9px] [&>button]:rounded-[5px] [&>button]:border-0! [&>…>…</div> subtree intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      17 |   await page.locator('#rtl').evaluate(el => {el.checked=false;el.dispatchEvent(new Event('change',{bubbles:true}));});
+      18 |   await expect(page.locator('.list-view .inv-grid')).toHaveClass(/borders-none/);
+    > 19 |   await menu.locator(':scope > summary').click();
+         |                                          ^
+      20 |   const restored = menu.locator('[data-list-manage-border="none"]');
+      21 |   await expect(restored).toBeChecked();
+      22 |   await expect(restored.locator('..')).toHaveText('None');
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/delivery-locale.spec.mjs:19:42
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/locale-focused-out/delivery-locale-Arabic-inv-dd54d-hout-changing-border-values-mobile-touch/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/locale-focused-out/delivery-locale-Arabic-inv-dd54d-hout-changing-border-values-mobile-touch/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/locale-focused-out/delivery-locale-Arabic-inv-dd54d-hout-changing-border-values-mobile-touch/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[52/77] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:109:1 › Arabic customer changes save back with Arabic feedback
+(node:40277) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[53/77] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:85:1 › invoice posting dialog follows a locale switch when reopened
+[54/77] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:124:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[55/77] [desktop-high-contrast-dark] › tests/delivery-locale.spec.mjs:137:1 › new Arabic payment rows keep stable method values and translated labels
+(node:40285) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[56/77] [mobile-rtl] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+(node:40290) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[57/77] [mobile-rtl] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[58/77] [mobile-rtl] › tests/delivery-locale.spec.mjs:25:1 › Arabic geography labels retain stable type and status values
+[59/77] [mobile-rtl] › tests/delivery-locale.spec.mjs:36:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[60/77] [mobile-rtl] › tests/delivery-locale.spec.mjs:49:1 › Arabic Organization headings and session action dialog are translated
+[61/77] [mobile-rtl] › tests/delivery-locale.spec.mjs:62:1 › Arabic invoice and customer primary record controls are translated
+[62/77] [mobile-rtl] › tests/delivery-locale.spec.mjs:75:1 › Arabic mail reading toolbar labels are translated
+[63/77] [mobile-rtl] › tests/delivery-locale.spec.mjs:85:1 › invoice posting dialog follows a locale switch when reopened
+[64/77] [mobile-rtl] › tests/delivery-locale.spec.mjs:109:1 › Arabic customer changes save back with Arabic feedback
+[65/77] [mobile-rtl] › tests/delivery-locale.spec.mjs:124:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[66/77] [mobile-rtl] › tests/delivery-locale.spec.mjs:137:1 › new Arabic payment rows keep stable method values and translated labels
+(node:40305) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[67/77] [desktop-reduced-motion] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[68/77] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+[69/77] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:25:1 › Arabic geography labels retain stable type and status values
+[70/77] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:36:1 › Arabic Profile headings and Save controls localize without discarding typed values
+[71/77] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:49:1 › Arabic Organization headings and session action dialog are translated
+[72/77] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:62:1 › Arabic invoice and customer primary record controls are translated
+[73/77] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:75:1 › Arabic mail reading toolbar labels are translated
+[74/77] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:85:1 › invoice posting dialog follows a locale switch when reopened
+[75/77] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:109:1 › Arabic customer changes save back with Arabic feedback
+[76/77] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:124:1 › receipt voucher action clearly stops at the prototype boundary in Arabic
+[77/77] [desktop-reduced-motion] › tests/delivery-locale.spec.mjs:137:1 › new Arabic payment rows keep stable method values and translated labels
+  2) [mobile-rtl] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('.list-view .data-page-manage').locator(':scope > summary')
+        - locator resolved to <summary class="inline-flex min-h-[32px] items-center gap-[7px] rounded-md border border-transparent px-[9px] py-[5px] font-semibold text-[12.5px] text-ink whitespace-nowrap cursor-pointer list-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11 [@media(pointer:coarse)]:justify-center [&::-webkit-details-marker]:hidden hover:bg-[var(--line-2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--accent)] border-line! bg-surface!">…</summary>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Reporting</div> from <div role="group" aria-label="Manage invoices" class="data-menu-popover fixed z-[120] grid min-w-[140px] max-w-[min(420px,calc(100vw-16px))] max-h-[min(420px,calc(100vh-16px))] gap-0.5 overflow-auto rounded-lg border border-line bg-surface p-1.5 [box-shadow:var(--shadow-1)] [&:has([data-list-custom-filter-apply])]:min-w-[220px] [&>button]:flex [&>button]:w-full [&>button]:min-h-8 [&>button]:cursor-pointer [&>button]:items-center [&>button]:gap-[9px] [&>button]:rounded-[5px] [&>button]:border-0! [&>…>…</div> subtree intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Reporting</div> from <div role="group" aria-label="Manage invoices" class="data-menu-popover fixed z-[120] grid min-w-[140px] max-w-[min(420px,calc(100vw-16px))] max-h-[min(420px,calc(100vh-16px))] gap-0.5 overflow-auto rounded-lg border border-line bg-surface p-1.5 [box-shadow:var(--shadow-1)] [&:has([data-list-custom-filter-apply])]:min-w-[220px] [&>button]:flex [&>button]:w-full [&>button]:min-h-8 [&>button]:cursor-pointer [&>button]:items-center [&>button]:gap-[9px] [&>button]:rounded-[5px] [&>button]:border-0! [&>…>…</div> subtree intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        56 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <div class="data-manage-group-label px-2 pt-[7px] pb-1 text-xs font-bold text-muted">Reporting</div> from <div role="group" aria-label="Manage invoices" class="data-menu-popover fixed z-[120] grid min-w-[140px] max-w-[min(420px,calc(100vw-16px))] max-h-[min(420px,calc(100vh-16px))] gap-0.5 overflow-auto rounded-lg border border-line bg-surface p-1.5 [box-shadow:var(--shadow-1)] [&:has([data-list-custom-filter-apply])]:min-w-[220px] [&>button]:flex [&>button]:w-full [&>button]:min-h-8 [&>button]:cursor-pointer [&>button]:items-center [&>button]:gap-[9px] [&>button]:rounded-[5px] [&>button]:border-0! [&>…>…</div> subtree intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      17 |   await page.locator('#rtl').evaluate(el => {el.checked=false;el.dispatchEvent(new Event('change',{bubbles:true}));});
+      18 |   await expect(page.locator('.list-view .inv-grid')).toHaveClass(/borders-none/);
+    > 19 |   await menu.locator(':scope > summary').click();
+         |                                          ^
+      20 |   const restored = menu.locator('[data-list-manage-border="none"]');
+      21 |   await expect(restored).toBeChecked();
+      22 |   await expect(restored.locator('..')).toHaveText('None');
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/delivery-locale.spec.mjs:19:42
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/locale-focused-out/delivery-locale-Arabic-inv-dd54d-hout-changing-border-values-mobile-rtl/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/locale-focused-out/delivery-locale-Arabic-inv-dd54d-hout-changing-border-values-mobile-rtl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/locale-focused-out/delivery-locale-Arabic-inv-dd54d-hout-changing-border-values-mobile-rtl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  2 failed
+    [mobile-touch] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values 
+    [mobile-rtl] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values 
+  75 passed (1.2m)

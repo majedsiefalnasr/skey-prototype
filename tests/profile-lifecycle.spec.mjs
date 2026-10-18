@@ -5,6 +5,7 @@
 // Devices card, so its sign-out scenarios are gone with it.
 import {test, expect} from '@playwright/test';
 import {boot, settle} from './support/browser.mjs';
+const localized = (english, arabic) => test.info().project.use.rtl ? arabic : english;
 
 /**
  * Open the profile page's Page contract to a given section via the topbar
@@ -41,7 +42,7 @@ test.describe('profile page', () => {
     await openProfileSection(page, 'profile');
     await expect(page.locator('.profile-view')).toBeVisible();
     await expect(page.locator('[data-profile-scroll-section]')).toHaveCount(7);
-    await expect(page.locator('[data-profile-scroll-section]')).toHaveText([
+    await expect(page.locator('[data-profile-scroll-section]')).toHaveText(test.info().project.use.rtl ? ['الملف الشخصي', 'بيانات الموظف', 'بيانات الاتصال', 'إعدادات الحساب', 'المظهر', 'الأمان', 'الجلسات والأجهزة'] : [
       'Profile',
       'Employee details',
       'Contact details',
@@ -78,7 +79,7 @@ test.describe('profile page', () => {
     await phone.fill('+20 100 999 8888');
     await expect(page.locator('#profile-profile-save')).toBeEnabled();
     await page.locator('#profile-profile-save').click();
-    await expect(page.locator('.toast')).toContainText('Profile saved');
+    await expect(page.locator('.toast')).toContainText(localized('Profile saved', 'تم حفظ الملف الشخصي'));
     await expect(page.locator('#profile-profile-save')).toBeDisabled();
 
     await jobTitle.fill('Temporary title');
@@ -105,7 +106,7 @@ test.describe('profile page', () => {
     await landingPage.selectOption('invoices');
     await expect(page.locator('#profile-account-save')).toBeEnabled();
     await page.locator('#profile-account-save').click();
-    await expect(page.locator('.toast')).toContainText('Account settings saved');
+    await expect(page.locator('.toast')).toContainText(localized('Account settings saved', 'تم حفظ إعدادات الحساب'));
     await expect(page.locator('#profile-account-save')).toBeDisabled();
 
     await page.reload();
@@ -129,7 +130,7 @@ test.describe('profile page', () => {
     await extension.fill('410');
     await officeLocation.fill('Cairo HQ · Floor 5');
     await page.locator('#profile-employee-save').click();
-    await expect(page.locator('.toast')).toContainText('Employee details saved');
+    await expect(page.locator('.toast')).toContainText(localized('Employee details saved', 'تم حفظ بيانات الموظف'));
 
     await officeLocation.fill('Temporary office');
     await page.locator('#profile-employee-undo').click();
@@ -155,7 +156,7 @@ test.describe('profile page', () => {
     await city.fill('Alexandria');
     await website.fill('https://example.com');
     await page.locator('#profile-contact-save').click();
-    await expect(page.locator('.toast')).toContainText('Contact details saved');
+    await expect(page.locator('.toast')).toContainText(localized('Contact details saved', 'تم حفظ بيانات الاتصال'));
 
     await city.fill('Temporary city');
     await page.locator('#profile-contact-undo').click();
@@ -185,11 +186,11 @@ test.describe('profile page', () => {
     await page.locator('#new-password').fill('newpassword1');
     await page.locator('#confirm-password').fill('doesNotMatch');
     await page.locator('#change-password-form button[type=submit]').click();
-    await expect(page.locator('#change-password-error')).toHaveText(/do not match/);
+    await expect(page.locator('#change-password-error')).toHaveText(test.info().project.use.rtl ? /غير متطابقين/ : /do not match/);
     await page.locator('#confirm-password').fill('newpassword1');
     await page.locator('#change-password-form button[type=submit]').click();
     await expect(page.locator('#change-password-scrim')).not.toHaveClass(/open/);
-    await expect(page.locator('.toast')).toContainText('Password changed');
+    await expect(page.locator('.toast')).toContainText(localized('Password changed', 'تم تغيير كلمة المرور'));
   });
 
   test('profile card style switches between inherited cards and simple groups', async ({page}) => {

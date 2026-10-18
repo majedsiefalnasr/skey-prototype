@@ -1,0 +1,70 @@
+
+Running 7 tests using 2 workers
+
+(node:38183) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:38182) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/7] [mobile-touch] › tests/data-list-component.spec.mjs:371:1 › toolbar data-menus dismiss with Escape and outside click
+[2/7] [desktop] › tests/data-list-component.spec.mjs:371:1 › toolbar data-menus dismiss with Escape and outside click
+(node:38192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:38193) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[3/7] [desktop-dark] › tests/data-list-component.spec.mjs:371:1 › toolbar data-menus dismiss with Escape and outside click
+[4/7] [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:371:1 › toolbar data-menus dismiss with Escape and outside click
+(node:38202) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:38203) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[5/7] [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:371:1 › toolbar data-menus dismiss with Escape and outside click
+[6/7] [mobile-rtl] › tests/data-list-component.spec.mjs:371:1 › toolbar data-menus dismiss with Escape and outside click
+(node:38212) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[7/7] [desktop-reduced-motion] › tests/data-list-component.spec.mjs:371:1 › toolbar data-menus dismiss with Escape and outside click
+  1) [mobile-rtl] › tests/data-list-component.spec.mjs:371:1 › toolbar data-menus dismiss with Escape and outside click 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('.list-view').locator('.data-menu').filter({ has: locator(':scope > summary').filter({ hasText: /^Columns$/ }) }).locator(':scope > summary')
+
+
+      381 |
+      382 |   // Escape closes the popover and returns focus to its summary.
+    > 383 |   await summary.click();
+          |                 ^
+      384 |   await expect(columnsMenu).toHaveJSProperty('open', true);
+      385 |   await page.keyboard.press('Escape');
+      386 |   await expect(columnsMenu).toHaveJSProperty('open', false);
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/data-list-component.spec.mjs:383:17
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/toolbar-fixed-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/toolbar-fixed-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/toolbar-fixed-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    [mobile-rtl] › tests/data-list-component.spec.mjs:371:1 › toolbar data-menus dismiss with Escape and outside click 
+  6 passed (34.9s)

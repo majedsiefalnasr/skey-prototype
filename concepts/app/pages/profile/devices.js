@@ -10,5 +10,5 @@ export function renderLoginLogTable(rows, encodeHtml) {
         `<tr><td>${encodeHtml(row.timestamp)}</td><td>${encodeHtml(row.device)}</td><td>${encodeHtml(row.ip)}</td><td>${encodeHtml(row.status)}</td></tr>`
     )
     .join('')
-  return `<table class="profile-login-log w-full text-[13px] [&_th]:text-start [&_th]:text-muted [&_th]:font-semibold [&_th]:[padding:7px_9px] [&_td]:[padding:7px_9px] [&_td]:[border-top:1px_solid_var(--line)]"><thead><tr><th>Time</th><th>Device</th><th>IP address</th><th>Status</th></tr></thead><tbody>${body}</tbody></table>`
+  return `<table class="profile-login-log w-full text-[13px] [&_th]:text-start [&_th]:text-muted [&_th]:font-semibold [&_th]:[padding:7px_9px] [&_td]:[padding:7px_9px] [&_td]:[border-top:1px_solid_var(--line)]"><thead><tr><th data-i18n="Time">Time</th><th data-i18n="Device">Device</th><th data-i18n="IP address">IP address</th><th data-i18n="Status">Status</th></tr></thead><tbody>${body}</tbody></table>`
 }

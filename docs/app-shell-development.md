@@ -71,7 +71,7 @@ retained compatibility-selector count, and the Tailwind utility migration's scre
 audit findings (including two confirmed pre-existing regressions surfaced by that
 audit that are out of scope for a documentation-only task to fix).
 
-ApexCharts remains the original render-blocking CDN script with its original integrity
+ApexCharts loads with `defer` and its original integrity
 attribute. Static screenshot helpers abort the request because their initial views do
 not draw charts. `tests/chart-parity.spec.mjs` instead uses the actual integrity-checked
 ApexCharts bytes from `.baseline/`, compares with the historical page, and checks cleanup.
@@ -87,13 +87,13 @@ interactions belong in `shell/`; page workflows belong in `pages/`; shared list 
 belongs in `components/data-list/`. Sample records remain in `prototype/fixtures/`.
 Prototype controls call initialized page interfaces and restore the existing storage keys.
 
-Each owner keeps complete CSS rule blocks. Numbered stylesheet segments keep later
-blocks at their original position in the cascade; merge or reorder them only after
-checking precedence. The entry links all application styles before prototype styles.
-`styles/overrides.css` and `overrides-2.css` contain the original cross-cutting density,
-input-style, and touch patches. `tests/support/style-inventory.json` records the ordered
-rules and checkpoint offsets. `tests/styles.test.mjs` proves the linked files reconstruct
-the mechanical stylesheet byte-for-byte, including media conditions and declarations.
+The entry links the compiled `styles/tailwind.css` before prototype styles. Its
+`styles/tailwind/` imports own the token, base, shared component and page rules;
+cross-cutting density, input-style and touch rules remain in that ordered cascade.
+Use literal utilities for new presentation changes and document retained selectors
+under an allowed category in `styles/tailwind/compatibility.md`. The older numbered
+stylesheet inventory records the mechanical extraction checkpoint, not the current
+Tailwind layout. Check precedence before reordering any import or rule block.
 
 `styles/tailwind.css` is compiled during `npm run build` into the staged `dist/` tree;
 the browser always loads that generated stylesheet. `scripts/tailwind.mjs` invokes the

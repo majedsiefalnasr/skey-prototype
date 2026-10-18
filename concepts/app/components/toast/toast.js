@@ -23,6 +23,8 @@
 // All four tones pass an explicit `ms` to opt back into a timer; the
 // default only applies to the two auto-dismiss tones.
 
+import {uiLocale} from '../../core/locale.js'
+
 /** Auto-dismiss window Atlaskit's AutoDismissFlag uses. */
 const AUTO_DISMISS_MS = 8000
 
@@ -120,6 +122,9 @@ export function createToast(host) {
   }
 
   const toast = ({tone = 'ok', title, body, action, onAction, ms, avoid}) => {
+    title = uiLocale.t(title)
+    if (body) body = uiLocale.t(body)
+    if (action) action = uiLocale.t(action)
     const kind = TONES[tone] || TONES.ok
     const t = document.createElement('div')
     t.className = `toast ${kind.cls} pointer-events-auto absolute bottom-0 start-0 flex w-full items-start gap-2.5 rounded-lg px-3.5 py-3 shadow-shell transition-[transform,visibility] duration-[250ms] ease-[cubic-bezier(0.4,0,0,1)] motion-reduce:transition-none [animation:toastin_250ms_cubic-bezier(0,0.4,0,1)_both] motion-reduce:animate-none ${kind.box}`

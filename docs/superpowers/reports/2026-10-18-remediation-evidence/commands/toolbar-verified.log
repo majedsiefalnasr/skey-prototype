@@ -1,0 +1,39 @@
+
+Running 7 tests using 2 workers
+
+(node:38693) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:38692) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/7] [desktop] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[2/7] [mobile-touch] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+(node:38702) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:38703) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[3/7] [desktop-dark] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[4/7] [desktop-high-contrast-light] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+(node:38713) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:38712) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[5/7] [mobile-rtl] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+[6/7] [desktop-high-contrast-dark] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+(node:38755) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[7/7] [desktop-reduced-motion] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+  7 passed (8.9s)

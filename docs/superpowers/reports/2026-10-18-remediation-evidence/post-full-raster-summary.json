@@ -1,0 +1,417 @@
+{
+  "browserVersion": "153.0.8010.12",
+  "scope": "45 screenshots across 15 fresh contexts; original assertions retained for five selected states in a read-only diagnostic clone",
+  "rows": [
+    {
+      "state": "desktop/mail-compose-draft.png",
+      "contexts": 3,
+      "shots": 9,
+      "imageVariants": 2,
+      "observedDomVariants": 4,
+      "withinContextVariants": [
+        1,
+        1,
+        1
+      ],
+      "variants": [
+        {
+          "filename": "desktop-mail-compose-draft.png-0-0.png",
+          "sha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-mail-compose-draft.png-0-1.png",
+          "sha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-mail-compose-draft.png-0-2.png",
+          "sha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-mail-compose-draft.png-5-0.png",
+          "sha256": "0547c2c685400654395196a787e5c8b9a77ae5eb09c176d2c2bbde93370623da",
+          "differentPixelsFromFirst": 3,
+          "bounds": [
+            333,
+            144,
+            335,
+            146
+          ],
+          "maxChannelDelta": 5
+        },
+        {
+          "filename": "desktop-mail-compose-draft.png-5-1.png",
+          "sha256": "0547c2c685400654395196a787e5c8b9a77ae5eb09c176d2c2bbde93370623da",
+          "differentPixelsFromFirst": 3,
+          "bounds": [
+            333,
+            144,
+            335,
+            146
+          ],
+          "maxChannelDelta": 5
+        },
+        {
+          "filename": "desktop-mail-compose-draft.png-5-2.png",
+          "sha256": "0547c2c685400654395196a787e5c8b9a77ae5eb09c176d2c2bbde93370623da",
+          "differentPixelsFromFirst": 3,
+          "bounds": [
+            333,
+            144,
+            335,
+            146
+          ],
+          "maxChannelDelta": 5
+        },
+        {
+          "filename": "desktop-mail-compose-draft.png-10-0.png",
+          "sha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-mail-compose-draft.png-10-1.png",
+          "sha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-mail-compose-draft.png-10-2.png",
+          "sha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        }
+      ],
+      "domAndStyleVariantsExcludingAnimationTelemetry": 1,
+      "animationObservation": "Mail toggle 120ms background/translate transitions present before the first screenshot and absent after animations:disabled fast-forwards them. Measured control/ancestor geometry/styles remain unchanged. Pixel variation cannot be attributed conclusively to those transitions."
+    },
+    {
+      "state": "desktop-dark/mail-compose-draft.png",
+      "contexts": 3,
+      "shots": 9,
+      "imageVariants": 1,
+      "observedDomVariants": 4,
+      "withinContextVariants": [
+        1,
+        1,
+        1
+      ],
+      "variants": [
+        {
+          "filename": "desktop-dark-mail-compose-draft.png-1-0.png",
+          "sha256": "f245e2ec4033a3b89a2f6132b1aa30e3fa02c281cbad16d80dd89e1317993c7e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-dark-mail-compose-draft.png-1-1.png",
+          "sha256": "f245e2ec4033a3b89a2f6132b1aa30e3fa02c281cbad16d80dd89e1317993c7e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-dark-mail-compose-draft.png-1-2.png",
+          "sha256": "f245e2ec4033a3b89a2f6132b1aa30e3fa02c281cbad16d80dd89e1317993c7e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-dark-mail-compose-draft.png-6-0.png",
+          "sha256": "f245e2ec4033a3b89a2f6132b1aa30e3fa02c281cbad16d80dd89e1317993c7e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-dark-mail-compose-draft.png-6-1.png",
+          "sha256": "f245e2ec4033a3b89a2f6132b1aa30e3fa02c281cbad16d80dd89e1317993c7e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-dark-mail-compose-draft.png-6-2.png",
+          "sha256": "f245e2ec4033a3b89a2f6132b1aa30e3fa02c281cbad16d80dd89e1317993c7e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-dark-mail-compose-draft.png-11-0.png",
+          "sha256": "f245e2ec4033a3b89a2f6132b1aa30e3fa02c281cbad16d80dd89e1317993c7e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-dark-mail-compose-draft.png-11-1.png",
+          "sha256": "f245e2ec4033a3b89a2f6132b1aa30e3fa02c281cbad16d80dd89e1317993c7e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-dark-mail-compose-draft.png-11-2.png",
+          "sha256": "f245e2ec4033a3b89a2f6132b1aa30e3fa02c281cbad16d80dd89e1317993c7e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        }
+      ],
+      "domAndStyleVariantsExcludingAnimationTelemetry": 1,
+      "animationObservation": "Mail toggle 120ms background/translate transitions present before the first screenshot and absent after animations:disabled fast-forwards them. Measured control/ancestor geometry/styles remain unchanged. Pixel variation cannot be attributed conclusively to those transitions."
+    },
+    {
+      "state": "desktop-high-contrast-light/notes-list-archived.png",
+      "contexts": 3,
+      "shots": 9,
+      "imageVariants": 1,
+      "observedDomVariants": 1,
+      "withinContextVariants": [
+        1,
+        1,
+        1
+      ],
+      "variants": [
+        {
+          "filename": "desktop-high-contrast-light-notes-list-archived.png-2-0.png",
+          "sha256": "577d14c755a51e89d3d6a91c249ea478ade13922312990079212e49e5a598123",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-light-notes-list-archived.png-2-1.png",
+          "sha256": "577d14c755a51e89d3d6a91c249ea478ade13922312990079212e49e5a598123",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-light-notes-list-archived.png-2-2.png",
+          "sha256": "577d14c755a51e89d3d6a91c249ea478ade13922312990079212e49e5a598123",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-light-notes-list-archived.png-7-0.png",
+          "sha256": "577d14c755a51e89d3d6a91c249ea478ade13922312990079212e49e5a598123",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-light-notes-list-archived.png-7-1.png",
+          "sha256": "577d14c755a51e89d3d6a91c249ea478ade13922312990079212e49e5a598123",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-light-notes-list-archived.png-7-2.png",
+          "sha256": "577d14c755a51e89d3d6a91c249ea478ade13922312990079212e49e5a598123",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-light-notes-list-archived.png-12-0.png",
+          "sha256": "577d14c755a51e89d3d6a91c249ea478ade13922312990079212e49e5a598123",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-light-notes-list-archived.png-12-1.png",
+          "sha256": "577d14c755a51e89d3d6a91c249ea478ade13922312990079212e49e5a598123",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-light-notes-list-archived.png-12-2.png",
+          "sha256": "577d14c755a51e89d3d6a91c249ea478ade13922312990079212e49e5a598123",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        }
+      ],
+      "domAndStyleVariantsExcludingAnimationTelemetry": 1,
+      "animationObservation": "Recorded DOM/styles/animation data identical; interbuild corner difference did not reproduce in nine final-build shots."
+    },
+    {
+      "state": "desktop-high-contrast-dark/notes-list-archived.png",
+      "contexts": 3,
+      "shots": 9,
+      "imageVariants": 1,
+      "observedDomVariants": 1,
+      "withinContextVariants": [
+        1,
+        1,
+        1
+      ],
+      "variants": [
+        {
+          "filename": "desktop-high-contrast-dark-notes-list-archived.png-3-0.png",
+          "sha256": "8cefee212e985ea85939c4e203bafaad94def94fccd55a9c7e77aff4f1c604a4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-notes-list-archived.png-3-1.png",
+          "sha256": "8cefee212e985ea85939c4e203bafaad94def94fccd55a9c7e77aff4f1c604a4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-notes-list-archived.png-3-2.png",
+          "sha256": "8cefee212e985ea85939c4e203bafaad94def94fccd55a9c7e77aff4f1c604a4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-notes-list-archived.png-8-0.png",
+          "sha256": "8cefee212e985ea85939c4e203bafaad94def94fccd55a9c7e77aff4f1c604a4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-notes-list-archived.png-8-1.png",
+          "sha256": "8cefee212e985ea85939c4e203bafaad94def94fccd55a9c7e77aff4f1c604a4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-notes-list-archived.png-8-2.png",
+          "sha256": "8cefee212e985ea85939c4e203bafaad94def94fccd55a9c7e77aff4f1c604a4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-notes-list-archived.png-13-0.png",
+          "sha256": "8cefee212e985ea85939c4e203bafaad94def94fccd55a9c7e77aff4f1c604a4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-notes-list-archived.png-13-1.png",
+          "sha256": "8cefee212e985ea85939c4e203bafaad94def94fccd55a9c7e77aff4f1c604a4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-notes-list-archived.png-13-2.png",
+          "sha256": "8cefee212e985ea85939c4e203bafaad94def94fccd55a9c7e77aff4f1c604a4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        }
+      ],
+      "domAndStyleVariantsExcludingAnimationTelemetry": 1,
+      "animationObservation": "Recorded DOM/styles/animation data identical; interbuild corner difference did not reproduce in nine final-build shots."
+    },
+    {
+      "state": "desktop-reduced-motion/mail-compose-draft.png",
+      "contexts": 3,
+      "shots": 9,
+      "imageVariants": 1,
+      "observedDomVariants": 4,
+      "withinContextVariants": [
+        1,
+        1,
+        1
+      ],
+      "variants": [
+        {
+          "filename": "desktop-reduced-motion-mail-compose-draft.png-4-0.png",
+          "sha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-reduced-motion-mail-compose-draft.png-4-1.png",
+          "sha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-reduced-motion-mail-compose-draft.png-4-2.png",
+          "sha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-reduced-motion-mail-compose-draft.png-9-0.png",
+          "sha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-reduced-motion-mail-compose-draft.png-9-1.png",
+          "sha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-reduced-motion-mail-compose-draft.png-9-2.png",
+          "sha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-reduced-motion-mail-compose-draft.png-14-0.png",
+          "sha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-reduced-motion-mail-compose-draft.png-14-1.png",
+          "sha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-reduced-motion-mail-compose-draft.png-14-2.png",
+          "sha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        }
+      ],
+      "domAndStyleVariantsExcludingAnimationTelemetry": 1,
+      "animationObservation": "Mail toggle 120ms background/translate transitions present before the first screenshot and absent after animations:disabled fast-forwards them. Measured control/ancestor geometry/styles remain unchanged. Pixel variation cannot be attributed conclusively to those transitions."
+    }
+  ],
+  "conclusion": "Recorded DOM/styles/geometry stable after separating animation telemetry. Mail toggle transitions were observed before capture and fast-forwarded by the unchanged screenshot options; only desktop Mail reproduced pixel variation. Exact corner raster cause remains unresolved. Other four selected final states were pixel stable in this bounded sample; interbuild differences remain recorded, not accepted."
+}

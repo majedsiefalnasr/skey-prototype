@@ -1,0 +1,482 @@
+[
+  {
+    "project": "desktop",
+    "label": "customers",
+    "path": "/customers/list",
+    "file": "desktop-customers.png",
+    "geometry": {
+      "canvas": {
+        "x": 316,
+        "y": 63,
+        "width": 1124,
+        "height": 788,
+        "top": 63,
+        "right": 1440,
+        "bottom": 851,
+        "left": 316
+      },
+      "heading": {
+        "x": 332,
+        "y": 100.84375,
+        "width": 114.828125,
+        "height": 33.34375,
+        "top": 100.84375,
+        "right": 446.828125,
+        "bottom": 134.1875,
+        "left": 332
+      },
+      "documentWidth": 1440,
+      "viewport": 1440
+    }
+  },
+  {
+    "project": "desktop",
+    "label": "mail",
+    "path": "/help-screens/email",
+    "file": "desktop-mail.png",
+    "geometry": {
+      "canvas": {
+        "x": 316,
+        "y": 63,
+        "width": 1124,
+        "height": 836,
+        "top": 63,
+        "right": 1440,
+        "bottom": 899,
+        "left": 316
+      },
+      "heading": {
+        "x": 332,
+        "y": 100.84375,
+        "width": 964.25,
+        "height": 28.75,
+        "top": 100.84375,
+        "right": 1296.25,
+        "bottom": 129.59375,
+        "left": 332
+      },
+      "documentWidth": 1440,
+      "viewport": 1440
+    }
+  },
+  {
+    "project": "desktop",
+    "label": "notes",
+    "path": "/help-screens/notes",
+    "file": "desktop-notes.png",
+    "geometry": {
+      "canvas": {
+        "x": 316,
+        "y": 63,
+        "width": 1124,
+        "height": 836,
+        "top": 63,
+        "right": 1440,
+        "bottom": 899,
+        "left": 316
+      },
+      "heading": {
+        "x": 332,
+        "y": 100.84375,
+        "width": 964.4375,
+        "height": 28.75,
+        "top": 100.84375,
+        "right": 1296.4375,
+        "bottom": 129.59375,
+        "left": 332
+      },
+      "documentWidth": 1440,
+      "viewport": 1440
+    }
+  },
+  {
+    "project": "desktop",
+    "label": "activities",
+    "path": "/help-screens/activities",
+    "file": "desktop-activities.png",
+    "geometry": {
+      "canvas": {
+        "x": 316,
+        "y": 63,
+        "width": 1124,
+        "height": 836,
+        "top": 63,
+        "right": 1440,
+        "bottom": 899,
+        "left": 316
+      },
+      "heading": {
+        "x": 332,
+        "y": 100.84375,
+        "width": 945.640625,
+        "height": 28.75,
+        "top": 100.84375,
+        "right": 1277.640625,
+        "bottom": 129.59375,
+        "left": 332
+      },
+      "documentWidth": 1440,
+      "viewport": 1440
+    }
+  },
+  {
+    "project": "desktop",
+    "label": "events",
+    "path": "/help-screens/events",
+    "file": "desktop-events.png",
+    "geometry": {
+      "canvas": {
+        "x": 316,
+        "y": 63,
+        "width": 1124,
+        "height": 836,
+        "top": 63,
+        "right": 1440,
+        "bottom": 899,
+        "left": 316
+      },
+      "heading": {
+        "x": 332,
+        "y": 100.84375,
+        "width": 957.4375,
+        "height": 28.75,
+        "top": 100.84375,
+        "right": 1289.4375,
+        "bottom": 129.59375,
+        "left": 332
+      },
+      "documentWidth": 1440,
+      "viewport": 1440
+    }
+  },
+  {
+    "project": "desktop",
+    "label": "for-you",
+    "path": "/customers",
+    "file": "desktop-for-you.png",
+    "geometry": {
+      "canvas": {
+        "x": 316,
+        "y": 63,
+        "width": 1124,
+        "height": 836,
+        "top": 63,
+        "right": 1440,
+        "bottom": 899,
+        "left": 316
+      },
+      "heading": {
+        "x": 332,
+        "y": 105.84375,
+        "width": 1092,
+        "height": 25,
+        "top": 105.84375,
+        "right": 1424,
+        "bottom": 130.84375,
+        "left": 332
+      },
+      "documentWidth": 1440,
+      "viewport": 1440
+    }
+  },
+  {
+    "project": "desktop",
+    "label": "dashboard",
+    "path": "/dashboard",
+    "file": "desktop-dashboard.png",
+    "geometry": {
+      "canvas": {
+        "x": 316,
+        "y": 63,
+        "width": 1124,
+        "height": 836,
+        "top": 63,
+        "right": 1440,
+        "bottom": 899,
+        "left": 316
+      },
+      "heading": {
+        "x": 332,
+        "y": 105.84375,
+        "width": 1092,
+        "height": 25,
+        "top": 105.84375,
+        "right": 1424,
+        "bottom": 130.84375,
+        "left": 332
+      },
+      "documentWidth": 1440,
+      "viewport": 1440
+    }
+  },
+  {
+    "project": "desktop",
+    "label": "placeholder",
+    "path": "/customers/unavailable?screen=Marketers",
+    "file": "desktop-placeholder.png",
+    "geometry": {
+      "canvas": {
+        "x": 316,
+        "y": 63,
+        "width": 1124,
+        "height": 836,
+        "top": 63,
+        "right": 1440,
+        "bottom": 899,
+        "left": 316
+      },
+      "heading": {
+        "x": 332,
+        "y": 105.84375,
+        "width": 1092,
+        "height": 25,
+        "top": 105.84375,
+        "right": 1424,
+        "bottom": 130.84375,
+        "left": 332
+      },
+      "documentWidth": 1440,
+      "viewport": 1440
+    }
+  },
+  {
+    "project": "mobile-rtl",
+    "label": "customers",
+    "path": "/customers/list",
+    "file": "mobile-rtl-customers.png",
+    "geometry": {
+      "canvas": {
+        "x": 0,
+        "y": 109,
+        "width": 338,
+        "height": 616,
+        "top": 109,
+        "right": 338,
+        "bottom": 725,
+        "left": 0
+      },
+      "heading": {
+        "x": 247.671875,
+        "y": 146.84375,
+        "width": 64.328125,
+        "height": 33.34375,
+        "top": 146.84375,
+        "right": 312,
+        "bottom": 180.1875,
+        "left": 247.671875
+      },
+      "documentWidth": 390,
+      "viewport": 390
+    }
+  },
+  {
+    "project": "mobile-rtl",
+    "label": "mail",
+    "path": "/help-screens/email",
+    "file": "mobile-rtl-mail.png",
+    "geometry": {
+      "canvas": {
+        "x": 0,
+        "y": 109,
+        "width": 338,
+        "height": 734,
+        "top": 109,
+        "right": 338,
+        "bottom": 843,
+        "left": 0
+      },
+      "heading": {
+        "x": 127.359375,
+        "y": 146.84375,
+        "width": 184.640625,
+        "height": 28.75,
+        "top": 146.84375,
+        "right": 312,
+        "bottom": 175.59375,
+        "left": 127.359375
+      },
+      "documentWidth": 390,
+      "viewport": 390
+    }
+  },
+  {
+    "project": "mobile-rtl",
+    "label": "notes",
+    "path": "/help-screens/notes",
+    "file": "mobile-rtl-notes.png",
+    "geometry": {
+      "canvas": {
+        "x": 0,
+        "y": 109,
+        "width": 338,
+        "height": 734,
+        "top": 109,
+        "right": 338,
+        "bottom": 843,
+        "left": 0
+      },
+      "heading": {
+        "x": 65.5,
+        "y": 146.84375,
+        "width": 246.5,
+        "height": 28.75,
+        "top": 146.84375,
+        "right": 312,
+        "bottom": 175.59375,
+        "left": 65.5
+      },
+      "documentWidth": 390,
+      "viewport": 390
+    }
+  },
+  {
+    "project": "mobile-rtl",
+    "label": "activities",
+    "path": "/help-screens/activities",
+    "file": "mobile-rtl-activities.png",
+    "geometry": {
+      "canvas": {
+        "x": 0,
+        "y": 109,
+        "width": 338,
+        "height": 734,
+        "top": 109,
+        "right": 338,
+        "bottom": 843,
+        "left": 0
+      },
+      "heading": {
+        "x": 32.796875,
+        "y": 146.84375,
+        "width": 279.203125,
+        "height": 28.75,
+        "top": 146.84375,
+        "right": 312,
+        "bottom": 175.59375,
+        "left": 32.796875
+      },
+      "documentWidth": 390,
+      "viewport": 390
+    }
+  },
+  {
+    "project": "mobile-rtl",
+    "label": "events",
+    "path": "/help-screens/events",
+    "file": "mobile-rtl-events.png",
+    "geometry": {
+      "canvas": {
+        "x": 0,
+        "y": 109,
+        "width": 338,
+        "height": 734,
+        "top": 109,
+        "right": 338,
+        "bottom": 843,
+        "left": 0
+      },
+      "heading": {
+        "x": 42.875,
+        "y": 146.84375,
+        "width": 269.125,
+        "height": 28.75,
+        "top": 146.84375,
+        "right": 312,
+        "bottom": 175.59375,
+        "left": 42.875
+      },
+      "documentWidth": 390,
+      "viewport": 390
+    }
+  },
+  {
+    "project": "mobile-rtl",
+    "label": "for-you",
+    "path": "/customers",
+    "file": "mobile-rtl-for-you.png",
+    "geometry": {
+      "canvas": {
+        "x": 0,
+        "y": 109,
+        "width": 338,
+        "height": 734,
+        "top": 109,
+        "right": 338,
+        "bottom": 843,
+        "left": 0
+      },
+      "heading": {
+        "x": 26,
+        "y": 151.84375,
+        "width": 286,
+        "height": 25,
+        "top": 151.84375,
+        "right": 312,
+        "bottom": 176.84375,
+        "left": 26
+      },
+      "documentWidth": 390,
+      "viewport": 390
+    }
+  },
+  {
+    "project": "mobile-rtl",
+    "label": "dashboard",
+    "path": "/dashboard",
+    "file": "mobile-rtl-dashboard.png",
+    "geometry": {
+      "canvas": {
+        "x": 0,
+        "y": 109,
+        "width": 338,
+        "height": 734,
+        "top": 109,
+        "right": 338,
+        "bottom": 843,
+        "left": 0
+      },
+      "heading": {
+        "x": 26,
+        "y": 151.84375,
+        "width": 286,
+        "height": 25,
+        "top": 151.84375,
+        "right": 312,
+        "bottom": 176.84375,
+        "left": 26
+      },
+      "documentWidth": 390,
+      "viewport": 390
+    }
+  },
+  {
+    "project": "mobile-rtl",
+    "label": "placeholder",
+    "path": "/customers/unavailable?screen=Marketers",
+    "file": "mobile-rtl-placeholder.png",
+    "geometry": {
+      "canvas": {
+        "x": 0,
+        "y": 109,
+        "width": 338,
+        "height": 734,
+        "top": 109,
+        "right": 338,
+        "bottom": 843,
+        "left": 0
+      },
+      "heading": {
+        "x": 26,
+        "y": 151.84375,
+        "width": 286,
+        "height": 25,
+        "top": 151.84375,
+        "right": 312,
+        "bottom": 176.84375,
+        "left": 26
+      },
+      "documentWidth": 390,
+      "viewport": 390
+    }
+  }
+]

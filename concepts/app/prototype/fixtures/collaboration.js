@@ -17,7 +17,7 @@ export const COLLAB_USERS = ORGANIZATION_USERS.map(({id, name, role}) => ({
   id,
   name,
   role,
-  email: `${name.split(' ')[0].toLowerCase()}@lastchance.local`,
+  email: id === CURRENT_USER_ID ? CURRENT_USER.email : `${name.split(' ')[0].toLowerCase()}@lastchance.local`,
 }))
 
 const SEEDED_AT = '2026-10-01T09:00'
@@ -46,7 +46,7 @@ const event = fields => stamp({type: 'event', location: '', participantIds: [CUR
 const events = [
   event({id: 'evt-1', title: 'Monthly sales review', allDay: false, start: '2026-10-15T10:00', end: '2026-10-15T11:00', location: 'Meeting room 2', participantIds: ['usr-1', 'usr-2', 'usr-3'], reminder: '10m', repeat: 'monthly'}),
   event({id: 'evt-2', title: 'Company holiday', allDay: true, start: '2026-10-06', end: '2026-10-06'}),
-  event({id: 'evt-3', title: 'Supplier visit — Al Noor', allDay: false, start: '2026-10-13T11:00', end: '2026-10-13T12:00', location: 'Cairo HQ'}),
+  event({id: 'evt-3', title: 'Customer visit — Al Noor', allDay: false, start: '2026-10-13T11:00', end: '2026-10-13T12:00', location: 'Cairo HQ'}),
   event({id: 'evt-4', title: 'Quarter close', allDay: true, start: '2026-10-29', end: '2026-10-30'}),
 ]
 
@@ -87,9 +87,9 @@ const mail = [
       unread: false,
       starred: false,
       hue: 210,
-      sentAt: '2026-10-13T14:40',
+      sentAt: '2026-10-13T12:40',
     },
-    '2026-10-13T14:40'
+    '2026-10-13T12:40'
   ),
   stamp(
     {

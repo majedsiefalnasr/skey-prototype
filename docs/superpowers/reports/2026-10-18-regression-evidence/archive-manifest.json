@@ -1,0 +1,22 @@
+{
+  "corrected-historical-playwright.json.gz": {
+    "originalSha256": "e2d2c7ae56ddefb72f3578f1dd4cd1218e97d1a66928e50b0cb667bdeeee99dd",
+    "originalBytes": 3471143,
+    "compressedSha256": "b2b3ecb9bec064f533c5e60f085228aba3df4813679388dc59bfd2c76d06c305"
+  },
+  "post-approval-preflight.json.gz": {
+    "originalSha256": "d581e4f071560bd1e01cd80f1f1854920955e67f218c4d823c708b967083a17a",
+    "originalBytes": 135563,
+    "compressedSha256": "df3d297f5bee8e82a3f2b0fd33f9b3b31ecc3ebb7acee0e64251c332a95c7bfd"
+  },
+  "post-approval-capture.json.gz": {
+    "originalSha256": "b4627c4c64ee9068079e555e06f9a6e537892e13ccf541c2cba17735f2af443d",
+    "originalBytes": 158717,
+    "compressedSha256": "3c85a307800170e4428bd710bb7ea32ecf349be52490ee32d8248f99ee9cfc09"
+  },
+  "final-playwright.json.gz": {
+    "originalSha256": "84a96302f2f5b67dd3b757b95bb7371783ab2837874b6535ccbade782bd7905d",
+    "originalBytes": 3931316,
+    "compressedSha256": "ba009bf62e5b3f03eb5377df332a1dc75d17bc4a8c1540b99520193134593273"
+  }
+}

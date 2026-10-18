@@ -1,3 +1,4 @@
+import {uiLocale} from '../../core/locale.js'
 import {canPerformOrganizationAction} from './access.js'
 
 export const ORGANIZATION_SESSION_STATE_KEY = 'skey-proto-organization-session-actions'
@@ -26,7 +27,7 @@ export function renderOrganizationSessionTarget(kind, row, encodeHtml) {
   const secondLabel = terminating ? 'Current operation' : 'Branch'
   const secondValue = terminating ? row.query : row.branch
 
-  return `<div data-organization-session-summary class="flex items-start gap-3"><span class="flex size-9 flex-none items-center justify-center rounded-md bg-surface text-muted"><svg width="17" height="17" aria-hidden="true"><use href="#i-${terminating ? 'flow' : 'user'}" /></svg></span><div class="min-w-0"><span class="block text-[11px] font-medium text-muted">${label}</span><strong class="mt-0.5 block text-[14px] leading-5 text-ink">${title}</strong></div></div><dl class="mt-3 grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-1.5 border-t border-line pt-3 text-xs"><dt class="text-muted">${firstLabel}</dt><dd class="m-0 min-w-0 break-words text-ink">${encodeHtml(firstValue)}</dd><dt class="text-muted">${secondLabel}</dt><dd class="m-0 min-w-0 break-words text-ink">${encodeHtml(secondValue)}</dd></dl>`
+  return `<div data-organization-session-summary class="flex items-start gap-3"><span class="flex size-9 flex-none items-center justify-center rounded-md bg-surface text-muted"><svg width="17" height="17" aria-hidden="true"><use href="#i-${terminating ? 'flow' : 'user'}" /></svg></span><div class="min-w-0"><span class="block text-[11px] font-medium text-muted">${uiLocale.t(label)}</span><strong class="mt-0.5 block text-[14px] leading-5 text-ink">${title}</strong></div></div><dl class="mt-3 grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-1.5 border-t border-line pt-3 text-xs"><dt class="text-muted">${uiLocale.t(firstLabel)}</dt><dd class="m-0 min-w-0 break-words text-ink">${encodeHtml(firstValue)}</dd><dt class="text-muted">${uiLocale.t(secondLabel)}</dt><dd class="m-0 min-w-0 break-words text-ink">${encodeHtml(secondValue)}</dd></dl>`
 }
 
 export function createOrganizationSessionActions({root, role, data, storage, toast, encodeHtml, rerender, trapFocus, releaseFocus}) {
@@ -54,16 +55,21 @@ export function createOrganizationSessionActions({root, role, data, storage, toa
     if (!row || !canPerformOrganizationAction(role, action, row)) return
     pending = {kind, row, action}
     form.reset()
-    error.textContent = ''
-    const terminating = kind === 'terminate'
-    title.textContent = terminating ? 'Terminate database session' : 'Revoke application session'
-    description.textContent = terminating
-      ? 'The selected database workload will be interrupted immediately.'
-      : 'The selected user will be signed out from this device immediately.'
-    confirm.textContent = terminating ? 'Terminate session' : 'Revoke session'
-    target.innerHTML = renderOrganizationSessionTarget(kind, row, encodeHtml)
+    error.textContent = uiLocale.t('')
+    refreshLocale()
     dialog.classList.add('open')
     trapFocus(dialog.querySelector('.dlg'))
+  }
+
+  function refreshLocale() {
+    if (!pending) return
+    const terminating = pending.kind === 'terminate'
+    title.textContent = uiLocale.t(terminating ? 'Terminate database session' : 'Revoke application session')
+    description.textContent = terminating
+      ? uiLocale.t('The selected database workload will be interrupted immediately.')
+      : uiLocale.t('The selected user will be signed out from this device immediately.')
+    confirm.textContent = uiLocale.t(terminating ? 'Terminate session' : 'Revoke session')
+    target.innerHTML = renderOrganizationSessionTarget(pending.kind, pending.row, encodeHtml)
   }
 
   function submit(event) {
@@ -71,12 +77,12 @@ export function createOrganizationSessionActions({root, role, data, storage, toa
     if (!pending) return
     const operationalReason = reason.value.trim()
     if (!operationalReason) {
-      error.textContent = 'Enter an operational reason before continuing.'
+      error.textContent = uiLocale.t('Enter an operational reason before continuing.')
       reason.focus()
       return
     }
     if (!canPerformOrganizationAction(role, pending.action, pending.row)) {
-      error.textContent = 'This session is protected or outside your permitted scope.'
+      error.textContent = uiLocale.t('This session is protected or outside your permitted scope.')
       return
     }
 
@@ -155,5 +161,5 @@ export function createOrganizationSessionActions({root, role, data, storage, toa
     document.removeEventListener('keydown', keydown)
   }
 
-  return {bind, open, dispose}
+  return {bind, open, dispose, refreshLocale}
 }

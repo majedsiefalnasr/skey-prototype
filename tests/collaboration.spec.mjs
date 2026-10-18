@@ -293,7 +293,7 @@ test.describe('events', () => {
     await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Monthly sales review'})).toBeVisible()
     await page.locator('.events-view [data-cal-modes] button', {hasText: 'Week'}).click()
     await expect(page.locator('.events-view [data-allday-row]')).toBeVisible()
-    await expect(page.locator('.events-view [data-timed] [data-cal-item]', {hasText: 'Supplier visit'})).toBeVisible()
+    await expect(page.locator('.events-view [data-timed] [data-cal-item]', {hasText: 'Customer visit'})).toBeVisible()
     await page.locator('.events-view [data-cal-next]').click()
     await expect(page.locator('.events-view [data-cal-title]')).toContainText('18')
     await page.locator('.events-view [data-cal-today]').click()
@@ -331,7 +331,7 @@ test.describe('events', () => {
     await expect(chip).toHaveJSProperty('open', true)
     const summary = chip.locator('summary .data-filter-value')
     await expect(summary).toHaveText('Anyone')
-    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Supplier visit'})).toBeVisible()
+    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Customer visit'})).toBeVisible()
     const search = chip.locator('[data-collab-filter-search]')
     await search.fill('mariam')
     await expect(chip.getByRole('option', {name: /^Mariam/})).toBeVisible()
@@ -340,15 +340,15 @@ test.describe('events', () => {
     await expect(chip).toHaveJSProperty('open', true)
     await expect(summary).toHaveText(/^Mariam Adel/)
     await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Monthly sales review'})).toBeVisible()
-    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Supplier visit'})).toHaveCount(0)
+    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Customer visit'})).toHaveCount(0)
     await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Company holiday'})).toHaveCount(0)
     await search.fill('omar')
     await chip.getByRole('option', {name: /^Omar/}).click()
     await expect(summary).toHaveText(/\+1$/)
     await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Monthly sales review'})).toBeVisible()
-    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Supplier visit'})).toHaveCount(0)
+    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Customer visit'})).toHaveCount(0)
     await page.locator('.events-view [data-clear-filters]').click()
-    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Supplier visit'})).toBeVisible()
+    await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Customer visit'})).toBeVisible()
     await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Company holiday'})).toBeVisible()
   })
 
@@ -361,7 +361,7 @@ test.describe('events', () => {
     await panel(page).getByRole('button', {name: 'Save'}).click()
     await expect(page.locator('.events-view [data-conflict-notice]')).toContainText('2 events overlap')
     await expect(page.locator('.events-view [data-cal-conflict="true"]')).toHaveCount(2)
-    await expect(page.locator('.events-view [data-cal-conflict="true"]', {hasText: 'Supplier visit'})).toHaveAttribute('aria-label', /conflicting/)
+    await expect(page.locator('.events-view [data-cal-conflict="true"]', {hasText: 'Customer visit'})).toHaveAttribute('aria-label', /conflicting/)
     await expect(page.locator('.events-view [data-cal-conflict="true"]', {hasText: 'Al Noor follow-up'})).toHaveAttribute('aria-label', /conflicting/)
     await expect(page.locator('.events-view [data-cal-item]', {hasText: 'Company holiday'})).not.toHaveAttribute('aria-label', /conflicting/)
   })
@@ -564,7 +564,7 @@ test.describe('activities', () => {
     await expect(view.locator('[data-cal-item]', {hasText: 'Send revised price list'})).toHaveCount(0)
     await expect(view.locator('[data-cal-item]', {hasText: 'Confirm stock counts'})).toHaveCount(0)
     await expect(view.locator('[data-unscheduled-notice]')).toContainText('unscheduled')
-    await expect(view.locator('[data-cal-item]', {hasText: 'Supplier visit'})).toHaveCount(0)
+    await expect(view.locator('[data-cal-item]', {hasText: 'Customer visit'})).toHaveCount(0)
   })
 
   test('clearing the scheduled time removes it from the calendar', async ({page}) => {
@@ -725,7 +725,7 @@ test.describe('internal mail', () => {
   test('checkboxes multi-select and the bulk bar acts on the whole selection', async ({page}) => {
     await go(page, '/help-screens/email')
     await row(page, 'Payment scheduled').locator('[data-mail-check]').check()
-    await row(page, 'New quotation').locator('[data-mail-check]').check()
+    await row(page, 'Quotation request from Al Noor Trading').locator('[data-mail-check]').check()
     // Two or more selected: the reading toolbar becomes the bulk bar, and
     // the pane shows a stack of the selected messages' own cards — never
     // any single message's content.
@@ -736,10 +736,10 @@ test.describe('internal mail', () => {
     await expect(page.locator('.email-sel-card', {hasText: 'Payment scheduled for Sales Invoice 126'})).toBeVisible()
     await bulk.getByRole('button', {name: 'Delete'}).click()
     await expect(row(page, 'Payment scheduled')).toHaveCount(0)
-    await expect(row(page, 'New quotation')).toHaveCount(0)
+    await expect(row(page, 'Quotation request from Al Noor Trading')).toHaveCount(0)
     await folder(page, 'trash').click()
     await expect(row(page, 'Payment scheduled')).toBeVisible()
-    await expect(row(page, 'New quotation')).toBeVisible()
+    await expect(row(page, 'Quotation request from Al Noor Trading')).toBeVisible()
   })
 
   test('list header names the mailbox, filters unread and selects all', async ({page}) => {
@@ -803,13 +803,13 @@ test.describe('internal mail', () => {
   test('multi-selection stacks full-row cards behind the front card', async ({page}) => {
     await go(page, '/help-screens/email')
     await row(page, 'Payment scheduled').locator('[data-mail-check]').check()
-    await row(page, 'New quotation').locator('[data-mail-check]').check()
+    await row(page, 'Quotation request from Al Noor Trading').locator('[data-mail-check]').check()
     await expect(page.locator('[data-sel-count]')).toHaveText('2 messages selected')
     const cards = page.locator('.email-sel-card')
     await expect(cards).toHaveCount(2)
     const edge = page.locator('[data-deck-edge]')
     await expect(edge).toHaveCount(1)
-    await expect(edge).toContainText('New quotation')
+    await expect(edge).toContainText('Quotation request from Al Noor Trading')
     const geometry = await cards.evaluateAll(els =>
       els.map(el => {
         const rect = el.getBoundingClientRect()
@@ -900,12 +900,12 @@ test.describe('internal mail', () => {
     await expect(rail.locator('[data-folder]')).toHaveCount(7)
 
     // Move a message into it from the reading toolbar.
-    await row(page, 'New quotation').click()
+    await row(page, 'Quotation request from Al Noor Trading').click()
     await page.getByRole('button', {name: 'Move to', exact: true}).click()
     await page.getByRole('menuitem', {name: 'Clients'}).click()
-    await expect(row(page, 'New quotation')).toHaveCount(0)
+    await expect(row(page, 'Quotation request from Al Noor Trading')).toHaveCount(0)
     await named('Clients').click()
-    await expect(row(page, 'New quotation')).toBeVisible()
+    await expect(row(page, 'Quotation request from Al Noor Trading')).toBeVisible()
     await expect(named('Clients')).toContainText('1')
 
     // Renaming keeps what was filed in it.
@@ -914,13 +914,13 @@ test.describe('internal mail', () => {
     await page.locator('[data-folder-name]').fill('Key accounts')
     await page.locator('[data-folder-form]').getByRole('button', {name: 'Save'}).click()
     await expect(named('Key accounts')).toBeVisible()
-    await expect(row(page, 'New quotation')).toBeVisible()
+    await expect(row(page, 'Quotation request from Al Noor Trading')).toBeVisible()
 
     // The folder is store state, so a fresh document load still has both.
     await go(page, '/help-screens/email')
     await expect(named('Key accounts')).toBeVisible()
     await named('Key accounts').click()
-    await expect(row(page, 'New quotation')).toBeVisible()
+    await expect(row(page, 'Quotation request from Al Noor Trading')).toBeVisible()
 
     // Deleting files its messages back in Inbox instead of losing them.
     await expandRail()
@@ -929,7 +929,7 @@ test.describe('internal mail', () => {
     await page.locator('#collab-confirm').getByRole('button', {name: 'Delete folder'}).click()
     await expect(rail.locator('[data-folder]')).toHaveCount(6)
     await expect(named('Key accounts')).toHaveCount(0)
-    await expect(row(page, 'New quotation')).toBeVisible()
+    await expect(row(page, 'Quotation request from Al Noor Trading')).toBeVisible()
   })
 
   test('mailbox rail peeks on hover and pins open from its own button', async ({page}) => {
@@ -1040,10 +1040,10 @@ test.describe('internal mail', () => {
     await folder(page, 'trash').click()
     await expect(row(page, 'password expires')).toBeVisible()
     await folder(page, 'inbox').click()
-    await row(page, 'New quotation').click()
+    await row(page, 'Quotation request from Al Noor Trading').click()
     await page.getByRole('toolbar', {name: 'Message actions'}).getByRole('button', {name: 'Archive', exact: true}).click()
     await folder(page, 'archive').click()
-    await expect(row(page, 'New quotation')).toBeVisible()
+    await expect(row(page, 'Quotation request from Al Noor Trading')).toBeVisible()
   })
 
   test('search filters within the folder', async ({page}) => {

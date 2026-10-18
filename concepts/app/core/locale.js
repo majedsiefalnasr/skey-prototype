@@ -1,4 +1,5 @@
 import {COLLAB_AR} from './collaboration-translations.js'
+import {DELIVERY_AR} from './delivery-translations.js'
 // Shared locale facility — extracted verbatim from the single-file legacy
 // application script (concepts/app/legacy-app.js). Owns the Arabic
 // translation dictionary, the encodeHtml() sanitizer, and date/currency
@@ -43,6 +44,7 @@ export function createLocale() {
         let appLocale = 'en'
         const I18N = {
           ...COLLAB_AR,
+          ...DELIVERY_AR,
           // Customer record
           Customer: 'العميل',
           'Customer No.': 'رقم العميل',
@@ -80,6 +82,19 @@ export function createLocale() {
           // Sales Invoice record
           'Sales Invoice': 'فاتورة المبيعات',
           General: 'عام',
+          'Prototype: identity, status and the header fields on the list row (customer, dates, payment type, currency, branch, warehouse, sales rep, price list) follow the selected invoice. Lines, payment details, other tabs, history, totals, dialog amounts and the journal use shared demo data.': 'نموذج تجريبي: الهوية والحالة وحقول الرأس الموجودة في صف القائمة (العميل والتواريخ ونوع الدفع والعملة والفرع والمخزن ومندوب المبيعات وقائمة الأسعار) تخص الفاتورة المحددة؛ أما البنود وتفاصيل الدفع والتبويبات الأخرى والسجل والإجماليات ومبالغ النوافذ وقيد اليومية فتستخدم بيانات تجريبية مشتركة.',
+          'Due Date': 'تاريخ الاستحقاق',
+          // Customer record: deactivation note
+          'Deactivated on': 'تم التعطيل في',
+          Reason: 'السبب',
+          'Deactivated invoices are not shown on the board.': 'الفواتير الموقوفة لا تظهر على اللوحة.',
+          // Data list pager
+          'Previous page': 'الصفحة السابقة',
+          'Next page': 'الصفحة التالية',
+          // Placeholder for screens outside the prototype
+          'Not in this prototype': 'غير متاحة في هذا النموذج',
+          'This screen is not part of the prototype.': 'هذه الشاشة ليست جزءا من النموذج الأولي.',
+          'Back to {app}': 'العودة إلى {app}',
           Year: 'السنة',
           'Doc Sub-Type': 'النوع الفرعي للمستند',
           Sequence: 'التسلسل',
@@ -319,6 +334,7 @@ export function createLocale() {
             'أخبرنا عنك وسنجهّز مساحة عمل لفريقك.',
           'Full name': 'الاسم الكامل',
           'Work email': 'البريد الإلكتروني للعمل',
+          'Demo work email:': 'بريد العمل التجريبي:',
           'Request received — we will email {email} within one business day. (demo)':
             'تم استلام الطلب — سنراسل {email} خلال يوم عمل واحد. (تجريبي)',
           'Data processing': 'معالجة البيانات',
@@ -400,7 +416,7 @@ export function createLocale() {
           Navigate: 'التنقل',
           Open: 'فتح',
           'Change scope': 'تغيير النطاق',
-          'Actions apply to invoice 126': 'الإجراءات تنطبق على الفاتورة 126',
+          'Actions apply to invoice {no}': 'الإجراءات تنطبق على الفاتورة {no}',
           'You are on': 'أنت الآن على',
           // Profile → Account settings (the profile half of the language selector)
           Username: 'اسم المستخدم',

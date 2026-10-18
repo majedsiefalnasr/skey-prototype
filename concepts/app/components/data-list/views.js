@@ -44,7 +44,7 @@ export function renderDataListRowActionMenu(
   {encodeHtml, dataListIcon}
 ) {
   const contextAttr = context ? ` data-list-context="${encodeHtml(context)}"` : ''
-  return `<details class="data-menu end data-row-menu relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5"${contextAttr}><summary class="${DATA_MENU_SUMMARY_CLASS} w-8! min-h-8 justify-center px-[5px]! py-[5px]!" aria-label="Actions for ${encodeHtml(config.singular)} ${encodeHtml(key)}" title="Record actions">${dataListIcon('i-dots')}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[190px]" role="menu">${actionsHtml}</div></details>`
+  return `<details class="data-menu end data-row-menu relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5"${contextAttr}><summary class="${DATA_MENU_SUMMARY_CLASS} w-8! min-h-8 justify-center px-[5px]! py-[5px]! [@media(pointer:coarse)]:w-11!" aria-label="Actions for ${encodeHtml(config.singular)} ${encodeHtml(key)}" title="Record actions">${dataListIcon('i-dots')}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[190px]" role="menu">${actionsHtml}</div></details>`
 }
 
 /**
@@ -161,7 +161,7 @@ export function renderDataListRecordRows(row, tableContext, deps) {
   // that would have nothing to select/act on for.
   const selectCell = config.noRowActions
     ? ''
-    : `<td class="data-row-select-cell"><input class="m-0! size-[15px] accent-accent" type="checkbox" data-list-row-select value="${encodeHtml(key)}" aria-label="Select ${encodeHtml(config.singular)} ${encodeHtml(key)}"${selected ? ' checked' : ''}></td>`
+    : `<td class="data-row-select-cell"><label class="contents [@media(pointer:coarse)]:grid [@media(pointer:coarse)]:size-11 [@media(pointer:coarse)]:cursor-pointer [@media(pointer:coarse)]:place-items-center"><input class="m-0! size-[15px] accent-accent" type="checkbox" data-list-row-select value="${encodeHtml(key)}" aria-label="Select ${encodeHtml(config.singular)} ${encodeHtml(key)}"${selected ? ' checked' : ''}></label></td>`
   const actionCell = config.noRowActions
     ? ''
     : `<td class="data-row-actions-cell"><div class="data-row-actions flex items-center justify-end gap-0.5">${renderDataListExpandButton(context, key, expanded, overflowColumns, deps)}${renderDataListRowActions(context, row, config, listState.view, deps)}</div></td>`

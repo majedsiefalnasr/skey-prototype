@@ -1,6 +1,7 @@
 import {CUSTOMER_SECTIONS} from '../prototype/fixtures/customers.js'
 import {GEO_ROWS} from '../prototype/fixtures/geography.js'
 import {DATA_LIST_CONFIG} from '../components/data-list/columns.js'
+import {invoiceHeaderFromRow, statusKeyFromLabel} from '../prototype/fixtures/invoices.js'
 
 /** Owns page list actions state and its DOM bindings. */
 export function createPageListActions({getShowContentView, getState, applyState, applyMode, openGeoRecord, applyDataListToolbarCommand, getCustomers, invoiceListStatistics, customerListStatistics, geoListStatistics, dataRecordCardModel, moveInvoiceKanbanCard} = {}) {
@@ -21,12 +22,15 @@ export function createPageListActions({getShowContentView, getState, applyState,
   function invoiceListActions() {
     return {
       openRecord: (key, mode) => {
-        openInvoiceRecord(key)
+        if (!openInvoiceRecord(key)) return false
+        // Opening a locked row in Edit must not silently turn it into Open.
+        if (mode === 'edit' && ['posted', 'canceled', 'inactive'].includes(getState().status)) mode = 'view'
         const modeControl = document.getElementById('mode')
         if (modeControl) {
           modeControl.value = mode === 'view' ? 'record' : mode
           modeControl.dispatchEvent(new Event('change', {bubbles: true}))
         }
+        return true
       },
       newRecord: () => openNewDataListRecord('invoice'),
       run: (command, keys, extra) => {
@@ -103,11 +107,22 @@ export function createPageListActions({getShowContentView, getState, applyState,
   }
 
   function openInvoiceRecord(no) {
-    /* minimal per design spec §4: reflect which row was clicked in the record's
-     title/breadcrumb — not a real invoice data lookup, no backend to query */
-    getState().docNo = no
+    const row = DATA_LIST_CONFIG.invoice.rows.find(row => String(row.no) === String(no))
+    const status = row && statusKeyFromLabel(row.status)
+    if (!status) return false
+    const state = getState()
+    state.docNo = String(row.no)
+    state.docSeq = row.seq
+    state.sourceInvoiceNo = String(row.no)
+    state.status = status
+    /* the row's own header fields and payment type; the #pay control still overrides afterwards */
+    state.header = invoiceHeaderFromRow(row)
+    state.pay = row.pay.toLowerCase()
+    document.getElementById('st').value = state.status
+    document.getElementById('pay').value = state.pay
     getShowContentView()('record')
     applyState()
+    return true
   }
 
   return {openNewDataListRecord, dataListActions, openCustomerRecord}

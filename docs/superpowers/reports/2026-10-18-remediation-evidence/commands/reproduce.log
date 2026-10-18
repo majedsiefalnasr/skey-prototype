@@ -1,0 +1,214 @@
+
+Running 6 tests using 2 workers
+
+(node:37571) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:37572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/6] [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance
+[2/6] [desktop] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+(node:37621) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[3/6] [mobile-touch] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+  1) [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+
+    Error: expect(locator).toHaveScreenshot(expected) failed
+
+    Locator: locator('.email-view')
+      1172 pixels (ratio 0.01 of all image pixels) are different.
+
+      Snapshot: email-reading.png
+
+    Call log:
+      - Expect "toHaveScreenshot(email-reading.png)" locator('.email-view') with timeout 5000ms
+        - verifying given screenshot expectation
+      - waiting for locator('.email-view')
+        - locator resolved to <div class="email-view flex flex-1 min-h-0 flex-col">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - 1172 pixels (ratio 0.01 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - waiting for locator('.email-view')
+        - locator resolved to <div class="email-view flex flex-1 min-h-0 flex-col">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - captured a stable screenshot
+      - 1172 pixels (ratio 0.01 of all image pixels) are different.
+
+
+      21 |   await expect(page.locator('.email-reading-scroll')).toBeVisible();
+      22 |   await expect(page.locator('#notif-badge')).toHaveText(String(unread - 1));
+    > 23 |   await expect(page.locator('.email-view')).toHaveScreenshot('email-reading.png', {animations: 'disabled', maxDiffPixels: 0});
+         |                                             ^
+      24 | });
+      25 |
+      26 | test('email compose retains send feedback', async ({page}, testInfo) => {
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/messaging.spec.mjs:23:45
+
+    attachment #1: email-reading (image/png) ───────────────────────────────────────────────────────
+    Expected: tests/messaging.spec.mjs-snapshots/desktop/email-reading.png
+    Received: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/reproduce-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/email-reading-actual.png
+    Diff:     ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/reproduce-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/email-reading-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/reproduce-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/reproduce-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/reproduce-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:37733) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[4/6] [mobile-touch] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance
+(node:37785) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[5/6] [mobile-rtl] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click
+  2) [mobile-touch] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('.list-view .data-list-toolbar input[type="search"]')
+        - locator resolved to <input value="" type="search" data-list-search="" aria-label="Search invoices" placeholder="Search invoices" class="w-[clamp(160px,18vw,260px)] min-h-[32px] rounded-md border border-line bg-surface py-[5px] ps-[30px] pe-7 font-[inherit] text-[12.5px] text-ink focus:border-[var(--accent)] focus:outline focus:outline-2 focus:outline-[var(--accent-soft)] max-[900px]:w-full"/>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <input checked type="checkbox" data-list-column="pay"/> from <details open="" class="data-menu end relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-au…>…</details> subtree intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <input checked type="checkbox" data-list-column="pay"/> from <details open="" class="data-menu end relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-au…>…</details> subtree intercepts pointer events
+      2 × retrying click action
+          - waiting 100ms
+          - waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <label>…</label> from <details open="" class="data-menu end relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-au…>…</details> subtree intercepts pointer events
+      13 × retrying click action
+           - waiting 500ms
+           - waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <input checked type="checkbox" data-list-column="pay"/> from <details open="" class="data-menu end relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-au…>…</details> subtree intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+           - waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <input checked type="checkbox" data-list-column="pay"/> from <details open="" class="data-menu end relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-au…>…</details> subtree intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+           - waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <label>…</label> from <details open="" class="data-menu end relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-au…>…</details> subtree intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+           - waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <label>…</label> from <details open="" class="data-menu end relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-au…>…</details> subtree intercepts pointer events
+      - retrying click action
+        - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <input checked type="checkbox" data-list-column="pay"/> from <details open="" class="data-menu end relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-au…>…</details> subtree intercepts pointer events
+      - retrying click action
+        - waiting 500ms
+
+
+      389 |   await summary.click();
+      390 |   await expect(columnsMenu).toHaveJSProperty('open', true);
+    > 391 |   await page.locator('.list-view .data-list-toolbar input[type="search"]').click();
+          |                                                                            ^
+      392 |   await expect(columnsMenu).toHaveJSProperty('open', false);
+      393 | });
+      394 |
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/data-list-component.spec.mjs:391:76
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-touch/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:37807) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[6/6] [mobile-rtl] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance
+  3) [mobile-rtl] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('.list-view').locator('.data-menu').filter({ has: locator(':scope > summary').filter({ hasText: /^Columns$/ }) }).locator(':scope > summary')
+
+
+      380 |
+      381 |   // Escape closes the popover and returns focus to its summary.
+    > 382 |   await summary.click();
+          |                 ^
+      383 |   await expect(columnsMenu).toHaveJSProperty('open', true);
+      384 |   await page.keyboard.press('Escape');
+      385 |   await expect(columnsMenu).toHaveJSProperty('open', false);
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/data-list-component.spec.mjs:382:17
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/reproduce-out/data-list-component-toolba-a0371-th-Escape-and-outside-click-mobile-rtl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  3 failed
+    [desktop] › tests/messaging.spec.mjs:16:1 › reading a notification email preserves unread state and appearance 
+    [mobile-touch] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click 
+    [mobile-rtl] › tests/data-list-component.spec.mjs:370:1 › toolbar data-menus dismiss with Escape and outside click 
+  3 passed (36.0s)

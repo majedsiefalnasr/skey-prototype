@@ -389,6 +389,12 @@
           white-space: nowrap;
           border: 0;
         }
+        /* In Mail reading, the opposite edge contains Reply. Keep the
+           launcher visible inside the 52px navigation rail instead. */
+        body:has(.email-view:not([hidden]) #email-reading:not([hidden]) #email-quick-reply) #kit-pill {
+          inset-inline-start: 4px;
+          inset-inline-end: auto;
+        }
         #kit .kit-b input[type='checkbox'] {
           width: 20px;
           height: 20px;

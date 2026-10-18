@@ -1,5 +1,20 @@
 /* invoices selector relationships that cannot be expressed by one element's static utilities. */
 @layer components {
+/* Value-sized minima must also win over the coarse-pointer 44px floor.
+   Keep extra width inside the existing horizontal table scroller. */
+#items-body input { min-width: 44px; }
+#items-body .items-code { min-width: 10ch; }
+#items-body .items-expiry { min-width: 13ch; }
+#items-body .items-price { min-width: 10ch; }
+#items-body .items-batch { min-width: 9ch; }
+/* Fund value space with cell padding, rather than squeezing adjacent
+   quantities/batch codes when the table allocates its column widths. */
+.rec-items .inv-grid :is(th, td) { padding-inline: 8px; }
+/* Keep the three leading header boxes inside the mobile scrollport
+   without reducing the value-sized inputs or changing later columns. */
+@media (max-width: 720px) {
+  .rec-items .inv-grid :is(th, td):nth-child(-n+3) { padding-inline: 6px; }
+}
 /* Invoice and shared modal controllers retain the semantic .open hook. */
 .dscrim.open { display: flex; }
 .stpop.open { display: block; }

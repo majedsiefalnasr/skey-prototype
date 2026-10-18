@@ -42,7 +42,7 @@
       <span
         class="geo-flow-node-title-mount flex min-w-0 flex-1 items-center gap-2 overflow-hidden [&_h1]:overflow-hidden [&_h1]:text-ellipsis [&_h1]:whitespace-nowrap [&_h1]:text-sm [&_h1]:font-semibold [&_.tline]:flex [&_.tline]:min-w-0 [&_.tline]:items-center [&_.tline]:gap-2"
         id="geo-flow-node-title-mount"
-        >Location details</span
+         data-i18n="Location details">Location details</span
       >
       <button
         class="ibtn geo-flow-node-close ms-auto"
@@ -78,8 +78,8 @@
         <use href="#i-trash" />
       </svg>
       <div>
-        <h3 id="geo-delete-tree-title">Delete this tree</h3>
-        <p class="dhd-subtitle">Every location under it is deleted too</p>
+        <h3 id="geo-delete-tree-title" data-i18n="Delete this tree">Delete this tree</h3>
+        <p class="dhd-subtitle" data-i18n="Every location under it is deleted too">Every location under it is deleted too</p>
       </div>
       <button class="ibtn geo-delete-tree-close ms-auto" type="button" aria-label="Close">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
@@ -88,8 +88,8 @@
     <div class="dlg-inner">
       <div class="dbody overflow-auto">
         <p class="text-[13px] text-ink mb-3">
-          This permanently removes <b id="geo-delete-tree-name"></b> and every location under it.
-          This cannot be undone.
+          <span data-i18n="This permanently removes">This permanently removes</span> <b id="geo-delete-tree-name"></b> <span data-i18n="and every location under it. This cannot be undone.">and every location under it.
+          This cannot be undone.</span>
         </p>
         <div
           class="[border:1px_solid_var(--danger-soft-line)] [border-radius:9px] [padding:11px_13px] mb-3.5 [background:var(--danger-soft-bg)] flex items-start gap-2">
@@ -101,19 +101,19 @@
             <use href="#i-warn" />
           </svg>
           <span class="text-[12.5px]" style="color: var(--danger)"
-            ><b id="geo-delete-tree-count"></b> location(s) will be deleted.</span
+            ><b id="geo-delete-tree-count"></b> <span data-i18n="location(s) will be deleted.">location(s) will be deleted.</span></span
           >
         </div>
         <label
           class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px] [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]"
           for="geo-delete-tree-confirm-input">
-          <span>Type <b id="geo-delete-tree-code"></b> to confirm</span>
+          <span><span data-i18n="Type">Type</span> <b id="geo-delete-tree-code"></b> <span data-i18n="to confirm">to confirm</span></span>
           <input type="text" id="geo-delete-tree-confirm-input" autocomplete="off" />
         </label>
       </div>
       <div class="dfoot flex gap-2 justify-end [padding:12px_20px]">
-        <button class="lbtn out geo-delete-tree-close" type="button">Keep it</button>
-        <button class="lbtn pri" id="geo-delete-tree-confirm" type="button" disabled>
+        <button class="lbtn out geo-delete-tree-close" type="button" data-i18n="Keep it">Keep it</button>
+        <button class="lbtn pri" id="geo-delete-tree-confirm" type="button" disabled data-i18n="Delete tree">
           Delete tree
         </button>
       </div>
@@ -132,8 +132,8 @@
     aria-labelledby="geo-parent-picker-title">
     <div class="dhd flex items-start gap-5 [&_h3]:[font-size:15px]">
       <div>
-        <h3 id="geo-parent-picker-title">Choose parent location</h3>
-        <p class="dhd-subtitle">
+        <h3 id="geo-parent-picker-title" data-i18n="Choose parent location">Choose parent location</h3>
+        <p class="dhd-subtitle" data-i18n="Pick a location from the hierarchy, or clear it to make this a root location.">
           Pick a location from the hierarchy, or clear it to make this a root location.
         </p>
       </div>
@@ -159,7 +159,7 @@
             aria-controls="geo-parent-picker-tree-pane"
             class="inline-flex min-h-8 gap-[7px] items-center justify-center px-[9px] py-[5px] rounded-[5px] text-muted text-[12.5px] font-semibold">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg>
-            Tree
+            <span data-i18n="Tree">Tree</span>
           </button>
           <button
             type="button"
@@ -169,10 +169,10 @@
             aria-controls="geo-parent-picker-flow-pane"
             class="inline-flex min-h-8 gap-[7px] items-center justify-center px-[9px] py-[5px] rounded-[5px] text-muted text-[12.5px] font-semibold">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-grid" /></svg>
-            Flow
+            <span data-i18n="Flow">Flow</span>
           </button>
         </div>
-        <button class="lbtn out geo-parent-picker-root my-[10px]" type="button">
+        <button class="lbtn out geo-parent-picker-root my-[10px]" type="button" data-i18n="No parent (root location)">
           No parent (root location)
         </button>
         <div id="geo-parent-picker-tree-pane" role="tabpanel">
@@ -198,7 +198,7 @@
               hidden
               id="geo-parent-picker-flow-clear-focus">
               <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
-              Clear focus
+              <span data-i18n="Clear focus">Clear focus</span>
             </button>
             <span
               class="geo-flow-tools-sep"
@@ -210,7 +210,7 @@
               id="geo-parent-picker-flow-focus-chip-mount"></span>
             <button class="lbtn out" type="button" data-geo-parent-picker-flow-center>
               <svg width="15" height="15" aria-hidden="true"><use href="#i-frame-center" /></svg>
-              Center
+              <span data-i18n="Center">Center</span>
             </button>
           </div>
           <div

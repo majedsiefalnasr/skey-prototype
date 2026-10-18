@@ -114,6 +114,12 @@
     background: var(--accent-soft);
     color: var(--accent);
   }
+  /* Light theme only: --accent on --accent-soft measures 4.28:1, below the 4.5:1
+     AA minimum for the nav label. The darker hover accent clears it; dark and
+     high-contrast themes already pass and keep --accent. */
+  html[data-theme='light'] .nc1-item.current {
+    color: var(--accent-hover);
+  }
   .app-switcher-row.active {
     background: var(--accent-soft);
   }
@@ -3645,15 +3651,30 @@
   @media (max-width: 900px) {
     .gtop {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: 44px 44px minmax(0, 1fr) auto;
       gap: 8px;
       padding: 8px;
     }
     .gtop .left {
-      width: auto;
-      min-width: 0;
+      /* Give identity the whole first-row allocation. Navigation moves
+         beside search, so 44px utilities never compete with its text. */
+      display: contents;
+    }
+    .gtop .left .app {
+      grid-column: 1 / 4;
+      grid-row: 1;
+    }
+    .gtop .side-toggle {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .gtop .app-switcher-menu {
+      grid-column: 2;
+      grid-row: 2;
     }
     .gtop .right {
+      grid-column: 4;
+      grid-row: 1;
       gap: 2px;
     }
     .gtop .right .chip {
@@ -3664,8 +3685,14 @@
       font-size: 0;
     }
     .gsearch {
-      grid-column: 1 / -1;
+      grid-column: 3 / -1;
       grid-row: 2;
+    }
+    .gtop .shell-search-label {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .swrap .sbox {
       min-height: 40px;

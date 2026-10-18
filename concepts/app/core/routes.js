@@ -53,6 +53,10 @@ const AREA_VIEW_BY_PATH = {
   '/help-screens/email': 'email',
 }
 
+/** Placeholder screens nest under their owning app: `<app base>/unavailable`
+ *  names the requested screen in `?screen=`. */
+const PLACEHOLDER_SEGMENT = '/unavailable'
+
 /** Shell screens: the /system namespace plus the session gate. */
 const SHELL_VIEW_BY_PATH = {
   '/system/profile': 'profile',
@@ -81,12 +85,13 @@ export const PATH_BY_VIEW = {
 }
 
 /** Emitted as `<path>/index.html` route folders by scripts/build.mjs.
- *  20 app bases + 8 inner paths + 3 shell paths = 31. */
+ *  20 app bases + 8 inner paths + 3 shell paths + 20 placeholder paths = 51. */
 export const ROUTE_PATHS = [
   ...new Set([
     ...Object.values(APP_PATH_BY_LABEL),
     ...Object.values(PATH_BY_VIEW).filter(path => path !== '/'),
     ...Object.keys(SHELL_VIEW_BY_PATH),
+    ...Object.values(APP_PATH_BY_LABEL).map(path => `${path}${PLACEHOLDER_SEGMENT}`),
   ]),
 ]
 
@@ -116,6 +121,7 @@ function planForView(id, search) {
  *   unknown paths, `/system` alone) — callers keep today's boot behavior;
  * - `{defaultEntry: true}` for '/', resolved via resolveDefaultEntry();
  * - `{id: 'foryou', data: {app}}` for an app base path;
+ * - `{id: 'placeholder', data: {app, label}}` for `<app base>/unavailable`;
  * - `{id, data}` for a known inner/shell screen.
  * @param {string} pathname
  * @param {string} [search]
@@ -129,6 +135,13 @@ export function parse(pathname, search = '') {
   if (areaId) return {id: areaId, data: {}}
   const app = APP_LABEL_BY_PATH[path]
   if (app) return {id: 'foryou', data: {app}}
+  if (path.endsWith(PLACEHOLDER_SEGMENT)) {
+    const placeholderApp = APP_LABEL_BY_PATH[path.slice(0, -PLACEHOLDER_SEGMENT.length)]
+    if (placeholderApp) {
+      const label = new URLSearchParams(search).get('screen') ?? ''
+      return {id: 'placeholder', data: {app: placeholderApp, label}}
+    }
+  }
   return null
 }
 
@@ -140,13 +153,18 @@ export function parse(pathname, search = '') {
  * dedupe on the formatted value create no history entry for in-area
  * transitions.
  * @param {string} id
- * @param {{app?: string, section?: string}} [data]
+ * @param {{app?: string, section?: string, label?: string}} [data]
  * @returns {string|null}
  */
 export function format(id, data) {
   if (id === 'foryou') {
     const app = data && typeof data.app === 'string' ? data.app : null
     return APP_PATH_BY_LABEL[app] ?? APP_PATH_BY_LABEL.Dashboard
+  }
+  if (id === 'placeholder') {
+    const app = data && typeof data.app === 'string' ? data.app : null
+    const base = `${APP_PATH_BY_LABEL[app] ?? APP_PATH_BY_LABEL.Dashboard}${PLACEHOLDER_SEGMENT}`
+    return data && data.label ? `${base}?screen=${encodeURIComponent(data.label)}` : base
   }
   const path = PATH_BY_VIEW[id]
   if (path == null) return null

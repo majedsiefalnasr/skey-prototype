@@ -1,0 +1,81 @@
+
+Running 21 tests using 2 workers
+
+(node:54856) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:54855) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/21] [desktop] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+[2/21] [desktop] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[3/21] [desktop] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+(node:54895) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[4/21] [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+(node:54932) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[5/21] [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+[6/21] [mobile-touch] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+(node:55055) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[7/21] [desktop-dark] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+(node:55056) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[8/21] [desktop-dark] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[9/21] [desktop-dark] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+(node:55100) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[10/21] [desktop-high-contrast-light] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+(node:55150) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[11/21] [desktop-high-contrast-light] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[12/21] [desktop-high-contrast-light] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+(node:55200) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[13/21] [desktop-high-contrast-dark] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+(node:55209) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[14/21] [desktop-high-contrast-dark] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[15/21] [desktop-high-contrast-dark] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+(node:55256) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[16/21] [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+(node:55332) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[17/21] [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[18/21] [mobile-rtl] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+(node:55352) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[19/21] [desktop-reduced-motion] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+(node:55357) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[20/21] [desktop-reduced-motion] › tests/page-gutters.spec.mjs:15:3 › compact fluid: page gutters align with Customers
+[21/21] [desktop-reduced-motion] › tests/page-gutters.spec.mjs:15:3 › comfortable boxed: page gutters align with Customers
+  21 passed (1.6m)

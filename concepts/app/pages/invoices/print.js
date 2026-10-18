@@ -1,9 +1,11 @@
+import {uiLocale} from '../../core/locale.js'
 
 export function createInvoicePrint({state, trapFocus, releaseFocus, closeAllMenus, clearInlineError, showInlineError, runWork, toast, applyState}) {
 const pageAbort = new AbortController()
 
         const pscrim = document.getElementById('pscrim')
         let printSettingsContext = 'Sales Invoice 001000352026126'
+        let subjectInvoiceNo = '126'
         const updPrint = () => {
           const dest = document.querySelector('.dcard[aria-pressed=true]').dataset.dest
           document
@@ -37,6 +39,10 @@ const pageAbort = new AbortController()
           closeAllMenus()
           clearInlineError(pscrim.querySelector('.dlg'))
           printSettingsContext = contextLabel || currentPrintSettingsContext()
+          if (document.querySelector('#canvas-root')?.getClientRects().length && subjectInvoiceNo !== state.docNo) {
+            document.getElementById('p-subj').value = uiLocale.t('Sales Invoice {no}').replace('{no}', state.docNo) + ' · lastchance'
+            subjectInvoiceNo = state.docNo
+          }
           pscrim.querySelector('.dhd-subtitle').textContent = printSettingsContext
           pscrim.classList.add('open')
           updPrint()

@@ -1,0 +1,507 @@
+{
+  "browserVersion": "153.0.8010.12",
+  "scope": "45 captures, 15 fresh contexts; selected original state assertions preserved in diagnostic clone; no original runner modifications",
+  "rows": [
+    {
+      "state": "desktop-high-contrast-light/activities-calendar-week.png",
+      "contexts": 3,
+      "shots": 9,
+      "imageVariants": 2,
+      "observedDomVariants": 1,
+      "withinContextVariants": [
+        1,
+        1,
+        1
+      ],
+      "variants": [
+        {
+          "filename": "desktop-high-contrast-light-activities-calendar-week.png-0-0.png",
+          "sha256": "899cea16d5760f9d33fd030937a5a804ac7ad381a612a2002015716683dfe71e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-light-activities-calendar-week.png-0-1.png",
+          "sha256": "899cea16d5760f9d33fd030937a5a804ac7ad381a612a2002015716683dfe71e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-light-activities-calendar-week.png-0-2.png",
+          "sha256": "899cea16d5760f9d33fd030937a5a804ac7ad381a612a2002015716683dfe71e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-light-activities-calendar-week.png-5-0.png",
+          "sha256": "c1a5020d0cc0d185172b033ecf8c34f2157c5d739fccd0538dfdac16d3967881",
+          "differentPixelsFromFirst": 5,
+          "bounds": [
+            1047,
+            172,
+            1051,
+            174
+          ],
+          "maxChannelDelta": 2
+        },
+        {
+          "filename": "desktop-high-contrast-light-activities-calendar-week.png-5-1.png",
+          "sha256": "c1a5020d0cc0d185172b033ecf8c34f2157c5d739fccd0538dfdac16d3967881",
+          "differentPixelsFromFirst": 5,
+          "bounds": [
+            1047,
+            172,
+            1051,
+            174
+          ],
+          "maxChannelDelta": 2
+        },
+        {
+          "filename": "desktop-high-contrast-light-activities-calendar-week.png-5-2.png",
+          "sha256": "c1a5020d0cc0d185172b033ecf8c34f2157c5d739fccd0538dfdac16d3967881",
+          "differentPixelsFromFirst": 5,
+          "bounds": [
+            1047,
+            172,
+            1051,
+            174
+          ],
+          "maxChannelDelta": 2
+        },
+        {
+          "filename": "desktop-high-contrast-light-activities-calendar-week.png-10-0.png",
+          "sha256": "899cea16d5760f9d33fd030937a5a804ac7ad381a612a2002015716683dfe71e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-light-activities-calendar-week.png-10-1.png",
+          "sha256": "899cea16d5760f9d33fd030937a5a804ac7ad381a612a2002015716683dfe71e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-light-activities-calendar-week.png-10-2.png",
+          "sha256": "899cea16d5760f9d33fd030937a5a804ac7ad381a612a2002015716683dfe71e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        }
+      ]
+    },
+    {
+      "state": "desktop-high-contrast-light/invoice-lines-start.png",
+      "contexts": 3,
+      "shots": 9,
+      "imageVariants": 6,
+      "observedDomVariants": 1,
+      "withinContextVariants": [
+        2,
+        2,
+        2
+      ],
+      "variants": [
+        {
+          "filename": "desktop-high-contrast-light-invoice-lines-start.png-1-0.png",
+          "sha256": "5718e0b779b487d930356ed47cbe2350f6e92bb92f41e28b0384d7817080ca77",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-light-invoice-lines-start.png-1-1.png",
+          "sha256": "93f86789d4be85697d176bf9a2d2d33011dcaa33bba9e19033896c9360288f40",
+          "differentPixelsFromFirst": 236,
+          "bounds": [
+            89,
+            88,
+            967,
+            168
+          ],
+          "maxChannelDelta": 2
+        },
+        {
+          "filename": "desktop-high-contrast-light-invoice-lines-start.png-1-2.png",
+          "sha256": "93f86789d4be85697d176bf9a2d2d33011dcaa33bba9e19033896c9360288f40",
+          "differentPixelsFromFirst": 236,
+          "bounds": [
+            89,
+            88,
+            967,
+            168
+          ],
+          "maxChannelDelta": 2
+        },
+        {
+          "filename": "desktop-high-contrast-light-invoice-lines-start.png-6-0.png",
+          "sha256": "ded72601843f5fe282f264c7a72605eac364b41c085d93d34e3da9c4f09a243f",
+          "differentPixelsFromFirst": 152,
+          "bounds": [
+            9,
+            88,
+            946,
+            168
+          ],
+          "maxChannelDelta": 2
+        },
+        {
+          "filename": "desktop-high-contrast-light-invoice-lines-start.png-6-1.png",
+          "sha256": "4937a439b99bbe0ff6ed9596e2e2f0197c22bdd94ddffae4e26c4341001fb84a",
+          "differentPixelsFromFirst": 334,
+          "bounds": [
+            9,
+            88,
+            967,
+            168
+          ],
+          "maxChannelDelta": 2
+        },
+        {
+          "filename": "desktop-high-contrast-light-invoice-lines-start.png-6-2.png",
+          "sha256": "4937a439b99bbe0ff6ed9596e2e2f0197c22bdd94ddffae4e26c4341001fb84a",
+          "differentPixelsFromFirst": 334,
+          "bounds": [
+            9,
+            88,
+            967,
+            168
+          ],
+          "maxChannelDelta": 2
+        },
+        {
+          "filename": "desktop-high-contrast-light-invoice-lines-start.png-11-0.png",
+          "sha256": "7d2a292d2534a0aca4b37c65480eb667697fece409364688d2bffba039030db5",
+          "differentPixelsFromFirst": 342,
+          "bounds": [
+            9,
+            88,
+            946,
+            168
+          ],
+          "maxChannelDelta": 2
+        },
+        {
+          "filename": "desktop-high-contrast-light-invoice-lines-start.png-11-1.png",
+          "sha256": "6a03adb4a76855a5f3f744848a1e8300642baa47ca49d8c3e14d384430919322",
+          "differentPixelsFromFirst": 385,
+          "bounds": [
+            9,
+            88,
+            967,
+            168
+          ],
+          "maxChannelDelta": 2
+        },
+        {
+          "filename": "desktop-high-contrast-light-invoice-lines-start.png-11-2.png",
+          "sha256": "6a03adb4a76855a5f3f744848a1e8300642baa47ca49d8c3e14d384430919322",
+          "differentPixelsFromFirst": 385,
+          "bounds": [
+            9,
+            88,
+            967,
+            168
+          ],
+          "maxChannelDelta": 2
+        }
+      ]
+    },
+    {
+      "state": "desktop-high-contrast-dark/events-calendar-month.png",
+      "contexts": 3,
+      "shots": 9,
+      "imageVariants": 1,
+      "observedDomVariants": 1,
+      "withinContextVariants": [
+        1,
+        1,
+        1
+      ],
+      "variants": [
+        {
+          "filename": "desktop-high-contrast-dark-events-calendar-month.png-2-0.png",
+          "sha256": "f8161d1cbc4059b3d79f098960c3093e549f2c146232d9a0ba64af5484596ac4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-events-calendar-month.png-2-1.png",
+          "sha256": "f8161d1cbc4059b3d79f098960c3093e549f2c146232d9a0ba64af5484596ac4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-events-calendar-month.png-2-2.png",
+          "sha256": "f8161d1cbc4059b3d79f098960c3093e549f2c146232d9a0ba64af5484596ac4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-events-calendar-month.png-7-0.png",
+          "sha256": "f8161d1cbc4059b3d79f098960c3093e549f2c146232d9a0ba64af5484596ac4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-events-calendar-month.png-7-1.png",
+          "sha256": "f8161d1cbc4059b3d79f098960c3093e549f2c146232d9a0ba64af5484596ac4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-events-calendar-month.png-7-2.png",
+          "sha256": "f8161d1cbc4059b3d79f098960c3093e549f2c146232d9a0ba64af5484596ac4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-events-calendar-month.png-12-0.png",
+          "sha256": "f8161d1cbc4059b3d79f098960c3093e549f2c146232d9a0ba64af5484596ac4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-events-calendar-month.png-12-1.png",
+          "sha256": "f8161d1cbc4059b3d79f098960c3093e549f2c146232d9a0ba64af5484596ac4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-events-calendar-month.png-12-2.png",
+          "sha256": "f8161d1cbc4059b3d79f098960c3093e549f2c146232d9a0ba64af5484596ac4",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        }
+      ]
+    },
+    {
+      "state": "desktop-high-contrast-dark/invoice-charges.png",
+      "contexts": 3,
+      "shots": 9,
+      "imageVariants": 2,
+      "observedDomVariants": 1,
+      "withinContextVariants": [
+        2,
+        2,
+        2
+      ],
+      "variants": [
+        {
+          "filename": "desktop-high-contrast-dark-invoice-charges.png-3-0.png",
+          "sha256": "de0ea6222f9df47470cbbb9390eade944cb15e3328c9191acadbbc6e6245ecc6",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-invoice-charges.png-3-1.png",
+          "sha256": "f319981dcb5aa88f05b66c10fa38cc6a8d47a16aab848c8b16242b2830c9e9d1",
+          "differentPixelsFromFirst": 7,
+          "bounds": [
+            0,
+            6,
+            19,
+            71
+          ],
+          "maxChannelDelta": 2
+        },
+        {
+          "filename": "desktop-high-contrast-dark-invoice-charges.png-3-2.png",
+          "sha256": "f319981dcb5aa88f05b66c10fa38cc6a8d47a16aab848c8b16242b2830c9e9d1",
+          "differentPixelsFromFirst": 7,
+          "bounds": [
+            0,
+            6,
+            19,
+            71
+          ],
+          "maxChannelDelta": 2
+        },
+        {
+          "filename": "desktop-high-contrast-dark-invoice-charges.png-8-0.png",
+          "sha256": "de0ea6222f9df47470cbbb9390eade944cb15e3328c9191acadbbc6e6245ecc6",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-invoice-charges.png-8-1.png",
+          "sha256": "f319981dcb5aa88f05b66c10fa38cc6a8d47a16aab848c8b16242b2830c9e9d1",
+          "differentPixelsFromFirst": 7,
+          "bounds": [
+            0,
+            6,
+            19,
+            71
+          ],
+          "maxChannelDelta": 2
+        },
+        {
+          "filename": "desktop-high-contrast-dark-invoice-charges.png-8-2.png",
+          "sha256": "f319981dcb5aa88f05b66c10fa38cc6a8d47a16aab848c8b16242b2830c9e9d1",
+          "differentPixelsFromFirst": 7,
+          "bounds": [
+            0,
+            6,
+            19,
+            71
+          ],
+          "maxChannelDelta": 2
+        },
+        {
+          "filename": "desktop-high-contrast-dark-invoice-charges.png-13-0.png",
+          "sha256": "de0ea6222f9df47470cbbb9390eade944cb15e3328c9191acadbbc6e6245ecc6",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-invoice-charges.png-13-1.png",
+          "sha256": "f319981dcb5aa88f05b66c10fa38cc6a8d47a16aab848c8b16242b2830c9e9d1",
+          "differentPixelsFromFirst": 7,
+          "bounds": [
+            0,
+            6,
+            19,
+            71
+          ],
+          "maxChannelDelta": 2
+        },
+        {
+          "filename": "desktop-high-contrast-dark-invoice-charges.png-13-2.png",
+          "sha256": "f319981dcb5aa88f05b66c10fa38cc6a8d47a16aab848c8b16242b2830c9e9d1",
+          "differentPixelsFromFirst": 7,
+          "bounds": [
+            0,
+            6,
+            19,
+            71
+          ],
+          "maxChannelDelta": 2
+        }
+      ]
+    },
+    {
+      "state": "desktop-high-contrast-dark/invoice-tax-totals.png",
+      "contexts": 3,
+      "shots": 9,
+      "imageVariants": 2,
+      "observedDomVariants": 1,
+      "withinContextVariants": [
+        1,
+        1,
+        1
+      ],
+      "variants": [
+        {
+          "filename": "desktop-high-contrast-dark-invoice-tax-totals.png-4-0.png",
+          "sha256": "1557b7cea53f9f997c3e18da134d8f5bf4fdeadcee240e138a6b95762f68eb9e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-invoice-tax-totals.png-4-1.png",
+          "sha256": "1557b7cea53f9f997c3e18da134d8f5bf4fdeadcee240e138a6b95762f68eb9e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-invoice-tax-totals.png-4-2.png",
+          "sha256": "1557b7cea53f9f997c3e18da134d8f5bf4fdeadcee240e138a6b95762f68eb9e",
+          "differentPixelsFromFirst": 0,
+          "bounds": null,
+          "maxChannelDelta": 0
+        },
+        {
+          "filename": "desktop-high-contrast-dark-invoice-tax-totals.png-9-0.png",
+          "sha256": "9c9fe292c013a4b399d4a899a6fbebd50ffc1b9759f3b1169ddda56513acc3c0",
+          "differentPixelsFromFirst": 14,
+          "bounds": [
+            5,
+            275,
+            420,
+            283
+          ],
+          "maxChannelDelta": 1
+        },
+        {
+          "filename": "desktop-high-contrast-dark-invoice-tax-totals.png-9-1.png",
+          "sha256": "9c9fe292c013a4b399d4a899a6fbebd50ffc1b9759f3b1169ddda56513acc3c0",
+          "differentPixelsFromFirst": 14,
+          "bounds": [
+            5,
+            275,
+            420,
+            283
+          ],
+          "maxChannelDelta": 1
+        },
+        {
+          "filename": "desktop-high-contrast-dark-invoice-tax-totals.png-9-2.png",
+          "sha256": "9c9fe292c013a4b399d4a899a6fbebd50ffc1b9759f3b1169ddda56513acc3c0",
+          "differentPixelsFromFirst": 14,
+          "bounds": [
+            5,
+            275,
+            420,
+            283
+          ],
+          "maxChannelDelta": 1
+        },
+        {
+          "filename": "desktop-high-contrast-dark-invoice-tax-totals.png-14-0.png",
+          "sha256": "9c9fe292c013a4b399d4a899a6fbebd50ffc1b9759f3b1169ddda56513acc3c0",
+          "differentPixelsFromFirst": 14,
+          "bounds": [
+            5,
+            275,
+            420,
+            283
+          ],
+          "maxChannelDelta": 1
+        },
+        {
+          "filename": "desktop-high-contrast-dark-invoice-tax-totals.png-14-1.png",
+          "sha256": "9c9fe292c013a4b399d4a899a6fbebd50ffc1b9759f3b1169ddda56513acc3c0",
+          "differentPixelsFromFirst": 14,
+          "bounds": [
+            5,
+            275,
+            420,
+            283
+          ],
+          "maxChannelDelta": 1
+        },
+        {
+          "filename": "desktop-high-contrast-dark-invoice-tax-totals.png-14-2.png",
+          "sha256": "9c9fe292c013a4b399d4a899a6fbebd50ffc1b9759f3b1169ddda56513acc3c0",
+          "differentPixelsFromFirst": 14,
+          "bounds": [
+            5,
+            275,
+            420,
+            283
+          ],
+          "maxChannelDelta": 1
+        }
+      ]
+    }
+  ],
+  "conclusion": "Any repeated pixel variation with identical recorded DOM is an observed renderer/environment variation; exact root cause remains unresolved. No replacement, tolerance, mask, or CSS hiding change."
+}

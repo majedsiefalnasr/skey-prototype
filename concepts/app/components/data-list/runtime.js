@@ -1,5 +1,5 @@
 import {encodeHtml} from '../../core/locale.js'
-import {DATA_LIST_SIMULATED_TOTAL, localStorageDataListStorage} from './model.js'
+import {localStorageDataListStorage} from './model.js'
 import {DATA_FILTER_OPERATORS, dataFilterOptionValue, dataFilterOptionLabel, parseDateFilterValue} from './filters.js'
 import {DATA_LIST_CONFIG, DATA_LIST_RESPONSIVE_WIDTH, responsiveDataListColumns} from './columns.js'
 import {createDataList} from './list.js'
@@ -25,7 +25,6 @@ export function createListRuntime({locale, t, toast, initNumberTickers, openPrin
     dateFilterLabel,
     renderDataListDatePresetOptions,
     dataListRows,
-    simulatedTotal: context => DATA_LIST_SIMULATED_TOTAL[context],
     responsiveDataListColumns,
     responsiveWidthFor: key => DATA_LIST_RESPONSIVE_WIDTH[key],
     renderDataListGroupTrigger,

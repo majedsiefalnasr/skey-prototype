@@ -1,3 +1,4 @@
+import {uiLocale} from '../../core/locale.js'
 // Data-list action/command handlers — moved out of concepts/app/legacy-app.js
 // as part of Task 6. Every function here takes `listState`/`config` (and
 // often a `deps` bundle) explicitly instead of reading a global
@@ -9,6 +10,10 @@
 // `actions.newRecord()`, `actions.run(command,keys)`) instead of branching
 // directly to openCustomerRecord/openGeoRecord/openInvoiceRecord — the
 // shared list never imports a customer/invoice controller.
+
+// Invoice row-menu targets whose dialog lives on the record page, mapped to the
+// record's data-status-action value.
+const INVOICE_RECORD_ONLY_STATUS_ACTIONS = {Posted: 'posted', Canceled: 'canceled'}
 
 export function visibleDirtyDataListContext(instances) {
   for (const [context, instance] of Object.entries(instances)) {
@@ -41,16 +46,26 @@ export function computeDataListLayoutDirty(listState, deps) {
 }
 
 export function deleteDataListRecords(context, keys, config, listState, deps) {
-  const deleted = new Set(keys)
+  const protectedKeys = new Set(context === 'invoice' ? config.rows
+    .filter(row => ['Posted', 'Canceled', 'Deactivated'].includes(row.status))
+    .map(row => String(row[config.key])) : [])
+  const deleted = new Set([...keys].filter(key => !protectedKeys.has(String(key))))
+  if (!deleted.size) return
   for (let index = config.rows.length - 1; index >= 0; index -= 1) {
     if (deleted.has(String(config.rows[index][config.key]))) config.rows.splice(index, 1)
   }
-  listState.sourceRows = listState.sourceRows.filter(row => !deleted.has(String(row[config.key])))
+  // Keep the source array connected to the fixture: later in-memory creates
+  // must appear without reloading the application.
+  if (listState.sourceRows !== config.rows) {
+    for (let index = listState.sourceRows.length - 1; index >= 0; index -= 1) {
+      if (deleted.has(String(listState.sourceRows[index][config.key]))) listState.sourceRows.splice(index, 1)
+    }
+  }
   deleted.forEach(key => listState.selected.delete(key))
   deps.rerender()
   deps.toast({
     tone: 'ok',
-    title: `${deleted.size} ${deleted.size === 1 ? config.singular : config.label} deleted`,
+    title: uiLocale.t("{v0} {v1} deleted").replace('{v0}', () => uiLocale.t(String(deleted.size))).replace('{v1}', () => uiLocale.t(String(deleted.size === 1 ? config.singular : config.label))),
   })
 }
 
@@ -59,7 +74,7 @@ export function toggleDataListStatus(row, deps) {
   deps.rerender()
   deps.toast({
     tone: 'ok',
-    title: `${row.customerName || row.name} ${row.active ? 'activated' : 'deactivated'}`,
+    title: uiLocale.t("{v0} {v1}").replace('{v0}', () => uiLocale.t(String(row.customerName || row.name))).replace('{v1}', () => uiLocale.t(String(row.active ? 'activated' : 'deactivated'))),
   })
 }
 
@@ -70,7 +85,7 @@ export function setDataListRecordsStatus(keys, active, config, deps) {
   deps.rerender()
   deps.toast({
     tone: 'ok',
-    title: `${rows.length} ${rows.length === 1 ? config.singular : config.label} ${active ? 'activated' : 'deactivated'}`,
+    title: uiLocale.t("{v0} {v1} {v2}").replace('{v0}', () => uiLocale.t(String(rows.length))).replace('{v1}', () => uiLocale.t(String(rows.length === 1 ? config.singular : config.label))).replace('{v2}', () => uiLocale.t(String(active ? 'activated' : 'deactivated'))),
   })
 }
 
@@ -98,15 +113,22 @@ export function applyDataListRowAction(context, rowAction, config, deps) {
   else if (command === 'modify') deps.actions.openRecord(key, 'edit')
   else if (command === 'delete') deps.deleteDataListRecords(context, [key])
   else if (command === 'toggle-status' && row) deps.toggleDataListStatus(row)
-  else if (command === 'change-status' && row)
-    deps.openStatusDialog(context, row, rowAction.dataset.statusTarget)
-  else if (command === 'view-hierarchy' && row) deps.openGeoRecord(row.code, 'view')
+  else if (command === 'change-status' && row) {
+    const target = rowAction.dataset.statusTarget
+    const recordOnly = context === 'invoice' ? INVOICE_RECORD_ONLY_STATUS_ACTIONS[target] : null
+    if (recordOnly) {
+      /* Posting and cancellation need fields a row does not carry: open the record,
+         then its own status action opens the posting or cancel dialog. */
+      if (deps.actions.openRecord(key, 'view') === false) return
+      document.querySelector(`[data-status-action="${recordOnly}"]`)?.click()
+    } else deps.openStatusDialog(context, row, target)
+  } else if (command === 'view-hierarchy' && row) deps.openGeoRecord(row.code, 'view')
   else if (command === 'print')
     deps.openPrintSettings(`${config.singular[0].toUpperCase() + config.singular.slice(1)} ${key}`)
   else
     deps.toast({
       tone: 'ok',
-      title: `${rowAction.textContent.trim()} for ${config.singular} ${key}`,
+      title: uiLocale.t("{v0} for {v1} {v2}").replace('{v0}', () => uiLocale.t(String(rowAction.textContent.trim()))).replace('{v1}', () => uiLocale.t(String(config.singular))).replace('{v2}', () => uiLocale.t(String(key))),
     })
   return true
 }
@@ -137,7 +159,7 @@ export function applyDataListToolbarCommand(context, command, selectedKey, listS
     deps.rerender()
     deps.toast({
       tone: 'ok',
-      title: `Statistics ${listState.statisticsVisible ? 'shown' : 'hidden'}`,
+      title: uiLocale.t("Statistics {v0}").replace('{v0}', () => uiLocale.t(String(listState.statisticsVisible ? 'shown' : 'hidden'))),
     })
   } else if (command === 'print') {
     if (listState.view === 'adaptive') {

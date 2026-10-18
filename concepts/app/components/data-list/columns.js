@@ -352,7 +352,7 @@ export const DATA_LIST_CONFIG = {
       {key: 'device', label: 'Device and location'},
       {key: 'started', label: 'Started'},
       {key: 'lastActive', label: 'Last active'},
-      {key: 'state', label: 'State'},
+      {key: 'state', label: 'Session state'},
     ],
     filters: [{key: 'all', label: 'All sessions', icon: 'i-user'}],
     filterFields: [
@@ -369,7 +369,7 @@ export const DATA_LIST_CONFIG = {
     columns: [
       {key: 'id', label: 'Session'},
       {key: 'workload', label: 'Workload'},
-      {key: 'state', label: 'State'},
+      {key: 'state', label: 'Session state'},
       {key: 'duration', label: 'Duration'},
       {key: 'query', label: 'Operation'},
       {key: 'blocking', label: 'Blocking'},

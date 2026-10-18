@@ -1,0 +1,28 @@
+{
+  "checkpointFiles": 2026,
+  "changedBeforeReport": [
+    "tests/page-gutters.spec.mjs",
+    "concepts/app/pages/email/templates.html",
+    "tests/messaging.spec.mjs-snapshots/desktop/email-reading.png",
+    "tests/messaging.spec.mjs-snapshots/mobile-rtl/email-reading.png",
+    "tests/messaging.spec.mjs-snapshots/mobile-touch/email-reading.png",
+    "tests/parity.spec.mjs-snapshots/desktop/email.png"
+  ],
+  "missing": [],
+  "testPngsChecked": 233,
+  "authorizedPngChanges": [
+    "tests/messaging.spec.mjs-snapshots/desktop/email-reading.png",
+    "tests/messaging.spec.mjs-snapshots/mobile-touch/email-reading.png",
+    "tests/messaging.spec.mjs-snapshots/mobile-rtl/email-reading.png",
+    "tests/parity.spec.mjs-snapshots/desktop/email.png"
+  ],
+  "otherTestPngsPreserved": 229,
+  "scratchFilesPreserved": [
+    ".shotbatch.mjs",
+    ".shotv4.mjs",
+    ".shotv5.mjs"
+  ],
+  "initialHead": "f29d61c7e15fd19b7603a25dd6c0995535122778",
+  "mainAncestor": true,
+  "originMainAncestor": true
+}

@@ -1,0 +1,5 @@
+--- a/scripts/visual-coverage.mjs
++++ b/scripts/visual-coverage.mjs
+@@
+-      for(const [date,title,time] of [['2026-10-06','Company holiday','all day'],['2026-10-13','Supplier visit — Al Noor','11:00 to 12:00'],['2026-10-15','Monthly sales review','10:00 to 11:00'],['2026-10-29','Quarter close','all day'],['2026-10-30','Quarter close','all day']]) {
++      for(const [date,title,time] of [['2026-10-06','Company holiday','all day'],['2026-10-13','Customer visit — Al Noor','11:00 to 12:00'],['2026-10-15','Monthly sales review','10:00 to 11:00'],['2026-10-29','Quarter close','all day'],['2026-10-30','Quarter close','all day']]) {

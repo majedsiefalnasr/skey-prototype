@@ -1,0 +1,53 @@
+{
+  "policy": "Current spacing candidates only; no additional snapshot replacements authorized or performed.",
+  "files": [
+    {
+      "path": "mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/email-reading-diff.png",
+      "sha256": "f3631b7cb4ddfdbd4592bf524b00d67773b1e83c3a92af72942dde79f3b0ad09"
+    },
+    {
+      "path": "mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/email-reading-actual.png",
+      "sha256": "981b4689cd07a09e441344a23ae1b960505d5a3b0021da34df0c894a92981242"
+    },
+    {
+      "path": "mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-desktop/email-reading-expected.png",
+      "sha256": "d15faff49c73312e2da4d5f791b28386d768d8ce891aeac2e0e9a8451838d97a"
+    },
+    {
+      "path": "mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-rtl/email-reading-diff.png",
+      "sha256": "8dc2b0fb0d86cfa1b41bc6688610af88dbb5e445a828644e8cb9b52fc0b1c1bf"
+    },
+    {
+      "path": "mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-rtl/email-reading-actual.png",
+      "sha256": "ddb5d90564bf92c2457c4ccd8c5506261593729b487471850ddb25e9f9cfd236"
+    },
+    {
+      "path": "mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-rtl/email-reading-expected.png",
+      "sha256": "8da6d85fd4f4b7caf6cfa2a22ae31162093cbe41699f495d09ab210ee10d765f"
+    },
+    {
+      "path": "mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-touch/email-reading-diff.png",
+      "sha256": "6860fdc61e2d08b81a6ada853425990438be9a65b7858009dd6359aeb2e8b01a"
+    },
+    {
+      "path": "mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-touch/email-reading-actual.png",
+      "sha256": "5cb1247de0fbdac3b2d4da85f518de561ea02661a5b533b236a7d5892252c898"
+    },
+    {
+      "path": "mail-reading-out/messaging-reading-a-notifi-45d33-unread-state-and-appearance-mobile-touch/email-reading-expected.png",
+      "sha256": "df5ccafde180ad5b38e94659320221c7e899b45a22d4ea8a9fc1dcb4abbe53ea"
+    },
+    {
+      "path": "parity-mail-out/parity-email-baseline-appearance-desktop/email-actual.png",
+      "sha256": "62cdec60baafa98aaaf329dcc383c532150aded1113fac4d594d984c18fbf22e"
+    },
+    {
+      "path": "parity-mail-out/parity-email-baseline-appearance-desktop/email-diff.png",
+      "sha256": "4ff130225e5f512a9817250c9731c651d9591ccf41240cfe48e71367dddcb4f6"
+    },
+    {
+      "path": "parity-mail-out/parity-email-baseline-appearance-desktop/email-expected.png",
+      "sha256": "ec8c1b5f6ccb2334253cf6a09f28f375cbf55da5e325005825d1e0d30d3f70d2"
+    }
+  ]
+}

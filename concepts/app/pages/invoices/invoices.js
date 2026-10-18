@@ -1,9 +1,14 @@
-import {RULES} from '../../prototype/fixtures/invoices.js'
+import {LIST_ROWS, RULES, invoiceHeaderFromRow, statusKeyFromLabel} from '../../prototype/fixtures/invoices.js'
 // Invoice-owned model and availability matrix.
 export function createInvoiceState() {
+        /* the record that is open before the user picks one is the first list row, so
+           the invoice on screen is always one the list also shows */
+        const first = LIST_ROWS[0]
         const state = {
-          status: 'posted',
-          pay: 'credit',
+          status: statusKeyFromLabel(first.status),
+          pay: first.pay.toLowerCase(),
+          /* the header fields of the open invoice's list row */
+          header: invoiceHeaderFromRow(first),
           /* Independent from `status` (the document lifecycle) -- a posted
              invoice can still be unpaid, partially paid, or fully paid.
              Demo-only: no real payments module backs this yet. */
@@ -13,7 +18,9 @@ export function createInvoiceState() {
           mode: 'record',
           missing: 3,
           prints: 2,
-          docNo: '126',
+          docNo: first.no,
+          docSeq: first.seq,
+          sourceInvoiceNo: first.no,
         }
         const editable = s =>
           s.mode === 'create'
@@ -23,6 +30,7 @@ export function createInvoiceState() {
    LOCK_COPY map (final-review fix round gave every status its own entry, not
    just posted/canceled/inactive) */
         const LOCK_COPY = {
+          draft: "You're viewing this saved draft. Switch to Edit mode to make changes.",
           posted:
             'This invoice is posted, so its fields are read-only. Undo the posting to edit it.',
           canceled: 'This invoice is canceled, so its fields are read-only.',

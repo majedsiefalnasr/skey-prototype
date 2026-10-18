@@ -1,0 +1,47 @@
+
+Running 1 test using 1 worker
+
+(node:40920) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [desktop] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+  1) [desktop] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('html')
+    Expected: "ltr"
+    Received: ""
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('html') with timeout 5000ms
+      - waiting for locator('html')
+        13 × locator resolved to <html lang="en" data-theme="light" data-color-mode="light" data-contrast-mode="standard">…</html>
+           - unexpected value "null"
+
+
+      23 |       await page.goto(base+path);
+      24 |       await page.locator('.skeleton-overlay').waitFor({state:'hidden'});
+    > 25 |       await expect(page.locator('html')).toHaveAttribute('dir',info.project.use.rtl?'rtl':'ltr');
+         |                                          ^
+      26 |     };
+      27 |     const inset = (locator, includePadding = false) => locator.evaluate((el, includePadding) => {
+      28 |       const root = document.querySelector('.page-content').getBoundingClientRect();
+        at go (/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/page-gutters.spec.mjs:25:42)
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/page-gutters.spec.mjs:34:5
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/gutters-red-out/page-gutters-default-fluid-page-gutters-align-with-Customers-desktop/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/gutters-red-out/page-gutters-default-fluid-page-gutters-align-with-Customers-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/gutters-red-out/page-gutters-default-fluid-page-gutters-align-with-Customers-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    [desktop] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 

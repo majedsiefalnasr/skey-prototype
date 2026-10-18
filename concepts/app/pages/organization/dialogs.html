@@ -35,19 +35,19 @@
             class="mt-0.5 flex-none text-[var(--danger)]">
             <use href="#i-warn" />
           </svg>
-          <p class="m-0 text-xs leading-5">
+          <p class="m-0 text-xs leading-5" data-i18n="Ending this session interrupts its current work. The action and your reason will be recorded in the audit log.">
             Ending this session interrupts its current work. The action and your reason will be
             recorded in the audit log.
           </p>
         </aside>
         <label class="grid gap-1.5 text-[13px] font-semibold" for="organization-session-reason"
-          ><span>Operational reason <span class="font-normal text-muted">(required)</span></span>
+          ><span><span data-i18n="Operational reason">Operational reason</span> <span class="font-normal text-muted" data-i18n="(required)">(required)</span></span>
           <textarea
             class="min-h-[82px] w-full resize-y rounded-md border border-line bg-surface px-2.5 py-2 font-[inherit] text-[13px] text-ink"
             id="organization-session-reason"
             maxlength="160"
             required
-            placeholder="Explain why this session must be ended"></textarea>
+            placeholder="Explain why this session must be ended" data-i18n-placeholder="Explain why this session must be ended"></textarea>
         </label>
         <span
           class="text-[11px] leading-[1.35] text-[var(--danger)] empty:hidden"
@@ -55,7 +55,7 @@
           role="status"></span>
       </div>
       <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
-        <button type="button" class="lbtn out c-close">Cancel</button
+        <button type="button" class="lbtn out c-close" data-i18n="Cancel">Cancel</button
         ><button type="submit" class="lbtn pri" id="organization-session-confirm">
           Revoke session
         </button>

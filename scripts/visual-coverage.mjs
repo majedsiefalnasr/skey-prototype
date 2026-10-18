@@ -200,7 +200,7 @@ async function runEntry(browser, {project, state, destination}) {
       await expect(page.locator(`${root} [data-cal-month]`)).toBeVisible();
       await expect(page.locator(`${root} [data-cal-modes] [data-value="month"]`)).toHaveAttribute('aria-pressed','true');
       await expect(page.locator(`${root} [data-cal-item]`)).toHaveCount(5);
-      for(const [date,title,time] of [['2026-10-06','Company holiday','all day'],['2026-10-13','Supplier visit — Al Noor','11:00 to 12:00'],['2026-10-15','Monthly sales review','10:00 to 11:00'],['2026-10-29','Quarter close','all day'],['2026-10-30','Quarter close','all day']]) {
+      for(const [date,title,time] of [['2026-10-06','Company holiday','all day'],['2026-10-13','Customer visit — Al Noor','11:00 to 12:00'],['2026-10-15','Monthly sales review','10:00 to 11:00'],['2026-10-29','Quarter close','all day'],['2026-10-30','Quarter close','all day']]) {
         await expect(page.locator(`${root} [data-date="${date}"] [data-cal-item]`)).toHaveAttribute('aria-label',new RegExp(`${title}, ${time}`));
       }
       if(touch) await page.locator(`${root} [data-date="2026-10-13"]`).evaluate(el=>el.scrollIntoView({block:'center',inline:'center',behavior:'instant'}));

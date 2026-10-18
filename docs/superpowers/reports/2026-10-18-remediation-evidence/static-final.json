@@ -1,0 +1,45 @@
+{
+  "nodeCheck": [
+    {
+      "file": "concepts/app/components/data-list/menu-controller.js",
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "concepts/app/core/delivery-translations.js",
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "concepts/app/pages/invoices/operations.js",
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "tests/data-list-component.spec.mjs",
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "tests/delivery-locale.spec.mjs",
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "tests/page-gutters.spec.mjs",
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "diffCheck": {
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+}

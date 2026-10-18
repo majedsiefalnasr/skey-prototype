@@ -7,13 +7,13 @@
 // responsiveDataListColumns against the SAME representative row data and
 // DATA_LIST_CONFIG entries the prototype has always used (imported from
 // their new homes, not reinvented), per the task-5 brief's instruction to
-// keep the same representative values and simulated totals. Behavior only —
+// keep the same representative values (list totals are the real row counts). Behavior only —
 // no assertions on private call counts or internal implementation shape.
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createListModel, DATA_LIST_SIMULATED_TOTAL, DATA_LIST_PAGE_SIZE_OPTIONS}
-  from '../concepts/app/components/data-list/model.js';
+import * as modelModule from '../concepts/app/components/data-list/model.js';
+import {renderShellPager} from '../concepts/app/components/data-list/pagination.js';
 import {dateFilterRange, rowMatchesFieldFilter} from '../concepts/app/components/data-list/filters.js';
 import {responsiveDataListColumns, DATA_LIST_CONFIG} from '../concepts/app/components/data-list/columns.js';
 import {compactStatisticValue, renderDataListStatistics} from '../concepts/app/components/data-list/statistics.js';
@@ -22,9 +22,24 @@ import {LIST_ROWS} from '../concepts/app/prototype/fixtures/invoices.js';
 import {CUSTOMER_ROWS} from '../concepts/app/prototype/fixtures/customers.js';
 import {GEO_ROWS} from '../concepts/app/prototype/fixtures/geography.js';
 import {memoryLayoutStorage} from './support/storage.mjs';
+import {deleteDataListRecords} from '../concepts/app/components/data-list/actions.js';
 
+const {createListModel, DATA_LIST_PAGE_SIZE_OPTIONS} = modelModule;
 const invoiceConfig = DATA_LIST_CONFIG.invoice;
 const geoConfig = DATA_LIST_CONFIG.geo;
+
+test('deleting an invoice keeps locked rows and later creations visible in the list model', () => {
+  const rows = [
+    {no: '1', status: 'Posted'}, {no: '2', status: 'Open'}, {no: '3', status: 'Canceled'},
+  ];
+  const config = {...invoiceConfig, rows};
+  const model = createListModel({config, rows, storage: memoryLayoutStorage(), context: 'invoice'});
+  deleteDataListRecords('invoice', ['1', '2', '3'], config, model.state,
+    {rerender() {}, toast() {}});
+  assert.deepEqual(model.rowsInView().map(row => row.no).sort(), ['1', '3']);
+  rows.unshift({no: '4', status: 'Open'});
+  assert.deepEqual(model.rowsInView().map(row => row.no).sort(), ['1', '3', '4']);
+});
 
 // ---------------------------------------------------------------------
 // dateFilterRange / rowMatchesFieldFilter — contains vs exact date filters
@@ -182,17 +197,33 @@ test('createListModel: saveLayout persists columnOrder/hiddenColumns/groupBy thr
   assert.equal(storage.loadLayout('invoice'), null);
 });
 
-test('createListModel: pagination page count agrees with the simulated total, not just the sample row count', () => {
-  // Pagination contract (see baseline comment above DATA_LIST_SIMULATED_TOTAL,
-  // ported to model.js): the mocked row arrays only hold a handful of sample
-  // records, but the app's record-navigator pager already claims a
-  // simulated dataset size, so list pagination must agree with the same
-  // simulated total.
-  assert.deepEqual(DATA_LIST_SIMULATED_TOTAL, {invoice: 125, customer: 72, geo: 12, screenParameters: 57, journal: 4});
+test('createListModel: pagination page count follows the real row count (no simulated total)', () => {
+  // INV-11 / ledger #9: the pager reports real rows only, so the page count
+  // is derived from the rows the model holds, never from a simulated dataset size.
+  assert.equal('DATA_LIST_SIMULATED_TOTAL' in modelModule, false);
   assert.deepEqual(DATA_LIST_PAGE_SIZE_OPTIONS, [10, 25, 50, 100]);
   const model = createListModel({config: invoiceConfig, rows: LIST_ROWS, storage: memoryLayoutStorage()});
-  const totalPages = Math.max(1, Math.ceil(DATA_LIST_SIMULATED_TOTAL.invoice / model.state.pageSize));
-  assert.equal(totalPages, 5); // ceil(125 / 25)
+  const totalPages = Math.max(1, Math.ceil(model.rowsInView().length / model.state.pageSize));
+  assert.equal(totalPages, 1);
+
+  const pager = renderShellPager('invoice', LIST_ROWS.length, model.state, {
+    t: (key, fallback) => fallback ?? key,
+    encodeHtml: String,
+    dataListIcon: () => '',
+  });
+  assert.match(pager, new RegExp(`Showing 1–${LIST_ROWS.length} of ${LIST_ROWS.length}</span>`));
+  assert.equal(pager.match(/data-pagination-page /g).length, 1);
+});
+
+test('renderShellPager: a row count above the page size adds a page and splits the range', () => {
+  const deps = {t: (key, fallback) => fallback ?? key, encodeHtml: String, dataListIcon: () => ''};
+  const pageButtons = html => html.match(/data-pagination-page /g).length;
+  const first = renderShellPager('invoice', 26, {pageSize: 25, page: 1}, deps);
+  assert.equal(pageButtons(first), 2);
+  assert.match(first, /Showing 1–25 of 26<\/span>/);
+  const second = renderShellPager('invoice', 26, {pageSize: 25, page: 2}, deps);
+  assert.equal(pageButtons(second), 2);
+  assert.match(second, /Showing 26–26 of 26<\/span>/);
 });
 
 // ---------------------------------------------------------------------

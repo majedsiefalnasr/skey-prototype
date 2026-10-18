@@ -1,0 +1,46 @@
+
+Running 1 test using 1 worker
+
+(node:53581) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [desktop] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers
+  1) [desktop] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator:  locator('[data-placeholder-crumb]')
+    Expected: "Marketers"
+    Received: "All"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveText" locator('[data-placeholder-crumb]') with timeout 5000ms
+      - waiting for locator('[data-placeholder-crumb]')
+        14 × locator resolved to <span aria-current="page" data-placeholder-crumb="">All</span>
+           - unexpected value "All"
+
+
+      41 |       await expect(page.locator(root)).toBeVisible();
+      42 |       if (root === '.placeholder-view') {
+    > 43 |         await expect(page.locator('[data-placeholder-crumb]')).toHaveText(await page.locator(root+' h1').innerText());
+         |                                                                ^
+      44 |       }
+      45 |       expect(await inset(page.locator(root+' h1')), path+' heading').toBe(expectedHeading);
+      46 |       // Placeholder content has its own card padding; compare the card edge.
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/page-gutters.spec.mjs:43:64
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/placeholder-red-out/page-gutters-default-fluid-page-gutters-align-with-Customers-desktop/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/placeholder-red-out/page-gutters-default-fluid-page-gutters-align-with-Customers-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/placeholder-red-out/page-gutters-default-fluid-page-gutters-align-with-Customers-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    [desktop] › tests/page-gutters.spec.mjs:15:3 › default fluid: page gutters align with Customers 

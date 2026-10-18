@@ -1,0 +1,210 @@
+[
+  {
+    "id": "SHL-01",
+    "source": "| SHL-01 | P0 | One shared shell; pages follow the `{id, roots, activate, deactivate, dispose}` contract (`core/navigation.js`) | Accepted | `architecture.test`, `navigation.test` pass | T |"
+  },
+  {
+    "id": "SHL-02",
+    "source": "| SHL-02 | P1 | Every in-scope screen has a stable route (§1.2); Back/Forward restore the view | Accepted | `routes.test`, `routing.spec` pass | T |"
+  },
+  {
+    "id": "SHL-03",
+    "source": "| SHL-03 | P0 | A nav leaf, search result or quick list item with no screen opens a **\"Not in this prototype\"** placeholder naming the requested screen and its app, with a route back to the app's For You page. It never opens the Sales Invoice record (ledger #7; `shell/sidebar.js:131`). | Implemented; delivery gates pending | For each of 3 sampled unbuilt leaves in 3 apps: title equals the leaf label, no invoice content visible, Back returns. Search-palette screen results behave the same. | T |"
+  },
+  {
+    "id": "SHL-04",
+    "source": "| SHL-04 | P0 | Leaving a dirty record through **any** route (rail, panel, topbar app switcher, user menu, search, notifications, browser Back) runs that page's unsaved-changes guard. `main.js:1014` currently consults only the list-layout guard. | Implemented; delivery gates pending | Dirty invoice and dirty customer × {rail leaf, app switcher, Back}: guard appears. Stay keeps the edits; discard navigates. | T |"
+  },
+  {
+    "id": "SHL-05",
+    "source": "| SHL-05 | P1 | Search palette record results either open their record or go through SHL-03; no generic \"out of scope\" toast for listed records | Implemented; delivery gates pending | Each of the 5 `RECORDS` entries opens a record or the placeholder | T |"
+  },
+  {
+    "id": "SHL-06",
+    "source": "| SHL-06 | P1 | Prototype Controls kit stays visibly a review aid. Its controls restore after reload. It never covers a primary action (VQA-05 accepted). | Accepted | `lifecycle`, `visual-qa-batch2` | T |"
+  },
+  {
+    "id": "SHL-07",
+    "source": "| SHL-07 | P2 | Persistent \"Actions apply to invoice 126\" copy in the search palette and shell (`shell/shell.html:44,57`; `search.js:36`; `locale.js:405`) follows the current record, or is removed when no invoice is open | Implemented; delivery gates pending | With invoice 145 open, the palette context shows 145. On a non-invoice page, no invoice context appears. | T |"
+  },
+  {
+    "id": "INV-01",
+    "source": "| INV-01 | P0 | Selecting any list row shows that row's number, sequence and status in the header, General fields, dialogs, journal identifiers, history header and print subject | Accepted | `invoice-selection.spec` (all 8 rows, 7 profiles) | T |"
+  },
+  {
+    "id": "INV-02",
+    "source": "| INV-02 | P0 | Every status value reachable through the UI or Prototype Controls renders without error and round-trips list ↔ record. `Deactivated` currently writes a label (`'Deactivated'`) whose lowercased form is not a `STATUSES` key (`inactive`). | Implemented; delivery gates pending | Set `#st` = Deactivated on row 145 → back → reopen: no console error, badge \"Deactivated\", record locked, kanban shows it or excludes it per INV-05 | T |"
+  },
+  {
+    "id": "INV-03",
+    "source": "| INV-03 | P0 | Create → Save assigns the next number after the highest existing one (currently 149, not the hardcoded 129 at `operations.js:249`). The header shows it, the record becomes the selected row, and a list row is added with the values shown in the record. The \"Open it\" toast action opens it, or is removed. | Implemented; delivery gates pending | New → add a line → Save: header shows 149, list contains 149 with status Open, reopening shows the same values | T |"
+  },
+  {
+    "id": "INV-04",
+    "source": "| INV-04 | P0 | Delete from the record removes the row from the list, as its toast says. Delete from the list obeys the record's rule: blocked for Posted/Canceled (`invoices.js:63–69` vs `data-list/actions.js:43–55`). | Implemented; delivery gates pending | Record delete on an Open row → row gone. List row menu on a Posted row → Delete unavailable or blocked with a reason. | T |"
+  },
+  {
+    "id": "INV-05",
+    "source": "| INV-05 | P1 | List row status menu, kanban columns and record transitions use one transition table (the lifecycle above). Today the row menu offers only Open/Pending/Returned (`renderers.js:115`). | Implemented; delivery gates pending | For each status, the row menu offers exactly the lifecycle's targets; kanban has a column or a documented exclusion for every status | T |"
+  },
+  {
+    "id": "INV-06",
+    "source": "| INV-06 | P1 | Header fields that already exist on the list row (customer, date, due date, payment type, currency, branch, warehouse, sales rep, price list) are row-specific (A-13). `state.pay` currently ignores `row.pay` (`invoices.js:6–10`); fixing that also fixes Receipt Voucher availability. | Implemented; delivery gates pending | For rows 143 (Cash) and 145 (Credit): payment control and Receipt Voucher availability match the row. A-13 fields match the list columns. | T |"
+  },
+  {
+    "id": "INV-07",
+    "source": "| INV-07 | P1 | Totals area stays representative (A-13). The disclosure names every field that remains shared, totals included. No fabricated calculation. | Implemented; delivery gates pending | Disclosure text lists the shared fields, including totals | T/R |"
+  },
+  {
+    "id": "INV-08",
+    "source": "| INV-08 | P1 | Dialog money footers (`record-dialogs.html:142,231,474`), the journal table (`journal-entry.js`) and the assistant canned text (`assistant.js:24,28`) do not contradict the selected invoice. Either they derive from the same source as INV-07 or they are covered by the disclosure. | Implemented; delivery gates pending | With row 147 selected, posting/journal/cancel dialogs show values consistent with INV-07 | T |"
+  },
+  {
+    "id": "INV-09",
+    "source": "| INV-09 | P1 | Boot and default record is a member of the list. Today invoice 126, which is not in the list, is the boot record (`invoices.js:15–17`). | Implemented; delivery gates pending | Fresh load of the invoice record route shows a list member, or the list | T |"
+  },
+  {
+    "id": "INV-10",
+    "source": "| INV-10 | P0 | Record keeps the accepted features: 5 tabs, payments add/remove, line entry, charges, status chain popover, print dialog, activity drawer, posting with `failsim` | Accepted | `invoice-geography` invoice cases (56) | T |"
+  },
+  {
+    "id": "INV-11",
+    "source": "| INV-11 | P2 | Pager \"Record 1 of 125\" and list simulated total 125 reflect the real row count (ledger #9) | Implemented; delivery gates pending | Pager shows \"n of 8\"; page 2 does not advertise rows that don't exist | T |"
+  },
+  {
+    "id": "INV-12",
+    "source": "| INV-12 | — | VQA-07 RTL financial-token formatting | **Deferred** (D-06) | Not implemented until the policy is approved | — |"
+  },
+  {
+    "id": "CUS-01",
+    "source": "| CUS-01 | P0 | List of 9 columns; opening a row shows that row's identity fields (`createSavedCustomerData`, `customers/fields.js:65–81`); other fields come from the shared reference record under the existing disclosure model (§4) | Implemented | Each of the 3 rows: number, name, unit, type, group, currency, country and phone match the list | T |"
+  },
+  {
+    "id": "CUS-02",
+    "source": "| CUS-02 | P0 | View/edit/create modes, Save/Undo, unsaved-changes guard (\"Leave without saving\" / \"Save, then leave\") | Accepted | `lifecycle.spec` | T |"
+  },
+  {
+    "id": "CUS-03",
+    "source": "| CUS-03 | P1 | Save in edit mode writes the mapped fields back to the list row. Save in create mode adds a row. Today neither happens (`record.js:429–458`). | Implemented; delivery gates pending | Edit the name of 200002 → Save → list shows the new name. Add Customer → Save → new row present and reopenable. | T |"
+  },
+  {
+    "id": "CUS-04",
+    "source": "| CUS-04 | P1 | An inactive customer shows its deactivation reason (`statusReason`) and a date consistent with the demo clock | Implemented; delivery gates pending | Open 200001: reason visible, date ≤ demo clock | T |"
+  },
+  {
+    "id": "CUS-05",
+    "source": "| CUS-05 | P1 | Guard covers all leave routes | Implemented; delivery gates pending | via SHL-04 | T |"
+  },
+  {
+    "id": "GEO-01",
+    "source": "| GEO-01 | P0 | Tree/Flow list and record are fully row-specific; edits write back (`geography.js:137–156`) | Implemented | Existing geography cases | T |"
+  },
+  {
+    "id": "GEO-02",
+    "source": "| GEO-02 | P0 | Create → Save adds the node. Today it toasts \"Location saved\" and writes nothing (`geography.js:538–543`). | Implemented; delivery gates pending | Create a city under Cairo → Save → appears in the tree, reopenable | T |"
+  },
+  {
+    "id": "GEO-03",
+    "source": "| GEO-03 | P1 | Status toggle with reason works in both locales. The existing test \"geography record status toggle\" expects English `Inactive` in mobile-rtl; that is a **test defect**: the UI correctly shows `غير نشط`. | Implemented; delivery gates pending | Test asserts the locale-appropriate label; passes on all 7 profiles | T |"
+  },
+  {
+    "id": "COL-01",
+    "source": "| COL-01 | P0 | Notes, Activities, Events, People and Internal Mail behave per `2026-10-13-collaboration-suite-design.md`. Store key `skey-proto-collab`; links undirected; deleted targets show \"Unavailable item\". | Accepted | `collaboration.spec` (69), `help-screens-consistency` | T |"
+  },
+  {
+    "id": "COL-02",
+    "source": "| COL-02 | P0 | Mail drafts survive reload and navigation before autosave | Accepted | `mail-draft-exit.spec` | T |"
+  },
+  {
+    "id": "COL-03",
+    "source": "| COL-03 | P1 | Switching to another message while composing does not silently discard the draft (ledger #5). Verify whether the existing autosave/flush already covers it; close the gap only if it reproduces. | Implemented; delivery gates pending | Type in the composer → open another message → return: draft exists | T |"
+  },
+  {
+    "id": "COL-04",
+    "source": "| COL-04 | P1 | Mobile Mail reading has a usable reader (ledger #1, P0 at the 2026-09-13 audit; VQA-01 fixed the reader height) | Accepted (VQA-01); update the ledger | `visual-qa-batch1` VQA-01 | T/R |"
+  },
+  {
+    "id": "COL-05",
+    "source": "| COL-05 | P2 | Calendar mobile context strip; 30-minute event paint/hit separation (VQA-04, VQA-08) | Accepted | `visual-qa-batch2` | T |"
+  },
+  {
+    "id": "ACC-01",
+    "source": "| ACC-01 | P0 | Sign-in journey J1 per `2026-10-05-signin-pages-design.md` and its 2026-10-16 addendum; storage key `skey-proto-accounts` | Accepted | `signin-pages`, `signin-gate`, `signin.test` | T |"
+  },
+  {
+    "id": "ACC-02",
+    "source": "| ACC-02 | P1 | Profile has 7 sections, including \"Contact details\", which is not in the 09-23 spec. Retention is **proposed** (§9.2 P-02); no change is planned. | Implemented | `profile-lifecycle`, `profile-page.test` | T |"
+  },
+  {
+    "id": "ACC-03",
+    "source": "| ACC-03 | P1 | Organization Center: 5 visible sections. `audit`, `performance` and `staff` are hidden in `organization/fields.js:5`; retention is **proposed** (§9.2 P-03). Role gating per `organization/access.js`. Session revoke/terminate needs a reason, is blocked for current/system/maintenance sessions, and writes an audit entry. | Accepted | `organization-center.spec` / `.test` | T |"
+  },
+  {
+    "id": "ACC-04",
+    "source": "| ACC-04 | P1 | Password identity wraps by token (VQA-06) | Accepted | `visual-qa-batch3` | T |"
+  },
+  {
+    "id": "DAT-01",
+    "source": "| DAT-01 | P1 | Invoice list rows, record, dialogs, journal and assistant obey DAT-R1/R2 (INV-06…INV-09) | Implemented; delivery gates pending | `2026-10-17-invoice-selection-coherence.md` | T |"
+  },
+  {
+    "id": "DAT-02",
+    "source": "| DAT-02 | P1 | Demo-clock coherence (DAT-R3). Known contradictions to fix:<br>- invoice CHAIN and ACTIVITY dated Feb 2026 vs invoices dated Aug 2026<br>- mail e1 16:05 and s1 14:40 are later than \"now\" 13:24<br>- `nextMaintenance` 2026-09-20 has passed<br>- `deactivationFrom` hardcoded `2026-08-01` | Implemented; delivery gates pending | Architecture review, §2 | T (date assertions), V |"
+  },
+  {
+    "id": "DAT-03",
+    "source": "| DAT-03 | P1 | Identity coherence (DAT-R4). Known contradictions:<br>- inbox addressed to \"Kathleen\" (`messages.js:49ff`)<br>- `COLLAB_USERS` derives `majed@…` while `me` is `admin@…` (`collaboration.js:20,25`)<br>- `CURRENT_USER.branch` 'lastchance' vs `usr-1` 'Cairo HQ'<br>- manager \"Ahmed Hassan\" is not an org user | Implemented; delivery gates pending | Architecture review, §2 | T, V |"
+  },
+  {
+    "id": "DAT-04",
+    "source": "| DAT-04 | P2 | Cross-module parties (DAT-R5):<br>- Al Noor appears as a customer in notes, a vendor in e4, and on a supplier-visit event, but not in `CUSTOMER_ROWS`<br>- invoice `custName` \"العميل الاول\" with branch `1 - headoffice` vs the customer fixture's unit `2 - lastchance`<br>- customer `unitLocation` codes vs geo codes (`CAI`) | Implemented; delivery gates pending | Architecture review, §2 | R, V |"
+  },
+  {
+    "id": "DAT-05",
+    "source": "| DAT-05 | P2 | Inactive customer 200001 has an Open invoice (145). Either acceptable (the invoice predates deactivation; dates must show it) or change the fixture. **Builder's call within DAT-R3.** | Implemented; delivery gates pending | — | R |"
+  },
+  {
+    "id": "DAT-06",
+    "source": "| DAT-06 | — | Fixed subtotal 200, zero tax, zero line-money outputs on the invoice record | **Limitation** (A-08; A-13 keeps totals representative) | Invoice-selection report | — |"
+  },
+  {
+    "id": "DAT-07",
+    "source": "| DAT-07 | — | English fixture text (names, remarks) in Arabic mode | **Limitation** (A-09) | Batch reports | — |"
+  },
+  {
+    "id": "UX-01",
+    "source": "| UX-01 | P0 | Utilitarian, dense, familiar-ERP shell; no consumer minimalism, no icon-only mystery toolbars without labels or tooltips (`PRODUCT.md`) | Accepted | R |"
+  },
+  {
+    "id": "UX-02",
+    "source": "| UX-02 | P0 | Approved layouts: invoice Data Grid list plus Guided Tabs record; customer Scroll Navigator; Geography Tree/Flow; collaboration Kanban/List/Calendar | Accepted | T/V |"
+  },
+  {
+    "id": "UX-03",
+    "source": "| UX-03 | P1 | Responsive behaviour on the 7 Playwright profiles; mobile at 390×844 without document overflow (accepted Batch 1–3 and SR-01 fixes). All 7 profiles in scope (A-12). | Partial | T/V |"
+  },
+  {
+    "id": "UX-04",
+    "source": "| UX-04 | P1 | RTL: logical properties; `applyRecordValueDirections` (numbers, dates and phones LTR). Financial tokens: VQA-07 deferred (D-06). | Implemented | T |"
+  },
+  {
+    "id": "UX-05",
+    "source": "| UX-05 | P1 | Arabic completeness: every user-visible string on in-scope surfaces goes through `t()` / `data-i18n` — about 130 toasts across 27 files, and `invoices/record-dialogs.html`, `print-dialog.html`, `customers/dialogs.html`, `geography/dialogs.html`, `data-list/list-dialogs.html`, plus invoice tab and summary labels, kanban columns, row-menu actions, validation messages. Names in fixture data are excluded (DAT-07). | Implemented; delivery gates pending | T |"
+  },
+  {
+    "id": "UX-06",
+    "source": "| UX-06 | P1 | Accessibility (WCAG 2.1 AA target), open ledger items:<br>- #2 pager Prev/Next accessible names<br>- #3 mobile Columns/view trigger names<br>- #4 selected nav/pagination contrast 4.28:1 → ≥ 4.5:1<br>- #10 coarse-pointer 44 px targets on list controls | Implemented; delivery gates pending | T (accessible-name and computed-contrast assertions), V |"
+  },
+  {
+    "id": "UX-07",
+    "source": "| UX-07 | P2 | Mobile invoice statistics do not push the list below the fold (#11) | Implemented; delivery gates pending | T/V |"
+  },
+  {
+    "id": "UX-08",
+    "source": "| UX-08 | P2 | ApexCharts does not block initial load (#12). The integrity attribute and `chart-parity` must remain. | Implemented; delivery gates pending | T |"
+  },
+  {
+    "id": "UX-09",
+    "source": "| UX-09 | P0 | **Raster policy:** a pixel difference on a protected snapshot is either (a) a reviewed, intended change approved per path, or (b) an open item. Unexplained differences are never assumed harmless and never accepted by tolerance or mask. The 11 retained unexplained pairs (`2026-10-17-visual-qa-visual-differences-investigation.md`) stay open as **L-05**, outside the delivery critical path. | Accepted policy | R |"
+  }
+]

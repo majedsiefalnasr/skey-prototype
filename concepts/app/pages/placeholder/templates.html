@@ -1,0 +1,31 @@
+<template class="placeholder-tpl">
+  <div
+    class="placeholder-view [&:not([hidden])]:flex [&:not([hidden])]:[flex:1] [&:not([hidden])]:min-h-0 [&:not([hidden])]:flex-col"
+    hidden>
+    <div class="flex min-h-0 flex-1 flex-col overflow-auto pb-6">
+      <div class="pt-4 [@media(max-width:620px)]:px-2.5">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="#" data-placeholder-app></a><span class="sep">›</span
+          ><span aria-current="page" data-placeholder-crumb></span>
+        </nav>
+        <div class="mt-2">
+          <h1 class="text-[20px] font-semibold leading-tight text-ink" data-placeholder-title></h1>
+        </div>
+      </div>
+      <div
+        class="mt-6 [@media(max-width:900px)]:mx-2 flex max-w-[520px] flex-col items-start gap-3 rounded-lg border border-line bg-surface p-6">
+        <span
+          class="inline-flex rounded-full bg-[var(--line-2)] px-2.5 py-0.5 text-xs font-medium text-muted"
+          data-i18n="Not in this prototype"
+          >Not in this prototype</span
+        >
+        <p
+          class="text-[13px] text-muted"
+          data-i18n="This screen is not part of the prototype.">
+          This screen is not part of the prototype.
+        </p>
+        <button type="button" class="lbtn pri" data-placeholder-back></button>
+      </div>
+    </div>
+  </div>
+</template>

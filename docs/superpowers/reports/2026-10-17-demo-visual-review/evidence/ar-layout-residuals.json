@@ -1,0 +1,62 @@
+[
+  {
+    "screen": "profile",
+    "section": "profile",
+    "residual": []
+  },
+  {
+    "screen": "profile",
+    "section": "employee",
+    "residual": []
+  },
+  {
+    "screen": "profile",
+    "section": "contact",
+    "residual": []
+  },
+  {
+    "screen": "profile",
+    "section": "account",
+    "residual": []
+  },
+  {
+    "screen": "profile",
+    "section": "appearance",
+    "residual": []
+  },
+  {
+    "screen": "profile",
+    "section": "security",
+    "residual": []
+  },
+  {
+    "screen": "profile",
+    "section": "sessions",
+    "residual": []
+  },
+  {
+    "screen": "organization",
+    "section": "overview",
+    "residual": []
+  },
+  {
+    "screen": "organization",
+    "section": "settings",
+    "residual": []
+  },
+  {
+    "screen": "organization",
+    "section": "users",
+    "residual": []
+  },
+  {
+    "screen": "organization",
+    "section": "application-sessions",
+    "residual": []
+  },
+  {
+    "screen": "organization",
+    "section": "database-sessions",
+    "residual": []
+  }
+]

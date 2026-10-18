@@ -319,7 +319,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
     const note = store.getEntity('note', id)
     if (!note || note.status === status) return
     store.updateEntity('note', id, {status})
-    toast({tone: 'info', title: `Moved to ${noteStatusLabel(status)}`, body: titleOf(note)})
+    toast({tone: 'info', title: uiLocale.t("Moved to {v0}").replace('{v0}', () => uiLocale.t(String(noteStatusLabel(status)))), body: titleOf(note)})
     view().querySelector(`[data-move="${CSS.escape(id)}"]`)?.focus()
   }
 

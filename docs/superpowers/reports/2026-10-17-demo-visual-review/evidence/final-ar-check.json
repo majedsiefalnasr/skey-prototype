@@ -1,0 +1,4248 @@
+{
+  "config": {
+    "argv": [
+      "/Users/majedsiefalnasr/.dotfiles/node/.nvm/versions/node/v23.11.0/bin/node",
+      "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/node_modules/.bin/playwright",
+      "test",
+      "tests/delivery-locale.spec.mjs",
+      "tests/invoice-geography.spec.mjs",
+      "tests/components.spec.mjs",
+      "--grep",
+      "Arabic|invoice payments retain|geography details uses|invoice print settings|table header paints|print dialog",
+      "--workers=2",
+      "--retries=0",
+      "--reporter=line,json",
+      "--output=/private/tmp/skey-delivery/codex-resume/pw-final-ar-check"
+    ],
+    "configFile": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/playwright.config.mjs",
+    "rootDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/private/tmp/skey-delivery/codex-resume/pw-final-ar-check",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-delivery/codex-resume/pw-final-ar-check",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "mobile-touch",
+        "name": "mobile-touch",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-delivery/codex-resume/pw-final-ar-check",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "desktop-dark",
+        "name": "desktop-dark",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-delivery/codex-resume/pw-final-ar-check",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "desktop-high-contrast-light",
+        "name": "desktop-high-contrast-light",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-delivery/codex-resume/pw-final-ar-check",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "desktop-high-contrast-dark",
+        "name": "desktop-high-contrast-dark",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-delivery/codex-resume/pw-final-ar-check",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "mobile-rtl",
+        "name": "mobile-rtl",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/private/tmp/skey-delivery/codex-resume/pw-final-ar-check",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "desktop-reduced-motion",
+        "name": "desktop-reduced-motion",
+        "testDir": "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "line"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "components.spec.mjs",
+      "file": "components.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Arabic locale switch updates direction and field formatting",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1580,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:11.819Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-2f37fadc08d2f9cd5a29",
+          "file": "components.spec.mjs",
+          "line": 177,
+          "column": 1
+        },
+        {
+          "title": "print dialog returns keyboard focus",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 659,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:11.820Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-16fb685043be0dee1797",
+          "file": "components.spec.mjs",
+          "line": 214,
+          "column": 1
+        },
+        {
+          "title": "print dialog traps Tab within its focusable controls",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 540,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:12.581Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-611aaeddf99fe30d8807",
+          "file": "components.spec.mjs",
+          "line": 225,
+          "column": 1
+        },
+        {
+          "title": "Arabic locale switch updates direction and field formatting",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1566,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:18.418Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-cca56df3332bbd112114",
+          "file": "components.spec.mjs",
+          "line": 177,
+          "column": 1
+        },
+        {
+          "title": "print dialog returns keyboard focus",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 581,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:18.802Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-1f7cd39459ddec2ac0f9",
+          "file": "components.spec.mjs",
+          "line": 214,
+          "column": 1
+        },
+        {
+          "title": "print dialog traps Tab within its focusable controls",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 593,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:19.474Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-4f759fbdb31ddc093802",
+          "file": "components.spec.mjs",
+          "line": 225,
+          "column": 1
+        },
+        {
+          "title": "Arabic locale switch updates direction and field formatting",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1492,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:25.266Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-bac1ad4cedebdf39e975",
+          "file": "components.spec.mjs",
+          "line": 177,
+          "column": 1
+        },
+        {
+          "title": "print dialog returns keyboard focus",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 544,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:25.701Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-af2dc18a1c2020f15a0c",
+          "file": "components.spec.mjs",
+          "line": 214,
+          "column": 1
+        },
+        {
+          "title": "print dialog traps Tab within its focusable controls",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 560,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:26.348Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-bb0ab1f06b40ae3b0d78",
+          "file": "components.spec.mjs",
+          "line": 225,
+          "column": 1
+        },
+        {
+          "title": "Arabic locale switch updates direction and field formatting",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1571,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:32.491Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-7ee54812159dec3fda24",
+          "file": "components.spec.mjs",
+          "line": 177,
+          "column": 1
+        },
+        {
+          "title": "print dialog returns keyboard focus",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 646,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:32.800Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-b4ba22f82a2b1759ceb6",
+          "file": "components.spec.mjs",
+          "line": 214,
+          "column": 1
+        },
+        {
+          "title": "print dialog traps Tab within its focusable controls",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 522,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:33.542Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-a9cced61c0aa93a106c9",
+          "file": "components.spec.mjs",
+          "line": 225,
+          "column": 1
+        },
+        {
+          "title": "Arabic locale switch updates direction and field formatting",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1539,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:39.721Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-66cc635b3783a0b14f0e",
+          "file": "components.spec.mjs",
+          "line": 177,
+          "column": 1
+        },
+        {
+          "title": "print dialog returns keyboard focus",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 570,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:40.183Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-6c9745c97d45bf537ffb",
+          "file": "components.spec.mjs",
+          "line": 214,
+          "column": 1
+        },
+        {
+          "title": "print dialog traps Tab within its focusable controls",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 523,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:40.846Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-8668a8c7e83019feb0e5",
+          "file": "components.spec.mjs",
+          "line": 225,
+          "column": 1
+        },
+        {
+          "title": "Arabic locale switch updates direction and field formatting",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1641,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:46.660Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-5ea1bab66cbbd37019a9",
+          "file": "components.spec.mjs",
+          "line": 177,
+          "column": 1
+        },
+        {
+          "title": "print dialog returns keyboard focus",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 762,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:47.063Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-4cbde300ac7bf9532618",
+          "file": "components.spec.mjs",
+          "line": 214,
+          "column": 1
+        },
+        {
+          "title": "print dialog traps Tab within its focusable controls",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 697,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:47.938Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-e5ea1bef247769756b5d",
+          "file": "components.spec.mjs",
+          "line": 225,
+          "column": 1
+        },
+        {
+          "title": "Arabic locale switch updates direction and field formatting",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 12,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1496,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:54.589Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-235ecbd8cdd5cd75dc4e",
+          "file": "components.spec.mjs",
+          "line": 177,
+          "column": 1
+        },
+        {
+          "title": "print dialog returns keyboard focus",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 570,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:55.107Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-d90fba08010cdabe8352",
+          "file": "components.spec.mjs",
+          "line": 214,
+          "column": 1
+        },
+        {
+          "title": "print dialog traps Tab within its focusable controls",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 593,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:55.775Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68fd3455c962a31c7986-1ce68ae106926d28cec7",
+          "file": "components.spec.mjs",
+          "line": 225,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "delivery-locale.spec.mjs",
+      "file": "delivery-locale.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Arabic geography labels retain stable type and status values",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 608,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:13.129Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-b9dd0ecf706174ded4ba",
+          "file": "delivery-locale.spec.mjs",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "Arabic Profile headings and Save controls localize without discarding typed values",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 710,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:13.507Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-1dbbed8b25cf722b2a47",
+          "file": "delivery-locale.spec.mjs",
+          "line": 15,
+          "column": 1
+        },
+        {
+          "title": "Arabic Organization headings and session action dialog are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 828,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:13.743Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-c18bfa3a06aab51c3558",
+          "file": "delivery-locale.spec.mjs",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "Arabic invoice and customer primary record controls are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1020,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:14.224Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-3aa38be6fd56dd296277",
+          "file": "delivery-locale.spec.mjs",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "Arabic mail reading toolbar labels are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 648,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:14.576Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-aadb6f59f3726acd841b",
+          "file": "delivery-locale.spec.mjs",
+          "line": 54,
+          "column": 1
+        },
+        {
+          "title": "Arabic customer changes save back with Arabic feedback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 870,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:15.231Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-cd27c22adfb4b6027914",
+          "file": "delivery-locale.spec.mjs",
+          "line": 88,
+          "column": 1
+        },
+        {
+          "title": "receipt voucher action clearly stops at the prototype boundary in Arabic",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 633,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:15.250Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-c55db0ce87792350faee",
+          "file": "delivery-locale.spec.mjs",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "new Arabic payment rows keep stable method values and translated labels",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 717,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:15.889Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-b78e125bbb55c84a428c",
+          "file": "delivery-locale.spec.mjs",
+          "line": 116,
+          "column": 1
+        },
+        {
+          "title": "Arabic geography labels retain stable type and status values",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 663,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:20.074Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-e6b15cdbe301fa3972c3",
+          "file": "delivery-locale.spec.mjs",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "Arabic Profile headings and Save controls localize without discarding typed values",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 687,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:20.091Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-2d46a04a153b1d5b0726",
+          "file": "delivery-locale.spec.mjs",
+          "line": 15,
+          "column": 1
+        },
+        {
+          "title": "Arabic Organization headings and session action dialog are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 767,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:20.741Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-3d8868fc69590c5d7606",
+          "file": "delivery-locale.spec.mjs",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "Arabic invoice and customer primary record controls are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1024,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:20.785Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-6d2b3f6d069ebd90c88a",
+          "file": "delivery-locale.spec.mjs",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "Arabic mail reading toolbar labels are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 609,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:21.520Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-cb6e9cbda2f69081f616",
+          "file": "delivery-locale.spec.mjs",
+          "line": 54,
+          "column": 1
+        },
+        {
+          "title": "Arabic customer changes save back with Arabic feedback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 731,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:21.814Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-2946088f498839a32d51",
+          "file": "delivery-locale.spec.mjs",
+          "line": 88,
+          "column": 1
+        },
+        {
+          "title": "receipt voucher action clearly stops at the prototype boundary in Arabic",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 637,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:22.136Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-5ce7c6bb23eed7897b4b",
+          "file": "delivery-locale.spec.mjs",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "new Arabic payment rows keep stable method values and translated labels",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 784,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:22.552Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-3106d29554e04a4469d4",
+          "file": "delivery-locale.spec.mjs",
+          "line": 116,
+          "column": 1
+        },
+        {
+          "title": "Arabic geography labels retain stable type and status values",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 702,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:26.871Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-b738d47d24831f24d0ab",
+          "file": "delivery-locale.spec.mjs",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "Arabic Profile headings and Save controls localize without discarding typed values",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 702,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:26.919Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-62f6660d092ae0493951",
+          "file": "delivery-locale.spec.mjs",
+          "line": 15,
+          "column": 1
+        },
+        {
+          "title": "Arabic Organization headings and session action dialog are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 937,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:27.578Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-5c8bae8b4244a990d0de",
+          "file": "delivery-locale.spec.mjs",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "Arabic invoice and customer primary record controls are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1074,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:27.627Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-0e301a6e9c26d69dd997",
+          "file": "delivery-locale.spec.mjs",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "Arabic mail reading toolbar labels are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 627,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:28.519Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-c3846f87ff495826d7a5",
+          "file": "delivery-locale.spec.mjs",
+          "line": 54,
+          "column": 1
+        },
+        {
+          "title": "Arabic customer changes save back with Arabic feedback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 851,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:28.706Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-8fb4f71ea867a434ff1f",
+          "file": "delivery-locale.spec.mjs",
+          "line": 88,
+          "column": 1
+        },
+        {
+          "title": "receipt voucher action clearly stops at the prototype boundary in Arabic",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 718,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:29.151Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-159dde83313afde97a3a",
+          "file": "delivery-locale.spec.mjs",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "new Arabic payment rows keep stable method values and translated labels",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 846,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:29.563Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-6e5f9ca0155b24eba600",
+          "file": "delivery-locale.spec.mjs",
+          "line": 116,
+          "column": 1
+        },
+        {
+          "title": "Arabic geography labels retain stable type and status values",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 779,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:34.074Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-a2635c66d02e1ab6c8c3",
+          "file": "delivery-locale.spec.mjs",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "Arabic Profile headings and Save controls localize without discarding typed values",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 854,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:34.168Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-bb51778f16bfc9e8c21f",
+          "file": "delivery-locale.spec.mjs",
+          "line": 15,
+          "column": 1
+        },
+        {
+          "title": "Arabic Organization headings and session action dialog are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 828,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:34.859Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-8efe8c78d69ed619bfa8",
+          "file": "delivery-locale.spec.mjs",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "Arabic invoice and customer primary record controls are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1122,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:35.028Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-bfdf1e6805dff294f5cb",
+          "file": "delivery-locale.spec.mjs",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "Arabic mail reading toolbar labels are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 736,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:35.694Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-1b99c73f0e68e69d01da",
+          "file": "delivery-locale.spec.mjs",
+          "line": 54,
+          "column": 1
+        },
+        {
+          "title": "Arabic customer changes save back with Arabic feedback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 911,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:36.161Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-d19eb3c1d44021a7ba72",
+          "file": "delivery-locale.spec.mjs",
+          "line": 88,
+          "column": 1
+        },
+        {
+          "title": "receipt voucher action clearly stops at the prototype boundary in Arabic",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 618,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:36.435Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-b203dd2118e70cafb09d",
+          "file": "delivery-locale.spec.mjs",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "new Arabic payment rows keep stable method values and translated labels",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 851,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:37.059Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-0cf80906ffc9cc278c5a",
+          "file": "delivery-locale.spec.mjs",
+          "line": 116,
+          "column": 1
+        },
+        {
+          "title": "Arabic geography labels retain stable type and status values",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 678,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:41.363Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-83b3d73273fd54b409d4",
+          "file": "delivery-locale.spec.mjs",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "Arabic Profile headings and Save controls localize without discarding typed values",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 736,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:41.378Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-24439af7696f0f2e2e72",
+          "file": "delivery-locale.spec.mjs",
+          "line": 15,
+          "column": 1
+        },
+        {
+          "title": "Arabic Organization headings and session action dialog are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 820,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:42.047Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-3ae273eed66fc2061f48",
+          "file": "delivery-locale.spec.mjs",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "Arabic invoice and customer primary record controls are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1060,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:42.119Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-7035d5807ee5d63a9f80",
+          "file": "delivery-locale.spec.mjs",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "Arabic mail reading toolbar labels are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 688,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:42.874Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-5b1581bab260d7337c6a",
+          "file": "delivery-locale.spec.mjs",
+          "line": 54,
+          "column": 1
+        },
+        {
+          "title": "Arabic customer changes save back with Arabic feedback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 829,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:43.186Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-b177bbff29019b74fb78",
+          "file": "delivery-locale.spec.mjs",
+          "line": 88,
+          "column": 1
+        },
+        {
+          "title": "receipt voucher action clearly stops at the prototype boundary in Arabic",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 671,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:43.571Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-ac6ac4b08ee9ca2e2909",
+          "file": "delivery-locale.spec.mjs",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "new Arabic payment rows keep stable method values and translated labels",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 786,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:44.020Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-db25b7de6a38a065c3c7",
+          "file": "delivery-locale.spec.mjs",
+          "line": 116,
+          "column": 1
+        },
+        {
+          "title": "Arabic geography labels retain stable type and status values",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 705,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:48.407Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-c6410f500f4bbfe55107",
+          "file": "delivery-locale.spec.mjs",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "Arabic Profile headings and Save controls localize without discarding typed values",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 804,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:48.651Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-fe63d75e7f0ee076c801",
+          "file": "delivery-locale.spec.mjs",
+          "line": 15,
+          "column": 1
+        },
+        {
+          "title": "Arabic Organization headings and session action dialog are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 932,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:49.119Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-cc30bf80a6a2e304296a",
+          "file": "delivery-locale.spec.mjs",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "Arabic invoice and customer primary record controls are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1133,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:49.465Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-926aaa360e9ac993c9ff",
+          "file": "delivery-locale.spec.mjs",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "Arabic mail reading toolbar labels are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 610,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:50.058Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-1076cb2693c56746afda",
+          "file": "delivery-locale.spec.mjs",
+          "line": 54,
+          "column": 1
+        },
+        {
+          "title": "Arabic customer changes save back with Arabic feedback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 906,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:50.604Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-c84eaab4208f5cbd7ede",
+          "file": "delivery-locale.spec.mjs",
+          "line": 88,
+          "column": 1
+        },
+        {
+          "title": "receipt voucher action clearly stops at the prototype boundary in Arabic",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 810,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:50.673Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-6f6fed41435dd8109d91",
+          "file": "delivery-locale.spec.mjs",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "new Arabic payment rows keep stable method values and translated labels",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 928,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:51.487Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-19e2a1b284f16e894ba9",
+          "file": "delivery-locale.spec.mjs",
+          "line": 116,
+          "column": 1
+        },
+        {
+          "title": "Arabic geography labels retain stable type and status values",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 12,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 722,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:56.192Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-e26f13acab6a9a046a34",
+          "file": "delivery-locale.spec.mjs",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "Arabic Profile headings and Save controls localize without discarding typed values",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 771,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:56.378Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-05bd9571b30cc456ede2",
+          "file": "delivery-locale.spec.mjs",
+          "line": 15,
+          "column": 1
+        },
+        {
+          "title": "Arabic Organization headings and session action dialog are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 12,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 854,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:56.919Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-04aadd6092ee5740e031",
+          "file": "delivery-locale.spec.mjs",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "Arabic invoice and customer primary record controls are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1044,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:57.154Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-a1c79bf64eb4513d38f7",
+          "file": "delivery-locale.spec.mjs",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "Arabic mail reading toolbar labels are translated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 12,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 692,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:57.781Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-b43b71b6ef1a672cac40",
+          "file": "delivery-locale.spec.mjs",
+          "line": 54,
+          "column": 1
+        },
+        {
+          "title": "Arabic customer changes save back with Arabic feedback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 843,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:58.202Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-3d80823a4870ec2138d3",
+          "file": "delivery-locale.spec.mjs",
+          "line": 88,
+          "column": 1
+        },
+        {
+          "title": "receipt voucher action clearly stops at the prototype boundary in Arabic",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 12,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 623,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:58.480Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-5eab64aad87998858b37",
+          "file": "delivery-locale.spec.mjs",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "new Arabic payment rows keep stable method values and translated labels",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 792,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:59.052Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7cf6bb234d7309edb521-69f99da73dc6b7ba43e8",
+          "file": "delivery-locale.spec.mjs",
+          "line": 116,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "invoice-geography.spec.mjs",
+      "file": "invoice-geography.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "invoice payments retain method-specific fields and removal",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 678,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:16.117Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-c3da1df58078b7bf6227",
+          "file": "invoice-geography.spec.mjs",
+          "line": 56,
+          "column": 1
+        },
+        {
+          "title": "geography details uses the shared record header and field structure",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 657,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:16.614Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-a0da0d26272ffe2ffeb7",
+          "file": "invoice-geography.spec.mjs",
+          "line": 82,
+          "column": 1
+        },
+        {
+          "title": "invoice print settings and activity drawer retain their document context",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 678,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:16.803Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-616505602e99f6982bb3",
+          "file": "invoice-geography.spec.mjs",
+          "line": 216,
+          "column": 1
+        },
+        {
+          "title": "invoice print settings groups reflow at narrow widths",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 559,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:17.276Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-813e7400113d4750730c",
+          "file": "invoice-geography.spec.mjs",
+          "line": 234,
+          "column": 1
+        },
+        {
+          "title": "screen parameters table header paints opaquely above scrolling content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 602,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:17.489Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-b4e90f32ec8da8c2d0d6",
+          "file": "invoice-geography.spec.mjs",
+          "line": 259,
+          "column": 3
+        },
+        {
+          "title": "journal entry table header paints opaquely above scrolling content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 549,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:17.840Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-2f896700cb219cd370c7",
+          "file": "invoice-geography.spec.mjs",
+          "line": 259,
+          "column": 3
+        },
+        {
+          "title": "invoice payments retain method-specific fields and removal",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 707,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:22.781Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-ecd6506cd263c84e44c0",
+          "file": "invoice-geography.spec.mjs",
+          "line": 56,
+          "column": 1
+        },
+        {
+          "title": "geography details uses the shared record header and field structure",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 605,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:23.350Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-b317d2cbed04fd91d187",
+          "file": "invoice-geography.spec.mjs",
+          "line": 82,
+          "column": 1
+        },
+        {
+          "title": "invoice print settings and activity drawer retain their document context",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 770,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:23.499Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-c34fe912788e184aac0e",
+          "file": "invoice-geography.spec.mjs",
+          "line": 216,
+          "column": 1
+        },
+        {
+          "title": "invoice print settings groups reflow at narrow widths",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 618,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:23.960Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-b5e2f1975312169d11da",
+          "file": "invoice-geography.spec.mjs",
+          "line": 234,
+          "column": 1
+        },
+        {
+          "title": "screen parameters table header paints opaquely above scrolling content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 662,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:24.281Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-126d1f1b744ab178aee0",
+          "file": "invoice-geography.spec.mjs",
+          "line": 259,
+          "column": 3
+        },
+        {
+          "title": "journal entry table header paints opaquely above scrolling content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 683,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:24.583Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-ce464e9079c5034b0a86",
+          "file": "invoice-geography.spec.mjs",
+          "line": 259,
+          "column": 3
+        },
+        {
+          "title": "invoice payments retain method-specific fields and removal",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 688,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:29.891Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-b8cb04894b88b82727ec",
+          "file": "invoice-geography.spec.mjs",
+          "line": 56,
+          "column": 1
+        },
+        {
+          "title": "geography details uses the shared record header and field structure",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 704,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:30.423Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-b92778a4fb07bec9e695",
+          "file": "invoice-geography.spec.mjs",
+          "line": 82,
+          "column": 1
+        },
+        {
+          "title": "invoice print settings and activity drawer retain their document context",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 814,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:30.585Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-328ed6ed47287feba52a",
+          "file": "invoice-geography.spec.mjs",
+          "line": 216,
+          "column": 1
+        },
+        {
+          "title": "invoice print settings groups reflow at narrow widths",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 617,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:31.135Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-82cd37e89f1d21cffc0a",
+          "file": "invoice-geography.spec.mjs",
+          "line": 234,
+          "column": 1
+        },
+        {
+          "title": "screen parameters table header paints opaquely above scrolling content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 643,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:31.404Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-e4f85a8a43945591138e",
+          "file": "invoice-geography.spec.mjs",
+          "line": 259,
+          "column": 3
+        },
+        {
+          "title": "journal entry table header paints opaquely above scrolling content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-dark",
+              "projectName": "desktop-dark",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 660,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:31.758Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-6b18f089a0ff95921d59",
+          "file": "invoice-geography.spec.mjs",
+          "line": 259,
+          "column": 3
+        },
+        {
+          "title": "invoice payments retain method-specific fields and removal",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 775,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:37.085Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-2be84a2e83d07102d93a",
+          "file": "invoice-geography.spec.mjs",
+          "line": 56,
+          "column": 1
+        },
+        {
+          "title": "geography details uses the shared record header and field structure",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 700,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:37.870Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-d71204e859c28b3487c2",
+          "file": "invoice-geography.spec.mjs",
+          "line": 82,
+          "column": 1
+        },
+        {
+          "title": "invoice print settings and activity drawer retain their document context",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 780,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:37.923Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-4edb6e6789449a35ec59",
+          "file": "invoice-geography.spec.mjs",
+          "line": 216,
+          "column": 1
+        },
+        {
+          "title": "invoice print settings groups reflow at narrow widths",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 594,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:38.579Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-faa2deeb83f93b699805",
+          "file": "invoice-geography.spec.mjs",
+          "line": 234,
+          "column": 1
+        },
+        {
+          "title": "screen parameters table header paints opaquely above scrolling content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 604,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:38.713Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-893a91a610c6612c54a7",
+          "file": "invoice-geography.spec.mjs",
+          "line": 259,
+          "column": 3
+        },
+        {
+          "title": "journal entry table header paints opaquely above scrolling content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-light",
+              "projectName": "desktop-high-contrast-light",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 578,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:39.177Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-1059c376d30682d22d9a",
+          "file": "invoice-geography.spec.mjs",
+          "line": 259,
+          "column": 3
+        },
+        {
+          "title": "invoice payments retain method-specific fields and removal",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 626,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:44.261Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-831b59e2681993c975ed",
+          "file": "invoice-geography.spec.mjs",
+          "line": 56,
+          "column": 1
+        },
+        {
+          "title": "geography details uses the shared record header and field structure",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 660,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:44.816Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-cc987d7248d0d690bb64",
+          "file": "invoice-geography.spec.mjs",
+          "line": 82,
+          "column": 1
+        },
+        {
+          "title": "invoice print settings and activity drawer retain their document context",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 758,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:44.892Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-a941a65d9acd40e919d8",
+          "file": "invoice-geography.spec.mjs",
+          "line": 216,
+          "column": 1
+        },
+        {
+          "title": "invoice print settings groups reflow at narrow widths",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 605,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:45.483Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-edabb58f766ea3cc0378",
+          "file": "invoice-geography.spec.mjs",
+          "line": 234,
+          "column": 1
+        },
+        {
+          "title": "screen parameters table header paints opaquely above scrolling content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 580,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:45.655Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-46dc3ada6d89f7285409",
+          "file": "invoice-geography.spec.mjs",
+          "line": 259,
+          "column": 3
+        },
+        {
+          "title": "journal entry table header paints opaquely above scrolling content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-high-contrast-dark",
+              "projectName": "desktop-high-contrast-dark",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 603,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:46.096Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-b4a79f2ada24c704c061",
+          "file": "invoice-geography.spec.mjs",
+          "line": 259,
+          "column": 3
+        },
+        {
+          "title": "invoice payments retain method-specific fields and removal",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 897,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:51.520Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-9d2f1f0ce16f7af07390",
+          "file": "invoice-geography.spec.mjs",
+          "line": 56,
+          "column": 1
+        },
+        {
+          "title": "geography details uses the shared record header and field structure",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 743,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:52.426Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-2c8ccdd208860ace0803",
+          "file": "invoice-geography.spec.mjs",
+          "line": 82,
+          "column": 1
+        },
+        {
+          "title": "invoice print settings and activity drawer retain their document context",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 983,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:52.422Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-aa74a55e7a8ae6121fa9",
+          "file": "invoice-geography.spec.mjs",
+          "line": 216,
+          "column": 1
+        },
+        {
+          "title": "invoice print settings groups reflow at narrow widths",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 742,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:53.179Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-69973af65048a0012dd9",
+          "file": "invoice-geography.spec.mjs",
+          "line": 234,
+          "column": 1
+        },
+        {
+          "title": "screen parameters table header paints opaquely above scrolling content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 720,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:53.410Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-6e2bb695bb6fdd6a65be",
+          "file": "invoice-geography.spec.mjs",
+          "line": 259,
+          "column": 3
+        },
+        {
+          "title": "journal entry table header paints opaquely above scrolling content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-rtl",
+              "projectName": "mobile-rtl",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 814,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:53.933Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-fa9e7766ad84cdc15646",
+          "file": "invoice-geography.spec.mjs",
+          "line": 259,
+          "column": 3
+        },
+        {
+          "title": "invoice payments retain method-specific fields and removal",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 12,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 742,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:59.127Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-d332ae460bfc0f0636bd",
+          "file": "invoice-geography.spec.mjs",
+          "line": 56,
+          "column": 1
+        },
+        {
+          "title": "geography details uses the shared record header and field structure",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 645,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:59.853Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-11ad5876ba5f6d183a68",
+          "file": "invoice-geography.spec.mjs",
+          "line": 82,
+          "column": 1
+        },
+        {
+          "title": "invoice print settings and activity drawer retain their document context",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 12,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 697,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:59.880Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-5b80bd83de0cb440837e",
+          "file": "invoice-geography.spec.mjs",
+          "line": 216,
+          "column": 1
+        },
+        {
+          "title": "invoice print settings groups reflow at narrow widths",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 664,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:59:00.503Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-539366f6ef409beb59a0",
+          "file": "invoice-geography.spec.mjs",
+          "line": 234,
+          "column": 1
+        },
+        {
+          "title": "screen parameters table header paints opaquely above scrolling content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 12,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 630,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:59:00.582Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-331300337d36c5bb5c8c",
+          "file": "invoice-geography.spec.mjs",
+          "line": 259,
+          "column": 3
+        },
+        {
+          "title": "journal entry table header paints opaquely above scrolling content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-reduced-motion",
+              "projectName": "desktop-reduced-motion",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 535,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:59:01.173Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "017ee909edabd66d2a03-15b18ebdb73b3f9df6da",
+          "file": "invoice-geography.spec.mjs",
+          "line": 259,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T20:58:11.466Z",
+    "duration": 50279.7,
+    "expected": 119,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

@@ -11,7 +11,7 @@ export const ORGANIZATION_DETAILS = {
 }
 
 export const ORGANIZATION_USERS = [
-  {id: 'usr-1', name: 'Majed Sief Alnasr', role: 'Administrator', branch: 'Cairo HQ', team: 'IT Operations', status: 'Active', lastActive: 'Now', mfa: 'Enabled', inManagerScope: false},
+  {id: 'usr-1', name: 'Majed Sief Alnasr', role: 'Administrator', branch: 'lastchance', team: 'IT Operations', status: 'Active', lastActive: 'Now', mfa: 'Enabled', inManagerScope: false},
   {id: 'usr-2', name: 'Mariam Adel', role: 'Sales Manager', branch: 'Cairo HQ', team: 'Sales', status: 'Active', lastActive: '3 min ago', mfa: 'Enabled', inManagerScope: true},
   {id: 'usr-3', name: 'Omar Hassan', role: 'Sales Clerk', branch: 'Cairo HQ', team: 'Sales', status: 'Active', lastActive: '8 min ago', mfa: 'Enabled', inManagerScope: true},
   {id: 'usr-4', name: 'Nour Khaled', role: 'Accountant', branch: 'Cairo HQ', team: 'Finance', status: 'Active', lastActive: '18 min ago', mfa: 'Not enrolled', inManagerScope: true},
@@ -20,7 +20,7 @@ export const ORGANIZATION_USERS = [
 ]
 
 export const APPLICATION_SESSIONS = [
-  {id: 'app-1', user: 'Majed Sief Alnasr', role: 'Administrator', branch: 'Cairo HQ', device: 'Chrome on macOS', location: 'Cairo, EG · 41.66.xxx.24', started: '08:12', lastActive: 'Now', current: true, protected: false, inManagerScope: false},
+  {id: 'app-1', user: 'Majed Sief Alnasr', role: 'Administrator', branch: 'lastchance', device: 'Chrome on macOS', location: 'Cairo, EG · 41.66.xxx.24', started: '08:12', lastActive: 'Now', current: true, protected: false, inManagerScope: false},
   {id: 'app-2', user: 'Mariam Adel', role: 'Sales Manager', branch: 'Cairo HQ', device: 'Edge on Windows', location: 'Cairo, EG · 41.68.xxx.18', started: '08:27', lastActive: '3 min ago', current: false, protected: false, inManagerScope: true},
   {id: 'app-3', user: 'Omar Hassan', role: 'Sales Clerk', branch: 'Cairo HQ', device: 'Chrome on Windows', location: 'Cairo, EG · 156.203.xxx.11', started: '09:04', lastActive: '8 min ago', current: false, protected: false, inManagerScope: true},
   {id: 'app-4', user: 'Nour Khaled', role: 'Accountant', branch: 'Cairo HQ', device: 'Firefox on Windows', location: 'Cairo, EG · 196.221.xxx.90', started: '09:31', lastActive: '18 min ago', current: false, protected: false, inManagerScope: true},
@@ -77,7 +77,7 @@ export const SYSTEM_HEALTH = {
   operationalHealthTrend: [96, 97, 94, 98, 95, 97, 98],
   lastDeploy: '2026-09-11 14:20',
   lastBackup: '2026-09-13 03:00',
-  nextMaintenance: '2026-09-20 01:00',
+  nextMaintenance: '2026-10-20 01:00',
 }
 
 function dayHistory(pattern) {

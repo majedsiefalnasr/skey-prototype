@@ -72,7 +72,7 @@ slug would read `/customers/customers`).
 | --- | --- |
 | Profile (keeps `?section=`) | `/system/profile` |
 | Organization | `/system/organization` |
-| Email | `/system/email` |
+| Email | `/help-screens/email` |
 
 `/system` alone is not a route (unknown path → boot-plan restore, as today).
 
@@ -108,7 +108,7 @@ slug would read `/customers/customers`).
 - `SCREEN_PATH_BY_ID` (area format): `list|record →
   /sales-systems-management/sales-invoices`, `customers-list|customer-record
   → /customers/list`, `geo-list|geo-record →
-  /system-setup/geographical-structure`, `email → /system/email`,
+  /system-setup/geographical-structure`, `email → /help-screens/email`,
   `profile → /system/profile`, `organization → /system/organization`,
   `foryou → /<app-slug of data.app>`.
 - `parse(pathname, search)`:
@@ -172,7 +172,7 @@ plan (`{id, data}`) or a precomputed path.
   (`/dashboard`, `/vendors`, `/customers` → For You *not* the list;
   `/customers/list`, `/sales-systems-management/sales-invoices`,
   `/system-setup/geographical-structure`, `/system/profile?section=account`,
-  `/system/organization`, `/system/email`); all four click entry points land
+  `/system/organization`, `/help-screens/email`); all four click entry points land
   on the app base with the right view; quick-list still opens the nested list
   path; back/forward chain; leave-guard refusal on the nested invoice path;
   removed flat paths fall back to the boot plan.

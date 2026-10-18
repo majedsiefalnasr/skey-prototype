@@ -1,3 +1,4 @@
+import {uiLocale} from '../../core/locale.js'
 // Change Password / Set PIN dialogs for the profile page's Security section.
 // Prototype-only: validates required/matching fields client-side and shows
 // a success toast — there is no real credential or account backend to call
@@ -13,8 +14,8 @@ export function createSecurityDialogs({trapFocus, releaseFocus, toast}) {
   const allScrims = [passwordScrim, pinScrim]
 
   function openDialog(scrim) {
-    passwordError.textContent = ''
-    pinError.textContent = ''
+    passwordError.textContent = uiLocale.t('')
+    pinError.textContent = uiLocale.t('')
     scrim.classList.add('open')
     trapFocus(scrim.querySelector('.dlg'))
   }
@@ -47,11 +48,11 @@ export function createSecurityDialogs({trapFocus, releaseFocus, toast}) {
       const next = document.getElementById('new-password').value
       const confirm = document.getElementById('confirm-password').value
       if (next.length < 8) {
-        passwordError.textContent = 'New password must be at least 8 characters.'
+        passwordError.textContent = uiLocale.t('New password must be at least 8 characters.')
         return
       }
       if (next !== confirm) {
-        passwordError.textContent = 'New password and confirmation do not match.'
+        passwordError.textContent = uiLocale.t('New password and confirmation do not match.')
         return
       }
       closeDialog(passwordScrim)
@@ -67,11 +68,11 @@ export function createSecurityDialogs({trapFocus, releaseFocus, toast}) {
       const next = document.getElementById('new-pin').value
       const confirm = document.getElementById('confirm-pin').value
       if (!/^\d{4,6}$/.test(next)) {
-        pinError.textContent = 'PIN must be 4–6 digits.'
+        pinError.textContent = uiLocale.t('PIN must be 4–6 digits.')
         return
       }
       if (next !== confirm) {
-        pinError.textContent = 'New PIN and confirmation do not match.'
+        pinError.textContent = uiLocale.t('New PIN and confirmation do not match.')
         return
       }
       closeDialog(pinScrim)

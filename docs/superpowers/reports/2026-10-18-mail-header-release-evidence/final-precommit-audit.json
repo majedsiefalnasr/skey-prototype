@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "changedCheckpointedPaths": [
+    "docs/superpowers/reports/2026-10-17-demo-prototype-acceptance.md",
+    "tests/page-gutters.spec.mjs",
+    "concepts/app/pages/email/templates.html",
+    "tests/messaging.spec.mjs-snapshots/desktop/email-reading.png",
+    "tests/messaging.spec.mjs-snapshots/mobile-rtl/email-reading.png",
+    "tests/messaging.spec.mjs-snapshots/mobile-touch/email-reading.png",
+    "tests/parity.spec.mjs-snapshots/desktop/email.png"
+  ],
+  "historicalAcceptancePrefixPreserved": true,
+  "frozenFilesUnchanged": 1591,
+  "testPngsUnchangedExceptExactlyFourApproved": true,
+  "noMissingCheckpointedFile": true
+}

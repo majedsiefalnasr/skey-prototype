@@ -1,0 +1,199 @@
+{
+  "focused-stable": {
+    "stats": {
+      "startTime": "2026-10-18T08:44:09.597Z",
+      "duration": 134472.339,
+      "expected": 98,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "command": [
+      "/Users/majedsiefalnasr/.dotfiles/node/.nvm/versions/node/v23.11.0/bin/node",
+      "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/node_modules/.bin/playwright",
+      "test",
+      "tests/page-gutters.spec.mjs",
+      "tests/delivery-locale.spec.mjs",
+      "tests/data-list-component.spec.mjs",
+      "--grep",
+      "gutters align|Arabic|invoice posting dialog|toolbar data-menus dismiss",
+      "--workers=2",
+      "--retries=0",
+      "--update-snapshots=none",
+      "--reporter=line,json",
+      "--output=/private/tmp/skey-remediation-20261018-fux37ka6/focused-stable-out"
+    ]
+  },
+  "vqa-stable": {
+    "stats": {
+      "startTime": "2026-10-18T08:47:34.811Z",
+      "duration": 34730.329999999994,
+      "expected": 24,
+      "skipped": 25,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "command": [
+      "/Users/majedsiefalnasr/.dotfiles/node/.nvm/versions/node/v23.11.0/bin/node",
+      "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/node_modules/.bin/playwright",
+      "test",
+      "tests/visual-qa-batch1.spec.mjs",
+      "tests/visual-qa-batch2.spec.mjs",
+      "--grep",
+      "VQA-01|VQA-04|VQA-05|VQA-08",
+      "--workers=2",
+      "--retries=0",
+      "--update-snapshots=none",
+      "--reporter=line,json",
+      "--output=/private/tmp/skey-remediation-20261018-fux37ka6/vqa-stable-out"
+    ]
+  },
+  "toolbar-verified": {
+    "stats": {
+      "startTime": "2026-10-18T08:20:11.486Z",
+      "duration": 8925.269999999999,
+      "expected": 7,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "command": [
+      "/Users/majedsiefalnasr/.dotfiles/node/.nvm/versions/node/v23.11.0/bin/node",
+      "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/node_modules/.bin/playwright",
+      "test",
+      "tests/data-list-component.spec.mjs",
+      "--grep",
+      "toolbar data-menus dismiss",
+      "--workers=2",
+      "--retries=0",
+      "--update-snapshots=none",
+      "--trace=on",
+      "--reporter=line,json",
+      "--output=/private/tmp/skey-remediation-20261018-fux37ka6/toolbar-verified-out"
+    ]
+  },
+  "toolbar-diagnostic": {
+    "stats": {
+      "startTime": "2026-10-18T08:17:18.072Z",
+      "duration": 2364.598,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "command": [
+      "/Users/majedsiefalnasr/.dotfiles/node/.nvm/versions/node/v23.11.0/bin/node",
+      "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/node_modules/.bin/playwright",
+      "test",
+      "--config=/private/tmp/skey-remediation-20261018-fux37ka6/diagnostic.config.mjs",
+      "--workers=2",
+      "--retries=0",
+      "--reporter=line,json",
+      "--output=/private/tmp/skey-remediation-20261018-fux37ka6/toolbar-diagnostic-out"
+    ]
+  },
+  "reproduce": {
+    "stats": {
+      "startTime": "2026-10-18T08:16:00.153Z",
+      "duration": 36049.121999999996,
+      "expected": 3,
+      "skipped": 0,
+      "unexpected": 3,
+      "flaky": 0
+    },
+    "command": [
+      "/Users/majedsiefalnasr/.dotfiles/node/.nvm/versions/node/v23.11.0/bin/node",
+      "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/node_modules/.bin/playwright",
+      "test",
+      "tests/messaging.spec.mjs",
+      "tests/data-list-component.spec.mjs",
+      "--grep",
+      "toolbar data-menus dismiss|reading a notification email",
+      "--project=desktop",
+      "--project=mobile-touch",
+      "--project=mobile-rtl",
+      "--workers=2",
+      "--retries=0",
+      "--update-snapshots=none",
+      "--trace=on",
+      "--reporter=line,json",
+      "--output=/private/tmp/skey-remediation-20261018-fux37ka6/reproduce-out"
+    ]
+  },
+  "manage-red": {
+    "stats": {
+      "startTime": "2026-10-18T08:24:18.454Z",
+      "duration": 6487.887000000001,
+      "expected": 0,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "command": [
+      "/Users/majedsiefalnasr/.dotfiles/node/.nvm/versions/node/v23.11.0/bin/node",
+      "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/node_modules/.bin/playwright",
+      "test",
+      "tests/delivery-locale.spec.mjs",
+      "--grep",
+      "Arabic invoice Manage",
+      "--project=desktop",
+      "--workers=1",
+      "--retries=0",
+      "--update-snapshots=none",
+      "--reporter=line,json",
+      "--output=/private/tmp/skey-remediation-20261018-fux37ka6/manage-red-out"
+    ]
+  },
+  "gutters-confirmed-red": {
+    "stats": {
+      "startTime": "2026-10-18T08:34:47.908Z",
+      "duration": 3581.2400000000002,
+      "expected": 0,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "command": [
+      "/Users/majedsiefalnasr/.dotfiles/node/.nvm/versions/node/v23.11.0/bin/node",
+      "/Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/node_modules/.bin/playwright",
+      "test",
+      "tests/page-gutters.spec.mjs",
+      "--grep",
+      "default fluid",
+      "--project=desktop",
+      "--workers=1",
+      "--retries=0",
+      "--update-snapshots=none",
+      "--reporter=line,json",
+      "--output=/private/tmp/skey-remediation-20261018-fux37ka6/gutters-confirmed-red-out"
+    ]
+  },
+  "unit": {
+    "log": "unit-stable-isolated.log",
+    "passed": 165,
+    "failed": 0,
+    "precedingFailedAttempt": "unit-stable.log",
+    "precedingError": "ENOTEMPTY during generated build directory removal; isolated rerun passed after pausing active dev server; exact writer not proven"
+  },
+  "build": {
+    "log": "build-stable.log",
+    "inventory": "stable-frozen-build.json",
+    "files": 984,
+    "cssBytes": 278179,
+    "cssBudget": 284821,
+    "servedBytes": "stable-server-bytes.json"
+  },
+  "static": {
+    "nodeCheckFiles": [
+      "concepts/app/components/data-list/menu-controller.js",
+      "concepts/app/core/delivery-translations.js",
+      "tests/page-gutters.spec.mjs",
+      "tests/delivery-locale.spec.mjs",
+      "tests/data-list-component.spec.mjs"
+    ],
+    "nodeCheckExit": 0,
+    "diffCheckExit": 0,
+    "diffCheckLog": "diff-check.log",
+    "note": "Git fsmonitor IPC warning occurred; subsequent Git reads disable fsmonitor explicitly."
+  }
+}

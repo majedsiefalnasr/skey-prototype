@@ -1,3 +1,4 @@
+import {uiLocale} from '../../core/locale.js'
 import {encodeHtml} from '../../core/locale.js'
 import {DATA_LIST_CONFIG} from './columns.js'
 import {renderDataListColumnHeaderMenu as renderSharedDataListColumnHeaderMenu, applyDataListColumnHeaderAction as applySharedDataListColumnHeaderAction} from './menus.js'
@@ -55,7 +56,7 @@ export function createContextMenu({t, toast, renderDataListSelectionActions, com
       document.execCommand('copy')
       helper.remove()
     }
-    toast({tone: 'ok', title: `Copied "${text}"`})
+    toast({tone: 'ok', title: uiLocale.t("Copied \"{v0}\"").replace('{v0}', () => uiLocale.t(String(text)))})
   }
 
   const sharedMenuDeps = {t, encodeHtml, dataListIcon}

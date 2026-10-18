@@ -70,8 +70,9 @@
               <label for="si-email" class="block text-xs font-medium text-muted" data-i18n="Work email">Work email</label>
               <input id="si-email" type="email" autocomplete="username" inputmode="email"
                 autocapitalize="off" spellcheck="false" enterkeyhint="next" dir="ltr"
-                aria-describedby="si-email-error"
+                aria-describedby="si-email-hint si-email-error"
                 class="mt-1.5 min-h-11 w-full rounded-md border border-line bg-surface px-2.5 py-1.5 text-sm text-ink outline-none focus:border-[var(--accent-line)] focus:[box-shadow:0_0_0_3px_var(--accent-soft)] aria-[invalid=true]:border-danger" />
+              <p id="si-email-hint" class="mt-2 text-xs text-muted"><span data-i18n="Demo work email:">Demo work email:</span> <bdi dir="ltr">admin@lastchance.local</bdi></p>
               <p id="si-email-error" role="alert" class="mt-2 text-sm text-danger" hidden></p>
             </div>
             <button id="si-to2" type="button" class="lbtn pri mt-4 min-h-11 w-full justify-center text-sm" data-i18n="Continue">Continue</button>
@@ -97,11 +98,11 @@
             </h1>
             <p
               class="mt-4 inline-flex w-full items-center gap-2 rounded-md border border-line bg-[var(--line-2)] px-2 py-1 text-sm">
-              <bdi dir="ltr" id="si-who" class="min-w-0 break-all"></bdi>
+              <bdi dir="ltr" id="si-who" class="min-w-0 flex-1 text-start [word-break:normal]"></bdi>
               <button
                 type="button"
                 id="si-change"
-                class="rounded-md border border-line bg-surface px-2.5 py-0.5 text-xs font-medium text-accent hover:border-[var(--accent-line)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]"
+                class="shrink-0 whitespace-nowrap rounded-md border border-line bg-surface px-2.5 py-0.5 text-xs font-medium text-accent hover:border-[var(--accent-line)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]"
                 data-i18n="Change">
                 Change
               </button>

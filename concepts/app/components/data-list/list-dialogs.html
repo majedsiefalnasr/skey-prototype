@@ -9,8 +9,8 @@
     aria-labelledby="data-export-title">
     <div class="dhd flex items-start gap-5 [&_h3]:[font-size:15px]">
       <div>
-        <h3 id="data-export-title">Export</h3>
-        <p class="dhd-subtitle">Choose a format and scope for the exported file.</p>
+        <h3 id="data-export-title" data-i18n="Export">Export</h3>
+        <p class="dhd-subtitle" data-i18n="Choose a format and scope for the exported file.">Choose a format and scope for the exported file.</p>
       </div>
       <button
         class="ibtn data-export-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
@@ -26,41 +26,41 @@
           class="data-export-formats geo-filter-quick"
           role="radiogroup"
           aria-label="Export format">
-          <button type="button" role="radio" data-export-format="xlsx" aria-checked="true">
+          <button type="button" role="radio" data-export-format="xlsx" aria-checked="true" data-i18n="Excel (.xlsx)">
             Excel (.xlsx)
           </button>
-          <button type="button" role="radio" data-export-format="csv" aria-checked="false">
+          <button type="button" role="radio" data-export-format="csv" aria-checked="false" data-i18n="CSV">
             CSV
           </button>
-          <button type="button" role="radio" data-export-format="pdf" aria-checked="false">
+          <button type="button" role="radio" data-export-format="pdf" aria-checked="false" data-i18n="PDF">
             PDF
           </button>
-          <button type="button" role="radio" data-export-format="docx" aria-checked="false">
+          <button type="button" role="radio" data-export-format="docx" aria-checked="false" data-i18n="Word (.docx)">
             Word (.docx)
           </button>
         </div>
         <div
           class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px] [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0"
           style="margin-top: 14px">
-          <span>File name</span>
+          <span data-i18n="File name">File name</span>
           <input type="text" id="data-export-filename" autocomplete="off" />
         </div>
         <div
           class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px] [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0"
           style="margin-top: 14px">
-          <span>Rows to export</span>
+          <span data-i18n="Rows to export">Rows to export</span>
           <select id="data-export-scope">
-            <option value="visible">Currently visible rows</option>
-            <option value="selected">Selected rows only</option>
-            <option value="all">All rows</option>
+            <option value="visible" data-i18n="Currently visible rows">Currently visible rows</option>
+            <option value="selected" data-i18n="Selected rows only">Selected rows only</option>
+            <option value="all" data-i18n="All rows">All rows</option>
           </select>
         </div>
         <div class="data-export-columns-field" style="margin-top: 14px">
           <div class="data-export-columns-head">
-            <span>Columns to include</span>
+            <span data-i18n="Columns to include">Columns to include</span>
             <div class="data-export-columns-bulk">
-              <button type="button" data-export-columns-all>Select all</button>
-              <button type="button" data-export-columns-none>Clear</button>
+              <button type="button" data-export-columns-all data-i18n="Select all">Select all</button>
+              <button type="button" data-export-columns-none data-i18n="Clear">Clear</button>
             </div>
           </div>
           <div
@@ -71,8 +71,8 @@
         </div>
       </div>
       <div class="dfoot flex gap-2 justify-end [padding:12px_20px]">
-        <button class="lbtn out data-export-close" type="button">Cancel</button>
-        <button class="lbtn pri" id="data-export-run" type="button">Export</button>
+        <button class="lbtn out data-export-close" type="button" data-i18n="Cancel">Cancel</button>
+        <button class="lbtn pri" id="data-export-run" type="button" data-i18n="Export">Export</button>
       </div>
     </div>
   </div>
@@ -89,8 +89,8 @@
     aria-labelledby="geo-filter-title">
     <div class="dhd flex items-start gap-5 [&_h3]:[font-size:15px]">
       <div>
-        <h3 id="geo-filter-title">Filter records</h3>
-        <p class="dhd-subtitle">Narrow the list by one or more fields.</p>
+        <h3 id="geo-filter-title" data-i18n="Filter records">Filter records</h3>
+        <p class="dhd-subtitle" data-i18n="Narrow the list by one or more fields.">Narrow the list by one or more fields.</p>
       </div>
       <button
         class="ibtn geo-filter-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
@@ -106,8 +106,8 @@
         <div class="geo-filter-fields"></div>
       </div>
       <div class="dfoot flex gap-2 justify-end [padding:12px_20px]">
-        <button class="lbtn out" id="geo-filter-clear" type="button">Clear filter</button>
-        <button class="lbtn pri geo-filter-close" type="button">Apply</button>
+        <button class="lbtn out" id="geo-filter-clear" type="button" data-i18n="Clear filter">Clear filter</button>
+        <button class="lbtn pri geo-filter-close" type="button" data-i18n="Apply">Apply</button>
       </div>
     </div>
   </div>
@@ -124,8 +124,8 @@
     aria-labelledby="save-filter-title">
     <div class="dhd flex items-start gap-5 [&_h3]:[font-size:15px]">
       <div>
-        <h3 id="save-filter-title">Save filter</h3>
-        <p class="dhd-subtitle">Give this filter a name so you can apply it again later.</p>
+        <h3 id="save-filter-title" data-i18n="Save filter">Save filter</h3>
+        <p class="dhd-subtitle" data-i18n="Give this filter a name so you can apply it again later.">Give this filter a name so you can apply it again later.</p>
       </div>
       <button
         class="ibtn save-filter-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
@@ -139,12 +139,12 @@
       <div class="dbody min-h-0 overflow-auto [padding:16px_20px] [padding:10px_14px]">
         <label
           class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px] [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0">
-          <span>Filter name</span>
+          <span data-i18n="Filter name">Filter name</span>
           <input type="text" id="save-filter-name" placeholder="e.g. Cash invoices this week" />
         </label>
         <div
           class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px] [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0">
-          <span>Icon</span>
+          <span data-i18n="Icon">Icon</span>
           <div
             class="data-icon-picker flex flex-wrap gap-1.5"
             id="save-filter-icon-picker"
@@ -153,15 +153,15 @@
         </div>
         <div
           class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px] [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0">
-          <span>Conditions</span>
+          <span data-i18n="Conditions">Conditions</span>
           <ul
             class="data-filter-summary-list grid [gap:5px] [margin:0]! [padding:10px_12px] [list-style:none] [border:1px_solid_var(--line)] rounded-lg bg-[var(--line-2)] [font-size:12.5px] text-ink"
             id="save-filter-conditions"></ul>
         </div>
       </div>
       <div class="dfoot flex gap-2 justify-end [padding:12px_20px]">
-        <button class="lbtn out save-filter-close" type="button">Cancel</button>
-        <button class="lbtn pri" id="save-filter-confirm" type="button">Save filter</button>
+        <button class="lbtn out save-filter-close" type="button" data-i18n="Cancel">Cancel</button>
+        <button class="lbtn pri" id="save-filter-confirm" type="button" data-i18n="Save filter">Save filter</button>
       </div>
     </div>
   </div>
@@ -178,8 +178,8 @@
     aria-labelledby="manage-filters-title">
     <div class="dhd flex items-start gap-5 [&_h3]:[font-size:15px]">
       <div>
-        <h3 id="manage-filters-title">Manage filters</h3>
-        <p class="dhd-subtitle">Rename, restyle, or update the conditions of a saved filter.</p>
+        <h3 id="manage-filters-title" data-i18n="Manage filters">Manage filters</h3>
+        <p class="dhd-subtitle" data-i18n="Rename, restyle, or update the conditions of a saved filter.">Rename, restyle, or update the conditions of a saved filter.</p>
       </div>
       <button
         class="ibtn manage-filters-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
@@ -200,12 +200,12 @@
         <div class="data-manage-filters-editor flex flex-col" id="manage-filters-editor" hidden>
           <label
             class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px] [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0">
-            <span>Filter name</span>
+            <span data-i18n="Filter name">Filter name</span>
             <input type="text" id="manage-filter-name" />
           </label>
           <div
             class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px] [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0">
-            <span>Icon</span>
+            <span data-i18n="Icon">Icon</span>
             <div
               class="data-icon-picker flex flex-wrap gap-1.5"
               id="manage-filter-icon-picker"
@@ -214,21 +214,21 @@
           </div>
           <div
             class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px] [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)] [&_input:disabled]:text-muted [&_select:disabled]:bg-[var(--line-2)] [&_select:disabled]:text-muted [&_textarea:disabled]:bg-[var(--line-2)] [&_textarea:disabled]:text-muted [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [.rec-payment-row_&]:[flex:1] [.rec-payment-row_&]:[min-width:140px] [.rec-adjustment-row_&_label]:text-muted [.save-filter-modal_&]:[margin-top:14px]! [.manage-filters-modal_&]:[margin-top:14px]! [.save-filter-modal_&:first-child]:mt-0! [.customer-lookup-filters_&]:min-w-0">
-            <span>Conditions</span>
+            <span data-i18n="Conditions">Conditions</span>
             <div id="manage-filter-fields"></div>
           </div>
           <div
             class="data-manage-filters-editor-actions flex justify-between [margin-top:auto]! [padding-top:14px]">
             <button class="lbtn out danger" type="button" id="manage-filter-delete">
               <svg width="14" height="14" aria-hidden="true"><use href="#i-trash" /></svg>
-              Delete filter
+              <span data-i18n="Delete filter">Delete filter</span>
             </button>
-            <button class="lbtn pri" type="button" id="manage-filter-save">Save changes</button>
+            <button class="lbtn pri" type="button" id="manage-filter-save" data-i18n="Save changes">Save changes</button>
           </div>
         </div>
       </div>
       <div class="dfoot flex gap-2 justify-end [padding:12px_20px]">
-        <button class="lbtn out manage-filters-close" type="button">Close</button>
+        <button class="lbtn out manage-filters-close" type="button" data-i18n="Close">Close</button>
       </div>
     </div>
   </div>
@@ -246,8 +246,8 @@
     aria-describedby="kanban-blocked-body">
     <div class="dhd flex items-start gap-5 [&_h3]:[font-size:15px]">
       <div>
-        <h3 id="kanban-blocked-title">Status change not allowed</h3>
-        <p class="dhd-subtitle">This status change isn't available from here</p>
+        <h3 id="kanban-blocked-title" data-i18n="Status change not allowed">Status change not allowed</h3>
+        <p class="dhd-subtitle" data-i18n="This status change isn&#x27;t available from here">This status change isn't available from here</p>
       </div>
       <button
         class="ibtn kanban-blocked-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
@@ -264,7 +264,7 @@
           class="kanban-blocked-message m-0 text-ink text-[13px] leading-[1.5]"></p>
         <div class="kanban-blocked-allowed mt-3.5" id="kanban-blocked-allowed" hidden>
           <span class="kanban-blocked-allowed-label block mb-1.5 text-muted text-xs font-semibold"
-            >Allowed from here:</span
+             data-i18n="Allowed from here:">Allowed from here:</span
           >
           <div
             class="kanban-blocked-allowed-list flex flex-wrap gap-1.5"
@@ -272,7 +272,7 @@
         </div>
       </div>
       <div class="dfoot flex gap-2 justify-end [padding:12px_20px]">
-        <button class="lbtn pri kanban-blocked-close" type="button">Got it</button>
+        <button class="lbtn pri kanban-blocked-close" type="button" data-i18n="Got it">Got it</button>
       </div>
     </div>
   </div>
@@ -299,8 +299,8 @@
         <use href="#i-flow" />
       </svg>
       <div>
-        <h3 id="invoice-status-title">Change invoice status</h3>
-        <p class="dhd-subtitle">Choose the invoice's next status</p>
+        <h3 id="invoice-status-title" data-i18n="Change invoice status">Change invoice status</h3>
+        <p class="dhd-subtitle" data-i18n="Choose the invoice&#x27;s next status">Choose the invoice's next status</p>
       </div>
       <button
         class="ibtn x invoice-status-close"
@@ -329,8 +329,8 @@
           style="font-size: 12px; color: var(--muted)"
           id="invoice-status-sum"></span>
         <span class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2">
-          <button class="lbtn out invoice-status-close">Keep current status</button>
-          <button class="lbtn pri" id="invoice-status-confirm">Confirm</button>
+          <button class="lbtn out invoice-status-close" data-i18n="Keep current status">Keep current status</button>
+          <button class="lbtn pri" id="invoice-status-confirm" data-i18n="Confirm">Confirm</button>
         </span>
       </div>
     </div>
@@ -355,8 +355,8 @@
         <use href="#i-flow" />
       </svg>
       <div>
-        <h3 id="customer-status-title">Deactivate customer</h3>
-        <p class="dhd-subtitle">The customer stays on hold until reactivated</p>
+        <h3 id="customer-status-title" data-i18n="Deactivate customer">Deactivate customer</h3>
+        <p class="dhd-subtitle" data-i18n="The customer stays on hold until reactivated">The customer stays on hold until reactivated</p>
       </div>
       <button
         class="ibtn x customer-status-close"
@@ -389,8 +389,8 @@
           style="font-size: 12px; color: var(--muted)"
           id="customer-status-sum"></span>
         <span class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2">
-          <button class="lbtn out customer-status-close">Cancel</button>
-          <button class="lbtn pri" id="customer-status-confirm">Confirm</button>
+          <button class="lbtn out customer-status-close" data-i18n="Cancel">Cancel</button>
+          <button class="lbtn pri" id="customer-status-confirm" data-i18n="Confirm">Confirm</button>
         </span>
       </div>
     </div>
@@ -416,8 +416,8 @@
         <use href="#i-flow" />
       </svg>
       <div>
-        <h3 id="geo-status-title">Deactivate location</h3>
-        <p class="dhd-subtitle">The location stays on hold until reactivated</p>
+        <h3 id="geo-status-title" data-i18n="Deactivate location">Deactivate location</h3>
+        <p class="dhd-subtitle" data-i18n="The location stays on hold until reactivated">The location stays on hold until reactivated</p>
       </div>
       <button class="ibtn x geo-status-close" aria-label="Close" style="margin-inline-start: auto">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
@@ -444,8 +444,8 @@
       <div class="dfoot flex items-center gap-2.5 [padding:16px_0_0]!">
         <span class="sum" style="font-size: 12px; color: var(--muted)" id="geo-status-sum"></span>
         <span class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2">
-          <button class="lbtn out geo-status-close">Cancel</button>
-          <button class="lbtn pri" id="geo-status-confirm">Confirm</button>
+          <button class="lbtn out geo-status-close" data-i18n="Cancel">Cancel</button>
+          <button class="lbtn pri" id="geo-status-confirm" data-i18n="Confirm">Confirm</button>
         </span>
       </div>
     </div>

@@ -1,0 +1,3400 @@
+{
+  "checked": 128,
+  "identical": 53,
+  "rows": [
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/activities-calendar-week.png",
+      "baselineSha256": "03157f9f08f4940f71665bdcd3dabaf3f4e747e26b372443cacd0f8627b2dba6",
+      "candidateSha256": "ee9cfba9f4e61e55000d4d44a067bf3c57b7af6652c63c0e0adbf4b8ec43333e",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 38062,
+      "bounds": [
+        332,
+        172,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/activities-calendar-week.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "03157f9f08f4940f71665bdcd3dabaf3f4e747e26b372443cacd0f8627b2dba6",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 231
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/activities-kanban.png",
+      "baselineSha256": "aaf3b017d34faef3d90cf0e05c230d77fa9c7f5dd0fa874a447d34d0f186b79b",
+      "candidateSha256": "c25723149a1d97bc78d505f4546414b1bf6b300783604c23c0c6009b7edad52b",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 77125,
+      "bounds": [
+        332,
+        172,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/activities-kanban.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "aaf3b017d34faef3d90cf0e05c230d77fa9c7f5dd0fa874a447d34d0f186b79b",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 234
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/event-editor-validation.png",
+      "baselineSha256": "fd8810c27170af42d97bd3aa1aafbe559968dfe72768bc51dcd08d62bd6d2ff3",
+      "candidateSha256": "fd8810c27170af42d97bd3aa1aafbe559968dfe72768bc51dcd08d62bd6d2ff3",
+      "identical": true,
+      "baselineSize": [
+        560,
+        900
+      ],
+      "candidateSize": [
+        560,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/event-editor-validation.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "fd8810c27170af42d97bd3aa1aafbe559968dfe72768bc51dcd08d62bd6d2ff3",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/events-calendar-month.png",
+      "baselineSha256": "2a77240deba3101e7cbed509aafa70fc9b2ab62f3baca2da9a1fe8877821bf42",
+      "candidateSha256": "95967afb615081fdfe6decf81c50a91477187f19d4467252a8db644d1604076d",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 33467,
+      "bounds": [
+        332,
+        174,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/events-calendar-month.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "2a77240deba3101e7cbed509aafa70fc9b2ab62f3baca2da9a1fe8877821bf42",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 231
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/invoice-charges.png",
+      "baselineSha256": "e29325a04f6aa1f9fecf5dc0667ead563423b651d0b2ba1f8d61f57d33d8c5ae",
+      "candidateSha256": "8fc1566bb1832b4443b73b37b6c262c783f0675a7f269cb31c284cf3e1d0fc13",
+      "identical": false,
+      "baselineSize": [
+        632,
+        156
+      ],
+      "candidateSize": [
+        632,
+        156
+      ],
+      "differentPixels": 29,
+      "bounds": [
+        17,
+        70,
+        569,
+        104
+      ],
+      "classification": "Protected invoice raster difference; historical review already flagged pixels; exact latest variant remains unresolved",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/invoice-charges.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values. Raster difference remains unexplained; retain baseline (L-05 where applicable).",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "8fc1566bb1832b4443b73b37b6c262c783f0675a7f269cb31c284cf3e1d0fc13",
+      "matchesPreviousCapture": true,
+      "decision": "Hold baseline; no replacement recommended while unexplained",
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/invoice-lines-start.png",
+      "baselineSha256": "9a2420cefeb041e543833e4810e539cdcf948e81f924afe3f983d8d40c3b7a1a",
+      "candidateSha256": "2268aac344ec3c70759dad8a8029bf954531e2a062059eca471fac114ca46870",
+      "identical": false,
+      "baselineSize": [
+        1068,
+        209
+      ],
+      "candidateSize": [
+        1068,
+        209
+      ],
+      "differentPixels": 3,
+      "bounds": [
+        6,
+        43,
+        8,
+        45
+      ],
+      "classification": "Protected invoice raster difference; historical review already flagged pixels; exact latest variant remains unresolved",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/invoice-lines-start.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values. Raster difference remains unexplained; retain baseline (L-05 where applicable).",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "2268aac344ec3c70759dad8a8029bf954531e2a062059eca471fac114ca46870",
+      "matchesPreviousCapture": true,
+      "decision": "Hold baseline; no replacement recommended while unexplained",
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/invoice-tax-totals.png",
+      "baselineSha256": "5609b425b34beee87431e345c2c144a158d5a6d0e9f40750cd1b23965a866e55",
+      "candidateSha256": "5609b425b34beee87431e345c2c144a158d5a6d0e9f40750cd1b23965a866e55",
+      "identical": true,
+      "baselineSize": [
+        420,
+        283
+      ],
+      "candidateSize": [
+        420,
+        283
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/invoice-tax-totals.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "5609b425b34beee87431e345c2c144a158d5a6d0e9f40750cd1b23965a866e55",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/mail-compose-draft.png",
+      "baselineSha256": "b0424fd3e6375ba9b0cb5cc90fc31295b60312d0bf09917ff6307a79d9908211",
+      "candidateSha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 74915,
+      "bounds": [
+        67,
+        133,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/mail-compose-draft.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute. Final verified capture differs from the reviewed candidate by 3 pixels at the selected navigation rounded corner (349,156\u2013351,158); cause remains unexplained. Retain the baseline; this path is excluded from replacement approval.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "503d7d7d6698884034f24578e659a48c2292ddcdc137998bc3c0edfcf598d09c",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 242
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/mail-inbox-list.png",
+      "baselineSha256": "073d7facff54079354cf5f4718ccd1c561ddd53f688a299c385ce29f2859ce03",
+      "candidateSha256": "f766ea7d0ef3a00c5834cd0aaaba478ac6327f052f3d2fbe3acf3afb30751147",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 48637,
+      "bounds": [
+        332,
+        141,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/mail-inbox-list.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "073d7facff54079354cf5f4718ccd1c561ddd53f688a299c385ce29f2859ce03",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 232
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/mail-reading-e1.png",
+      "baselineSha256": "cc125c6217a77a6d962fb859eac03106905c7cdbdd10aab7d1f8ad582e5b3cc5",
+      "candidateSha256": "a41551473bea17d5c343ffe7cbb080b1d38e9aa2843b114d4bf25467d4756a8b",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 127338,
+      "bounds": [
+        332,
+        141,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/mail-reading-e1.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "cc125c6217a77a6d962fb859eac03106905c7cdbdd10aab7d1f8ad582e5b3cc5",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 232
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/note-editor-related.png",
+      "baselineSha256": "d2bfe701bbe540d9f2a5033861b4efe2bba156c5c1b95a730896f11aceb6dcab",
+      "candidateSha256": "d2bfe701bbe540d9f2a5033861b4efe2bba156c5c1b95a730896f11aceb6dcab",
+      "identical": true,
+      "baselineSize": [
+        560,
+        900
+      ],
+      "candidateSize": [
+        560,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/note-editor-related.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "d2bfe701bbe540d9f2a5033861b4efe2bba156c5c1b95a730896f11aceb6dcab",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/notes-kanban.png",
+      "baselineSha256": "53dd5fa7f95600146611e835d0ac1510f7720f8651885c4a0c81eb2637c17ade",
+      "candidateSha256": "b57b92c17603bf17186ab1ce05e7c8551c49a36d051cc972c64782f64632b2d9",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 36442,
+      "bounds": [
+        332,
+        172,
+        1424,
+        729
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/notes-kanban.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "53dd5fa7f95600146611e835d0ac1510f7720f8651885c4a0c81eb2637c17ade",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 215
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/notes-list-archived.png",
+      "baselineSha256": "eb013358f01e65272a9faeee8f80c26ba70469bda0cc69b5cf7ec3aaba88418e",
+      "candidateSha256": "9f4a96284fcfc4e75ef975f35c712fc90a29ee70b727767c062ad36bdadacf1f",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 11031,
+      "bounds": [
+        332,
+        172,
+        1424,
+        306
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/notes-list-archived.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "eb013358f01e65272a9faeee8f80c26ba70469bda0cc69b5cf7ec3aaba88418e",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 231
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/people-cards.png",
+      "baselineSha256": "b77923a25ef96fb2d9c878bf1d176319561881c24e1e72fb003bc31e474a3fb3",
+      "candidateSha256": "b77923a25ef96fb2d9c878bf1d176319561881c24e1e72fb003bc31e474a3fb3",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/people-cards.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "b77923a25ef96fb2d9c878bf1d176319561881c24e1e72fb003bc31e474a3fb3",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/people-list.png",
+      "baselineSha256": "38a5dda9f23d7938a1600a9b09efdcb3009907562349218604546b7d7ac2e516",
+      "candidateSha256": "38a5dda9f23d7938a1600a9b09efdcb3009907562349218604546b7d7ac2e516",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/people-list.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "38a5dda9f23d7938a1600a9b09efdcb3009907562349218604546b7d7ac2e516",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/signin-email.png",
+      "baselineSha256": "8a466e30210db1c36d94ce2ab66e5a0ef8e86abd07b1d58eb2078938ae243a8f",
+      "candidateSha256": "8a466e30210db1c36d94ce2ab66e5a0ef8e86abd07b1d58eb2078938ae243a8f",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/signin-email.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "8a466e30210db1c36d94ce2ab66e5a0ef8e86abd07b1d58eb2078938ae243a8f",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/signin-password-identity.png",
+      "baselineSha256": "06c4889fc1f897a4c83995e04cd6cfa610a55cd5322893b893709fff876765a5",
+      "candidateSha256": "06c4889fc1f897a4c83995e04cd6cfa610a55cd5322893b893709fff876765a5",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/signin-password-identity.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "06c4889fc1f897a4c83995e04cd6cfa610a55cd5322893b893709fff876765a5",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/signin-unknown-workspace.png",
+      "baselineSha256": "98112dd203bb44877961732b5fbd20e84ddaaafe59b486d664db1a9f5801275e",
+      "candidateSha256": "98112dd203bb44877961732b5fbd20e84ddaaafe59b486d664db1a9f5801275e",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop/signin-unknown-workspace.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "98112dd203bb44877961732b5fbd20e84ddaaafe59b486d664db1a9f5801275e",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/activities-calendar-week.png",
+      "baselineSha256": "6ae1ddcbb8a9000076280bd45f106cdf47a359b68ba688bd8ce8aa70a703f0d8",
+      "candidateSha256": "60ad12e452e0bca6eb203bf0b844f26b6b25d5578d5677c5027e338437d73328",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 37979,
+      "bounds": [
+        332,
+        172,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/activities-calendar-week.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "6ae1ddcbb8a9000076280bd45f106cdf47a359b68ba688bd8ce8aa70a703f0d8",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 222
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/activities-kanban.png",
+      "baselineSha256": "7ec728c4cf788d8b7e4b562770b37b5d1c491cd87631ee508de2063616c42623",
+      "candidateSha256": "281992dff59c83e43676b88aee2ca813f16cecdf7c8c279f15abbc3af03f1e29",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 76766,
+      "bounds": [
+        332,
+        172,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/activities-kanban.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "7ec728c4cf788d8b7e4b562770b37b5d1c491cd87631ee508de2063616c42623",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 222
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/event-editor-validation.png",
+      "baselineSha256": "25b5183e66e7d8d9b22a24de0ad487203f26f8e00dc603b22f0479e382cc1036",
+      "candidateSha256": "25b5183e66e7d8d9b22a24de0ad487203f26f8e00dc603b22f0479e382cc1036",
+      "identical": true,
+      "baselineSize": [
+        560,
+        900
+      ],
+      "candidateSize": [
+        560,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/event-editor-validation.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "25b5183e66e7d8d9b22a24de0ad487203f26f8e00dc603b22f0479e382cc1036",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/events-calendar-month.png",
+      "baselineSha256": "b681909c4838a99e691c850ae41be4e9eb384a78f8ae768d85f419445193e6fb",
+      "candidateSha256": "0273f6548c9c153c0b79aeb78c370a7b18c962bf8b78afd8567aaaefec6be7c1",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 33422,
+      "bounds": [
+        332,
+        174,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/events-calendar-month.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "b681909c4838a99e691c850ae41be4e9eb384a78f8ae768d85f419445193e6fb",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 208
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/invoice-charges.png",
+      "baselineSha256": "e4589843d11511b14a4f9d666a2bab8eb3b19025ce34f158c55cd9428f02d32f",
+      "candidateSha256": "d98ddd2e5d800d71019077d72cb7becada84d13713d6e22123f80454aa8de9b0",
+      "identical": false,
+      "baselineSize": [
+        632,
+        156
+      ],
+      "candidateSize": [
+        632,
+        156
+      ],
+      "differentPixels": 18,
+      "bounds": [
+        23,
+        101,
+        569,
+        104
+      ],
+      "classification": "Protected invoice raster difference; historical review already flagged pixels; exact latest variant remains unresolved",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/invoice-charges.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values. Raster difference remains unexplained; retain baseline (L-05 where applicable).",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "d98ddd2e5d800d71019077d72cb7becada84d13713d6e22123f80454aa8de9b0",
+      "matchesPreviousCapture": true,
+      "decision": "Hold baseline; no replacement recommended while unexplained",
+      "maxChannelDelta": 1
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/invoice-lines-start.png",
+      "baselineSha256": "30cd9a1808266caa0b5093ddf0ba0da73cef292b27c113913e7dd81f6bec0f3c",
+      "candidateSha256": "513fbb710872fe2057225ee016289dd472398d894faabe26f75bd4e610ad2929",
+      "identical": false,
+      "baselineSize": [
+        1068,
+        209
+      ],
+      "candidateSize": [
+        1068,
+        209
+      ],
+      "differentPixels": 6,
+      "bounds": [
+        6,
+        43,
+        112,
+        167
+      ],
+      "classification": "Protected invoice raster difference; historical review already flagged pixels; exact latest variant remains unresolved",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/invoice-lines-start.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values. Raster difference remains unexplained; retain baseline (L-05 where applicable).",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "b8fa8bd988d41ee66296eea80c0faad9ab437d6dd0cfe303e4f92f65cca0f4d2",
+      "matchesPreviousCapture": false,
+      "decision": "Hold baseline; no replacement recommended while unexplained",
+      "maxChannelDelta": 3
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/invoice-tax-totals.png",
+      "baselineSha256": "0dad9c0df69e3ef42bc0e2e2c1324edab9a994eeeb34a429984f236ea30de288",
+      "candidateSha256": "0dad9c0df69e3ef42bc0e2e2c1324edab9a994eeeb34a429984f236ea30de288",
+      "identical": true,
+      "baselineSize": [
+        420,
+        283
+      ],
+      "candidateSize": [
+        420,
+        283
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/invoice-tax-totals.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "0dad9c0df69e3ef42bc0e2e2c1324edab9a994eeeb34a429984f236ea30de288",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/mail-compose-draft.png",
+      "baselineSha256": "c1f6176f54e9f97c91d12c729e975743bc910a54f5844b45cbda0f7cc065c812",
+      "candidateSha256": "8696020af9379d03c15c5a1a028d47e4f42f6dd9dba93225572140e2a0f96da5",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 74311,
+      "bounds": [
+        332,
+        141,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/mail-compose-draft.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "c1f6176f54e9f97c91d12c729e975743bc910a54f5844b45cbda0f7cc065c812",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 208
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/mail-inbox-list.png",
+      "baselineSha256": "7db27346a599425ed4927d556828cff1bfae4a1c8f220fd9d103964135c06c7f",
+      "candidateSha256": "48ce783d7620fe115cee223d786024d21bf87e12fe58bb1281c9d97ad3cbba9a",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 49866,
+      "bounds": [
+        332,
+        141,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/mail-inbox-list.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "7db27346a599425ed4927d556828cff1bfae4a1c8f220fd9d103964135c06c7f",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 214
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/mail-reading-e1.png",
+      "baselineSha256": "b64fc44fb65329ccdfbb32e53b9d071cbc3fa1d2e6d036f54ddfddc990fef8cf",
+      "candidateSha256": "e533e6504d1d779b4ba6ce020339300a77546af2f270213d35f5972253727c12",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 128252,
+      "bounds": [
+        332,
+        141,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/mail-reading-e1.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "b64fc44fb65329ccdfbb32e53b9d071cbc3fa1d2e6d036f54ddfddc990fef8cf",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 214
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/note-editor-related.png",
+      "baselineSha256": "37162be421b4cb2c46306af791cf41d076dafd839877c650e96e45657c2dfa41",
+      "candidateSha256": "37162be421b4cb2c46306af791cf41d076dafd839877c650e96e45657c2dfa41",
+      "identical": true,
+      "baselineSize": [
+        560,
+        900
+      ],
+      "candidateSize": [
+        560,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/note-editor-related.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "37162be421b4cb2c46306af791cf41d076dafd839877c650e96e45657c2dfa41",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/notes-kanban.png",
+      "baselineSha256": "8ecc55abfb2a8e8b8df249e2473335c3fd4ee61a203dffedbaca84763beebc90",
+      "candidateSha256": "dec607f8062c6752da06f678b46040630cbccf8d2b312685c8d06fddee51b6ec",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 36243,
+      "bounds": [
+        332,
+        172,
+        1424,
+        729
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/notes-kanban.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "8ecc55abfb2a8e8b8df249e2473335c3fd4ee61a203dffedbaca84763beebc90",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 177
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/notes-list-archived.png",
+      "baselineSha256": "e39f988415116d7ce3c3898ea3f894bfc68c3c43e10699ac8c0b253b136c682f",
+      "candidateSha256": "3829aa73b7cf0cabe124b7d03851aa114c3303233f56c08e04dc902b404e274d",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 10794,
+      "bounds": [
+        332,
+        172,
+        1424,
+        306
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/notes-list-archived.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "e39f988415116d7ce3c3898ea3f894bfc68c3c43e10699ac8c0b253b136c682f",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 212
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/people-cards.png",
+      "baselineSha256": "a177331068055493bafa9480b34587c6fcd678de120cf15b099b745ee8c9b889",
+      "candidateSha256": "a177331068055493bafa9480b34587c6fcd678de120cf15b099b745ee8c9b889",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/people-cards.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "a177331068055493bafa9480b34587c6fcd678de120cf15b099b745ee8c9b889",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/people-list.png",
+      "baselineSha256": "7f17d28d106062f5c007b42223bc62e1624bb973e9c859e010c7f60c7af5543b",
+      "candidateSha256": "7f17d28d106062f5c007b42223bc62e1624bb973e9c859e010c7f60c7af5543b",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/people-list.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "7f17d28d106062f5c007b42223bc62e1624bb973e9c859e010c7f60c7af5543b",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/signin-email.png",
+      "baselineSha256": "da607eea0c3b6590a5a73b736c060b41b860a1b56bea3ff5dde4c09557c89b79",
+      "candidateSha256": "da607eea0c3b6590a5a73b736c060b41b860a1b56bea3ff5dde4c09557c89b79",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/signin-email.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "da607eea0c3b6590a5a73b736c060b41b860a1b56bea3ff5dde4c09557c89b79",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/signin-password-identity.png",
+      "baselineSha256": "c741dcfea83b6ef4a803505d3052da5cbed4d52c4f798273462f4aff515db31b",
+      "candidateSha256": "c741dcfea83b6ef4a803505d3052da5cbed4d52c4f798273462f4aff515db31b",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/signin-password-identity.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "c741dcfea83b6ef4a803505d3052da5cbed4d52c4f798273462f4aff515db31b",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/signin-unknown-workspace.png",
+      "baselineSha256": "3d8d5ebe330f1bff13f1d6e3fc1884daea7072a241f032a46032ca62490a32c3",
+      "candidateSha256": "3d8d5ebe330f1bff13f1d6e3fc1884daea7072a241f032a46032ca62490a32c3",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-dark/signin-unknown-workspace.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "3d8d5ebe330f1bff13f1d6e3fc1884daea7072a241f032a46032ca62490a32c3",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/activities-calendar-week.png",
+      "baselineSha256": "15331ebb641f143bb92073543d27b52222f2fc67d602e2bfaa659d192b891aa9",
+      "candidateSha256": "4a699a6ecae85045636f6081f3a7d82bed65283486ba0f4a6fbdc7755ae8430a",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 38046,
+      "bounds": [
+        332,
+        172,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/activities-calendar-week.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "ca6dd4052038c71e2e56a7a5e121985ac230d6bae24a1b124ef7f4dbcfc971b4",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 224
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/activities-kanban.png",
+      "baselineSha256": "d4332cc23444e474d362c94501fc4f5d75452f1f0c91433af25efb37b750526b",
+      "candidateSha256": "e8f4a5bc328662baae23c7b97a3e42e5514b4fa30a61e0ca17119acf7cda1103",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 76590,
+      "bounds": [
+        332,
+        172,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/activities-kanban.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "d4332cc23444e474d362c94501fc4f5d75452f1f0c91433af25efb37b750526b",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 224
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/event-editor-validation.png",
+      "baselineSha256": "c09e283810c7fb235ceee50f038bd645c431e03f9711764d80c1f02928e97fe6",
+      "candidateSha256": "c09e283810c7fb235ceee50f038bd645c431e03f9711764d80c1f02928e97fe6",
+      "identical": true,
+      "baselineSize": [
+        560,
+        900
+      ],
+      "candidateSize": [
+        560,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/event-editor-validation.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "c09e283810c7fb235ceee50f038bd645c431e03f9711764d80c1f02928e97fe6",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "baselineSha256": "2590d76ca005b5bd92d71f483ae60ca9c94ecd265da2fe72f60648fbac30ed73",
+      "candidateSha256": "f8161d1cbc4059b3d79f098960c3093e549f2c146232d9a0ba64af5484596ac4",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 33443,
+      "bounds": [
+        332,
+        174,
+        1424,
+        899
+      ],
+      "classification": "Requested gutter alignment plus independently reproduced corner raster variation with stable recorded DOM/styles",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "3eef7b09ebf30c83b80db575cc6c4201b596d7e36e1e4bdb4baca2f3de0a6776",
+      "matchesPreviousCapture": false,
+      "decision": "Hold baseline; gutter intent does not resolve repeat raster cause",
+      "maxChannelDelta": 210
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/invoice-charges.png",
+      "baselineSha256": "0cdf1cf4dc0c157f28a882cbc3e88bc76ab87021957613ef2ed4f576ccdc2f33",
+      "candidateSha256": "cc73abe2a26415e453c9c23939f815da772ace023de29e887b397f730c8c0849",
+      "identical": false,
+      "baselineSize": [
+        632,
+        156
+      ],
+      "candidateSize": [
+        632,
+        156
+      ],
+      "differentPixels": 3,
+      "bounds": [
+        286,
+        101,
+        568,
+        102
+      ],
+      "classification": "Protected invoice raster difference; historical review already flagged pixels; exact latest variant remains unresolved",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/invoice-charges.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values. Raster difference remains unexplained; retain baseline (L-05 where applicable).",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "cc73abe2a26415e453c9c23939f815da772ace023de29e887b397f730c8c0849",
+      "matchesPreviousCapture": true,
+      "decision": "Hold baseline; no replacement recommended while unexplained",
+      "maxChannelDelta": 1
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/invoice-lines-start.png",
+      "baselineSha256": "22d1697474dd97348e26536f6d029632067e850c9dc60d8a65ef1d1ddc85e908",
+      "candidateSha256": "c70aca8e7f681751f9629f1c596ea09d1633f9f25090c6b738ed91409cd42924",
+      "identical": false,
+      "baselineSize": [
+        1068,
+        209
+      ],
+      "candidateSize": [
+        1068,
+        209
+      ],
+      "differentPixels": 616,
+      "bounds": [
+        6,
+        43,
+        1011,
+        168
+      ],
+      "classification": "Protected invoice raster difference; historical review already flagged pixels; exact latest variant remains unresolved",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/invoice-lines-start.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values. Raster difference remains unexplained; retain baseline (L-05 where applicable).",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "c2a248b44cbe592323bee8c601b9217e34a25a8fdea7693b4e1380f5a8d9d992",
+      "matchesPreviousCapture": false,
+      "decision": "Hold baseline; no replacement recommended while unexplained",
+      "maxChannelDelta": 14
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/invoice-tax-totals.png",
+      "baselineSha256": "179508a476627aacf7b4713a7d598763f3182244ab95371ec58215a7c77cec13",
+      "candidateSha256": "1557b7cea53f9f997c3e18da134d8f5bf4fdeadcee240e138a6b95762f68eb9e",
+      "identical": false,
+      "baselineSize": [
+        420,
+        283
+      ],
+      "candidateSize": [
+        420,
+        283
+      ],
+      "differentPixels": 39,
+      "bounds": [
+        5,
+        110,
+        420,
+        283
+      ],
+      "classification": "Protected invoice raster difference; historical review already flagged pixels; exact latest variant remains unresolved",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/invoice-tax-totals.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values. Raster difference remains unexplained; retain baseline (L-05 where applicable).",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "1557b7cea53f9f997c3e18da134d8f5bf4fdeadcee240e138a6b95762f68eb9e",
+      "matchesPreviousCapture": true,
+      "decision": "Hold baseline; no replacement recommended while unexplained",
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/mail-compose-draft.png",
+      "baselineSha256": "a75475d5f62486a30d9f029ce4c6b1f3428bbad25bef5f08d1fe96bab5edce66",
+      "candidateSha256": "8339dd6708e5b5e052e4bcc16ad20288f4c9e9fca63698269b8e4140524fd53b",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 74520,
+      "bounds": [
+        332,
+        141,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/mail-compose-draft.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "7007ee84fe1cc4604f723c5acd69b20242a927c467a89ad2604aa483441fa535",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 210
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/mail-inbox-list.png",
+      "baselineSha256": "aff7c5c76c2f05eb31fb524050de05d01d456648e6b4f4372983032c0b535794",
+      "candidateSha256": "57fdee1cd3889938611c7df5a4fa8dc131705185f7232395af2a1cb36631f266",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 50057,
+      "bounds": [
+        332,
+        141,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/mail-inbox-list.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "aff7c5c76c2f05eb31fb524050de05d01d456648e6b4f4372983032c0b535794",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 219
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/mail-reading-e1.png",
+      "baselineSha256": "bb165832fd71b95e3105ec9ac9338d3d652e15ccca72ff7eb12f05b033ad0747",
+      "candidateSha256": "dfd840ff6e8aedf77011b470984d606313c4953f53f09376f39deab6b24721b4",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 128509,
+      "bounds": [
+        332,
+        141,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/mail-reading-e1.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "bb165832fd71b95e3105ec9ac9338d3d652e15ccca72ff7eb12f05b033ad0747",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 219
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/note-editor-related.png",
+      "baselineSha256": "0e5c7bbcf33de2dc21c063de0a30665a0039f5e50432e98610423d02c52188e9",
+      "candidateSha256": "0e5c7bbcf33de2dc21c063de0a30665a0039f5e50432e98610423d02c52188e9",
+      "identical": true,
+      "baselineSize": [
+        560,
+        900
+      ],
+      "candidateSize": [
+        560,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/note-editor-related.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "0e5c7bbcf33de2dc21c063de0a30665a0039f5e50432e98610423d02c52188e9",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/notes-kanban.png",
+      "baselineSha256": "55cbbf9e0fd7fa7a3fe87d6b92baaa53cb972318fe8da8326e5907616ea4039e",
+      "candidateSha256": "389645a36d7eb719081e431751425bd498190b9a6b48fea2fe4ad7747cbae2cb",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 36392,
+      "bounds": [
+        332,
+        172,
+        1424,
+        729
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/notes-kanban.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "55cbbf9e0fd7fa7a3fe87d6b92baaa53cb972318fe8da8326e5907616ea4039e",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 196
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/notes-list-archived.png",
+      "baselineSha256": "085b4ee021c34d2055d0fd4ea292067c1bb6aa0f5e566afd44dd298c6eb759fb",
+      "candidateSha256": "f6bad16a4eaf656eab4c3e547236fcbaad284d0b32dd28f7f8d49cc7f65e7056",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 10789,
+      "bounds": [
+        332,
+        172,
+        1424,
+        304
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/notes-list-archived.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "e99a105a1a75a518a423a0d208e552d82cd4aa105c0760c348ab91e6c056a119",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 210
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/people-cards.png",
+      "baselineSha256": "5a76ca68dbad4bfeaa5fc7a60186563e70844c0a27ca3caa74827dedf6891c50",
+      "candidateSha256": "5a76ca68dbad4bfeaa5fc7a60186563e70844c0a27ca3caa74827dedf6891c50",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/people-cards.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "5a76ca68dbad4bfeaa5fc7a60186563e70844c0a27ca3caa74827dedf6891c50",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/people-list.png",
+      "baselineSha256": "d562ad5973c0b8bcbfb6b7c1c2a56526fb227d4a4f4fcb9db8d74b0da911370a",
+      "candidateSha256": "d562ad5973c0b8bcbfb6b7c1c2a56526fb227d4a4f4fcb9db8d74b0da911370a",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/people-list.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "d562ad5973c0b8bcbfb6b7c1c2a56526fb227d4a4f4fcb9db8d74b0da911370a",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/signin-email.png",
+      "baselineSha256": "b99f03817177a7aa3e4a24781ef3d74c73ba891723d4cb4de9b2b4452c6beda8",
+      "candidateSha256": "b99f03817177a7aa3e4a24781ef3d74c73ba891723d4cb4de9b2b4452c6beda8",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/signin-email.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "b99f03817177a7aa3e4a24781ef3d74c73ba891723d4cb4de9b2b4452c6beda8",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/signin-password-identity.png",
+      "baselineSha256": "840c57e318cc1fe31950dd8c93ef608d7a6d816511872ed96a6f2f432e93db86",
+      "candidateSha256": "840c57e318cc1fe31950dd8c93ef608d7a6d816511872ed96a6f2f432e93db86",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/signin-password-identity.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "840c57e318cc1fe31950dd8c93ef608d7a6d816511872ed96a6f2f432e93db86",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/signin-unknown-workspace.png",
+      "baselineSha256": "699ebf0a822929ae2fc5e4a1a4e89049b4c08396ef53e46609ae10c984e29e93",
+      "candidateSha256": "699ebf0a822929ae2fc5e4a1a4e89049b4c08396ef53e46609ae10c984e29e93",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/signin-unknown-workspace.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "699ebf0a822929ae2fc5e4a1a4e89049b4c08396ef53e46609ae10c984e29e93",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "baselineSha256": "503df351f597c25171a9e1b427b298d6182d06b23f5eb265b4ca73fa7efea909",
+      "candidateSha256": "899cea16d5760f9d33fd030937a5a804ac7ad381a612a2002015716683dfe71e",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 38033,
+      "bounds": [
+        332,
+        172,
+        1424,
+        899
+      ],
+      "classification": "Requested gutter alignment plus independently reproduced corner raster variation with stable recorded DOM/styles",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "900dce1ee3d18a7da84a374d7788774519a90cff837ef8075236feb4e787abef",
+      "matchesPreviousCapture": false,
+      "decision": "Hold baseline; gutter intent does not resolve repeat raster cause",
+      "maxChannelDelta": 236
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-kanban.png",
+      "baselineSha256": "2fc92d06ea7aa19fc8995fb861caf6cc653cdc8731a2f9615aea81ede17b133b",
+      "candidateSha256": "6bc9f7d169c734bb8516530aeee32bbe7fe2b4e695971b2e4566ef1d9fb44ef2",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 76655,
+      "bounds": [
+        332,
+        172,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-kanban.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "2fc92d06ea7aa19fc8995fb861caf6cc653cdc8731a2f9615aea81ede17b133b",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 237
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/event-editor-validation.png",
+      "baselineSha256": "381786e578f9c45c51c2e9da36d35d3f75844fdc1ccff2fae713e1b74658d6e0",
+      "candidateSha256": "381786e578f9c45c51c2e9da36d35d3f75844fdc1ccff2fae713e1b74658d6e0",
+      "identical": true,
+      "baselineSize": [
+        560,
+        900
+      ],
+      "candidateSize": [
+        560,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/event-editor-validation.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "381786e578f9c45c51c2e9da36d35d3f75844fdc1ccff2fae713e1b74658d6e0",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/events-calendar-month.png",
+      "baselineSha256": "0dece30cf6a7fb7a86793683024bed1b621d1b85873eddf6f46d4838c344637d",
+      "candidateSha256": "a1002d46f6424acc1fffb19cd5f793f0bdc9afa5ab00057c4a952f0ea9fa7950",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 33437,
+      "bounds": [
+        332,
+        174,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/events-calendar-month.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "0dece30cf6a7fb7a86793683024bed1b621d1b85873eddf6f46d4838c344637d",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 236
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/invoice-charges.png",
+      "baselineSha256": "a152ed40703b32cb97b95aff9bb5ff8556027dd53c78671bbab5640d386e755f",
+      "candidateSha256": "b1065b2837198389ced9271428b71897ac9b0984cc0679f8947d1c088534b480",
+      "identical": false,
+      "baselineSize": [
+        632,
+        156
+      ],
+      "candidateSize": [
+        632,
+        156
+      ],
+      "differentPixels": 10,
+      "bounds": [
+        0,
+        6,
+        568,
+        102
+      ],
+      "classification": "Protected invoice raster difference; historical review already flagged pixels; exact latest variant remains unresolved",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/invoice-charges.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values. Raster difference remains unexplained; retain baseline (L-05 where applicable).",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "b1065b2837198389ced9271428b71897ac9b0984cc0679f8947d1c088534b480",
+      "matchesPreviousCapture": true,
+      "decision": "Hold baseline; no replacement recommended while unexplained",
+      "maxChannelDelta": 1
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/invoice-lines-start.png",
+      "baselineSha256": "bcc5d00dc02170726aa172798c2d10b3456def4fafa2528544e94489e237c50e",
+      "candidateSha256": "a95b20dae68d3e9ef325d4867fddcd87009407e4eb62a8850c7277ccd315699c",
+      "identical": false,
+      "baselineSize": [
+        1068,
+        209
+      ],
+      "candidateSize": [
+        1068,
+        209
+      ],
+      "differentPixels": 524,
+      "bounds": [
+        0,
+        88,
+        1011,
+        172
+      ],
+      "classification": "Protected invoice raster difference; historical review already flagged pixels; exact latest variant remains unresolved",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/invoice-lines-start.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values. Raster difference remains unexplained; retain baseline (L-05 where applicable).",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "714c27ce062af689224f0d755aaca8743e8d2c66fd91c48e28e33a5d38634c35",
+      "matchesPreviousCapture": false,
+      "decision": "Hold baseline; no replacement recommended while unexplained",
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/invoice-tax-totals.png",
+      "baselineSha256": "a1c177e2a23c6ee112448f7ec23f6b761ee6ddddb130e46a7d34a1156f14f594",
+      "candidateSha256": "c35d2769b83471f87bf9b6c2eff31c52fbcdd42022cfe15a89e297ee678ae2df",
+      "identical": false,
+      "baselineSize": [
+        420,
+        283
+      ],
+      "candidateSize": [
+        420,
+        283
+      ],
+      "differentPixels": 26,
+      "bounds": [
+        6,
+        110,
+        318,
+        283
+      ],
+      "classification": "Protected invoice raster difference; historical review already flagged pixels; exact latest variant remains unresolved",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/invoice-tax-totals.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values. Raster difference remains unexplained; retain baseline (L-05 where applicable).",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "4f905733830fe26671b08636750a85aa1fc34bd5a21fecd03540aa36272e6b2f",
+      "matchesPreviousCapture": false,
+      "decision": "Hold baseline; no replacement recommended while unexplained",
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/mail-compose-draft.png",
+      "baselineSha256": "a725dc9f598fed10dc7dc2a02b8ce3a61d199c3dd050831a66bc45bda91f9c53",
+      "candidateSha256": "b708e1d8dd48f779bfc66c9baadd0f70dc5789ba3276e31d727c9ef8ae2930bb",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 74486,
+      "bounds": [
+        332,
+        141,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/mail-compose-draft.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "a725dc9f598fed10dc7dc2a02b8ce3a61d199c3dd050831a66bc45bda91f9c53",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 237
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/mail-inbox-list.png",
+      "baselineSha256": "887c7bbb53cc0fe6341f1faa61e6971e10e7d35206e90939798b70030a24cd88",
+      "candidateSha256": "7cf8b11c5208eb85ba6672d9fa3735093d7cb14233c74ad1ee09ad5f34225c6f",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 48681,
+      "bounds": [
+        332,
+        141,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/mail-inbox-list.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "887c7bbb53cc0fe6341f1faa61e6971e10e7d35206e90939798b70030a24cd88",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 237
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/mail-reading-e1.png",
+      "baselineSha256": "0d62fbd521379379ba265b533fda0e4bd74856eb2ea5b9467c9084bec10007bd",
+      "candidateSha256": "84039943daa88f793248618c90e2f372b8f4b70a9ba38b2be0cba827fbf76f5b",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 127368,
+      "bounds": [
+        332,
+        141,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/mail-reading-e1.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "0d62fbd521379379ba265b533fda0e4bd74856eb2ea5b9467c9084bec10007bd",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 237
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/note-editor-related.png",
+      "baselineSha256": "d9f456ea49da6a4e35bce30e033c44b6ea68685629e1632bd17ce1e331eb865d",
+      "candidateSha256": "d9f456ea49da6a4e35bce30e033c44b6ea68685629e1632bd17ce1e331eb865d",
+      "identical": true,
+      "baselineSize": [
+        560,
+        900
+      ],
+      "candidateSize": [
+        560,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/note-editor-related.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "d9f456ea49da6a4e35bce30e033c44b6ea68685629e1632bd17ce1e331eb865d",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/notes-kanban.png",
+      "baselineSha256": "f32a3be3d2732b1a48262ceddb76c323104fccd03047c305d34e02ba58ee2720",
+      "candidateSha256": "ba0f7b2a31f885ddaa205a8cfadefa9df8cf2361ea922d9cd6fdc6bc880d4236",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 36424,
+      "bounds": [
+        332,
+        172,
+        1424,
+        729
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/notes-kanban.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "f32a3be3d2732b1a48262ceddb76c323104fccd03047c305d34e02ba58ee2720",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 226
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/notes-list-archived.png",
+      "baselineSha256": "354fea86bea4b8ee2d2f6dbd3744427195c72ed42ea9706fd9d273d2dfbbed79",
+      "candidateSha256": "0618f9031dc153462809a4a885e72d10c1c4f442dc5d540347d31b28df65d680",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 10446,
+      "bounds": [
+        332,
+        172,
+        1424,
+        304
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/notes-list-archived.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "354fea86bea4b8ee2d2f6dbd3744427195c72ed42ea9706fd9d273d2dfbbed79",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 236
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/people-cards.png",
+      "baselineSha256": "ec97efaf93e42d98b6302c1abfc43d428d2cc743ffafdf07a82bf8f0d219b5ac",
+      "candidateSha256": "ec97efaf93e42d98b6302c1abfc43d428d2cc743ffafdf07a82bf8f0d219b5ac",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/people-cards.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "ec97efaf93e42d98b6302c1abfc43d428d2cc743ffafdf07a82bf8f0d219b5ac",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/people-list.png",
+      "baselineSha256": "296a8b440e24eaeac635f189da14f6c6856fedaccc455ebfaa068a2e26f5a2b1",
+      "candidateSha256": "296a8b440e24eaeac635f189da14f6c6856fedaccc455ebfaa068a2e26f5a2b1",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/people-list.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "296a8b440e24eaeac635f189da14f6c6856fedaccc455ebfaa068a2e26f5a2b1",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/signin-email.png",
+      "baselineSha256": "bbf8a42d8d6bdf7836cc8175c5e10174d0af2220519b91e49579f7c0e950e0f4",
+      "candidateSha256": "bbf8a42d8d6bdf7836cc8175c5e10174d0af2220519b91e49579f7c0e950e0f4",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/signin-email.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "bbf8a42d8d6bdf7836cc8175c5e10174d0af2220519b91e49579f7c0e950e0f4",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/signin-password-identity.png",
+      "baselineSha256": "e9220385fae7b1c5663da927006f8d0a108590197060f414b2b5407848bac441",
+      "candidateSha256": "e9220385fae7b1c5663da927006f8d0a108590197060f414b2b5407848bac441",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/signin-password-identity.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "e9220385fae7b1c5663da927006f8d0a108590197060f414b2b5407848bac441",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/signin-unknown-workspace.png",
+      "baselineSha256": "2f2084377fff67456f309333a0a6bf8232bcd2562535558ef095c01283f32cb2",
+      "candidateSha256": "2f2084377fff67456f309333a0a6bf8232bcd2562535558ef095c01283f32cb2",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/signin-unknown-workspace.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "2f2084377fff67456f309333a0a6bf8232bcd2562535558ef095c01283f32cb2",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/activities-calendar-week.png",
+      "baselineSha256": "03157f9f08f4940f71665bdcd3dabaf3f4e747e26b372443cacd0f8627b2dba6",
+      "candidateSha256": "ee9cfba9f4e61e55000d4d44a067bf3c57b7af6652c63c0e0adbf4b8ec43333e",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 38062,
+      "bounds": [
+        332,
+        172,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/activities-calendar-week.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "03157f9f08f4940f71665bdcd3dabaf3f4e747e26b372443cacd0f8627b2dba6",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 231
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/activities-kanban.png",
+      "baselineSha256": "aaf3b017d34faef3d90cf0e05c230d77fa9c7f5dd0fa874a447d34d0f186b79b",
+      "candidateSha256": "c25723149a1d97bc78d505f4546414b1bf6b300783604c23c0c6009b7edad52b",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 77125,
+      "bounds": [
+        332,
+        172,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/activities-kanban.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "aaf3b017d34faef3d90cf0e05c230d77fa9c7f5dd0fa874a447d34d0f186b79b",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 234
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/event-editor-validation.png",
+      "baselineSha256": "fd8810c27170af42d97bd3aa1aafbe559968dfe72768bc51dcd08d62bd6d2ff3",
+      "candidateSha256": "fd8810c27170af42d97bd3aa1aafbe559968dfe72768bc51dcd08d62bd6d2ff3",
+      "identical": true,
+      "baselineSize": [
+        560,
+        900
+      ],
+      "candidateSize": [
+        560,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/event-editor-validation.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "fd8810c27170af42d97bd3aa1aafbe559968dfe72768bc51dcd08d62bd6d2ff3",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/events-calendar-month.png",
+      "baselineSha256": "2a77240deba3101e7cbed509aafa70fc9b2ab62f3baca2da9a1fe8877821bf42",
+      "candidateSha256": "95967afb615081fdfe6decf81c50a91477187f19d4467252a8db644d1604076d",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 33467,
+      "bounds": [
+        332,
+        174,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/events-calendar-month.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "2a77240deba3101e7cbed509aafa70fc9b2ab62f3baca2da9a1fe8877821bf42",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 231
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/invoice-charges.png",
+      "baselineSha256": "e29325a04f6aa1f9fecf5dc0667ead563423b651d0b2ba1f8d61f57d33d8c5ae",
+      "candidateSha256": "dabfbbbe1f5d2d00863cbae05761db7bf745ac9ccde395672567ae86a7a6153e",
+      "identical": false,
+      "baselineSize": [
+        632,
+        156
+      ],
+      "candidateSize": [
+        632,
+        156
+      ],
+      "differentPixels": 27,
+      "bounds": [
+        23,
+        101,
+        569,
+        104
+      ],
+      "classification": "Protected invoice raster difference; historical review already flagged pixels; exact latest variant remains unresolved",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/invoice-charges.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values. Raster difference remains unexplained; retain baseline (L-05 where applicable).",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "8fc1566bb1832b4443b73b37b6c262c783f0675a7f269cb31c284cf3e1d0fc13",
+      "matchesPreviousCapture": false,
+      "decision": "Hold baseline; no replacement recommended while unexplained",
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/invoice-lines-start.png",
+      "baselineSha256": "ac10b2c0d5665a68a1d2ab377e0577f3e2c55564dedcee29e50a9cb4a609d83a",
+      "candidateSha256": "ee5d219a121126133cfb5e69f72b252f1d2d531c3bb11b623e93bc958c56c902",
+      "identical": false,
+      "baselineSize": [
+        1068,
+        209
+      ],
+      "candidateSize": [
+        1068,
+        209
+      ],
+      "differentPixels": 7,
+      "bounds": [
+        111,
+        117,
+        893,
+        167
+      ],
+      "classification": "Protected invoice raster difference; historical review already flagged pixels; exact latest variant remains unresolved",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/invoice-lines-start.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values. Raster difference remains unexplained; retain baseline (L-05 where applicable).",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "2268aac344ec3c70759dad8a8029bf954531e2a062059eca471fac114ca46870",
+      "matchesPreviousCapture": false,
+      "decision": "Hold baseline; no replacement recommended while unexplained",
+      "maxChannelDelta": 1
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/invoice-tax-totals.png",
+      "baselineSha256": "5609b425b34beee87431e345c2c144a158d5a6d0e9f40750cd1b23965a866e55",
+      "candidateSha256": "5609b425b34beee87431e345c2c144a158d5a6d0e9f40750cd1b23965a866e55",
+      "identical": true,
+      "baselineSize": [
+        420,
+        283
+      ],
+      "candidateSize": [
+        420,
+        283
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/invoice-tax-totals.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "5609b425b34beee87431e345c2c144a158d5a6d0e9f40750cd1b23965a866e55",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/mail-compose-draft.png",
+      "baselineSha256": "1a83a967b68a71a06d863138e76475b467629e665043c48603b4a2f097dc55c5",
+      "candidateSha256": "948e5127a1b7a7f5596abc349b60e06f1acac96fcf759ae80f34d35ece40c608",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 74915,
+      "bounds": [
+        67,
+        133,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/mail-compose-draft.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute. Final verified capture differs from the reviewed candidate by 3 pixels at the selected navigation rounded corner (349,156\u2013351,158); cause remains unexplained. Retain the baseline; this path is excluded from replacement approval.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "09b5bddfd2330a2ca6b0360317a2027ab1010451d0c8566b48ad211a91058512",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 242
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/mail-inbox-list.png",
+      "baselineSha256": "073d7facff54079354cf5f4718ccd1c561ddd53f688a299c385ce29f2859ce03",
+      "candidateSha256": "f766ea7d0ef3a00c5834cd0aaaba478ac6327f052f3d2fbe3acf3afb30751147",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 48637,
+      "bounds": [
+        332,
+        141,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/mail-inbox-list.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "073d7facff54079354cf5f4718ccd1c561ddd53f688a299c385ce29f2859ce03",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 232
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/mail-reading-e1.png",
+      "baselineSha256": "cc125c6217a77a6d962fb859eac03106905c7cdbdd10aab7d1f8ad582e5b3cc5",
+      "candidateSha256": "a41551473bea17d5c343ffe7cbb080b1d38e9aa2843b114d4bf25467d4756a8b",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 127338,
+      "bounds": [
+        332,
+        141,
+        1424,
+        899
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/mail-reading-e1.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "cc125c6217a77a6d962fb859eac03106905c7cdbdd10aab7d1f8ad582e5b3cc5",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 232
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/note-editor-related.png",
+      "baselineSha256": "d2bfe701bbe540d9f2a5033861b4efe2bba156c5c1b95a730896f11aceb6dcab",
+      "candidateSha256": "d2bfe701bbe540d9f2a5033861b4efe2bba156c5c1b95a730896f11aceb6dcab",
+      "identical": true,
+      "baselineSize": [
+        560,
+        900
+      ],
+      "candidateSize": [
+        560,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/note-editor-related.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "d2bfe701bbe540d9f2a5033861b4efe2bba156c5c1b95a730896f11aceb6dcab",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/notes-kanban.png",
+      "baselineSha256": "53dd5fa7f95600146611e835d0ac1510f7720f8651885c4a0c81eb2637c17ade",
+      "candidateSha256": "b57b92c17603bf17186ab1ce05e7c8551c49a36d051cc972c64782f64632b2d9",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 36442,
+      "bounds": [
+        332,
+        172,
+        1424,
+        729
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/notes-kanban.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "53dd5fa7f95600146611e835d0ac1510f7720f8651885c4a0c81eb2637c17ade",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 215
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/notes-list-archived.png",
+      "baselineSha256": "eb013358f01e65272a9faeee8f80c26ba70469bda0cc69b5cf7ec3aaba88418e",
+      "candidateSha256": "9f4a96284fcfc4e75ef975f35c712fc90a29ee70b727767c062ad36bdadacf1f",
+      "identical": false,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 11031,
+      "bounds": [
+        332,
+        172,
+        1424,
+        306
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/notes-list-archived.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "eb013358f01e65272a9faeee8f80c26ba70469bda0cc69b5cf7ec3aaba88418e",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 231
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/people-cards.png",
+      "baselineSha256": "b77923a25ef96fb2d9c878bf1d176319561881c24e1e72fb003bc31e474a3fb3",
+      "candidateSha256": "b77923a25ef96fb2d9c878bf1d176319561881c24e1e72fb003bc31e474a3fb3",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/people-cards.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "b77923a25ef96fb2d9c878bf1d176319561881c24e1e72fb003bc31e474a3fb3",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/people-list.png",
+      "baselineSha256": "38a5dda9f23d7938a1600a9b09efdcb3009907562349218604546b7d7ac2e516",
+      "candidateSha256": "38a5dda9f23d7938a1600a9b09efdcb3009907562349218604546b7d7ac2e516",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/people-list.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "38a5dda9f23d7938a1600a9b09efdcb3009907562349218604546b7d7ac2e516",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/signin-email.png",
+      "baselineSha256": "8a466e30210db1c36d94ce2ab66e5a0ef8e86abd07b1d58eb2078938ae243a8f",
+      "candidateSha256": "8a466e30210db1c36d94ce2ab66e5a0ef8e86abd07b1d58eb2078938ae243a8f",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/signin-email.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "8a466e30210db1c36d94ce2ab66e5a0ef8e86abd07b1d58eb2078938ae243a8f",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/signin-password-identity.png",
+      "baselineSha256": "06c4889fc1f897a4c83995e04cd6cfa610a55cd5322893b893709fff876765a5",
+      "candidateSha256": "06c4889fc1f897a4c83995e04cd6cfa610a55cd5322893b893709fff876765a5",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/signin-password-identity.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "06c4889fc1f897a4c83995e04cd6cfa610a55cd5322893b893709fff876765a5",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/signin-unknown-workspace.png",
+      "baselineSha256": "98112dd203bb44877961732b5fbd20e84ddaaafe59b486d664db1a9f5801275e",
+      "candidateSha256": "98112dd203bb44877961732b5fbd20e84ddaaafe59b486d664db1a9f5801275e",
+      "identical": true,
+      "baselineSize": [
+        1440,
+        900
+      ],
+      "candidateSize": [
+        1440,
+        900
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/signin-unknown-workspace.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "98112dd203bb44877961732b5fbd20e84ddaaafe59b486d664db1a9f5801275e",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/activities-calendar-week.png",
+      "baselineSha256": "2d0427d5b1123314d66a39a82e927441dd3d4ad9ccdad7551ae8157c04dcd078",
+      "candidateSha256": "ea8aaae2839df519be287dc2c189500b462e40581b9cfd17b3e6573afd899e6b",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 21113,
+      "bounds": [
+        24,
+        294,
+        314,
+        838
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/activities-calendar-week.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "52ac241b040f8851b1f128712a52706dbf6fa4b30ccbff5ab4e9582033ae9d31",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 232
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/activities-kanban.png",
+      "baselineSha256": "b8cef7f71ef5476cad0753a9cbc05b7b775b58bbf5f15336c9e18d704a7ecdba",
+      "candidateSha256": "adbcbb6c40bd4edff4d306f688ea8b68af67a59e3ee1445cb03f7ed9d8e11b8d",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 66813,
+      "bounds": [
+        24,
+        294,
+        314,
+        843
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/activities-kanban.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "7c078b05ceb44b5f5a01baaaff8e6385507f2cf1c7394c4919cad72f18023e97",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 234
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/event-editor-validation.png",
+      "baselineSha256": "8e161ee98eef049dea2c0d31f0deb84385a0cc21a2d351015f7fe8cfbfd1fae7",
+      "candidateSha256": "8e161ee98eef049dea2c0d31f0deb84385a0cc21a2d351015f7fe8cfbfd1fae7",
+      "identical": true,
+      "baselineSize": [
+        367,
+        844
+      ],
+      "candidateSize": [
+        367,
+        844
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/event-editor-validation.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "8e161ee98eef049dea2c0d31f0deb84385a0cc21a2d351015f7fe8cfbfd1fae7",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/events-calendar-month.png",
+      "baselineSha256": "348ac7faa041a226adb8d63857dd6782ddd4d0a35a676901b5c2f1b8af34f523",
+      "candidateSha256": "e29995b458fa69676271d826232fa95a4c7e9750a271d31d36e0caf2da37da31",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 13714,
+      "bounds": [
+        24,
+        287,
+        314,
+        843
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/events-calendar-month.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "b43c0cb8f1b997d7e44fa51abba7d59e1dddf438facf6a0d6ffd11b7ef249b62",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 231
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/invoice-charges.png",
+      "baselineSha256": "a7e60b4b6f8c36d3e9de93e3a7fa4281ebb66b251003fbc56f0c5445cf304393",
+      "candidateSha256": "a7e60b4b6f8c36d3e9de93e3a7fa4281ebb66b251003fbc56f0c5445cf304393",
+      "identical": true,
+      "baselineSize": [
+        274,
+        383
+      ],
+      "candidateSize": [
+        274,
+        383
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/invoice-charges.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "a7e60b4b6f8c36d3e9de93e3a7fa4281ebb66b251003fbc56f0c5445cf304393",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/invoice-lines-end.png",
+      "baselineSha256": "82b5b26e237fdb6bfe3feae47b2d912a9b1c587a0b5edcc5f2d1a5d41230ebe6",
+      "candidateSha256": "82b5b26e237fdb6bfe3feae47b2d912a9b1c587a0b5edcc5f2d1a5d41230ebe6",
+      "identical": true,
+      "baselineSize": [
+        274,
+        242
+      ],
+      "candidateSize": [
+        274,
+        242
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/invoice-lines-end.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "82b5b26e237fdb6bfe3feae47b2d912a9b1c587a0b5edcc5f2d1a5d41230ebe6",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/invoice-lines-start.png",
+      "baselineSha256": "944355f167335aabc4ce2640fc0def3a3e890b10cc58cebb723da6391772e0a7",
+      "candidateSha256": "944355f167335aabc4ce2640fc0def3a3e890b10cc58cebb723da6391772e0a7",
+      "identical": true,
+      "baselineSize": [
+        274,
+        242
+      ],
+      "candidateSize": [
+        274,
+        242
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/invoice-lines-start.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "944355f167335aabc4ce2640fc0def3a3e890b10cc58cebb723da6391772e0a7",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/invoice-tax-totals.png",
+      "baselineSha256": "a2d2949500f0899fe56e0a177329e40d73242389c0928951146a87f0bd5d4874",
+      "candidateSha256": "76b9a4ae1f84512d1c05ff7d7c53454d5f635b71bca9ac83b65f5802aa51967d",
+      "identical": false,
+      "baselineSize": [
+        274,
+        297
+      ],
+      "candidateSize": [
+        274,
+        297
+      ],
+      "differentPixels": 13,
+      "bounds": [
+        114,
+        110,
+        117,
+        154
+      ],
+      "classification": "Protected invoice raster difference; historical review already flagged pixels; exact latest variant remains unresolved",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/invoice-tax-totals.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "a2d2949500f0899fe56e0a177329e40d73242389c0928951146a87f0bd5d4874",
+      "matchesPreviousCapture": false,
+      "decision": "Hold baseline; no replacement recommended while unexplained",
+      "maxChannelDelta": 8
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/mail-compose-draft.png",
+      "baselineSha256": "d9807b1bc025c44a75f838373fe59cab0da52b3305a626cf2c93c563c2b1dbe2",
+      "candidateSha256": "47e1c24c18152389402cc4ac1d1d3c63ab5973d4b7afa82ba3a5bf935d007694",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 30591,
+      "bounds": [
+        24,
+        280,
+        314,
+        843
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/mail-compose-draft.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "d9807b1bc025c44a75f838373fe59cab0da52b3305a626cf2c93c563c2b1dbe2",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 232
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/mail-inbox-list.png",
+      "baselineSha256": "3b2c2864b35f0d81082f9dbd9c0da19735b1815d29843a806023f753f04ddd0b",
+      "candidateSha256": "f9a9c042d7240097cfb9306a448dff7a4fa7140599fa7a96a234694ff07f3908",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 38281,
+      "bounds": [
+        24,
+        280,
+        314,
+        843
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/mail-inbox-list.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "3b2c2864b35f0d81082f9dbd9c0da19735b1815d29843a806023f753f04ddd0b",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 232
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/mail-reading-e1.png",
+      "baselineSha256": "390869ae27c925879721b621e4993035a81b7c44929870ed2cacf9c7a927a8c8",
+      "candidateSha256": "1e8a52da54f91a56953e2eafd433e238ed21f4b637163946edfafe9bd03beeea",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 38461,
+      "bounds": [
+        24,
+        280,
+        314,
+        843
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/mail-reading-e1.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "390869ae27c925879721b621e4993035a81b7c44929870ed2cacf9c7a927a8c8",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 214
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/note-editor-related.png",
+      "baselineSha256": "4603ce678e2acda4b95f7974a1dadc7547fb00ccf3bf7aaa571c83b44f7db9b4",
+      "candidateSha256": "4603ce678e2acda4b95f7974a1dadc7547fb00ccf3bf7aaa571c83b44f7db9b4",
+      "identical": true,
+      "baselineSize": [
+        367,
+        844
+      ],
+      "candidateSize": [
+        367,
+        844
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/note-editor-related.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "4603ce678e2acda4b95f7974a1dadc7547fb00ccf3bf7aaa571c83b44f7db9b4",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/notes-kanban.png",
+      "baselineSha256": "f552361993f4159c5a30bd0ee32690bedae24c64206c3fa9dd745a8eaf9f6267",
+      "candidateSha256": "6d60f4baaa5dab96f7dd855824063f9772843971175c7f84f6d34fe8f77d34e1",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 49205,
+      "bounds": [
+        24,
+        295,
+        314,
+        843
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/notes-kanban.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "8af78823873102704a659373b9ea923a24af8e4153b32b0ff5044dfd69e6c9bd",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 217
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/notes-list-archived.png",
+      "baselineSha256": "e5ab693c0ef754f179f3e2b08adc1e3545150cf5b14a111f2724ef27ef3ce02a",
+      "candidateSha256": "f62799264a73be5b78d21b5b96c639789d3c022c138a5e3cd636d4945fc68f21",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 28931,
+      "bounds": [
+        24,
+        295,
+        314,
+        559
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/notes-list-archived.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "53d5fd06ca14a8e7e4e5c31357d25eff06a266d973c01065737f4d33d42d89e9",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 231
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/people-cards.png",
+      "baselineSha256": "36f73948095827dae6dda5411b1aa7597b8ad6e69b2180be4f047478fb6548d2",
+      "candidateSha256": "6045511250a46fc632442f3a188668fe9bf054e05ac1ea1badcca0216ed81d38",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 54830,
+      "bounds": [
+        32,
+        322,
+        306,
+        843
+      ],
+      "classification": "Earlier reviewed canonical identity/coarse-pointer change; protected path excluded from the 89",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/people-cards.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "6045511250a46fc632442f3a188668fe9bf054e05ac1ea1badcca0216ed81d38",
+      "matchesPreviousCapture": true,
+      "decision": "Exact-path visual approval if replacement desired",
+      "maxChannelDelta": 214
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/people-list.png",
+      "baselineSha256": "2371e426f8e322e29a31bc5faf4e49ca89c60c17a213290770b66c6a3259cd71",
+      "candidateSha256": "64f217456475d167b4bb103003cc95025bc2e3a97df6188b8a51f6c51524c314",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 26759,
+      "bounds": [
+        31,
+        322,
+        307,
+        718
+      ],
+      "classification": "Earlier reviewed canonical identity/coarse-pointer change; protected path excluded from the 89",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/people-list.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "64f217456475d167b4bb103003cc95025bc2e3a97df6188b8a51f6c51524c314",
+      "matchesPreviousCapture": true,
+      "decision": "Exact-path visual approval if replacement desired",
+      "maxChannelDelta": 231
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/signin-email.png",
+      "baselineSha256": "0c57aaf5b5301017428d65de636a1893e5944b107563921b0f3eb9780db8325e",
+      "candidateSha256": "0c57aaf5b5301017428d65de636a1893e5944b107563921b0f3eb9780db8325e",
+      "identical": true,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/signin-email.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "0c57aaf5b5301017428d65de636a1893e5944b107563921b0f3eb9780db8325e",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/signin-password-identity.png",
+      "baselineSha256": "8e92f208a846890c89acfd75a0523e8cf5079098aa1d926fe56fc8fe22138477",
+      "candidateSha256": "8e92f208a846890c89acfd75a0523e8cf5079098aa1d926fe56fc8fe22138477",
+      "identical": true,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/signin-password-identity.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "8e92f208a846890c89acfd75a0523e8cf5079098aa1d926fe56fc8fe22138477",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/signin-unknown-workspace.png",
+      "baselineSha256": "a969fa24be25e70b1680809bc1ae6c7cbe7ec24e83ef35de32745a0113b18382",
+      "candidateSha256": "a969fa24be25e70b1680809bc1ae6c7cbe7ec24e83ef35de32745a0113b18382",
+      "identical": true,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/signin-unknown-workspace.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "a969fa24be25e70b1680809bc1ae6c7cbe7ec24e83ef35de32745a0113b18382",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/activities-calendar-week.png",
+      "baselineSha256": "58c25da14c2eb7784047d002bc8f29c7726a5957f0954818afae816985875e1f",
+      "candidateSha256": "7d2cde5bc72293512bbeaad2651a6fa4c919071ab26379d2e58b971b99dcf7b5",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 19512,
+      "bounds": [
+        76,
+        315,
+        366,
+        807
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/activities-calendar-week.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "89148a9ed94c1d6a3a8d1e7f093d1cb10813fc748ff242ec77afe239d392b015",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 231
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/activities-kanban.png",
+      "baselineSha256": "30e9352e68f92af2fac956f647161368499a0accdb0d0523189383a4dcb944ea",
+      "candidateSha256": "f1628297ce2e97f29917305e84681417723e2bc22acb7347c90fb937c29c063b",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 66704,
+      "bounds": [
+        76,
+        315,
+        366,
+        843
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/activities-kanban.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "c5ee85ca5ec5e0327132d61637e4bd065abbdd8a3c9f753316f428d205e124eb",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 234
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/event-editor-validation.png",
+      "baselineSha256": "48b6d78c9a7ac6f52cad2ae2798ca9b959bdfe669ad9d2cb281580978d3b352c",
+      "candidateSha256": "48b6d78c9a7ac6f52cad2ae2798ca9b959bdfe669ad9d2cb281580978d3b352c",
+      "identical": true,
+      "baselineSize": [
+        367,
+        844
+      ],
+      "candidateSize": [
+        367,
+        844
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/event-editor-validation.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "48b6d78c9a7ac6f52cad2ae2798ca9b959bdfe669ad9d2cb281580978d3b352c",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/events-calendar-month.png",
+      "baselineSha256": "2606c970926931916fb2fcfee175e873c67378fee3b5cfde7c71b196d52883db",
+      "candidateSha256": "365de7c43dc79af46a14343c9d63d200d75a86d775d9c7c9aa0f840a8aba6ab0",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 27225,
+      "bounds": [
+        76,
+        306,
+        366,
+        839
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/events-calendar-month.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "61e508407eedffc14b46002dfe02aa464a7b3a5eebae97f18aa2a86ecb78c0ee",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 231
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/invoice-charges.png",
+      "baselineSha256": "11d7c8227e74b66e4cd7774012117a06467769d86f756ec5dc5ada9eb276b025",
+      "candidateSha256": "3b378c11c6f05bf84151461cdbce28633f524969869b9af346fd0fd03f181164",
+      "identical": false,
+      "baselineSize": [
+        274,
+        383
+      ],
+      "candidateSize": [
+        274,
+        383
+      ],
+      "differentPixels": 9,
+      "bounds": [
+        23,
+        317,
+        211,
+        320
+      ],
+      "classification": "Protected invoice raster difference; historical review already flagged pixels; exact latest variant remains unresolved",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/invoice-charges.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values. Raster difference remains unexplained; retain baseline (L-05 where applicable).",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "3b378c11c6f05bf84151461cdbce28633f524969869b9af346fd0fd03f181164",
+      "matchesPreviousCapture": true,
+      "decision": "Hold baseline; no replacement recommended while unexplained",
+      "maxChannelDelta": 2
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/invoice-lines-end.png",
+      "baselineSha256": "70914c210f207c907ddee8a4c2fa8ca54f585659ab7280f18346a87682429523",
+      "candidateSha256": "ada26842ee4a125cc29eb6557cdba6e1555bb32cb831d5ede75cde806cd17fdf",
+      "identical": false,
+      "baselineSize": [
+        274,
+        242
+      ],
+      "candidateSize": [
+        274,
+        242
+      ],
+      "differentPixels": 4,
+      "bounds": [
+        36,
+        139,
+        163,
+        201
+      ],
+      "classification": "Protected invoice raster difference; historical review already flagged pixels; exact latest variant remains unresolved",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/invoice-lines-end.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values. Raster difference remains unexplained; retain baseline (L-05 where applicable).",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "ada26842ee4a125cc29eb6557cdba6e1555bb32cb831d5ede75cde806cd17fdf",
+      "matchesPreviousCapture": true,
+      "decision": "Hold baseline; no replacement recommended while unexplained",
+      "maxChannelDelta": 1
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/invoice-lines-start.png",
+      "baselineSha256": "5acb5a143b9859695128ed63e8ccf2b9e251d4fc0964207d1eff7814d8818703",
+      "candidateSha256": "5acb5a143b9859695128ed63e8ccf2b9e251d4fc0964207d1eff7814d8818703",
+      "identical": true,
+      "baselineSize": [
+        274,
+        242
+      ],
+      "candidateSize": [
+        274,
+        242
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/invoice-lines-start.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "5acb5a143b9859695128ed63e8ccf2b9e251d4fc0964207d1eff7814d8818703",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/invoice-tax-totals.png",
+      "baselineSha256": "c3b0d1632ef87af4ac492249b1c57562d9b3eb6ab8303c89b6e3190343b36b37",
+      "candidateSha256": "c3b0d1632ef87af4ac492249b1c57562d9b3eb6ab8303c89b6e3190343b36b37",
+      "identical": true,
+      "baselineSize": [
+        274,
+        297
+      ],
+      "candidateSize": [
+        274,
+        297
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/invoice-tax-totals.png",
+      "reviewReason": "Arabic invoice labels and stable payment/charge option values.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "c3b0d1632ef87af4ac492249b1c57562d9b3eb6ab8303c89b6e3190343b36b37",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/mail-compose-draft.png",
+      "baselineSha256": "617c9de33cf895fc3e579a70d438fc65cd12e24e8bd2c2f623bdea574f2179cb",
+      "candidateSha256": "5c815cffff5430ed11b5e6705566925a4acaa8ab25802f3e3f12b79f702dfefb",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 31925,
+      "bounds": [
+        76,
+        280,
+        366,
+        843
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/mail-compose-draft.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "617c9de33cf895fc3e579a70d438fc65cd12e24e8bd2c2f623bdea574f2179cb",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 231
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/mail-inbox-list.png",
+      "baselineSha256": "4406b081e3ad6b53bf12240c49d0492daa22bd66e4502902ed533467f95de83f",
+      "candidateSha256": "200b668680f8f9ac5b6ac5de5057840e5d09a407813639aa6a89c2d84fa204ad",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 39272,
+      "bounds": [
+        76,
+        280,
+        366,
+        843
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/mail-inbox-list.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "4406b081e3ad6b53bf12240c49d0492daa22bd66e4502902ed533467f95de83f",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 231
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/mail-reading-e1.png",
+      "baselineSha256": "cf9fe4b6fe08b6f48cada98536f7015d8611d5669388d17c44a1f264552fda7b",
+      "candidateSha256": "6cac80f0b0f6762ba6895fa794bdc4b3228ff7babd5542422d8638daf6cb9177",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 37089,
+      "bounds": [
+        76,
+        280,
+        366,
+        843
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/mail-reading-e1.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "cf9fe4b6fe08b6f48cada98536f7015d8611d5669388d17c44a1f264552fda7b",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 214
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/note-editor-related.png",
+      "baselineSha256": "d7984ac8858eac321a7c9ac8c443bf165e9431f8c54e86ed8a2060d3106e458c",
+      "candidateSha256": "d7984ac8858eac321a7c9ac8c443bf165e9431f8c54e86ed8a2060d3106e458c",
+      "identical": true,
+      "baselineSize": [
+        367,
+        844
+      ],
+      "candidateSize": [
+        367,
+        844
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/note-editor-related.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "d7984ac8858eac321a7c9ac8c443bf165e9431f8c54e86ed8a2060d3106e458c",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/notes-kanban.png",
+      "baselineSha256": "9b537eaf41d58ce0799f6dd8525768321ab58717ade2ad31a9173d66308afb0a",
+      "candidateSha256": "b26802669b6a7bd9bba1b783691b0ad15439b4628f72da4292e3b4b029ca6d69",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 48871,
+      "bounds": [
+        76,
+        314,
+        366,
+        843
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/notes-kanban.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "5c0d84714a2b22466ac11ab4d087a65d741cb1944c1c23080fb41ccddf8f5adb",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 217
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/notes-list-archived.png",
+      "baselineSha256": "997269e03dc6140ece9179f7bbb0410ea5e102e371b05be0efa2ed5f21cbb6b3",
+      "candidateSha256": "3c887ce8557081e555860afc68b0bdd777fdbfaef84987e47dff5d9ab117491c",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 26292,
+      "bounds": [
+        76,
+        315,
+        366,
+        602
+      ],
+      "classification": "User-requested gutter alignment with preserved capture state contracts",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/notes-list-archived.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": false,
+      "previousCaptureSha256": "b96de23c400f87a81235e9a804c06377a96ae13567f30c49a4364d9deb358d42",
+      "matchesPreviousCapture": false,
+      "decision": "Exact-path candidate approval required before any future replacement",
+      "maxChannelDelta": 231
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/people-cards.png",
+      "baselineSha256": "060ade1449975531c0986189cf17c3cf97f7c5b574d5af73c018fab6996b34f1",
+      "candidateSha256": "88aa2c4e239d6c65686739a081eb187e792c7cbfbdea1d22ea3e66113669ed80",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 54815,
+      "bounds": [
+        84,
+        323,
+        358,
+        843
+      ],
+      "classification": "Earlier reviewed canonical identity/coarse-pointer change; protected path excluded from the 89",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/people-cards.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "88aa2c4e239d6c65686739a081eb187e792c7cbfbdea1d22ea3e66113669ed80",
+      "matchesPreviousCapture": true,
+      "decision": "Exact-path visual approval if replacement desired",
+      "maxChannelDelta": 214
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/people-list.png",
+      "baselineSha256": "2dc1d84409f19ac107cc2157229360c128149ec2ff65dd8d9709cc82771f2f49",
+      "candidateSha256": "dfc137ad61ee7af07ecad624b97d484378aeb9a4e812477aabc96cf3b8c7d412",
+      "identical": false,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 28825,
+      "bounds": [
+        83,
+        323,
+        359,
+        718
+      ],
+      "classification": "Earlier reviewed canonical identity/coarse-pointer change; protected path excluded from the 89",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/people-list.png",
+      "reviewReason": "Canonical mail identity/times and customer event label; shared navigation contrast and coarse-pointer toolbar sizing also contribute.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "dfc137ad61ee7af07ecad624b97d484378aeb9a4e812477aabc96cf3b8c7d412",
+      "matchesPreviousCapture": true,
+      "decision": "Exact-path visual approval if replacement desired",
+      "maxChannelDelta": 231
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/signin-email.png",
+      "baselineSha256": "1c93929633c0cf69804c9728bd59c0c512b573353861455c04c01525c5e9d20b",
+      "candidateSha256": "1c93929633c0cf69804c9728bd59c0c512b573353861455c04c01525c5e9d20b",
+      "identical": true,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/signin-email.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "1c93929633c0cf69804c9728bd59c0c512b573353861455c04c01525c5e9d20b",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/signin-password-identity.png",
+      "baselineSha256": "f0c543050dfd1a998ae60d74690e3c5a7c1989f6652173a5a61161767a96906b",
+      "candidateSha256": "f0c543050dfd1a998ae60d74690e3c5a7c1989f6652173a5a61161767a96906b",
+      "identical": true,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/signin-password-identity.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "f0c543050dfd1a998ae60d74690e3c5a7c1989f6652173a5a61161767a96906b",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/signin-unknown-workspace.png",
+      "baselineSha256": "1b1d39a9a42c28a25c6f1c4ad0428da48a55f62682ef8c5ee6d71be87ddede40",
+      "candidateSha256": "1b1d39a9a42c28a25c6f1c4ad0428da48a55f62682ef8c5ee6d71be87ddede40",
+      "identical": true,
+      "baselineSize": [
+        390,
+        844
+      ],
+      "candidateSize": [
+        390,
+        844
+      ],
+      "differentPixels": 0,
+      "bounds": null,
+      "classification": "Identical to preserved baseline",
+      "candidate": "/private/tmp/skey-remediation-20261018-fux37ka6/delivery-capture-harness/tests/visual-coverage.spec.mjs-snapshots/mobile-touch/signin-unknown-workspace.png",
+      "reviewReason": "Existing demo email hint and unknown-workspace guidance; sign-in identity layout retained. Source changes predate this local continuation.",
+      "matchesReviewedCandidate": true,
+      "previousCaptureSha256": "1b1d39a9a42c28a25c6f1c4ad0428da48a55f62682ef8c5ee6d71be87ddede40",
+      "matchesPreviousCapture": true,
+      "decision": "None"
+    }
+  ]
+}

@@ -1,0 +1,755 @@
+{
+  "scope": "Exact reviewed proposed PNG buffers vs final verified source captures",
+  "entries": [
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/notes-kanban.png",
+      "reviewedSha256": "53dd5fa7f95600146611e835d0ac1510f7720f8651885c4a0c81eb2637c17ade",
+      "currentSha256": "53dd5fa7f95600146611e835d0ac1510f7720f8651885c4a0c81eb2637c17ade",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/notes-list-archived.png",
+      "reviewedSha256": "eb013358f01e65272a9faeee8f80c26ba70469bda0cc69b5cf7ec3aaba88418e",
+      "currentSha256": "eb013358f01e65272a9faeee8f80c26ba70469bda0cc69b5cf7ec3aaba88418e",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/activities-kanban.png",
+      "reviewedSha256": "aaf3b017d34faef3d90cf0e05c230d77fa9c7f5dd0fa874a447d34d0f186b79b",
+      "currentSha256": "aaf3b017d34faef3d90cf0e05c230d77fa9c7f5dd0fa874a447d34d0f186b79b",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/activities-calendar-week.png",
+      "reviewedSha256": "03157f9f08f4940f71665bdcd3dabaf3f4e747e26b372443cacd0f8627b2dba6",
+      "currentSha256": "03157f9f08f4940f71665bdcd3dabaf3f4e747e26b372443cacd0f8627b2dba6",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/events-calendar-month.png",
+      "reviewedSha256": "2a77240deba3101e7cbed509aafa70fc9b2ab62f3baca2da9a1fe8877821bf42",
+      "currentSha256": "2a77240deba3101e7cbed509aafa70fc9b2ab62f3baca2da9a1fe8877821bf42",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/people-list.png",
+      "reviewedSha256": "38a5dda9f23d7938a1600a9b09efdcb3009907562349218604546b7d7ac2e516",
+      "currentSha256": "38a5dda9f23d7938a1600a9b09efdcb3009907562349218604546b7d7ac2e516",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/people-cards.png",
+      "reviewedSha256": "b77923a25ef96fb2d9c878bf1d176319561881c24e1e72fb003bc31e474a3fb3",
+      "currentSha256": "b77923a25ef96fb2d9c878bf1d176319561881c24e1e72fb003bc31e474a3fb3",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/mail-inbox-list.png",
+      "reviewedSha256": "073d7facff54079354cf5f4718ccd1c561ddd53f688a299c385ce29f2859ce03",
+      "currentSha256": "073d7facff54079354cf5f4718ccd1c561ddd53f688a299c385ce29f2859ce03",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/mail-reading-e1.png",
+      "reviewedSha256": "cc125c6217a77a6d962fb859eac03106905c7cdbdd10aab7d1f8ad582e5b3cc5",
+      "currentSha256": "cc125c6217a77a6d962fb859eac03106905c7cdbdd10aab7d1f8ad582e5b3cc5",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/mail-compose-draft.png",
+      "reviewedSha256": "503d7d7d6698884034f24578e659a48c2292ddcdc137998bc3c0edfcf598d09c",
+      "currentSha256": "09b5bddfd2330a2ca6b0360317a2027ab1010451d0c8566b48ad211a91058512",
+      "identical": false
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/signin-email.png",
+      "reviewedSha256": "8a466e30210db1c36d94ce2ab66e5a0ef8e86abd07b1d58eb2078938ae243a8f",
+      "currentSha256": "8a466e30210db1c36d94ce2ab66e5a0ef8e86abd07b1d58eb2078938ae243a8f",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop/signin-unknown-workspace.png",
+      "reviewedSha256": "98112dd203bb44877961732b5fbd20e84ddaaafe59b486d664db1a9f5801275e",
+      "currentSha256": "98112dd203bb44877961732b5fbd20e84ddaaafe59b486d664db1a9f5801275e",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/notes-kanban.png",
+      "reviewedSha256": "5c0d84714a2b22466ac11ab4d087a65d741cb1944c1c23080fb41ccddf8f5adb",
+      "currentSha256": "5c0d84714a2b22466ac11ab4d087a65d741cb1944c1c23080fb41ccddf8f5adb",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/notes-list-archived.png",
+      "reviewedSha256": "b96de23c400f87a81235e9a804c06377a96ae13567f30c49a4364d9deb358d42",
+      "currentSha256": "b96de23c400f87a81235e9a804c06377a96ae13567f30c49a4364d9deb358d42",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/activities-kanban.png",
+      "reviewedSha256": "c5ee85ca5ec5e0327132d61637e4bd065abbdd8a3c9f753316f428d205e124eb",
+      "currentSha256": "c5ee85ca5ec5e0327132d61637e4bd065abbdd8a3c9f753316f428d205e124eb",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/activities-calendar-week.png",
+      "reviewedSha256": "89148a9ed94c1d6a3a8d1e7f093d1cb10813fc748ff242ec77afe239d392b015",
+      "currentSha256": "89148a9ed94c1d6a3a8d1e7f093d1cb10813fc748ff242ec77afe239d392b015",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/events-calendar-month.png",
+      "reviewedSha256": "61e508407eedffc14b46002dfe02aa464a7b3a5eebae97f18aa2a86ecb78c0ee",
+      "currentSha256": "61e508407eedffc14b46002dfe02aa464a7b3a5eebae97f18aa2a86ecb78c0ee",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/people-list.png",
+      "reviewedSha256": "dfc137ad61ee7af07ecad624b97d484378aeb9a4e812477aabc96cf3b8c7d412",
+      "currentSha256": "dfc137ad61ee7af07ecad624b97d484378aeb9a4e812477aabc96cf3b8c7d412",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/people-cards.png",
+      "reviewedSha256": "88aa2c4e239d6c65686739a081eb187e792c7cbfbdea1d22ea3e66113669ed80",
+      "currentSha256": "88aa2c4e239d6c65686739a081eb187e792c7cbfbdea1d22ea3e66113669ed80",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/mail-inbox-list.png",
+      "reviewedSha256": "4406b081e3ad6b53bf12240c49d0492daa22bd66e4502902ed533467f95de83f",
+      "currentSha256": "4406b081e3ad6b53bf12240c49d0492daa22bd66e4502902ed533467f95de83f",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/mail-reading-e1.png",
+      "reviewedSha256": "cf9fe4b6fe08b6f48cada98536f7015d8611d5669388d17c44a1f264552fda7b",
+      "currentSha256": "cf9fe4b6fe08b6f48cada98536f7015d8611d5669388d17c44a1f264552fda7b",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/signin-email.png",
+      "reviewedSha256": "1c93929633c0cf69804c9728bd59c0c512b573353861455c04c01525c5e9d20b",
+      "currentSha256": "1c93929633c0cf69804c9728bd59c0c512b573353861455c04c01525c5e9d20b",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-touch/signin-unknown-workspace.png",
+      "reviewedSha256": "1b1d39a9a42c28a25c6f1c4ad0428da48a55f62682ef8c5ee6d71be87ddede40",
+      "currentSha256": "1b1d39a9a42c28a25c6f1c4ad0428da48a55f62682ef8c5ee6d71be87ddede40",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/events-calendar-month.png",
+      "reviewedSha256": "b681909c4838a99e691c850ae41be4e9eb384a78f8ae768d85f419445193e6fb",
+      "currentSha256": "b681909c4838a99e691c850ae41be4e9eb384a78f8ae768d85f419445193e6fb",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/mail-inbox-list.png",
+      "reviewedSha256": "7db27346a599425ed4927d556828cff1bfae4a1c8f220fd9d103964135c06c7f",
+      "currentSha256": "7db27346a599425ed4927d556828cff1bfae4a1c8f220fd9d103964135c06c7f",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/mail-reading-e1.png",
+      "reviewedSha256": "b64fc44fb65329ccdfbb32e53b9d071cbc3fa1d2e6d036f54ddfddc990fef8cf",
+      "currentSha256": "b64fc44fb65329ccdfbb32e53b9d071cbc3fa1d2e6d036f54ddfddc990fef8cf",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/mail-compose-draft.png",
+      "reviewedSha256": "c1f6176f54e9f97c91d12c729e975743bc910a54f5844b45cbda0f7cc065c812",
+      "currentSha256": "c1f6176f54e9f97c91d12c729e975743bc910a54f5844b45cbda0f7cc065c812",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/signin-email.png",
+      "reviewedSha256": "da607eea0c3b6590a5a73b736c060b41b860a1b56bea3ff5dde4c09557c89b79",
+      "currentSha256": "da607eea0c3b6590a5a73b736c060b41b860a1b56bea3ff5dde4c09557c89b79",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-dark/signin-unknown-workspace.png",
+      "reviewedSha256": "3d8d5ebe330f1bff13f1d6e3fc1884daea7072a241f032a46032ca62490a32c3",
+      "currentSha256": "3d8d5ebe330f1bff13f1d6e3fc1884daea7072a241f032a46032ca62490a32c3",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/notes-list-archived.png",
+      "reviewedSha256": "354fea86bea4b8ee2d2f6dbd3744427195c72ed42ea9706fd9d273d2dfbbed79",
+      "currentSha256": "354fea86bea4b8ee2d2f6dbd3744427195c72ed42ea9706fd9d273d2dfbbed79",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/activities-calendar-week.png",
+      "reviewedSha256": "503df351f597c25171a9e1b427b298d6182d06b23f5eb265b4ca73fa7efea909",
+      "currentSha256": "503df351f597c25171a9e1b427b298d6182d06b23f5eb265b4ca73fa7efea909",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/events-calendar-month.png",
+      "reviewedSha256": "0dece30cf6a7fb7a86793683024bed1b621d1b85873eddf6f46d4838c344637d",
+      "currentSha256": "0dece30cf6a7fb7a86793683024bed1b621d1b85873eddf6f46d4838c344637d",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/mail-inbox-list.png",
+      "reviewedSha256": "887c7bbb53cc0fe6341f1faa61e6971e10e7d35206e90939798b70030a24cd88",
+      "currentSha256": "887c7bbb53cc0fe6341f1faa61e6971e10e7d35206e90939798b70030a24cd88",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/mail-reading-e1.png",
+      "reviewedSha256": "0d62fbd521379379ba265b533fda0e4bd74856eb2ea5b9467c9084bec10007bd",
+      "currentSha256": "0d62fbd521379379ba265b533fda0e4bd74856eb2ea5b9467c9084bec10007bd",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/signin-email.png",
+      "reviewedSha256": "bbf8a42d8d6bdf7836cc8175c5e10174d0af2220519b91e49579f7c0e950e0f4",
+      "currentSha256": "bbf8a42d8d6bdf7836cc8175c5e10174d0af2220519b91e49579f7c0e950e0f4",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-light/signin-unknown-workspace.png",
+      "reviewedSha256": "2f2084377fff67456f309333a0a6bf8232bcd2562535558ef095c01283f32cb2",
+      "currentSha256": "2f2084377fff67456f309333a0a6bf8232bcd2562535558ef095c01283f32cb2",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/events-calendar-month.png",
+      "reviewedSha256": "2590d76ca005b5bd92d71f483ae60ca9c94ecd265da2fe72f60648fbac30ed73",
+      "currentSha256": "2590d76ca005b5bd92d71f483ae60ca9c94ecd265da2fe72f60648fbac30ed73",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/mail-inbox-list.png",
+      "reviewedSha256": "aff7c5c76c2f05eb31fb524050de05d01d456648e6b4f4372983032c0b535794",
+      "currentSha256": "aff7c5c76c2f05eb31fb524050de05d01d456648e6b4f4372983032c0b535794",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/mail-reading-e1.png",
+      "reviewedSha256": "bb165832fd71b95e3105ec9ac9338d3d652e15ccca72ff7eb12f05b033ad0747",
+      "currentSha256": "bb165832fd71b95e3105ec9ac9338d3d652e15ccca72ff7eb12f05b033ad0747",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/signin-email.png",
+      "reviewedSha256": "b99f03817177a7aa3e4a24781ef3d74c73ba891723d4cb4de9b2b4452c6beda8",
+      "currentSha256": "b99f03817177a7aa3e4a24781ef3d74c73ba891723d4cb4de9b2b4452c6beda8",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-high-contrast-dark/signin-unknown-workspace.png",
+      "reviewedSha256": "699ebf0a822929ae2fc5e4a1a4e89049b4c08396ef53e46609ae10c984e29e93",
+      "currentSha256": "699ebf0a822929ae2fc5e4a1a4e89049b4c08396ef53e46609ae10c984e29e93",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/notes-kanban.png",
+      "reviewedSha256": "8af78823873102704a659373b9ea923a24af8e4153b32b0ff5044dfd69e6c9bd",
+      "currentSha256": "8af78823873102704a659373b9ea923a24af8e4153b32b0ff5044dfd69e6c9bd",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/notes-list-archived.png",
+      "reviewedSha256": "53d5fd06ca14a8e7e4e5c31357d25eff06a266d973c01065737f4d33d42d89e9",
+      "currentSha256": "53d5fd06ca14a8e7e4e5c31357d25eff06a266d973c01065737f4d33d42d89e9",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/activities-kanban.png",
+      "reviewedSha256": "7c078b05ceb44b5f5a01baaaff8e6385507f2cf1c7394c4919cad72f18023e97",
+      "currentSha256": "7c078b05ceb44b5f5a01baaaff8e6385507f2cf1c7394c4919cad72f18023e97",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/activities-calendar-week.png",
+      "reviewedSha256": "52ac241b040f8851b1f128712a52706dbf6fa4b30ccbff5ab4e9582033ae9d31",
+      "currentSha256": "52ac241b040f8851b1f128712a52706dbf6fa4b30ccbff5ab4e9582033ae9d31",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/events-calendar-month.png",
+      "reviewedSha256": "b43c0cb8f1b997d7e44fa51abba7d59e1dddf438facf6a0d6ffd11b7ef249b62",
+      "currentSha256": "b43c0cb8f1b997d7e44fa51abba7d59e1dddf438facf6a0d6ffd11b7ef249b62",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/people-list.png",
+      "reviewedSha256": "64f217456475d167b4bb103003cc95025bc2e3a97df6188b8a51f6c51524c314",
+      "currentSha256": "64f217456475d167b4bb103003cc95025bc2e3a97df6188b8a51f6c51524c314",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/people-cards.png",
+      "reviewedSha256": "6045511250a46fc632442f3a188668fe9bf054e05ac1ea1badcca0216ed81d38",
+      "currentSha256": "6045511250a46fc632442f3a188668fe9bf054e05ac1ea1badcca0216ed81d38",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/mail-inbox-list.png",
+      "reviewedSha256": "3b2c2864b35f0d81082f9dbd9c0da19735b1815d29843a806023f753f04ddd0b",
+      "currentSha256": "3b2c2864b35f0d81082f9dbd9c0da19735b1815d29843a806023f753f04ddd0b",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/mail-reading-e1.png",
+      "reviewedSha256": "390869ae27c925879721b621e4993035a81b7c44929870ed2cacf9c7a927a8c8",
+      "currentSha256": "390869ae27c925879721b621e4993035a81b7c44929870ed2cacf9c7a927a8c8",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/invoice-charges.png",
+      "reviewedSha256": "a7e60b4b6f8c36d3e9de93e3a7fa4281ebb66b251003fbc56f0c5445cf304393",
+      "currentSha256": "a7e60b4b6f8c36d3e9de93e3a7fa4281ebb66b251003fbc56f0c5445cf304393",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/invoice-tax-totals.png",
+      "reviewedSha256": "a2d2949500f0899fe56e0a177329e40d73242389c0928951146a87f0bd5d4874",
+      "currentSha256": "a2d2949500f0899fe56e0a177329e40d73242389c0928951146a87f0bd5d4874",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/signin-email.png",
+      "reviewedSha256": "0c57aaf5b5301017428d65de636a1893e5944b107563921b0f3eb9780db8325e",
+      "currentSha256": "0c57aaf5b5301017428d65de636a1893e5944b107563921b0f3eb9780db8325e",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/mobile-rtl/signin-unknown-workspace.png",
+      "reviewedSha256": "a969fa24be25e70b1680809bc1ae6c7cbe7ec24e83ef35de32745a0113b18382",
+      "currentSha256": "a969fa24be25e70b1680809bc1ae6c7cbe7ec24e83ef35de32745a0113b18382",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/notes-kanban.png",
+      "reviewedSha256": "53dd5fa7f95600146611e835d0ac1510f7720f8651885c4a0c81eb2637c17ade",
+      "currentSha256": "53dd5fa7f95600146611e835d0ac1510f7720f8651885c4a0c81eb2637c17ade",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/notes-list-archived.png",
+      "reviewedSha256": "eb013358f01e65272a9faeee8f80c26ba70469bda0cc69b5cf7ec3aaba88418e",
+      "currentSha256": "eb013358f01e65272a9faeee8f80c26ba70469bda0cc69b5cf7ec3aaba88418e",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/activities-kanban.png",
+      "reviewedSha256": "aaf3b017d34faef3d90cf0e05c230d77fa9c7f5dd0fa874a447d34d0f186b79b",
+      "currentSha256": "aaf3b017d34faef3d90cf0e05c230d77fa9c7f5dd0fa874a447d34d0f186b79b",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/activities-calendar-week.png",
+      "reviewedSha256": "03157f9f08f4940f71665bdcd3dabaf3f4e747e26b372443cacd0f8627b2dba6",
+      "currentSha256": "03157f9f08f4940f71665bdcd3dabaf3f4e747e26b372443cacd0f8627b2dba6",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/events-calendar-month.png",
+      "reviewedSha256": "2a77240deba3101e7cbed509aafa70fc9b2ab62f3baca2da9a1fe8877821bf42",
+      "currentSha256": "2a77240deba3101e7cbed509aafa70fc9b2ab62f3baca2da9a1fe8877821bf42",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/people-list.png",
+      "reviewedSha256": "38a5dda9f23d7938a1600a9b09efdcb3009907562349218604546b7d7ac2e516",
+      "currentSha256": "38a5dda9f23d7938a1600a9b09efdcb3009907562349218604546b7d7ac2e516",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/people-cards.png",
+      "reviewedSha256": "b77923a25ef96fb2d9c878bf1d176319561881c24e1e72fb003bc31e474a3fb3",
+      "currentSha256": "b77923a25ef96fb2d9c878bf1d176319561881c24e1e72fb003bc31e474a3fb3",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/mail-inbox-list.png",
+      "reviewedSha256": "073d7facff54079354cf5f4718ccd1c561ddd53f688a299c385ce29f2859ce03",
+      "currentSha256": "073d7facff54079354cf5f4718ccd1c561ddd53f688a299c385ce29f2859ce03",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/mail-reading-e1.png",
+      "reviewedSha256": "cc125c6217a77a6d962fb859eac03106905c7cdbdd10aab7d1f8ad582e5b3cc5",
+      "currentSha256": "cc125c6217a77a6d962fb859eac03106905c7cdbdd10aab7d1f8ad582e5b3cc5",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/mail-compose-draft.png",
+      "reviewedSha256": "503d7d7d6698884034f24578e659a48c2292ddcdc137998bc3c0edfcf598d09c",
+      "currentSha256": "09b5bddfd2330a2ca6b0360317a2027ab1010451d0c8566b48ad211a91058512",
+      "identical": false
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/signin-email.png",
+      "reviewedSha256": "8a466e30210db1c36d94ce2ab66e5a0ef8e86abd07b1d58eb2078938ae243a8f",
+      "currentSha256": "8a466e30210db1c36d94ce2ab66e5a0ef8e86abd07b1d58eb2078938ae243a8f",
+      "identical": true
+    },
+    {
+      "path": "tests/visual-coverage.spec.mjs-snapshots/desktop-reduced-motion/signin-unknown-workspace.png",
+      "reviewedSha256": "98112dd203bb44877961732b5fbd20e84ddaaafe59b486d664db1a9f5801275e",
+      "currentSha256": "98112dd203bb44877961732b5fbd20e84ddaaafe59b486d664db1a9f5801275e",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop/adaptive.png",
+      "reviewedSha256": "1e6dd862a0ac631839c47e0a9fc65eaca03de84e626767937063307fcaac98d6",
+      "currentSha256": "1e6dd862a0ac631839c47e0a9fc65eaca03de84e626767937063307fcaac98d6",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop/cards.png",
+      "reviewedSha256": "4fca1ec9db3b49110a9b3e7f2d8115bb4fb86f62155044f3e8ff4d748b59f1ca",
+      "currentSha256": "4fca1ec9db3b49110a9b3e7f2d8115bb4fb86f62155044f3e8ff4d748b59f1ca",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/mobile-touch/list.png",
+      "reviewedSha256": "0d29736a9ade24163725c33beea75eb42d6073c3aba7360940d4fd04aa4decb1",
+      "currentSha256": "0d29736a9ade24163725c33beea75eb42d6073c3aba7360940d4fd04aa4decb1",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/mobile-touch/responsive.png",
+      "reviewedSha256": "01265479cc1f9bc04e74c5ff3d88d313d59cca5f6943f71f696f13d571b33afa",
+      "currentSha256": "01265479cc1f9bc04e74c5ff3d88d313d59cca5f6943f71f696f13d571b33afa",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/mobile-touch/adaptive.png",
+      "reviewedSha256": "9500becc43abe8d1c4bcd8e4b9b293ebaccb2fb666978d9518b36549207b399b",
+      "currentSha256": "9500becc43abe8d1c4bcd8e4b9b293ebaccb2fb666978d9518b36549207b399b",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/mobile-touch/cards.png",
+      "reviewedSha256": "44cced41c61dd30ad27c19024210fee59f519d31ade4cf9ea139ddb7e67435cc",
+      "currentSha256": "44cced41c61dd30ad27c19024210fee59f519d31ade4cf9ea139ddb7e67435cc",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop-dark/responsive.png",
+      "reviewedSha256": "73b6199b567ae0286ab811c600ddd568d3aeda6a0841e92bcca37e4f73ebf525",
+      "currentSha256": "73b6199b567ae0286ab811c600ddd568d3aeda6a0841e92bcca37e4f73ebf525",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop-dark/adaptive.png",
+      "reviewedSha256": "7541b8a8c53c6f0dd3d8d16a6f15b732328d28430fe7469a211bd982b4ac67f9",
+      "currentSha256": "7541b8a8c53c6f0dd3d8d16a6f15b732328d28430fe7469a211bd982b4ac67f9",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop-dark/cards.png",
+      "reviewedSha256": "6ee04a0c14f07f5f4ef99bdce1f23628e94a5e40c46898870484d3104d3e595d",
+      "currentSha256": "6ee04a0c14f07f5f4ef99bdce1f23628e94a5e40c46898870484d3104d3e595d",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop-high-contrast-light/list.png",
+      "reviewedSha256": "5feaa8154aa19aba9e89a0c1ff2a752112235b9bc42c3bc55bd63b7991661faf",
+      "currentSha256": "5feaa8154aa19aba9e89a0c1ff2a752112235b9bc42c3bc55bd63b7991661faf",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop-high-contrast-light/responsive.png",
+      "reviewedSha256": "8a0f4ad9495a1d9a4294414d3fa02de1a859af8848dd182cbe139c0484e9e693",
+      "currentSha256": "8a0f4ad9495a1d9a4294414d3fa02de1a859af8848dd182cbe139c0484e9e693",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop-high-contrast-light/adaptive.png",
+      "reviewedSha256": "cc4b4057792905a819624b29888b71910921fdead13d6707d7fc53bf4be99de9",
+      "currentSha256": "cc4b4057792905a819624b29888b71910921fdead13d6707d7fc53bf4be99de9",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop-high-contrast-light/cards.png",
+      "reviewedSha256": "15905c8091040a5ca2e6f774c77a9975be5d12b97a3d37fa1f9b0e19247df47d",
+      "currentSha256": "15905c8091040a5ca2e6f774c77a9975be5d12b97a3d37fa1f9b0e19247df47d",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop-high-contrast-dark/list.png",
+      "reviewedSha256": "2c304ea6b9a963a2ec11d3ca3d3176496103d7e96b77491b1fe4ca49fdf304fb",
+      "currentSha256": "2c304ea6b9a963a2ec11d3ca3d3176496103d7e96b77491b1fe4ca49fdf304fb",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop-high-contrast-dark/responsive.png",
+      "reviewedSha256": "d32755cc1ee6ac4597e50c0c00cc7eb52683986b9c094b6f8d15f90f4a5a73d0",
+      "currentSha256": "d32755cc1ee6ac4597e50c0c00cc7eb52683986b9c094b6f8d15f90f4a5a73d0",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop-high-contrast-dark/adaptive.png",
+      "reviewedSha256": "c09afda962b121e72fd8e4b461a5ccd15619d26561935d3e7328fb046fe0eb7e",
+      "currentSha256": "c09afda962b121e72fd8e4b461a5ccd15619d26561935d3e7328fb046fe0eb7e",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop-high-contrast-dark/cards.png",
+      "reviewedSha256": "7df40dd4b93e0e91adfc364652756aa642975304b574f69e0cf7e28a2d3bc99f",
+      "currentSha256": "7df40dd4b93e0e91adfc364652756aa642975304b574f69e0cf7e28a2d3bc99f",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/mobile-rtl/list.png",
+      "reviewedSha256": "a788101235922b24be892cfc8b56932f0e61cf018b85844bc64ef08472211d55",
+      "currentSha256": "a788101235922b24be892cfc8b56932f0e61cf018b85844bc64ef08472211d55",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/mobile-rtl/responsive.png",
+      "reviewedSha256": "52e38a4ba737c80639d3a87fc00c20c31a0d3bcf33301692728a5c31e5935217",
+      "currentSha256": "52e38a4ba737c80639d3a87fc00c20c31a0d3bcf33301692728a5c31e5935217",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/mobile-rtl/adaptive.png",
+      "reviewedSha256": "c4bf82fc0c2207f574313629b3686592ba0bfacedfc72396d6720d9e33131678",
+      "currentSha256": "c4bf82fc0c2207f574313629b3686592ba0bfacedfc72396d6720d9e33131678",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/mobile-rtl/cards.png",
+      "reviewedSha256": "73cc2f8fd961e965d52ac0b4ff9cb23ad49b722fee02be83a8c3ffb5bc05a86c",
+      "currentSha256": "73cc2f8fd961e965d52ac0b4ff9cb23ad49b722fee02be83a8c3ffb5bc05a86c",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop-reduced-motion/list.png",
+      "reviewedSha256": "47a643c17ddc469cedc337c4447a9d8fbc7b3c2ef06b1b60e66e9500b1b8861f",
+      "currentSha256": "47a643c17ddc469cedc337c4447a9d8fbc7b3c2ef06b1b60e66e9500b1b8861f",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop-reduced-motion/responsive.png",
+      "reviewedSha256": "d85a84847ed0a36fe4229608b38f869ed9ae3746bd3ed7278e8b69cf4985a03e",
+      "currentSha256": "d85a84847ed0a36fe4229608b38f869ed9ae3746bd3ed7278e8b69cf4985a03e",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop-reduced-motion/adaptive.png",
+      "reviewedSha256": "1e6dd862a0ac631839c47e0a9fc65eaca03de84e626767937063307fcaac98d6",
+      "currentSha256": "1e6dd862a0ac631839c47e0a9fc65eaca03de84e626767937063307fcaac98d6",
+      "identical": true
+    },
+    {
+      "path": "tests/data-list-component.spec.mjs-snapshots/desktop-reduced-motion/cards.png",
+      "reviewedSha256": "4fca1ec9db3b49110a9b3e7f2d8115bb4fb86f62155044f3e8ff4d748b59f1ca",
+      "currentSha256": "4fca1ec9db3b49110a9b3e7f2d8115bb4fb86f62155044f3e8ff4d748b59f1ca",
+      "identical": true
+    },
+    {
+      "path": "tests/messaging.spec.mjs-snapshots/desktop/email-reading.png",
+      "reviewedSha256": "8ce9d89cb96d5f559584e02b3db8e267d0563cd8b8688a634d82464287196b08",
+      "currentSha256": "8ce9d89cb96d5f559584e02b3db8e267d0563cd8b8688a634d82464287196b08",
+      "identical": true
+    },
+    {
+      "path": "tests/messaging.spec.mjs-snapshots/mobile-touch/email-reading.png",
+      "reviewedSha256": "bfe66786a48b3f9374a73e54290343db51976132192b77bb66ecdbac4307df1f",
+      "currentSha256": "bfe66786a48b3f9374a73e54290343db51976132192b77bb66ecdbac4307df1f",
+      "identical": true
+    },
+    {
+      "path": "tests/messaging.spec.mjs-snapshots/desktop-dark/email-reading.png",
+      "reviewedSha256": "0cb5062dba4b0ab3743b1e2496c2f7c7f8fb98b4795290fdf3209a49c9fcf342",
+      "currentSha256": "0cb5062dba4b0ab3743b1e2496c2f7c7f8fb98b4795290fdf3209a49c9fcf342",
+      "identical": true
+    },
+    {
+      "path": "tests/messaging.spec.mjs-snapshots/desktop-high-contrast-light/email-reading.png",
+      "reviewedSha256": "6ae3b712e3a8d7c61e3398878d04b8412d9188ace8b60e2809fef2c2933937db",
+      "currentSha256": "6ae3b712e3a8d7c61e3398878d04b8412d9188ace8b60e2809fef2c2933937db",
+      "identical": true
+    },
+    {
+      "path": "tests/messaging.spec.mjs-snapshots/desktop-high-contrast-dark/email-reading.png",
+      "reviewedSha256": "e25cf8c5a674d30e42a3230f6d0ccfc3de6aad933c73afdfaa587ae5cc96bc11",
+      "currentSha256": "e25cf8c5a674d30e42a3230f6d0ccfc3de6aad933c73afdfaa587ae5cc96bc11",
+      "identical": true
+    },
+    {
+      "path": "tests/messaging.spec.mjs-snapshots/mobile-rtl/email-reading.png",
+      "reviewedSha256": "542896e6f65092474c31220a4e55149f6f4e83a5fb98c431d318879a22a55859",
+      "currentSha256": "542896e6f65092474c31220a4e55149f6f4e83a5fb98c431d318879a22a55859",
+      "identical": true
+    },
+    {
+      "path": "tests/messaging.spec.mjs-snapshots/desktop-reduced-motion/email-reading.png",
+      "reviewedSha256": "8ce9d89cb96d5f559584e02b3db8e267d0563cd8b8688a634d82464287196b08",
+      "currentSha256": "8ce9d89cb96d5f559584e02b3db8e267d0563cd8b8688a634d82464287196b08",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop/list.png",
+      "reviewedSha256": "ef3f024d8846a80db3c258031fd6c97bdab57fb71fae4b357007331ef27a34e9",
+      "currentSha256": "ef3f024d8846a80db3c258031fd6c97bdab57fb71fae4b357007331ef27a34e9",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop/record.png",
+      "reviewedSha256": "6c9b61057da06cf1fb7de1b82d9232cac389f9ab87c7d2f78c7e3adf100d8ca3",
+      "currentSha256": "6c9b61057da06cf1fb7de1b82d9232cac389f9ab87c7d2f78c7e3adf100d8ca3",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop/customers-list.png",
+      "reviewedSha256": "d8ebb27eacf75ffe8fa2c4cf48a5b58ada51899de4a794cf4add19c1d4dd1011",
+      "currentSha256": "d8ebb27eacf75ffe8fa2c4cf48a5b58ada51899de4a794cf4add19c1d4dd1011",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop/customer-record.png",
+      "reviewedSha256": "07422968c0121a4febe9fc3fe1306025abf562b9f50bb9ddb689c4e26ec36c0a",
+      "currentSha256": "07422968c0121a4febe9fc3fe1306025abf562b9f50bb9ddb689c4e26ec36c0a",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop/geo-record.png",
+      "reviewedSha256": "c47c83510b0c4096f958b971d7f56a5c7eef9f4add6d4f8e97a7727a2f768abe",
+      "currentSha256": "c47c83510b0c4096f958b971d7f56a5c7eef9f4add6d4f8e97a7727a2f768abe",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop/email.png",
+      "reviewedSha256": "e6755f502451480409d6ac380c8afc90931868b90071d3a87ed8e525cc88cc83",
+      "currentSha256": "e6755f502451480409d6ac380c8afc90931868b90071d3a87ed8e525cc88cc83",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/mobile-touch/list.png",
+      "reviewedSha256": "3e62e3bab5640963f41b9cda8e55a8b44b71f6f9fab8b91e50dc0115ac4bf8e1",
+      "currentSha256": "3e62e3bab5640963f41b9cda8e55a8b44b71f6f9fab8b91e50dc0115ac4bf8e1",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/mobile-touch/customers-list.png",
+      "reviewedSha256": "fd419afa924bb1ab3ef997083e4dc78913928e959ff8dea1d791c9ee3d82f76b",
+      "currentSha256": "fd419afa924bb1ab3ef997083e4dc78913928e959ff8dea1d791c9ee3d82f76b",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/mobile-touch/geo-list.png",
+      "reviewedSha256": "e380a716228a4a856bded8b353ae2c9a9db9174b52aa1e794f98ad4b52d35d64",
+      "currentSha256": "e380a716228a4a856bded8b353ae2c9a9db9174b52aa1e794f98ad4b52d35d64",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/mobile-touch/geo-record.png",
+      "reviewedSha256": "e103fe80bd13ab3b1511b0f76760383c39f94e44747c6e81bed7c170fffd9426",
+      "currentSha256": "e103fe80bd13ab3b1511b0f76760383c39f94e44747c6e81bed7c170fffd9426",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop-dark/list.png",
+      "reviewedSha256": "6b985bea108fa6d0c2446efd21f8b36004fbb1e63d4531443a64c82a8df345f8",
+      "currentSha256": "6b985bea108fa6d0c2446efd21f8b36004fbb1e63d4531443a64c82a8df345f8",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop-dark/customers-list.png",
+      "reviewedSha256": "08d6f0062fdac4507af33a71165c8c739ee86ba052058b69cdbf00fe75a3c9a7",
+      "currentSha256": "08d6f0062fdac4507af33a71165c8c739ee86ba052058b69cdbf00fe75a3c9a7",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop-dark/geo-record.png",
+      "reviewedSha256": "7f84d2f940b0812c1025d163a21694c749b7fd10c67ac0deacf73cc0b3c7e5bd",
+      "currentSha256": "7f84d2f940b0812c1025d163a21694c749b7fd10c67ac0deacf73cc0b3c7e5bd",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop-high-contrast-light/list.png",
+      "reviewedSha256": "73a8e70a5d0e8e22423e36b38005b8f0f432a2dcd054f47671585434567b8032",
+      "currentSha256": "73a8e70a5d0e8e22423e36b38005b8f0f432a2dcd054f47671585434567b8032",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop-high-contrast-light/customers-list.png",
+      "reviewedSha256": "978aaeb0d9176d2236b04e7ebbae8bfc3ed3f2cb3c688b0b4baa0fc2d53de250",
+      "currentSha256": "978aaeb0d9176d2236b04e7ebbae8bfc3ed3f2cb3c688b0b4baa0fc2d53de250",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop-high-contrast-light/geo-record.png",
+      "reviewedSha256": "b5e3355727c70085f58c4d2ff3cdf656597cc89f1e0ae7a87a1445308afc8469",
+      "currentSha256": "b5e3355727c70085f58c4d2ff3cdf656597cc89f1e0ae7a87a1445308afc8469",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop-high-contrast-dark/list.png",
+      "reviewedSha256": "d6e450fff5df6c3a51f620682b48038d33bee8fe00108090ae390e0e87d72552",
+      "currentSha256": "d6e450fff5df6c3a51f620682b48038d33bee8fe00108090ae390e0e87d72552",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop-high-contrast-dark/record.png",
+      "reviewedSha256": "5b600363bdeeabf12bd1f4268d8443f1ccf70a386408a8dbca0bdaeb8a460561",
+      "currentSha256": "5b600363bdeeabf12bd1f4268d8443f1ccf70a386408a8dbca0bdaeb8a460561",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop-high-contrast-dark/customers-list.png",
+      "reviewedSha256": "65505f1144503454a16d35f05ba1eabf82be50451065cc3b2dbde2d6f5243a3f",
+      "currentSha256": "65505f1144503454a16d35f05ba1eabf82be50451065cc3b2dbde2d6f5243a3f",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop-high-contrast-dark/geo-record.png",
+      "reviewedSha256": "bb66e97a72a89dadd91efd152a7b2dd637837b6b86d71d1af4c11e5f164e866f",
+      "currentSha256": "bb66e97a72a89dadd91efd152a7b2dd637837b6b86d71d1af4c11e5f164e866f",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/mobile-rtl/list.png",
+      "reviewedSha256": "4ed06316c4b1c80291585bf82c2fbc548ad1e71043d3484780290137402a29a9",
+      "currentSha256": "4ed06316c4b1c80291585bf82c2fbc548ad1e71043d3484780290137402a29a9",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/mobile-rtl/customers-list.png",
+      "reviewedSha256": "2f6781cb1a01eda83e694a26ac31a3f5de7e443bb467ef6ec53e5708b67dc0f2",
+      "currentSha256": "2f6781cb1a01eda83e694a26ac31a3f5de7e443bb467ef6ec53e5708b67dc0f2",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/mobile-rtl/geo-list.png",
+      "reviewedSha256": "2558cf2e5887e0691a90d2d97fb2025337ed381325d86081d6a8158e3a4c242a",
+      "currentSha256": "2558cf2e5887e0691a90d2d97fb2025337ed381325d86081d6a8158e3a4c242a",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/mobile-rtl/geo-record.png",
+      "reviewedSha256": "93cd30c5bd0df91f7130e9196f6c935676d1f51596f0c500ad7a48c5f5713e3a",
+      "currentSha256": "93cd30c5bd0df91f7130e9196f6c935676d1f51596f0c500ad7a48c5f5713e3a",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop-reduced-motion/list.png",
+      "reviewedSha256": "ef3f024d8846a80db3c258031fd6c97bdab57fb71fae4b357007331ef27a34e9",
+      "currentSha256": "ef3f024d8846a80db3c258031fd6c97bdab57fb71fae4b357007331ef27a34e9",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop-reduced-motion/customers-list.png",
+      "reviewedSha256": "d8ebb27eacf75ffe8fa2c4cf48a5b58ada51899de4a794cf4add19c1d4dd1011",
+      "currentSha256": "d8ebb27eacf75ffe8fa2c4cf48a5b58ada51899de4a794cf4add19c1d4dd1011",
+      "identical": true
+    },
+    {
+      "path": "tests/parity.spec.mjs-snapshots/desktop-reduced-motion/geo-record.png",
+      "reviewedSha256": "c47c83510b0c4096f958b971d7f56a5c7eef9f4add6d4f8e97a7727a2f768abe",
+      "currentSha256": "c47c83510b0c4096f958b971d7f56a5c7eef9f4add6d4f8e97a7727a2f768abe",
+      "identical": true
+    }
+  ]
+}

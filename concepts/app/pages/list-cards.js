@@ -1,3 +1,4 @@
+import {uiLocale} from '../core/locale.js'
 import {DATA_TOOLBAR_BUTTON_CLASS} from '../components/data-list/list.js'
 import {renderDataListRowActionMenu as renderSharedDataListRowActionMenu} from '../components/data-list/views.js'
 import {encodeHtml} from '../core/locale.js'
@@ -15,7 +16,7 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
   }
 
   function invoiceStatusBadge(status) {
-    return `<span class="badge invoice-status data-[s=open]:bg-[var(--st-open-bg)] data-[s=open]:text-[var(--st-open-ink)] data-[s=draft]:bg-[var(--st-draft-bg)] data-[s=draft]:text-[var(--st-draft-ink)] data-[s=pending]:bg-[var(--st-pend-bg)] data-[s=pending]:text-[var(--st-pend-ink)] data-[s=posted]:bg-[var(--st-post-bg)] data-[s=posted]:text-[var(--st-post-ink)] data-[s=returned]:bg-[var(--st-retn-bg)] data-[s=returned]:text-[var(--st-retn-ink)] data-[s=canceled]:bg-[var(--st-canc-bg)] data-[s=canceled]:text-[var(--st-canc-ink)]" data-s="${encodeHtml(invoiceStatusKey(status))}">${encodeHtml(status)}</span>`
+    return `<span class="badge invoice-status data-[s=open]:bg-[var(--st-open-bg)] data-[s=open]:text-[var(--st-open-ink)] data-[s=draft]:bg-[var(--st-draft-bg)] data-[s=draft]:text-[var(--st-draft-ink)] data-[s=pending]:bg-[var(--st-pend-bg)] data-[s=pending]:text-[var(--st-pend-ink)] data-[s=posted]:bg-[var(--st-post-bg)] data-[s=posted]:text-[var(--st-post-ink)] data-[s=returned]:bg-[var(--st-retn-bg)] data-[s=returned]:text-[var(--st-retn-ink)] data-[s=canceled]:bg-[var(--st-canc-bg)] data-[s=canceled]:text-[var(--st-canc-ink)] data-[s=inactive]:bg-[var(--st-inac-bg)] data-[s=inactive]:text-[var(--st-inac-ink)]" data-s="${encodeHtml(invoiceStatusKey(status))}">${encodeHtml(uiLocale.t('Invoice status: ' + status, status))}</span>`
   }
 
   function customerRecordCardModel(row) {

@@ -1,0 +1,46 @@
+
+Running 1 test using 1 worker
+
+(node:60955) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [desktop] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values
+  1) [desktop] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator:  locator('.list-view .data-page-manage').locator('.data-manage-submenu').filter({ has: locator('[data-list-manage-statistics-concept]') }).locator(':scope > summary small')
+    Expected: "بطاقات متوازنة"
+    Received: "Balanced cards"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveText" locator('.list-view .data-page-manage').locator('.data-manage-submenu').filter({ has: locator('[data-list-manage-statistics-concept]') }).locator(':scope > summary small') with timeout 5000ms
+      - waiting for locator('.list-view .data-page-manage').locator('.data-manage-submenu').filter({ has: locator('[data-list-manage-statistics-concept]') }).locator(':scope > summary small')
+        14 × locator resolved to <small class="text-xs font-normal text-muted">Balanced cards</small>
+           - unexpected value "Balanced cards"
+
+
+      11 |   await expect(menu.locator('[data-list-manage-action="save-layout"] strong')).toHaveText('حفظ تخطيط الجدول');
+      12 |   const statistics = menu.locator('.data-manage-submenu').filter({has:page.locator('[data-list-manage-statistics-concept]')});
+    > 13 |   await expect(statistics.locator(':scope > summary small')).toHaveText('بطاقات متوازنة');
+         |                                                              ^
+      14 |   await expect(statistics.locator('label')).toHaveText(['بطاقات متوازنة','مساحة عمل تشغيلية','مؤشرات أداء تحليلية']);
+      15 |   const borders = menu.locator('.data-manage-submenu').filter({has:page.locator('[data-list-manage-border]')});
+      16 |   await borders.locator(':scope > summary').click();
+        at /Users/majedsiefalnasr/Documents/Work/Ultimate-Solutions-EGY/skey/skey-figma/tests/delivery-locale.spec.mjs:13:62
+
+    Error Context: ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/style-label-red-out/delivery-locale-Arabic-inv-dd54d-hout-changing-border-values-desktop/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/style-label-red-out/delivery-locale-Arabic-inv-dd54d-hout-changing-border-values-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../private/tmp/skey-remediation-20261018-fux37ka6/style-label-red-out/delivery-locale-Arabic-inv-dd54d-hout-changing-border-values-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    [desktop] › tests/delivery-locale.spec.mjs:4:1 › Arabic invoice Manage menu translates preferences without changing border values 

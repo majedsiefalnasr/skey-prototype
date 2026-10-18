@@ -1,0 +1,3096 @@
+{
+  "version": 1,
+  "status": "PROPOSED — approval required; no capture authorized",
+  "sourceRevision": "d031fb2a614ed354bff6fe96a10e35c2c6279642",
+  "snapshotPathTemplate": "tests/visual-coverage.spec.mjs-snapshots/{projectName}/{name}",
+  "plannedNewImages": 128,
+  "existingSnapshotsReused": 0,
+  "existingSnapshotsUpdated": 0,
+  "runtime": {
+    "browser": "Chromium installed with @playwright/test 1.63.0; pin installed revision when capture runner is added",
+    "deviceScaleFactor": 1,
+    "timezoneId": "Africa/Cairo",
+    "locale": "en-US",
+    "browserDateFixed": "2026-10-13T10:24:00.000Z",
+    "prototypeNow": "2026-10-13T13:24",
+    "clockMethod": "page.clock.setFixedTime (Date fixed; timers continue)",
+    "captureOptions": {
+      "animations": "disabled",
+      "caret": "hide",
+      "scale": "css",
+      "fullPage": false
+    },
+    "workers": 2,
+    "retries": 0,
+    "serve": "Build once, freeze dist, serve copy on isolated localhost port; use PARITY_URL; caffeinate -dims",
+    "browserRevisions": [
+      {
+        "name": "chromium",
+        "revision": "1243",
+        "browserVersion": "153.0.8010.12"
+      },
+      {
+        "name": "chromium-headless-shell",
+        "revision": "1243",
+        "browserVersion": "153.0.8010.12"
+      }
+    ]
+  },
+  "projects": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "colorScheme": "light",
+      "contrast": "no-preference",
+      "isMobile": false,
+      "hasTouch": false,
+      "deviceScaleFactor": 1,
+      "reducedMotion": "reduce",
+      "locale": "en-US",
+      "timezoneId": "Africa/Cairo",
+      "applicationLocale": "en",
+      "effectiveDirection": "ltr",
+      "invoiceViewportOverride": null
+    },
+    {
+      "name": "mobile-touch",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "colorScheme": "light",
+      "contrast": "no-preference",
+      "isMobile": true,
+      "hasTouch": true,
+      "deviceScaleFactor": 1,
+      "reducedMotion": "reduce",
+      "locale": "en-US",
+      "timezoneId": "Africa/Cairo",
+      "applicationLocale": "en",
+      "effectiveDirection": "ltr",
+      "invoiceViewportOverride": {
+        "width": 390,
+        "height": 1200
+      }
+    },
+    {
+      "name": "desktop-dark",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "colorScheme": "dark",
+      "contrast": "no-preference",
+      "isMobile": false,
+      "hasTouch": false,
+      "deviceScaleFactor": 1,
+      "reducedMotion": "reduce",
+      "locale": "en-US",
+      "timezoneId": "Africa/Cairo",
+      "applicationLocale": "en",
+      "effectiveDirection": "ltr",
+      "invoiceViewportOverride": null
+    },
+    {
+      "name": "desktop-high-contrast-light",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "colorScheme": "light",
+      "contrast": "more",
+      "isMobile": false,
+      "hasTouch": false,
+      "deviceScaleFactor": 1,
+      "reducedMotion": "reduce",
+      "locale": "en-US",
+      "timezoneId": "Africa/Cairo",
+      "applicationLocale": "en",
+      "effectiveDirection": "ltr",
+      "invoiceViewportOverride": null
+    },
+    {
+      "name": "desktop-high-contrast-dark",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "colorScheme": "dark",
+      "contrast": "more",
+      "isMobile": false,
+      "hasTouch": false,
+      "deviceScaleFactor": 1,
+      "reducedMotion": "reduce",
+      "locale": "en-US",
+      "timezoneId": "Africa/Cairo",
+      "applicationLocale": "en",
+      "effectiveDirection": "ltr",
+      "invoiceViewportOverride": null
+    },
+    {
+      "name": "mobile-rtl",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "colorScheme": "light",
+      "contrast": "no-preference",
+      "isMobile": true,
+      "hasTouch": true,
+      "deviceScaleFactor": 1,
+      "reducedMotion": "reduce",
+      "locale": "en-US",
+      "timezoneId": "Africa/Cairo",
+      "applicationLocale": "ar",
+      "effectiveDirection": "rtl",
+      "invoiceViewportOverride": {
+        "width": 390,
+        "height": 1200
+      }
+    },
+    {
+      "name": "desktop-reduced-motion",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "colorScheme": "light",
+      "contrast": "no-preference",
+      "isMobile": false,
+      "hasTouch": false,
+      "deviceScaleFactor": 1,
+      "reducedMotion": "reduce",
+      "locale": "en-US",
+      "timezoneId": "Africa/Cairo",
+      "applicationLocale": "en",
+      "effectiveDirection": "ltr",
+      "invoiceViewportOverride": null
+    }
+  ],
+  "commonSetup": [
+    "New isolated browser context/page for each image; no reuse of state from earlier captures.",
+    "Clear localStorage and sessionStorage before application boot; set skey-proto-state signed-in=true, launchpad=true, simulate-loading=false; signed-in=false for sign-in states.",
+    "Theme=system, density=default, content-layout=fluid, interface-scale=100, administrator role; remaining prototype controls use pinned source defaults.",
+    "Hide prototype kit using #kit-hide; wait for skeletons to finish and document.fonts.ready; allow two animation frames.",
+    "Pointer rests at (0,0), no hovered target, no open menu unless the capture explicitly requires it.",
+    "For mobile-rtl dispatch the existing #rtl change handler with checked=true; assert html lang=ar, dir=rtl and an Arabic page/pane label. English uses effective LTR; never set dir directly.",
+    "Scroll positions for every fresh page start at origin; explicit per-state nested scroll exceptions below. Do not change CSS, replace rendered text, seed computed totals or mask defects.",
+    "Before a new image write, fail if its destination already exists; never use snapshot updates on existing directories."
+  ],
+  "fixtures": {
+    "collaboration": {
+      "source": "concepts/app/prototype/fixtures/collaboration.js",
+      "sha256": "9a90cd47f575cbe5619d211304cb2f584072f8b4f5081f8065a611e172d780ff",
+      "schema": {
+        "version": 1,
+        "seq": 1000,
+        "folders": []
+      },
+      "entityIds": {
+        "note": [
+          "note-1",
+          "note-2",
+          "note-3",
+          "note-4",
+          "note-5"
+        ],
+        "activity": [
+          "act-1",
+          "act-2",
+          "act-3",
+          "act-4",
+          "act-5",
+          "act-6"
+        ],
+        "event": [
+          "evt-1",
+          "evt-2",
+          "evt-3",
+          "evt-4"
+        ],
+        "mail": [
+          "e1",
+          "e2",
+          "e3",
+          "e4",
+          "e5",
+          "mail-s1",
+          "mail-d1"
+        ],
+        "person": [
+          "per-1",
+          "per-2",
+          "per-3",
+          "per-4"
+        ]
+      },
+      "links": [
+        "lnk-1",
+        "lnk-2",
+        "lnk-3",
+        "lnk-4",
+        "lnk-5",
+        "lnk-6",
+        "lnk-7",
+        "lnk-8"
+      ],
+      "setup": "No saved skey-proto-collab; application loads tracked COLLAB_SEED exactly. No mutation except e1 mark-read in reading state, and an unsaved invalid evt-1 end in validation state."
+    },
+    "invoice": {
+      "route": "/sales-systems-management/sales-invoices",
+      "mode": "create",
+      "setup": [
+        "Activate first [data-list-open-record], then select #mode=create via its real change handler.",
+        "Keep initial item row; add one with #add-item-link. Populate positions by the visible table columns, not the mismatched legacy input aria-labels.",
+        "Set #invoice-discount-calculation=percent and #invoice-discount-value=10.",
+        "Add one charge with [data-invoice-adjustment=\"charge\"]; keep Freight and Before tax defaults; set [data-adjustment-value]=25. No save."
+      ],
+      "rows": [
+        {
+          "item": "VIS-001",
+          "uom": "EA",
+          "expiry": "2027-12-31",
+          "batch": "LOT-001",
+          "quantity": 1,
+          "freeQuantity": 0,
+          "unitPrice": 100,
+          "discountPercent": 0
+        },
+        {
+          "item": "VIS-002",
+          "uom": "EA",
+          "expiry": "2027-12-31",
+          "batch": "LOT-002",
+          "quantity": 1,
+          "freeQuantity": 0,
+          "unitPrice": 100,
+          "discountPercent": 0
+        }
+      ],
+      "rowInputIndices": {
+        "item": 0,
+        "uom": 1,
+        "expiry": 2,
+        "batch": 3,
+        "quantity": 4,
+        "freeQuantity": 5,
+        "availableQuantity": 6,
+        "unitPrice": 7,
+        "discountPercent": 8,
+        "taxPercent": 9,
+        "taxAmount": 10,
+        "total": 11
+      },
+      "expected": {
+        "quantitySum": 2,
+        "subtotal": 200,
+        "itemsDiscount": 0,
+        "invoiceDiscount": 20,
+        "charge": 25,
+        "tax": 0,
+        "net": 205,
+        "currency": "EGP",
+        "lineTaxPercent": 0,
+        "lineTaxAmount": 0,
+        "lineTotal": 0
+      },
+      "limitation": "Subtotal is a fixed 200 and tax is fixed zero; line monetary outputs stay zero even after entering prices. Capture actual prototype behavior; do not fabricate computed values. Nonzero-tax/line-calculation coverage is not approved or provided."
+    },
+    "signed-out": {
+      "route": "/signin",
+      "signedIn": false,
+      "savedAccounts": [],
+      "legacyCredential": null,
+      "initialEmail": "",
+      "password": "",
+      "branch": null
+    }
+  },
+  "captureStates": [
+    {
+      "name": "notes-kanban.png",
+      "fixture": "collaboration",
+      "projects": "all",
+      "target": {
+        "mode": "viewport",
+        "clip": {
+          "x": 0,
+          "y": 0,
+          "width": "project.viewport.width",
+          "height": "project.viewport.height"
+        },
+        "fullPage": false
+      },
+      "setup": [
+        "Open /help-screens/notes; default Kanban; query empty; quick=all; archived column collapsed."
+      ],
+      "assertions": [
+        ".notes-view h1 visible; Arabic الملاحظات for mobile-rtl.",
+        "Three [data-column] values draft, active, archived; archived data-collapsed=true.",
+        "Four [data-card-open] identities note-1..note-4; note-5 not shown; note-1 pinned."
+      ]
+    },
+    {
+      "name": "notes-list-archived.png",
+      "fixture": "collaboration",
+      "projects": "all",
+      "target": {
+        "mode": "viewport",
+        "clip": {
+          "x": 0,
+          "y": 0,
+          "width": "project.viewport.width",
+          "height": "project.viewport.height"
+        },
+        "fullPage": false
+      },
+      "setup": [
+        "Open /help-screens/notes.",
+        "Click .notes-view [data-view-menu] summary then [data-view-select=\"list\"].",
+        "Click .notes-view [data-quick-menu] summary then [data-quick-filter=\"archived\"]."
+      ],
+      "assertions": [
+        ".notes-view [data-notes-grid] visible; exactly one tbody tr.",
+        "Row is note-5: Old pricing assumptions; active/draft notes absent; archived quick-filter selected."
+      ]
+    },
+    {
+      "name": "activities-kanban.png",
+      "fixture": "collaboration",
+      "projects": "all",
+      "target": {
+        "mode": "viewport",
+        "clip": {
+          "x": 0,
+          "y": 0,
+          "width": "project.viewport.width",
+          "height": "project.viewport.height"
+        },
+        "fullPage": false
+      },
+      "setup": [
+        "Open /help-screens/activities; view=kanban; quick=all; query and filters empty."
+      ],
+      "assertions": [
+        ".activities-view h1 visible; Arabic الأنشطة for mobile-rtl.",
+        "Six [data-card-open] records act-1..act-6; planned=4, in_progress=1, done=1."
+      ]
+    },
+    {
+      "name": "activities-calendar-week.png",
+      "fixture": "collaboration",
+      "projects": "all",
+      "target": {
+        "mode": "viewport",
+        "clip": {
+          "x": 0,
+          "y": 0,
+          "width": "project.viewport.width",
+          "height": "project.viewport.height"
+        },
+        "fullPage": false
+      },
+      "setup": [
+        "Open /help-screens/activities.",
+        "Click [data-view-menu] summary then [data-view-select=\"calendar\"].",
+        "Week is 2026-10-11 through 2026-10-17. Set .activities-view [data-timed].scrollTop=432 (09:00 at 48 CSS px/hour).",
+        "Mobile only: native center-scroll .activities-view [data-cal-item=\"0\"] into its scroll ancestors. Desktop keeps 09:00 timeline origin."
+      ],
+      "assertions": [
+        ".activities-view [data-cal-week] visible; [data-cal-modes] [data-value=\"week\"] aria-pressed=true.",
+        "Two calendar items: act-1 at 2026-10-13 15:00 for 30 minutes; act-3 at 2026-10-15 10:00 for 60 minutes.",
+        "[data-unscheduled-notice] contains 3 unscheduled; no scheduled entity duplication.",
+        "Hit-test act-1 as visible/unobscured on every project; desktop also shows act-3. Mobile act-3 remains seeded outside the visible week strip."
+      ]
+    },
+    {
+      "name": "events-calendar-month.png",
+      "fixture": "collaboration",
+      "projects": "all",
+      "target": {
+        "mode": "viewport",
+        "clip": {
+          "x": 0,
+          "y": 0,
+          "width": "project.viewport.width",
+          "height": "project.viewport.height"
+        },
+        "fullPage": false
+      },
+      "setup": [
+        "Open /help-screens/events; default month=2026-10; no filters.",
+        "Mobile only: native center-scroll .events-view [data-date=\"2026-10-13\"] so the Tuesday column and Oct 6/13 rows are in view."
+      ],
+      "assertions": [
+        ".events-view [data-cal-month] visible; month button aria-pressed=true.",
+        "Five rendered [data-cal-item] buttons represent evt-1..evt-4; evt-4 spans Oct 29 and Oct 30.",
+        "Timed events: Monthly sales review Oct 15 10:00–11:00 and Supplier visit Oct 13 11:00–12:00.",
+        "All-day events: Company holiday Oct 6, Quarter close Oct 29–30.",
+        "Hit-test Company holiday (all-day, Oct 6) and Supplier visit (timed, Oct 13) as visible/unobscured; desktop shows all five item buttons. Mobile is a panned month segment, not the entire six-week grid."
+      ]
+    },
+    {
+      "name": "people-list.png",
+      "fixture": "collaboration",
+      "projects": "all",
+      "target": {
+        "mode": "viewport",
+        "clip": {
+          "x": 0,
+          "y": 0,
+          "width": "project.viewport.width",
+          "height": "project.viewport.height"
+        },
+        "fullPage": false
+      },
+      "setup": [
+        "Open /help-screens/people-data; default list; query, lifecycle and field filters empty."
+      ],
+      "assertions": [
+        ".people-view h1 visible; Arabic بيانات الأشخاص for mobile-rtl.",
+        "[data-people-grid] visible; four rows with [data-row-open] ids per-1..per-4.",
+        "per-3 retains Contact and Converted to Customer; no archived rows."
+      ]
+    },
+    {
+      "name": "people-cards.png",
+      "fixture": "collaboration",
+      "projects": "all",
+      "target": {
+        "mode": "viewport",
+        "clip": {
+          "x": 0,
+          "y": 0,
+          "width": "project.viewport.width",
+          "height": "project.viewport.height"
+        },
+        "fullPage": false
+      },
+      "setup": [
+        "Open /help-screens/people-data.",
+        "Click .people-view [data-view-menu] summary then [data-view-select=\"cards\"]."
+      ],
+      "assertions": [
+        ".people-view .data-card-grid visible; four [data-row-open] ids per-1..per-4.",
+        "People table absent; per-1 company Al Noor Trading and +20 100 555 0101 retained."
+      ]
+    },
+    {
+      "name": "mail-inbox-list.png",
+      "fixture": "collaboration",
+      "projects": "all",
+      "target": {
+        "mode": "viewport",
+        "clip": {
+          "x": 0,
+          "y": 0,
+          "width": "project.viewport.width",
+          "height": "project.viewport.height"
+        },
+        "fullPage": false
+      },
+      "setup": [
+        "Open /help-screens/email directly; folder=inbox; query empty; unreadOnly=false; no selected message or bulk selection."
+      ],
+      "assertions": [
+        "Five .email-list-row ids e1..e5; exactly two unread records e1/e2.",
+        "No .email-list-row[aria-current=\"true\"]; no .email-reading-subject.",
+        "At 390 px: .email-list visible and #email-reading hidden. Desktop: empty reading pane visible."
+      ]
+    },
+    {
+      "name": "mail-reading-e1.png",
+      "fixture": "collaboration",
+      "projects": "all",
+      "target": {
+        "mode": "viewport",
+        "clip": {
+          "x": 0,
+          "y": 0,
+          "width": "project.viewport.width",
+          "height": "project.viewport.height"
+        },
+        "fullPage": false
+      },
+      "setup": [
+        "Open /help-screens/email directly.",
+        "Click .email-list-row[data-id=\"e1\"]; reading-scroll and list-scroll at top; quick reply empty."
+      ],
+      "assertions": [
+        "e1 selected; .email-reading-subject = Payment scheduled for Sales Invoice 126.",
+        "Finance Team / finance@lastchance.local; invoice-126.pdf / 214 KB; body names 20,000.00 EGP.",
+        "e1 marked read, e2 remains unread. #email-quick-reply empty; no reply draft created.",
+        "Mobile: list hidden, #email-reading visible, [data-mail-back] available; desktop list remains visible."
+      ]
+    },
+    {
+      "name": "mail-compose-draft.png",
+      "fixture": "collaboration",
+      "projects": "all",
+      "target": {
+        "mode": "viewport",
+        "clip": {
+          "x": 0,
+          "y": 0,
+          "width": "project.viewport.width",
+          "height": "project.viewport.height"
+        },
+        "fullPage": false
+      },
+      "setup": [
+        "Open /help-screens/email.",
+        "Select drafts using [data-folder=\"drafts\"] on desktop or [data-folder-select] on mobile.",
+        "Click .email-list-row[data-id=\"mail-d1\"]; do not type, save, send or create a new draft."
+      ],
+      "assertions": [
+        "#email-compose-subject = Price list update.",
+        "One To recipient chip: Mariam Adel / mariam@lastchance.local; no Cc.",
+        "Body paragraphs: Hi Mariam, / The revised October price list is attached for your review.",
+        "[data-draft-status] refers to seeded savedAt=2026-10-13T12:10; no autosave timer running; store remains seven mail entities."
+      ]
+    },
+    {
+      "name": "note-editor-related.png",
+      "fixture": "collaboration",
+      "projects": "all",
+      "target": {
+        "mode": "element",
+        "locator": "#collab-panel",
+        "padding": 0,
+        "clipRule": "floor(left + window.scrollX), floor(top + window.scrollY), ceil(right + window.scrollX) - x, ceil(bottom + window.scrollY) - y",
+        "scroll": "native scrollIntoView({block: center, inline: nearest, behavior: instant}); retain target-in-visualViewport and clipping-ancestor gates",
+        "viewport": "invoice override only for invoice states"
+      },
+      "setup": [
+        "Open /help-screens/notes.",
+        "Click [data-card-open=\"note-1\"] then #collab-panel [data-panel-edit].",
+        "Set #collab-panel [data-panel-form] > div scrollTop=scrollHeight, so both related rows are in view; retain the header and footer."
+      ],
+      "assertions": [
+        "#collab-panel.open visible; #note-title value Payment terms for Al Noor; body retains 30 days net and 2% early-payment wording.",
+        "[data-panel-related] contains exactly two [data-related-row] refs: person per-1 and activity act-1; both rows visible in the scrollport.",
+        "Editor controls and Save/Cancel present; no field changes or store writes."
+      ]
+    },
+    {
+      "name": "event-editor-validation.png",
+      "fixture": "collaboration",
+      "projects": "all",
+      "target": {
+        "mode": "element",
+        "locator": "#collab-panel",
+        "padding": 0,
+        "clipRule": "floor(left + window.scrollX), floor(top + window.scrollY), ceil(right + window.scrollX) - x, ceil(bottom + window.scrollY) - y",
+        "scroll": "native scrollIntoView({block: center, inline: nearest, behavior: instant}); retain target-in-visualViewport and clipping-ancestor gates",
+        "viewport": "invoice override only for invoice states"
+      },
+      "setup": [
+        "Open /help-screens/events.",
+        "Click [data-cal-item] containing Monthly sales review, then [data-panel-edit].",
+        "Change only #event-end to 2026-10-15T09:00; click [data-panel-save].",
+        "Keep #event-end focused; ensure #event-end-error is in the panel scrollport."
+      ],
+      "assertions": [
+        "#event-title = Monthly sales review; #event-start=2026-10-15T10:00; #event-end=2026-10-15T09:00.",
+        "#event-end aria-invalid=true, aria-describedby=event-end-error; visible error End must be after start. (current fallback also in Arabic UI).",
+        "Panel remains open; entity evt-1 still saved as 10:00–11:00; no confirmation dialog or toast."
+      ]
+    },
+    {
+      "name": "invoice-lines-start.png",
+      "fixture": "invoice",
+      "projects": "all",
+      "target": {
+        "mode": "element",
+        "locator": ".rec-items",
+        "padding": 0,
+        "clipRule": "floor(left + window.scrollX), floor(top + window.scrollY), ceil(right + window.scrollX) - x, ceil(bottom + window.scrollY) - y",
+        "scroll": "native scrollIntoView({block: center, inline: nearest, behavior: instant}); retain target-in-visualViewport and clipping-ancestor gates",
+        "viewport": "invoice override only for invoice states"
+      },
+      "setup": [
+        "Apply invoice fixture below.",
+        "Blur active input; scroll .rec-items into the actual .canvas using native center alignment.",
+        "Set .inv-grid-wrap.scrollLeft=0: logical leading edge for both LTR and RTL."
+      ],
+      "assertions": [
+        "Exactly two #items-body > tr with VIS-001/VIS-002; quantities 1/1; #items-total-qty=2.",
+        "Grid header and both seeded rows are within the canvas clipping rect.",
+        "At mobile logical leading edge, Item/UoM/Expiry headers and cells are visible; quantity and price values are verified in DOM, not claimed to be visible in this crop. Desktop all columns fit.",
+        "Header position is currently static; thead.bottom equals firstRow.top within 1 px; relevant cell centers are unobscured by hit-testing."
+      ]
+    },
+    {
+      "name": "invoice-lines-end.png",
+      "fixture": "invoice",
+      "projects": [
+        "mobile-touch",
+        "mobile-rtl"
+      ],
+      "target": {
+        "mode": "element",
+        "locator": ".rec-items",
+        "padding": 0,
+        "clipRule": "floor(left + window.scrollX), floor(top + window.scrollY), ceil(right + window.scrollX) - x, ceil(bottom + window.scrollY) - y",
+        "scroll": "native scrollIntoView({block: center, inline: nearest, behavior: instant}); retain target-in-visualViewport and clipping-ancestor gates",
+        "viewport": "invoice override only for invoice states"
+      },
+      "setup": [
+        "Apply same invoice fixture.",
+        "Scroll .rec-items into canvas; set .inv-grid-wrap.scrollLeft = (RTL ? -1 : 1) * (scrollWidth-clientWidth)."
+      ],
+      "assertions": [
+        "Logical trailing edge reached within 1 px; leading and trailing crops differ.",
+        "Both rows retain unit price 100, discount 0, displayed tax fields 0 and line Total 0.",
+        "Tax Amt/Total headers and corresponding zero-valued cells are visible and unobscured in the grid scrollport. Unit price/discount remain verified DOM state, not fully covered by this narrow crop."
+      ]
+    },
+    {
+      "name": "invoice-charges.png",
+      "fixture": "invoice",
+      "projects": "all",
+      "target": {
+        "mode": "element",
+        "locator": ".rec-adjustments",
+        "padding": 0,
+        "clipRule": "floor(left + window.scrollX), floor(top + window.scrollY), ceil(right + window.scrollX) - x, ceil(bottom + window.scrollY) - y",
+        "scroll": "native scrollIntoView({block: center, inline: nearest, behavior: instant}); retain target-in-visualViewport and clipping-ancestor gates",
+        "viewport": "invoice override only for invoice states"
+      },
+      "setup": [
+        "Apply same invoice fixture; blur active input.",
+        "Native scroll .rec-adjustments into canvas center; do not expand or restyle it."
+      ],
+      "assertions": [
+        "Exactly one [data-adjustment-kind=\"charge\"] row: Freight, Before tax, Amount=25.",
+        "Section title #invoice-adjustments-title and charge fields visible in canvas.",
+        "No empty-state message and no uncommitted overlay covering the target."
+      ]
+    },
+    {
+      "name": "invoice-tax-totals.png",
+      "fixture": "invoice",
+      "projects": "all",
+      "target": {
+        "mode": "element",
+        "locator": ".rec-summary",
+        "padding": 0,
+        "clipRule": "floor(left + window.scrollX), floor(top + window.scrollY), ceil(right + window.scrollX) - x, ceil(bottom + window.scrollY) - y",
+        "scroll": "native scrollIntoView({block: center, inline: nearest, behavior: instant}); retain target-in-visualViewport and clipping-ancestor gates",
+        "viewport": "invoice override only for invoice states"
+      },
+      "setup": [
+        "Apply same invoice fixture; blur active input.",
+        "Native scroll .rec-summary into canvas center."
+      ],
+      "assertions": [
+        "#invoice-summary-subtotal = 200.00; #invoice-summary-items-discount = − 0.00.",
+        "Invoice discount Percent=10; #invoice-summary-discount = − 20.00.",
+        "#invoice-summary-charges = + 25.00; #invoice-summary-tax = + 0.00; #invoice-summary-net = 205.00 EGP.",
+        "All summary outputs and labels fit inside the target and canvas; zero-tax demo limitation retained."
+      ]
+    },
+    {
+      "name": "signin-email.png",
+      "fixture": "signed-out",
+      "projects": "all",
+      "target": {
+        "mode": "viewport",
+        "clip": {
+          "x": 0,
+          "y": 0,
+          "width": "project.viewport.width",
+          "height": "project.viewport.height"
+        },
+        "fullPage": false
+      },
+      "setup": [
+        "Open /signin with no saved accounts and no legacy credential.",
+        "Wait for the deferred pane focus; #si-email focused and empty."
+      ],
+      "assertions": [
+        "[data-si-pane=\"1\"] visible; #si-email value empty, type=email, autocomplete=username, inputmode=email, autocapitalize=off, dir=ltr.",
+        "No error or discovery message; one Continue button; no device/workspace-search entry points."
+      ]
+    },
+    {
+      "name": "signin-unknown-workspace.png",
+      "fixture": "signed-out",
+      "projects": "all",
+      "target": {
+        "mode": "viewport",
+        "clip": {
+          "x": 0,
+          "y": 0,
+          "width": "project.viewport.width",
+          "height": "project.viewport.height"
+        },
+        "fullPage": false
+      },
+      "setup": [
+        "Open /signin; fill #si-email with unknown@acme.local; click #si-to2."
+      ],
+      "assertions": [
+        "Pane 1 stays visible; #si-email focused.",
+        "#si-discovery-message contains bdi[dir=\"ltr\"] text unknown@acme.local; exact English/Arabic workspace-not-found copy.",
+        "Visible #si-discovery [data-si-goto=\"request\"]; no authentication or Request submission.",
+        {
+          "message": {
+            "en": "We couldn't find a Skey workspace for unknown@acme.local.",
+            "ar": "لم نعثر على مساحة عمل Skey للبريد unknown@acme.local."
+          }
+        }
+      ]
+    },
+    {
+      "name": "signin-password-identity.png",
+      "fixture": "signed-out",
+      "projects": "all",
+      "target": {
+        "mode": "viewport",
+        "clip": {
+          "x": 0,
+          "y": 0,
+          "width": "project.viewport.width",
+          "height": "project.viewport.height"
+        },
+        "fullPage": false
+      },
+      "setup": [
+        "Open /signin; fill admin@lastchance.local; Continue.",
+        "Keep default Cairo HQ radio selected, click #si-branch-go; wait for #si-pass focus."
+      ],
+      "assertions": [
+        "Pane 2 visible; #si-who = admin@lastchance.local · lastchance.skeyerp.com · Cairo HQ.",
+        "#si-auth-email hidden readonly autocomplete=username, value admin@lastchance.local.",
+        "#si-pass empty, type=password, dir=ltr, autocomplete=current-password; error hidden; no saved-PIN link.",
+        "Session remains signed out; no password submission or save/PIN pane."
+      ]
+    }
+  ],
+  "resolvedTargetsFromDomOnlyPreflight": [
+    {
+      "project": "desktop",
+      "name": "notes-kanban.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "notes-list-archived.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "activities-kanban.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "activities-calendar-week.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "events-calendar-month.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "people-list.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "people-cards.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "mail-inbox-list.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "mail-reading-e1.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "mail-compose-draft.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "note-editor-related.png",
+      "target": "#collab-panel",
+      "observedDocumentRect": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "event-editor-validation.png",
+      "target": "#collab-panel",
+      "observedDocumentRect": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "invoice-lines-start.png",
+      "target": ".rec-items",
+      "observedDocumentRect": {
+        "x": 344,
+        "y": 419.296875,
+        "width": 1068,
+        "height": 208.265625
+      },
+      "proposedClip": {
+        "x": 344,
+        "y": 419,
+        "width": 1068,
+        "height": 209
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "invoice-charges.png",
+      "target": ".rec-adjustments",
+      "observedDocumentRect": {
+        "x": 344,
+        "y": 534.5625,
+        "width": 632,
+        "height": 155.4375
+      },
+      "proposedClip": {
+        "x": 344,
+        "y": 534,
+        "width": 632,
+        "height": 156
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "invoice-tax-totals.png",
+      "target": ".rec-summary",
+      "observedDocumentRect": {
+        "x": 992,
+        "y": 534.5625,
+        "width": 420,
+        "height": 282.171875
+      },
+      "proposedClip": {
+        "x": 992,
+        "y": 534,
+        "width": 420,
+        "height": 283
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "signin-email.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "signin-unknown-workspace.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop",
+      "name": "signin-password-identity.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "notes-kanban.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "notes-list-archived.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "activities-kanban.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "activities-calendar-week.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "events-calendar-month.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "people-list.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "people-cards.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "mail-inbox-list.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "mail-reading-e1.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "mail-compose-draft.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "note-editor-related.png",
+      "target": "#collab-panel",
+      "observedDocumentRect": {
+        "x": 23.40625,
+        "y": 0,
+        "width": 366.59375,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 23,
+        "y": 0,
+        "width": 367,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "event-editor-validation.png",
+      "target": "#collab-panel",
+      "observedDocumentRect": {
+        "x": 23.40625,
+        "y": 0,
+        "width": 366.59375,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 23,
+        "y": 0,
+        "width": 367,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "invoice-lines-start.png",
+      "target": ".rec-items",
+      "observedDocumentRect": {
+        "x": 84,
+        "y": 566,
+        "width": 274,
+        "height": 241.96875
+      },
+      "proposedClip": {
+        "x": 84,
+        "y": 566,
+        "width": 274,
+        "height": 242
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "invoice-lines-end.png",
+      "target": ".rec-items",
+      "observedDocumentRect": {
+        "x": 84,
+        "y": 566,
+        "width": 274,
+        "height": 241.96875
+      },
+      "proposedClip": {
+        "x": 84,
+        "y": 566,
+        "width": 274,
+        "height": 242
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "invoice-charges.png",
+      "target": ".rec-adjustments",
+      "observedDocumentRect": {
+        "x": 84,
+        "y": 495.96875,
+        "width": 274,
+        "height": 381.4375
+      },
+      "proposedClip": {
+        "x": 84,
+        "y": 495,
+        "width": 274,
+        "height": 383
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "invoice-tax-totals.png",
+      "target": ".rec-summary",
+      "observedDocumentRect": {
+        "x": 84,
+        "y": 577.40625,
+        "width": 274,
+        "height": 296.171875
+      },
+      "proposedClip": {
+        "x": 84,
+        "y": 577,
+        "width": 274,
+        "height": 297
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "signin-email.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "signin-unknown-workspace.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-touch",
+      "name": "signin-password-identity.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "notes-kanban.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "notes-list-archived.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "activities-kanban.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "activities-calendar-week.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "events-calendar-month.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "people-list.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "people-cards.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "mail-inbox-list.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "mail-reading-e1.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "mail-compose-draft.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "note-editor-related.png",
+      "target": "#collab-panel",
+      "observedDocumentRect": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "event-editor-validation.png",
+      "target": "#collab-panel",
+      "observedDocumentRect": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "invoice-lines-start.png",
+      "target": ".rec-items",
+      "observedDocumentRect": {
+        "x": 344,
+        "y": 419.296875,
+        "width": 1068,
+        "height": 208.265625
+      },
+      "proposedClip": {
+        "x": 344,
+        "y": 419,
+        "width": 1068,
+        "height": 209
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "invoice-charges.png",
+      "target": ".rec-adjustments",
+      "observedDocumentRect": {
+        "x": 344,
+        "y": 534.5625,
+        "width": 632,
+        "height": 155.4375
+      },
+      "proposedClip": {
+        "x": 344,
+        "y": 534,
+        "width": 632,
+        "height": 156
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "invoice-tax-totals.png",
+      "target": ".rec-summary",
+      "observedDocumentRect": {
+        "x": 992,
+        "y": 534.5625,
+        "width": 420,
+        "height": 282.171875
+      },
+      "proposedClip": {
+        "x": 992,
+        "y": 534,
+        "width": 420,
+        "height": 283
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "signin-email.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "signin-unknown-workspace.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-dark",
+      "name": "signin-password-identity.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "notes-kanban.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "notes-list-archived.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "activities-kanban.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "activities-calendar-week.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "events-calendar-month.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "people-list.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "people-cards.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "mail-inbox-list.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "mail-reading-e1.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "mail-compose-draft.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "note-editor-related.png",
+      "target": "#collab-panel",
+      "observedDocumentRect": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "event-editor-validation.png",
+      "target": "#collab-panel",
+      "observedDocumentRect": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "invoice-lines-start.png",
+      "target": ".rec-items",
+      "observedDocumentRect": {
+        "x": 344,
+        "y": 419.296875,
+        "width": 1068,
+        "height": 208.265625
+      },
+      "proposedClip": {
+        "x": 344,
+        "y": 419,
+        "width": 1068,
+        "height": 209
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "invoice-charges.png",
+      "target": ".rec-adjustments",
+      "observedDocumentRect": {
+        "x": 344,
+        "y": 534.5625,
+        "width": 632,
+        "height": 155.4375
+      },
+      "proposedClip": {
+        "x": 344,
+        "y": 534,
+        "width": 632,
+        "height": 156
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "invoice-tax-totals.png",
+      "target": ".rec-summary",
+      "observedDocumentRect": {
+        "x": 992,
+        "y": 534.5625,
+        "width": 420,
+        "height": 282.171875
+      },
+      "proposedClip": {
+        "x": 992,
+        "y": 534,
+        "width": 420,
+        "height": 283
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "signin-email.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "signin-unknown-workspace.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-light",
+      "name": "signin-password-identity.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "notes-kanban.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "notes-list-archived.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "activities-kanban.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "activities-calendar-week.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "events-calendar-month.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "people-list.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "people-cards.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "mail-inbox-list.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "mail-reading-e1.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "mail-compose-draft.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "note-editor-related.png",
+      "target": "#collab-panel",
+      "observedDocumentRect": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "event-editor-validation.png",
+      "target": "#collab-panel",
+      "observedDocumentRect": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "invoice-lines-start.png",
+      "target": ".rec-items",
+      "observedDocumentRect": {
+        "x": 344,
+        "y": 419.296875,
+        "width": 1068,
+        "height": 208.265625
+      },
+      "proposedClip": {
+        "x": 344,
+        "y": 419,
+        "width": 1068,
+        "height": 209
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "invoice-charges.png",
+      "target": ".rec-adjustments",
+      "observedDocumentRect": {
+        "x": 344,
+        "y": 534.5625,
+        "width": 632,
+        "height": 155.4375
+      },
+      "proposedClip": {
+        "x": 344,
+        "y": 534,
+        "width": 632,
+        "height": 156
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "invoice-tax-totals.png",
+      "target": ".rec-summary",
+      "observedDocumentRect": {
+        "x": 992,
+        "y": 534.5625,
+        "width": 420,
+        "height": 282.171875
+      },
+      "proposedClip": {
+        "x": 992,
+        "y": 534,
+        "width": 420,
+        "height": 283
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "signin-email.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "signin-unknown-workspace.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-high-contrast-dark",
+      "name": "signin-password-identity.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "notes-kanban.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "notes-list-archived.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "activities-kanban.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "activities-calendar-week.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "events-calendar-month.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "people-list.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "people-cards.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "mail-inbox-list.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "mail-reading-e1.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "mail-compose-draft.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "note-editor-related.png",
+      "target": "#collab-panel",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 366.59375,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 367,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "event-editor-validation.png",
+      "target": "#collab-panel",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 366.59375,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 367,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "invoice-lines-start.png",
+      "target": ".rec-items",
+      "observedDocumentRect": {
+        "x": 32,
+        "y": 604,
+        "width": 274,
+        "height": 241.96875
+      },
+      "proposedClip": {
+        "x": 32,
+        "y": 604,
+        "width": 274,
+        "height": 242
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "invoice-lines-end.png",
+      "target": ".rec-items",
+      "observedDocumentRect": {
+        "x": 32,
+        "y": 604,
+        "width": 274,
+        "height": 241.96875
+      },
+      "proposedClip": {
+        "x": 32,
+        "y": 604,
+        "width": 274,
+        "height": 242
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "invoice-charges.png",
+      "target": ".rec-adjustments",
+      "observedDocumentRect": {
+        "x": 32,
+        "y": 533.96875,
+        "width": 274,
+        "height": 381.4375
+      },
+      "proposedClip": {
+        "x": 32,
+        "y": 533,
+        "width": 274,
+        "height": 383
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "invoice-tax-totals.png",
+      "target": ".rec-summary",
+      "observedDocumentRect": {
+        "x": 32,
+        "y": 653.40625,
+        "width": 274,
+        "height": 296.171875
+      },
+      "proposedClip": {
+        "x": 32,
+        "y": 653,
+        "width": 274,
+        "height": 297
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "signin-email.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "signin-unknown-workspace.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "mobile-rtl",
+      "name": "signin-password-identity.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "notes-kanban.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "notes-list-archived.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "activities-kanban.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "activities-calendar-week.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "events-calendar-month.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "people-list.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "people-cards.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "mail-inbox-list.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "mail-reading-e1.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "mail-compose-draft.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "note-editor-related.png",
+      "target": "#collab-panel",
+      "observedDocumentRect": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "event-editor-validation.png",
+      "target": "#collab-panel",
+      "observedDocumentRect": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 880,
+        "y": 0,
+        "width": 560,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "invoice-lines-start.png",
+      "target": ".rec-items",
+      "observedDocumentRect": {
+        "x": 344,
+        "y": 419.296875,
+        "width": 1068,
+        "height": 208.265625
+      },
+      "proposedClip": {
+        "x": 344,
+        "y": 419,
+        "width": 1068,
+        "height": 209
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "invoice-charges.png",
+      "target": ".rec-adjustments",
+      "observedDocumentRect": {
+        "x": 344,
+        "y": 534.5625,
+        "width": 632,
+        "height": 155.4375
+      },
+      "proposedClip": {
+        "x": 344,
+        "y": 534,
+        "width": 632,
+        "height": 156
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "invoice-tax-totals.png",
+      "target": ".rec-summary",
+      "observedDocumentRect": {
+        "x": 992,
+        "y": 534.5625,
+        "width": 420,
+        "height": 282.171875
+      },
+      "proposedClip": {
+        "x": 992,
+        "y": 534,
+        "width": 420,
+        "height": 283
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "signin-email.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "signin-unknown-workspace.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    },
+    {
+      "project": "desktop-reduced-motion",
+      "name": "signin-password-identity.png",
+      "target": "viewport",
+      "observedDocumentRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "proposedClip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "fullCropInsideViewportAndAncestors": true
+    }
+  ],
+  "readiness": {
+    "domPreflight": "128/128 passed; no screenshot APIs called",
+    "mailComparison": "7/7 projects: proposed Inbox has selected=null; existing parity selects e1 via Notifications. Mobile list vs detail visibility also differs. Do not reuse.",
+    "pickerReview": "Authentication enforcement holds; eligibility/error-copy adjustment proposed separately, not implemented.",
+    "approvalIncludes": [
+      "All three sign-in states, excluding saved PIN",
+      "390x1200 mobile viewport only for invoice detail crops",
+      "128 new files in a separate namespace; no baseline refresh"
+    ],
+    "additionalDomChecks": {
+      "calendar": 14,
+      "visibilityDetails": 17,
+      "screenshotsCreated": 0,
+      "applicationCodeChanged": false
+    }
+  }
+}

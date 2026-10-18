@@ -1,5 +1,6 @@
 import {test, expect} from '@playwright/test';
 import {boot, openSurface} from './support/browser.mjs';
+const localized = (english, arabic) => test.info().project.use.rtl ? arabic : english;
 
 test('invoice create footer contains pager, status and related actions in both locales', async ({page}, info) => {
   await page.goto('/sales-systems-management/sales-invoices');
@@ -60,7 +61,7 @@ test('invoice payments retain method-specific fields and removal', async ({page}
   const rows = page.locator('#payment-rows [data-payment-row]');
   await expect(rows).toHaveCount(2);
   await rows.last().locator('[data-payment-method]').selectOption('Cheque');
-  await expect(rows.last().getByLabel('Cheque No.')).toBeVisible();
+  await expect(rows.last().getByLabel(localized('Cheque No.', 'رقم الشيك'))).toBeVisible();
   await rows.last().getByRole('button', {name: 'Remove payment method'}).click();
   await expect(rows).toHaveCount(1);
 });
@@ -89,9 +90,9 @@ test('geography details uses the shared record header and field structure', asyn
 
   const details = page.locator('.geo-detail-card');
   await expect(details).toHaveCSS('overflow', 'hidden');
-  await expect(details.locator('label[for="geo-field-code"]')).toHaveText('Location Code');
-  await expect(details.locator('label[for="geo-field-parent"]')).toHaveText('Parent Location');
-  await expect(details.locator('label[for="geo-field-remarks"]')).toHaveText('Remarks');
+  await expect(details.locator('label[for="geo-field-code"]')).toHaveText(localized('Location Code', 'رمز الموقع'));
+  await expect(details.locator('label[for="geo-field-parent"]')).toHaveText(localized('Parent Location', 'الموقع الرئيسي'));
+  await expect(details.locator('label[for="geo-field-remarks"]')).toHaveText(localized('Remarks', 'ملاحظات'));
 
   const typeSelect = details.locator('#geo-field-type');
   const selectMetrics = await typeSelect.evaluate(element => {
@@ -151,16 +152,18 @@ test('geography detail fields match shared spacing and input-style modes', async
 });
 
 
-test('geography record status toggle activates with the stored reason and deactivates with a new one', async ({page}) => {
+test('geography record status toggle activates with the stored reason and deactivates with a new one', async ({page}, info) => {
+  const inactive = info.project.use.rtl ? 'غير نشط' : 'Inactive';
+  const moreActions = info.project.use.rtl ? 'إجراءات أخرى' : 'More actions';
   // openSurface('geo-record') lands on the geo list's first row, which
   // sorts to AIN — the fixture's only inactive location, seeded with its
   // own statusReason (prototype/fixtures/geography.js) — so this starts
   // from Inactive and activates first, rather than assuming an active row.
   await openSurface(page, 'geo-record');
 
-  await expect(page.locator('.geo-record-view .badge.danger')).toHaveText('Inactive');
+  await expect(page.locator('.geo-record-view .badge.danger')).toHaveText(inactive);
 
-  await page.locator('.geo-record-view [aria-label="More actions"]').last().click();
+  await page.locator(`.geo-record-view [aria-label="${moreActions}"]`).last().click();
   const activateItem = page.locator('.geo-record-view [data-geo-record-action="change-status"]');
   await expect(activateItem).not.toHaveClass(/dan/);
   await activateItem.click();
@@ -170,10 +173,10 @@ test('geography record status toggle activates with the stored reason and deacti
   await expect(page.locator('#geo-status-reason')).toBeHidden();
   await expect(page.locator('#geo-status-reason-text')).toHaveText('Seasonal territory closed for the off-season.');
   await page.locator('#geo-status-confirm').click();
-  await expect(page.locator('.toast').last()).toContainText('activated');
+  await expect(page.locator('.toast').last()).toContainText(info.project.use.rtl ? 'تم التفعيل' : 'activated');
   await expect(page.locator('.geo-record-view .badge.danger')).toHaveCount(0);
 
-  await page.locator('.geo-record-view [aria-label="More actions"]').last().click();
+  await page.locator(`.geo-record-view [aria-label="${moreActions}"]`).last().click();
   const deactivateItem = page.locator('.geo-record-view [data-geo-record-action="change-status"]');
   await expect(deactivateItem).toHaveClass(/dan/);
   await deactivateItem.click();
@@ -182,8 +185,8 @@ test('geography record status toggle activates with the stored reason and deacti
   await expect(page.locator('#geo-status-scrim .dlg')).toHaveAttribute('data-tone', 'danger');
   await page.locator('#geo-status-reason').fill('Territory closed for maintenance.');
   await page.locator('#geo-status-confirm').click();
-  await expect(page.locator('.toast').last()).toContainText('deactivated');
-  await expect(page.locator('.geo-record-view .badge.danger')).toHaveText('Inactive');
+  await expect(page.locator('.toast').last()).toContainText(info.project.use.rtl ? 'تم الإيقاف' : 'deactivated');
+  await expect(page.locator('.geo-record-view .badge.danger')).toHaveText(inactive);
 });
 
 test('invoice charges and discounts preserve the fixture summary', async ({page}) => {
@@ -212,14 +215,14 @@ test('invoice keyboard line entry registers once after returning from the list',
 
 test('invoice print settings and activity drawer retain their document context', async ({page}) => {
   await openSurface(page, 'record');
-  await page.locator('.content').getByRole('button', {name: 'Print', exact: true}).click();
+  await page.locator('.content').getByRole('button', {name: localized('Print', 'طباعة'), exact: true}).click();
   await expect(page.locator('#pscrim')).toHaveClass(/open/);
-  await expect(page.locator('#pscrim .dhd-subtitle')).toContainText('Sales Invoice');
+  await expect(page.locator('#pscrim .dhd-subtitle')).toContainText(localized('Sales Invoice', 'فاتورة مبيعات'));
   const printGroups = page.locator('#pscrim .print-group');
   await expect(printGroups).toHaveCount(4);
   await expect(page.locator('#pscrim fieldset')).toHaveCount(0);
-  await expect(printGroups.nth(0).getByRole('heading')).toHaveText('Destination');
-  await expect(printGroups.nth(1).getByRole('heading')).toHaveText('Document');
+  await expect(printGroups.nth(0).getByRole('heading')).toHaveText(localized('Destination', 'الوجهة'));
+  await expect(printGroups.nth(1).getByRole('heading')).toHaveText(localized('Document', 'المستند'));
   await expect(printGroups.nth(1)).toHaveCSS('border-top-style', 'solid');
   await page.locator('#pscrim').getByRole('button', {name: 'Close', exact: true}).click();
   await page.locator('.dr-open[data-tab="stages"]').first().click();
@@ -231,7 +234,7 @@ test('invoice print settings and activity drawer retain their document context',
 test('invoice print settings groups reflow at narrow widths', async ({page}) => {
   await page.setViewportSize({width: 390, height: 844});
   await openSurface(page, 'record');
-  await page.locator('.content').getByRole('button', {name: 'Print', exact: true}).click();
+  await page.locator('.content').getByRole('button', {name: localized('Print', 'طباعة'), exact: true}).click();
 
   const columnCount = locator =>
     locator.evaluate(element => getComputedStyle(element).gridTemplateColumns.split(' ').length);
@@ -255,7 +258,7 @@ for (const dialog of [
 ]) {
   test(`${dialog.name} table header paints opaquely above scrolling content`, async ({page}) => {
     await openSurface(page, 'record');
-    await page.getByRole('button', {name: dialog.menu, exact: true}).click();
+    await page.getByRole('button', {name: localized(dialog.menu, dialog.menu === 'More' ? 'المزيد' : 'العمليات'), exact: true}).click();
     await page.locator(`[data-act="${dialog.action}"]:visible`).click();
 
     const style = await page.locator(dialog.header).first().evaluate(element => {
@@ -306,4 +309,61 @@ test('geography hierarchy switches to flow and opens its compact dialog', async 
   }
   await page.locator('.geo-hierarchy-dialog-close').click();
   await expect(page.locator('#geo-hierarchy-scrim')).not.toHaveClass(/open/);
+});
+
+// INV-11 / DAT-R1: the record footer advertises the opened location's real
+// place among the rows the list shows (the list sorts by code, not by fixture order).
+test('geo record position reflects the list', async ({page}) => {
+  await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173');
+  await openSurface(page, 'geo-list');
+  const keys = await page.locator('[data-list-row-key]').evaluateAll(rows => [
+    ...new Set(rows.map(row => row.getAttribute('data-list-row-key'))),
+  ]);
+  const target = keys.indexOf('CAI');
+  expect(target).toBeGreaterThan(0);
+  await page.locator('[data-list-row-key="CAI"] [data-list-open-record]').first().evaluate(el => el.click());
+
+  const label = page.locator('#geo-record-position');
+  const pager = page.locator('.geo-record-footer .pager');
+  // The Arabic locale may render Eastern Arabic digits; compare on Latin ones.
+  const latinDigits = text => text.replace(/[٠-٩]/g, d => String(d.charCodeAt(0) - 0x0660));
+  const expectAt = async index => {
+    await expect(pager.locator('.pg-i')).toHaveValue(String(index + 1));
+    await expect(pager.locator('.pg-i')).toHaveAttribute('max', String(keys.length));
+    await expect(page.locator('#geo-field-code')).toHaveValue(keys[index]);
+    const numbers = latinDigits(await label.textContent()).match(/\d+/g);
+    expect(numbers).toEqual([String(index + 1), String(keys.length)]);
+  };
+
+  await expectAt(target);
+  await pager.locator('.pg-n').click();
+  await expectAt(target + 1);
+  await pager.locator('.pg-l').click();
+  await expectAt(keys.length - 1);
+  await expect(pager.locator('.pg-n')).toBeDisabled();
+  await pager.locator('.pg-f').click();
+  await expectAt(0);
+  await expect(pager.locator('.pg-p')).toBeDisabled();
+
+  // A new location is not one of the list rows: no position is advertised.
+  await page.locator('.geo-record-view [data-geo-record-action="new"]').last().click();
+  await expect(page.locator('#geo-field-code')).toHaveValue('');
+  await expect(label).not.toHaveText(/[0-9٠-٩]/);
+  await expect(pager.locator('.pg-i')).toHaveValue('');
+  await expect(pager.locator('button:enabled')).toHaveCount(0);
+});
+
+
+test('created location appears in tree and reopens', async ({page}) => {
+  await openSurface(page, 'geo-record');
+  await page.locator('.geo-record-view [data-geo-record-action="new"]').last().click();
+  await page.locator('#geo-field-code').fill('DEMO');
+  await page.locator('#geo-field-name').fill('Demo district');
+  await page.locator('.geo-record-view [data-geo-record-action="save"]').last().click();
+  await expect(page.locator('#geo-field-code')).toHaveValue('DEMO');
+  await expect(page.locator('[data-geo-node="DEMO"]').first()).toHaveCount(1);
+  await page.locator('.geo-back-list').click();
+  await expect(page.locator('[data-list-row-key="DEMO"]').first()).toContainText('Demo district');
+  await page.locator('[data-list-row-key="DEMO"] [data-list-open-record]').first().click();
+  await expect(page.locator('#geo-field-name')).toHaveValue('Demo district');
 });

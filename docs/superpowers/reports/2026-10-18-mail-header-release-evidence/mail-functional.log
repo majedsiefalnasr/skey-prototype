@@ -1,0 +1,85 @@
+
+Running 28 tests using 2 workers
+
+(node:18711) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:18712) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/28] [desktop] › tests/messaging.spec.mjs:26:1 › email compose retains send feedback
+[2/28] [desktop] › tests/messaging.spec.mjs:8:1 › Home restores the same topbar actions and releases the inert shell
+[3/28] [desktop] › tests/messaging.spec.mjs:39:1 › notification tabs preserve keyboard selection
+[4/28] [desktop] › tests/messaging.spec.mjs:53:1 › assistant proposal answers and closes with Escape
+(node:18758) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[5/28] [mobile-touch] › tests/messaging.spec.mjs:8:1 › Home restores the same topbar actions and releases the inert shell
+[6/28] [mobile-touch] › tests/messaging.spec.mjs:26:1 › email compose retains send feedback
+[7/28] [mobile-touch] › tests/messaging.spec.mjs:39:1 › notification tabs preserve keyboard selection
+(node:18767) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[8/28] [mobile-touch] › tests/messaging.spec.mjs:53:1 › assistant proposal answers and closes with Escape
+(node:18769) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[9/28] [desktop-dark] › tests/messaging.spec.mjs:8:1 › Home restores the same topbar actions and releases the inert shell
+[10/28] [desktop-dark] › tests/messaging.spec.mjs:26:1 › email compose retains send feedback
+[11/28] [desktop-dark] › tests/messaging.spec.mjs:53:1 › assistant proposal answers and closes with Escape
+(node:18780) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[12/28] [desktop-dark] › tests/messaging.spec.mjs:39:1 › notification tabs preserve keyboard selection
+(node:18786) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[13/28] [desktop-high-contrast-light] › tests/messaging.spec.mjs:8:1 › Home restores the same topbar actions and releases the inert shell
+[14/28] [desktop-high-contrast-light] › tests/messaging.spec.mjs:26:1 › email compose retains send feedback
+(node:18792) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[15/28] [desktop-high-contrast-light] › tests/messaging.spec.mjs:39:1 › notification tabs preserve keyboard selection
+[16/28] [desktop-high-contrast-light] › tests/messaging.spec.mjs:53:1 › assistant proposal answers and closes with Escape
+(node:18798) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[17/28] [desktop-high-contrast-dark] › tests/messaging.spec.mjs:8:1 › Home restores the same topbar actions and releases the inert shell
+[18/28] [desktop-high-contrast-dark] › tests/messaging.spec.mjs:26:1 › email compose retains send feedback
+(node:18825) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[19/28] [desktop-high-contrast-dark] › tests/messaging.spec.mjs:39:1 › notification tabs preserve keyboard selection
+[20/28] [desktop-high-contrast-dark] › tests/messaging.spec.mjs:53:1 › assistant proposal answers and closes with Escape
+(node:18952) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[21/28] [mobile-rtl] › tests/messaging.spec.mjs:8:1 › Home restores the same topbar actions and releases the inert shell
+[22/28] [mobile-rtl] › tests/messaging.spec.mjs:26:1 › email compose retains send feedback
+[23/28] [mobile-rtl] › tests/messaging.spec.mjs:39:1 › notification tabs preserve keyboard selection
+[24/28] [mobile-rtl] › tests/messaging.spec.mjs:53:1 › assistant proposal answers and closes with Escape
+(node:18961) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[25/28] [desktop-reduced-motion] › tests/messaging.spec.mjs:8:1 › Home restores the same topbar actions and releases the inert shell
+[26/28] [desktop-reduced-motion] › tests/messaging.spec.mjs:26:1 › email compose retains send feedback
+(node:18971) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[27/28] [desktop-reduced-motion] › tests/messaging.spec.mjs:39:1 › notification tabs preserve keyboard selection
+[28/28] [desktop-reduced-motion] › tests/messaging.spec.mjs:53:1 › assistant proposal answers and closes with Escape
+  2 skipped
+  26 passed (21.1s)

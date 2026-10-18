@@ -280,7 +280,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     if (!folder) return
     const count = folderMail(id).length
     const ok = await confirm({
-      title: `Delete the folder “${folder.name}”?`,
+      title: uiLocale.t("Delete the folder “{v0}”?").replace('{v0}', () => uiLocale.t(String(folder.name))),
       body: count
         ? `${count} message${count === 1 ? '' : 's'} in it move to Inbox. Nothing is lost.`
         : 'Its messages (if any) move to Inbox.',
@@ -293,7 +293,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     toast({
       tone: 'info',
       title: 'Folder deleted',
-      body: moved ? `${moved} message${moved === 1 ? '' : 's'} moved to Inbox.` : folder.name,
+      body: moved ? uiLocale.t(moved === 1 ? '{count} message moved to Inbox.' : '{count} messages moved to Inbox.').replace('{count}', moved) : folder.name,
     })
     if (state.folder === id) return setFolder('inbox')
     renderAll()
@@ -534,7 +534,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
           : ''
       }`
     return expanded
-      ? `<article class="border-b border-line py-4 last:border-b-0">${header}${details}</article>`
+      ? `<article class="email-message border-b border-line py-4 last:border-b-0">${header}${details}</article>`
       : `<details class="border-b border-line py-3"><summary class="cursor-pointer list-none">${header}</summary>${details}</details>`
   }
 
@@ -563,7 +563,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     const tool = ([action, iconName, label]) => {
       if (action === 'move')
         return `<span class="menu relative inline-flex">
-            <button type="button" class="${TOOL_CLASS}" data-mail-action="move" aria-haspopup="menu" aria-expanded="false">${icon(iconName)}<span>${label}</span>${icon('i-caret', 12)}</button>
+            <button type="button" class="${TOOL_CLASS}" data-mail-action="move" aria-haspopup="menu" aria-expanded="false">${icon(iconName)}<span class="email-action-label">${escapeHtml(t(label))}</span>${icon('i-caret', 12)}</button>
             <div class="mlist mend" role="menu" aria-label="${escapeHtml(t("Move to folder"))}">
               <div class="glbl">${t("Move to")}</div>
               ${moveTargets
@@ -572,7 +572,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
             </div>
           </span>`
       const cls = TOOL_CLASS
-      return `<button type="button" class="${cls}" data-mail-action="${action}">${icon(iconName)}<span>${label}</span></button>`
+      return `<button type="button" class="${cls}" data-mail-action="${action}" title="${escapeHtml(t(label))}">${icon(iconName)}<span class="email-action-label">${escapeHtml(t(label))}</span></button>`
     }
     const moreItems = [
       ['unread', 'i-mail', 'Mark unread'],
@@ -591,8 +591,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
           <hr><button role="menuitem" type="button" class="dan" data-mail-action="${inTrash ? 'purge' : 'trash'}">${icon('i-trash')} ${inTrash ? 'Delete permanently' : 'Delete'}</button>
         </div>
       </span>`
-    return `<div class="flex flex-wrap items-center gap-0.5 border-b border-line px-4 py-2" role="toolbar" aria-label="${escapeHtml(t("Message actions"))}">
-      ${narrow() ? `<button type="button" class="${TOOL_CLASS}" data-mail-back>${icon('i-prev')} ${t('Back')}</button>${SEP}` : ''}
+    return `<div class="email-message-toolbar flex flex-wrap items-center gap-0.5 border-b border-line px-4 py-2" role="toolbar" aria-label="${escapeHtml(t("Message actions"))}">
+      ${narrow() ? `<button type="button" class="${TOOL_CLASS}" data-mail-back title="${escapeHtml(t('Back'))}">${icon('i-prev')} <span class="email-action-label">${t('Back')}</span></button>${SEP}` : ''}
       ${groups
         .map((group, index) => `${index ? SEP : ''}<span class="flex flex-wrap items-center gap-0.5">${group.map(tool).join('')}</span>`)
         .join('')}
@@ -684,13 +684,13 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         if (m.unread) store.updateEntity('mail', m.id, {unread: false})
       })
       onUnreadChange()
-      toast({tone: 'ok', title: `${messages.length} message${messages.length === 1 ? '' : 's'} marked read`})
+      toast({tone: 'ok', title: uiLocale.t("{v0} message{v1} marked read").replace('{v0}', () => uiLocale.t(String(messages.length))).replace('{v1}', () => uiLocale.t(String(messages.length === 1 ? '' : 's')))})
     } else if (action === 'archive') {
       messages.forEach(m => store.updateEntity('mail', m.id, {folder: 'archive', previousFolder: null}))
-      toast({tone: 'info', title: `${messages.length} message${messages.length === 1 ? '' : 's'} archived`})
+      toast({tone: 'info', title: uiLocale.t("{v0} message{v1} archived").replace('{v0}', () => uiLocale.t(String(messages.length))).replace('{v1}', () => uiLocale.t(String(messages.length === 1 ? '' : 's')))})
     } else if (action === 'trash') {
       messages.forEach(m => store.updateEntity('mail', m.id, {folder: 'trash', previousFolder: m.folder}))
-      toast({tone: 'info', title: `${messages.length} message${messages.length === 1 ? '' : 's'} moved to Trash`})
+      toast({tone: 'info', title: uiLocale.t("{v0} message{v1} moved to Trash").replace('{v0}', () => uiLocale.t(String(messages.length))).replace('{v1}', () => uiLocale.t(String(messages.length === 1 ? '' : 's')))})
     }
     clearSelection()
     state.selectedId = null
@@ -710,7 +710,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     messages.forEach(m => {
       if (m.folder !== folderId) store.updateEntity('mail', m.id, {folder: folderId, previousFolder: null})
     })
-    toast({tone: 'info', title: `Moved to ${folderLabel(folderId)}`, body: `${messages.length} message${messages.length === 1 ? '' : 's'}`})
+    toast({tone: 'info', title: uiLocale.t("Moved to {v0}").replace('{v0}', () => uiLocale.t(String(folderLabel(folderId)))), body: uiLocale.t("{v0} message{v1}").replace('{v0}', () => uiLocale.t(String(messages.length))).replace('{v1}', () => uiLocale.t(String(messages.length === 1 ? '' : 's')))})
     clearSelection()
     state.selectedId = null
     state.pane = 'list'
@@ -727,7 +727,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       .sort((a, b) => stampOf(a).localeCompare(stampOf(b)))
     const messages = thread.length ? thread : [m]
     pane.innerHTML = `<div class="flex-none" data-mail-toolbar></div>
-      <div class="email-reading-scroll nc-scroll min-h-0 flex-1 overflow-auto px-6 py-4 [body.density-compact_&]:px-4 [body.density-comfortable_&]:px-8">
+      <div class="email-reading-scroll email-message-scroll nc-scroll min-h-0 flex-1 overflow-auto px-6 py-4 [body.density-compact_&]:px-4 [body.density-comfortable_&]:px-8">
         <h2 class="email-reading-subject mb-1 text-[19px] font-bold text-ink" dir="auto">${escapeHtml(titleOf(m))}</h2>
         <p class="${HINT_CLASS}">${escapeHtml(folderLabel(m.folder))}${messages.length > 1 ? ` · ${messages.length} messages in this conversation` : ''}</p>
         ${messages.map(x => messageMarkup(x, x.id === m.id || messages.length === 1)).join('')}
@@ -756,7 +756,12 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       .sort((a, b) => stampOf(b).localeCompare(stampOf(a)))[0]
     state.draftId = replyDraft?.id || null
     quick.value = replyDraft ? (Array.isArray(replyDraft.body) ? replyDraft.body.join('\n\n') : replyDraft.body || '') : ''
+    // Empty quick replies need no fixed mobile space: the toolbar's Reply
+    // opens the full composer. Keep saved replies and active editing visible.
+    const composer = pane.querySelector('.email-composer')
+    composer.toggleAttribute('data-empty-quick-reply', !quick.value.trim())
     quick.addEventListener('input', () => {
+      composer.removeAttribute('data-empty-quick-reply')
       if (!state.draftId) {
         const draft = createReplyDraft(m, 'reply', '')
         state.draftId = draft.id
@@ -821,7 +826,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         return afterMove()
       case 'restore':
         store.updateEntity('mail', m.id, {folder: m.previousFolder || 'inbox', previousFolder: null})
-        toast({tone: 'info', title: `Moved to ${folderLabel(m.previousFolder || 'inbox')}`, body: titleOf(m)})
+        toast({tone: 'info', title: uiLocale.t("Moved to {v0}").replace('{v0}', () => uiLocale.t(String(folderLabel(m.previousFolder || 'inbox')))), body: titleOf(m)})
         return afterMove()
       case 'trash':
         store.updateEntity('mail', m.id, {folder: 'trash', previousFolder: m.folder})
@@ -883,7 +888,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     if (folderId === m.folder) return
     if (!(await beforeAction())) return
     store.updateEntity('mail', m.id, {folder: folderId, previousFolder: null})
-    toast({tone: 'info', title: `Moved to ${folderLabel(folderId)}`, body: titleOf(m)})
+    toast({tone: 'info', title: uiLocale.t("Moved to {v0}").replace('{v0}', () => uiLocale.t(String(folderLabel(folderId)))), body: titleOf(m)})
     afterMove()
   }
 
@@ -1141,6 +1146,10 @@ export function createEmail({root, store, toast, related, confirm, users, curren
   function flushDraft() {
     if (pendingRead) saveNow(pendingRead)
   }
+
+  // Reloads and document navigation do not deactivate the page controller.
+  // Flush the pending edit while its fields still exist in the old document.
+  window.addEventListener('pagehide', flushDraft, {signal})
 
   async function sendDraft(id) {
     const typed = root.querySelector('#email-compose-to')

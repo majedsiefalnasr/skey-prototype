@@ -1,0 +1,2210 @@
+{
+  "scope": "Exact earlier focused test identities re-executed inside final full suite",
+  "focusedCounts": {
+    "passed": 156,
+    "skipped": 5
+  },
+  "focusedCaseCount": 161,
+  "missingFocusedCases": [],
+  "crudCounts": {
+    "passed": 56
+  },
+  "crudCaseCount": 56,
+  "crudByProject": {
+    "desktop": {
+      "passed": 8
+    },
+    "desktop-dark": {
+      "passed": 8
+    },
+    "desktop-high-contrast-dark": {
+      "passed": 8
+    },
+    "desktop-high-contrast-light": {
+      "passed": 8
+    },
+    "desktop-reduced-motion": {
+      "passed": 8
+    },
+    "mobile-rtl": {
+      "passed": 8
+    },
+    "mobile-touch": {
+      "passed": 8
+    }
+  },
+  "focusedCases": [
+    {
+      "file": "components.spec.mjs",
+      "title": "Arabic locale switch updates direction and field formatting",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1427
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "print dialog returns keyboard focus",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 499
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "print dialog traps Tab within its focusable controls",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 568
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "a simulated failure resets busy state and shows the existing toast",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2777
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "Arabic locale switch updates direction and field formatting",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1765
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "print dialog returns keyboard focus",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 870
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "print dialog traps Tab within its focusable controls",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 545
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "a simulated failure resets busy state and shows the existing toast",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2808
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "Arabic locale switch updates direction and field formatting",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1443
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "print dialog returns keyboard focus",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 496
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "print dialog traps Tab within its focusable controls",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 538
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "a simulated failure resets busy state and shows the existing toast",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2787
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "Arabic locale switch updates direction and field formatting",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1438
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "print dialog returns keyboard focus",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 501
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "print dialog traps Tab within its focusable controls",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 566
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "a simulated failure resets busy state and shows the existing toast",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2843
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "Arabic locale switch updates direction and field formatting",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1438
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "print dialog returns keyboard focus",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 530
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "print dialog traps Tab within its focusable controls",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 680
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "a simulated failure resets busy state and shows the existing toast",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2929
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "Arabic locale switch updates direction and field formatting",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1702
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "print dialog returns keyboard focus",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 819
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "print dialog traps Tab within its focusable controls",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 689
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "a simulated failure resets busy state and shows the existing toast",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3095
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "Arabic locale switch updates direction and field formatting",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1465
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "print dialog returns keyboard focus",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 545
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "print dialog traps Tab within its focusable controls",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 612
+    },
+    {
+      "file": "components.spec.mjs",
+      "title": "a simulated failure resets busy state and shows the existing toast",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2879
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic geography labels retain stable type and status values",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 545
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic Profile headings and Save controls localize without discarding typed values",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 623
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic Organization headings and session action dialog are translated",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 751
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic invoice and customer primary record controls are translated",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 827
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic mail reading toolbar labels are translated",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 512
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "invoice posting dialog follows a locale switch when reopened",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 729
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic customer changes save back with Arabic feedback",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 691
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "receipt voucher action clearly stops at the prototype boundary in Arabic",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 556
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "new Arabic payment rows keep stable method values and translated labels",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 812
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic geography labels retain stable type and status values",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 520
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic Profile headings and Save controls localize without discarding typed values",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 567
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic Organization headings and session action dialog are translated",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 686
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic invoice and customer primary record controls are translated",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 886
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic mail reading toolbar labels are translated",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 485
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "invoice posting dialog follows a locale switch when reopened",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 788
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic customer changes save back with Arabic feedback",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 671
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "receipt voucher action clearly stops at the prototype boundary in Arabic",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 610
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "new Arabic payment rows keep stable method values and translated labels",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 678
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic geography labels retain stable type and status values",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 559
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic Profile headings and Save controls localize without discarding typed values",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 597
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic Organization headings and session action dialog are translated",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 714
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic invoice and customer primary record controls are translated",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 834
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic mail reading toolbar labels are translated",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 535
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "invoice posting dialog follows a locale switch when reopened",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 761
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic customer changes save back with Arabic feedback",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 839
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "receipt voucher action clearly stops at the prototype boundary in Arabic",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 702
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "new Arabic payment rows keep stable method values and translated labels",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 872
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic geography labels retain stable type and status values",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 595
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic Profile headings and Save controls localize without discarding typed values",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 643
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic Organization headings and session action dialog are translated",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 748
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic invoice and customer primary record controls are translated",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 941
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic mail reading toolbar labels are translated",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 573
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "invoice posting dialog follows a locale switch when reopened",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 785
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic customer changes save back with Arabic feedback",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 889
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "receipt voucher action clearly stops at the prototype boundary in Arabic",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 679
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "new Arabic payment rows keep stable method values and translated labels",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 856
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic geography labels retain stable type and status values",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 567
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic Profile headings and Save controls localize without discarding typed values",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 614
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic Organization headings and session action dialog are translated",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 705
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic invoice and customer primary record controls are translated",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 843
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic mail reading toolbar labels are translated",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 548
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "invoice posting dialog follows a locale switch when reopened",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 726
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic customer changes save back with Arabic feedback",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 678
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "receipt voucher action clearly stops at the prototype boundary in Arabic",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 628
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "new Arabic payment rows keep stable method values and translated labels",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 732
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic geography labels retain stable type and status values",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 626
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic Profile headings and Save controls localize without discarding typed values",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 679
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic Organization headings and session action dialog are translated",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 760
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic invoice and customer primary record controls are translated",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 968
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic mail reading toolbar labels are translated",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 626
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "invoice posting dialog follows a locale switch when reopened",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 886
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic customer changes save back with Arabic feedback",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 755
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "receipt voucher action clearly stops at the prototype boundary in Arabic",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 689
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "new Arabic payment rows keep stable method values and translated labels",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 823
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic geography labels retain stable type and status values",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 573
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic Profile headings and Save controls localize without discarding typed values",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 630
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic Organization headings and session action dialog are translated",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 780
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic invoice and customer primary record controls are translated",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 942
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic mail reading toolbar labels are translated",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 574
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "invoice posting dialog follows a locale switch when reopened",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 773
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "Arabic customer changes save back with Arabic feedback",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 702
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "receipt voucher action clearly stops at the prototype boundary in Arabic",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 639
+    },
+    {
+      "file": "delivery-locale.spec.mjs",
+      "title": "new Arabic payment rows keep stable method values and translated labels",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 759
+    },
+    {
+      "file": "dialog-option-values.spec.mjs",
+      "title": "translated dialog options retain their stored values across language switches",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 498
+    },
+    {
+      "file": "dialog-option-values.spec.mjs",
+      "title": "translated dialog options retain their stored values across language switches",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 408
+    },
+    {
+      "file": "dialog-option-values.spec.mjs",
+      "title": "translated dialog options retain their stored values across language switches",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 580
+    },
+    {
+      "file": "dialog-option-values.spec.mjs",
+      "title": "translated dialog options retain their stored values across language switches",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 500
+    },
+    {
+      "file": "dialog-option-values.spec.mjs",
+      "title": "translated dialog options retain their stored values across language switches",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 466
+    },
+    {
+      "file": "dialog-option-values.spec.mjs",
+      "title": "translated dialog options retain their stored values across language switches",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 490
+    },
+    {
+      "file": "dialog-option-values.spec.mjs",
+      "title": "translated dialog options retain their stored values across language switches",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 484
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice payments retain method-specific fields and removal",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 646
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "geography details uses the shared record header and field structure",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 577
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice print settings and activity drawer retain their document context",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 678
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice print settings groups reflow at narrow widths",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 549
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "screen parameters table header paints opaquely above scrolling content",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 559
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "journal entry table header paints opaquely above scrolling content",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 587
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice payments retain method-specific fields and removal",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 709
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "geography details uses the shared record header and field structure",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 560
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice print settings and activity drawer retain their document context",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 706
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice print settings groups reflow at narrow widths",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 589
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "screen parameters table header paints opaquely above scrolling content",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 601
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "journal entry table header paints opaquely above scrolling content",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 612
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice payments retain method-specific fields and removal",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 679
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "geography details uses the shared record header and field structure",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 631
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice print settings and activity drawer retain their document context",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 715
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice print settings groups reflow at narrow widths",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 630
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "screen parameters table header paints opaquely above scrolling content",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 646
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "journal entry table header paints opaquely above scrolling content",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 597
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice payments retain method-specific fields and removal",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 643
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "geography details uses the shared record header and field structure",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 570
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice print settings and activity drawer retain their document context",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 653
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice print settings groups reflow at narrow widths",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 609
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "screen parameters table header paints opaquely above scrolling content",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 561
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "journal entry table header paints opaquely above scrolling content",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 644
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice payments retain method-specific fields and removal",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 947
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "geography details uses the shared record header and field structure",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 692
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice print settings and activity drawer retain their document context",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 677
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice print settings groups reflow at narrow widths",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 545
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "screen parameters table header paints opaquely above scrolling content",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 591
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "journal entry table header paints opaquely above scrolling content",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 615
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice payments retain method-specific fields and removal",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 735
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "geography details uses the shared record header and field structure",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 576
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice print settings and activity drawer retain their document context",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 774
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice print settings groups reflow at narrow widths",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 685
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "screen parameters table header paints opaquely above scrolling content",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 688
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "journal entry table header paints opaquely above scrolling content",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 686
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice payments retain method-specific fields and removal",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 792
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "geography details uses the shared record header and field structure",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 733
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice print settings and activity drawer retain their document context",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 725
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "invoice print settings groups reflow at narrow widths",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 617
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "screen parameters table header paints opaquely above scrolling content",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 638
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "journal entry table header paints opaquely above scrolling content",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 596
+    },
+    {
+      "file": "organization-center.spec.mjs",
+      "title": "organization center › overview keeps only the Active users and Database sessions cards",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1354
+    },
+    {
+      "file": "organization-center.spec.mjs",
+      "title": "organization center › overview keeps only the Active users and Database sessions cards",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1233
+    },
+    {
+      "file": "organization-center.spec.mjs",
+      "title": "organization center › overview keeps only the Active users and Database sessions cards",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1345
+    },
+    {
+      "file": "organization-center.spec.mjs",
+      "title": "organization center › overview keeps only the Active users and Database sessions cards",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1254
+    },
+    {
+      "file": "organization-center.spec.mjs",
+      "title": "organization center › overview keeps only the Active users and Database sessions cards",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1269
+    },
+    {
+      "file": "organization-center.spec.mjs",
+      "title": "organization center › overview keeps only the Active users and Database sessions cards",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2250
+    },
+    {
+      "file": "organization-center.spec.mjs",
+      "title": "organization center › overview keeps only the Active users and Database sessions cards",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1245
+    },
+    {
+      "file": "visual-qa-batch2.spec.mjs",
+      "title": "VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens",
+      "project": "desktop",
+      "status": "skipped",
+      "expectedStatus": "skipped",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 34
+    },
+    {
+      "file": "visual-qa-batch2.spec.mjs",
+      "title": "VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 4102
+    },
+    {
+      "file": "visual-qa-batch2.spec.mjs",
+      "title": "VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens",
+      "project": "desktop-dark",
+      "status": "skipped",
+      "expectedStatus": "skipped",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 36
+    },
+    {
+      "file": "visual-qa-batch2.spec.mjs",
+      "title": "VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens",
+      "project": "desktop-high-contrast-light",
+      "status": "skipped",
+      "expectedStatus": "skipped",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 38
+    },
+    {
+      "file": "visual-qa-batch2.spec.mjs",
+      "title": "VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens",
+      "project": "desktop-high-contrast-dark",
+      "status": "skipped",
+      "expectedStatus": "skipped",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 152
+    },
+    {
+      "file": "visual-qa-batch2.spec.mjs",
+      "title": "VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 4431
+    },
+    {
+      "file": "visual-qa-batch2.spec.mjs",
+      "title": "VQA-05: Mail Reply and launcher have independent hit targets and the kit reopens",
+      "project": "desktop-reduced-motion",
+      "status": "skipped",
+      "expectedStatus": "skipped",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 46
+    },
+    {
+      "file": "zz-probe-t34.spec.mjs",
+      "title": "probe",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 476
+    },
+    {
+      "file": "zz-probe-t34.spec.mjs",
+      "title": "probe",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 462
+    },
+    {
+      "file": "zz-probe-t34.spec.mjs",
+      "title": "probe",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 483
+    },
+    {
+      "file": "zz-probe-t34.spec.mjs",
+      "title": "probe",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 499
+    },
+    {
+      "file": "zz-probe-t34.spec.mjs",
+      "title": "probe",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1071
+    },
+    {
+      "file": "zz-probe-t34.spec.mjs",
+      "title": "probe",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 604
+    },
+    {
+      "file": "zz-probe-t34.spec.mjs",
+      "title": "probe",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 613
+    }
+  ],
+  "crudCases": [
+    {
+      "file": "customer-journey.spec.mjs",
+      "title": "edited name appears in list and reopens",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3496
+    },
+    {
+      "file": "customer-journey.spec.mjs",
+      "title": "added customer appears and reopens with a unique number",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3504
+    },
+    {
+      "file": "customer-journey.spec.mjs",
+      "title": "edited name appears in list and reopens",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3356
+    },
+    {
+      "file": "customer-journey.spec.mjs",
+      "title": "added customer appears and reopens with a unique number",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3352
+    },
+    {
+      "file": "customer-journey.spec.mjs",
+      "title": "edited name appears in list and reopens",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3488
+    },
+    {
+      "file": "customer-journey.spec.mjs",
+      "title": "added customer appears and reopens with a unique number",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3403
+    },
+    {
+      "file": "customer-journey.spec.mjs",
+      "title": "edited name appears in list and reopens",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3434
+    },
+    {
+      "file": "customer-journey.spec.mjs",
+      "title": "added customer appears and reopens with a unique number",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3493
+    },
+    {
+      "file": "customer-journey.spec.mjs",
+      "title": "edited name appears in list and reopens",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3694
+    },
+    {
+      "file": "customer-journey.spec.mjs",
+      "title": "added customer appears and reopens with a unique number",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3478
+    },
+    {
+      "file": "customer-journey.spec.mjs",
+      "title": "edited name appears in list and reopens",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3412
+    },
+    {
+      "file": "customer-journey.spec.mjs",
+      "title": "added customer appears and reopens with a unique number",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3432
+    },
+    {
+      "file": "customer-journey.spec.mjs",
+      "title": "edited name appears in list and reopens",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3504
+    },
+    {
+      "file": "customer-journey.spec.mjs",
+      "title": "added customer appears and reopens with a unique number",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3538
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "created location appears in tree and reopens",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 750
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "created location appears in tree and reopens",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 697
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "created location appears in tree and reopens",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 752
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "created location appears in tree and reopens",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 738
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "created location appears in tree and reopens",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 762
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "created location appears in tree and reopens",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 767
+    },
+    {
+      "file": "invoice-geography.spec.mjs",
+      "title": "created location appears in tree and reopens",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 842
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › create then save adds 149 to the list and reopens",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2946
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › two creates then record delete keeps the first created invoice",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 7185
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › posted row cannot be deleted from the list",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1282
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › a created invoice copies the displayed net amount into its list row",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2889
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › saved header edits reopen and Undo restores saved dates and payment type",
+      "project": "desktop",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3086
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › create then save adds 149 to the list and reopens",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2898
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › two creates then record delete keeps the first created invoice",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 7216
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › posted row cannot be deleted from the list",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1173
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › a created invoice copies the displayed net amount into its list row",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2865
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › saved header edits reopen and Undo restores saved dates and payment type",
+      "project": "mobile-touch",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3103
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › create then save adds 149 to the list and reopens",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2890
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › two creates then record delete keeps the first created invoice",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 7203
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › posted row cannot be deleted from the list",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1258
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › a created invoice copies the displayed net amount into its list row",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2898
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › saved header edits reopen and Undo restores saved dates and payment type",
+      "project": "desktop-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3103
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › create then save adds 149 to the list and reopens",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2837
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › two creates then record delete keeps the first created invoice",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 7147
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › posted row cannot be deleted from the list",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1244
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › a created invoice copies the displayed net amount into its list row",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2834
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › saved header edits reopen and Undo restores saved dates and payment type",
+      "project": "desktop-high-contrast-light",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3049
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › create then save adds 149 to the list and reopens",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2935
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › two creates then record delete keeps the first created invoice",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 7289
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › posted row cannot be deleted from the list",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1290
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › a created invoice copies the displayed net amount into its list row",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2933
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › saved header edits reopen and Undo restores saved dates and payment type",
+      "project": "desktop-high-contrast-dark",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3154
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › create then save adds 149 to the list and reopens",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3014
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › two creates then record delete keeps the first created invoice",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 7383
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › posted row cannot be deleted from the list",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1240
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › a created invoice copies the displayed net amount into its list row",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2917
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › saved header edits reopen and Undo restores saved dates and payment type",
+      "project": "mobile-rtl",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3287
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › create then save adds 149 to the list and reopens",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2970
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › two creates then record delete keeps the first created invoice",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 7173
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › posted row cannot be deleted from the list",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 1262
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › a created invoice copies the displayed net amount into its list row",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 2912
+    },
+    {
+      "file": "invoice-journey.spec.mjs",
+      "title": "INV-03/04 in-memory invoice persistence › saved header edits reopen and Undo restores saved dates and payment type",
+      "project": "desktop-reduced-motion",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "errors": [],
+      "attachments": [],
+      "durationMs": 3120
+    }
+  ]
+}

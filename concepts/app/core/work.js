@@ -1,4 +1,4 @@
-// Shared simulated-work facility — extracted verbatim from the single-file
+// Shared simulated-work facility — extracted from the single-file
 // legacy application script (concepts/app/legacy-app.js, the "one place
 // where slow work is run, so every button behaves the same" block
 // immediately after the toast block). The algorithm is unchanged; only the
@@ -11,10 +11,13 @@
 // `shouldFail()` preserves both: it is called once per runWork() call and
 // is expected to perform that same read-then-reset-on-failure behavior
 // (see the caller in legacy-app.js's startLegacyApp for the exact
-// #failsim wiring), keeping runWork's own body identical to the original.
+// #failsim wiring). Scheduling and cleanup retain that original behavior;
+// delivery copy now translates the temporary button label at this boundary.
 //
 // createWork({shouldFail}) returns the existing runWork(btn,label,ms)
 // function.
+
+import {uiLocale} from './locale.js'
 
 /**
  * @param {{shouldFail: () => boolean}} deps
@@ -22,6 +25,7 @@
 export function createWork({shouldFail}) {
   const runWork = (btn, label, ms = 900) =>
     new Promise(resolve => {
+      label = uiLocale.t(label)
       const original = btn ? btn.innerHTML : null
       if (btn) {
         btn.setAttribute('aria-busy', 'true')

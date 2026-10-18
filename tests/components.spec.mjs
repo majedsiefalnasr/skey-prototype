@@ -214,7 +214,7 @@ test('Arabic locale switch updates direction and field formatting', async ({page
 test('print dialog returns keyboard focus', async ({page}) => {
   await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'record');
-  const trigger = page.locator('.content').getByRole('button', {name: 'Print', exact: true});
+  const trigger = page.locator('.content').getByRole('button', {name: test.info().project.use.rtl ? 'طباعة' : 'Print', exact: true});
   await trigger.focus();
   await page.keyboard.press('Enter');
   await expect(page.getByRole('dialog', {name: 'Print Settings'})).toBeVisible();
@@ -225,7 +225,7 @@ test('print dialog returns keyboard focus', async ({page}) => {
 test('print dialog traps Tab within its focusable controls', async ({page}) => {
   await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'record');
-  const trigger = page.locator('.content').getByRole('button', {name: 'Print', exact: true});
+  const trigger = page.locator('.content').getByRole('button', {name: test.info().project.use.rtl ? 'طباعة' : 'Print', exact: true});
   await trigger.focus();
   await page.keyboard.press('Enter');
   const dialog = page.getByRole('dialog', {name: 'Print Settings'});
@@ -249,7 +249,8 @@ test('print dialog traps Tab within its focusable controls', async ({page}) => {
 
 test('a simulated failure resets busy state and shows the existing toast', async ({page}) => {
   await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
-  await openSurface(page, 'record');
+  await openSurface(page, 'list');
+  await page.locator('[data-list-open-record="145"]').first().click();
   await settle(page);
 
   // Existing prototype demo controls (hidden by the concept page's own
@@ -264,6 +265,9 @@ test('a simulated failure resets busy state and shows the existing toast', async
     element.checked = true;
     element.dispatchEvent(new Event('change', {bubbles: true}));
   });
+  // Reach the simulated operation rather than failing required-line validation.
+  await page.locator('#items-body .items-code').first().fill('Demo item');
+  await page.locator('#items-body .items-qty').first().fill('1');
   await page.locator('#failsim').evaluate(element => {
     element.checked = true;
     element.dispatchEvent(new Event('change', {bubbles: true}));
@@ -274,6 +278,8 @@ test('a simulated failure resets busy state and shows the existing toast', async
 
   const toast = page.locator('.toast.bad');
   await expect(toast).toBeVisible();
-  await expect(toast).toContainText('Could not save the invoice');
+  await expect(toast).toContainText(test.info().project.use.rtl ? 'تعذر حفظ الفاتورة' : 'Could not save the invoice');
+  await expect(toast).toContainText(test.info().project.use.rtl ? 'رفض المخزن الكمية في السطر 1.' : 'The warehouse rejected the quantity on line 1.');
+  await expect(page.locator('#failsim')).not.toBeChecked();
   await expect(saveButton).not.toHaveAttribute('aria-busy', 'true');
 });

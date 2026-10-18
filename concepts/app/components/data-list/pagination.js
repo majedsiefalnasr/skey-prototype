@@ -21,10 +21,10 @@
 // `deps`, eliminating the duplicate copies.
 
 import {DATA_LIST_CONFIG} from './columns.js'
-import {DATA_LIST_SIMULATED_TOTAL, DATA_LIST_PAGE_SIZE_OPTIONS} from './model.js'
+import {DATA_LIST_PAGE_SIZE_OPTIONS} from './model.js'
 
 const DATA_PAGE_BUTTON_CLASS =
-  'inline-flex min-w-[30px] min-h-[30px] items-center justify-center gap-[5px] rounded-md border border-line bg-surface px-[9px] py-1 text-[12.5px] font-semibold text-ink cursor-pointer aria-[current=page]:border-[var(--accent)] aria-[current=page]:bg-[var(--accent-soft)] aria-[current=page]:text-accent hover:not-aria-[current=page]:bg-[var(--line-2)] disabled:text-muted disabled:cursor-not-allowed disabled:opacity-55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
+  'inline-flex min-w-[30px] min-h-[30px] items-center justify-center gap-[5px] rounded-md border border-line bg-surface px-[9px] py-1 text-[12.5px] font-semibold text-ink cursor-pointer aria-[current=page]:border-[var(--accent)] aria-[current=page]:bg-[var(--accent-soft)] aria-[current=page]:text-accent [html[data-theme=light]_&]:aria-[current=page]:text-[var(--accent-hover)] hover:not-aria-[current=page]:bg-[var(--line-2)] disabled:text-muted disabled:cursor-not-allowed disabled:opacity-55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
 const DATA_PAGER_EDGE_BUTTON_CLASS =
   'inline-flex min-w-[30px] min-h-[30px] items-center justify-center gap-[5px] rounded-md border border-line bg-surface p-1 text-[12.5px] font-semibold text-ink cursor-pointer hover:enabled:bg-[var(--line-2)] disabled:text-muted disabled:cursor-not-allowed disabled:opacity-55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
 const DATA_RECORD_PAGER_BUTTON_CLASS =
@@ -47,12 +47,11 @@ const DATA_RECORD_PAGER_BUTTON_CLASS =
 export function renderShellPager(context, filteredCount, listState, deps) {
   const {t, encodeHtml, dataListIcon} = deps
   const config = DATA_LIST_CONFIG[context]
-  const simulatedTotal = DATA_LIST_SIMULATED_TOTAL[context] || filteredCount
   const pageSize = listState.pageSize
-  const totalPages = Math.max(1, Math.ceil(simulatedTotal / pageSize))
+  const totalPages = Math.max(1, Math.ceil(filteredCount / pageSize))
   const page = Math.min(Math.max(1, listState.page), totalPages)
   const rangeStart = filteredCount ? (page - 1) * pageSize + 1 : 0
-  const rangeEnd = Math.min(page * pageSize, filteredCount ? simulatedTotal : 0)
+  const rangeEnd = Math.min(page * pageSize, filteredCount)
   const pageNumbers = []
   for (let n = 1; n <= totalPages; n++) {
     if (n === 1 || n === totalPages || Math.abs(n - page) <= 1) pageNumbers.push(n)
@@ -74,22 +73,22 @@ export function renderShellPager(context, filteredCount, listState, deps) {
   return `<div class="data-list-pagination flex flex-1 flex-wrap items-center gap-x-4 gap-y-2.5" role="navigation" aria-label="${encodeHtml(config.label)} ${t('page navigation', 'page navigation')}">
     <div class="data-pagination-controls flex flex-wrap items-center gap-1">
       <button type="button" class="data-pagination-edge ${edgeButtonClass}" data-list-page="1"${page <= 1 ? ' disabled' : ''} aria-label="${t('First page', 'First page')}">${dataListIcon('i-first', 13)}</button>
-      <button type="button" class="data-pagination-prev ${edgeButtonClass}" data-list-page="${page - 1}"${page <= 1 ? ' disabled' : ''}>${dataListIcon('i-prev', 12)}</button>
+      <button type="button" class="data-pagination-prev ${edgeButtonClass}" data-list-page="${page - 1}"${page <= 1 ? ' disabled' : ''} aria-label="${t('Previous page', 'Previous page')}">${dataListIcon('i-prev', 12)}</button>
       ${pageButtons}
-      <button type="button" class="data-pagination-next ${edgeButtonClass}" data-list-page="${page + 1}"${page >= totalPages ? ' disabled' : ''}>${dataListIcon('i-next', 12)}</button>
+      <button type="button" class="data-pagination-next ${edgeButtonClass}" data-list-page="${page + 1}"${page >= totalPages ? ' disabled' : ''} aria-label="${t('Next page', 'Next page')}">${dataListIcon('i-next', 12)}</button>
       <button type="button" class="data-pagination-edge ${edgeButtonClass}" data-list-page="${totalPages}"${page >= totalPages ? ' disabled' : ''} aria-label="${t('Last page', 'Last page')}">${dataListIcon('i-last', 13)}</button>
-      <label class="data-pagination-jump inline-flex items-center gap-1.5 ms-1.5 ps-2 border-s border-line text-[12.5px] whitespace-nowrap text-muted"><span>${t('Go to page', 'Go to page')}</span><input class="data-pagination-jump-input w-[64px] min-h-[30px] rounded-md border border-line bg-surface ps-2 font-[inherit] text-[12.5px] font-semibold text-ink text-start" type="number" min="1" max="${totalPages}" value="${page}" aria-label="${t('Go to page', 'Go to page')}"></label>
+      <label class="data-pagination-jump inline-flex items-center gap-1.5 ms-1.5 ps-2 border-s border-line text-[12.5px] whitespace-nowrap text-muted"><span>${t('Go to page', 'Go to page')}</span><input class="data-pagination-jump-input w-[64px] min-h-[30px] [@media(pointer:coarse)]:min-h-11 rounded-md border border-line bg-surface ps-2 font-[inherit] text-[12.5px] font-semibold text-ink text-start" type="number" min="1" max="${totalPages}" value="${page}" aria-label="${t('Go to page', 'Go to page')}"></label>
     </div>
-    <span class="data-pagination-summary whitespace-nowrap text-[12.5px] text-muted" aria-live="polite">${t('Showing', 'Showing')} ${rangeStart}–${rangeEnd} ${t('of', 'of')} ${simulatedTotal}</span>
-    <label class="data-pagination-size inline-flex items-center gap-1.5 ms-auto text-[12.5px] whitespace-nowrap text-muted">${t('Rows per page', 'Rows per page')}<span class="relative inline-flex"><select class="w-[64px] min-h-[30px] cursor-pointer appearance-none rounded-md border border-line bg-surface ps-2 pe-6 py-[3px] font-[inherit] text-[12.5px] font-semibold text-ink [-webkit-appearance:none] hover:border-[var(--accent-line)]" data-list-page-size aria-label="${t('Rows per page', 'Rows per page')}">${sizeOptions}</select><svg class="pointer-events-none absolute end-2 top-1/2 -translate-y-1/2 text-muted" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5z" fill="currentColor"/></svg></span></label>
+    <span class="data-pagination-summary whitespace-nowrap text-[12.5px] text-muted" aria-live="polite">${t('Showing', 'Showing')} ${rangeStart}–${rangeEnd} ${t('of', 'of')} ${filteredCount}</span>
+    <label class="data-pagination-size inline-flex items-center gap-1.5 ms-auto text-[12.5px] whitespace-nowrap text-muted">${t('Rows per page', 'Rows per page')}<span class="relative inline-flex"><select class="w-[64px] min-h-[30px] [@media(pointer:coarse)]:min-h-11 cursor-pointer appearance-none rounded-md border border-line bg-surface ps-2 pe-6 py-[3px] font-[inherit] text-[12.5px] font-semibold text-ink [-webkit-appearance:none] hover:border-[var(--accent-line)]" data-list-page-size aria-label="${t('Rows per page', 'Rows per page')}">${sizeOptions}</select><svg class="pointer-events-none absolute end-2 top-1/2 -translate-y-1/2 text-muted" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5z" fill="currentColor"/></svg></span></label>
   </div>`
 }
 
 /* Adaptive view's footer navigator moves between records, one at a
    time, instead of between pages — same First/Prev/[N]/Next/Last
    shape as the in-record "Record N of N" pager elsewhere, but scoped
-   to the actually-navigable rows rather than the simulated total
-   (there's nothing meaningful to jump to past the real sample set). */
+   to the actually-navigable rows (there's nothing meaningful to jump to
+   past the real sample set). */
 /**
  * @param {string} context
  * @param {number} filteredCount

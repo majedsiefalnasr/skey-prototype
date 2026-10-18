@@ -1,3 +1,4 @@
+import {uiLocale} from '../../core/locale.js'
 const tableClass =
   'w-full border-collapse text-[12.5px] [&_th]:sticky [&_th]:top-0 [&_th]:z-[1] [&_th]:bg-[linear-gradient(var(--line-2),var(--line-2)),var(--surface)] [&_th]:px-3 [&_th]:py-2 [&_th]:text-start [&_th]:font-semibold [&_th]:text-muted [&_td]:border-t [&_td]:border-line [&_td]:px-3 [&_td]:py-2.5 [&_td]:align-middle'
 
@@ -8,12 +9,12 @@ const tableClass =
 let navigableSections = new Set()
 
 function card(title, body, options = '') {
-  return `<section class="org-card [border:1px_solid_var(--line)] rounded-lg overflow-hidden bg-surface ${options}"><div class="org-card-hd flex items-center justify-between gap-2.5 [padding:8px_12px] [font-size:12.5px] font-bold bg-[var(--line-2)]"><span>${title}</span></div><div class="rec-card-body [padding:12px]">${body}</div></section>`
+  return `<section class="org-card [border:1px_solid_var(--line)] rounded-lg overflow-hidden bg-surface ${options}"><div class="org-card-hd flex items-center justify-between gap-2.5 [padding:8px_12px] [font-size:12.5px] font-bold bg-[var(--line-2)]"><span data-i18n="${title}">${title}</span></div><div class="rec-card-body [padding:12px]">${body}</div></section>`
 }
 
 function heading(key, sections, encodeHtml) {
   const section = sections[key]
-  return `<header class="mb-3"><h2 class="m-0 text-[18px] font-semibold text-ink">${encodeHtml(section.title)}</h2><p class="mt-1 mb-0 text-[12.5px] text-muted">${encodeHtml(section.description)}</p></header>`
+  return `<header class="mb-3"><h2 class="m-0 text-[18px] font-semibold text-ink" data-i18n="${encodeHtml(section.title)}">${encodeHtml(section.title)}</h2><p class="mt-1 mb-0 text-[12.5px] text-muted" data-i18n="${encodeHtml(section.description)}">${encodeHtml(section.description)}</p></header>`
 }
 
 function badge(value, tone = 'gray') {
@@ -24,7 +25,7 @@ function table(headers, rows, emptyCopy = 'No matching records') {
   const body = rows.length
     ? rows.join('')
     : `<tr><td colspan="${headers.length}" class="text-center text-muted! py-8!">${emptyCopy}</td></tr>`
-  return `<div class="max-h-[430px] overflow-auto rounded-md border border-line"><table class="${tableClass}"><thead><tr>${headers.map(label => `<th scope="col">${label}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div>`
+  return `<div class="max-h-[430px] overflow-auto rounded-md border border-line"><table class="${tableClass}"><thead><tr>${headers.map(label => `<th scope="col" data-i18n="${label}">${label}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div>`
 }
 
 /** Mount point for a data-list-driven table section — same canvas/fnav
@@ -36,7 +37,7 @@ function dataListMount(id) {
 }
 
 function sectionMessage(title, body, dataListIcon, icon = 'i-help') {
-  return `<aside data-organization-section-message role="note" class="mb-3 flex items-start gap-3 rounded-md bg-[var(--info-soft-bg)] p-3 text-ink"><span class="mt-0.5 flex size-6 flex-none items-center justify-center text-[var(--info-soft-ink)]">${dataListIcon(icon, 17)}</span><div class="min-w-0"><strong class="block text-[13px] font-semibold">${title}</strong><p class="mt-1 mb-0 text-xs leading-5 text-muted">${body}</p></div></aside>`
+  return `<aside data-organization-section-message role="note" class="mb-3 flex items-start gap-3 rounded-md bg-[var(--info-soft-bg)] p-3 text-ink"><span class="mt-0.5 flex size-6 flex-none items-center justify-center text-[var(--info-soft-ink)]">${dataListIcon(icon, 17)}</span><div class="min-w-0"><strong class="block text-[13px] font-semibold" data-i18n="${title}">${title}</strong><p class="mt-1 mb-0 text-xs leading-5 text-muted" data-i18n="${body}">${body}</p></div></aside>`
 }
 
 /** Small rounded pill — a trend delta ("↑12%"), a live indicator, or a
@@ -61,7 +62,7 @@ const LIVE_PILL = `<span class="inline-flex items-center gap-1.5 rounded-full [p
     dot — the two-line label the app's plain single-line statHeader
     didn't carry. */
 function statHeader(label, subtitle, icon, dataListIcon, pill) {
-  return `<div class="flex min-w-0 gap-2.5 items-start justify-between"><div class="flex min-w-0 gap-2.5 items-center"><span class="flex [flex:none] items-center justify-center [width:34px] [height:34px] rounded-lg [background:color-mix(in_srgb,_var(--stat-tone)_14%,_transparent)] [color:var(--stat-tone)]">${dataListIcon(icon, 18)}</span><div class="min-w-0"><strong class="block overflow-hidden text-ink text-[13.5px] font-bold text-ellipsis whitespace-nowrap">${label}</strong><span class="block overflow-hidden text-muted text-xs text-ellipsis whitespace-nowrap">${subtitle}</span></div></div><div class="flex [flex:none] items-center gap-1.5">${pill || ''}</div></div>`
+  return `<div class="flex min-w-0 gap-2.5 items-start justify-between"><div class="flex min-w-0 gap-2.5 items-center"><span class="flex [flex:none] items-center justify-center [width:34px] [height:34px] rounded-lg [background:color-mix(in_srgb,_var(--stat-tone)_14%,_transparent)] [color:var(--stat-tone)]">${dataListIcon(icon, 18)}</span><div class="min-w-0"><strong class="block overflow-hidden text-ink text-[13.5px] font-bold text-ellipsis whitespace-nowrap" data-i18n="${label}">${label}</strong><span class="block overflow-hidden text-muted text-xs text-ellipsis whitespace-nowrap" data-i18n="${subtitle}">${subtitle}</span></div></div><div class="flex [flex:none] items-center gap-1.5">${pill || ''}</div></div>`
 }
 
 /** Overview stat card. Cards whose target section is still navigable
@@ -176,7 +177,7 @@ function recentActiveUsers(users, encodeHtml) {
   // the whole card in a <button> that navigates to the same section, so
   // this is a visual affordance riding on that same click, not a second
   // interactive element (invalid HTML nested inside the card's button).
-  return `<div class="mt-2 border-t border-line pt-3"><div class="mb-2.5 flex items-center justify-between"><strong class="text-[12.5px] font-bold text-ink">Recent active users</strong><span class="inline-flex items-center gap-1 text-xs font-semibold text-accent">View all →</span></div><div class="flex items-center gap-2">${avatars}${overflowAvatar}</div></div>`
+  return `<div class="mt-2 border-t border-line pt-3"><div class="mb-2.5 flex items-center justify-between"><strong class="text-[12.5px] font-bold text-ink" data-i18n="Recent active users">Recent active users</strong><span class="inline-flex items-center gap-1 text-xs font-semibold text-accent">View all →</span></div><div class="flex items-center gap-2">${avatars}${overflowAvatar}</div></div>`
 }
 
 function sparklinePoints(trend, width, height) {
@@ -259,16 +260,16 @@ function statusDot(label, text, encodeHtml) {
       : fraction.percent >= 80
         ? 'var(--st-pend-ink)'
         : 'var(--danger)'
-  return `<div class="flex items-center gap-2.5 py-2 first:pt-0 last:pb-0"><span class="[width:8px] [height:8px] rounded-full [flex:none]" style="background:${tone}"></span><span class="text-xs text-muted">${label}</span><strong class="ms-auto text-[13px]">${encodeHtml(text)}</strong></div>`
+  return `<div class="flex items-center gap-2.5 py-2 first:pt-0 last:pb-0"><span class="[width:8px] [height:8px] rounded-full [flex:none]" style="background:${tone}"></span><span class="text-xs text-muted" data-i18n="${label}">${label}</span><strong class="ms-auto text-[13px]">${encodeHtml(text)}</strong></div>`
 }
 
 function relativeTimestamp(timestamp) {
   const then = new Date(timestamp.replace(' ', 'T'))
   const hours = Math.round((Date.now() - then.getTime()) / 3_600_000)
-  if (hours < 0) return 'Scheduled'
-  if (hours < 1) return 'Just now'
-  if (hours < 24) return `${hours}h ago`
-  return `${Math.round(hours / 24)}d ago`
+  if (hours < 0) return uiLocale.t('Scheduled')
+  if (hours < 1) return uiLocale.t('Just now')
+  if (hours < 24) return uiLocale.t('{n} hours ago').replace('{n}', hours)
+  return uiLocale.t('{n} days ago').replace('{n}', Math.round(hours / 24))
 }
 
 function renderOverview(data, role, encodeHtml, dataListIcon) {
@@ -334,7 +335,7 @@ function renderOverview(data, role, encodeHtml, dataListIcon) {
   const healthNow = healthTrend[healthTrend.length - 1]
   const healthTone =
     healthNow >= 95 ? 'var(--success)' : healthNow >= 80 ? 'var(--st-pend-ink)' : 'var(--danger)'
-  const operationalStatus = `<div class="flex items-start justify-between gap-3"><div><span class="block text-xs text-muted">Composite health, last 7 days</span><strong class="mt-1 block text-[26px] font-bold [line-height:1.1]" style="color:${healthTone}">${healthNow}%</strong><span class="text-xs text-muted">${encodeHtml(data.details.environment)} · ${encodeHtml(data.details.defaultBranch)}</span></div><div class="w-[130px] [flex:none]" style="--stat-tone:${healthTone}">${sparklineChart(healthTrend)}</div></div><dl class="m-0 mt-3 divide-y divide-line border-t border-line">${statusDot('Background jobs', data.health.backgroundJobs, encodeHtml)}${statusDot('Integrations', data.health.integrations, encodeHtml)}</dl><div class="mt-3 grid grid-cols-2 gap-x-4 gap-y-2.5 border-t border-line pt-3 text-xs"><div><dt class="text-muted">Queue depth</dt><dd class="m-0 mt-0.5 font-semibold text-[13px]">${data.health.queueDepth} operations</dd></div><div><dt class="text-muted">Last deploy</dt><dd class="m-0 mt-0.5 font-semibold text-[13px]">${encodeHtml(relativeTimestamp(data.health.lastDeploy))}</dd></div><div><dt class="text-muted">Last backup</dt><dd class="m-0 mt-0.5 font-semibold text-[13px]">${encodeHtml(relativeTimestamp(data.health.lastBackup))}</dd></div><div><dt class="text-muted">Next maintenance</dt><dd class="m-0 mt-0.5 font-semibold text-[13px]">${encodeHtml(data.health.nextMaintenance.slice(0, 10))}</dd></div></div>`
+  const operationalStatus = `<div class="flex items-start justify-between gap-3"><div><span class="block text-xs text-muted" data-i18n="Composite health, last 7 days">Composite health, last 7 days</span><strong class="mt-1 block text-[26px] font-bold [line-height:1.1]" style="color:${healthTone}">${healthNow}%</strong><span class="text-xs text-muted">${encodeHtml(data.details.environment)} · ${encodeHtml(data.details.defaultBranch)}</span></div><div class="w-[130px] [flex:none]" style="--stat-tone:${healthTone}">${sparklineChart(healthTrend)}</div></div><dl class="m-0 mt-3 divide-y divide-line border-t border-line">${statusDot('Background jobs', data.health.backgroundJobs, encodeHtml)}${statusDot('Integrations', data.health.integrations, encodeHtml)}</dl><div class="mt-3 grid grid-cols-2 gap-x-4 gap-y-2.5 border-t border-line pt-3 text-xs"><div><dt class="text-muted" data-i18n="Queue depth">Queue depth</dt><dd class="m-0 mt-0.5 font-semibold text-[13px]">${data.health.queueDepth} ${uiLocale.t("operations")}</dd></div><div><dt class="text-muted" data-i18n="Last deploy">Last deploy</dt><dd class="m-0 mt-0.5 font-semibold text-[13px]">${encodeHtml(relativeTimestamp(data.health.lastDeploy))}</dd></div><div><dt class="text-muted" data-i18n="Last backup">Last backup</dt><dd class="m-0 mt-0.5 font-semibold text-[13px]">${encodeHtml(relativeTimestamp(data.health.lastBackup))}</dd></div><div><dt class="text-muted" data-i18n="Next maintenance">Next maintenance</dt><dd class="m-0 mt-0.5 font-semibold text-[13px]">${encodeHtml(data.health.nextMaintenance.slice(0, 10))}</dd></div></div>`
 
   // The "Recent activity" card (audit-log rows + its "View audit log"
   // shortcut) is gone with the hidden Audit log tab — Operational status
@@ -358,12 +359,12 @@ function renderSettings(details, encodeHtml) {
   ]
     .map(
       ([key, label]) =>
-        `<div class="grid min-w-0 gap-1"><dt class="text-xs text-muted">${label}</dt><dd class="m-0 break-words text-[13px] font-semibold text-ink">${encodeHtml(details[key])}</dd></div>`
+        `<div class="grid min-w-0 gap-1"><dt class="text-xs text-muted" data-i18n="${label}">${label}</dt><dd class="m-0 break-words text-[13px] font-semibold text-ink">${encodeHtml(details[key])}</dd></div>`
     )
     .join('')
   return card(
     'Organization identity and defaults',
-    `<dl class="m-0 grid grid-cols-2 gap-x-4 gap-y-3 [@media((max-width:720px))]:grid-cols-1">${fields}</dl><p class="mt-4 mb-0 text-xs text-muted">Read-only view of the organization's legal identity, regional defaults, and fiscal configuration.</p>`
+    `<dl class="m-0 grid grid-cols-2 gap-x-4 gap-y-3 [@media((max-width:720px))]:grid-cols-1">${fields}</dl><p class="mt-4 mb-0 text-xs text-muted">${uiLocale.t("Read-only view of the organization’s legal identity, regional defaults, and fiscal configuration.")}</p>`
   )
 }
 
@@ -409,7 +410,7 @@ function renderStatusBanner(services) {
       : worst === 'degraded'
         ? 'Some systems degraded'
         : 'Service disruption in progress'
-  return `<div class="mb-4 flex items-center gap-2.5 rounded-lg px-4 py-3 font-semibold ${tone}"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm3.7 6.2-4.6 4.6a.8.8 0 0 1-1.13 0L6.3 10.6a.8.8 0 1 1 1.13-1.13l1.1 1.1 4.04-4.04a.8.8 0 1 1 1.13 1.13Z" fill="currentColor"/></svg><span>${copy}</span></div>`
+  return `<div class="mb-4 flex items-center gap-2.5 rounded-lg px-4 py-3 font-semibold ${tone}"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm3.7 6.2-4.6 4.6a.8.8 0 0 1-1.13 0L6.3 10.6a.8.8 0 1 1 1.13-1.13l1.1 1.1 4.04-4.04a.8.8 0 1 1 1.13 1.13Z" fill="currentColor"/></svg><span data-i18n="${copy}">${copy}</span></div>`
 }
 
 function segmentDayLabel(daysAgo) {
@@ -438,7 +439,7 @@ function renderServiceUptime(service, encodeHtml) {
       return `<span class="org-uptime-seg relative h-full flex-1 min-w-[3px] [padding-inline:0.5px] cursor-default" style="--stat-tone:${day === 'up' ? 'var(--success-fill)' : day === 'degraded' ? 'var(--warn-ink)' : 'var(--danger)'}"><span class="block h-full w-full rounded-[1px] transition-transform ${SEGMENT_TONE[day]} [.org-uptime-seg:hover_&]:[outline:2px_solid_var(--stat-tone)] [.org-uptime-seg:hover_&]:[outline-offset:1px] [.org-uptime-seg:hover_&]:scale-y-110"></span><span class="org-uptime-tip pointer-events-none absolute [inset-block-end:calc(100%+7px)] [inset-inline-start:50%] [translate:-50%_0] whitespace-nowrap rounded [padding:6px_9px] text-xs opacity-0 [transition:opacity_0.1s] [background:var(--tooltip-bg)] [color:var(--tooltip-ink)] [z-index:40] grid gap-0.5 [.org-uptime-seg:hover_&]:opacity-100"><strong class="text-[12.5px] font-semibold">${encodeHtml(segmentDayLabel(daysAgo))} · ${encodeHtml(segmentDate(daysAgo))}</strong><span class="opacity-80">${encodeHtml(STATUS_LABEL[day])} — ${encodeHtml(STATUS_DETAIL[day])}</span></span></span>`
     })
     .join('')
-  return `<div class="border-t border-line py-3.5 first:border-t-0 first:pt-0"><div class="mb-2 flex flex-wrap items-center justify-between gap-2"><div><strong class="block text-[13.5px]">${encodeHtml(service.name)}</strong><small class="text-muted">${encodeHtml(service.detail)}</small></div>${badge(STATUS_LABEL[service.status], STATUS_BADGE_TONE[service.status])}</div><div class="org-uptime-track flex h-9 items-stretch [&:has(.org-uptime-seg:hover)_.org-uptime-seg>span:first-child]:opacity-60 [&_.org-uptime-seg:hover>span:first-child]:opacity-100!" role="img" aria-label="${encodeHtml(service.name)} uptime over the last 90 days, ${service.uptime}">${segments}</div><div class="mt-1.5 flex items-center justify-between text-xs text-muted"><span>90 days ago</span><span class="font-semibold text-ink">${service.uptime} uptime</span><span>Today</span></div></div>`
+  return `<div class="border-t border-line py-3.5 first:border-t-0 first:pt-0"><div class="mb-2 flex flex-wrap items-center justify-between gap-2"><div><strong class="block text-[13.5px]">${encodeHtml(service.name)}</strong><small class="text-muted">${encodeHtml(service.detail)}</small></div>${badge(STATUS_LABEL[service.status], STATUS_BADGE_TONE[service.status])}</div><div class="org-uptime-track flex h-9 items-stretch [&:has(.org-uptime-seg:hover)_.org-uptime-seg>span:first-child]:opacity-60 [&_.org-uptime-seg:hover>span:first-child]:opacity-100!" role="img" aria-label="${encodeHtml(service.name)} uptime over the last 90 days, ${service.uptime}">${segments}</div><div class="mt-1.5 flex items-center justify-between text-xs text-muted"><span>90 days ago</span><span class="font-semibold text-ink">${service.uptime} uptime</span><span data-i18n="Today">Today</span></div></div>`
 }
 
 function performancePeriodChange(change, tone) {
@@ -451,7 +452,7 @@ function performancePeriodChange(change, tone) {
       : tone === 'warning'
         ? 'bg-[var(--warn-bg)] text-[var(--warn-ink)]'
         : 'bg-[var(--danger-soft-bg)] text-[var(--danger-soft-ink)]'
-  return `<span data-organization-period-change class="grid flex-none gap-0.5 rounded-lg px-3 py-2 ${toneClass}"><strong class="text-[13px] font-bold">${arrow} ${value}</strong><small class="text-[10.5px] text-muted max-[620px]:hidden">vs. previous period</small></span>`
+  return `<span data-organization-period-change class="grid flex-none gap-0.5 rounded-lg px-3 py-2 ${toneClass}"><strong class="text-[13px] font-bold">${arrow} ${value}</strong><small class="text-[10.5px] text-muted max-[620px]:hidden" data-i18n="vs. previous period">vs. previous period</small></span>`
 }
 
 function performanceMetricShell(metric, dataListIcon, body) {
@@ -517,7 +518,7 @@ function renderPerformance(health, services, role, encodeHtml, dataListIcon) {
   ].map(row => `<tr>${row.map(value => `<td>${value}</td>`).join('')}</tr>`)
   const scopeNote =
     role === 'manager'
-      ? '<p class="mt-3 mb-0 text-xs text-muted">Technical identifiers are hidden in the manager view; results are summarized by business module.</p>'
+      ? '<p class="mt-3 mb-0 text-xs text-muted" data-i18n="Technical identifiers are hidden in the manager view; results are summarized by business module.">Technical identifiers are hidden in the manager view; results are summarized by business module.</p>'
       : ''
   return `<div data-organization-performance-metrics class="mb-4 grid grid-cols-1 gap-3 [@media((min-width:1200px))]:grid-cols-[minmax(0,_1.05fr)_minmax(0,_1.2fr)] [@media((min-width:1200px))]:grid-rows-3">${metrics}</div>${renderStatusBanner(services)}${card('Service uptime', services.map(service => renderServiceUptime(service, encodeHtml)).join(''), 'mb-4')}${table(['Operation', 'Duration', 'State', 'Business area'], detailRows)}${scopeNote}`
 }

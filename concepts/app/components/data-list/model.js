@@ -103,14 +103,19 @@ export const DATA_LIST_VALID_VIEWS = {
   orgStaff: ['list'],
 }
 
-/* Pagination contract: the mocked row arrays only hold a handful of sample
-   records, but the record-navigator pager elsewhere in the UI already claims
-   a simulated dataset size ("Record 1 of 125" etc). List-level pagination
-   must agree with that same simulated total so the two counters never
-   contradict each other. */
-export const DATA_LIST_SIMULATED_TOTAL = {invoice: 125, customer: 72, geo: 12, screenParameters: 57, journal: 4}
+/* Pagination contract: list pagers report the real row count (INV-11) --
+   there is no simulated dataset size, so a pager never offers a page the
+   rows cannot fill. */
 export const DATA_LIST_DEFAULT_PAGE_SIZE = 25
 export const DATA_LIST_PAGE_SIZE_OPTIONS = [10, 25, 50, 100]
+
+/* UX-07: at phone widths the statistics cards would push the list below the
+   first screen, so they start collapsed (still expandable from the overflow
+   menu's "Show statistics"). The breakpoint matches the collapsed toolbar. */
+const DATA_LIST_MOBILE_QUERY = '(max-width: 620px)'
+function defaultStatisticsVisible() {
+  return !globalThis.matchMedia?.(DATA_LIST_MOBILE_QUERY).matches
+}
 
 /**
  * Resolves the persisted layout for `context` against `defaultOrder`,
@@ -128,7 +133,7 @@ function resolveSavedLayout(storage, context, defaultOrder) {
     hiddenColumns: [],
     groupBy: [],
     view: 'list',
-    statisticsVisible: true,
+    statisticsVisible: defaultStatisticsVisible(),
     statisticsConcept: '',
   }
   const stored = storage.loadLayout(context)
@@ -153,7 +158,9 @@ function resolveSavedLayout(storage, context, defaultOrder) {
     groupBy: Array.isArray(stored?.groupBy) ? stored.groupBy : [],
     view: typeof stored?.view === 'string' ? stored.view : 'list',
     statisticsVisible:
-      typeof stored?.statisticsVisible === 'boolean' ? stored.statisticsVisible : true,
+      typeof stored?.statisticsVisible === 'boolean'
+        ? stored.statisticsVisible
+        : defaultStatisticsVisible(),
     statisticsConcept,
   }
 }
@@ -338,8 +345,8 @@ export function createListModel({config, rows, storage, context = config.singula
     state.borderMode = 'default'
     state.view = 'list'
     state.savedView = 'list'
-    state.statisticsVisible = true
-    state.savedStatisticsVisible = true
+    state.statisticsVisible = defaultStatisticsVisible()
+    state.savedStatisticsVisible = state.statisticsVisible
     state.statisticsConcept = ''
     state.savedStatisticsConcept = ''
     state.page = 1

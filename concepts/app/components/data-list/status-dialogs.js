@@ -1,29 +1,40 @@
+import {uiLocale} from '../../core/locale.js'
+import {PROTOTYPE_NOW} from '../../prototype/fixtures/collaboration.js'
 /* Invoice status copy shared with the record page's own Change status menu
    (pages/invoices/operations.js's STATUS_ACTIONS) — kept here too since the
-   table's row action must work without opening the record. Posting and
-   cancellation stay record-only (they need fields this table row doesn't
-   carry), so only the reasoned/simple transitions are offered from here. */
+   table's row action must work without opening the record. This dialog only
+   serves the reasoned/simple transitions (Open, Pending, Returned). Posting and
+   cancellation need fields a table row doesn't carry, so the row menu opens the
+   record and uses the record's own posting and cancel dialogs. */
 const INVOICE_STATUS_ACTIONS = {
   Open: {
-    title: no => `Open invoice ${no}`,
+    title: no => uiLocale.t('Open invoice {no}').replace('{no}', no),
     description: 'This makes the invoice available for normal processing again.',
     confirm: 'Open invoice',
     tone: 'default',
   },
   Pending: {
-    title: no => `Mark invoice ${no} as pending`,
+    title: no => uiLocale.t('Mark invoice {no} as pending').replace('{no}', no),
     description: 'Pending invoices stay on hold until the issue below is resolved.',
     confirm: 'Mark as pending',
     tone: 'warning',
     reason: 'Why is this invoice pending?',
   },
   Returned: {
-    title: no => `Return invoice ${no}`,
+    title: no => uiLocale.t('Return invoice {no}').replace('{no}', no),
     description: 'This records the return and prevents further processing of this invoice.',
     confirm: 'Return invoice',
     tone: 'danger',
     reason: 'Why is this invoice being returned?',
   },
+}
+
+function statusFeedback(rows, activating, nameKey, noun) {
+  const name = rows.length === 1
+    ? rows[0][nameKey] || rows[0].customerNo || rows[0].code
+    : `${rows.length} ${uiLocale.t(noun)}`
+  return uiLocale.t('{name} {status}').replace('{name}', name)
+    .replace('{status}', uiLocale.t(activating ? 'activated' : 'deactivated'))
 }
 
 /** Owns the list-level "Change status" dialogs for invoices, customers, and
@@ -62,16 +73,16 @@ export function createStatusDialogs({trapFocus, releaseFocus, toast, renderDataL
     pendingInvoice = row
     invScrim.querySelector('.dlg').dataset.tone = action.tone
     invScrim.querySelector('#invoice-status-title').textContent = action.title(row.no)
-    invScrim.querySelector('#invoice-status-description').textContent = action.description
+    invScrim.querySelector('#invoice-status-description').textContent = uiLocale.t(action.description)
     const reason = invScrim.querySelector('.invoice-status-reason')
     reason.hidden = !action.reason
-    reason.querySelector('label').textContent = action.reason || ''
+    reason.querySelector('label').textContent = action.reason ? uiLocale.t(action.reason) : ''
     const field = reason.querySelector('textarea')
     field.value = ''
     field.required = Boolean(action.reason)
     const confirmBtn = invScrim.querySelector('#invoice-status-confirm')
     confirmBtn.dataset.targetStatus = targetStatus
-    confirmBtn.textContent = action.confirm
+    confirmBtn.textContent = uiLocale.t(action.confirm)
     invScrim.querySelector('#invoice-status-sum').textContent = `Invoice ${row.no}`
     validateInvoiceStatusConfirm()
     invScrim.classList.add('open')
@@ -92,7 +103,7 @@ export function createStatusDialogs({trapFocus, releaseFocus, toast, renderDataL
       renderDataList('invoice')
       toast({
         tone: action.tone === 'default' ? 'ok' : 'warn',
-        title: `Invoice ${row.no} changed to ${status}`,
+        title: uiLocale.t("Invoice {v0} changed to {v1}").replace('{v0}', () => uiLocale.t(String(row.no))).replace('{v1}', () => uiLocale.t(String(status))),
         body: action.description,
       })
     }
@@ -199,16 +210,14 @@ export function createStatusDialogs({trapFocus, releaseFocus, toast, renderDataL
       rows.forEach(row => {
         row.active = activating
         row.statusReason = reason
+        row.statusDate = activating ? '' : PROTOTYPE_NOW.slice(0, 10)
       })
       closeCustomerStatusDialog()
       renderDataList('customer')
       onDone?.(rows)
       toast({
         tone: 'ok',
-        title:
-          rows.length === 1
-            ? `${rows[0].customerName || rows[0].customerNo} ${activating ? 'activated' : 'deactivated'}`
-            : `${rows.length} customers ${activating ? 'activated' : 'deactivated'}`,
+        title: statusFeedback(rows, activating, 'customerName', 'customers'),
       })
     }
   })
@@ -313,10 +322,7 @@ export function createStatusDialogs({trapFocus, releaseFocus, toast, renderDataL
       onDone?.(rows)
       toast({
         tone: 'ok',
-        title:
-          rows.length === 1
-            ? `${rows[0].name || rows[0].code} ${activating ? 'activated' : 'deactivated'}`
-            : `${rows.length} locations ${activating ? 'activated' : 'deactivated'}`,
+        title: statusFeedback(rows, activating, 'name', 'locations'),
       })
     }
   })

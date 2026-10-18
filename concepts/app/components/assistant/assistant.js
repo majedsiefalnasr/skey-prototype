@@ -1,3 +1,5 @@
+import {uiLocale} from '../../core/locale.js'
+
 export function createAssistant({trapFocus, releaseFocus, closeAllMenus, toast}) {
 const pageAbort = new AbortController()
 const timers = new Set()
@@ -55,7 +57,9 @@ const schedule = (callback, delay) => { const timer = setTimeout(() => {timers.d
           aiThread.appendChild(thinking)
           aiThread.scrollTop = aiThread.scrollHeight
 
-          const answer = AI_SCENARIOS[text] || AI_FALLBACK
+          const answer = AI_SCENARIOS[text]
+            ? uiLocale.t('Shared prototype example; this answer does not describe the open record.') + '\n\n' + AI_SCENARIOS[text]
+            : AI_FALLBACK
           schedule(
             () => {
               thinking.remove()

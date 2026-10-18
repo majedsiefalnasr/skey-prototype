@@ -1,5 +1,5 @@
 import {GEO_ROWS} from '../../prototype/fixtures/geography.js'
-import {encodeHtml} from '../../core/locale.js'
+import {encodeHtml, uiLocale} from '../../core/locale.js'
 export function createGeographyHierarchy({geoState, queryId, dataListIcon, geoHierarchyMediaQuery, renderGeoRecord, openGeoHierarchyDialog}) {
 const pageAbort = new AbortController()
 
@@ -78,7 +78,7 @@ function renderGeoTreeBranch(parentCode = '', level = 1) {
                     .replace('<svg', '<svg class="geo-node-chevron"')
                     .replace('<svg', `<svg role="img" aria-label="${encodeHtml(chevronTitle)}"`)
                 : '<span aria-hidden="true" style="width:11px"></span>'
-              return `<div class="geo-tree-branch relative grid"><button class="geo-tree-node flex w-full min-h-[42px] gap-2 items-center py-1.5 px-2 rounded-md border border-transparent text-start" type="button" role="treeitem" data-geo-node="${encodeHtml(row.code)}"${hasChildren ? ' data-geo-toggle-branch' : ''} aria-level="${level}" aria-current="${row.code === geoState.code}"${hasChildren ? ` aria-expanded="${expanded}" title="${encodeHtml(chevronTitle)}"` : ''}>${chevron}<span class="geo-node-copy grid min-w-0 flex-1 gap-px [&_strong]:overflow-hidden [&_strong]:text-ellipsis [&_strong]:whitespace-nowrap [&_small]:overflow-hidden [&_small]:text-ellipsis [&_small]:whitespace-nowrap"><strong class="text-[12.5px] font-semibold">${encodeHtml(row.name)}</strong><small class="text-muted text-xs font-normal">${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>${children}</div>`
+              return `<div class="geo-tree-branch relative grid"><button class="geo-tree-node flex w-full min-h-[42px] gap-2 items-center py-1.5 px-2 rounded-md border border-transparent text-start" type="button" role="treeitem" data-geo-node="${encodeHtml(row.code)}"${hasChildren ? ' data-geo-toggle-branch' : ''} aria-level="${level}" aria-current="${row.code === geoState.code}"${hasChildren ? ` aria-expanded="${expanded}" title="${encodeHtml(chevronTitle)}"` : ''}>${chevron}<span class="geo-node-copy grid min-w-0 flex-1 gap-px [&_strong]:overflow-hidden [&_strong]:text-ellipsis [&_strong]:whitespace-nowrap [&_small]:overflow-hidden [&_small]:text-ellipsis [&_small]:whitespace-nowrap"><strong class="text-[12.5px] font-semibold">${encodeHtml(row.name)}</strong><small class="text-muted text-xs font-normal">${encodeHtml(row.code)} · ${encodeHtml(uiLocale.t(row.type))}</small></span></button>${children}</div>`
             })
             .join('')
         }
@@ -223,7 +223,7 @@ function renderGeoFlow() {
             // make every toolbar click also fire the node's own click-to-
             // select handler. The wrapper carries the position:absolute
             // placement instead; .geo-flow-node itself no longer needs it.
-            return `<div class="geo-flow-node-group${dimmed ? ' is-dimmed' : ''}" style="position:absolute;left:${position.x}px;top:${position.y}px"><button class="geo-flow-node" type="button" data-geo-node="${encodeHtml(row.code)}" aria-current="${row.code === geoState.code}" aria-label="View ${encodeHtml(row.name)}">${geoLocationIcon(row.type, 16)}<span><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button>${renderGeoFlowNodeActions(row, {focused: row.code === focusCode})}</div>`
+            return `<div class="geo-flow-node-group${dimmed ? ' is-dimmed' : ''}" style="position:absolute;left:${position.x}px;top:${position.y}px"><button class="geo-flow-node" type="button" data-geo-node="${encodeHtml(row.code)}" aria-current="${row.code === geoState.code}" aria-label="View ${encodeHtml(row.name)}">${geoLocationIcon(row.type, 16)}<span><strong>${encodeHtml(row.name)}</strong><small>${encodeHtml(row.code)} · ${encodeHtml(uiLocale.t(row.type))}</small></span></button>${renderGeoFlowNodeActions(row, {focused: row.code === focusCode})}</div>`
           }).join('')
           // Scrollable region is content + a pan buffer on every side
           // (free panning past the tree's own edges); the actual tree

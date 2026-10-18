@@ -1,0 +1,32 @@
+[
+  {
+    "path": "concepts/app-shell.html",
+    "bytes": 614893,
+    "diskSha256": "3cdd3253a2cde6f2b76f6cf7945d6a1bc7486dd4d80068dc9e94a482a0d979c9",
+    "servedSha256": "3cdd3253a2cde6f2b76f6cf7945d6a1bc7486dd4d80068dc9e94a482a0d979c9"
+  },
+  {
+    "path": "concepts/app/styles/tailwind.css",
+    "bytes": 278179,
+    "diskSha256": "b59fa36efa88321c0c8eb723820bc5125f103710bb37cc1147b204f08742f057",
+    "servedSha256": "b59fa36efa88321c0c8eb723820bc5125f103710bb37cc1147b204f08742f057"
+  },
+  {
+    "path": "concepts/app/components/data-list/menu-controller.js",
+    "bytes": 21847,
+    "diskSha256": "05633e1e76d33343fe92cc7a4a19ba00bce4a18518ba8941f6ccdad7d385a318",
+    "servedSha256": "05633e1e76d33343fe92cc7a4a19ba00bce4a18518ba8941f6ccdad7d385a318"
+  },
+  {
+    "path": "concepts/app/core/delivery-translations.js",
+    "bytes": 53460,
+    "diskSha256": "4c5c02c329cfbc2e528c6f6acd7bde4d60186e09a6e3c28f68ba06db12fcec3b",
+    "servedSha256": "4c5c02c329cfbc2e528c6f6acd7bde4d60186e09a6e3c28f68ba06db12fcec3b"
+  },
+  {
+    "path": "concepts/app/pages/invoices/operations.js",
+    "bytes": 52108,
+    "diskSha256": "2180a9c2e56a52084a1a8853eeb4ce2bd1fd476600fc56da5d8df4365f960edb",
+    "servedSha256": "2180a9c2e56a52084a1a8853eeb4ce2bd1fd476600fc56da5d8df4365f960edb"
+  }
+]
