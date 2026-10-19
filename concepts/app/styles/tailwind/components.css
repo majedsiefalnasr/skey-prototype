@@ -1,4 +1,14 @@
 @layer components {
+  /* Boxed headers keep their grid. A scrolling board can pass through its
+     side gutters and is clipped only at the application canvas edge. */
+  body.layout-boxed .kanban-scroll-host:has(> [data-board]) {
+    box-sizing: border-box;
+    width: var(--kanban-canvas-width);
+    margin-inline: calc(-1 * var(--kanban-bleed)) !important;
+    padding-inline: var(--kanban-gutter);
+    scroll-padding-inline: var(--kanban-gutter);
+    scroll-snap-type: none !important;
+  }
   /* State, pseudo-element, and named-animation compatibility only. */
 
   /* The toolbars pair type=search inputs with their own clear button;

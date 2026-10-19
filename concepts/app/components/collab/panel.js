@@ -136,7 +136,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm, root, modal
   function renderRelated() {
     relatedHost.hidden = !current?.related
     relatedHost.innerHTML = ''
-    current?.related?.(relatedHost)
+    current?.related?.(relatedHost, {readOnly: mode === 'view'})
   }
 
   /** Paint the body for the current mode: the read-only view when one
@@ -149,6 +149,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm, root, modal
     body.innerHTML = ''
     ;(viewing ? current.view : current.render)(body)
     snapshot = formSnapshot(body)
+    renderRelated()
     ;(body.querySelector('[autofocus]') || body.querySelector(FOCUSABLE) || (modal ? panel : titleEl)).focus()
   }
 
@@ -167,13 +168,14 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm, root, modal
     current = {menu: [], ...options}
     /* The header carries a status chip and a note line — no type badge:
        the record's own title already says what kind of thing it is. */
-    statusBadge.className = `badge ${current.status?.tone || 'gray'}`
+    statusBadge.className = `badge inline-flex items-center rounded-full! px-2.5! py-1! ${current.status?.tone || 'gray'}`
     statusBadge.textContent = t(current.status?.label) || ''
     statusBadge.hidden = !current.status
     titleEl.textContent = current.ref ? current.title : t(current.title)
     descriptionEl.textContent = current.ref ? (current.description || '') : t(current.description || '')
     descriptionEl.hidden = !current.description
     descriptionEl.classList.toggle('text-[color:var(--danger)]', current.descriptionTone === 'danger')
+    for (const cls of ['rounded-md', 'border', 'border-[var(--danger-soft-line)]', 'bg-[var(--danger-soft-bg)]', 'px-3', 'py-2']) descriptionEl.classList.toggle(cls, current.descriptionTone === 'danger')
     panel.querySelector('[data-panel-save]').textContent = t(current.saveLabel || 'Save')
     /* Existing records open read-only when the page supplied a view
        renderer; new records — and freshly created ones the caller opens
@@ -187,7 +189,6 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm, root, modal
     applyMode()
     renderMenu(current.menu)
     closeMenu()
-    renderRelated()
     if (!wasOpen && modal) trapFocus(panel)
   }
 
@@ -248,7 +249,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm, root, modal
     }
     close()
   })
-  panel.querySelector('[data-panel-close]').addEventListener('click', () => close())
+  panel.querySelector('[data-panel-close]')?.addEventListener('click', () => close())
   scrim?.addEventListener('click', () => close())
   menuButton.addEventListener('click', () => (menuList.classList.contains('open') ? closeMenu() : openMenu()))
   menuList.addEventListener('click', event => {

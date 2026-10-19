@@ -1,4 +1,5 @@
 import {EMAIL_DATA, NOTIF_DATA} from '../../prototype/fixtures/messages.js'
+import {uiLocale} from '../../core/locale.js'
 
 const EMAIL_AVATAR_TONE_1_CLASS = 'bg-[var(--avatar-tone-1-bg)]! text-[var(--avatar-tone-1-ink)]!'
 const EMAIL_AVATAR_TONE_2_CLASS = 'bg-[var(--avatar-tone-2-bg)]! text-[var(--avatar-tone-2-ink)]!'
@@ -19,8 +20,9 @@ const systemUserAvatar = '<svg width="14" height="14" aria-hidden="true"><use hr
    ({id, day, from, subject, time, unread, hue}); the composition root
    passes the collaboration store's inbox, the fixture list is only the
    standalone default. */
-export function createNotifications({closeAllMenus, openEmailView, closeMenuAndRestoreFocus, getEmailMessages = () => EMAIL_DATA}) {
+export function createNotifications({closeAllMenus, openEmailView, closeMenuAndRestoreFocus, getEmailMessages = () => EMAIL_DATA, getEventReminders = () => [], openEventReminder = () => {}}) {
 const pageAbort = new AbortController()
+let notificationSnapshot = ''
         const emailAvatarTone = hue => (Math.abs(Math.round(Number(hue) / 60)) % 5) + 1
         const emailAvatarToneClass = hue => EMAIL_AVATAR_TONE_CLASSES[emailAvatarTone(hue) - 1]
         const unreadOnly = () => document.getElementById('notif-unread-only')?.checked
@@ -68,7 +70,8 @@ const pageAbort = new AbortController()
             renderEmailTab(body)
             return
           }
-          const allItems = NOTIF_DATA[tab] || []
+          const reminders = getEventReminders()
+          const allItems = [...(NOTIF_DATA[tab] || []), ...(tab === 'direct' ? reminders.map(event => ({who: event.title, what: 'Event reminder', time: event.start.replace('T', ' '), unread: event.unread, icon: 'i-cal', event})) : [])]
           const items = unreadOnly() ? allItems.filter(item => item.unread) : allItems
           if (!items.length) {
             body.innerHTML = `<div class="notif-empty flex flex-col items-center gap-2.5 px-6 pb-[30px] pt-9 text-center text-faint"><svg width="34" height="34" aria-hidden="true"><use href="#i-bell"/></svg>
@@ -77,13 +80,17 @@ const pageAbort = new AbortController()
           }
           body.innerHTML = ''
           items.forEach(n => {
-            const row = document.createElement('div')
+            const row = document.createElement(n.event ? 'button' : 'div')
+            if (n.event) {
+              row.type = 'button'
+              row.addEventListener('click', () => { closeAllMenus(); openEventReminder(n.event) }, {signal: pageAbort.signal})
+            }
             row.className = 'notif-row flex w-full cursor-pointer items-start gap-2.5 rounded-lg border-none bg-none px-2.5 py-[9px] text-start font-[inherit] hover:bg-[var(--hover-overlay)]' + (n.unread ? ' unread' : '')
             row.innerHTML = `<span class="notif-icn relative mt-px flex size-7 shrink-0 items-center justify-center rounded-full bg-[var(--hover-overlay)] text-muted"><svg width="15" height="15" aria-hidden="true"><use href="#${n.icon}"/></svg></span>
       <span class="notif-txt flex-1 min-w-0 pt-px text-[13px] leading-[1.5] text-ink${n.unread ? ' font-semibold' : ''}">${n.unread ? '<span class="visually-hidden">Unread. </span>' : ''}<b class="font-semibold"></b> <span class="notif-what text-muted"></span></span>
       <span class="notif-time shrink-0 pt-[3px] text-xs text-faint"></span>`
             row.querySelector('b').textContent = n.who
-            row.querySelector('.notif-what').textContent = n.what
+            row.querySelector('.notif-what').textContent = uiLocale.t(n.what)
             row.querySelector('.notif-time').textContent = n.time
             body.appendChild(row)
           })
@@ -123,6 +130,7 @@ const pageAbort = new AbortController()
         const notificationsTrigger = document.querySelector(
           '[aria-controls="notifications-popover"]'
         )
+        notificationsTrigger.addEventListener('click', () => renderNotif(document.querySelector('.notif-tabs [aria-selected="true"]')?.dataset.tab || 'direct'), {signal: pageAbort.signal})
         document.getElementById('notifications-popover').addEventListener('keydown', event => {
           if (event.key !== 'Escape') return
           event.preventDefault()
@@ -130,20 +138,26 @@ const pageAbort = new AbortController()
         }, {signal: pageAbort.signal})
         renderNotif('direct')
         function syncNotifBadge() {
+          const messages = getEmailMessages()
+          const reminders = getEventReminders()
+          const snapshot = JSON.stringify([messages, reminders])
           const count =
             Object.values(NOTIF_DATA)
               .flat()
-              .filter(n => n.unread).length + getEmailMessages().filter(m => m.unread).length
+              .filter(n => n.unread).length + messages.filter(m => m.unread).length + reminders.filter(event => event.unread).length
           const badge = document.getElementById('notif-badge')
           badge.textContent = count
           badge.hidden = !count
+          if (snapshot !== notificationSnapshot && document.getElementById('notifications-popover').classList.contains('open')) renderNotif(document.querySelector('.notif-tabs [aria-selected="true"]')?.dataset.tab || 'direct')
+          notificationSnapshot = snapshot
         }
         syncNotifBadge()
+        const reminderTimer = setInterval(syncNotifBadge, 60000)
 
         /* ---- email view: opened from Notifications' Email tab, replaces the invoice
    content in place while the real topbar and sidebar stay put ---- */
         /* .content holds swappable views as direct children: the record page's
    top-level elements remain unwrapped while email and list surfaces use wrappers. */
 
-return {refresh: syncNotifBadge, dispose() { pageAbort.abort();  }, syncNotifBadge}
+return {refresh: syncNotifBadge, dispose() { pageAbort.abort(); clearInterval(reminderTimer) }, syncNotifBadge}
 }

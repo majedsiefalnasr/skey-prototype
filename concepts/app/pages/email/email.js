@@ -9,9 +9,10 @@ const {t} = uiLocale
 // moves a draft to Sent. Nothing is delivered anywhere — the prototype says
 // so when you send. Relationships live only in the store's links table
 // (Related Items).
-import {escapeHtml, icon, CHIP_CLASS, ERROR_CLASS, HINT_CLASS} from '../../components/collab/fields.js'
+import {escapeHtml, icon, recordHighlights, CHIP_CLASS, ERROR_CLASS, HINT_CLASS} from '../../components/collab/fields.js'
 import {MAIL_FOLDERS, titleOf, searchText} from '../../components/collab/meta.js'
 import {formatDate, formatTime, relativeDay} from '../../core/collab-dates.js'
+import {holdFocus} from '../../components/collab/panel.js'
 
 const isSystemUser = name => /^(system|system admin)$/i.test(name || '')
 const avatar = (person, size) =>
@@ -55,6 +56,74 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     railOpen: false,
   }
   let saveTimer = null
+  const mailFilters = {all: false, person: '', from: '', to: '', attachments: false, linked: false}
+  const folderVersions = new Map()
+  const invalidateMoves = messages => messages.forEach(message => folderVersions.set(message.id, (folderVersions.get(message.id) || 0) + 1))
+
+  const filterDialog = root.querySelector('[data-mail-filter-dialog]')
+  const filterForm = filterDialog.querySelector('form')
+  const filterButton = root.querySelector('[data-mail-filters]')
+  let releaseFilterFocus = null
+  function closeFilters() {
+    releaseFilterFocus?.()
+    releaseFilterFocus = null
+    filterDialog.classList.add('hidden')
+    filterDialog.classList.remove('flex')
+    filterButton.focus()
+  }
+  filterButton.addEventListener('click', () => {
+    root.querySelectorAll('[data-mail-filter]').forEach(input => {
+      if (input.type === 'checkbox') input.checked = Boolean(mailFilters[input.dataset.mailFilter])
+      else input.value = mailFilters[input.dataset.mailFilter]
+    })
+    root.querySelector('[data-mail-filter-error]').textContent = ''
+    filterDialog.classList.remove('hidden')
+    filterDialog.classList.add('flex')
+    releaseFilterFocus = holdFocus(filterForm, closeFilters)
+    filterForm.querySelector('input').focus()
+  })
+  root.querySelectorAll('[data-mail-filter-cancel]').forEach(button => button.addEventListener('click', closeFilters))
+  filterDialog.addEventListener('click', event => { if (event.target === filterDialog) closeFilters() })
+  filterForm.addEventListener('submit', event => {
+    event.preventDefault()
+    const values = Object.fromEntries([...filterForm.querySelectorAll('[data-mail-filter]')].map(input => [input.dataset.mailFilter, input.type === 'checkbox' ? input.checked : input.value.trim()]))
+    if (values.from && values.to && values.to < values.from) {
+      root.querySelector('[data-mail-filter-error]').textContent = t('To date must be on or after From date.')
+      filterForm.querySelector('[data-mail-filter="to"]').focus()
+      return
+    }
+    Object.assign(mailFilters, values)
+    clearSelection()
+    state.selectedId = null
+    renderAll()
+    closeFilters()
+  })
+  root.querySelector('[data-mail-reset-filters]').addEventListener('click', () => {
+    root.querySelectorAll('[data-mail-filter]').forEach(input => {
+      if (input.type === 'checkbox') input.checked = false
+      else input.value = ''
+    })
+    root.querySelector('[data-mail-filter-error]').textContent = ''
+  })
+
+  function offerUndo(messages, title, body = '') {
+    invalidateMoves(messages)
+    const snapshots = messages.map(before => ({before, after: store.getEntity('mail', before.id), version: folderVersions.get(before.id)}))
+    toast({tone: 'info', title, body, action: 'Undo', onAction: () => {
+      let restored = 0
+      for (const {before, after, version} of snapshots) {
+        const current = store.getEntity('mail', before.id)
+        if (current && after && folderVersions.get(before.id) === version && current.folder === after.folder && current.previousFolder === after.previousFolder) {
+          invalidateMoves([before])
+          store.updateEntity('mail', before.id, {folder: before.folder, previousFolder: before.previousFolder ?? null})
+          restored++
+        }
+      }
+      renderAll()
+      onUnreadChange()
+      toast({tone: restored ? 'ok' : 'warn', title: restored ? 'Move undone' : 'Nothing to undo', body: restored === snapshots.length ? '' : 'Messages moved again or deleted were left unchanged.'})
+    }})
+  }
 
   const todayKey = () => store.now().slice(0, 10)
   const stampOf = m => m.sentAt || m.savedAt || m.createdAt
@@ -321,9 +390,16 @@ export function createEmail({root, store, toast, related, confirm, users, curren
 
   function visibleMessages() {
     const query = state.query.trim().toLowerCase()
-    return folderMail(state.folder).filter(
-      m => (!state.unreadOnly || m.unread) && (!query || searchText(m).includes(query))
-    )
+    const source = mailFilters.all ? allMail().filter(m => m.folder !== 'trash').sort((a, b) => stampOf(b).localeCompare(stampOf(a))) : folderMail(state.folder)
+    return source.filter(m => {
+      const date = stampOf(m).slice(0, 10)
+      const people = [m.from, ...(m.to || []), ...(m.cc || [])].filter(Boolean).map(person => `${person.name || ''} ${person.email || ''}`).join(' ').toLowerCase()
+      return (!state.unreadOnly || m.unread) && (!query || searchText(m).includes(query)) &&
+        (!mailFilters.person.trim() || people.includes(mailFilters.person.trim().toLowerCase())) &&
+        (!mailFilters.from || date >= mailFilters.from) && (!mailFilters.to || date <= mailFilters.to) &&
+        (!mailFilters.attachments || Boolean(m.attachments?.length)) &&
+        (!mailFilters.linked || store.getRelatedItems('mail', m.id).length > 0)
+    })
   }
 
   /** The header's switch mirrors the visible rows: on only when every one
@@ -339,12 +415,21 @@ export function createEmail({root, store, toast, related, confirm, users, curren
   }
 
   function renderList() {
+    root.querySelector('[data-mail-filter-error]').textContent = mailFilters.from && mailFilters.to && mailFilters.to < mailFilters.from ? t('To date must be on or after From date.') : ''
+    const labels = {all: 'All mail except Trash', person: 'Sender or recipient', from: 'From date', to: 'To date', attachments: 'Has attachments', linked: 'Linked to a record'}
+    const active = Object.entries(mailFilters).filter(([,value]) => Boolean(value))
+    root.querySelector('[data-mail-filter-chips]').innerHTML = active.map(([key, value]) => `<span class="rounded bg-[var(--line-2)] px-1.5 py-1">${escapeHtml(t(labels[key]))}${typeof value === 'string' ? ': ' + escapeHtml(value) : ''}</span>`).join('')
+    const filterCount = root.querySelector('[data-mail-filter-count]')
+    filterCount.textContent = active.length
+    filterCount.hidden = !active.length
+    filterButton.setAttribute('aria-label', t('Search filters') + (active.length ? ` (${active.length})` : ''))
+    queryId('email-search-input').placeholder = t(mailFilters.all ? 'Search all mail…' : 'Search this mailbox…')
     const scroll = queryId('email-list-scroll')
     const messages = visibleMessages()
     syncSelectAll()
     if (!messages.length) {
       scroll.innerHTML = `<div class="notif-empty flex flex-col items-center gap-2 px-6 py-10 text-center text-faint">${icon(state.query.trim() ? 'i-search' : 'i-mail', 28)}<p class="text-[13px] text-muted"></p></div>`
-      scroll.querySelector('p').textContent = state.query.trim()
+      scroll.querySelector('p').textContent = active.length ? t('No messages match these filters.') : state.query.trim()
         ? `No messages match “${state.query.trim()}”.`
         : state.unreadOnly
           ? `No unread messages in ${folderLabel(state.folder)}.`
@@ -679,6 +764,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       return
     }
     if (!(await beforeAction())) return
+    if (['archive', 'trash'].includes(action)) invalidateMoves(messages)
     if (action === 'read') {
       messages.forEach(m => {
         if (m.unread) store.updateEntity('mail', m.id, {unread: false})
@@ -687,7 +773,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       toast({tone: 'ok', title: uiLocale.t("{v0} message{v1} marked read").replace('{v0}', () => uiLocale.t(String(messages.length))).replace('{v1}', () => uiLocale.t(String(messages.length === 1 ? '' : 's')))})
     } else if (action === 'archive') {
       messages.forEach(m => store.updateEntity('mail', m.id, {folder: 'archive', previousFolder: null}))
-      toast({tone: 'info', title: uiLocale.t("{v0} message{v1} archived").replace('{v0}', () => uiLocale.t(String(messages.length))).replace('{v1}', () => uiLocale.t(String(messages.length === 1 ? '' : 's')))})
+      offerUndo(messages, uiLocale.t("{v0} message{v1} archived").replace('{v0}', () => uiLocale.t(String(messages.length))).replace('{v1}', () => uiLocale.t(String(messages.length === 1 ? '' : 's'))))
     } else if (action === 'trash') {
       messages.forEach(m => store.updateEntity('mail', m.id, {folder: 'trash', previousFolder: m.folder}))
       toast({tone: 'info', title: uiLocale.t("{v0} message{v1} moved to Trash").replace('{v0}', () => uiLocale.t(String(messages.length))).replace('{v1}', () => uiLocale.t(String(messages.length === 1 ? '' : 's')))})
@@ -710,7 +796,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     messages.forEach(m => {
       if (m.folder !== folderId) store.updateEntity('mail', m.id, {folder: folderId, previousFolder: null})
     })
-    toast({tone: 'info', title: uiLocale.t("Moved to {v0}").replace('{v0}', () => uiLocale.t(String(folderLabel(folderId)))), body: uiLocale.t("{v0} message{v1}").replace('{v0}', () => uiLocale.t(String(messages.length))).replace('{v1}', () => uiLocale.t(String(messages.length === 1 ? '' : 's')))})
+    offerUndo(messages, t('Messages moved'), folderLabel(folderId))
     clearSelection()
     state.selectedId = null
     state.pane = 'list'
@@ -728,6 +814,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     const messages = thread.length ? thread : [m]
     pane.innerHTML = `<div class="flex-none" data-mail-toolbar></div>
       <div class="email-reading-scroll email-message-scroll nc-scroll min-h-0 flex-1 overflow-auto px-6 py-4 [body.density-compact_&]:px-4 [body.density-comfortable_&]:px-8">
+        ${recordHighlights([...(m.starred ? [{label: 'Starred', iconName: 'i-spark'}] : []), ...(m.folder === 'trash' ? [{label: 'Trash', tone: 'danger', iconName: 'i-trash'}] : [])])}
         <h2 class="email-reading-subject mb-1 text-[19px] font-bold text-ink" dir="auto">${escapeHtml(titleOf(m))}</h2>
         <p class="${HINT_CLASS}">${escapeHtml(folderLabel(m.folder))}${messages.length > 1 ? ` · ${messages.length} messages in this conversation` : ''}</p>
         ${messages.map(x => messageMarkup(x, x.id === m.id || messages.length === 1)).join('')}
@@ -738,7 +825,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         <textarea id="email-quick-reply" class="email-composer-input w-full min-h-[64px] resize-y rounded-lg border border-line bg-surface px-3 py-2.5 font-[inherit] text-ink outline-none focus-visible:[box-shadow:0_0_0_3px_var(--accent-soft)]" placeholder="${escapeHtml(t("Write a reply\u2026"))}" dir="auto"></textarea>
         <div class="mt-2 flex items-center gap-2"><span class="${HINT_CLASS} flex-1">${t("Typing saves a reply draft.")}</span><button type="button" class="lbtn pri email-send">${icon('i-reply')} ${t('Reply')}</button></div>
       </div>`
-    related.render(pane.querySelector('[data-mail-related]'), {type: 'mail', id: m.id})
+    related.render(pane.querySelector('[data-mail-related]'), {type: 'mail', id: m.id}, {readOnly: true})
     const toolbarHostEl = pane.querySelector('[data-mail-toolbar]')
     const paintToolbar = () => {
       if (isBulkSelection()) {
@@ -807,6 +894,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
   async function runAction(action, m) {
     const ref = {type: 'mail', id: m.id}
     if (!['reply', 'forward', 'purge'].includes(action) && !(await beforeAction())) return
+    if (['archive', 'restore', 'trash'].includes(action)) invalidateMoves([m])
     switch (action) {
       case 'reply':
       case 'forward': {
@@ -822,7 +910,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       }
       case 'archive':
         store.updateEntity('mail', m.id, {folder: 'archive'})
-        toast({tone: 'info', title: 'Archived', body: titleOf(m)})
+        offerUndo([m], 'Archived', titleOf(m))
         return afterMove()
       case 'restore':
         store.updateEntity('mail', m.id, {folder: m.previousFolder || 'inbox', previousFolder: null})
@@ -888,7 +976,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     if (folderId === m.folder) return
     if (!(await beforeAction())) return
     store.updateEntity('mail', m.id, {folder: folderId, previousFolder: null})
-    toast({tone: 'info', title: uiLocale.t("Moved to {v0}").replace('{v0}', () => uiLocale.t(String(folderLabel(folderId)))), body: titleOf(m)})
+    offerUndo([m], uiLocale.t("Moved to {v0}").replace('{v0}', () => uiLocale.t(String(folderLabel(folderId)))), titleOf(m))
     afterMove()
   }
 
@@ -1270,12 +1358,10 @@ export function createEmail({root, store, toast, related, confirm, users, curren
                 <span class="mt-1 line-clamp-2 text-[13px] leading-[1.45] text-muted" dir="auto">${escapeHtml(frontText.slice(0, 180))}${frontText.length > 180 ? '…' : ''}</span>
               </span>
             </li>`
-    const countLabel = `${messages.length} ${t(messages.length === 1 ? 'message selected' : 'messages selected')}`
     pane.innerHTML = `<div class="flex-none" data-mail-toolbar>${bulkToolbarMarkup()}</div>
       <div class="email-reading-scroll nc-scroll min-h-0 flex-1 overflow-auto p-4 [body.density-compact_&]:p-3 [body.density-comfortable_&]:p-5">
         <div class="mx-auto flex min-h-full w-full max-w-[640px] flex-col items-center justify-center">
-          <p class="mb-3 text-center text-[14px] font-bold text-ink" data-sel-count>${countLabel}</p>
-          <ul class="email-sel-deck mt-4 w-full list-none p-0 flex flex-col items-stretch" aria-label="${escapeHtml(t("Selected messages"))}">${backCards}${frontCard}</ul>
+          <ul class="email-sel-deck w-full list-none p-0 flex flex-col items-stretch" aria-label="${escapeHtml(t("Selected messages"))}">${backCards}${frontCard}</ul>
           <p class="${HINT_CLASS} mt-4 text-center">${t("Use the bar above to act on them all.")}</p>
         </div>
       </div>`
@@ -1411,6 +1497,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       renderAll()
     },
     deactivate() {
+      if (releaseFilterFocus) closeFilters()
       flushDraft()
     },
     dispose() {

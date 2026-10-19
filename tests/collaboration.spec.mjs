@@ -212,6 +212,7 @@ test.describe('related items', () => {
   test('link is visible from both sides and dedupes', async ({page}) => {
     await go(page, '/help-screens/notes')
     await card(page, 'Month-end checklist').click()
+    await panel(page).getByRole('button', {name: 'Edit'}).click()
     await panel(page).getByRole('button', {name: 'Link existing…'}).click()
     const picker = page.locator('#collab-picker')
     await picker.getByRole('searchbox').fill('Quarter close')
@@ -233,6 +234,7 @@ test.describe('related items', () => {
   test('unlink keeps both items', async ({page}) => {
     await go(page, '/help-screens/notes')
     await card(page, 'Payment terms for Al Noor').click()
+    await panel(page).getByRole('button', {name: 'Edit'}).click()
     await panel(page).getByRole('button', {name: 'Remove link to Call Al Noor about quotation 884'}).click()
     await expect(panel(page).locator('[data-related-row]', {hasText: 'Call Al Noor'})).toHaveCount(0)
     await page.keyboard.press('Escape')
@@ -256,6 +258,7 @@ test.describe('related items', () => {
   test('create related keeps the relationship', async ({page}) => {
     await go(page, '/help-screens/notes')
     await card(page, 'Warehouse 201 variance notes').click()
+    await panel(page).getByRole('button', {name: 'Edit'}).click()
     await panel(page).getByRole('button', {name: 'Create related'}).click()
     await page.getByRole('menuitem', {name: 'Activity'}).click()
     // The new activity's editor opens over Notes — creating a related item
@@ -359,7 +362,7 @@ test.describe('events', () => {
     await page.locator('#event-start').fill('2026-10-13T11:30')
     await page.locator('#event-end').fill('2026-10-13T12:30')
     await panel(page).getByRole('button', {name: 'Save'}).click()
-    await expect(page.locator('.events-view [data-conflict-notice]')).toContainText('2 events overlap')
+    await expect(page.locator('.events-view [data-conflict-notice]')).toContainText('2 events double-book')
     await expect(page.locator('.events-view [data-cal-conflict="true"]')).toHaveCount(2)
     await expect(page.locator('.events-view [data-cal-conflict="true"]', {hasText: 'Customer visit'})).toHaveAttribute('aria-label', /conflicting/)
     await expect(page.locator('.events-view [data-cal-conflict="true"]', {hasText: 'Al Noor follow-up'})).toHaveAttribute('aria-label', /conflicting/)
@@ -660,6 +663,7 @@ test.describe('activities', () => {
   test('linking an activity to an event changes neither', async ({page}) => {
     await go(page, '/help-screens/activities')
     await page.locator('[data-card-open="act-6"]').click()
+    await panel(page).getByRole('button', {name: 'Edit'}).click()
     await panel(page).getByRole('button', {name: 'Link existing…'}).click()
     await page.locator('#collab-picker').getByRole('searchbox').fill('Quarter close')
     await page.locator('#collab-picker').getByRole('option', {name: /Event Quarter close/}).click()
@@ -804,7 +808,8 @@ test.describe('internal mail', () => {
     await go(page, '/help-screens/email')
     await row(page, 'Payment scheduled').locator('[data-mail-check]').check()
     await row(page, 'Quotation request from Al Noor Trading').locator('[data-mail-check]').check()
-    await expect(page.locator('[data-sel-count]')).toHaveText('2 messages selected')
+    await expect(page.locator('[data-mail-toolbar]')).toContainText('2 selected')
+    await expect(page.locator('[data-sel-count]')).toHaveCount(0)
     const cards = page.locator('.email-sel-card')
     await expect(cards).toHaveCount(2)
     const edge = page.locator('[data-deck-edge]')
@@ -823,7 +828,7 @@ test.describe('internal mail', () => {
     // The whole block sits centred in the reading pane, both ways.
     const layout = await page.evaluate(() => {
       const scroll = document.querySelector('#email-reading .email-reading-scroll')
-      const head = document.querySelector('[data-sel-count]')
+      const head = document.querySelector('.email-sel-deck')
       const hint = [...scroll.querySelectorAll('p')].find(p => p.textContent.includes('Use the bar'))
       const s = scroll.getBoundingClientRect()
       const h = head.getBoundingClientRect()
@@ -1137,7 +1142,7 @@ test.describe('people data', () => {
     await expect(page.locator('.people-view [data-clear-filters]')).toHaveCount(0)
   })
 
-  test('duplicate warning and simulated conversion leave Customers untouched', async ({page}) => {
+  test('duplicate warning and linking an existing customer preserve Customers', async ({page}) => {
     await go(page, '/customers/list')
     const customerRows = await page.locator('.customer-list-view [data-list-open-record]').count()
     await go(page, '/help-screens/people-data')
@@ -1148,13 +1153,15 @@ test.describe('people data', () => {
     await panel(page).getByRole('button', {name: 'Save'}).click()
     await expect(panel(page)).toBeVisible()
     await expect(panel(page).locator('#person-name-en')).toHaveCount(0)
-    await panel(page).locator('[data-panel-close]').click()
+    await panel(page).locator('[data-people-back]').click()
     await expect(page.locator('.people-view table')).toContainText('New Contact')
     await page.locator('.people-view [data-row-open]', {hasText: 'Sara Mahmoud'}).click()
     await panel(page).getByRole('button', {name: 'More actions'}).click()
     await page.getByRole('menuitem', {name: 'Convert to Customer'}).click()
-    await expect(page.locator('#collab-confirm')).toContainText('No Customer record is created')
-    await page.locator('#collab-confirm').getByRole('button', {name: 'Convert'}).click()
+    await expect(page.locator('#collab-panel')).toContainText('Review the mapping')
+    await page.locator('#collab-panel [name="conversion-customer"]').first().check()
+    await page.locator('#collab-panel [data-panel-save]').click()
+    await panel(page).locator('[data-people-back]').click()
     await expect(page.locator('.people-view tr', {hasText: 'Sara Mahmoud'})).toContainText('Converted to Customer')
     await go(page, '/customers/list')
     await expect(page.locator('.customer-list-view [data-list-open-record]')).toHaveCount(customerRows)

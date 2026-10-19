@@ -33,6 +33,14 @@ import {JOURNAL_ENTRY_ROWS} from '../../prototype/fixtures/journal-entry.js'
 // pre-first-render placeholder.
 
 export const DATA_LIST_CONFIG = {
+  people: {
+    label: 'people', singular: 'person', key: 'id', rows: [],
+    noRowActions: true, hideToolbar: true, scrollOverflow: true,
+    tableClass: 'min-w-[930px] [&_th:first-child]:min-w-[210px]',
+    columns: [{key: 'nameEn', label: 'Name'}, {key: 'company', label: 'Company'}, {key: 'phone', label: 'Mobile / phone'}, {key: 'email', label: 'Email'}, {key: 'lifecycle', label: 'Status'}],
+    filters: [{key: 'all', label: 'All people', icon: 'i-user'}],
+    filterFields: [],
+  },
   invoice: {
     label: 'invoices',
     singular: 'invoice',

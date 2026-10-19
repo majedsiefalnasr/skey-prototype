@@ -492,6 +492,9 @@ export function createCustomerRecord({root, deps}) {
     customerSavedSnapshot = structuredClone(customerData)
     setMode('view')
     toast({tone: 'ok', title: 'Customer saved'})
+    const onSaved = sectionsDepsRef.onSaved
+    sectionsDepsRef.onSaved = null
+    onSaved?.(structuredClone(row))
     return true
   }
 
@@ -950,6 +953,7 @@ export function createCustomerRecord({root, deps}) {
       mode === 'create'
         ? createBlankCustomerData()
         : createSavedCustomerData(customerNo, customerRows, customerReference)
+    if (mode === 'create' && sectionsDeps.prefill) Object.assign(customerData, sectionsDeps.prefill)
     customerSavedSnapshot = structuredClone(customerData)
     if (refs.modeSelect) refs.modeSelect.value = mode
     if (active) render()

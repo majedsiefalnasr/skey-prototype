@@ -26,6 +26,35 @@ const seed = () => ({
   },
   links: [],
 })
+
+test('note column changes migrate populated columns atomically and preserve links', () => {
+  const store = createCollabStore({storage: memoryStorage(), seed: seed(), now: () => '2026-10-13T09:00:00Z'})
+  const original = store.listNoteColumns()
+  assert.equal(store.configureNoteColumns([...original, {id: 'review', label: 'Review'}]).ok, true)
+  assert.equal(store.listNoteColumns().at(-1).id, 'archived')
+  store.updateEntity('note', 'note-1', {status: 'review'})
+  store.link({type: 'note', id: 'note-1'}, {type: 'activity', id: 'act-1'})
+  assert.ok(store.configureNoteColumns(original).error)
+  assert.equal(store.getEntity('note', 'note-1').status, 'review')
+  assert.equal(store.configureNoteColumns(original, {review: 'active'}).ok, true)
+  assert.equal(store.getEntity('note', 'note-1').status, 'active')
+  assert.equal(store.getRelatedItems('note', 'note-1').length, 1)
+  assert.ok(store.configureNoteColumns(original.filter(column => column.id !== 'archived')).error)
+  assert.ok(store.configureNoteColumns([...original, {id: 'bad', label: ' Active '}]).error)
+})
+test('Archived stays last after reordering, renaming and loading an older layout', () => {
+  const storage = memoryStorage()
+  const store = createCollabStore({storage, seed: seed()})
+  const reordered = store.listNoteColumns().reverse().map(column => column.id === 'archived' ? {...column, label: 'History'} : column)
+  assert.equal(store.configureNoteColumns(reordered).ok, true)
+  assert.deepEqual(store.listNoteColumns().map(column => column.id), ['active', 'draft', 'archived'])
+  const saved = JSON.parse(storage.getItem('skey-proto-collab'))
+  saved.noteColumns.reverse()
+  storage.setItem('skey-proto-collab', JSON.stringify(saved))
+  const restored = createCollabStore({storage, seed: seed()})
+  assert.equal(restored.listNoteColumns().at(-1).id, 'archived')
+  assert.equal(restored.listNoteColumns().at(-1).label, 'History')
+})
 const make = (storage = memoryStorage()) => createCollabStore({storage, seed: seed(), now: () => '2026-10-13T13:24'})
 const N1 = {type: 'note', id: 'note-1'}
 const A1 = {type: 'activity', id: 'act-1'}

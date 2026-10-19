@@ -1,10 +1,12 @@
 import {uiLocale} from '../../core/locale.js'
 import {createCollabPanel} from '../../components/collab/panel.js'
+import {renderDataListColumnControls} from '../../components/data-list/list.js'
+import {DATA_LIST_CONFIG} from '../../components/data-list/columns.js'
 // People Data — people you deal with before (or instead of) them becoming
 // a customer, supplier, employee or user. A list + full-page record with
 // bilingual names, repeatable contacts, live duplicate feedback, and a
-// "Convert to" action that is simulated: it marks the person as converted
-// and never creates or edits Customers (or any other) records.
+// Conversion previews map to existing Customers or their normal create
+// form. Other target records require their own product/account workflows.
 import {
   escapeHtml,
   icon,
@@ -61,17 +63,13 @@ const VIEW_PRESENTATION = {
   list: {label: 'List', icon: 'i-grid'},
   cards: {label: 'Cards', icon: 'i-panel'},
 }
-/* The invoices list table, same classes as renderDataList emits — the
-   shell, the scroll box and the bordered sticky-header grid. */
-const INV_GRID_CLASS =
-  'inv-grid w-full [border-collapse:collapse] [font-size:13px] [&_th]:text-start [&_th]:[padding:8px_12px] [&_th]:text-muted [&_th]:font-medium [&_th]:[border-bottom:1px_solid_var(--line)] [&_th]:whitespace-nowrap [&_th]:sticky [&_th]:top-0 [&_th]:z-[3] [&_td]:[padding:8px_12px] [&_td]:[border-bottom:1px_solid_var(--line-2)] [&_td]:text-ink [&_td]:whitespace-nowrap [&_td]:[text-overflow:ellipsis] [&_td]:overflow-hidden [&_td]:[max-width:200px] [&_tbody_tr:hover]:[background:var(--hover-overlay)]'
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const FIELD_LABEL = {mobile: 'mobile', phone: 'phone', email: 'email', name: 'name'}
 
 const primaryOf = (person, kind) =>
   (person.contacts || []).filter(c => (kind === 'email' ? c.kind === 'email' : c.kind !== 'email')).sort((a, b) => Number(b.primary) - Number(a.primary))[0]?.value || ''
 
-export function createPeople({store, toast, related, confirm, goHome, navigate}) {
+export function createPeople({store, toast, panel: conversionPanel, related, confirm, goHome, navigate, getTable, customers, openCustomer}) {
   const listRoot = document.querySelector('.people-view')
   const view = () => listRoot
   const recordRoot = document.querySelector('.people-record-view')
@@ -153,13 +151,25 @@ export function createPeople({store, toast, related, confirm, goHome, navigate})
       })}${collabFilterChips({fields, filters: state.fieldFilters})}${
         filterActive() ? clearFilterButton({attr: 'clear-filters'}) : ''
       }`,
-      right: `${searchField({attr: 'collab-search', label: 'people', value: state.query})}${viewMenu({
+      right: `${searchField({attr: 'collab-search', label: 'people', value: state.query})}${menuDetails({attr: 'people-columns', iconName: 'i-sliders', label: 'Columns', end: true, items: renderDataListColumnControls(DATA_LIST_CONFIG.people, getTable().getState(), {t: uiLocale.t, encodeHtml: escapeHtml}) + `<button type="button" data-people-save-layout>${uiLocale.t('Save layout')}</button><button type="button" data-people-reset-layout>${uiLocale.t('Reset layout')}</button>`})}${viewMenu({
         attr: 'view-menu',
         label: presentation.label,
         iconName: presentation.icon,
         options: viewOptions,
       })}`,
     })}</div>`
+    host.querySelector('[data-list-column="nameEn"]').disabled = true
+    host.querySelectorAll('[data-list-column]').forEach(input => input.addEventListener('change', () => {
+      const table = getTable()
+      if (input.checked) table.getState().hiddenColumns.delete(input.dataset.listColumn)
+      else table.getState().hiddenColumns.add(input.dataset.listColumn)
+      renderBody()
+    }))
+    host.querySelector('[data-people-save-layout]').addEventListener('click', () => {
+      const ok = getTable().model.saveLayout()
+      toast({tone: ok ? 'ok' : 'bad', title: ok ? 'Layout saved' : 'Layout could not be saved'})
+    })
+    host.querySelector('[data-people-reset-layout]').addEventListener('click', () => { getTable().model.resetLayout(); buildToolbar(); renderBody() })
     const refresh = () => {
       buildToolbar()
       renderBody()
@@ -216,33 +226,19 @@ export function createPeople({store, toast, related, confirm, goHome, navigate})
           : emptyState({iconName: 'i-user', title: 'No people yet', body: 'Add someone with New person — only an English name is required.'})
       return
     }
-    body.innerHTML = state.view === 'cards' ? cardsMarkup(people) : listMarkup(people)
-    body.querySelectorAll('[data-row-open]').forEach(button => button.addEventListener('click', () => openPerson(button.dataset.rowOpen)))
+    if (state.view === 'cards') {
+      getTable().deactivate()
+      body.innerHTML = cardsMarkup(people)
+      body.querySelectorAll('[data-row-open]').forEach(button => button.addEventListener('click', () => openPerson(button.dataset.rowOpen)))
+    } else {
+      body.innerHTML = '<div data-people-table></div><div class="mt-2" data-people-table-footer></div>'
+      const table = getTable()
+      table.getState().hiddenColumns.delete('nameEn')
+      table.setRows(people.map(person => ({...person, phone: primaryOf(person, 'phone'), email: primaryOf(person, 'email'), conversionLabel: person.convertedTo ? conversionLabel(person.convertedTo.target) : ''})))
+      table.activate({root: body.querySelector('[data-people-table]'), footer: body.querySelector('[data-people-table-footer]')})
+      body.querySelector('[data-people-table]').dataset.peopleGrid = ''
+    }
   }
-
-  const listMarkup = people => `<div class="data-list-shell relative overflow-visible rounded-lg border border-line bg-surface [box-shadow:var(--shadow-1)]">
-      <div class="data-table-scroll overflow-auto rounded-[inherit] max-w-full max-h-[max(280px,calc(100dvh-360px))]">
-        <table class="${INV_GRID_CLASS} borders-default min-w-[930px] [table-layout:fixed]" data-people-grid>
-          <colgroup><col><col style="width:160px"><col style="width:150px"><col style="width:180px"><col style="width:220px"></colgroup>
-          <thead><tr><th scope="col">Name</th><th scope="col">Company</th><th scope="col">Mobile / phone</th><th scope="col">Email</th><th scope="col">Status</th></tr></thead>
-          <tbody>${people
-            .map(
-              p => `<tr>
-            <td><button type="button" class="${ROW_BUTTON_CLASS}" data-row-open="${escapeHtml(p.id)}"><span class="block" dir="auto">${escapeHtml(
-                p.nameEn
-              )}</span>${p.nameAr ? `<span class="block text-xs font-normal text-muted" dir="rtl" lang="ar">${escapeHtml(p.nameAr)}</span>` : ''}</button></td>
-            <td dir="auto">${escapeHtml(p.company || '—')}</td>
-            <td dir="ltr" class="text-start">${escapeHtml(primaryOf(p, 'phone') || '—')}</td>
-            <td dir="ltr" class="text-start">${escapeHtml(primaryOf(p, 'email') || '—')}</td>
-            <td><span class="flex flex-wrap gap-1"><span class="badge gray">${p.lifecycle === 'contact' ? 'Contact' : 'Lead'}</span>${
-              p.convertedTo ? `<span class="badge ok">Converted to ${escapeHtml(conversionLabel(p.convertedTo.target))}</span>` : ''
-            }${p.archived ? '<span class="badge gray">Archived</span>' : ''}</span></td>
-          </tr>`
-            )
-            .join('')}</tbody>
-        </table>
-      </div>
-    </div>`
 
   const personFact = ([label, value, dir]) =>
     `<div class="min-w-0"><dt class="mb-0.5! text-[12px] text-muted">${escapeHtml(label)}</dt><dd class="m-0! truncate text-[12.5px] font-semibold text-ink"${
@@ -322,7 +318,7 @@ export function createPeople({store, toast, related, confirm, goHome, navigate})
         </div>
       </details>
       <div class="mt-5">${field({id: 'person-notes', label: 'Notes', control: textarea({id: 'person-notes', value: person.notes, rows: 3})})}</div>
-      ${person.convertedTo ? `<p class="mt-4 rounded-md bg-[var(--line-2)] px-3 py-2 text-[13px] text-ink">${icon('i-check')} Converted to ${escapeHtml(conversionLabel(person.convertedTo.target))} (simulated — no ${escapeHtml(conversionLabel(person.convertedTo.target))} record exists).</p>` : ''}`
+      ${person.convertedTo ? `<p class="mt-4 rounded-md bg-[var(--line-2)] px-3 py-2 text-[13px] text-ink">${icon('i-check')} ${uiLocale.t('Converted to')} ${escapeHtml(conversionLabel(person.convertedTo.target))}${person.convertedTo.recordId ? ` · ${escapeHtml(person.convertedTo.recordId)}` : ' (simulated)'}</p>` : ''}`
   }
 
   /* Read-only twin of the editor; the form waits behind Edit. */
@@ -348,7 +344,7 @@ export function createPeople({store, toast, related, confirm, goHome, navigate})
           : '—'
       )}
       ${viewRow('Notes', person.notes ? `<span class="whitespace-pre-line" dir="auto">${escapeHtml(person.notes)}</span>` : '—')}
-      ${person.convertedTo ? viewRow('Converted', `${icon('i-check')} ${escapeHtml(conversionLabel(person.convertedTo.target))} (simulated)`) : ''}
+      ${person.convertedTo ? viewRow('Converted', `${icon('i-check')} ${escapeHtml(conversionLabel(person.convertedTo.target))}${person.convertedTo.recordId ? ` · ${escapeHtml(person.convertedTo.recordId)}` : ' (simulated)'}`) : ''}
     </dl>`
   }
 
@@ -503,33 +499,67 @@ export function createPeople({store, toast, related, confirm, goHome, navigate})
       onClose: () => navigate('people'),
       menu: existing
         ? [
-            ...CONVERSION_TARGETS.map(([target, label]) => ({label: `Convert to ${label}`, icon: 'i-next', run: () => convert(existing, target)})),
+            ...(existing.convertedTo?.target === 'customer' && existing.convertedTo.recordId ? [{label: 'Open customer', icon: 'i-next', run: () => openCustomer(existing.convertedTo.recordId)}] : []),
+            ...CONVERSION_TARGETS.map(([target, label]) => ({label: uiLocale.t('Convert to {target}').replace('{target}', uiLocale.t(label)), icon: 'i-next', run: () => convert(existing, target)})),
             existing.archived
               ? {label: 'Restore', icon: 'i-undo', run: () => setArchived(existing, false)}
               : {label: 'Archive', icon: 'i-archive', run: () => setArchived(existing, true)},
             {label: 'Delete', icon: 'i-trash', danger: true, run: () => deletePerson(existing)},
           ]
         : [],
-      related: ref ? host => related.render(host, ref) : null,
+      related: ref ? (host, options) => related.render(host, ref, options) : null,
     })
     if (!edit && existing) recordRoot.querySelector('[data-panel-title]').focus()
   }
 
   async function convert(person, target) {
     const label = conversionLabel(target)
-    const current = person.convertedTo ? conversionLabel(person.convertedTo.target) : null
-    const ok = await confirm({
-      title: current
-        ? uiLocale.t('Replace conversion to {type}?').replace('{type}', current)
-        : uiLocale.t('Convert {name} to {type}?').replace('{name}', titleOf(person)).replace('{type}', label),
-      body: uiLocale.t('Prototype: this only marks the person as converted to {type}. No {type} record is created and the Customers screens are not changed.')
-        .replaceAll('{type}', label) + (current ? uiLocale.t(' The current mark ({type}) is replaced.').replace('{type}', current) : ''),
-      confirmLabel: 'Convert',
+    let selected = null
+    const markConverted = row => {
+      if (!store.getEntity('person', person.id)) return
+      store.updateEntity('person', person.id, {convertedTo: {target: 'customer', recordId: row.customerNo, at: store.now()}, lifecycle: 'contact'})
+      if (recordRoot.isConnected && !recordRoot.hidden) showPerson(person.id)
+      toast({tone: 'ok', title: 'Person linked to customer', body: `${person.nameEn} → ${row.customerName} (${row.customerNo})`})
+    }
+    conversionPanel.open({
+      title: `${uiLocale.t('Convert to')} ${label}`,
+      description: 'Review the mapping and duplicates before linking or creating a record. The source person and its related items are preserved.',
+      saveLabel: target === 'customer' ? 'Continue' : target === 'user' ? 'Open Organization Center' : 'Close preview',
+      render: body => {
+        body.innerHTML = `<dl class="${VIEW_LIST_CLASS}">${viewRow('Name', escapeHtml(person.nameEn))}${viewRow('Company', escapeHtml(person.company || '—'))}${viewRow('Phone', escapeHtml(primaryOf(person, 'phone') || '—'))}${viewRow('Email', escapeHtml(primaryOf(person, 'email') || '—'))}</dl>
+          ${target === 'customer' ? `<label class="mt-4 block text-sm">${uiLocale.t('Conversion action')}<select class="mt-1 w-full rounded border border-line bg-surface p-2 text-ink" data-conversion-mode><option value="link">${uiLocale.t('Link to existing')}</option><option value="create">${uiLocale.t('Create new')}</option></select></label><div class="mt-3" data-conversion-existing><label class="block text-sm">${uiLocale.t('Search customers')}<input type="search" class="mt-1 w-full rounded border border-line bg-surface p-2 text-ink" data-conversion-search></label><div class="mt-2 grid max-h-60 gap-2 overflow-auto" data-conversion-results></div></div><p class="mt-3 text-xs text-muted" data-conversion-hint>${uiLocale.t('Choose an existing customer, or review the prefilled customer form. A new customer is linked only after you save that form.')}</p>` : `<p class="mt-4 rounded border border-line p-3 text-sm text-muted">${uiLocale.t(target === 'user' ? 'User access must be created through Organization Center with its role and permission checks. This action does not create or invite an account.' : 'This target does not have a record form in this prototype. The mapping is available for review; no destination record or conversion mark will be created.')}</p>`}
+          <p class="mt-2 text-sm text-[var(--danger)]" role="alert" data-conversion-error></p>`
+        if (target !== 'customer') return
+        const results = body.querySelector('[data-conversion-results]')
+        const renderMatches = () => {
+          const query = body.querySelector('[data-conversion-search]').value.trim().toLowerCase()
+          const rows = customers().filter(row => !query || `${row.customerName} ${row.customerNo} ${row.phone || ''}`.toLowerCase().includes(query))
+          results.innerHTML = rows.length ? rows.map(row => {
+            const duplicate = (person.company && row.customerName.toLowerCase() === person.company.toLowerCase()) || (row.phone && row.phone.replace(/\D/g, '').slice(-10) === primaryOf(person, 'phone').replace(/\D/g, '').slice(-10))
+            return `<label class="flex items-start gap-2 rounded border border-line p-2 text-sm"><input type="radio" name="conversion-customer" value="${escapeHtml(row.customerNo)}"><span>${escapeHtml(row.customerName)} · ${escapeHtml(row.customerNo)}${duplicate ? `<small class="block text-[var(--warning)]">${uiLocale.t('Possible match — review before creating another customer.')}</small>` : ''}</span></label>`
+          }).join('') : `<p class="text-sm text-muted">${uiLocale.t('No matching customers.')}</p>`
+        }
+        renderMatches()
+        body.querySelector('[data-conversion-search]').addEventListener('input', renderMatches)
+        body.querySelector('[data-conversion-mode]').addEventListener('change', event => { body.querySelector('[data-conversion-existing]').hidden = event.target.value === 'create' })
+      },
+      save: async body => {
+        if (target !== 'customer') return true
+        const mode = body.querySelector('[data-conversion-mode]').value
+        const id = body.querySelector('[name="conversion-customer"]:checked')?.value
+        const row = customers().find(row => row.customerNo === id)
+        if (mode === 'link' && !row) { body.querySelector('[data-conversion-error]').textContent = uiLocale.t('Choose a customer to link.'); return false }
+        if (person.convertedTo?.recordId && !(await confirm({title: 'Replace the current customer link?', body: 'The existing customer will not be deleted or changed.', confirmLabel: 'Continue'}))) return false
+        selected = {mode, row}
+        return true
+      },
+      onSaved: async () => {
+        await conversionPanel.close({force: true})
+        if (target === 'user') navigate('organization', {section: 'users'})
+        else if (target === 'customer' && selected?.mode === 'create') openCustomer(null, person, markConverted)
+        else if (selected?.row) markConverted(selected.row)
+      },
     })
-    if (!ok) return
-    store.updateEntity('person', person.id, {convertedTo: {target, at: store.now()}, lifecycle: 'contact'})
-    await panel.close({force: true})
-    toast({tone: 'ok', title: uiLocale.t("Marked as converted to {v0}").replace('{v0}', () => uiLocale.t(String(label))), body: uiLocale.t("{v0} — simulated, no {v1} record was created.").replace('{v0}', () => uiLocale.t(String(titleOf(person)))).replace('{v1}', () => uiLocale.t(String(label)))})
   }
 
   async function setArchived(person, archived) {
@@ -595,6 +625,7 @@ export function createPeople({store, toast, related, confirm, goHome, navigate})
       }
     },
     deactivate() {
+      getTable().deactivate()
       unsubscribe?.()
       unsubscribe = null
     },

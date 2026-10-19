@@ -54,7 +54,7 @@ test('Person page saves edits and returns to the same filtered list', async ({pa
   await record.locator('[data-panel-save]').click()
   await expect(record.locator('[data-panel-body]')).toContainText('Updated company')
   await expect(record.locator('#person-company')).toHaveCount(0)
-  await record.locator('[data-panel-close]').click()
+  await record.locator('[data-people-back]').click()
   await expect(page.locator('[data-collab-search]')).toHaveValue('Ahmed Ali')
   await expect(page.locator('[data-row-open]')).toHaveCount(1)
   await expect(page.locator('.people-view tbody')).toContainText('Updated company')

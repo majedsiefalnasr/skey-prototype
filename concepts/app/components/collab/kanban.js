@@ -9,7 +9,27 @@ const {t} = uiLocale
 import {escapeHtml, icon} from './fields.js'
 
 const COLUMN_CLASS =
-  'flex min-h-[220px] min-w-[240px] flex-1 flex-col rounded-lg border border-line bg-[var(--line-2)] [&.drop-target]:border-[var(--accent)] [&.drop-target]:bg-[var(--accent-soft)] data-[collapsed=true]:min-h-0 data-[collapsed=true]:flex-none data-[collapsed=true]:min-w-[200px]'
+  'flex min-h-[220px] min-w-0 w-[var(--kanban-column-width)] flex-none snap-start snap-always flex-col rounded-lg border border-line bg-[var(--line-2)] [&.drop-target]:border-[var(--accent)] [&.drop-target]:bg-[var(--accent-soft)] data-[collapsed=true]:min-h-0'
+const COLUMN_MIN_WIDTH = 320
+const COLUMN_GAP = 12
+const boardObservers = new WeakMap()
+function sizeColumns(host) {
+  const board = host.querySelector('[data-board]')
+  if (!board || !host.clientWidth) return
+  const canvas = host.closest('.content')
+  const parent = host.parentElement
+  const boxed = document.body.classList.contains('layout-boxed') && canvas
+  const inset = window.innerWidth <= 900 ? 8 : 0
+  const available = boxed ? parent.clientWidth - inset * 2 : host.clientWidth
+  if (canvas) {
+    const gutter = Math.max(0, (canvas.clientWidth - parent.clientWidth) / 2 + inset)
+    host.style.setProperty('--kanban-canvas-width', `${canvas.clientWidth}px`)
+    host.style.setProperty('--kanban-bleed', `${Math.max(0, (canvas.clientWidth - parent.clientWidth) / 2)}px`)
+    host.style.setProperty('--kanban-gutter', `${gutter}px`)
+  }
+  const count = Math.max(1, Math.min(board.children.length, Math.floor((available + COLUMN_GAP) / (COLUMN_MIN_WIDTH + COLUMN_GAP))))
+  board.style.setProperty('--kanban-column-width', `${(available - (count - 1) * COLUMN_GAP) / count}px`)
+}
 export const CARD_CLASS =
   'relative cursor-grab rounded-md border border-line bg-surface shadow-[0_1px_1px_rgba(9,30,66,0.08)] transition-[box-shadow,border-color] duration-150 hover:border-[var(--accent-line)] hover:shadow-[0_4px_10px_rgba(9,30,66,0.14)] active:cursor-grabbing'
 export const CARD_OPEN_CLASS =
@@ -30,9 +50,9 @@ export const CARD_OPEN_CLASS =
  *   showMove?: boolean,
  * }} options
  */
-export function renderBoard(host, {columns, renderCard, renderCardActions, titleOf, onOpen, onMove, onQuickAdd, onToggleColumn, emptyText = 'Nothing here yet.', showMove = true}) {
-  const moveOptions = columns.map(column => [column.id, column.label])
-  host.innerHTML = `<div class="flex items-start gap-3 overflow-x-auto pb-2" data-board>${columns
+export function renderBoard(host, {columns, moveColumns = columns, renderCard, renderCardActions, titleOf, onOpen, onMove, onQuickAdd, onToggleColumn, emptyText = 'Nothing here yet.', showMove = true}) {
+  const moveOptions = moveColumns.map(column => [column.id, column.label])
+  host.innerHTML = `<div class="flex w-full min-w-0 items-start gap-3 overflow-visible pb-2" data-board>${columns
     .map(column => {
       const collapsed = Boolean(column.collapsed)
       return `<section class="${COLUMN_CLASS}" data-column="${escapeHtml(column.id)}" data-collapsed="${collapsed}" aria-label="${escapeHtml(t(column.label))}">
@@ -86,6 +106,17 @@ export function renderBoard(host, {columns, renderCard, renderCardActions, title
       </section>`
     })
     .join('')}</div>`
+  // Fit a whole number of columns; narrow screens show one complete column.
+  // Keep the page's content scroller, with snapping only while a board exists.
+  host.classList.add('kanban-scroll-host', '[&:has(>[data-board])]:[scroll-snap-type:x_mandatory]')
+  sizeColumns(host)
+  if (!boardObservers.has(host)) {
+    const observer = new ResizeObserver(() => sizeColumns(host))
+    observer.observe(host)
+    observer.observe(host.parentElement)
+    if (host.closest('.content')) observer.observe(host.closest('.content'))
+    boardObservers.set(host, observer)
+  }
 
   host.querySelectorAll('[data-card-open]').forEach(button =>
     button.addEventListener('click', () => onOpen(button.dataset.cardOpen))

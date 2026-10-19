@@ -1,5 +1,7 @@
 # Help Screens UX audit — 19 October 2026
 
+Implementation follow-up: the user approved every **Do next** item from the decision summary. See [implementation and verification](help-screens-decisions-implementation-2026-10-19.md) for the resulting behavior and remaining product/backend boundaries. The findings below preserve the review baseline.
+
 Scope: Internal Mail, Events, Activities, Notes, and People Data in the current prototype, including the People Data changes made during this review. This is a source review and browser walkthrough, not a usability study with customers. Priorities below are product recommendations; they do not authorize implementation.
 
 P1 means address in the next relevant product iteration. P2 means a useful follow-up after the core workflow is validated. Production prerequisites are identified separately from defects in the prototype.

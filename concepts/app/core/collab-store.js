@@ -13,6 +13,12 @@ const ID_PREFIX = {note: 'note', activity: 'act', event: 'evt', mail: 'mail', pe
 
 const copy = value => (value == null ? value : JSON.parse(JSON.stringify(value)))
 const sameRef = (x, y) => x.type === y.type && x.id === y.id
+const archiveLast = columns => [...columns.filter(column => column.id !== 'archived'), ...columns.filter(column => column.id === 'archived')]
+const DEFAULT_NOTE_COLUMNS = [
+  {id: 'draft', label: 'Draft', category: 'draft', hidden: false},
+  {id: 'active', label: 'Active', category: 'active', hidden: false},
+  {id: 'archived', label: 'Archived', category: 'archived', hidden: false},
+]
 const linkJoins = (link, x, y) =>
   (sameRef(link.a, x) && sameRef(link.b, y)) || (sameRef(link.a, y) && sameRef(link.b, x))
 
@@ -24,6 +30,8 @@ export function createCollabStore({storage, seed, now}) {
     entities: Object.fromEntries(ENTITY_TYPES.map(type => [type, copy(seed.entities[type] || [])])),
     links: copy(seed.links || []),
     folders: [],
+    noteColumns: copy(DEFAULT_NOTE_COLUMNS),
+    preferences: {},
   })
   const isUsable = saved =>
     saved?.version === COLLAB_SCHEMA_VERSION &&
@@ -39,6 +47,12 @@ export function createCollabStore({storage, seed, now}) {
         if (!Array.isArray(saved.folders)) saved.folders = []
         saved.folders = saved.folders.filter(folder => folder?.id && typeof folder.name === 'string')
         if (typeof saved.seq !== 'number') saved.seq = 1000
+        if (!Array.isArray(saved.noteColumns)) saved.noteColumns = copy(DEFAULT_NOTE_COLUMNS)
+        if (!saved.preferences || typeof saved.preferences !== 'object') saved.preferences = {}
+        for (const column of DEFAULT_NOTE_COLUMNS) {
+          if (!saved.noteColumns.some(entry => entry.id === column.id)) saved.noteColumns.push(copy(column))
+        }
+        saved.noteColumns = archiveLast(saved.noteColumns)
         return saved
       }
     } catch {
@@ -74,8 +88,26 @@ export function createCollabStore({storage, seed, now}) {
 
   return {
     now,
+    getPreference: (key, fallback = null) => copy(state.preferences[key] ?? fallback),
+    setPreference(key, value) { state.preferences[key] = copy(value); commit() },
     getEntity: (type, id) => copy(find(type, id)),
     listEntities: (type, filter = () => true) => copy((state.entities[type] || []).filter(filter)),
+    listNoteColumns: () => copy(state.noteColumns),
+    configureNoteColumns(columns, moves = {}) {
+      const clean = columns.map(column => ({...column, label: String(column.label || '').trim()}))
+      const ids = new Set(clean.map(column => column.id))
+      const names = new Set(clean.map(column => column.label.toLocaleLowerCase()))
+      if (ids.size !== clean.length || names.size !== clean.length || clean.some(column => !column.label || column.label.length > 40 || !/^[a-z0-9-]+$/i.test(column.id))) return {error: 'Use unique column names of 1–40 characters.'}
+      if (DEFAULT_NOTE_COLUMNS.some(column => !ids.has(column.id))) return {error: 'Draft, Active and Archived are system columns.'}
+      for (const column of clean) column.category = DEFAULT_NOTE_COLUMNS.find(item => item.id === column.id)?.category || 'active'
+      for (const note of state.entities.note) {
+        if (!ids.has(note.status) && (!ids.has(moves[note.status]) || moves[note.status] === 'archived')) return {error: 'Choose a destination for every removed column that contains notes.'}
+      }
+      for (const note of state.entities.note) if (!ids.has(note.status)) Object.assign(note, {status: moves[note.status], updatedAt: now()})
+      state.noteColumns = archiveLast(clean)
+      commit()
+      return {ok: true}
+    },
     /** User-created mail folders: {id, name, createdAt}. The system
      *  mailboxes (Inbox/Sent/…) are not stored here — they are the
      *  constant list the mail screen owns. */

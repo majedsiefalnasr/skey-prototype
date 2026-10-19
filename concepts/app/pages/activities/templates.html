@@ -1,8 +1,9 @@
 <template class="activities-tpl">
-  <div class="activities-view collab-view flex min-h-0 flex-1 flex-col" hidden>
+  <div class="activities-view collab-view flex min-h-0 min-w-0 flex-1 flex-col" hidden>
     <div class="phead flex items-start gap-5 px-4 [.d1_&]:[padding:11px_0]">
       <div class="l min-w-0 flex-1">
         <nav class="flex items-center gap-1.5 text-[13px] text-muted [&_a]:text-accent [&_a]:no-underline [&_a:hover]:underline" aria-label="Breadcrumb">
+          <a href="/" data-home-link data-i18n="Home">Home</a><span class="sep" aria-hidden="true">›</span>
           <a href="#" data-collab-home data-i18n="Help Screens">Help Screens</a><span aria-hidden="true">›</span
           ><span aria-current="page" data-i18n="Activities">Activities</span>
         </nav>

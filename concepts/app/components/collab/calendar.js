@@ -319,7 +319,7 @@ function renderMonth(host, {date, todayKey, items}) {
         const shown = dayItems.slice(0, 3)
         const outside = day.slice(0, 7) !== month
         const isToday = day === todayKey
-        return `<div role="gridcell" class="relative min-h-[104px] border-b border-e border-line p-1 ${outside ? 'bg-[var(--line-2)] text-faint' : 'bg-surface'}" data-date="${day}"${outside ? ' data-outside="true"' : ''}${isToday ? ' aria-current="date"' : ''}>
+        return `<div role="gridcell" class="relative min-h-[104px] border-b border-e border-line p-1 ${isToday ? 'bg-[var(--accent-soft)] [box-shadow:inset_0_0_0_1px_var(--accent-line)]' : outside ? 'bg-[var(--line-2)] text-faint' : 'bg-surface'}" data-date="${day}"${outside ? ' data-outside="true"' : ''}${isToday ? ' aria-current="date"' : ''}>
           <button type="button" class="absolute inset-0 border-0 bg-transparent focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]" data-cal-slot="${day}" aria-label="${t('New on')} ${escapeHtml(longDay(day))}"></button>
           <span class="relative inline-grid size-6 place-items-center rounded-full text-xs ${isToday ? 'bg-[var(--accent)] font-semibold text-inverse' : ''}">${Number(day.slice(8)).toLocaleString(uiLocale.getLocale() === 'ar' ? 'ar-EG' : 'en-GB')}${isToday ? `<span class="sr-only"> ${t('(today)')}</span>` : ''}</span>
           <div class="relative mt-0.5 grid gap-0.5">${shown.map(({item, index}) => itemButton(item, index, 'truncate', '', item.start.slice(0, 10) < day ? 'Continues' : formatTime(item.start))).join('')}
@@ -340,7 +340,7 @@ function renderTimeGrid(host, {days, todayKey, nowKey, items}) {
   host.innerHTML = `<div class="overflow-hidden rounded-lg border border-line bg-surface" ${days.length > 1 ? 'data-cal-week' : 'data-cal-day'}>
     <div class="grid border-b border-line" style="${columns}">
       <div></div>
-      ${days.map(day => `<div data-cal-column-date="${day}" class="border-s border-line px-2 py-1.5 text-xs ${day === todayKey ? 'font-semibold text-accent' : 'text-muted'}"${day === todayKey ? ' aria-current="date"' : ''}>${escapeHtml(longDay(day))}</div>`).join('')}
+      ${days.map(day => `<div data-cal-column-date="${day}" class="border-s border-line px-2 py-1.5 text-xs ${day === todayKey ? 'font-semibold text-accent bg-[var(--accent-soft)] border-t-2 border-t-[var(--accent)]' : 'text-muted'}"${day === todayKey ? ' aria-current="date"' : ''}>${escapeHtml(longDay(day))}</div>`).join('')}
     </div>
     <div class="grid border-b border-line" style="${columns}" data-allday-row aria-label="${escapeHtml(t("All-day"))}">
       <div class="px-1.5 py-1 text-[11px] text-muted">${t("All day")}</div>
@@ -365,7 +365,7 @@ function renderTimeGrid(host, {days, todayKey, nowKey, items}) {
               day === todayKey && nowKey
                 ? `<div class="pointer-events-none absolute inset-x-0 z-[2] border-t-2 border-[var(--danger)]" style="top:${(minutesOf(nowKey) / 60) * HOUR_PX}px"><span class="sr-only">Now ${escapeHtml(formatTime(nowKey))}</span></div>`
                 : ''
-            return `<div class="relative border-s border-line" style="height:${24 * HOUR_PX}px">
+            return `<div class="relative border-s border-line ${day === todayKey ? 'bg-[var(--accent-soft)]' : ''}" data-cal-timed-date="${day}" style="height:${24 * HOUR_PX}px">
               ${hours.map(hour => `<button type="button" class="block h-12 w-full border-0 border-b border-[var(--line-2)] bg-transparent hover:bg-[var(--hover-overlay)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]" data-cal-slot="${day}" data-time="${pad(hour)}:00" aria-label="${t('New at')} ${escapeHtml(longDay(day))} ${pad(hour)}:00"></button>`).join('')}
               ${entries
                 .map(({item, index, lane, start, end}) => {

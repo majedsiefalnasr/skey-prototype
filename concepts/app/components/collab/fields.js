@@ -27,6 +27,12 @@ export const VIEW_LABEL_CLASS = 'text-xs font-semibold uppercase tracking-[.04em
 export const viewRow = (label, valueHtml) =>
   `<dt class="${VIEW_LABEL_CLASS}">${escapeHtml(t(label))}</dt><dd class="m-0 min-w-0 text-ink [overflow-wrap:anywhere]">${valueHtml}</dd>`
 
+/** Context that deserves attention in both record views and editors. */
+export const recordHighlights = items => {
+  const tones = {danger: 'border-[var(--danger-soft-line)] bg-[var(--danger-soft-bg)] text-[var(--danger)]', accent: 'border-[var(--accent-line)] bg-[var(--accent-soft)] text-accent', muted: 'border-line bg-[var(--line-2)] text-muted'}
+  return items.length ? `<div class="mb-4 flex flex-wrap gap-2" role="status" data-record-highlights>${items.map(({label, tone = 'accent', iconName = 'i-info'}) => `<span class="inline-flex items-center gap-2 rounded-md border px-3 py-2 text-[13px] font-semibold ${tones[tone] || tones.accent}">${icon(iconName, 15)}${escapeHtml(t(label))}</span>`).join('')}</div>` : ''
+}
+
 const attrs = map =>
   Object.entries(map)
     .filter(([, value]) => value !== undefined && value !== false && value !== null)

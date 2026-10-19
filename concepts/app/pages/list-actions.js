@@ -4,7 +4,7 @@ import {DATA_LIST_CONFIG} from '../components/data-list/columns.js'
 import {invoiceHeaderFromRow, statusKeyFromLabel} from '../prototype/fixtures/invoices.js'
 
 /** Owns page list actions state and its DOM bindings. */
-export function createPageListActions({getShowContentView, getState, applyState, applyMode, openGeoRecord, applyDataListToolbarCommand, getCustomers, invoiceListStatistics, customerListStatistics, geoListStatistics, dataRecordCardModel, moveInvoiceKanbanCard} = {}) {
+export function createPageListActions({getShowContentView, getState, applyState, applyMode, openGeoRecord, applyDataListToolbarCommand, getCustomers, getPeople, invoiceListStatistics, customerListStatistics, geoListStatistics, dataRecordCardModel, moveInvoiceKanbanCard} = {}) {
   function openNewDataListRecord(context) {
     if (context === 'customer') {
       openCustomerRecord(null, 'create')
@@ -98,7 +98,7 @@ export function createPageListActions({getShowContentView, getState, applyState,
   }
 
   const dataListActions = Object.fromEntries(
-    Object.keys(DATA_LIST_CONFIG).map(context => [context, dataListActionFactories[context]()])
+    Object.keys(DATA_LIST_CONFIG).map(context => [context, context === 'people' ? {openRecord: (id, mode) => getPeople().openPerson(id, {edit: mode === 'edit'})} : dataListActionFactories[context]()])
   )
 
   function openCustomerRecord(customerNo, mode) {

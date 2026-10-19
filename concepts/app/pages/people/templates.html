@@ -3,6 +3,7 @@
     <div class="phead flex items-start gap-5 px-4 [.d1_&]:[padding:11px_0]">
       <div class="l min-w-0 flex-1">
         <nav class="flex items-center gap-1.5 text-[13px] text-muted [&_a]:text-accent [&_a]:no-underline [&_a:hover]:underline" aria-label="Breadcrumb">
+          <a href="/" data-home-link data-i18n="Home">Home</a><span class="sep" aria-hidden="true">›</span>
           <a href="#" data-collab-home data-i18n="Help Screens">Help Screens</a><span aria-hidden="true">›</span
           ><span aria-current="page" data-i18n="People Data">People Data</span>
         </nav>
@@ -41,7 +42,6 @@
           <button type="button" class="ibtn" data-panel-menu aria-haspopup="menu" aria-expanded="false" aria-label="More actions"><svg width="15" height="15" aria-hidden="true"><use href="#i-dots" /></svg></button>
           <div class="absolute end-0 top-full z-10 hidden min-w-[190px] gap-0.5 rounded-lg border border-line bg-surface p-1.5 shadow-shell [&.open]:grid" role="menu" data-panel-menu-list></div>
         </div>
-        <button type="button" class="lbtn" data-panel-close data-i18n="Back to list">Back to list</button>
       </div>
     </header>
     <form class="flex min-h-0 flex-1 flex-col" data-panel-form novalidate>

@@ -116,10 +116,10 @@ export function eventTiming(event, todayKey) {
 
 /** One-line summary. `folders` is the store's custom mail folder list, so a
  *  message filed in a folder the user created reports its name, not its id. */
-export function metaLine(entity, {todayKey, folders = []}) {
+export function metaLine(entity, {todayKey, folders = [], noteColumns = []}) {
   switch (entity.type) {
     case 'note':
-      return noteStatusLabel(entity.status)
+      return noteColumns.find(column => column.id === entity.status)?.label || noteStatusLabel(entity.status)
     case 'activity':
       return [statusLabel(entity.status), ...activityTiming(entity, todayKey)].join(' · ')
     case 'event':

@@ -1,4 +1,5 @@
 import {createNavigation} from './core/navigation.js'
+import {dueReminders, eventInstant, DEFAULT_EVENT_ZONE} from './core/event-scheduling.js'
 import {createAssistant} from './components/assistant/assistant.js'
 import {createEmail} from './pages/email/email.js'
 import {createNotifications} from './components/notifications/notifications.js'
@@ -16,7 +17,7 @@ import {createInvoicePayments} from './pages/invoices/payments.js'
 import {encodeHtml, uiLocale} from './core/locale.js'
 import {STATUSES, CHAIN, LIST_ROWS} from './prototype/fixtures/invoices.js'
 import {ACCOUNT_LABEL_BY_VIEW} from './prototype/fixtures/navigation.js'
-import {CUSTOMER_ROWS, CUSTOMER_REFERENCE, UNIT_ROWS, CUSTOMER_LOOKUP_RESULTS} from './prototype/fixtures/customers.js'
+import {CUSTOMER_ROWS, CUSTOMER_REFERENCE, CUSTOMER_SECTIONS, UNIT_ROWS, CUSTOMER_LOOKUP_RESULTS} from './prototype/fixtures/customers.js'
 import {CURRENT_USER, EMPLOYEE_DETAILS, CONTACT_DETAILS, LOGIN_LOG_ROWS, RECENT_ACTIVITY_ROWS} from './prototype/fixtures/profile.js'
 import {ORGANIZATION_DETAILS, ORGANIZATION_USERS, APPLICATION_SESSIONS, DATABASE_SESSIONS, ORGANIZATION_AUDIT_ROWS, STAFF_OPERATION_ROWS, SYSTEM_HEALTH, SYSTEM_SERVICES} from './prototype/fixtures/organization.js'
 import {createDataList} from './components/data-list/list.js'
@@ -90,6 +91,9 @@ const toast = createToast(document.getElementById('toasts'))
 /* One store for Notes, Activities, Events, Internal Mail and People Data:
    fixtures and the demo clock are injected so core/ never imports them. */
 const collabStore = createCollabStore({storage: sessionStorage, seed: COLLAB_SEED, now: () => PROTOTYPE_NOW})
+for (const row of collabStore.getPreference('convertedCustomers', [])) {
+  if (!CUSTOMER_ROWS.some(existing => existing.customerNo === row.customerNo)) CUSTOMER_ROWS.push(row)
+}
 
 // The original's failNext() both read #failsim's checked state AND reset it
 // to false on a simulated failure (so the next click succeeds) — shouldFail
@@ -545,7 +549,15 @@ async function beforeAction(button = document.activeElement) {
 const collabDeps = {beforeAction, store: collabStore, toast, panel: collabPanel, related: relatedItems, confirm: collabConfirm, goHome: () => openForYou('Help Screens'), users: COLLAB_USERS, currentUserId: CURRENT_USER_ID}
 const email = createEmail({beforeAction, goHome: () => openForYou('Help Screens'), root: document.querySelector('.email-view'), store: collabStore, related: relatedItems, confirm: collabConfirm, users: COLLAB_USERS, currentUser: {id: CURRENT_USER_ID, name: CURRENT_USER.name, email: CURRENT_USER.email}, onUnreadChange: () => syncNotifBadge(), navigate: (...args) => showContentView(...args), openItem: (ref, options) => openCollabItem(ref, options), toast})
 
-const notifications = createNotifications({closeAllMenus: (...args) => menus.closeAllMenus(...args), openEmailView: (...args) => openEmailView(...args), closeMenuAndRestoreFocus: (...args) => menus.closeMenuAndRestoreFocus(...args), getEmailMessages: () => email.getInboxRows()})
+const reminderClockStartedAt = Date.now()
+const notifications = createNotifications({closeAllMenus: (...args) => menus.closeAllMenus(...args), openEmailView: (...args) => openEmailView(...args), closeMenuAndRestoreFocus: (...args) => menus.closeMenuAndRestoreFocus(...args), getEmailMessages: () => email.getInboxRows(),
+  getEventReminders: () => collabStore.getPreference('eventReminders', true) ? dueReminders(collabStore.listEntities('event'), CURRENT_USER_ID, new Date((eventInstant(collabStore.now().slice(0, 16), DEFAULT_EVENT_ZONE) ?? Date.parse(collabStore.now())) + Date.now() - reminderClockStartedAt).toISOString(), collabStore.getPreference('readEventReminders', [])) : [],
+  openEventReminder: async event => {
+    if (!(await collabPanel.close())) return
+    collabStore.setPreference('readEventReminders', [...new Set([...collabStore.getPreference('readEventReminders', []), event.reminderId])])
+    showContentView('events', {openId: event.seriesId, occurrenceKey: event.occurrenceKey})
+  },
+})
 
 const {syncNotifBadge} = notifications
 /* Mail read/unread, sends and Reset all go through the store. */
@@ -556,7 +568,20 @@ const {openEmailView, closeEmailView} = email
 const notesPage = createNotes(collabDeps)
 const activitiesPage = createActivities({...collabDeps, openItem: (ref, options) => openCollabItem(ref, options), composeMailFor: ref => email.composeLinked(ref)})
 const eventsPage = createEvents(collabDeps)
-const peoplePage = createPeople({...collabDeps, navigate: (...args) => navigation.navigate(...args)})
+const peoplePage = createPeople({...collabDeps, navigate: (...args) => navigation.navigate(...args), getTable: () => listRuntime.dataListInstances.people,
+  customers: () => CUSTOMER_ROWS,
+  openCustomer: (id, person, onSaved) => {
+    customers.recordPage.openRecord(id || null, id ? 'view' : 'create', {CUSTOMER_SECTIONS,
+      prefill: person ? {customerName: person.nameEn, contactPhone: person.contacts?.find(contact => contact.kind !== 'email')?.value || '', contactEmail: person.contacts?.find(contact => contact.kind === 'email')?.value || ''} : null,
+      onSaved: row => {
+        const rows = collabStore.getPreference('convertedCustomers', []).filter(existing => existing.customerNo !== row.customerNo)
+        collabStore.setPreference('convertedCustomers', [...rows, row])
+        onSaved?.(row)
+      },
+    })
+    return navigation.navigate('customer-record')
+  },
+})
 /* Which factory owns an in-place open. Mail is absent on purpose: its
    reader and composer live on the mail screen, so those refs fall through
    to navigation in openCollabItem. */
@@ -629,6 +654,7 @@ const pageListActions = createPageListActions({
   openGeoRecord: (...args) => openGeoRecord(...args),
   applyDataListToolbarCommand: (...args) => listRuntime.applyDataListToolbarCommand(...args),
   getCustomers: () => customers,
+  getPeople: () => peoplePage,
   invoiceListStatistics: (...args) => invoiceStatistics.invoiceListStatistics(...args),
   customerListStatistics: (...args) => customerStatistics.customerListStatistics(...args),
   geoListStatistics: (...args) => geoStatistics.geoListStatistics(...args),

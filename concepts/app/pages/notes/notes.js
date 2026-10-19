@@ -21,6 +21,7 @@ import {
   ROW_BUTTON_CLASS,
   VIEW_LIST_CLASS,
   viewRow,
+  recordHighlights,
 } from '../../components/collab/fields.js'
 import {
   menuItemRadio,
@@ -38,7 +39,7 @@ import {
   restoreCollabFilterFocus,
 } from '../../components/collab/list-toolbar.js'
 import {renderBoard} from '../../components/collab/kanban.js'
-import {NOTE_STATUSES, noteStatusLabel, titleOf, searchText} from '../../components/collab/meta.js'
+import {titleOf, searchText} from '../../components/collab/meta.js'
 import {formatDate, relativeDay} from '../../core/collab-dates.js'
 
 const parseTags = value =>
@@ -67,9 +68,139 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
   const state = {view: 'kanban', query: '', quick: 'all', fieldFilters: [], sortKey: 'updated', sortDir: 'desc', archivedOpen: false}
   let built = false
   let unsubscribe = null
+  const columns = () => store.listNoteColumns()
+  const statusOptions = () => columns().map(column => [column.id, column.label])
+  const noteStatusLabel = id => columns().find(column => column.id === id)?.label || id
+  const quickFilters = () => [...QUICK_FILTERS.filter(([id]) => !['draft', 'active', 'archived'].includes(id)), ...columns().map(column => [column.id, column.label, column.id === 'archived' ? 'i-archive' : 'i-doc'])]
 
   const todayKey = () => store.now().slice(0, 10)
   const updatedLabel = note => relativeDay(note.updatedAt, todayKey()) ?? formatDate(note.updatedAt)
+
+  function openColumnManager() {
+    const original = columns()
+    let added = 0
+    const row = column => {
+      const system = ['draft', 'active', 'archived'].includes(column.id)
+      const count = store.listEntities('note').filter(note => note.status === column.id).length
+      return `<div class="relative grid min-w-0 gap-2 rounded-lg border border-line bg-surface p-3 transition-[border-color,background-color,box-shadow] ${column.id === 'archived' ? '' : 'cursor-grab active:cursor-grabbing hover:border-[var(--accent-line)]'} [&.drop-target]:border-[var(--accent)] [&.drop-target]:bg-[var(--accent-soft)] data-[drop-position=before]:[box-shadow:0_-3px_0_var(--accent)] data-[drop-position=after]:[box-shadow:0_3px_0_var(--accent)]" data-stage-id="${escapeHtml(column.id)}"${column.id === 'archived' ? '' : ' draggable="true"'}>
+        <div class="flex items-center gap-2">${column.id === 'archived' ? `<span class="text-xs text-muted">${t('Archived always stays last.')}</span>` : `<button type="button" class="ibtn cursor-grab touch-none active:cursor-grabbing" draggable="true" data-stage-drag aria-label="${t('Drag to reorder')}">${icon('i-grip', 16)}</button><span class="text-xs text-muted">${t('Drag to reorder')}</span>`}</div>
+        <label class="min-w-0 text-xs text-muted">${t('Column name')}<input class="mt-1 min-w-0 w-full rounded border border-line bg-surface p-2 text-sm text-ink max-[720px]:text-base" data-stage-label maxlength="40" value="${escapeHtml(column.label)}"></label>
+        <div class="flex flex-wrap items-center gap-2 text-xs"><label class="flex min-h-8 items-center gap-1"><input type="checkbox" class="size-4 shrink-0 accent-[var(--accent)]" data-stage-hidden${column.hidden ? ' checked' : ''}>${t('Hide column')}</label><span class="ms-auto text-muted">${count} ${t('notes')}</span>
+          <button type="button" class="lbtn" data-stage-order="-1"${column.id === 'archived' ? ' disabled' : ''} aria-label="${t('Move earlier')}">↑</button><button type="button" class="lbtn" data-stage-order="1"${column.id === 'archived' ? ' disabled' : ''} aria-label="${t('Move later')}">↓</button></div>
+        ${system ? `<small class="text-muted">${t('System column — its lifecycle is preserved.')}</small>` : `<label class="flex min-h-8 items-center gap-2 text-xs"><input type="checkbox" class="size-4 shrink-0 accent-[var(--accent)]" data-stage-remove>${t('Remove column on save')}</label><label class="min-w-0 text-xs text-muted">${t('Move its notes to')}<select class="ms-2 max-w-full rounded border border-line bg-surface p-1 text-sm text-ink max-[720px]:text-base" data-stage-destination>${original.filter(item => item.id !== column.id && item.id !== 'archived').map(item => `<option value="${item.id}">${escapeHtml(item.label)}</option>`).join('')}</select></label>`}
+      </div>`
+    }
+    panel.open({title: 'Manage note columns', description: 'Hidden columns keep their notes. Removing a column moves its notes to your chosen destination.',
+      render: body => {
+        body.innerHTML = `<div class="grid gap-3" data-stage-list>${original.map(row).join('')}</div><button type="button" class="lbtn mt-3" data-stage-add>${t('Add column')}</button><p class="mt-2 text-sm text-[var(--danger)]" role="alert" data-stage-error></p>`
+        const list = body.querySelector('[data-stage-list]')
+        let dragging = null
+        let dropTarget = null
+        let placement = 'before'
+        const clearTarget = () => {
+          dropTarget?.classList.remove('drop-target')
+          if (dropTarget) delete dropTarget.dataset.dropPosition
+          dropTarget = null
+        }
+        const targetAt = (target, y) => {
+          const row = target?.closest('[data-stage-id]')
+          clearTarget()
+          if (!dragging || !row || row === dragging || !list.contains(row)) return
+          const bounds = row.getBoundingClientRect()
+          placement = row.dataset.stageId === 'archived' || y < bounds.top + bounds.height / 2 ? 'before' : 'after'
+          dropTarget = row
+          row.classList.add('drop-target')
+          row.dataset.dropPosition = placement
+        }
+        const finishDrag = () => {
+          clearTarget()
+          dragging?.classList.remove('opacity-50')
+          dragging = null
+        }
+        const drop = () => {
+          if (dropTarget && dragging) {
+            if (placement === 'before') dropTarget.before(dragging)
+            else dropTarget.after(dragging)
+            dragging.querySelector('[data-stage-drag]')?.focus({preventScroll: true})
+          }
+          finishDrag()
+        }
+        list.addEventListener('dragstart', event => {
+          if (event.target.closest('input, select, textarea') || (event.target.closest('button') && !event.target.closest('[data-stage-drag]'))) { event.preventDefault(); return }
+          dragging = event.target.closest('[data-stage-id]')
+          if (!dragging || dragging.dataset.stageId === 'archived') { event.preventDefault(); dragging = null; return }
+          event.dataTransfer.setData('text/plain', dragging.dataset.stageId)
+          event.dataTransfer.effectAllowed = 'move'
+          event.dataTransfer.setDragImage(dragging, 24, 24)
+          dragging.classList.add('opacity-50')
+        })
+        list.addEventListener('dragover', event => {
+          if (!dragging) return
+          event.preventDefault()
+          event.dataTransfer.dropEffect = 'move'
+          targetAt(event.target, event.clientY)
+        })
+        list.addEventListener('dragleave', event => { if (!list.contains(event.relatedTarget)) clearTarget() })
+        list.addEventListener('drop', event => { if (dragging) event.preventDefault(); drop() })
+        list.addEventListener('dragend', finishDrag)
+        // Touch uses the handle; arrow buttons remain the keyboard alternative.
+        list.addEventListener('pointerdown', event => {
+          const handle = event.target.closest('[data-stage-drag]')
+          if (!handle || event.pointerType !== 'touch') return
+          dragging = handle.closest('[data-stage-id]')
+          handle.setPointerCapture(event.pointerId)
+          dragging.classList.add('opacity-50')
+        })
+        list.addEventListener('pointermove', event => {
+          if (event.pointerType === 'touch' && dragging) {
+            targetAt(document.elementFromPoint(event.clientX, event.clientY), event.clientY)
+            const scroller = body.parentElement
+            if (event.clientY > scroller.getBoundingClientRect().bottom - 30) scroller.scrollTop += 12
+            if (event.clientY < scroller.getBoundingClientRect().top + 30) scroller.scrollTop -= 12
+          }
+        })
+        list.addEventListener('pointerup', event => { if (event.pointerType === 'touch') drop() })
+        list.addEventListener('pointercancel', event => { if (event.pointerType === 'touch') finishDrag() })
+        body.querySelector('[data-stage-add]').addEventListener('click', () => {
+          const id = `stage-${Date.now()}-${++added}`
+          list.querySelector('[data-stage-id="archived"]').insertAdjacentHTML('beforebegin', row({id, label: '', hidden: false}))
+          body.querySelector(`[data-stage-id="${id}"] [data-stage-label]`).focus()
+        })
+        body.addEventListener('click', event => {
+          const button = event.target.closest('[data-stage-order]')
+          if (!button) return
+          const item = button.closest('[data-stage-id]')
+          if (item.dataset.stageId === 'archived') return
+          if (button.dataset.stageOrder === '-1' && item.previousElementSibling) item.previousElementSibling.before(item)
+          else if (button.dataset.stageOrder === '1' && item.nextElementSibling?.dataset.stageId !== 'archived' && item.nextElementSibling) item.nextElementSibling.after(item)
+          button.focus()
+        })
+      },
+      save: async body => {
+        const moves = {}
+        let moved = 0
+        const next = [...body.querySelectorAll('[data-stage-id]')].flatMap(row => {
+          const id = row.dataset.stageId
+          if (row.querySelector('[data-stage-remove]')?.checked) {
+            moves[id] = row.querySelector('[data-stage-destination]').value
+            moved += store.listEntities('note').filter(note => note.status === id).length
+            return []
+          }
+          return [{id, label: row.querySelector('[data-stage-label]').value, hidden: row.querySelector('[data-stage-hidden]').checked}]
+        })
+        if (Object.keys(moves).length && !(await confirm({title: 'Remove selected columns?', body: t('{count} notes will move to the selected destinations. No notes will be deleted.').replace('{count}', moved), confirmLabel: 'Move notes and remove'}))) return false
+        const result = store.configureNoteColumns(next, moves)
+        body.querySelector('[data-stage-error]').textContent = result.error ? t(result.error) : ''
+        if (!result.error) {
+          if (!quickFilters().some(([id]) => id === state.quick)) state.quick = 'all'
+          buildToolbar()
+          renderBody()
+          toast({tone: 'ok', title: 'Columns saved', body: 'Your notes and links are preserved.'})
+        }
+        return !result.error
+      },
+    })
+  }
 
   const filterFields = () => {
     const tags = [...new Set(store.listEntities('note').flatMap(note => note.tags || []))].sort()
@@ -96,7 +227,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
           ? note.pinned
           : state.quick === 'archived'
             ? note.status === 'archived'
-            : state.quick === 'draft' || state.quick === 'active'
+            : columns().some(column => column.id === state.quick)
               ? note.status === state.quick
               : true
       )
@@ -135,8 +266,8 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
        chooser, like Customers — with editable value chips on the left,
        search and the view menu on the right. Sorting is done by the
        table's own headers, like the invoices grid. */
-    const quick = QUICK_FILTERS.find(([id]) => id === state.quick) || QUICK_FILTERS[0]
-    const quickItems = QUICK_FILTERS.map(([id, label, iconName]) =>
+    const quick = quickFilters().find(([id]) => id === state.quick) || QUICK_FILTERS[0]
+    const quickItems = quickFilters().map(([id, label, iconName]) =>
       menuItemRadio({attr: 'quick-filter', value: id, label, iconName, checked: state.quick === id})
     ).join('')
     const filterItems = collabFieldChoices({fields, activeKeys: new Set(state.fieldFilters.map(filter => filter.key))})
@@ -156,13 +287,14 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
       })}${collabFilterChips({fields, filters: state.fieldFilters})}${
         state.fieldFilters.length || state.quick !== 'all' ? clearFilterButton({attr: 'clear-filters'}) : ''
       }`,
-      right: `${searchField({attr: 'collab-search', label: t("notes"), value: state.query})}${viewMenu({
+      right: `${searchField({attr: 'collab-search', label: t("notes"), value: state.query})}<button type="button" class="lbtn" data-manage-columns>${t('Manage columns')}</button>${viewMenu({
         attr: 'view-menu',
         label: presentation.label,
         iconName: presentation.icon,
         options: viewOptions,
       })}`,
     })}</div>`
+    host.querySelector('[data-manage-columns]').addEventListener('click', openColumnManager)
     const refresh = () => {
       buildToolbar()
       renderBody()
@@ -209,6 +341,8 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
 
   function renderBody() {
     const body = view().querySelector('[data-collab-body]')
+    const boardScroll = body.scrollLeft
+    const bodyScroll = body.scrollTop
     const notes = filtered()
     const filtering = Boolean(
       state.query.trim() || state.fieldFilters.some(filter => filter.value) || state.quick !== 'all'
@@ -219,13 +353,14 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
     }
     if (state.view === 'kanban') {
       renderBoard(body, {
-        columns: NOTE_STATUSES.map(([id, label]) => ({
-          id,
-          label,
-          items: notes.filter(note => note.status === id),
-          collapsible: id === 'archived',
-          collapsed: id === 'archived' && !state.archivedOpen,
-          quickAdd: id === 'archived' ? '' : '+ Add note',
+        moveColumns: columns(),
+        columns: columns().filter(column => !column.hidden || state.quick === column.id).map(column => ({
+          id: column.id,
+          label: column.label,
+          items: notes.filter(note => note.status === column.id),
+          collapsible: column.id === 'archived',
+          collapsed: column.id === 'archived' && !state.archivedOpen,
+          quickAdd: column.id === 'archived' ? '' : '+ Add note',
         })),
         renderCard: cardMarkup,
         titleOf,
@@ -239,6 +374,8 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
           body.querySelector('[data-toggle-column]')?.focus()
         },
       })
+      body.scrollLeft = boardScroll
+      body.scrollTop = bodyScroll
       return
     }
     const rows = state.quick === 'archived' ? notes : notes.filter(note => note.status !== 'archived')
@@ -255,7 +392,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
             ? `No notes match the ${valuedField.label.toLowerCase()} “${collabFilterValueLabel(valuedField, valued)}”`
             : `No notes match “${valued.value}”`
           : state.quick !== 'all'
-            ? `No ${(QUICK_FILTERS.find(([id]) => id === state.quick)?.[1] ?? 'matching').toLowerCase()} notes`
+            ? `No ${(quickFilters().find(([id]) => id === state.quick)?.[1] ?? 'matching').toLowerCase()} notes`
             : 'No notes to show'
       body.innerHTML = emptyState({iconName: 'i-search', title: emptyTitle, body: 'Clear the search or filters to see every note.'})
       return
@@ -311,7 +448,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
     if (!(await beforeAction())) return
     const note = store.createEntity('note', {title, body: '', status, tags: [], pinned: false})
     toast({tone: 'ok', title: 'Note added', body: titleOf(note)})
-    view().querySelector(`[data-quick-add="${status}"]`)?.focus()
+    view().querySelector(`[data-quick-add="${status}"]`)?.focus({preventScroll: true})
   }
 
   async function moveNote(id, status) {
@@ -327,7 +464,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
     return `<div class="${GRID_CLASS}">
       ${field({id: 'note-title', label: t("Title"), required: true, wide: true, control: textInput({id: 'note-title', value: note.title, required: true, extra: {autofocus: true}})})}
       ${field({id: 'note-body', label: t("Note"), wide: true, control: textarea({id: 'note-body', value: note.body, rows: 7})})}
-      ${field({id: 'note-status', label: t("Status"), control: selectInput({id: 'note-status', value: note.status, options: NOTE_STATUSES})})}
+      ${field({id: 'note-status', label: t("Status"), control: selectInput({id: 'note-status', value: note.status, options: statusOptions()})})}
       ${field({id: 'note-tags', label: t("Tags"), hint: t("Separate tags with commas."), control: textInput({id: 'note-tags', value: (note.tags || []).join(', '), describedBy: 'note-tags-hint'})})}
       <div class="sm:col-span-2">${switchRow({id: 'note-pinned', label: t("Pin this note to the top"), checked: note.pinned})}</div>
     </div>`
@@ -336,11 +473,11 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
   /* Read-only twin of the editor: the panel opens an existing note here and
      only swaps in the form when the user asks to edit. */
   function viewMarkup(note) {
-    return `<dl class="${VIEW_LIST_CLASS}">
+    return `${recordHighlights([...(note.pinned ? [{label: 'Pinned', iconName: 'i-spark'}] : []), ...(note.status === 'archived' ? [{label: 'Archived', tone: 'muted', iconName: 'i-archive'}] : [])])}<dl class="${VIEW_LIST_CLASS}">
       ${viewRow('Title', escapeHtml(titleOf(note)))}
       ${viewRow('Status', `<span class="badge gray">${escapeHtml(noteStatusLabel(note.status))}</span>`)}
       ${viewRow('Tags', (note.tags || []).length ? note.tags.map(tag => `<span class="${CHIP_CLASS}">${escapeHtml(tag)}</span>`).join(' ') : '—')}
-      ${viewRow('Pinned', note.pinned ? 'Yes' : 'No')}
+      ${viewRow('Pinned', note.pinned ? `<span class="badge fix inline-flex items-center gap-1">${icon('i-spark')} ${t('Pinned')}</span>` : t('No'))}
       ${viewRow('Note', note.body ? `<span class="whitespace-pre-line" dir="auto">${escapeHtml(note.body)}</span>` : '—')}
     </dl>`
   }
@@ -411,7 +548,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
             {label: t("Delete"), icon: 'i-trash', danger: true, run: () => deleteNote(existing)},
           ]
         : [],
-      related: ref ? host => related.render(host, ref) : null,
+      related: ref ? (host, options) => related.render(host, ref, options) : null,
     })
   }
 

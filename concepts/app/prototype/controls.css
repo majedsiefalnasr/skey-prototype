@@ -9,6 +9,9 @@
       body {
         height: 100%;
       }
+      /* The shell owns its scroll containers. Prevent focus in an RTL
+         board from panning the document outside the mobile viewport. */
+      html { overflow: clip; }
       body {
         margin: 0;
         overflow: hidden;

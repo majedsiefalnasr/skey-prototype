@@ -18,6 +18,7 @@ import {
   HINT_CLASS,
   VIEW_LIST_CLASS,
   viewRow,
+  recordHighlights,
 } from '../../components/collab/fields.js'
 import {renderBoard} from '../../components/collab/kanban.js'
 import {renderCalendar, calendarToolbar, bindCalendarToolbar, calendarRange, shiftDate} from '../../components/collab/calendar.js'
@@ -64,6 +65,9 @@ const VIEW_PRESENTATION = {
 }
 const QUICK_FILTERS = [
   ['all', 'All activities', 'i-list'],
+  ['mine', 'My work', 'i-user'],
+  ['today', 'Today', 'i-cal'],
+  ['overdue', 'Overdue', 'i-clock'],
   ['open', 'Open', 'i-clock'],
   ['done', 'Done', 'i-check'],
 ]
@@ -90,6 +94,13 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
   let calendarItems = []
 
   const todayKey = () => store.now().slice(0, 10)
+  const inQueue = (activity, queue) => {
+    const open = !activity.archived && isOpenActivity(activity)
+    if (queue === 'mine') return open && assigneeIdsOf(activity).includes(currentUserId)
+    if (queue === 'today') return open && activity.dueDate === todayKey()
+    if (queue === 'overdue') return open && Boolean(activity.dueDate) && activity.dueDate < todayKey()
+    return true
+  }
   const linkedEvent = activity =>
     store.getRelatedItems('activity', activity.id).find(item => item.ref.type === 'event' && item.entity)
 
@@ -137,6 +148,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       .listEntities('activity')
       .filter(a => effective.every(filter => collabFilterMatches(a, filter, fields.find(field => field.key === filter.key))))
       .filter(a => (state.quick === 'open' ? isOpenActivity(a) : state.quick === 'done' ? a.status === 'done' : true))
+      .filter(a => inQueue(a, state.quick))
       .filter(a => !query || searchText(a).includes(query))
       .sort((a, b) => (a.dueDate || '9999').localeCompare(b.dueDate || '9999') || titleOf(a).localeCompare(titleOf(b)))
   }
@@ -262,7 +274,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
         menuItemRadio({attr: 'view-select', value: id, label: `${entry.label} view`, iconName: entry.icon, checked: state.view === id})
       )
       .join('')
-    host.innerHTML = `<div class="data-list-controls grid gap-2 mb-2.5">${toolbarRow({
+    host.innerHTML = `<div class="data-list-controls grid w-full gap-2 mb-2.5">${toolbarRow({
       ariaLabel: 'Activities table controls',
       left: `${menuDetails({attr: 'quick-menu', iconName: quick[2], label: quick[1], items: quickItems})}${menuDetails({
         attr: 'filter-menu',
@@ -428,11 +440,20 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
     return `<div class="mb-4 flex flex-wrap gap-2" data-activity-actions>${buttons.join('')}</div>`
   }
 
+  function activityHighlights(activity) {
+    const items = []
+    if (isOverdue(activity, todayKey())) items.push({label: 'Overdue', tone: 'danger', iconName: 'i-warn'})
+    else if (isOpenActivity(activity) && activity.dueDate === todayKey()) items.push({label: 'Due today', iconName: 'i-cal'})
+    if (activity.priority === 'high') items.push({label: 'High priority', tone: 'danger', iconName: 'i-warn'})
+    if (activity.status === 'done') items.push({label: 'Done', tone: 'muted', iconName: 'i-check'})
+    return recordHighlights(items)
+  }
+
   function editorMarkup(activity) {
     const scheduled = Boolean(activity.scheduledStart)
-    return `${actionsMarkup(activity)}<div class="${GRID_CLASS}">
-      ${field({id: 'activity-kind', label: t("Kind"), required: true, control: selectInput({id: 'activity-kind', value: activity.kind, options: ACTIVITY_KINDS.map(([id, label]) => [id, label])})})}
-      ${multiselect({id: 'activity-assignee', label: t("Assigned to"), required: true, options: users.map(user => [user.id, `${user.name} · ${user.role}`]), selected: assigneeIdsOf(activity), placeholder: t("Search people\u2026")})}
+    return `<div data-activity-signals>${activityHighlights(activity)}</div>${actionsMarkup(activity)}<div class="${GRID_CLASS}">
+      ${field({id: 'activity-kind', label: t("Kind"), required: true, wide: true, control: `<div class="relative"><span class="pointer-events-none absolute start-3 top-2.5 text-accent" data-kind-icon>${icon(kindIcon(activity.kind))}</span>${selectInput({id: 'activity-kind', value: activity.kind, options: ACTIVITY_KINDS.map(([id, label]) => [id, label]), extra: {class: 'ps-9!'}})}</div>`})}
+      ${multiselect({id: 'activity-assignee', label: t("Assigned to"), required: true, wide: true, options: users.map(user => [user.id, `${user.name} · ${user.role}`]), selected: assigneeIdsOf(activity), placeholder: t("Search people\u2026")})}
       ${field({id: 'activity-summary', label: t("Summary"), required: true, wide: true, control: textInput({id: 'activity-summary', value: activity.summary, required: true, extra: {autofocus: true}})})}
       ${field({id: 'activity-status', label: t("Status"), control: selectInput({id: 'activity-status', value: activity.status, options: ACTIVITY_STATUSES})})}
       ${field({id: 'activity-priority', label: t("Priority"), control: selectInput({id: 'activity-priority', value: activity.priority, options: PRIORITIES})})}
@@ -441,8 +462,8 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
         label: t("Due date"),
         hint: t("A due date alone does not put the activity on the calendar."),
         wide: true,
-        control: `<div class="flex flex-wrap items-center gap-2">${textInput({id: 'activity-due', type: 'date', value: activity.dueDate || '', describedBy: 'activity-due-hint', extra: {class: 'max-w-[200px]'}})}
-          <button type="button" class="lbtn" data-due-shift="1">${t("+1 day")}</button><button type="button" class="lbtn" data-due-shift="7">${t("+1 week")}</button></div>`,
+        control: `<div class="flex items-center gap-2">${textInput({id: 'activity-due', type: 'date', value: activity.dueDate || '', describedBy: 'activity-due-hint'})}<button type="button" class="lbtn out shrink-0" data-due-clear>${t('Clear')}</button></div>
+          <div class="mt-1 grid grid-cols-2 gap-2">${[[1, '+1 day'], [7, '+1 week']].map(([days, label]) => `<button type="button" class="flex min-h-12 items-center gap-2 rounded-md border border-line bg-surface px-3 py-2 text-start text-[13px] text-ink hover:border-[var(--accent-line)] hover:bg-[var(--accent-soft)] focus-visible:outline-2 focus-visible:outline-[var(--focus)]" data-due-shift="${days}">${icon('i-cal')}<span class="grid gap-0.5"><span class="font-semibold">${t(label)}</span><span class="text-xs text-muted" data-due-preview="${days}">${escapeHtml(formatDate(addDays(activity.dueDate || todayKey(), days)))}</span></span></button>`).join('')}</div><p class="${HINT_CLASS} mt-1">${t('Added to the selected due date, or today if empty.')}</p>`,
       })}
       <details class="sm:col-span-2 rounded-md border border-line bg-surface"${scheduled ? ' open' : ''}>
         <summary class="flex cursor-pointer list-none items-center gap-2 rounded-md px-3 py-2.5 text-[13px] font-medium text-ink hover:bg-[var(--line-2)] [&::-webkit-details-marker]:hidden">
@@ -479,13 +500,13 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
     const when = activity.scheduledStart
       ? `${escapeHtml(formatDate(activity.scheduledStart))} ${escapeHtml(formatTime(activity.scheduledStart))} · ${escapeHtml(durationLabel(String(activity.durationMin || 30)))}`
       : '—'
-    return `${actionsMarkup(activity)}<dl class="${VIEW_LIST_CLASS}">
+    return `${activityHighlights(activity)}${actionsMarkup(activity)}<dl class="${VIEW_LIST_CLASS}">
       ${viewRow('Summary', escapeHtml(titleOf(activity)))}
       ${viewRow('Kind', escapeHtml(kindLabel(activity.kind)))}
-      ${viewRow('Status', `<span class="badge gray">${escapeHtml(statusLabel(activity.status))}</span>`)}
+      ${viewRow('Status', statusChip(activity.status))}
       ${viewRow('Assigned to', assigned ? escapeHtml(assigned) : '—')}
-      ${viewRow('Priority', escapeHtml(priorityLabel(activity.priority)))}
-      ${viewRow('Due date', escapeHtml(activity.dueDate ? formatDate(activity.dueDate) : '—'))}
+      ${viewRow('Priority', priorityChip(activity.priority))}
+      ${viewRow('Due date', `<span class="${isOverdue(activity, todayKey()) ? 'font-semibold text-[var(--danger)]' : activity.dueDate === todayKey() ? 'font-semibold text-accent' : ''}">${escapeHtml(activity.dueDate ? formatDate(activity.dueDate) : '—')}</span>`)}
       ${viewRow('Scheduled', when)}
       ${viewRow('Notes', activity.notes ? `<span class="whitespace-pre-line" dir="auto">${escapeHtml(activity.notes)}</span>` : '—')}
     </dl>`
@@ -495,10 +516,21 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
      exist in each, the field shortcuts only in the editor — hence the
      optional queries, so view mode can reuse this binding. */
   function bindEditor(body, activity) {
+    const updateSignals = () => {
+      const due = body.querySelector('#activity-due')
+      if (!due) return
+      const current = {...activity, dueDate: due.value, status: body.querySelector('#activity-status').value, priority: body.querySelector('#activity-priority').value}
+      body.querySelector('[data-activity-signals]').innerHTML = activityHighlights(current)
+      body.querySelectorAll('[data-due-preview]').forEach(label => { label.textContent = formatDate(addDays(due.value || todayKey(), Number(label.dataset.duePreview))) })
+      body.querySelector('[data-kind-icon]').innerHTML = icon(kindIcon(body.querySelector('#activity-kind').value))
+    }
+    body.querySelectorAll('#activity-due, #activity-priority, #activity-status, #activity-kind').forEach(input => input.addEventListener('change', updateSignals))
+    body.querySelector('[data-due-clear]')?.addEventListener('click', () => { body.querySelector('#activity-due').value = ''; updateSignals() })
     body.querySelectorAll('[data-due-shift]').forEach(button =>
       button.addEventListener('click', () => {
         const input = body.querySelector('#activity-due')
         input.value = addDays(input.value || todayKey(), Number(button.dataset.dueShift))
+        updateSignals()
       })
     )
     body.querySelector('#activity-schedule-clear')?.addEventListener('click', () => {
@@ -653,7 +685,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
             {label: t("Delete"), icon: 'i-trash', danger: true, run: () => deleteActivity(existing)},
           ]
         : [],
-      related: ref ? host => related.render(host, ref) : null,
+      related: ref ? (host, options) => related.render(host, ref, options) : null,
     })
   }
 

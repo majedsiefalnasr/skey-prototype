@@ -3,6 +3,7 @@
           <div class="phead email-phead [.d1_&]:[padding:11px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5 px-4">
               <div class="l [.d1_.phead_&]:flex-1">
               <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="/" data-home-link data-i18n="Home">Home</a><span class="sep" aria-hidden="true">›</span>
                 <a href="#" class="email-back" data-i18n="Help Screens">Help Screens</a><span class="sep">›</span
                 ><span aria-current="page" data-i18n="Internal Mail">Internal Mail</span>
               </nav>
@@ -14,7 +15,7 @@
               </button>
             </div>
           </div>
-          <div class="email-app mt-3 [@media(max-width:900px)]:mt-2 [body.density-compact_&]:mt-1.5 [body.density-comfortable_&]:mt-5 [@media(max-width:900px)]:mx-2 flex-1 min-h-0 flex rounded-[9px] border border-line overflow-hidden bg-surface">
+          <div class="email-app my-3 [@media(max-width:900px)]:my-2 [body.density-compact_&]:my-1.5 [body.density-comfortable_&]:my-5 [@media(max-width:900px)]:mx-2 flex-1 min-h-[500px] flex rounded-[9px] border border-line overflow-hidden bg-surface">
             <nav class="email-folders flex-none border-e border-line" aria-label="Mailboxes" data-folders></nav>
             <div class="email-list w-[300px] flex-none flex flex-col min-h-0 border-e border-line">
               <label class="sr-only" for="email-folder-select" data-i18n="Mailbox">Mailbox</label>
@@ -27,7 +28,7 @@
                 <span class="inline-flex flex-none items-center rounded-full bg-[var(--accent-soft)] px-1.5 py-0.5 text-[11px] font-semibold text-accent" data-mail-folder-count hidden></span>
               </div>
               <div class="email-list-hd flex items-center gap-1.5 m-2.5 mb-0 [body.density-compact_&]:m-2 [body.density-compact_&]:mb-0 [body.density-comfortable_&]:m-3 [body.density-comfortable_&]:mb-0">
-                <div class="email-search flex-1 flex items-center gap-[7px] py-[7px] px-[9px] rounded-[7px] border border-line text-faint [body.density-compact_&]:gap-1.5 [body.density-compact_&]:py-[5px] [body.density-compact_&]:px-[7px] [body.density-comfortable_&]:gap-2 [body.density-comfortable_&]:py-[9px] [body.density-comfortable_&]:px-[11px]">
+                <div class="email-search min-w-0 flex-1 flex items-center gap-[7px] py-[7px] px-[9px] rounded-[7px] border border-line text-faint [body.density-compact_&]:gap-1.5 [body.density-compact_&]:py-[5px] [body.density-compact_&]:px-[7px] [body.density-comfortable_&]:gap-2 [body.density-comfortable_&]:py-[9px] [body.density-comfortable_&]:px-[11px]">
                   <svg width="13" height="13" aria-hidden="true"><use href="#i-search" /></svg>
                   <input
                     type="search"
@@ -37,7 +38,27 @@
                     autocomplete="off"
                     class="border-0 outline-none bg-transparent font-[inherit] text-ink flex-1 min-w-0 p-0 placeholder:text-faint" />
                 </div>
+                <button type="button" class="ibtn relative flex-none" data-mail-filters aria-label="Search filters" aria-haspopup="dialog" title="Search filters">
+                  <svg width="16" height="16" aria-hidden="true"><use href="#i-filter" /></svg>
+                  <span class="absolute -top-1 -end-1 min-w-4 rounded-full bg-accent px-1 text-center text-[10px] font-semibold text-inverse" data-mail-filter-count hidden></span>
+                </button>
               </div>
+              <div class="fixed inset-0 z-[180] hidden items-center justify-center p-3 [background:var(--scrim)] backdrop-blur-[4px]" data-mail-filter-dialog>
+                <form class="dlg flex max-h-[90vh] w-[min(520px,96vw)] flex-col overflow-hidden rounded-xl" data-tone="default" role="dialog" aria-modal="true" aria-labelledby="mail-filter-title" novalidate>
+                  <div class="dhd flex items-start gap-5"><div><h3 id="mail-filter-title" data-i18n="Search filters">Search filters</h3><p class="dhd-subtitle" data-i18n="Choose which messages to show.">Choose which messages to show.</p></div><button type="button" class="ibtn ms-auto" data-mail-filter-cancel aria-label="Close filters"><svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg></button></div>
+                  <div class="dlg-inner min-h-0 overflow-auto"><div class="dbody grid gap-3 p-5 text-[13px]">
+                  <label class="flex items-center gap-2"><input type="checkbox" data-mail-filter="all"> <span data-i18n="All mail except Trash">All mail except Trash</span></label>
+                  <label><span data-i18n="Sender or recipient">Sender or recipient</span><input type="search" data-mail-filter="person" class="mt-1 w-full rounded border border-line bg-surface p-1.5 text-ink"></label>
+                  <label><span data-i18n="From date">From date</span><input type="date" data-mail-filter="from" class="mt-1 w-full rounded border border-line bg-surface p-1.5 text-ink"></label>
+                  <label><span data-i18n="To date">To date</span><input type="date" data-mail-filter="to" class="mt-1 w-full rounded border border-line bg-surface p-1.5 text-ink"></label>
+                  <label class="flex items-center gap-2"><input type="checkbox" data-mail-filter="attachments"><span data-i18n="Has attachments">Has attachments</span></label>
+                  <label class="flex items-center gap-2"><input type="checkbox" data-mail-filter="linked"><span data-i18n="Linked to a record">Linked to a record</span></label>
+                  <p class="text-[var(--danger)]" role="alert" data-mail-filter-error></p>
+                  </div></div>
+                  <div class="dfoot flex flex-wrap items-center gap-2"><button type="button" class="lbtn" data-mail-reset-filters data-i18n="Clear filters">Clear filters</button><button type="button" class="lbtn ms-auto" data-mail-filter-cancel data-i18n="Cancel">Cancel</button><button type="submit" class="lbtn pri" data-mail-filter-apply data-i18n="Apply filters">Apply filters</button></div>
+                </form>
+              </div>
+              <div class="mx-2.5 mt-1 flex flex-wrap gap-1 text-xs text-muted" aria-live="polite" data-mail-filter-chips></div>
               <div class="email-list-tools mx-2.5 mt-1.5 mb-0 grid gap-1 [body.density-compact_&]:mx-2 [body.density-comfortable_&]:mx-3">
                 <div class="flex items-center justify-between gap-2 whitespace-nowrap">
                   <label class="flex min-h-[28px] cursor-pointer items-center gap-1.5 text-[12.5px] text-muted">
