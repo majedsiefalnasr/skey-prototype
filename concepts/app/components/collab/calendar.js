@@ -237,8 +237,10 @@ function bindMobileContext(host) {
   const schedule = () => {
     if (!frame) frame = requestAnimationFrame(() => { frame = 0; update() })
   }
-  host.addEventListener('scroll', schedule, {capture: true, passive: true, signal})
-  viewport.addEventListener('scroll', schedule, {passive: true, signal})
+  /* The collab body no longer scrolls — `.page-content` does — and the timed
+     grid still does. One capture listener covers all three (and any nested
+     viewport) without assuming which element owns scrolling (core/scroll.js). */
+  document.addEventListener('scroll', schedule, {capture: true, passive: true, signal})
   const resize = new ResizeObserver(schedule)
   resize.observe(viewport)
   resize.observe(context)

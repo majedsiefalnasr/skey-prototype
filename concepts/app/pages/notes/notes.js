@@ -1,4 +1,5 @@
 import {uiLocale} from '../../core/locale.js'
+import {resolveScroller} from '../../core/scroll.js'
 const {t} = uiLocale
 // Notes — Kanban (Draft / Active / Archived) and a List view over the
 // collaboration store, with the invoices list chrome: a quick-filter menu,
@@ -154,7 +155,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
         list.addEventListener('pointermove', event => {
           if (event.pointerType === 'touch' && dragging) {
             targetAt(document.elementFromPoint(event.clientX, event.clientY), event.clientY)
-            const scroller = body.parentElement
+            const scroller = resolveScroller(body)
             if (event.clientY > scroller.getBoundingClientRect().bottom - 30) scroller.scrollTop += 12
             if (event.clientY < scroller.getBoundingClientRect().top + 30) scroller.scrollTop -= 12
           }
@@ -341,8 +342,11 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
 
   function renderBody() {
     const body = view().querySelector('[data-collab-body]')
+    /* The board still pans horizontally on the body; vertical scrolling is
+       the view's `.page-content` (core/scroll.js). */
+    const scroller = resolveScroller(body)
     const boardScroll = body.scrollLeft
-    const bodyScroll = body.scrollTop
+    const bodyScroll = scroller.scrollTop
     const notes = filtered()
     const filtering = Boolean(
       state.query.trim() || state.fieldFilters.some(filter => filter.value) || state.quick !== 'all'
@@ -375,7 +379,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
         },
       })
       body.scrollLeft = boardScroll
-      body.scrollTop = bodyScroll
+      scroller.scrollTop = bodyScroll
       return
     }
     const rows = state.quick === 'archived' ? notes : notes.filter(note => note.status !== 'archived')

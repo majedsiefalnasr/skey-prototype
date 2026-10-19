@@ -357,7 +357,13 @@
     background: var(--danger-soft-bg);
     border-color: var(--danger);
   }
+  /* Tooltips stay out of layout until they are shown: an absolutely
+     positioned `.tip` that merely sits at `opacity: 0` still contributes
+     to a scrollport's scroll height, so the last row/footer of a scrolling
+     view gained ~18px of dead space and clipped its own tips. `display`
+     flips discretely so the fade keeps working. */
   .tip {
+    display: none;
     position: absolute;
     inset-block-start: calc(100% + 6px);
     inset-inline-start: 50%;
@@ -370,13 +376,14 @@
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.12s;
+    transition: opacity 0.12s, display 0.12s allow-discrete;
     z-index: 40;
   }
   [dir='rtl'] .tip {
     translate: 50% 0;
   }
   .ibtn:is(:hover, :focus-visible) .tip {
+    display: block;
     opacity: 1;
   }
   .crumbs {
@@ -1421,13 +1428,55 @@
   .drhd {
     background: var(--line-2);
   }
+  /* ---------------------------------------------------------------
+     Scroll architecture — ONE primary vertical scrollport.
+     `html`/`body` stay locked to the viewport (prototype/controls.css),
+     and `.page-content` owns vertical scrolling for the whole content
+     view. Its children therefore size to their content, grow only to
+     fill free space, and never shrink below their content — shrinking is
+     what used to clip `.phead`, and what made `.canvas` carry a second,
+     nested scrollport that swallowed wheel gestures and re-bound every
+     sticky element to the wrong box.
+     Nested scrollports now survive only inside the component whitelist
+     asserted by tests/scroll-architecture.spec.mjs (data table viewport,
+     mail panes, popovers, dialogs, sidebar rail, kanban board, calendar
+     time grid).
+     --------------------------------------------------------------- */
+  .page-content {
+    overflow: auto;
+  }
+  /* The one visible page container fills `.page-content` whenever there is
+     free room — a short view must still cover the pane exactly as the old
+     bounded `.canvas` did — and grows past it when the content is longer.
+     `flex-shrink: 0` is the load-bearing half: it keeps the container from
+     ever collapsing below its own content, which is what used to clip
+     `.phead` and what made `.canvas` a second, nested scrollport that
+     swallowed wheel gestures and re-bound every sticky element to the
+     wrong box. `.phead` is excluded where it sits directly on
+     `.page-content` (record/launchpad): it never grew before, and growing
+     it would open dead space between the header and the canvas below. */
+  .page-content > :not([hidden]):not(.phead) {
+    flex: 1 0 auto;
+  }
+  /* The two full-bleed views keep their viewport-bound layout: their
+     panes are sized against the view and own their own component
+     scrollports, so they — and only they — may still fill. */
+  .page-content > .email-view:not([hidden]),
+  .page-content > .signin-view:not([hidden]) {
+    flex: 1 1 0;
+    min-height: 0;
+  }
   /* Boxed is a fixed-wide content grid: the application chrome remains fluid,
      while one shared page-content canvas aligns headers, forms, tables, and
-     footers. 1296px is Atlassian's fixed-wide maximum, including page margins. */
+     footers. 1296px is Atlassian's fixed-wide maximum, including page margins.
+     `.page-content` is the primary scrollport, so it stays full-width and
+     the grid is drawn as inline padding (the old 32px margin + its own
+     density padding, `--page-pad`): a narrowed scrollport would park its
+     scrollbar mid-pane and clip content that deliberately bleeds through
+     the side gutters (the boxed Kanban board). Percent padding resolves
+     against `.content`. */
   body.layout-boxed .page-content {
-    width: calc(100% - 64px);
-    max-width: 1296px;
-    margin-inline: auto;
+    padding-inline: calc(max(32px, (100% - 1296px) / 2) + var(--page-pad, 16px)) !important;
   }
   /* Detail action bars share the footer's full-width surface, while their
      controls follow the selected content grid. */
@@ -1473,7 +1522,7 @@
   }
   @media (max-width: 720px) {
     body.layout-boxed .page-content {
-      width: calc(100% - 32px);
+      padding-inline: calc(16px + var(--page-pad, 16px)) !important;
     }
     body.layout-boxed .page-action-bar .arow {
       width: calc(100% - 32px);
@@ -2824,6 +2873,7 @@
     padding-inline-start: 10px;
   }
   body.density-compact .page-content {
+    --page-pad: 12px;
     padding-inline: 12px;
   }
   body.density-compact .crumbs {
@@ -3135,6 +3185,7 @@
     padding-inline-start: 18px;
   }
   body.density-comfortable .page-content {
+    --page-pad: 20px;
     padding-inline: 20px;
   }
   body.density-comfortable .crumbs {
@@ -3732,6 +3783,11 @@
     }
     .rec-tabs {
       overflow-x: auto;
+      /* A horizontal scroller must not claim the vertical axis: the CSS
+         overflow rules promote a lone `overflow-y: visible` to `auto`,
+         which would nest a (latent) second vertical scrollport — and
+         re-bind the sticky tab strip to itself. */
+      overflow-y: hidden;
       overscroll-behavior-inline: contain;
       scrollbar-width: thin;
     }
@@ -3742,6 +3798,7 @@
     .d1 .arow {
       flex-wrap: nowrap;
       overflow-x: auto;
+      overflow-y: hidden;
       overscroll-behavior-inline: contain;
     }
     .d1 .arow .sp {

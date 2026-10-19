@@ -55,6 +55,7 @@ import {
 import {createImagePreview, customerImageData, renderCustomerRecordPhoto} from './images.js'
 import {createScrollNavigator, renderCustomerScroll} from './layouts.js'
 import {createLookups} from './lookups.js'
+import {resolveScroller} from '../../core/scroll.js'
 
 const CUSTOMER_RENDERERS = {
   scroll: renderCustomerScroll,
@@ -207,7 +208,7 @@ export function createCustomerRecord({root, deps}) {
       <div class="sp [.d1_.arow_&]:[flex:1]"></div>
       <label class="customer-table-search flex gap-2 items-center [min-width:240px] [padding:6px_8px] [border:1px_solid_var(--line)] rounded-md bg-surface [.customer-record-canvas_&_input]:min-w-0 [.customer-record-canvas_&_input]:[border:0] [.customer-record-canvas_&_input]:[outline:0] [.customer-record-canvas_&_input]:[background:transparent]"><svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg><input type="search" placeholder="Search" aria-label="Search sub ledgers"></label>
     </div>
-    <div class="inv-grid-wrap bg-surface [border:1px_solid_var(--line)] rounded-lg [box-shadow:var(--shadow-1)] overflow-auto [margin:12px]! [body.density-compact_&]:[margin:8px]! [body.density-comfortable_&]:[margin:16px]!">
+    <div class="inv-grid-wrap bg-surface [border:1px_solid_var(--line)] rounded-lg [box-shadow:var(--shadow-1)] overflow-x-auto overflow-y-hidden [margin:12px]! [body.density-compact_&]:[margin:8px]! [body.density-comfortable_&]:[margin:16px]!">
       <table class="inv-grid customer-subledger-grid w-full [border-collapse:collapse] [font-size:13px] [&_th]:text-start [&_th]:[padding:8px_12px] [&_th]:bg-[var(--line-2)] [&_th]:text-muted [&_th]:font-medium [&_th]:[border-bottom:1px_solid_var(--line)] [&_th]:whitespace-nowrap [&_td]:[padding:8px_12px] [&_td]:[border-bottom:1px_solid_var(--line-2)] [&_td]:text-ink [&_td]:whitespace-nowrap [&_td]:[text-overflow:ellipsis] [&_td]:overflow-hidden [&_td]:[max-width:200px] [&_tbody_tr:hover]:[background:var(--hover-overlay)] [&_tbody_tr:hover]:[cursor:pointer] [&_td_input]:w-full [&_td_input]:[padding:5px_7px] [&_td_input]:bg-surface [&_td_input]:text-ink [&_td_input]:[border:1px_solid_var(--line)] [&_td_input]:[border-radius:5px] [&_td_input]:[font:inherit]">
         <thead><tr><th>#</th><th>Sub Ledger Type</th><th>Number</th><th>Default</th><th>Deactivate</th></tr></thead>
         <tbody><tr><td colspan="5" class="customer-table-empty [padding:14px] text-muted text-center">No records to display</td></tr></tbody>
@@ -382,12 +383,13 @@ export function createCustomerRecord({root, deps}) {
   function renderLayout({focusSelector = '', preserveScroll = false} = {}, sectionsDeps) {
     const canvas = refs.canvas
     if (!canvas) return
-    const scrollTop = canvas.scrollTop
+    const scroller = resolveScroller(canvas)
+    const scrollTop = scroller.scrollTop
     scrollNavigator?.stopTracking()
     const renderer = CUSTOMER_RENDERERS.scroll
     renderer(canvas, customerData, customerState, layoutRenderDeps(sectionsDeps))
     applyRecordValueDirections(canvas)
-    if (preserveScroll) canvas.scrollTop = scrollTop
+    if (preserveScroll) scroller.scrollTop = scrollTop
     if (customerState.layout === 'scroll') {
       requestAnimationFrame(() => scrollNavigator?.syncActiveSection())
     }

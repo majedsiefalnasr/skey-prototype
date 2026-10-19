@@ -136,7 +136,7 @@ test('appearance offers comfortable density and independent interface-scale pres
   )
   assert.doesNotMatch(shellStyles, /body\.layout-boxed \.frame/)
   assert.match(shell, /page-content flex min-h-0 flex-1 flex-col px-4/)
-  assert.match(shellStyles, /body\.layout-boxed \.page-content\s*\{[^}]*max-width:\s*1296px/s)
+  assert.match(shellStyles, /body\.layout-boxed \.page-content\s*\{[^}]*padding-inline:[^;}]*1296px/s)
   assert.doesNotMatch(shellStyles, /body\.layout-boxed :is\(\.arow, \.phead, \.canvas, \.fnav\)/)
   assert.match(shellStyles, /\.lp-body\s*\{[^}]*max-width:\s*960px/s)
   assert.doesNotMatch(shellStyles, /body:not\(\.layout-boxed\) \.lp-body/)

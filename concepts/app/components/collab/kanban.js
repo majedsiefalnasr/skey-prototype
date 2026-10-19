@@ -16,7 +16,9 @@ const boardObservers = new WeakMap()
 function sizeColumns(host) {
   const board = host.querySelector('[data-board]')
   if (!board || !host.clientWidth) return
-  const canvas = host.closest('.content')
+  // The board bleeds to the scrollport's edges; its clientWidth excludes
+  // the vertical scrollbar, which `.content`'s does not.
+  const canvas = host.closest('.page-content') || host.closest('.content')
   const parent = host.parentElement
   const boxed = document.body.classList.contains('layout-boxed') && canvas
   const inset = window.innerWidth <= 900 ? 8 : 0

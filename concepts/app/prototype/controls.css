@@ -63,11 +63,17 @@
       .main {
         min-height: 0;
       }
+      /* `.canvas` is page content, not a scrollport: `.page-content` owns
+         vertical scrolling for the whole content view (see shell.css), so
+         an inner `overflow: auto` here would re-nest scrolling, swallow
+         wheel gestures and re-bind every sticky element to the wrong box. */
       .doc-canvas,
       .canvas {
         flex: 1 1 auto;
         min-height: 0;
         height: auto !important;
+      }
+      .doc-canvas {
         overflow: auto;
       }
       .note,

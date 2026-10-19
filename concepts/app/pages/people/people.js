@@ -1,4 +1,5 @@
 import {uiLocale} from '../../core/locale.js'
+import {resolveScroller} from '../../core/scroll.js'
 import {createCollabPanel} from '../../components/collab/panel.js'
 import {renderDataListColumnControls} from '../../components/data-list/list.js'
 import {DATA_LIST_CONFIG} from '../../components/data-list/columns.js'
@@ -446,7 +447,7 @@ export function createPeople({store, toast, panel: conversionPanel, related, con
     if (listRoot.isConnected && !listRoot.hidden) {
       const body = listRoot.querySelector('[data-collab-body]')
       const table = body.querySelector('.data-table-scroll')
-      listScroll = {top: body.scrollTop, tableTop: table?.scrollTop || 0, tableLeft: table?.scrollLeft || 0}
+      listScroll = {top: resolveScroller(body).scrollTop, tableTop: table?.scrollTop || 0, tableLeft: table?.scrollLeft || 0}
     }
     return navigate('people-record', {openId: id, edit})
   }
@@ -609,7 +610,7 @@ export function createPeople({store, toast, panel: conversionPanel, related, con
       buildToolbar()
       renderBody()
       const body = listRoot.querySelector('[data-collab-body]')
-      body.scrollTop = listScroll.top
+      resolveScroller(body).scrollTop = listScroll.top
       const table = body.querySelector('.data-table-scroll')
       if (table) {
         table.scrollTop = listScroll.tableTop

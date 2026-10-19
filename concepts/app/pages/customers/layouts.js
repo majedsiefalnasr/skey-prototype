@@ -1,4 +1,5 @@
 import {uiLocale} from '../../core/locale.js'
+import {resolveScroller} from '../../core/scroll.js'
 // Customer record layout renderers (guided/focused/compact/scroll) plus the
 // Scroll Navigator — moved out of concepts/app/legacy-app.js as part of
 // Task 7. Only `guided` and `scroll` are exposed through the record page's
@@ -52,7 +53,9 @@ export function createScrollNavigator({root, sectionOrder, customerState}) {
   }
 
   function scrollContainer() {
-    return root.scrollHeight > root.clientHeight + 1 ? root : document.scrollingElement
+    /* The record canvas lays its sections out; it no longer scrolls them —
+       `.page-content` owns vertical scrolling for the view (core/scroll.js). */
+    return resolveScroller(root)
   }
 
   function viewportTop(scroller) {

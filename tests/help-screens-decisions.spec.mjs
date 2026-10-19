@@ -335,12 +335,15 @@ test('Boxed Kanban scrolls through the side gutters after appearance changes and
       else await expect(page.locator('body')).not.toHaveClass(/layout-boxed/)
       if (layout === 'fluid') await expect.poll(partialColumns).toBe(0)
       else {
-        await expect.poll(() => body.evaluate(el => Math.abs(el.getBoundingClientRect().width - el.closest('.content').getBoundingClientRect().width))).toBeLessThan(2)
+        // The canvas edge is the primary scrollport's padding box: its
+        // vertical scrollbar is not part of the board's pass-through area.
+        await expect.poll(() => body.evaluate(el => Math.abs(el.getBoundingClientRect().width - el.closest('.page-content').clientWidth))).toBeLessThan(2)
         await expect(body).toHaveCSS('scroll-snap-type', 'none')
         await body.evaluate(el => { el.scrollLeft = getComputedStyle(el).direction === 'rtl' ? -137 : 137 })
         const geometry = await body.evaluate(el => {
           const viewport = el.getBoundingClientRect()
-          const canvas = el.closest('.content').getBoundingClientRect()
+          const scroller = el.closest('.page-content'), rect = scroller.getBoundingClientRect()
+          const canvas = {left: rect.left + scroller.clientLeft, right: rect.left + scroller.clientLeft + scroller.clientWidth}
           return {left: Math.abs(viewport.left - canvas.left), right: Math.abs(viewport.right - canvas.right), page: document.documentElement.scrollWidth, window: innerWidth}
         })
         expect(geometry.left).toBeLessThan(2)
