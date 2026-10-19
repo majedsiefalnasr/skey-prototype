@@ -10,7 +10,7 @@
         <div class="mt-2"><h1 class="text-[23px] font-semibold leading-tight text-ink [body.density-compact_&]:text-[20px]" data-i18n="People Data">People Data</h1></div>
         <p class="mt-0.5 text-[13px] text-muted" data-i18n="People you deal with, before they become customers, suppliers or users.">People you deal with, before they become customers, suppliers or users.</p>
       </div>
-      <div class="r">
+      <div class="r [.d1_.phead_&]:flex [.d1_.phead_&]:items-center [.d1_.phead_&]:gap-1 [.d1_.phead_&]:mt-1.5!">
         <button type="button" class="lbtn pri" data-collab-new>
           <svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg>
           <span data-i18n="New person">New person</span>
@@ -56,9 +56,11 @@
     <!-- Hoisted by shell.js into the shared `.page-footer` slot, like the
          Customers record footer. The slot draws the border and surface; the
          panel hides the inner footer while the record is read-only, and the
-         Save button reaches the form through `form=`. -->
+         Save button reaches the form through `form=`. On phones the floating
+         prototype-controls launcher sits at the inline end (prototype/
+         controls.css), so the actions keep clear of its 44px + 14px inset. -->
     <div class="fnav people-record-footer">
-      <footer class="flex justify-end gap-2 px-4 py-3" data-panel-footer>
+      <footer class="flex justify-end gap-2 px-4 py-3 max-[720px]:pe-[66px]" data-panel-footer>
         <button type="button" class="lbtn out" data-panel-cancel data-i18n="Cancel">Cancel</button>
         <button type="submit" class="lbtn pri" form="people-record-form" data-panel-save data-i18n="Save">Save</button>
       </footer>

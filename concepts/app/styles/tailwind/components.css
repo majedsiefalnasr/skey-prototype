@@ -1,8 +1,11 @@
 @layer components {
   /* The kanban board pans horizontally inside its host ([data-collab-body],
      tagged by kanban.js). The host is content-height, so it must not claim
-     the vertical axis — that belongs to `.page-content`. */
-  .kanban-scroll-host {
+     the vertical axis — that belongs to `.page-content`. The tag outlives
+     the board (switching to Calendar/List keeps it), so only a host that
+     currently holds a board scrolls: any overflow on it would otherwise
+     capture the sticky calendar context bar. */
+  .kanban-scroll-host:has(> [data-board]) {
     overflow-x: auto;
     overflow-y: hidden;
   }
@@ -305,6 +308,15 @@
     top: 0;
     z-index: 3;
     background: var(--surface);
+  }
+  /* On phones the events toolbar wraps to ~320px (period, range, views,
+     reminders, timezone, view menu); pinned, it buries the calendar. The
+     compact sticky context strip (calendar.js bindMobileContext) carries
+     the period context there instead, so the toolbar scrolls away. */
+  @media (max-width: 720px) {
+    .collab-view [data-collab-toolbar]:has([data-cal-toolbar]) {
+      position: static;
+    }
   }
 }
 
