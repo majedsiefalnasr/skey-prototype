@@ -477,7 +477,7 @@ export function createPrototypeControls({root, settings, pages, onRoleChange = (
     if (isSettingsPage) applySettingsNavigationStyle()
     if (isProfile) applyProfileCardStyle()
     doc.getElementById('section-style-group').hidden = !hasCardSections
-    const isCollaboration = ['notes', 'activities', 'events', 'email', 'people'].includes(viewName)
+    const isCollaboration = ['notes', 'activities', 'events', 'email', 'people', 'people-record'].includes(viewName)
     doc.getElementById('collab-group-heading').hidden = !isCollaboration
     doc.getElementById('collab-reset-group').hidden = !isCollaboration
     doc.getElementById('table-group-heading').hidden = !isTablePage

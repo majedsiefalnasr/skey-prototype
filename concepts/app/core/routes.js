@@ -78,6 +78,7 @@ export const PATH_BY_VIEW = {
   activities: '/help-screens/activities',
   events: '/help-screens/events',
   people: '/help-screens/people-data',
+  'people-record': '/help-screens/people-data',
   email: '/help-screens/email',
   profile: '/system/profile',
   organization: '/system/organization',

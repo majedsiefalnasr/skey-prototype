@@ -789,7 +789,7 @@ const recordPagers = new Map(
           document.querySelectorAll('.canvas').forEach(c => {
             if (
               c.closest(
-                '.list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view, .profile-view, .organization-view'
+                '.list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view, .profile-view, .organization-view, .collab-view'
               )
             )
               return

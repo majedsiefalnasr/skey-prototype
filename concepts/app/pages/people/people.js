@@ -1,6 +1,7 @@
 import {uiLocale} from '../../core/locale.js'
+import {createCollabPanel} from '../../components/collab/panel.js'
 // People Data — people you deal with before (or instead of) them becoming
-// a customer, supplier, employee or user. A list + side-panel record with
+// a customer, supplier, employee or user. A list + full-page record with
 // bilingual names, repeatable contacts, live duplicate feedback, and a
 // "Convert to" action that is simulated: it marks the person as converted
 // and never creates or edits Customers (or any other) records.
@@ -70,11 +71,22 @@ const FIELD_LABEL = {mobile: 'mobile', phone: 'phone', email: 'email', name: 'na
 const primaryOf = (person, kind) =>
   (person.contacts || []).filter(c => (kind === 'email' ? c.kind === 'email' : c.kind !== 'email')).sort((a, b) => Number(b.primary) - Number(a.primary))[0]?.value || ''
 
-export function createPeople({store, toast, panel, related, confirm, goHome}) {
-  const view = () => document.querySelector('.people-view')
+export function createPeople({store, toast, related, confirm, goHome, navigate}) {
+  const listRoot = document.querySelector('.people-view')
+  const view = () => listRoot
+  const recordRoot = document.querySelector('.people-record-view')
+  const panel = createCollabPanel({root: recordRoot, modal: false, confirm})
   const state = {view: 'list', query: '', lifecycle: '', fieldFilters: []}
   let built = false
   let unsubscribe = null
+  let returnToId = null
+  let listScroll = {top: 0, tableTop: 0, tableLeft: 0}
+
+  recordRoot.querySelector('[data-people-back]').addEventListener('click', event => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+    event.preventDefault()
+    panel.close()
+  })
 
   const filterFields = () => [
     {
@@ -131,7 +143,7 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
         menuItemRadio({attr: 'view-select', value: id, label: `${entry.label} view`, iconName: entry.icon, checked: state.view === id})
       )
       .join('')
-    host.innerHTML = `<div class="data-list-controls grid gap-2 mb-2.5">${toolbarRow({
+    host.innerHTML = `<div class="data-list-controls grid w-full gap-2 mb-2.5">${toolbarRow({
       ariaLabel: 'People table controls',
       left: `${menuDetails({attr: 'quick-menu', iconName: quick[2], label: quick[1], items: quickItems})}${menuDetails({
         attr: 'filter-menu',
@@ -210,7 +222,7 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
 
   const listMarkup = people => `<div class="data-list-shell relative overflow-visible rounded-lg border border-line bg-surface [box-shadow:var(--shadow-1)]">
       <div class="data-table-scroll overflow-auto rounded-[inherit] max-w-full max-h-[max(280px,calc(100dvh-360px))]">
-        <table class="${INV_GRID_CLASS} min-w-[910px] [table-layout:fixed]" data-people-grid>
+        <table class="${INV_GRID_CLASS} borders-default min-w-[930px] [table-layout:fixed]" data-people-grid>
           <colgroup><col><col style="width:160px"><col style="width:150px"><col style="width:180px"><col style="width:220px"></colgroup>
           <thead><tr><th scope="col">Name</th><th scope="col">Company</th><th scope="col">Mobile / phone</th><th scope="col">Email</th><th scope="col">Status</th></tr></thead>
           <tbody>${people
@@ -433,14 +445,29 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
     return !firstInvalid
   }
 
-  function openPerson(id, {edit = false} = {}) {
+  async function openPerson(id, {edit = false} = {}) {
+    if (panel.isOpen() && !(await panel.requestLeave())) return false
+    if (listRoot.isConnected && !listRoot.hidden) {
+      const body = listRoot.querySelector('[data-collab-body]')
+      const table = body.querySelector('.data-table-scroll')
+      listScroll = {top: body.scrollTop, tableTop: table?.scrollTop || 0, tableLeft: table?.scrollLeft || 0}
+    }
+    return navigate('people-record', {openId: id, edit})
+  }
+
+  function showPerson(id, {edit = false} = {}) {
     const existing = id ? store.getEntity('person', id) : null
     if (id && !existing) {
       toast({tone: 'warn', title: 'This person is no longer available', body: 'The record may have been deleted.'})
+      // Finish activating the record page before applying its fallback.
+      queueMicrotask(() => navigate('people'))
       return
     }
     const person = existing || {nameEn: '', nameAr: '', company: '', jobTitle: '', contacts: [], city: '', country: '', lifecycle: 'lead', archived: false, notes: ''}
     const ref = existing ? {type: 'person', id: existing.id} : null
+    let savedId = id
+    returnToId = id
+    recordRoot.querySelector('[data-person-breadcrumb]').textContent = existing ? titleOf(existing) : uiLocale.t('New person')
     panel.open({
       ref,
       edit,
@@ -467,11 +494,13 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
           store.updateEntity('person', existing.id, values)
           toast({tone: 'ok', title: 'Person saved', body: values.nameEn})
         } else {
-          store.createEntity('person', {...values, archived: false})
+          savedId = store.createEntity('person', {...values, archived: false}).id
           toast({tone: 'ok', title: 'Person added', body: values.nameEn})
         }
         return true
       },
+      onSaved: () => showPerson(savedId),
+      onClose: () => navigate('people'),
       menu: existing
         ? [
             ...CONVERSION_TARGETS.map(([target, label]) => ({label: `Convert to ${label}`, icon: 'i-next', run: () => convert(existing, target)})),
@@ -483,6 +512,7 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
         : [],
       related: ref ? host => related.render(host, ref) : null,
     })
+    if (!edit && existing) recordRoot.querySelector('[data-panel-title]').focus()
   }
 
   async function convert(person, target) {
@@ -533,7 +563,13 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
 
   return {
     id: 'people',
-    refreshLocale() { if (built) { buildToolbar(); renderBody() } },
+    refreshLocale() {
+      if (built) { buildToolbar(); renderBody() }
+      if (!recordRoot.hidden && panel.currentRef()) {
+        // Preserve unsaved user input while translating the page's chrome.
+        recordRoot.querySelector('[data-person-breadcrumb]').textContent = titleOf(store.getEntity('person', panel.currentRef().id))
+      }
+    },
     get roots() {
       return view() ? [view()] : []
     },
@@ -542,11 +578,21 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
       if (!built) build()
       buildToolbar()
       renderBody()
+      const body = listRoot.querySelector('[data-collab-body]')
+      body.scrollTop = listScroll.top
+      const table = body.querySelector('.data-table-scroll')
+      if (table) {
+        table.scrollTop = listScroll.tableTop
+        table.scrollLeft = listScroll.tableLeft
+      }
       unsubscribe?.()
       unsubscribe = store.subscribe(() => {
         if (view() && !view().hidden) renderBody()
       })
       if (openId) openPerson(openId)
+      else if (returnToId) {
+        view().querySelector(`[data-row-open="${CSS.escape(returnToId)}"]`)?.focus({preventScroll: true})
+      }
     },
     deactivate() {
       unsubscribe?.()
@@ -555,7 +601,15 @@ export function createPeople({store, toast, panel, related, confirm, goHome}) {
     dispose() {
       unsubscribe?.()
     },
-    /* Exposed so a Related Items row can open the person editor in place. */
+    /* Related Items uses the same full-page person navigation as the list. */
     openPerson,
+    recordPage: {
+      id: 'people-record',
+      get roots() { return [recordRoot] },
+      activate({openId, edit = false} = {}) { showPerson(openId, {edit}) },
+      requestLeave: () => panel.requestLeave(),
+      deactivate() { panel.close({force: true, notify: false}) },
+      dispose() { panel.close({force: true, notify: false}) },
+    },
   }
 }

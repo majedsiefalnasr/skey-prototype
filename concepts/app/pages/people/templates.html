@@ -16,7 +16,43 @@
         </button>
       </div>
     </div>
-    <div class="flex flex-wrap items-center gap-2 px-4 pb-2 pt-3" data-collab-toolbar></div>
-    <div class="min-h-0 flex-1 overflow-auto px-4 pb-4 max-[720px]:pb-[calc(1rem+var(--flag-reserve,0px))]" data-collab-body></div>
+    <div class="canvas flex! min-w-0 min-h-0 flex-col">
+      <div data-collab-toolbar></div>
+      <div class="min-w-0 min-h-0 flex-1 overflow-auto pb-4 max-[720px]:pb-[calc(1rem+var(--flag-reserve,0px))]" data-collab-body></div>
+    </div>
+  </div>
+  <div class="people-record-view collab-view flex min-h-0 min-w-0 flex-1 flex-col" hidden>
+    <header class="phead flex items-start gap-5 px-4 [.d1_&]:[padding:11px_0]">
+      <div class="min-w-0 flex-1">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="/" data-home-link data-i18n="Home">Home</a><span class="sep">›</span>
+          <a href="/help-screens/people-data" data-people-back data-i18n="People Data">People Data</a><span class="sep">›</span>
+          <span aria-current="page" data-person-breadcrumb></span>
+        </nav>
+        <div class="mt-2 flex flex-wrap items-center gap-2">
+          <h1 class="text-[23px] font-semibold text-ink" data-panel-title tabindex="-1"></h1>
+          <span class="badge gray" data-panel-status hidden></span>
+        </div>
+        <p class="mt-0.5 text-[13px] text-muted" data-panel-description hidden></p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <button type="button" class="lbtn out" data-panel-edit data-i18n="Edit">Edit</button>
+        <div class="relative" data-panel-menu-wrap>
+          <button type="button" class="ibtn" data-panel-menu aria-haspopup="menu" aria-expanded="false" aria-label="More actions"><svg width="15" height="15" aria-hidden="true"><use href="#i-dots" /></svg></button>
+          <div class="absolute end-0 top-full z-10 hidden min-w-[190px] gap-0.5 rounded-lg border border-line bg-surface p-1.5 shadow-shell [&.open]:grid" role="menu" data-panel-menu-list></div>
+        </div>
+        <button type="button" class="lbtn" data-panel-close data-i18n="Back to list">Back to list</button>
+      </div>
+    </header>
+    <form class="flex min-h-0 flex-1 flex-col" data-panel-form novalidate>
+      <div class="canvas min-h-0 flex-1 overflow-auto" data-person-content>
+        <div class="rec-card rounded-lg border border-line bg-surface p-4" data-panel-body></div>
+        <section class="mt-4 rounded-lg border border-line bg-surface p-4" data-panel-related aria-label="Related items"></section>
+      </div>
+      <footer class="flex flex-none justify-end gap-2 border-t border-line bg-surface px-4 py-3" data-panel-footer>
+        <button type="button" class="lbtn out" data-panel-cancel data-i18n="Cancel">Cancel</button>
+        <button type="submit" class="lbtn pri" data-panel-save data-i18n="Save">Save</button>
+      </footer>
+    </form>
   </div>
 </template>

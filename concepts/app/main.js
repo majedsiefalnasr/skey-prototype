@@ -175,6 +175,7 @@ const NAV_ITEM_LABEL_BY_ID = {
   activities: 'Activities',
   events: 'Events',
   people: 'People Data',
+  'people-record': 'People Data',
   email: 'Internal Mail',
 }
 /* Rows that exist in more than one group (Activities in CRM and Help
@@ -185,6 +186,7 @@ const NAV_GROUP_LABEL_BY_ID = {
   activities: 'Help Screens',
   events: 'Help Screens',
   people: 'Help Screens',
+  'people-record': 'Help Screens',
   email: 'Help Screens',
 }
 let pendingBootId = bootPlan.kind === 'launchpad' ? 'record' : bootPlan.id
@@ -255,7 +257,7 @@ const onLaunchpadHide = target => {
 const localeControls = createLocaleControls({
   onLocaleChange: () => {
     const current = contentHost.getCurrentContentViewName()
-    const page = {notes: notesPage, activities: activitiesPage, events: eventsPage, people: peoplePage, email}[current]
+    const page = {notes: notesPage, activities: activitiesPage, events: eventsPage, people: peoplePage, 'people-record': peoplePage, email}[current]
     page?.refreshLocale?.()
     if (current === 'organization') organization.refreshLocale()
   },
@@ -498,10 +500,9 @@ const appearanceControls = createAppearanceControls({createAppearance, setLaunch
 
 /* ---- collaboration suite: one panel, one confirm, one Related Items
    component shared by Notes, Activities, Events, People Data and Mail.
-   Opening a related record opens its own editor in the panel over whatever
-   screen you are on — the Related items list of an activity can create a
-   note without taking you to Notes — and only mail, which has a screen of
-   its own, navigates. ---- */
+   Notes, activities and events open in the shared side panel. People Data
+   and mail navigate to their own page, including when opened from a link.
+   The person page shares the editor behavior without a scrim or focus trap. ---- */
 const collabConfirm = createConfirm()
 const collabPanel = createCollabPanel({trapFocus, releaseFocus, confirm: collabConfirm})
 const COLLAB_VIEW_BY_TYPE = {note: 'notes', activity: 'activities', event: 'events', person: 'people', mail: 'email'}
@@ -555,7 +556,7 @@ const {openEmailView, closeEmailView} = email
 const notesPage = createNotes(collabDeps)
 const activitiesPage = createActivities({...collabDeps, openItem: (ref, options) => openCollabItem(ref, options), composeMailFor: ref => email.composeLinked(ref)})
 const eventsPage = createEvents(collabDeps)
-const peoplePage = createPeople(collabDeps)
+const peoplePage = createPeople({...collabDeps, navigate: (...args) => navigation.navigate(...args)})
 /* Which factory owns an in-place open. Mail is absent on purpose: its
    reader and composer live on the mail screen, so those refs fall through
    to navigation in openCollabItem. */
@@ -968,7 +969,7 @@ const invoices = createInvoices({
   templates: {
     listRoot: document.querySelector('.list-view'), listCanvas: document.getElementById('list-canvas'),
     listFooter: document.getElementById('list-fnav'), listInstance: listRuntime.dataListInstances.invoice,
-    recordRoots: [...document.querySelector('.page-content').children].filter(element => !element.matches('.email-view,.list-view,.customer-list-view,.customer-record-view,.geo-list-view,.geo-record-view,.profile-view,.organization-view,.foryou-view,.notes-view,.activities-view,.events-view,.people-view')),
+    recordRoots: [...document.querySelector('.page-content').children].filter(element => !element.matches('.email-view,.list-view,.customer-list-view,.customer-record-view,.geo-list-view,.geo-record-view,.profile-view,.organization-view,.foryou-view,.notes-view,.activities-view,.events-view,.people-view,.people-record-view')),
   }, state, operations: {applyState, applyMode, modeSel, requestLeave: requestInvoiceLeave},
   record: {render: renderRecordA, dispose: () => { disposeRecordTabs(); disposeInvoiceLines(); disposeInvoicePayments(); disposeInvoiceAdjustments() }},
 })
@@ -989,6 +990,7 @@ const pageRegistry = new Map([
   ['activities', activitiesPage],
   ['events', eventsPage],
   ['people', peoplePage],
+  ['people-record', peoplePage.recordPage],
   ['placeholder', placeholder],
   ['signin', signin],
 ])

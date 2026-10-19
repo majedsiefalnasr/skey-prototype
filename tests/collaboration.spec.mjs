@@ -250,7 +250,7 @@ test.describe('related items', () => {
     await expect(card(page, 'Payment terms for Al Noor')).toHaveCount(0)
     await go(page, '/help-screens/people-data')
     await page.locator('.people-view [data-row-open]', {hasText: 'Ahmed Ali'}).click()
-    await expect(panel(page)).toContainText('Unavailable item')
+    await expect(page.locator('.people-record-view')).toContainText('Unavailable item')
   })
 
   test('create related keeps the relationship', async ({page}) => {
@@ -1064,15 +1064,18 @@ test.describe('internal mail', () => {
 })
 
 test.describe('people data', () => {
+  const panel = page => page.locator('.people-record-view')
   test('list shows bilingual names and conversion state', async ({page}) => {
     await go(page, '/help-screens/people-data')
     await expect(page.locator('.people-view table')).toContainText('أحمد علي')
     await expect(page.locator('.people-view tr', {hasText: 'Khaled Ibrahim'})).toContainText('Converted to Customer')
   })
 
-  test('panel Status is a badge chip like the other collab panels', async ({page}) => {
+  test('record Status is a badge chip and opens on a full page', async ({page}) => {
     await go(page, '/help-screens/people-data')
     await page.locator('.people-view [data-row-open]', {hasText: 'Khaled Ibrahim'}).click()
+    await expect(page.locator('#collab-panel')).toBeHidden()
+    await expect(page.locator('#collab-panel-scrim')).toBeHidden()
     await expect(panel(page).locator('dt:text-is("Status") + dd .badge.gray')).toHaveText('Contact')
   })
 
@@ -1143,6 +1146,9 @@ test.describe('people data', () => {
     await page.locator('[data-contact-value]').first().fill('+20 122 555 0199')
     await expect(panel(page).locator('[data-duplicate]')).toContainText('Sara Mahmoud')
     await panel(page).getByRole('button', {name: 'Save'}).click()
+    await expect(panel(page)).toBeVisible()
+    await expect(panel(page).locator('#person-name-en')).toHaveCount(0)
+    await panel(page).locator('[data-panel-close]').click()
     await expect(page.locator('.people-view table')).toContainText('New Contact')
     await page.locator('.people-view [data-row-open]', {hasText: 'Sara Mahmoud'}).click()
     await panel(page).getByRole('button', {name: 'More actions'}).click()

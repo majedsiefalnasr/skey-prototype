@@ -1,8 +1,9 @@
 import {uiLocale} from '../../core/locale.js'
 const {t} = uiLocale
-// Side-panel editor shared by Notes, Activities, Events and People Data,
+// Record editor shared by Notes, Activities, Events and People Data,
 // plus the small confirm dialog every collaboration screen uses. Markup
-// lives in components/collab/collab.html.
+// lives in components/collab/collab.html. People Data supplies a full-page
+// root with modal:false, retaining the same edit/save/validation contract.
 //
 // The panel uses the app's shared trapFocus/releaseFocus. Dialogs that
 // open on top of it (confirm, the Related Items picker) keep Tab and Escape
@@ -87,12 +88,12 @@ const formSnapshot = root =>
     )
   )
 
-export function createCollabPanel({trapFocus, releaseFocus, confirm}) {
-  const panel = document.getElementById('collab-panel')
-  const scrim = document.getElementById('collab-panel-scrim')
-  if (!panel || !scrim) throw new Error('collab panel markup missing')
+export function createCollabPanel({trapFocus, releaseFocus, confirm, root, modal = true}) {
+  const panel = root || document.getElementById('collab-panel')
+  const scrim = modal ? document.getElementById('collab-panel-scrim') : null
+  if (!panel || (modal && !scrim)) throw new Error('collab panel markup missing')
   const statusBadge = panel.querySelector('[data-panel-status]')
-  const titleEl = panel.querySelector('#collab-panel-title')
+  const titleEl = panel.querySelector('[data-panel-title], #collab-panel-title')
   const descriptionEl = panel.querySelector('[data-panel-description]')
   const body = panel.querySelector('[data-panel-body]')
   const relatedHost = panel.querySelector('[data-panel-related]')
@@ -148,7 +149,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm}) {
     body.innerHTML = ''
     ;(viewing ? current.view : current.render)(body)
     snapshot = formSnapshot(body)
-    ;(body.querySelector('[autofocus]') || body.querySelector(FOCUSABLE) || panel).focus()
+    ;(body.querySelector('[autofocus]') || body.querySelector(FOCUSABLE) || (modal ? panel : titleEl)).focus()
   }
 
   /**
@@ -158,7 +159,8 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm}) {
    *   render: (body: HTMLElement) => void,
    *   view?: (body: HTMLElement) => void, edit?: boolean,
    *   save: (body: HTMLElement) => boolean, menu?: {label: string, run: () => void, danger?: boolean, icon?: string}[],
-   *   related?: (host: HTMLElement) => void, saveLabel?: string}} options
+   *   related?: (host: HTMLElement) => void, saveLabel?: string,
+   *   onClose?: () => void, onSaved?: () => void}} options
    */
   function open(options) {
     const wasOpen = Boolean(current)
@@ -181,35 +183,41 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm}) {
        works once the panel is on screen, and Escape (bound to the panel)
        needs focus inside it. */
     panel.classList.add('open')
-    scrim.classList.add('open')
+    scrim?.classList.add('open')
     applyMode()
     renderMenu(current.menu)
     closeMenu()
     renderRelated()
-    if (!wasOpen) trapFocus(panel)
+    if (!wasOpen && modal) trapFocus(panel)
   }
 
-  async function close({force = false} = {}) {
+  async function requestLeave() {
     if (!current) return true
     if (form.getAttribute('aria-busy') === 'true') return false
-    if (!force && formSnapshot(body) !== snapshot) {
-      const discard = await confirm({
+    if (mode === 'edit' && formSnapshot(body) !== snapshot) {
+      return confirm({
         title: 'Discard changes?',
         body: 'Your edits to this item have not been saved.',
         confirmLabel: t("Discard"),
         tone: 'danger',
       })
-      if (!discard) return false
     }
+    return true
+  }
+
+  async function close({force = false, notify = true} = {}) {
+    if (!current) return true
+    if (form.getAttribute('aria-busy') === 'true') return false
+    if (!force && !(await requestLeave())) return false
     const onClose = current.onClose
     current = null
     closeMenu()
     panel.classList.remove('open')
-    scrim.classList.remove('open')
+    scrim?.classList.remove('open')
     body.innerHTML = ''
     relatedHost.innerHTML = ''
-    releaseFocus()
-    onClose?.()
+    if (modal) releaseFocus()
+    if (notify) onClose?.()
     return true
   }
 
@@ -221,7 +229,8 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm}) {
     try { saved = await current.save(body) } finally { form.removeAttribute('aria-busy') }
     if (saved) {
       snapshot = formSnapshot(body)
-      close({force: true})
+      if (current.onSaved) current.onSaved()
+      else close({force: true})
     }
   })
   editButton.addEventListener('click', () => {
@@ -240,7 +249,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm}) {
     close()
   })
   panel.querySelector('[data-panel-close]').addEventListener('click', () => close())
-  scrim.addEventListener('click', () => close())
+  scrim?.addEventListener('click', () => close())
   menuButton.addEventListener('click', () => (menuList.classList.contains('open') ? closeMenu() : openMenu()))
   menuList.addEventListener('click', event => {
     const item = event.target.closest('[role=menuitem]')
@@ -273,6 +282,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm}) {
   return {
     open,
     close,
+    requestLeave,
     isOpen: () => Boolean(current),
     currentRef: () => current?.ref ?? null,
     refreshRelated: renderRelated,
