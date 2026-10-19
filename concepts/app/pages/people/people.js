@@ -74,7 +74,9 @@ export function createPeople({store, toast, panel: conversionPanel, related, con
   const listRoot = document.querySelector('.people-view')
   const view = () => listRoot
   const recordRoot = document.querySelector('.people-record-view')
-  const panel = createCollabPanel({root: recordRoot, modal: false, confirm})
+  const panel = createCollabPanel({root: recordRoot, footerRoot: document.querySelector('.page-footer [data-page-footer="people-record"]'), modal: false, confirm})
+  /* The list pager lives in the shell's `.page-footer` slot (shell.js). */
+  const listFooter = document.querySelector('[data-people-list-fnav]')
   const state = {view: 'list', query: '', lifecycle: '', fieldFilters: []}
   let built = false
   let unsubscribe = null
@@ -225,18 +227,20 @@ export function createPeople({store, toast, panel: conversionPanel, related, con
         : valued
           ? emptyState({iconName: 'i-search', title: uiLocale.t("No people match “{v0}”").replace('{v0}', () => uiLocale.t(String(valued.value))), body: 'Clear the filter to see every person.'})
           : emptyState({iconName: 'i-user', title: 'No people yet', body: 'Add someone with New person — only an English name is required.'})
+      listFooter.innerHTML = ''
       return
     }
     if (state.view === 'cards') {
       getTable().deactivate()
+      listFooter.innerHTML = ''
       body.innerHTML = cardsMarkup(people)
       body.querySelectorAll('[data-row-open]').forEach(button => button.addEventListener('click', () => openPerson(button.dataset.rowOpen)))
     } else {
-      body.innerHTML = '<div data-people-table></div><div class="mt-2" data-people-table-footer></div>'
+      body.innerHTML = '<div data-people-table></div>'
       const table = getTable()
       table.getState().hiddenColumns.delete('nameEn')
       table.setRows(people.map(person => ({...person, phone: primaryOf(person, 'phone'), email: primaryOf(person, 'email'), conversionLabel: person.convertedTo ? conversionLabel(person.convertedTo.target) : ''})))
-      table.activate({root: body.querySelector('[data-people-table]'), footer: body.querySelector('[data-people-table-footer]')})
+      table.activate({root: body.querySelector('[data-people-table]'), footer: listFooter})
       body.querySelector('[data-people-table]').dataset.peopleGrid = ''
     }
   }

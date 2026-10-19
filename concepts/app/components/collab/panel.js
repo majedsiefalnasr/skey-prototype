@@ -88,7 +88,9 @@ const formSnapshot = root =>
     )
   )
 
-export function createCollabPanel({trapFocus, releaseFocus, confirm, root, modal = true}) {
+/** `footerRoot`: where the Cancel/Save footer lives when the shell hoisted it
+ *  out of `root` into its shared `.page-footer` slot (full-page records). */
+export function createCollabPanel({trapFocus, releaseFocus, confirm, root, footerRoot, modal = true}) {
   const panel = root || document.getElementById('collab-panel')
   const scrim = modal ? document.getElementById('collab-panel-scrim') : null
   if (!panel || (modal && !scrim)) throw new Error('collab panel markup missing')
@@ -98,7 +100,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm, root, modal
   const body = panel.querySelector('[data-panel-body]')
   const relatedHost = panel.querySelector('[data-panel-related]')
   const form = panel.querySelector('[data-panel-form]')
-  const footer = panel.querySelector('[data-panel-footer]')
+  const footer = (footerRoot || panel).querySelector('[data-panel-footer]')
   const editButton = panel.querySelector('[data-panel-edit]')
   const menuButton = panel.querySelector('[data-panel-menu]')
   const menuList = panel.querySelector('[data-panel-menu-list]')
@@ -176,7 +178,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm, root, modal
     descriptionEl.hidden = !current.description
     descriptionEl.classList.toggle('text-[color:var(--danger)]', current.descriptionTone === 'danger')
     for (const cls of ['rounded-md', 'border', 'border-[var(--danger-soft-line)]', 'bg-[var(--danger-soft-bg)]', 'px-3', 'py-2']) descriptionEl.classList.toggle(cls, current.descriptionTone === 'danger')
-    panel.querySelector('[data-panel-save]').textContent = t(current.saveLabel || 'Save')
+    footer.querySelector('[data-panel-save]').textContent = t(current.saveLabel || 'Save')
     /* Existing records open read-only when the page supplied a view
        renderer; new records — and freshly created ones the caller opens
        right away with `edit: true` — go straight to the form. */
@@ -239,7 +241,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm, root, modal
     mode = 'edit'
     applyMode()
   })
-  panel.querySelector('[data-panel-cancel]').addEventListener('click', () => {
+  footer.querySelector('[data-panel-cancel]').addEventListener('click', () => {
     /* Cancel inside the editor of an existing record returns to its
        read-only view — the panel only closes from the view itself. */
     if (current?.view && current?.ref && mode === 'edit') {

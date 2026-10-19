@@ -667,7 +667,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       save: async body => {
         const values = readEditor(body)
         if (!validate(body, values)) return false
-        if (!(await beforeAction(document.querySelector('[data-panel-save]')))) return false
+        if (!(await beforeAction(document.querySelector('#collab-panel [data-panel-save]')))) return false
         if (existing) {
           store.updateEntity('activity', existing.id, values)
           toast({tone: 'ok', title: 'Activity saved', body: values.summary})

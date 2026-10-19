@@ -425,7 +425,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
       save: async body => {
         const values = readEditor(body)
         if (!validate(body, values)) return false
-        if (!(await beforeAction(document.querySelector('[data-panel-save]')))) return false
+        if (!(await beforeAction(document.querySelector('#collab-panel [data-panel-save]')))) return false
         if (existing) {
           const scope = body.querySelector('#event-edit-scope')?.value || 'series'
           const key = occurrence?.occurrenceKey || existing.start.slice(0, 10)

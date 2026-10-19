@@ -58,21 +58,19 @@ export function createShell({
     })
     const pageFooter = document.createElement('div')
     pageFooter.className = 'page-footer'
+    /* Each view's `.fnav` moves into the shared footer slot, keyed by the
+       content view name content.js shows it for. */
+    const footerViews = [
+      ['.list-view', 'list'],
+      ['.customer-list-view', 'customers-list'],
+      ['.customer-record-view', 'customer-record'],
+      ['.geo-list-view', 'geo-list'],
+      ['.geo-record-view', 'geo-record'],
+      ['.people-view', 'people'],
+      ['.people-record-view', 'people-record'],
+    ]
     pageContent.querySelectorAll('.fnav').forEach(footer => {
-      const view = footer.closest(
-        '.list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view'
-      )
-      footer.dataset.pageFooter = view?.classList.contains('list-view')
-        ? 'list'
-        : view?.classList.contains('customer-list-view')
-          ? 'customers-list'
-          : view?.classList.contains('customer-record-view')
-            ? 'customer-record'
-            : view?.classList.contains('geo-list-view')
-              ? 'geo-list'
-              : view?.classList.contains('geo-record-view')
-                ? 'geo-record'
-                : 'record'
+      footer.dataset.pageFooter = footerViews.find(([selector]) => footer.closest(selector))?.[1] ?? 'record'
       footer.hidden = footer.dataset.pageFooter !== 'record'
       pageFooter.append(footer)
     })

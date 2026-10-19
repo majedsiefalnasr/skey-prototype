@@ -534,7 +534,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
           body.querySelector('#note-title').focus()
           return false
         }
-        if (!(await beforeAction(document.querySelector('[data-panel-save]')))) return false
+        if (!(await beforeAction(document.querySelector('#collab-panel [data-panel-save]')))) return false
         if (existing) {
           store.updateEntity('note', existing.id, values)
           toast({tone: 'ok', title: 'Note saved', body: values.title})

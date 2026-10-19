@@ -21,6 +21,9 @@
       <div data-collab-toolbar></div>
       <div class="min-w-0 min-h-0 flex-1 pb-4 max-[720px]:pb-[calc(1rem+var(--flag-reserve,0px))]" data-collab-body></div>
     </div>
+    <!-- Hoisted by shell.js into the shared `.page-footer` slot, like the
+         Customers list pager; the People data table renders its pager here. -->
+    <div class="fnav fnav-list" data-people-list-fnav></div>
   </div>
   <div class="people-record-view collab-view flex min-h-0 min-w-0 flex-1 flex-col" hidden>
     <header class="phead flex items-start gap-5 px-4 [.d1_&]:[padding:11px_0]">
@@ -44,15 +47,21 @@
         </div>
       </div>
     </header>
-    <form class="flex min-h-0 flex-1 flex-col" data-panel-form novalidate>
+    <form class="flex min-h-0 flex-1 flex-col" id="people-record-form" data-panel-form novalidate>
       <div class="canvas min-h-0 flex-1" data-person-content>
         <div class="rec-card rounded-lg border border-line bg-surface p-4" data-panel-body></div>
         <section class="mt-4 rounded-lg border border-line bg-surface p-4" data-panel-related aria-label="Related items"></section>
       </div>
-      <footer class="flex flex-none justify-end gap-2 border-t border-line bg-surface px-4 py-3" data-panel-footer>
-        <button type="button" class="lbtn out" data-panel-cancel data-i18n="Cancel">Cancel</button>
-        <button type="submit" class="lbtn pri" data-panel-save data-i18n="Save">Save</button>
-      </footer>
     </form>
+    <!-- Hoisted by shell.js into the shared `.page-footer` slot, like the
+         Customers record footer. The slot draws the border and surface; the
+         panel hides the inner footer while the record is read-only, and the
+         Save button reaches the form through `form=`. -->
+    <div class="fnav people-record-footer">
+      <footer class="flex justify-end gap-2 px-4 py-3" data-panel-footer>
+        <button type="button" class="lbtn out" data-panel-cancel data-i18n="Cancel">Cancel</button>
+        <button type="submit" class="lbtn pri" form="people-record-form" data-panel-save data-i18n="Save">Save</button>
+      </footer>
+    </div>
   </div>
 </template>

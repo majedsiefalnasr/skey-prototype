@@ -106,7 +106,7 @@ test('VQA-08: adjacent half-hour activities remain independently tappable',async
   await page.locator('#collab-panel details summary').click();
   await page.locator('#activity-start').fill('2026-10-13T15:30');
   await page.locator('#activity-duration').selectOption('30');
-  await page.locator('[data-panel-save]').click();
+  await page.locator('#collab-panel [data-panel-save]').click();
   await expect(page.locator('#collab-panel')).toBeHidden();
   // Complete the normal creation flow before testing calendar hit targets;
   // the success flag otherwise overlays the bottom portion of the phone.

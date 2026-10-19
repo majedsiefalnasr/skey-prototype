@@ -77,7 +77,7 @@ for (const name of ['notes', 'activities', 'events']) {
     await control(page, 'input-style', 'floated')
     const textarea = page.locator('#collab-panel textarea').first()
     await textarea.fill('User text must stay visible after blur.')
-    await page.locator('[data-panel-save]').focus()
+    await page.locator('#collab-panel [data-panel-save]').focus()
     const position = await textarea.evaluate(el => ({
       input: el.getBoundingClientRect().top + parseFloat(getComputedStyle(el).paddingTop),
       labelBottom: el.parentElement.querySelector('label').getBoundingClientRect().bottom,
@@ -208,7 +208,7 @@ test('Arabic translates generated controls while preserving record content', asy
     }
     if(name !== 'email') {
       await root.locator('[data-collab-new]').click()
-      await expect(page.locator('[data-panel-save]')).toHaveText('حفظ')
+      await expect(page.locator('#collab-panel [data-panel-save]')).toHaveText('حفظ')
       await page.locator('[data-panel-close]').click()
     }
     await control(page, 'rtl', false)
@@ -223,12 +223,12 @@ for(const [name,type,input] of [['notes','note','note-title'],['activities','act
     await page.locator('#'+input).fill('Consistency failure check')
     const before=await page.evaluate(()=>sessionStorage.getItem('skey-proto-collab'))
     await control(page,'failsim',true)
-    await page.locator('[data-panel-save]').click()
+    await page.locator('#collab-panel [data-panel-save]').click()
     await expect(page.locator('#toasts')).toContainText(isRtl(info)?'تعذر تنفيذ الإجراء':'Action failed')
     expect(await page.evaluate(()=>sessionStorage.getItem('skey-proto-collab'))).toEqual(before)
     await expect(page.locator('#'+input)).toHaveValue('Consistency failure check')
     await expect(page.locator('#failsim')).not.toBeChecked()
-    await page.locator('[data-panel-save]').click()
+    await page.locator('#collab-panel [data-panel-save]').click()
     await expect(page.locator('#collab-panel')).toBeHidden()
     expect((await entities(page,type)).filter(e=>(e.title||e.summary)==='Consistency failure check')).toHaveLength(1)
   })
@@ -437,7 +437,7 @@ test('a new person can be saved and other rows stay tappable while its flag show
   await page.locator('.people-view [data-collab-new]').click()
   await page.locator('#person-name-en').fill('Phone Contact')
   await page.locator('[data-contact-value]').first().fill('+20 111 555 0100')
-  await page.locator('.people-record-view [data-panel-save]').click()
+  await page.locator('.page-footer [data-page-footer="people-record"] [data-panel-save]').click()
   await expect(page.locator('.people-record-view')).toBeVisible()
   await page.locator('.people-record-view [data-people-back]').click()
   await expect(page.locator('#collab-panel')).toBeHidden()
