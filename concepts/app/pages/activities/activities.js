@@ -21,7 +21,7 @@ import {
   recordHighlights,
 } from '../../components/collab/fields.js'
 import {renderBoard} from '../../components/collab/kanban.js'
-import {renderCalendar, calendarToolbar, bindCalendarToolbar, calendarRange, shiftDate} from '../../components/collab/calendar.js'
+import {renderCalendar, calendarToolbar, bindCalendarToolbar, calendarRange, shiftDate, presetJump} from '../../components/collab/calendar.js'
 import {
   menuItemRadio,
   menuDetails,
@@ -88,6 +88,8 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
     fieldFilters: [],
     calMode: 'week',
     calDate: null,
+    calSelectedDay: null,
+    calSelectedId: null,
   }
   let built = false
   let unsubscribe = null
@@ -335,6 +337,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
 
   function renderBody() {
     const body = view().querySelector('[data-collab-body]')
+    body._calendarContextAbort?.abort()
     if (state.view === 'calendar') return renderCalendarView(body)
     const activities = filtered()
     const columns = [
@@ -378,7 +381,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       label: kindLabel(activity.kind),
     }))
     const unscheduled = filtered().filter(a => isOpenActivity(a) && !store.isScheduled(a)).length
-    body.innerHTML = `${calendarToolbar({mode: state.calMode, date: state.calDate})}
+    body.innerHTML = `${calendarToolbar({mode: state.calMode, date: state.calDate, presets: true, today: todayKey(), titleHidden: true})}
       <p class="my-2 flex flex-wrap items-center gap-2 rounded-md bg-[var(--line-2)] px-3 py-2 text-[13px] text-ink" data-unscheduled-notice>
         ${icon('i-info')}<span>${unscheduled} unscheduled ${unscheduled === 1 ? 'activity isn’t' : 'activities aren’t'} shown here — only activities with a scheduled time appear on the calendar. They stay in Kanban.</span>
         <button type="button" class="lbtn ms-auto" data-show-kanban>${t("Show Kanban")}</button>
@@ -390,8 +393,14 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       onToday: () => goCal(todayKey()),
       onMode: mode => {
         state.calMode = mode
+        state.calDate = state.calSelectedDay || state.calDate
         renderBody()
         view().querySelector(`[data-cal-modes] [data-value="${mode}"]`)?.focus()
+      },
+      onPreset: id => {
+        const jump = presetJump(id, todayKey())
+        state.calMode = jump.mode
+        goCal(jump.date)
       },
     })
     body.querySelector('[data-show-kanban]').addEventListener('click', () => {
@@ -405,8 +414,30 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       todayKey: todayKey(),
       nowKey: store.now(),
       items: calendarItems,
-      onOpen: index => openActivity(calendarItems[index].id),
-      onSlot: ({date, time}) => openActivity(null, {scheduledStart: `${date}T${time || '09:00'}`, durationMin: 30}),
+      enhanced: true,
+      selectedDay: state.calSelectedDay || state.calDate,
+      selectedId: state.calSelectedId,
+      onSelectDay: date => {
+        state.calSelectedDay = date
+        state.calSelectedId = null
+        renderBody()
+        body.querySelector(`[data-cal-select-day="${date}"]`)?.focus({preventScroll: true})
+      },
+      onOpen: index => {
+        const activity = calendarItems[index]
+        state.calSelectedDay = activity.start.slice(0, 10)
+        state.calSelectedId = activity.id
+        // Repaint selection in place so opening a record preserves the grid's pan and time scroll.
+        body.querySelectorAll('[data-cal-item]').forEach(button => button.setAttribute('aria-pressed', String(calendarItems[Number(button.dataset.calItem)]?.id === activity.id)))
+        body.querySelectorAll('[data-cal-select-day]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.calSelectDay === state.calSelectedDay)))
+        body.querySelector(`[data-cal-item="${index}"]`)?.focus({preventScroll: true})
+        openActivity(activity.id)
+      },
+      onSlot: ({date, time}) => {
+        state.calSelectedDay = date
+        state.calSelectedId = null
+        openActivity(null, {scheduledStart: `${date}T${time || '09:00'}`, durationMin: 30})
+      },
       onMore: date => {
         state.calMode = 'day'
         goCal(date)
@@ -416,6 +447,8 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
 
   function goCal(date) {
     state.calDate = date
+    state.calSelectedDay = date
+    state.calSelectedId = null
     renderBody()
   }
 
@@ -634,6 +667,16 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
   }
 
   function openActivity(id, prefill = {}, {edit = false} = {}) {
+    const opener = document.activeElement
+    const calendarOpener = view()?.contains(opener) && (opener?.hasAttribute('data-cal-item') || opener?.hasAttribute('data-cal-slot'))
+    const restoreCalendarFocus = () => {
+      if (!calendarOpener) return
+      const index = id ? calendarItems.findIndex(item => item.id === id) : -1
+      const target = index >= 0
+        ? view()?.querySelector(`[data-cal-item="${index}"]`)
+        : opener?.isConnected ? opener : view()?.querySelector('[data-collab-new]')
+      target?.focus({preventScroll: true})
+    }
     const existing = id ? store.getEntity('activity', id) : null
     if (id && !existing) {
       toast({tone: 'warn', title: 'This activity is no longer available', body: 'It may have been deleted.'})
@@ -644,6 +687,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
     panel.open({
       ref,
       edit,
+      onClose: restoreCalendarFocus,
       status: existing ? {label: statusLabel(existing.status), tone: STATUS_TONE[existing.status] || 'gray'} : undefined,
       title: existing ? titleOf(existing) : 'New activity',
       /* Header note: the kind only. Due state is flagged once in the body

@@ -158,14 +158,34 @@ export function bindCalendarToolbar(host, {onPrev, onNext, onToday, onMode, onPr
 const itemLabel = item =>
   `${item.label}: ${item.title}, ${item.allDay ? 'all day' : `${formatTime(item.start)} to ${formatTime(item.end)}`}${item.conflict ? ' (conflicting)' : ''}`
 
+/** One tab stop per date picker; arrows move focus without changing selection. */
+export function bindCalendarDates(host, attribute, selectedDay, todayKey) {
+  const buttons = [...host.querySelectorAll(`[${attribute}]`)]
+  const initial = buttons.find(button => button.getAttribute(attribute) === selectedDay) || buttons.find(button => button.getAttribute(attribute) === todayKey) || buttons[0]
+  buttons.forEach((button, index) => {
+    button.tabIndex = button === initial ? 0 : -1
+    button.addEventListener('focus', () => buttons.forEach(other => { other.tabIndex = other === button ? 0 : -1 }))
+    button.addEventListener('keydown', event => {
+      const rtl = document.documentElement.dir === 'rtl'
+      const delta = {ArrowRight: rtl ? -1 : 1, ArrowLeft: rtl ? 1 : -1, ArrowDown: 7, ArrowUp: -7}[event.key]
+      const next = event.key === 'Home' ? index - index % 7 : event.key === 'End' ? index + 6 - index % 7 : delta ? index + delta : null
+      if (next === null) return
+      event.preventDefault()
+      buttons[next]?.focus()
+    })
+  })
+}
+
 const ITEM_CLASS =
-  'block w-full overflow-hidden rounded border-0 border-s-[3px] border-[var(--accent)] bg-[var(--accent-soft)] px-1.5 py-0.5 text-start text-xs text-ink hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
+  'block w-full overflow-hidden rounded border-0 border-[var(--accent)] bg-[var(--accent-soft)] px-1.5 py-0.5 text-start text-xs text-ink hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
 
 const CONFLICT_CLASS = '![border-color:var(--danger)] ![background-color:var(--danger-soft-bg)]'
 
-const itemButton = (item, index, extraClass = '', style = '', timeLabel = formatTime(item.start)) => {
-  const content = `${item.allDay ? '' : `<span class="font-semibold">${escapeHtml(timeLabel)}</span> `}<span dir="auto">${escapeHtml(item.title)}</span><span class="sr-only"> (${escapeHtml(t(item.label))})</span>`
-  const paintClass = `${ITEM_CLASS} ${item.conflict ? CONFLICT_CLASS : ''} ${extraClass}`
+const itemButton = (item, index, extraClass = '', style = '', timeLabel = formatTime(item.start), enhanced = false, plainBorder = enhanced) => {
+  const content = enhanced
+    ? `<span class="event-month-title" dir="auto">${icon(item.allDay ? 'i-cal' : 'i-clock', 12)}<span>${escapeHtml(item.title)}</span></span><span class="event-month-time">${escapeHtml(item.allDay ? t('All day') : timeLabel)}</span>`
+    : `${item.allDay ? '' : `<span class="font-semibold">${escapeHtml(timeLabel)}</span> `}<span dir="auto">${escapeHtml(item.title)}</span><span class="sr-only"> (${escapeHtml(t(item.label))})</span>`
+  const paintClass = `${ITEM_CLASS} ${plainBorder ? '' : 'border-s-[3px]'} ${item.conflict ? CONFLICT_CLASS : ''} ${extraClass}`
   // Timed events keep a normal coarse-pointer button. Only its painted
   // child represents duration; the larger transparent target is not a
   // second, misleading duration block. Month/all-day chips are unchanged.
@@ -257,14 +277,24 @@ function bindMobileContext(host) {
  *   onOpen: (index: number) => void,
  *   onMore: (date: string) => void}} options
  */
-export function renderCalendar(host, {mode, date, todayKey, nowKey, items, onSlot, onOpen, onMore}) {
+export function renderCalendar(host, {mode, date, todayKey, nowKey, items, onSlot, onOpen, onMore, enhanced = false, selectedDay, selectedId, onSelectDay}) {
   host.classList.add('collab-calendar-scroll')
-  if (mode === 'month') renderMonth(host, {date, todayKey, items})
-  else renderTimeGrid(host, {days: mode === 'day' ? [date] : Array.from({length: 7}, (_, i) => addDays(startOfWeek(date), i)), todayKey, nowKey, items})
+  host.classList.toggle('collab-calendar-enhanced', enhanced)
+  if (mode === 'month') renderMonth(host, {date, todayKey, items, enhanced, selectedDay})
+  else renderTimeGrid(host, {days: mode === 'day' ? [date] : Array.from({length: 7}, (_, i) => addDays(startOfWeek(date), i)), todayKey, nowKey, items, enhanced})
 
   host.querySelectorAll('[data-cal-item]').forEach(button =>
     button.addEventListener('click', () => onOpen(Number(button.dataset.calItem)))
   )
+  if (enhanced) host.querySelectorAll('[data-cal-item]').forEach(button => {
+    button.setAttribute('aria-pressed', String(items[Number(button.dataset.calItem)].id === selectedId))
+  })
+  if (enhanced) host.querySelectorAll('[data-cal-column-date]').forEach(column => {
+    if (column.dataset.calColumnDate === selectedDay) column.setAttribute('data-selected-day', 'true')
+  })
+  host.querySelectorAll('[data-cal-select-day]').forEach(button =>
+    button.addEventListener('click', () => onSelectDay?.(button.dataset.calSelectDay)))
+  if (enhanced) bindCalendarDates(host, 'data-cal-select-day', selectedDay, todayKey)
   host.querySelectorAll('[data-cal-slot]').forEach(button =>
     button.addEventListener('click', () => onSlot({date: button.dataset.calSlot, time: button.dataset.time || undefined}))
   )
@@ -306,7 +336,7 @@ export function renderCalendar(host, {mode, date, todayKey, nowKey, items, onSlo
   bindMobileContext(host)
 }
 
-function renderMonth(host, {date, todayKey, items}) {
+function renderMonth(host, {date, todayKey, items, enhanced, selectedDay}) {
   const month = date.slice(0, 7)
   const days = monthGridDays(date)
   host.innerHTML = `<div class="overflow-hidden rounded-lg border border-line" role="grid" aria-label="${escapeHtml(formatMonthTitle(date))}" data-cal-month>
@@ -321,10 +351,10 @@ function renderMonth(host, {date, todayKey, items}) {
         const shown = dayItems.slice(0, 3)
         const outside = day.slice(0, 7) !== month
         const isToday = day === todayKey
-        return `<div role="gridcell" class="relative min-h-[104px] border-b border-e border-line p-1 ${isToday ? 'bg-[var(--accent-soft)] [box-shadow:inset_0_0_0_1px_var(--accent-line)]' : outside ? 'bg-[var(--line-2)] text-faint' : 'bg-surface'}" data-date="${day}"${outside ? ' data-outside="true"' : ''}${isToday ? ' aria-current="date"' : ''}>
+        return `<div role="gridcell" class="relative min-h-[104px] border-b border-e border-line p-1 ${isToday && !enhanced ? 'bg-[var(--accent-soft)] [box-shadow:inset_0_0_0_1px_var(--accent-line)]' : outside ? 'bg-[var(--line-2)] text-faint' : 'bg-surface'}" data-date="${day}"${enhanced && day === selectedDay ? ' data-selected-day="true"' : ''}${outside ? ' data-outside="true"' : ''}${isToday ? ' aria-current="date"' : ''}>
           <button type="button" class="absolute inset-0 border-0 bg-transparent focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]" data-cal-slot="${day}" aria-label="${t('New on')} ${escapeHtml(longDay(day))}"></button>
-          <span class="relative inline-grid size-6 place-items-center rounded-full text-xs ${isToday ? 'bg-[var(--accent)] font-semibold text-inverse' : ''}">${Number(day.slice(8)).toLocaleString(uiLocale.getLocale() === 'ar' ? 'ar-EG' : 'en-GB')}${isToday ? `<span class="sr-only"> ${t('(today)')}</span>` : ''}</span>
-          <div class="relative mt-0.5 grid gap-0.5">${shown.map(({item, index}) => itemButton(item, index, 'truncate', '', item.start.slice(0, 10) < day ? 'Continues' : formatTime(item.start))).join('')}
+          <${enhanced ? `button type="button" data-cal-select-day="${day}" aria-label="${escapeHtml(longDay(day))}" aria-pressed="${day === selectedDay}"` : 'span'} class="relative inline-grid size-6 place-items-center rounded-full text-xs ${isToday ? 'bg-[var(--accent)] font-semibold text-inverse' : ''}">${Number(day.slice(8)).toLocaleString(uiLocale.getLocale() === 'ar' ? 'ar-EG' : 'en-GB')}${isToday ? `<span class="sr-only"> ${t('(today)')}</span>` : ''}</${enhanced ? 'button' : 'span'}>
+          <div class="relative mt-0.5 grid gap-0.5">${shown.map(({item, index}) => itemButton(item, index, 'truncate', '', item.start.slice(0, 10) < day ? t('Continues') : formatTime(item.start), enhanced)).join('')}
             ${dayItems.length > 3 ? `<button type="button" class="justify-self-start border-0 bg-transparent px-1 text-xs text-accent hover:underline" data-cal-more="${day}">+${dayItems.length - 3} more</button>` : ''}
           </div>
         </div>`
@@ -333,7 +363,7 @@ function renderMonth(host, {date, todayKey, items}) {
   </div>`
 }
 
-function renderTimeGrid(host, {days, todayKey, nowKey, items}) {
+function renderTimeGrid(host, {days, todayKey, nowKey, items, enhanced}) {
   const columns = `grid-template-columns:56px repeat(${days.length},minmax(0,1fr))`
   const allDay = days.map(day =>
     items.map((item, index) => ({item, index})).filter(({item}) => item.allDay && coversDay(item, day))
@@ -342,11 +372,17 @@ function renderTimeGrid(host, {days, todayKey, nowKey, items}) {
   host.innerHTML = `<div class="overflow-hidden rounded-lg border border-line bg-surface" ${days.length > 1 ? 'data-cal-week' : 'data-cal-day'}>
     <div class="grid border-b border-line" style="${columns}">
       <div></div>
-      ${days.map(day => `<div data-cal-column-date="${day}" class="border-s border-line px-2 py-1.5 text-xs ${day === todayKey ? 'font-semibold text-accent bg-[var(--accent-soft)] border-t-2 border-t-[var(--accent)]' : 'text-muted'}"${day === todayKey ? ' aria-current="date"' : ''}>${escapeHtml(longDay(day))}</div>`).join('')}
+      ${days.map(day => {
+        const isToday = day === todayKey
+        const locale = uiLocale.getLocale() === 'ar' ? 'ar-EG' : 'en-GB'
+        const stamp = options => escapeHtml(parseLocal(day).toLocaleDateString(locale, options))
+        return `<div data-cal-column-date="${day}" class="border-s border-line px-2 py-1.5 text-xs ${enhanced ? 'event-calendar-date-header' : isToday ? 'font-semibold text-accent bg-[var(--accent-soft)] border-t-2 border-t-[var(--accent)]' : 'text-muted'}"${isToday ? ' aria-current="date"' : ''}>
+          ${enhanced ? `<span class="event-calendar-heading"><span class="event-calendar-day-number${isToday ? ' is-today' : ''}">${stamp({day: 'numeric'})}</span><span class="event-calendar-day-caption"><span>${stamp({weekday: 'short'})}</span><span>${stamp({month: 'short', year: 'numeric'})}</span></span></span>` : escapeHtml(longDay(day))}</div>`
+      }).join('')}
     </div>
     <div class="grid border-b border-line" style="${columns}" data-allday-row aria-label="${escapeHtml(t("All-day"))}">
       <div class="px-1.5 py-1 text-[11px] text-muted">${t("All day")}</div>
-      ${allDay.map(entries => `<div class="grid min-h-8 gap-0.5 border-s border-line p-1">${entries.map(({item, index}) => itemButton(item, index, 'truncate')).join('')}</div>`).join('')}
+      ${allDay.map(entries => `<div class="grid min-h-8 gap-0.5 border-s border-line p-1">${entries.map(({item, index}) => itemButton(item, index, 'truncate', '', undefined, false, enhanced)).join('')}</div>`).join('')}
     </div>
     <div class="relative max-h-[560px] overflow-auto" data-timed>
       <div class="grid" style="${columns}">
@@ -367,14 +403,14 @@ function renderTimeGrid(host, {days, todayKey, nowKey, items}) {
               day === todayKey && nowKey
                 ? `<div class="pointer-events-none absolute inset-x-0 z-[2] border-t-2 border-[var(--danger)]" style="top:${(minutesOf(nowKey) / 60) * HOUR_PX}px"><span class="sr-only">Now ${escapeHtml(formatTime(nowKey))}</span></div>`
                 : ''
-            return `<div class="relative border-s border-line ${day === todayKey ? 'bg-[var(--accent-soft)]' : ''}" data-cal-timed-date="${day}" style="height:${24 * HOUR_PX}px">
+            return `<div class="relative border-s border-line ${day === todayKey && !enhanced ? 'bg-[var(--accent-soft)]' : ''}" data-cal-timed-date="${day}" style="height:${24 * HOUR_PX}px">
               ${hours.map(hour => `<button type="button" class="block h-12 w-full border-0 border-b border-[var(--line-2)] bg-transparent hover:bg-[var(--hover-overlay)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]" data-cal-slot="${day}" data-time="${pad(hour)}:00" aria-label="${t('New at')} ${escapeHtml(longDay(day))} ${pad(hour)}:00"></button>`).join('')}
               ${entries
                 .map(({item, index, lane, start, end}) => {
                   const width = 100 / laneCount
                   const height = ((end - start) / 60) * HOUR_PX - 2
                   const style = `position:absolute;top:${(start / 60) * HOUR_PX}px;height:${height}px;--cal-event-height:${height}px;inset-inline-start:calc(${lane * width}% + 2px);width:calc(${width}% - 4px);z-index:1`
-                  return itemButton(item, index, '', style, item.start.slice(0, 10) < day ? 'Continues' : formatTime(item.start))
+                  return itemButton(item, index, '', style, item.start.slice(0, 10) < day ? 'Continues' : formatTime(item.start), false, enhanced)
                 })
                 .join('')}
               ${nowLine}

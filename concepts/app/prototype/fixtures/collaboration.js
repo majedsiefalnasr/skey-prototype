@@ -42,11 +42,11 @@ const activities = [
   activity({id: 'act-6', kind: 'todo', summary: 'Review password policy', assigneeId: 'usr-1', status: 'planned', dueDate: '2026-10-20', priority: 'low'}),
 ]
 
-const event = fields => stamp({type: 'event', location: '', participantIds: [CURRENT_USER_ID], reminder: 'none', repeat: 'none', description: '', ...fields})
+const event = fields => stamp({type: 'event', category: 'general', location: '', participantIds: [CURRENT_USER_ID], reminder: 'none', repeat: 'none', description: '', ...fields})
 const events = [
-  event({id: 'evt-1', title: 'Monthly sales review', allDay: false, start: '2026-10-15T10:00', end: '2026-10-15T11:00', location: 'Meeting room 2', participantIds: ['usr-1', 'usr-2', 'usr-3'], reminder: '10m', repeat: 'monthly'}),
-  event({id: 'evt-2', title: 'Company holiday', allDay: true, start: '2026-10-06', end: '2026-10-06'}),
-  event({id: 'evt-3', title: 'Customer visit — Al Noor', allDay: false, start: '2026-10-13T11:00', end: '2026-10-13T12:00', location: 'Cairo HQ'}),
+  event({id: 'evt-1', category: 'sales', title: 'Monthly sales review', allDay: false, start: '2026-10-15T10:00', end: '2026-10-15T11:00', location: 'Meeting room 2', participantIds: ['usr-1', 'usr-2', 'usr-3'], reminder: '10m', repeat: 'monthly'}),
+  event({id: 'evt-2', category: 'company', title: 'Company holiday', allDay: true, start: '2026-10-06', end: '2026-10-06'}),
+  event({id: 'evt-3', category: 'customer', title: 'Customer visit — Al Noor', allDay: false, start: '2026-10-13T11:00', end: '2026-10-13T12:00', location: 'Cairo HQ'}),
   event({id: 'evt-4', title: 'Quarter close', allDay: true, start: '2026-10-29', end: '2026-10-30'}),
 ]
 

@@ -1,6 +1,6 @@
 import {uiLocale} from '../../core/locale.js'
 const {t} = uiLocale
-// Events — calendar only (Day / Week / Month). Events show by their own
+// Events — Calendar and Agenda over Day / Week / Month. Events show by their own
 // start/end; timed activities retain their separate calendar. Recurrence
 // expands in the event's timezone, with exceptions and scoped edits.
 // Reminders are delivered in-app while this prototype is open.
@@ -33,7 +33,8 @@ import {
   bindCollabFieldFilters,
   restoreCollabFilterFocus,
 } from '../../components/collab/list-toolbar.js'
-import {renderCalendar, calendarToolbar, bindCalendarToolbar, calendarRange, shiftDate, presetJump} from '../../components/collab/calendar.js'
+import {renderCalendar, calendarToolbar, bindCalendarToolbar, bindCalendarDates, calendarRange, shiftDate, presetJump} from '../../components/collab/calendar.js'
+import {eventList, miniCalendar, eventSidebar, coversEventDay, EVENT_CATEGORIES, eventCategory} from './event-layouts.js'
 import {TYPE_META, titleOf, eventTiming} from '../../components/collab/meta.js'
 import {addMinutes, nextHalfHour, isValidDate, isValidDateTime, formatDate, formatTime} from '../../core/collab-dates.js'
 import {DEFAULT_EVENT_ZONE, eventInstant, localTime, shiftWall, expandEvents, eventsConflict} from '../../core/event-scheduling.js'
@@ -53,7 +54,7 @@ const REPEATS = [
 
 export function createEvents({store, toast, panel, related, confirm, goHome, users, beforeAction = async () => true}) {
   const view = () => document.querySelector('.events-view')
-  const state = {mode: 'month', date: null, fieldFilters: [], zone: DEFAULT_EVENT_ZONE, agenda: false}
+  const state = {mode: 'month', date: null, fieldFilters: [], zone: DEFAULT_EVENT_ZONE, layout: 'calendar', selectedDay: null, selectedId: null, upcomingExpanded: false}
   let built = false
   let unsubscribe = null
   let visibleItems = []
@@ -75,6 +76,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
       },
     },
     {key: 'title', label: t("Event title"), icon: 'i-doc', type: 'text'},
+    {key: 'location', label: t('Location'), icon: 'i-location', type: 'text'},
   ]
 
   /** Conflicts require overlapping time and a common participant/resource. */
@@ -99,13 +101,14 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
   /** Header chip: an event has no workflow status, so the chip reports its
    *  time state instead — running now, later today, upcoming, or past. */
   const eventStatus = event => {
+    if (event.invalidTime) return {label: t('Check time'), tone: 'warn'}
     const now = store.now()
     const start = event.allDay ? `${event.start}T00:00` : event.start
     const end = event.allDay ? `${event.end}T23:59` : event.end
     const clock = eventInstant(now.slice(0, 16), DEFAULT_EVENT_ZONE)
     const startAt = event.allDay ? start : eventInstant(start, event.timeZone)
     const endAt = event.allDay ? end : eventInstant(end, event.timeZone)
-    const current = event.allDay ? now : clock
+    const current = event.allDay ? localTime(clock, state.zone) : clock
     if (!event.allDay && (startAt === null || endAt === null)) return {label: t('Check time'), tone: 'warn'}
     if (endAt < current) return {label: t("Past"), tone: 'gray'}
     if (startAt <= current) return {label: t("Now"), tone: 'warn'}
@@ -125,13 +128,22 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
           fields,
           filters: state.fieldFilters,
         })}${state.fieldFilters.length ? clearFilterButton({attr: 'clear-filters'}) : ''}`,
-        right: `<label class="inline-flex min-h-8 items-center gap-2 text-xs text-muted" for="calendar-display-zone">${t('Calendar timezone')}${selectInput({id: 'calendar-display-zone', value: state.zone, options: [...new Set([DEFAULT_EVENT_ZONE, 'UTC', ...(Intl.supportedValuesOf?.('timeZone') || [])])].map(zone => [zone, zone]), extra: {class: `${SELECT_CONTROL_CLASS} max-w-[210px]`, 'data-display-zone': true}})}</label>${viewMenu({attr: 'event-view-menu', label: state.agenda ? 'Agenda' : 'Calendar', iconName: state.agenda ? 'i-list' : 'i-cal', options: [['calendar', 'Calendar', 'i-cal'], ['agenda', 'Agenda', 'i-list']].map(([id, label, iconName]) => menuItemRadio({attr: 'event-view-select', value: id, label, iconName, checked: state.agenda === (id === 'agenda')})).join('')})}`,
+        right: `<label class="inline-flex min-h-8 items-center gap-2 text-xs text-muted" for="calendar-display-zone">${t('Calendar timezone')}${selectInput({id: 'calendar-display-zone', value: state.zone, options: [...new Set([DEFAULT_EVENT_ZONE, 'UTC', ...(Intl.supportedValuesOf?.('timeZone') || [])])].map(zone => [zone, zone]), extra: {class: `${SELECT_CONTROL_CLASS} max-w-[210px]`, 'data-display-zone': true}})}</label>${viewMenu({attr: 'event-view-menu', label: state.layout === 'calendar' ? 'Calendar' : 'Agenda', iconName: state.layout === 'calendar' ? 'i-cal' : 'i-list', options: [['calendar', 'Calendar', 'i-cal'], ['agenda', 'Agenda', 'i-list']].map(([id, label, iconName]) => menuItemRadio({attr: 'event-view-select', value: id, label, iconName, checked: state.layout === id})).join('')})}`,
       })}</div>`
     host.firstElementChild.classList.add('w-full')
     host.querySelector('[data-event-reminders]').addEventListener('change', event => store.setPreference('eventReminders', event.target.checked))
-    host.querySelector('[data-display-zone]').addEventListener('change', event => { state.zone = event.target.value; renderBody() })
+    host.querySelector('[data-display-zone]').addEventListener('change', event => {
+      const selected = visibleItems.find(item => item.id === state.selectedId)
+      state.zone = event.target.value
+      if (selected && !selected.allDay && !selected.invalidTime) {
+        state.selectedDay = localTime(selected.startAt, state.zone).slice(0, 10)
+        state.date = state.selectedDay
+      }
+      renderAll()
+      view().querySelector('[data-display-zone]')?.focus({preventScroll: true})
+    })
     host.querySelectorAll('[data-event-view-select]').forEach(button => button.addEventListener('click', () => {
-      state.agenda = button.dataset.eventViewSelect === 'agenda'
+      state.layout = button.dataset.eventViewSelect
       renderAll()
       view().querySelector('[data-event-view-menu] summary').focus()
     }))
@@ -141,6 +153,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
       onToday: () => go(todayKey()),
       onMode: mode => {
         state.mode = mode
+        state.date = state.selectedDay || state.date
         renderAll()
         view().querySelector(`[data-cal-modes] [data-value="${mode}"]`)?.focus()
       },
@@ -167,6 +180,8 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
 
   function go(date) {
     state.date = date
+    state.selectedDay = date
+    state.selectedId = null
     renderAll()
   }
 
@@ -177,6 +192,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
 
   function renderBody() {
     const body = view().querySelector('[data-collab-body]')
+    body._calendarContextAbort?.abort()
     const fields = filterFields()
     const allEvents = rangeEvents()
     const events = allEvents.filter(event =>
@@ -203,44 +219,131 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
           )}<span>${conflictCount} ${t('events double-book a participant or resource in this period.')}</span></p>`
         : ''
     }${invalidCount ? `<p class="my-2 rounded border border-[var(--warn-line)] bg-[var(--warn-bg)] p-3 text-sm text-ink" role="status">${invalidCount} ${t('occurrences need a valid local time. Open the event to resolve the timezone transition.')}</p>` : ''}<div data-calendar></div>`
-    const openOccurrence = event => openEvent(event.seriesId, {}, {occurrence: event.allDay || event.invalidTime ? event : {...event, start: localTime(event.startAt, event.timeZone || DEFAULT_EVENT_ZONE), end: localTime(event.endAt, event.timeZone || DEFAULT_EVENT_ZONE)}})
-    if (state.agenda) {
-      body.querySelector('[data-calendar]').innerHTML = `<div class="grid gap-3" data-event-agenda>${visibleItems.length ? [...visibleItems].sort((a,b) => a.start.localeCompare(b.start)).map(event => {
-        const status = eventStatus({...event, timeZone: state.zone})
-        const participants = (event.participantIds || []).map(id => users.find(user => user.id === id)?.name).filter(Boolean)
-        const links = store.getRelatedItems('event', event.seriesId).length
-        return `<button type="button" class="group flex min-w-0 items-start gap-3 rounded-lg border border-line border-s-[3px] ${event.conflict ? 'border-s-[var(--danger)]' : 'border-s-[var(--accent)]'} bg-surface p-4 text-start text-ink hover:bg-[var(--line-2)] focus-visible:outline-2 focus-visible:outline-[var(--focus)]" data-agenda-event="${escapeHtml(event.id)}">
-          <span class="grid w-14 shrink-0 gap-1 rounded-lg bg-[var(--accent-soft)] p-2 text-center text-accent"><span class="text-xs">${escapeHtml(formatDate(event.start.slice(0, 10)))}</span>${icon('i-cal', 18)}</span>
-          <span class="grid min-w-0 flex-1 gap-2"><span class="flex flex-wrap items-center gap-2"><span class="font-semibold group-hover:underline" dir="auto">${escapeHtml(event.title)}</span><span class="badge ${status.tone}">${escapeHtml(status.label)}</span>${event.conflict ? `<span class="badge danger">${t('Scheduling conflict')}</span>` : ''}</span>
-          <span class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted"><span class="inline-flex items-center gap-1">${icon('i-clock')}${escapeHtml(eventTiming(event, todayKey()))}${event.allDay ? '' : ` · ${escapeHtml(state.zone)}`}</span>${event.location ? `<span class="inline-flex items-center gap-1">${icon('i-globe')}${escapeHtml(event.location)}</span>` : ''}</span>
-          ${event.description ? `<span class="line-clamp-2 text-[13px] text-muted [overflow-wrap:anywhere]" dir="auto">${escapeHtml(event.description)}</span>` : ''}
-          <span class="flex flex-wrap items-center gap-1.5 text-xs">${participants.map(name => `<span class="inline-flex items-center gap-1 rounded-full bg-[var(--line-2)] px-2 py-1">${icon('i-user', 12)}<span dir="auto">${escapeHtml(name)}</span></span>`).join('')}${event.repeat && event.repeat !== 'none' ? `<span class="badge fix">${escapeHtml(t(REPEATS.find(([id]) => id === event.repeat)?.[1] || event.repeat))}</span>` : ''}${event.reminder && event.reminder !== 'none' ? `<span class="badge gray inline-flex items-center gap-1">${icon('i-bell', 12)} ${escapeHtml(t(REMINDERS.find(([id]) => id === event.reminder)?.[1] || event.reminder))}</span>` : ''}${links ? `<span class="badge gray">${links} ${t('Related items')}</span>` : ''}</span></span>${icon('i-caret', 14)}</button>`
-      }).join('') : `<p class="p-4 text-sm text-muted">${t('No events in this period.')}</p>`}</div>`
-      body.querySelectorAll('[data-agenda-event]').forEach(button => button.addEventListener('click', () => openOccurrence(visibleItems.find(event => event.id === button.dataset.agendaEvent))))
-      return
+    visibleItems.sort((a, b) => a.start.localeCompare(b.start) || a.title.localeCompare(b.title))
+    state.selectedDay ||= state.date
+    const {from, to} = calendarRange(state.mode, state.date)
+    if (state.selectedDay < from || state.selectedDay > to) state.selectedDay = state.date
+    if (!visibleItems.some(event => event.id === state.selectedId && coversEventDay(event, state.selectedDay))) {
+      state.selectedId = visibleItems.find(event => coversEventDay(event, state.selectedDay))?.id || null
     }
-    renderCalendar(body.querySelector('[data-calendar]'), {
-      mode: state.mode,
-      date: state.date,
-      todayKey: todayKey(),
-      nowKey: store.now(),
-      items: visibleItems,
-      onOpen: index => openOccurrence(visibleItems[index]),
-      onSlot: ({date, time}) => {
-        const start = `${date}T${time || '09:00'}`
-        openEvent(null, {start, end: addMinutes(start, 60), timeZone: state.zone})
-      },
-      onMore: date => {
-        state.mode = 'day'
-        go(date)
-      },
+    body.querySelector('[data-calendar]').outerHTML = `<div class="event-workspace" data-event-layout="${state.layout}"><div class="event-main" data-calendar></div>${state.layout === 'agenda' ? `<aside class="event-sidebar" aria-label="${escapeHtml(t('Event overview'))}" data-event-sidebar></aside>` : ''}</div>`
+    const main = body.querySelector('[data-calendar]')
+    const status = event => eventStatus({...event, timeZone: state.zone})
+    const links = event => store.getRelatedItems('event', event.seriesId).length
+    const options = {users, status, links, repeats: REPEATS, reminders: REMINDERS}
+    const selectEvent = event => {
+      if (!event) return
+      state.selectedId = event.id
+      if (!coversEventDay(event, state.selectedDay)) state.selectedDay = event.start.slice(0, 10)
+      renderBody()
+    }
+    const find = id => visibleItems.find(event => event.id === id)
+    if (state.layout !== 'calendar') {
+      main.innerHTML = eventList({...options, items: visibleItems, selectedId: state.selectedId, from})
+      main.querySelectorAll('[data-agenda-event]').forEach(button => button.addEventListener('click', () => {
+        const event = find(button.dataset.agendaEvent)
+        selectEvent(event)
+        body.querySelector(`[data-agenda-event="${CSS.escape(event.id)}"]`)?.focus({preventScroll: true})
+        openOccurrence(event)
+      }))
+    } else {
+      renderCalendar(main, {
+        mode: state.mode,
+        date: state.date,
+        todayKey: todayKey(),
+        nowKey: localTime(eventInstant(store.now().slice(0, 16), DEFAULT_EVENT_ZONE), state.zone),
+        items: visibleItems,
+        selectedDay: state.selectedDay,
+        selectedId: state.selectedId,
+        enhanced: true,
+        onSelectDay: date => {
+          state.selectedDay = date
+          state.selectedId = null
+          renderBody()
+          body.querySelector(`[data-cal-select-day="${date}"]`)?.focus({preventScroll: true})
+        },
+        onOpen: index => {
+          const event = visibleItems[index]
+          selectEvent(event)
+          body.querySelector(`[data-cal-item="${index}"]`)?.focus({preventScroll: true})
+          openOccurrence(event)
+        },
+        onSlot: ({date, time}) => {
+          state.selectedDay = date
+          state.selectedId = null
+          renderBody()
+          body.querySelector(`[data-cal-slot="${date}"]${time ? `[data-time="${time}"]` : ''}`)?.focus({preventScroll: true})
+          const start = `${date}T${time || '09:00'}`
+          openEvent(null, {start, end: addMinutes(start, 60), timeZone: state.zone})
+        },
+        onMore: date => {
+          state.mode = 'day'
+          go(date)
+        },
+      })
+    }
+    if (state.layout === 'calendar') return
+
+    const matchesFilters = event => state.fieldFilters.every(filter => collabFilterMatches(event, filter, fields.find(field => field.key === filter.key)))
+    const monthRange = calendarRange('month', state.date)
+    const miniItems = expandEvents(store.listEntities('event'), monthRange.from, monthRange.to, state.zone).filter(matchesFilters)
+    const now = eventInstant(store.now().slice(0, 16), DEFAULT_EVENT_ZONE)
+    const upcoming = expandEvents(store.listEntities('event'), todayKey(), shiftWall(todayKey(), 90), state.zone)
+      .filter(event => matchesFilters(event) && (event.allDay ? event.end >= todayKey() : !event.invalidTime && event.endAt > now))
+      .sort((a, b) => a.start.localeCompare(b.start))
+    const sidebar = body.querySelector('[data-event-sidebar]')
+    sidebar.innerHTML = miniCalendar({month: state.date, selectedDay: state.selectedDay, today: todayKey(), items: miniItems}) +
+      eventSidebar({upcoming: state.upcomingExpanded ? upcoming : upcoming.slice(0, 3), expanded: state.upcomingExpanded})
+    const jumpMonth = (date, focusSelector) => {
+      state.mode = 'month'
+      go(date)
+      body.querySelector(focusSelector)?.focus({preventScroll: true})
+    }
+    sidebar.querySelectorAll('[data-event-mini-shift]').forEach(button => button.addEventListener('click', () =>
+      jumpMonth(shiftDate('month', state.date, Number(button.dataset.eventMiniShift)), `[data-event-mini-shift="${button.dataset.eventMiniShift}"]`)))
+    sidebar.querySelectorAll('[data-event-month], [data-event-year]').forEach(control => control.addEventListener('change', () => {
+      const year = sidebar.querySelector('[data-event-year]')
+      if (!year.validity.valid || !/^\d{4}$/.test(year.value)) {
+        year.value = state.date.slice(0, 4)
+        return
+      }
+      jumpMonth(`${year.value}-${sidebar.querySelector('[data-event-month]').value}-01`, control.hasAttribute('data-event-month') ? '[data-event-month]' : '[data-event-year]')
+    }))
+    sidebar.querySelectorAll('[data-event-day]').forEach(button => button.addEventListener('click', () => {
+      state.mode = 'day'
+      go(button.dataset.eventDay)
+      body.querySelector(`[data-event-day="${button.dataset.eventDay}"]`)?.focus({preventScroll: true})
+    }))
+    bindCalendarDates(sidebar, 'data-event-day', state.selectedDay, todayKey())
+    sidebar.querySelectorAll('[data-event-upcoming]').forEach(button => button.addEventListener('click', () => {
+      const event = upcoming.find(item => item.id === button.dataset.eventUpcoming)
+      if (!event) return
+      state.mode = 'day'
+      state.date = event.start.slice(0, 10)
+      state.selectedDay = state.date
+      state.selectedId = event.id
+      renderAll()
+      body.querySelector(`[data-agenda-event="${CSS.escape(event.id)}"]`)?.focus()
+    }))
+    sidebar.querySelector('[data-event-view-all]').addEventListener('click', () => {
+      state.upcomingExpanded = !state.upcomingExpanded
+      renderBody()
+      body.querySelector('[data-event-view-all]')?.focus({preventScroll: true})
     })
+  }
+
+  function openOccurrence(event, {edit = false} = {}) {
+    if (!event) return
+    openEvent(event.seriesId, {}, {edit, occurrence: event.allDay || event.invalidTime ? event : {
+      ...event, start: localTime(event.startAt, event.timeZone || DEFAULT_EVENT_ZONE), end: localTime(event.endAt, event.timeZone || DEFAULT_EVENT_ZONE),
+    }})
   }
 
   function editorMarkup(event) {
     const type = event.allDay ? 'date' : 'datetime-local'
     return `<div class="${GRID_CLASS}">
       ${field({id: 'event-title', label: t("Title"), required: true, wide: true, control: textInput({id: 'event-title', value: event.title, required: true, extra: {autofocus: true}})})}
+      ${field({id: 'event-category', label: t('Category'), wide: true, control: selectInput({id: 'event-category', value: eventCategory(event)[0], options: EVENT_CATEGORIES})})}
       <div class="sm:col-span-2">${switchRow({id: 'event-allday', label: t("All day"), checked: event.allDay})}</div>
       ${field({id: 'event-start', label: t("Starts"), required: true, control: textInput({id: 'event-start', type, value: event.start, required: true})})}
       ${field({id: 'event-end', label: t("Ends"), required: true, control: textInput({id: 'event-end', type, value: event.end, required: true})})}
@@ -292,6 +395,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
       ${viewRow('Ends', escapeHtml(stamp(event.end)))}
       ${event.allDay ? '' : viewRow('Event timezone', escapeHtml(event.timeZone || DEFAULT_EVENT_ZONE))}
       ${viewRow('Location', escapeHtml(event.location || '—'))}
+      ${viewRow('Category', escapeHtml(t(eventCategory(event)[1])))}
       ${viewRow('Participants', participantNames.length ? escapeHtml(participantNames.join(', ')) : '—')}
       ${viewRow('Reminder', escapeHtml(labelOf(REMINDERS, event.reminder)))}
       ${viewRow('Repeat', escapeHtml(labelOf(REPEATS, event.repeat)))}
@@ -345,6 +449,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
       start: body.querySelector('#event-start').value,
       end: body.querySelector('#event-end').value,
       location: body.querySelector('#event-location').value.trim(),
+      category: body.querySelector('#event-category').value,
       participantIds: multiselectValues(body, 'event-participants'),
       reminder: body.querySelector('#event-reminder').value,
       repeat: body.querySelector('#event-repeat').value,
@@ -377,6 +482,9 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
   }
 
   function openEvent(id, prefill = {}, {edit = false, occurrence = null} = {}) {
+    const opener = document.activeElement
+    const focusAttribute = ['data-agenda-event', 'data-cal-item', 'data-cal-slot', 'data-cal-select-day', 'data-collab-new'].find(attr => opener?.hasAttribute(attr))
+    const focusSelector = focusAttribute ? `[${focusAttribute}="${CSS.escape(opener.getAttribute(focusAttribute))}"]` : null
     const existing = id ? store.getEntity('event', id) : null
     if (id && !existing) {
       toast({tone: 'warn', title: 'This event is no longer available', body: 'It may have been deleted.'})
@@ -400,6 +508,10 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
     panel.open({
       ref,
       edit,
+      onClose: () => {
+        const target = (focusSelector && view()?.querySelector(focusSelector)) || (opener?.isConnected && opener) || view()?.querySelector('[data-collab-new]')
+        target?.focus({preventScroll: true})
+      },
       status: existing ? eventStatus(event) : undefined,
       title: existing ? titleOf(existing) : 'New event',
       description: existing
@@ -494,7 +606,11 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
       if (!state.date) state.date = todayKey()
       if (openId) {
         const event = store.getEntity('event', openId)
-        if (event) state.date = occurrenceKey || event.start.slice(0, 10)
+        if (event) {
+          state.date = occurrenceKey || event.start.slice(0, 10)
+          state.selectedDay = state.date
+          state.selectedId = occurrenceKey && event.repeat && event.repeat !== 'none' ? `${event.id}@${occurrenceKey}` : event.id
+        }
       }
       renderAll()
       unsubscribe?.()

@@ -1,4 +1,108 @@
 @layer components {
+  /* Events: a full-width calendar, or agenda rows beside their date picker. */
+  .events-view [data-collab-body] { container: events-body / inline-size; }
+  .events-view [data-collab-toolbar] { padding-block-end: 12px; }
+  :is(.events-view, .activities-view) [data-cal-toolbar] { row-gap: 12px; }
+  @media (max-width: 720px) {
+    /* Keep filter popovers above the mobile calendar context while the toolbar scrolls normally. */
+    .events-view.collab-view [data-collab-toolbar]:has([data-cal-toolbar]) { position: relative; z-index: 5; }
+  }
+  .event-workspace { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
+  .event-main { min-width: 0; }
+  .event-sidebar { display: grid; gap: 14px; min-width: 0; }
+  @container events-body (min-width: 950px) {
+    [data-event-layout="agenda"] { grid-template-columns: minmax(0, 1fr) 280px; }
+  }
+  @container events-body (min-width: 560px) and (max-width: 949px) {
+    .event-sidebar { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  }
+  .event-side-section { border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: var(--surface); min-width: 0; }
+  .event-side-section h3 { margin: 0; font-size: 14px; font-weight: 600; }
+  .event-mini-heading { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-block-end: 12px; }
+  .event-month-controls, .event-mini-nav { display: flex; align-items: center; gap: 2px; min-width: 0; }
+  .events-view .event-date-select, .events-view .event-date-year { min-width: 0; min-height: 32px; border: 1px solid var(--line); border-radius: 5px; padding: 4px; background: var(--surface); color: var(--ink); font: inherit; font-size: 12px; }
+  .events-view .event-date-select { width: 94px; }
+  .events-view .event-date-year { width: 64px; }
+  .event-icon-button { display: inline-grid; place-items: center; min-width: 32px; min-height: 32px; padding: 4px; border: 1px solid var(--line); border-radius: 6px; background: transparent; color: var(--ink); }
+  .event-mini-nav .event-icon-button { min-width: 28px; border-color: transparent; }
+  .event-icon-button:hover, .event-mini-day:hover { background: var(--line-2); }
+  [dir="rtl"] .event-mini-nav svg { transform: scaleX(-1); }
+  .event-mini-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px 0; text-align: center; }
+  .event-mini-weekday { padding-block: 4px 8px; color: var(--muted); font-size: 10px; }
+  .event-mini-day { position: relative; min-height: 32px; min-width: 0; padding: 4px 0; border: 1px solid transparent; border-radius: 50%; background: transparent; color: var(--ink); font-size: 12px; }
+  .event-mini-day.is-outside { color: var(--muted); }
+  .event-mini-day[aria-current="date"] { background: var(--accent); color: var(--inverse); font-weight: 700; }
+  .event-mini-day[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .event-mini-day i { position: absolute; inset-block-end: 1px; inset-inline-start: calc(50% - 2px); width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
+  .event-text-button { padding: 4px 0; border: 0; background: transparent; color: var(--accent); font-size: 12px; }
+  .event-text-button:hover { text-decoration: underline; }
+  .event-upcoming { display: grid; gap: 12px; }
+  .event-upcoming > button { display: flex; align-items: center; gap: 10px; min-width: 0; border: 0; border-radius: 6px; background: transparent; padding: 2px; text-align: start; color: var(--ink); }
+  .event-upcoming > button:hover { background: var(--line-2); }
+  .event-upcoming > button > span:last-child { display: grid; gap: 5px; min-width: 0; font-size: 12px; overflow-wrap: anywhere; }
+  .event-upcoming > button > span:last-child > span { color: var(--muted); }
+  .event-upcoming .event-date-tile { width: 44px; padding: 6px; gap: 0; border: 0; border-radius: 6px; background: var(--accent-soft); }
+  .event-upcoming .event-date-tile strong { font-size: 20px; }
+  .event-upcoming .event-date-tile > span:first-child { display: none; }
+  .event-list { display: grid; gap: 22px; }
+  .event-date-group { min-width: 0; }
+  .event-group-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-block-end: 10px; }
+  .event-group-heading h3 { margin: 0; font-size: 15px; font-weight: 600; }
+  .event-group-heading > span { color: var(--muted); font-size: 12px; }
+  .event-entry { --event-color: var(--accent); border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); }
+  .event-category-company { --event-color: var(--success); }
+  .event-category-sales { --event-color: var(--ds-text-discovery); }
+  .event-entry + .event-entry { margin-block-start: 6px; }
+  .event-entry.is-selected { background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent-line); }
+  .event-row { display: grid; width: 100%; grid-template-columns: 56px 62px minmax(0, 1fr); align-items: center; gap: 16px; min-height: 116px; padding: 16px; border: 0; border-radius: inherit; background: transparent; color: inherit; text-align: start; cursor: pointer; }
+  .event-row:hover { background: var(--surface-hover); }
+  .event-entry.is-all-day .event-row { grid-template-columns: 56px minmax(0, 1fr); }
+  .event-date-tile { display: grid; flex-shrink: 0; width: 56px; gap: 3px; padding-inline-end: 12px; border-inline-end: 1px solid var(--line); text-align: center; color: var(--ink); font-size: 12px; }
+  .event-date-tile strong { font-size: 28px; line-height: 1.2; font-weight: 650; }
+  .event-date-tile > span { color: var(--muted); }
+  .event-time-column { display: grid; justify-items: center; gap: 3px; border-inline-end: 1px solid var(--line); padding-inline-end: 12px; font-size: 13px; color: var(--muted); }
+  .event-time-column strong { font-weight: 600; color: var(--ink); }
+  .event-time-column i { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); }
+  .event-entry-content { display: grid; min-width: 0; gap: 10px; }
+  .event-entry-heading { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .event-entry-heading > strong { font-size: 15px; font-weight: 600; overflow-wrap: anywhere; }
+  .event-entry-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 12px; color: var(--muted); }
+  .event-meta { display: inline-flex; align-items: center; gap: 6px; min-width: 0; overflow-wrap: anywhere; }
+  .event-meta svg { flex-shrink: 0; }
+  .event-category-label { display: inline-flex; align-items: center; gap: 7px; border-radius: 20px; background: var(--line-2); padding: 5px 10px; color: var(--ink); }
+  .event-category-label i { width: 8px; height: 8px; border-radius: 50%; background: var(--event-color); }
+  .event-participants { display: inline-flex; align-items: center; gap: 8px; min-width: 0; max-width: 100%; padding-inline-start: 12px; border-inline-start: 1px solid var(--line); }
+  .event-participants > span[dir] { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .event-avatar-stack { display: inline-flex; align-items: center; padding-inline-start: 4px; flex-shrink: 0; }
+  .event-initial-avatar { display: inline-grid; place-items: center; width: 26px; height: 26px; margin-inline-start: -4px; border: 2px solid var(--surface); border-radius: 50%; background: var(--line-2); color: var(--ink); font-size: 9px; font-weight: 600; }
+  .event-empty { border: 1px dashed var(--line); border-radius: 8px; padding: 32px 16px; text-align: center; font-size: 14px; color: var(--muted); }
+  .collab-calendar-enhanced [data-cal-month] [data-cal-item] { padding: 7px 8px; }
+  .collab-calendar-enhanced [data-cal-month] [data-cal-item][aria-pressed="true"] { outline: 1px solid var(--accent); outline-offset: -1px; }
+  .collab-calendar-enhanced [data-cal-month] [data-cal-item]:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .event-month-title { display: flex; align-items: center; gap: 5px; min-width: 0; }
+  .event-month-title svg { flex-shrink: 0; color: var(--accent); }
+  .event-month-title > span { overflow: hidden; text-overflow: ellipsis; }
+  .event-month-time { display: block; margin-inline-start: 17px; margin-block-start: 4px; color: var(--muted); font-size: 11px; }
+  .event-calendar-date-header { background: var(--surface); color: var(--muted); }
+  .event-calendar-heading { display: flex; align-items: center; gap: 8px; }
+  .event-calendar-day-number { display: inline-grid; place-items: center; flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; color: var(--ink); font-size: 14px; font-weight: 600; }
+  .event-calendar-day-number.is-today { background: var(--accent); color: var(--inverse); }
+  .event-calendar-day-caption { display: grid; gap: 2px; font-size: 11px; }
+  .event-calendar-day-caption > span:first-child { color: var(--ink); font-weight: 600; }
+  .collab-calendar-enhanced [data-cal-select-day] { border: 0; padding: 0; }
+  .collab-calendar-enhanced [data-date]:not([aria-current="date"]) [data-cal-select-day] { background: transparent; color: inherit; }
+  .collab-calendar-enhanced [data-cal-select-day]:focus-visible, .event-workspace :is(button, select, input):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  @container events-body (max-width: 599px) {
+    .event-row, .event-entry.is-all-day .event-row { grid-template-columns: 42px minmax(0, 1fr); gap: 10px; padding: 12px; align-items: start; }
+    .event-date-tile { width: 42px; padding-inline-end: 8px; font-size: 11px; grid-column: 1; grid-row: 1 / span 2; }
+    .event-date-tile strong { font-size: 24px; }
+    .event-time-column { grid-column: 2; grid-row: 2; display: flex; gap: 6px; justify-content: start; padding: 0; border: 0; font-size: 12px; }
+    .event-entry-content { grid-column: 2; grid-row: 1; padding-block-end: 6px; }
+    .event-entry-heading > strong { font-size: 14px; }
+    .event-entry-meta { font-size: 11px; }
+    .event-participants { padding-inline-start: 0; border: 0; }
+    .event-icon-button { min-width: 30px; min-height: 30px; }
+  }
   /* The kanban board pans horizontally inside its host ([data-collab-body],
      tagged by kanban.js). The host is content-height, so it must not claim
      the vertical axis — that belongs to `.page-content`. The tag outlives
