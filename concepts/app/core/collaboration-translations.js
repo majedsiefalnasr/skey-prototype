@@ -1,5 +1,14 @@
 // Arabic UI copy for the shared application locale.
 export const COLLAB_AR = {
+  "{count} minutes": "{count} دقيقة",
+  "No due date": "لا يوجد تاريخ استحقاق",
+  "Primary": "أساسي",
+  "Phone": "هاتف",
+  "Mobile": "جوال",
+  "Saved": "تم الحفظ",
+  "View full": "عرض كامل",
+  "Close preview": "إغلاق المعاينة",
+  "Preview": "معاينة",
   "Select month": "اختر الشهر",
   "Select year": "اختر السنة",
   "Event actions": "إجراءات الحدث",

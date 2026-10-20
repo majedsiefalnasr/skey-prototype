@@ -9,6 +9,7 @@ import {escapeHtml, icon} from '../collab/fields.js'
 import {holdFocus} from '../collab/panel.js'
 import {TYPE_META, TYPE_ORDER, titleOf, metaLine, searchText} from '../collab/meta.js'
 import {addMinutes, nextHalfHour} from '../../core/collab-dates.js'
+import {createRelatedPreview} from './preview.js'
 
 const ROW_CLASS = 'flex items-start gap-2 rounded-md border border-line px-2.5 py-2'
 const OPEN_CLASS =
@@ -19,7 +20,8 @@ const MENU_ITEM_CLASS =
 const typeBadge = type =>
   `<span class="badge gray inline-flex shrink-0 items-center gap-1">${icon(TYPE_META[type].icon, 11)}<span>${escapeHtml(t(TYPE_META[type].label))}</span></span>`
 
-export function createRelatedItems({store, toast, currentUserId, openItem, beforeAction = async () => true}) {
+export function createRelatedItems({store, toast, currentUserId, users = [], openItem, beforeAction = async () => true}) {
+  const preview = createRelatedPreview({store, users, openItem})
   const todayKey = () => store.now().slice(0, 10)
   /** Summary line with the store's custom mail folders, so a linked message
    *  filed in a folder the user created reports its name, not its id. */
@@ -105,7 +107,7 @@ export function createRelatedItems({store, toast, currentUserId, openItem, befor
       </div>`}`
 
     host.querySelectorAll('[data-related-open]').forEach(button =>
-      button.addEventListener('click', () => openItem(items[Number(button.dataset.relatedOpen)].ref))
+      button.addEventListener('click', () => preview.open(items[Number(button.dataset.relatedOpen)].ref))
     )
     host.querySelectorAll('[data-related-remove]').forEach(button =>
       button.addEventListener('click', async () => {

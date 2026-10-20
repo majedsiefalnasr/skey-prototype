@@ -457,5 +457,5 @@
   .collab-view [data-date] { color: var(--ink); }
   .collab-view [data-date][data-outside] { color: var(--muted); }
   /* Modal editors own the viewport; the prototype launcher must not cover Save. */
-  body:has(#collab-panel.open, #collab-confirm.open, #collab-picker.open) #kit-pill { visibility: hidden; }
+  body:has(#collab-panel.open, #collab-confirm.open, #collab-picker.open, #collab-preview.open) #kit-pill { visibility: hidden; }
 }

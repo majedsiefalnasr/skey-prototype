@@ -76,6 +76,25 @@
     </div>
   </div>
 </div>
+<!-- Related records preview above the unchanged source record. -->
+<div id="collab-preview" class="dscrim fixed inset-0 z-[155] hidden items-center justify-center bg-[var(--scrim)] p-6 backdrop-blur-[4px]">
+  <div class="dlg flex max-h-[90vh] w-[min(520px,96vw)] flex-col overflow-hidden rounded-xl" data-tone="default" data-preview-box role="dialog" aria-modal="true" aria-labelledby="collab-preview-title" aria-describedby="collab-preview-meta" tabindex="-1">
+    <div class="dhd flex items-start gap-5 [&_h3]:text-[15px]">
+      <div class="min-w-0 flex-1">
+        <h3 id="collab-preview-title" class="text-[15px] font-semibold [overflow-wrap:anywhere]" dir="auto"></h3>
+        <p id="collab-preview-meta" class="dhd-subtitle"></p>
+      </div>
+      <button type="button" class="ibtn" data-preview-close aria-label="Close preview"><svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg></button>
+    </div>
+    <div class="dlg-inner">
+      <div class="dbody min-h-0 overflow-auto px-5 py-4 text-sm text-ink" data-preview-body></div>
+      <div class="dfoot shrink-0 justify-end">
+        <button type="button" class="lbtn out" data-preview-done data-i18n="Close">Close</button>
+        <button type="button" class="lbtn pri" data-preview-full data-i18n="View full">View full</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Confirm dialog: the app's shared popup shell (.dscrim > .dlg > .dhd +
      .dlg-inner > .dbody + .dfoot), the same one the invoice/customer status
      dialogs use — toned header, body copy, footer buttons right. -->

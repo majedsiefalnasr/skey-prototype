@@ -221,10 +221,12 @@ test.describe('related items', () => {
     await picker.getByRole('button', {name: 'Done'}).click()
     await expect(panel(page).locator('[data-related-row]')).toHaveCount(1)
     await panel(page).locator('[data-related-row]', {hasText: 'Quarter close'}).locator('[data-related-open]').click()
-    // Opening a linked record swaps the editor in place: the screen you were
-    // on stays put and only the panel changes hands.
+    // A related row previews above the source. Navigation is explicit.
     await expect(page.locator('.notes-view')).toBeVisible()
     await expect(page.locator('.events-view')).toBeHidden()
+    await expect(panel(page).locator('#collab-panel-title')).toHaveText('Month-end checklist')
+    await page.locator('#collab-preview [data-preview-full]').click()
+    await expect(page.locator('.events-view')).toBeVisible()
     // Existing records open read-only; the form waits behind Edit.
     await panel(page).getByRole('button', {name: 'Edit'}).click()
     await expect(panel(page).locator('#event-title')).toHaveValue('Quarter close')
@@ -1023,8 +1025,10 @@ test.describe('internal mail', () => {
     await expect(page.locator('.activities-view')).toBeHidden()
     await expect(panel(page).locator('#activity-summary')).toBeVisible()
     await expect(panel(page).locator('[data-related-row]', {hasText: 'Payment scheduled for Sales Invoice 126'})).toBeVisible()
-    // Mail is the one type that still travels: it has a screen of its own.
     await panel(page).locator('[data-related-row]', {hasText: 'Payment scheduled'}).locator('[data-related-open]').click()
+    await expect(page.locator('#collab-preview')).toBeVisible()
+    await expect(panel(page).locator('#activity-summary')).toBeVisible()
+    await page.locator('#collab-preview [data-preview-full]').click()
     await expect(page.locator('.email-view')).toBeVisible()
     await expect(page.locator('.email-view [data-related-row]', {hasText: 'Follow up: Payment scheduled'})).toBeVisible()
   })

@@ -519,7 +519,7 @@ let collabEditors = {}
 const openCollabItem = async (ref, options = {}) => {
   if (!(await collabPanel.close())) return
   const openEditor = collabEditors[ref.type]
-  if (openEditor) {
+  if (openEditor && !options.fullPage) {
     openEditor(ref.id, options)
     return
   }
@@ -528,7 +528,7 @@ const openCollabItem = async (ref, options = {}) => {
   if (label) sidebar.applyNavCurrent(document.querySelector('.side'), label)
   showContentView(view, ref.type === 'mail' ? {messageId: ref.id} : {openId: ref.id})
 }
-const relatedItems = createRelatedItems({beforeAction, store: collabStore, toast, currentUserId: CURRENT_USER_ID, openItem: (ref, options) => openCollabItem(ref, options)})
+const relatedItems = createRelatedItems({beforeAction, store: collabStore, toast, users: COLLAB_USERS, currentUserId: CURRENT_USER_ID, openItem: (ref, options) => openCollabItem(ref, options)})
 // Explicit collaboration actions share the prototype work lifecycle. Local draft
 // autosave and navigation do not consume the next-action failure switch.
 let collaborationWorking = false
