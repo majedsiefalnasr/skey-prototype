@@ -81,180 +81,97 @@
         display: none !important;
       }
 
-      /* ---- floating control panel ---- */
+      /* ---- floating control panel ----
+         Built from the app's ADS tokens (styles/tailwind/base.css), so the
+         panel follows light, dark and high-contrast like any other overlay.
+         Controls mirror the Profile → Appearance switch/select atoms. */
       #kit {
         position: fixed;
         inset-block-end: 14px;
         inset-inline-start: 14px;
         z-index: 400;
-        width: 322px;
-        background: #111827;
-        color: #e6e9ef;
-        border: 1px solid #2b3446;
-        border-radius: 12px;
-        box-shadow: 0 18px 44px rgba(8, 12, 20, 0.42);
-        font:
-          13px/1.45 system-ui,
-          -apple-system,
-          'Segoe UI',
-          Roboto,
-          sans-serif;
+        width: 320px;
+        background: var(--ds-surface-overlay);
+        color: var(--ink);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        box-shadow: var(--shadow-2);
+        font: 13px/1.45 var(--app-font-family, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
         overflow: hidden;
         user-select: none;
-        -ms-user-select: none;
         -webkit-user-select: none;
-        -moz-user-select: none;
         display: flex;
         flex-direction: column;
         max-height: calc(100vh - 28px);
       }
+      #kit svg {
+        display: block;
+        flex: none;
+      }
       #kit .kit-h {
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 9px 10px 9px 12px;
+        gap: 2px;
+        padding: 6px 6px 6px 10px;
         cursor: grab;
-        background: #161e2c;
-        border-bottom: 1px solid #2b3446;
+        background: var(--line-2);
+        border-bottom: 1px solid var(--line);
       }
       #kit.dragging .kit-h {
         cursor: grabbing;
       }
+      #kit.min .kit-h {
+        border-bottom: none;
+      }
       #kit .kit-h b {
         flex: 1;
-        font-size: 12.5px;
+        font-size: 14px;
         font-weight: 600;
-        letter-spacing: 0.01em;
+        padding-inline-start: 4px;
       }
       #kit .kit-h .grip {
-        color: #5c6779;
-        letter-spacing: -2px;
-        font-size: 15px;
-        margin-inline-end: 2px;
+        color: var(--faint);
       }
+      /* icon buttons: the app's .ibtn atom */
       #kit .kit-h button {
         background: none;
         border: none;
-        color: #aab3c2;
+        color: var(--muted);
         cursor: pointer;
-        padding: 4px 6px;
+        width: 32px;
+        height: 32px;
+        padding: 0;
         border-radius: 6px;
         display: inline-flex;
         align-items: center;
-        font-size: 12px;
+        justify-content: center;
       }
       #kit .kit-h button:hover {
-        background: #232c3d;
-        color: #fff;
+        background: var(--hover-overlay);
+        color: var(--ink);
       }
-      #kit .kit-b {
-        padding: 11px 12px 13px;
-        display: flex;
-        flex-direction: column;
-        gap: 11px;
-        flex: 1;
-        min-height: 0;
-        overflow: auto;
-        overscroll-behavior: contain;
+      #kit #kit-min svg {
+        transition: transform 0.15s ease;
       }
-      #kit.min .kit-b {
-        display: none;
-      }
-      #kit .kit-b .grp {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 7px;
-      }
-      #kit .kit-b .grp-heading {
-        color: #6c7789;
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        margin-top: 3px;
-      }
-      #kit .kit-b .grp-heading:first-child {
-        margin-top: 0;
-      }
-      #kit .kit-b label {
-        color: #98a2b3;
-        font-size: 12.5px;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-      }
-      #kit .kit-b select {
-        background: #1b2432;
-        color: #e6e9ef;
-        border: 1px solid #33405a;
-        border-radius: 7px;
-        padding: 5px 8px;
-        font: inherit;
-        max-width: 100%;
-      }
-      #kit .kit-b input[type='checkbox'] {
-        accent-color: #6c9bff;
-        width: 14px;
-        height: 14px;
-      }
-      #kit .kit-b .tab,
-      #kit .kit-b .open-btn,
-      #kit .kit-b .mode-tab {
-        background: #1b2432;
-        border: 1px solid #33405a;
-        color: #e6e9ef;
-        border-radius: 7px;
-        padding: 5px 10px;
-        font: inherit;
-        cursor: pointer;
-      }
-      #kit .kit-b .tab[aria-pressed='true'],
-      #kit .kit-b .mode-tab[aria-pressed='true'] {
-        background: #e8ebf1;
-        color: #111827;
-        border-color: #e8ebf1;
-        font-weight: 600;
-      }
-      #kit .kit-b .sep {
-        display: none;
-      }
-      #kit .kit-b hr {
-        border: none;
-        border-top: 1px solid #232c3d;
-        margin: 1px 0;
+      #kit.min #kit-min svg {
+        transform: rotate(180deg);
       }
 
       #kit .kit-nav {
         display: flex;
         align-items: center;
-        gap: 7px;
-        padding: 9px 12px;
-        background: #0d1420;
-        border-bottom: 1px solid #232c3d;
-      }
-      #kit .kit-nav label {
-        color: #8d97a8;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 6px 16px;
+        border-bottom: 1px solid var(--line);
+        color: var(--muted);
         font-size: 12px;
-        white-space: nowrap;
-      }
-      #kit .kit-nav select {
-        flex: 1 1 100%;
-        min-width: 0;
-        background: #1b2432;
-        color: #e6e9ef;
-        border: 1px solid #33405a;
-        border-radius: 7px;
-        padding: 5px 8px;
-        font: inherit;
-        text-overflow: ellipsis;
       }
       #kit .kit-nav a {
-        color: #9db6ff;
+        color: var(--ds-text-brand);
         text-decoration: none;
-        font-size: 12px;
         white-space: nowrap;
-        padding: 4px 2px;
+        padding: 2px;
       }
       #kit .kit-nav a:hover {
         text-decoration: underline;
@@ -262,6 +179,167 @@
       #kit.min .kit-nav {
         display: none;
       }
+
+      #kit .kit-b {
+        padding: 0 16px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        flex: 1;
+        min-height: 0;
+        overflow: auto;
+        overscroll-behavior: contain;
+        scrollbar-width: thin;
+      }
+      #kit.min .kit-b {
+        display: none;
+      }
+      /* every row is "label | control" so labels and controls line up */
+      #kit .kit-b .grp {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 168px;
+        align-items: center;
+        column-gap: 12px;
+        min-height: 30px;
+      }
+      #kit .kit-b .grp > :only-child {
+        grid-column: 1 / -1;
+      }
+      /* section titles: ADS sentence-case subheading */
+      #kit .kit-b .grp-heading {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 10px;
+        padding-bottom: 3px;
+        border-bottom: 1px solid var(--line);
+      }
+      #kit .kit-b label {
+        color: var(--ink);
+        font-size: 13px;
+      }
+      #kit .kit-b select {
+        width: 100%;
+        min-height: 32px;
+        background-color: var(--ds-background-input);
+        color: var(--ink);
+        border: 1px solid var(--ds-border-input);
+        border-radius: 6px;
+        padding: 4px 28px 4px 9px;
+        font: inherit;
+        font-size: 13px;
+        text-overflow: ellipsis;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='none' stroke='%238c8f97' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' d='m2.5 4.5 3.5 3.5 3.5-3.5'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 9px center;
+        background-size: 12px;
+      }
+      [dir='rtl'] #kit .kit-b select {
+        padding: 4px 9px 4px 28px;
+        background-position: left 9px center;
+      }
+      #kit .kit-b select:hover {
+        background-color: var(--surface-hover);
+      }
+      #kit .kit-b select:focus-visible {
+        outline: none;
+        border-color: var(--accent-line);
+        box-shadow: 0 0 0 3px var(--accent-soft);
+      }
+      /* switch: same geometry and tokens as the Profile appearance switch;
+         the real checkbox sits, invisible, on top of the track so clicks,
+         keyboard focus and assistive tech all reach the input */
+      #kit .kit-b .demo-toggle {
+        position: relative;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 30px;
+        cursor: pointer;
+      }
+      #kit .kit-b .demo-toggle input {
+        position: absolute;
+        inset-inline-end: 0;
+        top: 50%;
+        width: 30px;
+        height: 17px;
+        margin: -8.5px 0 0;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 1;
+      }
+      #kit .kit-b .demo-toggle-track {
+        position: relative;
+        flex: none;
+        width: 30px;
+        height: 17px;
+        border-radius: 999px;
+        background: var(--ds-border-bold);
+        transition: background-color 0.12s;
+      }
+      #kit .kit-b .demo-toggle-track::after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        inset-inline-start: 2px;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: var(--inverse);
+        transition: inset-inline-start 0.12s;
+      }
+      #kit .kit-b .demo-toggle input:checked + .demo-toggle-track {
+        background: var(--accent);
+      }
+      #kit .kit-b .demo-toggle input:checked + .demo-toggle-track::after {
+        inset-inline-start: 15px;
+      }
+      #kit .kit-b .demo-toggle input:focus-visible + .demo-toggle-track {
+        outline: 2px solid var(--focus);
+        outline-offset: 2px;
+      }
+      /* buttons: the app's outline .lbtn */
+      #kit .kit-b .tab,
+      #kit .kit-b .open-btn,
+      #kit .kit-b .mode-tab {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        color: var(--ink);
+        border-radius: 6px;
+        padding: 5px 11px;
+        min-height: 32px;
+        font: inherit;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+      #kit .kit-b .open-btn:hover {
+        background: var(--surface-hover);
+      }
+      #kit .kit-b .tab[aria-pressed='true'],
+      #kit .kit-b .mode-tab[aria-pressed='true'] {
+        background: var(--accent-soft);
+        color: var(--ds-text-brand);
+        border-color: var(--accent-line);
+        font-weight: 600;
+      }
+      #kit .kit-b .sep {
+        display: none;
+      }
+      #kit .kit-b hr {
+        border: none;
+        border-top: 1px solid var(--line);
+        margin: 1px 0;
+      }
+      html[data-contrast-mode='more'] #kit .kit-b .demo-toggle-track {
+        outline: 1px solid var(--ds-border-bold);
+      }
+
       #kit-pill {
         position: fixed;
         inset-block-end: 14px;
@@ -270,16 +348,17 @@
         display: none;
         align-items: center;
         gap: 7px;
-        background: #111827;
-        color: #e6e9ef;
-        border: 1px solid #2b3446;
+        background: var(--ds-surface-overlay);
+        color: var(--ink);
+        border: 1px solid var(--line);
         border-radius: 999px;
         padding: 8px 14px;
-        font:
-          600 12.5px system-ui,
-          sans-serif;
+        font: 600 13px var(--app-font-family, ui-sans-serif, system-ui, sans-serif);
         cursor: pointer;
-        box-shadow: 0 10px 26px rgba(8, 12, 20, 0.36);
+        box-shadow: var(--shadow-2);
+      }
+      #kit-pill:hover {
+        background: var(--surface-hover);
       }
       #kit.hidden {
         display: none;
@@ -293,7 +372,7 @@
         position: fixed;
         inset: 0;
         z-index: 500;
-        background: rgba(12, 17, 26, 0.5);
+        background: var(--scrim);
         display: none;
         align-items: center;
         justify-content: center;
@@ -305,10 +384,10 @@
       #kit-notes .box {
         width: min(720px, 94vw);
         max-height: 86vh;
-        background: #fff;
-        color: #1b2230;
-        border-radius: 14px;
-        box-shadow: 0 26px 60px rgba(8, 12, 20, 0.34);
+        background: var(--ds-surface-overlay);
+        color: var(--ink);
+        border-radius: 10px;
+        box-shadow: var(--shadow-2);
         display: flex;
         flex-direction: column;
         overflow: hidden;
@@ -317,28 +396,28 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 15px 18px;
-        border-bottom: 1px solid #e4e7ec;
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--line);
       }
       #kit-notes .nh h3 {
         margin: 0;
-        font-size: 15.5px;
-        font-weight: 620;
+        font-size: 16px;
+        font-weight: 600;
       }
       #kit-notes .nh button {
         margin-inline-start: auto;
         background: none;
         border: none;
         cursor: pointer;
-        color: #5c6673;
+        color: var(--muted);
         font-size: 18px;
         line-height: 1;
         padding: 4px 8px;
         border-radius: 6px;
       }
       #kit-notes .nh button:hover {
-        background: #f1f3f6;
-        color: #1b2230;
+        background: var(--hover-overlay);
+        color: var(--ink);
       }
       #kit-notes .nb {
         padding: 6px 20px 20px;
@@ -347,28 +426,19 @@
       #kit-notes .nb .n {
         font-size: 14.5px;
         line-height: 1.62;
-        color: #4a5462;
+        color: var(--muted);
         margin-top: 16px;
         max-width: 70ch;
       }
-      #kit-notes .nb .n strong {
-        color: #1b2230;
-      }
+      #kit-notes .nb .n strong,
       #kit-notes .nb .n em {
-        color: #39424f;
+        color: var(--ink);
       }
 
-      #kit :is(button, select, input, a):focus-visible {
-        outline: 2px solid #9db6ff;
-        outline-offset: 2px;
-        border-radius: 6px;
-      }
-      #kit-pill:focus-visible {
-        outline: 2px solid #9db6ff;
-        outline-offset: 2px;
-      }
+      #kit :is(button, a):focus-visible,
+      #kit-pill:focus-visible,
       #kit-notes :is(button, a):focus-visible {
-        outline: 2px solid #1d4ed8;
+        outline: 2px solid var(--focus);
         outline-offset: 2px;
         border-radius: 6px;
       }
@@ -379,6 +449,26 @@
         }
         #kit :is(button, select, a) {
           min-height: 44px;
+        }
+        #kit .kit-h button {
+          width: 44px;
+          height: 44px;
+        }
+        #kit .kit-nav a {
+          display: inline-flex;
+          align-items: center;
+        }
+        #kit .kit-b :is(select, .open-btn) {
+          min-height: 44px;
+        }
+        #kit .kit-b .demo-toggle {
+          min-height: 44px;
+        }
+        #kit .kit-b .demo-toggle input {
+          width: 44px;
+          height: 44px;
+          margin-top: -22px;
+          inset-inline-end: -7px;
         }
         #kit-pill {
           inset-inline-start: auto;
@@ -404,14 +494,11 @@
           inset-inline-start: 4px;
           inset-inline-end: auto;
         }
-        #kit .kit-b input[type='checkbox'] {
-          width: 20px;
-          height: 20px;
-        }
       }
       @media (prefers-reduced-motion: reduce) {
         #kit,
-        #kit-notes {
+        #kit-notes,
+        #kit :is(svg, .demo-toggle-track, .demo-toggle-track::after) {
           transition: none;
         }
       }

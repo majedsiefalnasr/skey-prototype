@@ -547,11 +547,13 @@ test.describe('activities', () => {
     await expect(panel(page)).toContainText('15:00 · 30 min')
     await expect(panel(page)).not.toContainText('2026-10-13T')
     await page.keyboard.press('Escape')
-    // An overdue activity's note line reads in the danger color.
+    // Overdue is said once, as a flag in the body (text and icon, not color
+    // alone). The header keeps only the kind; the details skip header fields.
     await page.locator('[data-card-open="act-2"]').click()
     await expect(panel(page).locator('[data-panel-status]')).toHaveText('Planned')
-    await expect(panel(page).locator('[data-panel-description]')).toContainText('Overdue')
-    await expect(panel(page).locator('[data-panel-description]')).toHaveClass(/text-\[color:var\(--danger\)\]/)
+    await expect(panel(page).locator('[data-panel-description]')).not.toContainText('Overdue')
+    await expect(panel(page).locator('[data-record-highlights]')).toHaveText('Overdue')
+    await expect(panel(page).locator('dt:text-is("Summary"), dt:text-is("Kind"), dt:text-is("Status")')).toHaveCount(0)
   })
 
   test('overdue is shown with text, not color only', async ({page}) => {
@@ -1081,6 +1083,9 @@ test.describe('people data', () => {
     await page.locator('.people-view [data-row-open]', {hasText: 'Khaled Ibrahim'}).click()
     await expect(page.locator('#collab-panel')).toBeHidden()
     await expect(page.locator('#collab-panel-scrim')).toBeHidden()
+    // Converted: the header chip names the conversion, so the lifecycle
+    // keeps its own Status row.
+    await expect(panel(page).locator('[data-panel-status]')).toHaveText('Customer')
     await expect(panel(page).locator('dt:text-is("Status") + dd .badge.gray')).toHaveText('Contact')
   })
 

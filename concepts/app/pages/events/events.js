@@ -19,7 +19,6 @@ import {
   HINT_CLASS,
   VIEW_LIST_CLASS,
   viewRow,
-  recordHighlights,
 } from '../../components/collab/fields.js'
 import {multiselect, multiselectValues, bindMultiselect} from '../../components/collab/multiselect.js'
 import {
@@ -286,13 +285,12 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
       .map(id => users.find(user => user.id === id)?.name)
       .filter(Boolean)
     const stamp = value => (isValidDateTime(value) ? `${formatDate(value)} ${formatTime(value)}` : formatDate(value))
-    const status = eventStatus(event)
-    return `${recordHighlights([{label: status.label, tone: status.label === t('Past') ? 'muted' : 'accent', iconName: 'i-cal'}, ...(event.repeat && event.repeat !== 'none' ? [{label: labelOf(REPEATS, event.repeat), iconName: 'i-refresh'}] : [])])}<dl class="${VIEW_LIST_CLASS}">
-      ${viewRow('Title', escapeHtml(titleOf(event)))}
-      ${viewRow('All day', event.allDay ? 'Yes' : 'No')}
+    /* Title, status (Today/Upcoming/Past) and "All day" are in the panel
+       header; a timezone only means something for a timed event. */
+    return `<dl class="${VIEW_LIST_CLASS}">
       ${viewRow('Starts', escapeHtml(stamp(event.start)))}
       ${viewRow('Ends', escapeHtml(stamp(event.end)))}
-      ${viewRow('Event timezone', event.allDay ? t('All-day date') : escapeHtml(event.timeZone || DEFAULT_EVENT_ZONE))}
+      ${event.allDay ? '' : viewRow('Event timezone', escapeHtml(event.timeZone || DEFAULT_EVENT_ZONE))}
       ${viewRow('Location', escapeHtml(event.location || '—'))}
       ${viewRow('Participants', participantNames.length ? escapeHtml(participantNames.join(', ')) : '—')}
       ${viewRow('Reminder', escapeHtml(labelOf(REMINDERS, event.reminder)))}

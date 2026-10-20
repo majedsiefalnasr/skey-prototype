@@ -1,117 +1,20 @@
     <div class="demo-bar">
-      <div class="grp-heading">Appearance</div>
-      <div class="grp">
-        <label for="theme">Theme:</label>
-        <select id="theme" autocomplete="off">
-          <option value="system" selected>System</option>
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-        </select>
-      </div>
-      <div class="grp">
-        <label class="demo-toggle" for="high-contrast"
-          ><input type="checkbox" id="high-contrast" autocomplete="off" /><span
-            class="demo-toggle-track"
-            aria-hidden="true"></span
-          >High contrast</label
-        >
-      </div>
-      <div class="grp">
-        <label for="content-layout">Layout:</label>
-        <select id="content-layout" autocomplete="off">
-          <option value="fluid" selected>Fluid</option>
-          <option value="boxed">Boxed</option>
-        </select>
-      </div>
-      <div class="grp">
-        <label for="density">Density:</label>
-        <select id="density" autocomplete="off">
-          <option value="default" selected>Default</option>
-          <option value="compact">Compact</option>
-          <option value="comfortable">Comfortable</option>
-        </select>
-      </div>
-      <div class="grp">
-        <label for="interface-scale">Interface scale:</label>
-        <select id="interface-scale" autocomplete="off">
-          <option value="90">90%</option>
-          <option value="100" selected>100%</option>
-          <option value="110">110%</option>
-          <option value="125">125%</option>
-        </select>
-      </div>
-      <div class="grp">
-        <label class="demo-toggle" for="launchpad"
-          ><input type="checkbox" id="launchpad" checked autocomplete="off" /><span
-            class="demo-toggle-track"
-            aria-hidden="true"></span
-        >Show App Launchpad</label
-        >
-      </div>
-      <div class="grp">
-        <label for="active-role">Active role:</label>
-        <select id="active-role" autocomplete="off">
-          <option value="administrator" selected>Administrator</option>
-          <option value="manager">Manager</option>
-          <option value="user">User</option>
-        </select>
-      </div>
-      <div class="grp" id="input-style-group" hidden>
-        <label for="input-style">Input style:</label>
-        <select id="input-style" autocomplete="off">
-          <option value="default" selected>Standard</option>
-          <option value="floated">Floating label</option>
-          <option value="inline">Inline label</option>
-        </select>
-      </div>
-      <div class="grp" id="section-style-group" hidden>
-        <label for="section-style">Card style:</label>
-        <select id="section-style" autocomplete="off">
-          <option value="standard" selected>Standard</option>
-          <option value="fieldset">Fieldset</option>
-        </select>
-      </div>
-      <div class="grp">
-        <label class="demo-toggle" for="rtl"
-          ><input type="checkbox" id="rtl" autocomplete="off" /><span
-            class="demo-toggle-track"
-            aria-hidden="true"></span
-          >RTL</label
-        >
-      </div>
-
-      <div class="grp-heading" id="table-group-heading" hidden>Tables</div>
-      <div class="grp" id="filter-mode-group" hidden>
-        <label for="filter-mode">Filter style:</label>
-        <select id="filter-mode" autocomplete="off">
-          <option value="inline" selected>Inline filters</option>
-          <option value="modal">Filter dialog</option>
-        </select>
-      </div>
-      <div class="grp" id="statistics-concept-group" hidden>
-        <label for="statistics-concept">Statistics concept:</label>
-        <select id="statistics-concept" autocomplete="off">
-          <option value="balanced" selected>Balanced cards</option>
-          <option value="operational">Operational workspace</option>
-          <option value="exceptions">Exceptions &amp; attention</option>
-          <option value="analytical">Analytical KPIs</option>
-        </select>
-      </div>
-
+      <!-- Page-specific groups come first: they change with the surface on
+           screen and are the usual reason to open the panel. -->
       <div class="grp-heading" id="invoice-group-heading" hidden>Sales Invoice</div>
       <div class="grp" id="invoice-mode-group" hidden>
-        <label for="mode">Mode:</label>
+        <label for="mode">Mode</label>
         <select id="mode" autocomplete="off">
-          <option value="create">Creating a new invoice</option>
-          <option value="record" selected>Viewing a saved invoice</option>
-          <option value="edit">Editing a saved invoice</option>
+          <option value="create">Create new</option>
+          <option value="record" selected>View saved</option>
+          <option value="edit">Edit saved</option>
         </select>
       </div>
       <div class="grp" id="invoice-status-group" hidden>
-        <label for="st">Invoice status:</label>
+        <label for="st">Invoice status</label>
         <select id="st" autocomplete="off">
           <option value="draft">Draft (مسودة)</option>
-          <option value="open">Open — nothing recorded yet</option>
+          <option value="open">Open (nothing recorded)</option>
           <option value="pending">Pending (معلق)</option>
           <option value="posted" selected>Posted (مرحل)</option>
           <option value="returned">Returned (مرتجع)</option>
@@ -120,7 +23,7 @@
         </select>
       </div>
       <div class="grp" id="invoice-payment-group" hidden>
-        <label for="pay">Payment:</label>
+        <label for="pay">Payment</label>
         <select id="pay" autocomplete="off">
           <option value="credit" selected>Credit (آجل)</option>
           <option value="cash">Cash (نقد)</option>
@@ -153,24 +56,42 @@
 
       <div class="grp-heading" id="customer-group-heading" hidden>Customer</div>
       <div class="grp" id="customer-mode-group" hidden>
-        <label for="customer-mode">Mode:</label>
+        <label for="customer-mode">Mode</label>
         <select id="customer-mode" autocomplete="off">
-          <option value="create">Creating a new customer</option>
-          <option value="view" selected>Viewing a saved customer</option>
-          <option value="edit">Editing a saved customer</option>
+          <option value="create">Create new</option>
+          <option value="view" selected>View saved</option>
+          <option value="edit">Edit saved</option>
         </select>
       </div>
       <div class="grp" id="customer-layout-group" hidden>
-        <label for="customer-layout">Customer layout:</label>
+        <label for="customer-layout">Customer layout</label>
         <select id="customer-layout" autocomplete="off">
           <option value="guided" selected>Tabbed Customer</option>
           <option value="scroll">Scroll Navigator</option>
         </select>
       </div>
 
+      <div class="grp-heading" id="table-group-heading" hidden>Tables</div>
+      <div class="grp" id="filter-mode-group" hidden>
+        <label for="filter-mode">Filter style</label>
+        <select id="filter-mode" autocomplete="off">
+          <option value="inline" selected>Inline filters</option>
+          <option value="modal">Filter dialog</option>
+        </select>
+      </div>
+      <div class="grp" id="statistics-concept-group" hidden>
+        <label for="statistics-concept">Statistics concept</label>
+        <select id="statistics-concept" autocomplete="off">
+          <option value="balanced" selected>Balanced cards</option>
+          <option value="operational">Operational workspace</option>
+          <option value="exceptions">Exceptions &amp; attention</option>
+          <option value="analytical">Analytical KPIs</option>
+        </select>
+      </div>
+
       <div class="grp-heading" id="settings-navigation-group-heading" hidden>Settings pages</div>
       <div class="grp" id="settings-navigation-style-group" hidden>
-        <label for="settings-navigation-style">Tab style:</label>
+        <label for="settings-navigation-style">Tab style</label>
         <select id="settings-navigation-style" autocomplete="off">
           <option value="sidebar" selected>Sticky sidebar</option>
           <option value="standard">Standard tabs</option>
@@ -179,11 +100,97 @@
 
       <div class="grp-heading" id="profile-group-heading" hidden>Profile</div>
       <div class="grp" id="profile-card-style-group" hidden>
-        <label for="profile-card-style">Profile card style:</label>
+        <label for="profile-card-style">Profile card style</label>
         <select id="profile-card-style" autocomplete="off">
           <option value="standard" selected>Standard</option>
           <option value="simple">Simple</option>
         </select>
+      </div>
+
+      <div class="grp-heading" id="collab-group-heading" hidden>Collaboration</div>
+      <div class="grp" id="collab-reset-group" hidden>
+        <button type="button" id="collab-reset" class="open-btn">Reset collaboration data</button>
+      </div>
+
+      <div class="grp-heading">Appearance</div>
+      <div class="grp">
+        <label for="theme">Theme</label>
+        <select id="theme" autocomplete="off">
+          <option value="system" selected>System</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+      <div class="grp">
+        <label for="content-layout">Layout</label>
+        <select id="content-layout" autocomplete="off">
+          <option value="fluid" selected>Fluid</option>
+          <option value="boxed">Boxed</option>
+        </select>
+      </div>
+      <div class="grp">
+        <label for="density">Density</label>
+        <select id="density" autocomplete="off">
+          <option value="default" selected>Default</option>
+          <option value="compact">Compact</option>
+          <option value="comfortable">Comfortable</option>
+        </select>
+      </div>
+      <div class="grp">
+        <label for="interface-scale">Interface scale</label>
+        <select id="interface-scale" autocomplete="off">
+          <option value="90">90%</option>
+          <option value="100" selected>100%</option>
+          <option value="110">110%</option>
+          <option value="125">125%</option>
+        </select>
+      </div>
+      <div class="grp" id="input-style-group" hidden>
+        <label for="input-style">Input style</label>
+        <select id="input-style" autocomplete="off">
+          <option value="default" selected>Standard</option>
+          <option value="floated">Floating label</option>
+          <option value="inline">Inline label</option>
+        </select>
+      </div>
+      <div class="grp" id="section-style-group" hidden>
+        <label for="section-style">Card style</label>
+        <select id="section-style" autocomplete="off">
+          <option value="standard" selected>Standard</option>
+          <option value="fieldset">Fieldset</option>
+        </select>
+      </div>
+      <div class="grp">
+        <label for="active-role">Active role</label>
+        <select id="active-role" autocomplete="off">
+          <option value="administrator" selected>Administrator</option>
+          <option value="manager">Manager</option>
+          <option value="user">User</option>
+        </select>
+      </div>
+      <div class="grp">
+        <label class="demo-toggle" for="high-contrast"
+          ><input type="checkbox" id="high-contrast" autocomplete="off" /><span
+            class="demo-toggle-track"
+            aria-hidden="true"></span
+          >High contrast</label
+        >
+      </div>
+      <div class="grp">
+        <label class="demo-toggle" for="rtl"
+          ><input type="checkbox" id="rtl" autocomplete="off" /><span
+            class="demo-toggle-track"
+            aria-hidden="true"></span
+          >Right-to-left (RTL)</label
+        >
+      </div>
+      <div class="grp">
+        <label class="demo-toggle" for="launchpad"
+          ><input type="checkbox" id="launchpad" checked autocomplete="off" /><span
+            class="demo-toggle-track"
+            aria-hidden="true"></span
+          >Show App Launchpad</label
+        >
       </div>
 
       <div class="grp-heading">Guided tour</div>
@@ -192,16 +199,11 @@
           ><input type="checkbox" id="tour-enabled" checked autocomplete="off" /><span
             class="demo-toggle-track"
             aria-hidden="true"></span
-          >Tour</label
+          >Tour enabled</label
         >
       </div>
       <div class="grp">
         <button type="button" id="tour-start" class="open-btn">Start tour</button>
-      </div>
-
-      <div class="grp-heading" id="collab-group-heading" hidden>Collaboration</div>
-      <div class="grp" id="collab-reset-group" hidden>
-        <button type="button" id="collab-reset" class="open-btn">Reset collaboration data</button>
       </div>
 
       <div class="grp-heading">Session</div>

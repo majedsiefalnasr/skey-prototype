@@ -476,14 +476,13 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
 
   /* Read-only twin of the editor: the panel opens an existing note here and
      only swaps in the form when the user asks to edit. */
+  /* The note's text is the content, so it leads; title and status are in
+     the panel header, and Pinned is a flag rather than a Yes/No row. */
   function viewMarkup(note) {
-    return `${recordHighlights([...(note.pinned ? [{label: 'Pinned', iconName: 'i-spark'}] : []), ...(note.status === 'archived' ? [{label: 'Archived', tone: 'muted', iconName: 'i-archive'}] : [])])}<dl class="${VIEW_LIST_CLASS}">
-      ${viewRow('Title', escapeHtml(titleOf(note)))}
-      ${viewRow('Status', `<span class="badge gray">${escapeHtml(noteStatusLabel(note.status))}</span>`)}
-      ${viewRow('Tags', (note.tags || []).length ? note.tags.map(tag => `<span class="${CHIP_CLASS}">${escapeHtml(tag)}</span>`).join(' ') : '—')}
-      ${viewRow('Pinned', note.pinned ? `<span class="badge fix inline-flex items-center gap-1">${icon('i-spark')} ${t('Pinned')}</span>` : t('No'))}
-      ${viewRow('Note', note.body ? `<span class="whitespace-pre-line" dir="auto">${escapeHtml(note.body)}</span>` : '—')}
-    </dl>`
+    const tags = note.tags || []
+    return `${recordHighlights(note.pinned ? [{label: 'Pinned', iconName: 'i-spark'}] : [])}
+      ${note.body ? `<div class="whitespace-pre-line text-sm leading-relaxed text-ink [overflow-wrap:anywhere]" dir="auto" data-note-view-body>${escapeHtml(note.body)}</div>` : `<p class="text-sm text-muted" data-note-view-body>${t('This note has no text yet.')}</p>`}
+      ${tags.length ? `<dl class="${VIEW_LIST_CLASS} mt-4">${viewRow('Tags', tags.map(tag => `<span class="${CHIP_CLASS}">${escapeHtml(tag)}</span>`).join(' '))}</dl>` : ''}`
   }
 
   function readEditor(body) {
@@ -504,15 +503,6 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
     }
     const note = existing || {title: '', body: '', status: 'draft', tags: [], pinned: false}
     const ref = existing ? {type: 'note', id: existing.id} : null
-    /* Header note for an existing note: the first line of the note itself,
-       so the panel says what the record is about, not just its status —
-       which the chip already carries. */
-    const excerpt = existing
-      ? ((existing.body || '')
-          .split('\n')
-          .map(line => line.trim())
-          .find(Boolean) || '')
-      : ''
     panel.open({
       ref,
       edit,
@@ -520,7 +510,8 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
         ? {label: noteStatusLabel(existing.status), tone: {draft: 'warn', active: 'ok', archived: 'gray'}[existing.status] || 'gray'}
         : undefined,
       title: existing ? titleOf(existing) : 'New note',
-      description: existing ? excerpt.slice(0, 160) : 'Capture a note — only a title is needed.',
+      /* No excerpt for an existing note: the body itself is the view. */
+      description: existing ? '' : 'Capture a note — only a title is needed.',
       render: body => {
         body.innerHTML = editorMarkup(note)
       },

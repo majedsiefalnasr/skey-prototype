@@ -403,7 +403,10 @@ test('people rows keep a readable name and open their record at every width', as
     await expect(page.locator('.people-record-view')).toBeVisible()
     await expect(page.locator('#collab-panel')).toBeHidden()
     await expect(page.locator('.people-record-view')).toContainText(person)
-    if (status && !isRtl(info)) await expect(page.locator('.people-record-view dd .badge.gray').first()).toHaveText(status)
+    // Lifecycle reads from the header chip, or from the Status row once the
+    // chip names a conversion instead.
+    if (status && !isRtl(info))
+      await expect(page.locator('.people-record-view').locator('[data-panel-status], dd .badge.gray').filter({hasText: new RegExp(`^${status}$`)}).first()).toBeVisible()
     await page.locator('.people-record-view [data-people-back]').click()
     await expect(page.locator('#collab-panel')).toBeHidden()
   }
@@ -479,7 +482,7 @@ test('translated copy keeps its spacing and never shows template code', async ({
   await page.locator('.email-view .email-list-row', {hasText: 'Payment scheduled'}).click()
   const reading = page.locator('#email-reading')
   await expect(reading.locator('h3', {hasText: 'Related items'})).toHaveText('Related items (0)')
-  await expect(reading.locator('[data-related-empty]')).toHaveText('No related items yet. Link existing work or create something new from here.')
+  await expect(reading.locator('[data-related-empty]')).toHaveText('No related items yet.')
   await expect(reading.locator('label[for="email-quick-reply"]')).toHaveText(/^Reply to \S/)
   const unread = page.locator('.email-view .email-list-row.unread').first()
   expect(await unread.evaluate(el => el.textContent.replace(/\s+/g, ' '))).toMatch(/Unread\. \S/)

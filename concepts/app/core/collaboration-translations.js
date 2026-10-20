@@ -116,6 +116,7 @@ export const COLLAB_AR = {
   "High": "عالية",
   "Low": "منخفضة",
   "Pinned": "مثبتة",
+  "This note has no text yet.": "لا يوجد نص في هذه الملاحظة بعد.",
   "Pinned.": "مثبتة.",
   "Show": "إظهار",
   "Hide": "إخفاء",

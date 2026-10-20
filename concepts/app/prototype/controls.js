@@ -132,12 +132,13 @@ export function createPrototypeControls({root, settings, pages, onRoleChange = (
   kit.id = 'kit'
   kit.setAttribute('role', 'region')
   kit.setAttribute('aria-label', 'Prototype controls')
+  const icon = id => '<svg width="15" height="15" aria-hidden="true"><use href="#' + id + '"/></svg>'
   kit.innerHTML =
-    '<div class="kit-h"><span class="grip">⋮⋮</span><b>Prototype controls</b>' +
-    '<button type="button" id="kit-info" title="About this prototype" aria-label="About this prototype">ⓘ About</button>' +
-    '<button type="button" id="kit-min" title="Collapse" aria-label="Collapse">–</button>' +
-    '<button type="button" id="kit-hide" title="Hide" aria-label="Hide">×</button></div>' +
-    '<div class="kit-nav"><span style="flex:1 1 100%">Skey ERP · App Shell</span><a href="../index.html" title="Project overview">Index</a></div>' +
+    '<div class="kit-h"><span class="grip">' + icon('i-grip') + '</span><b>Prototype controls</b>' +
+    '<button type="button" id="kit-info" title="About this prototype" aria-label="About this prototype">' + icon('i-info') + '</button>' +
+    '<button type="button" id="kit-min" title="Collapse" aria-label="Collapse">' + icon('i-caret') + '</button>' +
+    '<button type="button" id="kit-hide" title="Hide" aria-label="Hide">' + icon('i-x') + '</button></div>' +
+    '<div class="kit-nav"><span>Skey ERP · App Shell</span><a href="../index.html" title="Project overview">Index</a></div>' +
     '<div class="kit-b"></div>'
   const body = kit.querySelector('.kit-b')
   ;[...bar.children].forEach(child => {
@@ -259,7 +260,6 @@ export function createPrototypeControls({root, settings, pages, onRoleChange = (
 
   const applyMin = () => {
     kit.classList.toggle('min', ui.min)
-    minBtn.textContent = ui.min ? '□' : '–'
     minBtn.title = minBtn.ariaLabel = ui.min ? 'Expand' : 'Collapse'
     minBtn.setAttribute('aria-expanded', String(!ui.min))
   }

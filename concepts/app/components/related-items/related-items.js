@@ -59,7 +59,7 @@ export function createRelatedItems({store, toast, currentUserId, openItem, befor
     if (!entity) {
       return `<li class="${ROW_CLASS} border-dashed text-muted" data-related-row data-unavailable>
         <span class="flex min-w-0 flex-1 items-start gap-2">${typeBadge(ref.type)}<span><span class="block text-[13px] font-medium">${t("Unavailable item")}</span><span class="block text-xs">This ${escapeHtml(TYPE_META[ref.type].label.toLowerCase())} was deleted.</span></span></span>
-        <button type="button" class="ibtn" data-related-remove="${index}"${readOnly ? ' disabled' : ''} aria-label="${escapeHtml(t("Remove link to unavailable item"))}">${icon('i-x')}</button>
+        ${readOnly ? '' : `<button type="button" class="ibtn" data-related-remove="${index}" aria-label="${escapeHtml(t("Remove link to unavailable item"))}">${icon('i-x')}</button>`}
       </li>`
     }
     const title = titleOf(entity)
@@ -68,7 +68,7 @@ export function createRelatedItems({store, toast, currentUserId, openItem, befor
         ${typeBadge(ref.type)}
         <span class="min-w-0"><span class="rel-title block text-[13px] font-medium text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(title)}</span><span class="block text-xs text-muted">${escapeHtml(metaOf(entity))}</span></span>
       </button>
-      <button type="button" class="ibtn" data-related-remove="${index}"${readOnly ? ' disabled' : ''} aria-label="Remove link to ${escapeHtml(title)}">${icon('i-x')}</button>
+      ${readOnly ? '' : `<button type="button" class="ibtn" data-related-remove="${index}" aria-label="Remove link to ${escapeHtml(title)}">${icon('i-x')}</button>`}
     </li>`
   }
 
@@ -86,14 +86,14 @@ export function createRelatedItems({store, toast, currentUserId, openItem, befor
       ${
         items.length
           ? `<ul class="mt-2 grid list-none gap-1.5 p-0">${items.map((item, index) => rowMarkup(item, index, readOnly)).join('')}</ul>`
-          : `<p class="mt-1.5 text-[13px] text-muted" data-related-empty>${t("No related items yet. Link existing work or create something new from here.")}</p>`
+          : `<p class="mt-1.5 text-[13px] text-muted" data-related-empty>${t(readOnly ? 'No related items yet.' : 'No related items yet. Link existing work or create something new from here.')}</p>`
       }
-      <div class="mt-3 flex flex-wrap gap-2">
-        <button type="button" class="lbtn" data-related-link${readOnly ? ' disabled' : ''}>${icon('i-plus')} Link existing…</button>
+      ${readOnly ? '' : `<div class="mt-3 flex flex-wrap gap-2">
+        <button type="button" class="lbtn" data-related-link>${icon('i-plus')} Link existing…</button>
         ${
           allowCreate
             ? `<div class="relative" data-related-create-wrap>
-          <button type="button" class="lbtn" data-related-create${readOnly ? ' disabled' : ''} aria-haspopup="menu" aria-expanded="false">Create related ${icon('i-caret', 12)}</button>
+          <button type="button" class="lbtn" data-related-create aria-haspopup="menu" aria-expanded="false">Create related ${icon('i-caret', 12)}</button>
           <div class="absolute bottom-full start-0 z-10 mb-1 hidden min-w-[160px] gap-0.5 rounded-lg border border-line bg-surface p-1.5 shadow-shell [&.open]:grid" role="menu" aria-label="${escapeHtml(t("Create related"))}">
             ${['note', 'activity', 'event']
               .map(type => `<button type="button" role="menuitem" class="${MENU_ITEM_CLASS}" data-create-type="${type}">${icon(TYPE_META[type].icon)}${TYPE_META[type].label}</button>`)
@@ -102,14 +102,14 @@ export function createRelatedItems({store, toast, currentUserId, openItem, befor
         </div>`
             : ''
         }
-      </div>`
+      </div>`}`
 
     host.querySelectorAll('[data-related-open]').forEach(button =>
       button.addEventListener('click', () => openItem(items[Number(button.dataset.relatedOpen)].ref))
     )
     host.querySelectorAll('[data-related-remove]').forEach(button =>
       button.addEventListener('click', async () => {
-        if (readOnly || !(await beforeAction())) return
+        if (!(await beforeAction())) return
         const item = items[Number(button.dataset.relatedRemove)]
         store.unlink(ref, item.ref)
         toast({tone: 'info', title: 'Link removed', body: item.entity ? uiLocale.t('{name} was not deleted.').replace('{name}', titleOf(item.entity)) : ''})
@@ -117,9 +117,10 @@ export function createRelatedItems({store, toast, currentUserId, openItem, befor
         host.querySelector('[data-related-link]')?.focus()
       })
     )
-    host.querySelector('[data-related-link]').addEventListener('click', () => {
-      if (!readOnly) openPicker(ref, {onClose: () => render(host, ref, {allowCreate, readOnly})})
-    })
+    /* View mode renders no relationship actions at all; Edit brings them. */
+    host.querySelector('[data-related-link]')?.addEventListener('click', () =>
+      openPicker(ref, {onClose: () => render(host, ref, {allowCreate, readOnly})})
+    )
     const createButton = host.querySelector('[data-related-create]')
     if (createButton) {
       const menu = createButton.nextElementSibling
@@ -146,7 +147,7 @@ export function createRelatedItems({store, toast, currentUserId, openItem, befor
         const option = event.target.closest('[data-create-type]')
         if (!option) return
         setOpen(false)
-        if (!readOnly) createRelated(option.dataset.createType, ref)
+        createRelated(option.dataset.createType, ref)
       })
     }
   }

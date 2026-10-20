@@ -271,6 +271,7 @@ export const DELIVERY_AR = {
   "Main Data": "البيانات الرئيسية",
   "Select photo": "اختيار صورة",
   "Change photo": "تغيير الصورة",
+  "No related items yet.": "لا توجد عناصر مرتبطة بعد.",
   "No related items yet. Link existing work or create something new from here.": "لا توجد عناصر مرتبطة بعد. اربط عملا موجودا أو أنشئ عنصرا جديدا من هنا.",
   "Write a reply…": "اكتب ردا…",
   "A journal entry is created and linked to this invoice.": "ينشأ قيد يومية ويرتبط بهذه الفاتورة.",

@@ -158,7 +158,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm, root, foote
   /**
    * @param {{ref?: {type: string, id: string},
    *   status?: {label: string, tone?: 'gray'|'fix'|'ok'|'warn'|'danger'},
-   *   title: string, description?: string, descriptionTone?: 'danger',
+   *   title: string, description?: string,
    *   render: (body: HTMLElement) => void,
    *   view?: (body: HTMLElement) => void, edit?: boolean,
    *   save: (body: HTMLElement) => boolean, menu?: {label: string, run: () => void, danger?: boolean, icon?: string}[],
@@ -176,8 +176,6 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm, root, foote
     titleEl.textContent = current.ref ? current.title : t(current.title)
     descriptionEl.textContent = current.ref ? (current.description || '') : t(current.description || '')
     descriptionEl.hidden = !current.description
-    descriptionEl.classList.toggle('text-[color:var(--danger)]', current.descriptionTone === 'danger')
-    for (const cls of ['rounded-md', 'border', 'border-[var(--danger-soft-line)]', 'bg-[var(--danger-soft-bg)]', 'px-3', 'py-2']) descriptionEl.classList.toggle(cls, current.descriptionTone === 'danger')
     footer.querySelector('[data-panel-save]').textContent = t(current.saveLabel || 'Save')
     /* Existing records open read-only when the page supplied a view
        renderer; new records — and freshly created ones the caller opens

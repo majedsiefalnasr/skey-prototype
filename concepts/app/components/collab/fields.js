@@ -27,10 +27,12 @@ export const VIEW_LABEL_CLASS = 'text-xs font-semibold uppercase tracking-[.04em
 export const viewRow = (label, valueHtml) =>
   `<dt class="${VIEW_LABEL_CLASS}">${escapeHtml(t(label))}</dt><dd class="m-0 min-w-0 text-ink [overflow-wrap:anywhere]">${valueHtml}</dd>`
 
-/** Context that deserves attention in both record views and editors. */
+/** Context that deserves attention in both record views and editors, as
+ *  compact flags. Only signals the panel header does not already carry
+ *  belong here. */
 export const recordHighlights = items => {
-  const tones = {danger: 'border-[var(--danger-soft-line)] bg-[var(--danger-soft-bg)] text-[var(--danger)]', accent: 'border-[var(--accent-line)] bg-[var(--accent-soft)] text-accent', muted: 'border-line bg-[var(--line-2)] text-muted'}
-  return items.length ? `<div class="mb-4 flex flex-wrap gap-2" role="status" data-record-highlights>${items.map(({label, tone = 'accent', iconName = 'i-info'}) => `<span class="inline-flex items-center gap-2 rounded-md border px-3 py-2 text-[13px] font-semibold ${tones[tone] || tones.accent}">${icon(iconName, 15)}${escapeHtml(t(label))}</span>`).join('')}</div>` : ''
+  const tones = {danger: 'bg-[var(--danger-soft-bg)] text-[var(--danger)]', accent: 'bg-[var(--accent-soft)] text-accent', muted: 'bg-[var(--line-2)] text-muted'}
+  return items.length ? `<div class="mb-4 flex flex-wrap gap-1.5" role="status" data-record-highlights>${items.map(({label, tone = 'accent', iconName = 'i-info'}) => `<span class="inline-flex min-h-7 items-center gap-1.5 rounded-md px-2.5 py-1 text-[13px] font-semibold ${tones[tone] || tones.accent}">${icon(iconName, 14)}${escapeHtml(t(label))}</span>`).join('')}</div>` : ''
 }
 
 const attrs = map =>

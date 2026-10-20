@@ -386,7 +386,7 @@ test('Mail filter dialog applies, cancels and clears with an active count', asyn
   await expect(page.locator('[data-mail-filter-count]')).toBeHidden()
 })
 
-test('Record views disable relationship changes and Edit enables them', async ({page}) => {
+test('Record views hide relationship changes and Edit brings them', async ({page}) => {
   for (const [path, selector, host] of [
     ['notes', '[data-card-open]', '#collab-panel'],
     ['activities', '[data-card-open]', '#collab-panel'],
@@ -396,20 +396,20 @@ test('Record views disable relationship changes and Edit enables them', async ({
     await go(page, '/help-screens/' + path)
     await page.locator('.' + (path === 'people-data' ? 'people' : path) + '-view').locator(selector).first().click()
     const record = page.locator(host)
-    await expect(record.locator('[data-related-link]')).toBeDisabled()
-    await expect(record.locator('[data-related-create]')).toBeDisabled()
-    for (const button of await record.locator('[data-related-remove]').all()) await expect(button).toBeDisabled()
+    await expect(record.locator('[data-related-link]')).toHaveCount(0)
+    await expect(record.locator('[data-related-create]')).toHaveCount(0)
+    await expect(record.locator('[data-related-remove]')).toHaveCount(0)
     await record.locator('[data-panel-edit]').click()
     await expect(record.locator('[data-related-link]')).toBeEnabled()
     await expect(record.locator('[data-related-create]')).toBeEnabled()
     // The full-page People record's footer lives in the shell's footer slot.
     await page.locator(path === 'people-data' ? '.page-footer [data-page-footer="people-record"]' : host).locator('[data-panel-cancel]').click()
-    await expect(record.locator('[data-related-link]')).toBeDisabled()
+    await expect(record.locator('[data-related-link]')).toHaveCount(0)
     await record.locator(path === 'people-data' ? '[data-people-back]' : '[data-panel-close]').click()
   }
   await go(page, '/help-screens/email')
   await page.locator('.email-list-row').first().click()
-  await expect(page.locator('#email-reading [data-related-link]')).toBeDisabled()
+  await expect(page.locator('#email-reading [data-related-link]')).toHaveCount(0)
 })
 
 test('Events use shared view controls and show useful agenda details', async ({page}) => {

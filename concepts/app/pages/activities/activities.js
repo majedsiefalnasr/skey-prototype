@@ -423,16 +423,16 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
   function actionsMarkup(activity) {
     if (!activity.id) return ''
     const buttons = []
-    if (isOpenActivity(activity)) buttons.push(`<button type="button" class="lbtn" data-action="done">${icon('i-check')} Mark done</button>`)
-    else if (activity.status === 'done') buttons.push(`<button type="button" class="lbtn" data-action="follow-up">${icon('i-plus')} Schedule follow-up</button>`)
-    if (activity.kind === 'email') buttons.push(`<button type="button" class="lbtn" data-action="compose">${icon('i-mail')} Compose email</button>`)
+    if (isOpenActivity(activity)) buttons.push(`<button type="button" class="lbtn out" data-action="done">${icon('i-check')} Mark done</button>`)
+    else if (activity.status === 'done') buttons.push(`<button type="button" class="lbtn out" data-action="follow-up">${icon('i-plus')} Schedule follow-up</button>`)
+    if (activity.kind === 'email') buttons.push(`<button type="button" class="lbtn out" data-action="compose">${icon('i-mail')} Compose email</button>`)
     if (activity.kind === 'meeting') {
-      if (linkedEvent(activity)) buttons.push(`<button type="button" class="lbtn" data-action="open-event">${icon('i-clock')} Open linked event</button>`)
+      if (linkedEvent(activity)) buttons.push(`<button type="button" class="lbtn out" data-action="open-event">${icon('i-clock')} Open linked event</button>`)
       else {
         const scheduled = isValidDateTime(activity.scheduledStart)
         buttons.push(
-          `<button type="button" class="lbtn" data-action="create-event"${scheduled ? '' : ' disabled aria-describedby="activity-event-hint"'}>${icon('i-plus')} Create event</button>`,
-          `<button type="button" class="lbtn" data-action="link-event">${icon('i-flow')} Link existing event…</button>`
+          `<button type="button" class="lbtn out" data-action="create-event"${scheduled ? '' : ' disabled aria-describedby="activity-event-hint"'}>${icon('i-plus')} Create event</button>`,
+          `<button type="button" class="lbtn out" data-action="link-event">${icon('i-flow')} Link existing event…</button>`
         )
         if (!scheduled) buttons.push(`<p class="${HINT_CLASS} w-full" id="activity-event-hint">${t("Schedule a time and save to create an event from this meeting.")}</p>`)
       }
@@ -442,10 +442,11 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
 
   function activityHighlights(activity) {
     const items = []
+    /* The header's status chip already says Done, and the due date has its
+       own row, so the flag only names the state. */
     if (isOverdue(activity, todayKey())) items.push({label: 'Overdue', tone: 'danger', iconName: 'i-warn'})
     else if (isOpenActivity(activity) && activity.dueDate === todayKey()) items.push({label: 'Due today', iconName: 'i-cal'})
     if (activity.priority === 'high') items.push({label: 'High priority', tone: 'danger', iconName: 'i-warn'})
-    if (activity.status === 'done') items.push({label: 'Done', tone: 'muted', iconName: 'i-check'})
     return recordHighlights(items)
   }
 
@@ -500,13 +501,12 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
     const when = activity.scheduledStart
       ? `${escapeHtml(formatDate(activity.scheduledStart))} ${escapeHtml(formatTime(activity.scheduledStart))} · ${escapeHtml(durationLabel(String(activity.durationMin || 30)))}`
       : '—'
+    /* Title, kind and status live in the panel header and overdue/due-today
+       in the flags above, so the list holds only the remaining fields. */
     return `${activityHighlights(activity)}${actionsMarkup(activity)}<dl class="${VIEW_LIST_CLASS}">
-      ${viewRow('Summary', escapeHtml(titleOf(activity)))}
-      ${viewRow('Kind', escapeHtml(kindLabel(activity.kind)))}
-      ${viewRow('Status', statusChip(activity.status))}
       ${viewRow('Assigned to', assigned ? escapeHtml(assigned) : '—')}
       ${viewRow('Priority', priorityChip(activity.priority))}
-      ${viewRow('Due date', `<span class="${isOverdue(activity, todayKey()) ? 'font-semibold text-[var(--danger)]' : activity.dueDate === todayKey() ? 'font-semibold text-accent' : ''}">${escapeHtml(activity.dueDate ? formatDate(activity.dueDate) : '—')}</span>`)}
+      ${viewRow('Due date', escapeHtml(activity.dueDate ? formatDate(activity.dueDate) : '—'))}
       ${viewRow('Scheduled', when)}
       ${viewRow('Notes', activity.notes ? `<span class="whitespace-pre-line" dir="auto">${escapeHtml(activity.notes)}</span>` : '—')}
     </dl>`
@@ -646,12 +646,9 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
       edit,
       status: existing ? {label: statusLabel(existing.status), tone: STATUS_TONE[existing.status] || 'gray'} : undefined,
       title: existing ? titleOf(existing) : 'New activity',
-      /* Header note: the kind plus what is due or scheduled — overdue
-         reads in danger color so it is not carried by the chip alone. */
-      description: existing
-        ? [kindLabel(activity.kind), ...activityTiming(activity, todayKey())].join(' · ')
-        : 'Track a call, meeting, email or to-do.',
-      descriptionTone: existing && isOverdue(activity, todayKey()) ? 'danger' : undefined,
+      /* Header note: the kind only. Due state is flagged once in the body
+         (with text and icon, not color alone) and dates sit in the details. */
+      description: existing ? kindLabel(activity.kind) : 'Track a call, meeting, email or to-do.',
       render: body => {
         body.innerHTML = editorMarkup(activity)
         bindMultiselect(body)
