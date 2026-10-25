@@ -67,9 +67,9 @@ export function customerImagePreviewAttributes(row, image, {encodeHtml}) {
  * @param {{encodeHtml: Function}} deps
  */
 export function renderCustomerAvatar(row, deps) {
-  const {encodeHtml} = deps
+  const {encodeHtml, imageData = customerImageData} = deps
   const initials = encodeHtml(dataRecordInitials(row.customerName))
-  const image = customerImageData(row.photo)
+  const image = imageData(row.photo)
   const fallback = `<span class="data-record-avatar customer-avatar-fallback grid size-9 flex-none place-items-center rounded-full bg-[var(--line-2)] text-[13px] font-bold text-muted" aria-hidden="true">${initials}</span>`
   if (!image) return fallback
   return `<button type="button" class="data-record-avatar customer-avatar-trigger image-fit-${image.fit} size-9 rounded-full overflow-hidden p-0 border-0" ${customerImagePreviewAttributes(row, image, deps)}><img src="${encodeHtml(image.src)}" alt="" data-customer-image class="block size-full ${image.fit === 'contain' ? 'object-contain' : 'object-cover'}"><span class="data-record-avatar customer-avatar-fallback grid size-9 flex-none place-items-center rounded-full bg-[var(--line-2)] text-[13px] font-bold text-muted" aria-hidden="true" hidden>${initials}</span></button>`
@@ -160,7 +160,7 @@ export function createImagePreview({popover}) {
 
   function open(anchorTrigger, {pinned: pin = false} = {}) {
     const src = anchorTrigger?.dataset.customerImageSrc
-    if (!CUSTOMER_IMAGE_SOURCES.has(src)) return
+    if (!CUSTOMER_IMAGE_SOURCES.has(src) && !/^data:image\/[a-z0-9.+-]+;base64,/i.test(src || '')) return
     clearTimers()
     if (trigger !== anchorTrigger) trigger?.setAttribute('aria-expanded', 'false')
     trigger = anchorTrigger

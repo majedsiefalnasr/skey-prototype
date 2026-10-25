@@ -1,5 +1,7 @@
 // Arabic UI copy for the shared application locale.
 export const COLLAB_AR = {
+  "Delete selected people?": "حذف الأشخاص المحددين؟",
+  "People deleted": "تم حذف الأشخاص",
   "Select all connections": "تحديد جميع وسائل الاتصال",
   "View contact": "عرض جهة الاتصال",
   "View this contact’s details.": "عرض بيانات جهة الاتصال هذه.",

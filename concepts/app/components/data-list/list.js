@@ -434,7 +434,7 @@ export function renderDataList(
               // (views.js's renderDataListRecordRows).
               const selectAllHeader = config.noRowActions
                 ? ''
-                : `<th class="data-row-select-cell"><label class="contents [@media(pointer:coarse)]:grid [@media(pointer:coarse)]:size-11 [@media(pointer:coarse)]:cursor-pointer [@media(pointer:coarse)]:place-items-center"><input class="m-0! size-[15px] accent-accent" type="checkbox" data-list-select-all aria-label="Select all visible ${deps.encodeHtml(config.label)}"${allSelected ? ' checked' : ''}></label></th>`
+                : `<th class="data-row-select-cell"><label class="contents [@media(pointer:coarse)]:grid [@media(pointer:coarse)]:size-11 [@media(pointer:coarse)]:cursor-pointer [@media(pointer:coarse)]:place-items-center"><input class="m-0! size-[15px]! min-h-0! min-w-0! p-0! accent-accent" type="checkbox" data-list-select-all aria-label="Select all visible ${deps.encodeHtml(config.label)}"${allSelected ? ' checked' : ''}></label></th>`
               const actionsHeader = config.noRowActions
                 ? ''
                 : `<th class="data-row-actions-cell" aria-label="Record actions"></th>`
@@ -484,7 +484,7 @@ export function renderDataList(
      ideas ("how rows are organized" vs "the rows themselves") read as
      distinct pieces of UI rather than one glued block. */
   const groupingCard = groupingBar ? `<div class="data-group-card">${groupingBar}</div>` : ''
-  canvas.innerHTML = `${statistics}${chart}${config.hideToolbar ? '' : `<div class="data-list-controls grid gap-2 mb-2.5">${toolbar}</div>`}${groupingCard}<div class="data-list-shell relative overflow-visible rounded-lg border border-line bg-surface [box-shadow:var(--shadow-1)]" data-data-list="${context}">${records}</div>`
+  canvas.innerHTML = `${statistics}${chart}${config.hideToolbar && !listState.selected.size ? '' : `<div class="data-list-controls grid gap-2 mb-2.5">${toolbar}</div>`}${groupingCard}<div class="data-list-shell relative overflow-visible rounded-lg border border-line bg-surface [box-shadow:var(--shadow-1)]" data-data-list="${context}">${records}</div>`
   /* Paging/record-nav swaps the whole canvas back in via innerHTML, so every
      stat card is a fresh element — animating on those renders would replay
      the count-up on each click, reading as the numbers "resetting" rather
@@ -840,5 +840,7 @@ export function createDataList({context, config, rows, locale, actions, storage,
     applyLayout,
     requestLeave,
     setRows,
+    // Page-owned toolbars can use the same command handling as the table.
+    handleToolbarCommand: event => instanceDeps.applyDataListCommandClick(event, context),
   }
 }

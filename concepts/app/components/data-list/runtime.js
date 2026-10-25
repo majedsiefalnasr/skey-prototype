@@ -80,6 +80,8 @@ export function createListRuntime({locale, t, toast, initNumberTickers, openPrin
   }
 
   function deleteDataListRecords(context, keys) {
+    const ownerDelete = getDataListActions()[context]?.deleteRecords
+    if (ownerDelete) return ownerDelete([...keys])
     return sharedDeleteDataListRecords(context, keys, DATA_LIST_CONFIG[context], dataListState[context], {
       ...sharedActionDeps,
       rerender: () => renderDataList(context),

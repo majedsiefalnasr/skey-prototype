@@ -58,6 +58,12 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
 
   function renderDataListCell(context, row, column) {
     const value = row[column.key]
+    if (context === 'people' && column.key === 'avatar') {
+      return renderCustomerAvatar({customerName: row.nameEn || row.nameAr, customerNo: row.id, photo: row.photo}, {
+        encodeHtml,
+        imageData: photo => photo?.src ? {src: photo.src, alt: photo.alt || row.nameEn, fit: photo.fit === 'contain' ? 'contain' : 'cover'} : null,
+      })
+    }
     if (context === 'people' && column.key === 'nameEn') return `<button type="button" class="border-0 bg-transparent p-0 text-start font-semibold text-accent hover:underline focus-visible:outline-2 focus-visible:outline-[var(--focus)]" data-list-open-record="${encodeHtml(row.id)}" data-row-open="${encodeHtml(row.id)}"><span dir="auto">${encodeHtml(row.nameEn)}</span>${row.nameAr ? `<small class="block text-xs font-normal text-muted" dir="rtl" lang="ar">${encodeHtml(row.nameAr)}</small>` : ''}</button>`
     if (context === 'people' && column.key === 'lifecycle') return `<span class="flex flex-wrap gap-1"><span class="badge gray">${t(row.lifecycle === 'contact' ? 'Contact' : 'Lead')}</span>${row.conversionLabel ? `<span class="badge ok">${t('Converted to')} ${encodeHtml(row.conversionLabel)}</span>` : ''}${row.archived ? `<span class="badge gray">${t('Archived')}</span>` : ''}</span>`
     if (context === 'people' && ['phone', 'email'].includes(column.key)) return `<span dir="ltr">${encodeHtml(value || '—')}</span>`
@@ -138,6 +144,7 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
   }
 
   function rowMenuItems(context, row, view) {
+    if (context === 'people') return `<button type="button" role="menuitem" data-list-row-action="display">${dataListIcon('i-external')} ${t('Display')}</button><button type="button" role="menuitem" data-list-row-action="modify">${dataListIcon('i-edit')} ${t('Modify')}</button><div class="data-menu-separator"></div><button class="text-danger" type="button" role="menuitem" data-list-row-action="delete">${dataListIcon('i-trash')} ${t('Delete')}</button>`
     if (view === 'adaptive-footer') {
       const contextActions =
         context === 'customer'

@@ -4,6 +4,7 @@ import {createScrollNavigator} from '../customers/layouts.js'
 import {createCollabPanel} from '../../components/collab/panel.js'
 import {renderDataListColumnControls} from '../../components/data-list/list.js'
 import {DATA_LIST_CONFIG} from '../../components/data-list/columns.js'
+import {renderDataListGroupTrigger} from '../../components/data-list/statistics.js'
 // People Data — people you deal with before (or instead of) them becoming
 // a customer, supplier, employee or user. A list + full-page record with
 // bilingual names, fixed contact fields, live duplicate feedback, and
@@ -251,13 +252,18 @@ export function createPeople({store, toast, panel: conversionPanel, confirm, goH
       })}${collabFilterChips({fields, filters: state.fieldFilters})}${
         filterActive() ? clearFilterButton({attr: 'clear-filters'}) : ''
       }`,
-      right: `${searchField({attr: 'collab-search', label: 'people', value: state.query})}${menuDetails({attr: 'people-columns', iconName: 'i-sliders', label: 'Columns', end: true, items: renderDataListColumnControls(DATA_LIST_CONFIG.people, getTable().getState(), {t: uiLocale.t, encodeHtml: escapeHtml}) + `<button type="button" data-people-save-layout>${uiLocale.t('Save layout')}</button><button type="button" data-people-reset-layout>${uiLocale.t('Reset layout')}</button>`})}${viewMenu({
+      right: `${searchField({attr: 'collab-search', label: 'people', value: state.query})}${state.view === 'list' ? renderDataListGroupTrigger(DATA_LIST_CONFIG.people, getTable().getState(), {t: uiLocale.t, encodeHtml: escapeHtml, dataListIcon: icon}) : ''}${menuDetails({attr: 'people-columns', iconName: 'i-sliders', label: 'Columns', end: true, items: renderDataListColumnControls(DATA_LIST_CONFIG.people, getTable().getState(), {t: uiLocale.t, encodeHtml: escapeHtml}) + `<button type="button" data-people-save-layout>${uiLocale.t('Save layout')}</button><button type="button" data-people-reset-layout>${uiLocale.t('Reset layout')}</button>`})}${viewMenu({
         attr: 'view-menu',
         label: presentation.label,
         iconName: presentation.icon,
         options: viewOptions,
       })}`,
     })}</div>`
+    host.querySelectorAll('[data-list-group-add]').forEach(button => button.addEventListener('click', event => {
+      closeOwnedMenu(button)
+      getTable().handleToolbarCommand(event)
+      buildToolbar()
+    }))
     host.querySelector('[data-list-column="nameEn"]').disabled = true
     host.querySelectorAll('[data-list-column]').forEach(input => input.addEventListener('change', () => {
       const table = getTable()
@@ -623,20 +629,33 @@ export function createPeople({store, toast, panel: conversionPanel, confirm, goH
   }
 
   async function deletePerson(person) {
+    return deleteRecords([person.id])
+  }
+
+  async function deleteRecords(keys) {
+    const people = keys.map(id => store.getEntity('person', id)).filter(Boolean)
+    if (!people.length) return
     const ok = await confirm({
-      title: 'Delete this person?',
+      title: people.length === 1 ? 'Delete this person?' : 'Delete selected people?',
       body: 'The record is removed. Linked items keep the link and show it as unavailable until someone removes it.',
       confirmLabel: 'Delete',
       tone: 'danger',
     })
     if (!ok) return
-    store.deleteEntity('person', person.id)
+    people.forEach(person => getTable().getState().selected.delete(person.id))
+    people.forEach(person => store.deleteEntity('person', person.id))
     await panel.close({force: true})
-    toast({tone: 'info', title: 'Person deleted', body: titleOf(person)})
+    toast({tone: 'info', title: people.length === 1 ? 'Person deleted' : 'People deleted', body: people.map(titleOf).join(', ')})
   }
 
   function build() {
     const root = view()
+    root.addEventListener('click', event => {
+      if (event.target.closest('[data-list-group-remove], [data-list-group-clear]')) buildToolbar()
+    })
+    root.addEventListener('drop', event => {
+      if (event.target.closest('[data-list-group-drop]')) buildToolbar()
+    })
     root.querySelector('[data-collab-new]').addEventListener('click', () => openPerson(null))
     root.querySelector('[data-collab-home]').addEventListener('click', event => {
       event.preventDefault()
@@ -689,6 +708,7 @@ export function createPeople({store, toast, panel: conversionPanel, confirm, goH
     },
     /* Related Items uses the same full-page person navigation as the list. */
     openPerson,
+    deleteRecords,
     recordPage: {
       id: 'people-record',
       get roots() { return [recordRoot] },

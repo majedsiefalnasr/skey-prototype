@@ -161,7 +161,7 @@ export function renderDataListRecordRows(row, tableContext, deps) {
   // that would have nothing to select/act on for.
   const selectCell = config.noRowActions
     ? ''
-    : `<td class="data-row-select-cell"><label class="contents [@media(pointer:coarse)]:grid [@media(pointer:coarse)]:size-11 [@media(pointer:coarse)]:cursor-pointer [@media(pointer:coarse)]:place-items-center"><input class="m-0! size-[15px] accent-accent" type="checkbox" data-list-row-select value="${encodeHtml(key)}" aria-label="Select ${encodeHtml(config.singular)} ${encodeHtml(key)}"${selected ? ' checked' : ''}></label></td>`
+    : `<td class="data-row-select-cell"><label class="contents [@media(pointer:coarse)]:grid [@media(pointer:coarse)]:size-11 [@media(pointer:coarse)]:cursor-pointer [@media(pointer:coarse)]:place-items-center"><input class="m-0! size-[15px]! min-h-0! min-w-0! p-0! accent-accent" type="checkbox" data-list-row-select value="${encodeHtml(key)}" aria-label="Select ${encodeHtml(config.singular)} ${encodeHtml(key)}"${selected ? ' checked' : ''}></label></td>`
   const actionCell = config.noRowActions
     ? ''
     : `<td class="data-row-actions-cell"><div class="data-row-actions flex items-center justify-end gap-0.5">${renderDataListExpandButton(context, key, expanded, overflowColumns, deps)}${renderDataListRowActions(context, row, config, listState.view, deps)}</div></td>`

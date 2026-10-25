@@ -98,7 +98,10 @@ export function createPageListActions({getShowContentView, getState, applyState,
   }
 
   const dataListActions = Object.fromEntries(
-    Object.keys(DATA_LIST_CONFIG).map(context => [context, context === 'people' ? {openRecord: (id, mode) => getPeople().openPerson(id, {edit: mode === 'edit'})} : dataListActionFactories[context]()])
+    Object.keys(DATA_LIST_CONFIG).map(context => [context, context === 'people' ? {
+      openRecord: (id, mode) => getPeople().openPerson(id, {edit: mode === 'edit'}),
+      deleteRecords: keys => getPeople().deleteRecords(keys),
+    } : dataListActionFactories[context]()])
   )
 
   function openCustomerRecord(customerNo, mode) {
