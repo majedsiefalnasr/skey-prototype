@@ -11,27 +11,30 @@ import {TYPE_META, TYPE_ORDER, titleOf, metaLine, searchText} from '../collab/me
 import {addMinutes, nextHalfHour} from '../../core/collab-dates.js'
 import {createRelatedPreview} from './preview.js'
 
-const ROW_CLASS = 'flex items-start gap-2 rounded-md border border-line px-2.5 py-2'
+const ROW_CLASS = 'flex min-w-0 items-start gap-2 rounded-lg border border-line bg-surface p-3 transition-colors hover:bg-[var(--line-2)]'
 const OPEN_CLASS =
-  'flex min-w-0 flex-1 items-start gap-2 border-0 bg-transparent p-0 text-start hover:[&_.rel-title]:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]'
+  'grid min-w-0 flex-1 grid-cols-[32px_minmax(0,1fr)] items-start gap-3 rounded border-0 bg-transparent p-0 text-start hover:[&_.rel-title]:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]'
 const MENU_ITEM_CLASS =
   'flex min-h-8 w-full items-center gap-2 rounded-[5px] border-0 bg-transparent px-2 py-1.5 text-start text-[13px] text-ink hover:bg-[var(--line-2)] focus-visible:bg-[var(--line-2)] focus-visible:outline-none'
 
 const typeBadge = type =>
   `<span class="badge gray inline-flex shrink-0 items-center gap-1">${icon(TYPE_META[type].icon, 11)}<span>${escapeHtml(t(TYPE_META[type].label))}</span></span>`
 
+const typeIcon = type => `<span class="grid size-8 flex-none place-items-center rounded-md bg-[var(--line-2)] text-muted" aria-hidden="true">${icon(TYPE_META[type].icon, 16)}</span>`
+const typeLabel = type => `<span class="badge gray shrink-0 self-start">${escapeHtml(t(TYPE_META[type].label))}</span>`
+
 export function createRelatedItems({store, toast, currentUserId, users = [], openItem, beforeAction = async () => true}) {
   const preview = createRelatedPreview({store, users, openItem})
   const todayKey = () => store.now().slice(0, 10)
   /** Summary line with the store's custom mail folders, so a linked message
    *  filed in a folder the user created reports its name, not its id. */
-  const metaOf = entity => metaLine(entity, {todayKey: todayKey(), folders: store.listFolders(), noteColumns: store.listNoteColumns()})
+  const metaOf = entity => metaLine(entity, {todayKey: todayKey(), folders: store.listFolders(), noteGroups: store.listNoteGroups()})
 
   /** Defaults for "Create related": minimal, so the relationship exists
    *  before the user edits anything. */
   function defaultsFor(type) {
     const start = nextHalfHour(store.now())
-    if (type === 'note') return {title: 'Untitled note', body: '', status: 'draft', tags: [], pinned: false}
+    if (type === 'note') return {title: 'Untitled note', body: '', groupId: 'draft', tags: [], pinned: false}
     if (type === 'activity')
       return {kind: 'todo', summary: 'Follow up', notes: '', assigneeIds: [currentUserId], assigneeId: currentUserId, status: 'planned', priority: 'normal', archived: false}
     return {title: 'New event', allDay: false, start, end: addMinutes(start, 60), location: '', participantIds: [currentUserId], reminder: 'none', repeat: 'none', description: ''}
@@ -60,15 +63,15 @@ export function createRelatedItems({store, toast, currentUserId, users = [], ope
   function rowMarkup({ref, entity}, index, readOnly) {
     if (!entity) {
       return `<li class="${ROW_CLASS} border-dashed text-muted" data-related-row data-unavailable>
-        <span class="flex min-w-0 flex-1 items-start gap-2">${typeBadge(ref.type)}<span><span class="block text-[13px] font-medium">${t("Unavailable item")}</span><span class="block text-xs">This ${escapeHtml(TYPE_META[ref.type].label.toLowerCase())} was deleted.</span></span></span>
+        <span class="grid min-w-0 flex-1 grid-cols-[32px_minmax(0,1fr)] items-start gap-3">${typeIcon(ref.type)}<span class="min-w-0"><span class="flex items-start justify-between gap-3"><span class="min-w-0 text-[13px] font-semibold">${t("Unavailable item")}</span>${typeLabel(ref.type)}</span><span class="mt-1 block text-xs">This ${escapeHtml(TYPE_META[ref.type].label.toLowerCase())} was deleted.</span></span></span>
         ${readOnly ? '' : `<button type="button" class="ibtn" data-related-remove="${index}" aria-label="${escapeHtml(t("Remove link to unavailable item"))}">${icon('i-x')}</button>`}
       </li>`
     }
     const title = titleOf(entity)
     return `<li class="${ROW_CLASS}" data-related-row data-type="${ref.type}">
       <button type="button" class="${OPEN_CLASS}" data-related-open="${index}" aria-label="Open ${escapeHtml(t(TYPE_META[ref.type].label))}: ${escapeHtml(title)}">
-        ${typeBadge(ref.type)}
-        <span class="min-w-0"><span class="rel-title block text-[13px] font-medium text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(title)}</span><span class="block text-xs text-muted">${escapeHtml(metaOf(entity))}</span></span>
+        ${typeIcon(ref.type)}
+        <span class="min-w-0"><span class="flex items-start justify-between gap-3"><span class="rel-title min-w-0 flex-1 text-[13px] font-semibold leading-5 text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(title)}</span>${typeLabel(ref.type)}</span><span class="mt-1 block text-xs leading-5 text-muted [overflow-wrap:anywhere]">${escapeHtml(metaOf(entity))}</span></span>
       </button>
       ${readOnly ? '' : `<button type="button" class="ibtn" data-related-remove="${index}" aria-label="Remove link to ${escapeHtml(title)}">${icon('i-x')}</button>`}
     </li>`

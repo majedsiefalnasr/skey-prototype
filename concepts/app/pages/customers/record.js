@@ -56,6 +56,10 @@ import {createImagePreview, customerImageData, renderCustomerRecordPhoto} from '
 import {createScrollNavigator, renderCustomerScroll} from './layouts.js'
 import {createLookups} from './lookups.js'
 import {resolveScroller} from '../../core/scroll.js'
+import {emptyState} from '../../components/collab/fields.js'
+import {createConfirm} from '../../components/collab/panel.js'
+import {createContactDialog, renderContactCards} from './contacts.js'
+import {ensureContacts, saveContact, removeContact, setDefaultContact, updateDefaultContact, DEFAULT_CONTACT_FIELDS} from './contacts-model.js'
 
 const CUSTOMER_RENDERERS = {
   scroll: renderCustomerScroll,
@@ -157,6 +161,29 @@ export function createCustomerRecord({root, deps}) {
   // activated. Creating it lazily in activate() left list avatars inert.
   imagePreview = refs.imagePopover ? createImagePreview({popover: refs.imagePopover}) : null
 
+  const confirmContactRemoval = createConfirm()
+  const contactDialog = createContactDialog({trapFocus, releaseFocus, onSave: draft => {
+    beginContactEdit()
+    saveContact(customerData, draft)
+    customerState.dirty = true
+    leaveApproved = false
+    render({preserveScroll: true})
+    toast({tone: 'ok', title: 'Contact updated', body: 'Save the customer to keep your changes.'})
+  }})
+
+  function beginContactEdit() {
+    if (customerState.mode === 'view') {
+      customerSavedSnapshot = structuredClone(customerData)
+      customerState.mode = 'edit'
+      if (refs.modeSelect) refs.modeSelect.value = 'edit'
+    }
+  }
+
+  function refreshContactCards() {
+    const host = refs.canvas.querySelector('[data-customer-section="contactDetails"] .customer-section-body')
+    if (host) host.innerHTML = renderContactCards(customerData, customerState.mode !== 'view')
+  }
+
   const fieldDeps = {
     t,
     encodeHtml,
@@ -187,6 +214,7 @@ export function createCustomerRecord({root, deps}) {
 
   function renderSectionBody(key, {CUSTOMER_SECTIONS}) {
     const section = CUSTOMER_SECTIONS[key]
+    if (key === 'contactDetails') return renderContactCards(customerData, customerState.mode !== 'view')
     if (key === 'identity') {
       const photo = section.fields.find(item => item.type === 'photo')
       const linked = section.fields.find(item => item.key === 'linkedBeneficiaries')
@@ -196,15 +224,18 @@ export function createCustomerRecord({root, deps}) {
       return `<div class="customer-identity-body grid gap-5 [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]"><div class="customer-field-grid grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px] [gap:4px_8px] [padding:6px] [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">${identityFields.map(item => field(item)).join('')}${field(linked, {asCardToggle: true})}</div><div class="customer-identity-photo [padding:12px_12px_12px_0] [@media((max-width:720px))]:[padding:0_12px_12px]">${field(photo)}</div></div>`
     }
     if (section.type === 'subledgers') return renderSubLedgers()
-    if (section.type === 'empty') {
-      return `<div class="customer-empty-state grid [place-items:center] gap-1.5 [min-height:180px] [padding:24px] text-muted text-center [.customer-record-canvas_&_h3]:[margin:0]! [.customer-record-canvas_&_p]:[margin:0]!"><svg width="28" height="28" aria-hidden="true"><use href="#i-user" /></svg><h3>No contact details to display</h3><p>The supplied reference does not define contact-detail fields.</p></div>`
-    }
+
     return `<div class="customer-field-grid grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px] [gap:4px_8px] [padding:6px] [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">${section.fields.map(item => field(item)).join('')}</div>`
   }
 
   function renderSubLedgers() {
+    if (!customerData.subLedgers.length) return `<div class="p-4 [&_h3]:m-0! [&_p]:m-0!" data-subledger-empty>${emptyState({
+      iconName: 'i-doc', title: 'No sub ledgers yet',
+      body: 'Linked sub ledgers will appear here for this customer.',
+      action: customerState.mode === 'view' ? '' : `<button type="button" class="lbtn pri" data-customer-action="add-sub-ledger"><svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg> ${encodeHtml(t('Add sub ledger'))}</button>`,
+    })}</div>`
     return `<div class="customer-table-toolbar flex gap-2 items-center [padding:10px_12px] [border-bottom:1px_solid_var(--line)]">
-      <button class="ibtn [.rec-adjustment-row_&]:[margin-bottom:1px]!" type="button" aria-label="Add sub ledger" data-customer-action="add-sub-ledger"><svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg></button>
+      <button class="ibtn [.rec-adjustment-row_&]:[margin-bottom:1px]!" type="button" aria-label="Add sub ledger" data-customer-action="add-sub-ledger"${customerState.mode === 'view' ? ' hidden' : ''}><svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg></button>
       <div class="sp [.d1_.arow_&]:[flex:1]"></div>
       <label class="customer-table-search flex gap-2 items-center [min-width:240px] [padding:6px_8px] [border:1px_solid_var(--line)] rounded-md bg-surface [.customer-record-canvas_&_input]:min-w-0 [.customer-record-canvas_&_input]:[border:0] [.customer-record-canvas_&_input]:[outline:0] [.customer-record-canvas_&_input]:[background:transparent]"><svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg><input type="search" placeholder="Search" aria-label="Search sub ledgers"></label>
     </div>
@@ -334,6 +365,8 @@ export function createCustomerRecord({root, deps}) {
   function syncFooter() {
     const footer = refs.footer
     if (!footer) return
+    const addContact = footer.querySelector('[data-customer-footer-action="contact"]')
+    if (addContact) addContact.hidden = customerState.mode === 'view'
     const rows = recordOrder()
     const position = rows.findIndex(customer => customer.customerNo === customerData.customerNo) + 1
     const pager = footer.querySelector('.pager')
@@ -451,6 +484,7 @@ export function createCustomerRecord({root, deps}) {
   }
 
   function saveCustomer() {
+    ensureContacts(customerData)
     if (customerState.mode === 'create') {
       customerData.customerNo = String(Math.max(0, ...customerRows.map(row => Number(row.customerNo))) + 1)
     }
@@ -628,10 +662,25 @@ export function createCustomerRecord({root, deps}) {
     const {signal} = abortController
 
     const updateField = event => {
+      const defaultToggle = event.target.closest('[data-contact-default]')
+      if (defaultToggle && customerState.mode !== 'view') {
+        if (!defaultToggle.checked) { defaultToggle.checked = true; return }
+        setDefaultContact(customerData, defaultToggle.dataset.contactDefault)
+        customerState.dirty = true
+        leaveApproved = false
+        render({preserveScroll: true})
+        return
+      }
       const control = event.target.closest('[data-customer-field]')
       if (!control) return
       const fieldKey = control.dataset.customerField
-      customerData[fieldKey] = control.type === 'checkbox' ? control.checked : control.value
+      const nextValue = control.type === 'checkbox' ? control.checked : control.value
+      if (customerState.mode === 'view' || customerData[fieldKey] === nextValue) return
+      customerData[fieldKey] = nextValue
+      if (Object.values(DEFAULT_CONTACT_FIELDS).includes(fieldKey)) {
+        updateDefaultContact(customerData, fieldKey, control.value)
+        refreshContactCards()
+      }
       customerState.dirty = true
       leaveApproved = false
       const sectionKey = customerSectionKeyForField(fieldKey)
@@ -644,6 +693,34 @@ export function createCustomerRecord({root, deps}) {
     refs.canvas.addEventListener(
       'click',
       event => {
+        const removeButton = event.target.closest('[data-contact-remove]')
+        if (removeButton) {
+          if (customerState.mode === 'view') return
+          const contact = customerData.contactDetails.find(item => item.id === removeButton.dataset.contactRemove)
+          if (!contact) return
+          confirmContactRemoval({title: 'Remove this contact?', body: `${contact.name}. ${t('If this is the default contact, the next contact becomes the default. Save the customer to keep this change.')}`, confirmLabel: t('Remove contact'), tone: 'danger'}).then(confirmed => {
+            if (!confirmed) return
+            beginContactEdit()
+            removeContact(customerData, contact.id)
+            customerState.dirty = true
+            leaveApproved = false
+            render({preserveScroll: true})
+          })
+          return
+        }
+        const contactAction = event.target.closest('[data-contact-add], [data-contact-edit], [data-contact-view]')
+        if (contactAction) {
+          if (customerState.mode === 'view' && !contactAction.hasAttribute('data-contact-view')) return
+          const contact = customerData.contactDetails.find(item => item.id === (contactAction.dataset.contactEdit || contactAction.dataset.contactView))
+          contactDialog.open(contact, {first: !customerData.contactDetails.length, readOnly: Boolean(contactAction.dataset.contactView)})
+          return
+        }
+        const card = event.target.closest('[data-customer-contact-card]')
+        if (card && !event.target.closest('button, a, input, select, textarea, label, [data-contact-actions]')) {
+          const contact = customerData.contactDetails.find(item => item.id === card.dataset.customerContactCard)
+          if (contact) contactDialog.open(contact, {readOnly: true})
+          return
+        }
         const scrollLink = event.target.closest('[data-customer-scroll-section]')
         if (scrollLink) {
           scrollNavigator?.activateSection(scrollLink.dataset.customerScrollSection)
@@ -682,7 +759,7 @@ export function createCustomerRecord({root, deps}) {
         }
         const action = event.target.closest('[data-customer-action]')?.dataset.customerAction
         if (action === 'photo') toast({tone: 'info', title: 'Photo selection is a prototype'})
-        if (action === 'add-sub-ledger')
+        if (action === 'add-sub-ledger' && customerState.mode !== 'view')
           toast({tone: 'info', title: 'Adding a sub ledger is a prototype'})
       },
       {signal}
@@ -690,6 +767,13 @@ export function createCustomerRecord({root, deps}) {
     refs.canvas.addEventListener(
       'keydown',
       event => {
+        const card = event.target.closest('[data-customer-contact-card]')
+        if (card && event.target === card && ['Enter', ' '].includes(event.key)) {
+          event.preventDefault()
+          const contact = customerData.contactDetails.find(item => item.id === card.dataset.customerContactCard)
+          if (contact) contactDialog.open(contact, {readOnly: true})
+          return
+        }
         if (
           scrollNavigator?.isNavigating() &&
           ['ArrowDown', 'ArrowUp', 'End', 'Home', 'PageDown', 'PageUp', ' '].includes(event.key)
@@ -802,7 +886,7 @@ export function createCustomerRecord({root, deps}) {
             body: 'The real product runs that action here.',
           })
         }
-        if (action) deps.closeAllMenus?.()
+        if (action && !actionButton.matches('[aria-haspopup="menu"]')) deps.closeAllMenus?.()
       },
       {signal}
     )
@@ -812,6 +896,11 @@ export function createCustomerRecord({root, deps}) {
         event => {
           const action = event.target.closest('[data-customer-footer-action]')
           if (!action) return
+          if (action.dataset.customerFooterAction === 'contact') {
+            if (customerState.mode === 'view') return
+            contactDialog.open(null, {first: !customerData.contactDetails.length})
+            return
+          }
           toast({tone: 'info', title: uiLocale.t("{v0} is a prototype").replace('{v0}', () => uiLocale.t(String(encodeHtml(action.textContent.trim()))))})
         },
         {signal}
@@ -1002,6 +1091,7 @@ export function createCustomerRecord({root, deps}) {
   }
 
   function deactivate() {
+    contactDialog.close()
     unwire()
     scrollNavigator?.stopTracking()
   }
@@ -1009,6 +1099,7 @@ export function createCustomerRecord({root, deps}) {
   function dispose() {
     deactivate()
     controlsAbort.abort()
+    contactDialog.dispose()
     imagePreview?.dispose()
     lookups?.dispose()
     imagePreview = null

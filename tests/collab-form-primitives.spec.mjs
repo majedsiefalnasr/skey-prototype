@@ -93,7 +93,7 @@ test('form primitives', async ({page}) => {
   await page.locator('.notes-view [data-collab-new]').click()
   await expect(page.locator('#collab-panel')).toBeVisible()
   const aligned = await page.evaluate(() => {
-    const status = document.querySelector('#note-status')
+    const status = document.querySelector('#note-group')
     const title = document.querySelector('#note-title')
     const cs = getComputedStyle(status)
     return {

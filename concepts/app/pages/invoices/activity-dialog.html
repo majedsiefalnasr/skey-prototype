@@ -122,8 +122,8 @@
       placeholder="Say what happened, or what someone should do next"></textarea>
     <div class="row mt-[9px] flex items-center gap-5">
       <label
-        style="font-size: 12px; color: var(--muted); display: flex; gap: 6px; align-items: center"
-        ><input type="checkbox" /> Staff only — the customer never sees this</label
+        class="customer-dialog-toggle relative flex min-h-9 items-center justify-between gap-5 rounded-md border border-line px-2.5 py-0.5 text-xs text-muted"
+        ><span>Staff only — the customer never sees this</span><input type="checkbox" role="switch" class="peer absolute size-px overflow-hidden [clip-path:inset(50%)]" /><span class="customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[var(--line)] peer-checked:bg-[var(--accent)] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent" aria-hidden="true"></span></label
       >
       <button
         class="lbtn out inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-[11px] py-1.5 font-medium whitespace-nowrap hover:enabled:bg-[var(--line-2)] disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]"

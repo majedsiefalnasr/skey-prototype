@@ -1,0 +1,13 @@
+<div class="customer-overlay fixed [inset:0] [z-index:180] hidden items-center justify-center [padding:24px] max-[720px]:p-2 [background:var(--scrim)] backdrop-blur-[4px]" id="customer-contact-dialog">
+  <div class="dlg flex min-h-0 flex-col overflow-hidden rounded-xl [width:min(1100px,_96vw)] [max-height:90vh]" data-tone="default" role="dialog" aria-modal="true" aria-labelledby="customer-contact-dialog-title" aria-describedby="customer-contact-dialog-description">
+    <header class="dhd flex items-start gap-3">
+      <div class="min-w-0 flex-1"><h3 id="customer-contact-dialog-title" data-contact-dialog-title></h3><p class="dhd-subtitle" id="customer-contact-dialog-description" data-i18n="Add the contact details, then save the customer to keep your changes.">Add the contact details, then save the customer to keep your changes.</p></div>
+      <button type="button" class="ibtn" data-contact-close aria-label="Close"><svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg></button>
+    </header>
+    <form class="dlg-inner flex min-h-0 flex-col" novalidate>
+      <div class="dbody min-h-0 overflow-auto [padding:16px_20px]" data-contact-dialog-body></div>
+      <p class="m-0! px-5 text-sm text-[var(--danger)]" data-contact-errors role="alert"></p>
+      <footer class="dfoot flex justify-end gap-2 [padding:12px_20px]"><button type="button" class="lbtn out" data-contact-close data-i18n="Cancel">Cancel</button><button type="submit" class="lbtn pri" data-i18n="Save contact">Save contact</button></footer>
+    </form>
+  </div>
+</div>

@@ -3,7 +3,7 @@ import {formatDate, formatTime} from '../../core/collab-dates.js'
 import {DEFAULT_EVENT_ZONE} from '../../core/event-scheduling.js'
 import {escapeHtml, icon, CHIP_CLASS} from '../collab/fields.js'
 import {holdFocus} from '../collab/panel.js'
-import {TYPE_META, titleOf, kindLabel, kindIcon, statusLabel, noteStatusLabel, folderLabel, conversionLabel, assigneeIdsOf, userName, isOverdue, isOpenActivity} from '../collab/meta.js'
+import {TYPE_META, titleOf, kindLabel, kindIcon, statusLabel, noteGroupLabel, folderLabel, conversionLabel, assigneeIdsOf, userName, isOverdue, isOpenActivity} from '../collab/meta.js'
 
 const {t} = uiLocale
 const text = value => `<span class="whitespace-pre-line" dir="auto">${escapeHtml(value || '—')}</span>`
@@ -35,8 +35,8 @@ export function createRelatedPreview({store, users, openItem}) {
     let content = ''
     switch (item.type) {
       case 'note': {
-        const status = store.listNoteColumns().find(column => column.id === item.status)?.label || noteStatusLabel(item.status)
-        summary = chips([chip(status, item.status === 'active' ? 'ok' : 'gray'), ...(item.pinned ? [chip(t('Pinned'), 'fix', 'i-spark')] : [])])
+        const group = store.listNoteGroups().find(group => group.id === item.groupId)?.label || noteGroupLabel(item.groupId)
+        summary = chips([chip(group, 'gray'), ...(item.pinned ? [chip(t('Pinned'), 'fix', 'i-spark')] : [])])
         content = prose(item.body)
         if (item.tags?.length) content += section('Tags', chips(item.tags.map(tag => `<span class="${CHIP_CLASS}">${escapeHtml(tag)}</span>`)))
         break

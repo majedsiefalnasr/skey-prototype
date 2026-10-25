@@ -97,7 +97,7 @@ test.describe('notes', () => {
     await expect(page.locator('[data-column="draft"]')).toContainText('Call back Sara')
   })
 
-  test('move to changes status only', async ({page}) => {
+  test('move to changes group membership only', async ({page}) => {
     await go(page, '/help-screens/notes')
     await page.getByLabel('Move Month-end checklist to').selectOption('active')
     await expect(page.locator('[data-column="active"]')).toContainText('Month-end checklist')
@@ -156,7 +156,7 @@ test.describe('notes', () => {
 
   test('an emptied quick filter names itself in the empty state', async ({page}) => {
     await go(page, '/help-screens/notes')
-    // The move-select is Notes' non-drag status path — moving the only
+    // The move-select is Notes' non-drag group path — moving the only
     // draft empties the Draft quick filter, and the List view's empty
     // state names the filter instead of a generic phrase.
     await page.getByLabel('Move Month-end checklist to').selectOption('active')
@@ -252,9 +252,9 @@ test.describe('related items', () => {
     await page.locator('#collab-confirm').getByRole('button', {name: 'Delete'}).click()
     // Delete runs through the shared work lifecycle; wait for it to commit.
     await expect(card(page, 'Payment terms for Al Noor')).toHaveCount(0)
-    await go(page, '/help-screens/people-data')
-    await page.locator('.people-view [data-row-open]', {hasText: 'Ahmed Ali'}).click()
-    await expect(page.locator('.people-record-view')).toContainText('Unavailable item')
+    await go(page, '/help-screens/activities')
+    await card(page, 'Call Al Noor about quotation 884').click()
+    await expect(panel(page)).toContainText('Unavailable item')
   })
 
   test('create related keeps the relationship', async ({page}) => {
@@ -1087,10 +1087,11 @@ test.describe('people data', () => {
     await page.locator('.people-view [data-row-open]', {hasText: 'Khaled Ibrahim'}).click()
     await expect(page.locator('#collab-panel')).toBeHidden()
     await expect(page.locator('#collab-panel-scrim')).toBeHidden()
-    // Converted: the header chip names the conversion, so the lifecycle
-    // keeps its own Status row.
+    // Converted: the header chip names the conversion, and the record's
+    // identity card still opens on the full page.
     await expect(panel(page).locator('[data-panel-status]')).toHaveText('Customer')
-    await expect(panel(page).locator('dt:text-is("Status") + dd .badge.gray')).toHaveText('Contact')
+    await expect(panel(page).locator('[data-person-section="identity"]')).toBeVisible()
+    await expect(panel(page).locator('[data-field="person-name-en"]')).toContainText('Khaled Ibrahim')
   })
 
   test('toolbar matches the shared list-toolbar language (quick + filter + search + view menu)', async ({page}) => {
@@ -1125,7 +1126,7 @@ test.describe('people data', () => {
     const identity = page.locator('.people-view .data-record-card [data-row-open]', {hasText: 'Khaled Ibrahim'})
     await expect(identity).toBeVisible()
     await identity.click()
-    await expect(panel(page).locator('dt:text-is("Name (English)") + dd')).toContainText('Khaled Ibrahim')
+    await expect(panel(page).locator('[data-field="person-name-en"]')).toContainText('Khaled Ibrahim')
     await page.keyboard.press('Escape')
     await viewMenu.locator('summary').click()
     await viewMenu.getByRole('menuitemradio', {name: 'List view'}).click()
@@ -1159,7 +1160,7 @@ test.describe('people data', () => {
     await page.locator('#person-name-en').fill('New Contact')
     await page.locator('[data-contact-value]').first().fill('+20 122 555 0199')
     await expect(panel(page).locator('[data-duplicate]')).toContainText('Sara Mahmoud')
-    await page.locator('.page-footer [data-page-footer="people-record"]').getByRole('button', {name: 'Save'}).click()
+    await page.locator('.people-record-view [data-panel-save]').click()
     await expect(panel(page)).toBeVisible()
     await expect(panel(page).locator('#person-name-en')).toHaveCount(0)
     await panel(page).locator('[data-people-back]').click()
@@ -1180,9 +1181,8 @@ test.describe('people data', () => {
     await go(page, '/help-screens/people-data')
     await page.locator('.people-view [data-collab-new]').click()
     await page.locator('#person-name-en').fill('Mail Typo')
-    await page.locator('[data-contact-kind]').first().selectOption('email')
-    await page.locator('[data-contact-value]').first().fill('not-an-email')
-    await page.locator('.page-footer [data-page-footer="people-record"]').getByRole('button', {name: 'Save'}).click()
+    await page.locator('#person-email').fill('not-an-email')
+    await page.locator('.people-record-view [data-panel-save]').click()
     await expect(panel(page)).toContainText('Enter a valid email')
   })
 })

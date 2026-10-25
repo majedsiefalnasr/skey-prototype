@@ -41,6 +41,11 @@ export function createMenus({showLaunchpad, getLaunchpadEnabled} = {}) {
 
   document.addEventListener('keydown', event => {
     const trigger = event.target.closest('.menu > button[aria-haspopup="menu"]')
+    if (trigger && event.key === 'Escape' && trigger.getAttribute('aria-expanded') === 'true') {
+      event.preventDefault()
+      closeMenuAndRestoreFocus(trigger)
+      return
+    }
     if (trigger && ['ArrowDown', 'ArrowUp'].includes(event.key)) {
       event.preventDefault()
       openMenuFromKeyboard(trigger, event.key === 'ArrowUp' ? 'last' : 'first')

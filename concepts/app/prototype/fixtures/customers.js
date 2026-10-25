@@ -56,6 +56,13 @@ export const CUSTOMER_ROWS = [
       alt: 'Organization mark for customertest',
       fit: 'contain',
     },
+    recordData: {
+      contactDetails: [
+        {id: 'primary', name: 'customertest', classification: 'Work', jobTitle: 'Main office', order: 1, isDefault: true, phone: '010 2000 2000', email: 'office@customertest.example', website: 'https://customertest.example', country: 'EG - Egypt', address: '12 El Tahrir Street, Cairo', connections: []},
+        {id: 'contact-finance', name: 'Mariam Hassan', classification: 'Work', jobTitle: 'Accounts manager', order: 2, isDefault: false, photo: {src: 'assets/customers/customer-200010-portrait.webp', alt: 'Portrait of Mariam Hassan', fit: 'cover'}, phone: '02 2450 2200', mobile: '010 2222 3300', fax: '02 2450 2201', email: 'accounts@customertest.example', poBox: '143', postalCode: '11511', connections: []},
+        {id: 'contact-sales', name: 'Omar Saleh', classification: 'Work', jobTitle: 'Purchasing manager', order: 3, isDefault: false, mobile: '010 3333 4400', email: 'purchasing@customertest.example', address: 'Nasr City, Cairo', connections: []},
+      ],
+    },
   },
   {
     customerNo: '200001',
@@ -133,6 +140,8 @@ export const CUSTOMER_SECTIONS = {
       customerField('contactEmail', 'E-Mail', 'email'),
       customerField('contactMobile', 'Mobile No.'),
       customerField('contactWebsite', 'Website', 'url'),
+      customerField('contactFax', 'Fax'),
+      customerField('contactPoBox', 'P.O. Box'),
     ],
   },
   mainData: {
@@ -182,7 +191,7 @@ export const CUSTOMER_SECTIONS = {
     ],
   },
   subLedgers: {title: 'Sub Ledgers', type: 'subledgers', fields: []},
-  contactDetails: {title: 'Contact Details', type: 'empty', fields: []},
+  contactDetails: {title: 'Contact Details', type: 'contacts', fields: []},
 }
 
 export const CUSTOMER_REFERENCE = {

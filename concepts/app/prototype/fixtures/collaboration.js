@@ -25,11 +25,11 @@ const stamp = (entity, at = SEEDED_AT) => ({...entity, createdAt: at, updatedAt:
 const me = {id: CURRENT_USER_ID, name: CURRENT_USER.name, email: CURRENT_USER.email}
 
 const notes = [
-  {id: 'note-1', title: 'Payment terms for Al Noor', body: 'Al Noor Trading pays 30 days net. They asked for 2% early-payment discount — check with Finance before quoting.', status: 'active', tags: ['customers'], pinned: true},
-  {id: 'note-2', title: 'Month-end checklist', body: '- [ ] Reconcile bank accounts\n- [ ] Review unposted invoices\n- [ ] Close the period', status: 'draft', tags: ['finance'], pinned: false},
-  {id: 'note-3', title: 'Warehouse 201 variance notes', body: 'Three lines on the Bill Outgoing Order differ from the count. Recount before shipping.', status: 'active', tags: ['warehouse'], pinned: false},
-  {id: 'note-4', title: 'ملاحظات اجتماع المبيعات', body: 'مراجعة أهداف الربع الرابع ومتابعة العملاء الجدد.', status: 'active', tags: ['sales'], pinned: false},
-  {id: 'note-5', title: 'Old pricing assumptions', body: 'Superseded by the October price list.', status: 'archived', tags: ['sales'], pinned: false},
+  {id: 'note-1', title: 'Payment terms for Al Noor', body: 'Al Noor Trading pays 30 days net. They asked for 2% early-payment discount — check with Finance before quoting.', groupId: 'active', tags: ['customers'], pinned: true},
+  {id: 'note-2', title: 'Month-end checklist', body: '- [ ] Reconcile bank accounts\n- [ ] Review unposted invoices\n- [ ] Close the period', groupId: 'draft', tags: ['finance'], pinned: false},
+  {id: 'note-3', title: 'Warehouse 201 variance notes', body: 'Three lines on the Bill Outgoing Order differ from the count. Recount before shipping.', groupId: 'active', tags: ['warehouse'], pinned: false},
+  {id: 'note-4', title: 'ملاحظات اجتماع المبيعات', body: 'مراجعة أهداف الربع الرابع ومتابعة العملاء الجدد.', groupId: 'active', tags: ['sales'], pinned: false},
+  {id: 'note-5', title: 'Old pricing assumptions', body: 'Superseded by the October price list.', groupId: 'archived', tags: ['sales'], pinned: false},
 ].map(note => stamp({...note, type: 'note'}))
 
 const activity = fields => stamp({type: 'activity', notes: '', priority: 'normal', archived: false, ...fields})
@@ -114,10 +114,10 @@ const mail = [
 
 const person = fields => stamp({type: 'person', nameAr: '', company: '', jobTitle: '', contacts: [], city: '', country: 'Egypt', lifecycle: 'lead', archived: false, notes: '', ...fields})
 const people = [
-  person({id: 'per-1', nameEn: 'Ahmed Ali', nameAr: 'أحمد علي', company: 'Al Noor Trading', jobTitle: 'Purchasing Manager', city: 'Cairo', contacts: [{kind: 'mobile', value: '+20 100 555 0101', primary: true}, {kind: 'email', value: 'ahmed.ali@alnoor.example', primary: false}]}),
-  person({id: 'per-2', nameEn: 'Sara Mahmoud', nameAr: 'سارة محمود', company: 'Delta Supplies', jobTitle: 'Accountant', city: 'Giza', contacts: [{kind: 'mobile', value: '+20 122 555 0199', primary: true}, {kind: 'email', value: 'sara.m@example.com', primary: false}]}),
-  person({id: 'per-3', nameEn: 'Khaled Ibrahim', nameAr: 'خالد إبراهيم', company: 'Nile Foods', lifecycle: 'contact', city: 'Alexandria', contacts: [{kind: 'phone', value: '+20 3 555 0142', primary: true}], convertedTo: {target: 'customer', at: '2026-10-01T10:00'}}),
-  person({id: 'per-4', nameEn: 'Ahmed Aly', company: 'Al Noor Trading', contacts: [{kind: 'mobile', value: '0020 100 555 0101', primary: true}]}),
+  person({id: 'per-1', number: '1', nameEn: 'Ahmed Ali', nameAr: 'أحمد علي', company: 'Al Noor Trading', jobTitle: 'Purchasing Manager', city: 'Cairo', contacts: [{kind: 'mobile', value: '+20 100 555 0101', primary: true}, {kind: 'email', value: 'ahmed.ali@alnoor.example', primary: false}]}),
+  person({id: 'per-2', number: '2', nameEn: 'Sara Mahmoud', nameAr: 'سارة محمود', company: 'Delta Supplies', jobTitle: 'Accountant', city: 'Giza', contacts: [{kind: 'mobile', value: '+20 122 555 0199', primary: true}, {kind: 'email', value: 'sara.m@example.com', primary: false}]}),
+  person({id: 'per-3', number: '3', nameEn: 'Khaled Ibrahim', nameAr: 'خالد إبراهيم', company: 'Nile Foods', lifecycle: 'contact', city: 'Alexandria', contacts: [{kind: 'phone', value: '+20 3 555 0142', primary: true}], convertedTo: {target: 'customer', at: '2026-10-01T10:00'}}),
+  person({id: 'per-4', number: '4', nameEn: 'Ahmed Aly', company: 'Al Noor Trading', contacts: [{kind: 'mobile', value: '0020 100 555 0101', primary: true}]}),
 ]
 
 const link = (id, a, b) => ({id, a, b, createdAt: SEEDED_AT})

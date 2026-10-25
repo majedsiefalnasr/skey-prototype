@@ -1,0 +1,19 @@
+rules:
+  - match:
+      network:
+        domains:
+          - registry.npmjs.org
+    action: allow
+    reason: Allow registry.npmjs.org (added from the settings page)
+  - match:
+      network:
+        domains:
+          - github.com
+    action: allow
+    reason: Allow github.com (added from the settings page)
+  - match:
+      network:
+        domains:
+          - api.github.com
+    action: allow
+    reason: Allow api.github.com (added from the settings page)

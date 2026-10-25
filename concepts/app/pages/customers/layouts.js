@@ -23,13 +23,13 @@ import {resolveScroller} from '../../core/scroll.js'
  * @param {object} customerState
  * @returns {void}
  */
-function setScrollActiveSection(root, key, sectionOrder, customerState) {
+function setScrollActiveSection(root, key, sectionOrder, customerState, prefix = 'customer') {
   if (!sectionOrder.includes(key)) return
   customerState.activeSection = key
-  root.querySelectorAll('.customer-scroll-nav button').forEach(button => {
+  root.querySelectorAll(`[data-${prefix}-scroll-section]`).forEach(button => {
     button.setAttribute(
       'aria-current',
-      button.dataset.customerScrollSection === key ? 'page' : 'false'
+      button.getAttribute(`data-${prefix}-scroll-section`) === key ? 'page' : 'false'
     )
   })
 }
@@ -39,9 +39,9 @@ function setScrollActiveSection(root, key, sectionOrder, customerState) {
  * navigation state for one customer record root. record.js creates one
  * instance per page activation and calls `stopTracking()` on
  * layout/deactivate.
- * @param {{root: HTMLElement, sectionOrder: string[], customerState: object}} params
+ * @param {{root: HTMLElement, sectionOrder: string[], customerState: object, prefix?: string}} params
  */
-export function createScrollNavigator({root, sectionOrder, customerState}) {
+export function createScrollNavigator({root, sectionOrder, customerState, prefix = 'customer'}) {
   let observer = null
   let navigationKey = ''
   let navigationTimer = 0
@@ -49,7 +49,7 @@ export function createScrollNavigator({root, sectionOrder, customerState}) {
 
   function stickyOffset() {
     if (!matchMedia('(max-width: 720px)').matches) return 12
-    return (root.querySelector('.customer-scroll-nav')?.getBoundingClientRect().height || 0) + 8
+    return (root.querySelector(`[data-${prefix}-scroll-section]`)?.closest('nav')?.getBoundingClientRect().height || 0) + 8
   }
 
   function scrollContainer() {
@@ -64,10 +64,16 @@ export function createScrollNavigator({root, sectionOrder, customerState}) {
 
   function syncActiveSection() {
     if (navigationKey) return
-    const targets = [...root.querySelectorAll('[data-customer-scroll-target]')]
+    const targets = [...root.querySelectorAll(`[data-${prefix}-scroll-target]`)].filter(target => target.getClientRects().length)
     if (!targets.length) return
     const scroller = scrollContainer()
     const anchor = viewportTop(scroller) + stickyOffset() + 2
+    // Keep a selected section active when the scrollport ends before it
+    // can reach the top, provided that section is still visible.
+    const selected = targets.find(target => target.getAttribute(`data-${prefix}-scroll-target`) === customerState.activeSection)
+    const selectedTop = selected?.getBoundingClientRect().top
+    if (scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 1 &&
+        selectedTop >= anchor && selectedTop < viewportTop(scroller) + scroller.clientHeight) return
     const activeTarget = targets.reduce((nearest, target) =>
       Math.abs(target.getBoundingClientRect().top - anchor) <
       Math.abs(nearest.getBoundingClientRect().top - anchor)
@@ -76,9 +82,10 @@ export function createScrollNavigator({root, sectionOrder, customerState}) {
     )
     setScrollActiveSection(
       root,
-      activeTarget.dataset.customerScrollTarget,
+      activeTarget.getAttribute(`data-${prefix}-scroll-target`),
       sectionOrder,
-      customerState
+      customerState,
+      prefix
     )
   }
 
@@ -112,7 +119,7 @@ export function createScrollNavigator({root, sectionOrder, customerState}) {
       threshold: [0, 0.1, 0.5],
     })
     root
-      .querySelectorAll('[data-customer-scroll-target]')
+      .querySelectorAll(`[data-${prefix}-scroll-target]`)
       .forEach(section => observer.observe(section))
   }
 
@@ -122,15 +129,16 @@ export function createScrollNavigator({root, sectionOrder, customerState}) {
     const thisNavigationId = navigationId
     navigationKey = key
     customerState.expanded.add(key)
-    setScrollActiveSection(root, key, sectionOrder, customerState)
-    const section = root.querySelector(`#customer-section-${key}`)
+    setScrollActiveSection(root, key, sectionOrder, customerState, prefix)
+    const section = root.querySelector(`#${prefix}-section-${key}`)
     if (!section) {
       stopNavigation()
       return
     }
     const body = section.querySelector('.customer-section-body')
     const heading = section.querySelector('.customer-section-heading')
-    body.hidden = false
+    if (section.matches('details')) section.open = true
+    if (body) body.hidden = false
     heading?.setAttribute('aria-expanded', 'true')
     const scroller = scrollContainer()
     const targetTop =

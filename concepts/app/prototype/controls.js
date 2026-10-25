@@ -40,6 +40,17 @@
 
 const STATE_KEY = 'skey-proto-state'
 const UI_KEY = 'skey-proto-ui'
+const APPEARANCE_KEY = 'skey-appearance-controls'
+const APPEARANCE_OPTIONS = {
+  theme: ['system', 'light', 'dark'],
+  'content-layout': ['fluid', 'boxed'],
+  density: ['default', 'compact', 'comfortable'],
+  'interface-scale': ['90', '100', '110', '125'],
+  'input-style': ['default', 'floated', 'inline'],
+  'section-style': ['standard', 'fieldset'],
+  'high-contrast': [true, false],
+  launchpad: [true, false],
+}
 
 function readJSON(storage, key, fallback) {
   try {
@@ -64,12 +75,20 @@ function writeJSON(storage, key, value) {
  * @returns {object} the saved control-id -> value map (may be empty).
  */
 export function readPrototypeState(storage) {
-  return readJSON(storage, STATE_KEY, {})
+  const saved = readJSON(storage, STATE_KEY, {})
+  try {
+    const appearance = readJSON(localStorage, APPEARANCE_KEY, {})
+    for (const [id, options] of Object.entries(APPEARANCE_OPTIONS)) {
+      if (options.includes(appearance[id])) saved[id] = appearance[id]
+    }
+  } catch {}
+  return saved
 }
 
 /* every harness control, addressed by id, restored and persisted by value */
 const CONTROL_IDS = [
   'theme',
+  'high-contrast',
   'content-layout',
   'mode',
   'st',
@@ -238,7 +257,15 @@ export function createPrototypeControls({root, settings, pages, onRoleChange = (
   }
 
   restoreState()
-  kit.addEventListener('change', () => writeJSON(sessionStorage, STATE_KEY, captureState()))
+  const saveState = () => {
+    const state = captureState()
+    writeJSON(sessionStorage, STATE_KEY, state)
+    const appearance = Object.fromEntries(Object.keys(APPEARANCE_OPTIONS).map(id => [id, state[id]]))
+    try { writeJSON(localStorage, APPEARANCE_KEY, appearance) } catch {}
+  }
+  // Profile appearance mirrors dispatch change directly on these controls
+  // without bubbling. Listen at the controls so those changes persist too.
+  CONTROL_IDS.forEach(id => doc.getElementById(id)?.addEventListener('change', saveState))
   kit.addEventListener('click', e => {
     if (e.target.closest('.kit-b button.tab')) setTimeout(() => writeJSON(sessionStorage, STATE_KEY, captureState()), 0)
   })
@@ -497,6 +524,7 @@ export function createPrototypeControls({root, settings, pages, onRoleChange = (
   }
 
   function dispose() {
+    CONTROL_IDS.forEach(id => doc.getElementById(id)?.removeEventListener('change', saveState))
     doc.removeEventListener('keydown', handleDialogKeydown)
     profileCardStyleControl.removeEventListener('change', applyProfileCardStyle)
     settingsNavigationStyleControl.removeEventListener('change', applySettingsNavigationStyle)

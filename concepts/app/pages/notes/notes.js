@@ -69,31 +69,31 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
   const state = {view: 'kanban', query: '', quick: 'all', fieldFilters: [], sortKey: 'updated', sortDir: 'desc', archivedOpen: false}
   let built = false
   let unsubscribe = null
-  const columns = () => store.listNoteColumns()
-  const statusOptions = () => columns().map(column => [column.id, column.label])
-  const noteStatusLabel = id => columns().find(column => column.id === id)?.label || id
-  const quickFilters = () => [...QUICK_FILTERS.filter(([id]) => !['draft', 'active', 'archived'].includes(id)), ...columns().map(column => [column.id, column.label, column.id === 'archived' ? 'i-archive' : 'i-doc'])]
+  const groups = () => store.listNoteGroups()
+  const groupOptions = () => groups().map(column => [column.id, column.label])
+  const noteGroupLabel = id => groups().find(column => column.id === id)?.label || id
+  const quickFilters = () => [...QUICK_FILTERS.filter(([id]) => !['draft', 'active', 'archived'].includes(id)), ...groups().map(column => [column.id, column.label, column.id === 'archived' ? 'i-archive' : 'i-doc'])]
 
   const todayKey = () => store.now().slice(0, 10)
   const updatedLabel = note => relativeDay(note.updatedAt, todayKey()) ?? formatDate(note.updatedAt)
 
   function openColumnManager() {
-    const original = columns()
+    const original = groups()
     let added = 0
     const row = column => {
-      const system = ['draft', 'active', 'archived'].includes(column.id)
-      const count = store.listEntities('note').filter(note => note.status === column.id).length
-      return `<div class="relative grid min-w-0 gap-2 rounded-lg border border-line bg-surface p-3 transition-[border-color,background-color,box-shadow] ${column.id === 'archived' ? '' : 'cursor-grab active:cursor-grabbing hover:border-[var(--accent-line)]'} [&.drop-target]:border-[var(--accent)] [&.drop-target]:bg-[var(--accent-soft)] data-[drop-position=before]:[box-shadow:0_-3px_0_var(--accent)] data-[drop-position=after]:[box-shadow:0_3px_0_var(--accent)]" data-stage-id="${escapeHtml(column.id)}"${column.id === 'archived' ? '' : ' draggable="true"'}>
-        <div class="flex items-center gap-2">${column.id === 'archived' ? `<span class="text-xs text-muted">${t('Archived always stays last.')}</span>` : `<button type="button" class="ibtn cursor-grab touch-none active:cursor-grabbing" draggable="true" data-stage-drag aria-label="${t('Drag to reorder')}">${icon('i-grip', 16)}</button><span class="text-xs text-muted">${t('Drag to reorder')}</span>`}</div>
-        <label class="min-w-0 text-xs text-muted">${t('Column name')}<input class="mt-1 min-w-0 w-full rounded border border-line bg-surface p-2 text-sm text-ink max-[720px]:text-base" data-stage-label maxlength="40" value="${escapeHtml(column.label)}"></label>
-        <div class="flex flex-wrap items-center gap-2 text-xs"><label class="flex min-h-8 items-center gap-1"><input type="checkbox" class="size-4 shrink-0 accent-[var(--accent)]" data-stage-hidden${column.hidden ? ' checked' : ''}>${t('Hide column')}</label><span class="ms-auto text-muted">${count} ${t('notes')}</span>
-          <button type="button" class="lbtn" data-stage-order="-1"${column.id === 'archived' ? ' disabled' : ''} aria-label="${t('Move earlier')}">↑</button><button type="button" class="lbtn" data-stage-order="1"${column.id === 'archived' ? ' disabled' : ''} aria-label="${t('Move later')}">↓</button></div>
-        ${system ? `<small class="text-muted">${t('System column — its lifecycle is preserved.')}</small>` : `<label class="flex min-h-8 items-center gap-2 text-xs"><input type="checkbox" class="size-4 shrink-0 accent-[var(--accent)]" data-stage-remove>${t('Remove column on save')}</label><label class="min-w-0 text-xs text-muted">${t('Move its notes to')}<select class="ms-2 max-w-full rounded border border-line bg-surface p-1 text-sm text-ink max-[720px]:text-base" data-stage-destination>${original.filter(item => item.id !== column.id && item.id !== 'archived').map(item => `<option value="${item.id}">${escapeHtml(item.label)}</option>`).join('')}</select></label>`}
+      const system = Boolean(column.system)
+      const count = store.listEntities('note').filter(note => note.groupId === column.id).length
+      return `<div class="relative grid min-w-0 gap-2 rounded-lg border border-line bg-surface p-3 transition-[border-color,background-color,box-shadow] ${system ? '' : 'cursor-grab active:cursor-grabbing hover:border-[var(--accent-line)]'} [&.drop-target]:border-[var(--accent)] [&.drop-target]:bg-[var(--accent-soft)] data-[drop-position=before]:[box-shadow:0_-3px_0_var(--accent)] data-[drop-position=after]:[box-shadow:0_3px_0_var(--accent)]" data-stage-id="${escapeHtml(column.id)}"${system ? '' : ' draggable="true"'}>
+        <div class="flex items-center gap-2">${system ? `<span class="text-xs text-muted">${t('System group')}</span>` : `<button type="button" class="ibtn cursor-grab touch-none active:cursor-grabbing" draggable="true" data-stage-drag aria-label="${t('Drag to reorder')}">${icon('i-grip', 16)}</button><span class="text-xs text-muted">${t('Drag to reorder')}</span>`}</div>
+        <label class="min-w-0 text-xs text-muted">${t('Group name')}<input class="mt-1 min-w-0 w-full rounded border border-line bg-surface p-2 text-sm text-ink max-[720px]:text-base" data-stage-label maxlength="40" value="${escapeHtml(column.label)}"${system ? ' readonly' : ''}></label>
+        <div class="flex flex-wrap items-center gap-2 text-xs"><label class="flex min-h-8 items-center gap-1"><input type="checkbox" class="size-4 shrink-0 accent-[var(--accent)]" data-stage-hidden${column.hidden ? ' checked' : ''}${system ? ' disabled' : ''}>${t('Hide group')}</label><span class="ms-auto text-muted">${count} ${t('notes')}</span>
+          <button type="button" class="lbtn" data-stage-order="-1"${system ? ' disabled' : ''} aria-label="${t('Move earlier')}">↑</button><button type="button" class="lbtn" data-stage-order="1"${system ? ' disabled' : ''} aria-label="${t('Move later')}">↓</button></div>
+        ${system ? `<small class="text-muted">${t('System group — its name, visibility and position are fixed.')}</small>` : `<label class="flex min-h-8 items-center gap-2 text-xs"><input type="checkbox" class="size-4 shrink-0 accent-[var(--accent)]" data-stage-remove>${t('Remove group on save')}</label><label class="min-w-0 text-xs text-muted">${t('Move its notes to')}<select class="ms-2 max-w-full rounded border border-line bg-surface p-1 text-sm text-ink max-[720px]:text-base" data-stage-destination>${original.filter(item => item.id !== column.id).map(item => `<option value="${item.id}">${escapeHtml(item.label)}</option>`).join('')}</select></label>`}
       </div>`
     }
-    panel.open({title: 'Manage note columns', description: 'Hidden columns keep their notes. Removing a column moves its notes to your chosen destination.',
+    panel.open({title: 'Manage note groups', description: 'Hidden groups keep their notes. Removing a group moves its notes to your chosen destination.',
       render: body => {
-        body.innerHTML = `<div class="grid gap-3" data-stage-list>${original.map(row).join('')}</div><button type="button" class="lbtn mt-3" data-stage-add>${t('Add column')}</button><p class="mt-2 text-sm text-[var(--danger)]" role="alert" data-stage-error></p>`
+        body.innerHTML = `<div class="grid gap-3" data-stage-list>${original.map(row).join('')}</div><button type="button" class="lbtn mt-3" data-stage-add>${t('Add group')}</button><p class="mt-2 text-sm text-[var(--danger)]" role="alert" data-stage-error></p>`
         const list = body.querySelector('[data-stage-list]')
         let dragging = null
         let dropTarget = null
@@ -108,7 +108,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
           clearTarget()
           if (!dragging || !row || row === dragging || !list.contains(row)) return
           const bounds = row.getBoundingClientRect()
-          placement = row.dataset.stageId === 'archived' || y < bounds.top + bounds.height / 2 ? 'before' : 'after'
+          placement = row.dataset.stageId === 'draft' ? 'after' : row.dataset.stageId === 'archived' || y < bounds.top + bounds.height / 2 ? 'before' : 'after'
           dropTarget = row
           row.classList.add('drop-target')
           row.dataset.dropPosition = placement
@@ -129,7 +129,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
         list.addEventListener('dragstart', event => {
           if (event.target.closest('input, select, textarea') || (event.target.closest('button') && !event.target.closest('[data-stage-drag]'))) { event.preventDefault(); return }
           dragging = event.target.closest('[data-stage-id]')
-          if (!dragging || dragging.dataset.stageId === 'archived') { event.preventDefault(); dragging = null; return }
+          if (!dragging || ['draft', 'archived'].includes(dragging.dataset.stageId)) { event.preventDefault(); dragging = null; return }
           event.dataTransfer.setData('text/plain', dragging.dataset.stageId)
           event.dataTransfer.effectAllowed = 'move'
           event.dataTransfer.setDragImage(dragging, 24, 24)
@@ -171,8 +171,8 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
           const button = event.target.closest('[data-stage-order]')
           if (!button) return
           const item = button.closest('[data-stage-id]')
-          if (item.dataset.stageId === 'archived') return
-          if (button.dataset.stageOrder === '-1' && item.previousElementSibling) item.previousElementSibling.before(item)
+          if (['draft', 'archived'].includes(item.dataset.stageId)) return
+          if (button.dataset.stageOrder === '-1' && item.previousElementSibling?.dataset.stageId !== 'draft' && item.previousElementSibling) item.previousElementSibling.before(item)
           else if (button.dataset.stageOrder === '1' && item.nextElementSibling?.dataset.stageId !== 'archived' && item.nextElementSibling) item.nextElementSibling.after(item)
           button.focus()
         })
@@ -184,13 +184,13 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
           const id = row.dataset.stageId
           if (row.querySelector('[data-stage-remove]')?.checked) {
             moves[id] = row.querySelector('[data-stage-destination]').value
-            moved += store.listEntities('note').filter(note => note.status === id).length
+            moved += store.listEntities('note').filter(note => note.groupId === id).length
             return []
           }
           return [{id, label: row.querySelector('[data-stage-label]').value, hidden: row.querySelector('[data-stage-hidden]').checked}]
         })
-        if (Object.keys(moves).length && !(await confirm({title: 'Remove selected columns?', body: t('{count} notes will move to the selected destinations. No notes will be deleted.').replace('{count}', moved), confirmLabel: 'Move notes and remove'}))) return false
-        const result = store.configureNoteColumns(next, moves)
+        if (Object.keys(moves).length && !(await confirm({title: 'Remove selected groups?', body: t('{count} notes will move to the selected destinations. No notes will be deleted.').replace('{count}', moved), confirmLabel: 'Move notes and remove'}))) return false
+        const result = store.configureNoteGroups(next, moves)
         body.querySelector('[data-stage-error]').textContent = result.error ? t(result.error) : ''
         if (!result.error) {
           if (!quickFilters().some(([id]) => id === state.quick)) state.quick = 'all'
@@ -227,9 +227,9 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
         state.quick === 'pinned'
           ? note.pinned
           : state.quick === 'archived'
-            ? note.status === 'archived'
-            : columns().some(column => column.id === state.quick)
-              ? note.status === state.quick
+            ? note.groupId === 'archived'
+            : groups().some(column => column.id === state.quick)
+              ? note.groupId === state.quick
               : true
       )
       .filter(note => !query || searchText(note).includes(query))
@@ -288,7 +288,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
       })}${collabFilterChips({fields, filters: state.fieldFilters})}${
         state.fieldFilters.length || state.quick !== 'all' ? clearFilterButton({attr: 'clear-filters'}) : ''
       }`,
-      right: `${searchField({attr: 'collab-search', label: t("notes"), value: state.query})}<button type="button" class="lbtn" data-manage-columns>${t('Manage columns')}</button>${viewMenu({
+      right: `${searchField({attr: 'collab-search', label: t("notes"), value: state.query})}<button type="button" class="lbtn" data-manage-columns>${t('Manage groups')}</button>${viewMenu({
         attr: 'view-menu',
         label: presentation.label,
         iconName: presentation.icon,
@@ -357,11 +357,11 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
     }
     if (state.view === 'kanban') {
       renderBoard(body, {
-        moveColumns: columns(),
-        columns: columns().filter(column => !column.hidden || state.quick === column.id).map(column => ({
+        moveColumns: groups(),
+        columns: groups().filter(column => !column.hidden || state.quick === column.id).map(column => ({
           id: column.id,
           label: column.label,
-          items: notes.filter(note => note.status === column.id),
+          items: notes.filter(note => note.groupId === column.id),
           collapsible: column.id === 'archived',
           collapsed: column.id === 'archived' && !state.archivedOpen,
           quickAdd: column.id === 'archived' ? '' : '+ Add note',
@@ -382,7 +382,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
       scroller.scrollTop = bodyScroll
       return
     }
-    const rows = state.quick === 'archived' ? notes : notes.filter(note => note.status !== 'archived')
+    const rows = state.quick === 'archived' ? notes : notes.filter(note => note.groupId !== 'archived')
     if (!rows.length) {
       /* Name the filter that actually emptied the list: the search text,
          an applied field filter, or the quick filter — never a generic
@@ -415,12 +415,12 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
       <div class="data-table-scroll overflow-auto rounded-[inherit] max-w-full max-h-[max(280px,calc(100dvh-360px))]">
         <table class="${INV_GRID_CLASS} min-w-[720px] [table-layout:fixed]" data-notes-grid>
           <colgroup><col><col style="width:110px"><col style="width:160px"><col style="width:110px"><col style="width:140px"></colgroup>
-          <thead><tr>${header('title', 'Title')}<th scope="col">${t("Status")}</th><th scope="col">${t("Tags")}</th><th scope="col">${t("Related")}</th>${header('updated', 'Updated')}</tr></thead>
+          <thead><tr>${header('title', 'Title')}<th scope="col">${t("Group")}</th><th scope="col">${t("Tags")}</th><th scope="col">${t("Related")}</th>${header('updated', 'Updated')}</tr></thead>
           <tbody>${rows
             .map(
               note => `<tr data-row-id="${escapeHtml(note.id)}">
             <td><button type="button" class="${ROW_BUTTON_CLASS}" data-row-open="${escapeHtml(note.id)}" dir="auto">${note.pinned ? `${icon('i-spark', 11)} <span class="sr-only">${t("Pinned.")} </span>` : ''}${escapeHtml(titleOf(note))}</button></td>
-            <td><span class="badge gray">${escapeHtml(noteStatusLabel(note.status))}</span></td>
+            <td><span class="badge gray">${escapeHtml(noteGroupLabel(note.groupId))}</span></td>
             <td>${(note.tags || []).map(tag => `<span class="${CHIP_CLASS}">${escapeHtml(tag)}</span>`).join(' ')}</td>
             <td>${relatedCount(note)}</td>
             <td>${escapeHtml(updatedLabel(note))}</td>
@@ -448,19 +448,19 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
     )
   }
 
-  async function quickAdd(status, title) {
+  async function quickAdd(groupId, title) {
     if (!(await beforeAction())) return
-    const note = store.createEntity('note', {title, body: '', status, tags: [], pinned: false})
+    const note = store.createEntity('note', {title, body: '', groupId, tags: [], pinned: false})
     toast({tone: 'ok', title: 'Note added', body: titleOf(note)})
-    view().querySelector(`[data-quick-add="${status}"]`)?.focus({preventScroll: true})
+    view().querySelector(`[data-quick-add="${groupId}"]`)?.focus({preventScroll: true})
   }
 
-  async function moveNote(id, status) {
+  async function moveNote(id, groupId) {
     if (!(await beforeAction())) { renderBody(); return }
     const note = store.getEntity('note', id)
-    if (!note || note.status === status) return
-    store.updateEntity('note', id, {status})
-    toast({tone: 'info', title: uiLocale.t("Moved to {v0}").replace('{v0}', () => uiLocale.t(String(noteStatusLabel(status)))), body: titleOf(note)})
+    if (!note || note.groupId === groupId) return
+    store.updateEntity('note', id, {groupId})
+    toast({tone: 'info', title: uiLocale.t("Moved to {v0}").replace('{v0}', () => uiLocale.t(String(noteGroupLabel(groupId)))), body: titleOf(note)})
     view().querySelector(`[data-move="${CSS.escape(id)}"]`)?.focus()
   }
 
@@ -468,7 +468,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
     return `<div class="${GRID_CLASS}">
       ${field({id: 'note-title', label: t("Title"), required: true, wide: true, control: textInput({id: 'note-title', value: note.title, required: true, extra: {autofocus: true}})})}
       ${field({id: 'note-body', label: t("Note"), wide: true, control: textarea({id: 'note-body', value: note.body, rows: 7})})}
-      ${field({id: 'note-status', label: t("Status"), control: selectInput({id: 'note-status', value: note.status, options: statusOptions()})})}
+      ${field({id: 'note-group', label: t("Group"), control: selectInput({id: 'note-group', value: note.groupId, options: groupOptions()})})}
       ${field({id: 'note-tags', label: t("Tags"), hint: t("Separate tags with commas."), control: textInput({id: 'note-tags', value: (note.tags || []).join(', '), describedBy: 'note-tags-hint'})})}
       <div class="sm:col-span-2">${switchRow({id: 'note-pinned', label: t("Pin this note to the top"), checked: note.pinned})}</div>
     </div>`
@@ -476,7 +476,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
 
   /* Read-only twin of the editor: the panel opens an existing note here and
      only swaps in the form when the user asks to edit. */
-  /* The note's text is the content, so it leads; title and status are in
+  /* The note's text is the content, so it leads; title and group are in
      the panel header, and Pinned is a flag rather than a Yes/No row. */
   function viewMarkup(note) {
     const tags = note.tags || []
@@ -489,7 +489,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
     return {
       title: body.querySelector('#note-title').value.trim(),
       body: body.querySelector('#note-body').value,
-      status: body.querySelector('#note-status').value,
+      groupId: body.querySelector('#note-group').value,
       tags: parseTags(body.querySelector('#note-tags').value),
       pinned: body.querySelector('#note-pinned').checked,
     }
@@ -501,13 +501,13 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
       toast({tone: 'warn', title: 'This note is no longer available', body: 'It may have been deleted.'})
       return
     }
-    const note = existing || {title: '', body: '', status: 'draft', tags: [], pinned: false}
+    const note = existing || {title: '', body: '', groupId: 'draft', tags: [], pinned: false}
     const ref = existing ? {type: 'note', id: existing.id} : null
     panel.open({
       ref,
       edit,
       status: existing
-        ? {label: noteStatusLabel(existing.status), tone: {draft: 'warn', active: 'ok', archived: 'gray'}[existing.status] || 'gray'}
+        ? {label: noteGroupLabel(existing.groupId), tone: 'gray'}
         : undefined,
       title: existing ? titleOf(existing) : 'New note',
       /* No excerpt for an existing note: the body itself is the view. */
@@ -537,9 +537,9 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
       },
       menu: existing
         ? [
-            existing.status === 'archived'
-              ? {label: t("Restore"), icon: 'i-undo', run: () => setStatus(existing, 'active', 'Note restored')}
-              : {label: t("Archive"), icon: 'i-archive', run: () => setStatus(existing, 'archived', 'Note archived')},
+            existing.groupId === 'archived'
+              ? {label: t("Restore"), icon: 'i-undo', run: () => setGroup(existing, groups().some(group => group.id === existing.previousGroupId) ? existing.previousGroupId : 'draft', 'Note restored')}
+              : {label: t("Archive"), icon: 'i-archive', run: () => setGroup(existing, 'archived', 'Note archived')},
             {label: t("Delete"), icon: 'i-trash', danger: true, run: () => deleteNote(existing)},
           ]
         : [],
@@ -547,9 +547,9 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
     })
   }
 
-  async function setStatus(note, status, message) {
+  async function setGroup(note, groupId, message) {
     if (!(await beforeAction())) return
-    store.updateEntity('note', note.id, {status})
+    store.updateEntity('note', note.id, {groupId})
     toast({tone: 'info', title: message, body: titleOf(note)})
     await panel.close({force: true})
   }

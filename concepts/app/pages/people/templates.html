@@ -27,43 +27,47 @@
   </div>
   <div class="people-record-view collab-view flex min-h-0 min-w-0 flex-1 flex-col" hidden>
     <header class="phead flex items-start gap-5 px-4 [.d1_&]:[padding:11px_0]">
-      <div class="min-w-0 flex-1">
+      <div class="l min-w-0 flex-1">
         <nav class="crumbs" aria-label="Breadcrumb">
           <a href="/" data-home-link data-i18n="Home">Home</a><span class="sep">›</span>
           <a href="/help-screens/people-data" data-people-back data-i18n="People Data">People Data</a><span class="sep">›</span>
           <span aria-current="page" data-person-breadcrumb></span>
         </nav>
-        <div class="mt-2 flex flex-wrap items-center gap-2">
+        <div class="tline mt-2 flex flex-wrap items-center gap-5">
           <h1 class="text-[23px] font-semibold text-ink" data-panel-title tabindex="-1"></h1>
           <span class="badge gray" data-panel-status hidden></span>
         </div>
         <p class="mt-0.5 text-[13px] text-muted" data-panel-description hidden></p>
       </div>
-      <div class="flex flex-wrap items-center gap-2">
-        <button type="button" class="lbtn out" data-panel-edit data-i18n="Edit">Edit</button>
+      <div class="r [.d1_.phead_&]:flex [.d1_.phead_&]:items-center [.d1_.phead_&]:gap-1 [.d1_.phead_&]:mt-1.5!">
+        <span class="recacts inline-flex items-center [gap:7px] flex-wrap">
+        <button type="button" class="lbtn pri" data-panel-edit><svg width="15" height="15" aria-hidden="true"><use href="#i-edit" /></svg><span data-i18n="Modify">Modify</span></button>
+        <span class="inline-flex items-center [gap:7px]" data-panel-footer>
+          <button type="submit" form="people-record-form" class="lbtn pri" data-person-save data-panel-save data-i18n="Save">Save</button>
+          <button type="button" class="lbtn out" data-person-cancel data-panel-cancel data-i18n="Undo">Undo</button>
+        </span>
+        <button type="button" class="lbtn out" data-person-new><svg width="15" height="15" aria-hidden="true"><use href="#i-plus" /></svg><span data-i18n="New">New</span></button>
         <div class="relative" data-panel-menu-wrap>
           <button type="button" class="ibtn" data-panel-menu aria-haspopup="menu" aria-expanded="false" aria-label="More actions"><svg width="15" height="15" aria-hidden="true"><use href="#i-dots" /></svg></button>
           <div class="absolute end-0 top-full z-10 hidden min-w-[190px] gap-0.5 rounded-lg border border-line bg-surface p-1.5 shadow-shell [&.open]:grid" role="menu" data-panel-menu-list></div>
         </div>
+        </span>
       </div>
     </header>
     <form class="flex min-h-0 flex-1 flex-col" id="people-record-form" data-panel-form novalidate>
-      <div class="canvas min-h-0 flex-1" data-person-content>
-        <div class="rec-card rounded-lg border border-line bg-surface p-4" data-panel-body></div>
-        <section class="mt-4 rounded-lg border border-line bg-surface p-4" data-panel-related aria-label="Related items"></section>
+      <div class="canvas customer-record-canvas min-h-0 flex-1 text-start" data-person-content>
+        <div class="customer-scroll-layout grid [grid-template-columns:minmax(180px,_240px)_minmax(0,_1fr)] gap-5 items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
+          <nav class="people-scroll-nav [.customer-record-canvas_&_button:focus-visible]:[outline:2px_solid_var(--accent)] [.customer-record-canvas_&_button:focus-visible]:[outline-offset:-2px] sticky [top:0] grid [gap:3px] [padding:6px] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [.customer-record-canvas_&_button]:[min-height:36px] [.customer-record-canvas_&_button]:[padding:7px_9px] [.customer-record-canvas_&_button]:[border:0] [.customer-record-canvas_&_button]:rounded-md [.customer-record-canvas_&_button]:text-muted [.customer-record-canvas_&_button]:[background:transparent] [.customer-record-canvas_&_button]:[font:inherit] [.customer-record-canvas_&_button]:text-start [.customer-record-canvas_&_button]:[cursor:pointer] [.customer-record-canvas_&_button:hover]:text-ink [.customer-record-canvas_&_button:hover]:bg-[var(--line-2)] [body.density-compact_.customer-record-canvas_&_button]:[min-height:30px] [body.density-compact_.customer-record-canvas_&_button]:[padding:4px_7px] [body.density-comfortable_.customer-record-canvas_&_button]:[min-height:42px] [body.density-comfortable_.customer-record-canvas_&_button]:[padding:10px_11px] [@media((max-width:720px))]:sticky [@media((max-width:720px))]:[top:0] [@media((max-width:720px))]:[z-index:2] [@media((max-width:720px))]:flex [@media((max-width:720px))]:overflow-x-auto [@media((max-width:720px))]:whitespace-nowrap [@media((max-width:720px))]:[.customer-record-canvas_&_button]:[flex:none]" data-person-section-nav aria-label="People sections"></nav>
+          <div class="customer-scroll-content min-w-0">
+            <div class="min-w-0" data-panel-body></div>
+          </div>
+        </div>
       </div>
     </form>
-    <!-- Hoisted by shell.js into the shared `.page-footer` slot, like the
-         Customers record footer. The slot draws the border and surface; the
-         panel hides the inner footer while the record is read-only, and the
-         Save button reaches the form through `form=`. On phones the floating
-         prototype-controls launcher sits at the inline end (prototype/
-         controls.css), so the actions keep clear of its 44px + 14px inset. -->
-    <div class="fnav people-record-footer">
-      <footer class="flex justify-end gap-2 px-4 py-3 max-[720px]:pe-[66px]" data-panel-footer>
-        <button type="button" class="lbtn out" data-panel-cancel data-i18n="Cancel">Cancel</button>
-        <button type="submit" class="lbtn pri" form="people-record-form" data-panel-save data-i18n="Save">Save</button>
-      </footer>
+    <!-- The shell keeps record navigation visible below the scrolling content. -->
+    <div class="fnav people-record-footer flex max-[720px]:flex-wrap items-center gap-5 [padding:7px_16px] bg-surface">
+      <span data-person-pager></span>
+      <span class="pos text-muted text-[13px]" data-person-position aria-live="polite"></span>
     </div>
   </div>
 </template>

@@ -396,17 +396,16 @@ test('people rows keep a readable name and open their record at every width', as
   await goPeople(page, isRtl(info))
   const name = page.locator('[data-people-grid] th').first()
   expect((await name.boundingBox()).width).toBeGreaterThanOrEqual(190)
-  for (const [person, status] of [['Ahmed Ali', 'Lead'], ['Khaled Ibrahim', 'Contact'], ['Sara Mahmoud', null]]) {
+  for (const [person, status] of [['Ahmed Ali', 'Lead'], ['Khaled Ibrahim', 'Customer'], ['Sara Mahmoud', null]]) {
     await expectTappable(personRow(page, person), person)
     if (info.project.use.hasTouch) await personRow(page, person).tap()
     else await personRow(page, person).click()
     await expect(page.locator('.people-record-view')).toBeVisible()
     await expect(page.locator('#collab-panel')).toBeHidden()
     await expect(page.locator('.people-record-view')).toContainText(person)
-    // Lifecycle reads from the header chip, or from the Status row once the
-    // chip names a conversion instead.
-    if (status && !isRtl(info))
-      await expect(page.locator('.people-record-view').locator('[data-panel-status], dd .badge.gray').filter({hasText: new RegExp(`^${status}$`)}).first()).toBeVisible()
+    // Lifecycle reads from the header chip; a converted person's chip names
+    // the conversion target instead.
+    if (status && !isRtl(info)) await expect(page.locator('.people-record-view [data-panel-status]')).toHaveText(status)
     await page.locator('.people-record-view [data-people-back]').click()
     await expect(page.locator('#collab-panel')).toBeHidden()
   }
@@ -440,7 +439,7 @@ test('a new person can be saved and other rows stay tappable while its flag show
   await page.locator('.people-view [data-collab-new]').click()
   await page.locator('#person-name-en').fill('Phone Contact')
   await page.locator('[data-contact-value]').first().fill('+20 111 555 0100')
-  await page.locator('.page-footer [data-page-footer="people-record"] [data-panel-save]').click()
+  await page.locator('.people-record-view [data-panel-save]').click()
   await expect(page.locator('.people-record-view')).toBeVisible()
   await page.locator('.people-record-view [data-people-back]').click()
   await expect(page.locator('#collab-panel')).toBeHidden()

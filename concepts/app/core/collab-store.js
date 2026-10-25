@@ -13,12 +13,22 @@ const ID_PREFIX = {note: 'note', activity: 'act', event: 'evt', mail: 'mail', pe
 
 const copy = value => (value == null ? value : JSON.parse(JSON.stringify(value)))
 const sameRef = (x, y) => x.type === y.type && x.id === y.id
-const archiveLast = columns => [...columns.filter(column => column.id !== 'archived'), ...columns.filter(column => column.id === 'archived')]
-const DEFAULT_NOTE_COLUMNS = [
-  {id: 'draft', label: 'Draft', category: 'draft', hidden: false},
-  {id: 'active', label: 'Active', category: 'active', hidden: false},
-  {id: 'archived', label: 'Archived', category: 'archived', hidden: false},
+export const SYSTEM_NOTE_GROUPS = [
+  {id: 'draft', label: 'Draft', hidden: false, system: true},
+  {id: 'archived', label: 'Archive', hidden: false, system: true},
 ]
+const DEFAULT_NOTE_GROUPS = [SYSTEM_NOTE_GROUPS[0], {id: 'active', label: 'Active', hidden: false, system: false}, SYSTEM_NOTE_GROUPS[1]]
+const fixedGroups = groups => [copy(SYSTEM_NOTE_GROUPS[0]), ...groups.filter(group => !SYSTEM_NOTE_GROUPS.some(system => system.id === group.id)).map(({id, label, hidden}) => ({id, label, hidden: Boolean(hidden), system: false})), copy(SYSTEM_NOTE_GROUPS[1])]
+function normalizeNoteGroups(state) {
+  state.noteGroups = fixedGroups(Array.isArray(state.noteGroups) ? state.noteGroups : Array.isArray(state.noteColumns) ? state.noteColumns : DEFAULT_NOTE_GROUPS)
+  delete state.noteColumns
+  for (const note of state.entities.note) {
+    note.groupId ||= note.status || 'draft'
+    delete note.status
+    if (!state.noteGroups.some(group => group.id === note.groupId)) state.noteGroups.splice(-1, 0, {id: note.groupId, label: note.groupId, hidden: false, system: false})
+  }
+  return state
+}
 const linkJoins = (link, x, y) =>
   (sameRef(link.a, x) && sameRef(link.b, y)) || (sameRef(link.a, y) && sameRef(link.b, x))
 
@@ -30,7 +40,7 @@ export function createCollabStore({storage, seed, now}) {
     entities: Object.fromEntries(ENTITY_TYPES.map(type => [type, copy(seed.entities[type] || [])])),
     links: copy(seed.links || []),
     folders: [],
-    noteColumns: copy(DEFAULT_NOTE_COLUMNS),
+    noteGroups: copy(DEFAULT_NOTE_GROUPS),
     preferences: {},
   })
   const isUsable = saved =>
@@ -47,18 +57,14 @@ export function createCollabStore({storage, seed, now}) {
         if (!Array.isArray(saved.folders)) saved.folders = []
         saved.folders = saved.folders.filter(folder => folder?.id && typeof folder.name === 'string')
         if (typeof saved.seq !== 'number') saved.seq = 1000
-        if (!Array.isArray(saved.noteColumns)) saved.noteColumns = copy(DEFAULT_NOTE_COLUMNS)
+        if (!Array.isArray(saved.noteGroups) && !Array.isArray(saved.noteColumns)) saved.noteGroups = copy(DEFAULT_NOTE_GROUPS)
         if (!saved.preferences || typeof saved.preferences !== 'object') saved.preferences = {}
-        for (const column of DEFAULT_NOTE_COLUMNS) {
-          if (!saved.noteColumns.some(entry => entry.id === column.id)) saved.noteColumns.push(copy(column))
-        }
-        saved.noteColumns = archiveLast(saved.noteColumns)
-        return saved
+        return normalizeNoteGroups(saved)
       }
     } catch {
       /* corrupt or unavailable storage: fall back to the seed */
     }
-    return initialState()
+    return normalizeNoteGroups(initialState())
   }
   let state = load()
 
@@ -92,19 +98,21 @@ export function createCollabStore({storage, seed, now}) {
     setPreference(key, value) { state.preferences[key] = copy(value); commit() },
     getEntity: (type, id) => copy(find(type, id)),
     listEntities: (type, filter = () => true) => copy((state.entities[type] || []).filter(filter)),
-    listNoteColumns: () => copy(state.noteColumns),
-    configureNoteColumns(columns, moves = {}) {
-      const clean = columns.map(column => ({...column, label: String(column.label || '').trim()}))
+    listNoteGroups: () => copy(state.noteGroups),
+    configureNoteGroups(groups, moves = {}) {
+      const clean = groups.map(({id, label, hidden}) => ({id, label: String(label || '').trim(), hidden: Boolean(hidden), system: SYSTEM_NOTE_GROUPS.some(group => group.id === id)}))
       const ids = new Set(clean.map(column => column.id))
       const names = new Set(clean.map(column => column.label.toLocaleLowerCase()))
-      if (ids.size !== clean.length || names.size !== clean.length || clean.some(column => !column.label || column.label.length > 40 || !/^[a-z0-9-]+$/i.test(column.id))) return {error: 'Use unique column names of 1–40 characters.'}
-      if (DEFAULT_NOTE_COLUMNS.some(column => !ids.has(column.id))) return {error: 'Draft, Active and Archived are system columns.'}
-      for (const column of clean) column.category = DEFAULT_NOTE_COLUMNS.find(item => item.id === column.id)?.category || 'active'
+      if (ids.size !== clean.length || names.size !== clean.length || clean.some(column => !column.label || column.label.length > 40 || !/^[a-z0-9-]+$/i.test(column.id))) return {error: 'Use unique group names of 1–40 characters.'}
+      if (SYSTEM_NOTE_GROUPS.some((system, index) => {
+        const group = clean.find(item => item.id === system.id)
+        return !group || group.label !== system.label || group.hidden || clean[index ? clean.length - 1 : 0]?.id !== system.id
+      })) return {error: 'Draft and Archive are fixed system groups.'}
       for (const note of state.entities.note) {
-        if (!ids.has(note.status) && (!ids.has(moves[note.status]) || moves[note.status] === 'archived')) return {error: 'Choose a destination for every removed column that contains notes.'}
+        if (!ids.has(note.groupId) && !ids.has(moves[note.groupId])) return {error: 'Choose a destination for every removed group that contains notes.'}
       }
-      for (const note of state.entities.note) if (!ids.has(note.status)) Object.assign(note, {status: moves[note.status], updatedAt: now()})
-      state.noteColumns = archiveLast(clean)
+      for (const note of state.entities.note) if (!ids.has(note.groupId)) Object.assign(note, {groupId: moves[note.groupId], updatedAt: now()})
+      state.noteGroups = clean
       commit()
       return {ok: true}
     },
@@ -156,6 +164,11 @@ export function createCollabStore({storage, seed, now}) {
     createEntity(type, data) {
       const stamp = now()
       const entity = {...copy(data), id: `${ID_PREFIX[type]}-${++state.seq}`, type, createdAt: stamp, updatedAt: stamp}
+      if (type === 'note') {
+        entity.groupId = entity.groupId || entity.status || 'draft'
+        delete entity.status
+        if (!state.noteGroups.some(group => group.id === entity.groupId)) return null
+      }
       state.entities[type].push(entity)
       commit()
       return copy(entity)
@@ -163,6 +176,12 @@ export function createCollabStore({storage, seed, now}) {
     updateEntity(type, id, changes) {
       const entity = find(type, id)
       if (!entity) return null
+      if (type === 'note') {
+        changes = copy(changes)
+        if ('status' in changes) { changes.groupId ??= changes.status; delete changes.status }
+        if (changes.groupId && !state.noteGroups.some(group => group.id === changes.groupId)) return null
+        if (changes.groupId === 'archived' && entity.groupId !== 'archived') changes.previousGroupId = entity.groupId
+      }
       Object.assign(entity, copy(changes), {id, type, updatedAt: now()})
       commit()
       return copy(entity)
@@ -225,7 +244,7 @@ export function createCollabStore({storage, seed, now}) {
       return () => listeners.delete(listener)
     },
     reset() {
-      state = initialState()
+      state = normalizeNoteGroups(initialState())
       commit()
     },
   }

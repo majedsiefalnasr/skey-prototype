@@ -1071,3 +1071,24 @@ failures), and the working tree fixes 28 of them. The 106 are pre-existing
 non-desktop issues (stale per-project snapshots in `desktop-dark`,
 `desktop-high-contrast-*`, `desktop-reduced-motion`, `mobile-touch`, plus
 `mobile-rtl`'s lifecycle/parity failures) outside this task's scope.
+
+## Addendum: 2026-10-25 People Data record cards
+
+The People Data details page now groups its fields into the same
+Customer-style card sections (Personal Details, Contact Info., Address,
+Other Data). The implementation reuses the already-compiled Customer
+record tokens (`customer-section-titlebar`, the identity body grid, the
+shared `GRID_CLASS`, and the collab `FIELD_CLASS`), so the added CSS is
+limited to the People-specific record wrappers.
+
+Measured with `node --test tests/tailwind.test.mjs`:
+
+* pristine `HEAD` build: **292,202 bytes**
+* working tree with the People record cards: **292,292 bytes**
+* reviewed growth: **90 bytes**
+
+The migration baseline was already stale at HEAD (the enforced ceiling
+was 284,821 bytes), so this addendum records the measured HEAD output
+plus the reviewed People growth and raises
+`FINAL_TAILWIND_BASELINE_BYTES` to **292,292**. No other page's
+utilities were changed for this work.

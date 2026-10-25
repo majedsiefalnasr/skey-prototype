@@ -144,11 +144,12 @@ export const segmented = ({label, views, current, dataAttr = 'data-view-switch'}
     )
     .join('')}</div>`
 
-export const emptyState = ({iconName = 'i-info', title, body = ''}) =>
+export const emptyState = ({iconName = 'i-info', title, body = '', action = ''}) =>
   `<div class="mx-auto my-10 grid max-w-[420px] justify-items-center gap-1.5 text-center" data-empty>
     <span class="grid size-9 place-items-center rounded-full bg-[var(--line-2)] text-muted">${icon(iconName, 16)}</span>
     <h3 class="text-sm font-semibold text-ink">${escapeHtml(t(title))}</h3>
     ${body ? `<p class="text-[13px] text-muted">${escapeHtml(t(body))}</p>` : ''}
+    ${action ? `<div class="mt-3">${action}</div>` : ''}
   </div>`
 
 export const TABLE_CLASS =

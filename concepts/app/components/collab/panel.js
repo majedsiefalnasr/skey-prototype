@@ -136,6 +136,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm, root, foote
   }
 
   function renderRelated() {
+    if (!relatedHost) return
     relatedHost.hidden = !current?.related
     relatedHost.innerHTML = ''
     current?.related?.(relatedHost, {readOnly: mode === 'view'})
@@ -216,7 +217,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm, root, foote
     panel.classList.remove('open')
     scrim?.classList.remove('open')
     body.innerHTML = ''
-    relatedHost.innerHTML = ''
+    if (relatedHost) relatedHost.innerHTML = ''
     if (modal) releaseFocus()
     if (notify) onClose?.()
     return true

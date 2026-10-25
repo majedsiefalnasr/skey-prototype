@@ -1,29 +1,31 @@
 import {uiLocale} from '../../core/locale.js'
 import {resolveScroller} from '../../core/scroll.js'
+import {createScrollNavigator} from '../customers/layouts.js'
 import {createCollabPanel} from '../../components/collab/panel.js'
 import {renderDataListColumnControls} from '../../components/data-list/list.js'
 import {DATA_LIST_CONFIG} from '../../components/data-list/columns.js'
 // People Data — people you deal with before (or instead of) them becoming
 // a customer, supplier, employee or user. A list + full-page record with
-// bilingual names, repeatable contacts, live duplicate feedback, and a
-// Conversion previews map to existing Customers or their normal create
-// form. Other target records require their own product/account workflows.
+// bilingual names, fixed contact fields, live duplicate feedback, and
+// conversion previews. The record groups its fields into Customer-style
+// cards so both Help Screens detail surfaces read the same way.
 import {
   escapeHtml,
   icon,
-  field,
-  textInput,
-  textarea,
   setFieldError,
   emptyState,
-  FIELD_CLASS,
-  GRID_CLASS,
-  SECTION_TITLE_CLASS,
-  ERROR_CLASS,
   ROW_BUTTON_CLASS,
   VIEW_LIST_CLASS,
   viewRow,
 } from '../../components/collab/fields.js'
+import {
+  PERSON_SECTIONS,
+  createBlankPerson,
+  personData,
+  readContacts,
+  renderPersonSections,
+  renderPersonPhotoPreview,
+} from './sections.js'
 import {
   toolbarRow,
   menuDetails,
@@ -41,15 +43,6 @@ import {
 import {DATA_RECORD_CARD_CLASS, DATA_RECORD_CARD_IDENTITY_CLASS} from '../list-cards.js'
 import {CONVERSION_TARGETS, conversionLabel, titleOf, searchText, findPersonDuplicates} from '../../components/collab/meta.js'
 
-const CONTACT_KINDS = [
-  ['mobile', 'Mobile'],
-  ['phone', 'Phone'],
-  ['email', 'Email'],
-]
-const LIFECYCLES = [
-  ['lead', 'Lead'],
-  ['contact', 'Contact'],
-]
 /* The quick menu mirrors the other collab pages: a radio group over the
    lifecycle ("Status") plus Archived, named in the summary. */
 const QUICK_FILTERS = [
@@ -65,16 +58,24 @@ const VIEW_PRESENTATION = {
   cards: {label: 'Cards', icon: 'i-panel'},
 }
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const FIELD_LABEL = {mobile: 'mobile', phone: 'phone', email: 'email', name: 'name'}
+const DUPLICATE_REASON = {mobile: 'Same mobile number', phone: 'Same phone number', email: 'Same email address', name: 'Same name'}
+const isHttpUrl = value => {
+  try {
+    const url = new URL(value)
+    return url.protocol === 'http:' || url.protocol === 'https:'
+  } catch {
+    return false
+  }
+}
 
 const primaryOf = (person, kind) =>
   (person.contacts || []).filter(c => (kind === 'email' ? c.kind === 'email' : c.kind !== 'email')).sort((a, b) => Number(b.primary) - Number(a.primary))[0]?.value || ''
 
-export function createPeople({store, toast, panel: conversionPanel, related, confirm, goHome, navigate, getTable, customers, openCustomer}) {
+export function createPeople({store, toast, panel: conversionPanel, confirm, goHome, navigate, getTable, customers, openCustomer}) {
   const listRoot = document.querySelector('.people-view')
   const view = () => listRoot
   const recordRoot = document.querySelector('.people-record-view')
-  const panel = createCollabPanel({root: recordRoot, footerRoot: document.querySelector('.page-footer [data-page-footer="people-record"]'), modal: false, confirm})
+  const panel = createCollabPanel({root: recordRoot, modal: false, confirm})
   /* The list pager lives in the shell's `.page-footer` slot (shell.js). */
   const listFooter = document.querySelector('[data-people-list-fnav]')
   const state = {view: 'list', query: '', lifecycle: '', fieldFilters: []}
@@ -82,6 +83,102 @@ export function createPeople({store, toast, panel: conversionPanel, related, con
   let unsubscribe = null
   let returnToId = null
   let listScroll = {top: 0, tableTop: 0, tableLeft: 0}
+
+  const recordFooter = document.querySelector('.page-footer [data-page-footer="people-record"]')
+  recordFooter.querySelector('[data-person-pager]').append(document.querySelector('#t-pager').content.cloneNode(true))
+  const sectionNav = recordRoot.querySelector('[data-person-section-nav]')
+  const recordCanvas = recordRoot.querySelector('[data-person-content]')
+  const sectionOrder = PERSON_SECTIONS.map(section => section.key)
+  const scrollState = {activeSection: 'identity', expanded: new Set(sectionOrder)}
+  const scrollNavigator = createScrollNavigator({root: recordCanvas, sectionOrder, customerState: scrollState, prefix: 'person'})
+  let currentPersonId = null
+  let recordEditing = false
+
+  function renderSectionNav() {
+    sectionNav.innerHTML = PERSON_SECTIONS.map(section =>
+      `<button type="button" data-person-scroll-section="${section.key}" aria-controls="person-section-${section.key}" aria-current="${section.key === scrollState.activeSection ? 'page' : 'false'}">${escapeHtml(uiLocale.t(section.title))}</button>`
+    ).join('')
+  }
+
+  function recordOrder() {
+    const visible = filtered()
+    const tableRows = state.view === 'list' ? getTable().model.rowsInView() : []
+    const visibleIds = new Set(visible.map(person => person.id))
+    const ordered = tableRows.filter(person => visibleIds.has(person.id)).map(person => store.getEntity('person', person.id)).filter(Boolean)
+    const inView = ordered.length === visible.length ? ordered : visible
+    return inView.some(person => person.id === currentPersonId) ? inView : store.listEntities('person')
+  }
+
+  function syncRecordChrome() {
+    const people = recordOrder()
+    const position = people.findIndex(person => person.id === currentPersonId) + 1
+    const locked = recordEditing || !position
+    const pager = recordFooter.querySelector('.pager')
+    const input = pager.querySelector('.pg-i')
+    input.value = position || ''
+    input.max = String(people.length)
+    input.readOnly = locked
+    pager.querySelector('.tot').textContent = `${uiLocale.t('of')} ${people.length}`
+    for (const [selector, boundary] of [['.pg-f', position <= 1], ['.pg-p', position <= 1], ['.pg-n', position >= people.length], ['.pg-l', position >= people.length]]) {
+      pager.querySelector(selector).disabled = locked || boundary
+    }
+    recordFooter.querySelector('[data-person-position]').textContent = position
+      ? `${uiLocale.t('Record')} ${position} ${uiLocale.t('of')} ${people.length}`
+      : uiLocale.t('New person')
+    recordRoot.querySelector('[data-person-new]').hidden = recordEditing
+    renderSectionNav()
+  }
+
+  function trackSections(editing) {
+    recordEditing = editing
+    scrollNavigator.stopTracking()
+    syncRecordChrome()
+    requestAnimationFrame(() => {
+      if (recordRoot.hidden) return
+      scrollNavigator.startSpy()
+      scrollNavigator.syncActiveSection()
+    })
+  }
+
+  const goRecord = value => {
+    if (recordEditing) return
+    const people = recordOrder()
+    const index = Math.min(people.length, Math.max(1, Number(value) || 1)) - 1
+    if (people[index]) openPerson(people[index].id)
+  }
+  const currentPosition = () => recordOrder().findIndex(person => person.id === currentPersonId) + 1
+  recordFooter.querySelector('.pg-f').addEventListener('click', () => goRecord(1))
+  recordFooter.querySelector('.pg-p').addEventListener('click', () => goRecord(currentPosition() - 1))
+  recordFooter.querySelector('.pg-n').addEventListener('click', () => goRecord(currentPosition() + 1))
+  recordFooter.querySelector('.pg-l').addEventListener('click', () => goRecord(recordOrder().length))
+  recordFooter.querySelector('.pg-i').addEventListener('change', event => goRecord(event.target.value))
+  recordRoot.querySelector('[data-person-new]').addEventListener('click', () => openPerson(null))
+  sectionNav.addEventListener('click', event => {
+    const button = event.target.closest('[data-person-scroll-section]')
+    if (button) scrollNavigator.activateSection(button.dataset.personScrollSection)
+  })
+  sectionNav.addEventListener('keydown', event => {
+    const vertical = !matchMedia('(max-width: 720px)').matches
+    const previous = vertical ? 'ArrowUp' : document.dir === 'rtl' ? 'ArrowRight' : 'ArrowLeft'
+    const next = vertical ? 'ArrowDown' : document.dir === 'rtl' ? 'ArrowLeft' : 'ArrowRight'
+    if (![previous, next, 'Home', 'End'].includes(event.key)) return
+    const buttons = [...sectionNav.querySelectorAll('button:not([hidden])')]
+    const index = buttons.indexOf(document.activeElement)
+    if (index < 0) return
+    event.preventDefault()
+    const target = event.key === 'Home' ? 0 : event.key === 'End' ? buttons.length - 1 : (index + (event.key === next ? 1 : -1) + buttons.length) % buttons.length
+    buttons[target].focus()
+    scrollNavigator.activateSection(buttons[target].dataset.personScrollSection)
+  })
+  const recordScroller = resolveScroller(recordCanvas)
+  recordScroller.addEventListener('scroll', () => {
+    if (!recordRoot.hidden) scrollNavigator.syncActiveSection()
+  }, {passive: true})
+  for (const name of ['wheel', 'touchstart', 'pointerdown']) {
+    recordCanvas.addEventListener(name, event => {
+      if (!event.target.closest('[data-person-scroll-section]') && scrollNavigator.isNavigating()) scrollNavigator.stopNavigation({interrupt: true})
+    }, {passive: true})
+  }
 
   recordRoot.querySelector('[data-people-back]').addEventListener('click', event => {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
@@ -287,110 +384,56 @@ export function createPeople({store, toast, panel: conversionPanel, related, con
       .join('')}</div>`
 
   /* ---------- editor ---------- */
-  // The row reuses the editor's field skin (34px controls, drawn select
-  // arrow, accent focus ring) so it reads as part of the same form.
-  const contactRow = (contact, index) => `<div class="${FIELD_CLASS}" data-contact-row>
-      <div class="flex flex-wrap items-center gap-2">
-        <label class="sr-only" for="person-contact-kind-${index}">Contact type</label>
-        <select id="person-contact-kind-${index}" class="w-32!" data-contact-kind>${CONTACT_KINDS.map(([id, label]) => `<option value="${id}"${id === contact.kind ? ' selected' : ''}>${label}</option>`).join('')}</select>
-        <label class="sr-only" for="person-contact-value-${index}">Contact value</label>
-        <input id="person-contact-value-${index}" class="w-auto! min-w-[180px] flex-1" data-contact-value dir="ltr" value="${escapeHtml(contact.value)}" autocomplete="off">
-        <label class="inline-flex min-h-8 cursor-pointer items-center gap-1.5 text-[13px] text-ink"><input type="radio" class="m-0 size-4 cursor-pointer accent-[var(--accent)]" name="person-primary" data-contact-primary${contact.primary ? ' checked' : ''}> Primary</label>
-        <button type="button" class="ibtn" data-contact-remove aria-label="Remove this contact">${icon('i-x')}</button>
-      </div>
-      <p class="${ERROR_CLASS}" data-contact-error hidden></p>
-    </div>`
+  const convertedNotice = person =>
+    person.convertedTo
+      ? `<p class="mt-4 rounded-md bg-[var(--line-2)] px-3 py-2 text-[13px] text-ink">${icon('i-check')} ${uiLocale.t(
+          'Converted to'
+        )} ${escapeHtml(conversionLabel(person.convertedTo.target))}${
+          person.convertedTo.recordId ? ` · ${escapeHtml(person.convertedTo.recordId)}` : ' (simulated)'
+        }</p>`
+      : ''
 
   function editorMarkup(person) {
-    const contacts = person.contacts?.length ? person.contacts : [{kind: 'mobile', value: '', primary: true}]
-    return `<div class="mb-3 hidden rounded-md border border-[var(--warn-line)] bg-[var(--warn-bg)] px-3 py-2 text-[13px] text-ink" data-duplicate role="status" aria-live="polite"></div>
-      <h3 class="${SECTION_TITLE_CLASS}">Identity</h3>
-      <div class="${GRID_CLASS}">
-        ${field({id: 'person-name-en', label: 'Name (English)', required: true, control: textInput({id: 'person-name-en', value: person.nameEn, required: true, extra: {autofocus: true}})})}
-        ${field({id: 'person-name-ar', label: 'Name (Arabic)', control: textInput({id: 'person-name-ar', value: person.nameAr, extra: {dir: 'rtl', lang: 'ar'}})})}
-        ${field({id: 'person-job', label: 'Job title', control: textInput({id: 'person-job', value: person.jobTitle})})}
-        ${field({id: 'person-company', label: 'Company', control: textInput({id: 'person-company', value: person.company})})}
-        ${field({id: 'person-lifecycle', label: 'Status', control: `<select id="person-lifecycle">${LIFECYCLES.map(([id, label]) => `<option value="${id}"${id === person.lifecycle ? ' selected' : ''}>${label}</option>`).join('')}</select>`})}
-      </div>
-      <h3 class="${SECTION_TITLE_CLASS} mt-5">Contact</h3>
-      <div class="grid gap-2" data-contacts>${contacts.map(contactRow).join('')}</div>
-      <button type="button" class="lbtn mt-2" data-contact-add>${icon('i-plus')} Add contact</button>
-      <details class="mt-5 rounded-md border border-line bg-surface"${person.city || person.country ? ' open' : ''}>
-        <summary class="flex cursor-pointer list-none items-center gap-2 rounded-md px-3 py-2.5 text-[13px] font-medium text-ink hover:bg-[var(--line-2)] [&::-webkit-details-marker]:hidden">${icon('i-location', 14)}<span>Address</span></summary>
-        <div class="${GRID_CLASS} border-t border-line px-3 py-3">
-          ${field({id: 'person-country', label: 'Country', control: textInput({id: 'person-country', value: person.country})})}
-          ${field({id: 'person-city', label: 'City', control: textInput({id: 'person-city', value: person.city})})}
-        </div>
-      </details>
-      <div class="mt-5">${field({id: 'person-notes', label: 'Notes', control: textarea({id: 'person-notes', value: person.notes, rows: 3})})}</div>
-      ${person.convertedTo ? `<p class="mt-4 rounded-md bg-[var(--line-2)] px-3 py-2 text-[13px] text-ink">${icon('i-check')} ${uiLocale.t('Converted to')} ${escapeHtml(conversionLabel(person.convertedTo.target))}${person.convertedTo.recordId ? ` · ${escapeHtml(person.convertedTo.recordId)}` : ' (simulated)'}</p>` : ''}`
+    return `<div class="mb-3 hidden rounded-md bg-[var(--warn-bg)] p-4 text-[13px] leading-5 text-ink" data-duplicate role="status" aria-live="polite" aria-atomic="true"></div>
+      ${renderPersonSections(person)}
+      ${convertedNotice(person)}`
   }
 
   /* Read-only twin of the editor; the form waits behind Edit. */
   function viewMarkup(person) {
-    const labelOf = (list, id) => list.find(([value]) => value === id)?.[1] ?? id
-    const location = [person.city, person.country].filter(Boolean).join(', ')
-    return `<dl class="${VIEW_LIST_CLASS}">
-      ${viewRow('Name (English)', escapeHtml(titleOf(person)))}
-      ${viewRow('Name (Arabic)', person.nameAr ? `<span dir="rtl" lang="ar">${escapeHtml(person.nameAr)}</span>` : '—')}
-      ${viewRow('Job title', escapeHtml(person.jobTitle || '—'))}
-      ${viewRow('Company', escapeHtml(person.company || '—'))}
-      ${/* the header chip shows Lead/Contact, unless the person was converted */ person.convertedTo ? viewRow('Status', `<span class="badge gray">${escapeHtml(labelOf(LIFECYCLES, person.lifecycle))}</span>`) : ''}
-      ${viewRow('Address', escapeHtml(location || '—'))}
-      ${viewRow(
-        'Contacts',
-        person.contacts?.length
-          ? `<ul class="m-0 grid list-none gap-1 p-0">${person.contacts
-              .map(
-                contact =>
-                  `<li class="flex items-baseline gap-2"><span class="text-xs font-semibold uppercase tracking-[.04em] text-faint">${escapeHtml(labelOf(CONTACT_KINDS, contact.kind))}</span><span dir="ltr">${escapeHtml(contact.value)}</span>${contact.primary ? '<span class="badge gray">Primary</span>' : ''}</li>`
-              )
-              .join('')}</ul>`
-          : '—'
-      )}
-      ${viewRow('Notes', person.notes ? `<span class="whitespace-pre-line" dir="auto">${escapeHtml(person.notes)}</span>` : '—')}
-      ${person.convertedTo ? viewRow('Converted', `${icon('i-check')} ${escapeHtml(conversionLabel(person.convertedTo.target))}${person.convertedTo.recordId ? ` · ${escapeHtml(person.convertedTo.recordId)}` : ' (simulated)'}`) : ''}
-    </dl>`
-  }
-
-  function readContacts(body) {
-    return [...body.querySelectorAll('[data-contact-row]')]
-      .map(row => ({
-        kind: row.querySelector('[data-contact-kind]').value,
-        value: row.querySelector('[data-contact-value]').value.trim(),
-        primary: row.querySelector('[data-contact-primary]').checked,
-      }))
-      .filter(contact => contact.value)
+    return `${renderPersonSections(person, {readOnly: true})}${convertedNotice(person)}`
   }
 
   function readEditor(body) {
-    return {
-      nameEn: body.querySelector('#person-name-en').value.trim(),
-      nameAr: body.querySelector('#person-name-ar').value.trim(),
-      jobTitle: body.querySelector('#person-job').value.trim(),
-      company: body.querySelector('#person-company').value.trim(),
-      lifecycle: body.querySelector('#person-lifecycle').value,
-      contacts: readContacts(body),
-      country: body.querySelector('#person-country').value.trim(),
-      city: body.querySelector('#person-city').value.trim(),
-      notes: body.querySelector('#person-notes').value,
-    }
+    const values = {}
+    PERSON_SECTIONS.forEach(section =>
+      section.fields.forEach(fieldDef => {
+        if (fieldDef.type === 'contact') return
+        values[fieldDef.key] = body.querySelector(`#${CSS.escape(fieldDef.id)}`)?.value.trim() ?? ''
+      })
+    )
+    values.contacts = readContacts(body)
+    return values
   }
 
-  function bindEditor(body, personId) {
-    const contacts = body.querySelector('[data-contacts]')
+  function bindEditor(body, personId, {onPhotoChange = () => {}} = {}) {
     const checkDuplicates = () => {
       const values = readEditor(body)
       const matches = findPersonDuplicates({id: personId, ...values}, store.listEntities('person'))
       const box = body.querySelector('[data-duplicate]')
       box.classList.toggle('hidden', !matches.length)
       box.innerHTML = matches.length
-        ? `<p class="flex items-center gap-1.5 font-semibold">${icon('i-warn')} Possible duplicate</p><ul class="mt-1 grid list-none gap-1 p-0">${matches
+        ? `<div class="flex items-start gap-3">
+            <span class="mt-0.5 flex size-5 flex-none items-center justify-center text-[var(--warn-ink)]" aria-hidden="true">${icon('i-warn', 20)}</span>
+            <div class="min-w-0 flex-1">
+              <p class="m-0! text-[13px] font-semibold leading-5">${escapeHtml(uiLocale.t('Possible duplicate'))}</p>
+              <p class="mt-1! mb-0! text-[13px] leading-5">${escapeHtml(uiLocale.t('Review the matching person before saving. You can still save this record.'))}</p>
+              <ul class="mt-2! mb-0! grid list-none gap-2 p-0!">${matches
             .map(
               ({person, field: matched}) =>
-                `<li class="flex items-center gap-2"><span class="flex-1" dir="auto">${escapeHtml(titleOf(person))} — same ${FIELD_LABEL[matched]}</span><button type="button" class="lbtn" data-open-duplicate="${escapeHtml(person.id)}">Open</button></li>`
+                `<li class="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5"><bdi class="font-semibold [overflow-wrap:anywhere]">${escapeHtml(titleOf(person))}</bdi><span class="text-xs text-muted">${escapeHtml(uiLocale.t(DUPLICATE_REASON[matched]))}</span><button type="button" class="inline-flex min-h-8 items-center rounded-sm border-0 bg-transparent px-1 text-[13px] font-medium text-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-open-duplicate="${escapeHtml(person.id)}" aria-label="${escapeHtml(uiLocale.t('Review person'))}: ${escapeHtml(titleOf(person))}">${escapeHtml(uiLocale.t('Review person'))}</button></li>`
             )
-            .join('')}</ul><p class="mt-1 text-xs text-muted">You can still save; check first to avoid two records for one person.</p>`
+            .join('')}</ul></div></div>`
         : ''
       box.querySelectorAll('[data-open-duplicate]').forEach(button =>
         button.addEventListener('click', async () => {
@@ -398,50 +441,51 @@ export function createPeople({store, toast, panel: conversionPanel, related, con
         })
       )
     }
-    const bindRow = row => {
-      row.querySelector('[data-contact-remove]').addEventListener('click', () => {
-        row.remove()
-        if (!contacts.querySelector('[data-contact-row]')) addRow()
-        checkDuplicates()
-        contacts.querySelector('[data-contact-value]')?.focus()
-      })
-    }
-    const addRow = () => {
-      const index = Date.now()
-      contacts.insertAdjacentHTML('beforeend', contactRow({kind: 'mobile', value: '', primary: !contacts.querySelector('[data-contact-row]')}, index))
-      const row = contacts.lastElementChild
-      bindRow(row)
-      return row
-    }
-    contacts.querySelectorAll('[data-contact-row]').forEach(bindRow)
-    body.querySelector('[data-contact-add]').addEventListener('click', () => addRow().querySelector('[data-contact-value]').focus())
     body.addEventListener('input', event => {
       if (event.target.matches('#person-name-en, [data-contact-value]')) checkDuplicates()
     })
-    body.addEventListener('change', event => {
-      if (event.target.matches('[data-contact-kind]')) checkDuplicates()
+    const photoInput = body.querySelector('#person-photo-input')
+    body.querySelector('[data-person-photo-select]')?.addEventListener('click', () => photoInput?.click())
+    photoInput?.addEventListener('change', () => {
+      const file = photoInput.files?.[0]
+      if (!file) return
+      const reader = new FileReader()
+      reader.onload = () => {
+        const photo = {src: String(reader.result), alt: `Photo of ${readEditor(body).nameEn || 'person'}`}
+        onPhotoChange(photo)
+        const frame = body.querySelector('[data-person-photo-preview]')
+        if (frame) frame.innerHTML = renderPersonPhotoPreview({...readEditor(body), photo})
+        body.querySelector('[data-person-photo-select]').lastChild.textContent = ` ${uiLocale.t('Change photo')}`
+      }
+      reader.readAsDataURL(file)
     })
     checkDuplicates()
   }
 
   function validate(body, values) {
-    setFieldError(body, 'person-name-en', values.nameEn ? '' : 'Name (English) is required.')
+    setFieldError(body, 'person-name-en', values.nameEn ? '' : 'Name is required.')
     let firstInvalid = values.nameEn ? null : body.querySelector('#person-name-en')
     body.querySelectorAll('[data-contact-row]').forEach(row => {
       const kind = row.querySelector('[data-contact-kind]').value
       const input = row.querySelector('[data-contact-value]')
       const value = input.value.trim()
-      const error = row.querySelector('[data-contact-error]')
       const message = !value
         ? ''
         : kind === 'email'
-          ? EMAIL_PATTERN.test(value) ? '' : 'Enter a valid email address.'
-          : value.replace(/\D/g, '').length >= 7 ? '' : 'Enter a valid phone number (at least 7 digits).'
-      error.textContent = message
-      error.hidden = !message
+          ? EMAIL_PATTERN.test(value)
+            ? ''
+            : 'Enter a valid email address.'
+          : value.replace(/\D/g, '').length >= 7
+            ? ''
+            : 'Enter a valid phone number (at least 7 digits).'
+      setFieldError(body, input.id, message)
       input.toggleAttribute('aria-invalid', Boolean(message))
       if (message && !firstInvalid) firstInvalid = input
     })
+    const website = values.website || ''
+    const websiteError = website && !isHttpUrl(website) ? 'Enter a valid website.' : ''
+    setFieldError(body, 'person-website', websiteError)
+    if (websiteError && !firstInvalid) firstInvalid = body.querySelector('#person-website')
     firstInvalid?.focus()
     return !firstInvalid
   }
@@ -464,7 +508,10 @@ export function createPeople({store, toast, panel: conversionPanel, related, con
       queueMicrotask(() => navigate('people'))
       return
     }
-    const person = existing || {nameEn: '', nameAr: '', company: '', jobTitle: '', contacts: [], city: '', country: '', lifecycle: 'lead', archived: false, notes: ''}
+    currentPersonId = existing?.id || null
+    scrollState.activeSection = 'identity'
+    const person = existing ? personData(existing) : createBlankPerson()
+    let draft = person
     const ref = existing ? {type: 'person', id: existing.id} : null
     let savedId = id
     returnToId = id
@@ -482,14 +529,17 @@ export function createPeople({store, toast, panel: conversionPanel, related, con
         ? [existing.company, existing.jobTitle].filter(Boolean).join(' · ')
         : 'Add someone — only a name is required.',
       render: body => {
+        draft = person
         body.innerHTML = editorMarkup(person)
-        bindEditor(body, existing?.id)
+        bindEditor(body, existing?.id, {onPhotoChange: photo => (draft = {...draft, photo})})
+        trackSections(true)
       },
       view: body => {
         body.innerHTML = viewMarkup(person)
+        trackSections(false)
       },
       save: body => {
-        const values = readEditor(body)
+        const values = {...readEditor(body), lifecycle: person.lifecycle, photo: draft.photo}
         if (!validate(body, values)) return false
         if (existing) {
           store.updateEntity('person', existing.id, values)
@@ -512,7 +562,6 @@ export function createPeople({store, toast, panel: conversionPanel, related, con
             {label: 'Delete', icon: 'i-trash', danger: true, run: () => deletePerson(existing)},
           ]
         : [],
-      related: ref ? (host, options) => related.render(host, ref, options) : null,
     })
     if (!edit && existing) recordRoot.querySelector('[data-panel-title]').focus()
   }
@@ -600,9 +649,10 @@ export function createPeople({store, toast, panel: conversionPanel, related, con
     id: 'people',
     refreshLocale() {
       if (built) { buildToolbar(); renderBody() }
-      if (!recordRoot.hidden && panel.currentRef()) {
+      if (!recordRoot.hidden && panel.isOpen()) {
+        syncRecordChrome()
         // Preserve unsaved user input while translating the page's chrome.
-        recordRoot.querySelector('[data-person-breadcrumb]').textContent = titleOf(store.getEntity('person', panel.currentRef().id))
+        recordRoot.querySelector('[data-person-breadcrumb]').textContent = currentPersonId ? titleOf(store.getEntity('person', currentPersonId)) : uiLocale.t('New person')
       }
     },
     get roots() {
@@ -644,8 +694,8 @@ export function createPeople({store, toast, panel: conversionPanel, related, con
       get roots() { return [recordRoot] },
       activate({openId, edit = false} = {}) { showPerson(openId, {edit}) },
       requestLeave: () => panel.requestLeave(),
-      deactivate() { panel.close({force: true, notify: false}) },
-      dispose() { panel.close({force: true, notify: false}) },
+      deactivate() { scrollNavigator.stopTracking(); panel.close({force: true, notify: false}) },
+      dispose() { scrollNavigator.stopTracking(); panel.close({force: true, notify: false}) },
     },
   }
 }

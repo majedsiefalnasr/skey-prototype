@@ -15,10 +15,10 @@ export const TYPE_META = {
   person: {label: 'Person', plural: 'People', icon: 'i-user'},
 }
 
-export const NOTE_STATUSES = [
+export const NOTE_GROUPS = [
   ['draft', 'Draft'],
   ['active', 'Active'],
-  ['archived', 'Archived'],
+  ['archived', 'Archive'],
 ]
 
 export const ACTIVITY_KINDS = [
@@ -58,7 +58,7 @@ const labelFrom = (list, value) => t(list.find(([id]) => id === value)?.[1] ?? v
 export const kindLabel = kind => labelFrom(ACTIVITY_KINDS, kind)
 export const kindIcon = kind => ACTIVITY_KINDS.find(([id]) => id === kind)?.[2] ?? 'i-check'
 export const statusLabel = status => labelFrom(ACTIVITY_STATUSES, status)
-export const noteStatusLabel = status => labelFrom(NOTE_STATUSES, status)
+export const noteGroupLabel = groupId => labelFrom(NOTE_GROUPS, groupId)
 export const folderLabel = (folder, folders = []) =>
   MAIL_FOLDERS.find(([id]) => id === folder)?.[1] ?? folders.find(entry => entry.id === folder)?.name ?? folder
 export const conversionLabel = target => labelFrom(CONVERSION_TARGETS, target)
@@ -116,10 +116,10 @@ export function eventTiming(event, todayKey) {
 
 /** One-line summary. `folders` is the store's custom mail folder list, so a
  *  message filed in a folder the user created reports its name, not its id. */
-export function metaLine(entity, {todayKey, folders = [], noteColumns = []}) {
+export function metaLine(entity, {todayKey, folders = [], noteGroups = []}) {
   switch (entity.type) {
     case 'note':
-      return noteColumns.find(column => column.id === entity.status)?.label || noteStatusLabel(entity.status)
+      return noteGroups.find(group => group.id === entity.groupId)?.label || noteGroupLabel(entity.groupId)
     case 'activity':
       return [statusLabel(entity.status), ...activityTiming(entity, todayKey)].join(' · ')
     case 'event':

@@ -254,7 +254,8 @@ body.style-inline
         background: var(--accent-soft);
         font-weight: 600;
       }
-.customer-record-canvas .customer-scroll-nav button[aria-current='page'] {
+.customer-record-canvas .customer-scroll-nav button[aria-current='page'],
+.customer-record-canvas .people-scroll-nav button[aria-current='page'] {
         color: var(--accent);
         background: var(--accent-soft);
         font-weight: 600;

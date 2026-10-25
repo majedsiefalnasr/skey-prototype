@@ -1,0 +1,6 @@
+import {encodeHtml} from '../core/locale.js'
+
+// The Linked To Beneficiaries switch, shared by boolean record fields.
+export function renderToggle({id, label, checked = false, disabled = false, attributes = '', wide = false}) {
+  return `<label class="customer-dialog-toggle rec-field customer-field relative flex box-border h-[34px] min-h-0 min-w-0 self-end items-center justify-between gap-5 rounded-md border border-line px-2.5 py-0.5 text-xs text-muted [&>span:first-child]:min-w-0 [&_input]:absolute [&_input]:[width:1px] [&_input]:[height:1px] [&_input]:[margin:-1px]! [&_input]:overflow-hidden [&_input]:[clip:rect(0_0_0_0)] [&_input]:[clip-path:inset(50%)]${wide ? ' customer-beneficiary-toggle [grid-column:1_/_-1]' : ''}" for="${encodeHtml(id)}"><span>${encodeHtml(label)}</span><input id="${encodeHtml(id)}" type="checkbox" role="switch" class="peer"${checked ? ' checked' : ''}${disabled ? ' disabled' : ''} ${attributes}><span class="customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[var(--line)] peer-checked:bg-[var(--accent)] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent peer-disabled:opacity-60" aria-hidden="true"></span></label>`
+}

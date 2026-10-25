@@ -27,33 +27,53 @@ const seed = () => ({
   links: [],
 })
 
-test('note column changes migrate populated columns atomically and preserve links', () => {
+test('note group changes migrate populated groups atomically and preserve links', () => {
   const store = createCollabStore({storage: memoryStorage(), seed: seed(), now: () => '2026-10-13T09:00:00Z'})
-  const original = store.listNoteColumns()
-  assert.equal(store.configureNoteColumns([...original, {id: 'review', label: 'Review'}]).ok, true)
-  assert.equal(store.listNoteColumns().at(-1).id, 'archived')
+  const original = store.listNoteGroups()
+  assert.equal(store.configureNoteGroups([...original.slice(0, -1), {id: 'review', label: 'Review'}, original.at(-1)]).ok, true)
+  assert.equal(store.listNoteGroups().at(-1).id, 'archived')
   store.updateEntity('note', 'note-1', {status: 'review'})
   store.link({type: 'note', id: 'note-1'}, {type: 'activity', id: 'act-1'})
-  assert.ok(store.configureNoteColumns(original).error)
-  assert.equal(store.getEntity('note', 'note-1').status, 'review')
-  assert.equal(store.configureNoteColumns(original, {review: 'active'}).ok, true)
-  assert.equal(store.getEntity('note', 'note-1').status, 'active')
+  assert.ok(store.configureNoteGroups(original).error)
+  assert.equal(store.getEntity('note', 'note-1').groupId, 'review')
+  assert.equal(store.configureNoteGroups(original, {review: 'active'}).ok, true)
+  assert.equal(store.getEntity('note', 'note-1').groupId, 'active')
   assert.equal(store.getRelatedItems('note', 'note-1').length, 1)
-  assert.ok(store.configureNoteColumns(original.filter(column => column.id !== 'archived')).error)
-  assert.ok(store.configureNoteColumns([...original, {id: 'bad', label: ' Active '}]).error)
+  assert.ok(store.configureNoteGroups(original.filter(column => column.id !== 'archived')).error)
+  assert.ok(store.configureNoteGroups([...original.slice(0, -1), {id: 'bad', label: ' Active '}, original.at(-1)]).error)
 })
-test('Archived stays last after reordering, renaming and loading an older layout', () => {
+test('Draft and Archive cannot be renamed, hidden, reordered or removed', () => {
   const storage = memoryStorage()
   const store = createCollabStore({storage, seed: seed()})
-  const reordered = store.listNoteColumns().reverse().map(column => column.id === 'archived' ? {...column, label: 'History'} : column)
-  assert.equal(store.configureNoteColumns(reordered).ok, true)
-  assert.deepEqual(store.listNoteColumns().map(column => column.id), ['active', 'draft', 'archived'])
-  const saved = JSON.parse(storage.getItem('skey-proto-collab'))
-  saved.noteColumns.reverse()
-  storage.setItem('skey-proto-collab', JSON.stringify(saved))
+  const original = store.listNoteGroups()
+  for (const id of ['draft', 'archived']) {
+    assert.ok(store.configureNoteGroups(original.map(group => group.id === id ? {...group, label: 'Changed'} : group)).error)
+    assert.ok(store.configureNoteGroups(original.map(group => group.id === id ? {...group, hidden: true} : group)).error)
+    assert.ok(store.configureNoteGroups(original.filter(group => group.id !== id)).error)
+  }
+  assert.ok(store.configureNoteGroups([...original].reverse()).error)
+  assert.deepEqual(store.listNoteGroups(), original)
+})
+test('Active is an ordinary group and removing it persists without resurrection', () => {
+  const storage = memoryStorage()
+  const store = createCollabStore({storage, seed: seed(), now: () => '2026-10-13T09:00:00Z'})
+  const groups = store.listNoteGroups()
+  assert.equal(store.configureNoteGroups(groups.map(group => group.id === 'active' ? {...group, label: 'Customers'} : group)).ok, true)
+  assert.equal(store.configureNoteGroups(groups.filter(group => group.id !== 'active'), {active: 'draft'}).ok, true)
   const restored = createCollabStore({storage, seed: seed()})
-  assert.equal(restored.listNoteColumns().at(-1).id, 'archived')
-  assert.equal(restored.listNoteColumns().at(-1).label, 'History')
+  assert.deepEqual(restored.listNoteGroups().map(group => group.id), ['draft', 'archived'])
+  assert.equal(restored.getEntity('note', 'note-1').groupId, 'draft')
+  assert.equal('status' in restored.getEntity('note', 'note-1'), false)
+})
+test('legacy columns and note statuses migrate without losing memberships or links', () => {
+  const original = {version: COLLAB_SCHEMA_VERSION, seq: 1000, ...seed(), folders: [], preferences: {}, noteColumns: [
+    {id: 'archived', label: 'History', hidden: true}, {id: 'active', label: 'Customer notes'}, {id: 'draft', label: 'Ideas', hidden: true},
+  ]}
+  const storage = memoryStorage({[COLLAB_STORAGE_KEY]: JSON.stringify(original)})
+  const store = createCollabStore({storage, seed: seed()})
+  assert.deepEqual(store.listNoteGroups().map(group => [group.label, group.hidden]), [['Draft', false], ['Customer notes', false], ['Archive', false]])
+  assert.equal(store.getEntity('note', 'note-1').groupId, 'active')
+  assert.equal('status' in store.getEntity('note', 'note-1'), false)
 })
 const make = (storage = memoryStorage()) => createCollabStore({storage, seed: seed(), now: () => '2026-10-13T13:24'})
 const N1 = {type: 'note', id: 'note-1'}

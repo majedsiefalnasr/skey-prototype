@@ -1263,6 +1263,8 @@ const controls = createPrototypeControls({
   },
 })
 syncPrototypeControlsPage = controls.syncPage
+// The profile may already be rendered when the saved controls are replayed.
+appearanceControls.syncAppearanceControls()
 
 // Wire the avatar menu's Language submenu and restore the persisted
 // functional locale (EN/AR) — deliberately the LAST wiring step: it must

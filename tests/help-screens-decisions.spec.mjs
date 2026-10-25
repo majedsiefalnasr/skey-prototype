@@ -17,7 +17,7 @@ test.beforeEach(async ({page}) => {
   }, COLLAB_SEED)
 })
 
-test('Notes adds, renames, hides and safely removes a populated status column', async ({page}) => {
+test('Notes adds, renames, hides and safely removes a populated group', async ({page}) => {
   await go(page, '/help-screens/notes')
   const panel = page.locator('#collab-panel')
   await page.locator('[data-manage-columns]').click()
@@ -44,13 +44,13 @@ test('Notes adds, renames, hides and safely removes a populated status column', 
   await panel.locator(`[data-stage-id="${id}"] [data-stage-destination]`).selectOption('active')
   await panel.locator('[data-panel-save]').click()
   await page.locator('#collab-confirm [data-confirm-cancel]').click()
-  expect((await saved(page)).entities.note.find(note => note.title === 'Review this note').status).toBe(id)
+  expect((await saved(page)).entities.note.find(note => note.title === 'Review this note').groupId).toBe(id)
   await panel.locator('[data-panel-save]').click()
   await page.locator('#collab-confirm [data-confirm-ok]').click()
   await expect(page.locator('[data-column="active"]')).toContainText('Review this note')
   expect((await saved(page)).links).toEqual(beforeLinks)
   await page.reload()
-  expect((await saved(page)).noteColumns.some(column => column.id === id)).toBe(false)
+  expect((await saved(page)).noteGroups.some(group => group.id === id)).toBe(false)
 })
 
 test('Activities work queues use assignees and due dates without scheduling due-only work', async ({page}) => {
@@ -249,7 +249,7 @@ test('People uses shared sorting and column visibility with saved layouts', asyn
   await expect(page.locator('.people-record-view')).toBeVisible()
 })
 
-test('Notes toolbar order and dragged column order persist only after Save', async ({page}) => {
+test('Notes toolbar order and dragged group order persist while system groups stay fixed', async ({page}) => {
   await go(page, '/help-screens/notes')
   const order = await page.locator('[data-collab-toolbar]').evaluate(host => {
     const search = host.querySelector('[data-collab-search]')
@@ -260,8 +260,11 @@ test('Notes toolbar order and dragged column order persist only after Save', asy
   expect(order).toBe(true)
   await page.locator('[data-manage-columns]').click()
   const panel = page.locator('#collab-panel')
-  const first = panel.locator('[data-stage-id="draft"] [data-stage-drag]')
-  const second = panel.locator('[data-stage-id="active"]')
+  await panel.locator('[data-stage-add]').click()
+  const second = panel.locator('[data-stage-id^="stage-"]').last()
+  const groupId = await second.getAttribute('data-stage-id')
+  await second.locator('[data-stage-label]').fill('Reference')
+  const first = panel.locator('[data-stage-id="active"] [data-stage-drag]')
   await expect(first.locator('use')).toHaveAttribute('href', '#i-grip')
   const transfer = await page.evaluateHandle(() => new DataTransfer())
   await first.dispatchEvent('dragstart', {dataTransfer: transfer})
@@ -273,12 +276,14 @@ test('Notes toolbar order and dragged column order persist only after Save', asy
   await first.dispatchEvent('dragend')
   await expect(second).not.toHaveClass(/(?:^|\s)drop-target(?:\s|$)/)
   await first.dragTo(second, {targetPosition: {x: 40, y: bounds.height - 10}})
-  await expect(panel.locator('[data-stage-id]').first()).toHaveAttribute('data-stage-id', 'active')
+  await expect(panel.locator('[data-stage-id]').first()).toHaveAttribute('data-stage-id', 'draft')
+  await expect(panel.locator('[data-stage-id]').nth(1)).toHaveAttribute('data-stage-id', groupId)
   await panel.locator('[data-panel-save]').click()
-  expect((await saved(page)).noteColumns[0].id).toBe('active')
+  expect((await saved(page)).noteGroups[1].id).toBe(groupId)
   await page.reload()
   await page.locator('[data-manage-columns]').click()
-  await expect(panel.locator('[data-stage-id]').first()).toHaveAttribute('data-stage-id', 'active')
+  await expect(panel.locator('[data-stage-id]').first()).toHaveAttribute('data-stage-id', 'draft')
+  await expect(panel.locator('[data-stage-id]').nth(1)).toHaveAttribute('data-stage-id', groupId)
 })
 
 test('Kanban uses the content viewport for horizontal scrolling without clipping inside the board', async ({page}) => {
@@ -313,7 +318,7 @@ test('Boxed Kanban scrolls through the side gutters after appearance changes and
   await page.evaluate(() => {
     const key = 'skey-proto-collab'
     const state = JSON.parse(sessionStorage.getItem(key))
-    state.noteColumns = ['draft', 'active', 'review', 'approved', 'reference', 'ideas', 'archived'].map(id => ({id, label: id}))
+    state.noteGroups = ['draft', 'active', 'review', 'approved', 'reference', 'ideas', 'archived'].map(id => ({id, label: id === 'draft' ? 'Draft' : id === 'archived' ? 'Archive' : id}))
     sessionStorage.setItem(key, JSON.stringify(state))
   })
   await page.reload()
