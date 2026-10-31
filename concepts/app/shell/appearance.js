@@ -177,6 +177,16 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
       'appearanceDensity',
       document.getElementById('density').value
     )
+    syncAppearanceChoices(
+      '[data-appearance-card-style]',
+      'appearanceCardStyle',
+      document.getElementById('section-style').value
+    )
+    syncAppearanceChoices(
+      '[data-appearance-input-style]',
+      'appearanceInputStyle',
+      document.getElementById('input-style').value
+    )
     syncInterfaceScaleControl()
     if (appearanceHighContrast) appearanceHighContrast.checked = highContrastToggle.checked
     if (appearanceLaunchpad) appearanceLaunchpad.checked = document.getElementById('launchpad').checked
@@ -273,6 +283,16 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
       '[data-appearance-density]'
     )
 
+    bindAppearanceRadioKeys(
+      document.querySelector('.appearance-card-style-grid'),
+      '[data-appearance-card-style]'
+    )
+
+    bindAppearanceRadioKeys(
+      document.querySelector('.appearance-input-style-grid'),
+      '[data-appearance-input-style]'
+    )
+
     document.querySelectorAll('[data-appearance-layout]').forEach(card =>
       card.addEventListener('click', () => {
         const layoutSelect = document.getElementById('content-layout')
@@ -287,6 +307,24 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
         const densitySelect = document.getElementById('density')
         densitySelect.value = card.dataset.appearanceDensity
         densitySelect.dispatchEvent(new Event('change'))
+        syncAppearanceControls()
+      })
+    )
+
+    document.querySelectorAll('[data-appearance-card-style]').forEach(card =>
+      card.addEventListener('click', () => {
+        const sectionStyleSelect = document.getElementById('section-style')
+        sectionStyleSelect.value = card.dataset.appearanceCardStyle
+        sectionStyleSelect.dispatchEvent(new Event('change'))
+        syncAppearanceControls()
+      })
+    )
+
+    document.querySelectorAll('[data-appearance-input-style]').forEach(card =>
+      card.addEventListener('click', () => {
+        const inputStyleSelect = document.getElementById('input-style')
+        inputStyleSelect.value = card.dataset.appearanceInputStyle
+        inputStyleSelect.dispatchEvent(new Event('change'))
         syncAppearanceControls()
       })
     )
@@ -323,8 +361,12 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
       highContrastToggle.checked = systemContrastQuery.matches
       const layoutSelect = document.getElementById('content-layout')
       const densitySelect = document.getElementById('density')
+      const sectionStyleSelect = document.getElementById('section-style')
+      const inputStyleSelect = document.getElementById('input-style')
       layoutSelect.value = 'fluid'
       densitySelect.value = 'default'
+      sectionStyleSelect.value = 'standard'
+      inputStyleSelect.value = 'default'
       document.getElementById('launchpad').checked = true
       interfaceScaleSelect.value = '100'
       const resetFontFamily = document.getElementById('appearance-font-family')
@@ -334,6 +376,8 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
       highContrastToggle.dispatchEvent(new Event('change'))
       layoutSelect.dispatchEvent(new Event('change'))
       densitySelect.dispatchEvent(new Event('change'))
+      sectionStyleSelect.dispatchEvent(new Event('change'))
+      inputStyleSelect.dispatchEvent(new Event('change'))
       interfaceScaleSelect.dispatchEvent(new Event('change'))
       document.getElementById('launchpad').dispatchEvent(new Event('change'))
       syncAppearanceControls()
@@ -403,7 +447,7 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
 
   const applyDensity = value => {
     document.body.classList.toggle('density-compact', value === 'compact')
-    document.body.classList.toggle('density-comfortable', value === 'comfortable')
+    document.body.classList.remove('density-comfortable')
   }
   const densitySelect = document.getElementById('density')
   densitySelect.addEventListener('change', e => applyDensity(e.target.value))
@@ -419,14 +463,20 @@ export function createAppearanceControls({createAppearance, setLaunchpadEnabled}
   contentLayoutSelect.addEventListener('change', e => applyContentLayout(e.target.value))
   applyContentLayout(document.getElementById('content-layout').value)
 
-  document.getElementById('input-style').addEventListener('change', e => {
+  const applyInputStyle = value => {
     document.body.classList.remove('style-floated', 'style-inline')
-    if (e.target.value !== 'default') document.body.classList.add(`style-${e.target.value}`)
-  })
+    if (value === 'floated' || value === 'inline') document.body.classList.add(`style-${value}`)
+  }
+  const inputStyleSelect = document.getElementById('input-style')
+  inputStyleSelect.addEventListener('change', e => applyInputStyle(e.target.value))
+  applyInputStyle(inputStyleSelect.value)
 
-  document.getElementById('section-style').addEventListener('change', e => {
-    document.body.classList.toggle('cards-fieldset', e.target.value === 'fieldset')
-  })
+  const applySectionStyle = value => {
+    document.body.classList.toggle('cards-fieldset', value === 'fieldset')
+  }
+  const sectionStyleSelect = document.getElementById('section-style')
+  sectionStyleSelect.addEventListener('change', e => applySectionStyle(e.target.value))
+  applySectionStyle(sectionStyleSelect.value)
 
   return {
     onRefreshCharts,

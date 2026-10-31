@@ -1,7 +1,7 @@
 // Language selector scenarios. The selector is a prototype/demo surface:
 // the avatar menu's Language details submenu (a Statistics-manage-submenu
 // style inner dropdown: summary opener + fixed radio popover) and Profile
-// → Account settings → Language row share one seven-entry catalog
+// → Profile section → Language row share one seven-entry catalog
 // (endonym + ISO code + checked radio), but only EN/AR are functional —
 // selecting a demo-only entry (FR/DE/ES/PT/JA) updates the selector's own
 // display state alone and must never change the application language,
@@ -183,12 +183,12 @@ test.describe('language selector', () => {
     expect((await appLanguageState(page)).stored).toBe('en');
   });
 
-  test('profile Account settings exposes the same catalog through its Language select', async ({page}) => {
+  test('profile section exposes the same catalog through its Language select', async ({page}) => {
     await boot(page, process.env.PARITY_URL ?? 'http://127.0.0.1:4173');
 
     await page.locator('.avatar-btn').click();
     await settle(page);
-    await page.locator('.profile-menu[data-profile-section="account"]').click();
+    await page.locator('.profile-menu[data-profile-section="profile"]:not(.user-card)').click();
     await settle(page);
     await expect(page.locator('.profile-view')).toBeVisible();
 

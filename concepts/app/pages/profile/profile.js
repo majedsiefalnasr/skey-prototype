@@ -11,8 +11,8 @@ import {renderProfileSections} from './sections.js'
 import {renderLoginLogTable} from './devices.js'
 import {createSecurityDialogs} from './security-dialogs.js'
 
-// Every editable-fields tab (Profile, Employee details, Contact details,
-// Account settings) follows the identical save/undo contract: a storage
+// Every editable-fields tab (Profile, Employee details, Contact details)
+// follows the identical save/undo contract: a storage
 // key, a map of {field: elementId}, and the shared bar ids sections.js's
 // renderSaveBar stamped for that tab (profile-<key>-save/-undo). Appearance
 // applies instantly (no bar, no entry here) and Security/Sessions are
@@ -51,12 +51,6 @@ const EDITABLE_TABS = {
       website: 'profile-contact-website',
     },
   },
-  account: {
-    storageKey: 'skey-proto-profile-account',
-    fields: {
-      landingPage: 'profile-landing-page',
-    },
-  },
 }
 
 function readSavedFields(storage, storageKey, editableFields) {
@@ -80,7 +74,6 @@ export function createProfile({root, encodeHtml, currentUser, employeeDetails, c
   const savedProfileDetails = {...currentUser, ...readSavedFields(storage, EDITABLE_TABS.profile.storageKey, EDITABLE_TABS.profile.fields)}
   const savedEmployeeDetails = {...employeeDetails, ...readSavedFields(storage, EDITABLE_TABS.employee.storageKey, EDITABLE_TABS.employee.fields)}
   const savedContactDetails = {...contactDetails, ...readSavedFields(storage, EDITABLE_TABS.contact.storageKey, EDITABLE_TABS.contact.fields)}
-  const savedAccountDetails = {landingPage: 'home', ...readSavedFields(storage, EDITABLE_TABS.account.storageKey, EDITABLE_TABS.account.fields)}
 
   // render() runs once, on the very first activate() call -- whatever
   // section that first activate({section}) asked for should already be
@@ -108,7 +101,7 @@ export function createProfile({root, encodeHtml, currentUser, employeeDetails, c
   }
 
   // Same contract on every editable-fields tab (Profile, Employee details,
-  // Contact details, Account settings): the Save/Undo bar (sections.js's
+  // Contact details): the Save/Undo bar (sections.js's
   // renderSaveBar) starts disabled, an `input` on any field in the tab
   // enables both buttons, Save persists + disables the bar again, Undo
   // restores the last-saved values + disables the bar. This is the ERP-
@@ -161,13 +154,12 @@ export function createProfile({root, encodeHtml, currentUser, employeeDetails, c
     bindEditableTab('profile', savedProfileDetails)
     bindEditableTab('employee', savedEmployeeDetails)
     bindEditableTab('contact', savedContactDetails)
-    bindEditableTab('account', savedAccountDetails)
   }
 
   function render() {
     profileState.activeSection = initialSection
     navMount.innerHTML = renderProfileScrollNav(PROFILE_SECTION_ORDER, PROFILE_SECTIONS, profileState.activeSection, encodeHtml)
-    contentMount.innerHTML = renderProfileSections({currentUser: savedProfileDetails, employeeDetails: savedEmployeeDetails, contactDetails: savedContactDetails, accountDetails: savedAccountDetails, encodeHtml, activityRows, activeKey: initialSection, language: languageControls?.getSelected?.() ?? 'en'})
+    contentMount.innerHTML = renderProfileSections({currentUser: savedProfileDetails, employeeDetails: savedEmployeeDetails, contactDetails: savedContactDetails, encodeHtml, activityRows, activeKey: initialSection, language: languageControls?.getSelected?.() ?? 'en'})
 
     document.getElementById('profile-login-log').innerHTML = renderLoginLogTable(loginLogRows, encodeHtml)
 
@@ -184,7 +176,7 @@ export function createProfile({root, encodeHtml, currentUser, employeeDetails, c
     // The Language select is not part of the Save/Undo contract: picking a
     // language applies immediately (like Appearance does) through the same
     // selectLanguage() the avatar menu's Language submenu uses, so it never
-    // dirties the Account bar. localeControls keeps its value in sync when
+    // dirties the Profile bar. localeControls keeps its value in sync when
     // the language changes anywhere else.
     const languageSelect = document.getElementById('profile-language')
     languageSelect?.addEventListener('change', () => languageControls?.select?.(languageSelect.value))

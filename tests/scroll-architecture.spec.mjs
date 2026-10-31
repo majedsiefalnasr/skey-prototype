@@ -76,17 +76,17 @@ const ALLOWED_NESTED = [
 
 const MATRIX = [
   {viewport: {width: 1440, height: 900}, density: 'compact', rtl: false},
-  {viewport: {width: 1440, height: 900}, density: 'comfortable', rtl: false},
+  {viewport: {width: 1440, height: 900}, density: 'default', rtl: false},
   {viewport: {width: 1440, height: 900}, density: 'compact', rtl: true},
-  {viewport: {width: 1440, height: 900}, density: 'comfortable', rtl: true},
+  {viewport: {width: 1440, height: 900}, density: 'default', rtl: true},
   {viewport: {width: 1024, height: 800}, density: 'compact', rtl: false},
-  {viewport: {width: 1024, height: 800}, density: 'comfortable', rtl: false},
+  {viewport: {width: 1024, height: 800}, density: 'default', rtl: false},
   {viewport: {width: 1024, height: 800}, density: 'compact', rtl: true},
-  {viewport: {width: 1024, height: 800}, density: 'comfortable', rtl: true},
+  {viewport: {width: 1024, height: 800}, density: 'default', rtl: true},
   {viewport: {width: 390, height: 844}, density: 'compact', rtl: false},
-  {viewport: {width: 390, height: 844}, density: 'comfortable', rtl: false},
+  {viewport: {width: 390, height: 844}, density: 'default', rtl: false},
   {viewport: {width: 390, height: 844}, density: 'compact', rtl: true},
-  {viewport: {width: 390, height: 844}, density: 'comfortable', rtl: true},
+  {viewport: {width: 390, height: 844}, density: 'default', rtl: true},
 ];
 
 /** Sticky elements the contract expects to keep sticking once the primary

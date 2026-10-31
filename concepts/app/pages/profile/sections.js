@@ -35,7 +35,7 @@ function renderCard(title, bodyHtml, extraClass = '') {
 }
 
 // Shared Save/Undo bar for every editable-fields tab (Profile, Employee
-// details, Contact details, Account settings) — one bar per tab instead of
+// details, Contact details) — one bar per tab instead of
 // per-card, sticky at the tab's bottom, disabled until profile.js's dirty
 // tracking (bindEditableTab) flips a field. Appearance applies instantly
 // (its own established pattern) and Security/Sessions are action dialogs
@@ -93,7 +93,7 @@ function renderRecentActivitySection(activityRows, encodeHtml) {
   )
 }
 
-function renderProfileSection(currentUser, encodeHtml) {
+function renderProfileSection(currentUser, encodeHtml, language = 'en') {
   // Single identity card, fields + photo side-by-side — same
   // customer-identity-body layout the customer record's identity section
   // uses (pages/customers/record.js:160): a fields grid on the start side,
@@ -134,14 +134,28 @@ function renderProfileSection(currentUser, encodeHtml) {
       value: currentUser.phone,
       encodeHtml,
     }),
-    // The language lives only in Account settings (the profile half of the
-    // language selector) — the old read-only Locale select here duplicated
-    // it without ever switching the app language, so it was removed.
     renderProfileField({
       id: 'profile-timezone',
       label: 'Timezone',
       value: currentUser.timezone,
       encodeHtml,
+    }),
+    // Profile half of the language selector: the same seven-catalog
+    // endonym + ISO list the avatar menu's Language submenu shows. The
+    // change handler (profile.js) routes it through localeControls'
+    // selectLanguage(), so EN/AR switch the app while the demo-only codes
+    // stay presentation-only. It is not a Save/Undo field.
+    renderProfileField({
+      id: 'profile-language',
+      label: 'Language',
+      type: 'select',
+      value: language,
+      encodeHtml,
+      options: LANGUAGES.map(entry => ({
+        value: entry.code,
+        label: `${entry.name} (${entry.iso})`,
+        lang: entry.code,
+      })),
     }),
   ].join('')
   // Photo box matches the customer record's identity-section photo field
@@ -160,58 +174,6 @@ function renderProfileSection(currentUser, encodeHtml) {
       <div class="profile-personal-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>
       <div class="profile-photo-column [padding:12px_12px_12px_0] [@media((max-width:720px))]:[padding:0_12px_12px]">${photoBoxHtml}</div>
     </div>`
-  )
-}
-
-export function renderAccountSection(currentUser, accountDetails, encodeHtml, language = 'en') {
-  const fieldsHtml = [
-    renderProfileField({
-      id: 'profile-username',
-      label: 'Username',
-      value: currentUser.username,
-      encodeHtml,
-      readonly: true,
-    }),
-    renderProfileField({
-      id: 'profile-branch',
-      label: 'Branch',
-      value: currentUser.branch,
-      encodeHtml,
-      readonly: true,
-    }),
-    renderProfileField({
-      id: 'profile-landing-page',
-      label: 'Default landing page',
-      type: 'select',
-      value: accountDetails.landingPage,
-      encodeHtml,
-      options: [
-        {value: 'home', label: 'Home'},
-        {value: 'invoices', label: 'Sales Invoices'},
-        {value: 'customers', label: 'Customers'},
-      ],
-    }),
-    // Profile half of the language selector: the same seven-catalog
-    // endonym + ISO list the avatar menu's Language submenu shows. The
-    // change handler (profile.js) routes it through localeControls'
-    // selectLanguage(), so EN/AR switch the app while the demo-only codes
-    // stay presentation-only.
-    renderProfileField({
-      id: 'profile-language',
-      label: 'Language',
-      type: 'select',
-      value: language,
-      encodeHtml,
-      options: LANGUAGES.map(entry => ({
-        value: entry.code,
-        label: `${entry.name} (${entry.iso})`,
-        lang: entry.code,
-      })),
-    }),
-  ].join('')
-  return renderCard(
-    'Account',
-    `<div class="profile-account-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>`
   )
 }
 
@@ -292,12 +254,32 @@ export function renderContactSection(contactDetails, encodeHtml) {
 }
 
 function renderAppearanceSectionFields() {
-  // Field markup (accent, interface scale, typography, theme, layout,
-  // density) keeps every id/attribute verbatim — shell/appearance.js's
-  // syncAppearanceControls/bindAppearanceSection query these exact ids —
-  // only the outer wrapper changed from a fieldset to the shared .rec-card
-  // primitive (renderCard, above), same as every other section on this page.
+  // Field ids stay verbatim — shell/appearance.js queries them. Card style
+  // and input style write #section-style and #input-style, the same selects
+  // the prototype chrome already persists.
   return (
+    renderCard(
+      'Interface theme',
+      `<div class="dgrid appearance-theme-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Interface theme">
+      <button type="button" class="appearance-theme-card" role="radio" data-appearance-theme="system" aria-checked="true">
+        <span class="theme-preview theme-preview-system" data-theme-preview aria-hidden="true"><span class="theme-preview-chrome"><i></i><i></i><i></i></span><span class="theme-preview-sidebar"></span><span class="theme-preview-toolbar"></span><span class="theme-preview-lines"><i></i><i></i><i></i></span></span>
+        <span class="theme-choice-label"><span class="theme-choice-radio" aria-hidden="true"></span><span data-i18n="System preference">System preference</span></span>
+      </button>
+      <button type="button" class="appearance-theme-card" role="radio" data-appearance-theme="light" aria-checked="false">
+        <span class="theme-preview theme-preview-light" data-theme-preview aria-hidden="true"><span class="theme-preview-chrome"><i></i><i></i><i></i></span><span class="theme-preview-sidebar"></span><span class="theme-preview-toolbar"></span><span class="theme-preview-lines"><i></i><i></i><i></i></span></span>
+        <span class="theme-choice-label"><span class="theme-choice-radio" aria-hidden="true"></span><span data-i18n="Light">Light</span></span>
+      </button>
+      <button type="button" class="appearance-theme-card" role="radio" data-appearance-theme="dark" aria-checked="false">
+        <span class="theme-preview theme-preview-dark" data-theme-preview aria-hidden="true"><span class="theme-preview-chrome"><i></i><i></i><i></i></span><span class="theme-preview-sidebar"></span><span class="theme-preview-toolbar"></span><span class="theme-preview-lines"><i></i><i></i><i></i></span></span>
+        <span class="theme-choice-label"><span class="theme-choice-radio" aria-hidden="true"></span><span data-i18n="Dark">Dark</span></span>
+      </button>
+    </div>
+    <label class="appearance-contrast-row">
+      <span class="switch relative inline-flex h-[17px] w-[30px] flex-none"><input class="peer absolute inset-0 m-0 cursor-pointer opacity-0" type="checkbox" id="appearance-high-contrast" /><span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-[background] duration-[120ms] before:absolute before:start-0.5 before:top-0.5 before:size-[13px] before:rounded-full before:bg-inverse before:transition-[translate] before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[13px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[13px]"></span></span>
+      <span><strong data-i18n="High contrast">High contrast</strong><small data-i18n="Increase text, border, focus, and control distinction.">Increase text, border, focus, and control distinction.</small></span>
+    </label>`,
+      'appearance-group-theme'
+    ) +
     renderCard(
       'Accent color',
       `<div class="accent-swatches flex items-center gap-2.5 flex-wrap" role="radiogroup" aria-label="Accent color">
@@ -345,28 +327,6 @@ function renderAppearanceSectionFields() {
       'appearance-group-typography'
     ) +
     renderCard(
-      'Interface theme',
-      `<div class="dgrid appearance-theme-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Interface theme">
-      <button type="button" class="appearance-theme-card" role="radio" data-appearance-theme="system" aria-checked="true">
-        <span class="theme-preview theme-preview-system" data-theme-preview aria-hidden="true"><span class="theme-preview-chrome"><i></i><i></i><i></i></span><span class="theme-preview-sidebar"></span><span class="theme-preview-toolbar"></span><span class="theme-preview-lines"><i></i><i></i><i></i></span></span>
-        <span class="theme-choice-label"><span class="theme-choice-radio" aria-hidden="true"></span><span data-i18n="System preference">System preference</span></span>
-      </button>
-      <button type="button" class="appearance-theme-card" role="radio" data-appearance-theme="light" aria-checked="false">
-        <span class="theme-preview theme-preview-light" data-theme-preview aria-hidden="true"><span class="theme-preview-chrome"><i></i><i></i><i></i></span><span class="theme-preview-sidebar"></span><span class="theme-preview-toolbar"></span><span class="theme-preview-lines"><i></i><i></i><i></i></span></span>
-        <span class="theme-choice-label"><span class="theme-choice-radio" aria-hidden="true"></span><span data-i18n="Light">Light</span></span>
-      </button>
-      <button type="button" class="appearance-theme-card" role="radio" data-appearance-theme="dark" aria-checked="false">
-        <span class="theme-preview theme-preview-dark" data-theme-preview aria-hidden="true"><span class="theme-preview-chrome"><i></i><i></i><i></i></span><span class="theme-preview-sidebar"></span><span class="theme-preview-toolbar"></span><span class="theme-preview-lines"><i></i><i></i><i></i></span></span>
-        <span class="theme-choice-label"><span class="theme-choice-radio" aria-hidden="true"></span><span data-i18n="Dark">Dark</span></span>
-      </button>
-    </div>
-    <label class="appearance-contrast-row">
-      <span class="switch relative inline-flex h-[17px] w-[30px] flex-none"><input class="peer absolute inset-0 m-0 cursor-pointer opacity-0" type="checkbox" id="appearance-high-contrast" /><span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-[background] duration-[120ms] before:absolute before:start-0.5 before:top-0.5 before:size-[13px] before:rounded-full before:bg-inverse before:transition-[translate] before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[13px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[13px]"></span></span>
-      <span><strong data-i18n="High contrast">High contrast</strong><small data-i18n="Increase text, border, focus, and control distinction.">Increase text, border, focus, and control distinction.</small></span>
-    </label>`,
-      'appearance-group-theme'
-    ) +
-    renderCard(
       'Layout',
       `<div class="dgrid appearance-layout-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Layout">
       <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-layout="fluid" aria-checked="true">
@@ -386,7 +346,7 @@ function renderAppearanceSectionFields() {
     ) +
     renderCard(
       'Density',
-      `<div class="dgrid appearance-density-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Density">
+      `<div class="dgrid appearance-density-grid grid [grid-template-columns:repeat(2,_1fr)] gap-2.5" role="radiogroup" aria-label="Density">
       <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-density="default" aria-checked="true">
         <span class="appearance-option-preview density-preview-default" data-option-preview aria-hidden="true"><span class="density-preview-chrome"><i></i><i></i><i></i></span><span class="density-preview-rail"></span><span class="density-preview-toolbar"></span><span class="density-preview-rows"><i></i><i></i><i></i></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Default">Default</span></span></span>
@@ -395,12 +355,40 @@ function renderAppearanceSectionFields() {
         <span class="appearance-option-preview density-preview-compact" data-option-preview aria-hidden="true"><span class="density-preview-chrome"><i></i><i></i><i></i></span><span class="density-preview-rail"></span><span class="density-preview-toolbar"></span><span class="density-preview-rows"><i></i><i></i><i></i><i></i><i></i></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Compact">Compact</span></span></span>
       </button>
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-density="comfortable" aria-checked="false">
-        <span class="appearance-option-preview density-preview-default" data-option-preview aria-hidden="true"><span class="density-preview-chrome"><i></i><i></i><i></i></span><span class="density-preview-rail"></span><span class="density-preview-toolbar"></span><span class="density-preview-rows"><i></i><i></i><i></i></span></span>
-        <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Comfortable">Comfortable</span></span></span>
-      </button>
     </div>`,
       'appearance-group-density'
+    ) +
+    renderCard(
+      'Card style',
+      `<div class="dgrid appearance-card-style-grid grid [grid-template-columns:repeat(2,_1fr)] gap-2.5" role="radiogroup" aria-label="Card style">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-card-style="standard" aria-checked="true">
+        <span class="appearance-option-preview card-style-preview-standard" data-option-preview aria-hidden="true"><span class="card-style-preview-card"><span class="card-style-preview-hd"></span><span class="card-style-preview-line"></span><span class="card-style-preview-line short"></span></span></span>
+        <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Standard">Standard</span></span></span>
+      </button>
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-card-style="fieldset" aria-checked="false">
+        <span class="appearance-option-preview card-style-preview-fieldset" data-option-preview aria-hidden="true"><span class="card-style-preview-card"><span class="card-style-preview-hd"></span><span class="card-style-preview-line"></span><span class="card-style-preview-line short"></span></span></span>
+        <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Fieldset">Fieldset</span></span></span>
+      </button>
+    </div>`,
+      'appearance-group-card-style'
+    ) +
+    renderCard(
+      'Input style',
+      `<div class="dgrid appearance-input-style-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Input style">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-input-style="default" aria-checked="true">
+        <span class="appearance-option-preview input-style-preview-default" data-option-preview aria-hidden="true"><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span></span>
+        <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Standard">Standard</span></span></span>
+      </button>
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-input-style="floated" aria-checked="false">
+        <span class="appearance-option-preview input-style-preview-floated" data-option-preview aria-hidden="true"><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span></span>
+        <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Floating label">Floating label</span></span></span>
+      </button>
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-input-style="inline" aria-checked="false">
+        <span class="appearance-option-preview input-style-preview-inline" data-option-preview aria-hidden="true"><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span></span>
+        <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Inline label">Inline label</span></span></span>
+      </button>
+    </div>`,
+      'appearance-group-input-style'
     )
   )
 }
@@ -432,7 +420,6 @@ export function renderProfileSections({
   currentUser,
   employeeDetails,
   contactDetails,
-  accountDetails,
   encodeHtml,
   activityRows = [],
   activeKey = 'profile',
@@ -441,12 +428,11 @@ export function renderProfileSections({
   // Every editable-fields tab gets the identical Save/Undo bar appended
   // after its cards — Appearance applies instantly (no bar) and Security/
   // Sessions are action dialogs and lists, not field forms (no bar).
-  const EDITABLE_TAB_KEYS = ['profile', 'employee', 'contact', 'account']
+  const EDITABLE_TAB_KEYS = ['profile', 'employee', 'contact']
   const bodies = {
-    profile: renderProfileSection(currentUser, encodeHtml),
+    profile: renderProfileSection(currentUser, encodeHtml, language),
     employee: renderEmployeeSection(employeeDetails, encodeHtml),
     contact: renderContactSection(contactDetails, encodeHtml),
-    account: renderAccountSection(currentUser, accountDetails, encodeHtml, language),
     appearance: renderAppearanceSectionFields(),
     security: renderSecuritySection(),
     sessions: renderSessionsSection(activityRows, encodeHtml),

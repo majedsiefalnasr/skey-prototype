@@ -844,16 +844,20 @@
     max-height: calc(90vh / var(--ui-scale, 1)) !important;
     max-width: calc((100vw - 32px) / var(--ui-scale, 1));
   }
+  #profile-section-appearance {
+    display: flex;
+    flex-direction: column;
+  }
   .appearance-group-theme {
     order: 1;
   }
   .appearance-group-accent {
     order: 2;
   }
-  .appearance-group-typography {
+  .appearance-group-scale {
     order: 3;
   }
-  .appearance-group-scale {
+  .appearance-group-typography {
     order: 4;
   }
   .appearance-group-layout {
@@ -861,6 +865,12 @@
   }
   .appearance-group-density {
     order: 6;
+  }
+  .appearance-group-card-style {
+    order: 7;
+  }
+  .appearance-group-input-style {
+    order: 8;
   }
   .appearance-theme-grid {
     align-items: stretch;
@@ -1038,6 +1048,8 @@
       .appearance-theme-card,
       [data-appearance-layout],
       [data-appearance-density],
+      [data-appearance-card-style],
+      [data-appearance-input-style],
       [data-appearance-scale]
     )[aria-checked='true']
     .theme-choice-radio {
@@ -1048,6 +1060,8 @@
       .appearance-theme-card,
       [data-appearance-layout],
       [data-appearance-density],
+      [data-appearance-card-style],
+      [data-appearance-input-style],
       [data-appearance-scale]
     )[aria-checked='true']
     .theme-choice-radio::after {
@@ -1080,7 +1094,11 @@
   .appearance-layout-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .appearance-density-grid {
+  .appearance-density-grid,
+  .appearance-card-style-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .appearance-input-style-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .appearance-scale-control {
@@ -1379,6 +1397,105 @@
   .density-preview-compact .density-preview-rows i::after {
     inset-block: 1px;
   }
+  .card-style-preview-card {
+    position: absolute;
+    inset: 14px 16px 12px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .card-style-preview-hd,
+  .card-style-preview-line {
+    display: block;
+    border-radius: 2px;
+  }
+  .card-style-preview-hd {
+    height: 12px;
+    background: var(--line-2);
+    border-bottom: 1px solid var(--line);
+  }
+  .card-style-preview-line {
+    height: 4px;
+    margin: 7px 8px 0;
+    background: var(--line);
+  }
+  .card-style-preview-line.short {
+    width: 55%;
+  }
+  .card-style-preview-fieldset .card-style-preview-card {
+    overflow: visible;
+    inset-block-start: 18px;
+  }
+  .card-style-preview-fieldset .card-style-preview-hd {
+    position: absolute;
+    top: -6px;
+    inset-inline-start: 8px;
+    width: 38%;
+    height: 8px;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    background: var(--bg);
+  }
+  .card-style-preview-fieldset .card-style-preview-line:first-of-type {
+    margin-top: 12px;
+  }
+  .input-style-preview-default,
+  .input-style-preview-floated,
+  .input-style-preview-inline {
+    display: grid;
+    align-content: center;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+  .input-style-preview-field {
+    position: relative;
+    display: grid;
+    gap: 3px;
+  }
+  .input-style-preview-label {
+    display: block;
+    width: 42%;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--muted);
+  }
+  .input-style-preview-control {
+    display: block;
+    height: 12px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: var(--surface);
+  }
+  .input-style-preview-floated .input-style-preview-field {
+    padding-top: 4px;
+  }
+  .input-style-preview-floated .input-style-preview-label {
+    position: absolute;
+    top: 0;
+    inset-inline-start: 6px;
+    width: 28%;
+    height: 5px;
+    background: var(--bg);
+  }
+  .input-style-preview-floated .input-style-preview-control {
+    height: 14px;
+  }
+  .input-style-preview-inline .input-style-preview-field {
+    grid-template-columns: 34% 1fr;
+    align-items: end;
+    gap: 6px;
+  }
+  .input-style-preview-inline .input-style-preview-label {
+    width: 100%;
+  }
+  .input-style-preview-inline .input-style-preview-control {
+    height: 10px;
+    border: 0;
+    border-bottom: 1.5px solid var(--line);
+    border-radius: 0;
+    background: transparent;
+  }
   .appearance-reset {
     color: var(--muted);
   }
@@ -1397,7 +1514,9 @@
       grid-template-columns: 28px auto minmax(112px, 1fr);
     }
     .appearance-layout-grid,
-    .appearance-density-grid {
+    .appearance-density-grid,
+    .appearance-card-style-grid,
+    .appearance-input-style-grid {
       grid-template-columns: 1fr;
     }
   }

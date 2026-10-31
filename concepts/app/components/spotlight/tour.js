@@ -93,7 +93,7 @@ const TOURS = {
     },
     {
       id: 'language',
-      // Account-settings section only; skipped elsewhere.
+      // Profile section only; skipped when that section is not showing.
       target: '#profile-language',
       headline: 'Prefer Arabic?',
       body: 'Switch the whole app to العربية here.',

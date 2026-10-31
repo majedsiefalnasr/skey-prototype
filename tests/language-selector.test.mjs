@@ -1,5 +1,5 @@
 // Language selector coverage (avatar menu → Language details submenu +
-// Profile → Account settings → Language row). The selector is a
+// Profile section → Language row). The selector is a
 // prototype/demo surface: all seven catalog entries render as real options
 // (endonym + ISO code + a checked radio), but only EN/AR are functional
 // locales wired to applyLocale() — the rest are presentation-only options
@@ -43,7 +43,7 @@ test('language catalog: seven endonyms with ISO codes, only EN/AR functional', (
   assert.equal(LANGUAGE_STORAGE_KEY, 'skey-proto-language')
 })
 
-test('account settings renders the Language select with every catalog option', () => {
+test('profile section renders the Language select with every catalog option', () => {
   const encodeHtml = value => String(value)
   const html = renderProfileSections({
     currentUser: CURRENT_USER,
@@ -67,9 +67,10 @@ test('account settings renders the Language select with every catalog option', (
     )
   }
   assert.match(html, /<option value="en" lang="en" selected>English \(EN\)<\/option>/)
-  // The personal-information card no longer carries the old Locale select —
-  // Language lives only in Account settings.
-  assert.doesNotMatch(html, /id="profile-locale"/)
+  // Language lives in the Profile section. The old read-only Locale select
+  // and the Account settings section are gone.
+  assert.match(html, /id="profile-section-profile"[\s\S]*id="profile-language"/)
+  assert.doesNotMatch(html, /id="profile-locale"|id="profile-section-account"/)
 })
 
 test('avatar menu carries the Language submenu as a Statistics-style details inner dropdown', async () => {

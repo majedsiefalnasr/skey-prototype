@@ -26,8 +26,8 @@ export function createLocaleControls({t, formatLocaleCurrency, getLocale, setLoc
      menu's Language submenu (trailing endonym in the summary + the checked
      radio in the popover), the sign-in view's footer language submenu
      (si-prefixed mirror so the avatar specs' strict selectors keep
-     matching exactly one surface), and the Profile → Account settings
-     Language select. Safe to call before any of that DOM exists — each
+     matching exactly one surface), and the Profile section's Language
+     select. Safe to call before any of that DOM exists — each
      query just no-ops on an empty document. */
   function syncLanguageControls() {
     const current = LANGUAGES.find(language => language.code === selectedLanguage) || LANGUAGES[0]

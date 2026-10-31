@@ -30,8 +30,8 @@ test('profile fixtures have the expected shape', () => {
 
 })
 
-test('profile section metadata covers all seven sections in order', () => {
-  assert.deepEqual(PROFILE_SECTION_ORDER, ['profile', 'employee', 'contact', 'account', 'appearance', 'security', 'sessions'])
+test('profile section metadata covers all six sections in order', () => {
+  assert.deepEqual(PROFILE_SECTION_ORDER, ['profile', 'employee', 'contact', 'appearance', 'security', 'sessions'])
   PROFILE_SECTION_ORDER.forEach(key => {
     assert.equal(typeof PROFILE_SECTIONS[key].title, 'string')
     assert.equal(typeof PROFILE_SECTIONS[key].icon, 'string')
@@ -42,7 +42,7 @@ test('profile scroll nav renders one button per section with the active one curr
   const encodeHtml = value => String(value)
   const html = renderProfileScrollNav(PROFILE_SECTION_ORDER, PROFILE_SECTIONS, 'security', encodeHtml)
 
-  assert.equal((html.match(/data-profile-scroll-section="/g) || []).length, 7)
+  assert.equal((html.match(/data-profile-scroll-section="/g) || []).length, 6)
   assert.match(html, /data-profile-scroll-section="security"[^>]*aria-current="page"/)
   assert.doesNotMatch(html, /data-profile-scroll-section="profile"[^>]*aria-current/)
   assert.match(html, /class="profile-scroll-nav/)
@@ -95,7 +95,7 @@ test('profile sections include employee details, contact details, and omit remov
   const encodeHtml = value => String(value)
   const html = renderProfileSections({currentUser: CURRENT_USER, employeeDetails: EMPLOYEE_DETAILS, contactDetails: CONTACT_DETAILS, accountDetails: {landingPage: 'home'}, encodeHtml})
 
-  ;['profile', 'employee', 'contact', 'account', 'appearance', 'security', 'sessions'].forEach(key => {
+  ;['profile', 'employee', 'contact', 'appearance', 'security', 'sessions'].forEach(key => {
     assert.match(html, new RegExp(`id="profile-section-${key}"`))
     assert.match(html, new RegExp(`data-profile-scroll-target="${key}"`))
   })
@@ -120,20 +120,25 @@ test('profile sections include employee details, contact details, and omit remov
   assert.match(html, /id="profile-contact-save"/)
   assert.match(html, /id="profile-contact-undo"/)
 
-  // Every editable-fields tab (Profile, Employee, Contact, Account) gets
+  // Every editable-fields tab (Profile, Employee, Contact) gets
   // the identical Save/Undo bar, both starting disabled until dirty.
-  ;['profile', 'employee', 'contact', 'account'].forEach(key => {
+  // Language lives on Profile and applies immediately, so it has no bar.
+  ;['profile', 'employee', 'contact'].forEach(key => {
     assert.match(html, new RegExp(`id="profile-${key}-save"[^>]*disabled`))
     assert.match(html, new RegExp(`id="profile-${key}-undo"[^>]*disabled`))
   })
   assert.doesNotMatch(html, /id="profile-header-status"/)
-  assert.doesNotMatch(html, /id="profile-appearance-save"|id="profile-security-save"|id="profile-sessions-save"/)
+  assert.doesNotMatch(html, /id="profile-appearance-save"|id="profile-security-save"|id="profile-sessions-save"|id="profile-account-save"|id="profile-section-account"/)
+  assert.match(html, /id="profile-section-profile"[\s\S]*id="profile-language"/)
 
   assert.match(html, /id="appearance-custom-color"/)
   assert.match(html, /id="appearance-interface-scale"/)
   assert.match(html, /id="appearance-font-family"/)
   assert.match(html, /data-appearance-theme="system"/)
-  assert.match(html, /data-appearance-density="comfortable"/)
+  assert.match(html, /data-appearance-card-style="fieldset"/)
+  assert.match(html, /data-appearance-input-style="inline"/)
+  assert.doesNotMatch(html, /data-appearance-density="comfortable"/)
+  assert.ok(html.indexOf('appearance-group-theme') < html.indexOf('appearance-group-accent'))
 
   assert.match(html, /data-profile-open-change-password/)
   assert.match(html, /data-profile-open-set-pin/)
@@ -182,8 +187,8 @@ test('main.js wires the profile page and topbar no longer opens an appearance di
   assert.match(topbar, /profile-menu/)
 
   const shell = await readFile(new URL('../concepts/app/shell/shell.html', import.meta.url), 'utf8')
-  for (const section of ['profile', 'account', 'appearance', 'security', 'sessions']) {
+  for (const section of ['profile', 'appearance', 'security', 'sessions']) {
     assert.match(shell, new RegExp(`data-profile-section="${section}"`))
   }
-  assert.doesNotMatch(shell, /data-profile-section="notifications"/)
+  assert.doesNotMatch(shell, /data-profile-section="notifications"|data-profile-section="account"/)
 })

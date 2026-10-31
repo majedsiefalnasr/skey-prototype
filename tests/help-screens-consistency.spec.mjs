@@ -117,12 +117,11 @@ test('density changes card and calendar content, not only surrounding chrome', a
     await go(page, name, isRtl(info))
     const target = page.locator('.' + name + '-view').locator(name === 'events' ? '[data-date]' : name === 'email' ? '.email-list-row' : '[data-card-open]').first()
     const heights = []
-    for (const mode of ['compact', 'default', 'comfortable']) {
+    for (const mode of ['compact', 'default']) {
       await control(page, 'density', mode)
       heights.push((await target.boundingBox()).height)
     }
     expect(heights[0], name).toBeLessThan(heights[1])
-    expect(heights[1], name).toBeLessThan(heights[2])
     await control(page, 'density', 'default')
   }
 })

@@ -44,7 +44,7 @@ const APPEARANCE_KEY = 'skey-appearance-controls'
 const APPEARANCE_OPTIONS = {
   theme: ['system', 'light', 'dark'],
   'content-layout': ['fluid', 'boxed'],
-  density: ['default', 'compact', 'comfortable'],
+  density: ['default', 'compact'],
   'interface-scale': ['90', '100', '110', '125'],
   'input-style': ['default', 'floated', 'inline'],
   'section-style': ['standard', 'fieldset'],

@@ -260,9 +260,9 @@ test('in-app navigation keeps the URL in step and Back/Forward restores screens'
 });
 
 test('profile sections are addressable and selectable via ?section=', async ({page}) => {
-  await gotoRoute(page, '/system/profile?section=account');
+  await gotoRoute(page, '/system/profile?section=appearance');
   await expect(page.locator('.profile-view')).toBeVisible();
-  await expect(page.locator('[data-profile-scroll-section="account"]')).toHaveAttribute(
+  await expect(page.locator('[data-profile-scroll-section="appearance"]')).toHaveAttribute(
     'aria-current',
     'page'
   );
@@ -271,8 +271,8 @@ test('profile sections are addressable and selectable via ?section=', async ({pa
   await expect.poll(() => new URL(page.url()).search).toBe('?section=security');
 
   await page.goBack();
-  await expect.poll(() => page.url()).toContain('/system/profile?section=account');
-  await expect(page.locator('[data-profile-scroll-section="account"]')).toHaveAttribute(
+  await expect.poll(() => page.url()).toContain('/system/profile?section=appearance');
+  await expect(page.locator('[data-profile-scroll-section="appearance"]')).toHaveAttribute(
     'aria-current',
     'page'
   );

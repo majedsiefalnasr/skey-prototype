@@ -93,7 +93,7 @@ test('group-by choices use labels without decorative icons', () => {
   assert.doesNotMatch(choices, /data-icon="i-grid"/)
 })
 
-test('appearance offers comfortable density and independent interface-scale presets', async () => {
+test('appearance offers density, card style, input style, and interface-scale presets', async () => {
   const [dialog, controls, baseStyles, frameStyles, shellStyles, shell] = await Promise.all([
     readFile(new URL('../concepts/app/pages/profile/sections.js', import.meta.url), 'utf8'),
     readFile(new URL('../concepts/app/shell/appearance.js', import.meta.url), 'utf8'),
@@ -103,13 +103,15 @@ test('appearance offers comfortable density and independent interface-scale pres
     readFile(new URL('../concepts/app/shell/shell.js', import.meta.url), 'utf8'),
   ])
 
-  assert.match(dialog, /data-appearance-density="comfortable"/)
+  assert.doesNotMatch(dialog, /data-appearance-density="comfortable"/)
+  assert.match(dialog, /data-appearance-card-style="fieldset"/)
+  assert.match(dialog, /data-appearance-input-style="floated"/)
   assert.match(dialog, /type="range"[^>]*id="appearance-interface-scale"/)
   assert.match(dialog, /min="0"[^>]*max="3"[^>]*step="1"/)
   assert.match(dialog, /appearance-scale-value/)
   assert.equal((dialog.match(/data-appearance-scale-tick/g) || []).length, 4)
-  assert.match(dialog, /appearance-density-grid grid \[grid-template-columns:repeat\(3,_1fr\)\]/)
-  for (const group of ['theme', 'accent', 'typography', 'scale', 'layout', 'density']) {
+  assert.match(dialog, /appearance-density-grid grid \[grid-template-columns:repeat\(2,_1fr\)\]/)
+  for (const group of ['theme', 'accent', 'typography', 'scale', 'layout', 'density', 'card-style', 'input-style']) {
     assert.match(dialog, new RegExp(`appearance-group-${group}`))
   }
   const layoutAndDensity = dialog.slice(dialog.indexOf('appearance-group-layout'))

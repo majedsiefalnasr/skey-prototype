@@ -16,7 +16,7 @@ import {DELIVERY_AR} from './delivery-translations.js'
 // for safe rendering elsewhere, per the plan.
 
 // Language catalog behind the language selector (avatar menu → Language,
-// and the Profile → Account settings → Language row). The selector lists
+// and the Profile section's Language row). The selector lists
 // every entry as an endonym + ISO code so it demonstrates the scalable
 // many-locale pattern, but only EN/AR are wired to applyLocale() in
 // shell/locale.js — the remaining entries are prototype/demo options:
@@ -418,7 +418,7 @@ export function createLocale() {
           'Change scope': 'تغيير النطاق',
           'Actions apply to invoice {no}': 'الإجراءات تنطبق على الفاتورة {no}',
           'You are on': 'أنت الآن على',
-          // Profile → Account settings (the profile half of the language selector)
+          // Profile section Language select (the profile half of the language selector)
           Username: 'اسم المستخدم',
           Branch: 'الفرع',
           'Default landing page': 'صفحة البداية الافتراضية',

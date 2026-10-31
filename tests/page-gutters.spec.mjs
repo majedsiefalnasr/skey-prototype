@@ -11,7 +11,7 @@ const surfaces = [
   ['/customers/unavailable?screen=Marketers', '.placeholder-view', '[data-placeholder-back]', false],
 ];
 
-for (const [density, layout] of [['default', 'fluid'], ['compact', 'fluid'], ['comfortable', 'boxed']]) {
+for (const [density, layout] of [['default', 'fluid'], ['compact', 'fluid'], ['default', 'boxed']]) {
   test(`${density} ${layout}: page gutters align with Customers`, async ({page}, info) => {
     test.setTimeout(60000);
     const base = process.env.PARITY_URL ?? 'http://127.0.0.1:4173';

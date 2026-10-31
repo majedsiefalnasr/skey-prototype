@@ -13,13 +13,13 @@ const localized = (english, arabic) => test.info().project.use.rtl ? arabic : en
  * page (reached this way rather than through openSurface's launchpad-tile
  * mechanism, since the profile page has no launchpad tile).
  *
- * The user menu only carries Profile/Account/Appearance/Security/Sessions
+ * The user menu only carries Profile/Appearance/Security/Sessions
  * since the organization-center rework dropped Employee details and Contact
  * details from it; those two sections are reached the way the app now
  * exposes them — open My Profile, then activate the section's own
  * Scroll Navigator tab.
  * @param {import('@playwright/test').Page} page
- * @param {'profile'|'employee'|'contact'|'account'|'appearance'|'security'|'sessions'} section
+ * @param {'profile'|'employee'|'contact'|'appearance'|'security'|'sessions'} section
  */
 async function openProfileSection(page, section) {
   await page.locator('.avatar-btn').click();
@@ -34,19 +34,18 @@ async function openProfileSection(page, section) {
 }
 
 test.describe('profile page', () => {
-  test('opens from the user menu and shows the revised seven profile sections', async ({page}) => {
+  test('opens from the user menu and shows the revised six profile sections', async ({page}) => {
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
 
     await openProfileSection(page, 'profile');
     await expect(page.locator('.profile-view')).toBeVisible();
-    await expect(page.locator('[data-profile-scroll-section]')).toHaveCount(7);
-    await expect(page.locator('[data-profile-scroll-section]')).toHaveText(test.info().project.use.rtl ? ['الملف الشخصي', 'بيانات الموظف', 'بيانات الاتصال', 'إعدادات الحساب', 'المظهر', 'الأمان', 'الجلسات والأجهزة'] : [
+    await expect(page.locator('[data-profile-scroll-section]')).toHaveCount(6);
+    await expect(page.locator('[data-profile-scroll-section]')).toHaveText(test.info().project.use.rtl ? ['الملف الشخصي', 'بيانات الموظف', 'بيانات الاتصال', 'المظهر', 'الأمان', 'الجلسات والأجهزة'] : [
       'Profile',
       'Employee details',
       'Contact details',
-      'Account settings',
       'Appearance',
       'Security',
       'Sessions & devices',
@@ -62,7 +61,7 @@ test.describe('profile page', () => {
 
   test('every editable tab starts with a disabled Save/Undo bar that enables once dirty', async ({page}) => {
     await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
-    for (const section of ['profile', 'employee', 'contact', 'account']) {
+    for (const section of ['profile', 'employee', 'contact']) {
       await openProfileSection(page, section);
       await expect(page.locator(`#profile-${section}-save`)).toBeDisabled();
       await expect(page.locator(`#profile-${section}-undo`)).toBeDisabled();
@@ -93,26 +92,6 @@ test.describe('profile page', () => {
     await openProfileSection(page, 'profile');
     await expect(jobTitle).toHaveValue('Senior ERP Administrator');
     await expect(phone).toHaveValue('+20 100 999 8888');
-  });
-
-  test('account settings save, undo, and persist across reload', async ({page}) => {
-    await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
-    await openProfileSection(page, 'account');
-
-    await expect(page.locator('#profile-username')).toBeDisabled();
-    await expect(page.locator('#profile-branch')).toBeDisabled();
-
-    const landingPage = page.locator('#profile-landing-page');
-    await landingPage.selectOption('invoices');
-    await expect(page.locator('#profile-account-save')).toBeEnabled();
-    await page.locator('#profile-account-save').click();
-    await expect(page.locator('.toast')).toContainText(localized('Account settings saved', 'تم حفظ إعدادات الحساب'));
-    await expect(page.locator('#profile-account-save')).toBeDisabled();
-
-    await page.reload();
-    await settle(page);
-    await openProfileSection(page, 'account');
-    await expect(page.locator('#profile-landing-page')).toHaveValue('invoices');
   });
 
   test('employee contact details save, undo, and persist across reload', async ({page}) => {
