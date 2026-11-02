@@ -785,11 +785,11 @@ const recordPagers = new Map(
      unsaved-changes state through the document input/change listener (markEdited) and
      notifyInvoiceEdited, further down. This click-anywhere stand-in is only for the
      placeholder canvases that have no [data-field]; it must not touch the real record, the
-     list, or the separately managed Customer/Geography/Profile views. */
+     list, or the separately managed Customer/Geography/Profile/Notifications views. */
           document.querySelectorAll('.canvas').forEach(c => {
             if (
               c.closest(
-                '.list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view, .profile-view, .organization-view, .collab-view'
+                '.list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view, .profile-view, .organization-view, .collab-view, .notifications-list-view'
               )
             )
               return
