@@ -65,6 +65,14 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
       })
     }
     if (context === 'people' && column.key === 'nameEn') return `<button type="button" class="border-0 bg-transparent p-0 text-start font-semibold text-accent hover:underline focus-visible:outline-2 focus-visible:outline-[var(--focus)]" data-list-open-record="${encodeHtml(row.id)}" data-row-open="${encodeHtml(row.id)}"><span dir="auto">${encodeHtml(row.nameEn)}</span>${row.nameAr ? `<small class="block text-xs font-normal text-muted" dir="rtl" lang="ar">${encodeHtml(row.nameAr)}</small>` : ''}</button>`
+    if (context === 'notifications' && column.key === 'what') {
+      const tone = row.unread ? 'font-semibold text-ink' : 'font-medium text-muted'
+      return `<button type="button" class="block w-full truncate border-0 bg-transparent p-0 text-start ${tone} hover:underline focus-visible:outline-2 focus-visible:outline-[var(--focus)]" data-list-open-record="${encodeHtml(row.id)}">${encodeHtml(row.what)}</button>`
+    }
+    if (context === 'notifications' && column.key === 'type') {
+      const tone = {Posting: 'ok', Warning: 'warn', Comment: 'fix', Alert: 'danger'}[row.type] || 'gray'
+      return `<span class="badge ${tone}">${t(row.type || 'Alert')}</span>`
+    }
     if (context === 'people' && column.key === 'lifecycle') return `<span class="flex flex-wrap gap-1"><span class="badge gray">${t(row.lifecycle === 'contact' ? 'Contact' : 'Lead')}</span>${row.conversionLabel ? `<span class="badge ok">${t('Converted to')} ${encodeHtml(row.conversionLabel)}</span>` : ''}${row.archived ? `<span class="badge gray">${t('Archived')}</span>` : ''}</span>`
     if (context === 'people' && ['phone', 'email'].includes(column.key)) return `<span dir="ltr">${encodeHtml(value || '—')}</span>`
     if (context === 'customer' && column.key === 'avatar') {

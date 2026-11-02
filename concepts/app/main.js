@@ -3,6 +3,7 @@ import {dueReminders, eventInstant, DEFAULT_EVENT_ZONE} from './core/event-sched
 import {createAssistant} from './components/assistant/assistant.js'
 import {createEmail} from './pages/email/email.js'
 import {createNotifications} from './components/notifications/notifications.js'
+import {createNotificationsPage} from './pages/notifications/notifications.js'
 import {createHome} from './pages/home/home.js'
 import {createInvoiceOperations} from './pages/invoices/operations.js'
 import {createInvoices, createInvoiceState} from './pages/invoices/invoices.js'
@@ -175,6 +176,7 @@ const NAV_ITEM_LABEL_BY_ID = {
   list: 'Sales Invoice',
   'customers-list': 'Customers',
   'geo-list': 'Geographical Structure',
+  notifications: 'Notifications',
   notes: 'Notes',
   activities: 'Activities',
   events: 'Events',
@@ -186,6 +188,7 @@ const NAV_ITEM_LABEL_BY_ID = {
    Screens) need an owning group, or first-match lookup lights up the CRM
    panel when a Help Screens route arrives. */
 const NAV_GROUP_LABEL_BY_ID = {
+  notifications: 'Help Screens',
   notes: 'Help Screens',
   activities: 'Help Screens',
   events: 'Help Screens',
@@ -291,6 +294,7 @@ const contentHost = createContentHost({
   renderCustomerList: (...args) => pageListBindings.renderCustomerList(...args),
   renderGeoList: (...args) => pageListBindings.renderGeoList(...args),
   renderListA: (...args) => pageListBindings.renderListA(...args),
+  renderNotifications: () => notificationsPage?.refresh?.(),
   closeAdvancedSearch: (...args) => advancedSearch.closeAdvancedSearch(...args)
 })
 
@@ -832,6 +836,23 @@ const signin = createSignIn({
   subscribe: callback => locale.subscribe(callback),
 })
 
+const notificationsPage = createNotificationsPage({
+  templates: {
+    listRoot: null, // Will be set in activate
+    listFooter: null
+  },
+  t,
+  trapFocus: dialogFocus.trapFocus,
+  releaseFocus: dialogFocus.releaseFocus,
+  toast,
+  work: runWork,
+  navigate: (...args) => showContentView(...args),
+  createList: createDataList,
+  listInstance: listRuntime.dataListInstances.notifications,
+  detailList: listRuntime.dataListInstances.notificationDetail,
+  dialogs: {trapFocus: dialogFocus.trapFocus, releaseFocus: dialogFocus.releaseFocus},
+})
+
 const listDates = createListDates({
   t,
   formatLocaleDate,
@@ -1009,6 +1030,7 @@ const pageRegistry = new Map([
   ['geo-list', geography.listPage],
   ['geo-record', geography.recordPage],
   ['email', email],
+  ['notifications', notificationsPage],
   ['profile', profile],
   ['organization', organization],
   ['foryou', forYou],

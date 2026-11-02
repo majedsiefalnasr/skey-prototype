@@ -482,6 +482,7 @@ export const NAV_TREE = [
   ],
   [
     'Help Screens',
+    'Notifications',
     'Internal Mail',
     'Events',
     'Activities',
@@ -556,6 +557,7 @@ export const NAV_ICONS = {
   'System Administration': 'i-lock',
   'System Setup': 'i-sliders',
   'Help Screens': 'i-help',
+  Notifications: 'i-bell',
 }
 
 export const NAV_APP_META = {
@@ -624,6 +626,7 @@ export const NAV_APP_META = {
     tone: 'administration',
   },
   'Help Screens': {description: 'Guides and product assistance', tone: 'help'},
+  Notifications: {description: 'Notifications center', tone: 'help'},
 }
 
 /* ---------- search data (verified) ---------- */

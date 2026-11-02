@@ -234,17 +234,22 @@ export function renderDataListToolbar(context, config, listState, deps) {
       <button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS} data-clear-selection ms-auto" type="button" data-list-clear-selection>${dataListIcon('i-x')} ${t('Clear selection', 'Clear selection')}</button>
     </div>
     `
-  // config.noRowActions tables (Screen Parameters, Journal Entry — plain
-  // reference grids with no detail record) keep only the field-based
-  // "+ Filter" popover and search/columns/sort/pagination, same as every
-  // other list — but skip the quick-filter dropdown ("All parameters ⌄"),
-  // saved/custom views, and Save filter entirely: there is nothing to
-  // switch between (config.filters is a single "All ..." entry) and no
-  // per-user saved-view concept for a plain config/reference table.
+  // config.noRowActions tables keep the field-based "+ Filter" and skip
+  // saved views. A quick-filter dropdown is added only when the config
+  // actually has more than one filter (Notifications: All / Unread / Read).
+  const quickFilterMenu =
+    config.filters.length > 1
+      ? `<details class="data-menu relative"><summary class="${DATA_MENU_SUMMARY_CLASS}">${dataListIcon(activeFilter.icon)}<span>${encodeHtml(t(activeFilter.label))}</span>${dataListIcon('i-caret', 11)}</summary><div class="${DATA_MENU_POPOVER_CLASS}" role="menu">${filterButtons}</div></details>`
+      : ''
+  const unreadToggle =
+    context === 'notifications'
+      ? `<span class="data-toolbar-separator w-px h-6 mx-0.5 bg-line" aria-hidden="true"></span><label class="inline-flex items-center gap-1.5 min-h-8" for="notifications-page-unread-only"><span class="switch relative inline-flex h-[17px] w-[30px] flex-none"><input class="peer absolute inset-0 m-0 cursor-pointer opacity-0" id="notifications-page-unread-only" type="checkbox"${listState.unreadOnly ? ' checked' : ''} aria-label="${encodeHtml(t('Only show unread', 'Only show unread'))}" /><span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-[background] duration-[120ms] before:absolute before:start-0.5 before:top-0.5 before:size-[13px] before:rounded-full before:bg-inverse before:transition-[translate] before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[13px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[13px]"></span></span><span class="text-xs text-muted">${encodeHtml(t('Only show unread', 'Only show unread'))}</span></label>`
+      : ''
   const filterCluster = config.noRowActions
-    ? `<details class="data-menu relative"><summary class="${DATA_MENU_SUMMARY_CLASS}">${dataListIcon('i-plus')}<span>${t('Filter', 'Filter')}</span></summary><div class="${DATA_MENU_POPOVER_CLASS}" role="menu">${renderDataListFieldChoices(config, listState, deps)}</div></details>
+    ? `${quickFilterMenu}<details class="data-menu relative"><summary class="${DATA_MENU_SUMMARY_CLASS}">${dataListIcon('i-plus')}<span>${t('Filter', 'Filter')}</span></summary><div class="${DATA_MENU_POPOVER_CLASS}" role="menu">${renderDataListFieldChoices(config, listState, deps)}</div></details>
       ${filterEditors}
-      ${clearFilterButton}`
+      ${clearFilterButton}
+      ${unreadToggle}`
     : listState.filterMode === 'modal'
       ? `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-open-filters aria-haspopup="dialog">${dataListIcon('i-filter')}<span>${filterCount ? `${t('Filters', 'Filters')} (${filterCount})` : t('Filters', 'Filters')}</span></button>
       ${clearFilterButton}`
@@ -411,7 +416,7 @@ export function renderDataList(
   // dialog's `.dbody` — scroll horizontally instead of squeezing columns.
   const actionlessColgroup = config.noRowActions && !config.scrollOverflow
     ? (() => {
-        const widths = visibleColumns.map(column => deps.responsiveWidthFor(column.key) || 130)
+        const widths = visibleColumns.map(column => column.width || deps.responsiveWidthFor(column.key) || 130)
         const total = widths.reduce((sum, width) => sum + width, 0)
         return `<colgroup>${widths
           .map(width => `<col style="width:${((width / total) * 100).toFixed(3)}%">`)

@@ -131,6 +131,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       Customers: 'customers-list',
       'Geographical Structure': 'geo-list',
       'Internal Mail': 'email',
+      Notifications: 'notifications',
       Events: 'events',
       Activities: 'activities',
       Notes: 'notes',

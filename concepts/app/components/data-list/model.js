@@ -96,6 +96,8 @@ export const DATA_LIST_VALID_VIEWS = {
   // columns collapse into the per-row details panel at narrow widths, the
   // same way the invoices list's Compact view does.
   journal: ['list', 'responsive'],
+  notifications: ['list', 'cards'],
+  notificationDetail: ['list'],
   orgUsers: ['list'],
   orgAppSessions: ['list'],
   orgDbSessions: ['list'],
@@ -289,6 +291,10 @@ export function createListModel({config, rows, storage, context = config.singula
         if (state.filter === 'active' && !row.active) return false
         if (state.filter === 'inactive' && row.active) return false
         if (state.filter === 'root' && row.parentCode) return false
+      }
+      if (context === 'notifications') {
+        if (state.filter === 'unread' && !row.unread) return false
+        if (state.filter === 'read' && row.unread) return false
       }
       return state.fieldFilters.every(filter =>
         rowMatchesFieldFilter(row, filter, config.filterFields.find(field => field.key === filter.key))

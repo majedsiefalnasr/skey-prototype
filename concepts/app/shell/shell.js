@@ -46,7 +46,7 @@ export function createShell({
     /* The collaboration screens' templates are included from shell.html,
        outside the invoice-owned .design section, so they resolve from the
        document rather than from `d`. */
-    ;['.notes-tpl', '.activities-tpl', '.events-tpl', '.people-tpl'].forEach(selector =>
+    ;['.notes-tpl', '.activities-tpl', '.events-tpl', '.people-tpl', '.notifications-list-tpl'].forEach(selector =>
       pageContent.append(document.querySelector(selector).content.cloneNode(true))
     )
     pageContent.append(d.querySelector('.signin-tpl').content.cloneNode(true))
@@ -68,6 +68,7 @@ export function createShell({
       ['.geo-record-view', 'geo-record'],
       ['.people-view', 'people'],
       ['.people-record-view', 'people-record'],
+      ['.notifications-list-view', 'notifications'],
     ]
     pageContent.querySelectorAll('.fnav').forEach(footer => {
       footer.dataset.pageFooter = footerViews.find(([selector]) => footer.closest(selector))?.[1] ?? 'record'

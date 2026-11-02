@@ -1,7 +1,7 @@
 
 
 /** Owns content host state and its DOM bindings. */
-export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCurrentView, applyDataI18n, renderCustomerList, renderGeoList, renderListA, closeAdvancedSearch} = {}) {
+export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCurrentView, applyDataI18n, renderCustomerList, renderGeoList, renderListA, renderNotifications, closeAdvancedSearch} = {}) {
   let currentContentViewName = 'record'
 
   function currentSkeletonContainer() {
@@ -24,6 +24,7 @@ export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCu
       people: '.people-view:not([hidden])',
       'people-record': '.people-record-view:not([hidden])',
       signin: '.signin-view:not([hidden])',
+      notifications: '.notifications-list-view:not([hidden])',
     }
     const selector = selectors[currentContentViewName]
     return selector ? document.querySelector(selector) : null
@@ -62,6 +63,7 @@ export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCu
       people: '.people-view',
       'people-record': '.people-record-view',
       signin: '.signin-view',
+      notifications: '.notifications-list-view',
     }
     const namedViews = Object.fromEntries(
       Object.entries(viewSelectors).map(([key, selector]) => {
@@ -106,6 +108,7 @@ export function createContentHost({syncPrototypeControlsPage, queueSkeletonForCu
     if (name === 'list') renderListA(document.getElementById('list-canvas'))
     else if (name === 'customers-list') renderCustomerList()
     else if (name === 'geo-list') renderGeoList()
+    else if (name === 'notifications' && renderNotifications) renderNotifications()
     else return
     initializedContentViews.add(name)
     applyDataI18n()

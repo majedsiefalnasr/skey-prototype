@@ -130,7 +130,13 @@ let notificationSnapshot = ''
         const notificationsTrigger = document.querySelector(
           '[aria-controls="notifications-popover"]'
         )
-        notificationsTrigger.addEventListener('click', () => renderNotif(document.querySelector('.notif-tabs [aria-selected="true"]')?.dataset.tab || 'direct'), {signal: pageAbort.signal})
+        notificationsTrigger.addEventListener('click', () => {
+          renderNotif(document.querySelector('.notif-tabs [aria-selected="true"]')?.dataset.tab || 'direct')
+          const popover = document.getElementById('notifications-popover')
+          const body = document.getElementById('notif-body')
+          if (popover) popover.scrollTop = 0
+          if (body) body.scrollTop = 0
+        }, {signal: pageAbort.signal})
         document.getElementById('notifications-popover').addEventListener('keydown', event => {
           if (event.key !== 'Escape') return
           event.preventDefault()

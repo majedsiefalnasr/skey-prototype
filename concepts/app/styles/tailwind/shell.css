@@ -516,6 +516,25 @@
   .mlist.open {
     display: block;
   }
+  /* The bell menu must not scroll as a whole: .mlist overflow would slide
+     the tabs over the list and leave an empty panel. Only the list scrolls. */
+  .mlist.notif-pop.open {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: min(440px, calc(100vh - 80px));
+    padding: 0;
+  }
+  .mlist.notif-pop .notif-hd,
+  .mlist.notif-pop .notif-tabs {
+    flex: none;
+  }
+  .mlist.notif-pop .notif-body {
+    min-height: 0;
+    max-height: min(360px, calc(100vh - 160px));
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
   .mlist.mend {
     inset-inline-start: auto;
     inset-inline-end: 0;

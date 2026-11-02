@@ -1,0 +1,228 @@
+import {encodeHtml} from '../../core/locale.js'
+import {DATA_LIST_CONFIG} from '../../components/data-list/columns.js'
+import {NOTIFICATION_DETAILS, NOTIF_DATA} from '../../prototype/fixtures/messages.js'
+
+function notificationRows() {
+  return NOTIF_DATA.direct.map((row, index) => ({
+    ...row,
+    id: `direct-${index}`,
+    type: row.type || 'System notification',
+    source: row.source || 'Sales',
+    day: row.time === 'Yesterday' ? 'Yesterday' : row.time.endsWith('d') ? 'Earlier' : 'Today',
+  }))
+}
+
+function money(value) {
+  return Number(value).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})
+}
+
+/** Owns the Notifications page: the shared data-list plus the detail modal. */
+export function createNotificationsPage({t, listInstance, detailList, dialogs}) {
+  const rows = notificationRows()
+  let modal = null
+  let showUnreadOnly = false
+  let bound = false
+
+  function elements() {
+    modal = document.getElementById('notification-modal')
+  }
+
+  function syncRows() {
+    const state = listInstance?.getState()
+    if (state) state.unreadOnly = showUnreadOnly
+    const next = showUnreadOnly ? rows.filter(row => row.unread) : rows
+    listInstance?.model.setRows(next)
+    listInstance?.render()
+  }
+
+  function summaryMarkup(facts) {
+    return `<dl class="jgrid-head m-0 mb-3.5! grid grid-cols-2 gap-x-4 gap-y-3 rounded-lg bg-[var(--line-2)] [padding:12px_16px] sm:grid-cols-3">${facts
+      .map(
+        ([label, value]) =>
+          `<div><dt class="text-xs text-muted">${encodeHtml(t(label))}</dt><dd class="mt-0.5 font-semibold text-ink">${encodeHtml(String(value))}</dd></div>`
+      )
+      .join('')}</dl>`
+  }
+
+  function messageMarkup(row) {
+    const body = row.body || row.what
+    return `<div class="rounded-lg border border-[var(--line)] bg-white p-4 text-sm leading-6 text-ink">${encodeHtml(body)}</div>`
+  }
+
+  function totalsMarkup(detail) {
+    if (detail.totals === 'imbalance') {
+      const difference = Number(detail.debit || 0) - Number(detail.credit || 0)
+      return `<div class="jtotals mt-2! flex flex-wrap items-center justify-between gap-3 rounded-lg bg-[var(--line-2)] [padding:10px_16px]">
+        <dl class="m-0! grid grid-cols-3 gap-x-8">
+          <div><dt class="text-xs text-muted">${t('Debit')}</dt><dd class="font-semibold">${money(detail.debit)}</dd></div>
+          <div><dt class="text-xs text-muted">${t('Credit')}</dt><dd class="font-semibold">${money(detail.credit)}</dd></div>
+          <div><dt class="text-xs text-muted">${t('Difference')}</dt><dd class="font-semibold">${money(difference)}</dd></div>
+        </dl>
+        <span role="status" class="badge warn inline-flex items-center gap-1">${t('Unbalanced')}</span>
+      </div>`
+    }
+    if (detail.totals !== 'balance') return ''
+    const total = detail.rows.reduce((sum, row) => sum + Number(row.balance || 0), 0)
+    const contrary = total !== 0
+    return `<div class="jtotals mt-2! flex flex-wrap items-center justify-between gap-3 rounded-lg bg-[var(--line-2)] [padding:10px_16px]">
+      <dl class="m-0! grid grid-cols-2 gap-x-8">
+        <div><dt class="text-xs text-muted">${t('Accounts')}</dt><dd class="font-semibold">${detail.rows.length}</dd></div>
+        <div><dt class="text-xs text-muted">${t('Net balance')}</dt><dd class="font-semibold">${money(total)}</dd></div>
+      </dl>
+      <span role="status" class="badge ${contrary ? 'warn' : 'ok'} inline-flex items-center gap-1">${contrary ? t('Contrary') : t('Balanced')}</span>
+    </div>`
+  }
+
+  function hideDetailList() {
+    detailList?.deactivate()
+    const canvas = document.getElementById('notification-detail-canvas')
+    const footer = document.getElementById('notification-detail-fnav')
+    if (canvas) canvas.hidden = true
+    if (footer) footer.hidden = true
+    const totals = document.getElementById('notification-modal-totals')
+    if (totals) totals.innerHTML = ''
+  }
+
+  function showDetailList(detail) {
+    const config = DATA_LIST_CONFIG.notificationDetail
+    const canvas = document.getElementById('notification-detail-canvas')
+    const footer = document.getElementById('notification-detail-fnav')
+    config.columns = detail.columns
+    config.label = detail.label
+    config.singular = detail.singular
+    config.key = 'id'
+    config.filterFields = detail.columns.slice(0, 3).map(column => ({
+      key: column.key,
+      label: column.label,
+      icon: 'i-doc',
+      type: 'text',
+    }))
+    const state = detailList.getState()
+    state.columnOrder = detail.columns.map(column => column.key)
+    state.savedColumnOrder = state.columnOrder.slice()
+    state.hiddenColumns.clear()
+    state.savedHiddenColumns = new Set()
+    state.sortKey = 'id'
+    state.sortDirection = 'asc'
+    state.view = 'list'
+    state.search = ''
+    state.fieldFilters = []
+    state.layoutDirty = false
+    canvas.hidden = false
+    footer.hidden = false
+    detailList.setRows(detail.rows)
+    detailList.activate({root: canvas, footer})
+    document.getElementById('notification-modal-totals').innerHTML = totalsMarkup(detail)
+  }
+
+  function openNotification(id) {
+    const row = rows.find(item => item.id === id)
+    if (!row || !modal) return
+    const detail = row.detail ? NOTIFICATION_DETAILS[row.detail] : null
+    const dlg = document.getElementById('notification-modal-dlg')
+    const icon = document.getElementById('notification-modal-icon')
+    const summary = document.getElementById('notification-modal-summary')
+    const message = document.getElementById('notification-modal-message')
+    icon?.setAttribute('href', `#${row.icon || 'i-bell'}`)
+    document.getElementById('notification-modal-note').textContent = t('Read-only. Opened from Notifications.')
+    if (detail && detailList) {
+      dlg.classList.add('wide')
+      dlg.dataset.tone = 'info'
+      document.getElementById('notification-modal-title').textContent = row.what
+      document.getElementById('notification-modal-subtitle').textContent = t('Read-only list')
+      summary.hidden = false
+      summary.innerHTML = summaryMarkup(
+        detail.facts || [
+          ['Count', detail.rows.length],
+          ['Source', row.who],
+          ['As of', row.time],
+        ]
+      )
+      message.hidden = true
+      message.innerHTML = ''
+      showDetailList(detail)
+    } else {
+      dlg.classList.remove('wide')
+      dlg.dataset.tone = row.type === 'Warning' ? 'warn' : 'default'
+      document.getElementById('notification-modal-title').textContent = row.what
+      document.getElementById('notification-modal-subtitle').textContent = `${row.who} · ${row.time}`
+      summary.hidden = false
+      summary.innerHTML = summaryMarkup(
+        row.facts || [
+          ['From', row.who],
+          ['Type', row.type],
+          ['Received', row.time],
+        ]
+      )
+      message.hidden = false
+      message.innerHTML = messageMarkup(row)
+      hideDetailList()
+    }
+    modal.hidden = false
+    modal.classList.remove('hidden')
+    document.body.style.overflow = 'hidden'
+    dialogs.trapFocus(dlg)
+    if (row.unread) {
+      row.unread = false
+      syncRows()
+    }
+  }
+
+  function closeModal() {
+    if (!modal || modal.hidden) return
+    hideDetailList()
+    modal.hidden = true
+    modal.classList.add('hidden')
+    document.body.style.overflow = ''
+    dialogs.releaseFocus()
+  }
+
+  function bind() {
+    if (bound) return
+    elements()
+    document.getElementById('notifications-list-canvas')?.addEventListener('change', event => {
+      if (event.target.id !== 'notifications-page-unread-only') return
+      showUnreadOnly = event.target.checked
+      syncRows()
+    })
+    document.getElementById('notification-modal-close')?.addEventListener('click', closeModal)
+    document.getElementById('notification-modal-close-btn')?.addEventListener('click', closeModal)
+    modal?.addEventListener('click', event => {
+      if (event.target === modal) closeModal()
+    })
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeModal()
+    })
+    document.addEventListener('notifications:open', event => openNotification(event.detail?.id))
+    bound = true
+  }
+
+  return {
+    id: 'notifications',
+    roots: {root: document.querySelector('.notifications-list-view')},
+    activate() {
+      bind()
+      const state = listInstance?.getState()
+      const order = ['what', 'who', 'source', 'type', 'time']
+      if (state && (state.columnOrder[0] !== 'what' || state.columnOrder.includes('status') || state.columnOrder.includes('day') || state.columnOrder.includes('unread'))) {
+        state.columnOrder = order
+        state.savedColumnOrder = order.slice()
+        state.hiddenColumns.clear()
+        state.savedHiddenColumns = new Set()
+        state.layoutDirty = false
+        listInstance.model.saveLayout()
+      }
+      const root = document.getElementById('notifications-list-canvas')
+      const footer = document.getElementById('notifications-list-fnav')
+      syncRows()
+      listInstance?.activate({root, footer})
+    },
+    deactivate() {
+      closeModal()
+      listInstance?.deactivate()
+    },
+    dispose() {
+      closeModal()
+    },
+  }
+}

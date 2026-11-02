@@ -87,6 +87,15 @@ export function createPageListActions({getShowContentView, getState, applyState,
     // Journal Entry lines are the same shape (no detail record, no
     // create-new, no row-level commands) as Screen Parameters.
     journal: screenParametersListActions,
+    notificationDetail: screenParametersListActions,
+    notifications: () => ({
+      openRecord: key => {
+        document.dispatchEvent(new CustomEvent('notifications:open', {detail: {id: key}}))
+        return true
+      },
+      newRecord: () => {},
+      run: () => false,
+    }),
     // Organization Center's 5 contexts are the same shape too — their
     // Revoke/Terminate actions are cell content (renderers.js), not
     // engine-native row actions, so nothing here needs to do anything.

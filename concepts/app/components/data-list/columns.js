@@ -429,6 +429,47 @@ export const DATA_LIST_CONFIG = {
       {key: 'team', label: 'Team', icon: 'i-user', type: 'text'},
     ],
   },
+  notifications: {
+    label: 'notifications',
+    singular: 'notification',
+    key: 'id',
+    rows: [],
+    noRowActions: true,
+    tableClass: '[&_td[data-col=what]]:[max-width:none] [&_td[data-col=type]]:[text-overflow:clip]',
+    columns: [
+      {key: 'what', label: 'Subject', cardPrimary: true},
+      {key: 'who', label: 'From', cardSecondary: true},
+      {key: 'source', label: 'Source'},
+      {key: 'type', label: 'Type', cardBadge: true, width: 150},
+      {key: 'time', label: 'Received', cardMeta: true},
+    ],
+    filters: [
+      {key: 'all', label: 'All', icon: 'i-bell'},
+      {key: 'unread', label: 'Unread', icon: 'i-bell'},
+      {key: 'read', label: 'Read', icon: 'i-check'},
+    ],
+    filterFields: [
+      {key: 'what', label: 'Subject', icon: 'i-doc', type: 'text'},
+      {key: 'who', label: 'From', icon: 'i-user', type: 'text'},
+      {key: 'source', label: 'Source', icon: 'i-grid', type: 'select', options: ['Sales', 'Accounting', 'HR', 'Inventory']},
+      {key: 'type', label: 'Type', icon: 'i-bell', type: 'select', options: ['Posting', 'Warning', 'Comment', 'Alert']},
+    ],
+    cardTemplate: 'notification',
+  },
+  // Grid inside a notification popup. Columns and rows are swapped per
+  // alert before activate (notifications.js), same as Journal Entry's
+  // setRows — one instance, not a second table widget.
+  notificationDetail: {
+    label: 'records',
+    singular: 'record',
+    key: 'id',
+    rows: [],
+    noRowActions: true,
+    scrollOverflow: true,
+    columns: [{key: 'id', label: 'Id'}],
+    filters: [{key: 'all', label: 'All', icon: 'i-doc'}],
+    filterFields: [],
+  },
 }
 
 export const DATA_LIST_STATISTICS_CONCEPT_OPTIONS = [
@@ -488,6 +529,10 @@ export const DATA_LIST_RESPONSIVE_WIDTH = {
   // the action as ordinary cell content, see renderers.js's
   // orgSessionStateCell), so it needs more room than the 130px default.
   state: 220,
+  what: 520,
+  who: 160,
+  source: 120,
+  time: 96,
 }
 
 export function responsiveDataListColumns(context, width, listState) {
