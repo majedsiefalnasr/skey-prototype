@@ -9,6 +9,7 @@
 // module-level global.
 import {renderToggle} from '../../components/toggle.js'
 import {ensureContacts} from './contacts-model.js'
+import {validateCoordinatePair} from './location-picker.js'
 import {CUSTOMER_SECTIONS} from '../../prototype/fixtures/customers.js'
 import {uiLocale} from '../../core/locale.js'
 import {PROTOTYPE_NOW} from '../../prototype/fixtures/collaboration.js'
@@ -108,6 +109,10 @@ export function customerSectionKeyForField(fieldKey) {
  */
 export function validateCustomerField(field, customerData) {
   const value = String(customerData[field.key] ?? '').trim()
+  if (field.key === 'contactLatitude' || field.key === 'contactLongitude') {
+    return field.key === 'contactLatitude'
+      ? validateCoordinatePair(customerData.contactLatitude, customerData.contactLongitude) : ''
+  }
   if (CUSTOMER_REQUIRED_FIELDS.has(field.key) && !value) {
     return uiLocale.t('{field} is required.').replace('{field}', uiLocale.t(field.label))
   }

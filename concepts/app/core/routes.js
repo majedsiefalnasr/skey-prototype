@@ -51,6 +51,7 @@ const AREA_VIEW_BY_PATH = {
   '/help-screens/events': 'events',
   '/help-screens/people-data': 'people',
   '/help-screens/email': 'email',
+  '/help-screens/notifications': 'notifications',
 }
 
 /** Placeholder screens nest under their owning app: `<app base>/unavailable`
@@ -80,13 +81,14 @@ export const PATH_BY_VIEW = {
   people: '/help-screens/people-data',
   'people-record': '/help-screens/people-data',
   email: '/help-screens/email',
+  notifications: '/help-screens/notifications',
   profile: '/system/profile',
   organization: '/system/organization',
   signin: '/signin',
 }
 
 /** Emitted as `<path>/index.html` route folders by scripts/build.mjs.
- *  20 app bases + 8 inner paths + 3 shell paths + 20 placeholder paths = 51. */
+ *  20 app bases + 9 inner paths + 3 shell paths + 20 placeholder paths = 52. */
 export const ROUTE_PATHS = [
   ...new Set([
     ...Object.values(APP_PATH_BY_LABEL),

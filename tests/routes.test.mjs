@@ -80,11 +80,13 @@ test('routes: help-screens collaboration paths', () => {
   assert.equal(format('people'), '/help-screens/people-data')
   assert.deepEqual(parse('/help-screens/email'), {id: 'email', data: {}})
   assert.equal(format('email'), '/help-screens/email')
+  assert.deepEqual(parse('/help-screens/notifications'), {id: 'notifications', data: {}})
+  assert.equal(format('notifications'), '/help-screens/notifications')
   assert.deepEqual(parse('/help-screens'), {id: 'foryou', data: {app: 'Help Screens'}})
 })
 
 test('routes: format round-trips parse for every routed path', () => {
-  assert.equal(ROUTE_PATHS.length, 51)
+  assert.equal(ROUTE_PATHS.length, 52)
   for (const route of ROUTE_PATHS) {
     const parsed = parse(route)
     assert.notEqual(parsed, null, `${route} must parse`)

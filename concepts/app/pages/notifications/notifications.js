@@ -1,11 +1,12 @@
 import {encodeHtml} from '../../core/locale.js'
 import {DATA_LIST_CONFIG} from '../../components/data-list/columns.js'
-import {NOTIFICATION_DETAILS, NOTIF_DATA} from '../../prototype/fixtures/messages.js'
+import {NOTIFICATION_DETAILS} from '../../prototype/fixtures/messages.js'
+import {notificationItems, saveNotificationState} from '../../components/notifications/state.js'
+import {notificationActionButtons} from '../../components/notifications/actions.js'
 
 function notificationRows() {
-  return NOTIF_DATA.direct.map((row, index) => ({
+  return notificationItems().map(row => ({
     ...row,
-    id: `direct-${index}`,
     type: row.type || 'System notification',
     source: row.source || 'Sales',
     day: row.time === 'Yesterday' ? 'Yesterday' : row.time.endsWith('d') ? 'Earlier' : 'Today',
@@ -21,6 +22,7 @@ export function createNotificationsPage({t, listInstance, detailList, dialogs}) 
   const rows = notificationRows()
   let modal = null
   let showUnreadOnly = false
+  let activeId = null
   let bound = false
 
   function elements() {
@@ -33,6 +35,17 @@ export function createNotificationsPage({t, listInstance, detailList, dialogs}) 
     const next = showUnreadOnly ? rows.filter(row => row.unread) : rows
     listInstance?.model.setRows(next)
     listInstance?.render()
+  }
+
+  function updateNotification(id, action) {
+    const row = rows.find(item => item.id === id)
+    if (!row) return
+    if (action === 'read') row.unread = !row.unread
+    else if (action === 'pin') row.pinned = !row.pinned
+    else return
+    saveNotificationState(row)
+    syncRows()
+    if (activeId === id) document.getElementById('notification-modal-actions').innerHTML = notificationActionButtons(row)
   }
 
   function summaryMarkup(facts) {
@@ -118,6 +131,7 @@ export function createNotificationsPage({t, listInstance, detailList, dialogs}) 
   function openNotification(id) {
     const row = rows.find(item => item.id === id)
     if (!row || !modal) return
+    activeId = id
     const detail = row.detail ? NOTIFICATION_DETAILS[row.detail] : null
     const dlg = document.getElementById('notification-modal-dlg')
     const icon = document.getElementById('notification-modal-icon')
@@ -158,19 +172,22 @@ export function createNotificationsPage({t, listInstance, detailList, dialogs}) 
       message.innerHTML = messageMarkup(row)
       hideDetailList()
     }
+    if (row.unread) {
+      row.unread = false
+      saveNotificationState(row)
+      syncRows()
+    }
+    document.getElementById('notification-modal-actions').innerHTML = notificationActionButtons(row)
     modal.hidden = false
     modal.classList.remove('hidden')
     document.body.style.overflow = 'hidden'
     dialogs.trapFocus(dlg)
-    if (row.unread) {
-      row.unread = false
-      syncRows()
-    }
   }
 
   function closeModal() {
     if (!modal || modal.hidden) return
     hideDetailList()
+    activeId = null
     modal.hidden = true
     modal.classList.add('hidden')
     document.body.style.overflow = ''
@@ -185,6 +202,15 @@ export function createNotificationsPage({t, listInstance, detailList, dialogs}) 
       showUnreadOnly = event.target.checked
       syncRows()
     })
+    function handleAction(event) {
+      const button = event.target.closest('[data-notification-action]')
+      if (!button) return
+      event.preventDefault()
+      event.stopPropagation()
+      updateNotification(button.dataset.notificationId, button.dataset.notificationAction)
+    }
+    document.getElementById('notifications-list-canvas')?.addEventListener('click', handleAction, true)
+    document.getElementById('notification-modal-actions')?.addEventListener('click', handleAction)
     document.getElementById('notification-modal-close')?.addEventListener('click', closeModal)
     document.getElementById('notification-modal-close-btn')?.addEventListener('click', closeModal)
     modal?.addEventListener('click', event => {
@@ -203,8 +229,8 @@ export function createNotificationsPage({t, listInstance, detailList, dialogs}) 
     activate() {
       bind()
       const state = listInstance?.getState()
-      const order = ['what', 'who', 'source', 'type', 'time']
-      if (state && (state.columnOrder[0] !== 'what' || state.columnOrder.includes('status') || state.columnOrder.includes('day') || state.columnOrder.includes('unread'))) {
+      const order = ['what', 'source', 'actions']
+      if (state && (state.columnOrder.join(',') !== order.join(',') || state.hiddenColumns.size)) {
         state.columnOrder = order
         state.savedColumnOrder = order.slice()
         state.hiddenColumns.clear()

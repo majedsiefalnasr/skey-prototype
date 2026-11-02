@@ -1,6 +1,7 @@
 // Contact cards and Default Contact Info share these values in both directions.
 export const DEFAULT_CONTACT_FIELDS = {
-  address: 'contactAddress', addressDetails: 'contactAddressDetails', city: 'contactCity',
+  address: 'contactAddress', addressDetails: 'contactAddressDetails',
+  latitude: 'contactLatitude', longitude: 'contactLongitude', city: 'contactCity',
   state: 'contactState', country: 'contactCountry', postalCode: 'contactPostalCode',
   phone: 'contactPhone', email: 'contactEmail', mobile: 'contactMobile', website: 'contactWebsite',
   fax: 'contactFax', poBox: 'contactPoBox',

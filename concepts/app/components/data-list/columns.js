@@ -435,13 +435,11 @@ export const DATA_LIST_CONFIG = {
     key: 'id',
     rows: [],
     noRowActions: true,
-    tableClass: '[&_td[data-col=what]]:[max-width:none] [&_td[data-col=type]]:[text-overflow:clip]',
+    tableClass: '[&_td[data-col=what]]:[max-width:none] [&_td[data-col=actions]]:[text-overflow:clip]',
     columns: [
       {key: 'what', label: 'Subject', cardPrimary: true},
-      {key: 'who', label: 'From', cardSecondary: true},
       {key: 'source', label: 'Source'},
-      {key: 'type', label: 'Type', cardBadge: true, width: 150},
-      {key: 'time', label: 'Received', cardMeta: true},
+      {key: 'actions', label: 'Actions', width: 165},
     ],
     filters: [
       {key: 'all', label: 'All', icon: 'i-bell'},

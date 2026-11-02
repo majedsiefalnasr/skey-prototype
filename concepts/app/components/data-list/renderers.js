@@ -1,5 +1,6 @@
 import {encodeHtml} from '../../core/locale.js'
 import {DATA_LIST_CONFIG} from './columns.js'
+import {notificationActionButtons} from '../notifications/actions.js'
 import {renderDataListRowActions as renderSharedDataListRowActions, renderDataListAdaptiveFooterActions as renderSharedDataListAdaptiveFooterActions, renderDataListHeader as renderSharedDataListHeader, renderDataListRecordRows as renderSharedDataListRecordRows, renderDataListBody as renderSharedDataListBody, renderDataListCards as renderSharedDataListCards, renderDataListAdaptiveRecord as renderSharedDataListAdaptiveRecord, dataListDetailsId as sharedDataListDetailsId} from './views.js'
 import {renderDataListSelectionActions as sharedRenderDataListSelectionActions, DATA_MENU_POPOVER_CLASS} from './list.js'
 
@@ -69,10 +70,7 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
       const tone = row.unread ? 'font-semibold text-ink' : 'font-medium text-muted'
       return `<button type="button" class="block w-full truncate border-0 bg-transparent p-0 text-start ${tone} hover:underline focus-visible:outline-2 focus-visible:outline-[var(--focus)]" data-list-open-record="${encodeHtml(row.id)}">${encodeHtml(row.what)}</button>`
     }
-    if (context === 'notifications' && column.key === 'type') {
-      const tone = {Posting: 'ok', Warning: 'warn', Comment: 'fix', Alert: 'danger'}[row.type] || 'gray'
-      return `<span class="badge ${tone}">${t(row.type || 'Alert')}</span>`
-    }
+    if (context === 'notifications' && column.key === 'actions') return notificationActionButtons(row)
     if (context === 'people' && column.key === 'lifecycle') return `<span class="flex flex-wrap gap-1"><span class="badge gray">${t(row.lifecycle === 'contact' ? 'Contact' : 'Lead')}</span>${row.conversionLabel ? `<span class="badge ok">${t('Converted to')} ${encodeHtml(row.conversionLabel)}</span>` : ''}${row.archived ? `<span class="badge gray">${t('Archived')}</span>` : ''}</span>`
     if (context === 'people' && ['phone', 'email'].includes(column.key)) return `<span dir="ltr">${encodeHtml(value || '—')}</span>`
     if (context === 'customer' && column.key === 'avatar') {

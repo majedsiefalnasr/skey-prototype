@@ -1,5 +1,6 @@
 import {EMAIL_DATA, NOTIF_DATA} from '../../prototype/fixtures/messages.js'
 import {uiLocale} from '../../core/locale.js'
+import {notificationItems} from './state.js'
 
 const EMAIL_AVATAR_TONE_1_CLASS = 'bg-[var(--avatar-tone-1-bg)]! text-[var(--avatar-tone-1-ink)]!'
 const EMAIL_AVATAR_TONE_2_CLASS = 'bg-[var(--avatar-tone-2-bg)]! text-[var(--avatar-tone-2-ink)]!'
@@ -71,7 +72,7 @@ let notificationSnapshot = ''
             return
           }
           const reminders = getEventReminders()
-          const allItems = [...(NOTIF_DATA[tab] || []), ...(tab === 'direct' ? reminders.map(event => ({who: event.title, what: 'Event reminder', time: event.start.replace('T', ' '), unread: event.unread, icon: 'i-cal', event})) : [])]
+          const allItems = [...(tab === 'direct' ? notificationItems() : NOTIF_DATA[tab] || []), ...(tab === 'direct' ? reminders.map(event => ({who: event.title, what: 'Event reminder', time: event.start.replace('T', ' '), unread: event.unread, icon: 'i-cal', event})) : [])]
           const items = unreadOnly() ? allItems.filter(item => item.unread) : allItems
           if (!items.length) {
             body.innerHTML = `<div class="notif-empty flex flex-col items-center gap-2.5 px-6 pb-[30px] pt-9 text-center text-faint"><svg width="34" height="34" aria-hidden="true"><use href="#i-bell"/></svg>
@@ -146,11 +147,9 @@ let notificationSnapshot = ''
         function syncNotifBadge() {
           const messages = getEmailMessages()
           const reminders = getEventReminders()
-          const snapshot = JSON.stringify([messages, reminders])
-          const count =
-            Object.values(NOTIF_DATA)
-              .flat()
-              .filter(n => n.unread).length + messages.filter(m => m.unread).length + reminders.filter(event => event.unread).length
+          const direct = notificationItems()
+          const snapshot = JSON.stringify([messages, reminders, direct.map(item => [item.unread, item.pinned])])
+          const count = direct.filter(n => n.unread).length + messages.filter(m => m.unread).length + reminders.filter(event => event.unread).length
           const badge = document.getElementById('notif-badge')
           badge.textContent = count
           badge.hidden = !count
@@ -158,6 +157,7 @@ let notificationSnapshot = ''
           notificationSnapshot = snapshot
         }
         syncNotifBadge()
+        document.addEventListener('notifications:changed', syncNotifBadge, {signal: pageAbort.signal})
         const reminderTimer = setInterval(syncNotifBadge, 60000)
 
         /* ---- email view: opened from Notifications' Email tab, replaces the invoice

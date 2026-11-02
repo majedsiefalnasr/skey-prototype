@@ -146,7 +146,7 @@ export function renderDataListRecordRows(row, tableContext, deps) {
   const cells = visibleColumns
     .map((column, index) => {
       const title =
-        column.key === 'avatar' ? '' : ` title="${encodeHtml(String(row[column.key] ?? ''))}"`
+        ['avatar', 'actions'].includes(column.key) ? '' : ` title="${encodeHtml(String(row[column.key] ?? ''))}"`
       const content = renderCell(context, row, column)
       const cellContent =
         index === 0 && leadingExpand

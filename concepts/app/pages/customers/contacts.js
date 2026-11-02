@@ -6,6 +6,7 @@ import {emptyState, FIELD_CLASS, selectInput} from '../../components/collab/fiel
 import {searchField} from '../../components/collab/list-toolbar.js'
 import {DATA_RECORD_CARD_CLASS} from '../list-cards.js'
 import {blankContact, CONTACT_TYPES} from './contacts-model.js'
+import {mountLocationPicker, renderLocationPicker, validateCoordinatePair} from './location-picker.js'
 
 const t = value => uiLocale.t(value)
 const icon = name => `<svg width="15" height="15" aria-hidden="true"><use href="#${name}" /></svg>`
@@ -67,6 +68,7 @@ export function createContactDialog({trapFocus, releaseFocus, onSave}) {
   let readOnly = false
   let uploadVersion = 0
   let photoLoading = false
+  let unmountLocation = null
   const fieldKey = key => `contactEditor_${key}`
   const inputFor = key => body.querySelector(`[data-customer-field="${fieldKey(key)}"]`)
 
@@ -86,6 +88,8 @@ export function createContactDialog({trapFocus, releaseFocus, onSave}) {
 
   function read() {
     for (const def of definitions) draft[def.key] = inputFor(def.key)?.value.trim() || ''
+    draft.latitude = inputFor('latitude').value.trim()
+    draft.longitude = inputFor('longitude').value.trim()
     draft.order = Math.max(0, Number(draft.order) || 0)
     draft.isDefault = body.querySelector('[data-contact-is-default]').checked
     draft.connections = [...body.querySelectorAll('[data-contact-connection]')].map(row => ({
@@ -127,6 +131,8 @@ export function createContactDialog({trapFocus, releaseFocus, onSave}) {
   function open(contact, {first = false, readOnly: viewing = false} = {}) {
     readOnly = viewing
     uploadVersion += 1
+    unmountLocation?.()
+    unmountLocation = null
     draft = {...blankContact(), ...structuredClone(contact || {})}
     draft.isDefault ||= first
     photoLoading = false
@@ -136,7 +142,7 @@ export function createContactDialog({trapFocus, releaseFocus, onSave}) {
       <div class="min-w-0">${group(['name', 'title', 'jobTitle', 'classification', 'remarks'])}</div>
       <div class="customer-identity-photo">${field({key: 'photo', label: 'Photo', type: 'photo'})}<input type="file" accept="image/*" hidden data-contact-photo-input></div>
     </div>
-    <section class="mt-5 border-t border-line pt-4"><h4 class="mb-3! text-sm font-semibold">${encodeHtml(t('Address'))}</h4>${group(['address', 'addressDetails', 'city', 'state', 'country', 'postalCode'])}</section>
+    <section class="mt-5 border-t border-line pt-4"><h4 class="mb-3! text-sm font-semibold">${encodeHtml(t('Address'))}</h4>${group(['address', 'addressDetails', 'city', 'state', 'country', 'postalCode'])}<div class="mt-3">${renderLocationPicker({latitude: draft.latitude, longitude: draft.longitude, prefix: 'contact-editor', readOnly, fieldAttribute: name => `data-customer-field="${fieldKey(name)}"`})}</div></section>
     <section class="mt-5 border-t border-line pt-4">${group(['phone', 'mobile', 'email', 'website', 'fax', 'poBox', 'whatsapp', 'telegram', 'facebook', 'twitter', 'youtube', 'order'])}
       <div class="mt-3">${renderToggle({id: 'contact-editor-default', label: t('Default contact'), checked: draft.isDefault, disabled: readOnly || first || Boolean(contact?.isDefault), attributes: 'data-contact-is-default'})}</div>
     </section>
@@ -150,6 +156,7 @@ export function createContactDialog({trapFocus, releaseFocus, onSave}) {
     for (const key of ['name', 'classification']) body.querySelector(`label[for="${inputFor(key).id}"]`).insertAdjacentHTML('beforeend', ' <span class="text-[var(--danger)]" aria-hidden="true">*</span>')
     inputFor('order').min = '0'
     renderConnections()
+    unmountLocation = mountLocationPicker(body.querySelector('[data-location-picker]'))
     form.querySelector('button[type="submit"]').hidden = readOnly
     const cancel = form.querySelector('[data-contact-close]')
     cancel.dataset.i18n = readOnly ? 'Close' : 'Cancel'
@@ -165,6 +172,8 @@ export function createContactDialog({trapFocus, releaseFocus, onSave}) {
   function close() {
     if (!scrim.classList.contains('open')) return
     uploadVersion += 1
+    unmountLocation?.()
+    unmountLocation = null
     draft = null
     scrim.classList.remove('open')
     releaseFocus()
@@ -245,6 +254,9 @@ export function createContactDialog({trapFocus, releaseFocus, onSave}) {
       if (message) inputFor(def.key).setAttribute('aria-invalid', 'true')
     }
     if (!draft.name.trim()) inputFor('name').setCustomValidity(t('Name is required.'))
+    const locationError = validateCoordinatePair(draft.latitude, draft.longitude)
+    inputFor('latitude').setCustomValidity(locationError)
+    if (locationError) inputFor('latitude').setAttribute('aria-invalid', 'true')
     for (const row of body.querySelectorAll('[data-contact-connection]')) {
       const index = Number(row.dataset.connectionIndex)
       const connection = draft.connections[index]

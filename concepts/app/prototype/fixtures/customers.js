@@ -132,6 +132,8 @@ export const CUSTOMER_SECTIONS = {
     fields: [
       customerField('contactAddress', 'Address'),
       customerField('contactAddressDetails', 'Address Details'),
+      customerField('contactLatitude', 'Latitude'),
+      customerField('contactLongitude', 'Longitude'),
       customerField('contactCity', 'City', 'select', ['']),
       customerField('contactState', 'State', 'select', ['']),
       customerField('contactCountry', 'Country', 'select', ['EG - Egypt']),

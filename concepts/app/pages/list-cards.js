@@ -3,6 +3,7 @@ import {DATA_TOOLBAR_BUTTON_CLASS} from '../components/data-list/list.js'
 import {renderDataListRowActionMenu as renderSharedDataListRowActionMenu} from '../components/data-list/views.js'
 import {encodeHtml} from '../core/locale.js'
 import {renderCustomerAvatar} from './customers/images.js'
+import {notificationActionButtons} from '../components/notifications/actions.js'
 
 export const DATA_RECORD_CARD_CLASS =
   "data-record-card data-record-card-snapshot-layout relative grid min-w-0 gap-5 rounded-lg border border-line bg-surface p-3.5 transition-[border-color,box-shadow,transform] duration-150 ease-in-out hover:[box-shadow:var(--shadow-1)] [&[aria-selected='true']]:border-accent [&[aria-selected='true']]:bg-[var(--accent-soft)] [&[aria-selected='true']_.data-record-card-select]:bg-surface [body.density-compact_&]:gap-2 [body.density-compact_&]:p-2.5 [body.density-comfortable_&]:gap-8 [body.density-comfortable_&]:p-[18px]"
@@ -198,6 +199,7 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
         ${dataRecordCardFactMarkup(['Received', row.time])}
         ${dataRecordCardFactMarkup(['Source', row.source || 'Sales'])}
       </dl>
+      <footer class="border-t border-line pt-2.5">${notificationActionButtons(row)}</footer>
     </article>`
   }
 

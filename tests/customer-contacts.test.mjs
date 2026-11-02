@@ -1,7 +1,8 @@
 import {test} from 'node:test'
 import assert from 'node:assert/strict'
 import {blankContact, ensureContacts, saveContact, removeContact, setDefaultContact, updateDefaultContact} from '../concepts/app/pages/customers/contacts-model.js'
-import {createSavedCustomerData} from '../concepts/app/pages/customers/fields.js'
+import {createSavedCustomerData, validateCustomerField, validateCustomerRecord} from '../concepts/app/pages/customers/fields.js'
+import {validateCoordinatePair} from '../concepts/app/pages/customers/location-picker.js'
 import {CUSTOMER_ROWS, CUSTOMER_REFERENCE} from '../concepts/app/prototype/fixtures/customers.js'
 
 test('legacy Default Contact Info becomes one default card without sharing saved arrays', () => {
@@ -67,6 +68,34 @@ test('editing either side synchronizes only the default contact', () => {
   assert.equal(customer.contactDetails.filter(item => item.isDefault).length, 1)
   ensureContacts(customer)
   assert.equal(customer.contactDetails.length, 2)
+})
+
+test('coordinate pairs validate together and synchronize only the default contact', () => {
+  assert.equal(validateCoordinatePair('', ''), '')
+  for (const pair of [['12', ''], ['', '2'], ['91', '2'], ['1', '-181'], ['Infinity', '0'], ['1e2', '1']]) {
+    assert.notEqual(validateCoordinatePair(...pair), '')
+  }
+  assert.equal(validateCoordinatePair('0', '-180'), '')
+  const customer = {contactDetails: []}
+  const first = saveContact(customer, {...blankContact(), name: 'First', latitude: '30.04', longitude: '31.23'})
+  const second = saveContact(customer, {...blankContact(), name: 'Second', latitude: '29.9', longitude: '31.1'})
+  assert.equal(customer.contactLatitude, '30.04')
+  assert.equal(customer.contactLongitude, '31.23')
+  updateDefaultContact(customer, 'contactLongitude', '31.25')
+  assert.equal(customer.contactDetails[0].longitude, '31.25')
+  assert.equal(customer.contactDetails[1].longitude, '31.1')
+  setDefaultContact(customer, second.id)
+  assert.equal(customer.contactLatitude, '29.9')
+  assert.equal(customer.contactLongitude, '31.1')
+  assert.equal(customer.contactDetails.find(item => item.id === first.id).latitude, '30.04')
+  customer.contactLongitude = ''
+  assert.notEqual(validateCustomerField({key: 'contactLatitude'}, customer), '')
+  const saved = createSavedCustomerData(CUSTOMER_ROWS[0].customerNo, CUSTOMER_ROWS, CUSTOMER_REFERENCE)
+  saved.contactLatitude = '91'
+  saved.contactLongitude = '0'
+  const state = {errors: new Map()}
+  assert.equal(validateCustomerRecord(saved, state), false)
+  assert.ok(state.errors.has('contactLatitude'))
 })
 
 test('editing Default Contact Info on a blank customer creates a synchronized card', () => {

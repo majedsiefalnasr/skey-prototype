@@ -60,6 +60,7 @@ import {emptyState} from '../../components/collab/fields.js'
 import {createConfirm} from '../../components/collab/panel.js'
 import {createContactDialog, renderContactCards} from './contacts.js'
 import {ensureContacts, saveContact, removeContact, setDefaultContact, updateDefaultContact, DEFAULT_CONTACT_FIELDS} from './contacts-model.js'
+import {mountLocationPicker, renderLocationPicker} from './location-picker.js'
 
 const CUSTOMER_RENDERERS = {
   scroll: renderCustomerScroll,
@@ -155,6 +156,7 @@ export function createCustomerRecord({root, deps}) {
      not ask a second time. The next requestLeave() consumes it. */
   let leaveApproved = false
   let active = false
+  let unmountDefaultLocation = null
 
   // The same preview trigger appears in customer list rows, so its
   // document-delegated controller must exist before the record page is first
@@ -215,6 +217,10 @@ export function createCustomerRecord({root, deps}) {
   function renderSectionBody(key, {CUSTOMER_SECTIONS}) {
     const section = CUSTOMER_SECTIONS[key]
     if (key === 'contactDetails') return renderContactCards(customerData, customerState.mode !== 'view')
+    if (key === 'defaultContact') {
+      const fields = section.fields.filter(item => !['contactLatitude', 'contactLongitude'].includes(item.key))
+      return `<div class="customer-field-grid grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:4px_8px] [padding:6px] [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">${fields.map(item => field(item)).join('')}${renderLocationPicker({latitude: customerData.contactLatitude, longitude: customerData.contactLongitude, prefix: 'customer-default', readOnly: customerState.mode === 'view', error: customerState.errors.get('contactLatitude') || '', fieldId: name => `customer-field-contact${name[0].toUpperCase()}${name.slice(1)}`, fieldAttribute: name => `data-customer-field="contact${name[0].toUpperCase()}${name.slice(1)}"`})}</div>`
+    }
     if (key === 'identity') {
       const photo = section.fields.find(item => item.type === 'photo')
       const linked = section.fields.find(item => item.key === 'linkedBeneficiaries')
@@ -419,8 +425,12 @@ export function createCustomerRecord({root, deps}) {
     const scroller = resolveScroller(canvas)
     const scrollTop = scroller.scrollTop
     scrollNavigator?.stopTracking()
+    unmountDefaultLocation?.()
+    unmountDefaultLocation = null
     const renderer = CUSTOMER_RENDERERS.scroll
     renderer(canvas, customerData, customerState, layoutRenderDeps(sectionsDeps))
+    const locationHost = canvas.querySelector('[data-customer-section="defaultContact"] [data-location-picker]')
+    if (locationHost) unmountDefaultLocation = mountLocationPicker(locationHost)
     applyRecordValueDirections(canvas)
     if (preserveScroll) scroller.scrollTop = scrollTop
     if (customerState.layout === 'scroll') {
@@ -1092,6 +1102,8 @@ export function createCustomerRecord({root, deps}) {
 
   function deactivate() {
     contactDialog.close()
+    unmountDefaultLocation?.()
+    unmountDefaultLocation = null
     unwire()
     scrollNavigator?.stopTracking()
   }
