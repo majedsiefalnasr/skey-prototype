@@ -20,6 +20,9 @@ function money(value) {
 /** Owns the Notifications page: the shared data-list plus the detail modal. */
 export function createNotificationsPage({t, listInstance, detailList, dialogs}) {
   const rows = notificationRows()
+  const selectionActions = [{command: 'mark-unread', label: 'Mark as unread', icon: 'i-bell'}]
+  DATA_LIST_CONFIG.notifications.selectionActions = state =>
+    rows.some(row => state.selected.has(String(row.id)) && !row.unread) ? selectionActions : []
   let modal = null
   let showUnreadOnly = false
   let activeId = null
@@ -40,7 +43,7 @@ export function createNotificationsPage({t, listInstance, detailList, dialogs}) 
   function updateNotification(id, action) {
     const row = rows.find(item => item.id === id)
     if (!row) return
-    if (action === 'read') row.unread = !row.unread
+    if (action === 'read') row.unread = true
     else if (action === 'pin') row.pinned = !row.pinned
     else return
     saveNotificationState(row)
@@ -138,7 +141,9 @@ export function createNotificationsPage({t, listInstance, detailList, dialogs}) 
     const summary = document.getElementById('notification-modal-summary')
     const message = document.getElementById('notification-modal-message')
     icon?.setAttribute('href', `#${row.icon || 'i-bell'}`)
-    document.getElementById('notification-modal-note').textContent = t('Read-only. Opened from Notifications.')
+    document.getElementById('notification-modal-note').textContent = row.detail || row.type === 'Warning'
+      ? t('Reading this notification does not resolve the underlying issue.')
+      : t('Read-only. Opened from Notifications.')
     if (detail && detailList) {
       dlg.classList.add('wide')
       dlg.dataset.tone = 'info'
@@ -203,6 +208,30 @@ export function createNotificationsPage({t, listInstance, detailList, dialogs}) 
       syncRows()
     })
     function handleAction(event) {
+      const bulk = event.target.closest('[data-list-action]')
+      if (bulk && bulk.dataset.listAction === 'mark-unread') {
+        event.preventDefault()
+        event.stopPropagation()
+        const state = listInstance.getState()
+        for (const row of rows) {
+          if (!state.selected.has(String(row.id))) continue
+          row.unread = true
+          saveNotificationState(row)
+        }
+        const count = state.selected.size
+        state.selected.clear()
+        syncRows()
+        let status = document.getElementById('notifications-bulk-status')
+        if (!status) {
+          status = document.createElement('div')
+          status.id = 'notifications-bulk-status'
+          status.className = 'sr-only'
+          status.setAttribute('role', 'status')
+          document.getElementById('notifications-list-canvas').after(status)
+        }
+        status.textContent = `${count} ${t('notifications')}: ${t('Marked as unread')}`
+        return
+      }
       const button = event.target.closest('[data-notification-action]')
       if (!button) return
       event.preventDefault()
@@ -220,6 +249,42 @@ export function createNotificationsPage({t, listInstance, detailList, dialogs}) 
       if (event.key === 'Escape') closeModal()
     })
     document.addEventListener('notifications:open', event => openNotification(event.detail?.id))
+    // Render action hints outside table/dialog scrollports so sticky cells cannot clip them.
+    const tooltip = document.createElement('div')
+    tooltip.id = 'notification-action-tooltip'
+    tooltip.className = 'tip'
+    tooltip.setAttribute('role', 'tooltip')
+    document.body.append(tooltip)
+    let tooltipButton = null
+    function hideActionTooltip() {
+      tooltipButton?.removeAttribute('aria-describedby')
+      tooltipButton = null
+      tooltip.style.display = 'none'
+    }
+    function showActionTooltip(event) {
+      const button = event.target.closest('[data-notification-action]')
+      if (!button) return
+      hideActionTooltip()
+      tooltipButton = button
+      tooltip.textContent = button.getAttribute('aria-label')
+      button.setAttribute('aria-describedby', tooltip.id)
+      Object.assign(tooltip.style, {display: 'block', position: 'fixed', opacity: '1', translate: 'none', zIndex: '300', inset: 'auto', left: '0px', top: '0px'})
+      const rect = button.getBoundingClientRect()
+      const width = tooltip.offsetWidth
+      const height = tooltip.offsetHeight
+      tooltip.style.left = `${Math.max(8, Math.min(innerWidth - width - 8, rect.left + (rect.width - width) / 2))}px`
+      tooltip.style.top = `${rect.bottom + height + 14 > innerHeight ? rect.top - height - 6 : rect.bottom + 6}px`
+    }
+    for (const root of [document.getElementById('notifications-list-canvas'), document.getElementById('notification-modal-actions')]) {
+      root?.addEventListener('pointerover', showActionTooltip)
+      root?.addEventListener('focusin', showActionTooltip)
+      root?.addEventListener('pointerout', hideActionTooltip)
+      root?.addEventListener('focusout', hideActionTooltip)
+      root?.addEventListener('click', hideActionTooltip)
+    }
+    document.addEventListener('scroll', hideActionTooltip, true)
+    window.addEventListener('resize', hideActionTooltip)
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') hideActionTooltip() })
     bound = true
   }
 

@@ -77,6 +77,7 @@ export function renderDataListHeader(visibleColumns, listState, {t, encodeHtml})
   const sortButtonClass = DATA_SORT_BUTTON_CLASS
   return visibleColumns
     .map(column => {
+      if (column.actionColumn) return `<th class="data-row-actions-cell" data-col="${encodeHtml(column.key)}" aria-label="${encodeHtml(t(column.label))}"></th>`
       if (column.sortable === false) {
         return `<th data-col="${encodeHtml(column.key)}" data-list-column-drag="${encodeHtml(column.key)}" draggable="true" aria-sort="none" title="${t('Drag to reorder', 'Drag to reorder')}"><span class="${sortButtonClass}"><span>${encodeHtml(t(column.label))}</span></span></th>`
       }
@@ -152,14 +153,14 @@ export function renderDataListRecordRows(row, tableContext, deps) {
         index === 0 && leadingExpand
           ? `<span class="inline-flex items-center gap-1.5 min-w-0">${leadingExpand}<span class="min-w-0 truncate">${content}</span></span>`
           : content
-      return `<td data-col="${encodeHtml(column.key)}"${title}>${cellContent}</td>`
+      return `<td${column.actionColumn ? ' class="data-row-actions-cell"' : ''} data-col="${encodeHtml(column.key)}"${title}>${cellContent}</td>`
     })
     .join('')
   // Rows with nothing to act on (config.noRowActions — e.g. Screen
   // Parameters' plain reference table) skip both the select-all checkbox
   // and the "..." actions cell entirely, rather than rendering controls
   // that would have nothing to select/act on for.
-  const selectCell = config.noRowActions
+  const selectCell = config.noRowActions && !config.selectable
     ? ''
     : `<td class="data-row-select-cell"><label class="contents [@media(pointer:coarse)]:grid [@media(pointer:coarse)]:size-11 [@media(pointer:coarse)]:cursor-pointer [@media(pointer:coarse)]:place-items-center"><input class="m-0! size-[15px]! min-h-0! min-w-0! p-0! accent-accent" type="checkbox" data-list-row-select value="${encodeHtml(key)}" aria-label="Select ${encodeHtml(config.singular)} ${encodeHtml(key)}"${selected ? ' checked' : ''}></label></td>`
   const actionCell = config.noRowActions
@@ -168,7 +169,7 @@ export function renderDataListRecordRows(row, tableContext, deps) {
   const recordRow = `<tr class="data-list-record-row${config.noRowActions ? '' : ' cursor-pointer'}" data-list-row-key="${encodeHtml(key)}" aria-selected="${selected}"${config.noRowActions ? '' : ' title="Double-click to open. Ctrl/Command + double-click for Adaptive view on this record."'}>${selectCell}${cells}${actionCell}</tr>`
   if (!expanded) return recordRow
   const detailsId = dataListDetailsId(context, key)
-  const detailsColspan = visibleColumns.length + (config.noRowActions ? 0 : 2)
+  const detailsColspan = visibleColumns.length + (config.noRowActions ? (config.selectable ? 1 : 0) : 2)
   return `${recordRow}<tr class="data-responsive-detail-row" id="${encodeHtml(detailsId)}"><td colspan="${detailsColspan}">${renderResponsiveRowDetails(context, row, overflowColumns, config.noRowActions, deps)}</td></tr>`
 }
 
@@ -194,7 +195,7 @@ export function renderDataListGroupedBody(rows, tableContext, deps, depth = 0, p
       const children = expanded
         ? renderDataListGroupedBody(groupRows, tableContext, deps, depth + 1, groupPath)
         : ''
-      const groupColspan = visibleColumns.length + (config.noRowActions ? 0 : 2)
+      const groupColspan = visibleColumns.length + (config.noRowActions ? (config.selectable ? 1 : 0) : 2)
       return `<tr class="data-group-row [grid-column:1_/_-1] bg-[var(--line-2)] [border-bottom:1px_solid_var(--line)] [border-top:1px_solid_var(--line)]"><td colspan="${groupColspan}"><button type="button" class="data-group-toggle flex w-full min-h-9 items-center gap-[7px] py-1.5 pe-2.5 text-start" style="--group-depth:${depth};padding-inline-start:calc(10px + var(--group-depth, 0) * 20px)" data-list-group-toggle="${encodeHtml(groupId)}" aria-expanded="${expanded}">${dataListIcon('i-caret', 11)}<span class="data-group-label text-xs font-semibold text-muted">${encodeHtml(column.label)}</span><span class="data-group-value font-bold text-ink">${encodeHtml(value)}</span><span class="data-group-count ms-auto text-xs font-medium text-muted">${groupRows.length} ${groupRows.length === 1 ? config.singular : config.label}</span></button></td></tr>${children}`
     })
     .join('')

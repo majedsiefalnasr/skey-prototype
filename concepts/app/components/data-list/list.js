@@ -151,9 +151,12 @@ export function renderDataListFilterEditor(config, filter, deps) {
 }
 
 export function renderDataListSelectionActions(config, listState, deps) {
-  const {t, dataListIcon} = deps
+  const {t, dataListIcon, encodeHtml: encode = value => value} = deps
   const selectedCount = listState.selected.size
   if (!selectedCount) return ''
+  if (config.selectionActions) return (typeof config.selectionActions === 'function' ? config.selectionActions(listState) : config.selectionActions).map(action =>
+    `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="${encode(action.command)}">${dataListIcon(action.icon)} ${encode(t(action.label))}</button>`
+  ).join('')
   const singleRecordActions =
     selectedCount === 1
       ? `<button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="display">${dataListIcon('i-eye')} ${t('Display', 'Display')}</button><button class="data-toolbar-button ${DATA_TOOLBAR_BUTTON_CLASS}" type="button" data-list-action="modify">${dataListIcon('i-edit')} ${t('Modify')}</button>`
@@ -395,7 +398,7 @@ export function renderDataList(
     listState.view === 'responsive' ? responsiveColumns.visible : standardVisibleColumns
   const overflowColumns = listState.view === 'responsive' ? responsiveColumns.overflow : []
   listState.responsiveSignature = responsiveColumns.visible.map(column => column.key).join('|')
-  const visibleKeys = rows.map(row => String(row[config.key]))
+  const visibleKeys = (config.selectable ? filteredRows : rows).map(row => String(row[config.key]))
   const selectedVisible = visibleKeys.filter(key => listState.selected.has(key)).length
   const allSelected = Boolean(visibleKeys.length) && selectedVisible === visibleKeys.length
   const toolbar = renderDataListToolbar(context, config, listState, deps)
@@ -416,10 +419,10 @@ export function renderDataList(
   // dialog's `.dbody` — scroll horizontally instead of squeezing columns.
   const actionlessColgroup = config.noRowActions && !config.scrollOverflow
     ? (() => {
-        const widths = visibleColumns.map(column => column.width || deps.responsiveWidthFor(column.key) || 130)
-        const total = widths.reduce((sum, width) => sum + width, 0)
+        const widths = [...(config.selectable ? [42] : []), ...visibleColumns.map(column => column.width || deps.responsiveWidthFor(column.key) || 130)]
+        const total = widths.reduce((sum, width) => sum + width, 0) - (config.selectable ? 42 : 0)
         return `<colgroup>${widths
-          .map(width => `<col style="width:${((width / total) * 100).toFixed(3)}%">`)
+          .map((width, index) => `<col style="width:${config.selectable ? index === 0 ? '42px' : `calc((100% - 42px) * ${(width / total).toFixed(6)})` : `${((width / total) * 100).toFixed(3)}%`}">`)
           .join('')}</colgroup>`
       })()
     : ''
@@ -437,9 +440,9 @@ export function renderDataList(
               // so the select-all checkbox and "..." header cells are
               // skipped along with their per-row counterparts
               // (views.js's renderDataListRecordRows).
-              const selectAllHeader = config.noRowActions
+              const selectAllHeader = config.noRowActions && !config.selectable
                 ? ''
-                : `<th class="data-row-select-cell"><label class="contents [@media(pointer:coarse)]:grid [@media(pointer:coarse)]:size-11 [@media(pointer:coarse)]:cursor-pointer [@media(pointer:coarse)]:place-items-center"><input class="m-0! size-[15px]! min-h-0! min-w-0! p-0! accent-accent" type="checkbox" data-list-select-all aria-label="Select all visible ${deps.encodeHtml(config.label)}"${allSelected ? ' checked' : ''}></label></th>`
+                : `<th class="data-row-select-cell"><label class="contents [@media(pointer:coarse)]:grid [@media(pointer:coarse)]:size-11 [@media(pointer:coarse)]:cursor-pointer [@media(pointer:coarse)]:place-items-center"><input class="m-0! size-[15px]! min-h-0! min-w-0! p-0! accent-accent" type="checkbox" data-list-select-all aria-label="Select all ${config.selectable ? 'matching' : 'visible'} ${deps.encodeHtml(config.label)}"${allSelected ? ' checked' : ''}></label></th>`
               const actionsHeader = config.noRowActions
                 ? ''
                 : `<th class="data-row-actions-cell" aria-label="Record actions"></th>`

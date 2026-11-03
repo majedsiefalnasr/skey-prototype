@@ -435,11 +435,15 @@ export const DATA_LIST_CONFIG = {
     key: 'id',
     rows: [],
     noRowActions: true,
-    tableClass: '[&_td[data-col=what]]:[max-width:none] [&_td[data-col=actions]]:[text-overflow:clip]',
+    selectable: true,
+    selectionActions: [
+      {command: 'mark-unread', label: 'Mark as unread', icon: 'i-bell'},
+    ],
+    tableClass: '[&_.data-row-select-cell_label]:max-w-full [&_td[data-col=what]]:[max-width:none] [&_td[data-col=actions]]:[text-overflow:clip]',
     columns: [
       {key: 'what', label: 'Subject', cardPrimary: true},
       {key: 'source', label: 'Source'},
-      {key: 'actions', label: 'Actions', width: 165},
+      {key: 'actions', label: 'Actions', width: 84, actionColumn: true},
     ],
     filters: [
       {key: 'all', label: 'All', icon: 'i-bell'},
@@ -448,9 +452,7 @@ export const DATA_LIST_CONFIG = {
     ],
     filterFields: [
       {key: 'what', label: 'Subject', icon: 'i-doc', type: 'text'},
-      {key: 'who', label: 'From', icon: 'i-user', type: 'text'},
       {key: 'source', label: 'Source', icon: 'i-grid', type: 'select', options: ['Sales', 'Accounting', 'HR', 'Inventory']},
-      {key: 'type', label: 'Type', icon: 'i-bell', type: 'select', options: ['Posting', 'Warning', 'Comment', 'Alert']},
     ],
     cardTemplate: 'notification',
   },

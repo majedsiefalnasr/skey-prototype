@@ -53,17 +53,43 @@ export function mountLocationPicker(host, onChange = () => {}) {
   let map
   let pin
   let disposed = false
+  let syncTimer
   const coordinates = () => validateCoordinatePair(latitude.value, longitude.value) || !latitude.value.trim() ? null : [Number(latitude.value), Number(longitude.value)]
-  const sync = () => {
-    if (!map) return
-    const point = coordinates()
-    if (pin) { pin.remove(); pin = null }
-    if (point) {
-      pin = globalThis.L.circleMarker(point, {radius: 8, color: '#1565c0', fillColor: '#1565c0', fillOpacity: 0.85}).addTo(map)
-      map.panTo(point)
-    }
+  const selectPoint = latlng => {
+    if (disposed || readOnly) return
+    latitude.value = latlng.lat.toFixed(6)
+    longitude.value = latlng.lng.toFixed(6)
+    latitude.dispatchEvent(new Event('input', {bubbles: true}))
+    longitude.dispatchEvent(new Event('input', {bubbles: true}))
+    onChange(latitude.value, longitude.value)
+    sync()
   }
-  for (const control of [latitude, longitude]) control.addEventListener('input', sync)
+  const sync = () => {
+    clearTimeout(syncTimer)
+    if (!map || disposed) return
+    const point = coordinates()
+    if (!point) {
+      if (!latitude.value.trim() && !longitude.value.trim()) {
+        pin?.remove()
+        pin = null
+      }
+      return
+    }
+    if (pin) pin.setLatLng(point)
+    else {
+      pin = globalThis.L.marker(point, {draggable: !readOnly}).addTo(map)
+      if (!readOnly) pin.on('dragend', () => selectPoint(pin.getLatLng()))
+    }
+    map.setView(point, Math.max(map.getZoom(), 13))
+  }
+  const scheduleSync = () => {
+    clearTimeout(syncTimer)
+    syncTimer = setTimeout(sync, 300)
+  }
+  if (!readOnly) for (const control of [latitude, longitude]) {
+    control.addEventListener('input', scheduleSync)
+    control.addEventListener('change', sync)
+  }
   loadLeaflet().then(L => {
     if (disposed || !host.isConnected) return
     map = L.map(mapElement).setView(coordinates() || [26.8206, 30.8025], coordinates() ? 13 : 5)
@@ -73,21 +99,18 @@ export function mountLocationPicker(host, onChange = () => {}) {
     }).addTo(map)
     status.remove()
     sync()
-    if (!readOnly) map.on('click', ({latlng}) => {
-      latitude.value = latlng.lat.toFixed(6)
-      longitude.value = latlng.lng.toFixed(6)
-      latitude.dispatchEvent(new Event('input', {bubbles: true}))
-      longitude.dispatchEvent(new Event('input', {bubbles: true}))
-      onChange(latitude.value, longitude.value)
-      sync()
-    })
+    if (!readOnly) map.on('click', ({latlng}) => selectPoint(latlng))
     requestAnimationFrame(() => { if (!disposed) map.invalidateSize() })
   }).catch(() => {
     if (!disposed && host.isConnected) status.textContent = t('Map unavailable. Enter coordinates below; they work offline.')
   })
   return () => {
     disposed = true
-    for (const control of [latitude, longitude]) control.removeEventListener('input', sync)
+    clearTimeout(syncTimer)
+    for (const control of [latitude, longitude]) {
+      control.removeEventListener('input', scheduleSync)
+      control.removeEventListener('change', sync)
+    }
     map?.remove()
   }
 }

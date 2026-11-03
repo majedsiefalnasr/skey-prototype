@@ -278,6 +278,42 @@ test('clicking the shared map selects a location in both editing surfaces', asyn
   await expect(longitude).toHaveValue(pickedLongitude)
 })
 
+test('manual coordinate pairs recenter the same marker without replacing focused inputs in both surfaces', async ({page}, info) => {
+  await openCustomer(page, Boolean(info.project.use.rtl))
+  await modifyCustomer(page)
+  const defaultMap = page.locator('[data-customer-section="defaultContact"] [data-location-map]')
+  const latitude = page.locator('[data-customer-field="contactLatitude"]')
+  const longitude = page.locator('[data-customer-field="contactLongitude"]')
+  const recenter = async (map, lat, lng, pair) => {
+    await expect(map).toHaveClass(/leaflet-container/)
+    await map.click({position: {x: 130, y: 90}})
+    const marker = map.locator('.leaflet-marker-icon')
+    await expect(marker).toHaveCount(1)
+    await marker.evaluate(el => { el.dataset.originalLocationPin = 'true' })
+    await lat.fill(pair[0])
+    await lng.fill(pair[1])
+    await expect(lng).toBeFocused()
+    await expect.poll(async () => marker.evaluate(el => {
+      const mapBox = el.closest('[data-location-map]').getBoundingClientRect()
+      const pinBox = el.getBoundingClientRect()
+      // Leaflet's standard marker anchors its bottom center at the coordinate.
+      return Math.max(Math.abs(pinBox.x + pinBox.width / 2 - mapBox.x - mapBox.width / 2), Math.abs(pinBox.bottom - mapBox.y - mapBox.height / 2))
+    })).toBeLessThan(3)
+    await expect(marker).toHaveAttribute('data-original-location-pin', 'true')
+    await expect(lng).toBeFocused()
+    await expect(lat).toHaveValue(pair[0])
+    await expect(lng).toHaveValue(pair[1])
+  }
+  await recenter(defaultMap, latitude, longitude, ['30.044420', '31.235712'])
+  await cards(page).first().locator('[data-contact-edit]').click()
+  await expect(editor(page, 'latitude')).toHaveValue('30.044420')
+  await expect(editor(page, 'longitude')).toHaveValue('31.235712')
+  await recenter(dialog(page).locator('[data-location-map]'), editor(page, 'latitude'), editor(page, 'longitude'), ['29.977300', '31.132500'])
+  await dialog(page).locator('button[type="submit"]').click()
+  await expect(latitude).toHaveValue('29.977300')
+  await expect(longitude).toHaveValue('31.132500')
+})
+
 test('new customers expose contact and sub ledger add actions', async ({page}, info) => {
   await openCustomer(page, Boolean(info.project.use.rtl))
   await page.locator('.customer-record-view .phead [data-customer-action="new"]').click()

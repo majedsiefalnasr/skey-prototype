@@ -684,7 +684,7 @@ const recordPagers = new Map(
           document.querySelectorAll('.d1 .tline h1, .d2 .idty h1').forEach(h => {
             if (
               h.closest(
-                '.email-view, .list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view, .profile-view, .organization-view'
+                '.email-view, .list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view, .profile-view, .organization-view, .notifications-list-view'
               )
             )
               return
@@ -709,7 +709,7 @@ const recordPagers = new Map(
           document.querySelectorAll('.crumbs [aria-current=page]').forEach(c => {
             if (
               c.closest(
-                '.d2, .email-view, .list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view, .profile-view, .organization-view, .foryou-view, .placeholder-view'
+                '.d2, .email-view, .list-view, .customer-list-view, .customer-record-view, .geo-list-view, .geo-record-view, .profile-view, .organization-view, .foryou-view, .placeholder-view, .notifications-list-view'
               )
             )
               return

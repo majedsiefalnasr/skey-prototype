@@ -220,7 +220,14 @@ function createInitialState(config, rows, storage, context) {
     savedView,
     advanced: false,
     fieldFilters: [],
-    customFilters: storage.loadCustomFilters(context),
+    // Removed notification fields must not survive as invisible no-op conditions.
+    // Reconcile in memory only: retain supported conditions without rewriting storage.
+    customFilters: context === 'notifications'
+      ? storage.loadCustomFilters(context)
+          .map(custom => ({...custom, fieldFilters: custom.fieldFilters.filter(filter =>
+            config.filterFields.some(field => field.key === filter.key))}))
+          .filter(custom => custom.fieldFilters.length)
+      : storage.loadCustomFilters(context),
     activeCustomFilterId: '',
     borderMode: 'default',
     frozenColumns: new Set(),
@@ -303,6 +310,7 @@ export function createListModel({config, rows, storage, context = config.singula
     const direction = state.sortDirection === 'asc' ? 1 : -1
     filteredRows = [...filteredRows].sort(
       (a, b) =>
+        (context === 'notifications' ? Number(Boolean(b.pinned)) - Number(Boolean(a.pinned)) : 0) ||
         String(a[state.sortKey] ?? '').localeCompare(String(b[state.sortKey] ?? ''), undefined, {
           numeric: true,
           sensitivity: 'base',

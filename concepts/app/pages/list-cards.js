@@ -184,29 +184,29 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
     return `<article class="${DATA_RECORD_CARD_CLASS} data-record-card-geo" role="listitem" data-list-row-key="${encodeHtml(card.key)}" aria-selected="${card.selected}">${renderSnapshotCardHeader('geo', row, config, card)}<div class="data-record-card-hierarchy grid gap-[5px] rounded-md bg-[var(--line-2)] px-3 py-[11px] [&_span]:text-[12px] [&_span]:text-muted [&_strong]:text-[12.5px] [&_strong]:leading-[1.4] [&_strong]:text-ink"><span>Hierarchy path</span><strong>${encodeHtml(card.model.factMap.hierarchy[1])}</strong></div><div class="data-record-card-classification grid grid-cols-3 gap-2 [&_span]:text-[12px] [&_span]:text-muted [&_strong]:mt-0.5! [&_strong]:block [&_strong]:truncate [&_strong]:text-[12.5px]"><div><span>Type</span><strong>${encodeHtml(row.type)}</strong></div><div><span>Level</span><strong>${encodeHtml(row.level)}</strong></div><div><span>Code</span><strong>${encodeHtml(row.code)}</strong></div></div><dl class="data-record-card-meta m-0! grid grid-cols-2 gap-x-3.5 gap-y-2.5">${dataRecordCardFactMarkup(['Remarks', row.remarks || 'No remarks'])}</dl><footer class="data-record-card-operations-actions flex flex-nowrap items-center gap-1.5 border-t border-line pt-2.5">${renderContextCardActions('geo')}${renderCardFooterEndActions('geo', row, config)}</footer></article>`
   }
 
-  function renderNotificationCard(row, config) {
+  function renderNotificationCard(row, config, listState) {
     const key = String(row[config.key])
     const icon = row.icon || 'i-bell'
-    return `<article class="${DATA_RECORD_CARD_CLASS} data-record-card-notification" role="listitem" data-list-row-key="${encodeHtml(key)}">
+    return `<article class="${DATA_RECORD_CARD_CLASS} data-record-card-notification" role="listitem" data-list-row-key="${encodeHtml(key)}" aria-selected="${listState.selected.has(key)}">
       <header class="data-record-card-header flex min-w-0 items-center gap-[9px]">
+        ${dataRecordCardSelectMarkup(config, key, listState.selected.has(key))}
         <span class="data-record-avatar grid size-9 flex-none place-items-center rounded-full bg-[var(--line-2)] text-ink" aria-hidden="true">${dataListIcon(icon, 16)}</span>
-        <button class="${DATA_RECORD_CARD_IDENTITY_CLASS}${row.unread ? '' : ' is-read [&_strong]:text-muted!'}" type="button" data-list-open-record="${encodeHtml(key)}" aria-label="Open ${encodeHtml(config.singular)} ${encodeHtml(key)}">
-          <div><strong class="${row.unread ? 'text-ink' : 'text-muted'}">${encodeHtml(row.what)}</strong><span>${encodeHtml(row.who)}</span></div>
+        <button class="${DATA_RECORD_CARD_IDENTITY_CLASS}${row.unread ? ' [&_strong]:text-accent!' : ' is-read [&_strong]:text-muted!'}" type="button" data-list-open-record="${encodeHtml(key)}" aria-label="${encodeHtml(`${row.unread ? 'Unread. ' : ''}Open notification: ${row.what}`)}">
+          <div><strong class="${row.unread ? 'text-accent font-semibold' : 'text-muted font-medium'}">${row.unread ? '<span class="sr-only">Unread: </span>' : ''}${encodeHtml(row.what)}</strong><span>${encodeHtml(row.who)}</span></div>
         </button>
-        <span class="badge ${{Posting: 'ok', Warning: 'warn', Comment: 'fix', Alert: 'danger'}[row.type] || 'gray'}">${encodeHtml(uiLocale.t(row.type || 'Alert'))}</span>
+        <span class="ms-auto flex-none self-start">${notificationActionButtons(row)}</span>
       </header>
       <dl class="data-record-card-meta m-0! grid grid-cols-2 gap-x-3.5 gap-y-2.5">
         ${dataRecordCardFactMarkup(['Received', row.time])}
         ${dataRecordCardFactMarkup(['Source', row.source || 'Sales'])}
       </dl>
-      <footer class="border-t border-line pt-2.5">${notificationActionButtons(row)}</footer>
     </article>`
   }
 
   function renderDataRecordCard(context, row, config, listState) {
     if (context === 'customer') return renderCustomerSnapshotCard(row, config, listState)
     if (context === 'geo') return renderGeoSnapshotCard(row, config, listState)
-    if (context === 'notifications') return renderNotificationCard(row, config)
+    if (context === 'notifications') return renderNotificationCard(row, config, listState)
     return renderInvoiceSnapshotCard(row, config, listState)
   }
 
