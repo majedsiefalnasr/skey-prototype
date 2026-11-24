@@ -385,7 +385,7 @@ export function createPeople({store, toast, panel: conversionPanel, confirm, goH
   }
 
   const cardsMarkup = people =>
-    `<div class="data-card-grid grid grid-cols-3 gap-5 rounded-[10px] bg-bg p-3 max-[1240px]:grid-cols-2 max-[720px]:grid-cols-1" role="list" aria-label="People cards">${people
+    `<div class="data-card-grid grid grid-cols-3 gap-5 rounded-legacy-10 bg-bg p-3 max-[1240px]:grid-cols-2 max-[720px]:grid-cols-1" role="list" aria-label="People cards">${people
       .map(personCardMarkup)
       .join('')}</div>`
 

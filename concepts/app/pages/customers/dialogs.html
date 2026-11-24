@@ -1,13 +1,13 @@
 <!-- ===== customer field lookup menu and dialogs ===== -->
 <div
-  class="customer-lookup-menu fixed [z-index:170] [width:252px] [padding:6px] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-2)] [&[hidden]]:hidden [&_button]:flex [&_button]:w-full [&_button]:[min-height:32px] [&_button]:[gap:9px] [&_button]:items-center [&_button]:[padding:6px_8px] [&_button]:[border:0] [&_button]:[border-radius:5px] [&_button]:text-ink [&_button]:[background:transparent] [&_button]:[font:inherit] [&_button]:text-start [&_button]:[cursor:pointer] [&_button:hover]:[outline:0] [&_button:hover]:bg-[var(--line-2)] [&_button:focus-visible]:[outline:0] [&_button:focus-visible]:bg-[var(--line-2)] [&_button_svg]:[flex:none] [&_button_svg]:text-muted [&_hr]:[height:1px] [&_hr]:[margin:5px_-6px]! [&_hr]:[border:0] [&_hr]:[background:var(--line)]"
+  class="customer-lookup-menu fixed [z-index:170] [width:252px] [padding:6px] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-2)] [&[hidden]]:hidden [&_button]:flex [&_button]:w-full [&_button]:[min-height:32px] [&_button]:[gap:9px] [&_button]:items-center [&_button]:[padding:6px_8px] [&_button]:[border:0] [&_button]:[border-radius:var(--ds-radius-legacy-5)] [&_button]:text-ink [&_button]:[background:transparent] [&_button]:[font:inherit] [&_button]:text-start [&_button]:[cursor:pointer] [&_button:hover]:[outline:0] [&_button:hover]:bg-[var(--line-2)] [&_button:focus-visible]:[outline:0] [&_button:focus-visible]:bg-[var(--line-2)] [&_button_svg]:[flex:none] [&_button_svg]:text-muted [&_hr]:[height:1px] [&_hr]:[margin:5px_-6px]! [&_hr]:[border:0] [&_hr]:[background:var(--line)]"
   id="customer-lookup-menu"
   role="menu"
   aria-label="Lookup options"
   hidden></div>
 
 <div
-  class="customer-lookup-menu customer-unit-lookup-menu fixed [z-index:170] [width:252px] [padding:6px] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-2)] [&[hidden]]:hidden [&_button]:flex [&_button]:w-full [&_button]:[min-height:32px] [&_button]:[gap:9px] [&_button]:items-center [&_button]:[padding:6px_8px] [&_button]:[border:0] [&_button]:[border-radius:5px] [&_button]:text-ink [&_button]:[background:transparent] [&_button]:[font:inherit] [&_button]:text-start [&_button]:[cursor:pointer] [&_button:hover]:[outline:0] [&_button:hover]:bg-[var(--line-2)] [&_button:focus-visible]:[outline:0] [&_button:focus-visible]:bg-[var(--line-2)] [&_button_svg]:[flex:none] [&_button_svg]:text-muted [&_hr]:[height:1px] [&_hr]:[margin:5px_-6px]! [&_hr]:[border:0] [&_hr]:[background:var(--line)] [z-index:230]"
+  class="customer-lookup-menu customer-unit-lookup-menu fixed [z-index:170] [width:252px] [padding:6px] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-2)] [&[hidden]]:hidden [&_button]:flex [&_button]:w-full [&_button]:[min-height:32px] [&_button]:[gap:9px] [&_button]:items-center [&_button]:[padding:6px_8px] [&_button]:[border:0] [&_button]:[border-radius:var(--ds-radius-legacy-5)] [&_button]:text-ink [&_button]:[background:transparent] [&_button]:[font:inherit] [&_button]:text-start [&_button]:[cursor:pointer] [&_button:hover]:[outline:0] [&_button:hover]:bg-[var(--line-2)] [&_button:focus-visible]:[outline:0] [&_button:focus-visible]:bg-[var(--line-2)] [&_button_svg]:[flex:none] [&_button_svg]:text-muted [&_hr]:[height:1px] [&_hr]:[margin:5px_-6px]! [&_hr]:[border:0] [&_hr]:[background:var(--line)] [z-index:230]"
   id="customer-unit-lookup-menu"
   role="menu"
   aria-label="Operation unit field options"
@@ -204,7 +204,7 @@
     <div class="dlg-inner">
       <div class="dbody min-h-0 overflow-auto [padding:16px_20px] [padding:10px_14px]">
         <div
-          class="geo-view-switch grid grid-cols-2 gap-[3px] p-[3px] rounded-[7px] bg-[var(--line-2)] [margin:8px_8px_0]"
+          class="geo-view-switch grid grid-cols-2 gap-[3px] p-[3px] rounded-legacy-7 bg-[var(--line-2)] [margin:8px_8px_0]"
           role="tablist"
           aria-label="Unit picker view">
           <button
@@ -213,7 +213,7 @@
             data-unit-picker-view="tree"
             aria-selected="true"
             aria-controls="unit-picker-tree-pane"
-            class="inline-flex min-h-8 gap-[7px] items-center justify-center px-[9px] py-[5px] rounded-[5px] text-muted text-dense font-semibold">
+            class="inline-flex min-h-8 gap-[7px] items-center justify-center px-[9px] py-[5px] rounded-legacy-5 text-muted text-dense font-semibold">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg>
             <span data-i18n="Tree">Tree</span>
           </button>
@@ -223,7 +223,7 @@
             data-unit-picker-view="flow"
             aria-selected="false"
             aria-controls="unit-picker-flow-pane"
-            class="inline-flex min-h-8 gap-[7px] items-center justify-center px-[9px] py-[5px] rounded-[5px] text-muted text-dense font-semibold">
+            class="inline-flex min-h-8 gap-[7px] items-center justify-center px-[9px] py-[5px] rounded-legacy-5 text-muted text-dense font-semibold">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-grid" /></svg>
             <span data-i18n="Flow">Flow</span>
           </button>
@@ -240,7 +240,7 @@
         </div>
         <div id="unit-picker-flow-pane" role="tabpanel" hidden>
           <div
-            class="geo-flow-viewport unit-picker-flow-viewport min-w-0 flex-1 mx-2 mb-2 overflow-auto cursor-grab rounded-[7px] border border-line touch-none select-none min-h-[360px] [background-color:var(--bg)] [background-image:radial-gradient(var(--line)_1px,transparent_1px)] [background-size:16px_16px]"
+            class="geo-flow-viewport unit-picker-flow-viewport min-w-0 flex-1 mx-2 mb-2 overflow-auto cursor-grab rounded-legacy-7 border border-line touch-none select-none min-h-[360px] [background-color:var(--bg)] [background-image:radial-gradient(var(--line)_1px,transparent_1px)] [background-size:16px_16px]"
             id="unit-picker-flow-viewport">
             <div
               class="geo-flow-canvas relative min-w-full min-h-full [max-height:min(560px,80vh)]"
@@ -307,7 +307,7 @@
                   <option value="" data-i18n="No parent unit">No parent unit</option>
                 </select>
                 <button
-                  class="customer-lookup-trigger inline-grid [flex:none] [place-items:center] [width:34px] [min-height:32px] [margin-inline-start:-1px]! [border:1px_solid_var(--line)] text-muted bg-surface [cursor:pointer] [&:last-child]:[border-start-end-radius:6px] [&:last-child]:[border-end-end-radius:6px] [&:hover:not(:disabled)]:text-ink [&:hover:not(:disabled)]:bg-[var(--line-2)] [&:focus-visible]:relative [&:focus-visible]:[z-index:1] [&:focus-visible]:[outline:2px_solid_var(--accent)] [&:focus-visible]:[outline-offset:1px] [&:disabled]:[color:var(--faint)] [&:disabled]:bg-[var(--line-2)] [&:disabled]:[cursor:default]"
+                  class="customer-lookup-trigger inline-grid [flex:none] [place-items:center] [width:34px] [min-height:32px] [margin-inline-start:-1px]! [border:1px_solid_var(--line)] text-muted bg-surface [cursor:pointer] [&:last-child]:[border-start-end-radius:var(--ds-radius-medium)] [&:last-child]:[border-end-end-radius:var(--ds-radius-medium)] [&:hover:not(:disabled)]:text-ink [&:hover:not(:disabled)]:bg-[var(--line-2)] [&:focus-visible]:relative [&:focus-visible]:[z-index:1] [&:focus-visible]:[outline:2px_solid_var(--accent)] [&:focus-visible]:[outline-offset:1px] [&:disabled]:[color:var(--faint)] [&:disabled]:bg-[var(--line-2)] [&:disabled]:[cursor:default]"
                   type="button"
                   data-unit-picker-open="customer-unit-parent"
                   aria-haspopup="dialog"
@@ -315,7 +315,7 @@
                   <svg width="16" height="16" aria-hidden="true"><use href="#i-flow" /></svg>
                 </button>
                 <button
-                  class="customer-lookup-trigger inline-grid [flex:none] [place-items:center] [width:34px] [min-height:32px] [margin-inline-start:-1px]! [border:1px_solid_var(--line)] text-muted bg-surface [cursor:pointer] [&:last-child]:[border-start-end-radius:6px] [&:last-child]:[border-end-end-radius:6px] [&:hover:not(:disabled)]:text-ink [&:hover:not(:disabled)]:bg-[var(--line-2)] [&:focus-visible]:relative [&:focus-visible]:[z-index:1] [&:focus-visible]:[outline:2px_solid_var(--accent)] [&:focus-visible]:[outline-offset:1px] [&:disabled]:[color:var(--faint)] [&:disabled]:bg-[var(--line-2)] [&:disabled]:[cursor:default]"
+                  class="customer-lookup-trigger inline-grid [flex:none] [place-items:center] [width:34px] [min-height:32px] [margin-inline-start:-1px]! [border:1px_solid_var(--line)] text-muted bg-surface [cursor:pointer] [&:last-child]:[border-start-end-radius:var(--ds-radius-medium)] [&:last-child]:[border-end-end-radius:var(--ds-radius-medium)] [&:hover:not(:disabled)]:text-ink [&:hover:not(:disabled)]:bg-[var(--line-2)] [&:focus-visible]:relative [&:focus-visible]:[z-index:1] [&:focus-visible]:[outline:2px_solid_var(--accent)] [&:focus-visible]:[outline-offset:1px] [&:disabled]:[color:var(--faint)] [&:disabled]:bg-[var(--line-2)] [&:disabled]:[cursor:default]"
                   id="customer-unit-parent-trigger"
                   type="button"
                   data-customer-unit-lookup="unitParent"
@@ -402,7 +402,7 @@
                   <option value="Alexandria" data-i18n="Alexandria">Alexandria</option>
                 </select>
                 <button
-                  class="customer-lookup-trigger inline-grid [flex:none] [place-items:center] [width:34px] [min-height:32px] [margin-inline-start:-1px]! [border:1px_solid_var(--line)] text-muted bg-surface [cursor:pointer] [&:last-child]:[border-start-end-radius:6px] [&:last-child]:[border-end-end-radius:6px] [&:hover:not(:disabled)]:text-ink [&:hover:not(:disabled)]:bg-[var(--line-2)] [&:focus-visible]:relative [&:focus-visible]:[z-index:1] [&:focus-visible]:[outline:2px_solid_var(--accent)] [&:focus-visible]:[outline-offset:1px] [&:disabled]:[color:var(--faint)] [&:disabled]:bg-[var(--line-2)] [&:disabled]:[cursor:default]"
+                  class="customer-lookup-trigger inline-grid [flex:none] [place-items:center] [width:34px] [min-height:32px] [margin-inline-start:-1px]! [border:1px_solid_var(--line)] text-muted bg-surface [cursor:pointer] [&:last-child]:[border-start-end-radius:var(--ds-radius-medium)] [&:last-child]:[border-end-end-radius:var(--ds-radius-medium)] [&:hover:not(:disabled)]:text-ink [&:hover:not(:disabled)]:bg-[var(--line-2)] [&:focus-visible]:relative [&:focus-visible]:[z-index:1] [&:focus-visible]:[outline:2px_solid_var(--accent)] [&:focus-visible]:[outline-offset:1px] [&:disabled]:[color:var(--faint)] [&:disabled]:bg-[var(--line-2)] [&:disabled]:[cursor:default]"
                   id="customer-unit-location-trigger"
                   type="button"
                   data-customer-unit-lookup="unitLocation"
@@ -795,7 +795,7 @@
                 <option value="Alexandria" data-i18n="Alexandria">Alexandria</option>
               </select>
               <button
-                class="customer-lookup-trigger inline-grid [flex:none] [place-items:center] [width:34px] [min-height:32px] [margin-inline-start:-1px]! [border:1px_solid_var(--line)] text-muted bg-surface [cursor:pointer] [&:last-child]:[border-start-end-radius:6px] [&:last-child]:[border-end-end-radius:6px] [&:hover:not(:disabled)]:text-ink [&:hover:not(:disabled)]:bg-[var(--line-2)] [&:focus-visible]:relative [&:focus-visible]:[z-index:1] [&:focus-visible]:[outline:2px_solid_var(--accent)] [&:focus-visible]:[outline-offset:1px] [&:disabled]:[color:var(--faint)] [&:disabled]:bg-[var(--line-2)] [&:disabled]:[cursor:default]"
+                class="customer-lookup-trigger inline-grid [flex:none] [place-items:center] [width:34px] [min-height:32px] [margin-inline-start:-1px]! [border:1px_solid_var(--line)] text-muted bg-surface [cursor:pointer] [&:last-child]:[border-start-end-radius:var(--ds-radius-medium)] [&:last-child]:[border-end-end-radius:var(--ds-radius-medium)] [&:hover:not(:disabled)]:text-ink [&:hover:not(:disabled)]:bg-[var(--line-2)] [&:focus-visible]:relative [&:focus-visible]:[z-index:1] [&:focus-visible]:[outline:2px_solid_var(--accent)] [&:focus-visible]:[outline-offset:1px] [&:disabled]:[color:var(--faint)] [&:disabled]:bg-[var(--line-2)] [&:disabled]:[cursor:default]"
                 type="button"
                 data-customer-unit-lookup="unitLocation"
                 data-customer-unit-target="customer-parent-unit-location"

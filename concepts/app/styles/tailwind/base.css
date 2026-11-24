@@ -1,5 +1,22 @@
 
 @layer base {
+  :root {
+    --ds-radius-xsmall: 0.125rem;
+    --ds-radius-small: 0.25rem;
+    --ds-radius-medium: 0.375rem;
+    --ds-radius-large: 0.5rem;
+    --ds-radius-xlarge: 0.75rem;
+    --ds-radius-legacy-1: 1px;
+    --ds-radius-legacy-3: 3px;
+    --ds-radius-legacy-5: 5px;
+    --ds-radius-legacy-7: 7px;
+    --ds-radius-legacy-9: 9px;
+    --ds-radius-legacy-10: 10px;
+    --ds-radius-legacy-11: 11px;
+    --ds-radius-legacy-14: 14px;
+    --ds-radius-legacy-999: 999px;
+  }
+
   /* Theme custom-property tokens (concepts/app/styles/tokens.css, folded in here so
      `@theme inline` in tailwind.css keeps resolving `var(--accent)` etc. through the
      cascade after tokens.css was retired). */

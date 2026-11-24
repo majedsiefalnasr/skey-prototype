@@ -5,7 +5,7 @@ import {applyFrozenDataListColumns as applySharedFrozenDataListColumns} from './
 import {DATA_MENU_POPOVER_CLASS, DATA_MENU_SUMMARY_CLASS} from './list.js'
 
 const DATA_MANAGE_SUBMENU_SUMMARY_CLASS =
-  'flex w-full min-h-[32px] items-center gap-[9px] rounded-[5px] px-2 py-1.5 text-dense font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden [&_svg:last-child]:ms-auto [&_svg:last-child]:text-muted rtl:[&_svg:last-child]:scale-x-[-1]'
+  'flex w-full min-h-[32px] items-center gap-[9px] rounded-legacy-5 px-2 py-1.5 text-dense font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden [&_svg:last-child]:ms-auto [&_svg:last-child]:text-muted rtl:[&_svg:last-child]:scale-x-[-1]'
 
 /** Owns list menus state and its DOM bindings. */
 export function createListMenus({t, toast, computeDataListLayoutDirty, applyDataListRowAction, applyDataListToolbarCommand, saveDataListLayout, resetDataListLayout, getDataListState, renderDataList, dataListIcon, openDataExport} = {}) {
