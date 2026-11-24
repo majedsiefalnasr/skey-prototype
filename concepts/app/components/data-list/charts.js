@@ -206,7 +206,7 @@ export function renderDataListChart(context, rows, config, listState, deps) {
             </div>`
                 : ''
             }
-            <div class="data-list-chart-type ms-auto inline-flex flex-wrap gap-0.5 rounded-[7px] border border-line bg-[var(--bg)] p-0.5" role="group" aria-label="Chart type">${typeButtons}</div>
+            <div class="data-list-chart-type ms-auto inline-flex flex-wrap gap-0.5 rounded-legacy-7 border border-line bg-[var(--bg)] p-0.5" role="group" aria-label="Chart type">${typeButtons}</div>
           </div>
           <div class="data-list-chart-canvas flex min-h-[260px] min-w-0 items-stretch justify-stretch overflow-x-auto">${canvasBody}</div>
         </div>

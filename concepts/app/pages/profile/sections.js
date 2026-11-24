@@ -165,7 +165,7 @@ function renderProfileSection(currentUser, encodeHtml, language = 'en') {
   // popover, which is a separate component (images.js) out of this scope.
   const photoBoxHtml = `<div class="${REC_FIELD_CLASS} grid [place-items:center] gap-2 [min-height:120px] [padding:12px] [border:1px_dashed_var(--line)] rounded-lg h-full [min-height:280px]">
     <label for="profile-photo-select" data-i18n="Profile photo">Profile photo</label>
-    <span class="grid [place-items:center] [width:min(164px,_100%)] [aspect-ratio:1] [padding:0] overflow-hidden text-muted [border:1px_solid_var(--line)] [border-radius:999px] bg-[var(--line-2)] [font-size:20px] font-bold" aria-hidden="true">${initials}</span>
+    <span class="grid [place-items:center] [width:min(164px,_100%)] [aspect-ratio:1] [padding:0] overflow-hidden text-muted [border:1px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-999)] bg-[var(--line-2)] [font-size:20px] font-bold" aria-hidden="true">${initials}</span>
     <button type="button" class="lbtn out" id="profile-photo-select"><svg width="15" height="15" aria-hidden="true"><use href="#i-clip" /></svg> <span data-i18n="Select photo">Select photo</span></button>
   </div>`
   return renderCard(
@@ -283,19 +283,19 @@ function renderAppearanceSectionFields() {
     renderCard(
       'Accent color',
       `<div class="accent-swatches flex items-center gap-2.5 flex-wrap" role="radiogroup" aria-label="Accent color">
-      <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:999px] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#1868DB" data-accent-dark="#669DF1" aria-checked="true" aria-label="Blue (default)" style="--sw: #1868db"></button>
-      <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:999px] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#5B7F24" data-accent-dark="#82B536" aria-checked="false" aria-label="Green" style="--sw: #5b7f24"></button>
-      <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:999px] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#803FA5" data-accent-dark="#B57EDC" aria-checked="false" aria-label="Purple" style="--sw: #803fa5"></button>
-      <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:999px] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#AE2E24" data-accent-dark="#F87168" aria-checked="false" aria-label="Red" style="--sw: #ae2e24"></button>
-      <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:999px] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#946F00" data-accent-dark="#E2B203" aria-checked="false" aria-label="Amber" style="--sw: #946f00"></button>
-      <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:999px] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#206A83" data-accent-dark="#6CC3D5" aria-checked="false" aria-label="Teal" style="--sw: #206a83"></button>
+      <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:var(--ds-radius-legacy-999)] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#1868DB" data-accent-dark="#669DF1" aria-checked="true" aria-label="Blue (default)" style="--sw: #1868db"></button>
+      <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:var(--ds-radius-legacy-999)] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#5B7F24" data-accent-dark="#82B536" aria-checked="false" aria-label="Green" style="--sw: #5b7f24"></button>
+      <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:var(--ds-radius-legacy-999)] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#803FA5" data-accent-dark="#B57EDC" aria-checked="false" aria-label="Purple" style="--sw: #803fa5"></button>
+      <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:var(--ds-radius-legacy-999)] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#AE2E24" data-accent-dark="#F87168" aria-checked="false" aria-label="Red" style="--sw: #ae2e24"></button>
+      <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:var(--ds-radius-legacy-999)] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#946F00" data-accent-dark="#E2B203" aria-checked="false" aria-label="Amber" style="--sw: #946f00"></button>
+      <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:var(--ds-radius-legacy-999)] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#206A83" data-accent-dark="#6CC3D5" aria-checked="false" aria-label="Teal" style="--sw: #206a83"></button>
       <div class="accent-custom grid [grid-template-columns:28px_auto_minmax(112px,_1fr)] items-center gap-2 [min-width:min(100%,_240px)]" data-custom-accent data-selected="false">
-        <label class="accent-custom-picker relative [width:28px] [height:28px] [border-radius:999px] [cursor:pointer] [&_input]:absolute [&_input]:[inset:0] [&_input]:w-full [&_input]:h-full [&_input]:[padding:0] [&_input]:[opacity:0] [&_input]:[cursor:pointer]" for="appearance-custom-color">
+        <label class="accent-custom-picker relative [width:28px] [height:28px] [border-radius:var(--ds-radius-legacy-999)] [cursor:pointer] [&_input]:absolute [&_input]:[inset:0] [&_input]:w-full [&_input]:h-full [&_input]:[padding:0] [&_input]:[opacity:0] [&_input]:[cursor:pointer]" for="appearance-custom-color">
           <input type="color" id="appearance-custom-color" value="#1868db" aria-label="Choose a custom accent color" />
-          <span class="accent-custom-swatch block [width:28px] [height:28px] [border:2px_solid_transparent] [border-radius:999px] [background:var(--custom-accent,_#1868db)] [box-shadow:inset_0_0_0_1px_var(--line)] [pointer-events:none] [border-color:var(--ink)] [box-shadow:0_0_0_2px_var(--surface),_0_0_0_3.5px_var(--custom-accent,_#1868db)] [outline:2px_solid_var(--focus)] [outline-offset:3px]" aria-hidden="true"></span>
+          <span class="accent-custom-swatch block [width:28px] [height:28px] [border:2px_solid_transparent] [border-radius:var(--ds-radius-legacy-999)] [background:var(--custom-accent,_#1868db)] [box-shadow:inset_0_0_0_1px_var(--line)] [pointer-events:none] [border-color:var(--ink)] [box-shadow:0_0_0_2px_var(--surface),_0_0_0_3.5px_var(--custom-accent,_#1868db)] [outline:2px_solid_var(--focus)] [outline-offset:3px]" aria-hidden="true"></span>
         </label>
         <label class="accent-custom-label text-xs font-semibold text-ink" for="appearance-custom-hex" data-i18n="Custom">Custom</label>
-        <input class="accent-custom-hex w-full [min-height:32px] [padding:5px_9px] [border:1px_solid_var(--line)] [border-radius:7px] [font:inherit] [font-variant-numeric:tabular-nums] [text-transform:uppercase] bg-surface text-ink" id="appearance-custom-hex" type="text" value="#1868DB" inputmode="text" maxlength="7" spellcheck="false" aria-describedby="appearance-custom-error" />
+        <input class="accent-custom-hex w-full [min-height:32px] [padding:5px_9px] [border:1px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-7)] [font:inherit] [font-variant-numeric:tabular-nums] [text-transform:uppercase] bg-surface text-ink" id="appearance-custom-hex" type="text" value="#1868DB" inputmode="text" maxlength="7" spellcheck="false" aria-describedby="appearance-custom-error" />
         <span class="accent-custom-error [grid-column:1_/_-1] [font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden" id="appearance-custom-error" role="status"></span>
       </div>
     </div>`,
@@ -315,7 +315,7 @@ function renderAppearanceSectionFields() {
       'Typography',
       `<label class="grid gap-1.5 text-body font-semibold" for="appearance-font-family">
       Font family
-      <select id="appearance-font-family" class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-subtitle text-ink appearance-none [-webkit-appearance:none] [background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [background-repeat:no-repeat] [background-position:right_8px_center] [background-size:12px] [padding-inline-end:28px] focus:border-[var(--accent-line)] focus:outline-none focus:[box-shadow:0_0_0_3px_var(--accent-soft)] rtl:[background-position:left_8px_center] rtl:[padding-inline-end:9px] rtl:[padding-inline-start:28px]">
+      <select id="appearance-font-family" class="w-full min-h-[32px] rounded-legacy-7 border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-subtitle text-ink appearance-none [-webkit-appearance:none] [background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [background-repeat:no-repeat] [background-position:right_8px_center] [background-size:12px] [padding-inline-end:28px] focus:border-[var(--accent-line)] focus:outline-none focus:[box-shadow:0_0_0_3px_var(--accent-soft)] rtl:[background-position:left_8px_center] rtl:[padding-inline-end:9px] rtl:[padding-inline-start:28px]">
         <option value="system" data-i18n="System default">System default</option>
         <option value="Inter" data-i18n="Inter">Inter</option>
         <option value="Roboto" data-i18n="Roboto">Roboto</option>
@@ -329,11 +329,11 @@ function renderAppearanceSectionFields() {
     renderCard(
       'Layout',
       `<div class="dgrid appearance-layout-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Layout">
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-layout="fluid" aria-checked="true">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-layout="fluid" aria-checked="true">
         <span class="appearance-option-preview layout-preview-fluid" data-option-preview aria-hidden="true"><span class="layout-preview-chrome"><i></i><i></i><i></i></span><span class="layout-preview-rail"></span><span class="layout-preview-content"></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Fluid">Fluid</span></span></span>
       </button>
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-layout="boxed" aria-checked="false">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-layout="boxed" aria-checked="false">
         <span class="appearance-option-preview layout-preview-boxed" data-option-preview aria-hidden="true"><span class="layout-preview-chrome"><i></i><i></i><i></i></span><span class="layout-preview-rail"></span><span class="layout-preview-content"></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Boxed">Boxed</span></span></span>
       </button>
@@ -347,11 +347,11 @@ function renderAppearanceSectionFields() {
     renderCard(
       'Density',
       `<div class="dgrid appearance-density-grid grid [grid-template-columns:repeat(2,_1fr)] gap-2.5" role="radiogroup" aria-label="Density">
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-density="default" aria-checked="true">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-density="default" aria-checked="true">
         <span class="appearance-option-preview density-preview-default" data-option-preview aria-hidden="true"><span class="density-preview-chrome"><i></i><i></i><i></i></span><span class="density-preview-rail"></span><span class="density-preview-toolbar"></span><span class="density-preview-rows"><i></i><i></i><i></i></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Default">Default</span></span></span>
       </button>
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-density="compact" aria-checked="false">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-density="compact" aria-checked="false">
         <span class="appearance-option-preview density-preview-compact" data-option-preview aria-hidden="true"><span class="density-preview-chrome"><i></i><i></i><i></i></span><span class="density-preview-rail"></span><span class="density-preview-toolbar"></span><span class="density-preview-rows"><i></i><i></i><i></i><i></i><i></i></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Compact">Compact</span></span></span>
       </button>
@@ -361,11 +361,11 @@ function renderAppearanceSectionFields() {
     renderCard(
       'Card style',
       `<div class="dgrid appearance-card-style-grid grid [grid-template-columns:repeat(2,_1fr)] gap-2.5" role="radiogroup" aria-label="Card style">
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-card-style="standard" aria-checked="true">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-card-style="standard" aria-checked="true">
         <span class="appearance-option-preview card-style-preview-standard" data-option-preview aria-hidden="true"><span class="card-style-preview-card"><span class="card-style-preview-hd"></span><span class="card-style-preview-line"></span><span class="card-style-preview-line short"></span></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Standard">Standard</span></span></span>
       </button>
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-card-style="fieldset" aria-checked="false">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-card-style="fieldset" aria-checked="false">
         <span class="appearance-option-preview card-style-preview-fieldset" data-option-preview aria-hidden="true"><span class="card-style-preview-card"><span class="card-style-preview-hd"></span><span class="card-style-preview-line"></span><span class="card-style-preview-line short"></span></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Fieldset">Fieldset</span></span></span>
       </button>
@@ -375,15 +375,15 @@ function renderAppearanceSectionFields() {
     renderCard(
       'Input style',
       `<div class="dgrid appearance-input-style-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Input style">
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-input-style="default" aria-checked="true">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-input-style="default" aria-checked="true">
         <span class="appearance-option-preview input-style-preview-default" data-option-preview aria-hidden="true"><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Standard">Standard</span></span></span>
       </button>
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-input-style="floated" aria-checked="false">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-input-style="floated" aria-checked="false">
         <span class="appearance-option-preview input-style-preview-floated" data-option-preview aria-hidden="true"><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Floating label">Floating label</span></span></span>
       </button>
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:9px] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-input-style="inline" aria-checked="false">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-input-style="inline" aria-checked="false">
         <span class="appearance-option-preview input-style-preview-inline" data-option-preview aria-hidden="true"><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Inline label">Inline label</span></span></span>
       </button>

@@ -193,7 +193,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     node.className = 'nc1-node'
     const btn = document.createElement('button')
     btn.type = 'button'
-    btn.className = 'nc1-item flex w-full items-center gap-2 rounded-[3px] px-2 py-1.5 text-start text-body leading-[1.3] text-ink hover:bg-[var(--hover-overlay)]'
+    btn.className = 'nc1-item flex w-full items-center gap-2 rounded-legacy-3 px-2 py-1.5 text-start text-body leading-[1.3] text-ink hover:bg-[var(--hover-overlay)]'
     btn.dataset.label = label
     btn.innerHTML =
       '<span class="nc1-lbl"></span>' +
@@ -231,7 +231,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       NAV_FAVORITES.forEach(f => {
         const b = document.createElement('button')
         b.type = 'button'
-        b.className = 'nc-fav mx-1.5 flex w-[calc(100%-12px)] items-center gap-[7px] rounded-[3px] px-2 py-[5px] text-start text-dense text-muted hover:bg-[var(--hover-overlay)]'
+        b.className = 'nc-fav mx-1.5 flex w-[calc(100%-12px)] items-center gap-[7px] rounded-legacy-3 px-2 py-[5px] text-start text-dense text-muted hover:bg-[var(--hover-overlay)]'
         b.dataset.label = f
         b.innerHTML =
           '<svg width="13" height="13" aria-hidden="true"><use href="#i-spark"/></svg><span></span>'

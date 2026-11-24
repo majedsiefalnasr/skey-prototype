@@ -38,9 +38,13 @@ Components use short aliases defined in the same file. Each alias points to one 
 
 Font sizes are role-based tokens in the `@theme` block of `concepts/app/styles/tailwind.css`, used as utilities such as `text-body` and `text-caption`. Each token keeps the exact size the prototype already used, so changing one token updates every use. There are 22 tokens, from `--text-badge` (9.5px) to `--text-display-lg` (36px). The 96 raw `font-size` literals in `concepts/app/styles` are not tokenised yet.
 
-### Spacing and radius
+### Radius
 
-Spacing and radii are still written as literal values in class names, for example `[padding:6px_8px]`. Around 20 spacing values are in use, many outside the ADS scale. Tokenising them is the next roadmap item below.
+Radii are `--ds-radius-*` tokens in `concepts/app/styles/tailwind/base.css`. Five follow the ADS scale: `xsmall` 2px, `small` 4px, `medium` 6px, `large` 8px and `xlarge` 12px. They back the Tailwind `rounded-xs`, `rounded-sm`, `rounded-md`, `rounded-lg` and `rounded-xl` utilities. Nine `legacy-*` tokens hold the off-scale sizes the prototype already used: 1, 3, 5, 7, 9, 10, 11, 14 and 999px. They are named by pixel size, so phase 2 can point each one at an ADS step. In class names use `rounded-legacy-5`, or `[border-radius:var(--ds-radius-legacy-7)]` for shorthand and logical corners. The radius literals in `concepts/app/styles` are not tokenised yet.
+
+### Spacing
+
+Spacing is still written as literal values in class names, for example `[padding:6px_8px]`. Around 20 spacing values are in use, many outside the ADS scale. Tokenising them is the next roadmap item below.
 
 ## Deviations
 
@@ -50,7 +54,7 @@ Spacing and radii are still written as literal values in class names, for exampl
 | Icons | ADS icon set | Hand-drawn SVG symbols in `concepts/app/shell/icons.html` | Accepted |
 | Select | ADS Select | Native `<select>` (90 uses) | Accepted |
 | Switch | Regular 32×16, thumb 12px | 30×17, thumb 13px | Accepted |
-| Radius | Small radius set | 2, 4, 5, 6, 7, 8 and 10px | Accepted, not normalised |
+| Radius | ADS scale: 2, 4, 6, 8 and 12px | ADS tokens plus `legacy-*` tokens for 1, 3, 5, 7, 9, 10, 11, 14 and 999px | Tokenised, not normalised |
 | Font sizes | ADS type scale | 22 role-based tokens with the sizes already in use | Implemented, no visual change |
 | Spacing | ADS scale | About 20 px values per property in class names | Planned (phase 1) |
 | Record identity card, 721 to 900px | Not specified | Customer and People squeeze the fields to 126px at 768px and 5 fields overlap the photo | Open, found in #7 |
@@ -71,6 +75,6 @@ Spacing and radii are still written as literal values in class names, for exampl
 
 ## Roadmap
 
-1. **Phase 1, tokens with no visual change.** Move the existing type, spacing and radius values into named tokens. Font sizes are done. Spacing and radius are next, and their naming needs approval first. Changing one token then updates every use. Screenshots must not change.
+1. **Phase 1, tokens with no visual change.** Move the existing type, spacing and radius values into named tokens. Font sizes and radius are done. Spacing is next. Changing one token then updates every use. Screenshots must not change.
 2. **Phase 2, normalise to the scale.** Map the values to a small set. This changes the look, so it needs approval and updated screenshot baselines.
 3. **Open items.** Customer and People identity card breakpoint (#7).

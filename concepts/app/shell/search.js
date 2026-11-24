@@ -16,7 +16,7 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
     return i < 0
       ? esc(t)
       : esc(t.slice(0, i)) +
-          '<mark class="rounded-[2px] bg-[var(--mark-bg)] px-px text-inherit">' +
+          '<mark class="rounded-xs bg-[var(--mark-bg)] px-px text-inherit">' +
           esc(t.slice(i, i + q.length)) +
           '</mark>' +
           esc(t.slice(i + q.length))
@@ -104,7 +104,7 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
           .map(it => {
             const i = sRows.push(it) - 1
             return `<button class="sitem flex w-full items-center gap-[11px] rounded-lg px-3 py-2 text-start disabled:opacity-60" role="option" data-i="${i}" ${gr.dim ? 'disabled' : ''}>
-  <span class="ic flex size-[26px] shrink-0 items-center justify-center rounded-[7px] bg-[var(--line-2)] text-muted"><svg width="14" height="14"><use href="#${it.icon}"/></svg></span>
+  <span class="ic flex size-[26px] shrink-0 items-center justify-center rounded-legacy-7 bg-[var(--line-2)] text-muted"><svg width="14" height="14"><use href="#${it.icon}"/></svg></span>
   <span class="tx min-w-0 flex-1"><span class="t block truncate text-body [.strow_&]:font-semibold [.strow_&]:[font-size:13px] [.strow_&]:flex [.strow_&]:items-center [.strow_&]:[gap:7px] [.strow_&]:flex-wrap [.strow.off_&]:text-muted [.dcard_&]:font-semibold [.dcard_&]:[font-size:13px] [.dcard_&]:flex [.dcard_&]:items-center [.dcard_&]:gap-1.5 [.dcard_&]:flex-wrap">${hi(it.t, q)}</span>
   ${gr.dim ? `<span class="why block text-xs italic text-faint">${it.off}</span>` : it.s ? `<span class="s mt-px block text-xs text-muted">${hi(it.s, q)}</span>` : ''}</span>
   ${it.kbd && !gr.dim ? `<span class="kbd rounded border border-line bg-[var(--line-2)] px-1.5 py-px font-mono text-caption text-muted">${it.kbd}</span>` : ''}</button>`
