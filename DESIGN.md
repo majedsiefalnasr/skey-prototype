@@ -58,7 +58,7 @@ Spacing is `--ds-space-*` tokens in `concepts/app/styles/tailwind/base.css`, wri
 | Font sizes | ADS type scale | 22 role-based tokens with the sizes already in use | Implemented, no visual change |
 | Spacing | ADS scale | ADS tokens plus `legacy-*` tokens for 0.5, 1, 3, 5, 7, 9, 10, 11, 13, 14, 15, 17, 18, 22, 26, 28, 30, 34, 46, 54, 68 and 72px | Tokenised, not normalised |
 | Record identity card | Not specified; stacks below `lg` (1440px) | Profile, Customer, People and the contact dialog stack the fields above the photo below 1440px | Implemented (#11, #1), no overlap measured at 390 to 1440px |
-| Viewport breakpoints | `xs` 30, `sm` 48, `md` 64, `lg` 90, `xl` 110.5rem (480, 768, 1024, 1440, 1768px at a 16px root) | ADS steps as `--breakpoint-xs` to `--breakpoint-xl`, plus 13 `--breakpoint-legacy-*` tokens named by pixel value at a 16px root for values that have not moved to a step. All are written in `rem`, like ADS | Below `sm` (48rem, 768px) follows ADS; the rest is tokenised, not normalised (#12) |
+| Viewport breakpoints | `xs` 30, `sm` 48, `md` 64, `lg` 90, `xl` 110.5rem (480, 768, 1024, 1440, 1768px at a 16px root) | ADS steps as `--breakpoint-xs` to `--breakpoint-xl`, plus 12 `--breakpoint-legacy-*` tokens named by pixel value at a 16px root for values that have not moved to a step. All are written in `rem`, like ADS | Below `sm` (48rem, 768px) follows ADS; the rest is tokenised, not normalised (#12) |
 | Flag title | `h2` heading | `h2` heading | Implemented, not visually verified |
 | Flag Escape | Closes the topmost dismissible flag | Closes the topmost dismissible flag when focus is inside a flag | Implemented, not visually verified |
 | Flag tones | Success, warning and error are bold and not dismissible | Same | Implemented, not visually verified |
@@ -115,10 +115,11 @@ Prototype breakpoints:
 - Below `sm` (768px): Profile, Customer, People and Organization section navigation.
 - `560px`: Flag moves to the phone layout, and pages reserve room under it.
 - `620px` (`--breakpoint-legacy-620`): a documented custom value, not an ADS step. The data list starts with its statistics collapsed (`concepts/app/components/data-list/model.js`), the home launchpad chrome goes compact, the invoice adjustment actions wrap, and the placeholder and For you pages tighten their padding. The statistics default is tied to the collapsed toolbar, so moving only one of them would separate the two. Keep it at 620px unless the toolbar breakpoint moves with it.
+- `1023px` (below ADS `md`, 1024px): the shell sidebar collapses and the top bar goes compact, the Email screen swaps its folder rail for a select, and the invoice settlement stacks. This was 900px. At 901 to 1023px the open sidebar left the Email reading pane 200 to 320px wide, so the switch now sits on the same ADS step as the side navigation.
 - Page content is capped at `1296px` wide. This is the ADS grid maximum quoted in ADS guidance, not checked against a package in this repo.
 
 ## Roadmap
 
 1. **Phase 1, tokens with no visual change.** Move the existing type, spacing and radius values into named tokens. Font sizes, radius and spacing are done. Changing one token then updates every use. Screenshots must not change.
 2. **Phase 2, normalise to the scale.** Map the values to a small set. This changes the look, so it needs approval and updated screenshot baselines.
-3. **Open items.** Section navigation, footers and other layouts still use `900px` and other legacy values, which are not ADS breakpoints. Each needs a decision to align with ADS or to stay as a documented custom choice. Breakpoints are tokenised, so each group can move one value at a time (#12).
+3. **Open items.** The data list and its statistics (900px and 1100px), notes, events, activities, For you, placeholder and the kanban inset (900px) still use legacy values, which are not ADS breakpoints. The shell, Email and invoice moved to `md`. Each remaining value needs a decision to align with ADS or to stay as a documented custom choice. Breakpoints are tokenised, so each group can move one value at a time (#12).

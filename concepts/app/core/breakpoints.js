@@ -10,6 +10,7 @@
  */
 export const VIEWPORT_BREAKPOINTS = Object.freeze({
   sm: 48,
+  md: 64,
   legacy560: 35,
   legacy620: 38.75,
   legacy900: 56.25,

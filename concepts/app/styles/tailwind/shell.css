@@ -2220,7 +2220,7 @@
     gap: 5px;
     padding: 6px;
   }
-  @media (max-width: theme(--breakpoint-legacy-900)) {
+  @media (width < theme(--breakpoint-md)) {
     .rec-settlement {
       grid-template-columns: minmax(0, 1fr);
     }
@@ -3834,7 +3834,7 @@
   /* ---- responsive shell/record layout (concepts/app/styles/overrides-2.css) ----
      Follows the same Atlassian spacing, selected, focus, and elevation tokens used
      by the desktop composition. */
-  @media (max-width: theme(--breakpoint-legacy-900)) {
+  @media (width < theme(--breakpoint-md)) {
     .gtop {
       display: grid;
       grid-template-columns: 44px 44px minmax(0, 1fr) auto;

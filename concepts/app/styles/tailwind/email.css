@@ -98,7 +98,7 @@
      compact breakpoint arrives, the same instant the shell's sidebar
      auto-collapses — below it the mail screen swaps the rail for its mailbox
      select, which is the automatic collapse on small devices. */
-  @media (min-width: theme(--breakpoint-legacy-901)) {
+  @media (min-width: theme(--breakpoint-md)) {
     .email-app {
       position: relative;
     }
@@ -185,7 +185,7 @@
       margin-block: 2px;
     }
   }
-  @media (pointer: coarse) and (min-width: theme(--breakpoint-legacy-901)) {
+  @media (pointer: coarse) and (min-width: theme(--breakpoint-md)) {
     .email-folders {
       padding-inline: 4px;
     }

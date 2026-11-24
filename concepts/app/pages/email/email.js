@@ -1,5 +1,5 @@
 import {uiLocale} from '../../core/locale.js'
-import {belowQuery, maxWidthQuery} from '../../core/breakpoints.js'
+import {belowQuery} from '../../core/breakpoints.js'
 const {t} = uiLocale
 // Internal Mail — mailboxes (Inbox, Starred, Sent, Drafts, Archive,
 // Trash) plus the folders the user creates, a message list, and a reading /
@@ -153,7 +153,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
   /* The rail is swapped for its select at the shell's own compact breakpoint,
      so it collapses on small devices at exactly the moment the shell's
      sidebar does. */
-  const compact = () => matchMedia(maxWidthQuery('legacy900')).matches
+  const compact = () => matchMedia(belowQuery('md')).matches
 
   /* ---------- layout ---------- */
   function applyLayout() {
@@ -173,7 +173,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     list.classList.toggle('w-full', narrow())
   }
   matchMedia(belowQuery('sm')).addEventListener('change', applyLayout, {signal})
-  matchMedia(maxWidthQuery('legacy900')).addEventListener('change', applyLayout, {signal})
+  matchMedia(belowQuery('md')).addEventListener('change', applyLayout, {signal})
 
   /* ---------- folders ---------- */
   /* Row geometry is the shell's `.nc2-icn` spec — h-9, an 18px icon, gap-2.5,
