@@ -272,24 +272,24 @@
 }
 
 @theme {
-  --breakpoint-xs: 480px;
-  --breakpoint-sm: 768px;
-  --breakpoint-md: 1024px;
-  --breakpoint-lg: 1440px;
-  --breakpoint-xl: 1768px;
+  --breakpoint-xs: 30rem;
+  --breakpoint-sm: 48rem;
+  --breakpoint-md: 64rem;
+  --breakpoint-lg: 90rem;
+  --breakpoint-xl: 110.5rem;
   --breakpoint-2xl: initial;
-  --breakpoint-legacy-480: 480px;
-  --breakpoint-legacy-560: 560px;
-  --breakpoint-legacy-561: 561px;
-  --breakpoint-legacy-620: 620px;
-  --breakpoint-legacy-800: 800px;
-  --breakpoint-legacy-820: 820px;
-  --breakpoint-legacy-900: 900px;
-  --breakpoint-legacy-901: 901px;
-  --breakpoint-legacy-1100: 1100px;
-  --breakpoint-legacy-1200: 1200px;
-  --breakpoint-legacy-1240: 1240px;
-  --breakpoint-legacy-1299: 1299px;
-  --breakpoint-legacy-1439: 1439px;
-  --breakpoint-legacy-1600: 1600px;
+  --breakpoint-legacy-480: 30rem;
+  --breakpoint-legacy-560: 35rem;
+  --breakpoint-legacy-561: 35.0625rem;
+  --breakpoint-legacy-620: 38.75rem;
+  --breakpoint-legacy-800: 50rem;
+  --breakpoint-legacy-820: 51.25rem;
+  --breakpoint-legacy-900: 56.25rem;
+  --breakpoint-legacy-901: 56.3125rem;
+  --breakpoint-legacy-1100: 68.75rem;
+  --breakpoint-legacy-1200: 75rem;
+  --breakpoint-legacy-1240: 77.5rem;
+  --breakpoint-legacy-1299: 81.1875rem;
+  --breakpoint-legacy-1439: 89.9375rem;
+  --breakpoint-legacy-1600: 100rem;
 }
