@@ -181,7 +181,7 @@ export function renderDataListChart(context, rows, config, listState, deps) {
   const expanded = listState.chartExpanded !== false
   const canvasBody = groups.length
     ? `<div class="data-list-chart-apex w-full" data-chart-mount></div>`
-    : `<p class="data-chart-empty flex min-h-[260px] items-center justify-center text-center text-[12.5px] text-muted">${t('No data to chart for this view.', 'No data to chart for this view.')}</p>`
+    : `<p class="data-chart-empty flex min-h-[260px] items-center justify-center text-center text-dense text-muted">${t('No data to chart for this view.', 'No data to chart for this view.')}</p>`
   return `<section class="rec-card data-list-chart mb-3 shadow-[var(--shadow-1)] [border:1px_solid_var(--line)] rounded-lg overflow-hidden [.rec-card-flow>&]:[flex:1_1_calc(var(--card-cols,_3)_*_200px)] [.rec-card-flow>&]:[min-width:min(100%,_320px)] [.rec-card-flow>&]:mb-0!" aria-label="${encodeHtml(config.label)} chart">
     <div class="data-list-chart-hd-row flex items-stretch bg-[var(--line-2)]">
       <button type="button" class="rec-card-hd data-list-chart-hd min-w-0 flex-1 flex items-center justify-between gap-2.5 w-full text-start [padding:8px_12px] [font-size:12.5px]! font-bold! bg-[var(--line-2)]! border-0! [cursor:pointer]" data-list-chart-toggle aria-expanded="${expanded}">

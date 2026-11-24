@@ -38,7 +38,7 @@ export function createHome({
     tile.dataset.i18nOriginal = label
     tile.innerHTML =
       `<span class="lp-tile-ic flex size-10 items-center justify-center rounded-[10px] bg-[color-mix(in_srgb,var(--lp-tone,var(--accent))_11%,var(--surface))] text-[var(--lp-tone,var(--accent))]"><svg width="20" height="20" aria-hidden="true"><use href="#${icon}"/></svg></span>` +
-      '<span class="lp-tile-copy min-w-0"><span class="lp-tile-lbl line-clamp-2 overflow-hidden text-[13.5px] font-bold leading-[1.35] text-ink"></span><span class="lp-tile-desc mt-1.5 line-clamp-2 overflow-hidden text-xs leading-[1.4] text-muted"></span><span class="lp-current mt-2 inline-flex text-[11px] font-bold text-accent" hidden></span></span>' +
+      '<span class="lp-tile-copy min-w-0"><span class="lp-tile-lbl line-clamp-2 overflow-hidden text-body-lg font-bold leading-[1.35] text-ink"></span><span class="lp-tile-desc mt-1.5 line-clamp-2 overflow-hidden text-xs leading-[1.4] text-muted"></span><span class="lp-current mt-2 inline-flex text-caption font-bold text-accent" hidden></span></span>' +
       '<svg class="lp-tile-go mt-[3px] text-faint opacity-0 transition-opacity duration-100 group-hover:text-accent group-hover:opacity-100 group-focus-visible:text-accent group-focus-visible:opacity-100" width="14" height="14" aria-hidden="true"><use href="#i-next"/></svg>'
     const tileLabel = tile.querySelector('.lp-tile-lbl')
     const tileDescription = tile.querySelector('.lp-tile-desc')
@@ -64,7 +64,7 @@ export function createHome({
       cls
     tag.innerHTML =
       `<span class="lp-tag-ic flex size-7 flex-none items-center justify-center rounded-md bg-[var(--line-2)] text-muted"><svg width="15" height="15" aria-hidden="true"><use href="#${icon}"/></svg></span>` +
-      '<span class="lp-tag-lbl min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[12.5px] font-semibold text-ink"></span>'
+      '<span class="lp-tag-lbl min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-dense font-semibold text-ink"></span>'
     tag.querySelector('.lp-tag-lbl').textContent = t(label)
     tag.addEventListener('click', onClick, {signal: pageAbort.signal})
     return tag
@@ -411,7 +411,7 @@ export function createHome({
     separator.setAttribute('aria-hidden', 'true')
     const more = document.createElement('button')
     more.type = 'button'
-    more.className = 'lp-quick-more flex-none text-[12.5px] font-bold text-accent'
+    more.className = 'lp-quick-more flex-none text-dense font-bold text-accent'
     quickHeader.append(tabs, separator, more)
     const quickPanel = document.createElement('div')
     quickPanel.className = 'lp-quick-panel mt-3'
@@ -447,7 +447,7 @@ export function createHome({
       tab.setAttribute('aria-selected', String(index === 0))
       tab.setAttribute('aria-controls', 'launchpad-quick-panel')
       tab.className =
-        'inline-flex min-h-8 items-center justify-center gap-[7px] rounded-[5px] px-[9px] py-[5px] text-[12.5px] font-semibold text-muted'
+        'inline-flex min-h-8 items-center justify-center gap-[7px] rounded-[5px] px-[9px] py-[5px] text-dense font-semibold text-muted'
       tab.innerHTML = `<svg width="15" height="15" aria-hidden="true"><use href="#${list.icon}"/></svg><span class="lp-quick-tab-lbl"></span>`
       tab.querySelector('.lp-quick-tab-lbl').textContent = t(list.label)
       tab.addEventListener(
@@ -469,7 +469,7 @@ export function createHome({
 
     const appsSec = document.createElement('section')
     appsSec.setAttribute('aria-labelledby', 'launchpad-apps-title')
-    appsSec.innerHTML = `<div class="lp-section-hd mb-3.5 border-t border-line pt-5"><h2 id="launchpad-apps-title" class="lp-section-title text-[13px] font-bold text-muted">${t('Apps')}</h2></div>`
+    appsSec.innerHTML = `<div class="lp-section-hd mb-3.5 border-t border-line pt-5"><h2 id="launchpad-apps-title" class="lp-section-title text-body font-bold text-muted">${t('Apps')}</h2></div>`
     const appsGrid = document.createElement('div')
     appsGrid.className = 'lp-grid grid grid-cols-3 gap-5'
     visibleGroups().forEach((group, index) => {

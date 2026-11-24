@@ -140,7 +140,7 @@ export function createToast(host) {
     t.className = `toast ${kind.cls} pointer-events-auto absolute bottom-0 start-0 flex w-full items-start gap-2.5 rounded-lg px-3.5 py-3 shadow-shell transition-[transform,visibility] duration-[250ms] ease-[cubic-bezier(0.4,0,0,1)] motion-reduce:transition-none [animation:toastin_250ms_cubic-bezier(0,0.4,0,1)_both] motion-reduce:animate-none ${kind.box}`
     if (tone === 'bad') t.setAttribute('role', 'alert')
     t.innerHTML = `<span class="ic mt-px shrink-0 ${kind.iconCls}"><svg width="16" height="16" aria-hidden="true"><use href="#${kind.icon}"/></svg></span>
-    <span class="bd min-w-0 flex-1"><h2 class="m-0 mb-0.5 block text-[13.5px] font-semibold leading-5">${title}</h2>${body ? `<p class="m-0 mt-0.5 text-[13px] leading-[18px] ${kind.descCls}">${body}</p>` : ''}${action ? `<button class="act mt-1.5 inline-block bg-none border-0 p-0 text-[12.5px] font-medium underline ${kind.linkCls}">${action}</button>` : ''}</span>
+    <span class="bd min-w-0 flex-1"><h2 class="m-0 mb-0.5 block text-body-lg font-semibold leading-5">${title}</h2>${body ? `<p class="m-0 mt-0.5 text-body leading-[18px] ${kind.descCls}">${body}</p>` : ''}${action ? `<button class="act mt-1.5 inline-block bg-none border-0 p-0 text-dense font-medium underline ${kind.linkCls}">${action}</button>` : ''}</span>
     ${kind.dismissible ? `<button class="x mt-[-2px] -me-1 flex size-7 shrink-0 items-center justify-center rounded-md border-0 bg-transparent p-0 ${kind.closeCls}" aria-label="Dismiss"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button>` : ''}`
 
     // Dismissing keeps the flag mounted through its slide-out, and leaves

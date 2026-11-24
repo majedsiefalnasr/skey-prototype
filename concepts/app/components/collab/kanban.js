@@ -59,7 +59,7 @@ export function renderBoard(host, {columns, moveColumns = columns, renderCard, r
       const collapsed = Boolean(column.collapsed)
       return `<section class="${COLUMN_CLASS}" data-column="${escapeHtml(column.id)}" data-collapsed="${collapsed}" aria-label="${escapeHtml(t(column.label))}">
         <header class="flex items-center gap-2 px-3 py-2.5">
-          <h3 class="flex-1 text-[13px] font-semibold text-ink">${escapeHtml(t(column.label))} <span class="font-normal text-muted">· ${column.items.length}</span></h3>
+          <h3 class="flex-1 text-body font-semibold text-ink">${escapeHtml(t(column.label))} <span class="font-normal text-muted">· ${column.items.length}</span></h3>
           ${
             onToggleColumn && column.collapsible
               ? `<button type="button" class="lbtn" data-toggle-column="${escapeHtml(column.id)}" aria-expanded="${!collapsed}">${t(collapsed ? 'Show' : 'Hide')}</button>`
@@ -72,7 +72,7 @@ export function renderBoard(host, {columns, moveColumns = columns, renderCard, r
             : `<div class="flex flex-1 flex-col gap-2 px-2 pb-2">
           ${
             column.quickAdd && onQuickAdd
-              ? `<label class="sr-only" for="quick-add-${escapeHtml(column.id)}">${t('Add to')} ${escapeHtml(t(column.label))}</label><input id="quick-add-${escapeHtml(column.id)}" data-quick-add="${escapeHtml(column.id)}" dir="auto" autocomplete="off" placeholder="${escapeHtml(t(column.quickAdd))}" class="min-h-8 w-full rounded-md border border-dashed border-line bg-surface px-2.5 text-[13px] text-ink placeholder:text-muted focus-visible:border-solid focus-visible:border-[var(--accent)] focus-visible:outline-none">`
+              ? `<label class="sr-only" for="quick-add-${escapeHtml(column.id)}">${t('Add to')} ${escapeHtml(t(column.label))}</label><input id="quick-add-${escapeHtml(column.id)}" data-quick-add="${escapeHtml(column.id)}" dir="auto" autocomplete="off" placeholder="${escapeHtml(t(column.quickAdd))}" class="min-h-8 w-full rounded-md border border-dashed border-line bg-surface px-2.5 text-body text-ink placeholder:text-muted focus-visible:border-solid focus-visible:border-[var(--accent)] focus-visible:outline-none">`
               : ''
           }
           ${

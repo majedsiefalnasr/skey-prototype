@@ -106,7 +106,7 @@ function renderResponsiveRowDetails(context, row, overflowColumns, noRowActions,
   return `<dl class="data-responsive-details grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-[18px] gap-y-3 border-b border-line py-3 ${inset} pe-4 text-start">${overflowColumns
     .map(
       column =>
-        `<div class="min-w-0"><dt class="mb-0.5 text-xs font-semibold text-muted">${encodeHtml(column.label)}</dt><dd class="text-[12.5px] font-semibold text-ink [overflow-wrap:anywhere]">${renderFieldValue(context, row, column)}</dd></div>`
+        `<div class="min-w-0"><dt class="mb-0.5 text-xs font-semibold text-muted">${encodeHtml(column.label)}</dt><dd class="text-dense font-semibold text-ink [overflow-wrap:anywhere]">${renderFieldValue(context, row, column)}</dd></div>`
     )
     .join('')}</dl>`
 }

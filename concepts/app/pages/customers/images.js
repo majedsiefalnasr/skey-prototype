@@ -70,9 +70,9 @@ export function renderCustomerAvatar(row, deps) {
   const {encodeHtml, imageData = customerImageData} = deps
   const initials = encodeHtml(dataRecordInitials(row.customerName))
   const image = imageData(row.photo)
-  const fallback = `<span class="data-record-avatar customer-avatar-fallback grid size-9 flex-none place-items-center rounded-full bg-[var(--line-2)] text-[13px] font-bold text-muted" aria-hidden="true">${initials}</span>`
+  const fallback = `<span class="data-record-avatar customer-avatar-fallback grid size-9 flex-none place-items-center rounded-full bg-[var(--line-2)] text-body font-bold text-muted" aria-hidden="true">${initials}</span>`
   if (!image) return fallback
-  return `<button type="button" class="data-record-avatar customer-avatar-trigger image-fit-${image.fit} size-9 rounded-full overflow-hidden p-0 border-0" ${customerImagePreviewAttributes(row, image, deps)}><img src="${encodeHtml(image.src)}" alt="" data-customer-image class="block size-full ${image.fit === 'contain' ? 'object-contain' : 'object-cover'}"><span class="data-record-avatar customer-avatar-fallback grid size-9 flex-none place-items-center rounded-full bg-[var(--line-2)] text-[13px] font-bold text-muted" aria-hidden="true" hidden>${initials}</span></button>`
+  return `<button type="button" class="data-record-avatar customer-avatar-trigger image-fit-${image.fit} size-9 rounded-full overflow-hidden p-0 border-0" ${customerImagePreviewAttributes(row, image, deps)}><img src="${encodeHtml(image.src)}" alt="" data-customer-image class="block size-full ${image.fit === 'contain' ? 'object-contain' : 'object-cover'}"><span class="data-record-avatar customer-avatar-fallback grid size-9 flex-none place-items-center rounded-full bg-[var(--line-2)] text-body font-bold text-muted" aria-hidden="true" hidden>${initials}</span></button>`
 }
 
 /**

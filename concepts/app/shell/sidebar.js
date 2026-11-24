@@ -193,7 +193,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     node.className = 'nc1-node'
     const btn = document.createElement('button')
     btn.type = 'button'
-    btn.className = 'nc1-item flex w-full items-center gap-2 rounded-[3px] px-2 py-1.5 text-start text-[13px] leading-[1.3] text-ink hover:bg-[var(--hover-overlay)]'
+    btn.className = 'nc1-item flex w-full items-center gap-2 rounded-[3px] px-2 py-1.5 text-start text-body leading-[1.3] text-ink hover:bg-[var(--hover-overlay)]'
     btn.dataset.label = label
     btn.innerHTML =
       '<span class="nc1-lbl"></span>' +
@@ -231,7 +231,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       NAV_FAVORITES.forEach(f => {
         const b = document.createElement('button')
         b.type = 'button'
-        b.className = 'nc-fav mx-1.5 flex w-[calc(100%-12px)] items-center gap-[7px] rounded-[3px] px-2 py-[5px] text-start text-[12.5px] text-muted hover:bg-[var(--hover-overlay)]'
+        b.className = 'nc-fav mx-1.5 flex w-[calc(100%-12px)] items-center gap-[7px] rounded-[3px] px-2 py-[5px] text-start text-dense text-muted hover:bg-[var(--hover-overlay)]'
         b.dataset.label = f
         b.innerHTML =
           '<svg width="13" height="13" aria-hidden="true"><use href="#i-spark"/></svg><span></span>'
@@ -252,7 +252,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     const fillForYou = () => {
       body.innerHTML = ''
       const title = document.createElement('div')
-      title.className = 'nc3-title px-2 pb-1 pt-2 text-[12.5px] font-bold text-ink'
+      title.className = 'nc3-title px-2 pb-1 pt-2 text-dense font-bold text-ink'
       title.textContent = t('For You')
       body.appendChild(title)
       forYouGroups.forEach(g => {
@@ -269,7 +269,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       } else {
         body.innerHTML = ''
         const title = document.createElement('div')
-        title.className = 'nc3-title px-2 pb-1 pt-2 text-[12.5px] font-bold text-ink'
+        title.className = 'nc3-title px-2 pb-1 pt-2 text-dense font-bold text-ink'
         title.textContent = group[0]
         body.appendChild(title)
         if (withForYou) body.appendChild(ncBuildItem('For You', 0, root))
@@ -343,7 +343,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       btn.type = 'button'
       btn.className = 'nc2-icn relative inline-flex h-9 w-full min-w-[calc(var(--rail-w)-12px)] shrink-0 items-center gap-2.5 rounded-md ps-[11px] text-muted hover:bg-[var(--hover-overlay)]'
       btn.setAttribute('aria-label', t(label))
-      btn.innerHTML = `<svg class="shrink-0" width="18" height="18" aria-hidden="true"><use href="#${icon}"/></svg><span class="nc2-lbl overflow-hidden whitespace-nowrap text-[13px] opacity-0">${encodeHtml(t(label))}</span>`
+      btn.innerHTML = `<svg class="shrink-0" width="18" height="18" aria-hidden="true"><use href="#${icon}"/></svg><span class="nc2-lbl overflow-hidden whitespace-nowrap text-body opacity-0">${encodeHtml(t(label))}</span>`
       /* a mouse click leaves focus sitting on the button, which keeps
          ":focus-within" (and so the hover-expanded rail) engaged until an
          unrelated outside click knocks it loose — blur right away so the rail

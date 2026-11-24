@@ -9,7 +9,7 @@ const ACTIVITY_CARD_DOT_CLASS =
   'dot flex size-5 items-center justify-center rounded-full border-2 border-[var(--st-post-ink)] bg-surface text-[var(--st-post-ink)]'
 const ACTIVITY_MAIN_CLASS = 'main min-w-0 flex-1'
 const ACTIVITY_CARD_TITLE_CLASS =
-  't flex flex-wrap items-center gap-[9px] text-[13px] font-semibold'
+  't flex flex-wrap items-center gap-[9px] text-body font-semibold'
 const ACTIVITY_CARD_GRID_CLASS = 'grid mt-2 gap-x-3 gap-y-1 text-xs'
 const ACTIVITY_CARD_KEY_CLASS = 'k text-xs text-faint'
 const ACTIVITY_CARD_LINK_CLASS = 'lnk mt-1.5 inline-block text-xs text-accent'
@@ -20,7 +20,7 @@ const ACTIVITY_ENTRY_CLASS =
 const ACTIVITY_AVATAR_CLASS =
   'av z-[1] flex size-[30px] flex-none items-center justify-center rounded-full bg-accent text-xs font-semibold text-inverse'
 const ACTIVITY_SYSTEM_AVATAR_CLASS = 'sys bg-[var(--line-2)]! text-muted!'
-const ACTIVITY_LINE_CLASS = 'line text-[13px] [&_b]:font-semibold'
+const ACTIVITY_LINE_CLASS = 'line text-body [&_b]:font-semibold'
 const ACTIVITY_TIME_CLASS = 'tm ms-1.5 text-xs text-faint'
 const ACTIVITY_CHANGE_CLASS = 'chg mt-[3px] text-xs text-muted [&_s]:text-faint [&_b]:text-ink'
 const ACTIVITY_CHIPS_CLASS = 'chips mt-[7px] flex flex-wrap gap-[7px]'

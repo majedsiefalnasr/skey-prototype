@@ -156,15 +156,15 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
   }
 
   const statusChip = status =>
-    `<span class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-2 py-0.5 text-[11px] font-semibold text-ink"><span class="size-1.5 rounded-full ${
+    `<span class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-2 py-0.5 text-caption font-semibold text-ink"><span class="size-1.5 rounded-full ${
       STATUS_DOT[status] || 'bg-[var(--muted)]'
     }" aria-hidden="true"></span>${escapeHtml(statusLabel(status))}</span>`
 
   const priorityChip = priority => {
     const label = PRIORITIES.find(([value]) => value === priority)?.[1] ?? priority
     return priority === 'high'
-      ? `<span class="rounded-full border border-[var(--danger-soft-line)] bg-[var(--danger-soft-bg)] px-2 py-0.5 text-[11px] font-semibold text-[color:var(--danger)]">${t("High")}</span>`
-      : `<span class="rounded-full border border-line bg-surface px-2 py-0.5 text-[11px] font-semibold text-muted">${escapeHtml(t(label))}</span>`
+      ? `<span class="rounded-full border border-[var(--danger-soft-line)] bg-[var(--danger-soft-bg)] px-2 py-0.5 text-caption font-semibold text-[color:var(--danger)]">${t("High")}</span>`
+      : `<span class="rounded-full border border-line bg-surface px-2 py-0.5 text-caption font-semibold text-muted">${escapeHtml(t(label))}</span>`
   }
 
   /** Card: status and priority chips (the kebab sits over the reserved end
@@ -183,7 +183,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
     return `<span class="flex flex-wrap items-center gap-1.5 pe-10">${statusChip(activity.status)}${priorityChip(activity.priority)}${
       activity.archived ? `<span class="badge gray ms-auto">${t("Archived")}</span>` : ''
     }</span>
-      <span class="card-title mt-1.5 block text-[13px] font-semibold text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(titleOf(activity))}</span>
+      <span class="card-title mt-1.5 block text-body font-semibold text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(titleOf(activity))}</span>
       ${excerpt ? `<span class="mt-1 line-clamp-2 block text-xs text-muted" dir="auto">${escapeHtml(excerpt)}</span>` : ''}
       <span class="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs text-muted">${icon(kindIcon(activity.kind), 12)}<span>${escapeHtml(
         kindLabel(activity.kind)
@@ -195,12 +195,12 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
         )
         .join('')}</span>
       <span class="mt-2 flex items-center gap-1.5 [border-top:1px_dashed_var(--line)] pt-2 text-xs text-muted">
-        <span class="inline-grid size-5 flex-none place-items-center rounded-full bg-[var(--line-2)] text-[10px] font-semibold text-ink" aria-hidden="true">${escapeHtml(
+        <span class="inline-grid size-5 flex-none place-items-center rounded-full bg-[var(--line-2)] text-caption-xs font-semibold text-ink" aria-hidden="true">${escapeHtml(
           owner.charAt(0)
         )}</span>
         <span class="min-w-0 truncate" title="${escapeHtml(owners.join(', '))}">${escapeHtml(owner)}${
           owners.length > 1
-            ? `<span class="ms-1 rounded-full bg-[var(--line-2)] px-1.5 py-px text-[10px] font-semibold text-ink" title="${escapeHtml(
+            ? `<span class="ms-1 rounded-full bg-[var(--line-2)] px-1.5 py-px text-caption-xs font-semibold text-ink" title="${escapeHtml(
                 owners.slice(1).join(', ')
               )}">+${owners.length - 1}</span>`
             : ''
@@ -382,7 +382,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
     }))
     const unscheduled = filtered().filter(a => isOpenActivity(a) && !store.isScheduled(a)).length
     body.innerHTML = `${calendarToolbar({mode: state.calMode, date: state.calDate, presets: true, today: todayKey(), titleHidden: true})}
-      <p class="my-2 flex flex-wrap items-center gap-2 rounded-md bg-[var(--line-2)] px-3 py-2 text-[13px] text-ink" data-unscheduled-notice>
+      <p class="my-2 flex flex-wrap items-center gap-2 rounded-md bg-[var(--line-2)] px-3 py-2 text-body text-ink" data-unscheduled-notice>
         ${icon('i-info')}<span>${unscheduled} unscheduled ${unscheduled === 1 ? 'activity isn’t' : 'activities aren’t'} shown here — only activities with a scheduled time appear on the calendar. They stay in Kanban.</span>
         <button type="button" class="lbtn ms-auto" data-show-kanban>${t("Show Kanban")}</button>
       </p>
@@ -497,12 +497,12 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
         hint: t("A due date alone does not put the activity on the calendar."),
         wide: true,
         control: `<div class="flex items-center gap-2">${textInput({id: 'activity-due', type: 'date', value: activity.dueDate || '', describedBy: 'activity-due-hint'})}<button type="button" class="lbtn out shrink-0" data-due-clear>${t('Clear')}</button></div>
-          <div class="mt-1 grid grid-cols-2 gap-2">${[[1, '+1 day'], [7, '+1 week']].map(([days, label]) => `<button type="button" class="flex min-h-12 items-center gap-2 rounded-md border border-line bg-surface px-3 py-2 text-start text-[13px] text-ink hover:border-[var(--accent-line)] hover:bg-[var(--accent-soft)] focus-visible:outline-2 focus-visible:outline-[var(--focus)]" data-due-shift="${days}">${icon('i-cal')}<span class="grid gap-0.5"><span class="font-semibold">${t(label)}</span><span class="text-xs text-muted" data-due-preview="${days}">${escapeHtml(formatDate(addDays(activity.dueDate || todayKey(), days)))}</span></span></button>`).join('')}</div><p class="${HINT_CLASS} mt-1">${t('Added to the selected due date, or today if empty.')}</p>`,
+          <div class="mt-1 grid grid-cols-2 gap-2">${[[1, '+1 day'], [7, '+1 week']].map(([days, label]) => `<button type="button" class="flex min-h-12 items-center gap-2 rounded-md border border-line bg-surface px-3 py-2 text-start text-body text-ink hover:border-[var(--accent-line)] hover:bg-[var(--accent-soft)] focus-visible:outline-2 focus-visible:outline-[var(--focus)]" data-due-shift="${days}">${icon('i-cal')}<span class="grid gap-0.5"><span class="font-semibold">${t(label)}</span><span class="text-xs text-muted" data-due-preview="${days}">${escapeHtml(formatDate(addDays(activity.dueDate || todayKey(), days)))}</span></span></button>`).join('')}</div><p class="${HINT_CLASS} mt-1">${t('Added to the selected due date, or today if empty.')}</p>`,
       })}
       <details class="sm:col-span-2 rounded-md border border-line bg-surface"${scheduled ? ' open' : ''}>
-        <summary class="flex cursor-pointer list-none items-center gap-2 rounded-md px-3 py-2.5 text-[13px] font-medium text-ink hover:bg-[var(--line-2)] [&::-webkit-details-marker]:hidden">
+        <summary class="flex cursor-pointer list-none items-center gap-2 rounded-md px-3 py-2.5 text-body font-medium text-ink hover:bg-[var(--line-2)] [&::-webkit-details-marker]:hidden">
           ${icon('i-clock', 14)}<span>${t("Schedule a time")}</span>
-          <span class="ms-auto rounded-full px-2 py-0.5 text-[11px] font-semibold ${scheduled ? 'bg-[var(--line-2)] text-ink' : 'text-muted'}" data-schedule-state>${t(scheduled ? 'Scheduled' : 'Not scheduled')}</span>
+          <span class="ms-auto rounded-full px-2 py-0.5 text-caption font-semibold ${scheduled ? 'bg-[var(--line-2)] text-ink' : 'text-muted'}" data-schedule-state>${t(scheduled ? 'Scheduled' : 'Not scheduled')}</span>
         </summary>
         <div class="border-t border-line px-3 py-3">
           <div class="grid grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
