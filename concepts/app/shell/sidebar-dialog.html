@@ -1,6 +1,6 @@
 <!-- ===== customize sidebar dialog: build "For You" groups ===== -->
 <div
-  class="dscrim fixed [inset:0] [background:var(--scrim)] backdrop-blur-[4px] [z-index:130] hidden items-center justify-center [padding:24px]"
+  class="dscrim fixed [inset:0] [background:var(--scrim)] backdrop-blur-[4px] [z-index:130] hidden items-center justify-center [padding:var(--ds-space-300)]"
   id="cscrim">
   <div
     class="dlg cs-dlg [width:min(720px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
@@ -15,14 +15,14 @@
         <p class="dhd-subtitle">Changes apply only to you, not anyone else in this branch</p>
       </div>
       <button
-        class="ibtn c-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
+        class="ibtn c-close [.rec-adjustment-row_&]:[margin-bottom:var(--ds-space-legacy-1)]!"
         aria-label="Close"
         style="margin-inline-start: auto">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
     <div class="dlg-inner">
-      <div class="dbody cs-body [padding:16px_18px] overflow-auto">
+      <div class="dbody cs-body [padding:var(--ds-space-200)_var(--ds-space-legacy-18)] overflow-auto">
         <p class="cs-intro">
           Drag a screen — or a whole app for all its screens — from the left into a group on the
           right to build your <b>For You</b> shortcut.

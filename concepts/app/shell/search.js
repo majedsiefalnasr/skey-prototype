@@ -16,7 +16,7 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
     return i < 0
       ? esc(t)
       : esc(t.slice(0, i)) +
-          '<mark class="rounded-[2px] bg-[var(--mark-bg)] px-px text-inherit">' +
+          '<mark class="rounded-xs bg-[var(--mark-bg)] px-px text-inherit">' +
           esc(t.slice(i, i + q.length)) +
           '</mark>' +
           esc(t.slice(i + q.length))
@@ -95,7 +95,7 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
     sRows = []
     const list = activeList()
     if (!groups.length) {
-      list.innerHTML = `<div class="sempty px-[18px] py-8 text-center text-[13px] text-muted"><b class="mb-1 block text-ink">Nothing matches “${esc(activeInput().value)}”</b>Try a document number, a customer name, or an action such as “Posting”.</div>`
+      list.innerHTML = `<div class="sempty px-[var(--ds-space-legacy-18)] py-8 text-center text-body text-muted"><b class="mb-1 block text-ink">Nothing matches “${esc(activeInput().value)}”</b>Try a document number, a customer name, or an action such as “Posting”.</div>`
       return
     }
     list.innerHTML = groups
@@ -103,14 +103,14 @@ export function createSearch({actionDialog,toast, getState, blocked, stopSearchT
         const rows = gr.items
           .map(it => {
             const i = sRows.push(it) - 1
-            return `<button class="sitem flex w-full items-center gap-[11px] rounded-lg px-3 py-2 text-start disabled:opacity-60" role="option" data-i="${i}" ${gr.dim ? 'disabled' : ''}>
-  <span class="ic flex size-[26px] shrink-0 items-center justify-center rounded-[7px] bg-[var(--line-2)] text-muted"><svg width="14" height="14"><use href="#${it.icon}"/></svg></span>
-  <span class="tx min-w-0 flex-1"><span class="t block truncate text-[13px] [.strow_&]:font-semibold [.strow_&]:[font-size:13px] [.strow_&]:flex [.strow_&]:items-center [.strow_&]:[gap:7px] [.strow_&]:flex-wrap [.strow.off_&]:text-muted [.dcard_&]:font-semibold [.dcard_&]:[font-size:13px] [.dcard_&]:flex [.dcard_&]:items-center [.dcard_&]:gap-1.5 [.dcard_&]:flex-wrap">${hi(it.t, q)}</span>
+            return `<button class="sitem flex w-full items-center gap-[var(--ds-space-legacy-11)] rounded-lg px-3 py-2 text-start disabled:opacity-60" role="option" data-i="${i}" ${gr.dim ? 'disabled' : ''}>
+  <span class="ic flex size-[26px] shrink-0 items-center justify-center rounded-legacy-7 bg-[var(--line-2)] text-muted"><svg width="14" height="14"><use href="#${it.icon}"/></svg></span>
+  <span class="tx min-w-0 flex-1"><span class="t block truncate text-body [.strow_&]:font-semibold [.strow_&]:[font-size:13px] [.strow_&]:flex [.strow_&]:items-center [.strow_&]:[gap:var(--ds-space-legacy-7)] [.strow_&]:flex-wrap [.strow.off_&]:text-muted [.dcard_&]:font-semibold [.dcard_&]:[font-size:13px] [.dcard_&]:flex [.dcard_&]:items-center [.dcard_&]:gap-1.5 [.dcard_&]:flex-wrap">${hi(it.t, q)}</span>
   ${gr.dim ? `<span class="why block text-xs italic text-faint">${it.off}</span>` : it.s ? `<span class="s mt-px block text-xs text-muted">${hi(it.s, q)}</span>` : ''}</span>
-  ${it.kbd && !gr.dim ? `<span class="kbd rounded border border-line bg-[var(--line-2)] px-1.5 py-px font-mono text-[11px] text-muted">${it.kbd}</span>` : ''}</button>`
+  ${it.kbd && !gr.dim ? `<span class="kbd rounded border border-line bg-[var(--line-2)] px-1.5 py-px font-mono text-caption text-muted">${it.kbd}</span>` : ''}</button>`
           })
           .join('')
-        return `<div class="sgrp flex items-center gap-2 px-3 pb-[3px] pt-[9px] text-xs uppercase tracking-[0.04em] text-faint">${gr.g}<span class="c rounded-full bg-[var(--line-2)] px-[7px] text-xs">${gr.items.length}</span></div>${rows}`
+        return `<div class="sgrp flex items-center gap-2 px-3 pb-[var(--ds-space-legacy-3)] pt-[var(--ds-space-legacy-9)] text-xs uppercase tracking-[0.04em] text-faint">${gr.g}<span class="c rounded-full bg-[var(--line-2)] px-[var(--ds-space-legacy-7)] text-xs">${gr.items.length}</span></div>${rows}`
       })
       .join('')
     sSel = 0

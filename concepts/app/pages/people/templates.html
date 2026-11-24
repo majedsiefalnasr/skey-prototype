@@ -1,14 +1,14 @@
 <template class="people-tpl">
   <div class="people-view collab-view flex min-h-0 flex-1 flex-col" hidden>
-    <div class="phead flex items-start gap-5 px-4 [.d1_&]:[padding:11px_0]">
+    <div class="phead flex items-start gap-5 px-4 [.d1_&]:[padding:var(--ds-space-legacy-11)_0]">
       <div class="l min-w-0 flex-1">
-        <nav class="flex items-center gap-1.5 text-[13px] text-muted [&_a]:text-accent [&_a]:no-underline [&_a:hover]:underline" aria-label="Breadcrumb">
+        <nav class="flex items-center gap-1.5 text-body text-muted [&_a]:text-accent [&_a]:no-underline [&_a:hover]:underline" aria-label="Breadcrumb">
           <a href="/" data-home-link data-i18n="Home">Home</a><span class="sep" aria-hidden="true">›</span>
           <a href="#" data-collab-home data-i18n="Help Screens">Help Screens</a><span aria-hidden="true">›</span
           ><span aria-current="page" data-i18n="People Data">People Data</span>
         </nav>
-        <div class="mt-2"><h1 class="text-[23px] font-semibold leading-tight text-ink [body.density-compact_&]:text-[20px]" data-i18n="People Data">People Data</h1></div>
-        <p class="mt-0.5 text-[13px] text-muted" data-i18n="People you deal with, before they become customers, suppliers or users.">People you deal with, before they become customers, suppliers or users.</p>
+        <div class="mt-2"><h1 class="text-page-title font-semibold leading-tight text-ink [body.density-compact_&]:text-title" data-i18n="People Data">People Data</h1></div>
+        <p class="mt-0.5 text-body text-muted" data-i18n="People you deal with, before they become customers, suppliers or users.">People you deal with, before they become customers, suppliers or users.</p>
       </div>
       <div class="r [.d1_.phead_&]:flex [.d1_.phead_&]:items-center [.d1_.phead_&]:gap-1 [.d1_.phead_&]:mt-1.5!">
         <button type="button" class="lbtn pri" data-collab-new>
@@ -19,14 +19,14 @@
     </div>
     <div class="canvas flex! min-w-0 min-h-0 flex-col">
       <div class="[.people-view:has(.data-selection-toolbar)_&]:hidden" data-collab-toolbar></div>
-      <div class="min-w-0 min-h-0 flex-1 pb-4 max-[720px]:pb-[calc(1rem+var(--flag-reserve,0px))]" data-collab-body></div>
+      <div class="min-w-0 min-h-0 flex-1 pb-4 [@media(max-width:560px)]:pb-[calc(1rem+var(--flag-reserve,0px))]" data-collab-body></div>
     </div>
     <!-- Hoisted by shell.js into the shared `.page-footer` slot, like the
          Customers list pager; the People data table renders its pager here. -->
     <div class="fnav fnav-list" data-people-list-fnav></div>
   </div>
   <div class="people-record-view collab-view flex min-h-0 min-w-0 flex-1 flex-col" hidden>
-    <header class="phead flex items-start gap-5 px-4 [.d1_&]:[padding:11px_0]">
+    <header class="phead flex items-start gap-5 px-4 [.d1_&]:[padding:var(--ds-space-legacy-11)_0]">
       <div class="l min-w-0 flex-1">
         <nav class="crumbs" aria-label="Breadcrumb">
           <a href="/" data-home-link data-i18n="Home">Home</a><span class="sep">›</span>
@@ -34,15 +34,15 @@
           <span aria-current="page" data-person-breadcrumb></span>
         </nav>
         <div class="tline mt-2 flex flex-wrap items-center gap-5">
-          <h1 class="text-[23px] font-semibold text-ink" data-panel-title tabindex="-1"></h1>
+          <h1 class="text-page-title font-semibold text-ink" data-panel-title tabindex="-1"></h1>
           <span class="badge gray" data-panel-status hidden></span>
         </div>
-        <p class="mt-0.5 text-[13px] text-muted" data-panel-description hidden></p>
+        <p class="mt-0.5 text-body text-muted" data-panel-description hidden></p>
       </div>
       <div class="r [.d1_.phead_&]:flex [.d1_.phead_&]:items-center [.d1_.phead_&]:gap-1 [.d1_.phead_&]:mt-1.5!">
-        <span class="recacts inline-flex items-center [gap:7px] flex-wrap">
+        <span class="recacts inline-flex items-center [gap:var(--ds-space-legacy-7)] flex-wrap">
         <button type="button" class="lbtn pri" data-panel-edit><svg width="15" height="15" aria-hidden="true"><use href="#i-edit" /></svg><span data-i18n="Modify">Modify</span></button>
-        <span class="inline-flex items-center [gap:7px]" data-panel-footer>
+        <span class="inline-flex items-center [gap:var(--ds-space-legacy-7)]" data-panel-footer>
           <button type="submit" form="people-record-form" class="lbtn pri" data-person-save data-panel-save data-i18n="Save">Save</button>
           <button type="button" class="lbtn out" data-person-cancel data-panel-cancel data-i18n="Undo">Undo</button>
         </span>
@@ -57,7 +57,7 @@
     <form class="flex min-h-0 flex-1 flex-col" id="people-record-form" data-panel-form novalidate>
       <div class="canvas customer-record-canvas min-h-0 flex-1 text-start" data-person-content>
         <div class="customer-scroll-layout grid [grid-template-columns:minmax(180px,_240px)_minmax(0,_1fr)] gap-5 items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
-          <nav class="people-scroll-nav [.customer-record-canvas_&_button:focus-visible]:[outline:2px_solid_var(--accent)] [.customer-record-canvas_&_button:focus-visible]:[outline-offset:-2px] sticky [top:0] grid [gap:3px] [padding:6px] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [.customer-record-canvas_&_button]:[min-height:36px] [.customer-record-canvas_&_button]:[padding:7px_9px] [.customer-record-canvas_&_button]:[border:0] [.customer-record-canvas_&_button]:rounded-md [.customer-record-canvas_&_button]:text-muted [.customer-record-canvas_&_button]:[background:transparent] [.customer-record-canvas_&_button]:[font:inherit] [.customer-record-canvas_&_button]:text-start [.customer-record-canvas_&_button]:[cursor:pointer] [.customer-record-canvas_&_button:hover]:text-ink [.customer-record-canvas_&_button:hover]:bg-[var(--line-2)] [body.density-compact_.customer-record-canvas_&_button]:[min-height:30px] [body.density-compact_.customer-record-canvas_&_button]:[padding:4px_7px] [body.density-comfortable_.customer-record-canvas_&_button]:[min-height:42px] [body.density-comfortable_.customer-record-canvas_&_button]:[padding:10px_11px] [@media((max-width:720px))]:sticky [@media((max-width:720px))]:[top:0] [@media((max-width:720px))]:[z-index:2] [@media((max-width:720px))]:flex [@media((max-width:720px))]:overflow-x-auto [@media((max-width:720px))]:whitespace-nowrap [@media((max-width:720px))]:[.customer-record-canvas_&_button]:[flex:none]" data-person-section-nav aria-label="People sections"></nav>
+          <nav class="people-scroll-nav [.customer-record-canvas_&_button:focus-visible]:[outline:2px_solid_var(--accent)] [.customer-record-canvas_&_button:focus-visible]:[outline-offset:-2px] sticky [top:0] grid [gap:var(--ds-space-legacy-3)] [padding:var(--ds-space-075)] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [.customer-record-canvas_&_button]:[min-height:36px] [.customer-record-canvas_&_button]:[padding:var(--ds-space-legacy-7)_var(--ds-space-legacy-9)] [.customer-record-canvas_&_button]:[border:0] [.customer-record-canvas_&_button]:rounded-md [.customer-record-canvas_&_button]:text-muted [.customer-record-canvas_&_button]:[background:transparent] [.customer-record-canvas_&_button]:[font:inherit] [.customer-record-canvas_&_button]:text-start [.customer-record-canvas_&_button]:[cursor:pointer] [.customer-record-canvas_&_button:hover]:text-ink [.customer-record-canvas_&_button:hover]:bg-[var(--line-2)] [body.density-compact_.customer-record-canvas_&_button]:[min-height:30px] [body.density-compact_.customer-record-canvas_&_button]:[padding:var(--ds-space-050)_var(--ds-space-legacy-7)] [body.density-comfortable_.customer-record-canvas_&_button]:[min-height:42px] [body.density-comfortable_.customer-record-canvas_&_button]:[padding:var(--ds-space-legacy-10)_var(--ds-space-legacy-11)] [@media((max-width:720px))]:sticky [@media((max-width:720px))]:[top:0] [@media((max-width:720px))]:[z-index:2] [@media((max-width:720px))]:flex [@media((max-width:720px))]:overflow-x-auto [@media((max-width:720px))]:whitespace-nowrap [@media((max-width:720px))]:[.customer-record-canvas_&_button]:[flex:none]" data-person-section-nav aria-label="People sections"></nav>
           <div class="customer-scroll-content min-w-0">
             <div class="min-w-0" data-panel-body></div>
           </div>
@@ -65,9 +65,9 @@
       </div>
     </form>
     <!-- The shell keeps record navigation visible below the scrolling content. -->
-    <div class="fnav people-record-footer flex max-[720px]:flex-wrap items-center gap-5 [padding:7px_16px] bg-surface">
+    <div class="fnav people-record-footer flex max-[720px]:flex-wrap items-center gap-5 [padding:var(--ds-space-legacy-7)_var(--ds-space-200)] bg-surface">
       <span data-person-pager></span>
-      <span class="pos text-muted text-[13px]" data-person-position aria-live="polite"></span>
+      <span class="pos text-muted text-body" data-person-position aria-live="polite"></span>
     </div>
   </div>
 </template>

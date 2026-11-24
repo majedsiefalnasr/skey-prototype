@@ -130,7 +130,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm, root, foote
     menuList.innerHTML = items
       .map(
         (item, index) =>
-          `<button type="button" role="menuitem" tabindex="-1" data-index="${index}" class="flex min-h-8 w-full items-center gap-2 rounded-[5px] border-0 bg-transparent px-2 py-1.5 text-start text-[13px] ${item.danger ? 'text-[color:var(--danger)]' : 'text-ink'} hover:bg-[var(--line-2)] focus-visible:bg-[var(--line-2)] focus-visible:outline-none">${item.icon ? icon(item.icon) : ''}${escapeHtml(t(item.label))}</button>`
+          `<button type="button" role="menuitem" tabindex="-1" data-index="${index}" class="flex min-h-8 w-full items-center gap-2 rounded-legacy-5 border-0 bg-transparent px-2 py-1.5 text-start text-body ${item.danger ? 'text-[color:var(--danger)]' : 'text-ink'} hover:bg-[var(--line-2)] focus-visible:bg-[var(--line-2)] focus-visible:outline-none">${item.icon ? icon(item.icon) : ''}${escapeHtml(t(item.label))}</button>`
       )
       .join('')
   }

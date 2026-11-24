@@ -349,15 +349,15 @@ export function createPeople({store, toast, panel: conversionPanel, confirm, goH
   }
 
   const personFact = ([label, value, dir]) =>
-    `<div class="min-w-0"><dt class="mb-0.5! text-[12px] text-muted">${escapeHtml(label)}</dt><dd class="m-0! truncate text-[12.5px] font-semibold text-ink"${
+    `<div class="min-w-0"><dt class="mb-0.5! text-small text-muted">${escapeHtml(label)}</dt><dd class="m-0! truncate text-dense font-semibold text-ink"${
       dir ? ` dir="${dir}"` : ''
     }>${escapeHtml(String(value ?? '—'))}</dd></div>`
 
   const personCardMarkup = p => {
     const location = [p.city, p.country].filter(Boolean).join(', ')
     return `<article class="${DATA_RECORD_CARD_CLASS} data-record-card-person" role="listitem" data-list-row-key="${escapeHtml(p.id)}">
-      <header class="data-record-card-header flex min-w-0 items-center gap-[9px]">
-        <span class="data-record-avatar grid size-9 flex-none place-items-center rounded-full bg-[var(--line-2)] text-[12px] font-bold text-ink" aria-hidden="true">${escapeHtml(
+      <header class="data-record-card-header flex min-w-0 items-center gap-[var(--ds-space-legacy-9)]">
+        <span class="data-record-avatar grid size-9 flex-none place-items-center rounded-full bg-[var(--line-2)] text-small font-bold text-ink" aria-hidden="true">${escapeHtml(
           titleOf(p).charAt(0)
         )}</span>
         <button class="${DATA_RECORD_CARD_IDENTITY_CLASS}" type="button" data-row-open="${escapeHtml(p.id)}"><div><strong dir="auto">${escapeHtml(
@@ -365,11 +365,11 @@ export function createPeople({store, toast, panel: conversionPanel, confirm, goH
         )}</strong><span dir="auto">${escapeHtml(p.company || '—')}</span></div></button>
         <span class="badge gray">${p.lifecycle === 'contact' ? 'Contact' : 'Lead'}</span>
       </header>
-      <div class="data-record-card-snapshot grid grid-cols-[minmax(0,1fr)_auto] items-end gap-5 rounded-md bg-[var(--line-2)] px-3.5 py-3 [&>div]:min-w-0 [&_small]:block [&_small]:text-[12px] [&_small]:text-muted [&_span]:block [&_span]:text-[12px] [&_span]:text-muted">
-        <div><span>Profile</span><strong class="my-0.5! block truncate text-[13px] text-ink" dir="auto">${escapeHtml(
+      <div class="data-record-card-snapshot grid grid-cols-[minmax(0,1fr)_auto] items-end gap-5 rounded-md bg-[var(--line-2)] px-3.5 py-3 [&>div]:min-w-0 [&_small]:block [&_small]:text-small [&_small]:text-muted [&_span]:block [&_span]:text-small [&_span]:text-muted">
+        <div><span>Profile</span><strong class="my-0.5! block truncate text-body text-ink" dir="auto">${escapeHtml(
           p.jobTitle || 'No job title'
         )}</strong>${p.nameAr ? `<small dir="rtl" lang="ar">${escapeHtml(p.nameAr)}</small>` : `<small>${escapeHtml(p.lifecycle === 'contact' ? 'Contact' : 'Lead')}</small>`}</div>
-        <div class="data-record-card-snapshot-value text-end"><span>Mobile / phone</span><strong class="my-0.5! block truncate text-[14px] text-ink" dir="ltr">${escapeHtml(
+        <div class="data-record-card-snapshot-value text-end"><span>Mobile / phone</span><strong class="my-0.5! block truncate text-subtitle text-ink" dir="ltr">${escapeHtml(
           primaryOf(p, 'phone') || '—'
         )}</strong></div>
       </div>
@@ -385,14 +385,14 @@ export function createPeople({store, toast, panel: conversionPanel, confirm, goH
   }
 
   const cardsMarkup = people =>
-    `<div class="data-card-grid grid grid-cols-3 gap-5 rounded-[10px] bg-bg p-3 max-[1240px]:grid-cols-2 max-[720px]:grid-cols-1" role="list" aria-label="People cards">${people
+    `<div class="data-card-grid grid grid-cols-3 gap-5 rounded-legacy-10 bg-bg p-3 max-[1240px]:grid-cols-2 max-[720px]:grid-cols-1" role="list" aria-label="People cards">${people
       .map(personCardMarkup)
       .join('')}</div>`
 
   /* ---------- editor ---------- */
   const convertedNotice = person =>
     person.convertedTo
-      ? `<p class="mt-4 rounded-md bg-[var(--line-2)] px-3 py-2 text-[13px] text-ink">${icon('i-check')} ${uiLocale.t(
+      ? `<p class="mt-4 rounded-md bg-[var(--line-2)] px-3 py-2 text-body text-ink">${icon('i-check')} ${uiLocale.t(
           'Converted to'
         )} ${escapeHtml(conversionLabel(person.convertedTo.target))}${
           person.convertedTo.recordId ? ` · ${escapeHtml(person.convertedTo.recordId)}` : ' (simulated)'
@@ -400,7 +400,7 @@ export function createPeople({store, toast, panel: conversionPanel, confirm, goH
       : ''
 
   function editorMarkup(person) {
-    return `<div class="mb-3 hidden rounded-md bg-[var(--warn-bg)] p-4 text-[13px] leading-5 text-ink" data-duplicate role="status" aria-live="polite" aria-atomic="true"></div>
+    return `<div class="mb-3 hidden rounded-md bg-[var(--warn-bg)] p-4 text-body leading-5 text-ink" data-duplicate role="status" aria-live="polite" aria-atomic="true"></div>
       ${renderPersonSections(person)}
       ${convertedNotice(person)}`
   }
@@ -432,12 +432,12 @@ export function createPeople({store, toast, panel: conversionPanel, confirm, goH
         ? `<div class="flex items-start gap-3">
             <span class="mt-0.5 flex size-5 flex-none items-center justify-center text-[var(--warn-ink)]" aria-hidden="true">${icon('i-warn', 20)}</span>
             <div class="min-w-0 flex-1">
-              <p class="m-0! text-[13px] font-semibold leading-5">${escapeHtml(uiLocale.t('Possible duplicate'))}</p>
-              <p class="mt-1! mb-0! text-[13px] leading-5">${escapeHtml(uiLocale.t('Review the matching person before saving. You can still save this record.'))}</p>
+              <p class="m-0! text-body font-semibold leading-5">${escapeHtml(uiLocale.t('Possible duplicate'))}</p>
+              <p class="mt-1! mb-0! text-body leading-5">${escapeHtml(uiLocale.t('Review the matching person before saving. You can still save this record.'))}</p>
               <ul class="mt-2! mb-0! grid list-none gap-2 p-0!">${matches
             .map(
               ({person, field: matched}) =>
-                `<li class="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5"><bdi class="font-semibold [overflow-wrap:anywhere]">${escapeHtml(titleOf(person))}</bdi><span class="text-xs text-muted">${escapeHtml(uiLocale.t(DUPLICATE_REASON[matched]))}</span><button type="button" class="inline-flex min-h-8 items-center rounded-sm border-0 bg-transparent px-1 text-[13px] font-medium text-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-open-duplicate="${escapeHtml(person.id)}" aria-label="${escapeHtml(uiLocale.t('Review person'))}: ${escapeHtml(titleOf(person))}">${escapeHtml(uiLocale.t('Review person'))}</button></li>`
+                `<li class="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5"><bdi class="font-semibold [overflow-wrap:anywhere]">${escapeHtml(titleOf(person))}</bdi><span class="text-xs text-muted">${escapeHtml(uiLocale.t(DUPLICATE_REASON[matched]))}</span><button type="button" class="inline-flex min-h-8 items-center rounded-sm border-0 bg-transparent px-1 text-body font-medium text-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-open-duplicate="${escapeHtml(person.id)}" aria-label="${escapeHtml(uiLocale.t('Review person'))}: ${escapeHtml(titleOf(person))}">${escapeHtml(uiLocale.t('Review person'))}</button></li>`
             )
             .join('')}</ul></div></div>`
         : ''

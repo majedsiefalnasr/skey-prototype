@@ -9,7 +9,7 @@ import {encodeHtml} from '../../core/locale.js'
 export const escapeHtml = encodeHtml
 
 export const FIELD_CLASS =
-  'rec-field grid content-start gap-1 [&>label]:text-xs [&>label]:text-muted [&_input:not([type=checkbox]):not([type=radio])]:w-full [&_input:not([type=checkbox]):not([type=radio])]:[height:34px] [&_input:not([type=checkbox]):not([type=radio])]:[padding:6px_8px] [&_input:not([type=checkbox]):not([type=radio])]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[height:34px] [&_select]:[padding:6px_28px_6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_select]:[appearance:none] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding:6px_8px_6px_28px] [[dir=rtl]_&_select]:[background-position:left_8px_center] [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_:is(input,select,textarea):hover]:[border-color:var(--accent-line)] [&_:is(input,select,textarea):focus-visible]:[outline:none] [&_:is(input,select,textarea):focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_:is(input,select,textarea):focus-visible]:[border-color:var(--accent)] [&_[aria-invalid=true]]:[border-color:var(--danger)]!'
+  'rec-field grid content-start gap-1 [&>label]:text-xs [&>label]:text-muted [&_input:not([type=checkbox]):not([type=radio])]:w-full [&_input:not([type=checkbox]):not([type=radio])]:[height:34px] [&_input:not([type=checkbox]):not([type=radio])]:[padding:var(--ds-space-075)_var(--ds-space-100)] [&_input:not([type=checkbox]):not([type=radio])]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[height:34px] [&_select]:[padding:var(--ds-space-075)_var(--ds-space-legacy-28)_var(--ds-space-075)_var(--ds-space-100)] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_select]:[appearance:none] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding:var(--ds-space-075)_var(--ds-space-100)_var(--ds-space-075)_var(--ds-space-legacy-28)] [[dir=rtl]_&_select]:[background-position:left_8px_center] [&_textarea]:w-full [&_textarea]:[padding:var(--ds-space-075)_var(--ds-space-100)] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_:is(input,select,textarea):hover]:[border-color:var(--accent-line)] [&_:is(input,select,textarea):focus-visible]:[outline:none] [&_:is(input,select,textarea):focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_:is(input,select,textarea):focus-visible]:[border-color:var(--accent)] [&_[aria-invalid=true]]:[border-color:var(--danger)]!'
 
 export const GRID_CLASS = 'grid grid-cols-1 gap-3 sm:grid-cols-2'
 export const SECTION_TITLE_CLASS = 'mb-2 text-xs font-semibold uppercase tracking-[.04em] text-faint'
@@ -32,7 +32,7 @@ export const viewRow = (label, valueHtml) =>
  *  belong here. */
 export const recordHighlights = items => {
   const tones = {danger: 'bg-[var(--danger-soft-bg)] text-[var(--danger)]', accent: 'bg-[var(--accent-soft)] text-accent', muted: 'bg-[var(--line-2)] text-muted'}
-  return items.length ? `<div class="mb-4 flex flex-wrap gap-1.5" role="status" data-record-highlights>${items.map(({label, tone = 'accent', iconName = 'i-info'}) => `<span class="inline-flex min-h-7 items-center gap-1.5 rounded-md px-2.5 py-1 text-[13px] font-semibold ${tones[tone] || tones.accent}">${icon(iconName, 14)}${escapeHtml(t(label))}</span>`).join('')}</div>` : ''
+  return items.length ? `<div class="mb-4 flex flex-wrap gap-1.5" role="status" data-record-highlights>${items.map(({label, tone = 'accent', iconName = 'i-info'}) => `<span class="inline-flex min-h-7 items-center gap-1.5 rounded-md px-2.5 py-1 text-body font-semibold ${tones[tone] || tones.accent}">${icon(iconName, 14)}${escapeHtml(t(label))}</span>`).join('')}</div>` : ''
 }
 
 const attrs = map =>
@@ -68,7 +68,7 @@ export const textarea = ({id, value = '', rows = 4, placeholder}) =>
  *  does the rest; the same pattern the Profile appearance toggles use. Every
  *  boolean control on the collaboration screens is one of these. */
 export const switchInput = ({id, label, checked = false} = {}) =>
-  `<label class="inline-flex min-h-8 items-center gap-2 text-[13px] text-ink" for="${escapeHtml(id)}">
+  `<label class="inline-flex min-h-8 items-center gap-2 text-body text-ink" for="${escapeHtml(id)}">
     <span class="switch relative inline-flex h-[17px] w-[30px] flex-none">
       <input type="checkbox" role="switch" id="${escapeHtml(id)}" name="${escapeHtml(id)}" class="peer absolute inset-0 m-0 cursor-pointer opacity-0"${checked ? ' checked' : ''}>
       <span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-[background] duration-[120ms] before:absolute before:start-0.5 before:top-0.5 before:size-[13px] before:rounded-full before:bg-inverse before:transition-[translate] before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[13px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[13px]"></span>
@@ -77,10 +77,10 @@ export const switchInput = ({id, label, checked = false} = {}) =>
 
 export const switchRow = ({id, label, checked = false} = {}) =>
   `<label class="flex w-full min-h-[38px] cursor-pointer items-center justify-between gap-4 rounded-md border border-line bg-surface px-3 py-1.5 hover:border-[var(--accent-line)] focus-within:[box-shadow:0_0_0_3px_var(--accent-soft)]" for="${escapeHtml(id)}">
-    <span class="text-[13px] font-normal text-ink">${escapeHtml(t(label))}</span>
+    <span class="text-body font-normal text-ink">${escapeHtml(t(label))}</span>
     <span class="relative inline-flex h-5 w-[34px] flex-none">
       <input type="checkbox" role="switch" id="${escapeHtml(id)}" name="${escapeHtml(id)}" class="peer absolute inset-0 m-0 cursor-pointer opacity-0"${checked ? ' checked' : ''}>
-      <span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-colors duration-[120ms] before:absolute before:start-[3px] before:top-[3px] before:size-4 before:rounded-full before:bg-inverse before:transition-transform before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[14px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[14px]"></span>
+      <span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-colors duration-[120ms] before:absolute before:start-[var(--ds-space-legacy-3)] before:top-[var(--ds-space-legacy-3)] before:size-4 before:rounded-full before:bg-inverse before:transition-transform before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[14px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[14px]"></span>
     </span>
   </label>`
 
@@ -109,7 +109,7 @@ export const icon = (name, size = 14) =>
    toolbars use. Selects swap the browser's arrow for the same drawn one
    `rec-field` uses, so a toolbar select and a form select are one control. */
 const CONTROL_BASE =
-  'min-h-8 rounded-md border border-line bg-surface py-1 text-[13px] text-ink focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
+  'min-h-8 rounded-md border border-line bg-surface py-1 text-body text-ink focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]'
 const SELECT_SKIN =
   '[appearance:none] [background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [background-repeat:no-repeat] [background-position:right_8px_center] [background-size:12px] rtl:[background-position:left_8px_center]'
 
@@ -117,7 +117,7 @@ export const TOOLBAR_CONTROL_CLASS = `${CONTROL_BASE} ps-2 pe-2`
 export const SELECT_CONTROL_CLASS = `${CONTROL_BASE} h-8 ps-2 pe-7 ${SELECT_SKIN}`
 
 export const searchBox = ({id, label, value = ''}) =>
-  `<label class="flex min-h-8 min-w-[160px] flex-1 items-center gap-2 rounded-md border border-line bg-surface px-2 text-faint sm:max-w-[240px] focus-within:[box-shadow:0_0_0_3px_var(--accent-soft)]" for="${id}">${icon('i-search', 13)}<input type="search" id="${id}" class="min-w-0 flex-1 border-0 bg-transparent py-1 text-[13px] text-ink outline-none" placeholder="${escapeHtml(t(label))}" aria-label="${escapeHtml(t(label))}" value="${escapeHtml(value)}" autocomplete="off"></label>`
+  `<label class="flex min-h-8 min-w-[160px] flex-1 items-center gap-2 rounded-md border border-line bg-surface px-2 text-faint sm:max-w-[240px] focus-within:[box-shadow:0_0_0_3px_var(--accent-soft)]" for="${id}">${icon('i-search', 13)}<input type="search" id="${id}" class="min-w-0 flex-1 border-0 bg-transparent py-1 text-body text-ink outline-none" placeholder="${escapeHtml(t(label))}" aria-label="${escapeHtml(t(label))}" value="${escapeHtml(value)}" autocomplete="off"></label>`
 
 export const toolbarSelect = ({id, label, value, options}) =>
   `<label class="inline-flex items-center gap-1.5 text-xs text-muted" for="${id}">${escapeHtml(t(label))} ${selectInput({id, value, options, extra: {class: SELECT_CONTROL_CLASS}})}</label>`
@@ -132,7 +132,7 @@ export const toolbarToggle = ({id, label, checked}) => switchInput({id, label, c
  *  toggle on/off (not a form control), announces its state through
  *  aria-pressed, and only spends accent color while it is on. */
 export const toolbarChip = ({id, label, pressed, iconName}) =>
-  `<button type="button" id="${escapeHtml(id)}" aria-pressed="${pressed}" class="inline-flex min-h-8 items-center gap-1.5 rounded-full border border-line bg-surface px-2.5 text-[13px] font-medium text-muted hover:bg-[var(--line-2)] hover:text-ink aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:text-accent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]">${iconName ? icon(iconName, 12) : ''}<span>${escapeHtml(t(label))}</span></button>`
+  `<button type="button" id="${escapeHtml(id)}" aria-pressed="${pressed}" class="inline-flex min-h-8 items-center gap-1.5 rounded-full border border-line bg-surface px-2.5 text-body font-medium text-muted hover:bg-[var(--line-2)] hover:text-ink aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:text-accent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]">${iconName ? icon(iconName, 12) : ''}<span>${escapeHtml(t(label))}</span></button>`
 
 /** Segmented view switch. Buttons carry aria-pressed so the current view
  *  is announced, not just colored, and each view names itself with an icon
@@ -140,7 +140,7 @@ export const toolbarChip = ({id, label, pressed, iconName}) =>
 export const segmented = ({label, views, current, dataAttr = 'data-view-switch'}) =>
   `<div class="inline-flex overflow-hidden rounded-md border border-line" role="group" aria-label="${escapeHtml(t(label))}" ${dataAttr}>${views
     .map(([id, text, iconName]) =>
-      `<button type="button" data-value="${escapeHtml(id)}" aria-pressed="${id === current}" class="inline-flex min-h-8 items-center gap-1.5 border-0 border-e border-line bg-surface px-2.5 text-[13px] font-medium text-ink last:border-e-0 hover:bg-[var(--line-2)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:text-accent focus-visible:relative focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]">${iconName ? icon(iconName, 14) : ''}<span>${escapeHtml(t(text))}</span></button>`
+      `<button type="button" data-value="${escapeHtml(id)}" aria-pressed="${id === current}" class="inline-flex min-h-8 items-center gap-1.5 border-0 border-e border-line bg-surface px-2.5 text-body font-medium text-ink last:border-e-0 hover:bg-[var(--line-2)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:text-accent focus-visible:relative focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]">${iconName ? icon(iconName, 14) : ''}<span>${escapeHtml(t(text))}</span></button>`
     )
     .join('')}</div>`
 
@@ -148,11 +148,11 @@ export const emptyState = ({iconName = 'i-info', title, body = '', action = ''})
   `<div class="mx-auto my-10 grid max-w-[420px] justify-items-center gap-1.5 text-center" data-empty>
     <span class="grid size-9 place-items-center rounded-full bg-[var(--line-2)] text-muted">${icon(iconName, 16)}</span>
     <h3 class="text-sm font-semibold text-ink">${escapeHtml(t(title))}</h3>
-    ${body ? `<p class="text-[13px] text-muted">${escapeHtml(t(body))}</p>` : ''}
+    ${body ? `<p class="text-body text-muted">${escapeHtml(t(body))}</p>` : ''}
     ${action ? `<div class="mt-3">${action}</div>` : ''}
   </div>`
 
 export const TABLE_CLASS =
-  'w-full border-collapse text-[13px] [&_th]:border-b [&_th]:border-line [&_th]:px-3 [&_th]:py-2 [&_th]:text-start [&_th]:text-xs [&_th]:font-semibold [&_th]:text-muted [&_td]:border-b [&_td]:border-[var(--line-2)] [&_td]:px-3 [&_td]:py-2 [&_td]:align-top [&_tbody_tr:hover]:bg-[var(--hover-overlay)]'
+  'w-full border-collapse text-body [&_th]:border-b [&_th]:border-line [&_th]:px-3 [&_th]:py-2 [&_th]:text-start [&_th]:text-xs [&_th]:font-semibold [&_th]:text-muted [&_td]:border-b [&_td]:border-[var(--line-2)] [&_td]:px-3 [&_td]:py-2 [&_td]:align-top [&_tbody_tr:hover]:bg-[var(--hover-overlay)]'
 export const ROW_BUTTON_CLASS =
   'border-0 bg-transparent p-0 text-start font-semibold text-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)] [overflow-wrap:anywhere]'

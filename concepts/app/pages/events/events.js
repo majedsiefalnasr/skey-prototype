@@ -213,7 +213,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
     const invalidCount = events.filter(event => event.invalidTime).length
     body.innerHTML = `${
       conflictCount
-        ? `<p class="my-2 flex items-start gap-2 rounded-md border border-[var(--danger-soft-line)] bg-[var(--danger-soft-bg)] px-3 py-2 text-[13px] text-ink" data-conflict-notice role="status">${icon(
+        ? `<p class="my-2 flex items-start gap-2 rounded-md border border-[var(--danger-soft-line)] bg-[var(--danger-soft-bg)] px-3 py-2 text-body text-ink" data-conflict-notice role="status">${icon(
             'i-warn',
             14
           )}<span>${conflictCount} ${t('events double-book a participant or resource in this period.')}</span></p>`
@@ -358,7 +358,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
           </svg>
           <div class="absolute inset-0 flex items-center justify-center gap-1.5">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-muted" data-map-pin><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
-            <span class="max-w-[70%] truncate rounded-full bg-surface px-2.5 py-1 text-[11px] font-semibold text-ink [box-shadow:var(--shadow-1)]" data-map-label>${t("No location")}</span>
+            <span class="max-w-[70%] truncate rounded-full bg-surface px-2.5 py-1 text-caption font-semibold text-ink [box-shadow:var(--shadow-1)]" data-map-label>${t("No location")}</span>
           </div>
         </div>`,
       })}

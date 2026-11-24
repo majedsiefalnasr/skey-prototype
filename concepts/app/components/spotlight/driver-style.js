@@ -15,20 +15,20 @@ export const DRIVER_BASE_CSS = `.driver-popover{all:unset;font-family:var(--driv
 // defaults survive elsewhere. The tour target itself carries no extra
 // ring — driver's overlay cutout is the only highlight.
 export const ATLASSIAN_SPOTLIGHT_CSS = `
-.driver-popover.skey-spotlight{background:var(--surface,#fff);color:var(--ink,#1b2230);border:1px solid var(--line,#e2e5ea);border-radius:12px;box-shadow:var(--shadow-2,0 18px 44px rgba(8,12,20,.25));min-width:0;width:320px;max-width:calc(100vw - 24px);padding:16px;font-family:inherit;text-align:start}
+.driver-popover.skey-spotlight{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-2,0 18px 44px rgba(8,12,20,.25));min-width:0;width:320px;max-width:calc(100vw - 24px);padding:16px;font-family:inherit;text-align:start}
 .skey-spotlight .driver-popover-title{font-size:14px;font-weight:600;line-height:1.45;margin:0;padding-inline-end:28px}
-.skey-spotlight .driver-popover-description{font-size:13px;line-height:1.55;color:var(--muted,#5c6673)}
-.skey-spotlight .driver-popover-close-btn{color:var(--muted,#5c6673);width:28px;height:28px;font-size:16px;line-height:1;border-radius:6px;top:8px;left:auto;right:8px}
+.skey-spotlight .driver-popover-description{font-size:13px;line-height:1.55;color:var(--muted)}
+.skey-spotlight .driver-popover-close-btn{color:var(--muted);width:28px;height:28px;font-size:16px;line-height:1;border-radius:6px;top:8px;left:auto;right:8px}
 [dir="rtl"] .skey-spotlight .driver-popover-close-btn{left:8px;right:auto}
-.skey-spotlight .driver-popover-close-btn:hover,.skey-spotlight .driver-popover-close-btn:focus{color:var(--ink,#1b2230);background:var(--line-2,#eef1f6)}
+.skey-spotlight .driver-popover-close-btn:hover,.skey-spotlight .driver-popover-close-btn:focus{color:var(--ink);background:var(--line-2,#eef1f6)}
 .skey-spotlight .driver-popover-footer{margin-top:12px}
-.skey-spotlight .driver-popover-progress-text{font-size:12px;color:var(--muted,#5c6673);direction:ltr}
+.skey-spotlight .driver-popover-progress-text{font-size:12px;color:var(--muted);direction:ltr}
 .skey-spotlight .driver-popover-navigation-btns{gap:8px}
 .skey-spotlight .driver-popover-navigation-btns button+button{margin:0}
-.skey-spotlight .driver-popover-footer-btn{min-height:32px;padding:4px 12px;font-size:12.5px;font-weight:600;border-radius:6px;border:1px solid var(--line,#e2e5ea);background:var(--surface,#fff);color:var(--ink,#1b2230)}
+.skey-spotlight .driver-popover-footer-btn{min-height:32px;padding:4px 12px;font-size:12.5px;font-weight:600;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
 .skey-spotlight .driver-popover-footer-btn:hover,.skey-spotlight .driver-popover-footer-btn:focus{background:var(--line-2,#eef1f6)}
-.skey-spotlight .driver-popover-next-btn{background:var(--accent,#1d4ed8);border-color:transparent;color:var(--inverse,#fff)}
-.skey-spotlight .driver-popover-next-btn:hover,.skey-spotlight .driver-popover-next-btn:focus{background:var(--accent,#1d4ed8);opacity:.9}
+.skey-spotlight .driver-popover-next-btn{background:var(--accent);border-color:transparent;color:var(--inverse)}
+.skey-spotlight .driver-popover-next-btn:hover,.skey-spotlight .driver-popover-next-btn:focus{background:var(--accent);opacity:.9}
 
 /* Prototype harness hole: driver.js makes the whole page inert during a
    tour (driver-active star rule + a z-10000 overlay), but

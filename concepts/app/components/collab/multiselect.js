@@ -14,11 +14,11 @@ export const multiselect = ({id, label, options, selected = [], required = false
     )}" aria-label="Remove ${escapeHtml(text)}">${icon('i-x', 10)}</button></span>`
   }
   const control = `<div class="relative" data-ms="${escapeHtml(id)}">
-    <div class="flex min-h-[34px] flex-wrap items-center gap-1.5 rounded-md border border-line bg-surface px-2 py-[4px] hover:border-[var(--accent-line)] focus-within:border-[var(--accent)] focus-within:[box-shadow:0_0_0_3px_var(--accent-soft)]">
+    <div class="flex min-h-[34px] flex-wrap items-center gap-1.5 rounded-md border border-line bg-surface px-2 py-[var(--ds-space-050)] hover:border-[var(--accent-line)] focus-within:border-[var(--accent)] focus-within:[box-shadow:0_0_0_3px_var(--accent-soft)]">
       <span data-ms-chips class="contents">${[...chosen].map(chip).join('')}</span>
       <input type="text" id="${escapeHtml(id)}" name="${escapeHtml(
     id
-  )}" data-ms-input role="combobox" aria-expanded="false" aria-controls="${escapeHtml(id)}-list" aria-autocomplete="list" autocomplete="off" class="min-w-[120px] flex-1 w-auto! h-6! border-0! rounded-none! bg-transparent! px-0.5! py-0! text-[14px] text-ink outline-none shadow-none!" placeholder="${escapeHtml(t(placeholder))}">
+  )}" data-ms-input role="combobox" aria-expanded="false" aria-controls="${escapeHtml(id)}-list" aria-autocomplete="list" autocomplete="off" class="min-w-[120px] flex-1 w-auto! h-6! border-0! rounded-none! bg-transparent! px-0.5! py-0! text-subtitle text-ink outline-none shadow-none!" placeholder="${escapeHtml(t(placeholder))}">
       ${[...chosen].map(value => `<input type="hidden" value="${escapeHtml(value)}" data-ms-val="${escapeHtml(value)}">`).join('')}
       <button type="button" class="grid size-[22px] flex-none place-items-center rounded border-0 bg-transparent p-0 text-muted hover:text-ink" data-ms-clear aria-label="${escapeHtml(t("Clear selection"))}" title="${escapeHtml(t("Clear selection"))}"${
         chosen.size ? '' : ' hidden'
@@ -31,7 +31,7 @@ export const multiselect = ({id, label, options, selected = [], required = false
             value
           )}" aria-selected="${chosen.has(value)}" data-ms-opt="${escapeHtml(value)}" data-ms-label="${escapeHtml(
             text
-          )}" class="flex min-h-8 cursor-pointer items-center gap-2 rounded-[5px] px-2 text-[13px] text-ink hover:bg-[var(--line-2)] aria-selected:bg-[var(--line-2)]"><span class="grid size-4 flex-none place-items-center text-muted" aria-hidden="true">${
+          )}" class="flex min-h-8 cursor-pointer items-center gap-2 rounded-legacy-5 px-2 text-body text-ink hover:bg-[var(--line-2)] aria-selected:bg-[var(--line-2)]"><span class="grid size-4 flex-none place-items-center text-muted" aria-hidden="true">${
             chosen.has(value) ? icon('i-check', 13) : ''
           }</span><span class="min-w-0 flex-1 truncate">${escapeHtml(text)}</span></li>`
       )

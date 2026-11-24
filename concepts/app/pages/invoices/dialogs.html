@@ -1,6 +1,6 @@
 <!-- ===== unsaved-work guard ===== -->
 <div
-  class="dscrim fixed [inset:0] [background:var(--scrim)] backdrop-blur-[4px] [z-index:130] hidden items-center justify-center [padding:24px]"
+  class="dscrim fixed [inset:0] [background:var(--scrim)] backdrop-blur-[4px] [z-index:130] hidden items-center justify-center [padding:var(--ds-space-300)]"
   id="gscrim">
   <div
     class="dlg [width:min(600px,_94vw)] rounded-xl overflow-hidden flex flex-col"
@@ -9,7 +9,7 @@
     aria-modal="true"
     aria-labelledby="g-title">
     <div class="dhd flex items-start gap-5 [&_h3]:[font-size:16px] [&_h3]:font-bold">
-      <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]">
+      <svg width="17" height="17" aria-hidden="true" class="[margin-top:var(--ds-space-025)]">
         <use href="#i-clock" />
       </svg>
       <div>
@@ -18,11 +18,11 @@
       </div>
     </div>
     <div class="dlg-inner">
-      <div class="dbody [padding:16px_18px] text-sm [line-height:1.55] text-ink">
+      <div class="dbody [padding:var(--ds-space-200)_var(--ds-space-legacy-18)] text-sm [line-height:1.55] text-ink">
         <span id="g-msg"
           >This invoice has changes that were never saved. Leaving now loses them.</span
         >
-        <div class="lst [margin-top:14px]! [font-size:12.5px] text-muted" id="g-what"></div>
+        <div class="lst [margin-top:var(--ds-space-legacy-14)]! [font-size:12.5px] text-muted" id="g-what"></div>
       </div>
       <div class="dfoot flex flex-wrap items-center gap-2.5">
         <button class="lbtn out" id="g-discard">Leave without saving</button>
