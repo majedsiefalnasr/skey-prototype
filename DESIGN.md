@@ -53,7 +53,7 @@ Spacing and radii are still written as literal values in class names, for exampl
 | Radius | Small radius set | 2, 4, 5, 6, 7, 8 and 10px | Accepted, not normalised |
 | Font sizes | ADS type scale | 22 role-based tokens with the sizes already in use | Implemented, no visual change |
 | Spacing | ADS scale | About 20 px values per property in class names | Planned (phase 1) |
-| Record identity card, 721 to 900px | Fields keep their width | Customer and People squeeze the fields to 126px at 768px and 5 fields overlap the photo | Open, found in #7 |
+| Record identity card, 721 to 900px | Not specified | Customer and People squeeze the fields to 126px at 768px and 5 fields overlap the photo | Open, found in #7 |
 | Flag title | `h2` heading | `h2` heading | Implemented, not visually verified |
 | Flag Escape | Closes the topmost dismissible flag | Closes the topmost dismissible flag when focus is inside a flag | Implemented, not visually verified |
 | Flag tones | Success, warning and error are bold and not dismissible | Same | Implemented, not visually verified |
