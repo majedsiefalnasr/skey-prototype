@@ -270,3 +270,24 @@
   --text-display: 28px;
   --text-display-lg: 36px;
 }
+
+@theme {
+  --breakpoint-legacy-480: 480px;
+  --breakpoint-legacy-560: 560px;
+  --breakpoint-legacy-561: 561px;
+  --breakpoint-legacy-620: 620px;
+  --breakpoint-legacy-640: 640px;
+  --breakpoint-legacy-720: 720px;
+  --breakpoint-legacy-721: 721px;
+  --breakpoint-legacy-760: 760px;
+  --breakpoint-legacy-800: 800px;
+  --breakpoint-legacy-820: 820px;
+  --breakpoint-legacy-900: 900px;
+  --breakpoint-legacy-901: 901px;
+  --breakpoint-legacy-1100: 1100px;
+  --breakpoint-legacy-1200: 1200px;
+  --breakpoint-legacy-1240: 1240px;
+  --breakpoint-legacy-1299: 1299px;
+  --breakpoint-legacy-1439: 1439px;
+  --breakpoint-legacy-1600: 1600px;
+}

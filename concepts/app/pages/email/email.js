@@ -1,4 +1,5 @@
 import {uiLocale} from '../../core/locale.js'
+import {maxWidthQuery} from '../../core/breakpoints.js'
 const {t} = uiLocale
 // Internal Mail — mailboxes (Inbox, Starred, Sent, Drafts, Archive,
 // Trash) plus the folders the user creates, a message list, and a reading /
@@ -148,11 +149,11 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     return custom || id === 'drafts' ? list.length : 0
   }
   const dayLabel = key => relativeDay(key, todayKey()) ?? formatDate(key)
-  const narrow = () => matchMedia('(max-width: 720px)').matches
+  const narrow = () => matchMedia(maxWidthQuery('legacy720')).matches
   /* The rail is swapped for its select at the shell's own compact breakpoint,
      so it collapses on small devices at exactly the moment the shell's
      sidebar does. */
-  const compact = () => matchMedia('(max-width: 900px)').matches
+  const compact = () => matchMedia(maxWidthQuery('legacy900')).matches
 
   /* ---------- layout ---------- */
   function applyLayout() {
@@ -171,8 +172,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     pane.hidden = narrow() && state.pane === 'list' && !selecting
     list.classList.toggle('w-full', narrow())
   }
-  matchMedia('(max-width: 720px)').addEventListener('change', applyLayout, {signal})
-  matchMedia('(max-width: 900px)').addEventListener('change', applyLayout, {signal})
+  matchMedia(maxWidthQuery('legacy720')).addEventListener('change', applyLayout, {signal})
+  matchMedia(maxWidthQuery('legacy900')).addEventListener('change', applyLayout, {signal})
 
   /* ---------- folders ---------- */
   /* Row geometry is the shell's `.nc2-icn` spec — h-9, an 18px icon, gap-2.5,

@@ -323,9 +323,9 @@ function renderOverview(data, role, encodeHtml, dataListIcon) {
   // the whole row at every width.
   const alone = databaseSessionsCard
     ? ''
-    : '[@media((min-width:800px))]:col-span-2'
+    : '[@media((min-width:theme(--breakpoint-legacy-800)))]:col-span-2'
   const stacked = databaseSessionsCard
-    ? '[@media((min-width:800px)_and_(max-width:1299px))]:col-span-2'
+    ? '[@media((min-width:theme(--breakpoint-legacy-800))_and_(max-width:theme(--breakpoint-legacy-1299)))]:col-span-2'
     : alone
   const statCells = [
     statGridCell(activeUsersCard, stacked),
@@ -340,7 +340,7 @@ function renderOverview(data, role, encodeHtml, dataListIcon) {
   // The "Recent activity" card (audit-log rows + its "View audit log"
   // shortcut) is gone with the hidden Audit log tab — Operational status
   // now owns the full width below the stat grid.
-  return `<div data-organization-stat-grid class="mb-4 grid grid-cols-1 gap-3 [@media((min-width:800px))]:grid-cols-2">${statCells}</div>${card('Operational status', operationalStatus)}`
+  return `<div data-organization-stat-grid class="mb-4 grid grid-cols-1 gap-3 [@media((min-width:theme(--breakpoint-legacy-800)))]:grid-cols-2">${statCells}</div>${card('Operational status', operationalStatus)}`
 }
 
 /** Organization settings is a read-only reference view for every role:
@@ -364,7 +364,7 @@ function renderSettings(details, encodeHtml) {
     .join('')
   return card(
     'Organization identity and defaults',
-    `<dl class="m-0 grid grid-cols-2 gap-x-4 gap-y-3 [@media((max-width:720px))]:grid-cols-1">${fields}</dl><p class="mt-4 mb-0 text-xs text-muted">${uiLocale.t("Read-only view of the organization’s legal identity, regional defaults, and fiscal configuration.")}</p>`
+    `<dl class="m-0 grid grid-cols-2 gap-x-4 gap-y-3 [@media((max-width:theme(--breakpoint-legacy-720)))]:grid-cols-1">${fields}</dl><p class="mt-4 mb-0 text-xs text-muted">${uiLocale.t("Read-only view of the organization’s legal identity, regional defaults, and fiscal configuration.")}</p>`
   )
 }
 
@@ -452,7 +452,7 @@ function performancePeriodChange(change, tone) {
       : tone === 'warning'
         ? 'bg-[var(--warn-bg)] text-[var(--warn-ink)]'
         : 'bg-[var(--danger-soft-bg)] text-[var(--danger-soft-ink)]'
-  return `<span data-organization-period-change class="grid flex-none gap-0.5 rounded-lg px-3 py-2 ${toneClass}"><strong class="text-body font-bold">${arrow} ${value}</strong><small class="text-stat-delta text-muted max-[620px]:hidden" data-i18n="vs. previous period">vs. previous period</small></span>`
+  return `<span data-organization-period-change class="grid flex-none gap-0.5 rounded-lg px-3 py-2 ${toneClass}"><strong class="text-body font-bold">${arrow} ${value}</strong><small class="text-stat-delta text-muted max-legacy-620:hidden" data-i18n="vs. previous period">vs. previous period</small></span>`
 }
 
 function performanceMetricShell(metric, dataListIcon, body) {
@@ -461,14 +461,14 @@ function performanceMetricShell(metric, dataListIcon, body) {
 
 function performanceGaugeCard(metric, dataListIcon) {
   const summaries = metric.summaries
-    .map(summary => `<div data-organization-availability-summary class="flex min-w-0 items-center gap-2 [@media((min-width:640px))]:justify-center"><span class="flex size-7 flex-none items-center justify-center text-muted">${dataListIcon(summary.icon, 17)}</span><span class="min-w-0"><strong class="block text-body font-bold text-ink">${summary.value}</strong><small class="block text-caption leading-4 text-muted">${summary.label}</small></span></div>`)
+    .map(summary => `<div data-organization-availability-summary class="flex min-w-0 items-center gap-2 [@media((min-width:theme(--breakpoint-legacy-640)))]:justify-center"><span class="flex size-7 flex-none items-center justify-center text-muted">${dataListIcon(summary.icon, 17)}</span><span class="min-w-0"><strong class="block text-body font-bold text-ink">${summary.value}</strong><small class="block text-caption leading-4 text-muted">${summary.label}</small></span></div>`)
     .join('')
-  const gauge = `<div data-organization-performance-gauge class="flex min-h-[220px] flex-1 flex-col items-center justify-center">${radialGauge(metric.progress, 320, metric.scaleMax, metric.value, metric.label)}${statPill('Within target', 'success', dataListIcon('i-check', 12))}</div><div class="grid grid-cols-1 gap-3 border-t border-line pt-4 [@media((min-width:640px))]:grid-cols-3">${summaries}</div>`
+  const gauge = `<div data-organization-performance-gauge class="flex min-h-[220px] flex-1 flex-col items-center justify-center">${radialGauge(metric.progress, 320, metric.scaleMax, metric.value, metric.label)}${statPill('Within target', 'success', dataListIcon('i-check', 12))}</div><div class="grid grid-cols-1 gap-3 border-t border-line pt-4 [@media((min-width:theme(--breakpoint-legacy-640)))]:grid-cols-3">${summaries}</div>`
   return performanceMetricShell(metric, dataListIcon, gauge)
 }
 
 function performanceTrendCard(metric, dataListIcon, encodeHtml) {
-  const trend = `<div class="grid flex-1 items-end gap-3 [@media((min-width:1200px))]:grid-cols-[minmax(160px,_0.65fr)_minmax(240px,_1.35fr)]"><div><strong class="block truncate text-display font-bold leading-none tracking-[-0.01em] text-ink [font-variant-numeric:tabular-nums]">${metric.value}</strong><span class="mt-2 inline-flex items-center gap-1.5 text-xs text-muted"><span class="size-1.5 flex-none rounded-full [background:var(--stat-tone)]"></span>${metric.detail}</span></div>${metricTrendChart(metric.trend, metric.unit, encodeHtml)}</div>`
+  const trend = `<div class="grid flex-1 items-end gap-3 [@media((min-width:theme(--breakpoint-legacy-1200)))]:grid-cols-[minmax(160px,_0.65fr)_minmax(240px,_1.35fr)]"><div><strong class="block truncate text-display font-bold leading-none tracking-[-0.01em] text-ink [font-variant-numeric:tabular-nums]">${metric.value}</strong><span class="mt-2 inline-flex items-center gap-1.5 text-xs text-muted"><span class="size-1.5 flex-none rounded-full [background:var(--stat-tone)]"></span>${metric.detail}</span></div>${metricTrendChart(metric.trend, metric.unit, encodeHtml)}</div>`
   return performanceMetricShell(metric, dataListIcon, trend)
 }
 
@@ -488,7 +488,7 @@ function availabilityPerformanceCard(health, dataListIcon) {
       progress: Number.parseFloat(health.availability),
       scaleMax: '100%',
       pill: statPill('Within target', 'success', ''),
-      cardClass: '[@media((min-width:1200px))]:col-start-1 [@media((min-width:1200px))]:row-span-3',
+      cardClass: '[@media((min-width:theme(--breakpoint-legacy-1200)))]:col-start-1 [@media((min-width:theme(--breakpoint-legacy-1200)))]:row-span-3',
       summaries: [
         {icon: 'i-spark', value: `+${health.availabilityChange}%`, label: 'vs. previous period'},
         {icon: 'i-clock', value: estimatedDowntime(health.availability), label: 'Estimated downtime'},
@@ -520,7 +520,7 @@ function renderPerformance(health, services, role, encodeHtml, dataListIcon) {
     role === 'manager'
       ? '<p class="mt-3 mb-0 text-xs text-muted" data-i18n="Technical identifiers are hidden in the manager view; results are summarized by business module.">Technical identifiers are hidden in the manager view; results are summarized by business module.</p>'
       : ''
-  return `<div data-organization-performance-metrics class="mb-4 grid grid-cols-1 gap-3 [@media((min-width:1200px))]:grid-cols-[minmax(0,_1.05fr)_minmax(0,_1.2fr)] [@media((min-width:1200px))]:grid-rows-3">${metrics}</div>${renderStatusBanner(services)}${card('Service uptime', services.map(service => renderServiceUptime(service, encodeHtml)).join(''), 'mb-4')}${table(['Operation', 'Duration', 'State', 'Business area'], detailRows)}${scopeNote}`
+  return `<div data-organization-performance-metrics class="mb-4 grid grid-cols-1 gap-3 [@media((min-width:theme(--breakpoint-legacy-1200)))]:grid-cols-[minmax(0,_1.05fr)_minmax(0,_1.2fr)] [@media((min-width:theme(--breakpoint-legacy-1200)))]:grid-rows-3">${metrics}</div>${renderStatusBanner(services)}${card('Service uptime', services.map(service => renderServiceUptime(service, encodeHtml)).join(''), 'mb-4')}${table(['Operation', 'Duration', 'State', 'Business area'], detailRows)}${scopeNote}`
 }
 
 function renderStaff(dataListIcon) {

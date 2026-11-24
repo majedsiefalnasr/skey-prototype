@@ -10,7 +10,7 @@ const text = value => `<span class="whitespace-pre-line" dir="auto">${escapeHtml
 const stamp = value => value ? `${formatDate(value)}${value.includes('T') ? ` ${formatTime(value)}` : ''}` : '—'
 const chip = (label, tone = 'gray', name = '') => `<span class="badge ${tone} inline-flex items-center gap-1.5">${name ? icon(name, 13) : ''}${escapeHtml(label)}</span>`
 const field = (label, value) => `<div class="min-w-0"><dt class="mb-1 text-xs text-muted">${escapeHtml(t(label))}</dt><dd class="m-0 text-sm text-ink [overflow-wrap:anywhere]">${value}</dd></div>`
-const grid = rows => `<dl class="m-0 grid grid-cols-1 gap-x-5 gap-y-4 min-[480px]:grid-cols-2">${rows.join('')}</dl>`
+const grid = rows => `<dl class="m-0 grid grid-cols-1 gap-x-5 gap-y-4 min-legacy-480:grid-cols-2">${rows.join('')}</dl>`
 const section = (label, content) => `<section class="border-t border-line pt-4"><h4 class="mb-2 text-xs font-medium text-muted">${escapeHtml(t(label))}</h4>${content}</section>`
 const prose = value => `<p class="m-0 whitespace-pre-wrap text-sm leading-relaxed [overflow-wrap:anywhere]" dir="auto">${escapeHtml(value || '—')}</p>`
 const chips = values => `<div class="flex flex-wrap gap-1.5">${values.join('')}</div>`

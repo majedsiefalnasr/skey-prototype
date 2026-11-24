@@ -1,4 +1,5 @@
 import {encodeHtml} from '../core/locale.js'
+import {maxWidthQuery} from '../core/breakpoints.js'
 import {
   NAV_TREE,
   NAV_FAVORITES,
@@ -501,7 +502,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     return root
   }
 
-  const compactShell = matchMedia('(max-width: 900px)')
+  const compactShell = matchMedia(maxWidthQuery('legacy900'))
 
   let sideCollapsed = compactShell.matches
 

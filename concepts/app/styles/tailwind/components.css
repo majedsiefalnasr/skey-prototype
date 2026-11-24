@@ -3,7 +3,7 @@
   .events-view [data-collab-body] { container: events-body / inline-size; }
   .events-view [data-collab-toolbar] { padding-block-end: 12px; }
   :is(.events-view, .activities-view) [data-cal-toolbar] { row-gap: 12px; }
-  @media (max-width: 720px) {
+  @media (max-width: theme(--breakpoint-legacy-720)) {
     /* Keep filter popovers above the mobile calendar context while the toolbar scrolls normally. */
     .events-view.collab-view [data-collab-toolbar]:has([data-cal-toolbar]) { position: relative; z-index: 5; }
   }
@@ -417,7 +417,7 @@
      reminders, timezone, view menu); pinned, it buries the calendar. The
      compact sticky context strip (calendar.js bindMobileContext) carries
      the period context there instead, so the toolbar scrolls away. */
-  @media (max-width: 720px) {
+  @media (max-width: theme(--breakpoint-legacy-720)) {
     .collab-view [data-collab-toolbar]:has([data-cal-toolbar]) {
       position: static;
     }
@@ -443,7 +443,7 @@
   .collab-calendar-scroll [data-cal-month] { min-width: 840px; }
   .collab-calendar-scroll [data-cal-week] { min-width: 840px; }
   .collab-calendar-context { display: none; }
-  @media (max-width: 720px) {
+  @media (max-width: theme(--breakpoint-legacy-720)) {
     .collab-calendar-context {
       position: sticky; top: 0; z-index: 4; display: grid; gap: 2px;
       padding-block: 4px; border-bottom: 1px solid var(--line);

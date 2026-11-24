@@ -138,7 +138,7 @@ export function createContactDialog({trapFocus, releaseFocus, onSave}) {
     photoLoading = false
     errors.textContent = ''
     scrim.querySelector('[data-contact-dialog-title]').textContent = t(readOnly ? 'View contact' : contact?.id ? 'Edit contact' : 'Add contact info')
-    body.innerHTML = `<div class="customer-identity-body grid items-start gap-5 [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] [@media((max-width:1439px))]:[grid-template-columns:minmax(0,_1fr)]">
+    body.innerHTML = `<div class="customer-identity-body grid items-start gap-5 [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] [@media((max-width:theme(--breakpoint-legacy-1439)))]:[grid-template-columns:minmax(0,_1fr)]">
       <div class="min-w-0">${group(['name', 'title', 'jobTitle', 'classification', 'remarks'])}</div>
       <div class="customer-identity-photo">${field({key: 'photo', label: 'Photo', type: 'photo'})}<input type="file" accept="image/*" hidden data-contact-photo-input></div>
     </div>

@@ -58,6 +58,7 @@ Spacing is `--ds-space-*` tokens in `concepts/app/styles/tailwind/base.css`, wri
 | Font sizes | ADS type scale | 22 role-based tokens with the sizes already in use | Implemented, no visual change |
 | Spacing | ADS scale | ADS tokens plus `legacy-*` tokens for 0.5, 1, 3, 5, 7, 9, 10, 11, 13, 14, 15, 17, 18, 22, 26, 28, 30, 34, 46, 54, 68 and 72px | Tokenised, not normalised |
 | Record identity card | Not specified; stacks below `lg` (1440px) | Profile, Customer, People and the contact dialog stack the fields above the photo below 1440px | Implemented (#11, #1), no overlap measured at 390 to 1440px |
+| Viewport breakpoints | `xs` 480, `sm` 768, `md` 1024, `lg` 1440, `xl` 1768px | 17 `--breakpoint-legacy-*` tokens named by pixel value, one per value in use | Tokenised, not normalised (#12) |
 | Flag title | `h2` heading | `h2` heading | Implemented, not visually verified |
 | Flag Escape | Closes the topmost dismissible flag | Closes the topmost dismissible flag when focus is inside a flag | Implemented, not visually verified |
 | Flag tones | Success, warning and error are bold and not dismissible | Same | Implemented, not visually verified |
@@ -80,6 +81,19 @@ ADS breakpoints, from `UNSAFE_BREAKPOINTS_CONFIG` in `@atlaskit/primitives` 22.8
 
 ADS does not define `720px` or `900px`. Those are prototype choices. The `560px` Flag breakpoint comes from the ADS Flag component, not from the grid.
 
+### How breakpoints are written
+
+Every viewport breakpoint value lives once, in the `--breakpoint-legacy-*` block in `concepts/app/styles/tailwind.css`. Each token is named for its own pixel value, for example `--breakpoint-legacy-720`, so a later phase can point it at an ADS step. Use the token, never a pixel literal:
+
+- Class names, exclusive (`width < N`): `max-legacy-720:` and `min-legacy-721:`. Tailwind sorts these by value, so a narrower rule still wins over a wider one.
+- Class names, inclusive (`width <= N`): `[@media(max-width:theme(--breakpoint-legacy-720))]:`. Tailwind sorts these by their text, so the order between breakpoints follows the token names. The names are all digits after the same prefix to keep the order the prototype already had.
+- Plain CSS in `concepts/app/styles/tailwind/*.css`: `@media (max-width: theme(--breakpoint-legacy-720))`.
+- Script: `maxWidthQuery('legacy720')` from `concepts/app/core/breakpoints.js`. A media query string cannot read a CSS variable, so the values are mirrored there and `tests/breakpoints.test.mjs` fails if they drift from the tokens.
+
+Not tokenised: the prototype control kit (`concepts/app/prototype/controls.css` and `controls.js`, which are not compiled by Tailwind), and `@container` queries, which size a component and not the viewport.
+
+Adding a new value means adding a token first. `--breakpoint-*` also feeds Tailwind's `container` utility, which nothing applies, but it now carries one rule per token.
+
 Prototype breakpoints:
 
 - `1439px` (stack below ADS `lg`, 1440px): record identity card in Profile, Customer, People and the contact dialog.
@@ -91,4 +105,4 @@ Prototype breakpoints:
 
 1. **Phase 1, tokens with no visual change.** Move the existing type, spacing and radius values into named tokens. Font sizes, radius and spacing are done. Changing one token then updates every use. Screenshots must not change.
 2. **Phase 2, normalise to the scale.** Map the values to a small set. This changes the look, so it needs approval and updated screenshot baselines.
-3. **Open items.** Section navigation, footers and other layouts still use `720px` and `900px`, which are not ADS breakpoints. Each needs a decision to align with ADS or to stay as a documented custom choice.
+3. **Open items.** Section navigation, footers and other layouts still use `720px` and `900px`, which are not ADS breakpoints. Each needs a decision to align with ADS or to stay as a documented custom choice. Breakpoints are tokenised, so each group can move one value at a time (#12).
