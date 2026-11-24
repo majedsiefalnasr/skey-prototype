@@ -20,7 +20,7 @@ const FIELD_GRID_CLASS = 'customer-field-grid grid [grid-template-columns:repeat
 const READ_ONLY_VALUE_CLASS =
   'flex min-h-9 items-center rounded-md border border-line bg-[var(--line-2)] px-2 py-1.5 text-body text-ink [overflow-wrap:anywhere]'
 const IDENTITY_BODY_CLASS =
-  'customer-identity-body grid gap-5 [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]'
+  'customer-identity-body grid gap-5 [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] items-start [@media((max-width:1439px))]:[grid-template-columns:minmax(0,_1fr)]'
 
 const text = (key, label, id, extra = {}) => ({key, label, id, type: 'text', ...extra})
 const select = (key, label, id, options) => ({key, label, id, type: 'select', options})
@@ -214,7 +214,7 @@ export function renderPersonPhotoPreview(person) {
 }
 
 function renderPhoto(person, readOnly) {
-  return `<div class="customer-identity-photo [padding:var(--ds-space-150)_var(--ds-space-150)_var(--ds-space-150)_0] [@media((max-width:720px))]:[padding:0_var(--ds-space-150)_var(--ds-space-150)]" data-person-photo>
+  return `<div class="customer-identity-photo [padding:var(--ds-space-150)_var(--ds-space-150)_var(--ds-space-150)_0] [@media((max-width:1439px))]:[padding:0_var(--ds-space-150)_var(--ds-space-150)]" data-person-photo>
     <div class="rec-field customer-field customer-photo grid [place-items:center] gap-2 [padding:var(--ds-space-150)] [border:1px_dashed_var(--line)] rounded-lg h-full [min-height:280px] [&_label]:text-xs [&_label]:text-muted [.customer-record-canvas_.customer-identity-photo_&_label]:relative [.customer-record-canvas_.customer-identity-photo_&_label]:[inset:unset] [.customer-record-canvas_.customer-identity-photo_&_label]:[padding:unset]">
       <label for="person-photo-select">${escapeHtml(t('Photo'))}</label>
       <div class="contents" data-person-photo-preview>${renderPersonPhotoPreview(person)}</div>
