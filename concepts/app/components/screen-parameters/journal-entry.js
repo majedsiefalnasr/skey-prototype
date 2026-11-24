@@ -67,7 +67,7 @@ export function createJournalEntryTable({encodeHtml, dataListInstance}) {
       : 'grid-cols-2 sm:grid-cols-3'
     const differenceCell = balanced ? '' : cell('Difference', difference)
     const status = balanced ? 'Balanced' : `Unbalanced · Difference ${encodeHtml(format(difference))}`
-    totalsMount.innerHTML = `<div class="jtotals mt-2! flex flex-wrap items-center justify-between gap-x-6 gap-y-3 rounded-lg bg-[var(--line-2)] [padding:12px_16px]">
+    totalsMount.innerHTML = `<div class="jtotals mt-2! flex flex-wrap items-center justify-between gap-x-6 gap-y-3 rounded-lg bg-[var(--line-2)] [padding:var(--ds-space-150)_var(--ds-space-200)]">
       <dl class="m-0 grid min-w-0 flex-1 basis-[220px] ${cells} gap-x-4 gap-y-3 sm:gap-x-6">
         ${cell('Local debit', totals.localDebit)}${cell('Local credit', totals.localCredit)}${differenceCell}
       </dl>

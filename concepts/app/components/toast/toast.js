@@ -141,7 +141,7 @@ export function createToast(host) {
     if (tone === 'bad') t.setAttribute('role', 'alert')
     t.innerHTML = `<span class="ic mt-px shrink-0 ${kind.iconCls}"><svg width="16" height="16" aria-hidden="true"><use href="#${kind.icon}"/></svg></span>
     <span class="bd min-w-0 flex-1"><h2 class="m-0 mb-0.5 block text-subtitle font-semibold leading-5">${title}</h2>${body ? `<p class="m-0 mt-0.5 text-subtitle leading-5 ${kind.descCls}">${body}</p>` : ''}${action ? `<button class="act mt-1.5 inline-block bg-none border-0 p-0 text-subtitle font-medium underline ${kind.linkCls}">${action}</button>` : ''}</span>
-    ${kind.dismissible ? `<button class="x mt-[-2px] -me-1 flex size-7 shrink-0 items-center justify-center rounded-md border-0 bg-transparent p-0 ${kind.closeCls}" aria-label="Dismiss"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button>` : ''}`
+    ${kind.dismissible ? `<button class="x mt-[calc(var(--ds-space-025)*-1)] -me-1 flex size-7 shrink-0 items-center justify-center rounded-md border-0 bg-transparent p-0 ${kind.closeCls}" aria-label="Dismiss"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button>` : ''}`
 
     // Dismissing keeps the flag mounted through its slide-out, and leaves
     // it out of restack() so the flags underneath move up around it.

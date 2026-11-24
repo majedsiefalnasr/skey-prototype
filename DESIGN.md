@@ -44,7 +44,7 @@ Radii are `--ds-radius-*` tokens in `concepts/app/styles/tailwind/base.css`. Fiv
 
 ### Spacing
 
-Spacing is still written as literal values in class names, for example `[padding:6px_8px]`. Around 20 spacing values are in use, many outside the ADS scale. Tokenising them is the next roadmap item below.
+Spacing is `--ds-space-*` tokens in `concepts/app/styles/tailwind/base.css`, written in class names as arbitrary values such as `p-[var(--ds-space-075)]` or `[margin:var(--ds-space-150)_0]`. Nine tokens follow the ADS scale and use the ADS step names: `025` 2px, `050` 4px, `075` 6px, `100` 8px, `150` 12px, `200` 16px, `250` 20px, `300` 24px and `500` 40px. Twenty-two `legacy-*` tokens hold the off-scale values the prototype already used, named by pixel size, for example `--ds-space-legacy-14`. Phase 2 can point each one at an ADS step. Negative values are written as `calc(var(--ds-space-100)*-1)`. Spacing literals in the plain CSS files in `concepts/app/styles` and `calc()` expressions such as `pb-[calc(1rem+var(--flag-reserve,0px))]` are not tokenised yet.
 
 ## Deviations
 
@@ -56,7 +56,7 @@ Spacing is still written as literal values in class names, for example `[padding
 | Switch | Regular 32×16, thumb 12px | 30×17, thumb 13px | Accepted |
 | Radius | ADS scale: 2, 4, 6, 8 and 12px | ADS tokens plus `legacy-*` tokens for 1, 3, 5, 7, 9, 10, 11, 14 and 999px | Tokenised, not normalised |
 | Font sizes | ADS type scale | 22 role-based tokens with the sizes already in use | Implemented, no visual change |
-| Spacing | ADS scale | About 20 px values per property in class names | Planned (phase 1) |
+| Spacing | ADS scale | ADS tokens plus `legacy-*` tokens for 0.5, 1, 3, 5, 7, 9, 10, 11, 13, 14, 15, 17, 18, 22, 26, 28, 30, 34, 46, 54, 68 and 72px | Tokenised, not normalised |
 | Record identity card, 721 to 900px | Not specified | Customer and People squeeze the fields to 126px at 768px and 5 fields overlap the photo | Open, found in #7 |
 | Flag title | `h2` heading | `h2` heading | Implemented, not visually verified |
 | Flag Escape | Closes the topmost dismissible flag | Closes the topmost dismissible flag when focus is inside a flag | Implemented, not visually verified |
@@ -75,6 +75,6 @@ Spacing is still written as literal values in class names, for example `[padding
 
 ## Roadmap
 
-1. **Phase 1, tokens with no visual change.** Move the existing type, spacing and radius values into named tokens. Font sizes and radius are done. Spacing is next. Changing one token then updates every use. Screenshots must not change.
+1. **Phase 1, tokens with no visual change.** Move the existing type, spacing and radius values into named tokens. Font sizes, radius and spacing are done. Changing one token then updates every use. Screenshots must not change.
 2. **Phase 2, normalise to the scale.** Map the values to a small set. This changes the look, so it needs approval and updated screenshot baselines.
 3. **Open items.** Customer and People identity card breakpoint (#7).

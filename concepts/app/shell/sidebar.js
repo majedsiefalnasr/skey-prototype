@@ -204,7 +204,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     node.appendChild(btn)
     if (isBranch) {
       const sub = document.createElement('div')
-      sub.className = 'nc1-sub ms-[17px] hidden border-s border-line ps-3.5'
+      sub.className = 'nc1-sub ms-[var(--ds-space-legacy-17)] hidden border-s border-line ps-3.5'
       childrenOf(entry).forEach(child => sub.appendChild(ncBuildItem(child, depth + 1, root)))
       node.appendChild(sub)
       btn.setAttribute('aria-expanded', 'false')
@@ -231,7 +231,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       NAV_FAVORITES.forEach(f => {
         const b = document.createElement('button')
         b.type = 'button'
-        b.className = 'nc-fav mx-1.5 flex w-[calc(100%-12px)] items-center gap-[7px] rounded-legacy-3 px-2 py-[5px] text-start text-dense text-muted hover:bg-[var(--hover-overlay)]'
+        b.className = 'nc-fav mx-1.5 flex w-[calc(100%-12px)] items-center gap-[var(--ds-space-legacy-7)] rounded-legacy-3 px-2 py-[var(--ds-space-legacy-5)] text-start text-dense text-muted hover:bg-[var(--hover-overlay)]'
         b.dataset.label = f
         b.innerHTML =
           '<svg width="13" height="13" aria-hidden="true"><use href="#i-spark"/></svg><span></span>'
@@ -341,7 +341,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     const railIcon = (label, icon, group, opts) => {
       const btn = document.createElement('button')
       btn.type = 'button'
-      btn.className = 'nc2-icn relative inline-flex h-9 w-full min-w-[calc(var(--rail-w)-12px)] shrink-0 items-center gap-2.5 rounded-md ps-[11px] text-muted hover:bg-[var(--hover-overlay)]'
+      btn.className = 'nc2-icn relative inline-flex h-9 w-full min-w-[calc(var(--rail-w)-12px)] shrink-0 items-center gap-2.5 rounded-md ps-[var(--ds-space-legacy-11)] text-muted hover:bg-[var(--hover-overlay)]'
       btn.setAttribute('aria-label', t(label))
       btn.innerHTML = `<svg class="shrink-0" width="18" height="18" aria-hidden="true"><use href="#${icon}"/></svg><span class="nc2-lbl overflow-hidden whitespace-nowrap text-body opacity-0">${encodeHtml(t(label))}</span>`
       /* a mouse click leaves focus sitting on the button, which keeps
@@ -365,12 +365,12 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
        group — an empty pin at the top of every rail, forever, isn't worth it */
     if (forYouGroups.length) {
       const forYouSep = document.createElement('div')
-      forYouSep.className = 'nc2-rail-sep ms-[9px] my-1 h-px w-6 bg-line'
+      forYouSep.className = 'nc2-rail-sep ms-[var(--ds-space-legacy-9)] my-1 h-px w-6 bg-line'
       railTop.append(railIcon('For You', 'i-user', 'for-you'), forYouSep)
     }
 
     const railSep = document.createElement('div')
-    railSep.className = 'nc2-rail-sep ms-[9px] my-1 h-px w-6 bg-line'
+    railSep.className = 'nc2-rail-sep ms-[var(--ds-space-legacy-9)] my-1 h-px w-6 bg-line'
     const starredGroup = ['Starred', ...NAV_FAVORITES]
     const recentGroup = ['Recent', ...NAV_RECENTS]
     const starredBtn = railIcon('Starred', 'i-spark', starredGroup)
@@ -400,7 +400,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
        scrolling, and the footer's bottom padding keeps it clear of the fixed
        "Prototype controls" pill that sits over the rail's last 48px. */
     const accountSep = document.createElement('div')
-    accountSep.className = 'nc2-rail-sep ms-[9px] my-1 h-px w-6 bg-line'
+    accountSep.className = 'nc2-rail-sep ms-[var(--ds-space-legacy-9)] my-1 h-px w-6 bg-line'
     const accountBtn = railIcon(NAV_ACCOUNT_GROUP[0], 'i-account', NAV_ACCOUNT_GROUP)
     const railFoot = document.createElement('div')
     railFoot.className = 'nc2-rail-foot flex shrink-0 flex-col gap-0.5 pb-14'

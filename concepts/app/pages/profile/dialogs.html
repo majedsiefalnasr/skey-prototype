@@ -1,6 +1,6 @@
 <!-- ===== Change password dialog ===== -->
 <div
-  class="dscrim fixed [inset:0] [background:var(--scrim)] backdrop-blur-[4px] [z-index:130] hidden items-center justify-center [padding:24px]"
+  class="dscrim fixed [inset:0] [background:var(--scrim)] backdrop-blur-[4px] [z-index:130] hidden items-center justify-center [padding:var(--ds-space-300)]"
   id="change-password-scrim">
   <div
     class="dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
@@ -9,7 +9,7 @@
     aria-modal="true"
     aria-labelledby="change-password-title">
     <div class="dhd flex items-start gap-5 [&_h3]:[font-size:15px]">
-      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]">
+      <svg width="18" height="18" aria-hidden="true" class="[margin-top:var(--ds-space-025)]">
         <use href="#i-lock" />
       </svg>
       <div>
@@ -20,12 +20,12 @@
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
-    <form class="dlg-inner min-h-0 [padding:16px]" id="change-password-form" novalidate>
-      <div class="dbody flex flex-col gap-5 [padding:16px_18px] overflow-auto">
+    <form class="dlg-inner min-h-0 [padding:var(--ds-space-200)]" id="change-password-form" novalidate>
+      <div class="dbody flex flex-col gap-5 [padding:var(--ds-space-200)_var(--ds-space-legacy-18)] overflow-auto">
         <label class="grid gap-1.5 text-body font-semibold" for="current-password">
           <span data-i18n="Current password">Current password</span>
           <input
-            class="w-full min-h-[32px] rounded-legacy-7 border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-subtitle text-ink"
+            class="w-full min-h-[32px] rounded-legacy-7 border border-line bg-surface px-[var(--ds-space-legacy-9)] py-1.5 font-[inherit] text-subtitle text-ink"
             id="current-password"
             type="password"
             required
@@ -34,7 +34,7 @@
         <label class="grid gap-1.5 text-body font-semibold" for="new-password">
           <span data-i18n="New password">New password</span>
           <input
-            class="w-full min-h-[32px] rounded-legacy-7 border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-subtitle text-ink"
+            class="w-full min-h-[32px] rounded-legacy-7 border border-line bg-surface px-[var(--ds-space-legacy-9)] py-1.5 font-[inherit] text-subtitle text-ink"
             id="new-password"
             type="password"
             required
@@ -44,7 +44,7 @@
         <label class="grid gap-1.5 text-body font-semibold" for="confirm-password">
           <span data-i18n="Confirm new password">Confirm new password</span>
           <input
-            class="w-full min-h-[32px] rounded-legacy-7 border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-subtitle text-ink"
+            class="w-full min-h-[32px] rounded-legacy-7 border border-line bg-surface px-[var(--ds-space-legacy-9)] py-1.5 font-[inherit] text-subtitle text-ink"
             id="confirm-password"
             type="password"
             required
@@ -55,7 +55,7 @@
           id="change-password-error"
           role="status"></span>
       </div>
-      <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
+      <div class="dfoot [padding:var(--ds-space-150)_var(--ds-space-legacy-18)] flex justify-end gap-2">
         <button type="button" class="lbtn out c-close" data-i18n="Cancel">Cancel</button>
         <button type="submit" class="lbtn pri" data-i18n="Change password">Change password</button>
       </div>
@@ -65,7 +65,7 @@
 
 <!-- ===== Set / change PIN dialog ===== -->
 <div
-  class="dscrim fixed [inset:0] [background:var(--scrim)] backdrop-blur-[4px] [z-index:130] hidden items-center justify-center [padding:24px]"
+  class="dscrim fixed [inset:0] [background:var(--scrim)] backdrop-blur-[4px] [z-index:130] hidden items-center justify-center [padding:var(--ds-space-300)]"
   id="set-pin-scrim">
   <div
     class="dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
@@ -74,7 +74,7 @@
     aria-modal="true"
     aria-labelledby="set-pin-title">
     <div class="dhd flex items-start gap-5 [&_h3]:[font-size:15px]">
-      <svg width="18" height="18" aria-hidden="true" class="[margin-top:2px]">
+      <svg width="18" height="18" aria-hidden="true" class="[margin-top:var(--ds-space-025)]">
         <use href="#i-lock" />
       </svg>
       <div>
@@ -85,12 +85,12 @@
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
-    <form class="dlg-inner min-h-0 [padding:16px]" id="set-pin-form" novalidate>
-      <div class="dbody flex flex-col gap-5 [padding:16px_18px] overflow-auto">
+    <form class="dlg-inner min-h-0 [padding:var(--ds-space-200)]" id="set-pin-form" novalidate>
+      <div class="dbody flex flex-col gap-5 [padding:var(--ds-space-200)_var(--ds-space-legacy-18)] overflow-auto">
         <label class="grid gap-1.5 text-body font-semibold" for="current-pin">
           <span data-i18n="Current PIN (leave blank if none set)">Current PIN (leave blank if none set)</span>
           <input
-            class="w-full min-h-[32px] rounded-legacy-7 border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-subtitle text-ink [font-variant-numeric:tabular-nums]"
+            class="w-full min-h-[32px] rounded-legacy-7 border border-line bg-surface px-[var(--ds-space-legacy-9)] py-1.5 font-[inherit] text-subtitle text-ink [font-variant-numeric:tabular-nums]"
             id="current-pin"
             type="password"
             inputmode="numeric"
@@ -101,7 +101,7 @@
         <label class="grid gap-1.5 text-body font-semibold" for="new-pin">
           <span data-i18n="New PIN (4–6 digits)">New PIN (4–6 digits)</span>
           <input
-            class="w-full min-h-[32px] rounded-legacy-7 border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-subtitle text-ink [font-variant-numeric:tabular-nums]"
+            class="w-full min-h-[32px] rounded-legacy-7 border border-line bg-surface px-[var(--ds-space-legacy-9)] py-1.5 font-[inherit] text-subtitle text-ink [font-variant-numeric:tabular-nums]"
             id="new-pin"
             type="password"
             inputmode="numeric"
@@ -114,7 +114,7 @@
         <label class="grid gap-1.5 text-body font-semibold" for="confirm-pin">
           <span data-i18n="Confirm new PIN">Confirm new PIN</span>
           <input
-            class="w-full min-h-[32px] rounded-legacy-7 border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-subtitle text-ink [font-variant-numeric:tabular-nums]"
+            class="w-full min-h-[32px] rounded-legacy-7 border border-line bg-surface px-[var(--ds-space-legacy-9)] py-1.5 font-[inherit] text-subtitle text-ink [font-variant-numeric:tabular-nums]"
             id="confirm-pin"
             type="password"
             inputmode="numeric"
@@ -128,7 +128,7 @@
           id="set-pin-error"
           role="status"></span>
       </div>
-      <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
+      <div class="dfoot [padding:var(--ds-space-150)_var(--ds-space-legacy-18)] flex justify-end gap-2">
         <button type="button" class="lbtn out c-close" data-i18n="Cancel">Cancel</button>
         <button type="submit" class="lbtn pri" data-i18n="Save PIN">Save PIN</button>
       </div>
