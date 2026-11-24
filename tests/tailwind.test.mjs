@@ -41,14 +41,14 @@ const activityIconButtonUtilities = [
 ];
 const activitySecondaryButtonUtilities = [
   'inline-flex', 'items-center', 'gap-1.5', 'rounded-md', 'border', 'border-line',
-  'bg-surface', 'px-[11px]', 'py-1.5', 'font-medium', 'whitespace-nowrap',
+  'bg-surface', 'px-[var(--ds-space-legacy-11)]', 'py-1.5', 'font-medium', 'whitespace-nowrap',
   'hover:enabled:bg-[var(--line-2)]', 'disabled:cursor-not-allowed',
   'disabled:opacity-50', 'focus-visible:outline-2', 'focus-visible:outline-offset-2',
   'focus-visible:outline-[var(--focus)]',
 ];
 const activityPrimaryButtonUtilities = [
   'inline-flex', 'items-center', 'gap-1.5', 'rounded-md', 'border',
-  'border-transparent', 'bg-accent', 'px-[11px]', 'py-1.5', 'font-medium',
+  'border-transparent', 'bg-accent', 'px-[var(--ds-space-legacy-11)]', 'py-1.5', 'font-medium',
   'text-inverse', 'whitespace-nowrap', 'hover:enabled:bg-[var(--accent-hover)]',
   'disabled:cursor-not-allowed', 'disabled:opacity-50', 'focus-visible:outline-2',
   'focus-visible:outline-offset-2', 'focus-visible:outline-[var(--focus)]',

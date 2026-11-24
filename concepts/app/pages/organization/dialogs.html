@@ -1,5 +1,5 @@
 <div
-  class="dscrim fixed [inset:0] [background:var(--scrim)] backdrop-blur-[4px] [z-index:130] hidden items-center justify-center [padding:24px]"
+  class="dscrim fixed [inset:0] [background:var(--scrim)] backdrop-blur-[4px] [z-index:130] hidden items-center justify-center [padding:var(--ds-space-300)]"
   id="organization-session-dialog">
   <div
     class="dlg [width:min(470px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
@@ -22,8 +22,8 @@
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
-    <form class="dlg-inner min-h-0 [padding:16px]" id="organization-session-form" novalidate>
-      <div class="dbody flex flex-col gap-4 [padding:16px_18px] overflow-auto">
+    <form class="dlg-inner min-h-0 [padding:var(--ds-space-200)]" id="organization-session-form" novalidate>
+      <div class="dbody flex flex-col gap-4 [padding:var(--ds-space-200)_var(--ds-space-legacy-18)] overflow-auto">
         <div class="rounded-md bg-[var(--line-2)] p-4" id="organization-session-target"></div>
         <aside
           role="note"
@@ -54,7 +54,7 @@
           id="organization-session-error"
           role="status"></span>
       </div>
-      <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
+      <div class="dfoot [padding:var(--ds-space-150)_var(--ds-space-legacy-18)] flex justify-end gap-2">
         <button type="button" class="lbtn out c-close" data-i18n="Cancel">Cancel</button
         ><button type="submit" class="lbtn pri" id="organization-session-confirm">
           Revoke session

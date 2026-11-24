@@ -180,8 +180,8 @@ export function createEmail({root, store, toast, related, confirm, users, curren
      same sizes side by side. `ef-lbl` / `ef-act` are the pieces the collapsed
      rail hides; see the `.email-folders` rules in styles/tailwind/email.css. */
   const EF_ROW_CLASS =
-    'ef-row relative inline-flex h-9 min-w-[calc(var(--rail-w)-12px)] items-center gap-2.5 rounded-md border-0 bg-transparent ps-[11px] pe-2 text-start text-body text-muted hover:bg-[var(--hover-overlay)] aria-[current=true]:bg-[var(--accent-soft)] aria-[current=true]:text-accent focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]'
-  const EF_SEPARATOR_CLASS = 'ef-sep ms-[9px] my-1 h-px w-6 flex-none bg-line'
+    'ef-row relative inline-flex h-9 min-w-[calc(var(--rail-w)-12px)] items-center gap-2.5 rounded-md border-0 bg-transparent ps-[var(--ds-space-legacy-11)] pe-2 text-start text-body text-muted hover:bg-[var(--hover-overlay)] aria-[current=true]:bg-[var(--accent-soft)] aria-[current=true]:text-accent focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]'
+  const EF_SEPARATOR_CLASS = 'ef-sep ms-[var(--ds-space-legacy-9)] my-1 h-px w-6 flex-none bg-line'
   const FOLDER_ICON_BTN_CLASS =
     'grid size-6 flex-none place-items-center rounded-md border-0 bg-transparent text-muted opacity-60 hover:bg-[var(--hover-overlay)] hover:text-ink hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]'
   const FOLDER_FORM_INPUT_CLASS =
@@ -250,7 +250,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       .map(folder => `<li>${folderButton(folder, {wide: true})}</li>`)
       .join('')}</ul>
       <div class="flex-none"><div class="${EF_SEPARATOR_CLASS}"></div>
-        <div class="flex items-center gap-1 ps-[11px] pe-2 pb-1 pt-2">
+        <div class="flex items-center gap-1 ps-[var(--ds-space-legacy-11)] pe-2 pb-1 pt-2">
           <span class="ef-lbl min-w-0 flex-1 text-xs font-semibold uppercase tracking-[.04em] text-faint">${t("Folders")}</span>
           <span class="ef-act flex flex-none items-center gap-0.5">
             <button type="button" class="${FOLDER_ICON_BTN_CLASS}" data-new-folder aria-label="${escapeHtml(t("New folder"))}" title="${escapeHtml(t("New folder"))}">${icon('i-plus', 14)}</button>
@@ -614,7 +614,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       ${
         m.attachments?.length
           ? `<div class="email-attachments mt-3 flex flex-wrap gap-2">${m.attachments
-              .map(a => `<span class="email-attach flex items-center gap-[7px] rounded-lg border border-line px-2.5 py-[7px] text-dense text-ink">${icon('i-clip')}<span>${escapeHtml(a.name)}</span><small class="text-xs text-faint">${escapeHtml(a.size)}</small></span>`)
+              .map(a => `<span class="email-attach flex items-center gap-[var(--ds-space-legacy-7)] rounded-lg border border-line px-2.5 py-[var(--ds-space-legacy-7)] text-dense text-ink">${icon('i-clip')}<span>${escapeHtml(a.name)}</span><small class="text-xs text-faint">${escapeHtml(a.size)}</small></span>`)
               .join('')}<span class="${HINT_CLASS} self-center">${t("Attachments are sample files in the prototype.")}</span></div>`
           : ''
       }`
@@ -1004,7 +1004,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
           .join('')}
         <input type="text" id="${id}" class="${COMPOSE_INPUT_CLASS}" placeholder="${kind === 'to' ? 'Name or email…' : 'Add Cc…'}" value="${escapeHtml(pending)}" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="${id}-suggestions">
       </span>
-      <ul id="${id}-suggestions" role="listbox" aria-label="${escapeHtml(t("Suggested recipients"))}" class="absolute start-[68px] top-full z-20 m-0 hidden max-h-[220px] min-w-[260px] list-none overflow-auto rounded-lg border border-line bg-surface p-1 shadow-shell [&.open]:block"></ul>
+      <ul id="${id}-suggestions" role="listbox" aria-label="${escapeHtml(t("Suggested recipients"))}" class="absolute start-[var(--ds-space-legacy-68)] top-full z-20 m-0 hidden max-h-[220px] min-w-[260px] list-none overflow-auto rounded-lg border border-line bg-surface p-1 shadow-shell [&.open]:block"></ul>
     </div>`
   }
 

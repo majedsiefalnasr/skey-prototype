@@ -29,8 +29,8 @@ export function renderSectionHeading(key, encodeHtml) {
 function renderCard(title, bodyHtml, extraClass = '') {
   const classAttr = extraClass ? `${extraClass} rec-card` : 'rec-card'
   return `<div class="${classAttr} [border:1px_solid_var(--line)] rounded-lg mb-3! overflow-hidden">
-    <button type="button" class="rec-card-hd flex items-center justify-between gap-2.5 w-full text-start [padding:8px_12px] [font-size:12.5px]! font-bold! bg-[var(--line-2)]! border-0! [cursor:pointer]" aria-expanded="true"><span class="flex items-center gap-1.5" data-i18n="${title}">${title}</span></button>
-    <div class="rec-card-body [padding:12px]">${bodyHtml}</div>
+    <button type="button" class="rec-card-hd flex items-center justify-between gap-2.5 w-full text-start [padding:var(--ds-space-100)_var(--ds-space-150)] [font-size:12.5px]! font-bold! bg-[var(--line-2)]! border-0! [cursor:pointer]" aria-expanded="true"><span class="flex items-center gap-1.5" data-i18n="${title}">${title}</span></button>
+    <div class="rec-card-body [padding:var(--ds-space-150)]">${bodyHtml}</div>
   </div>`
 }
 
@@ -41,7 +41,7 @@ function renderCard(title, bodyHtml, extraClass = '') {
 // (its own established pattern) and Security/Sessions are action dialogs
 // and lists, not field forms, so neither gets this bar.
 function renderSaveBar(key) {
-  return `<div class="profile-save-bar sticky bottom-0 z-10 flex justify-end gap-2 [padding:10px_12px] mt-3! border-t border-line bg-surface" data-profile-save-bar="${key}">
+  return `<div class="profile-save-bar sticky bottom-0 z-10 flex justify-end gap-2 [padding:var(--ds-space-legacy-10)_var(--ds-space-150)] mt-3! border-t border-line bg-surface" data-profile-save-bar="${key}">
     <button type="button" class="lbtn out" id="profile-${key}-undo" disabled data-i18n="Undo">Undo</button>
     <button type="button" class="lbtn pri" id="profile-${key}-save" disabled data-i18n="Save">Save</button>
   </div>`
@@ -54,7 +54,7 @@ function renderSaveBar(key) {
 // this exact utility set — copied verbatim here rather than inventing a
 // separate input treatment for the profile page.
 const REC_FIELD_CLASS =
-  'rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:3px] [&_input]:w-full [&_input]:[padding:6px_8px] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:6px_8px] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:6px_8px] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)]! [&_input:disabled]:text-muted! [&_select:disabled]:bg-[var(--line-2)]! [&_select:disabled]:text-muted! [&_textarea:disabled]:bg-[var(--line-2)]! [&_textarea:disabled]:text-muted! [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:28px] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:8px] [[dir=rtl]_&_select]:[padding-inline-start:28px] [[dir=rtl]_&_select]:[background-position:left_8px_center]'
+  'rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:var(--ds-space-legacy-3)] [&_input]:w-full [&_input]:[padding:var(--ds-space-075)_var(--ds-space-100)] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_select]:w-full [&_select]:[padding:var(--ds-space-075)_var(--ds-space-100)] [&_select]:[border:1px_solid_var(--line)] [&_select]:rounded-md [&_select]:[font:inherit] [&_select]:text-ink [&_select]:bg-surface [&_textarea]:w-full [&_textarea]:[padding:var(--ds-space-075)_var(--ds-space-100)] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-md [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:bg-surface [&_textarea]:[resize:vertical] [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_select:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_textarea:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:[outline:none] [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:[outline:none] [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_input:disabled]:bg-[var(--line-2)]! [&_input:disabled]:text-muted! [&_select:disabled]:bg-[var(--line-2)]! [&_select:disabled]:text-muted! [&_textarea:disabled]:bg-[var(--line-2)]! [&_textarea:disabled]:text-muted! [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:var(--ds-space-legacy-28)] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:var(--ds-space-100)] [[dir=rtl]_&_select]:[padding-inline-start:var(--ds-space-legacy-28)] [[dir=rtl]_&_select]:[background-position:left_8px_center]'
 
 function renderProfileField({
   id,
@@ -79,7 +79,7 @@ function renderProfileField({
 }
 
 function renderActivityRow(entry, encodeHtml) {
-  return `<div class="flex items-center gap-5 [padding:9px] [border-top:1px_solid_var(--line)]">
+  return `<div class="flex items-center gap-5 [padding:var(--ds-space-legacy-9)] [border-top:1px_solid_var(--line)]">
     <span class="flex-1"><b class="text-body-lg text-ink">${encodeHtml(entry.action)}</b> <span class="text-body-lg text-ink">${encodeHtml(entry.target)}</span></span>
     <span class="text-xs text-muted whitespace-nowrap">${encodeHtml(entry.timestamp)}</span>
   </div>`
@@ -163,7 +163,7 @@ function renderProfileSection(currentUser, encodeHtml, language = 'en') {
   // dashed placeholder, label above, action button below) — kept to a
   // static initials circle rather than customer's full image-preview/zoom
   // popover, which is a separate component (images.js) out of this scope.
-  const photoBoxHtml = `<div class="${REC_FIELD_CLASS} grid [place-items:center] gap-2 [min-height:120px] [padding:12px] [border:1px_dashed_var(--line)] rounded-lg h-full [min-height:280px]">
+  const photoBoxHtml = `<div class="${REC_FIELD_CLASS} grid [place-items:center] gap-2 [min-height:120px] [padding:var(--ds-space-150)] [border:1px_dashed_var(--line)] rounded-lg h-full [min-height:280px]">
     <label for="profile-photo-select" data-i18n="Profile photo">Profile photo</label>
     <span class="grid [place-items:center] [width:min(164px,_100%)] [aspect-ratio:1] [padding:0] overflow-hidden text-muted [border:1px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-999)] bg-[var(--line-2)] [font-size:20px] font-bold" aria-hidden="true">${initials}</span>
     <button type="button" class="lbtn out" id="profile-photo-select"><svg width="15" height="15" aria-hidden="true"><use href="#i-clip" /></svg> <span data-i18n="Select photo">Select photo</span></button>
@@ -171,8 +171,8 @@ function renderProfileSection(currentUser, encodeHtml, language = 'en') {
   return renderCard(
     'Personal information',
     `<div class="grid gap-5 [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] items-start [@media((max-width:900px))]:[grid-template-columns:minmax(0,_1fr)]">
-      <div class="profile-personal-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>
-      <div class="profile-photo-column [padding:12px_12px_12px_0] [@media((max-width:900px))]:[padding:0_12px_12px]">${photoBoxHtml}</div>
+      <div class="profile-personal-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:var(--ds-space-legacy-10)_var(--ds-space-200)] [padding:var(--ds-space-150)]">${fieldsHtml}</div>
+      <div class="profile-photo-column [padding:var(--ds-space-150)_var(--ds-space-150)_var(--ds-space-150)_0] [@media((max-width:900px))]:[padding:0_var(--ds-space-150)_var(--ds-space-150)]">${photoBoxHtml}</div>
     </div>`
   )
 }
@@ -215,11 +215,11 @@ export function renderEmployeeSection(employeeDetails, encodeHtml) {
   return (
     renderCard(
       'Employment',
-      `<div class="profile-employee-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${employmentFields}</div>`
+      `<div class="profile-employee-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:var(--ds-space-legacy-10)_var(--ds-space-200)] [padding:var(--ds-space-150)]">${employmentFields}</div>`
     ) +
     renderCard(
       'Workplace contact',
-      `<div class="profile-employee-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${contactFields}</div>`
+      `<div class="profile-employee-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:var(--ds-space-legacy-10)_var(--ds-space-200)] [padding:var(--ds-space-150)]">${contactFields}</div>`
     )
   )
 }
@@ -249,7 +249,7 @@ export function renderContactSection(contactDetails, encodeHtml) {
     .join('')
   return renderCard(
     'Contact information',
-    `<div class="profile-contact-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>`
+    `<div class="profile-contact-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:var(--ds-space-legacy-10)_var(--ds-space-200)] [padding:var(--ds-space-150)]">${fieldsHtml}</div>`
   )
 }
 
@@ -295,7 +295,7 @@ function renderAppearanceSectionFields() {
           <span class="accent-custom-swatch block [width:28px] [height:28px] [border:2px_solid_transparent] [border-radius:var(--ds-radius-legacy-999)] [background:var(--custom-accent,_#1868db)] [box-shadow:inset_0_0_0_1px_var(--line)] [pointer-events:none] [border-color:var(--ink)] [box-shadow:0_0_0_2px_var(--surface),_0_0_0_3.5px_var(--custom-accent,_#1868db)] [outline:2px_solid_var(--focus)] [outline-offset:3px]" aria-hidden="true"></span>
         </label>
         <label class="accent-custom-label text-xs font-semibold text-ink" for="appearance-custom-hex" data-i18n="Custom">Custom</label>
-        <input class="accent-custom-hex w-full [min-height:32px] [padding:5px_9px] [border:1px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-7)] [font:inherit] [font-variant-numeric:tabular-nums] [text-transform:uppercase] bg-surface text-ink" id="appearance-custom-hex" type="text" value="#1868DB" inputmode="text" maxlength="7" spellcheck="false" aria-describedby="appearance-custom-error" />
+        <input class="accent-custom-hex w-full [min-height:32px] [padding:var(--ds-space-legacy-5)_var(--ds-space-legacy-9)] [border:1px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-7)] [font:inherit] [font-variant-numeric:tabular-nums] [text-transform:uppercase] bg-surface text-ink" id="appearance-custom-hex" type="text" value="#1868DB" inputmode="text" maxlength="7" spellcheck="false" aria-describedby="appearance-custom-error" />
         <span class="accent-custom-error [grid-column:1_/_-1] [font-size:11px] [line-height:1.35] [color:var(--danger)] [&:empty]:hidden" id="appearance-custom-error" role="status"></span>
       </div>
     </div>`,
@@ -315,7 +315,7 @@ function renderAppearanceSectionFields() {
       'Typography',
       `<label class="grid gap-1.5 text-body font-semibold" for="appearance-font-family">
       Font family
-      <select id="appearance-font-family" class="w-full min-h-[32px] rounded-legacy-7 border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-subtitle text-ink appearance-none [-webkit-appearance:none] [background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [background-repeat:no-repeat] [background-position:right_8px_center] [background-size:12px] [padding-inline-end:28px] focus:border-[var(--accent-line)] focus:outline-none focus:[box-shadow:0_0_0_3px_var(--accent-soft)] rtl:[background-position:left_8px_center] rtl:[padding-inline-end:9px] rtl:[padding-inline-start:28px]">
+      <select id="appearance-font-family" class="w-full min-h-[32px] rounded-legacy-7 border border-line bg-surface px-[var(--ds-space-legacy-9)] py-1.5 font-[inherit] text-subtitle text-ink appearance-none [-webkit-appearance:none] [background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [background-repeat:no-repeat] [background-position:right_8px_center] [background-size:12px] [padding-inline-end:var(--ds-space-legacy-28)] focus:border-[var(--accent-line)] focus:outline-none focus:[box-shadow:0_0_0_3px_var(--accent-soft)] rtl:[background-position:left_8px_center] rtl:[padding-inline-end:var(--ds-space-legacy-9)] rtl:[padding-inline-start:var(--ds-space-legacy-28)]">
         <option value="system" data-i18n="System default">System default</option>
         <option value="Inter" data-i18n="Inter">Inter</option>
         <option value="Roboto" data-i18n="Roboto">Roboto</option>
@@ -329,11 +329,11 @@ function renderAppearanceSectionFields() {
     renderCard(
       'Layout',
       `<div class="dgrid appearance-layout-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Layout">
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-layout="fluid" aria-checked="true">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:var(--ds-space-legacy-11)] text-start flex [gap:var(--ds-space-legacy-9)] items-start" role="radio" data-appearance-layout="fluid" aria-checked="true">
         <span class="appearance-option-preview layout-preview-fluid" data-option-preview aria-hidden="true"><span class="layout-preview-chrome"><i></i><i></i><i></i></span><span class="layout-preview-rail"></span><span class="layout-preview-content"></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Fluid">Fluid</span></span></span>
       </button>
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-layout="boxed" aria-checked="false">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:var(--ds-space-legacy-11)] text-start flex [gap:var(--ds-space-legacy-9)] items-start" role="radio" data-appearance-layout="boxed" aria-checked="false">
         <span class="appearance-option-preview layout-preview-boxed" data-option-preview aria-hidden="true"><span class="layout-preview-chrome"><i></i><i></i><i></i></span><span class="layout-preview-rail"></span><span class="layout-preview-content"></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Boxed">Boxed</span></span></span>
       </button>
@@ -347,11 +347,11 @@ function renderAppearanceSectionFields() {
     renderCard(
       'Density',
       `<div class="dgrid appearance-density-grid grid [grid-template-columns:repeat(2,_1fr)] gap-2.5" role="radiogroup" aria-label="Density">
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-density="default" aria-checked="true">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:var(--ds-space-legacy-11)] text-start flex [gap:var(--ds-space-legacy-9)] items-start" role="radio" data-appearance-density="default" aria-checked="true">
         <span class="appearance-option-preview density-preview-default" data-option-preview aria-hidden="true"><span class="density-preview-chrome"><i></i><i></i><i></i></span><span class="density-preview-rail"></span><span class="density-preview-toolbar"></span><span class="density-preview-rows"><i></i><i></i><i></i></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Default">Default</span></span></span>
       </button>
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-density="compact" aria-checked="false">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:var(--ds-space-legacy-11)] text-start flex [gap:var(--ds-space-legacy-9)] items-start" role="radio" data-appearance-density="compact" aria-checked="false">
         <span class="appearance-option-preview density-preview-compact" data-option-preview aria-hidden="true"><span class="density-preview-chrome"><i></i><i></i><i></i></span><span class="density-preview-rail"></span><span class="density-preview-toolbar"></span><span class="density-preview-rows"><i></i><i></i><i></i><i></i><i></i></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Compact">Compact</span></span></span>
       </button>
@@ -361,11 +361,11 @@ function renderAppearanceSectionFields() {
     renderCard(
       'Card style',
       `<div class="dgrid appearance-card-style-grid grid [grid-template-columns:repeat(2,_1fr)] gap-2.5" role="radiogroup" aria-label="Card style">
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-card-style="standard" aria-checked="true">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:var(--ds-space-legacy-11)] text-start flex [gap:var(--ds-space-legacy-9)] items-start" role="radio" data-appearance-card-style="standard" aria-checked="true">
         <span class="appearance-option-preview card-style-preview-standard" data-option-preview aria-hidden="true"><span class="card-style-preview-card"><span class="card-style-preview-hd"></span><span class="card-style-preview-line"></span><span class="card-style-preview-line short"></span></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Standard">Standard</span></span></span>
       </button>
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-card-style="fieldset" aria-checked="false">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:var(--ds-space-legacy-11)] text-start flex [gap:var(--ds-space-legacy-9)] items-start" role="radio" data-appearance-card-style="fieldset" aria-checked="false">
         <span class="appearance-option-preview card-style-preview-fieldset" data-option-preview aria-hidden="true"><span class="card-style-preview-card"><span class="card-style-preview-hd"></span><span class="card-style-preview-line"></span><span class="card-style-preview-line short"></span></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Fieldset">Fieldset</span></span></span>
       </button>
@@ -375,15 +375,15 @@ function renderAppearanceSectionFields() {
     renderCard(
       'Input style',
       `<div class="dgrid appearance-input-style-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Input style">
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-input-style="default" aria-checked="true">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:var(--ds-space-legacy-11)] text-start flex [gap:var(--ds-space-legacy-9)] items-start" role="radio" data-appearance-input-style="default" aria-checked="true">
         <span class="appearance-option-preview input-style-preview-default" data-option-preview aria-hidden="true"><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Standard">Standard</span></span></span>
       </button>
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-input-style="floated" aria-checked="false">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:var(--ds-space-legacy-11)] text-start flex [gap:var(--ds-space-legacy-9)] items-start" role="radio" data-appearance-input-style="floated" aria-checked="false">
         <span class="appearance-option-preview input-style-preview-floated" data-option-preview aria-hidden="true"><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Floating label">Floating label</span></span></span>
       </button>
-      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:11px] text-start flex [gap:9px] items-start" role="radio" data-appearance-input-style="inline" aria-checked="false">
+      <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-9)] [padding:var(--ds-space-legacy-11)] text-start flex [gap:var(--ds-space-legacy-9)] items-start" role="radio" data-appearance-input-style="inline" aria-checked="false">
         <span class="appearance-option-preview input-style-preview-inline" data-option-preview aria-hidden="true"><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Inline label">Inline label</span></span></span>
       </button>

@@ -22,7 +22,7 @@ export const menuItemCheck = ({attr, value, label, checked, iconName = ''}) =>
   `<button type="button" role="menuitemcheckbox" aria-checked="${checked}" data-${attr}="${escapeHtml(value)}">${iconName ? icon(iconName, 14) : ''}<span>${escapeHtml(t(label))}</span>${checked ? icon('i-check', 13) : ''}</button>`
 
 export const menuGroupLabel = label =>
-  `<span class="px-2 pt-[7px] pb-1 text-xs font-bold text-muted">${escapeHtml(t(label))}</span>`
+  `<span class="px-2 pt-[var(--ds-space-legacy-7)] pb-1 text-xs font-bold text-muted">${escapeHtml(t(label))}</span>`
 
 /** The left-hand menu: quick filters, or the "+ Filter" field menu. */
 export const menuDetails = ({attr, iconName, label, items, end = false}) =>
@@ -40,9 +40,9 @@ export const clearFilterButton = ({attr}) =>
 
 /** The search field — the invoices list's right-cluster input. */
 export const searchField = ({attr, label, value}) =>
-  `<label class="data-search relative flex items-center [&>svg:first-child]:absolute [&>svg:first-child]:start-[9px] [&>svg:first-child]:text-muted [&>svg:first-child]:pointer-events-none">${icon(
+  `<label class="data-search relative flex items-center [&>svg:first-child]:absolute [&>svg:first-child]:start-[var(--ds-space-legacy-9)] [&>svg:first-child]:text-muted [&>svg:first-child]:pointer-events-none">${icon(
     'i-search'
-  )}<input type="search" class="w-[clamp(160px,18vw,260px)] min-h-[32px] rounded-md border border-line bg-surface py-[5px] ps-[30px] pe-7 font-[inherit] text-dense text-ink focus:border-[var(--accent)] focus:outline focus:outline-2 focus:outline-[var(--accent-soft)]" data-${attr} value="${escapeHtml(
+  )}<input type="search" class="w-[clamp(160px,18vw,260px)] min-h-[32px] rounded-md border border-line bg-surface py-[var(--ds-space-legacy-5)] ps-[var(--ds-space-legacy-30)] pe-7 font-[inherit] text-dense text-ink focus:border-[var(--accent)] focus:outline focus:outline-2 focus:outline-[var(--accent-soft)]" data-${attr} value="${escapeHtml(
     value
   )}" placeholder="${escapeHtml(t('Search ' + label))}" aria-label="${escapeHtml(t('Search ' + label))}"><button class="data-search-clear absolute end-1 grid size-6 place-items-center rounded p-0 border-0 bg-transparent text-muted cursor-pointer" type="button" data-${attr}-clear aria-label="${escapeHtml(t("Clear search"))}"${
     value ? '' : ' hidden'
@@ -57,7 +57,7 @@ export const viewMenu = ({attr, label, iconName, options}) =>
 
 /** The toolbar row itself — left filter cluster, right search + view. */
 export const toolbarRow = ({ariaLabel, left, right}) =>
-  `<div class="data-list-toolbar flex min-h-[46px] flex-wrap items-center gap-2 py-[7px]" role="toolbar" aria-label="${escapeHtml(ariaLabel)}">
+  `<div class="data-list-toolbar flex min-h-[46px] flex-wrap items-center gap-2 py-[var(--ds-space-legacy-7)]" role="toolbar" aria-label="${escapeHtml(ariaLabel)}">
     <div class="flex min-w-0 [flex:1_1_auto] flex-wrap items-center gap-1.5">${left}</div>
     <div class="flex min-w-0 flex-wrap items-center gap-1.5 ms-auto">${right}</div>
   </div>`
@@ -159,7 +159,7 @@ export const collabFilterChip = ({field, filter}) => {
         item.key
       )}" data-collab-filter-key="${escapeHtml(field.key)}" aria-pressed="${item.key === filter.operator}">${escapeHtml(t(item.label))}</button>`
   ).join('')}</div>`
-  const input = `<input type="text" class="w-full min-h-[36px] rounded-md border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-ink" data-collab-filter-value="${escapeHtml(
+  const input = `<input type="text" class="w-full min-h-[36px] rounded-md border border-line bg-surface px-[var(--ds-space-legacy-9)] py-1.5 font-[inherit] text-ink" data-collab-filter-value="${escapeHtml(
     field.key
   )}" value="${escapeHtml(filter.value)}" placeholder="Enter ${escapeHtml(field.label.toLowerCase())}" aria-label="${escapeHtml(t(field.label))} filter value">`
   return `<span class="${DATA_FILTER_CHIP_CLASS}"><details class="data-menu data-filter-editor relative min-w-0" data-collab-editor-key="${escapeHtml(
