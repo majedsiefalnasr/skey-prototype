@@ -318,14 +318,14 @@ function renderOverview(data, role, encodeHtml, dataListIcon) {
       : ''
 
   // Gauge cards need real width, so they span the full row between
-  // 800–1299px and only sit side by side from 1300px up. Without the
+  // 768–1299px and only sit side by side from 1300px up. Without the
   // privileged Database sessions card (manager), the lone gauge takes
   // the whole row at every width.
   const alone = databaseSessionsCard
     ? ''
-    : '[@media((min-width:theme(--breakpoint-legacy-800)))]:col-span-2'
+    : 'min-sm:col-span-2'
   const stacked = databaseSessionsCard
-    ? '[@media((min-width:theme(--breakpoint-legacy-800))_and_(max-width:theme(--breakpoint-legacy-1299)))]:col-span-2'
+    ? '[@media((min-width:theme(--breakpoint-sm))_and_(max-width:theme(--breakpoint-legacy-1299)))]:col-span-2'
     : alone
   const statCells = [
     statGridCell(activeUsersCard, stacked),
@@ -340,7 +340,7 @@ function renderOverview(data, role, encodeHtml, dataListIcon) {
   // The "Recent activity" card (audit-log rows + its "View audit log"
   // shortcut) is gone with the hidden Audit log tab — Operational status
   // now owns the full width below the stat grid.
-  return `<div data-organization-stat-grid class="mb-4 grid grid-cols-1 gap-3 [@media((min-width:theme(--breakpoint-legacy-800)))]:grid-cols-2">${statCells}</div>${card('Operational status', operationalStatus)}`
+  return `<div data-organization-stat-grid class="mb-4 grid grid-cols-1 gap-3 min-sm:grid-cols-2">${statCells}</div>${card('Operational status', operationalStatus)}`
 }
 
 /** Organization settings is a read-only reference view for every role:
