@@ -2,7 +2,7 @@ import {expect, test} from '@playwright/test'
 
 const BASE_URL = process.env.PARITY_URL ?? 'http://127.0.0.1:4173'
 
-for (const width of [390, 768, 900, 1280]) {
+for (const width of [390, 768, 900, 1024, 1100, 1280, 1439, 1440]) {
   test(`profile fields do not overlap the photo box at ${width}px`, async ({page}) => {
     await page.setViewportSize({width, height: 900})
     await page.goto(`${BASE_URL}/system/profile`)

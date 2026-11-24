@@ -57,7 +57,7 @@ Spacing is `--ds-space-*` tokens in `concepts/app/styles/tailwind/base.css`, wri
 | Radius | ADS scale: 2, 4, 6, 8 and 12px | ADS tokens plus `legacy-*` tokens for 1, 3, 5, 7, 9, 10, 11, 14 and 999px | Tokenised, not normalised |
 | Font sizes | ADS type scale | 22 role-based tokens with the sizes already in use | Implemented, no visual change |
 | Spacing | ADS scale | ADS tokens plus `legacy-*` tokens for 0.5, 1, 3, 5, 7, 9, 10, 11, 13, 14, 15, 17, 18, 22, 26, 28, 30, 34, 46, 54, 68 and 72px | Tokenised, not normalised |
-| Record identity card, 721 to 900px | Not specified | Customer and People squeeze the fields to 126px at 768px and 5 fields overlap the photo | Open, found in #7 |
+| Record identity card | Not specified; stacks below `lg` (1440px) | Profile, Customer, People and the contact dialog stack the fields above the photo below 1440px | Implemented (#11, #1), no overlap measured at 390 to 1440px |
 | Flag title | `h2` heading | `h2` heading | Implemented, not visually verified |
 | Flag Escape | Closes the topmost dismissible flag | Closes the topmost dismissible flag when focus is inside a flag | Implemented, not visually verified |
 | Flag tones | Success, warning and error are bold and not dismissible | Same | Implemented, not visually verified |
@@ -82,14 +82,13 @@ ADS does not define `720px` or `900px`. Those are prototype choices. The `560px`
 
 Prototype breakpoints:
 
-- `720px`: Profile section navigation and record identity layout.
+- `1439px` (stack below ADS `lg`, 1440px): record identity card in Profile, Customer, People and the contact dialog.
+- `720px`: Profile, Customer and People section navigation.
 - `560px`: Flag moves to the phone layout, and pages reserve room under it.
-- `900px`: Profile identity card stacks the fields above the photo.
-- Customer and People record identity cards still stack at `720px`, not `900px`.
 - Page content is capped at `1296px` wide. This is the ADS grid maximum quoted in ADS guidance, not checked against a package in this repo.
 
 ## Roadmap
 
 1. **Phase 1, tokens with no visual change.** Move the existing type, spacing and radius values into named tokens. Font sizes, radius and spacing are done. Changing one token then updates every use. Screenshots must not change.
 2. **Phase 2, normalise to the scale.** Map the values to a small set. This changes the look, so it needs approval and updated screenshot baselines.
-3. **Open items.** Customer and People identity card breakpoint (#7).
+3. **Open items.** Section navigation, footers and other layouts still use `720px` and `900px`, which are not ADS breakpoints. Each needs a decision to align with ADS or to stay as a documented custom choice.
