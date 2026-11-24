@@ -1519,9 +1519,6 @@
     color: var(--muted);
   }
   @media (width < theme(--breakpoint-sm)) {
-    .appearance-theme-grid {
-      grid-template-columns: 1fr;
-    }
     .theme-preview {
       height: 68px;
     }
@@ -1532,18 +1529,12 @@
       flex-basis: 100%;
       grid-template-columns: 28px auto minmax(112px, 1fr);
     }
-    .appearance-layout-grid,
-    .appearance-density-grid,
-    .appearance-card-style-grid,
-    .appearance-input-style-grid {
-      grid-template-columns: 1fr;
-    }
     .appearance-theme-grid,
     .appearance-layout-grid,
     .appearance-density-grid,
     .appearance-card-style-grid,
     .appearance-input-style-grid {
-      max-width: 480px;
+      grid-template-columns: 1fr;
     }
   }
   @media (forced-colors: active) {
