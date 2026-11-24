@@ -279,7 +279,7 @@ function renderOverview(data, role, encodeHtml, dataListIcon) {
     data.applicationSessions.filter(row => !row.protected).map(row => row.user)
   ).size
   const blockingSessions = data.databaseSessions.filter(row => row.blocking !== 'No').length
-  // Two fraction-of-a-whole gauges side by side from 800px up (stacked
+  // Two fraction-of-a-whole gauges side by side from 1300px up (stacked
   // below it), Active users first. The trend cards that used to fill the
   // remaining bento cells are gone; Operational status owns the row
   // underneath.

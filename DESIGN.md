@@ -58,7 +58,7 @@ Spacing is `--ds-space-*` tokens in `concepts/app/styles/tailwind/base.css`, wri
 | Font sizes | ADS type scale | 22 role-based tokens with the sizes already in use | Implemented, no visual change |
 | Spacing | ADS scale | ADS tokens plus `legacy-*` tokens for 0.5, 1, 3, 5, 7, 9, 10, 11, 13, 14, 15, 17, 18, 22, 26, 28, 30, 34, 46, 54, 68 and 72px | Tokenised, not normalised |
 | Record identity card | Not specified; stacks below `lg` (1440px) | Profile, Customer, People and the contact dialog stack the fields above the photo below 1440px | Implemented (#11, #1), no overlap measured at 390 to 1440px |
-| Viewport breakpoints | `xs` 30, `sm` 48, `md` 64, `lg` 90, `xl` 110.5rem (480, 768, 1024, 1440, 1768px at a 16px root) | ADS steps as `--breakpoint-xs` to `--breakpoint-xl`, plus 14 `--breakpoint-legacy-*` tokens named by pixel value at a 16px root for values that have not moved to a step. All are written in `rem`, like ADS | Below `sm` (48rem, 768px) follows ADS; the rest is tokenised, not normalised (#12) |
+| Viewport breakpoints | `xs` 30, `sm` 48, `md` 64, `lg` 90, `xl` 110.5rem (480, 768, 1024, 1440, 1768px at a 16px root) | ADS steps as `--breakpoint-xs` to `--breakpoint-xl`, plus 13 `--breakpoint-legacy-*` tokens named by pixel value at a 16px root for values that have not moved to a step. All are written in `rem`, like ADS | Below `sm` (48rem, 768px) follows ADS; the rest is tokenised, not normalised (#12) |
 | Flag title | `h2` heading | `h2` heading | Implemented, not visually verified |
 | Flag Escape | Closes the topmost dismissible flag | Closes the topmost dismissible flag when focus is inside a flag | Implemented, not visually verified |
 | Flag tones | Success, warning and error are bold and not dismissible | Same | Implemented, not visually verified |
@@ -90,7 +90,7 @@ The roles come from comments next to `UNSAFE_BREAKPOINTS_CONFIG`. ADS has no sin
 
 So a tablet (768 to 1023px) gets the wider content layout but the mobile shell. The role names above were read from code comments, not from the atlassian.design pages.
 
-Below `sm` (`width < 48rem`) is the compact layout: section navigation, record footers, the single-pane email and the calendar context strip. ADS does not define `800px`, `900px` or the other remaining `legacy` values. Those are prototype choices. The `560px` Flag breakpoint comes from the ADS Flag component, not from the grid.
+Below `sm` (`width < 48rem`) is the compact layout: section navigation, record footers, the single-pane email and the calendar context strip. The Organization overview gauge cards also switch at `sm`. ADS does not define `900px` or the other remaining `legacy` values. Those are prototype choices. The `560px` Flag breakpoint comes from the ADS Flag component, not from the grid.
 
 ### How breakpoints are written
 
