@@ -61,17 +61,32 @@ Spacing is still written as literal values in class names, for example `[padding
 | Flag title | `h2` heading | `h2` heading | Implemented, not visually verified |
 | Flag Escape | Closes the topmost dismissible flag | Closes the topmost dismissible flag when focus is inside a flag | Implemented, not visually verified |
 | Flag tones | Success, warning and error are bold and not dismissible | Same | Implemented, not visually verified |
-| Flag font | 14px / 20px | 14px / 20px for title, body and action | Implemented, not visually verified |
-| Flag mobile breakpoint | 560px | 560px for Flag placement and the pages that reserve room for it | Implemented, not visually verified |
+| Flag font | 14px / 20px (`@atlaskit/flag` 19.0.7, `ds-font-body`) | 14px / 20px for title, body and action | Implemented, not visually verified |
+| Flag mobile breakpoint | `max-width: 560px` (`@atlaskit/flag` 19.0.7, flag group) | 560px for Flag placement and the pages that reserve room for it | Implemented, not visually verified |
 | Spotlight fallbacks | Tokens only | Tokens only (hex fallbacks removed) | Implemented, not visually verified |
 
 ## Responsive breakpoints
+
+ADS breakpoints, from `UNSAFE_BREAKPOINTS_CONFIG` in `@atlaskit/primitives` 22.8.0:
+
+| Name | Range | Grid margin | Grid gutter |
+| --- | --- | --- | --- |
+| `xxs` | 0 to 479px | `space.200` | `space.200` |
+| `xs` | 480 to 767px | `space.200` | `space.200` |
+| `sm` | 768 to 1023px | `space.300` | `space.200` |
+| `md` | 1024 to 1439px | `space.400` | `space.300` |
+| `lg` | 1440 to 1767px | `space.400` | `space.400` |
+| `xl` | 1768px and up | `space.500` | `space.400` |
+
+ADS does not define `720px` or `900px`. Those are prototype choices. The `560px` Flag breakpoint comes from the ADS Flag component, not from the grid.
+
+Prototype breakpoints:
 
 - `720px`: Profile section navigation and record identity layout.
 - `560px`: Flag moves to the phone layout, and pages reserve room under it.
 - `900px`: Profile identity card stacks the fields above the photo.
 - Customer and People record identity cards still stack at `720px`, not `900px`.
-- Page content is capped at `1296px` wide, the ADS maximum.
+- Page content is capped at `1296px` wide. This is the ADS grid maximum quoted in ADS guidance, not checked against a package in this repo.
 
 ## Roadmap
 
