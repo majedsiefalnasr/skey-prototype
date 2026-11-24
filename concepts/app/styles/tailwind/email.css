@@ -1,7 +1,7 @@
 /* email selector relationships and behavior state that cannot be expressed by one
    element's static utilities. */
 @layer components {
-  @media (max-width: theme(--breakpoint-legacy-720)) {
+  @media (width < theme(--breakpoint-sm)) {
     /* Six 44px actions fit the phone's 272px reading pane, including
        padding. Labels remain accessible; file and reply commands stay put. */
     .email-message-toolbar { flex-wrap: nowrap; gap: 0; padding-inline: 4px; }

@@ -1,5 +1,5 @@
 import {uiLocale} from '../../core/locale.js'
-import {maxWidthQuery} from '../../core/breakpoints.js'
+import {belowQuery} from '../../core/breakpoints.js'
 import {resolveScroller} from '../../core/scroll.js'
 import {createScrollNavigator} from '../customers/layouts.js'
 import {createCollabPanel} from '../../components/collab/panel.js'
@@ -160,7 +160,7 @@ export function createPeople({store, toast, panel: conversionPanel, confirm, goH
     if (button) scrollNavigator.activateSection(button.dataset.personScrollSection)
   })
   sectionNav.addEventListener('keydown', event => {
-    const vertical = !matchMedia(maxWidthQuery('legacy720')).matches
+    const vertical = !matchMedia(belowQuery('sm')).matches
     const previous = vertical ? 'ArrowUp' : document.dir === 'rtl' ? 'ArrowRight' : 'ArrowLeft'
     const next = vertical ? 'ArrowDown' : document.dir === 'rtl' ? 'ArrowLeft' : 'ArrowRight'
     if (![previous, next, 'Home', 'End'].includes(event.key)) return
@@ -386,7 +386,7 @@ export function createPeople({store, toast, panel: conversionPanel, confirm, goH
   }
 
   const cardsMarkup = people =>
-    `<div class="data-card-grid grid grid-cols-3 gap-5 rounded-legacy-10 bg-bg p-3 max-legacy-1240:grid-cols-2 max-legacy-720:grid-cols-1" role="list" aria-label="People cards">${people
+    `<div class="data-card-grid grid grid-cols-3 gap-5 rounded-legacy-10 bg-bg p-3 max-legacy-1240:grid-cols-2 max-sm:grid-cols-1" role="list" aria-label="People cards">${people
       .map(personCardMarkup)
       .join('')}</div>`
 

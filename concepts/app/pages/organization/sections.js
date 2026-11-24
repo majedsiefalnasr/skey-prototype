@@ -364,7 +364,7 @@ function renderSettings(details, encodeHtml) {
     .join('')
   return card(
     'Organization identity and defaults',
-    `<dl class="m-0 grid grid-cols-2 gap-x-4 gap-y-3 [@media((max-width:theme(--breakpoint-legacy-720)))]:grid-cols-1">${fields}</dl><p class="mt-4 mb-0 text-xs text-muted">${uiLocale.t("Read-only view of the organization’s legal identity, regional defaults, and fiscal configuration.")}</p>`
+    `<dl class="m-0 grid grid-cols-2 gap-x-4 gap-y-3 max-sm:grid-cols-1">${fields}</dl><p class="mt-4 mb-0 text-xs text-muted">${uiLocale.t("Read-only view of the organization’s legal identity, regional defaults, and fiscal configuration.")}</p>`
   )
 }
 
@@ -463,7 +463,7 @@ function performanceGaugeCard(metric, dataListIcon) {
   const summaries = metric.summaries
     .map(summary => `<div data-organization-availability-summary class="flex min-w-0 items-center gap-2 [@media((min-width:theme(--breakpoint-legacy-640)))]:justify-center"><span class="flex size-7 flex-none items-center justify-center text-muted">${dataListIcon(summary.icon, 17)}</span><span class="min-w-0"><strong class="block text-body font-bold text-ink">${summary.value}</strong><small class="block text-caption leading-4 text-muted">${summary.label}</small></span></div>`)
     .join('')
-  const gauge = `<div data-organization-performance-gauge class="flex min-h-[220px] flex-1 flex-col items-center justify-center">${radialGauge(metric.progress, 320, metric.scaleMax, metric.value, metric.label)}${statPill('Within target', 'success', dataListIcon('i-check', 12))}</div><div class="grid grid-cols-1 gap-3 border-t border-line pt-4 [@media((min-width:theme(--breakpoint-legacy-640)))]:grid-cols-3">${summaries}</div>`
+  const gauge = `<div data-organization-performance-gauge class="flex min-h-[220px] flex-1 flex-col items-center justify-center">${radialGauge(metric.progress, 320, metric.scaleMax, metric.value, metric.label)}${statPill('Within target', 'success', dataListIcon('i-check', 12))}</div><div class="grid grid-cols-1 gap-3 border-t border-line pt-4 min-sm:grid-cols-3">${summaries}</div>`
   return performanceMetricShell(metric, dataListIcon, gauge)
 }
 

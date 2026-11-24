@@ -272,14 +272,17 @@
 }
 
 @theme {
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 768px;
+  --breakpoint-md: 1024px;
+  --breakpoint-lg: 1440px;
+  --breakpoint-xl: 1768px;
+  --breakpoint-2xl: initial;
   --breakpoint-legacy-480: 480px;
   --breakpoint-legacy-560: 560px;
   --breakpoint-legacy-561: 561px;
   --breakpoint-legacy-620: 620px;
   --breakpoint-legacy-640: 640px;
-  --breakpoint-legacy-720: 720px;
-  --breakpoint-legacy-721: 721px;
-  --breakpoint-legacy-760: 760px;
   --breakpoint-legacy-800: 800px;
   --breakpoint-legacy-820: 820px;
   --breakpoint-legacy-900: 900px;

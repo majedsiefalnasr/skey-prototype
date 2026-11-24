@@ -1,5 +1,5 @@
 import {uiLocale} from '../../core/locale.js'
-import {maxWidthQuery} from '../../core/breakpoints.js'
+import {belowQuery, maxWidthQuery} from '../../core/breakpoints.js'
 const {t} = uiLocale
 // Internal Mail — mailboxes (Inbox, Starred, Sent, Drafts, Archive,
 // Trash) plus the folders the user creates, a message list, and a reading /
@@ -149,7 +149,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     return custom || id === 'drafts' ? list.length : 0
   }
   const dayLabel = key => relativeDay(key, todayKey()) ?? formatDate(key)
-  const narrow = () => matchMedia(maxWidthQuery('legacy720')).matches
+  const narrow = () => matchMedia(belowQuery('sm')).matches
   /* The rail is swapped for its select at the shell's own compact breakpoint,
      so it collapses on small devices at exactly the moment the shell's
      sidebar does. */
@@ -172,7 +172,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     pane.hidden = narrow() && state.pane === 'list' && !selecting
     list.classList.toggle('w-full', narrow())
   }
-  matchMedia(maxWidthQuery('legacy720')).addEventListener('change', applyLayout, {signal})
+  matchMedia(belowQuery('sm')).addEventListener('change', applyLayout, {signal})
   matchMedia(maxWidthQuery('legacy900')).addEventListener('change', applyLayout, {signal})
 
   /* ---------- folders ---------- */
