@@ -170,9 +170,9 @@ function renderProfileSection(currentUser, encodeHtml, language = 'en') {
   </div>`
   return renderCard(
     'Personal information',
-    `<div class="grid gap-5 [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
+    `<div class="grid gap-5 [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] items-start [@media((max-width:900px))]:[grid-template-columns:minmax(0,_1fr)]">
       <div class="profile-personal-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px]">${fieldsHtml}</div>
-      <div class="profile-photo-column [padding:12px_12px_12px_0] [@media((max-width:720px))]:[padding:0_12px_12px]">${photoBoxHtml}</div>
+      <div class="profile-photo-column [padding:12px_12px_12px_0] [@media((max-width:900px))]:[padding:0_12px_12px]">${photoBoxHtml}</div>
     </div>`
   )
 }
