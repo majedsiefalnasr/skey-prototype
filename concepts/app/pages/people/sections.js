@@ -18,7 +18,7 @@ export const PERSON_TITLEBAR_CLASS =
   'customer-section-titlebar w-full [padding:8px_12px] bg-[var(--line-2)] [font-size:12.5px] font-bold text-start flex gap-2.5 justify-between items-center'
 const FIELD_GRID_CLASS = 'customer-field-grid grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:10px_16px] [padding:12px] [gap:4px_8px] [padding:6px] [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]'
 const READ_ONLY_VALUE_CLASS =
-  'flex min-h-9 items-center rounded-md border border-line bg-[var(--line-2)] px-2 py-1.5 text-[13px] text-ink [overflow-wrap:anywhere]'
+  'flex min-h-9 items-center rounded-md border border-line bg-[var(--line-2)] px-2 py-1.5 text-body text-ink [overflow-wrap:anywhere]'
 const IDENTITY_BODY_CLASS =
   'customer-identity-body grid gap-5 [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] items-start [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]'
 
@@ -240,7 +240,7 @@ export function renderPersonSections(person, {readOnly = false} = {}) {
           </div>`
         : `<div class="${FIELD_GRID_CLASS}">${fields}</div>`
       return `<section class="${PERSON_SECTION_CLASS}" id="person-section-${escapeHtml(section.key)}" data-person-scroll-target="${escapeHtml(section.key)}" data-person-section="${escapeHtml(section.key)}">
-        <div class="${PERSON_TITLEBAR_CLASS}"><h2 class="m-0! text-[12.5px] font-bold">${escapeHtml(t(section.title))}</h2></div>
+        <div class="${PERSON_TITLEBAR_CLASS}"><h2 class="m-0! text-dense font-bold">${escapeHtml(t(section.title))}</h2></div>
         ${body}
       </section>`
     }

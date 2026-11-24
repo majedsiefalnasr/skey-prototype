@@ -42,7 +42,7 @@ export const clearFilterButton = ({attr}) =>
 export const searchField = ({attr, label, value}) =>
   `<label class="data-search relative flex items-center [&>svg:first-child]:absolute [&>svg:first-child]:start-[9px] [&>svg:first-child]:text-muted [&>svg:first-child]:pointer-events-none">${icon(
     'i-search'
-  )}<input type="search" class="w-[clamp(160px,18vw,260px)] min-h-[32px] rounded-md border border-line bg-surface py-[5px] ps-[30px] pe-7 font-[inherit] text-[12.5px] text-ink focus:border-[var(--accent)] focus:outline focus:outline-2 focus:outline-[var(--accent-soft)]" data-${attr} value="${escapeHtml(
+  )}<input type="search" class="w-[clamp(160px,18vw,260px)] min-h-[32px] rounded-md border border-line bg-surface py-[5px] ps-[30px] pe-7 font-[inherit] text-dense text-ink focus:border-[var(--accent)] focus:outline focus:outline-2 focus:outline-[var(--accent-soft)]" data-${attr} value="${escapeHtml(
     value
   )}" placeholder="${escapeHtml(t('Search ' + label))}" aria-label="${escapeHtml(t('Search ' + label))}"><button class="data-search-clear absolute end-1 grid size-6 place-items-center rounded p-0 border-0 bg-transparent text-muted cursor-pointer" type="button" data-${attr}-clear aria-label="${escapeHtml(t("Clear search"))}"${
     value ? '' : ' hidden'
@@ -124,7 +124,7 @@ export const collabFilterChip = ({field, filter}) => {
       .map(option => {
         const value = optionValue(option)
         const selected = picked.includes(value)
-        return `<button class="flex min-h-8 w-full cursor-pointer items-center gap-2 rounded-[5px] px-2 text-start text-[12.5px] text-ink hover:bg-[var(--line-2)] aria-selected:bg-[var(--line-2)]" type="button" role="option" aria-selected="${selected}" data-collab-multi-option="${escapeHtml(
+        return `<button class="flex min-h-8 w-full cursor-pointer items-center gap-2 rounded-[5px] px-2 text-start text-dense text-ink hover:bg-[var(--line-2)] aria-selected:bg-[var(--line-2)]" type="button" role="option" aria-selected="${selected}" data-collab-multi-option="${escapeHtml(
           field.key
         )}" data-value="${escapeHtml(value)}"><span class="grid size-4 flex-none place-items-center text-muted" data-collab-multi-check aria-hidden="true">${
           selected ? icon('i-check', 13) : ''
@@ -133,7 +133,7 @@ export const collabFilterChip = ({field, filter}) => {
       .join('')
     return `<span class="${DATA_FILTER_CHIP_CLASS}"><details class="data-menu data-filter-editor relative min-w-0" data-collab-editor-key="${escapeHtml(
       field.key
-    )}">${summary}<div class="${DATA_MENU_POPOVER_CLASS} min-w-[min(240px,calc(100vw-16px))] p-1.5" role="listbox" aria-multiselectable="true" aria-label="${escapeHtml(t(field.label))} filter values"><input type="search" class="mb-1 w-full min-h-[30px] rounded-md border border-line bg-surface px-2 py-1 font-[inherit] text-[12.5px] text-ink" data-collab-filter-search="${escapeHtml(
+    )}">${summary}<div class="${DATA_MENU_POPOVER_CLASS} min-w-[min(240px,calc(100vw-16px))] p-1.5" role="listbox" aria-multiselectable="true" aria-label="${escapeHtml(t(field.label))} filter values"><input type="search" class="mb-1 w-full min-h-[30px] rounded-md border border-line bg-surface px-2 py-1 font-[inherit] text-dense text-ink" data-collab-filter-search="${escapeHtml(
       field.key
     )}" placeholder="Search ${escapeHtml(field.label.toLowerCase())}" aria-label="Search ${escapeHtml(t(field.label))}" autocomplete="off"><div class="grid max-h-52 gap-0.5 overflow-auto" data-collab-multi-options="${escapeHtml(
       field.key

@@ -31,7 +31,7 @@ let notificationSnapshot = ''
           const inbox = getEmailMessages()
           const messages = unreadOnly() ? inbox.filter(message => message.unread) : inbox
           if (!messages.length) {
-            body.innerHTML = `<div class="notif-empty flex flex-col items-center gap-2.5 px-6 pb-[30px] pt-9 text-center text-faint"><svg width="34" height="34" aria-hidden="true"><use href="#i-mail"/></svg><p class="max-w-[26ch] text-[13px] text-muted">No email yet.</p></div>`
+            body.innerHTML = `<div class="notif-empty flex flex-col items-center gap-2.5 px-6 pb-[30px] pt-9 text-center text-faint"><svg width="34" height="34" aria-hidden="true"><use href="#i-mail"/></svg><p class="max-w-[26ch] text-body text-muted">No email yet.</p></div>`
             return
           }
           body.innerHTML = ''
@@ -50,7 +50,7 @@ let notificationSnapshot = ''
             row.type = 'button'
             row.className = 'notif-row flex w-full cursor-pointer items-start gap-2.5 rounded-lg border-none bg-none px-2.5 py-[9px] text-start font-[inherit] hover:bg-[var(--hover-overlay)]' + (m.unread ? ' unread' : '')
             row.innerHTML = `<span class="notif-icn email-avatar relative mt-px flex size-7 shrink-0 items-center justify-center rounded-full ${emailAvatarToneClass(m.hue)}" data-avatar-tone="${emailAvatarTone(m.hue)}"></span>
-      <span class="notif-txt flex-1 min-w-0 pt-px text-[13px] leading-[1.5] text-ink${m.unread ? ' font-semibold' : ''}">${m.unread ? '<span class="visually-hidden">Unread. </span>' : ''}<b class="font-semibold"></b> <span class="notif-what text-muted"></span></span>
+      <span class="notif-txt flex-1 min-w-0 pt-px text-body leading-[1.5] text-ink${m.unread ? ' font-semibold' : ''}">${m.unread ? '<span class="visually-hidden">Unread. </span>' : ''}<b class="font-semibold"></b> <span class="notif-what text-muted"></span></span>
       <span class="notif-time shrink-0 pt-[3px] text-xs text-faint"></span>`
             row.querySelector('.email-avatar').innerHTML = isSystemUser(m.from)
               ? systemUserAvatar
@@ -76,7 +76,7 @@ let notificationSnapshot = ''
           const items = unreadOnly() ? allItems.filter(item => item.unread) : allItems
           if (!items.length) {
             body.innerHTML = `<div class="notif-empty flex flex-col items-center gap-2.5 px-6 pb-[30px] pt-9 text-center text-faint"><svg width="34" height="34" aria-hidden="true"><use href="#i-bell"/></svg>
-      <p class="max-w-[26ch] text-[13px] text-muted">You're all caught up — no notifications yet.</p></div>`
+      <p class="max-w-[26ch] text-body text-muted">You're all caught up — no notifications yet.</p></div>`
             return
           }
           body.innerHTML = ''
@@ -88,7 +88,7 @@ let notificationSnapshot = ''
             }
             row.className = 'notif-row flex w-full cursor-pointer items-start gap-2.5 rounded-lg border-none bg-none px-2.5 py-[9px] text-start font-[inherit] hover:bg-[var(--hover-overlay)]' + (n.unread ? ' unread' : '')
             row.innerHTML = `<span class="notif-icn relative mt-px flex size-7 shrink-0 items-center justify-center rounded-full bg-[var(--hover-overlay)] text-muted"><svg width="15" height="15" aria-hidden="true"><use href="#${n.icon}"/></svg></span>
-      <span class="notif-txt flex-1 min-w-0 pt-px text-[13px] leading-[1.5] text-ink${n.unread ? ' font-semibold' : ''}">${n.unread ? '<span class="visually-hidden">Unread. </span>' : ''}<b class="font-semibold"></b> <span class="notif-what text-muted"></span></span>
+      <span class="notif-txt flex-1 min-w-0 pt-px text-body leading-[1.5] text-ink${n.unread ? ' font-semibold' : ''}">${n.unread ? '<span class="visually-hidden">Unread. </span>' : ''}<b class="font-semibold"></b> <span class="notif-what text-muted"></span></span>
       <span class="notif-time shrink-0 pt-[3px] text-xs text-faint"></span>`
             row.querySelector('b').textContent = n.who
             row.querySelector('.notif-what').textContent = uiLocale.t(n.what)

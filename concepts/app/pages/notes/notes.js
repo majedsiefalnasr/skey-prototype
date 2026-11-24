@@ -250,7 +250,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
     const count = relatedCount(note)
     return `<span class="flex items-start gap-1.5">
         ${note.pinned ? `<span class="mt-0.5 text-accent">${icon('i-spark', 12)}<span class="sr-only">${t("Pinned.")} </span></span>` : ''}
-        <span class="card-title min-w-0 flex-1 text-[13px] font-semibold text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(titleOf(note))}</span>
+        <span class="card-title min-w-0 flex-1 text-body font-semibold text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(titleOf(note))}</span>
       </span>
       ${excerpt ? `<span class="mt-1 line-clamp-2 block text-xs text-muted" dir="auto">${escapeHtml(excerpt)}</span>` : ''}
       <span class="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-muted">

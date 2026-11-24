@@ -17,7 +17,7 @@ import {LANGUAGES} from '../../core/locale.js'
 // heading markup instead of duplicating it and risking drift.
 export function renderSectionHeading(key, encodeHtml) {
   const section = PROFILE_SECTIONS[key]
-  return `<h2 class="profile-section-heading text-[19px] font-semibold text-ink mb-1" data-i18n="${encodeHtml(section.title)}">${encodeHtml(section.title)}</h2><p class="profile-section-description text-[13px] text-muted mb-3!" data-i18n="${encodeHtml(section.description)}">${encodeHtml(section.description)}</p>`
+  return `<h2 class="profile-section-heading text-subject font-semibold text-ink mb-1" data-i18n="${encodeHtml(section.title)}">${encodeHtml(section.title)}</h2><p class="profile-section-description text-body text-muted mb-3!" data-i18n="${encodeHtml(section.description)}">${encodeHtml(section.description)}</p>`
 }
 
 // .rec-card-hd is the clickable collapse toggle — same contract
@@ -80,7 +80,7 @@ function renderProfileField({
 
 function renderActivityRow(entry, encodeHtml) {
   return `<div class="flex items-center gap-5 [padding:9px] [border-top:1px_solid_var(--line)]">
-    <span class="flex-1"><b class="text-[13.5px] text-ink">${encodeHtml(entry.action)}</b> <span class="text-[13.5px] text-ink">${encodeHtml(entry.target)}</span></span>
+    <span class="flex-1"><b class="text-body-lg text-ink">${encodeHtml(entry.action)}</b> <span class="text-body-lg text-ink">${encodeHtml(entry.target)}</span></span>
     <span class="text-xs text-muted whitespace-nowrap">${encodeHtml(entry.timestamp)}</span>
   </div>`
 }
@@ -313,9 +313,9 @@ function renderAppearanceSectionFields() {
     ) +
     renderCard(
       'Typography',
-      `<label class="grid gap-1.5 text-[13px] font-semibold" for="appearance-font-family">
+      `<label class="grid gap-1.5 text-body font-semibold" for="appearance-font-family">
       Font family
-      <select id="appearance-font-family" class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-[14px] text-ink appearance-none [-webkit-appearance:none] [background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [background-repeat:no-repeat] [background-position:right_8px_center] [background-size:12px] [padding-inline-end:28px] focus:border-[var(--accent-line)] focus:outline-none focus:[box-shadow:0_0_0_3px_var(--accent-soft)] rtl:[background-position:left_8px_center] rtl:[padding-inline-end:9px] rtl:[padding-inline-start:28px]">
+      <select id="appearance-font-family" class="w-full min-h-[32px] rounded-[7px] border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-subtitle text-ink appearance-none [-webkit-appearance:none] [background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [background-repeat:no-repeat] [background-position:right_8px_center] [background-size:12px] [padding-inline-end:28px] focus:border-[var(--accent-line)] focus:outline-none focus:[box-shadow:0_0_0_3px_var(--accent-soft)] rtl:[background-position:left_8px_center] rtl:[padding-inline-end:9px] rtl:[padding-inline-start:28px]">
         <option value="system" data-i18n="System default">System default</option>
         <option value="Inter" data-i18n="Inter">Inter</option>
         <option value="Roboto" data-i18n="Roboto">Roboto</option>
@@ -398,11 +398,11 @@ export function renderSecuritySection() {
     'Sign-in security',
     `<div class="flex flex-col gap-2.5">
       <div class="flex items-center justify-between gap-5">
-        <span><strong class="block text-[13.5px] text-ink" data-i18n="Password">Password</strong><small class="block text-xs text-muted" data-i18n="Change the password used to sign in.">Change the password used to sign in.</small></span>
+        <span><strong class="block text-body-lg text-ink" data-i18n="Password">Password</strong><small class="block text-xs text-muted" data-i18n="Change the password used to sign in.">Change the password used to sign in.</small></span>
         <button type="button" class="lbtn out" data-profile-open-change-password data-i18n="Change password">Change password</button>
       </div>
       <div class="flex items-center justify-between gap-5">
-        <span><strong class="block text-[13.5px] text-ink" data-i18n="PIN code">PIN code</strong><small class="block text-xs text-muted" data-i18n="Used for quick re-authentication on shared terminals.">Used for quick re-authentication on shared terminals.</small></span>
+        <span><strong class="block text-body-lg text-ink" data-i18n="PIN code">PIN code</strong><small class="block text-xs text-muted" data-i18n="Used for quick re-authentication on shared terminals.">Used for quick re-authentication on shared terminals.</small></span>
         <button type="button" class="lbtn out" data-profile-open-set-pin data-i18n="Set / change PIN">Set / change PIN</button>
       </div>
     </div>`

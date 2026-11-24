@@ -54,7 +54,7 @@ export function createJournalEntryTable({encodeHtml, dataListInstance}) {
     const balanced = difference === 0
     const format = value => value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})
     const cell = (label, value) =>
-      `<div class="min-w-0"><dt class="text-[11px] font-medium text-muted">${label}</dt><dd class="m-0 mt-0.5 text-[15px] font-semibold leading-5 text-ink [font-variant-numeric:tabular-nums]">${encodeHtml(format(value))}</dd></div>`
+      `<div class="min-w-0"><dt class="text-caption font-medium text-muted">${label}</dt><dd class="m-0 mt-0.5 text-heading font-semibold leading-5 text-ink [font-variant-numeric:tabular-nums]">${encodeHtml(format(value))}</dd></div>`
     const tone = balanced
       ? 'bg-[var(--success-soft-bg)] text-[var(--success-soft-ink)]'
       : 'bg-[var(--danger-soft-bg)] text-[var(--danger-soft-ink)]'
