@@ -58,7 +58,7 @@ Spacing is `--ds-space-*` tokens in `concepts/app/styles/tailwind/base.css`, wri
 | Font sizes | ADS type scale | 22 role-based tokens with the sizes already in use | Implemented, no visual change |
 | Spacing | ADS scale | ADS tokens plus `legacy-*` tokens for 0.5, 1, 3, 5, 7, 9, 10, 11, 13, 14, 15, 17, 18, 22, 26, 28, 30, 34, 46, 54, 68 and 72px | Tokenised, not normalised |
 | Record identity card | Not specified; stacks below `lg` (1440px) | Profile, Customer, People and the contact dialog stack the fields above the photo below 1440px | Implemented (#11, #1), no overlap measured at 390 to 1440px |
-| Viewport breakpoints | `xs` 480, `sm` 768, `md` 1024, `lg` 1440, `xl` 1768px | ADS steps as `--breakpoint-xs` to `--breakpoint-xl`, plus 15 `--breakpoint-legacy-*` tokens named by pixel value for values that have not moved to a step | Below `sm` (768px) follows ADS; the rest is tokenised, not normalised (#12) |
+| Viewport breakpoints | `xs` 480, `sm` 768, `md` 1024, `lg` 1440, `xl` 1768px | ADS steps as `--breakpoint-xs` to `--breakpoint-xl`, plus 14 `--breakpoint-legacy-*` tokens named by pixel value for values that have not moved to a step | Below `sm` (768px) follows ADS; the rest is tokenised, not normalised (#12) |
 | Flag title | `h2` heading | `h2` heading | Implemented, not visually verified |
 | Flag Escape | Closes the topmost dismissible flag | Closes the topmost dismissible flag when focus is inside a flag | Implemented, not visually verified |
 | Flag tones | Success, warning and error are bold and not dismissible | Same | Implemented, not visually verified |
@@ -79,7 +79,7 @@ ADS breakpoints, from `UNSAFE_BREAKPOINTS_CONFIG` in `@atlaskit/primitives` 22.8
 | `lg` | 1440 to 1767px | `space.400` | `space.400` |
 | `xl` | 1768px and up | `space.500` | `space.400` |
 
-Below `sm` (`width < 768px`) is the compact layout: section navigation, record footers, the single-pane email and the calendar context strip. ADS does not define `640px`, `800px`, `900px` or the other remaining `legacy` values. Those are prototype choices. The `560px` Flag breakpoint comes from the ADS Flag component, not from the grid.
+Below `sm` (`width < 768px`) is the compact layout: section navigation, record footers, the single-pane email and the calendar context strip. ADS does not define `800px`, `900px` or the other remaining `legacy` values. Those are prototype choices. The `560px` Flag breakpoint comes from the ADS Flag component, not from the grid.
 
 ### How breakpoints are written
 

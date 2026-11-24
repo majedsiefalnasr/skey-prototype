@@ -1518,7 +1518,7 @@
   .appearance-reset {
     color: var(--muted);
   }
-  @media (max-width: theme(--breakpoint-legacy-640)) {
+  @media (width < theme(--breakpoint-sm)) {
     .appearance-theme-grid {
       grid-template-columns: 1fr;
     }
@@ -1537,6 +1537,13 @@
     .appearance-card-style-grid,
     .appearance-input-style-grid {
       grid-template-columns: 1fr;
+    }
+    .appearance-theme-grid,
+    .appearance-layout-grid,
+    .appearance-density-grid,
+    .appearance-card-style-grid,
+    .appearance-input-style-grid {
+      max-width: 480px;
     }
   }
   @media (forced-colors: active) {
