@@ -14,6 +14,7 @@
 //
 // Tone → Flag appearance (atlassian.design/components/flag):
 //   ok    success  surface flag, green check, auto-dismiss (8s)
+//   ok    success  bold flag, not dismissible, auto-dismiss (8s)
 //   info  info     surface flag, information icon, auto-dismiss (8s)
 //   warn  warning  solid flag, never auto-dismiss (docs: "Never set
 //                  warning flags to auto dismiss")
@@ -38,11 +39,11 @@ const TONES = {
   ok: {
     cls: 'ok',
     icon: 'i-check',
-    iconCls: 'text-[var(--success)]',
-    box: 'bg-surface border border-line text-ink',
-    descCls: 'text-muted',
-    linkCls: 'text-[var(--info)]',
-    closeCls: 'text-muted hover:bg-[var(--line-2)]',
+    iconCls: 'text-inverse',
+    box: 'bg-[var(--success-fill)] border border-transparent text-inverse',
+    descCls: 'opacity-90',
+    linkCls: 'text-inverse',
+    dismissible: false,
     auto: true,
   },
   info: {
@@ -53,6 +54,7 @@ const TONES = {
     descCls: 'text-muted',
     linkCls: 'text-[var(--info)]',
     closeCls: 'text-muted hover:bg-[var(--line-2)]',
+    dismissible: true,
     auto: true,
   },
   warn: {
@@ -62,7 +64,7 @@ const TONES = {
     box: 'bg-[var(--warn-bg)] border border-[var(--warn-line)] text-[var(--warn-ink)]',
     descCls: 'opacity-85',
     linkCls: 'text-current',
-    closeCls: 'text-current hover:bg-black/10',
+    dismissible: false,
     auto: false,
   },
   bad: {
@@ -72,7 +74,7 @@ const TONES = {
     box: 'bg-[var(--danger-bold)] border border-transparent text-inverse',
     descCls: 'opacity-90',
     linkCls: 'text-inverse',
-    closeCls: 'text-inverse hover:bg-white/15',
+    dismissible: false,
     auto: false,
   },
 }
@@ -121,6 +123,14 @@ export function createToast(host) {
     document.documentElement.style.setProperty('--flag-reserve', `${Math.round(reserve)}px`)
   }
 
+  host.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return
+    const front = [...host.children].reverse().find(el => !el.hasAttribute('data-exit') && el.querySelector('.x'))
+    if (!front) return
+    event.stopPropagation()
+    front.querySelector('.x').click()
+  })
+
   const toast = ({tone = 'ok', title, body, action, onAction, ms, avoid}) => {
     title = uiLocale.t(title)
     if (body) body = uiLocale.t(body)
@@ -130,8 +140,8 @@ export function createToast(host) {
     t.className = `toast ${kind.cls} pointer-events-auto absolute bottom-0 start-0 flex w-full items-start gap-2.5 rounded-lg px-3.5 py-3 shadow-shell transition-[transform,visibility] duration-[250ms] ease-[cubic-bezier(0.4,0,0,1)] motion-reduce:transition-none [animation:toastin_250ms_cubic-bezier(0,0.4,0,1)_both] motion-reduce:animate-none ${kind.box}`
     if (tone === 'bad') t.setAttribute('role', 'alert')
     t.innerHTML = `<span class="ic mt-px shrink-0 ${kind.iconCls}"><svg width="16" height="16" aria-hidden="true"><use href="#${kind.icon}"/></svg></span>
-    <span class="bd min-w-0 flex-1"><b class="mb-0.5 block text-[13.5px] font-semibold leading-5">${title}</b>${body ? `<p class="m-0 mt-0.5 text-[13px] leading-[18px] ${kind.descCls}">${body}</p>` : ''}${action ? `<button class="act mt-1.5 inline-block bg-none border-0 p-0 text-[12.5px] font-medium underline ${kind.linkCls}">${action}</button>` : ''}</span>
-    <button class="x mt-[-2px] -me-1 flex size-7 shrink-0 items-center justify-center rounded-md border-0 bg-transparent p-0 ${kind.closeCls}" aria-label="Dismiss"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button>`
+    <span class="bd min-w-0 flex-1"><h2 class="m-0 mb-0.5 block text-[13.5px] font-semibold leading-5">${title}</h2>${body ? `<p class="m-0 mt-0.5 text-[13px] leading-[18px] ${kind.descCls}">${body}</p>` : ''}${action ? `<button class="act mt-1.5 inline-block bg-none border-0 p-0 text-[12.5px] font-medium underline ${kind.linkCls}">${action}</button>` : ''}</span>
+    ${kind.dismissible ? `<button class="x mt-[-2px] -me-1 flex size-7 shrink-0 items-center justify-center rounded-md border-0 bg-transparent p-0 ${kind.closeCls}" aria-label="Dismiss"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button>` : ''}`
 
     // Dismissing keeps the flag mounted through its slide-out, and leaves
     // it out of restack() so the flags underneath move up around it.
@@ -144,7 +154,7 @@ export function createToast(host) {
       setTimeout(() => t.remove(), EXIT_MS)
     }
 
-    t.querySelector('.x').onclick = close
+    if (kind.dismissible) t.querySelector('.x').onclick = close
     if (action)
       t.querySelector('.act').onclick = () => {
         close()
