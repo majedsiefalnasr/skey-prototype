@@ -57,13 +57,14 @@ Spacing and radii are still written as literal values in class names, for exampl
 | Flag title | `h2` heading | `h2` heading | Implemented, not visually verified |
 | Flag Escape | Closes the topmost dismissible flag | Closes the topmost dismissible flag when focus is inside a flag | Implemented, not visually verified |
 | Flag tones | Success, warning and error are bold and not dismissible | Same | Implemented, not visually verified |
-| Flag font | 14px / 20px | 13.5px title, 13px body | Open |
-| Flag mobile breakpoint | 560px | 720px | Open |
+| Flag font | 14px / 20px | 14px / 20px for title, body and action | Implemented, not visually verified |
+| Flag mobile breakpoint | 560px | 560px for Flag placement and the pages that reserve room for it | Implemented, not visually verified |
 | Spotlight fallbacks | Tokens only | Tokens only (hex fallbacks removed) | Implemented, not visually verified |
 
 ## Responsive breakpoints
 
 - `720px`: Profile section navigation and record identity layout.
+- `560px`: Flag moves to the phone layout, and pages reserve room under it.
 - `900px`: Profile identity card stacks the fields above the photo.
 - Customer and People record identity cards still stack at `720px`, not `900px`.
 - Page content is capped at `1296px` wide, the ADS maximum.
@@ -72,4 +73,4 @@ Spacing and radii are still written as literal values in class names, for exampl
 
 1. **Phase 1, tokens with no visual change.** Move the existing type, spacing and radius values into named tokens. Font sizes are done. Spacing and radius are next, and their naming needs approval first. Changing one token then updates every use. Screenshots must not change.
 2. **Phase 2, normalise to the scale.** Map the values to a small set. This changes the look, so it needs approval and updated screenshot baselines.
-3. **Open items.** Decide the flag font and mobile breakpoint.
+3. **Open items.** Customer and People identity card breakpoint (#7).
