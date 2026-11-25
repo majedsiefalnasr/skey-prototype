@@ -38,6 +38,35 @@ Components use short aliases defined in the same file. Each alias points to one 
 
 Font sizes are role-based tokens in the `@theme` block of `concepts/app/styles/tailwind.css`, used as utilities such as `text-body` and `text-caption`. Each token keeps the exact size the prototype already used, so changing one token updates every use. There are 22 tokens, from `--text-badge` (9.5px) to `--text-display-lg` (36px). The 96 raw `font-size` literals in `concepts/app/styles` are not tokenised yet.
 
+Decided in #28 on 2026-11-25, not yet applied. Role names stay and only their values change. Each role gets a line height token, set to today's value first and then to the ADS value below. An element with its own `leading-*` class keeps its line height. Sizes and line heights are in px.
+
+| Role | Type | Size now | New size | New line height |
+| --- | --- | --- | --- | --- |
+| `badge` | body | 9.5 | 12 | 16 |
+| `caption-xs` | body | 10 | 12 | 16 |
+| `stat-delta` | body | 10.5 | 12 | 16 |
+| `caption` | body | 11 | 12 | 16 |
+| `caption-md` | body | 11.5 | 12 | 16 |
+| `small` | body | 12 | 12 | 16 |
+| `dense` | body | 12.5 | 12 | 16 |
+| `body` | body | 13 | 14 | 20 |
+| `body-lg` | body | 13.5 | 14 | 20 |
+| `subtitle` | body | 14 | 14 | 20 |
+| `heading-sm` | heading | 14.5 | 14 | 20 |
+| `heading` | heading | 15 | 16 | 20 |
+| `heading-md` | heading | 16 | 16 | 20 |
+| `avatar-lg` | heading | 17 | 16 | 20 |
+| `card-title` | heading | 18 | 16 | 20 |
+| `subject` | heading | 19 | 20 | 24 |
+| `title` | heading | 20 | 20 | 24 |
+| `metric` | heading | 22 | 24 | 28 |
+| `page-title` | heading | 23 | 24 | 28 |
+| `display-sm` | heading | 26 | 24 | 28 |
+| `display` | heading | 28 | 28 | 32 |
+| `display-lg` | heading | 36 | 32 | 36 |
+
+The comparison covered 8 screens at 390, 768, 1024 and 1440px. It found 627 size changes, 501 box height changes and 2 newly clipped elements, on Home at 768px. Line height was not measured separately from size. Nine of the 17 roles that change size did not appear on any measured screen: `caption-xs`, `stat-delta`, `caption-md`, `heading-sm`, `avatar-lg`, `card-title`, `metric`, `display-sm` and `display-lg`. Check them visually when they are applied. Dialogs and menus were not measured. Measurements are in `docs/prototype/28-font-size-measure.json` on branch `prototype/28-font-size-comparison`.
+
 ### Radius
 
 Radii are `--ds-radius-*` tokens in `concepts/app/styles/tailwind/base.css`. Five follow the ADS scale: `xsmall` 2px, `small` 4px, `medium` 6px, `large` 8px and `xlarge` 12px. They back the Tailwind `rounded-xs`, `rounded-sm`, `rounded-md`, `rounded-lg` and `rounded-xl` utilities. Nine `legacy-*` tokens hold the off-scale sizes the prototype already used: 1, 3, 5, 7, 9, 10, 11, 14 and 999px. They are named by pixel size, so phase 2 can point each one at an ADS step. In class names use `rounded-legacy-5`, or `[border-radius:var(--ds-radius-legacy-7)]` for shorthand and logical corners. The radius literals in `concepts/app/styles` are not tokenised yet.
