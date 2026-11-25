@@ -4,7 +4,7 @@ The prototype's visual language is based on the Atlassian Design System (ADS). A
 
 ## Source of truth
 
-- The agreed prototype screens, colours and spacing are the reference. Where they differ from ADS, the prototype wins. See [ADR 0001](docs/adr/0001-prototype-as-design-reference.md).
+- ADS is the default for tokens, component behaviour, sizes and breakpoints. The agreed prototype screens, colours and layouts are the reference for the look. Every difference from ADS is an exception listed in this file with its reason. See [ADR 0001](docs/adr/0001-prototype-as-design-reference.md).
 - ADS is used for tokens and component behaviour where the prototype has mapped it.
 - Every known difference is listed under [Deviations](#deviations). Each one is either accepted, open, or planned.
 
