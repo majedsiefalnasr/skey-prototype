@@ -99,7 +99,7 @@ The overridden class is still in the markup of these elements, so changing its t
 | Font | Atlassian Sans | `system-ui` stack | Accepted |
 | Icons | ADS icon set | Hand-drawn SVG symbols in `concepts/app/shell/icons.html` | Accepted |
 | Select | ADS Select | Native `<select>` (90 uses) | Accepted |
-| Switch | Regular 32×16, thumb 12px | 30×17, thumb 13px | Planned (#30) |
+| Switch | Regular 32×16, thumb 12px | 30×17, thumb 13px | Decided in #30, not applied yet |
 | Radius | ADS scale: 2, 4, 6, 8 and 12px | ADS tokens plus `legacy-*` tokens for 1, 3, 5, 7, 9, 10, 11, 14 and 999px | Tokenised, not normalised |
 | Font sizes | ADS type scale | 22 role-based tokens with the sizes already in use | Implemented, no visual change |
 | Spacing | ADS scale | ADS tokens plus `legacy-*` tokens for 0.5, 1, 3, 5, 7, 9, 10, 11, 13, 14, 15, 17, 18, 22, 26, 28, 30, 34, 46, 54, 68 and 72px | Tokenised, not normalised; accepted padding changes are listed under [Spacing](#spacing) |
@@ -114,7 +114,7 @@ The overridden class is still in the markup of these elements, so changing its t
 
 Decided in #18 on 2026-11-25, not yet applied. In the first pass, the switch, the modal and the tabs move to ADS behaviour and sizes. Each one is measured and shown before its change lands: the switch in #30, the modal widths and behaviour in #31, and the tab padding and font weight in #33. Modal widths move to ADS steps only after every dialog is measured. The modal's Escape, backdrop click and focus return move with the behaviour change. Buttons get shared, tokenised variants first, with no visible change (#32). Button sizes are compared after that. The select stays native. The Flag visual check is still open.
 
-Decided in #30 on 2026-11-25, not yet applied. The visible switch moves from 30×17 with a 13px thumb to the ADS size, 32×16 with a 12px thumb. Thumb travel becomes 16px in both directions (derived from the 2px inset on each side). The visible switches are the Profile appearance pair, the notifications filter, the events reminder, and the two Email selection switches, all at 390, 768, 1024 and 1440px. The 34×20 dialog toggles and the `switchRow` variant (event all-day, note pinned) are not part of this decision and stay open. Measurements are in `docs/prototype/30-switch-measure.json`.
+Decided in #30 on 2026-11-25, not yet applied. The visible switch moves from 30×17 with a 13px thumb to the ADS size, 32×16 with a 12px thumb. Thumb travel becomes 16px in both directions (derived from the 2px inset on each side, not measured). The visible switches are the notifications filter, the events reminder and the two Email selection switches at 390, 768, 1024 and 1440px, and the Profile appearance pair at 390, 768 and 1440px (1024px was not measured on that route). The notifications panel filter uses the same 30×17 switch but was not visible on any measured screen. The 34×20 dialog toggles and the 34×20 `switchRow` (event all-day, note pinned) were not visible on any measured screen, are not part of this decision and stay open. Measurements are in `docs/prototype/30-switch-measure.json`; its rows mark the two Email switches as `switchRow`, but they are inline 30×17 switches.
 
 ## Responsive breakpoints
 
