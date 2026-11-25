@@ -102,6 +102,21 @@ async function copyTree(src, dest, realSrcRoot) {
 }
 
 /**
+ * Remove the dist/ directory that the swap replaced. The new dist/ is already
+ * in place, so a directory that survives the retries is reported instead of
+ * failing the build.
+ * @param {string} directory
+ * @param {{remove?: typeof rm, warn?: (message: string) => void}} [options]
+ */
+export async function removePreviousDist(directory, {remove = rm, warn = console.warn} = {}) {
+  try {
+    await remove(directory, {recursive: true, force: true, maxRetries: 3, retryDelay: 100});
+  } catch (error) {
+    warn(`Could not remove ${directory}: ${error.message}`);
+  }
+}
+
+/**
  * Build the production-shaped output: copy the public-path allowlist into
  * a fresh staging directory, assemble `concepts/app-shell.html` (expanding
  * its includes) into the staged copy, then atomically replace `dist/`.
@@ -171,7 +186,7 @@ export async function build() {
       if (hadPrevious) await rename(previous, finalDist);
       throw error;
     }
-    if (hadPrevious) await rm(previous, {recursive: true, force: true});
+    if (hadPrevious) await removePreviousDist(previous);
   } finally {
     await rm(staging, {recursive: true, force: true});
   }
