@@ -1,0 +1,271 @@
+{
+  "base": "http://127.0.0.1:4173",
+  "widths": [
+    320,
+    360,
+    375,
+    390
+  ],
+  "results": [
+    {
+      "width": 320,
+      "screen": "profile",
+      "path": "/system/profile",
+      "pageOverflowX": 0,
+      "offscreen": 0,
+      "offscreenSample": [],
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 320,
+      "screen": "people-record",
+      "path": "/help-screens/people-data",
+      "pageOverflowX": 0,
+      "offscreen": 0,
+      "offscreenSample": [],
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 320,
+      "screen": "customer-record",
+      "path": "/customers/list",
+      "pageOverflowX": 0,
+      "offscreen": 0,
+      "offscreenSample": [],
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 320,
+      "screen": "invoices-list",
+      "path": "/sales-systems-management/sales-invoices",
+      "pageOverflowX": 0,
+      "offscreen": 0,
+      "offscreenSample": [],
+      "clippedCount": 2,
+      "clipped": [
+        {
+          "tag": "span",
+          "cls": "data-toolbar-label-text.max-legacy-620:sr-only",
+          "text": "Columns",
+          "width": 1,
+          "scrollWidth": 54,
+          "clientWidth": 1,
+          "ellipsis": false,
+          "overflowX": "hidden",
+          "left": 194,
+          "right": 195
+        },
+        {
+          "tag": "span",
+          "cls": "data-toolbar-label-text.max-legacy-620:sr-only",
+          "text": "List",
+          "width": 1,
+          "scrollWidth": 22,
+          "clientWidth": 1,
+          "ellipsis": false,
+          "overflowX": "hidden",
+          "left": 252,
+          "right": 253
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "screen": "profile",
+      "path": "/system/profile",
+      "pageOverflowX": 0,
+      "offscreen": 0,
+      "offscreenSample": [],
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 360,
+      "screen": "people-record",
+      "path": "/help-screens/people-data",
+      "pageOverflowX": 0,
+      "offscreen": 0,
+      "offscreenSample": [],
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 360,
+      "screen": "customer-record",
+      "path": "/customers/list",
+      "pageOverflowX": 0,
+      "offscreen": 0,
+      "offscreenSample": [],
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 360,
+      "screen": "invoices-list",
+      "path": "/sales-systems-management/sales-invoices",
+      "pageOverflowX": 0,
+      "offscreen": 0,
+      "offscreenSample": [],
+      "clippedCount": 2,
+      "clipped": [
+        {
+          "tag": "span",
+          "cls": "data-toolbar-label-text.max-legacy-620:sr-only",
+          "text": "Columns",
+          "width": 1,
+          "scrollWidth": 54,
+          "clientWidth": 1,
+          "ellipsis": false,
+          "overflowX": "hidden",
+          "left": 234,
+          "right": 235
+        },
+        {
+          "tag": "span",
+          "cls": "data-toolbar-label-text.max-legacy-620:sr-only",
+          "text": "List",
+          "width": 1,
+          "scrollWidth": 22,
+          "clientWidth": 1,
+          "ellipsis": false,
+          "overflowX": "hidden",
+          "left": 292,
+          "right": 293
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "screen": "profile",
+      "path": "/system/profile",
+      "pageOverflowX": 0,
+      "offscreen": 0,
+      "offscreenSample": [],
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 375,
+      "screen": "people-record",
+      "path": "/help-screens/people-data",
+      "pageOverflowX": 0,
+      "offscreen": 0,
+      "offscreenSample": [],
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 375,
+      "screen": "customer-record",
+      "path": "/customers/list",
+      "pageOverflowX": 0,
+      "offscreen": 0,
+      "offscreenSample": [],
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 375,
+      "screen": "invoices-list",
+      "path": "/sales-systems-management/sales-invoices",
+      "pageOverflowX": 0,
+      "offscreen": 0,
+      "offscreenSample": [],
+      "clippedCount": 2,
+      "clipped": [
+        {
+          "tag": "span",
+          "cls": "data-toolbar-label-text.max-legacy-620:sr-only",
+          "text": "Columns",
+          "width": 1,
+          "scrollWidth": 54,
+          "clientWidth": 1,
+          "ellipsis": false,
+          "overflowX": "hidden",
+          "left": 249,
+          "right": 250
+        },
+        {
+          "tag": "span",
+          "cls": "data-toolbar-label-text.max-legacy-620:sr-only",
+          "text": "List",
+          "width": 1,
+          "scrollWidth": 22,
+          "clientWidth": 1,
+          "ellipsis": false,
+          "overflowX": "hidden",
+          "left": 307,
+          "right": 308
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "screen": "profile",
+      "path": "/system/profile",
+      "pageOverflowX": 0,
+      "offscreen": 0,
+      "offscreenSample": [],
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 390,
+      "screen": "people-record",
+      "path": "/help-screens/people-data",
+      "pageOverflowX": 0,
+      "offscreen": 0,
+      "offscreenSample": [],
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 390,
+      "screen": "customer-record",
+      "path": "/customers/list",
+      "pageOverflowX": 0,
+      "offscreen": 0,
+      "offscreenSample": [],
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 390,
+      "screen": "invoices-list",
+      "path": "/sales-systems-management/sales-invoices",
+      "pageOverflowX": 0,
+      "offscreen": 0,
+      "offscreenSample": [],
+      "clippedCount": 2,
+      "clipped": [
+        {
+          "tag": "span",
+          "cls": "data-toolbar-label-text.max-legacy-620:sr-only",
+          "text": "Columns",
+          "width": 1,
+          "scrollWidth": 54,
+          "clientWidth": 1,
+          "ellipsis": false,
+          "overflowX": "hidden",
+          "left": 264,
+          "right": 265
+        },
+        {
+          "tag": "span",
+          "cls": "data-toolbar-label-text.max-legacy-620:sr-only",
+          "text": "List",
+          "width": 1,
+          "scrollWidth": 22,
+          "clientWidth": 1,
+          "ellipsis": false,
+          "overflowX": "hidden",
+          "left": 322,
+          "right": 323
+        }
+      ]
+    }
+  ]
+}
