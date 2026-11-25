@@ -1,0 +1,71 @@
+errors 0 []
+
+Values (px): token | current | B smaller | C larger
+legacy-1           1     0     2
+legacy-3           3     2     4
+legacy-5           5     4     6
+legacy-7           7     6     8
+legacy-9           9     8     8
+legacy-10         10     8    12
+legacy-11         11    12    12
+legacy-13         13    12    12
+legacy-14         14    12    16
+legacy-15         15    16    16
+legacy-17         17    16    16
+legacy-18         18    16    20
+legacy-22         22    20    24
+legacy-26         26    24    24
+legacy-28         28    24    32
+legacy-30         30    32    32
+legacy-34         34    32    32
+legacy-46         46    48    48
+legacy-54         54    48    48
+legacy-68         68    64    64
+legacy-72         72    64    80
+legacy-0-5       0.5     0     0
+
+Per token: elements reading it, summed over 8 screens x 4 widths, and on how many screens it appears
+legacy-1       element-states   328  at1440   82  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-3       element-states  4742  at1440 1217  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-5       element-states  1345  at1440  340  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-7       element-states  2010  at1440  510  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-9       element-states  3790  at1440  952  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-10      element-states  1068  at1440  267  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-11      element-states  1477  at1440  373  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-13      element-states   224  at1440   56  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-14      element-states  1304  at1440  328  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-15      element-states    32  at1440    8  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-17      element-states     0  at1440    0  screens 
+legacy-18      element-states   658  at1440  166  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-22      element-states     0  at1440    0  screens 
+legacy-26      element-states    18  at1440    6  screens home,customers-list,customer-record,invoice-list,invoice-record,email
+legacy-28      element-states     0  at1440    0  screens 
+legacy-30      element-states     8  at1440    2  screens customers-list,invoice-list
+legacy-34      element-states   160  at1440   40  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-46      element-states     0  at1440    0  screens 
+legacy-54      element-states     0  at1440    0  screens 
+legacy-68      element-states     0  at1440    0  screens 
+legacy-72      element-states     8  at1440    0  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-0-5     element-states     0  at1440    0  screens 
+
+Never seen on a measured screen: legacy-17, legacy-22, legacy-28, legacy-46, legacy-54, legacy-68, legacy-0-5
+
+Per width, per set (summed over screens): box widths changed / box heights changed / max height change / newly clipped / page height delta (sum) / pages with new horizontal overflow
+390 B     487 193 174 0 0 0
+390 C     473 206 176 1 0 0
+768 B     512 268 188 0 0 0
+768 C     482 315 190 0 0 0
+1024 B    557 379 188 0 0 0
+1024 C    521 417 190 0 0 0
+1440 B    545 372 110 0 0 0
+1440 C    507 412 112 0 0 0
+
+Per screen and width, set B / set C: newlyClipped, pageHeightDelta, newOverflow
+home                 390: B 0/0/0  C 0/0/0 | 768: B 0/0/0  C 0/0/0 | 1024: B 0/0/0  C 0/0/0 | 1440: B 0/0/0  C 0/0/0
+customers-list       390: B 0/0/0  C 1/0/0 | 768: B 0/0/0  C 0/0/0 | 1024: B 0/0/0  C 0/0/0 | 1440: B 0/0/0  C 0/0/0
+customer-record      390: B 0/0/0  C 0/0/0 | 768: B 0/0/0  C 0/0/0 | 1024: B 0/0/0  C 0/0/0 | 1440: B 0/0/0  C 0/0/0
+profile              390: B 0/0/0  C 0/0/0 | 768: B 0/0/0  C 0/0/0 | 1024: B 0/0/0  C 0/0/0 | 1440: B 0/0/0  C 0/0/0
+profile-appearance   390: B 0/0/0  C 0/0/0 | 768: B 0/0/0  C 0/0/0 | 1024: B 0/0/0  C 0/0/0 | 1440: B 0/0/0  C 0/0/0
+invoice-list         390: B 0/0/0  C 0/0/0 | 768: B 0/0/0  C 0/0/0 | 1024: B 0/0/0  C 0/0/0 | 1440: B 0/0/0  C 0/0/0
+invoice-record       390: B 0/0/0  C 0/0/0 | 768: B 0/0/0  C 0/0/0 | 1024: B 0/0/0  C 0/0/0 | 1440: B 0/0/0  C 0/0/0
+email                390: B 0/0/0  C 0/0/0 | 768: B 0/0/0  C 0/0/0 | 1024: B 0/0/0  C 0/0/0 | 1440: B 0/0/0  C 0/0/0

@@ -1,0 +1,3814 @@
+{
+  "sets": {
+    "A": {
+      "1": 1,
+      "3": 3,
+      "5": 5,
+      "7": 7,
+      "9": 9,
+      "10": 10,
+      "11": 11,
+      "13": 13,
+      "14": 14,
+      "15": 15,
+      "17": 17,
+      "18": 18,
+      "22": 22,
+      "26": 26,
+      "28": 28,
+      "30": 30,
+      "34": 34,
+      "46": 46,
+      "54": 54,
+      "68": 68,
+      "72": 72,
+      "0-5": 0.5
+    },
+    "B": {
+      "1": 0,
+      "3": 2,
+      "5": 4,
+      "7": 6,
+      "9": 8,
+      "10": 8,
+      "11": 12,
+      "13": 12,
+      "14": 12,
+      "15": 16,
+      "17": 16,
+      "18": 16,
+      "22": 20,
+      "26": 24,
+      "28": 24,
+      "30": 32,
+      "34": 32,
+      "46": 48,
+      "54": 48,
+      "68": 64,
+      "72": 64,
+      "0-5": 0
+    },
+    "C": {
+      "1": 2,
+      "3": 4,
+      "5": 6,
+      "7": 8,
+      "9": 8,
+      "10": 12,
+      "11": 12,
+      "13": 12,
+      "14": 16,
+      "15": 16,
+      "17": 16,
+      "18": 20,
+      "22": 24,
+      "26": 24,
+      "28": 32,
+      "30": 32,
+      "34": 32,
+      "46": 48,
+      "54": 48,
+      "68": 64,
+      "72": 80,
+      "0-5": 0
+    }
+  },
+  "current": {
+    "1": 1,
+    "3": 3,
+    "5": 5,
+    "7": 7,
+    "9": 9,
+    "10": 10,
+    "11": 11,
+    "13": 13,
+    "14": 14,
+    "15": 15,
+    "17": 17,
+    "18": 18,
+    "22": 22,
+    "26": 26,
+    "28": 28,
+    "30": 30,
+    "34": 34,
+    "46": 46,
+    "54": 54,
+    "68": 68,
+    "72": 72,
+    "0-5": 0.5
+  },
+  "results": [
+    {
+      "width": 390,
+      "screen": "home",
+      "label": "Home",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 122,
+          "properties": 145
+        },
+        "5": {
+          "elements": 34,
+          "properties": 65
+        },
+        "7": {
+          "elements": 51,
+          "properties": 103
+        },
+        "9": {
+          "elements": 70,
+          "properties": 129
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 45,
+          "properties": 68
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 20,
+          "properties": 40
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 1,
+          "properties": 1
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 14,
+          "heightChanges": 29,
+          "maxHeightChange": 19,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 14,
+          "heightChanges": 30,
+          "maxHeightChange": 16,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 844
+    },
+    {
+      "width": 390,
+      "screen": "customers-list",
+      "label": "Customer list",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 123,
+          "properties": 147
+        },
+        "5": {
+          "elements": 61,
+          "properties": 125
+        },
+        "7": {
+          "elements": 66,
+          "properties": 129
+        },
+        "9": {
+          "elements": 166,
+          "properties": 320
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 45,
+          "properties": 68
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 20,
+          "properties": 40
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 1,
+          "properties": 1
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 124,
+          "heightChanges": 8,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 115,
+          "heightChanges": 9,
+          "maxHeightChange": 3.0299999999999727,
+          "newlyClipped": 1,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 844
+    },
+    {
+      "width": 390,
+      "screen": "customer-record",
+      "label": "Customer record",
+      "tokens": {
+        "1": {
+          "elements": 17,
+          "properties": 44
+        },
+        "3": {
+          "elements": 191,
+          "properties": 216
+        },
+        "5": {
+          "elements": 46,
+          "properties": 89
+        },
+        "7": {
+          "elements": 60,
+          "properties": 121
+        },
+        "9": {
+          "elements": 79,
+          "properties": 147
+        },
+        "10": {
+          "elements": 36,
+          "properties": 64
+        },
+        "11": {
+          "elements": 45,
+          "properties": 68
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 20,
+          "properties": 40
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 1,
+          "properties": 1
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 12,
+          "heightChanges": 100,
+          "maxHeightChange": 174,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 12,
+          "heightChanges": 100,
+          "maxHeightChange": 176,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 844
+    },
+    {
+      "width": 390,
+      "screen": "profile",
+      "label": "Profile",
+      "tokens": {
+        "1": {
+          "elements": 10,
+          "properties": 23
+        },
+        "3": {
+          "elements": 145,
+          "properties": 163
+        },
+        "5": {
+          "elements": 21,
+          "properties": 39
+        },
+        "7": {
+          "elements": 68,
+          "properties": 137
+        },
+        "9": {
+          "elements": 113,
+          "properties": 224
+        },
+        "10": {
+          "elements": 38,
+          "properties": 69
+        },
+        "11": {
+          "elements": 44,
+          "properties": 66
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 20,
+          "properties": 40
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 1,
+          "properties": 1
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 7,
+          "heightChanges": 17,
+          "maxHeightChange": 20,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 7,
+          "heightChanges": 17,
+          "maxHeightChange": 22,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 844
+    },
+    {
+      "width": 390,
+      "screen": "profile-appearance",
+      "label": "Profile (Appearance section)",
+      "tokens": {
+        "1": {
+          "elements": 10,
+          "properties": 23
+        },
+        "3": {
+          "elements": 145,
+          "properties": 163
+        },
+        "5": {
+          "elements": 21,
+          "properties": 39
+        },
+        "7": {
+          "elements": 68,
+          "properties": 137
+        },
+        "9": {
+          "elements": 113,
+          "properties": 224
+        },
+        "10": {
+          "elements": 38,
+          "properties": 69
+        },
+        "11": {
+          "elements": 44,
+          "properties": 66
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 20,
+          "properties": 40
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 1,
+          "properties": 1
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 7,
+          "heightChanges": 2,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 7,
+          "heightChanges": 11,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 844
+    },
+    {
+      "width": 390,
+      "screen": "invoice-list",
+      "label": "Sales invoice list",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 123,
+          "properties": 147
+        },
+        "5": {
+          "elements": 76,
+          "properties": 165
+        },
+        "7": {
+          "elements": 71,
+          "properties": 139
+        },
+        "9": {
+          "elements": 266,
+          "properties": 520
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 45,
+          "properties": 68
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 20,
+          "properties": 40
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 1,
+          "properties": 1
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 310,
+          "heightChanges": 8,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 305,
+          "heightChanges": 9,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 844
+    },
+    {
+      "width": 390,
+      "screen": "invoice-record",
+      "label": "Sales invoice record",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 123,
+          "properties": 147
+        },
+        "5": {
+          "elements": 39,
+          "properties": 75
+        },
+        "7": {
+          "elements": 51,
+          "properties": 103
+        },
+        "9": {
+          "elements": 71,
+          "properties": 131
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 45,
+          "properties": 68
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 20,
+          "properties": 40
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 1,
+          "properties": 1
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 11,
+          "heightChanges": 22,
+          "maxHeightChange": 19,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 11,
+          "heightChanges": 23,
+          "maxHeightChange": 16,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 844
+    },
+    {
+      "width": 390,
+      "screen": "email",
+      "label": "Email",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 119,
+          "properties": 142
+        },
+        "5": {
+          "elements": 34,
+          "properties": 65
+        },
+        "7": {
+          "elements": 52,
+          "properties": 109
+        },
+        "9": {
+          "elements": 64,
+          "properties": 116
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 52,
+          "properties": 75
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 20,
+          "properties": 40
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 1,
+          "properties": 1
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 2,
+          "heightChanges": 7,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 2,
+          "heightChanges": 7,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 844
+    },
+    {
+      "width": 768,
+      "screen": "home",
+      "label": "Home",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 143,
+          "properties": 167
+        },
+        "5": {
+          "elements": 35,
+          "properties": 67
+        },
+        "7": {
+          "elements": 55,
+          "properties": 111
+        },
+        "9": {
+          "elements": 70,
+          "properties": 129
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 46,
+          "properties": 70
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 28,
+          "heightChanges": 50,
+          "maxHeightChange": 10,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 28,
+          "heightChanges": 68,
+          "maxHeightChange": 8,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 768,
+      "screen": "customers-list",
+      "label": "Customer list",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 144,
+          "properties": 169
+        },
+        "5": {
+          "elements": 61,
+          "properties": 125
+        },
+        "7": {
+          "elements": 68,
+          "properties": 133
+        },
+        "9": {
+          "elements": 167,
+          "properties": 322
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 45,
+          "properties": 68
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 44,
+          "properties": 76
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 130,
+          "heightChanges": 16,
+          "maxHeightChange": 8,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 113,
+          "heightChanges": 16,
+          "maxHeightChange": 8,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 768,
+      "screen": "customer-record",
+      "label": "Customer record",
+      "tokens": {
+        "1": {
+          "elements": 17,
+          "properties": 44
+        },
+        "3": {
+          "elements": 212,
+          "properties": 238
+        },
+        "5": {
+          "elements": 46,
+          "properties": 89
+        },
+        "7": {
+          "elements": 63,
+          "properties": 127
+        },
+        "9": {
+          "elements": 79,
+          "properties": 147
+        },
+        "10": {
+          "elements": 36,
+          "properties": 64
+        },
+        "11": {
+          "elements": 45,
+          "properties": 68
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 9,
+          "heightChanges": 114,
+          "maxHeightChange": 188,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 9,
+          "heightChanges": 114,
+          "maxHeightChange": 190,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 768,
+      "screen": "profile",
+      "label": "Profile",
+      "tokens": {
+        "1": {
+          "elements": 10,
+          "properties": 23
+        },
+        "3": {
+          "elements": 145,
+          "properties": 163
+        },
+        "5": {
+          "elements": 21,
+          "properties": 39
+        },
+        "7": {
+          "elements": 68,
+          "properties": 137
+        },
+        "9": {
+          "elements": 113,
+          "properties": 224
+        },
+        "10": {
+          "elements": 38,
+          "properties": 69
+        },
+        "11": {
+          "elements": 44,
+          "properties": 66
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 20,
+          "properties": 40
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 1,
+          "heightChanges": 18,
+          "maxHeightChange": 20,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 1,
+          "heightChanges": 18,
+          "maxHeightChange": 22,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 768,
+      "screen": "profile-appearance",
+      "label": "Profile (Appearance section)",
+      "tokens": {
+        "1": {
+          "elements": 10,
+          "properties": 23
+        },
+        "3": {
+          "elements": 145,
+          "properties": 163
+        },
+        "5": {
+          "elements": 21,
+          "properties": 39
+        },
+        "7": {
+          "elements": 68,
+          "properties": 137
+        },
+        "9": {
+          "elements": 113,
+          "properties": 224
+        },
+        "10": {
+          "elements": 38,
+          "properties": 69
+        },
+        "11": {
+          "elements": 44,
+          "properties": 66
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 20,
+          "properties": 40
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 3,
+          "heightChanges": 3,
+          "maxHeightChange": 5,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 3,
+          "heightChanges": 12,
+          "maxHeightChange": 5,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 768,
+      "screen": "invoice-list",
+      "label": "Sales invoice list",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 144,
+          "properties": 169
+        },
+        "5": {
+          "elements": 76,
+          "properties": 165
+        },
+        "7": {
+          "elements": 73,
+          "properties": 143
+        },
+        "9": {
+          "elements": 267,
+          "properties": 522
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 45,
+          "properties": 68
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 44,
+          "properties": 76
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 316,
+          "heightChanges": 17,
+          "maxHeightChange": 10,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 303,
+          "heightChanges": 17,
+          "maxHeightChange": 12.25,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 768,
+      "screen": "invoice-record",
+      "label": "Sales invoice record",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 144,
+          "properties": 169
+        },
+        "5": {
+          "elements": 39,
+          "properties": 75
+        },
+        "7": {
+          "elements": 54,
+          "properties": 109
+        },
+        "9": {
+          "elements": 71,
+          "properties": 131
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 45,
+          "properties": 68
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 22,
+          "heightChanges": 40,
+          "maxHeightChange": 10,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 22,
+          "heightChanges": 59,
+          "maxHeightChange": 8,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 768,
+      "screen": "email",
+      "label": "Email",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 140,
+          "properties": 164
+        },
+        "5": {
+          "elements": 34,
+          "properties": 65
+        },
+        "7": {
+          "elements": 54,
+          "properties": 113
+        },
+        "9": {
+          "elements": 64,
+          "properties": 116
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 52,
+          "properties": 75
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 3,
+          "heightChanges": 10,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 3,
+          "heightChanges": 11,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1024,
+      "screen": "home",
+      "label": "Home",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 143,
+          "properties": 167
+        },
+        "5": {
+          "elements": 35,
+          "properties": 67
+        },
+        "7": {
+          "elements": 55,
+          "properties": 111
+        },
+        "9": {
+          "elements": 71,
+          "properties": 131
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 46,
+          "properties": 70
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 28,
+          "heightChanges": 63,
+          "maxHeightChange": 10,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 28,
+          "heightChanges": 71,
+          "maxHeightChange": 8,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1024,
+      "screen": "customers-list",
+      "label": "Customer list",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 144,
+          "properties": 169
+        },
+        "5": {
+          "elements": 62,
+          "properties": 127
+        },
+        "7": {
+          "elements": 69,
+          "properties": 135
+        },
+        "9": {
+          "elements": 168,
+          "properties": 324
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 46,
+          "properties": 70
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 44,
+          "properties": 76
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 134,
+          "heightChanges": 31,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 114,
+          "heightChanges": 31,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1024,
+      "screen": "customer-record",
+      "label": "Customer record",
+      "tokens": {
+        "1": {
+          "elements": 17,
+          "properties": 44
+        },
+        "3": {
+          "elements": 212,
+          "properties": 238
+        },
+        "5": {
+          "elements": 47,
+          "properties": 91
+        },
+        "7": {
+          "elements": 64,
+          "properties": 129
+        },
+        "9": {
+          "elements": 80,
+          "properties": 149
+        },
+        "10": {
+          "elements": 36,
+          "properties": 64
+        },
+        "11": {
+          "elements": 46,
+          "properties": 70
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 14,
+          "heightChanges": 128,
+          "maxHeightChange": 188,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 14,
+          "heightChanges": 128,
+          "maxHeightChange": 190,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1024,
+      "screen": "profile",
+      "label": "Profile",
+      "tokens": {
+        "1": {
+          "elements": 10,
+          "properties": 23
+        },
+        "3": {
+          "elements": 145,
+          "properties": 163
+        },
+        "5": {
+          "elements": 22,
+          "properties": 41
+        },
+        "7": {
+          "elements": 69,
+          "properties": 139
+        },
+        "9": {
+          "elements": 114,
+          "properties": 226
+        },
+        "10": {
+          "elements": 38,
+          "properties": 69
+        },
+        "11": {
+          "elements": 45,
+          "properties": 68
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 20,
+          "properties": 40
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 6,
+          "heightChanges": 33,
+          "maxHeightChange": 20,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 6,
+          "heightChanges": 33,
+          "maxHeightChange": 22,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1024,
+      "screen": "profile-appearance",
+      "label": "Profile (Appearance section)",
+      "tokens": {
+        "1": {
+          "elements": 10,
+          "properties": 23
+        },
+        "3": {
+          "elements": 145,
+          "properties": 163
+        },
+        "5": {
+          "elements": 22,
+          "properties": 41
+        },
+        "7": {
+          "elements": 69,
+          "properties": 139
+        },
+        "9": {
+          "elements": 114,
+          "properties": 226
+        },
+        "10": {
+          "elements": 38,
+          "properties": 69
+        },
+        "11": {
+          "elements": 45,
+          "properties": 68
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 20,
+          "properties": 40
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 8,
+          "heightChanges": 18,
+          "maxHeightChange": 5,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 8,
+          "heightChanges": 27,
+          "maxHeightChange": 5,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1024,
+      "screen": "invoice-list",
+      "label": "Sales invoice list",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 144,
+          "properties": 169
+        },
+        "5": {
+          "elements": 77,
+          "properties": 167
+        },
+        "7": {
+          "elements": 74,
+          "properties": 145
+        },
+        "9": {
+          "elements": 268,
+          "properties": 524
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 46,
+          "properties": 70
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 44,
+          "properties": 76
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 320,
+          "heightChanges": 31,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 304,
+          "heightChanges": 31,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1024,
+      "screen": "invoice-record",
+      "label": "Sales invoice record",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 144,
+          "properties": 169
+        },
+        "5": {
+          "elements": 40,
+          "properties": 77
+        },
+        "7": {
+          "elements": 55,
+          "properties": 111
+        },
+        "9": {
+          "elements": 72,
+          "properties": 133
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 46,
+          "properties": 70
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 27,
+          "heightChanges": 54,
+          "maxHeightChange": 10,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 27,
+          "heightChanges": 73,
+          "maxHeightChange": 7,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1024,
+      "screen": "email",
+      "label": "Email",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 140,
+          "properties": 164
+        },
+        "5": {
+          "elements": 35,
+          "properties": 67
+        },
+        "7": {
+          "elements": 55,
+          "properties": 115
+        },
+        "9": {
+          "elements": 65,
+          "properties": 118
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 53,
+          "properties": 77
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 20,
+          "heightChanges": 21,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 20,
+          "heightChanges": 23,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1440,
+      "screen": "home",
+      "label": "Home",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 143,
+          "properties": 167
+        },
+        "5": {
+          "elements": 35,
+          "properties": 67
+        },
+        "7": {
+          "elements": 55,
+          "properties": 111
+        },
+        "9": {
+          "elements": 71,
+          "properties": 131
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 46,
+          "properties": 70
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 28,
+          "heightChanges": 62,
+          "maxHeightChange": 8,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 28,
+          "heightChanges": 69,
+          "maxHeightChange": 6,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1440,
+      "screen": "customers-list",
+      "label": "Customer list",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 144,
+          "properties": 169
+        },
+        "5": {
+          "elements": 62,
+          "properties": 127
+        },
+        "7": {
+          "elements": 69,
+          "properties": 135
+        },
+        "9": {
+          "elements": 168,
+          "properties": 324
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 46,
+          "properties": 70
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 44,
+          "properties": 76
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 133,
+          "heightChanges": 29,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 112,
+          "heightChanges": 31,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1440,
+      "screen": "customer-record",
+      "label": "Customer record",
+      "tokens": {
+        "1": {
+          "elements": 17,
+          "properties": 44
+        },
+        "3": {
+          "elements": 212,
+          "properties": 238
+        },
+        "5": {
+          "elements": 47,
+          "properties": 91
+        },
+        "7": {
+          "elements": 64,
+          "properties": 129
+        },
+        "9": {
+          "elements": 80,
+          "properties": 149
+        },
+        "10": {
+          "elements": 36,
+          "properties": 64
+        },
+        "11": {
+          "elements": 46,
+          "properties": 70
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 12,
+          "heightChanges": 128,
+          "maxHeightChange": 110,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 12,
+          "heightChanges": 128,
+          "maxHeightChange": 112,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1440,
+      "screen": "profile",
+      "label": "Profile",
+      "tokens": {
+        "1": {
+          "elements": 10,
+          "properties": 23
+        },
+        "3": {
+          "elements": 145,
+          "properties": 163
+        },
+        "5": {
+          "elements": 22,
+          "properties": 41
+        },
+        "7": {
+          "elements": 69,
+          "properties": 139
+        },
+        "9": {
+          "elements": 114,
+          "properties": 226
+        },
+        "10": {
+          "elements": 38,
+          "properties": 69
+        },
+        "11": {
+          "elements": 45,
+          "properties": 68
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 20,
+          "properties": 40
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 4,
+          "heightChanges": 32,
+          "maxHeightChange": 20,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 4,
+          "heightChanges": 32,
+          "maxHeightChange": 20,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1440,
+      "screen": "profile-appearance",
+      "label": "Profile (Appearance section)",
+      "tokens": {
+        "1": {
+          "elements": 10,
+          "properties": 23
+        },
+        "3": {
+          "elements": 145,
+          "properties": 163
+        },
+        "5": {
+          "elements": 22,
+          "properties": 41
+        },
+        "7": {
+          "elements": 69,
+          "properties": 139
+        },
+        "9": {
+          "elements": 114,
+          "properties": 226
+        },
+        "10": {
+          "elements": 38,
+          "properties": 69
+        },
+        "11": {
+          "elements": 45,
+          "properties": 68
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 20,
+          "properties": 40
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 6,
+          "heightChanges": 18,
+          "maxHeightChange": 5,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 6,
+          "heightChanges": 27,
+          "maxHeightChange": 5,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1440,
+      "screen": "invoice-list",
+      "label": "Sales invoice list",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 144,
+          "properties": 169
+        },
+        "5": {
+          "elements": 77,
+          "properties": 167
+        },
+        "7": {
+          "elements": 74,
+          "properties": 145
+        },
+        "9": {
+          "elements": 268,
+          "properties": 524
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 46,
+          "properties": 70
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 44,
+          "properties": 76
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 319,
+          "heightChanges": 29,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 302,
+          "heightChanges": 31,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1440,
+      "screen": "invoice-record",
+      "label": "Sales invoice record",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 144,
+          "properties": 169
+        },
+        "5": {
+          "elements": 40,
+          "properties": 77
+        },
+        "7": {
+          "elements": 55,
+          "properties": 111
+        },
+        "9": {
+          "elements": 72,
+          "properties": 133
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 46,
+          "properties": 70
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 25,
+          "heightChanges": 53,
+          "maxHeightChange": 7,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 25,
+          "heightChanges": 71,
+          "maxHeightChange": 5,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1440,
+      "screen": "email",
+      "label": "Email",
+      "tokens": {
+        "1": {
+          "elements": 9,
+          "properties": 21
+        },
+        "3": {
+          "elements": 140,
+          "properties": 164
+        },
+        "5": {
+          "elements": 35,
+          "properties": 67
+        },
+        "7": {
+          "elements": 55,
+          "properties": 115
+        },
+        "9": {
+          "elements": 65,
+          "properties": 118
+        },
+        "10": {
+          "elements": 31,
+          "properties": 59
+        },
+        "11": {
+          "elements": 53,
+          "properties": 77
+        },
+        "13": {
+          "elements": 7,
+          "properties": 12
+        },
+        "14": {
+          "elements": 40,
+          "properties": 68
+        },
+        "15": {
+          "elements": 1,
+          "properties": 2
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 21,
+          "properties": 41
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 1,
+          "properties": 2
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 5,
+          "properties": 5
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 18,
+          "heightChanges": 21,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 18,
+          "heightChanges": 23,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    }
+  ]
+}
