@@ -220,7 +220,7 @@ export function renderDataListCards(context, rows, config, listState, deps) {
   const {encodeHtml, renderCard} = deps
   if (!rows.length)
     return `<div class="customer-lookup-empty [padding:var(--ds-space-legacy-28)_var(--ds-space-200)] text-muted text-center">No ${encodeHtml(config.label)} match this view.</div>`
-  return `<div class="data-card-grid grid grid-cols-3 gap-5 rounded-legacy-10 bg-bg p-3 max-[1240px]:grid-cols-2 max-[720px]:grid-cols-1" role="list" aria-label="${encodeHtml(config.label)} cards">${rows
+  return `<div class="data-card-grid grid grid-cols-3 gap-5 rounded-legacy-10 bg-bg p-3 max-legacy-1240:grid-cols-2 max-sm:grid-cols-1" role="list" aria-label="${encodeHtml(config.label)} cards">${rows
     .map(row => renderCard(context, row, config, listState))
     .join('')}</div>`
 }

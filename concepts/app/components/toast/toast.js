@@ -25,6 +25,7 @@
 // default only applies to the two auto-dismiss tones.
 
 import {uiLocale} from '../../core/locale.js'
+import {maxWidthQuery} from '../../core/breakpoints.js'
 
 /** Auto-dismiss window Atlaskit's AutoDismissFlag uses. */
 const AUTO_DISMISS_MS = 8000
@@ -119,7 +120,7 @@ export function createToast(host) {
     // On a phone the flag spans the screen: publish its footprint so page
     // scrollers can add room to scroll content out from under it.
     const front = stack[stack.length - 1]
-    const reserve = front && matchMedia('(max-width: 560px)').matches ? Math.max(0, vh - (anchor - front.offsetHeight)) : 0
+    const reserve = front && matchMedia(maxWidthQuery('legacy560')).matches ? Math.max(0, vh - (anchor - front.offsetHeight)) : 0
     document.documentElement.style.setProperty('--flag-reserve', `${Math.round(reserve)}px`)
   }
 

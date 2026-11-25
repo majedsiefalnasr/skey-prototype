@@ -298,7 +298,7 @@
     background: var(--line-2);
   }
 
-  @media (max-width: 1200px) {
+  @media (max-width: theme(--breakpoint-legacy-1200)) {
     .geo-workspace { grid-template-columns: 44px minmax(0, 1fr) !important; }
     .geo-workspace .geo-tree-header {
       flex-direction: column;

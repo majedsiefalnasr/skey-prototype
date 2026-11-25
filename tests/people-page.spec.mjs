@@ -243,7 +243,7 @@ test('Person sections follow the Customer scroll layout and reopen collapsed con
   await expect(link).toHaveAttribute('aria-current', 'page')
   await expect(contact).toBeInViewport()
   await expect(page.locator('.page-footer [data-page-footer="people-record"] .pager')).toBeInViewport()
-  await link.press(info.project.use.viewport.width > 720 ? 'ArrowDown' : rtl ? 'ArrowLeft' : 'ArrowRight')
+  await link.press(info.project.use.viewport.width >= 768 ? 'ArrowDown' : rtl ? 'ArrowLeft' : 'ArrowRight')
   await expect(record.locator('[data-person-scroll-section="address"]')).toBeFocused()
   await expect(record.locator('[data-person-scroll-section="address"]')).toHaveAttribute('aria-current', 'page')
   await settle(page)

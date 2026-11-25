@@ -40,6 +40,7 @@
 // test double.
 
 import {DATA_LIST_STATISTICS_CONCEPT_OPTIONS} from './columns.js'
+import {maxWidthQuery} from '../../core/breakpoints.js'
 import {rowMatchesFieldFilter} from './filters.js'
 
 /**
@@ -114,7 +115,7 @@ export const DATA_LIST_PAGE_SIZE_OPTIONS = [10, 25, 50, 100]
 /* UX-07: at phone widths the statistics cards would push the list below the
    first screen, so they start collapsed (still expandable from the overflow
    menu's "Show statistics"). The breakpoint matches the collapsed toolbar. */
-const DATA_LIST_MOBILE_QUERY = '(max-width: 620px)'
+const DATA_LIST_MOBILE_QUERY = maxWidthQuery('legacy620')
 function defaultStatisticsVisible() {
   return !globalThis.matchMedia?.(DATA_LIST_MOBILE_QUERY).matches
 }

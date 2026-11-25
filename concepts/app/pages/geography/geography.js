@@ -1,4 +1,5 @@
 import {uiLocale} from '../../core/locale.js'
+import {maxWidthQuery} from '../../core/breakpoints.js'
 import {encodeHtml} from '../../core/locale.js'
 import {GEO_ROWS} from '../../prototype/fixtures/geography.js'
 import {createGeographyHierarchy, enableFlowPan} from './hierarchy.js'
@@ -238,7 +239,7 @@ export function createGeography({
     {signal: pageAbort.signal}
   )
 
-  const geoHierarchyMediaQuery = window.matchMedia('(max-width: 1200px)')
+  const geoHierarchyMediaQuery = window.matchMedia(maxWidthQuery('legacy1200'))
 
   geoHierarchyMediaQuery.addEventListener(
     'change',

@@ -190,7 +190,7 @@ const itemButton = (item, index, extraClass = '', style = '', timeLabel = format
   // child represents duration; the larger transparent target is not a
   // second, misleading duration block. Month/all-day chips are unchanged.
   return `<button type="button" class="${style ? 'cal-timed-event flex w-full items-start border-0 bg-transparent p-0 text-start focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]' : paintClass}" ${style ? `style="${style}"` : ''} data-cal-item="${index}"${item.conflict ? ' data-cal-conflict="true"' : ''} aria-label="${escapeHtml(itemLabel(item))}">
-    ${style ? `<span class="cal-event-paint ${paintClass} max-[720px]:truncate min-[721px]:[align-content:safe_center]" style="height:var(--cal-event-height)">${content}</span>` : content}
+    ${style ? `<span class="cal-event-paint ${paintClass} max-sm:truncate min-sm:[align-content:safe_center]" style="height:var(--cal-event-height)">${content}</span>` : content}
   </button>`
 }
 

@@ -12,7 +12,7 @@
 .rec-items .inv-grid :is(th, td) { padding-inline: 8px; }
 /* Keep the three leading header boxes inside the mobile scrollport
    without reducing the value-sized inputs or changing later columns. */
-@media (max-width: 720px) {
+@media (width < theme(--breakpoint-sm)) {
   .rec-items .inv-grid :is(th, td):nth-child(-n+3) { padding-inline: 6px; }
 }
 /* Invoice and shared modal controllers retain the semantic .open hook. */

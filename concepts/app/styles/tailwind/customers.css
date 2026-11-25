@@ -260,7 +260,7 @@ body.style-inline
         background: var(--accent-soft);
         font-weight: 600;
       }
-@media (max-width: 720px) {
+@media (width < theme(--breakpoint-sm)) {
 body:has(.customer-record-view:not([hidden])) .gsearch {
           min-width: 0;
         }
