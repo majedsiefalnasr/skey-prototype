@@ -1,0 +1,1887 @@
+{
+  "sets": {
+    "A": {
+      "1": 1,
+      "3": 3,
+      "5": 5,
+      "7": 7,
+      "9": 9,
+      "10": 10,
+      "11": 11,
+      "13": 13,
+      "14": 14,
+      "15": 15,
+      "17": 17,
+      "18": 18,
+      "22": 22,
+      "26": 26,
+      "28": 28,
+      "30": 30,
+      "34": 34,
+      "46": 46,
+      "54": 54,
+      "68": 68,
+      "72": 72,
+      "0-5": 0.5
+    },
+    "B": {
+      "1": 0,
+      "3": 2,
+      "5": 4,
+      "7": 6,
+      "9": 8,
+      "10": 8,
+      "11": 12,
+      "13": 12,
+      "14": 12,
+      "15": 16,
+      "17": 16,
+      "18": 16,
+      "22": 20,
+      "26": 24,
+      "28": 24,
+      "30": 32,
+      "34": 32,
+      "46": 48,
+      "54": 48,
+      "68": 64,
+      "72": 64,
+      "0-5": 0
+    },
+    "C": {
+      "1": 2,
+      "3": 4,
+      "5": 6,
+      "7": 8,
+      "9": 8,
+      "10": 12,
+      "11": 12,
+      "13": 12,
+      "14": 16,
+      "15": 16,
+      "17": 16,
+      "18": 20,
+      "22": 24,
+      "26": 24,
+      "28": 32,
+      "30": 32,
+      "34": 32,
+      "46": 48,
+      "54": 48,
+      "68": 64,
+      "72": 80,
+      "0-5": 0
+    }
+  },
+  "current": {
+    "1": 1,
+    "3": 3,
+    "5": 5,
+    "7": 7,
+    "9": 9,
+    "10": 10,
+    "11": 11,
+    "13": 13,
+    "14": 14,
+    "15": 15,
+    "17": 17,
+    "18": 18,
+    "22": 22,
+    "26": 26,
+    "28": 28,
+    "30": 30,
+    "34": 34,
+    "46": 46,
+    "54": 54,
+    "68": 68,
+    "72": 72,
+    "0-5": 0.5
+  },
+  "results": [
+    {
+      "width": 390,
+      "screen": "sidebar-branches",
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded."
+    },
+    {
+      "width": 390,
+      "screen": "customers-empty",
+      "label": "Customer list, search with no result",
+      "tokens": {
+        "1": {
+          "elements": 0,
+          "properties": 0
+        },
+        "3": {
+          "elements": 2,
+          "properties": 6
+        },
+        "5": {
+          "elements": 23,
+          "properties": 46
+        },
+        "7": {
+          "elements": 13,
+          "properties": 22
+        },
+        "9": {
+          "elements": 71,
+          "properties": 138
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 25,
+          "properties": 26
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 0,
+          "properties": 0
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 1,
+          "properties": 2
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 0,
+          "properties": 0
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 1,
+          "properties": 1
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 78,
+          "heightChanges": 15,
+          "maxHeightChange": 8,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 69,
+          "heightChanges": 15,
+          "maxHeightChange": 8,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 844
+    },
+    {
+      "width": 390,
+      "screen": "customers-compact-expanded",
+      "label": "Customer list, Compact view, every row expanded",
+      "tokens": {
+        "1": {
+          "elements": 0,
+          "properties": 0
+        },
+        "3": {
+          "elements": 2,
+          "properties": 6
+        },
+        "5": {
+          "elements": 17,
+          "properties": 40
+        },
+        "7": {
+          "elements": 16,
+          "properties": 28
+        },
+        "9": {
+          "elements": 62,
+          "properties": 120
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 25,
+          "properties": 26
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 1,
+          "properties": 1
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 0,
+          "properties": 0
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 1,
+          "properties": 1
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 1,
+          "properties": 1
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 98,
+          "heightChanges": 8,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 89,
+          "heightChanges": 9,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 844
+    },
+    {
+      "width": 390,
+      "screen": "email-compose",
+      "label": "Email, new message with recipient suggestions",
+      "tokens": {
+        "1": {
+          "elements": 0,
+          "properties": 0
+        },
+        "3": {
+          "elements": 1,
+          "properties": 4
+        },
+        "5": {
+          "elements": 0,
+          "properties": 0
+        },
+        "7": {
+          "elements": 1,
+          "properties": 2
+        },
+        "9": {
+          "elements": 3,
+          "properties": 3
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 25,
+          "properties": 26
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 0,
+          "properties": 0
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 0,
+          "properties": 0
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 1,
+          "properties": 1
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 1,
+          "heightChanges": 4,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 1,
+          "heightChanges": 4,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 844
+    },
+    {
+      "width": 390,
+      "screen": "organization-performance",
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded."
+    },
+    {
+      "width": 390,
+      "screen": "organization-sessions-compact",
+      "label": "Organization Center, Application sessions, Compact view expanded",
+      "tokens": {
+        "1": {
+          "elements": 1,
+          "properties": 2
+        },
+        "3": {
+          "elements": 2,
+          "properties": 6
+        },
+        "5": {
+          "elements": 15,
+          "properties": 30
+        },
+        "7": {
+          "elements": 5,
+          "properties": 10
+        },
+        "9": {
+          "elements": 21,
+          "properties": 38
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 25,
+          "properties": 26
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 0,
+          "properties": 0
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 0,
+          "properties": 0
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 1,
+          "properties": 1
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 19,
+          "heightChanges": 11,
+          "maxHeightChange": 20.299999999999983,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 19,
+          "heightChanges": 12,
+          "maxHeightChange": 20.299999999999983,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 844
+    },
+    {
+      "width": 768,
+      "screen": "sidebar-branches",
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded."
+    },
+    {
+      "width": 768,
+      "screen": "customers-empty",
+      "label": "Customer list, search with no result",
+      "tokens": {
+        "1": {
+          "elements": 0,
+          "properties": 0
+        },
+        "3": {
+          "elements": 2,
+          "properties": 6
+        },
+        "5": {
+          "elements": 23,
+          "properties": 46
+        },
+        "7": {
+          "elements": 13,
+          "properties": 22
+        },
+        "9": {
+          "elements": 72,
+          "properties": 140
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 25,
+          "properties": 26
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 4,
+          "properties": 8
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 0,
+          "properties": 0
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 1,
+          "properties": 2
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 0,
+          "properties": 0
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 84,
+          "heightChanges": 23,
+          "maxHeightChange": 8,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 67,
+          "heightChanges": 23,
+          "maxHeightChange": 8,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 768,
+      "screen": "customers-compact-expanded",
+      "label": "Customer list, Compact view, every row expanded",
+      "tokens": {
+        "1": {
+          "elements": 0,
+          "properties": 0
+        },
+        "3": {
+          "elements": 2,
+          "properties": 6
+        },
+        "5": {
+          "elements": 20,
+          "properties": 46
+        },
+        "7": {
+          "elements": 16,
+          "properties": 28
+        },
+        "9": {
+          "elements": 63,
+          "properties": 122
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 25,
+          "properties": 26
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 4,
+          "properties": 8
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 1,
+          "properties": 1
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 0,
+          "properties": 0
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 1,
+          "properties": 1
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 98,
+          "heightChanges": 17,
+          "maxHeightChange": 10,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 83,
+          "heightChanges": 17,
+          "maxHeightChange": 12.25,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 768,
+      "screen": "email-compose",
+      "label": "Email, new message with recipient suggestions",
+      "tokens": {
+        "1": {
+          "elements": 0,
+          "properties": 0
+        },
+        "3": {
+          "elements": 1,
+          "properties": 4
+        },
+        "5": {
+          "elements": 0,
+          "properties": 0
+        },
+        "7": {
+          "elements": 2,
+          "properties": 6
+        },
+        "9": {
+          "elements": 4,
+          "properties": 5
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 25,
+          "properties": 26
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 0,
+          "properties": 0
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 0,
+          "properties": 0
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 1,
+          "properties": 1
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 2,
+          "heightChanges": 7,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 2,
+          "heightChanges": 8,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 768,
+      "screen": "organization-performance",
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded."
+    },
+    {
+      "width": 768,
+      "screen": "organization-sessions-compact",
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded."
+    },
+    {
+      "width": 1024,
+      "screen": "sidebar-branches",
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded."
+    },
+    {
+      "width": 1024,
+      "screen": "customers-empty",
+      "label": "Customer list, search with no result",
+      "tokens": {
+        "1": {
+          "elements": 0,
+          "properties": 0
+        },
+        "3": {
+          "elements": 2,
+          "properties": 6
+        },
+        "5": {
+          "elements": 23,
+          "properties": 46
+        },
+        "7": {
+          "elements": 13,
+          "properties": 22
+        },
+        "9": {
+          "elements": 72,
+          "properties": 140
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 26,
+          "properties": 28
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 4,
+          "properties": 8
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 0,
+          "properties": 0
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 1,
+          "properties": 2
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 0,
+          "properties": 0
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 88,
+          "heightChanges": 38,
+          "maxHeightChange": 8,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 68,
+          "heightChanges": 38,
+          "maxHeightChange": 8,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1024,
+      "screen": "customers-compact-expanded",
+      "label": "Customer list, Compact view, every row expanded",
+      "tokens": {
+        "1": {
+          "elements": 0,
+          "properties": 0
+        },
+        "3": {
+          "elements": 2,
+          "properties": 6
+        },
+        "5": {
+          "elements": 20,
+          "properties": 46
+        },
+        "7": {
+          "elements": 16,
+          "properties": 28
+        },
+        "9": {
+          "elements": 63,
+          "properties": 122
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 26,
+          "properties": 28
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 4,
+          "properties": 8
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 1,
+          "properties": 1
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 0,
+          "properties": 0
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 1,
+          "properties": 1
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 102,
+          "heightChanges": 31,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 84,
+          "heightChanges": 31,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1024,
+      "screen": "email-compose",
+      "label": "Email, new message with recipient suggestions",
+      "tokens": {
+        "1": {
+          "elements": 0,
+          "properties": 0
+        },
+        "3": {
+          "elements": 1,
+          "properties": 4
+        },
+        "5": {
+          "elements": 1,
+          "properties": 2
+        },
+        "7": {
+          "elements": 3,
+          "properties": 8
+        },
+        "9": {
+          "elements": 6,
+          "properties": 8
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 33,
+          "properties": 35
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 0,
+          "properties": 0
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 0,
+          "properties": 0
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 1,
+          "properties": 1
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 19,
+          "heightChanges": 18,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 19,
+          "heightChanges": 20,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1024,
+      "screen": "organization-performance",
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded."
+    },
+    {
+      "width": 1024,
+      "screen": "organization-sessions-compact",
+      "label": "Organization Center, Application sessions, Compact view expanded",
+      "tokens": {
+        "1": {
+          "elements": 1,
+          "properties": 2
+        },
+        "3": {
+          "elements": 2,
+          "properties": 6
+        },
+        "5": {
+          "elements": 15,
+          "properties": 30
+        },
+        "7": {
+          "elements": 5,
+          "properties": 10
+        },
+        "9": {
+          "elements": 22,
+          "properties": 40
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 26,
+          "properties": 28
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 0,
+          "properties": 0
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 0,
+          "properties": 0
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 19,
+          "heightChanges": 25,
+          "maxHeightChange": 20.299999999999983,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 15,
+          "heightChanges": 25,
+          "maxHeightChange": 20.299999999999983,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1440,
+      "screen": "sidebar-branches",
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded."
+    },
+    {
+      "width": 1440,
+      "screen": "customers-empty",
+      "label": "Customer list, search with no result",
+      "tokens": {
+        "1": {
+          "elements": 0,
+          "properties": 0
+        },
+        "3": {
+          "elements": 2,
+          "properties": 6
+        },
+        "5": {
+          "elements": 23,
+          "properties": 46
+        },
+        "7": {
+          "elements": 13,
+          "properties": 22
+        },
+        "9": {
+          "elements": 72,
+          "properties": 140
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 26,
+          "properties": 28
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 4,
+          "properties": 8
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 0,
+          "properties": 0
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 1,
+          "properties": 2
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 0,
+          "properties": 0
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 87,
+          "heightChanges": 36,
+          "maxHeightChange": 8,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 66,
+          "heightChanges": 38,
+          "maxHeightChange": 8,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1440,
+      "screen": "customers-compact-expanded",
+      "label": "Customer list, Compact view, every row expanded",
+      "tokens": {
+        "1": {
+          "elements": 0,
+          "properties": 0
+        },
+        "3": {
+          "elements": 2,
+          "properties": 6
+        },
+        "5": {
+          "elements": 24,
+          "properties": 54
+        },
+        "7": {
+          "elements": 16,
+          "properties": 28
+        },
+        "9": {
+          "elements": 63,
+          "properties": 122
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 26,
+          "properties": 28
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 4,
+          "properties": 8
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 1,
+          "properties": 1
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 0,
+          "properties": 0
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 1,
+          "properties": 1
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 93,
+          "heightChanges": 29,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 74,
+          "heightChanges": 31,
+          "maxHeightChange": 4,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1440,
+      "screen": "email-compose",
+      "label": "Email, new message with recipient suggestions",
+      "tokens": {
+        "1": {
+          "elements": 0,
+          "properties": 0
+        },
+        "3": {
+          "elements": 1,
+          "properties": 4
+        },
+        "5": {
+          "elements": 1,
+          "properties": 2
+        },
+        "7": {
+          "elements": 3,
+          "properties": 8
+        },
+        "9": {
+          "elements": 6,
+          "properties": 8
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 33,
+          "properties": 35
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 0,
+          "properties": 0
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 0,
+          "properties": 0
+        },
+        "34": {
+          "elements": 0,
+          "properties": 0
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 1,
+          "properties": 1
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 17,
+          "heightChanges": 18,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 17,
+          "heightChanges": 20,
+          "maxHeightChange": 2,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    },
+    {
+      "width": 1440,
+      "screen": "organization-performance",
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded."
+    },
+    {
+      "width": 1440,
+      "screen": "organization-sessions-compact",
+      "label": "Organization Center, Application sessions, Compact view expanded",
+      "tokens": {
+        "1": {
+          "elements": 1,
+          "properties": 2
+        },
+        "3": {
+          "elements": 2,
+          "properties": 6
+        },
+        "5": {
+          "elements": 15,
+          "properties": 30
+        },
+        "7": {
+          "elements": 5,
+          "properties": 10
+        },
+        "9": {
+          "elements": 22,
+          "properties": 40
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 26,
+          "properties": 28
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
+        },
+        "17": {
+          "elements": 0,
+          "properties": 0
+        },
+        "18": {
+          "elements": 0,
+          "properties": 0
+        },
+        "22": {
+          "elements": 0,
+          "properties": 0
+        },
+        "26": {
+          "elements": 0,
+          "properties": 0
+        },
+        "28": {
+          "elements": 0,
+          "properties": 0
+        },
+        "30": {
+          "elements": 1,
+          "properties": 1
+        },
+        "34": {
+          "elements": 0,
+          "properties": 0
+        },
+        "46": {
+          "elements": 0,
+          "properties": 0
+        },
+        "54": {
+          "elements": 0,
+          "properties": 0
+        },
+        "68": {
+          "elements": 0,
+          "properties": 0
+        },
+        "72": {
+          "elements": 0,
+          "properties": 0
+        },
+        "0-5": {
+          "elements": 0,
+          "properties": 0
+        }
+      },
+      "summary": {
+        "B": {
+          "widthChanges": 17,
+          "heightChanges": 25,
+          "maxHeightChange": 20.299999999999983,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        },
+        "C": {
+          "widthChanges": 13,
+          "heightChanges": 25,
+          "maxHeightChange": 20.299999999999983,
+          "newlyClipped": 0,
+          "pageHeightDelta": 0,
+          "pageOverflowBefore": 0,
+          "pageOverflowAfter": 0
+        }
+      },
+      "pageHeightA": 900
+    }
+  ]
+}

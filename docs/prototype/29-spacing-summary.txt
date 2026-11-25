@@ -25,30 +25,30 @@ legacy-72         72    64    80
 legacy-0-5       0.5     0     0
 
 Per token: elements reading it, summed over 8 screens x 4 widths, and on how many screens it appears
-legacy-1       element-states   328  at1440   82  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
-legacy-3       element-states  4742  at1440 1217  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
-legacy-5       element-states  1345  at1440  340  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
-legacy-7       element-states  2010  at1440  510  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
-legacy-9       element-states  3790  at1440  952  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
-legacy-10      element-states  1068  at1440  267  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
-legacy-11      element-states  1477  at1440  373  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
-legacy-13      element-states   224  at1440   56  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
-legacy-14      element-states  1304  at1440  328  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
-legacy-15      element-states    32  at1440    8  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-1       element-states    40  at1440   10  screens customer-record,profile,profile-appearance
+legacy-3       element-states   463  at1440  121  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-5       element-states   433  at1440  111  screens home,customers-list,customer-record,profile-appearance,invoice-list,invoice-record,profile,email
+legacy-7       element-states   383  at1440  100  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-9       element-states  1275  at1440  323  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-10      element-states    36  at1440    9  screens home,customer-record,profile,invoice-record
+legacy-11      element-states   859  at1440  222  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-13      element-states     0  at1440    0  screens 
+legacy-14      element-states    80  at1440   22  screens home,invoice-record,customers-list,invoice-list
+legacy-15      element-states     0  at1440    0  screens 
 legacy-17      element-states     0  at1440    0  screens 
-legacy-18      element-states   658  at1440  166  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-18      element-states     3  at1440    1  screens home
 legacy-22      element-states     0  at1440    0  screens 
-legacy-26      element-states    18  at1440    6  screens home,customers-list,customer-record,invoice-list,invoice-record,email
+legacy-26      element-states     3  at1440    1  screens home
 legacy-28      element-states     0  at1440    0  screens 
 legacy-30      element-states     8  at1440    2  screens customers-list,invoice-list
-legacy-34      element-states   160  at1440   40  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
+legacy-34      element-states     0  at1440    0  screens 
 legacy-46      element-states     0  at1440    0  screens 
 legacy-54      element-states     0  at1440    0  screens 
 legacy-68      element-states     0  at1440    0  screens 
 legacy-72      element-states     8  at1440    0  screens home,customers-list,customer-record,profile,profile-appearance,invoice-list,invoice-record,email
 legacy-0-5     element-states     0  at1440    0  screens 
 
-Never seen on a measured screen: legacy-17, legacy-22, legacy-28, legacy-46, legacy-54, legacy-68, legacy-0-5
+Never seen on a measured screen: legacy-13, legacy-15, legacy-17, legacy-22, legacy-28, legacy-34, legacy-46, legacy-54, legacy-68, legacy-0-5
 
 Per width, per set (summed over screens): box widths changed / box heights changed / max height change / newly clipped / page height delta (sum) / pages with new horizontal overflow
 390 B     487 193 174 0 0 0

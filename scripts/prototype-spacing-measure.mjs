@@ -5,11 +5,12 @@ import {chromium} from '@playwright/test';
 import {mkdir, writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {openSurface} from '../tests/support/browser.mjs';
+import {extraScreens} from './prototype-spacing-extra-screens.mjs';
 
 const BASE = process.env.PROTOTYPE_URL ?? 'http://127.0.0.1:4181';
 const OUT = process.argv[2] ?? '/private/tmp/skey-proto-29-out';
 const WIDTHS = [390, 768, 1024, 1440];
-const SCREENS = [
+const BASE_SCREENS = [
   {id: 'home', label: 'Home', open: page => openSurface(page, 'launchpad')},
   {id: 'customers-list', label: 'Customer list', open: page => openSurface(page, 'customers-list')},
   {id: 'customer-record', label: 'Customer record', open: page => openSurface(page, 'customer-record')},
@@ -23,6 +24,9 @@ const SCREENS = [
   {id: 'invoice-record', label: 'Sales invoice record', open: page => openSurface(page, 'record')},
   {id: 'email', label: 'Email', open: page => openSurface(page, 'email')},
 ];
+const EXTRA = Boolean(process.env.EXTRA);
+const ONLY = process.env.ONLY ? process.env.ONLY.split(',') : null;
+const SCREENS = (EXTRA ? extraScreens(BASE) : BASE_SCREENS).filter(screen => !ONLY || ONLY.includes(screen.id));
 const VARIANTS = ['A', 'B', 'C'];
 const HIDE = '[data-spacing-prototype],#kit,#kit-pill{display:none!important}';
 
@@ -63,6 +67,7 @@ async function discover(page, sentinel) {
     const nodes = document.querySelectorAll('body *');
     nodes.forEach((node, index) => {
       if (node.closest('[data-spacing-prototype], #kit, #kit-pill')) return;
+      if (node.getClientRects().length === 0) return;
       for (const pseudo of [null, '::before', '::after']) {
         const cs = getComputedStyle(node, pseudo);
         if (pseudo && cs.content === 'none') continue;
@@ -188,8 +193,9 @@ async function main() {
     await context.close();
   }
   await browser.close();
-  await writeFile(path.join(OUT, 'measure.json'), JSON.stringify({sets, current, results}, null, 2));
-  console.log(`wrote ${path.join(OUT, 'measure.json')} (${results.length} rows)`);
+  const outName = ONLY ? `measure-only-${ONLY.join('+')}.json` : EXTRA ? 'measure-extra.json' : 'measure.json';
+  await writeFile(path.join(OUT, outName), JSON.stringify({sets, current, results}, null, 2));
+  console.log(`wrote ${path.join(OUT, outName)} (${results.length} rows)`);
 }
 
 await main();

@@ -104,52 +104,52 @@
       "label": "Home",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 122,
-          "properties": 145
+          "elements": 9,
+          "properties": 18
         },
         "5": {
-          "elements": 34,
-          "properties": 65
+          "elements": 16,
+          "properties": 32
         },
         "7": {
-          "elements": 51,
-          "properties": 103
+          "elements": 19,
+          "properties": 38
         },
         "9": {
-          "elements": 70,
-          "properties": 129
+          "elements": 7,
+          "properties": 11
         },
         "10": {
-          "elements": 31,
-          "properties": 59
+          "elements": 1,
+          "properties": 1
         },
         "11": {
-          "elements": 45,
-          "properties": 68
+          "elements": 29,
+          "properties": 33
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 40,
-          "properties": 68
+          "elements": 7,
+          "properties": 14
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 20,
-          "properties": 40
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
@@ -168,8 +168,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -220,52 +220,52 @@
       "label": "Customer list",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 123,
-          "properties": 147
+          "elements": 2,
+          "properties": 6
         },
         "5": {
-          "elements": 61,
-          "properties": 125
+          "elements": 26,
+          "properties": 58
         },
         "7": {
-          "elements": 66,
-          "properties": 129
+          "elements": 16,
+          "properties": 28
         },
         "9": {
-          "elements": 166,
-          "properties": 320
+          "elements": 89,
+          "properties": 174
         },
         "10": {
-          "elements": 31,
-          "properties": 59
+          "elements": 0,
+          "properties": 0
         },
         "11": {
-          "elements": 45,
-          "properties": 68
+          "elements": 25,
+          "properties": 26
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 40,
-          "properties": 68
+          "elements": 0,
+          "properties": 0
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 20,
-          "properties": 40
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
@@ -284,8 +284,8 @@
           "properties": 1
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -336,52 +336,52 @@
       "label": "Customer record",
       "tokens": {
         "1": {
-          "elements": 17,
-          "properties": 44
+          "elements": 8,
+          "properties": 23
         },
         "3": {
-          "elements": 191,
-          "properties": 216
+          "elements": 69,
+          "properties": 73
         },
         "5": {
-          "elements": 46,
-          "properties": 89
+          "elements": 7,
+          "properties": 14
         },
         "7": {
-          "elements": 60,
-          "properties": 121
+          "elements": 11,
+          "properties": 22
         },
         "9": {
-          "elements": 79,
-          "properties": 147
+          "elements": 11,
+          "properties": 19
         },
         "10": {
-          "elements": 36,
-          "properties": 64
+          "elements": 5,
+          "properties": 5
         },
         "11": {
-          "elements": 45,
-          "properties": 68
+          "elements": 25,
+          "properties": 26
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 40,
-          "properties": 68
+          "elements": 0,
+          "properties": 0
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 20,
-          "properties": 40
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
@@ -400,8 +400,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -452,52 +452,52 @@
       "label": "Profile",
       "tokens": {
         "1": {
-          "elements": 10,
-          "properties": 23
-        },
-        "3": {
-          "elements": 145,
-          "properties": 163
-        },
-        "5": {
-          "elements": 21,
-          "properties": 39
-        },
-        "7": {
-          "elements": 68,
-          "properties": 137
-        },
-        "9": {
-          "elements": 113,
-          "properties": 224
-        },
-        "10": {
-          "elements": 38,
-          "properties": 69
-        },
-        "11": {
-          "elements": 44,
-          "properties": 66
-        },
-        "13": {
-          "elements": 7,
-          "properties": 12
-        },
-        "14": {
-          "elements": 40,
-          "properties": 68
-        },
-        "15": {
           "elements": 1,
           "properties": 2
+        },
+        "3": {
+          "elements": 8,
+          "properties": 11
+        },
+        "5": {
+          "elements": 0,
+          "properties": 0
+        },
+        "7": {
+          "elements": 1,
+          "properties": 2
+        },
+        "9": {
+          "elements": 9,
+          "properties": 15
+        },
+        "10": {
+          "elements": 2,
+          "properties": 3
+        },
+        "11": {
+          "elements": 25,
+          "properties": 26
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 20,
-          "properties": 40
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
@@ -516,8 +516,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -568,52 +568,52 @@
       "label": "Profile (Appearance section)",
       "tokens": {
         "1": {
-          "elements": 10,
-          "properties": 23
-        },
-        "3": {
-          "elements": 145,
-          "properties": 163
-        },
-        "5": {
-          "elements": 21,
-          "properties": 39
-        },
-        "7": {
-          "elements": 68,
-          "properties": 137
-        },
-        "9": {
-          "elements": 113,
-          "properties": 224
-        },
-        "10": {
-          "elements": 38,
-          "properties": 69
-        },
-        "11": {
-          "elements": 44,
-          "properties": 66
-        },
-        "13": {
-          "elements": 7,
-          "properties": 12
-        },
-        "14": {
-          "elements": 40,
-          "properties": 68
-        },
-        "15": {
           "elements": 1,
           "properties": 2
+        },
+        "3": {
+          "elements": 1,
+          "properties": 4
+        },
+        "5": {
+          "elements": 1,
+          "properties": 2
+        },
+        "7": {
+          "elements": 1,
+          "properties": 2
+        },
+        "9": {
+          "elements": 11,
+          "properties": 18
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 25,
+          "properties": 26
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 20,
-          "properties": 40
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
@@ -632,8 +632,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -684,52 +684,52 @@
       "label": "Sales invoice list",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 123,
-          "properties": 147
+          "elements": 2,
+          "properties": 6
         },
         "5": {
-          "elements": 76,
-          "properties": 165
+          "elements": 41,
+          "properties": 98
         },
         "7": {
-          "elements": 71,
-          "properties": 139
+          "elements": 21,
+          "properties": 38
         },
         "9": {
-          "elements": 266,
-          "properties": 520
+          "elements": 178,
+          "properties": 352
         },
         "10": {
-          "elements": 31,
-          "properties": 59
+          "elements": 0,
+          "properties": 0
         },
         "11": {
-          "elements": 45,
-          "properties": 68
+          "elements": 25,
+          "properties": 26
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 40,
-          "properties": 68
+          "elements": 0,
+          "properties": 0
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 20,
-          "properties": 40
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
@@ -748,8 +748,8 @@
           "properties": 1
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -800,52 +800,52 @@
       "label": "Sales invoice record",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 123,
-          "properties": 147
-        },
-        "5": {
-          "elements": 39,
-          "properties": 75
-        },
-        "7": {
-          "elements": 51,
-          "properties": 103
-        },
-        "9": {
-          "elements": 71,
-          "properties": 131
-        },
-        "10": {
-          "elements": 31,
-          "properties": 59
-        },
-        "11": {
-          "elements": 45,
-          "properties": 68
-        },
-        "13": {
-          "elements": 7,
+          "elements": 8,
           "properties": 12
         },
+        "5": {
+          "elements": 14,
+          "properties": 28
+        },
+        "7": {
+          "elements": 17,
+          "properties": 34
+        },
+        "9": {
+          "elements": 5,
+          "properties": 7
+        },
+        "10": {
+          "elements": 1,
+          "properties": 1
+        },
+        "11": {
+          "elements": 28,
+          "properties": 31
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
         "14": {
-          "elements": 40,
-          "properties": 68
+          "elements": 7,
+          "properties": 14
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 20,
-          "properties": 40
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
@@ -864,8 +864,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -916,52 +916,52 @@
       "label": "Email",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 119,
-          "properties": 142
+          "elements": 1,
+          "properties": 4
         },
         "5": {
-          "elements": 34,
-          "properties": 65
+          "elements": 0,
+          "properties": 0
         },
         "7": {
-          "elements": 52,
-          "properties": 109
+          "elements": 2,
+          "properties": 6
         },
         "9": {
-          "elements": 64,
-          "properties": 116
+          "elements": 3,
+          "properties": 3
         },
         "10": {
-          "elements": 31,
-          "properties": 59
+          "elements": 0,
+          "properties": 0
         },
         "11": {
-          "elements": 52,
-          "properties": 75
+          "elements": 25,
+          "properties": 26
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 40,
-          "properties": 68
+          "elements": 0,
+          "properties": 0
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 20,
-          "properties": 40
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
@@ -980,8 +980,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -1032,52 +1032,52 @@
       "label": "Home",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 143,
-          "properties": 167
+          "elements": 30,
+          "properties": 40
         },
         "5": {
-          "elements": 35,
-          "properties": 67
+          "elements": 17,
+          "properties": 34
         },
         "7": {
-          "elements": 55,
-          "properties": 111
+          "elements": 23,
+          "properties": 46
         },
         "9": {
-          "elements": 70,
-          "properties": 129
+          "elements": 7,
+          "properties": 11
         },
         "10": {
-          "elements": 31,
-          "properties": 59
+          "elements": 1,
+          "properties": 1
         },
         "11": {
-          "elements": 46,
-          "properties": 70
+          "elements": 30,
+          "properties": 35
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 40,
-          "properties": 68
+          "elements": 7,
+          "properties": 14
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 1,
+          "properties": 1
         },
         "22": {
           "elements": 0,
@@ -1096,8 +1096,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -1148,60 +1148,60 @@
       "label": "Customer list",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 144,
-          "properties": 169
+          "elements": 2,
+          "properties": 6
         },
         "5": {
-          "elements": 61,
-          "properties": 125
+          "elements": 26,
+          "properties": 58
         },
         "7": {
-          "elements": 68,
-          "properties": 133
+          "elements": 16,
+          "properties": 28
         },
         "9": {
-          "elements": 167,
-          "properties": 322
+          "elements": 90,
+          "properties": 176
         },
         "10": {
-          "elements": 31,
-          "properties": 59
+          "elements": 0,
+          "properties": 0
         },
         "11": {
-          "elements": 45,
-          "properties": 68
+          "elements": 25,
+          "properties": 26
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 44,
-          "properties": 76
+          "elements": 4,
+          "properties": 8
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
           "properties": 0
         },
         "26": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "28": {
           "elements": 0,
@@ -1212,8 +1212,8 @@
           "properties": 1
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -1264,60 +1264,60 @@
       "label": "Customer record",
       "tokens": {
         "1": {
-          "elements": 17,
-          "properties": 44
+          "elements": 8,
+          "properties": 23
         },
         "3": {
-          "elements": 212,
-          "properties": 238
+          "elements": 69,
+          "properties": 73
         },
         "5": {
-          "elements": 46,
-          "properties": 89
+          "elements": 7,
+          "properties": 14
         },
         "7": {
-          "elements": 63,
-          "properties": 127
+          "elements": 12,
+          "properties": 24
         },
         "9": {
-          "elements": 79,
-          "properties": 147
+          "elements": 11,
+          "properties": 19
         },
         "10": {
-          "elements": 36,
-          "properties": 64
+          "elements": 5,
+          "properties": 5
         },
         "11": {
-          "elements": 45,
-          "properties": 68
+          "elements": 25,
+          "properties": 26
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 40,
-          "properties": 68
+          "elements": 0,
+          "properties": 0
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
           "properties": 0
         },
         "26": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "28": {
           "elements": 0,
@@ -1328,8 +1328,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -1380,52 +1380,52 @@
       "label": "Profile",
       "tokens": {
         "1": {
-          "elements": 10,
-          "properties": 23
-        },
-        "3": {
-          "elements": 145,
-          "properties": 163
-        },
-        "5": {
-          "elements": 21,
-          "properties": 39
-        },
-        "7": {
-          "elements": 68,
-          "properties": 137
-        },
-        "9": {
-          "elements": 113,
-          "properties": 224
-        },
-        "10": {
-          "elements": 38,
-          "properties": 69
-        },
-        "11": {
-          "elements": 44,
-          "properties": 66
-        },
-        "13": {
-          "elements": 7,
-          "properties": 12
-        },
-        "14": {
-          "elements": 40,
-          "properties": 68
-        },
-        "15": {
           "elements": 1,
           "properties": 2
+        },
+        "3": {
+          "elements": 8,
+          "properties": 11
+        },
+        "5": {
+          "elements": 0,
+          "properties": 0
+        },
+        "7": {
+          "elements": 1,
+          "properties": 2
+        },
+        "9": {
+          "elements": 9,
+          "properties": 15
+        },
+        "10": {
+          "elements": 2,
+          "properties": 3
+        },
+        "11": {
+          "elements": 25,
+          "properties": 26
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 20,
-          "properties": 40
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
@@ -1444,8 +1444,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -1496,52 +1496,52 @@
       "label": "Profile (Appearance section)",
       "tokens": {
         "1": {
-          "elements": 10,
-          "properties": 23
-        },
-        "3": {
-          "elements": 145,
-          "properties": 163
-        },
-        "5": {
-          "elements": 21,
-          "properties": 39
-        },
-        "7": {
-          "elements": 68,
-          "properties": 137
-        },
-        "9": {
-          "elements": 113,
-          "properties": 224
-        },
-        "10": {
-          "elements": 38,
-          "properties": 69
-        },
-        "11": {
-          "elements": 44,
-          "properties": 66
-        },
-        "13": {
-          "elements": 7,
-          "properties": 12
-        },
-        "14": {
-          "elements": 40,
-          "properties": 68
-        },
-        "15": {
           "elements": 1,
           "properties": 2
+        },
+        "3": {
+          "elements": 1,
+          "properties": 4
+        },
+        "5": {
+          "elements": 1,
+          "properties": 2
+        },
+        "7": {
+          "elements": 1,
+          "properties": 2
+        },
+        "9": {
+          "elements": 11,
+          "properties": 18
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 25,
+          "properties": 26
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 20,
-          "properties": 40
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
@@ -1560,8 +1560,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -1612,60 +1612,60 @@
       "label": "Sales invoice list",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 144,
-          "properties": 169
+          "elements": 2,
+          "properties": 6
         },
         "5": {
-          "elements": 76,
-          "properties": 165
+          "elements": 41,
+          "properties": 98
         },
         "7": {
-          "elements": 73,
-          "properties": 143
+          "elements": 21,
+          "properties": 38
         },
         "9": {
-          "elements": 267,
-          "properties": 522
+          "elements": 179,
+          "properties": 354
         },
         "10": {
-          "elements": 31,
-          "properties": 59
+          "elements": 0,
+          "properties": 0
         },
         "11": {
-          "elements": 45,
-          "properties": 68
+          "elements": 25,
+          "properties": 26
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 44,
-          "properties": 76
+          "elements": 4,
+          "properties": 8
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
           "properties": 0
         },
         "26": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "28": {
           "elements": 0,
@@ -1676,8 +1676,8 @@
           "properties": 1
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -1728,60 +1728,60 @@
       "label": "Sales invoice record",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 144,
-          "properties": 169
-        },
-        "5": {
-          "elements": 39,
-          "properties": 75
-        },
-        "7": {
-          "elements": 54,
-          "properties": 109
-        },
-        "9": {
-          "elements": 71,
-          "properties": 131
-        },
-        "10": {
-          "elements": 31,
-          "properties": 59
-        },
-        "11": {
-          "elements": 45,
-          "properties": 68
-        },
-        "13": {
-          "elements": 7,
+          "elements": 8,
           "properties": 12
         },
+        "5": {
+          "elements": 14,
+          "properties": 28
+        },
+        "7": {
+          "elements": 18,
+          "properties": 36
+        },
+        "9": {
+          "elements": 5,
+          "properties": 7
+        },
+        "10": {
+          "elements": 1,
+          "properties": 1
+        },
+        "11": {
+          "elements": 28,
+          "properties": 31
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
         "14": {
-          "elements": 40,
-          "properties": 68
+          "elements": 7,
+          "properties": 14
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
           "properties": 0
         },
         "26": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "28": {
           "elements": 0,
@@ -1792,8 +1792,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -1844,60 +1844,60 @@
       "label": "Email",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 140,
-          "properties": 164
+          "elements": 1,
+          "properties": 4
         },
         "5": {
-          "elements": 34,
-          "properties": 65
+          "elements": 0,
+          "properties": 0
         },
         "7": {
-          "elements": 54,
-          "properties": 113
+          "elements": 3,
+          "properties": 10
         },
         "9": {
-          "elements": 64,
-          "properties": 116
+          "elements": 4,
+          "properties": 5
         },
         "10": {
-          "elements": 31,
-          "properties": 59
+          "elements": 0,
+          "properties": 0
         },
         "11": {
-          "elements": 52,
-          "properties": 75
+          "elements": 25,
+          "properties": 26
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 40,
-          "properties": 68
+          "elements": 0,
+          "properties": 0
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
           "properties": 0
         },
         "26": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "28": {
           "elements": 0,
@@ -1908,8 +1908,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -1960,52 +1960,52 @@
       "label": "Home",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 143,
-          "properties": 167
+          "elements": 30,
+          "properties": 40
         },
         "5": {
-          "elements": 35,
-          "properties": 67
+          "elements": 17,
+          "properties": 34
         },
         "7": {
-          "elements": 55,
-          "properties": 111
+          "elements": 23,
+          "properties": 46
         },
         "9": {
-          "elements": 71,
-          "properties": 131
+          "elements": 8,
+          "properties": 13
         },
         "10": {
-          "elements": 31,
-          "properties": 59
+          "elements": 1,
+          "properties": 1
         },
         "11": {
-          "elements": 46,
-          "properties": 70
+          "elements": 30,
+          "properties": 35
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 40,
-          "properties": 68
+          "elements": 7,
+          "properties": 14
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 1,
+          "properties": 1
         },
         "22": {
           "elements": 0,
@@ -2024,8 +2024,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -2076,60 +2076,60 @@
       "label": "Customer list",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 144,
-          "properties": 169
+          "elements": 2,
+          "properties": 6
         },
         "5": {
-          "elements": 62,
-          "properties": 127
+          "elements": 26,
+          "properties": 58
         },
         "7": {
-          "elements": 69,
-          "properties": 135
+          "elements": 16,
+          "properties": 28
         },
         "9": {
-          "elements": 168,
-          "properties": 324
+          "elements": 90,
+          "properties": 176
         },
         "10": {
-          "elements": 31,
-          "properties": 59
+          "elements": 0,
+          "properties": 0
         },
         "11": {
-          "elements": 46,
-          "properties": 70
+          "elements": 26,
+          "properties": 28
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 44,
-          "properties": 76
+          "elements": 4,
+          "properties": 8
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
           "properties": 0
         },
         "26": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "28": {
           "elements": 0,
@@ -2140,8 +2140,8 @@
           "properties": 1
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -2192,60 +2192,60 @@
       "label": "Customer record",
       "tokens": {
         "1": {
-          "elements": 17,
-          "properties": 44
+          "elements": 8,
+          "properties": 23
         },
         "3": {
-          "elements": 212,
-          "properties": 238
+          "elements": 69,
+          "properties": 73
         },
         "5": {
-          "elements": 47,
-          "properties": 91
+          "elements": 8,
+          "properties": 16
         },
         "7": {
-          "elements": 64,
-          "properties": 129
+          "elements": 13,
+          "properties": 26
         },
         "9": {
-          "elements": 80,
-          "properties": 149
+          "elements": 12,
+          "properties": 21
         },
         "10": {
-          "elements": 36,
-          "properties": 64
+          "elements": 5,
+          "properties": 5
         },
         "11": {
-          "elements": 46,
-          "properties": 70
+          "elements": 26,
+          "properties": 28
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 40,
-          "properties": 68
+          "elements": 0,
+          "properties": 0
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
           "properties": 0
         },
         "26": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "28": {
           "elements": 0,
@@ -2256,8 +2256,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -2308,52 +2308,52 @@
       "label": "Profile",
       "tokens": {
         "1": {
-          "elements": 10,
-          "properties": 23
-        },
-        "3": {
-          "elements": 145,
-          "properties": 163
-        },
-        "5": {
-          "elements": 22,
-          "properties": 41
-        },
-        "7": {
-          "elements": 69,
-          "properties": 139
-        },
-        "9": {
-          "elements": 114,
-          "properties": 226
-        },
-        "10": {
-          "elements": 38,
-          "properties": 69
-        },
-        "11": {
-          "elements": 45,
-          "properties": 68
-        },
-        "13": {
-          "elements": 7,
-          "properties": 12
-        },
-        "14": {
-          "elements": 40,
-          "properties": 68
-        },
-        "15": {
           "elements": 1,
           "properties": 2
+        },
+        "3": {
+          "elements": 8,
+          "properties": 11
+        },
+        "5": {
+          "elements": 1,
+          "properties": 2
+        },
+        "7": {
+          "elements": 2,
+          "properties": 4
+        },
+        "9": {
+          "elements": 10,
+          "properties": 17
+        },
+        "10": {
+          "elements": 2,
+          "properties": 3
+        },
+        "11": {
+          "elements": 26,
+          "properties": 28
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 20,
-          "properties": 40
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
@@ -2372,8 +2372,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -2424,52 +2424,52 @@
       "label": "Profile (Appearance section)",
       "tokens": {
         "1": {
-          "elements": 10,
-          "properties": 23
-        },
-        "3": {
-          "elements": 145,
-          "properties": 163
-        },
-        "5": {
-          "elements": 22,
-          "properties": 41
-        },
-        "7": {
-          "elements": 69,
-          "properties": 139
-        },
-        "9": {
-          "elements": 114,
-          "properties": 226
-        },
-        "10": {
-          "elements": 38,
-          "properties": 69
-        },
-        "11": {
-          "elements": 45,
-          "properties": 68
-        },
-        "13": {
-          "elements": 7,
-          "properties": 12
-        },
-        "14": {
-          "elements": 40,
-          "properties": 68
-        },
-        "15": {
           "elements": 1,
           "properties": 2
+        },
+        "3": {
+          "elements": 1,
+          "properties": 4
+        },
+        "5": {
+          "elements": 2,
+          "properties": 4
+        },
+        "7": {
+          "elements": 2,
+          "properties": 4
+        },
+        "9": {
+          "elements": 12,
+          "properties": 20
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 26,
+          "properties": 28
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 20,
-          "properties": 40
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
@@ -2488,8 +2488,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -2540,60 +2540,60 @@
       "label": "Sales invoice list",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 144,
-          "properties": 169
+          "elements": 2,
+          "properties": 6
         },
         "5": {
-          "elements": 77,
-          "properties": 167
+          "elements": 41,
+          "properties": 98
         },
         "7": {
-          "elements": 74,
-          "properties": 145
+          "elements": 21,
+          "properties": 38
         },
         "9": {
-          "elements": 268,
-          "properties": 524
+          "elements": 179,
+          "properties": 354
         },
         "10": {
-          "elements": 31,
-          "properties": 59
+          "elements": 0,
+          "properties": 0
         },
         "11": {
-          "elements": 46,
-          "properties": 70
+          "elements": 26,
+          "properties": 28
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 44,
-          "properties": 76
+          "elements": 4,
+          "properties": 8
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
           "properties": 0
         },
         "26": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "28": {
           "elements": 0,
@@ -2604,8 +2604,8 @@
           "properties": 1
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -2656,60 +2656,60 @@
       "label": "Sales invoice record",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 144,
-          "properties": 169
-        },
-        "5": {
-          "elements": 40,
-          "properties": 77
-        },
-        "7": {
-          "elements": 55,
-          "properties": 111
-        },
-        "9": {
-          "elements": 72,
-          "properties": 133
-        },
-        "10": {
-          "elements": 31,
-          "properties": 59
-        },
-        "11": {
-          "elements": 46,
-          "properties": 70
-        },
-        "13": {
-          "elements": 7,
+          "elements": 8,
           "properties": 12
         },
+        "5": {
+          "elements": 15,
+          "properties": 30
+        },
+        "7": {
+          "elements": 19,
+          "properties": 38
+        },
+        "9": {
+          "elements": 6,
+          "properties": 9
+        },
+        "10": {
+          "elements": 1,
+          "properties": 1
+        },
+        "11": {
+          "elements": 29,
+          "properties": 33
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
         "14": {
-          "elements": 40,
-          "properties": 68
+          "elements": 7,
+          "properties": 14
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
           "properties": 0
         },
         "26": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "28": {
           "elements": 0,
@@ -2720,8 +2720,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -2772,60 +2772,60 @@
       "label": "Email",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 140,
-          "properties": 164
+          "elements": 1,
+          "properties": 4
         },
         "5": {
-          "elements": 35,
-          "properties": 67
-        },
-        "7": {
-          "elements": 55,
-          "properties": 115
-        },
-        "9": {
-          "elements": 65,
-          "properties": 118
-        },
-        "10": {
-          "elements": 31,
-          "properties": 59
-        },
-        "11": {
-          "elements": 53,
-          "properties": 77
-        },
-        "13": {
-          "elements": 7,
-          "properties": 12
-        },
-        "14": {
-          "elements": 40,
-          "properties": 68
-        },
-        "15": {
           "elements": 1,
           "properties": 2
+        },
+        "7": {
+          "elements": 4,
+          "properties": 12
+        },
+        "9": {
+          "elements": 6,
+          "properties": 8
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 33,
+          "properties": 35
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
           "properties": 0
         },
         "26": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "28": {
           "elements": 0,
@@ -2836,8 +2836,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -2888,52 +2888,52 @@
       "label": "Home",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 143,
-          "properties": 167
+          "elements": 30,
+          "properties": 40
         },
         "5": {
-          "elements": 35,
-          "properties": 67
+          "elements": 17,
+          "properties": 34
         },
         "7": {
-          "elements": 55,
-          "properties": 111
+          "elements": 23,
+          "properties": 46
         },
         "9": {
-          "elements": 71,
-          "properties": 131
+          "elements": 8,
+          "properties": 13
         },
         "10": {
-          "elements": 31,
-          "properties": 59
+          "elements": 1,
+          "properties": 1
         },
         "11": {
-          "elements": 46,
-          "properties": 70
+          "elements": 30,
+          "properties": 35
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 40,
-          "properties": 68
+          "elements": 7,
+          "properties": 14
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 1,
+          "properties": 1
         },
         "22": {
           "elements": 0,
@@ -2952,8 +2952,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -3004,60 +3004,60 @@
       "label": "Customer list",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 144,
-          "properties": 169
+          "elements": 2,
+          "properties": 6
         },
         "5": {
-          "elements": 62,
-          "properties": 127
+          "elements": 26,
+          "properties": 58
         },
         "7": {
-          "elements": 69,
-          "properties": 135
+          "elements": 16,
+          "properties": 28
         },
         "9": {
-          "elements": 168,
-          "properties": 324
+          "elements": 90,
+          "properties": 176
         },
         "10": {
-          "elements": 31,
-          "properties": 59
+          "elements": 0,
+          "properties": 0
         },
         "11": {
-          "elements": 46,
-          "properties": 70
+          "elements": 26,
+          "properties": 28
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 44,
-          "properties": 76
+          "elements": 4,
+          "properties": 8
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
           "properties": 0
         },
         "26": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "28": {
           "elements": 0,
@@ -3068,8 +3068,8 @@
           "properties": 1
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -3120,60 +3120,60 @@
       "label": "Customer record",
       "tokens": {
         "1": {
-          "elements": 17,
-          "properties": 44
+          "elements": 8,
+          "properties": 23
         },
         "3": {
-          "elements": 212,
-          "properties": 238
+          "elements": 69,
+          "properties": 73
         },
         "5": {
-          "elements": 47,
-          "properties": 91
+          "elements": 8,
+          "properties": 16
         },
         "7": {
-          "elements": 64,
-          "properties": 129
+          "elements": 13,
+          "properties": 26
         },
         "9": {
-          "elements": 80,
-          "properties": 149
+          "elements": 12,
+          "properties": 21
         },
         "10": {
-          "elements": 36,
-          "properties": 64
+          "elements": 5,
+          "properties": 5
         },
         "11": {
-          "elements": 46,
-          "properties": 70
+          "elements": 26,
+          "properties": 28
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 40,
-          "properties": 68
+          "elements": 0,
+          "properties": 0
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
           "properties": 0
         },
         "26": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "28": {
           "elements": 0,
@@ -3184,8 +3184,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -3236,52 +3236,52 @@
       "label": "Profile",
       "tokens": {
         "1": {
-          "elements": 10,
-          "properties": 23
-        },
-        "3": {
-          "elements": 145,
-          "properties": 163
-        },
-        "5": {
-          "elements": 22,
-          "properties": 41
-        },
-        "7": {
-          "elements": 69,
-          "properties": 139
-        },
-        "9": {
-          "elements": 114,
-          "properties": 226
-        },
-        "10": {
-          "elements": 38,
-          "properties": 69
-        },
-        "11": {
-          "elements": 45,
-          "properties": 68
-        },
-        "13": {
-          "elements": 7,
-          "properties": 12
-        },
-        "14": {
-          "elements": 40,
-          "properties": 68
-        },
-        "15": {
           "elements": 1,
           "properties": 2
+        },
+        "3": {
+          "elements": 8,
+          "properties": 11
+        },
+        "5": {
+          "elements": 1,
+          "properties": 2
+        },
+        "7": {
+          "elements": 2,
+          "properties": 4
+        },
+        "9": {
+          "elements": 10,
+          "properties": 17
+        },
+        "10": {
+          "elements": 2,
+          "properties": 3
+        },
+        "11": {
+          "elements": 26,
+          "properties": 28
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 20,
-          "properties": 40
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
@@ -3300,8 +3300,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -3352,52 +3352,52 @@
       "label": "Profile (Appearance section)",
       "tokens": {
         "1": {
-          "elements": 10,
-          "properties": 23
-        },
-        "3": {
-          "elements": 145,
-          "properties": 163
-        },
-        "5": {
-          "elements": 22,
-          "properties": 41
-        },
-        "7": {
-          "elements": 69,
-          "properties": 139
-        },
-        "9": {
-          "elements": 114,
-          "properties": 226
-        },
-        "10": {
-          "elements": 38,
-          "properties": 69
-        },
-        "11": {
-          "elements": 45,
-          "properties": 68
-        },
-        "13": {
-          "elements": 7,
-          "properties": 12
-        },
-        "14": {
-          "elements": 40,
-          "properties": 68
-        },
-        "15": {
           "elements": 1,
           "properties": 2
+        },
+        "3": {
+          "elements": 1,
+          "properties": 4
+        },
+        "5": {
+          "elements": 2,
+          "properties": 4
+        },
+        "7": {
+          "elements": 2,
+          "properties": 4
+        },
+        "9": {
+          "elements": 12,
+          "properties": 20
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 26,
+          "properties": 28
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 20,
-          "properties": 40
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
@@ -3416,8 +3416,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -3468,60 +3468,60 @@
       "label": "Sales invoice list",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 144,
-          "properties": 169
+          "elements": 2,
+          "properties": 6
         },
         "5": {
-          "elements": 77,
-          "properties": 167
+          "elements": 41,
+          "properties": 98
         },
         "7": {
-          "elements": 74,
-          "properties": 145
+          "elements": 21,
+          "properties": 38
         },
         "9": {
-          "elements": 268,
-          "properties": 524
+          "elements": 179,
+          "properties": 354
         },
         "10": {
-          "elements": 31,
-          "properties": 59
+          "elements": 0,
+          "properties": 0
         },
         "11": {
-          "elements": 46,
-          "properties": 70
+          "elements": 26,
+          "properties": 28
         },
         "13": {
-          "elements": 7,
-          "properties": 12
+          "elements": 0,
+          "properties": 0
         },
         "14": {
-          "elements": 44,
-          "properties": 76
+          "elements": 4,
+          "properties": 8
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
           "properties": 0
         },
         "26": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "28": {
           "elements": 0,
@@ -3532,8 +3532,8 @@
           "properties": 1
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -3584,60 +3584,60 @@
       "label": "Sales invoice record",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 144,
-          "properties": 169
-        },
-        "5": {
-          "elements": 40,
-          "properties": 77
-        },
-        "7": {
-          "elements": 55,
-          "properties": 111
-        },
-        "9": {
-          "elements": 72,
-          "properties": 133
-        },
-        "10": {
-          "elements": 31,
-          "properties": 59
-        },
-        "11": {
-          "elements": 46,
-          "properties": 70
-        },
-        "13": {
-          "elements": 7,
+          "elements": 8,
           "properties": 12
         },
+        "5": {
+          "elements": 15,
+          "properties": 30
+        },
+        "7": {
+          "elements": 19,
+          "properties": 38
+        },
+        "9": {
+          "elements": 6,
+          "properties": 9
+        },
+        "10": {
+          "elements": 1,
+          "properties": 1
+        },
+        "11": {
+          "elements": 29,
+          "properties": 33
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
         "14": {
-          "elements": 40,
-          "properties": 68
+          "elements": 7,
+          "properties": 14
         },
         "15": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
           "properties": 0
         },
         "26": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "28": {
           "elements": 0,
@@ -3648,8 +3648,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
@@ -3700,60 +3700,60 @@
       "label": "Email",
       "tokens": {
         "1": {
-          "elements": 9,
-          "properties": 21
+          "elements": 0,
+          "properties": 0
         },
         "3": {
-          "elements": 140,
-          "properties": 164
+          "elements": 1,
+          "properties": 4
         },
         "5": {
-          "elements": 35,
-          "properties": 67
-        },
-        "7": {
-          "elements": 55,
-          "properties": 115
-        },
-        "9": {
-          "elements": 65,
-          "properties": 118
-        },
-        "10": {
-          "elements": 31,
-          "properties": 59
-        },
-        "11": {
-          "elements": 53,
-          "properties": 77
-        },
-        "13": {
-          "elements": 7,
-          "properties": 12
-        },
-        "14": {
-          "elements": 40,
-          "properties": 68
-        },
-        "15": {
           "elements": 1,
           "properties": 2
+        },
+        "7": {
+          "elements": 4,
+          "properties": 12
+        },
+        "9": {
+          "elements": 6,
+          "properties": 8
+        },
+        "10": {
+          "elements": 0,
+          "properties": 0
+        },
+        "11": {
+          "elements": 33,
+          "properties": 35
+        },
+        "13": {
+          "elements": 0,
+          "properties": 0
+        },
+        "14": {
+          "elements": 0,
+          "properties": 0
+        },
+        "15": {
+          "elements": 0,
+          "properties": 0
         },
         "17": {
           "elements": 0,
           "properties": 0
         },
         "18": {
-          "elements": 21,
-          "properties": 41
+          "elements": 0,
+          "properties": 0
         },
         "22": {
           "elements": 0,
           "properties": 0
         },
         "26": {
-          "elements": 1,
-          "properties": 2
+          "elements": 0,
+          "properties": 0
         },
         "28": {
           "elements": 0,
@@ -3764,8 +3764,8 @@
           "properties": 0
         },
         "34": {
-          "elements": 5,
-          "properties": 5
+          "elements": 0,
+          "properties": 0
         },
         "46": {
           "elements": 0,
