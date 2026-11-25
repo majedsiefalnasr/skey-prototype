@@ -1,0 +1,3706 @@
+{
+  "sets": {
+    "B": {
+      "1": 2,
+      "3": 2,
+      "5": 4,
+      "7": 6,
+      "9": 8,
+      "10": 8,
+      "11": 12,
+      "14": 12
+    },
+    "C": {
+      "1": 2,
+      "3": 4,
+      "5": 6,
+      "7": 8,
+      "9": 8,
+      "10": 12,
+      "11": 12,
+      "14": 16
+    }
+  },
+  "results": [
+    {
+      "width": 390,
+      "screen": "home",
+      "label": "Home",
+      "radiusElements": 153,
+      "tokenElements": 37,
+      "literalOnListedValues": 24,
+      "fullPill": 10,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 16,
+          "B": {
+            "changed": 16,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 16,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "7": {
+          "elements": 1,
+          "B": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 20,
+          "B": {
+            "changed": 20,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          },
+          "C": {
+            "changed": 20,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "screen": "customers-list",
+      "label": "Customer list",
+      "radiusElements": 152,
+      "tokenElements": 77,
+      "literalOnListedValues": 2,
+      "fullPill": 6,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 77,
+          "B": {
+            "changed": 77,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 77,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "screen": "customer-record",
+      "label": "Customer record",
+      "radiusElements": 161,
+      "tokenElements": 0,
+      "literalOnListedValues": 4,
+      "fullPill": 11,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "screen": "profile",
+      "label": "Profile",
+      "radiusElements": 56,
+      "tokenElements": 0,
+      "literalOnListedValues": 1,
+      "fullPill": 4,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "screen": "profile-appearance",
+      "label": "Profile (Appearance section)",
+      "radiusElements": 164,
+      "tokenElements": 2,
+      "literalOnListedValues": 31,
+      "fullPill": 13,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "7": {
+          "elements": 2,
+          "B": {
+            "changed": 2,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 2,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "screen": "invoice-list",
+      "label": "Sales invoice list",
+      "radiusElements": 261,
+      "tokenElements": 166,
+      "literalOnListedValues": 9,
+      "fullPill": 3,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 166,
+          "B": {
+            "changed": 166,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 166,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "screen": "invoice-record",
+      "label": "Sales invoice record",
+      "radiusElements": 94,
+      "tokenElements": 14,
+      "literalOnListedValues": 4,
+      "fullPill": 4,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 14,
+          "B": {
+            "changed": 14,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 14,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "screen": "email",
+      "label": "Email",
+      "radiusElements": 50,
+      "tokenElements": 1,
+      "literalOnListedValues": 1,
+      "fullPill": 6,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 1,
+          "B": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 768,
+      "screen": "home",
+      "label": "Home",
+      "radiusElements": 156,
+      "tokenElements": 38,
+      "literalOnListedValues": 4,
+      "fullPill": 11,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 16,
+          "B": {
+            "changed": 16,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 16,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "7": {
+          "elements": 1,
+          "B": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 20,
+          "B": {
+            "changed": 20,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          },
+          "C": {
+            "changed": 20,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 1,
+          "B": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          },
+          "C": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          }
+        }
+      }
+    },
+    {
+      "width": 768,
+      "screen": "customers-list",
+      "label": "Customer list",
+      "radiusElements": 160,
+      "tokenElements": 81,
+      "literalOnListedValues": 2,
+      "fullPill": 6,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 77,
+          "B": {
+            "changed": 77,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 77,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 4,
+          "B": {
+            "changed": 4,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          },
+          "C": {
+            "changed": 4,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 768,
+      "screen": "customer-record",
+      "label": "Customer record",
+      "radiusElements": 161,
+      "tokenElements": 0,
+      "literalOnListedValues": 4,
+      "fullPill": 11,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 768,
+      "screen": "profile",
+      "label": "Profile",
+      "radiusElements": 56,
+      "tokenElements": 0,
+      "literalOnListedValues": 1,
+      "fullPill": 4,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 768,
+      "screen": "profile-appearance",
+      "label": "Profile (Appearance section)",
+      "radiusElements": 164,
+      "tokenElements": 2,
+      "literalOnListedValues": 31,
+      "fullPill": 13,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "7": {
+          "elements": 2,
+          "B": {
+            "changed": 2,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 2,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 768,
+      "screen": "invoice-list",
+      "label": "Sales invoice list",
+      "radiusElements": 269,
+      "tokenElements": 170,
+      "literalOnListedValues": 9,
+      "fullPill": 3,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 166,
+          "B": {
+            "changed": 166,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 166,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 4,
+          "B": {
+            "changed": 4,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          },
+          "C": {
+            "changed": 4,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 768,
+      "screen": "invoice-record",
+      "label": "Sales invoice record",
+      "radiusElements": 94,
+      "tokenElements": 14,
+      "literalOnListedValues": 4,
+      "fullPill": 4,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 14,
+          "B": {
+            "changed": 14,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 14,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 768,
+      "screen": "email",
+      "label": "Email",
+      "radiusElements": 63,
+      "tokenElements": 2,
+      "literalOnListedValues": 1,
+      "fullPill": 14,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "7": {
+          "elements": 1,
+          "B": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "9": {
+          "elements": 1,
+          "B": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 1024,
+      "screen": "home",
+      "label": "Home",
+      "radiusElements": 156,
+      "tokenElements": 38,
+      "literalOnListedValues": 4,
+      "fullPill": 11,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 16,
+          "B": {
+            "changed": 16,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 16,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "7": {
+          "elements": 1,
+          "B": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 20,
+          "B": {
+            "changed": 20,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          },
+          "C": {
+            "changed": 20,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 1,
+          "B": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          },
+          "C": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          }
+        }
+      }
+    },
+    {
+      "width": 1024,
+      "screen": "customers-list",
+      "label": "Customer list",
+      "radiusElements": 164,
+      "tokenElements": 87,
+      "literalOnListedValues": 2,
+      "fullPill": 6,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 6,
+          "B": {
+            "changed": 6,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 6,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "5": {
+          "elements": 77,
+          "B": {
+            "changed": 77,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 77,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 4,
+          "B": {
+            "changed": 4,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          },
+          "C": {
+            "changed": 4,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 1024,
+      "screen": "customer-record",
+      "label": "Customer record",
+      "radiusElements": 167,
+      "tokenElements": 6,
+      "literalOnListedValues": 4,
+      "fullPill": 11,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 6,
+          "B": {
+            "changed": 6,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 6,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "5": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 1024,
+      "screen": "profile",
+      "label": "Profile",
+      "radiusElements": 58,
+      "tokenElements": 2,
+      "literalOnListedValues": 1,
+      "fullPill": 4,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 2,
+          "B": {
+            "changed": 2,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 2,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "5": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 1024,
+      "screen": "profile-appearance",
+      "label": "Profile (Appearance section)",
+      "radiusElements": 166,
+      "tokenElements": 4,
+      "literalOnListedValues": 31,
+      "fullPill": 13,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 2,
+          "B": {
+            "changed": 2,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 2,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "5": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "7": {
+          "elements": 2,
+          "B": {
+            "changed": 2,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 2,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 1024,
+      "screen": "invoice-list",
+      "label": "Sales invoice list",
+      "radiusElements": 281,
+      "tokenElements": 184,
+      "literalOnListedValues": 9,
+      "fullPill": 3,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 14,
+          "B": {
+            "changed": 14,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 14,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "5": {
+          "elements": 166,
+          "B": {
+            "changed": 166,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 166,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 4,
+          "B": {
+            "changed": 4,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          },
+          "C": {
+            "changed": 4,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 1024,
+      "screen": "invoice-record",
+      "label": "Sales invoice record",
+      "radiusElements": 108,
+      "tokenElements": 28,
+      "literalOnListedValues": 4,
+      "fullPill": 4,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 14,
+          "B": {
+            "changed": 14,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 14,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "5": {
+          "elements": 14,
+          "B": {
+            "changed": 14,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 14,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 1024,
+      "screen": "email",
+      "label": "Email",
+      "radiusElements": 78,
+      "tokenElements": 12,
+      "literalOnListedValues": 1,
+      "fullPill": 14,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 10,
+          "B": {
+            "changed": 10,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 10,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "5": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "7": {
+          "elements": 1,
+          "B": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "9": {
+          "elements": 1,
+          "B": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "home",
+      "label": "Home",
+      "radiusElements": 156,
+      "tokenElements": 38,
+      "literalOnListedValues": 4,
+      "fullPill": 11,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "5": {
+          "elements": 16,
+          "B": {
+            "changed": 16,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 16,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "7": {
+          "elements": 1,
+          "B": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 20,
+          "B": {
+            "changed": 20,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          },
+          "C": {
+            "changed": 20,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 1,
+          "B": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          },
+          "C": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          }
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "customers-list",
+      "label": "Customer list",
+      "radiusElements": 164,
+      "tokenElements": 87,
+      "literalOnListedValues": 2,
+      "fullPill": 6,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 6,
+          "B": {
+            "changed": 6,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 6,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "5": {
+          "elements": 77,
+          "B": {
+            "changed": 77,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 77,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 4,
+          "B": {
+            "changed": 4,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          },
+          "C": {
+            "changed": 4,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "customer-record",
+      "label": "Customer record",
+      "radiusElements": 167,
+      "tokenElements": 6,
+      "literalOnListedValues": 4,
+      "fullPill": 11,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 6,
+          "B": {
+            "changed": 6,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 6,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "5": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "profile",
+      "label": "Profile",
+      "radiusElements": 58,
+      "tokenElements": 2,
+      "literalOnListedValues": 1,
+      "fullPill": 4,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 2,
+          "B": {
+            "changed": 2,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 2,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "5": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "profile-appearance",
+      "label": "Profile (Appearance section)",
+      "radiusElements": 166,
+      "tokenElements": 4,
+      "literalOnListedValues": 31,
+      "fullPill": 13,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 2,
+          "B": {
+            "changed": 2,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 2,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "5": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "7": {
+          "elements": 2,
+          "B": {
+            "changed": 2,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 2,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "invoice-list",
+      "label": "Sales invoice list",
+      "radiusElements": 281,
+      "tokenElements": 184,
+      "literalOnListedValues": 9,
+      "fullPill": 3,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 14,
+          "B": {
+            "changed": 14,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 14,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "5": {
+          "elements": 166,
+          "B": {
+            "changed": 166,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 166,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 4,
+          "B": {
+            "changed": 4,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          },
+          "C": {
+            "changed": 4,
+            "hiddenByClamp": 0,
+            "maxDelta": 2
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "invoice-record",
+      "label": "Sales invoice record",
+      "radiusElements": 108,
+      "tokenElements": 28,
+      "literalOnListedValues": 4,
+      "fullPill": 4,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 14,
+          "B": {
+            "changed": 14,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 14,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "5": {
+          "elements": 14,
+          "B": {
+            "changed": 14,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 14,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "7": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "9": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "email",
+      "label": "Email",
+      "radiusElements": 78,
+      "tokenElements": 12,
+      "literalOnListedValues": 1,
+      "fullPill": 14,
+      "perToken": {
+        "1": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "3": {
+          "elements": 10,
+          "B": {
+            "changed": 10,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 10,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "5": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "7": {
+          "elements": 1,
+          "B": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "9": {
+          "elements": 1,
+          "B": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          },
+          "C": {
+            "changed": 1,
+            "hiddenByClamp": 0,
+            "maxDelta": 1
+          }
+        },
+        "10": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "11": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        },
+        "14": {
+          "elements": 0,
+          "B": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          },
+          "C": {
+            "changed": 0,
+            "hiddenByClamp": 0,
+            "maxDelta": 0
+          }
+        }
+      }
+    }
+  ]
+}
