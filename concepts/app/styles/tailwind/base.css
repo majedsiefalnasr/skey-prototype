@@ -46,6 +46,13 @@
     --ds-space-legacy-54: 54px;
     --ds-space-legacy-68: 68px;
     --ds-space-legacy-72: 72px;
+    --ds-button-gap: var(--ds-space-075);
+    --ds-button-radius: var(--ds-radius-medium);
+    --ds-button-icon-min-size: 2rem;
+    --ds-button-icon-padding-block: var(--ds-space-050);
+    --ds-button-icon-padding-inline: var(--ds-space-100);
+    --ds-button-label-padding-block: var(--ds-space-075);
+    --ds-button-label-padding-inline: var(--ds-space-legacy-11);
   }
 
   /* Theme custom-property tokens (concepts/app/styles/tokens.css, folded in here so

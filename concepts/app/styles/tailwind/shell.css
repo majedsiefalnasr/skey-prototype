@@ -295,11 +295,11 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    min-width: 32px;
-    min-height: 32px;
-    padding: 4px 8px;
-    border-radius: 6px;
+    gap: var(--ds-button-gap);
+    min-width: var(--ds-button-icon-min-size);
+    min-height: var(--ds-button-icon-min-size);
+    padding: var(--ds-button-icon-padding-block) var(--ds-button-icon-padding-inline);
+    border-radius: var(--ds-button-radius);
     position: relative;
   }
   .ibtn:hover:not(:disabled) {
@@ -321,9 +321,9 @@
     color: var(--ink);
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 11px;
-    border-radius: 6px;
+    gap: var(--ds-button-gap);
+    padding: var(--ds-button-label-padding-block) var(--ds-button-label-padding-inline);
+    border-radius: var(--ds-button-radius);
     border: 1px solid transparent;
     font-weight: 500;
     white-space: nowrap;
