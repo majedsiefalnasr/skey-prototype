@@ -57,7 +57,7 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
         '[[dir=rtl]_.savewrap>&]:[border-inline-end:1px_solid_color-mix(in_srgb,_var(--inverse)_35%,_transparent)]!'
       )
       const car = document.createElement('button')
-      car.className = 'car [.newwrap>&]:[border:1px_solid_var(--line)]! [.newwrap>&]:[border-inline-start:none]! [.newwrap>&]:[border-radius:0_var(--ds-radius-medium)_var(--ds-radius-medium)_0]! [.newwrap>&]:[padding:var(--ds-space-075)_var(--ds-space-legacy-7)] [.newwrap>&]:bg-surface [[dir=rtl]_.newwrap>&]:[border-radius:var(--ds-radius-medium)_0_0_var(--ds-radius-medium)]! [[dir=rtl]_.newwrap>&]:[border-inline-start:none]! [[dir=rtl]_.newwrap>&]:[border-inline-end:none]! [.newwrap>&:hover:not(:disabled)]:bg-[var(--line-2)] [.savewrap>&]:[background:var(--accent)] [.savewrap>&]:[color:var(--inverse)] [.savewrap>&]:[border-inline-start:1px_solid_color-mix(in_srgb,_var(--inverse)_35%,_transparent)]! [.savewrap>&]:[border-radius:0_var(--ds-radius-medium)_var(--ds-radius-medium)_0]! [.savewrap>&]:[padding:var(--ds-space-075)_var(--ds-space-legacy-7)] [[dir=rtl]_.savewrap>&]:[border-radius:var(--ds-radius-medium)_0_0_var(--ds-radius-medium)]! [.savewrap>&:disabled]:[opacity:0.42] [.d2_.genbtn>&]:[border:1px_solid_var(--line)]! [.d2_.genbtn>&]:[border-inline-start:none]! [.d2_.genbtn>&]:[border-radius:0_var(--ds-radius-legacy-7)_var(--ds-radius-legacy-7)_0]! [.d2_.genbtn>&]:[padding:var(--ds-space-075)_var(--ds-space-legacy-7)] [.d2_.genbtn>&]:bg-surface [[dir=rtl]_.d2_.genbtn>&]:[border-radius:var(--ds-radius-legacy-7)_0_0_var(--ds-radius-legacy-7)]! [[dir=rtl]_.d2_.genbtn>&]:[border-inline-start:1px_solid_var(--line)]! [[dir=rtl]_.d2_.genbtn>&]:[border-inline-end:none]!'
+      car.className = 'car [.newwrap>&]:[border:1px_solid_var(--line)]! [.newwrap>&]:[border-inline-start:none]! [.newwrap>&]:[border-radius:0_var(--ds-radius-medium)_var(--ds-radius-medium)_0]! [.newwrap>&]:[padding:var(--ds-space-075)_var(--ds-space-legacy-7)] [.newwrap>&]:bg-surface [[dir=rtl]_.newwrap>&]:[border-radius:var(--ds-radius-medium)_0_0_var(--ds-radius-medium)]! [[dir=rtl]_.newwrap>&]:[border-inline-start:none]! [[dir=rtl]_.newwrap>&]:[border-inline-end:none]! [.newwrap>&:hover:not(:disabled)]:bg-[var(--line-2)] [.savewrap>&]:[background:var(--accent)] [.savewrap>&]:[color:var(--inverse)] [.savewrap>&]:[border-inline-start:1px_solid_color-mix(in_srgb,_var(--inverse)_35%,_transparent)]! [.savewrap>&]:[border-radius:0_var(--ds-radius-medium)_var(--ds-radius-medium)_0]! [.savewrap>&]:[padding:var(--ds-space-075)_var(--ds-space-legacy-7)] [[dir=rtl]_.savewrap>&]:[border-radius:var(--ds-radius-medium)_0_0_var(--ds-radius-medium)]! [.savewrap>&:disabled]:[opacity:0.42] [.d2_.genbtn>&]:[border:1px_solid_var(--line)]! [.d2_.genbtn>&]:[border-inline-start:none]! [.d2_.genbtn>&]:[border-radius:0_var(--ds-radius-large)_var(--ds-radius-large)_0]! [.d2_.genbtn>&]:[padding:var(--ds-space-075)_var(--ds-space-legacy-7)] [.d2_.genbtn>&]:bg-surface [[dir=rtl]_.d2_.genbtn>&]:[border-radius:var(--ds-radius-large)_0_0_var(--ds-radius-large)]! [[dir=rtl]_.d2_.genbtn>&]:[border-inline-start:1px_solid_var(--line)]! [[dir=rtl]_.d2_.genbtn>&]:[border-inline-end:none]!'
       car.setAttribute('aria-haspopup', 'menu')
       car.setAttribute('aria-expanded', 'false')
       car.setAttribute('aria-label', 'Other ways to save')
@@ -71,7 +71,7 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
         '<button role="menuitem" data-save="new" data-i18n="Save and start another">Save and start another</button>'
       wrap.append(car, list)
       const chip = document.createElement('span')
-      chip.className = 'reqchip inline-flex items-center gap-1.5 text-xs font-semibold [background:var(--warn-bg)] [color:var(--warn-ink)] [border-radius:var(--ds-radius-legacy-999)] [padding:var(--ds-space-050)_var(--ds-space-legacy-11)]'
+      chip.className = 'reqchip inline-flex items-center gap-1.5 text-xs font-semibold [background:var(--warn-bg)] [color:var(--warn-ink)] [border-radius:var(--ds-radius-full)] [padding:var(--ds-space-050)_var(--ds-space-legacy-11)]'
       chip.hidden = true
       wrap.parentNode.insertBefore(chip, wrap)
     })
@@ -91,7 +91,7 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
     })
     d.querySelectorAll('.pager-mount').forEach(m => {
       const b = document.createElement('button')
-      b.className = 'backlist inline-flex items-center gap-1.5 [padding:var(--ds-space-075)_var(--ds-space-legacy-11)] [border:1px_solid_var(--line)] [border-radius:var(--ds-radius-legacy-7)] bg-surface [font-size:13px] whitespace-nowrap [&:hover]:bg-[var(--line-2)]'
+      b.className = 'backlist inline-flex items-center gap-1.5 [padding:var(--ds-space-075)_var(--ds-space-legacy-11)] [border:1px_solid_var(--line)] [border-radius:var(--ds-radius-large)] bg-surface [font-size:13px] whitespace-nowrap [&:hover]:bg-[var(--line-2)]'
       b.hidden = true
       b.innerHTML =
         '<svg width="14" height="14" aria-hidden="true"><use href="#i-prev"/></svg> <span data-i18n="Back to the invoice list">Back to the invoice list</span>'

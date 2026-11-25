@@ -1,13 +1,13 @@
 <!-- ===== customer field lookup menu and dialogs ===== -->
 <div
-  class="customer-lookup-menu fixed [z-index:170] [width:252px] [padding:var(--ds-space-075)] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-2)] [&[hidden]]:hidden [&_button]:flex [&_button]:w-full [&_button]:[min-height:32px] [&_button]:[gap:var(--ds-space-legacy-9)] [&_button]:items-center [&_button]:[padding:var(--ds-space-075)_var(--ds-space-100)] [&_button]:[border:0] [&_button]:[border-radius:var(--ds-radius-legacy-5)] [&_button]:text-ink [&_button]:[background:transparent] [&_button]:[font:inherit] [&_button]:text-start [&_button]:[cursor:pointer] [&_button:hover]:[outline:0] [&_button:hover]:bg-[var(--line-2)] [&_button:focus-visible]:[outline:0] [&_button:focus-visible]:bg-[var(--line-2)] [&_button_svg]:[flex:none] [&_button_svg]:text-muted [&_hr]:[height:1px] [&_hr]:[margin:var(--ds-space-legacy-5)_calc(var(--ds-space-075)*-1)]! [&_hr]:[border:0] [&_hr]:[background:var(--line)]"
+  class="customer-lookup-menu fixed [z-index:170] [width:252px] [padding:var(--ds-space-075)] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-2)] [&[hidden]]:hidden [&_button]:flex [&_button]:w-full [&_button]:[min-height:32px] [&_button]:[gap:var(--ds-space-legacy-9)] [&_button]:items-center [&_button]:[padding:var(--ds-space-075)_var(--ds-space-100)] [&_button]:[border:0] [&_button]:[border-radius:var(--ds-radius-medium)] [&_button]:text-ink [&_button]:[background:transparent] [&_button]:[font:inherit] [&_button]:text-start [&_button]:[cursor:pointer] [&_button:hover]:[outline:0] [&_button:hover]:bg-[var(--line-2)] [&_button:focus-visible]:[outline:0] [&_button:focus-visible]:bg-[var(--line-2)] [&_button_svg]:[flex:none] [&_button_svg]:text-muted [&_hr]:[height:1px] [&_hr]:[margin:var(--ds-space-legacy-5)_calc(var(--ds-space-075)*-1)]! [&_hr]:[border:0] [&_hr]:[background:var(--line)]"
   id="customer-lookup-menu"
   role="menu"
   aria-label="Lookup options"
   hidden></div>
 
 <div
-  class="customer-lookup-menu customer-unit-lookup-menu fixed [z-index:170] [width:252px] [padding:var(--ds-space-075)] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-2)] [&[hidden]]:hidden [&_button]:flex [&_button]:w-full [&_button]:[min-height:32px] [&_button]:[gap:var(--ds-space-legacy-9)] [&_button]:items-center [&_button]:[padding:var(--ds-space-075)_var(--ds-space-100)] [&_button]:[border:0] [&_button]:[border-radius:var(--ds-radius-legacy-5)] [&_button]:text-ink [&_button]:[background:transparent] [&_button]:[font:inherit] [&_button]:text-start [&_button]:[cursor:pointer] [&_button:hover]:[outline:0] [&_button:hover]:bg-[var(--line-2)] [&_button:focus-visible]:[outline:0] [&_button:focus-visible]:bg-[var(--line-2)] [&_button_svg]:[flex:none] [&_button_svg]:text-muted [&_hr]:[height:1px] [&_hr]:[margin:var(--ds-space-legacy-5)_calc(var(--ds-space-075)*-1)]! [&_hr]:[border:0] [&_hr]:[background:var(--line)] [z-index:230]"
+  class="customer-lookup-menu customer-unit-lookup-menu fixed [z-index:170] [width:252px] [padding:var(--ds-space-075)] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-2)] [&[hidden]]:hidden [&_button]:flex [&_button]:w-full [&_button]:[min-height:32px] [&_button]:[gap:var(--ds-space-legacy-9)] [&_button]:items-center [&_button]:[padding:var(--ds-space-075)_var(--ds-space-100)] [&_button]:[border:0] [&_button]:[border-radius:var(--ds-radius-medium)] [&_button]:text-ink [&_button]:[background:transparent] [&_button]:[font:inherit] [&_button]:text-start [&_button]:[cursor:pointer] [&_button:hover]:[outline:0] [&_button:hover]:bg-[var(--line-2)] [&_button:focus-visible]:[outline:0] [&_button:focus-visible]:bg-[var(--line-2)] [&_button_svg]:[flex:none] [&_button_svg]:text-muted [&_hr]:[height:1px] [&_hr]:[margin:var(--ds-space-legacy-5)_calc(var(--ds-space-075)*-1)]! [&_hr]:[border:0] [&_hr]:[background:var(--line)] [z-index:230]"
   id="customer-unit-lookup-menu"
   role="menu"
   aria-label="Operation unit field options"
@@ -204,7 +204,7 @@
     <div class="dlg-inner">
       <div class="dbody min-h-0 overflow-auto [padding:var(--ds-space-200)_var(--ds-space-250)] [padding:var(--ds-space-legacy-10)_var(--ds-space-legacy-14)]">
         <div
-          class="geo-view-switch grid grid-cols-2 gap-[var(--ds-space-legacy-3)] p-[var(--ds-space-legacy-3)] rounded-legacy-7 bg-[var(--line-2)] [margin:var(--ds-space-100)_var(--ds-space-100)_0]"
+          class="geo-view-switch grid grid-cols-2 gap-[var(--ds-space-legacy-3)] p-[var(--ds-space-legacy-3)] rounded-lg bg-[var(--line-2)] [margin:var(--ds-space-100)_var(--ds-space-100)_0]"
           role="tablist"
           aria-label="Unit picker view">
           <button
@@ -213,7 +213,7 @@
             data-unit-picker-view="tree"
             aria-selected="true"
             aria-controls="unit-picker-tree-pane"
-            class="inline-flex min-h-8 gap-[var(--ds-space-legacy-7)] items-center justify-center px-[var(--ds-space-legacy-9)] py-[var(--ds-space-legacy-5)] rounded-legacy-5 text-muted text-dense font-semibold">
+            class="inline-flex min-h-8 gap-[var(--ds-space-legacy-7)] items-center justify-center px-[var(--ds-space-legacy-9)] py-[var(--ds-space-legacy-5)] rounded-md text-muted text-dense font-semibold">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg>
             <span data-i18n="Tree">Tree</span>
           </button>
@@ -223,7 +223,7 @@
             data-unit-picker-view="flow"
             aria-selected="false"
             aria-controls="unit-picker-flow-pane"
-            class="inline-flex min-h-8 gap-[var(--ds-space-legacy-7)] items-center justify-center px-[var(--ds-space-legacy-9)] py-[var(--ds-space-legacy-5)] rounded-legacy-5 text-muted text-dense font-semibold">
+            class="inline-flex min-h-8 gap-[var(--ds-space-legacy-7)] items-center justify-center px-[var(--ds-space-legacy-9)] py-[var(--ds-space-legacy-5)] rounded-md text-muted text-dense font-semibold">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-grid" /></svg>
             <span data-i18n="Flow">Flow</span>
           </button>
@@ -240,7 +240,7 @@
         </div>
         <div id="unit-picker-flow-pane" role="tabpanel" hidden>
           <div
-            class="geo-flow-viewport unit-picker-flow-viewport min-w-0 flex-1 mx-2 mb-2 overflow-auto cursor-grab rounded-legacy-7 border border-line touch-none select-none min-h-[360px] [background-color:var(--bg)] [background-image:radial-gradient(var(--line)_1px,transparent_1px)] [background-size:16px_16px]"
+            class="geo-flow-viewport unit-picker-flow-viewport min-w-0 flex-1 mx-2 mb-2 overflow-auto cursor-grab rounded-lg border border-line touch-none select-none min-h-[360px] [background-color:var(--bg)] [background-image:radial-gradient(var(--line)_1px,transparent_1px)] [background-size:16px_16px]"
             id="unit-picker-flow-viewport">
             <div
               class="geo-flow-canvas relative min-w-full min-h-full [max-height:min(560px,80vh)]"

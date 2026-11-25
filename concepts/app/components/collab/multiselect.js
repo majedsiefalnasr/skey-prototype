@@ -31,7 +31,7 @@ export const multiselect = ({id, label, options, selected = [], required = false
             value
           )}" aria-selected="${chosen.has(value)}" data-ms-opt="${escapeHtml(value)}" data-ms-label="${escapeHtml(
             text
-          )}" class="flex min-h-8 cursor-pointer items-center gap-2 rounded-legacy-5 px-2 text-body text-ink hover:bg-[var(--line-2)] aria-selected:bg-[var(--line-2)]"><span class="grid size-4 flex-none place-items-center text-muted" aria-hidden="true">${
+          )}" class="flex min-h-8 cursor-pointer items-center gap-2 rounded-md px-2 text-body text-ink hover:bg-[var(--line-2)] aria-selected:bg-[var(--line-2)]"><span class="grid size-4 flex-none place-items-center text-muted" aria-hidden="true">${
             chosen.has(value) ? icon('i-check', 13) : ''
           }</span><span class="min-w-0 flex-1 truncate">${escapeHtml(text)}</span></li>`
       )

@@ -1335,7 +1335,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
     const backCards = backs
       .map((m, index) => {
         const depth = backs.length - index
-        return `<li class="email-sel-card grid grid-cols-[28px_minmax(0,9.5rem)_minmax(0,1fr)_auto] items-center gap-3 rounded-legacy-10 border border-line bg-surface px-4 shadow-[var(--shadow-1)]" data-sel-card data-deck-edge data-id="${escapeHtml(m.id)}" style="--deck-k:${depth};z-index:${index + 1}">
+        return `<li class="email-sel-card grid grid-cols-[28px_minmax(0,9.5rem)_minmax(0,1fr)_auto] items-center gap-3 rounded-xl border border-line bg-surface px-4 shadow-[var(--shadow-1)]" data-sel-card data-deck-edge data-id="${escapeHtml(m.id)}" style="--deck-k:${depth};z-index:${index + 1}">
           <span class="${AVATAR_CLASS} size-7 text-small" style="--hue:${Number(m.hue) || 210}">${avatar(m.from, 13)}</span>
           <b class="truncate text-body font-semibold text-ink" dir="auto">${escapeHtml(counterpart(m))}</b>
           <span class="truncate text-body text-muted" dir="auto">${escapeHtml(titleOf(m))}</span>

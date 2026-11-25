@@ -15,7 +15,7 @@ const ROW_CLASS = 'flex min-w-0 items-start gap-2 rounded-lg border border-line 
 const OPEN_CLASS =
   'grid min-w-0 flex-1 grid-cols-[32px_minmax(0,1fr)] items-start gap-3 rounded border-0 bg-transparent p-0 text-start hover:[&_.rel-title]:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]'
 const MENU_ITEM_CLASS =
-  'flex min-h-8 w-full items-center gap-2 rounded-legacy-5 border-0 bg-transparent px-2 py-1.5 text-start text-body text-ink hover:bg-[var(--line-2)] focus-visible:bg-[var(--line-2)] focus-visible:outline-none'
+  'flex min-h-8 w-full items-center gap-2 rounded-md border-0 bg-transparent px-2 py-1.5 text-start text-body text-ink hover:bg-[var(--line-2)] focus-visible:bg-[var(--line-2)] focus-visible:outline-none'
 
 const typeBadge = type =>
   `<span class="badge gray inline-flex shrink-0 items-center gap-1">${icon(TYPE_META[type].icon, 11)}<span>${escapeHtml(t(TYPE_META[type].label))}</span></span>`

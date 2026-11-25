@@ -44,14 +44,14 @@ const schedule = (callback, delay) => { const timer = setTimeout(() => {timers.d
           }
           if (aiThread.querySelector('.ai-empty')) aiThread.innerHTML = ''
           const me = document.createElement('div')
-          me.className = 'ai-msg me max-w-[88%] self-end rounded-legacy-10 rounded-br-legacy-3 bg-accent px-3 py-2 text-body leading-[1.5] text-inverse'
+          me.className = 'ai-msg me max-w-[88%] self-end rounded-xl rounded-br-sm bg-accent px-3 py-2 text-body leading-[1.5] text-inverse'
           me.textContent = text
           aiThread.appendChild(me)
           aiInput.value = ''
           aiThread.scrollTop = aiThread.scrollHeight
 
           const thinking = document.createElement('div')
-          thinking.className = 'ai-msg bot ai-thinking max-w-[88%] self-start whitespace-pre-line rounded-legacy-10 rounded-bl-legacy-3 border border-line bg-[var(--bg)] px-3 py-2 text-body leading-[1.5] text-ink flex items-center gap-2 text-muted'
+          thinking.className = 'ai-msg bot ai-thinking max-w-[88%] self-start whitespace-pre-line rounded-xl rounded-bl-sm border border-line bg-[var(--bg)] px-3 py-2 text-body leading-[1.5] text-ink flex items-center gap-2 text-muted'
           thinking.innerHTML =
             '<span class="ai-orb size-[15px] flex-none rounded-full bg-[conic-gradient(from_0deg,#6c9bff,#a575ff,#ff8dc7,#6c9bff)] [animation:ai-orb-spin_2.2s_linear_infinite,ai-orb-pulse_1.4s_ease-in-out_infinite] motion-reduce:animate-none"></span><span>Thinking<span class="ai-dots ms-px inline-flex gap-0.5 align-[-0.12em]"><i class="size-1 inline-block rounded-full bg-current opacity-30 [animation:ai-dot-bounce_1.1s_ease-in-out_infinite] motion-reduce:animate-none motion-reduce:opacity-60"></i><i class="size-1 inline-block rounded-full bg-current opacity-30 [animation:ai-dot-bounce_1.1s_ease-in-out_infinite] [animation-delay:0.15s] motion-reduce:animate-none motion-reduce:opacity-60"></i><i class="size-1 inline-block rounded-full bg-current opacity-30 [animation:ai-dot-bounce_1.1s_ease-in-out_infinite] [animation-delay:0.3s] motion-reduce:animate-none motion-reduce:opacity-60"></i></span></span>'
           aiThread.appendChild(thinking)
@@ -64,7 +64,7 @@ const schedule = (callback, delay) => { const timer = setTimeout(() => {timers.d
             () => {
               thinking.remove()
               const bot = document.createElement('div')
-              bot.className = 'ai-msg bot max-w-[88%] self-start whitespace-pre-line rounded-legacy-10 rounded-bl-legacy-3 border border-line bg-[var(--bg)] px-3 py-2 text-body leading-[1.5] text-ink'
+              bot.className = 'ai-msg bot max-w-[88%] self-start whitespace-pre-line rounded-xl rounded-bl-sm border border-line bg-[var(--bg)] px-3 py-2 text-body leading-[1.5] text-ink'
               aiThread.appendChild(bot)
               let i = 0
               const step = () => {

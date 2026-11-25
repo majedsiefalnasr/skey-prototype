@@ -25,7 +25,7 @@ const ACTIVITY_TIME_CLASS = 'tm ms-1.5 text-xs text-faint'
 const ACTIVITY_CHANGE_CLASS = 'chg mt-[var(--ds-space-legacy-3)] text-xs text-muted [&_s]:text-faint [&_b]:text-ink'
 const ACTIVITY_CHIPS_CLASS = 'chips mt-[var(--ds-space-legacy-7)] flex flex-wrap gap-[var(--ds-space-legacy-7)]'
 const ACTIVITY_CHIP_CLASS =
-  'chip inline-flex items-center gap-1.5 rounded-legacy-7 border border-line bg-surface px-[var(--ds-space-legacy-9)] py-[var(--ds-space-legacy-3)] text-xs'
+  'chip inline-flex items-center gap-1.5 rounded-lg border border-line bg-surface px-[var(--ds-space-legacy-9)] py-[var(--ds-space-legacy-3)] text-xs'
 const ACTIVITY_TOGGLE_GROUP_CLASS = 'tg mt-2 flex gap-5.5 text-xs'
 const ACTIVITY_TOGGLE_CLASS = 'ntg inline-flex items-center gap-[var(--ds-space-legacy-5)] text-muted'
 const ACTIVITY_NOTES_CLASS =
