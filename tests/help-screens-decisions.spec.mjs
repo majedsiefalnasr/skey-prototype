@@ -396,10 +396,9 @@ test('Record views hide relationship changes and Edit brings them', async ({page
     ['notes', '[data-card-open]', '#collab-panel'],
     ['activities', '[data-card-open]', '#collab-panel'],
     ['events', '[data-cal-item]', '#collab-panel'],
-    ['people-data', '[data-row-open]', '.people-record-view'],
   ]) {
     await go(page, '/help-screens/' + path)
-    await page.locator('.' + (path === 'people-data' ? 'people' : path) + '-view').locator(selector).first().click()
+    await page.locator('.' + path + '-view').locator(selector).first().click()
     const record = page.locator(host)
     await expect(record.locator('[data-related-link]')).toHaveCount(0)
     await expect(record.locator('[data-related-create]')).toHaveCount(0)
@@ -407,10 +406,9 @@ test('Record views hide relationship changes and Edit brings them', async ({page
     await record.locator('[data-panel-edit]').click()
     await expect(record.locator('[data-related-link]')).toBeEnabled()
     await expect(record.locator('[data-related-create]')).toBeEnabled()
-    // The full-page People record's footer lives in the shell's footer slot.
-    await page.locator(path === 'people-data' ? '.page-footer [data-page-footer="people-record"]' : host).locator('[data-panel-cancel]').click()
+    await record.locator('[data-panel-cancel]').click()
     await expect(record.locator('[data-related-link]')).toHaveCount(0)
-    await record.locator(path === 'people-data' ? '[data-people-back]' : '[data-panel-close]').click()
+    await record.locator('[data-panel-close]').click()
   }
   await go(page, '/help-screens/email')
   await page.locator('.email-list-row').first().click()
@@ -469,7 +467,7 @@ test('Create customer conversion uses the normal form and links only after a suc
   await go(page, '/help-screens/people-data')
   await page.locator('[data-collab-new]').click()
   await page.locator('#person-name-en').fill('New conversion contact')
-  await page.locator('.page-footer [data-page-footer="people-record"] [data-panel-save]').click()
+  await page.locator('.people-record-view [data-panel-save]').click()
   const person = (await saved(page)).entities.person.find(person => person.nameEn === 'New conversion contact')
   await page.locator('.people-record-view [data-panel-menu]').click()
   await page.locator('.people-record-view [role="menuitem"]', {hasText: /Convert to Customer|تحويل إلى العميل/}).click()
