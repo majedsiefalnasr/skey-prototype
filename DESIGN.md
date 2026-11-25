@@ -136,4 +136,4 @@ Prototype breakpoints:
 
 1. **Phase 1, tokens with no visual change.** Move the existing type, spacing and radius values into named tokens. Font sizes, radius and spacing are done. Changing one token then updates every use. Screenshots must not change.
 2. **Phase 2, normalise to the scale.** Map the values to a small set. This changes the look, so it needs approval and updated screenshot baselines.
-3. **Open items.** The shell, Email, invoice, data list, data list statistics, collaboration pages and kanban inset are on `md`. The other `legacy` values (for example 1200px in Geography and Organization) still need a decision to align with ADS or to stay as a documented custom choice. Breakpoints are tokenised, so each group can move one value at a time (#12).
+3. **Open items.** The shell, Email, invoice, data list, data list statistics, collaboration pages and kanban inset are on `md`. The other `legacy` values (for example 1200px in Geography and Organization) still need a decision to align with ADS or to stay as a documented custom choice. Breakpoints are tokenised, so each group can move one value at a time (#21).
