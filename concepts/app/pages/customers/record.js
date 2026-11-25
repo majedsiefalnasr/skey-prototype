@@ -267,13 +267,6 @@ export function createCustomerRecord({root, deps}) {
     return `<section class="customer-section customer-tab-section overflow-hidden mb-3! [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [&[data-customer-has-errors=true]]:[border-color:var(--danger)] [.customer-record-canvas_&>h2]:w-full [.customer-record-canvas_&>h2]:[padding:var(--ds-space-100)_var(--ds-space-150)] [.customer-record-canvas_&>h2]:bg-[var(--line-2)] [.customer-record-canvas_&>h2]:[font-size:12.5px] [.customer-record-canvas_&>h2]:font-bold [.customer-record-canvas_&>h2]:text-start [.customer-compact-card_&]:h-full [.customer-compact-card_&]:mb-0! [body.density-compact_&]:mb-1.5! [body.density-comfortable_&]:mb-[var(--ds-space-legacy-18)]! [body.density-compact_.customer-record-canvas_&>h2]:[padding:var(--ds-space-legacy-5)_var(--ds-space-100)] [body.density-comfortable_.customer-record-canvas_&>h2]:[padding:var(--ds-space-legacy-11)_var(--ds-space-200)]" data-customer-section="${encodeHtml(key)}" data-customer-has-errors="${meta.hasErrors}"><div class="customer-section-body">${renderSectionBody(key, sectionsDeps)}</div></section>`
   }
 
-  function renderSection(key, sectionsDeps) {
-    const {CUSTOMER_SECTIONS} = sectionsDeps
-    const section = CUSTOMER_SECTIONS[key]
-    const meta = sectionMeta(key)
-    return `<section class="customer-section overflow-hidden mb-3! [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [&[data-customer-has-errors=true]]:[border-color:var(--danger)] [.customer-record-canvas_&>h2]:w-full [.customer-record-canvas_&>h2]:[padding:var(--ds-space-100)_var(--ds-space-150)] [.customer-record-canvas_&>h2]:bg-[var(--line-2)] [.customer-record-canvas_&>h2]:[font-size:12.5px] [.customer-record-canvas_&>h2]:font-bold [.customer-record-canvas_&>h2]:text-start [.customer-compact-card_&]:h-full [.customer-compact-card_&]:mb-0! [body.density-compact_&]:mb-1.5! [body.density-comfortable_&]:mb-[var(--ds-space-legacy-18)]! [body.density-compact_.customer-record-canvas_&>h2]:[padding:var(--ds-space-legacy-5)_var(--ds-space-100)] [body.density-comfortable_.customer-record-canvas_&>h2]:[padding:var(--ds-space-legacy-11)_var(--ds-space-200)]" data-customer-section="${encodeHtml(key)}" data-customer-has-errors="${meta.hasErrors}"><h2 class="customer-section-titlebar w-full [padding:var(--ds-space-100)_var(--ds-space-150)] bg-[var(--line-2)] [font-size:12.5px] font-bold text-start flex gap-2.5 justify-between items-center [.customer-record-canvas_&>h2]:flex [.customer-record-canvas_&>h2]:min-w-0 [.customer-record-canvas_&>h2]:gap-2 [.customer-record-canvas_&>h2]:items-center [.customer-record-canvas_&>h2]:[margin:0]! [.customer-record-canvas_&>h2]:[font:inherit]"><span>${encodeHtml(t(section.title))}</span>${sectionStatus(key)}</h2><div class="customer-section-body">${renderSectionBody(key, sectionsDeps)}</div></section>`
-  }
-
   function renderCollapsible(key, concept, sectionsDeps) {
     const {CUSTOMER_SECTIONS} = sectionsDeps
     const section = CUSTOMER_SECTIONS[key]
@@ -292,7 +285,6 @@ export function createCustomerRecord({root, deps}) {
       renderCustomerIdentitySection: concept => renderIdentitySection(concept, {CUSTOMER_SECTIONS}),
       renderCustomerSectionStatus: sectionStatus,
       renderCustomerTabSection: key => renderTabSection(key, {CUSTOMER_SECTIONS}),
-      renderCustomerSection: key => renderSection(key, {CUSTOMER_SECTIONS}),
       renderCustomerCollapsible: (key, concept) =>
         renderCollapsible(key, concept, {CUSTOMER_SECTIONS}),
       // The prototype has no summary-band implementation; retain its empty fallback.
@@ -736,15 +728,6 @@ export function createCustomerRecord({root, deps}) {
           scrollNavigator?.activateSection(scrollLink.dataset.customerScrollSection)
           return
         }
-        const focusedLink = event.target.closest('[data-customer-focus-section]')
-        if (focusedLink) {
-          customerState.activeSection = focusedLink.dataset.customerFocusSection
-          render({
-            focusSelector: `[data-customer-focus-section="${customerState.activeSection}"]`,
-            preserveScroll: true,
-          })
-          return
-        }
         const tab = event.target.closest('[data-customer-tab]')
         if (tab) {
           customerState.activeSection = tab.dataset.customerTab
@@ -790,23 +773,17 @@ export function createCustomerRecord({root, deps}) {
         ) {
           scrollNavigator.stopNavigation({interrupt: true})
         }
-        const focusedLink = event.target.closest('[data-customer-focus-section]')
         const scrollLink = event.target.closest('[data-customer-scroll-section]')
         const tab = event.target.closest('[data-customer-tab]')
-        const control = focusedLink || scrollLink || tab
+        const control = scrollLink || tab
         if (!control) return
         const controls = [
           ...control.parentElement.querySelectorAll(
-            focusedLink
-              ? '[data-customer-focus-section]'
-              : scrollLink
-                ? '[data-customer-scroll-section]'
-                : '[data-customer-tab]'
+            scrollLink ? '[data-customer-scroll-section]' : '[data-customer-tab]'
           ),
         ]
-        const vertical = focusedLink || scrollLink
-        const previousKey = vertical ? 'ArrowUp' : 'ArrowLeft'
-        const nextKey = vertical ? 'ArrowDown' : 'ArrowRight'
+        const previousKey = scrollLink ? 'ArrowUp' : 'ArrowLeft'
+        const nextKey = scrollLink ? 'ArrowDown' : 'ArrowRight'
         if (!['Home', 'End', previousKey, nextKey].includes(event.key)) return
         event.preventDefault()
         const index = controls.indexOf(control)
