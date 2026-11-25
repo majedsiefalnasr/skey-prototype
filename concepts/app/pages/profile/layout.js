@@ -31,11 +31,10 @@ export function createProfileScrollNavigator({root, sectionOrder, profileState})
   return {startSpy: () => {}, stopTracking: () => {}, activateSection, isNavigating: () => false}
 }
 
-// Sidebar list styled after the customer record's "Focused" layout nav
-// (pages/customers/layouts.js's customer-focused-nav): a plain vertical
-// list, no icons, active item marked by aria-current and a light
-// accent-tinted highlight, in its own bordered/shadowed card — matches the
-// production Skey ERP customer-detail sidebar.
+// Sidebar section list: a plain vertical list, no icons, active item marked
+// by aria-current and a light accent-tinted highlight, in its own
+// bordered/shadowed card — matches the production Skey ERP customer-detail
+// sidebar.
 export function renderProfileScrollNav(sectionOrder, sections, activeKey, encodeHtml) {
   const nav = sectionOrder
     .map(key => {
