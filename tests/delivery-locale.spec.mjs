@@ -123,7 +123,7 @@ test('Arabic customer changes save back with Arabic feedback', async ({page}) =>
   await page.locator('.phead [data-customer-action="modify"]:visible').first().click();
   await page.locator('[data-customer-field="customerName"]').fill('عميل تجريبي معدل');
   await page.locator('.phead [data-customer-action="save"]:visible').first().click();
-  await expect(page.locator('#toasts .toast b').last()).toHaveText('تم حفظ العميل');
+  await expect(page.locator('#toasts .toast h2').last()).toHaveText('تم حفظ العميل');
   await page.locator('.customer-back').click();
   await expect(page.locator(`[data-list-row-key="${number}"]`).first()).toContainText('عميل تجريبي معدل');
 });
@@ -138,7 +138,7 @@ test('receipt voucher action clearly stops at the prototype boundary in Arabic',
   // The related-document action is available from the record footer.
   await page.locator('[data-act="Receipt Voucher"]:visible').first().click();
   await expect(page.locator('#toasts .toast p').last()).toHaveText('لا ينشئ هذا النموذج مستندا مرتبطا.');
-  await expect(page.locator('#toasts .toast b').last()).toContainText('نموذج توضيحي فقط');
+  await expect(page.locator('#toasts .toast h2').last()).toContainText('نموذج توضيحي فقط');
 });
 
 test('new Arabic payment rows keep stable method values and translated labels', async ({page}) => {

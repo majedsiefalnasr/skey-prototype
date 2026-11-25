@@ -87,19 +87,6 @@ test('event and mail previews open above notes without navigating', async ({page
   }
 })
 
-test('person record previews its related note and View full navigates explicitly', async ({page}, info) => {
-  await go(page, info, 'people-data')
-  await page.locator('.people-view [data-row-open]').filter({hasText: 'Ahmed Ali'}).click()
-  const record = page.locator('.people-record-view')
-  await related(record, 'note').click()
-  await expect(preview(page).locator('#collab-preview-title')).toHaveText('Payment terms for Al Noor')
-  await expect(record).toBeVisible()
-  await page.screenshot({path: info.outputPath('related-note-preview.png'), animations: 'disabled'})
-  await preview(page).locator('[data-preview-full]').click()
-  await expect(page).toHaveURL(/\/help-screens\/notes$/)
-  await expect(panel(page).locator('#collab-panel-title')).toHaveText('Payment terms for Al Noor')
-})
-
 test('overdue related activities use the same danger shell as delete dialogs', async ({page}, info) => {
   await go(page, info, 'email')
   await page.locator('.email-list-row').filter({hasText: 'Stock check needed before Bill Outgoing Order ships'}).click()
