@@ -1,4 +1,4 @@
-import {maxWidthQuery} from '../../core/breakpoints.js'
+import {belowQuery} from '../../core/breakpoints.js'
 import {uiLocale} from '../../core/locale.js'
 const {t} = uiLocale
 // Kanban board shared by Notes and Activities. Columns are status buckets;
@@ -22,7 +22,7 @@ function sizeColumns(host) {
   const canvas = host.closest('.page-content') || host.closest('.content')
   const parent = host.parentElement
   const boxed = document.body.classList.contains('layout-boxed') && canvas
-  const inset = window.matchMedia(maxWidthQuery('legacy900')).matches ? 8 : 0
+  const inset = window.matchMedia(belowQuery('md')).matches ? 8 : 0
   const available = boxed ? parent.clientWidth - inset * 2 : host.clientWidth
   if (canvas) {
     const gutter = Math.max(0, (canvas.clientWidth - parent.clientWidth) / 2 + inset)

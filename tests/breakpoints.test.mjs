@@ -36,8 +36,8 @@ test('the ADS breakpoint tokens match the Atlassian Design System steps', () => 
   assert.deepEqual(Object.fromEntries(tokens), {xs: 30, sm: 48, md: 64, lg: 90, xl: 110.5});
 });
 
-test('maxWidthQuery builds the media query the shell used before', () => {
-  assert.equal(maxWidthQuery('legacy900'), '(max-width: 56.25rem)');
+test('maxWidthQuery builds an inclusive media query for a legacy value', () => {
+  assert.equal(maxWidthQuery('legacy1200'), '(max-width: 75rem)');
 });
 
 test('belowQuery matches the boundary of Tailwind max-sm:', () => {
