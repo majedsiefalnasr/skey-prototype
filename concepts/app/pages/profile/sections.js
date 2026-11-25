@@ -171,7 +171,7 @@ function renderProfileSection(currentUser, encodeHtml, language = 'en') {
   return renderCard(
     'Personal information',
     `<div class="grid gap-5 [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] items-start [@media((max-width:theme(--breakpoint-legacy-1439)))]:[grid-template-columns:minmax(0,_1fr)]">
-      <div class="profile-personal-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:var(--ds-space-legacy-10)_var(--ds-space-200)] [padding:var(--ds-space-150)]">${fieldsHtml}</div>
+      <div class="profile-personal-fields grid [grid-template-columns:repeat(auto-fit,_minmax(min(260px,_100%),_1fr))] [gap:var(--ds-space-legacy-10)_var(--ds-space-200)] [padding:var(--ds-space-150)]">${fieldsHtml}</div>
       <div class="profile-photo-column [padding:var(--ds-space-150)_var(--ds-space-150)_var(--ds-space-150)_0] [@media((max-width:theme(--breakpoint-legacy-1439)))]:[padding:0_var(--ds-space-150)_var(--ds-space-150)]">${photoBoxHtml}</div>
     </div>`
   )
@@ -215,11 +215,11 @@ export function renderEmployeeSection(employeeDetails, encodeHtml) {
   return (
     renderCard(
       'Employment',
-      `<div class="profile-employee-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:var(--ds-space-legacy-10)_var(--ds-space-200)] [padding:var(--ds-space-150)]">${employmentFields}</div>`
+      `<div class="profile-employee-fields grid [grid-template-columns:repeat(auto-fit,_minmax(min(260px,_100%),_1fr))] [gap:var(--ds-space-legacy-10)_var(--ds-space-200)] [padding:var(--ds-space-150)]">${employmentFields}</div>`
     ) +
     renderCard(
       'Workplace contact',
-      `<div class="profile-employee-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:var(--ds-space-legacy-10)_var(--ds-space-200)] [padding:var(--ds-space-150)]">${contactFields}</div>`
+      `<div class="profile-employee-fields grid [grid-template-columns:repeat(auto-fit,_minmax(min(260px,_100%),_1fr))] [gap:var(--ds-space-legacy-10)_var(--ds-space-200)] [padding:var(--ds-space-150)]">${contactFields}</div>`
     )
   )
 }
@@ -249,7 +249,7 @@ export function renderContactSection(contactDetails, encodeHtml) {
     .join('')
   return renderCard(
     'Contact information',
-    `<div class="profile-contact-fields grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:var(--ds-space-legacy-10)_var(--ds-space-200)] [padding:var(--ds-space-150)]">${fieldsHtml}</div>`
+    `<div class="profile-contact-fields grid [grid-template-columns:repeat(auto-fit,_minmax(min(260px,_100%),_1fr))] [gap:var(--ds-space-legacy-10)_var(--ds-space-200)] [padding:var(--ds-space-150)]">${fieldsHtml}</div>`
   )
 }
 
