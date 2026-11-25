@@ -46,6 +46,19 @@ Radii are `--ds-radius-*` tokens in `concepts/app/styles/tailwind/base.css`. Fiv
 
 Spacing is `--ds-space-*` tokens in `concepts/app/styles/tailwind/base.css`, written in class names as arbitrary values such as `p-[var(--ds-space-075)]` or `[margin:var(--ds-space-150)_0]`. Nine tokens follow the ADS scale and use the ADS step names: `025` 2px, `050` 4px, `075` 6px, `100` 8px, `150` 12px, `200` 16px, `250` 20px, `300` 24px and `500` 40px. Twenty-two `legacy-*` tokens hold the off-scale values the prototype already used, named by pixel size, for example `--ds-space-legacy-14`. Phase 2 can point each one at an ADS step. Negative values are written as `calc(var(--ds-space-100)*-1)`. Spacing literals in the plain CSS files in `concepts/app/styles` and `calc()` expressions such as `pb-[calc(1rem+var(--flag-reserve,0px))]` are not tokenised yet.
 
+The spacing token commit (`fd27932`) changed some paddings. These elements carry two conflicting padding classes, and renaming the values changed which class wins. The new values were accepted as the current design on 2026-11-25:
+
+| Element | Before | Accepted |
+| --- | --- | --- |
+| `.dbody` in dialogs that carry both classes (Customer, Geography, data list) | `16px 20px` | `10px 14px` |
+| `.customer-unit-drawer-header` | `16px 20px` | `10px 14px` |
+| `.customer-unit-drawer-body` | `16px 20px 24px` | `10px 14px` |
+| `.prototype-surface-card-header` | `8px 12px` | `7px 9px` |
+| `.prototype-surface-card-body` | `12px` | `7px 9px` |
+| `.customer-section-heading` | `8px 12px` | `5px 8px` |
+
+The overridden class is still in the markup of these elements, so changing its token has no effect there.
+
 ## Deviations
 
 | Area | ADS | Prototype | Status |
@@ -56,7 +69,7 @@ Spacing is `--ds-space-*` tokens in `concepts/app/styles/tailwind/base.css`, wri
 | Switch | Regular 32×16, thumb 12px | 30×17, thumb 13px | Accepted |
 | Radius | ADS scale: 2, 4, 6, 8 and 12px | ADS tokens plus `legacy-*` tokens for 1, 3, 5, 7, 9, 10, 11, 14 and 999px | Tokenised, not normalised |
 | Font sizes | ADS type scale | 22 role-based tokens with the sizes already in use | Implemented, no visual change |
-| Spacing | ADS scale | ADS tokens plus `legacy-*` tokens for 0.5, 1, 3, 5, 7, 9, 10, 11, 13, 14, 15, 17, 18, 22, 26, 28, 30, 34, 46, 54, 68 and 72px | Tokenised, not normalised |
+| Spacing | ADS scale | ADS tokens plus `legacy-*` tokens for 0.5, 1, 3, 5, 7, 9, 10, 11, 13, 14, 15, 17, 18, 22, 26, 28, 30, 34, 46, 54, 68 and 72px | Tokenised, not normalised; accepted padding changes are listed under [Spacing](#spacing) |
 | Record identity card | Not specified; stacks below `lg` (1440px) | Profile, Customer, People and the contact dialog stack the fields above the photo below 1440px | Implemented (#11, #1), no overlap measured at 390 to 1440px |
 | Viewport breakpoints | `xs` 30, `sm` 48, `md` 64, `lg` 90, `xl` 110.5rem (480, 768, 1024, 1440, 1768px at a 16px root) | ADS steps as `--breakpoint-xs` to `--breakpoint-xl`, plus 9 `--breakpoint-legacy-*` tokens named by pixel value at a 16px root for values that have not moved to a step. All are written in `rem`, like ADS | Below `sm` (48rem, 768px) follows ADS; the rest is tokenised, not normalised (#12) |
 | Flag title | `h2` heading | `h2` heading | Implemented, not visually verified |
