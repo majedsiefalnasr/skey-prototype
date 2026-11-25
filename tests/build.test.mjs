@@ -4,7 +4,7 @@ import http from 'node:http'
 import {tmpdir} from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
-import {assemble, build} from '../scripts/build.mjs'
+import {assemble, build, removePreviousDist} from '../scripts/build.mjs'
 import {serve} from '../scripts/serve.mjs'
 
 // assemble() resolves includes relative to a fixed `concepts/` sourceRoot
@@ -342,6 +342,31 @@ test('assemble: Task 3 shell utility mapping rejects an unrelated duplicate clas
     () => applyTask3ShellUtilities('<header class="gtop"></header><header class="gtop"></header>'),
     /duplicate intended markup: class="gtop"/
   )
+})
+
+test('removePreviousDist: retries the removal of the replaced dist/', async () => {
+  const calls = []
+  await removePreviousDist('.dist-old-fixture', {
+    remove: async (...args) => calls.push(args),
+    warn: message => assert.fail(message),
+  })
+  assert.equal(calls.length, 1)
+  const [directory, options] = calls[0]
+  assert.equal(directory, '.dist-old-fixture')
+  assert.equal(options.recursive, true)
+  assert.ok(options.maxRetries > 0)
+})
+
+test('removePreviousDist: warns instead of failing when the replaced dist/ cannot be removed', async () => {
+  const warnings = []
+  await removePreviousDist('.dist-old-fixture', {
+    remove: async () => {
+      throw Object.assign(new Error('ENOTEMPTY: directory not empty'), {code: 'ENOTEMPTY'})
+    },
+    warn: message => warnings.push(message),
+  })
+  assert.equal(warnings.length, 1)
+  assert.match(warnings[0], /\.dist-old-fixture.*ENOTEMPTY/)
 })
 
 test('build: produces dist/concepts/app-shell.html with no unresolved include directives', async () => {
