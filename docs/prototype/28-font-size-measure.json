@@ -1,0 +1,2695 @@
+{
+  "sets": {
+    "badge": 9.5,
+    "caption-xs": 10,
+    "stat-delta": 10.5,
+    "caption": 11,
+    "caption-md": 11.5,
+    "small": 12,
+    "dense": 12.5,
+    "body": 13,
+    "body-lg": 13.5,
+    "subtitle": 14,
+    "heading-sm": 14.5,
+    "heading": 15,
+    "heading-md": 16,
+    "avatar-lg": 17,
+    "card-title": 18,
+    "subject": 19,
+    "title": 20,
+    "metric": 22,
+    "page-title": 23,
+    "display-sm": 26,
+    "display": 28,
+    "display-lg": 36
+  },
+  "rows": [
+    {
+      "width": 390,
+      "screen": "home",
+      "nodes": 142,
+      "readers": 32,
+      "readersByRole": {
+        "caption": 1,
+        "dense": 9,
+        "badge": 1,
+        "body": 1,
+        "body-lg": 20
+      },
+      "comparisons": {
+        "B": {
+          "size": 32,
+          "untaggedSize": 0,
+          "lhOwn": 9,
+          "lhInherited": 2,
+          "lhExplicit": 21,
+          "height": 29,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "dense": 9,
+            "badge": 1,
+            "body": 1,
+            "body-lg": 20
+          },
+          "maxDelta": {
+            "caption": 1,
+            "dense": 0.5,
+            "badge": 2.5,
+            "body": 1,
+            "body-lg": 0.5
+          }
+        },
+        "C": {
+          "size": 32,
+          "untaggedSize": 0,
+          "lhOwn": 9,
+          "lhInherited": 2,
+          "lhExplicit": 21,
+          "height": 29,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "dense": 9,
+            "badge": 1,
+            "body": 1,
+            "body-lg": 20
+          },
+          "maxDelta": {
+            "caption": 1,
+            "dense": 0.5,
+            "badge": 2.5,
+            "body": 1,
+            "body-lg": 0.5
+          }
+        },
+        "D": {
+          "size": 32,
+          "untaggedSize": 0,
+          "lhOwn": 9,
+          "lhInherited": 2,
+          "lhExplicit": 21,
+          "height": 29,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "dense": 9,
+            "badge": 1,
+            "body": 1,
+            "body-lg": 20
+          },
+          "maxDelta": {
+            "caption": 1,
+            "dense": 0.5,
+            "badge": 2.5,
+            "body": 1,
+            "body-lg": 0.5
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "screen": "customers-list",
+      "nodes": 147,
+      "readers": 90,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 18,
+        "subtitle": 69,
+        "body": 1
+      },
+      "comparisons": {
+        "B": {
+          "size": 21,
+          "untaggedSize": 0,
+          "lhOwn": 13,
+          "lhInherited": 7,
+          "lhExplicit": 1,
+          "height": 14,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 18,
+            "body": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "C": {
+          "size": 21,
+          "untaggedSize": 0,
+          "lhOwn": 13,
+          "lhInherited": 7,
+          "lhExplicit": 1,
+          "height": 14,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 18,
+            "body": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "D": {
+          "size": 21,
+          "untaggedSize": 0,
+          "lhOwn": 13,
+          "lhInherited": 7,
+          "lhExplicit": 1,
+          "height": 14,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 18,
+            "body": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "screen": "customer-record",
+      "nodes": 135,
+      "readers": 4,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "body": 1,
+        "dense": 1
+      },
+      "comparisons": {
+        "B": {
+          "size": 4,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 2,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "body": 1,
+            "dense": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "body": 1,
+            "dense": 0.5
+          }
+        },
+        "C": {
+          "size": 4,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 2,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "body": 1,
+            "dense": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "body": 1,
+            "dense": 0.5
+          }
+        },
+        "D": {
+          "size": 4,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 2,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "body": 1,
+            "dense": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "body": 1,
+            "dense": 0.5
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "screen": "profile",
+      "nodes": 30,
+      "readers": 4,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "subject": 1,
+        "body": 1
+      },
+      "comparisons": {
+        "B": {
+          "size": 4,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 2,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "subject": 1,
+            "body": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "subject": 1,
+            "body": 1
+          }
+        },
+        "C": {
+          "size": 4,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 2,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "subject": 1,
+            "body": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "subject": 1,
+            "body": 1
+          }
+        },
+        "D": {
+          "size": 4,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 2,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "subject": 1,
+            "body": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "subject": 1,
+            "body": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "screen": "profile-appearance",
+      "nodes": 52,
+      "readers": 5,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "subject": 1,
+        "body": 2
+      },
+      "comparisons": {
+        "B": {
+          "size": 5,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 2,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "subject": 1,
+            "body": 2
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "subject": 1,
+            "body": 1
+          }
+        },
+        "C": {
+          "size": 5,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 3,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "subject": 1,
+            "body": 2
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "subject": 1,
+            "body": 1
+          }
+        },
+        "D": {
+          "size": 5,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 3,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "subject": 1,
+            "body": 2
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "subject": 1,
+            "body": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "screen": "invoice-list",
+      "nodes": 380,
+      "readers": 178,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 18,
+        "subtitle": 158
+      },
+      "comparisons": {
+        "B": {
+          "size": 20,
+          "untaggedSize": 0,
+          "lhOwn": 12,
+          "lhInherited": 7,
+          "lhExplicit": 1,
+          "height": 14,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 18
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5
+          }
+        },
+        "C": {
+          "size": 20,
+          "untaggedSize": 0,
+          "lhOwn": 12,
+          "lhInherited": 7,
+          "lhExplicit": 1,
+          "height": 14,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 18
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5
+          }
+        },
+        "D": {
+          "size": 20,
+          "untaggedSize": 0,
+          "lhOwn": 12,
+          "lhInherited": 7,
+          "lhExplicit": 1,
+          "height": 14,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 18
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "screen": "invoice-record",
+      "nodes": 85,
+      "readers": 3,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 1
+      },
+      "comparisons": {
+        "B": {
+          "size": 3,
+          "untaggedSize": 0,
+          "lhOwn": 2,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 1,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5
+          }
+        },
+        "C": {
+          "size": 3,
+          "untaggedSize": 0,
+          "lhOwn": 2,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 1,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5
+          }
+        },
+        "D": {
+          "size": 3,
+          "untaggedSize": 0,
+          "lhOwn": 2,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 1,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "screen": "email",
+      "nodes": 39,
+      "readers": 17,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "page-title": 1,
+        "body": 9,
+        "subject": 1,
+        "dense": 4
+      },
+      "comparisons": {
+        "B": {
+          "size": 17,
+          "untaggedSize": 0,
+          "lhOwn": 6,
+          "lhInherited": 9,
+          "lhExplicit": 2,
+          "height": 8,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "page-title": 1,
+            "body": 9,
+            "subject": 1,
+            "dense": 4
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "page-title": 1,
+            "body": 1,
+            "subject": 1,
+            "dense": 0.5
+          }
+        },
+        "C": {
+          "size": 17,
+          "untaggedSize": 0,
+          "lhOwn": 6,
+          "lhInherited": 9,
+          "lhExplicit": 2,
+          "height": 8,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "page-title": 1,
+            "body": 9,
+            "subject": 1,
+            "dense": 4
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "page-title": 1,
+            "body": 1,
+            "subject": 1,
+            "dense": 0.5
+          }
+        },
+        "D": {
+          "size": 17,
+          "untaggedSize": 0,
+          "lhOwn": 6,
+          "lhInherited": 9,
+          "lhExplicit": 2,
+          "height": 8,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "page-title": 1,
+            "body": 9,
+            "subject": 1,
+            "dense": 4
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "page-title": 1,
+            "body": 1,
+            "subject": 1,
+            "dense": 0.5
+          }
+        }
+      }
+    },
+    {
+      "width": 768,
+      "screen": "home",
+      "nodes": 144,
+      "readers": 32,
+      "readersByRole": {
+        "caption": 1,
+        "dense": 9,
+        "badge": 1,
+        "body": 1,
+        "body-lg": 20
+      },
+      "comparisons": {
+        "B": {
+          "size": 32,
+          "untaggedSize": 0,
+          "lhOwn": 9,
+          "lhInherited": 2,
+          "lhExplicit": 21,
+          "height": 30,
+          "clip": 2,
+          "byRole": {
+            "caption": 1,
+            "dense": 9,
+            "badge": 1,
+            "body": 1,
+            "body-lg": 20
+          },
+          "maxDelta": {
+            "caption": 1,
+            "dense": 0.5,
+            "badge": 2.5,
+            "body": 1,
+            "body-lg": 0.5
+          }
+        },
+        "C": {
+          "size": 32,
+          "untaggedSize": 0,
+          "lhOwn": 9,
+          "lhInherited": 2,
+          "lhExplicit": 21,
+          "height": 30,
+          "clip": 2,
+          "byRole": {
+            "caption": 1,
+            "dense": 9,
+            "badge": 1,
+            "body": 1,
+            "body-lg": 20
+          },
+          "maxDelta": {
+            "caption": 1,
+            "dense": 0.5,
+            "badge": 2.5,
+            "body": 1,
+            "body-lg": 0.5
+          }
+        },
+        "D": {
+          "size": 32,
+          "untaggedSize": 0,
+          "lhOwn": 9,
+          "lhInherited": 2,
+          "lhExplicit": 21,
+          "height": 30,
+          "clip": 2,
+          "byRole": {
+            "caption": 1,
+            "dense": 9,
+            "badge": 1,
+            "body": 1,
+            "body-lg": 20
+          },
+          "maxDelta": {
+            "caption": 1,
+            "dense": 0.5,
+            "badge": 2.5,
+            "body": 1,
+            "body-lg": 0.5
+          }
+        }
+      }
+    },
+    {
+      "width": 768,
+      "screen": "customers-list",
+      "nodes": 159,
+      "readers": 90,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 18,
+        "subtitle": 69,
+        "body": 1
+      },
+      "comparisons": {
+        "B": {
+          "size": 21,
+          "untaggedSize": 0,
+          "lhOwn": 13,
+          "lhInherited": 7,
+          "lhExplicit": 1,
+          "height": 16,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 18,
+            "body": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "C": {
+          "size": 21,
+          "untaggedSize": 0,
+          "lhOwn": 13,
+          "lhInherited": 7,
+          "lhExplicit": 1,
+          "height": 16,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 18,
+            "body": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "D": {
+          "size": 21,
+          "untaggedSize": 0,
+          "lhOwn": 13,
+          "lhInherited": 7,
+          "lhExplicit": 1,
+          "height": 16,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 18,
+            "body": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 768,
+      "screen": "customer-record",
+      "nodes": 135,
+      "readers": 4,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "body": 1,
+        "dense": 1
+      },
+      "comparisons": {
+        "B": {
+          "size": 4,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 2,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "body": 1,
+            "dense": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "body": 1,
+            "dense": 0.5
+          }
+        },
+        "C": {
+          "size": 4,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 2,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "body": 1,
+            "dense": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "body": 1,
+            "dense": 0.5
+          }
+        },
+        "D": {
+          "size": 4,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 2,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "body": 1,
+            "dense": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "body": 1,
+            "dense": 0.5
+          }
+        }
+      }
+    },
+    {
+      "width": 768,
+      "screen": "profile",
+      "nodes": 30,
+      "readers": 4,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "subject": 1,
+        "body": 1
+      },
+      "comparisons": {
+        "B": {
+          "size": 4,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 2,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "subject": 1,
+            "body": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "subject": 1,
+            "body": 1
+          }
+        },
+        "C": {
+          "size": 4,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 2,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "subject": 1,
+            "body": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "subject": 1,
+            "body": 1
+          }
+        },
+        "D": {
+          "size": 4,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 2,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "subject": 1,
+            "body": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "subject": 1,
+            "body": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 768,
+      "screen": "profile-appearance",
+      "nodes": 52,
+      "readers": 5,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "subject": 1,
+        "body": 2
+      },
+      "comparisons": {
+        "B": {
+          "size": 5,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 2,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "subject": 1,
+            "body": 2
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "subject": 1,
+            "body": 1
+          }
+        },
+        "C": {
+          "size": 5,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 3,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "subject": 1,
+            "body": 2
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "subject": 1,
+            "body": 1
+          }
+        },
+        "D": {
+          "size": 5,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 3,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "subject": 1,
+            "body": 2
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "subject": 1,
+            "body": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 768,
+      "screen": "invoice-list",
+      "nodes": 392,
+      "readers": 178,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 18,
+        "subtitle": 158
+      },
+      "comparisons": {
+        "B": {
+          "size": 20,
+          "untaggedSize": 0,
+          "lhOwn": 12,
+          "lhInherited": 7,
+          "lhExplicit": 1,
+          "height": 16,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 18
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5
+          }
+        },
+        "C": {
+          "size": 20,
+          "untaggedSize": 0,
+          "lhOwn": 12,
+          "lhInherited": 7,
+          "lhExplicit": 1,
+          "height": 16,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 18
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5
+          }
+        },
+        "D": {
+          "size": 20,
+          "untaggedSize": 0,
+          "lhOwn": 12,
+          "lhInherited": 7,
+          "lhExplicit": 1,
+          "height": 16,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 18
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5
+          }
+        }
+      }
+    },
+    {
+      "width": 768,
+      "screen": "invoice-record",
+      "nodes": 85,
+      "readers": 3,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 1
+      },
+      "comparisons": {
+        "B": {
+          "size": 3,
+          "untaggedSize": 0,
+          "lhOwn": 2,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 1,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5
+          }
+        },
+        "C": {
+          "size": 3,
+          "untaggedSize": 0,
+          "lhOwn": 2,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 1,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5
+          }
+        },
+        "D": {
+          "size": 3,
+          "untaggedSize": 0,
+          "lhOwn": 2,
+          "lhInherited": 0,
+          "lhExplicit": 1,
+          "height": 1,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5
+          }
+        }
+      }
+    },
+    {
+      "width": 768,
+      "screen": "email",
+      "nodes": 76,
+      "readers": 40,
+      "readersByRole": {
+        "caption": 2,
+        "badge": 1,
+        "page-title": 1,
+        "heading": 1,
+        "dense": 20,
+        "body": 14,
+        "subject": 1
+      },
+      "comparisons": {
+        "B": {
+          "size": 40,
+          "untaggedSize": 0,
+          "lhOwn": 14,
+          "lhInherited": 24,
+          "lhExplicit": 2,
+          "height": 28,
+          "clip": 0,
+          "byRole": {
+            "caption": 2,
+            "badge": 1,
+            "page-title": 1,
+            "heading": 1,
+            "dense": 20,
+            "body": 14,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "page-title": 1,
+            "heading": 1,
+            "dense": 0.5,
+            "body": 1,
+            "subject": 1
+          }
+        },
+        "C": {
+          "size": 40,
+          "untaggedSize": 0,
+          "lhOwn": 14,
+          "lhInherited": 24,
+          "lhExplicit": 2,
+          "height": 28,
+          "clip": 0,
+          "byRole": {
+            "caption": 2,
+            "badge": 1,
+            "page-title": 1,
+            "heading": 1,
+            "dense": 20,
+            "body": 14,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "page-title": 1,
+            "heading": 1,
+            "dense": 0.5,
+            "body": 1,
+            "subject": 1
+          }
+        },
+        "D": {
+          "size": 40,
+          "untaggedSize": 0,
+          "lhOwn": 14,
+          "lhInherited": 24,
+          "lhExplicit": 2,
+          "height": 28,
+          "clip": 0,
+          "byRole": {
+            "caption": 2,
+            "badge": 1,
+            "page-title": 1,
+            "heading": 1,
+            "dense": 20,
+            "body": 14,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "page-title": 1,
+            "heading": 1,
+            "dense": 0.5,
+            "body": 1,
+            "subject": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 1024,
+      "screen": "home",
+      "nodes": 144,
+      "readers": 32,
+      "readersByRole": {
+        "caption": 1,
+        "dense": 9,
+        "badge": 1,
+        "body": 1,
+        "body-lg": 20
+      },
+      "comparisons": {
+        "B": {
+          "size": 32,
+          "untaggedSize": 0,
+          "lhOwn": 9,
+          "lhInherited": 2,
+          "lhExplicit": 21,
+          "height": 30,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "dense": 9,
+            "badge": 1,
+            "body": 1,
+            "body-lg": 20
+          },
+          "maxDelta": {
+            "caption": 1,
+            "dense": 0.5,
+            "badge": 2.5,
+            "body": 1,
+            "body-lg": 0.5
+          }
+        },
+        "C": {
+          "size": 32,
+          "untaggedSize": 0,
+          "lhOwn": 9,
+          "lhInherited": 2,
+          "lhExplicit": 21,
+          "height": 30,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "dense": 9,
+            "badge": 1,
+            "body": 1,
+            "body-lg": 20
+          },
+          "maxDelta": {
+            "caption": 1,
+            "dense": 0.5,
+            "badge": 2.5,
+            "body": 1,
+            "body-lg": 0.5
+          }
+        },
+        "D": {
+          "size": 32,
+          "untaggedSize": 0,
+          "lhOwn": 9,
+          "lhInherited": 2,
+          "lhExplicit": 21,
+          "height": 30,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "dense": 9,
+            "badge": 1,
+            "body": 1,
+            "body-lg": 20
+          },
+          "maxDelta": {
+            "caption": 1,
+            "dense": 0.5,
+            "badge": 2.5,
+            "body": 1,
+            "body-lg": 0.5
+          }
+        }
+      }
+    },
+    {
+      "width": 1024,
+      "screen": "customers-list",
+      "nodes": 167,
+      "readers": 97,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 19,
+        "body": 7,
+        "subtitle": 69
+      },
+      "comparisons": {
+        "B": {
+          "size": 28,
+          "untaggedSize": 0,
+          "lhOwn": 14,
+          "lhInherited": 13,
+          "lhExplicit": 1,
+          "height": 17,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 19,
+            "body": 7
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "C": {
+          "size": 28,
+          "untaggedSize": 0,
+          "lhOwn": 14,
+          "lhInherited": 13,
+          "lhExplicit": 1,
+          "height": 23,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 19,
+            "body": 7
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "D": {
+          "size": 28,
+          "untaggedSize": 0,
+          "lhOwn": 14,
+          "lhInherited": 13,
+          "lhExplicit": 1,
+          "height": 23,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 19,
+            "body": 7
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 1024,
+      "screen": "customer-record",
+      "nodes": 143,
+      "readers": 11,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 2,
+        "body": 7
+      },
+      "comparisons": {
+        "B": {
+          "size": 11,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 6,
+          "lhExplicit": 1,
+          "height": 3,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 2,
+            "body": 7
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "C": {
+          "size": 11,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 6,
+          "lhExplicit": 1,
+          "height": 9,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 2,
+            "body": 7
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "D": {
+          "size": 11,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 6,
+          "lhExplicit": 1,
+          "height": 9,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 2,
+            "body": 7
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 1024,
+      "screen": "profile",
+      "nodes": 34,
+      "readers": 7,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 1,
+        "body": 3,
+        "subject": 1
+      },
+      "comparisons": {
+        "B": {
+          "size": 7,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 2,
+          "lhExplicit": 1,
+          "height": 3,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1,
+            "body": 3,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "subject": 1
+          }
+        },
+        "C": {
+          "size": 7,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 2,
+          "lhExplicit": 1,
+          "height": 5,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1,
+            "body": 3,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "subject": 1
+          }
+        },
+        "D": {
+          "size": 7,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 2,
+          "lhExplicit": 1,
+          "height": 5,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1,
+            "body": 3,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "subject": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 1024,
+      "screen": "profile-appearance",
+      "nodes": 56,
+      "readers": 8,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 1,
+        "body": 4,
+        "subject": 1
+      },
+      "comparisons": {
+        "B": {
+          "size": 8,
+          "untaggedSize": 0,
+          "lhOwn": 5,
+          "lhInherited": 2,
+          "lhExplicit": 1,
+          "height": 3,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1,
+            "body": 4,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "subject": 1
+          }
+        },
+        "C": {
+          "size": 8,
+          "untaggedSize": 0,
+          "lhOwn": 5,
+          "lhInherited": 2,
+          "lhExplicit": 1,
+          "height": 6,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1,
+            "body": 4,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "subject": 1
+          }
+        },
+        "D": {
+          "size": 8,
+          "untaggedSize": 0,
+          "lhOwn": 5,
+          "lhInherited": 2,
+          "lhExplicit": 1,
+          "height": 6,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1,
+            "body": 4,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "subject": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 1024,
+      "screen": "invoice-list",
+      "nodes": 408,
+      "readers": 193,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 19,
+        "body": 14,
+        "subtitle": 158
+      },
+      "comparisons": {
+        "B": {
+          "size": 35,
+          "untaggedSize": 0,
+          "lhOwn": 13,
+          "lhInherited": 21,
+          "lhExplicit": 1,
+          "height": 17,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 19,
+            "body": 14
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "C": {
+          "size": 35,
+          "untaggedSize": 0,
+          "lhOwn": 13,
+          "lhInherited": 21,
+          "lhExplicit": 1,
+          "height": 31,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 19,
+            "body": 14
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "D": {
+          "size": 35,
+          "untaggedSize": 0,
+          "lhOwn": 13,
+          "lhInherited": 21,
+          "lhExplicit": 1,
+          "height": 31,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 19,
+            "body": 14
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 1024,
+      "screen": "invoice-record",
+      "nodes": 101,
+      "readers": 18,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 2,
+        "body": 14
+      },
+      "comparisons": {
+        "B": {
+          "size": 18,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 14,
+          "lhExplicit": 1,
+          "height": 2,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 2,
+            "body": 14
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "C": {
+          "size": 18,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 14,
+          "lhExplicit": 1,
+          "height": 16,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 2,
+            "body": 14
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "D": {
+          "size": 18,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 14,
+          "lhExplicit": 1,
+          "height": 16,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 2,
+            "body": 14
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 1024,
+      "screen": "email",
+      "nodes": 98,
+      "readers": 57,
+      "readersByRole": {
+        "caption": 2,
+        "badge": 1,
+        "dense": 21,
+        "body": 30,
+        "page-title": 1,
+        "heading": 1,
+        "subject": 1
+      },
+      "comparisons": {
+        "B": {
+          "size": 57,
+          "untaggedSize": 0,
+          "lhOwn": 21,
+          "lhInherited": 34,
+          "lhExplicit": 2,
+          "height": 35,
+          "clip": 0,
+          "byRole": {
+            "caption": 2,
+            "badge": 1,
+            "dense": 21,
+            "body": 30,
+            "page-title": 1,
+            "heading": 1,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "page-title": 1,
+            "heading": 1,
+            "subject": 1
+          }
+        },
+        "C": {
+          "size": 57,
+          "untaggedSize": 0,
+          "lhOwn": 21,
+          "lhInherited": 34,
+          "lhExplicit": 2,
+          "height": 45,
+          "clip": 0,
+          "byRole": {
+            "caption": 2,
+            "badge": 1,
+            "dense": 21,
+            "body": 30,
+            "page-title": 1,
+            "heading": 1,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "page-title": 1,
+            "heading": 1,
+            "subject": 1
+          }
+        },
+        "D": {
+          "size": 57,
+          "untaggedSize": 0,
+          "lhOwn": 21,
+          "lhInherited": 34,
+          "lhExplicit": 2,
+          "height": 45,
+          "clip": 0,
+          "byRole": {
+            "caption": 2,
+            "badge": 1,
+            "dense": 21,
+            "body": 30,
+            "page-title": 1,
+            "heading": 1,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "page-title": 1,
+            "heading": 1,
+            "subject": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "home",
+      "nodes": 144,
+      "readers": 32,
+      "readersByRole": {
+        "caption": 1,
+        "dense": 9,
+        "badge": 1,
+        "body": 1,
+        "body-lg": 20
+      },
+      "comparisons": {
+        "B": {
+          "size": 32,
+          "untaggedSize": 0,
+          "lhOwn": 9,
+          "lhInherited": 2,
+          "lhExplicit": 21,
+          "height": 30,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "dense": 9,
+            "badge": 1,
+            "body": 1,
+            "body-lg": 20
+          },
+          "maxDelta": {
+            "caption": 1,
+            "dense": 0.5,
+            "badge": 2.5,
+            "body": 1,
+            "body-lg": 0.5
+          }
+        },
+        "C": {
+          "size": 32,
+          "untaggedSize": 0,
+          "lhOwn": 9,
+          "lhInherited": 2,
+          "lhExplicit": 21,
+          "height": 30,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "dense": 9,
+            "badge": 1,
+            "body": 1,
+            "body-lg": 20
+          },
+          "maxDelta": {
+            "caption": 1,
+            "dense": 0.5,
+            "badge": 2.5,
+            "body": 1,
+            "body-lg": 0.5
+          }
+        },
+        "D": {
+          "size": 32,
+          "untaggedSize": 0,
+          "lhOwn": 9,
+          "lhInherited": 2,
+          "lhExplicit": 21,
+          "height": 30,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "dense": 9,
+            "badge": 1,
+            "body": 1,
+            "body-lg": 20
+          },
+          "maxDelta": {
+            "caption": 1,
+            "dense": 0.5,
+            "badge": 2.5,
+            "body": 1,
+            "body-lg": 0.5
+          }
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "customers-list",
+      "nodes": 167,
+      "readers": 97,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 19,
+        "body": 7,
+        "subtitle": 69
+      },
+      "comparisons": {
+        "B": {
+          "size": 28,
+          "untaggedSize": 0,
+          "lhOwn": 14,
+          "lhInherited": 13,
+          "lhExplicit": 1,
+          "height": 17,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 19,
+            "body": 7
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "C": {
+          "size": 28,
+          "untaggedSize": 0,
+          "lhOwn": 14,
+          "lhInherited": 13,
+          "lhExplicit": 1,
+          "height": 23,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 19,
+            "body": 7
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "D": {
+          "size": 28,
+          "untaggedSize": 0,
+          "lhOwn": 14,
+          "lhInherited": 13,
+          "lhExplicit": 1,
+          "height": 23,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 19,
+            "body": 7
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "customer-record",
+      "nodes": 143,
+      "readers": 11,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 2,
+        "body": 7
+      },
+      "comparisons": {
+        "B": {
+          "size": 11,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 6,
+          "lhExplicit": 1,
+          "height": 3,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 2,
+            "body": 7
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "C": {
+          "size": 11,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 6,
+          "lhExplicit": 1,
+          "height": 9,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 2,
+            "body": 7
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "D": {
+          "size": 11,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 6,
+          "lhExplicit": 1,
+          "height": 9,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 2,
+            "body": 7
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "profile",
+      "nodes": 34,
+      "readers": 7,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 1,
+        "body": 3,
+        "subject": 1
+      },
+      "comparisons": {
+        "B": {
+          "size": 7,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 2,
+          "lhExplicit": 1,
+          "height": 3,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1,
+            "body": 3,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "subject": 1
+          }
+        },
+        "C": {
+          "size": 7,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 2,
+          "lhExplicit": 1,
+          "height": 5,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1,
+            "body": 3,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "subject": 1
+          }
+        },
+        "D": {
+          "size": 7,
+          "untaggedSize": 0,
+          "lhOwn": 4,
+          "lhInherited": 2,
+          "lhExplicit": 1,
+          "height": 5,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1,
+            "body": 3,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "subject": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "profile-appearance",
+      "nodes": 56,
+      "readers": 8,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 1,
+        "body": 4,
+        "subject": 1
+      },
+      "comparisons": {
+        "B": {
+          "size": 8,
+          "untaggedSize": 0,
+          "lhOwn": 5,
+          "lhInherited": 2,
+          "lhExplicit": 1,
+          "height": 3,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1,
+            "body": 4,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "subject": 1
+          }
+        },
+        "C": {
+          "size": 8,
+          "untaggedSize": 0,
+          "lhOwn": 5,
+          "lhInherited": 2,
+          "lhExplicit": 1,
+          "height": 6,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1,
+            "body": 4,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "subject": 1
+          }
+        },
+        "D": {
+          "size": 8,
+          "untaggedSize": 0,
+          "lhOwn": 5,
+          "lhInherited": 2,
+          "lhExplicit": 1,
+          "height": 6,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 1,
+            "body": 4,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "subject": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "invoice-list",
+      "nodes": 408,
+      "readers": 193,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 19,
+        "body": 14,
+        "subtitle": 158
+      },
+      "comparisons": {
+        "B": {
+          "size": 35,
+          "untaggedSize": 0,
+          "lhOwn": 13,
+          "lhInherited": 21,
+          "lhExplicit": 1,
+          "height": 17,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 19,
+            "body": 14
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "C": {
+          "size": 35,
+          "untaggedSize": 0,
+          "lhOwn": 13,
+          "lhInherited": 21,
+          "lhExplicit": 1,
+          "height": 31,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 19,
+            "body": 14
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "D": {
+          "size": 35,
+          "untaggedSize": 0,
+          "lhOwn": 13,
+          "lhInherited": 21,
+          "lhExplicit": 1,
+          "height": 31,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 19,
+            "body": 14
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "invoice-record",
+      "nodes": 101,
+      "readers": 18,
+      "readersByRole": {
+        "caption": 1,
+        "badge": 1,
+        "dense": 2,
+        "body": 14
+      },
+      "comparisons": {
+        "B": {
+          "size": 18,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 14,
+          "lhExplicit": 1,
+          "height": 2,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 2,
+            "body": 14
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "C": {
+          "size": 18,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 14,
+          "lhExplicit": 1,
+          "height": 16,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 2,
+            "body": 14
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        },
+        "D": {
+          "size": 18,
+          "untaggedSize": 0,
+          "lhOwn": 3,
+          "lhInherited": 14,
+          "lhExplicit": 1,
+          "height": 16,
+          "clip": 0,
+          "byRole": {
+            "caption": 1,
+            "badge": 1,
+            "dense": 2,
+            "body": 14
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1
+          }
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "email",
+      "nodes": 98,
+      "readers": 57,
+      "readersByRole": {
+        "caption": 2,
+        "badge": 1,
+        "dense": 21,
+        "body": 30,
+        "page-title": 1,
+        "heading": 1,
+        "subject": 1
+      },
+      "comparisons": {
+        "B": {
+          "size": 57,
+          "untaggedSize": 0,
+          "lhOwn": 21,
+          "lhInherited": 34,
+          "lhExplicit": 2,
+          "height": 35,
+          "clip": 0,
+          "byRole": {
+            "caption": 2,
+            "badge": 1,
+            "dense": 21,
+            "body": 30,
+            "page-title": 1,
+            "heading": 1,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "page-title": 1,
+            "heading": 1,
+            "subject": 1
+          }
+        },
+        "C": {
+          "size": 57,
+          "untaggedSize": 0,
+          "lhOwn": 21,
+          "lhInherited": 34,
+          "lhExplicit": 2,
+          "height": 45,
+          "clip": 0,
+          "byRole": {
+            "caption": 2,
+            "badge": 1,
+            "dense": 21,
+            "body": 30,
+            "page-title": 1,
+            "heading": 1,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "page-title": 1,
+            "heading": 1,
+            "subject": 1
+          }
+        },
+        "D": {
+          "size": 57,
+          "untaggedSize": 0,
+          "lhOwn": 21,
+          "lhInherited": 34,
+          "lhExplicit": 2,
+          "height": 45,
+          "clip": 0,
+          "byRole": {
+            "caption": 2,
+            "badge": 1,
+            "dense": 21,
+            "body": 30,
+            "page-title": 1,
+            "heading": 1,
+            "subject": 1
+          },
+          "maxDelta": {
+            "caption": 1,
+            "badge": 2.5,
+            "dense": 0.5,
+            "body": 1,
+            "page-title": 1,
+            "heading": 1,
+            "subject": 1
+          }
+        }
+      }
+    }
+  ],
+  "totals": {
+    "B": {
+      "size": 627,
+      "untaggedSize": 0,
+      "lhOwn": 258,
+      "lhInherited": 253,
+      "lhExplicit": 116,
+      "height": 389,
+      "clip": 2,
+      "byRole": {
+        "caption": 35,
+        "dense": 266,
+        "badge": 32,
+        "body": 195,
+        "body-lg": 80,
+        "subject": 12,
+        "page-title": 4,
+        "heading": 3
+      },
+      "maxDelta": {
+        "caption": 1,
+        "dense": 0.5,
+        "badge": 2.5,
+        "body": 1,
+        "body-lg": 0.5,
+        "subject": 1,
+        "page-title": 1,
+        "heading": 1
+      }
+    },
+    "C": {
+      "size": 627,
+      "untaggedSize": 0,
+      "lhOwn": 258,
+      "lhInherited": 253,
+      "lhExplicit": 116,
+      "height": 501,
+      "clip": 2,
+      "byRole": {
+        "caption": 35,
+        "dense": 266,
+        "badge": 32,
+        "body": 195,
+        "body-lg": 80,
+        "subject": 12,
+        "page-title": 4,
+        "heading": 3
+      },
+      "maxDelta": {
+        "caption": 1,
+        "dense": 0.5,
+        "badge": 2.5,
+        "body": 1,
+        "body-lg": 0.5,
+        "subject": 1,
+        "page-title": 1,
+        "heading": 1
+      }
+    },
+    "D": {
+      "size": 627,
+      "untaggedSize": 0,
+      "lhOwn": 258,
+      "lhInherited": 253,
+      "lhExplicit": 116,
+      "height": 501,
+      "clip": 2,
+      "byRole": {
+        "caption": 35,
+        "dense": 266,
+        "badge": 32,
+        "body": 195,
+        "body-lg": 80,
+        "subject": 12,
+        "page-title": 4,
+        "heading": 3
+      },
+      "maxDelta": {
+        "caption": 1,
+        "dense": 0.5,
+        "badge": 2.5,
+        "body": 1,
+        "body-lg": 0.5,
+        "subject": 1,
+        "page-title": 1,
+        "heading": 1
+      }
+    }
+  },
+  "errors": []
+}
