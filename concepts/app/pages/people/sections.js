@@ -11,7 +11,7 @@ const {t} = uiLocale
 // share the same section tree so both modes line up.
 
 export const PERSON_SECTION_CLASS =
-  'customer-section overflow-hidden mb-3! [body.density-compact_&]:mb-1.5! [body.density-comfortable_&]:mb-[var(--ds-space-200)]! [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)]'
+  'customer-section overflow-hidden mb-3! [body.density-compact_&]:mb-1.5! [body.density-comfortable_&]:mb-4! [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)]'
 // Reuse the Customer record's compiled titlebar and field-grid tokens so the
 // two detail surfaces share one visual contract without growing Tailwind.
 export const PERSON_TITLEBAR_CLASS =

@@ -1613,7 +1613,7 @@
      the side gutters (the boxed Kanban board). Percent padding resolves
      against `.content`. */
   body.layout-boxed .page-content {
-    padding-inline: calc(max(32px, (100% - 1296px) / 2) + var(--page-pad, 16px)) !important;
+    padding-inline: calc(max(var(--ds-space-400), (100% - 1296px) / 2) + var(--page-pad, var(--ds-space-200))) !important;
   }
   /* Detail action bars share the footer's full-width surface, while their
      controls follow the selected content grid. */
@@ -1659,7 +1659,7 @@
   }
   @media (width < theme(--breakpoint-sm)) {
     body.layout-boxed .page-content {
-      padding-inline: calc(16px + var(--page-pad, 16px)) !important;
+      padding-inline: calc(var(--ds-space-200) + var(--page-pad, var(--ds-space-200))) !important;
     }
     body.layout-boxed .page-action-bar .arow {
       width: calc(100% - 32px);

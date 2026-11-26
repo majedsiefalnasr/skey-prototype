@@ -204,7 +204,7 @@
     <div class="dlg-inner">
       <div class="dbody min-h-0 overflow-auto [padding:var(--ds-space-100)_var(--ds-space-150)]">
         <div
-          class="geo-view-switch grid grid-cols-2 gap-[var(--ds-space-025)] p-[var(--ds-space-025)] rounded-lg bg-[var(--line-2)] [margin:var(--ds-space-100)_var(--ds-space-100)_0]"
+          class="geo-view-switch grid grid-cols-2 gap-0.5 p-0.5 rounded-lg bg-[var(--line-2)] [margin:var(--ds-space-100)_var(--ds-space-100)_0]"
           role="tablist"
           aria-label="Unit picker view">
           <button
@@ -213,7 +213,7 @@
             data-unit-picker-view="tree"
             aria-selected="true"
             aria-controls="unit-picker-tree-pane"
-            class="inline-flex min-h-8 gap-[var(--ds-space-075)] items-center justify-center px-[var(--ds-space-100)] py-[var(--ds-space-050)] rounded-md text-muted text-dense font-semibold">
+            class="inline-flex min-h-8 gap-1.5 items-center justify-center px-2 py-1 rounded-md text-muted text-dense font-semibold">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg>
             <span data-i18n="Tree">Tree</span>
           </button>
@@ -223,17 +223,17 @@
             data-unit-picker-view="flow"
             aria-selected="false"
             aria-controls="unit-picker-flow-pane"
-            class="inline-flex min-h-8 gap-[var(--ds-space-075)] items-center justify-center px-[var(--ds-space-100)] py-[var(--ds-space-050)] rounded-md text-muted text-dense font-semibold">
+            class="inline-flex min-h-8 gap-1.5 items-center justify-center px-2 py-1 rounded-md text-muted text-dense font-semibold">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-grid" /></svg>
             <span data-i18n="Flow">Flow</span>
           </button>
         </div>
-        <button class="lbtn out unit-picker-root my-[var(--ds-space-100)]" type="button" id="unit-picker-root" data-i18n="No parent unit">
+        <button class="lbtn out unit-picker-root my-2" type="button" id="unit-picker-root" data-i18n="No parent unit">
           No parent unit
         </button>
         <div id="unit-picker-tree-pane" role="tabpanel">
           <div
-            class="geo-tree unit-picker-tree min-h-0 flex-1 pt-0 px-2 pb-[var(--ds-space-100)] overflow-auto max-h-[360px]"
+            class="geo-tree unit-picker-tree min-h-0 flex-1 pt-0 px-2 pb-2 overflow-auto max-h-[360px]"
             id="unit-picker-tree"
             role="tree"
             aria-label="Operation units"></div>

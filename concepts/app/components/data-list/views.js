@@ -26,7 +26,7 @@
 import {DATA_MENU_POPOVER_CLASS, DATA_MENU_SUMMARY_CLASS} from './list.js'
 
 const DATA_SORT_BUTTON_CLASS =
-  'data-sort-button inline-flex items-center gap-[var(--ds-space-050)] p-0 border-0 text-inherit bg-transparent font-[inherit] cursor-pointer hover:text-ink'
+  'data-sort-button inline-flex items-center gap-1 p-0 border-0 text-inherit bg-transparent font-[inherit] cursor-pointer hover:text-ink'
 
 /**
  * Shared by the left-click "..." row menu AND the right-click context menu.
@@ -44,7 +44,7 @@ export function renderDataListRowActionMenu(
   {encodeHtml, dataListIcon}
 ) {
   const contextAttr = context ? ` data-list-context="${encodeHtml(context)}"` : ''
-  return `<details class="data-menu end data-row-menu relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5"${contextAttr}><summary class="${DATA_MENU_SUMMARY_CLASS} w-8! min-h-8 justify-center px-[var(--ds-space-050)]! py-[var(--ds-space-050)]! [@media(pointer:coarse)]:w-11!" aria-label="Actions for ${encodeHtml(config.singular)} ${encodeHtml(key)}" title="Record actions">${dataListIcon('i-dots')}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[190px]" role="menu">${actionsHtml}</div></details>`
+  return `<details class="data-menu end data-row-menu relative [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5"${contextAttr}><summary class="${DATA_MENU_SUMMARY_CLASS} w-8! min-h-8 justify-center px-1! py-1! [@media(pointer:coarse)]:w-11!" aria-label="Actions for ${encodeHtml(config.singular)} ${encodeHtml(key)}" title="Record actions">${dataListIcon('i-dots')}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[190px]" role="menu">${actionsHtml}</div></details>`
 }
 
 /**
@@ -102,8 +102,8 @@ function renderResponsiveRowDetails(context, row, overflowColumns, noRowActions,
   // Indent past the leading cells that actually exist: the select
   // checkbox + expand button (rows with actions), or just the expand
   // button the row's first cell carries (noRowActions rows).
-  const inset = noRowActions ? 'ps-[var(--ds-space-600)]' : 'ps-[var(--ds-space-600)]'
-  return `<dl class="data-responsive-details grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-[var(--ds-space-200)] gap-y-3 border-b border-line py-3 ${inset} pe-4 text-start">${overflowColumns
+  const inset = noRowActions ? 'ps-12' : 'ps-12'
+  return `<dl class="data-responsive-details grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-4 gap-y-3 border-b border-line py-3 ${inset} pe-4 text-start">${overflowColumns
     .map(
       column =>
         `<div class="min-w-0"><dt class="mb-0.5 text-xs font-semibold text-muted">${encodeHtml(column.label)}</dt><dd class="text-dense font-semibold text-ink [overflow-wrap:anywhere]">${renderFieldValue(context, row, column)}</dd></div>`
@@ -196,7 +196,7 @@ export function renderDataListGroupedBody(rows, tableContext, deps, depth = 0, p
         ? renderDataListGroupedBody(groupRows, tableContext, deps, depth + 1, groupPath)
         : ''
       const groupColspan = visibleColumns.length + (config.noRowActions ? (config.selectable ? 1 : 0) : 2)
-      return `<tr class="data-group-row [grid-column:1_/_-1] bg-[var(--line-2)] [border-bottom:1px_solid_var(--line)] [border-top:1px_solid_var(--line)]"><td colspan="${groupColspan}"><button type="button" class="data-group-toggle flex w-full min-h-9 items-center gap-[var(--ds-space-075)] py-1.5 pe-2.5 text-start" style="--group-depth:${depth};padding-inline-start:calc(10px + var(--group-depth, 0) * 20px)" data-list-group-toggle="${encodeHtml(groupId)}" aria-expanded="${expanded}">${dataListIcon('i-caret', 11)}<span class="data-group-label text-xs font-semibold text-muted">${encodeHtml(column.label)}</span><span class="data-group-value font-bold text-ink">${encodeHtml(value)}</span><span class="data-group-count ms-auto text-xs font-medium text-muted">${groupRows.length} ${groupRows.length === 1 ? config.singular : config.label}</span></button></td></tr>${children}`
+      return `<tr class="data-group-row [grid-column:1_/_-1] bg-[var(--line-2)] [border-bottom:1px_solid_var(--line)] [border-top:1px_solid_var(--line)]"><td colspan="${groupColspan}"><button type="button" class="data-group-toggle flex w-full min-h-9 items-center gap-1.5 py-1.5 pe-2.5 text-start" style="--group-depth:${depth};padding-inline-start:calc(10px + var(--group-depth, 0) * 20px)" data-list-group-toggle="${encodeHtml(groupId)}" aria-expanded="${expanded}">${dataListIcon('i-caret', 11)}<span class="data-group-label text-xs font-semibold text-muted">${encodeHtml(column.label)}</span><span class="data-group-value font-bold text-ink">${encodeHtml(value)}</span><span class="data-group-count ms-auto text-xs font-medium text-muted">${groupRows.length} ${groupRows.length === 1 ? config.singular : config.label}</span></button></td></tr>${children}`
     })
     .join('')
 }
@@ -284,7 +284,7 @@ export function renderDataListAdaptiveRecord(context, row, config, listState, fi
       const rowsHtml = groupFields
         .map(column => renderDataAdaptiveFieldRow(context, row, column, deps))
         .join('')
-      return `<section class="data-adaptive-section grid [grid-template-columns:minmax(140px,_260px)_1fr]"><div class="data-group-row [grid-column:1_/_-1] bg-[var(--line-2)] [border-bottom:1px_solid_var(--line)] [border-top:1px_solid_var(--line)]"><button type="button" class="data-group-toggle flex w-full min-h-9 items-center gap-[var(--ds-space-075)] py-1.5 pe-2.5 ps-2.5 text-start" data-list-group-toggle="${encodeHtml(groupId)}" aria-expanded="${expanded}">${dataListIcon('i-caret', 11)}<span class="data-group-label text-xs font-semibold text-muted">${encodeHtml(t(label))}</span><span class="data-group-count ms-auto text-xs font-medium text-muted">${groupFields.length} ${t('fields', 'fields')}</span></button></div>${expanded ? rowsHtml : ''}</section>`
+      return `<section class="data-adaptive-section grid [grid-template-columns:minmax(140px,_260px)_1fr]"><div class="data-group-row [grid-column:1_/_-1] bg-[var(--line-2)] [border-bottom:1px_solid_var(--line)] [border-top:1px_solid_var(--line)]"><button type="button" class="data-group-toggle flex w-full min-h-9 items-center gap-1.5 py-1.5 pe-2.5 ps-2.5 text-start" data-list-group-toggle="${encodeHtml(groupId)}" aria-expanded="${expanded}">${dataListIcon('i-caret', 11)}<span class="data-group-label text-xs font-semibold text-muted">${encodeHtml(t(label))}</span><span class="data-group-count ms-auto text-xs font-medium text-muted">${groupFields.length} ${t('fields', 'fields')}</span></button></div>${expanded ? rowsHtml : ''}</section>`
     })
     .join('')
   return `<div class="rec-card data-adaptive-sections [border:1px_solid_var(--line)] rounded-lg mb-3 overflow-hidden [.rec-card-flow>&]:[flex:1_1_calc(var(--card-cols,_3)_*_200px)] [.rec-card-flow>&]:[min-width:min(100%,_320px)] [.rec-card-flow>&]:mb-0!" data-list-row-key="${encodeHtml(key)}">${sections}</div>`

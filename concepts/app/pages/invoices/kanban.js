@@ -3,7 +3,7 @@ import {DATA_LIST_CONFIG} from '../../components/data-list/columns.js'
 import {STATUSES, INVOICE_TRANSITIONS, statusKeyFromLabel} from '../../prototype/fixtures/invoices.js'
 
 const DATA_KANBAN_IDENTITY_CLASS =
-  'data-record-card-identity flex min-w-0 flex-1 cursor-pointer items-start gap-[var(--ds-space-100)] overflow-hidden rounded border-0 bg-transparent p-0 text-start font-[inherit] text-inherit focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent [&>div]:min-w-0 [&_span]:block [&_span]:truncate [&_span]:text-small [&_span]:text-muted [&_strong]:block [&_strong]:truncate [&_strong]:text-dense [&_strong]:text-ink hover:[&_strong]:text-accent hover:[&_strong]:underline'
+  'data-record-card-identity flex min-w-0 flex-1 cursor-pointer items-start gap-2 overflow-hidden rounded border-0 bg-transparent p-0 text-start font-[inherit] text-inherit focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent [&>div]:min-w-0 [&_span]:block [&_span]:truncate [&_span]:text-small [&_span]:text-muted [&_strong]:block [&_strong]:truncate [&_strong]:text-dense [&_strong]:text-ink hover:[&_strong]:text-accent hover:[&_strong]:underline'
 
 /** Owns kanban state and its DOM bindings. */
 export function createKanban({trapFocus, releaseFocus, toast, renderDataList, renderDataListRowActions} = {}) {

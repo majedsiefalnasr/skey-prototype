@@ -5,7 +5,7 @@ import {applyFrozenDataListColumns as applySharedFrozenDataListColumns} from './
 import {DATA_MENU_POPOVER_CLASS, DATA_MENU_SUMMARY_CLASS} from './list.js'
 
 const DATA_MANAGE_SUBMENU_SUMMARY_CLASS =
-  'flex w-full min-h-[32px] items-center gap-[var(--ds-space-100)] rounded-md px-2 py-1.5 text-dense font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden [&_svg:last-child]:ms-auto [&_svg:last-child]:text-muted rtl:[&_svg:last-child]:scale-x-[-1]'
+  'flex w-full min-h-[32px] items-center gap-2 rounded-md px-2 py-1.5 text-dense font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden [&_svg:last-child]:ms-auto [&_svg:last-child]:text-muted rtl:[&_svg:last-child]:scale-x-[-1]'
 
 /** Owns list menus state and its DOM bindings. */
 export function createListMenus({t, toast, computeDataListLayoutDirty, applyDataListRowAction, applyDataListToolbarCommand, saveDataListLayout, resetDataListLayout, getDataListState, renderDataList, dataListIcon, openDataExport} = {}) {
@@ -144,23 +144,23 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
     const submenuSummaryClass = DATA_MANAGE_SUBMENU_SUMMARY_CLASS
     const tablePrefs =
       listState.view === 'list'
-        ? `<div class="data-manage-group-label px-2 pt-[var(--ds-space-075)] pb-1 text-xs font-bold text-muted">${t('Table preferences')}</div>
+        ? `<div class="data-manage-group-label px-2 pt-1.5 pb-1 text-xs font-bold text-muted">${t('Table preferences')}</div>
       ${dataManageAction('save-layout', 'i-save', 'Save table layout', 'Keep columns, grouping, view and statistics', {disabled: !listState.layoutDirty})}
       ${dataManageAction('reset-layout', 'i-undo', 'Reset table layout', 'Restore the system default')}
       <details class="${submenuClass}"><summary class="${submenuSummaryClass}">${dataListIcon('i-sliders')}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-dense font-semibold">${t('Borders')}</strong><small class="text-xs font-normal text-muted">${borderLabel}</small></span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[180px] gap-0.5" role="radiogroup" aria-label="${encodeHtml(t('Table borders'))}">${renderDataManageBorderControls(context, listState)}</div></details>
       <details class="${submenuClass}"><summary class="${submenuSummaryClass}">${dataListIcon('i-lock')}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-dense font-semibold">${t('Freeze columns')}</strong><small class="text-xs font-normal text-muted">${listState.frozenColumns.size ? t('{count} frozen').replace('{count}', String(listState.frozenColumns.size)) : t('No frozen columns', 'None')}</small></span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[180px] gap-0.5" role="group" aria-label="${encodeHtml(t('Frozen columns'))}">${renderDataManageFrozenControls(config, listState)}</div></details>`
-        : `<div class="data-manage-group-label px-2 pt-[var(--ds-space-075)] pb-1 text-xs font-bold text-muted">${t('Table preferences')}</div>
+        : `<div class="data-manage-group-label px-2 pt-1.5 pb-1 text-xs font-bold text-muted">${t('Table preferences')}</div>
       ${dataManageAction('save-layout', 'i-save', 'Save table layout', 'Keep columns, grouping, view and statistics', {disabled: !listState.layoutDirty})}
       ${dataManageAction('reset-layout', 'i-undo', 'Reset table layout', 'Restore the system default')}`
     popover.innerHTML = `
-      <div class="data-manage-group-label px-2 pt-[var(--ds-space-075)] pb-1 text-xs font-bold text-muted">${t('Data exchange')}</div>
+      <div class="data-manage-group-label px-2 pt-1.5 pb-1 text-xs font-bold text-muted">${t('Data exchange')}</div>
       ${dataManageAction('export', 'i-external', 'Export', 'Excel, PDF, CSV or Word')}
       <div class="data-menu-separator h-px my-1 mx-0.5 bg-line"></div>
-      <div class="data-manage-group-label px-2 pt-[var(--ds-space-075)] pb-1 text-xs font-bold text-muted">${t('Analysis')}</div>
+      <div class="data-manage-group-label px-2 pt-1.5 pb-1 text-xs font-bold text-muted">${t('Analysis')}</div>
       ${dataManageAction('statistics-status', 'i-grid', listState.statisticsVisible ? 'Hide statistics' : 'Show statistics', 'Toggle the statistics summary for this view')}
       <details class="${submenuClass}"><summary class="${submenuSummaryClass}">${dataListIcon('i-chart')}<span class="data-manage-copy grid min-w-0 gap-px"><strong class="text-dense font-semibold">${t('Statistics style')}</strong><small class="text-xs font-normal text-muted">${encodeHtml(t(statisticsConceptLabel))}</small></span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[180px] gap-0.5" role="radiogroup" aria-label="${encodeHtml(t('Statistics style'))}">${renderDataManageStatisticsControls(context, listState)}</div></details>
       <div class="data-menu-separator h-px my-1 mx-0.5 bg-line"></div>
-      <div class="data-manage-group-label px-2 pt-[var(--ds-space-075)] pb-1 text-xs font-bold text-muted">${t('Reporting')}</div>
+      <div class="data-manage-group-label px-2 pt-1.5 pb-1 text-xs font-bold text-muted">${t('Reporting')}</div>
       ${dataManageAction('report', 'i-doc', `${singular} report`, 'Create a configurable report')}
       <div class="data-menu-separator h-px my-1 mx-0.5 bg-line"></div>
       ${tablePrefs}`

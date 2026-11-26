@@ -186,7 +186,7 @@ export function renderDataListChart(context, rows, config, listState, deps) {
     <div class="data-list-chart-hd-row flex items-stretch bg-[var(--line-2)]">
       <button type="button" class="rec-card-hd data-list-chart-hd min-w-0 flex-1 flex items-center justify-between gap-2.5 w-full text-start [padding:var(--ds-space-100)_var(--ds-space-150)] [font-size:12.5px]! font-bold! bg-[var(--line-2)]! border-0! [cursor:pointer]" data-list-chart-toggle aria-expanded="${expanded}">
         <span class="data-list-chart-hd-title">${encodeHtml(config.label[0].toUpperCase() + config.label.slice(1))} breakdown</span>
-        <span class="data-list-chart-scope me-auto rounded-full bg-surface px-[var(--ds-space-100)] text-xs font-semibold text-muted whitespace-nowrap">${encodeHtml(scopeLabel)}</span>
+        <span class="data-list-chart-scope me-auto rounded-full bg-surface px-2 text-xs font-semibold text-muted whitespace-nowrap">${encodeHtml(scopeLabel)}</span>
       </button>
       <button type="button" class="data-list-chart-close grid size-[26px] my-auto mx-2.5 shrink-0 place-items-center rounded-md text-muted hover:bg-surface hover:text-ink" data-list-chart-close aria-label="Close chart">${dataListIcon('i-x', 13)}</button>
     </div>

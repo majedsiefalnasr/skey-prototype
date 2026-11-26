@@ -47,14 +47,14 @@
           id="geo-hierarchy-panel"
           aria-label="Location hierarchy">
           <header
-            class="geo-tree-header flex min-h-[58px] gap-2 items-center py-2 pe-[var(--ds-space-100)] ps-3 border-b border-line">
+            class="geo-tree-header flex min-h-[58px] gap-2 items-center py-2 pe-2 ps-3 border-b border-line">
             <div
-              class="block min-w-0 flex-1 [&_h2]:overflow-hidden [&_h2]:text-sm [&_h2]:text-ellipsis [&_h2]:whitespace-nowrap [&_span]:mt-px [body.density-compact_&]:[&_span]:mt-0 [body.density-comfortable_&]:[&_span]:mt-[var(--ds-space-025)] [&_span]:block [&_span]:overflow-hidden [&_span]:text-xs [&_span]:text-muted [&_span]:text-ellipsis [&_span]:whitespace-nowrap">
+              class="block min-w-0 flex-1 [&_h2]:overflow-hidden [&_h2]:text-sm [&_h2]:text-ellipsis [&_h2]:whitespace-nowrap [&_span]:mt-px [body.density-compact_&]:[&_span]:mt-0 [body.density-comfortable_&]:[&_span]:mt-0.5 [&_span]:block [&_span]:overflow-hidden [&_span]:text-xs [&_span]:text-muted [&_span]:text-ellipsis [&_span]:whitespace-nowrap">
               <h2 data-i18n="Location hierarchy">Location hierarchy</h2>
               <span data-i18n="Explore and select a location">Explore and select a location</span>
             </div>
             <span class="geo-collapsed-label" aria-hidden="true" data-i18n="Location hierarchy">Location hierarchy</span>
-            <div class="geo-tree-header-actions flex flex-none gap-[var(--ds-space-025)]">
+            <div class="geo-tree-header-actions flex flex-none gap-0.5">
               <button
                 class="ibtn geo-tree-refresh"
                 type="button"
@@ -75,7 +75,7 @@
           </header>
           <div class="geo-hierarchy-content flex min-w-0 min-h-0 flex-1 flex-col">
             <div
-              class="geo-view-switch grid grid-cols-2 gap-[var(--ds-space-025)] m-2 mt-2 !mt-2 p-[var(--ds-space-025)] rounded-lg bg-[var(--line-2)] [margin:var(--ds-space-100)_var(--ds-space-100)_0]"
+              class="geo-view-switch grid grid-cols-2 gap-0.5 m-2 mt-2 !mt-2 p-0.5 rounded-lg bg-[var(--line-2)] [margin:var(--ds-space-100)_var(--ds-space-100)_0]"
               role="tablist"
               aria-label="Hierarchy view">
               <button
@@ -84,7 +84,7 @@
                 data-geo-view="tree"
                 aria-selected="true"
                 aria-controls="geo-tree-pane"
-                class="inline-flex min-h-8 gap-[var(--ds-space-075)] items-center justify-center px-[var(--ds-space-100)] py-[var(--ds-space-050)] rounded-md text-muted text-dense font-semibold">
+                class="inline-flex min-h-8 gap-1.5 items-center justify-center px-2 py-1 rounded-md text-muted text-dense font-semibold">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg>
                 <span data-i18n="Tree">Tree</span>
               </button>
@@ -94,13 +94,13 @@
                 data-geo-view="flow"
                 aria-selected="false"
                 aria-controls="geo-flow-pane"
-                class="inline-flex min-h-8 gap-[var(--ds-space-075)] items-center justify-center px-[var(--ds-space-100)] py-[var(--ds-space-050)] rounded-md text-muted text-dense font-semibold">
+                class="inline-flex min-h-8 gap-1.5 items-center justify-center px-2 py-1 rounded-md text-muted text-dense font-semibold">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-grid" /></svg>
                 <span data-i18n="Flow">Flow</span>
               </button>
             </div>
             <div id="geo-tree-pane" role="tabpanel">
-              <div class="geo-tree-tools flex gap-[var(--ds-space-050)] items-center p-2">
+              <div class="geo-tree-tools flex gap-1 items-center p-2">
                 <label
                   class="geo-tree-search relative flex min-w-0 flex-1 items-center [&_svg]:absolute [&_svg]:start-[var(--ds-space-100)] [&_svg]:text-muted [&_svg]:pointer-events-none">
                   <svg width="14" height="14" aria-hidden="true">
@@ -111,7 +111,7 @@
                     type="search"
                     placeholder="Find a location" data-i18n-placeholder="Find a location"
                     aria-label="Find a location in the hierarchy"
-                    class="w-full min-h-[34px] py-[var(--ds-space-050)] px-[var(--ds-space-400)] rounded-md border border-line text-ink bg-surface font-[inherit] text-dense" />
+                    class="w-full min-h-[34px] py-1 px-8 rounded-md border border-line text-ink bg-surface font-[inherit] text-dense" />
                 </label>
                 <button
                   class="ibtn"
@@ -131,7 +131,7 @@
                 </button>
               </div>
               <div
-                class="geo-tree min-h-0 flex-1 pt-0 px-2 pb-[var(--ds-space-100)] overflow-auto"
+                class="geo-tree min-h-0 flex-1 pt-0 px-2 pb-2 overflow-auto"
                 id="geo-tree"
                 role="tree"
                 aria-label="Locations"></div>
@@ -142,7 +142,7 @@
               role="tabpanel"
               hidden>
               <div
-                class="geo-flow-tools flex gap-[var(--ds-space-050)] items-center p-2 justify-between"
+                class="geo-flow-tools flex gap-1 items-center p-2 justify-between"
                 role="toolbar"
                 aria-label="Flow canvas controls">
                 <button
@@ -162,7 +162,7 @@
                 <span
                   class="geo-flow-focus-chip-mount flex-1 min-w-0 flex justify-start"
                   id="geo-flow-focus-chip-mount"></span>
-                <span class="flex gap-[var(--ds-space-050)] items-center">
+                <span class="flex gap-1 items-center">
                   <button
                     class="ibtn"
                     type="button"
@@ -228,7 +228,7 @@
           </h2>
           <div class="customer-section-body">
             <div
-              class="geo-form rec-card-body grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:var(--ds-space-100)_var(--ds-space-200)] [padding:var(--ds-space-150)] [&_.rec-field]:min-w-0 [&_.rec-field>label]:mb-[var(--ds-space-025)] [&_.rec-field>label]:block [&_.rec-field>label]:text-xs [&_.rec-field>label]:text-muted [&_input]:rounded-md [&_input]:border [&_input]:border-line [&_input]:bg-surface [&_input]:px-2 [&_input]:py-1.5 [&_input]:[font:inherit] [&_input]:text-ink [&_select]:rounded-md [&_select]:border [&_select]:border-line [&_select]:bg-surface [&_select]:px-2 [&_select]:py-1.5 [&_select]:[font:inherit] [&_select]:text-ink [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:var(--ds-select-arrow-space)] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%2344546f%22%20d%3D%22M2.5%204.5%206%208l3.5-3.5z%22/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:var(--ds-space-100)] [[dir=rtl]_&_select]:[padding-inline-start:var(--ds-select-arrow-space)] [[dir=rtl]_&_select]:[background-position:left_8px_center] [&_textarea]:rounded-md [&_textarea]:border [&_textarea]:border-line [&_textarea]:bg-surface [&_textarea]:px-2 [&_textarea]:py-1.5 [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:resize-y [&_input:is(:hover,_:focus-visible)]:border-accent-line [&_select:is(:hover,_:focus-visible)]:border-accent-line [&_textarea:is(:hover,_:focus-visible)]:border-accent-line [&_input:focus-visible]:outline-none [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:outline-none [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:outline-none [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]">
+              class="geo-form rec-card-body grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:var(--ds-space-100)_var(--ds-space-200)] [padding:var(--ds-space-150)] [&_.rec-field]:min-w-0 [&_.rec-field>label]:mb-0.5 [&_.rec-field>label]:block [&_.rec-field>label]:text-xs [&_.rec-field>label]:text-muted [&_input]:rounded-md [&_input]:border [&_input]:border-line [&_input]:bg-surface [&_input]:px-2 [&_input]:py-1.5 [&_input]:[font:inherit] [&_input]:text-ink [&_select]:rounded-md [&_select]:border [&_select]:border-line [&_select]:bg-surface [&_select]:px-2 [&_select]:py-1.5 [&_select]:[font:inherit] [&_select]:text-ink [&_select]:[appearance:none] [&_select]:[-webkit-appearance:none] [&_select]:[padding-inline-end:var(--ds-select-arrow-space)] [&_select]:[background-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%2344546f%22%20d%3D%22M2.5%204.5%206%208l3.5-3.5z%22/%3E%3C/svg%3E)] [&_select]:[background-repeat:no-repeat] [&_select]:[background-position:right_8px_center] [&_select]:[background-size:12px] [[dir=rtl]_&_select]:[padding-inline-end:var(--ds-space-100)] [[dir=rtl]_&_select]:[padding-inline-start:var(--ds-select-arrow-space)] [[dir=rtl]_&_select]:[background-position:left_8px_center] [&_textarea]:rounded-md [&_textarea]:border [&_textarea]:border-line [&_textarea]:bg-surface [&_textarea]:px-2 [&_textarea]:py-1.5 [&_textarea]:[font:inherit] [&_textarea]:text-ink [&_textarea]:resize-y [&_input:is(:hover,_:focus-visible)]:border-accent-line [&_select:is(:hover,_:focus-visible)]:border-accent-line [&_textarea:is(:hover,_:focus-visible)]:border-accent-line [&_input:focus-visible]:outline-none [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_select:focus-visible]:outline-none [&_select:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)] [&_textarea:focus-visible]:outline-none [&_textarea:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]">
               <div class="rec-field">
                 <label for="geo-field-code" data-i18n="Location Code">Location Code</label>
                 <input id="geo-field-code" type="text" readonly class="w-full" />
@@ -285,7 +285,7 @@
       </div>
     </div>
     <div
-      class="fnav geo-record-footer py-[var(--ds-space-100)] px-4 flex flex-1 flex-wrap items-center gap-x-4 gap-y-2.5">
+      class="fnav geo-record-footer py-2 px-4 flex flex-1 flex-wrap items-center gap-x-4 gap-y-2.5">
       <span class="geo-record-pager-mount"></span>
       <span class="pos" id="geo-record-position" aria-live="polite"></span>
       <span

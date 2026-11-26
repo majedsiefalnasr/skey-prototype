@@ -146,7 +146,7 @@ export function createListViews({t, computeDataListLayoutDirty, getDataListState
           `<button type="button" role="menuitem" data-list-row-action="change-status" data-status-target="${encodeHtml(status)}">${encodeHtml(t('Invoice status: ' + status, status))}</button>`
       )
       .join('')
-    return `<details class="data-menu data-manage-submenu relative"><summary class="flex w-full min-h-[32px] items-center gap-[var(--ds-space-100)] rounded-md px-2 py-1.5 text-subtitle! font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden [&_svg:last-child]:ms-auto [&_svg:last-child]:text-muted rtl:[&_svg:last-child]:scale-x-[-1]">${dataListIcon('i-flow', 14)}<span>${t('Change status', 'Change status')}</span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[160px] gap-0.5" role="menu">${options}</div></details>`
+    return `<details class="data-menu data-manage-submenu relative"><summary class="flex w-full min-h-[32px] items-center gap-2 rounded-md px-2 py-1.5 text-subtitle! font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden [&_svg:last-child]:ms-auto [&_svg:last-child]:text-muted rtl:[&_svg:last-child]:scale-x-[-1]">${dataListIcon('i-flow', 14)}<span>${t('Change status', 'Change status')}</span>${dataListIcon('i-next', 10)}</summary><div class="${DATA_MENU_POPOVER_CLASS} min-w-[160px] gap-0.5" role="menu">${options}</div></details>`
   }
 
   function rowMenuItems(context, row, view) {

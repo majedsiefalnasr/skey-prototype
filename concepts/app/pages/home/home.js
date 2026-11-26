@@ -39,7 +39,7 @@ export function createHome({
     tile.innerHTML =
       `<span class="lp-tile-ic flex size-10 items-center justify-center rounded-xl bg-[color-mix(in_srgb,var(--lp-tone,var(--accent))_11%,var(--surface))] text-[var(--lp-tone,var(--accent))]"><svg width="20" height="20" aria-hidden="true"><use href="#${icon}"/></svg></span>` +
       '<span class="lp-tile-copy min-w-0"><span class="lp-tile-lbl line-clamp-2 overflow-hidden text-body-lg font-bold leading-[1.35] text-ink"></span><span class="lp-tile-desc mt-1.5 line-clamp-2 overflow-hidden text-xs leading-[1.4] text-muted"></span><span class="lp-current mt-2 inline-flex text-caption font-bold text-accent" hidden></span></span>' +
-      '<svg class="lp-tile-go mt-[var(--ds-space-025)] text-faint opacity-0 transition-opacity duration-100 group-hover:text-accent group-hover:opacity-100 group-focus-visible:text-accent group-focus-visible:opacity-100" width="14" height="14" aria-hidden="true"><use href="#i-next"/></svg>'
+      '<svg class="lp-tile-go mt-0.5 text-faint opacity-0 transition-opacity duration-100 group-hover:text-accent group-hover:opacity-100 group-focus-visible:text-accent group-focus-visible:opacity-100" width="14" height="14" aria-hidden="true"><use href="#i-next"/></svg>'
     const tileLabel = tile.querySelector('.lp-tile-lbl')
     const tileDescription = tile.querySelector('.lp-tile-desc')
     tileLabel.dataset.i18nOriginal = label
@@ -307,7 +307,7 @@ export function createHome({
     syncCustomerPrototypeControls('launchpad')
 
     const actionsLeft = document.createElement('div')
-    actionsLeft.className = 'lp-actions-left flex min-w-0 items-center gap-[var(--ds-space-075)]'
+    actionsLeft.className = 'lp-actions-left flex min-w-0 items-center gap-1.5'
     actionsLeft.append(frame.querySelector('.gtop .left .app'))
     if (mode === 'switcher') {
       const close = document.createElement('button')
@@ -323,7 +323,7 @@ export function createHome({
       actionsLeft.prepend(close)
     }
     const actions = document.createElement('div')
-    actions.className = 'lp-actions flex min-w-0 items-center gap-[var(--ds-space-075)]'
+    actions.className = 'lp-actions flex min-w-0 items-center gap-1.5'
     actions.append(frame.querySelector('.gtop .right'))
     const chrome = document.createElement('div')
     chrome.className =
@@ -373,15 +373,15 @@ export function createHome({
     const search = document.createElement('button')
     search.type = 'button'
     search.className =
-      'lp-search s-open mx-auto mb-11 flex w-[min(620px,100%)] items-center gap-[var(--ds-space-150)] rounded-xl border border-[var(--line-2)] bg-surface py-3 pe-2.5 ps-[var(--ds-space-200)] text-start text-faint shadow-[var(--shadow-1)] transition-shadow duration-150 hover:shadow-[var(--shadow-2)]'
+      'lp-search s-open mx-auto mb-11 flex w-[min(620px,100%)] items-center gap-3 rounded-xl border border-[var(--line-2)] bg-surface py-3 pe-2.5 ps-4 text-start text-faint shadow-[var(--shadow-1)] transition-shadow duration-150 hover:shadow-[var(--shadow-2)]'
     search.innerHTML =
       `<svg width="15" height="15" aria-hidden="true"><use href="#i-search"/></svg>` +
       `<span class="lp-search-label search-typing-label" data-search-static="Search apps and screens">${t('Search apps and screens')}</span>` +
-      '<span class="lp-keyboard-hint ms-auto shrink-0 rounded-md border border-line bg-[var(--line-2)] px-2 py-[var(--ds-space-025)] font-mono text-xs text-muted">⌘K</span>'
+      '<span class="lp-keyboard-hint ms-auto shrink-0 rounded-md border border-line bg-[var(--line-2)] px-2 py-0.5 font-mono text-xs text-muted">⌘K</span>'
     search.setAttribute('aria-label', t('Search apps and screens'))
 
     const sections = document.createElement('div')
-    sections.className = 'lp-sections flex flex-col gap-[var(--ds-space-300)]'
+    sections.className = 'lp-sections flex flex-col gap-6'
 
     /* Starred/Recent are quick-access shortcuts, not primary content — a light
      tabbed cluster (same segmented-tab look as the geo hierarchy's Tree/Flow
@@ -403,7 +403,7 @@ export function createHome({
     quickHeader.className = 'lp-quick-header flex items-center gap-3'
     const tabs = document.createElement('div')
     tabs.className =
-      'lp-quick-tabs inline-grid flex-none grid-cols-2 gap-[var(--ds-space-025)] rounded-lg bg-[var(--line-2)] p-[var(--ds-space-025)]'
+      'lp-quick-tabs inline-grid flex-none grid-cols-2 gap-0.5 rounded-lg bg-[var(--line-2)] p-0.5'
     tabs.setAttribute('role', 'tablist')
     tabs.id = 'launchpad-quick-title'
     const separator = document.createElement('span')
@@ -447,7 +447,7 @@ export function createHome({
       tab.setAttribute('aria-selected', String(index === 0))
       tab.setAttribute('aria-controls', 'launchpad-quick-panel')
       tab.className =
-        'inline-flex min-h-8 items-center justify-center gap-[var(--ds-space-075)] rounded-md px-[var(--ds-space-100)] py-[var(--ds-space-050)] text-dense font-semibold text-muted'
+        'inline-flex min-h-8 items-center justify-center gap-1.5 rounded-md px-2 py-1 text-dense font-semibold text-muted'
       tab.innerHTML = `<svg width="15" height="15" aria-hidden="true"><use href="#${list.icon}"/></svg><span class="lp-quick-tab-lbl"></span>`
       tab.querySelector('.lp-quick-tab-lbl').textContent = t(list.label)
       tab.addEventListener(
@@ -506,7 +506,7 @@ export function createHome({
     listEl.classList.add('flex', 'w-[300px]', 'flex-col', 'p-0', '[max-height:70vh]')
     const filterWrap = document.createElement('div')
     filterWrap.className =
-      'app-switcher-filter sticky top-1 z-[1] m-1 flex items-center gap-[var(--ds-space-075)] rounded-lg border border-line bg-[inherit] px-2 py-1.5 text-faint focus-within:border-[var(--accent-line)] focus-within:shadow-[0_0_0_3px_var(--accent-soft)]'
+      'app-switcher-filter sticky top-1 z-[1] m-1 flex items-center gap-1.5 rounded-lg border border-line bg-[inherit] px-2 py-1.5 text-faint focus-within:border-[var(--accent-line)] focus-within:shadow-[0_0_0_3px_var(--accent-soft)]'
     filterWrap.innerHTML =
       '<svg class="shrink-0" width="13" height="13" aria-hidden="true"><use href="#i-search"/></svg>' +
       '<input class="min-w-0 flex-1 border-none bg-transparent font-[inherit] text-ink outline-none placeholder:text-faint" type="search" placeholder="Filter apps…" aria-label="Filter apps" autocomplete="off">'

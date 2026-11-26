@@ -357,7 +357,7 @@ export function createPeople({store, toast, panel: conversionPanel, confirm, goH
   const personCardMarkup = p => {
     const location = [p.city, p.country].filter(Boolean).join(', ')
     return `<article class="${DATA_RECORD_CARD_CLASS} data-record-card-person" role="listitem" data-list-row-key="${escapeHtml(p.id)}">
-      <header class="data-record-card-header flex min-w-0 items-center gap-[var(--ds-space-100)]">
+      <header class="data-record-card-header flex min-w-0 items-center gap-2">
         <span class="data-record-avatar grid size-9 flex-none place-items-center rounded-full bg-[var(--line-2)] text-small font-bold text-ink" aria-hidden="true">${escapeHtml(
           titleOf(p).charAt(0)
         )}</span>

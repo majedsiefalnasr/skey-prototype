@@ -14,7 +14,7 @@ export const multiselect = ({id, label, options, selected = [], required = false
     )}" aria-label="Remove ${escapeHtml(text)}">${icon('i-x', 10)}</button></span>`
   }
   const control = `<div class="relative" data-ms="${escapeHtml(id)}">
-    <div class="flex min-h-[34px] flex-wrap items-center gap-1.5 rounded-md border border-line bg-surface px-2 py-[var(--ds-space-050)] hover:border-[var(--accent-line)] focus-within:border-[var(--accent)] focus-within:[box-shadow:0_0_0_3px_var(--accent-soft)]">
+    <div class="flex min-h-[34px] flex-wrap items-center gap-1.5 rounded-md border border-line bg-surface px-2 py-1 hover:border-[var(--accent-line)] focus-within:border-[var(--accent)] focus-within:[box-shadow:0_0_0_3px_var(--accent-soft)]">
       <span data-ms-chips class="contents">${[...chosen].map(chip).join('')}</span>
       <input type="text" id="${escapeHtml(id)}" name="${escapeHtml(
     id

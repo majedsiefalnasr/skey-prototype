@@ -65,7 +65,7 @@
   .email-sel-deck { cursor: default; user-select: none; }
   .email-sel-card { position: relative; }
   .email-sel-card[data-deck-edge] {
-    margin-inline: calc(var(--deck-k, 1) * 12px);
+    margin-inline: calc(var(--deck-k, 1) * var(--ds-space-150));
     margin-bottom: -10px;
     padding-bottom: 10px;
     height: 56px;
