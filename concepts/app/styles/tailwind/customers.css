@@ -171,7 +171,7 @@ body.cards-fieldset .prototype-surface-card-header {
         width: max-content;
         max-width: calc(100% - 32px);
         min-height: 22px;
-        margin: 0 16px -11px;
+        margin: 0 16px calc(var(--ds-space-150) * -1);
         padding: 0 8px;
         border: 0;
         background: var(--surface);
@@ -298,7 +298,7 @@ body.cards-fieldset .rec-card-hd {
         width: max-content;
         max-width: calc(100% - 32px);
         min-height: 22px;
-        margin: 0 16px -11px;
+        margin: 0 16px calc(var(--ds-space-150) * -1);
         padding: 0 8px;
         color: var(--ink);
         background: var(--surface);
@@ -309,7 +309,7 @@ body.cards-fieldset .customer-record-canvas .customer-section-heading {
         width: max-content;
         max-width: calc(100% - 32px);
         min-height: 22px;
-        margin: 0 16px -11px;
+        margin: 0 16px calc(var(--ds-space-150) * -1);
         padding: 0 8px;
         color: var(--ink);
         background: var(--surface);
@@ -320,7 +320,7 @@ body.cards-fieldset .customer-record-canvas .customer-section-titlebar {
         width: max-content;
         max-width: calc(100% - 32px);
         min-height: 22px;
-        margin: 0 16px -11px;
+        margin: 0 16px calc(var(--ds-space-150) * -1);
         padding: 0 8px;
         color: var(--ink);
         background: var(--surface);

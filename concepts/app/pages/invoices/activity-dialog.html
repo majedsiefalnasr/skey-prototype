@@ -8,7 +8,7 @@
   role="dialog"
   aria-modal="true"
   aria-label="Log and activity">
-  <div class="drhd border-b border-line px-4 pb-0 pt-3.5">
+  <div class="drhd border-b border-line px-4 pb-0 pt-3">
     <div
       class="top flex items-start gap-5 [.d4_&]:flex [.d4_&]:items-center [.d4_&]:gap-5 [.d4_&]:[padding:var(--ds-space-100)_var(--ds-space-200)] [.d4_&]:bg-surface [.d4_&]:[border-bottom:1px_solid_var(--line)] [.d4_&]:flex-wrap">
       <div>
@@ -16,7 +16,7 @@
           History of this invoice <span class="badge fix">proposal</span>
         </h3>
         <div
-          class="sub mt-px text-xs text-muted [.stpop_.hd_&]:text-xs [.stpop_.hd_&]:text-muted [.dhd_&]:text-xs [.dhd_&]:text-muted">
+          class="sub mt-0 text-xs text-muted [.stpop_.hd_&]:text-xs [.stpop_.hd_&]:text-muted [.dhd_&]:text-xs [.dhd_&]:text-muted">
           Sales Invoice <span data-invoice-sequence>001000352026126</span> · العميل الاول — the Documents Flow side is a proposal; the
           system stores nothing for it yet
         </div>
@@ -36,7 +36,7 @@
         data-tab="stages">
         User Log
         <span
-          class="n rounded-full bg-[var(--line-2)] px-1.5 py-px text-xs text-muted [.drtab[aria-selected='true']_&]:bg-[var(--accent-soft)] [.drtab[aria-selected='true']_&]:text-accent [.d4_.cp-mini_&]:text-xs [.d4_.cp-mini_&]:font-semibold [.d4_.cp-mini.off_&]:text-muted [.d4_.cp-mini.off_&]:font-normal"
+          class="n rounded-full bg-[var(--line-2)] px-1.5 py-0 text-xs text-muted [.drtab[aria-selected='true']_&]:bg-[var(--accent-soft)] [.drtab[aria-selected='true']_&]:text-accent [.d4_.cp-mini_&]:text-xs [.d4_.cp-mini_&]:font-semibold [.d4_.cp-mini.off_&]:text-muted [.d4_.cp-mini.off_&]:font-normal"
           >3</span
         >
       </button>
@@ -47,21 +47,21 @@
         data-tab="activity">
         Documents Flow
         <span
-          class="n rounded-full bg-[var(--line-2)] px-1.5 py-px text-xs text-muted [.drtab[aria-selected='true']_&]:bg-[var(--accent-soft)] [.drtab[aria-selected='true']_&]:text-accent [.d4_.cp-mini_&]:text-xs [.d4_.cp-mini_&]:font-semibold [.d4_.cp-mini.off_&]:text-muted [.d4_.cp-mini.off_&]:font-normal"
+          class="n rounded-full bg-[var(--line-2)] px-1.5 py-0 text-xs text-muted [.drtab[aria-selected='true']_&]:bg-[var(--accent-soft)] [.drtab[aria-selected='true']_&]:text-accent [.d4_.cp-mini_&]:text-xs [.d4_.cp-mini_&]:font-semibold [.d4_.cp-mini.off_&]:text-muted [.d4_.cp-mini.off_&]:font-normal"
           >18</span
         >
       </button>
     </div>
   </div>
   <div
-    class="drbar flex flex-wrap items-center gap-2.5 border-b border-line px-4 py-2 text-xs text-muted"
+    class="drbar flex flex-wrap items-center gap-2 border-b border-line px-4 py-2 text-xs text-muted"
     data-for="stages">
     <span
       >What the system recorded, most recent state per card · now
       <b class="cur-name">Posted</b></span
     >
     <span
-      class="end ms-auto flex items-center gap-2 [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2"
+      class="end ms-auto flex items-center gap-2 [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2"
       ><button
         class="lbtn out inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-3 py-1.5 font-medium whitespace-nowrap hover:enabled:bg-[var(--line-2)] disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]"
         style="font-size: 12px">
@@ -70,7 +70,7 @@
     >
   </div>
   <div
-    class="drbar flex flex-wrap items-center gap-2.5 border-b border-line px-4 py-2 text-xs text-muted"
+    class="drbar flex flex-wrap items-center gap-2 border-b border-line px-4 py-2 text-xs text-muted"
     data-for="activity"
     hidden>
     <div
@@ -97,7 +97,7 @@
       </button>
     </div>
     <span
-      class="end ms-auto flex items-center gap-2 [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2"
+      class="end ms-auto flex items-center gap-2 [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2"
       ><button
         class="lbtn out inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-3 py-1.5 font-medium whitespace-nowrap hover:enabled:bg-[var(--line-2)] disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]"
         style="font-size: 12px">
@@ -122,7 +122,7 @@
       placeholder="Say what happened, or what someone should do next"></textarea>
     <div class="row mt-2 flex items-center gap-5">
       <label
-        class="customer-dialog-toggle relative flex min-h-9 items-center justify-between gap-5 rounded-md border border-line px-2.5 py-0.5 text-xs text-muted"
+        class="customer-dialog-toggle relative flex min-h-9 items-center justify-between gap-5 rounded-md border border-line px-2 py-0.5 text-xs text-muted"
         ><span>Staff only — the customer never sees this</span><input type="checkbox" role="switch" class="peer absolute size-px overflow-hidden [clip-path:inset(50%)]" /><span class="customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[var(--line)] peer-checked:bg-[var(--accent)] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent" aria-hidden="true"></span></label
       >
       <button
@@ -131,7 +131,7 @@
         <svg width="13" height="13" aria-hidden="true"><use href="#i-clip" /></svg> Attach file
       </button>
       <span
-        class="end ms-auto [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2"
+        class="end ms-auto [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2"
         ><button
           class="lbtn pri inline-flex items-center gap-1.5 rounded-md border border-transparent bg-accent px-3 py-1.5 font-medium text-inverse whitespace-nowrap hover:enabled:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]">
           Add note

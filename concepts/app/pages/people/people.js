@@ -243,7 +243,7 @@ export function createPeople({store, toast, panel: conversionPanel, confirm, goH
         menuItemRadio({attr: 'view-select', value: id, label: `${entry.label} view`, iconName: entry.icon, checked: state.view === id})
       )
       .join('')
-    host.innerHTML = `<div class="data-list-controls grid w-full gap-2 mb-2.5">${toolbarRow({
+    host.innerHTML = `<div class="data-list-controls grid w-full gap-2 mb-2">${toolbarRow({
       ariaLabel: 'People table controls',
       left: `${menuDetails({attr: 'quick-menu', iconName: quick[2], label: quick[1], items: quickItems})}${menuDetails({
         attr: 'filter-menu',
@@ -366,7 +366,7 @@ export function createPeople({store, toast, panel: conversionPanel, confirm, goH
         )}</strong><span dir="auto">${escapeHtml(p.company || '—')}</span></div></button>
         <span class="badge gray">${p.lifecycle === 'contact' ? 'Contact' : 'Lead'}</span>
       </header>
-      <div class="data-record-card-snapshot grid grid-cols-[minmax(0,1fr)_auto] items-end gap-5 rounded-md bg-[var(--line-2)] px-3.5 py-3 [&>div]:min-w-0 [&_small]:block [&_small]:text-small [&_small]:text-muted [&_span]:block [&_span]:text-small [&_span]:text-muted">
+      <div class="data-record-card-snapshot grid grid-cols-[minmax(0,1fr)_auto] items-end gap-5 rounded-md bg-[var(--line-2)] px-3 py-3 [&>div]:min-w-0 [&_small]:block [&_small]:text-small [&_small]:text-muted [&_span]:block [&_span]:text-small [&_span]:text-muted">
         <div><span>Profile</span><strong class="my-0.5! block truncate text-body text-ink" dir="auto">${escapeHtml(
           p.jobTitle || 'No job title'
         )}</strong>${p.nameAr ? `<small dir="rtl" lang="ar">${escapeHtml(p.nameAr)}</small>` : `<small>${escapeHtml(p.lifecycle === 'contact' ? 'Contact' : 'Lead')}</small>`}</div>
@@ -374,7 +374,7 @@ export function createPeople({store, toast, panel: conversionPanel, confirm, goH
           primaryOf(p, 'phone') || '—'
         )}</strong></div>
       </div>
-      <dl class="data-record-card-meta m-0! grid grid-cols-2 gap-x-3.5 gap-y-2.5">${[
+      <dl class="data-record-card-meta m-0! grid grid-cols-2 gap-x-3 gap-y-2">${[
         ['Email', primaryOf(p, 'email') || '—', 'ltr'],
         ['Converted', p.convertedTo ? `Converted to ${conversionLabel(p.convertedTo.target)}` : '—'],
         ['Address', location || '—'],

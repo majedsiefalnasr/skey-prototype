@@ -32,7 +32,7 @@ export const viewRow = (label, valueHtml) =>
  *  belong here. */
 export const recordHighlights = items => {
   const tones = {danger: 'bg-[var(--danger-soft-bg)] text-[var(--danger)]', accent: 'bg-[var(--accent-soft)] text-accent', muted: 'bg-[var(--line-2)] text-muted'}
-  return items.length ? `<div class="mb-4 flex flex-wrap gap-1.5" role="status" data-record-highlights>${items.map(({label, tone = 'accent', iconName = 'i-info'}) => `<span class="inline-flex min-h-7 items-center gap-1.5 rounded-md px-2.5 py-1 text-body font-semibold ${tones[tone] || tones.accent}">${icon(iconName, 14)}${escapeHtml(t(label))}</span>`).join('')}</div>` : ''
+  return items.length ? `<div class="mb-4 flex flex-wrap gap-1.5" role="status" data-record-highlights>${items.map(({label, tone = 'accent', iconName = 'i-info'}) => `<span class="inline-flex min-h-7 items-center gap-1.5 rounded-md px-2 py-1 text-body font-semibold ${tones[tone] || tones.accent}">${icon(iconName, 14)}${escapeHtml(t(label))}</span>`).join('')}</div>` : ''
 }
 
 const attrs = map =>
@@ -114,7 +114,7 @@ const SELECT_SKIN =
   '[appearance:none] [background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2012%2012%27%3E%3Cpath%20fill=%27%2344546f%27%20d=%27M2.5%204.5%206%208l3.5-3.5z%27/%3E%3C/svg%3E)] [background-repeat:no-repeat] [background-position:right_8px_center] [background-size:12px] rtl:[background-position:left_8px_center]'
 
 export const TOOLBAR_CONTROL_CLASS = `${CONTROL_BASE} ps-2 pe-2`
-export const SELECT_CONTROL_CLASS = `${CONTROL_BASE} h-8 ps-2 pe-7 ${SELECT_SKIN}`
+export const SELECT_CONTROL_CLASS = `${CONTROL_BASE} h-8 ps-2 pe-[var(--ds-select-arrow-space)] ${SELECT_SKIN}`
 
 export const searchBox = ({id, label, value = ''}) =>
   `<label class="flex min-h-8 min-w-[160px] flex-1 items-center gap-2 rounded-md border border-line bg-surface px-2 text-faint sm:max-w-[240px] focus-within:[box-shadow:0_0_0_3px_var(--accent-soft)]" for="${id}">${icon('i-search', 13)}<input type="search" id="${id}" class="min-w-0 flex-1 border-0 bg-transparent py-1 text-body text-ink outline-none" placeholder="${escapeHtml(t(label))}" aria-label="${escapeHtml(t(label))}" value="${escapeHtml(value)}" autocomplete="off"></label>`
@@ -132,7 +132,7 @@ export const toolbarToggle = ({id, label, checked}) => switchInput({id, label, c
  *  toggle on/off (not a form control), announces its state through
  *  aria-pressed, and only spends accent color while it is on. */
 export const toolbarChip = ({id, label, pressed, iconName}) =>
-  `<button type="button" id="${escapeHtml(id)}" aria-pressed="${pressed}" class="inline-flex min-h-8 items-center gap-1.5 rounded-full border border-line bg-surface px-2.5 text-body font-medium text-muted hover:bg-[var(--line-2)] hover:text-ink aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:text-accent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]">${iconName ? icon(iconName, 12) : ''}<span>${escapeHtml(t(label))}</span></button>`
+  `<button type="button" id="${escapeHtml(id)}" aria-pressed="${pressed}" class="inline-flex min-h-8 items-center gap-1.5 rounded-full border border-line bg-surface px-2 text-body font-medium text-muted hover:bg-[var(--line-2)] hover:text-ink aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:text-accent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]">${iconName ? icon(iconName, 12) : ''}<span>${escapeHtml(t(label))}</span></button>`
 
 /** Segmented view switch. Buttons carry aria-pressed so the current view
  *  is announced, not just colored, and each view names itself with an icon
@@ -140,7 +140,7 @@ export const toolbarChip = ({id, label, pressed, iconName}) =>
 export const segmented = ({label, views, current, dataAttr = 'data-view-switch'}) =>
   `<div class="inline-flex overflow-hidden rounded-md border border-line" role="group" aria-label="${escapeHtml(t(label))}" ${dataAttr}>${views
     .map(([id, text, iconName]) =>
-      `<button type="button" data-value="${escapeHtml(id)}" aria-pressed="${id === current}" class="inline-flex min-h-8 items-center gap-1.5 border-0 border-e border-line bg-surface px-2.5 text-body font-medium text-ink last:border-e-0 hover:bg-[var(--line-2)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:text-accent focus-visible:relative focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]">${iconName ? icon(iconName, 14) : ''}<span>${escapeHtml(t(text))}</span></button>`
+      `<button type="button" data-value="${escapeHtml(id)}" aria-pressed="${id === current}" class="inline-flex min-h-8 items-center gap-1.5 border-0 border-e border-line bg-surface px-2 text-body font-medium text-ink last:border-e-0 hover:bg-[var(--line-2)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:text-accent focus-visible:relative focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]">${iconName ? icon(iconName, 14) : ''}<span>${escapeHtml(t(text))}</span></button>`
     )
     .join('')}</div>`
 

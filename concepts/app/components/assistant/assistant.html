@@ -1,7 +1,7 @@
     <!-- ===== AI Assistant dialog (proposal — no live backend) ===== -->
     <div class="drscrim group fixed inset-0 z-[130] hidden [background:var(--scrim)] backdrop-blur-[4px] [&.open]:block" id="aiscrim">
       <aside class="ai-drawer fixed inset-y-0 end-0 z-[140] hidden w-[min(560px,94vw)] flex-col bg-surface shadow-shell group-[.open]:flex" role="dialog" aria-modal="true" aria-label="AI Assistant">
-        <div class="drhd border-b border-line px-4 pb-3.5! pt-3.5">
+        <div class="drhd border-b border-line px-4 pb-3! pt-3">
           <div class="top flex items-start gap-3">
             <div>
               <h3 class="flex! items-center! gap-2! text-heading">
@@ -34,16 +34,16 @@
               What changed since it was posted?
             </button>
           </div>
-          <div class="ai-thread mt-10 flex flex-col gap-2.5 p-0.5" id="ai-thread">
+          <div class="ai-thread mt-10 flex flex-col gap-2 p-0.5" id="ai-thread">
             <div class="ai-empty m-auto text-center text-body text-faint">Ask a question or choose a suggestion above to start</div>
           </div>
         </div>
         <div class="ai-foot flex-none border-t border-line px-4 py-3">
-          <div class="ai-inputrow flex flex-col rounded-xl border border-line px-2.5 pb-2 pt-2.5 transition-[border-color] duration-[120ms] focus-within:border-[var(--accent-line)] focus-within:shadow-[0_0_0_3px_var(--accent-soft)]">
+          <div class="ai-inputrow flex flex-col rounded-xl border border-line px-2 pb-2 pt-2 transition-[border-color] duration-[120ms] focus-within:border-[var(--accent-line)] focus-within:shadow-[0_0_0_3px_var(--accent-soft)]">
             <input
               type="text"
               id="ai-input"
-              class="border-none bg-none px-0.5 pb-2.5 pt-0.5 font-[inherit] text-ink outline-none"
+              class="border-none bg-none px-0.5 pb-2 pt-0.5 font-[inherit] text-ink outline-none"
               placeholder="Ask about this invoice…"
               autocomplete="off" />
             <div class="ai-toolbar flex items-center gap-0.5 [&_.ibtn]:size-7! [&_.ibtn]:min-h-7! [&_.ibtn]:min-w-7!">

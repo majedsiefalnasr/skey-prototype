@@ -71,7 +71,7 @@ export function createJournalEntryTable({encodeHtml, dataListInstance}) {
       <dl class="m-0 grid min-w-0 flex-1 basis-[220px] ${cells} gap-x-4 gap-y-3 sm:gap-x-6">
         ${cell('Local debit', totals.localDebit)}${cell('Local credit', totals.localCredit)}${differenceCell}
       </dl>
-      <span role="status" class="inline-flex flex-none items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${tone}"><svg width="13" height="13" aria-hidden="true"><use href="#${balanced ? 'i-check' : 'i-warn'}"/></svg>${status}</span>
+      <span role="status" class="inline-flex flex-none items-center gap-1.5 rounded-full px-2 py-1 text-xs font-semibold ${tone}"><svg width="13" height="13" aria-hidden="true"><use href="#${balanced ? 'i-check' : 'i-warn'}"/></svg>${status}</span>
     </div>`
   }
 

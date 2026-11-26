@@ -3,7 +3,7 @@ import {ACTIVITY, CARDS, STATUSES} from '../../prototype/fixtures/invoices.js'
 const ACTIVITY_DRAWER_NOTE_CLASS = 'drnote px-4 py-3 text-xs text-faint'
 const ACTIVITY_SECONDARY_BUTTON_CLASS =
   'inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-3 py-1.5 font-medium whitespace-nowrap hover:enabled:bg-[var(--line-2)] disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]'
-const ACTIVITY_CARD_CLASS = 'card flex gap-5 border-b border-[var(--line-2)] px-4 py-3.5'
+const ACTIVITY_CARD_CLASS = 'card flex gap-5 border-b border-[var(--line-2)] px-4 py-3'
 const ACTIVITY_CARD_MARKER_CLASS = 'mk flex w-[22px] flex-none justify-center pt-0.5'
 const ACTIVITY_CARD_DOT_CLASS =
   'dot flex size-5 items-center justify-center rounded-full border-2 border-[var(--st-post-ink)] bg-surface text-[var(--st-post-ink)]'
@@ -16,7 +16,7 @@ const ACTIVITY_CARD_LINK_CLASS = 'lnk mt-1.5 inline-block text-xs text-accent'
 const ACTIVITY_DAY_SEPARATOR_CLASS =
   'daysep border-y border-[var(--line-2)] bg-[var(--line-2)] px-4 py-2 text-xs text-faint'
 const ACTIVITY_ENTRY_CLASS =
-  "act relative flex gap-5 px-4 py-3.5 before:absolute before:bottom-[calc(var(--ds-space-050)*-1)] before:start-[var(--ds-space-400)] before:top-10 before:w-0.5 before:bg-[var(--line-2)] before:content-[''] last:before:hidden"
+  "act relative flex gap-5 px-4 py-3 before:absolute before:bottom-[calc(var(--ds-space-050)*-1)] before:start-[var(--ds-space-400)] before:top-10 before:w-0.5 before:bg-[var(--line-2)] before:content-[''] last:before:hidden"
 const ACTIVITY_AVATAR_CLASS =
   'av z-[1] flex size-[30px] flex-none items-center justify-center rounded-full bg-accent text-xs font-semibold text-inverse'
 const ACTIVITY_SYSTEM_AVATAR_CLASS = 'sys bg-[var(--line-2)]! text-muted!'
@@ -26,7 +26,7 @@ const ACTIVITY_CHANGE_CLASS = 'chg mt-0.5 text-xs text-muted [&_s]:text-faint [&
 const ACTIVITY_CHIPS_CLASS = 'chips mt-1.5 flex flex-wrap gap-1.5'
 const ACTIVITY_CHIP_CLASS =
   'chip inline-flex items-center gap-1.5 rounded-lg border border-line bg-surface px-2 py-0.5 text-xs'
-const ACTIVITY_TOGGLE_GROUP_CLASS = 'tg mt-2 flex gap-5.5 text-xs'
+const ACTIVITY_TOGGLE_GROUP_CLASS = 'tg mt-2 flex gap-5 text-xs'
 const ACTIVITY_TOGGLE_CLASS = 'ntg inline-flex items-center gap-1 text-muted'
 const ACTIVITY_NOTES_CLASS =
   'notes mt-2 hidden border-s-2 border-[var(--line-2)] ps-3 [&.open]:block'

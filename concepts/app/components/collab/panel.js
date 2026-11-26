@@ -171,7 +171,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm, root, foote
     current = {menu: [], ...options}
     /* The header carries a status chip and a note line — no type badge:
        the record's own title already says what kind of thing it is. */
-    statusBadge.className = `badge inline-flex items-center rounded-full! px-2.5! py-1! ${current.status?.tone || 'gray'}`
+    statusBadge.className = `badge inline-flex items-center rounded-full! px-2! py-1! ${current.status?.tone || 'gray'}`
     statusBadge.textContent = t(current.status?.label) || ''
     statusBadge.hidden = !current.status
     titleEl.textContent = current.ref ? current.title : t(current.title)

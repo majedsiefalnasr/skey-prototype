@@ -54,7 +54,7 @@ export function renderContactCards(customer, editing) {
   }).join('')
   return `<div class="flex flex-wrap items-center justify-between gap-3 p-3" data-contact-toolbar><span class="text-xs font-medium text-muted">${contacts.length} ${encodeHtml(t(contacts.length === 1 ? 'contact' : 'contacts'))}</span>${addButton}</div>
     <div class="grid grid-cols-1 items-start gap-3 p-3 pt-0" role="list">${cards}</div>
-    <div class="flex items-start gap-2 border-t border-line bg-[var(--line-2)] px-3 py-2.5 text-xs leading-5 text-muted" data-contact-sync-note><span class="mt-0.5 flex-none" aria-hidden="true">${icon('i-info')}</span><p class="m-0!">${encodeHtml(t('The default contact stays in sync with Default Contact Info.'))}</p></div>`
+    <div class="flex items-start gap-2 border-t border-line bg-[var(--line-2)] px-3 py-2 text-xs leading-5 text-muted" data-contact-sync-note><span class="mt-0.5 flex-none" aria-hidden="true">${icon('i-info')}</span><p class="m-0!">${encodeHtml(t('The default contact stays in sync with Default Contact Info.'))}</p></div>`
 }
 
 export function createContactDialog({trapFocus, releaseFocus, onSave}) {

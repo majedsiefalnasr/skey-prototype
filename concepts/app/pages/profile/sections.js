@@ -29,7 +29,7 @@ export function renderSectionHeading(key, encodeHtml) {
 function renderCard(title, bodyHtml, extraClass = '') {
   const classAttr = extraClass ? `${extraClass} rec-card` : 'rec-card'
   return `<div class="${classAttr} [border:1px_solid_var(--line)] rounded-lg mb-3! overflow-hidden">
-    <button type="button" class="rec-card-hd flex items-center justify-between gap-2.5 w-full text-start [padding:var(--ds-space-100)_var(--ds-space-150)] [font-size:12.5px]! font-bold! bg-[var(--line-2)]! border-0! [cursor:pointer]" aria-expanded="true"><span class="flex items-center gap-1.5" data-i18n="${title}">${title}</span></button>
+    <button type="button" class="rec-card-hd flex items-center justify-between gap-2 w-full text-start [padding:var(--ds-space-100)_var(--ds-space-150)] [font-size:12.5px]! font-bold! bg-[var(--line-2)]! border-0! [cursor:pointer]" aria-expanded="true"><span class="flex items-center gap-1.5" data-i18n="${title}">${title}</span></button>
     <div class="rec-card-body [padding:var(--ds-space-150)]">${bodyHtml}</div>
   </div>`
 }
@@ -260,7 +260,7 @@ function renderAppearanceSectionFields() {
   return (
     renderCard(
       'Interface theme',
-      `<div class="dgrid appearance-theme-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Interface theme">
+      `<div class="dgrid appearance-theme-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2" role="radiogroup" aria-label="Interface theme">
       <button type="button" class="appearance-theme-card" role="radio" data-appearance-theme="system" aria-checked="true">
         <span class="theme-preview theme-preview-system" data-theme-preview aria-hidden="true"><span class="theme-preview-chrome"><i></i><i></i><i></i></span><span class="theme-preview-sidebar"></span><span class="theme-preview-toolbar"></span><span class="theme-preview-lines"><i></i><i></i><i></i></span></span>
         <span class="theme-choice-label"><span class="theme-choice-radio" aria-hidden="true"></span><span data-i18n="System preference">System preference</span></span>
@@ -282,7 +282,7 @@ function renderAppearanceSectionFields() {
     ) +
     renderCard(
       'Accent color',
-      `<div class="accent-swatches flex items-center gap-2.5 flex-wrap" role="radiogroup" aria-label="Accent color">
+      `<div class="accent-swatches flex items-center gap-2 flex-wrap" role="radiogroup" aria-label="Accent color">
       <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:var(--ds-radius-full)] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#1868DB" data-accent-dark="#669DF1" aria-checked="true" aria-label="Blue (default)" style="--sw: #1868db"></button>
       <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:var(--ds-radius-full)] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#5B7F24" data-accent-dark="#82B536" aria-checked="false" aria-label="Green" style="--sw: #5b7f24"></button>
       <button type="button" class="accent-swatch [width:28px] [height:28px] [border-radius:var(--ds-radius-full)] [background:var(--sw)] [border:2px_solid_transparent] [padding:0] [cursor:pointer] [box-shadow:inset_0_0_0_1px_var(--line)]" role="radio" data-accent="#803FA5" data-accent-dark="#B57EDC" aria-checked="false" aria-label="Purple" style="--sw: #803fa5"></button>
@@ -328,7 +328,7 @@ function renderAppearanceSectionFields() {
     ) +
     renderCard(
       'Layout',
-      `<div class="dgrid appearance-layout-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Layout">
+      `<div class="dgrid appearance-layout-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2" role="radiogroup" aria-label="Layout">
       <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-large)] [padding:var(--ds-space-150)] text-start flex [gap:var(--ds-space-100)] items-start" role="radio" data-appearance-layout="fluid" aria-checked="true">
         <span class="appearance-option-preview layout-preview-fluid" data-option-preview aria-hidden="true"><span class="layout-preview-chrome"><i></i><i></i><i></i></span><span class="layout-preview-rail"></span><span class="layout-preview-content"></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Fluid">Fluid</span></span></span>
@@ -346,7 +346,7 @@ function renderAppearanceSectionFields() {
     ) +
     renderCard(
       'Density',
-      `<div class="dgrid appearance-density-grid grid [grid-template-columns:repeat(2,_1fr)] gap-2.5" role="radiogroup" aria-label="Density">
+      `<div class="dgrid appearance-density-grid grid [grid-template-columns:repeat(2,_1fr)] gap-2" role="radiogroup" aria-label="Density">
       <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-large)] [padding:var(--ds-space-150)] text-start flex [gap:var(--ds-space-100)] items-start" role="radio" data-appearance-density="default" aria-checked="true">
         <span class="appearance-option-preview density-preview-default" data-option-preview aria-hidden="true"><span class="density-preview-chrome"><i></i><i></i><i></i></span><span class="density-preview-rail"></span><span class="density-preview-toolbar"></span><span class="density-preview-rows"><i></i><i></i><i></i></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Default">Default</span></span></span>
@@ -360,7 +360,7 @@ function renderAppearanceSectionFields() {
     ) +
     renderCard(
       'Card style',
-      `<div class="dgrid appearance-card-style-grid grid [grid-template-columns:repeat(2,_1fr)] gap-2.5" role="radiogroup" aria-label="Card style">
+      `<div class="dgrid appearance-card-style-grid grid [grid-template-columns:repeat(2,_1fr)] gap-2" role="radiogroup" aria-label="Card style">
       <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-large)] [padding:var(--ds-space-150)] text-start flex [gap:var(--ds-space-100)] items-start" role="radio" data-appearance-card-style="standard" aria-checked="true">
         <span class="appearance-option-preview card-style-preview-standard" data-option-preview aria-hidden="true"><span class="card-style-preview-card"><span class="card-style-preview-hd"></span><span class="card-style-preview-line"></span><span class="card-style-preview-line short"></span></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Standard">Standard</span></span></span>
@@ -374,7 +374,7 @@ function renderAppearanceSectionFields() {
     ) +
     renderCard(
       'Input style',
-      `<div class="dgrid appearance-input-style-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2.5" role="radiogroup" aria-label="Input style">
+      `<div class="dgrid appearance-input-style-grid grid [grid-template-columns:repeat(3,_1fr)] gap-2" role="radiogroup" aria-label="Input style">
       <button type="button" class="dcard appearance-option-card [border:1.5px_solid_var(--line)] [border-radius:var(--ds-radius-large)] [padding:var(--ds-space-150)] text-start flex [gap:var(--ds-space-100)] items-start" role="radio" data-appearance-input-style="default" aria-checked="true">
         <span class="appearance-option-preview input-style-preview-default" data-option-preview aria-hidden="true"><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span><span class="input-style-preview-field"><span class="input-style-preview-label"></span><span class="input-style-preview-control"></span></span></span>
         <span class="appearance-option-label"><span class="theme-choice-radio" aria-hidden="true"></span><span><span class="t" data-i18n="Standard">Standard</span></span></span>
@@ -396,7 +396,7 @@ function renderAppearanceSectionFields() {
 export function renderSecuritySection() {
   return renderCard(
     'Sign-in security',
-    `<div class="flex flex-col gap-2.5">
+    `<div class="flex flex-col gap-2">
       <div class="flex items-center justify-between gap-5">
         <span><strong class="block text-body-lg text-ink" data-i18n="Password">Password</strong><small class="block text-xs text-muted" data-i18n="Change the password used to sign in.">Change the password used to sign in.</small></span>
         <button type="button" class="lbtn out" data-profile-open-change-password data-i18n="Change password">Change password</button>

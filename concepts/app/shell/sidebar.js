@@ -205,7 +205,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     node.appendChild(btn)
     if (isBranch) {
       const sub = document.createElement('div')
-      sub.className = 'nc1-sub ms-4 hidden border-s border-line ps-3.5'
+      sub.className = 'nc1-sub ms-4 hidden border-s border-line ps-3'
       childrenOf(entry).forEach(child => sub.appendChild(ncBuildItem(child, depth + 1, root)))
       node.appendChild(sub)
       btn.setAttribute('aria-expanded', 'false')
@@ -226,7 +226,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       const favs = document.createElement('div')
       favs.className = 'nc3-favs shrink-0 border-b border-line pb-1 pt-0.5'
       const favLbl = document.createElement('div')
-      favLbl.className = 'nc-group-lbl px-2.5 pb-1 pt-3.5 text-xs font-semibold uppercase tracking-[.04em] text-faint first:pt-1.5'
+      favLbl.className = 'nc-group-lbl px-2 pb-1 pt-3 text-xs font-semibold uppercase tracking-[.04em] text-faint first:pt-1.5'
       favLbl.textContent = t('Favorites')
       favs.appendChild(favLbl)
       NAV_FAVORITES.forEach(f => {
@@ -258,7 +258,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       body.appendChild(title)
       forYouGroups.forEach(g => {
         const lbl = document.createElement('div')
-        lbl.className = 'nc-group-lbl px-2.5 pb-1 pt-3.5 text-xs font-semibold uppercase tracking-[.04em] text-faint first:pt-1.5'
+        lbl.className = 'nc-group-lbl px-2 pb-1 pt-3 text-xs font-semibold uppercase tracking-[.04em] text-faint first:pt-1.5'
         lbl.textContent = g.name
         body.appendChild(lbl)
         g.items.forEach(item => body.appendChild(ncBuildItem(item.label, 0, root)))
@@ -342,7 +342,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     const railIcon = (label, icon, group, opts) => {
       const btn = document.createElement('button')
       btn.type = 'button'
-      btn.className = 'nc2-icn relative inline-flex h-9 w-full min-w-[calc(var(--rail-w)-12px)] shrink-0 items-center gap-2.5 rounded-md ps-3 text-muted hover:bg-[var(--hover-overlay)]'
+      btn.className = 'nc2-icn relative inline-flex h-9 w-full min-w-[calc(var(--rail-w)-12px)] shrink-0 items-center gap-2 rounded-md ps-3 text-muted hover:bg-[var(--hover-overlay)]'
       btn.setAttribute('aria-label', t(label))
       btn.innerHTML = `<svg class="shrink-0" width="18" height="18" aria-hidden="true"><use href="#${icon}"/></svg><span class="nc2-lbl overflow-hidden whitespace-nowrap text-body opacity-0">${encodeHtml(t(label))}</span>`
       /* a mouse click leaves focus sitting on the button, which keeps
@@ -404,7 +404,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     accountSep.className = 'nc2-rail-sep ms-2 my-1 h-px w-6 bg-line'
     const accountBtn = railIcon(NAV_ACCOUNT_GROUP[0], 'i-account', NAV_ACCOUNT_GROUP)
     const railFoot = document.createElement('div')
-    railFoot.className = 'nc2-rail-foot flex shrink-0 flex-col gap-0.5 pb-14'
+    railFoot.className = 'nc2-rail-foot flex shrink-0 flex-col gap-0.5 pb-12'
     railFoot.append(accountSep, accountBtn)
     rail.appendChild(railFoot)
     document.addEventListener('click', e => {

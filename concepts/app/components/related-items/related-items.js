@@ -176,7 +176,7 @@ export function createRelatedItems({store, toast, currentUserId, users = [], ope
       .filter(([id]) => types.length > 1 || id !== 'all')
       .map(
         ([id, label]) =>
-          `<button type="button" data-type="${id}" aria-pressed="${id === filter}" class="min-h-7 rounded-full border border-line bg-surface px-2.5 text-xs text-ink hover:bg-[var(--line-2)] aria-pressed:border-[var(--accent)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:text-accent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]">${escapeHtml(t(label))}</button>`
+          `<button type="button" data-type="${id}" aria-pressed="${id === filter}" class="min-h-7 rounded-full border border-line bg-surface px-2 text-xs text-ink hover:bg-[var(--line-2)] aria-pressed:border-[var(--accent)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:text-accent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]">${escapeHtml(t(label))}</button>`
       )
       .join('')
 

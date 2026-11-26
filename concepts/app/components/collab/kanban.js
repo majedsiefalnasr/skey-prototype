@@ -36,7 +36,7 @@ function sizeColumns(host) {
 export const CARD_CLASS =
   'relative cursor-grab rounded-md border border-line bg-surface shadow-[0_1px_1px_rgba(9,30,66,0.08)] transition-[box-shadow,border-color] duration-150 hover:border-[var(--accent-line)] hover:shadow-[0_4px_10px_rgba(9,30,66,0.14)] active:cursor-grabbing'
 export const CARD_OPEN_CLASS =
-  'block w-full border-0 bg-transparent px-3 pb-3 pt-2.5 text-start focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)] hover:[&_.card-title]:underline'
+  'block w-full border-0 bg-transparent px-3 pb-3 pt-2 text-start focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)] hover:[&_.card-title]:underline'
 
 /**
  * @param {HTMLElement} host
@@ -59,7 +59,7 @@ export function renderBoard(host, {columns, moveColumns = columns, renderCard, r
     .map(column => {
       const collapsed = Boolean(column.collapsed)
       return `<section class="${COLUMN_CLASS}" data-column="${escapeHtml(column.id)}" data-collapsed="${collapsed}" aria-label="${escapeHtml(t(column.label))}">
-        <header class="flex items-center gap-2 px-3 py-2.5">
+        <header class="flex items-center gap-2 px-3 py-2">
           <h3 class="flex-1 text-body font-semibold text-ink">${escapeHtml(t(column.label))} <span class="font-normal text-muted">· ${column.items.length}</span></h3>
           ${
             onToggleColumn && column.collapsible
@@ -73,7 +73,7 @@ export function renderBoard(host, {columns, moveColumns = columns, renderCard, r
             : `<div class="flex flex-1 flex-col gap-2 px-2 pb-2">
           ${
             column.quickAdd && onQuickAdd
-              ? `<label class="sr-only" for="quick-add-${escapeHtml(column.id)}">${t('Add to')} ${escapeHtml(t(column.label))}</label><input id="quick-add-${escapeHtml(column.id)}" data-quick-add="${escapeHtml(column.id)}" dir="auto" autocomplete="off" placeholder="${escapeHtml(t(column.quickAdd))}" class="min-h-8 w-full rounded-md border border-dashed border-line bg-surface px-2.5 text-body text-ink placeholder:text-muted focus-visible:border-solid focus-visible:border-[var(--accent)] focus-visible:outline-none">`
+              ? `<label class="sr-only" for="quick-add-${escapeHtml(column.id)}">${t('Add to')} ${escapeHtml(t(column.label))}</label><input id="quick-add-${escapeHtml(column.id)}" data-quick-add="${escapeHtml(column.id)}" dir="auto" autocomplete="off" placeholder="${escapeHtml(t(column.quickAdd))}" class="min-h-8 w-full rounded-md border border-dashed border-line bg-surface px-2 text-body text-ink placeholder:text-muted focus-visible:border-solid focus-visible:border-[var(--accent)] focus-visible:outline-none">`
               : ''
           }
           ${

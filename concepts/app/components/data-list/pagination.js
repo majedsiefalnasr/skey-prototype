@@ -70,7 +70,7 @@ export function renderShellPager(context, filteredCount, listState, deps) {
       `<option value="${size}"${size === pageSize ? ' selected' : ''}>${size}</option>`
   ).join('')
   const edgeButtonClass = DATA_PAGER_EDGE_BUTTON_CLASS
-  return `<div class="data-list-pagination flex flex-1 flex-wrap items-center gap-x-4 gap-y-2.5" role="navigation" aria-label="${encodeHtml(config.label)} ${t('page navigation', 'page navigation')}">
+  return `<div class="data-list-pagination flex flex-1 flex-wrap items-center gap-x-4 gap-y-2" role="navigation" aria-label="${encodeHtml(config.label)} ${t('page navigation', 'page navigation')}">
     <div class="data-pagination-controls flex flex-wrap items-center gap-1">
       <button type="button" class="data-pagination-edge ${edgeButtonClass}" data-list-page="1"${page <= 1 ? ' disabled' : ''} aria-label="${t('First page', 'First page')}">${dataListIcon('i-first', 13)}</button>
       <button type="button" class="data-pagination-prev ${edgeButtonClass}" data-list-page="${page - 1}"${page <= 1 ? ' disabled' : ''} aria-label="${t('Previous page', 'Previous page')}">${dataListIcon('i-prev', 12)}</button>

@@ -358,7 +358,7 @@ export function createEvents({store, toast, panel, related, confirm, goHome, use
           </svg>
           <div class="absolute inset-0 flex items-center justify-center gap-1.5">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-muted" data-map-pin><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
-            <span class="max-w-[70%] truncate rounded-full bg-surface px-2.5 py-1 text-caption font-semibold text-ink [box-shadow:var(--shadow-1)]" data-map-label>${t("No location")}</span>
+            <span class="max-w-[70%] truncate rounded-full bg-surface px-2 py-1 text-caption font-semibold text-ink [box-shadow:var(--shadow-1)]" data-map-label>${t("No location")}</span>
           </div>
         </div>`,
       })}

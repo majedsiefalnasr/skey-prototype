@@ -52,7 +52,7 @@ export function createNotificationsPage({t, listInstance, detailList, dialogs}) 
   }
 
   function summaryMarkup(facts) {
-    return `<dl class="jgrid-head m-0 mb-3.5! grid grid-cols-2 gap-x-4 gap-y-3 rounded-lg bg-[var(--line-2)] [padding:var(--ds-space-150)_var(--ds-space-200)] sm:grid-cols-3">${facts
+    return `<dl class="jgrid-head m-0 mb-3! grid grid-cols-2 gap-x-4 gap-y-3 rounded-lg bg-[var(--line-2)] [padding:var(--ds-space-150)_var(--ds-space-200)] sm:grid-cols-3">${facts
       .map(
         ([label, value]) =>
           `<div><dt class="text-xs text-muted">${encodeHtml(t(label))}</dt><dd class="mt-0.5 font-semibold text-ink">${encodeHtml(String(value))}</dd></div>`

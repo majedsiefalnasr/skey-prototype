@@ -88,7 +88,7 @@ export function createListDates({t, formatLocaleDate, getAppLocale, dataListIcon
       preset === 'range'
         ? `<div class="${DATA_FILTER_DATE_RANGE_CLASS}"><input type="date" class="${DATA_FILTER_DATE_CONTROL_CLASS} flex-1 min-w-0" value="${encodeHtml(dataListDateInputValue(a))}" data-list-date-range-from="${encodeHtml(field.key)}" aria-label="${t('From', 'From')}"><span class="text-xs text-muted">${t('to', 'to')}</span><input type="date" class="${DATA_FILTER_DATE_CONTROL_CLASS} flex-1 min-w-0" value="${encodeHtml(dataListDateInputValue(b))}" data-list-date-range-to="${encodeHtml(field.key)}" aria-label="${t('To', 'To')}"></div>`
         : ''
-    return `<div class="data-filter-date-presets grid gap-px" role="listbox">${options}</div>${relativeControls}${specificControls}${rangeControls}`
+    return `<div class="data-filter-date-presets grid gap-0" role="listbox">${options}</div>${relativeControls}${specificControls}${rangeControls}`
   }
 
   function renderDataFilterModalDateField(field, filter, clearButton = '') {

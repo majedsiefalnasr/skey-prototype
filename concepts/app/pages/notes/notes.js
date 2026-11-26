@@ -278,7 +278,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
         menuItemRadio({attr: 'view-select', value: id, label: `${entry.label} view`, iconName: entry.icon, checked: state.view === id})
       )
       .join('')
-    host.innerHTML = `<div class="data-list-controls grid gap-2 mb-2.5">${toolbarRow({
+    host.innerHTML = `<div class="data-list-controls grid gap-2 mb-2">${toolbarRow({
       ariaLabel: 'Notes table controls',
       left: `${menuDetails({attr: 'quick-menu', iconName: quick[2], label: quick[1], items: quickItems})}${menuDetails({
         attr: 'filter-menu',

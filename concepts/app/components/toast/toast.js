@@ -138,9 +138,9 @@ export function createToast(host) {
     if (action) action = uiLocale.t(action)
     const kind = TONES[tone] || TONES.ok
     const t = document.createElement('div')
-    t.className = `toast ${kind.cls} pointer-events-auto absolute bottom-0 start-0 flex w-full items-start gap-2.5 rounded-lg px-3.5 py-3 shadow-shell transition-[transform,visibility] duration-[250ms] ease-[cubic-bezier(0.4,0,0,1)] motion-reduce:transition-none [animation:toastin_250ms_cubic-bezier(0,0.4,0,1)_both] motion-reduce:animate-none ${kind.box}`
+    t.className = `toast ${kind.cls} pointer-events-auto absolute bottom-0 start-0 flex w-full items-start gap-2 rounded-lg px-3 py-3 shadow-shell transition-[transform,visibility] duration-[250ms] ease-[cubic-bezier(0.4,0,0,1)] motion-reduce:transition-none [animation:toastin_250ms_cubic-bezier(0,0.4,0,1)_both] motion-reduce:animate-none ${kind.box}`
     if (tone === 'bad') t.setAttribute('role', 'alert')
-    t.innerHTML = `<span class="ic mt-px shrink-0 ${kind.iconCls}"><svg width="16" height="16" aria-hidden="true"><use href="#${kind.icon}"/></svg></span>
+    t.innerHTML = `<span class="ic mt-0 shrink-0 ${kind.iconCls}"><svg width="16" height="16" aria-hidden="true"><use href="#${kind.icon}"/></svg></span>
     <span class="bd min-w-0 flex-1"><h2 class="m-0 mb-0.5 block text-subtitle font-semibold leading-5">${title}</h2>${body ? `<p class="m-0 mt-0.5 text-subtitle leading-5 ${kind.descCls}">${body}</p>` : ''}${action ? `<button class="act mt-1.5 inline-block bg-none border-0 p-0 text-subtitle font-medium underline ${kind.linkCls}">${action}</button>` : ''}</span>
     ${kind.dismissible ? `<button class="x mt-[calc(var(--ds-space-025)*-1)] -me-1 flex size-7 shrink-0 items-center justify-center rounded-md border-0 bg-transparent p-0 ${kind.closeCls}" aria-label="Dismiss"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button>` : ''}`
 

@@ -105,7 +105,7 @@ function applyTask3ShellUtilities(html) {
     ],
     [
       'class="left"',
-      'class="left flex w-[calc(var(--sidebar-w)-16px)] shrink-0 items-center gap-2.5"',
+      'class="left flex w-[calc(var(--sidebar-w)-16px)] shrink-0 items-center gap-2"',
     ],
     ['class="gsearch"', 'class="gsearch relative flex flex-1 justify-center"'],
     ['class="swrap"', 'class="swrap relative w-[min(620px,100%)]"'],
@@ -115,7 +115,7 @@ function applyTask3ShellUtilities(html) {
     ],
     [
       '<span class="kbd-chip">⌘K</span>',
-      '<span class="ms-auto rounded border border-line bg-[var(--line-2)] px-1.5 py-px font-mono text-[11px] text-muted">⌘K</span>',
+      '<span class="ms-auto rounded border border-line bg-[var(--line-2)] px-1.5 py-0 font-mono text-[11px] text-muted">⌘K</span>',
     ],
     [
       'class="spanel"',
@@ -128,11 +128,11 @@ function applyTask3ShellUtilities(html) {
     ],
     [
       'autocomplete="off" />\n                <span class="kbd-chip" style="margin: 0">Esc</span>',
-      'autocomplete="off" />\n                <span class="rounded border border-line bg-[var(--line-2)] px-1.5 py-px font-mono text-[11px] text-muted">Esc</span>',
+      'autocomplete="off" />\n                <span class="rounded border border-line bg-[var(--line-2)] px-1.5 py-0 font-mono text-[11px] text-muted">Esc</span>',
     ],
     [
       'class="sctx"',
-      'class="sctx flex flex-wrap items-center gap-2 border-b border-line bg-[var(--line-2)] px-3.5 py-2 text-xs text-muted"',
+      'class="sctx flex flex-wrap items-center gap-2 border-b border-line bg-[var(--line-2)] px-3 py-2 text-xs text-muted"',
     ],
     [
       'You are on <b>Sales Invoice</b> · 001000352026126',
@@ -144,28 +144,28 @@ function applyTask3ShellUtilities(html) {
     ],
     [
       '<button data-scope="all" aria-pressed="true">Everything</button>',
-      '<button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="all" aria-pressed="true">Everything</button>',
+      '<button class="rounded-full border border-line bg-surface px-2 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="all" aria-pressed="true">Everything</button>',
     ],
     [
       '<button data-scope="screens" aria-pressed="false">Screens</button>',
-      '<button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="screens" aria-pressed="false">Screens</button>',
+      '<button class="rounded-full border border-line bg-surface px-2 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="screens" aria-pressed="false">Screens</button>',
     ],
     [
       '<button data-scope="records" aria-pressed="false">Records</button>',
-      '<button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="records" aria-pressed="false">Records</button>',
+      '<button class="rounded-full border border-line bg-surface px-2 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="records" aria-pressed="false">Records</button>',
     ],
     [
       '<button data-scope="actions" aria-pressed="false">Actions</button>',
-      '<button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="actions" aria-pressed="false">Actions</button>',
+      '<button class="rounded-full border border-line bg-surface px-2 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="actions" aria-pressed="false">Actions</button>',
     ],
     ['class="slist" role="listbox"', 'class="slist flex-1 overflow-auto p-1.5" role="listbox"'],
     [
       'class="sfoot"',
-      'class="sfoot flex items-center gap-[15px] border-t border-line bg-[var(--line-2)] px-3.5 py-2 text-xs text-muted"',
+      'class="sfoot flex items-center gap-[15px] border-t border-line bg-[var(--line-2)] px-3 py-2 text-xs text-muted"',
     ],
     [
       '                <span><span class="k">↑↓</span>Navigate</span\n                ><span><span class="k">↵</span>Open</span>\n                <span class="sfoot-scope"><span class="k">Tab</span>Change scope</span>',
-      '                <span><span class="k rounded border border-line bg-surface px-1.5 py-px font-mono text-[11px] me-[5px]">↑↓</span>Navigate</span\n                ><span><span class="k rounded border border-line bg-surface px-1.5 py-px font-mono text-[11px] me-[5px]">↵</span>Open</span>\n                <span class="sfoot-scope"><span class="k rounded border border-line bg-surface px-1.5 py-px font-mono text-[11px] me-[5px]">Tab</span>Change scope</span>',
+      '                <span><span class="k rounded border border-line bg-surface px-1.5 py-0 font-mono text-[11px] me-[5px]">↑↓</span>Navigate</span\n                ><span><span class="k rounded border border-line bg-surface px-1.5 py-0 font-mono text-[11px] me-[5px]">↵</span>Open</span>\n                <span class="sfoot-scope"><span class="k rounded border border-line bg-surface px-1.5 py-0 font-mono text-[11px] me-[5px]">Tab</span>Change scope</span>',
     ],
     ['class="sfoot-ctx" style="margin-inline-start: auto"', 'class="sfoot-ctx ms-auto"'],
     ['class="right"', 'class="right flex shrink-0 items-center gap-[7px]"'],
@@ -181,7 +181,7 @@ function applyTask3ShellUtilities(html) {
     ['class="avatar-btn"', 'class="avatar-btn rounded-full"'],
     [
       'class="user-card">\n                <span class="avatar">MS</span>',
-      'class="user-card mb-0.5 flex items-center gap-2.5 px-2.5 pb-3 pt-2.5">\n                <span class="avatar size-9 text-[13px]">MS</span>',
+      'class="user-card mb-0.5 flex items-center gap-2 px-2 pb-3 pt-2">\n                <span class="avatar size-9 text-[13px]">MS</span>',
     ],
     [
       '<div><b>Majed Sief Alnasr</b><span>admin@lastchance</span></div>',

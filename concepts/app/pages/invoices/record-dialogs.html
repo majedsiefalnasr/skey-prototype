@@ -10,7 +10,7 @@
     aria-modal="true"
     aria-labelledby="pf-title"
     hidden>
-    <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+    <div class="dhd flex items-start gap-2 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
       <svg width="17" height="17" aria-hidden="true" class="[margin-top:var(--ds-space-025)]">
         <use href="#i-post" />
       </svg>
@@ -33,7 +33,7 @@
             Posting writes this invoice into the accounts. After that it can be read but not edited.
           </p>
           <aside
-            class="effects mb-3.5! flex items-start gap-3 rounded-md bg-[var(--line-2)] p-4 [.dlg[data-tone=success]_&]:[background:var(--success-soft-bg)]"
+            class="effects mb-3! flex items-start gap-3 rounded-md bg-[var(--line-2)] p-4 [.dlg[data-tone=success]_&]:[background:var(--success-soft-bg)]"
             role="note"
             aria-labelledby="posting-effects-title">
             <svg
@@ -83,7 +83,7 @@
         <!-- state: already posted — a record of what happened -->
         <div data-state="done" hidden>
           <div
-            class="donebox [border:1px_solid_var(--line)] [border-radius:var(--ds-radius-large)] overflow-hidden mb-3.5! [&_dl]:grid [&_dl]:[grid-template-columns:auto_1fr] [&_dl]:[gap:var(--ds-space-075)_var(--ds-space-150)] [&_dl]:[padding:var(--ds-space-150)_var(--ds-space-150)] [&_dl]:[font-size:12.5px] [&_dl]:[margin:0]! [&_dt]:text-muted [&_dd]:[margin:0]!">
+            class="donebox [border:1px_solid_var(--line)] [border-radius:var(--ds-radius-large)] overflow-hidden mb-3! [&_dl]:grid [&_dl]:[grid-template-columns:auto_1fr] [&_dl]:[gap:var(--ds-space-075)_var(--ds-space-150)] [&_dl]:[padding:var(--ds-space-150)_var(--ds-space-150)] [&_dl]:[font-size:12.5px] [&_dl]:[margin:0]! [&_dt]:text-muted [&_dd]:[margin:0]!">
             <div
               class="dbh [.donebox_&]:flex [.donebox_&]:items-center [.donebox_&]:[gap:var(--ds-space-100)] [.donebox_&]:[padding:var(--ds-space-100)_var(--ds-space-150)] [.donebox_&]:bg-[var(--line-2)] [.donebox_&]:[border-bottom:1px_solid_var(--line)] [.donebox_&]:font-semibold [.donebox_&]:[font-size:13px] [.dlg[data-tone=success]_.donebox_&]:[background:var(--success-soft-bg)]">
               <svg width="15" height="15" style="color: var(--st-post-ink)">
@@ -114,7 +114,7 @@
             <div class="inner [.revbox_&]:[margin-top:var(--ds-space-150)]!">
               <p
                 class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!"
-                style="margin-bottom: 9px" data-i18n="This deletes the journal entry and opens the invoice for editing again.">
+                style="margin-bottom: var(--ds-space-100)" data-i18n="This deletes the journal entry and opens the invoice for editing again.">
                 This deletes the journal entry and opens the invoice for editing again.
               </p>
               <div
@@ -137,7 +137,7 @@
         </div>
       </div>
 
-      <div class="dfoot flex items-center gap-2.5 [padding:var(--ds-space-200)_0_0]!">
+      <div class="dfoot flex items-center gap-2 [padding:var(--ds-space-200)_0_0]!">
         <span class="sum" style="font-size: 12px; color: var(--muted)" data-state="do"
           ><span data-i18n="Invoice">Invoice</span> <span data-invoice-number>126</span> <span data-i18n="· 20,000.00 EGP">· 20,000.00 EGP</span></span
         >
@@ -145,7 +145,7 @@
            data-i18n="This is what was recorded. Nothing here can be edited.">This is what was recorded. Nothing here can be edited.</span
         >
         <span
-          class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2">
+          class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2">
           <button class="lbtn out r-close" data-state="do" data-i18n="Not yet">Not yet</button>
           <button class="lbtn pri" data-state="do">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-post" /></svg> <span data-i18n="Post invoice">Post invoice</span>
@@ -164,7 +164,7 @@
     aria-modal="true"
     aria-labelledby="del-title"
     hidden>
-    <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+    <div class="dhd flex items-start gap-2 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
       <svg width="17" height="17" aria-hidden="true" class="[margin-top:var(--ds-space-025)]">
         <use href="#i-trash" />
       </svg>
@@ -185,7 +185,7 @@
           This removes the invoice completely. Unlike cancelling, nothing is kept in the records.
         </p>
         <aside
-          class="effects mb-3.5! flex items-start gap-3 rounded-md bg-[var(--line-2)] p-4 [.dlg[data-tone=danger]_&]:[background:var(--danger-soft-bg)]"
+          class="effects mb-3! flex items-start gap-3 rounded-md bg-[var(--line-2)] p-4 [.dlg[data-tone=danger]_&]:[background:var(--danger-soft-bg)]"
           role="note"
           aria-labelledby="delete-effects-title">
           <svg
@@ -226,12 +226,12 @@
           <span data-i18n="If you need a trace of it, use">If you need a trace of it, use</span> <b data-i18n="Cancel Document">Cancel Document</b> <span data-i18n="instead.">instead.</span>
         </p>
       </div>
-      <div class="dfoot flex items-center gap-2.5 [padding:var(--ds-space-200)_0_0]!">
+      <div class="dfoot flex items-center gap-2 [padding:var(--ds-space-200)_0_0]!">
         <span class="sum" style="font-size: 12px; color: var(--muted)"
           ><span data-i18n="Invoice">Invoice</span> <span data-invoice-number>126</span> <span data-i18n="· 20,000.00 EGP">· 20,000.00 EGP</span></span
         >
         <span
-          class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2">
+          class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2">
           <button class="lbtn out r-close" data-i18n="Keep it">Keep it</button>
           <button class="lbtn pri" id="del-go" data-i18n="Delete for good">Delete for good</button>
         </span>
@@ -247,7 +247,7 @@
     aria-modal="true"
     aria-label="Display Journal Entry"
     hidden>
-    <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+    <div class="dhd flex items-start gap-2 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
       <svg width="17" height="17" aria-hidden="true" class="[margin-top:var(--ds-space-025)]">
         <use href="#i-doc" />
       </svg>
@@ -265,7 +265,7 @@
     <div class="dlg-inner min-h-0 [padding:var(--ds-space-200)]">
       <div class="dbody overflow-auto">
         <dl
-          class="jgrid-head m-0 mb-3.5! grid grid-cols-2 gap-x-4 gap-y-3 rounded-lg bg-[var(--line-2)] [padding:var(--ds-space-150)_var(--ds-space-200)] sm:grid-cols-3">
+          class="jgrid-head m-0 mb-3! grid grid-cols-2 gap-x-4 gap-y-3 rounded-lg bg-[var(--line-2)] [padding:var(--ds-space-150)_var(--ds-space-200)] sm:grid-cols-3">
           <div class="min-w-0">
             <dt class="text-caption font-medium text-muted" data-i18n="Doc Sub-Type">Doc Sub-Type</dt>
             <dd
@@ -327,12 +327,12 @@
           class="fnav fnav-list flex items-center gap-5 [padding:var(--ds-space-100)_0_0]"
           id="journal-entry-fnav"></div>
       </div>
-      <div class="dfoot flex items-center gap-2.5 [padding:var(--ds-space-200)_0_0]!">
+      <div class="dfoot flex items-center gap-2 [padding:var(--ds-space-200)_0_0]!">
         <span class="sum" style="font-size: 12px; color: var(--muted)"
            data-i18n="Created automatically when the invoice was posted. Read-only.">Created automatically when the invoice was posted. Read-only.</span
         >
         <span
-          class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2"
+          class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2"
           ><button class="lbtn out r-close" data-i18n="Close">Close</button
           ><button class="lbtn out p-open">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-print" /></svg> <span data-i18n="Print">Print</span>
@@ -350,7 +350,7 @@
     aria-modal="true"
     aria-labelledby="cf-title"
     hidden>
-    <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+    <div class="dhd flex items-start gap-2 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
       <svg width="17" height="17" aria-hidden="true" class="[margin-top:var(--ds-space-025)]">
         <use href="#i-x" />
       </svg>
@@ -373,7 +373,7 @@
             The invoice stays in the records as void, together with the reason you give below.
           </p>
           <aside
-            class="effects mb-3.5! flex items-start gap-3 rounded-md bg-[var(--line-2)] p-4 [.dlg[data-tone=danger]_&]:[background:var(--danger-soft-bg)]"
+            class="effects mb-3! flex items-start gap-3 rounded-md bg-[var(--line-2)] p-4 [.dlg[data-tone=danger]_&]:[background:var(--danger-soft-bg)]"
             role="note"
             aria-labelledby="cancel-effects-title">
             <svg
@@ -422,7 +422,7 @@
 
         <div data-state="done" hidden>
           <div
-            class="donebox [border:1px_solid_var(--line)] [border-radius:var(--ds-radius-large)] overflow-hidden mb-3.5! [&_dl]:grid [&_dl]:[grid-template-columns:auto_1fr] [&_dl]:[gap:var(--ds-space-075)_var(--ds-space-150)] [&_dl]:[padding:var(--ds-space-150)_var(--ds-space-150)] [&_dl]:[font-size:12.5px] [&_dl]:[margin:0]! [&_dt]:text-muted [&_dd]:[margin:0]!">
+            class="donebox [border:1px_solid_var(--line)] [border-radius:var(--ds-radius-large)] overflow-hidden mb-3! [&_dl]:grid [&_dl]:[grid-template-columns:auto_1fr] [&_dl]:[gap:var(--ds-space-075)_var(--ds-space-150)] [&_dl]:[padding:var(--ds-space-150)_var(--ds-space-150)] [&_dl]:[font-size:12.5px] [&_dl]:[margin:0]! [&_dt]:text-muted [&_dd]:[margin:0]!">
             <div
               class="dbh [.donebox_&]:flex [.donebox_&]:items-center [.donebox_&]:[gap:var(--ds-space-100)] [.donebox_&]:[padding:var(--ds-space-100)_var(--ds-space-150)] [.donebox_&]:bg-[var(--line-2)] [.donebox_&]:[border-bottom:1px_solid_var(--line)] [.donebox_&]:font-semibold [.donebox_&]:[font-size:13px] [.dlg[data-tone=danger]_.donebox_&]:[background:var(--danger-soft-bg)]">
               <svg width="15" height="15" style="color: var(--danger)"><use href="#i-x" /></svg>
@@ -445,7 +445,7 @@
             <div class="inner [.revbox_&]:[margin-top:var(--ds-space-150)]!">
               <p
                 class="lead [.dlg_&]:[font-size:13px] [.dlg_&]:text-ink [.dlg_&]:mb-3!"
-                style="margin-bottom: 9px" data-i18n="The invoice returns to the state it was in before cancellation, and its actions work again.">
+                style="margin-bottom: var(--ds-space-100)" data-i18n="The invoice returns to the state it was in before cancellation, and its actions work again.">
                 The invoice returns to the state it was in before cancellation, and its actions work
                 again.
               </p>
@@ -469,7 +469,7 @@
         </div>
       </div>
 
-      <div class="dfoot flex items-center gap-2.5 [padding:var(--ds-space-200)_0_0]!">
+      <div class="dfoot flex items-center gap-2 [padding:var(--ds-space-200)_0_0]!">
         <span class="sum" style="font-size: 12px; color: var(--muted)" data-state="do"
           ><span data-i18n="Invoice">Invoice</span> <span data-invoice-number>126</span> <span data-i18n="· 20,000.00 EGP · Credit">· 20,000.00 EGP · Credit</span></span
         >
@@ -477,7 +477,7 @@
            data-i18n="This is what was recorded. Nothing here can be edited.">This is what was recorded. Nothing here can be edited.</span
         >
         <span
-          class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2">
+          class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2">
           <button class="lbtn out r-close" data-state="do" data-i18n="Keep document">Keep document</button>
           <button class="lbtn pri" id="cf-save" data-state="do" disabled data-i18n="Cancel document">Cancel document</button>
           <button class="lbtn out r-close" data-state="done" hidden data-i18n="Close">Close</button>
@@ -493,7 +493,7 @@
     aria-modal="true"
     aria-labelledby="sf-title"
     hidden>
-    <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+    <div class="dhd flex items-start gap-2 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
       <svg width="17" height="17" aria-hidden="true" class="[margin-top:var(--ds-space-025)]">
         <use href="#i-flow" />
       </svg>
@@ -519,7 +519,7 @@
             placeholder="This is saved with the invoice status history"></textarea>
         </div>
       </div>
-      <div class="dfoot flex items-center gap-2.5 [padding:var(--ds-space-200)_0_0]!">
+      <div class="dfoot flex items-center gap-2 [padding:var(--ds-space-200)_0_0]!">
         <span class="sum" style="font-size: 12px; color: var(--muted)"><span data-i18n="Invoice">Invoice</span> <span data-invoice-number>126</span></span>
         <span class="end [.dfoot_&]:ms-auto! [.dfoot_&]:flex [.dfoot_&]:gap-2">
           <button class="lbtn out r-close" data-i18n="Keep current status">Keep current status</button>

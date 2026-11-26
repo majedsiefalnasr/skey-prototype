@@ -33,7 +33,7 @@
     class="dlg [width:min(640px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh] [&.wide]:[width:min(1180px,_97vw)]"
     id="notification-modal-dlg"
     data-tone="info">
-    <div class="dhd flex items-start gap-2.5 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
+    <div class="dhd flex items-start gap-2 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
       <svg class="size-[18px] flex-none text-accent" aria-hidden="true"><use id="notification-modal-icon" href="#i-bell" /></svg>
       <div class="min-w-0">
         <h3 id="notification-modal-title"></h3>
@@ -52,7 +52,7 @@
         <div id="notification-modal-totals"></div>
         <div class="fnav fnav-list flex items-center gap-5 [padding:var(--ds-space-100)_0_0]" id="notification-detail-fnav" hidden></div>
       </div>
-      <div class="dfoot flex items-center gap-2.5 [padding:var(--ds-space-200)_0_0]!">
+      <div class="dfoot flex items-center gap-2 [padding:var(--ds-space-200)_0_0]!">
         <span class="sum" id="notification-modal-note" style="font-size: 12px; color: var(--muted)"></span>
         <span class="end flex items-center gap-2" style="margin-inline-start: auto">
           <button class="lbtn out" type="button" id="notification-modal-close-btn" data-i18n="Close">Close</button>

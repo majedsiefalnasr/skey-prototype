@@ -200,7 +200,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
         )}</span>
         <span class="min-w-0 truncate" title="${escapeHtml(owners.join(', '))}">${escapeHtml(owner)}${
           owners.length > 1
-            ? `<span class="ms-1 rounded-full bg-[var(--line-2)] px-1.5 py-px text-caption-xs font-semibold text-ink" title="${escapeHtml(
+            ? `<span class="ms-1 rounded-full bg-[var(--line-2)] px-1.5 py-0 text-caption-xs font-semibold text-ink" title="${escapeHtml(
                 owners.slice(1).join(', ')
               )}">+${owners.length - 1}</span>`
             : ''
@@ -276,7 +276,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
         menuItemRadio({attr: 'view-select', value: id, label: `${entry.label} view`, iconName: entry.icon, checked: state.view === id})
       )
       .join('')
-    host.innerHTML = `<div class="data-list-controls grid w-full gap-2 mb-2.5">${toolbarRow({
+    host.innerHTML = `<div class="data-list-controls grid w-full gap-2 mb-2">${toolbarRow({
       ariaLabel: 'Activities table controls',
       left: `${menuDetails({attr: 'quick-menu', iconName: quick[2], label: quick[1], items: quickItems})}${menuDetails({
         attr: 'filter-menu',
@@ -486,7 +486,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
   function editorMarkup(activity) {
     const scheduled = Boolean(activity.scheduledStart)
     return `<div data-activity-signals>${activityHighlights(activity)}</div>${actionsMarkup(activity)}<div class="${GRID_CLASS}">
-      ${field({id: 'activity-kind', label: t("Kind"), required: true, wide: true, control: `<div class="relative"><span class="pointer-events-none absolute start-3 top-2.5 text-accent" data-kind-icon>${icon(kindIcon(activity.kind))}</span>${selectInput({id: 'activity-kind', value: activity.kind, options: ACTIVITY_KINDS.map(([id, label]) => [id, label]), extra: {class: 'ps-9!'}})}</div>`})}
+      ${field({id: 'activity-kind', label: t("Kind"), required: true, wide: true, control: `<div class="relative"><span class="pointer-events-none absolute start-3 top-2.5 text-accent" data-kind-icon>${icon(kindIcon(activity.kind))}</span>${selectInput({id: 'activity-kind', value: activity.kind, options: ACTIVITY_KINDS.map(([id, label]) => [id, label]), extra: {class: 'ps-8!'}})}</div>`})}
       ${multiselect({id: 'activity-assignee', label: t("Assigned to"), required: true, wide: true, options: users.map(user => [user.id, `${user.name} · ${user.role}`]), selected: assigneeIdsOf(activity), placeholder: t("Search people\u2026")})}
       ${field({id: 'activity-summary', label: t("Summary"), required: true, wide: true, control: textInput({id: 'activity-summary', value: activity.summary, required: true, extra: {autofocus: true}})})}
       ${field({id: 'activity-status', label: t("Status"), control: selectInput({id: 'activity-status', value: activity.status, options: ACTIVITY_STATUSES})})}
@@ -500,7 +500,7 @@ export function createActivities({store, toast, panel, related, confirm, goHome,
           <div class="mt-1 grid grid-cols-2 gap-2">${[[1, '+1 day'], [7, '+1 week']].map(([days, label]) => `<button type="button" class="flex min-h-12 items-center gap-2 rounded-md border border-line bg-surface px-3 py-2 text-start text-body text-ink hover:border-[var(--accent-line)] hover:bg-[var(--accent-soft)] focus-visible:outline-2 focus-visible:outline-[var(--focus)]" data-due-shift="${days}">${icon('i-cal')}<span class="grid gap-0.5"><span class="font-semibold">${t(label)}</span><span class="text-xs text-muted" data-due-preview="${days}">${escapeHtml(formatDate(addDays(activity.dueDate || todayKey(), days)))}</span></span></button>`).join('')}</div><p class="${HINT_CLASS} mt-1">${t('Added to the selected due date, or today if empty.')}</p>`,
       })}
       <details class="sm:col-span-2 rounded-md border border-line bg-surface"${scheduled ? ' open' : ''}>
-        <summary class="flex cursor-pointer list-none items-center gap-2 rounded-md px-3 py-2.5 text-body font-medium text-ink hover:bg-[var(--line-2)] [&::-webkit-details-marker]:hidden">
+        <summary class="flex cursor-pointer list-none items-center gap-2 rounded-md px-3 py-2 text-body font-medium text-ink hover:bg-[var(--line-2)] [&::-webkit-details-marker]:hidden">
           ${icon('i-clock', 14)}<span>${t("Schedule a time")}</span>
           <span class="ms-auto rounded-full px-2 py-0.5 text-caption font-semibold ${scheduled ? 'bg-[var(--line-2)] text-ink' : 'text-muted'}" data-schedule-state>${t(scheduled ? 'Scheduled' : 'Not scheduled')}</span>
         </summary>

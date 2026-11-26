@@ -42,7 +42,7 @@ export const clearFilterButton = ({attr}) =>
 export const searchField = ({attr, label, value}) =>
   `<label class="data-search relative flex items-center [&>svg:first-child]:absolute [&>svg:first-child]:start-[var(--ds-space-100)] [&>svg:first-child]:text-muted [&>svg:first-child]:pointer-events-none">${icon(
     'i-search'
-  )}<input type="search" class="w-[clamp(160px,18vw,260px)] min-h-[32px] rounded-md border border-line bg-surface py-1 ps-8 pe-7 font-[inherit] text-dense text-ink focus:border-[var(--accent)] focus:outline focus:outline-2 focus:outline-[var(--accent-soft)]" data-${attr} value="${escapeHtml(
+  )}<input type="search" class="w-[clamp(160px,18vw,260px)] min-h-[32px] rounded-md border border-line bg-surface py-1 ps-8 pe-8 font-[inherit] text-dense text-ink focus:border-[var(--accent)] focus:outline focus:outline-2 focus:outline-[var(--accent-soft)]" data-${attr} value="${escapeHtml(
     value
   )}" placeholder="${escapeHtml(t('Search ' + label))}" aria-label="${escapeHtml(t('Search ' + label))}"><button class="data-search-clear absolute end-1 grid size-6 place-items-center rounded p-0 border-0 bg-transparent text-muted cursor-pointer" type="button" data-${attr}-clear aria-label="${escapeHtml(t("Clear search"))}"${
     value ? '' : ' hidden'
@@ -164,7 +164,7 @@ export const collabFilterChip = ({field, filter}) => {
   )}" value="${escapeHtml(filter.value)}" placeholder="Enter ${escapeHtml(field.label.toLowerCase())}" aria-label="${escapeHtml(t(field.label))} filter value">`
   return `<span class="${DATA_FILTER_CHIP_CLASS}"><details class="data-menu data-filter-editor relative min-w-0" data-collab-editor-key="${escapeHtml(
     field.key
-  )}">${summary}<div class="${DATA_MENU_POPOVER_CLASS} min-w-[min(260px,calc(100vw-16px))] p-2.5">${operators}${input}</div></details>${remove}</span>`
+  )}">${summary}<div class="${DATA_MENU_POPOVER_CLASS} min-w-[min(260px,calc(100vw-16px))] p-2">${operators}${input}</div></details>${remove}</span>`
 }
 
 export const collabFilterChips = ({fields, filters}) =>

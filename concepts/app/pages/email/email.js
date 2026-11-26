@@ -176,12 +176,12 @@ export function createEmail({root, store, toast, related, confirm, users, curren
   matchMedia(belowQuery('md')).addEventListener('change', applyLayout, {signal})
 
   /* ---------- folders ---------- */
-  /* Row geometry is the shell's `.nc2-icn` spec — h-9, an 18px icon, gap-2.5,
+  /* Row geometry is the shell's `.nc2-icn` spec — h-9, an 18px icon, gap-2,
      ps-11 and a hover wash — so the mailbox rail and the nav rail sit at the
      same sizes side by side. `ef-lbl` / `ef-act` are the pieces the collapsed
      rail hides; see the `.email-folders` rules in styles/tailwind/email.css. */
   const EF_ROW_CLASS =
-    'ef-row relative inline-flex h-9 min-w-[calc(var(--rail-w)-12px)] items-center gap-2.5 rounded-md border-0 bg-transparent ps-3 pe-2 text-start text-body text-muted hover:bg-[var(--hover-overlay)] aria-[current=true]:bg-[var(--accent-soft)] aria-[current=true]:text-accent focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]'
+    'ef-row relative inline-flex h-9 min-w-[calc(var(--rail-w)-12px)] items-center gap-2 rounded-md border-0 bg-transparent ps-3 pe-2 text-start text-body text-muted hover:bg-[var(--hover-overlay)] aria-[current=true]:bg-[var(--accent-soft)] aria-[current=true]:text-accent focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]'
   const EF_SEPARATOR_CLASS = 'ef-sep ms-2 my-1 h-px w-6 flex-none bg-line'
   const FOLDER_ICON_BTN_CLASS =
     'grid size-6 flex-none place-items-center rounded-md border-0 bg-transparent text-muted opacity-60 hover:bg-[var(--hover-overlay)] hover:text-ink hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)]'
@@ -450,7 +450,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         const day = dayLabel(stampOf(m))
         const header =
           day !== lastDay
-            ? `<li class="nc-group-lbl px-2.5 pb-1 pt-3.5 text-xs font-semibold uppercase tracking-[.04em] text-faint first:pt-1.5" role="presentation">${escapeHtml(day)}</li>`
+            ? `<li class="nc-group-lbl px-2 pb-1 pt-3 text-xs font-semibold uppercase tracking-[.04em] text-faint first:pt-1.5" role="presentation">${escapeHtml(day)}</li>`
             : ''
         lastDay = day
         const relatedCount = store.getRelatedItems('mail', m.id).length
@@ -459,7 +459,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         const subject = titleOf(m)
         return `${header}<li role="option" aria-selected="${selected}" data-id="${escapeHtml(m.id)}" ${opened ? 'aria-current="true"' : ''} tabindex="${
           m.id === state.focusedId || (!state.focusedId && (opened || index === 0)) ? 0 : -1
-        }" class="email-list-row${m.unread ? ' unread' : ''}${opened ? ' active' : ''} flex w-full cursor-pointer items-start gap-2.5 border-0 border-b border-line px-3.5 py-2.5 text-start font-[inherit] hover:bg-[var(--hover-overlay)] aria-selected=true:bg-[var(--accent-soft)] aria-selected=true:[box-shadow:inset_2px_0_0_var(--accent)] rtl:aria-selected=true:[box-shadow:inset_-2px_0_0_var(--accent)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)] [body.density-compact_&]:py-2 [body.density-comfortable_&]:py-3.5">
+        }" class="email-list-row${m.unread ? ' unread' : ''}${opened ? ' active' : ''} flex w-full cursor-pointer items-start gap-2 border-0 border-b border-line px-3 py-2 text-start font-[inherit] hover:bg-[var(--hover-overlay)] aria-selected=true:bg-[var(--accent-soft)] aria-selected=true:[box-shadow:inset_2px_0_0_var(--accent)] rtl:aria-selected=true:[box-shadow:inset_-2px_0_0_var(--accent)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus)] [body.density-compact_&]:py-1.5 [body.density-comfortable_&]:py-3">
           <span class="flex-none pt-1"><input type="checkbox" data-mail-check aria-label="Select “${escapeHtml(subject)}”"${selected ? ' checked' : ''} class="size-3.5 cursor-pointer accent-[var(--accent)]"></span>
           <span class="${AVATAR_CLASS} w-7 h-7 text-xs" style="--hue:${Number(m.hue) || 210}">${avatar(m.folder === 'sent' || m.folder === 'drafts' ? m.to?.[0] || me : m.from, 14)}</span>
           <span class="min-w-0 flex-1">
@@ -615,7 +615,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       ${
         m.attachments?.length
           ? `<div class="email-attachments mt-3 flex flex-wrap gap-2">${m.attachments
-              .map(a => `<span class="email-attach flex items-center gap-1.5 rounded-lg border border-line px-2.5 py-1.5 text-dense text-ink">${icon('i-clip')}<span>${escapeHtml(a.name)}</span><small class="text-xs text-faint">${escapeHtml(a.size)}</small></span>`)
+              .map(a => `<span class="email-attach flex items-center gap-1.5 rounded-lg border border-line px-2 py-1.5 text-dense text-ink">${icon('i-clip')}<span>${escapeHtml(a.name)}</span><small class="text-xs text-faint">${escapeHtml(a.size)}</small></span>`)
               .join('')}<span class="${HINT_CLASS} self-center">${t("Attachments are sample files in the prototype.")}</span></div>`
           : ''
       }`
@@ -823,7 +823,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
       </div>
       <div class="email-composer flex-none border-t border-line bg-surface px-6 py-3 [body.density-compact_&]:px-4 [body.density-comfortable_&]:px-8">
         <label class="email-composer-to mb-2 block text-dense text-muted" for="email-quick-reply">${t("Reply to")} <b dir="auto">${escapeHtml(replyTargets(m).map(p => p.name).join(', '))}</b></label>
-        <textarea id="email-quick-reply" class="email-composer-input w-full min-h-[64px] resize-y rounded-lg border border-line bg-surface px-3 py-2.5 font-[inherit] text-ink outline-none focus-visible:[box-shadow:0_0_0_3px_var(--accent-soft)]" placeholder="${escapeHtml(t("Write a reply\u2026"))}" dir="auto"></textarea>
+        <textarea id="email-quick-reply" class="email-composer-input w-full min-h-[64px] resize-y rounded-lg border border-line bg-surface px-3 py-2 font-[inherit] text-ink outline-none focus-visible:[box-shadow:0_0_0_3px_var(--accent-soft)]" placeholder="${escapeHtml(t("Write a reply\u2026"))}" dir="auto"></textarea>
         <div class="mt-2 flex items-center gap-2"><span class="${HINT_CLASS} flex-1">${t("Typing saves a reply draft.")}</span><button type="button" class="lbtn pri email-send">${icon('i-reply')} ${t('Reply')}</button></div>
       </div>`
     related.render(pane.querySelector('[data-mail-related]'), {type: 'mail', id: m.id}, {readOnly: true})
@@ -1024,7 +1024,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
         ${composeCc.length || draft?.ccInput ? recipientRow('cc', composeCc, draft?.ccInput) : `<div class="py-1"><button type="button" class="border-0 bg-transparent p-0 text-dense text-accent hover:underline" data-add-cc>${t("Add Cc")}</button></div>`}
         <div class="${COMPOSE_ROW_CLASS}"><label for="email-compose-subject">${t("Subject")}</label><input type="text" id="email-compose-subject" class="${COMPOSE_INPUT_CLASS}" placeholder="${escapeHtml(t("Subject\u2026"))}" dir="auto" value="${escapeHtml(draft?.subject || '')}"></div>
         <label class="sr-only" for="email-compose-body">${t("Message")}</label>
-        <textarea id="email-compose-body" class="email-composer-input mt-3 w-full min-h-[180px] resize-y rounded-lg border border-line bg-surface px-3 py-2.5 font-[inherit] text-ink outline-none focus-visible:[box-shadow:0_0_0_3px_var(--accent-soft)]" placeholder="${escapeHtml(t("Write your message\u2026"))}" dir="auto">${escapeHtml(bodyText)}</textarea>
+        <textarea id="email-compose-body" class="email-composer-input mt-3 w-full min-h-[180px] resize-y rounded-lg border border-line bg-surface px-3 py-2 font-[inherit] text-ink outline-none focus-visible:[box-shadow:0_0_0_3px_var(--accent-soft)]" placeholder="${escapeHtml(t("Write your message\u2026"))}" dir="auto">${escapeHtml(bodyText)}</textarea>
         ${draft?.attachments?.length ? `<div class="mt-2 flex flex-wrap gap-2">${draft.attachments.map(a => `<span class="${CHIP_CLASS}">${icon('i-clip', 11)}${escapeHtml(a.name)}</span>`).join('')}</div>` : ''}
         <p class="${ERROR_CLASS} mt-2" role="alert" data-compose-error>${escapeHtml(state.composeError)}</p>
         <section class="mt-4 border-t border-line pt-4" data-mail-related aria-label="${escapeHtml(t("Related items"))}"></section>

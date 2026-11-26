@@ -184,11 +184,11 @@ export function renderDataListChart(context, rows, config, listState, deps) {
     : `<p class="data-chart-empty flex min-h-[260px] items-center justify-center text-center text-dense text-muted">${t('No data to chart for this view.', 'No data to chart for this view.')}</p>`
   return `<section class="rec-card data-list-chart mb-3 shadow-[var(--shadow-1)] [border:1px_solid_var(--line)] rounded-lg overflow-hidden [.rec-card-flow>&]:[flex:1_1_calc(var(--card-cols,_3)_*_200px)] [.rec-card-flow>&]:[min-width:min(100%,_320px)] [.rec-card-flow>&]:mb-0!" aria-label="${encodeHtml(config.label)} chart">
     <div class="data-list-chart-hd-row flex items-stretch bg-[var(--line-2)]">
-      <button type="button" class="rec-card-hd data-list-chart-hd min-w-0 flex-1 flex items-center justify-between gap-2.5 w-full text-start [padding:var(--ds-space-100)_var(--ds-space-150)] [font-size:12.5px]! font-bold! bg-[var(--line-2)]! border-0! [cursor:pointer]" data-list-chart-toggle aria-expanded="${expanded}">
+      <button type="button" class="rec-card-hd data-list-chart-hd min-w-0 flex-1 flex items-center justify-between gap-2 w-full text-start [padding:var(--ds-space-100)_var(--ds-space-150)] [font-size:12.5px]! font-bold! bg-[var(--line-2)]! border-0! [cursor:pointer]" data-list-chart-toggle aria-expanded="${expanded}">
         <span class="data-list-chart-hd-title">${encodeHtml(config.label[0].toUpperCase() + config.label.slice(1))} breakdown</span>
         <span class="data-list-chart-scope me-auto rounded-full bg-surface px-2 text-xs font-semibold text-muted whitespace-nowrap">${encodeHtml(scopeLabel)}</span>
       </button>
-      <button type="button" class="data-list-chart-close grid size-[26px] my-auto mx-2.5 shrink-0 place-items-center rounded-md text-muted hover:bg-surface hover:text-ink" data-list-chart-close aria-label="Close chart">${dataListIcon('i-x', 13)}</button>
+      <button type="button" class="data-list-chart-close grid size-[26px] my-auto mx-2 shrink-0 place-items-center rounded-md text-muted hover:bg-surface hover:text-ink" data-list-chart-close aria-label="Close chart">${dataListIcon('i-x', 13)}</button>
     </div>
     <div class="rec-card-body data-list-chart-body grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:var(--ds-space-100)_var(--ds-space-200)] [padding:var(--ds-space-150)]"${expanded ? '' : ' hidden'}>
       <div class="data-list-chart-layout data-list-chart-layout-solo grid items-stretch gap-4 grid-cols-[minmax(0,1fr)]">
