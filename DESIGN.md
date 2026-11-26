@@ -116,6 +116,16 @@ The spacing token commit (`fd27932`) changed some paddings. These elements carri
 
 Two classes that set the same property under the same variant are ordered by their text in the generated CSS, so renaming a value can change which one wins. In the files #36 changed, 36 such pairs remain with a `--ds-space-*` value, and none of them changed its winner.
 
+### Buttons
+
+`.ibtn` (icon) and `.lbtn` (label) in `concepts/app/styles/tailwind/shell.css` read the `--ds-button-*` tokens in `concepts/app/styles/tailwind/base.css`: 6px gap, 6px radius, 32px icon button, 4px 8px icon padding, and 6px 12px label padding. These are the ADS default button values (`@atlaskit/button` 25.8.3): 32px tall, 14px / 20px text, weight 500.
+
+Applied in #37. A label button is 32px tall on desktop. It sets the 20px body line height and keeps a real 1px border, and its block padding is `calc(var(--ds-button-label-padding-block) - var(--ds-border-width))`, so the border sits inside the 6px inset and the outside height stays 32px. ADS draws the border on an `::after` layer instead; the split New and Save buttons remove one side of the real border, so the border stays on the element. The inline padding is still 12px plus the 1px border, 1px more than ADS. Label buttons inside a `.menu` (Transition, New, Save) used the `.menu > button` padding of 6px 10px and were 34px tall; that rule now skips `.lbtn`, so they are 32px tall and 4px wider. Compact density sets `line-height: inherit` on `.lbtn` and keeps its earlier 28.13px height.
+
+Measured when applied, on 28 screen states at 390, 768, 1024 and 1440px, and at 390px right-to-left: 936 buttons. On desktop, 156 label buttons became 32px (141 from 34.3px, 15 with 13px text from 32.84px). The 3 sign-in Continue buttons stay 44px from their own `min-h-11`. Icon buttons did not change. At 390px every button stays 44px tall, from the coarse-pointer rule; ADS does not set a touch size. The only width changes are the `.menu` label buttons, 4px wider on 20 measured buttons, with no new overflow or off-screen button at 390px in either direction. On the invoice record at 1440px, label buttons are 32px in forced-colors mode and 40px (was 40.3px) in comfortable density. Dialogs were not opened. Totals are in `docs/prototype/37-button-measure.json`.
+
+Still open: the other `.menu > button` triggers, such as Switch app, System Alerts, Help and More actions in the top bar, are 36px wide because of the 10px inline padding of that rule. The compact (26px) and comfortable (36px) density overrides are not tokens.
+
 ## Deviations
 
 | Area | ADS | Prototype | Status |
@@ -127,6 +137,7 @@ Two classes that set the same property under the same variant are ordered by the
 | Radius | ADS scale: 2, 4, 6, 8 and 12px | ADS tokens; radius literals in plain CSS do not read them | Tokenised, literals remain |
 | Font sizes | ADS type scale | 22 role-based tokens at ADS sizes (12 to 32px) with ADS line heights; elements with `leading-*` classes and raw `font-size` literals keep their own values | Applied (#35) |
 | Spacing | ADS scale | ADS steps only, plus the 28px select arrow token (#20); border overlaps read `--ds-border-width`. Spacing literals in plain CSS are not tokenised | Applied (#36); accepted padding changes are listed under [Spacing](#spacing) |
+| Buttons | Default 32px tall, 6px 12px padding, border drawn inside | Label and icon buttons 32px tall on desktop; the border is a real 1px border inside the 6px block inset, so the inline inset is 13px. The other `.menu > button` triggers are 36px wide. 44px on touch | Applied (#37); top-bar triggers open |
 | Record identity card | Not specified; stacks below `lg` (1440px) | Profile, Customer, People and the contact dialog stack the fields above the photo below 1440px | Implemented (#11, #1), no overlap measured at 390 to 1440px |
 | Viewport breakpoints | `xs` 30, `sm` 48, `md` 64, `lg` 90, `xl` 110.5rem (480, 768, 1024, 1440, 1768px at a 16px root) | ADS steps as `--breakpoint-xs` to `--breakpoint-xl`, plus 9 `--breakpoint-legacy-*` tokens named by pixel value at a 16px root for values that have not moved to a step. All are written in `rem`, like ADS | Below `sm` (48rem, 768px) follows ADS; the rest is tokenised, not normalised (#12) |
 | Flag title | `h2` heading | `h2` heading | Implemented, not visually verified |

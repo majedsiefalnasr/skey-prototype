@@ -322,10 +322,11 @@
     display: inline-flex;
     align-items: center;
     gap: var(--ds-button-gap);
-    padding: var(--ds-button-label-padding-block) var(--ds-button-label-padding-inline);
+    padding: calc(var(--ds-button-label-padding-block) - var(--ds-border-width)) var(--ds-button-label-padding-inline);
     border-radius: var(--ds-button-radius);
-    border: 1px solid transparent;
+    border: var(--ds-border-width) solid transparent;
     font-weight: 500;
+    line-height: var(--text-body--line-height);
     white-space: nowrap;
   }
   .lbtn:hover:not(:disabled) {
@@ -480,7 +481,7 @@
   .menu {
     position: relative;
   }
-  .menu > button {
+  .menu > button:not(.lbtn) {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -2286,6 +2287,7 @@
   body.density-compact .lbtn {
     padding: 4px 8px;
     font-size: 12.5px;
+    line-height: inherit;
   }
   body.density-compact .ibtn {
     min-width: 26px;
