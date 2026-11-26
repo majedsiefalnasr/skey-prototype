@@ -69,9 +69,9 @@ export const textarea = ({id, value = '', rows = 4, placeholder}) =>
  *  boolean control on the collaboration screens is one of these. */
 export const switchInput = ({id, label, checked = false} = {}) =>
   `<label class="inline-flex min-h-8 items-center gap-2 text-body text-ink" for="${escapeHtml(id)}">
-    <span class="switch relative inline-flex h-[17px] w-[30px] flex-none">
+    <span class="switch relative inline-flex h-[var(--ds-switch-height)] w-[var(--ds-switch-width)] flex-none">
       <input type="checkbox" role="switch" id="${escapeHtml(id)}" name="${escapeHtml(id)}" class="peer absolute inset-0 m-0 cursor-pointer opacity-0"${checked ? ' checked' : ''}>
-      <span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-[background] duration-[120ms] before:absolute before:start-0.5 before:top-0.5 before:size-[13px] before:rounded-full before:bg-inverse before:transition-[translate] before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[13px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[13px]"></span>
+      <span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-[background] duration-[120ms] before:absolute before:start-0.5 before:top-0.5 before:size-[var(--ds-switch-thumb-size)] before:rounded-full before:bg-inverse before:transition-[translate] before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[var(--ds-switch-thumb-travel)] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[var(--ds-switch-thumb-travel)]"></span>
     </span> ${escapeHtml(t(label))}
   </label>`
 

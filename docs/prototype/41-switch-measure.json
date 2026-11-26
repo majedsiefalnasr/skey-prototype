@@ -1,0 +1,45 @@
+{
+  "ticket": 41,
+  "method": "e558f74 against the #41 tree. A browser probe opened 8 screens (Profile appearance, the notifications page and panel, Events with and without the editor, the note editor, Email and a customer record) at 390, 768, 1024 and 1440px in both directions, plus 1440px left to right in high contrast. It read every checkbox followed by a rounded track: track box, thumb (::before) size, and thumb position unchecked and checked. 558 rows, 131 visible.",
+  "tokens": {
+    "--ds-switch-width": "2rem",
+    "--ds-switch-height": "1rem",
+    "--ds-switch-thumb-size": "0.75rem",
+    "--ds-switch-thumb-travel": "calc(var(--ds-switch-width) - var(--ds-switch-thumb-size) - 2 * var(--ds-space-025))"
+  },
+  "changed": {
+    "rows": 68,
+    "switches": [
+      "Profile appearance: High contrast",
+      "Profile appearance: Show App Launchpad",
+      "Notifications page: Only show unread",
+      "Notifications panel: Only show unread (left to right only; the probe opened the panel by its English label)",
+      "Events: Event reminders (switchInput)",
+      "Email: Select all",
+      "Email: Unread only"
+    ],
+    "track_px": [[30, 17], [32, 16]],
+    "thumb_px": [[13, 13], [12, 12]],
+    "thumb_top_px": [2, 2],
+    "left_to_right_thumb_start_px": {"unchecked": [2, 2], "checked": [15, 18]},
+    "right_to_left_thumb_start_from_left_px": {"unchecked": [15, 18], "checked": [2, 2]},
+    "inset_each_side_after_px": 2
+  },
+  "unchanged": {
+    "switchRow_34x20": ["Events editor: All day", "Note editor: Pin this note to the top"],
+    "toggles_34x20_on_customer_record": ["Linked To Beneficiaries", "Black List", "Salesperson", "Inactivation In Sales Order", "Inactivation In Invoice"],
+    "not_opened": ["Calculate Tax On Free Qty", "Deactivate", "Affected By Transactions", "Staff only"]
+  },
+  "high_contrast": "The .switch tracks get a 1px border. The thumb then sits 1px further in, at 3px and 19px, and touches the border at the far end and the bottom, as it did at 30x17 (3px and 16px). The two Email switches have no .switch class and get no border, before and after.",
+  "test": "tests/switch-size.spec.mjs: the Email switches and the notifications panel switch, both directions, on desktop, mobile-touch and mobile-rtl: 12 of 12. On e558f74 all 12 fail.",
+  "unit_tests": "202 of 202, run alone.",
+  "playwright": {
+    "projects": ["desktop", "mobile-touch", "mobile-rtl"],
+    "excluded": ["parity.spec.mjs", "zz-probe-t34.spec.mjs"],
+    "after": {"passed": 1207, "skipped": 228, "failed": 23},
+    "after_note": "routing.spec (desktop, deep links) timed out while a unit test build replaced dist/ under the dev server; it passed alone, 14 of 14. The other 22 are the known failures.",
+    "before": {"passed": 1161, "skipped": 239, "failed": 58},
+    "before_note": "Same test files run against e558f74. Besides the 12 new switch cases, 35 tests timed out in that run and passed after; all 22 known failures failed in both runs with the same message, except user-menu a11y on desktop, which timed out before.",
+    "known_failures_including": "messaging.spec notification email screenshot (all three projects), which captures the notifications panel and fails on e558f74 with the same message."
+  }
+}

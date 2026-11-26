@@ -29,6 +29,10 @@
     --ds-button-icon-padding-inline: var(--ds-space-100);
     --ds-button-label-padding-block: var(--ds-space-075);
     --ds-button-label-padding-inline: var(--ds-space-150);
+    --ds-switch-width: 2rem;
+    --ds-switch-height: 1rem;
+    --ds-switch-thumb-size: 0.75rem;
+    --ds-switch-thumb-travel: calc(var(--ds-switch-width) - var(--ds-switch-thumb-size) - 2 * var(--ds-space-025));
   }
 
   /* Theme custom-property tokens (concepts/app/styles/tokens.css, folded in here so
