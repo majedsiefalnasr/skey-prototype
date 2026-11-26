@@ -275,6 +275,7 @@ test('Notes toolbar order and dragged group order persist while system groups st
   await expect(panel.locator('[data-stage-id]').first()).toHaveAttribute('data-stage-id', 'draft')
   await first.dispatchEvent('dragend')
   await expect(second).not.toHaveClass(/(?:^|\s)drop-target(?:\s|$)/)
+  await panel.locator('[data-stage-id="active"]').evaluate(el => el.scrollIntoView({block: 'start'}))
   await first.dragTo(second, {targetPosition: {x: 40, y: bounds.height - 10}})
   await expect(panel.locator('[data-stage-id]').first()).toHaveAttribute('data-stage-id', 'draft')
   await expect(panel.locator('[data-stage-id]').nth(1)).toHaveAttribute('data-stage-id', groupId)
