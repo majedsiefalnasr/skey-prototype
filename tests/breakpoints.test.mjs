@@ -32,7 +32,7 @@ test('every --breakpoint-* token is written in rem, never px', () => {
 });
 
 test('the ADS breakpoint tokens match the Atlassian Design System steps', () => {
-  const tokens = themeBreakpoints(/--breakpoint-(?!legacy-)([a-z]+\d*):\s*([\d.]+)rem;/g);
+  const tokens = themeBreakpoints(/--breakpoint-(?!legacy-|flag:)([a-z]+\d*):\s*([\d.]+)rem;/g);
   assert.deepEqual(Object.fromEntries(tokens), {xs: 30, sm: 48, md: 64, lg: 90, xl: 110.5});
 });
 

@@ -46,7 +46,7 @@ Each item is decided in DESIGN.md. "Applied" means it is in the code on this bra
 | #19 | Only 5 of 22 font-size role tokens sit on an ADS size and none sets a line height. 2159 spacing utilities bypass the tokens. ADS grid sources disagree; #24 decides which one applies. | Recorded |
 | #20 | Decide each value group after a live comparison with ADS, in the order radius, type and line height, spacing. The select arrow padding gets its own 28px token. | Recorded |
 | #22 | ADR 0001: ADS is the default for tokens, behaviour, sizes and breakpoints. | Applied (cf66d4d) |
-| #21 | `legacy-480` moves to `xs`, `legacy-1240` to `lg`, `legacy-561` is removed and the Flag value becomes `--breakpoint-flag` (35rem). `legacy-1200`, `legacy-1299` and `legacy-1600` stay custom and documented. | Not applied |
+| #21 | `legacy-480` moves to `xs`, `legacy-1240` to `lg`, `legacy-561` is removed and the Flag value becomes `--breakpoint-flag` (35rem). `legacy-1200`, `legacy-1299` and `legacy-1600` stay custom and documented. | Applied (#39); three `md` follow-ups open |
 | #23 | The document scrolls, not `.page-content`. Pinned parts use sticky or fixed. Table headers stick inside their own box. One CSS variable sets the top bar offset. | Not applied; waits for the Playwright baseline repair and its own approval |
 | #24 | Page grid follows the atlassian.design Grid page: 1296px maximum including margins. Boxed inset at 768 to 1023px moves from 48px to 32px (44px to 28px compact). | Not applied |
 | #25 | Numeric spacing utilities read `--ds-space-*` through `@theme inline`. Off-scale utilities move to ADS steps by the #29 rule. A unit test guards it. | Applied (#38); plain CSS literals not covered |
@@ -68,6 +68,7 @@ Each item is decided in DESIGN.md. "Applied" means it is in the code on this bra
 - #26 follow-up: the same 260px grid in 12 other places. Invoices record still clips 7 fields at 320px. Not approved for change.
 - Playwright baseline repair, which #23 waits for.
 - Dev build flake (`ENOTEMPTY`).
+- #21 follow-ups for the earlier `md` move, measured in #39 and not applied: search width at 901 to 1023px, one truncated statistics label at 1024px, and the collab body inset at 621 to 1023px.
 
 ## Order
 

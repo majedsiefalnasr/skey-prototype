@@ -120,7 +120,7 @@ export function createToast(host) {
     // On a phone the flag spans the screen: publish its footprint so page
     // scrollers can add room to scroll content out from under it.
     const front = stack[stack.length - 1]
-    const reserve = front && matchMedia(maxWidthQuery('legacy560')).matches ? Math.max(0, vh - (anchor - front.offsetHeight)) : 0
+    const reserve = front && matchMedia(maxWidthQuery('flag')).matches ? Math.max(0, vh - (anchor - front.offsetHeight)) : 0
     document.documentElement.style.setProperty('--flag-reserve', `${Math.round(reserve)}px`)
   }
 
