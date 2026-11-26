@@ -10,5 +10,5 @@ export function renderLoginLogTable(rows, encodeHtml) {
         `<tr><td>${encodeHtml(row.timestamp)}</td><td>${encodeHtml(row.device)}</td><td>${encodeHtml(row.ip)}</td><td>${encodeHtml(row.status)}</td></tr>`
     )
     .join('')
-  return `<table class="profile-login-log w-full text-body [&_th]:text-start [&_th]:text-muted [&_th]:font-semibold [&_th]:[padding:var(--ds-space-legacy-7)_var(--ds-space-legacy-9)] [&_td]:[padding:var(--ds-space-legacy-7)_var(--ds-space-legacy-9)] [&_td]:[border-top:1px_solid_var(--line)]"><thead><tr><th data-i18n="Time">Time</th><th data-i18n="Device">Device</th><th data-i18n="IP address">IP address</th><th data-i18n="Status">Status</th></tr></thead><tbody>${body}</tbody></table>`
+  return `<table class="profile-login-log w-full text-body [&_th]:text-start [&_th]:text-muted [&_th]:font-semibold [&_th]:[padding:var(--ds-space-075)_var(--ds-space-100)] [&_td]:[padding:var(--ds-space-075)_var(--ds-space-100)] [&_td]:[border-top:1px_solid_var(--line)]"><thead><tr><th data-i18n="Time">Time</th><th data-i18n="Device">Device</th><th data-i18n="IP address">IP address</th><th data-i18n="Status">Status</th></tr></thead><tbody>${body}</tbody></table>`
 }

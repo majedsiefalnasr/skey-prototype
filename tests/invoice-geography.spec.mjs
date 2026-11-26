@@ -127,7 +127,7 @@ test('geography detail fields match shared spacing and input-style modes', async
     }, inputStyle);
 
   await expect(geographyForm).toHaveCSS('column-gap', '16px');
-  await expect(geographyForm).toHaveCSS('row-gap', '10px');
+  await expect(geographyForm).toHaveCSS('row-gap', '8px');
   await expect(geographyForm).toHaveCSS('padding', '12px');
   await expect(geographyInput).toHaveCSS('padding', '6px 8px');
 

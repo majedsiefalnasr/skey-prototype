@@ -68,7 +68,7 @@ export function createNotificationsPage({t, listInstance, detailList, dialogs}) 
   function totalsMarkup(detail) {
     if (detail.totals === 'imbalance') {
       const difference = Number(detail.debit || 0) - Number(detail.credit || 0)
-      return `<div class="jtotals mt-2! flex flex-wrap items-center justify-between gap-3 rounded-lg bg-[var(--line-2)] [padding:var(--ds-space-legacy-10)_var(--ds-space-200)]">
+      return `<div class="jtotals mt-2! flex flex-wrap items-center justify-between gap-3 rounded-lg bg-[var(--line-2)] [padding:var(--ds-space-100)_var(--ds-space-200)]">
         <dl class="m-0! grid grid-cols-3 gap-x-8">
           <div><dt class="text-xs text-muted">${t('Debit')}</dt><dd class="font-semibold">${money(detail.debit)}</dd></div>
           <div><dt class="text-xs text-muted">${t('Credit')}</dt><dd class="font-semibold">${money(detail.credit)}</dd></div>
@@ -80,7 +80,7 @@ export function createNotificationsPage({t, listInstance, detailList, dialogs}) 
     if (detail.totals !== 'balance') return ''
     const total = detail.rows.reduce((sum, row) => sum + Number(row.balance || 0), 0)
     const contrary = total !== 0
-    return `<div class="jtotals mt-2! flex flex-wrap items-center justify-between gap-3 rounded-lg bg-[var(--line-2)] [padding:var(--ds-space-legacy-10)_var(--ds-space-200)]">
+    return `<div class="jtotals mt-2! flex flex-wrap items-center justify-between gap-3 rounded-lg bg-[var(--line-2)] [padding:var(--ds-space-100)_var(--ds-space-200)]">
       <dl class="m-0! grid grid-cols-2 gap-x-8">
         <div><dt class="text-xs text-muted">${t('Accounts')}</dt><dd class="font-semibold">${detail.rows.length}</dd></div>
         <div><dt class="text-xs text-muted">${t('Net balance')}</dt><dd class="font-semibold">${money(total)}</dd></div>

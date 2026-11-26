@@ -79,22 +79,42 @@ Decided in #27 on 2026-11-25, applied in #34. Phase 2 moves every `legacy-*` rad
 
 ### Spacing
 
-Spacing is `--ds-space-*` tokens in `concepts/app/styles/tailwind/base.css`, written in class names as arbitrary values such as `p-[var(--ds-space-075)]` or `[margin:var(--ds-space-150)_0]`. Nine tokens follow the ADS scale and use the ADS step names: `025` 2px, `050` 4px, `075` 6px, `100` 8px, `150` 12px, `200` 16px, `250` 20px, `300` 24px and `500` 40px. Twenty-two `legacy-*` tokens hold the off-scale values the prototype already used, named by pixel size, for example `--ds-space-legacy-14`. Phase 2 can point each one at an ADS step. Negative values are written as `calc(var(--ds-space-100)*-1)`. Spacing literals in the plain CSS files in `concepts/app/styles` and `calc()` expressions such as `pb-[calc(1rem+var(--flag-reserve,0px))]` are not tokenised yet.
+Spacing is `--ds-space-*` tokens in `concepts/app/styles/tailwind/base.css`, written in class names as arbitrary values such as `p-[var(--ds-space-075)]` or `[margin:var(--ds-space-150)_0]`. Every token is an ADS step and uses the ADS step name: `0`, `025` 2px, `050` 4px, `075` 6px, `100` 8px, `150` 12px, `200` 16px, `250` 20px, `300` 24px, `400` 32px, `500` 40px, `600` 48px and `800` 64px. The select arrow keeps its own 28px token, `--ds-select-arrow-space`, decided in #20. Negative values are written as `calc(var(--ds-space-100)*-1)`. Controls joined so that their borders overlap use `calc(var(--ds-border-width)*-1)`, where `--ds-border-width` is the ADS `border.width` token, 1px. Spacing literals in the plain CSS files in `concepts/app/styles` and `calc()` expressions such as `pb-[calc(1rem+var(--flag-reserve,0px))]` are not tokenised yet.
 
-Decided in #29 on 2026-11-25, not yet applied. Phase 2 moves every `legacy-*` spacing token to an ADS step. When a value is exactly between two steps, the smaller step is used. No spacing stays custom. The select arrow keeps its own 28px token, `--ds-select-arrow-space`, decided in #20. The steps `0`, `400`, `600` and `800` need new tokens, because the prototype defines only nine ADS steps. Each `legacy-*` token is then removed. `legacy-0-5` and `legacy-22` do not appear on any measured screen, and `legacy-13`, `legacy-15` and `legacy-34` were not measured. Check them visually when they are applied, and check the borders and separators that `legacy-1` moves to 0. Measurements are in `docs/prototype/29-spacing-measure.json` on branch `prototype/29-spacing-comparison`.
+Decided in #29 on 2026-11-25, applied in #36. Every `legacy-*` spacing token moved to an ADS step and was removed. When a value was exactly between two steps, the smaller step was used. No spacing stays custom.
 
-The spacing token commit (`fd27932`) changed some paddings. These elements carry two conflicting padding classes, and renaming the values changed which class wins. The new values were accepted as the current design on 2026-11-25:
+| Before (px) | Step |
+| --- | --- |
+| 0.5, 1 | `0` |
+| 3 | `025` |
+| 5 | `050` |
+| 7 | `075` |
+| 9, 10 | `100` |
+| 11, 13, 14 | `150` |
+| 15, 17, 18 | `200` |
+| 22 | `250` |
+| 26, and the three 28px paddings that are not a select arrow | `300` |
+| 28 on a select arrow | `--ds-select-arrow-space` |
+| 30, 34 | `400` |
+| 46, 54 | `600` |
+| 68, 72 | `800` |
 
-| Element | Before | Accepted |
-| --- | --- | --- |
-| `.dbody` in dialogs that carry both classes (Customer, Geography, data list) | `16px 20px` | `10px 14px` |
-| `.customer-unit-drawer-header` | `16px 20px` | `10px 14px` |
-| `.customer-unit-drawer-body` | `16px 20px 24px` | `10px 14px` |
-| `.prototype-surface-card-header` | `8px 12px` | `7px 9px` |
-| `.prototype-surface-card-body` | `12px` | `7px 9px` |
-| `.customer-section-heading` | `8px 12px` | `5px 8px` |
+One exception: 13 uses of `legacy-1` were not spacing but border overlaps, 8 lookup and picker buttons joined to their field and 5 dialog toggles whose input covers the border. At 0 the border between a field and its lookup button was drawn twice, so they read `--ds-border-width` and stay at -1px. The other `legacy-1` uses moved to 0 with no visible problem: the 1px gap between items in the Profile and Organization section navigation, the presence dot on Organization avatars, which moves 1px into the corner, and the bottom margin of the remove button in invoice charge rows. The 0.5px gap between uptime segments is gone; it is in the hidden Performance section. `--ds-button-label-padding-inline` read `legacy-11`, so label buttons have 12px inline padding instead of 11px; #37 compares button sizes.
 
-The overridden class is still in the markup of these elements, so changing its token has no effect there.
+Measured when applied, on 27 screen states at 390, 768, 1024 and 1440px, and at 390px right-to-left. Each spacing reading before the change was traced to its token with a sentinel value. All 20,338 traced readings match the table, apart from the 195 border-overlap readings above, which keep their value on purpose. 2,296 element boxes changed height by more than 1px (777 taller by up to 35px, 1,519 shorter by up to 188px; the largest is the whole Customer record, 5,810px to 5,622px). No new page overflow, off-screen element or horizontal scroll appeared. On invoice cards at 390px right-to-left two more titles end with an ellipsis, the case tracked in #45. `legacy-0-5`, `-13`, `-15`, `-22`, `-34`, `-46`, `-54` and `-68` did not appear on a measured screen and were not checked visually. Dialogs were not measured. Totals are in `docs/prototype/36-spacing-measure.json`. The earlier comparison is in `docs/prototype/29-spacing-measure.json` on branch `prototype/29-spacing-comparison`.
+
+The spacing token commit (`fd27932`) changed some paddings. These elements carried two conflicting padding classes, and renaming the values changed which class wins. The new values were accepted as the current design on 2026-11-25. Renaming the values again in #36 would have flipped them back, so the overridden class was removed from these elements and the accepted value moved to its ADS step:
+
+| Element | Before `fd27932` | Accepted | Now |
+| --- | --- | --- | --- |
+| `.dbody` in dialogs that carry both classes (Customer, Geography, data list) | `16px 20px` | `10px 14px` | `8px 12px` |
+| `.customer-unit-drawer-header` | `16px 20px` | `10px 14px` | `8px 12px` |
+| `.customer-unit-drawer-body` | `16px 20px 24px` | `10px 14px` | `8px 12px` |
+| `.prototype-surface-card-header` | `8px 12px` | `7px 9px` | `6px 8px` |
+| `.prototype-surface-card-body` | `12px` | `7px 9px` | `6px 8px` |
+| `.customer-section-heading` | `8px 12px` | `5px 8px` | `4px 8px` |
+
+Two classes that set the same property under the same variant are ordered by their text in the generated CSS, so renaming a value can change which one wins. In the files #36 changed, 36 such pairs remain with a `--ds-space-*` value, and none of them changed its winner.
 
 ## Deviations
 
@@ -106,7 +126,7 @@ The overridden class is still in the markup of these elements, so changing its t
 | Switch | Regular 32×16, thumb 12px | 30×17, thumb 13px | Decided in #30, not applied yet |
 | Radius | ADS scale: 2, 4, 6, 8 and 12px | ADS tokens; radius literals in plain CSS do not read them | Tokenised, literals remain |
 | Font sizes | ADS type scale | 22 role-based tokens at ADS sizes (12 to 32px) with ADS line heights; elements with `leading-*` classes and raw `font-size` literals keep their own values | Applied (#35) |
-| Spacing | ADS scale | ADS tokens plus `legacy-*` tokens for 0.5, 1, 3, 5, 7, 9, 10, 11, 13, 14, 15, 17, 18, 22, 26, 28, 30, 34, 46, 54, 68 and 72px | Tokenised, not normalised; accepted padding changes are listed under [Spacing](#spacing) |
+| Spacing | ADS scale | ADS steps only, plus the 28px select arrow token (#20); border overlaps read `--ds-border-width`. Spacing literals in plain CSS are not tokenised | Applied (#36); accepted padding changes are listed under [Spacing](#spacing) |
 | Record identity card | Not specified; stacks below `lg` (1440px) | Profile, Customer, People and the contact dialog stack the fields above the photo below 1440px | Implemented (#11, #1), no overlap measured at 390 to 1440px |
 | Viewport breakpoints | `xs` 30, `sm` 48, `md` 64, `lg` 90, `xl` 110.5rem (480, 768, 1024, 1440, 1768px at a 16px root) | ADS steps as `--breakpoint-xs` to `--breakpoint-xl`, plus 9 `--breakpoint-legacy-*` tokens named by pixel value at a 16px root for values that have not moved to a step. All are written in `rem`, like ADS | Below `sm` (48rem, 768px) follows ADS; the rest is tokenised, not normalised (#12) |
 | Flag title | `h2` heading | `h2` heading | Implemented, not visually verified |

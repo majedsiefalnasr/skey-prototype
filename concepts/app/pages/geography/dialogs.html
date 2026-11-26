@@ -12,7 +12,7 @@
         class="geo-hierarchy-dialog-title-mount block min-w-0 flex-1 [&_h2]:overflow-hidden [&_h2]:text-sm [&_h2]:text-ellipsis [&_h2]:whitespace-nowrap [&_span]:mt-px [&_span]:block [&_span]:overflow-hidden [&_span]:text-xs [&_span]:text-muted [&_span]:text-ellipsis [&_span]:whitespace-nowrap"
         id="geo-hierarchy-dialog-title-mount"></span>
       <span
-        class="geo-hierarchy-dialog-actions-mount flex gap-[var(--ds-space-legacy-3)] items-center ms-auto"
+        class="geo-hierarchy-dialog-actions-mount flex gap-[var(--ds-space-025)] items-center ms-auto"
         id="geo-hierarchy-dialog-actions-mount"></span>
       <button
         class="ibtn geo-hierarchy-dialog-close"
@@ -92,7 +92,7 @@
           This cannot be undone.</span>
         </p>
         <div
-          class="[border:1px_solid_var(--danger-soft-line)] [border-radius:var(--ds-radius-large)] [padding:var(--ds-space-legacy-11)_var(--ds-space-legacy-13)] mb-3.5 [background:var(--danger-soft-bg)] flex items-start gap-2">
+          class="[border:1px_solid_var(--danger-soft-line)] [border-radius:var(--ds-radius-large)] [padding:var(--ds-space-150)_var(--ds-space-150)] mb-3.5 [background:var(--danger-soft-bg)] flex items-start gap-2">
           <svg
             width="14"
             height="14"
@@ -105,7 +105,7 @@
           >
         </div>
         <label
-          class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:var(--ds-space-legacy-3)] [&_input]:w-full [&_input]:[padding:var(--ds-space-075)_var(--ds-space-100)] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]"
+          class="rec-field [&_label]:block [&_label]:text-xs [&_label]:text-muted [&_label]:[margin-bottom:var(--ds-space-025)] [&_input]:w-full [&_input]:[padding:var(--ds-space-075)_var(--ds-space-100)] [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-md [&_input]:[font:inherit] [&_input]:text-ink [&_input]:bg-surface [&_input:is(:hover,_:focus-visible)]:[border-color:var(--accent-line)] [&_input:focus-visible]:[outline:none] [&_input:focus-visible]:[box-shadow:0_0_0_3px_var(--accent-soft)]"
           for="geo-delete-tree-confirm-input">
           <span><span data-i18n="Type">Type</span> <b id="geo-delete-tree-code"></b> <span data-i18n="to confirm">to confirm</span></span>
           <input type="text" id="geo-delete-tree-confirm-input" autocomplete="off" />
@@ -146,9 +146,9 @@
     </div>
     <div class="dlg-inner">
       <div
-        class="dbody min-h-0 overflow-auto flex-1 flex flex-col [padding:var(--ds-space-200)_var(--ds-space-250)] [padding:var(--ds-space-legacy-10)_var(--ds-space-legacy-14)]">
+        class="dbody min-h-0 overflow-auto flex-1 flex flex-col [padding:var(--ds-space-100)_var(--ds-space-150)]">
         <div
-          class="geo-view-switch grid grid-cols-2 gap-[var(--ds-space-legacy-3)] p-[var(--ds-space-legacy-3)] rounded-lg bg-[var(--line-2)] [margin:var(--ds-space-100)_var(--ds-space-100)_0]"
+          class="geo-view-switch grid grid-cols-2 gap-[var(--ds-space-025)] p-[var(--ds-space-025)] rounded-lg bg-[var(--line-2)] [margin:var(--ds-space-100)_var(--ds-space-100)_0]"
           role="tablist"
           aria-label="Parent picker view">
           <button
@@ -157,7 +157,7 @@
             data-geo-parent-picker-view="tree"
             aria-selected="true"
             aria-controls="geo-parent-picker-tree-pane"
-            class="inline-flex min-h-8 gap-[var(--ds-space-legacy-7)] items-center justify-center px-[var(--ds-space-legacy-9)] py-[var(--ds-space-legacy-5)] rounded-md text-muted text-dense font-semibold">
+            class="inline-flex min-h-8 gap-[var(--ds-space-075)] items-center justify-center px-[var(--ds-space-100)] py-[var(--ds-space-050)] rounded-md text-muted text-dense font-semibold">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg>
             <span data-i18n="Tree">Tree</span>
           </button>
@@ -167,17 +167,17 @@
             data-geo-parent-picker-view="flow"
             aria-selected="false"
             aria-controls="geo-parent-picker-flow-pane"
-            class="inline-flex min-h-8 gap-[var(--ds-space-legacy-7)] items-center justify-center px-[var(--ds-space-legacy-9)] py-[var(--ds-space-legacy-5)] rounded-md text-muted text-dense font-semibold">
+            class="inline-flex min-h-8 gap-[var(--ds-space-075)] items-center justify-center px-[var(--ds-space-100)] py-[var(--ds-space-050)] rounded-md text-muted text-dense font-semibold">
             <svg width="15" height="15" aria-hidden="true"><use href="#i-grid" /></svg>
             <span data-i18n="Flow">Flow</span>
           </button>
         </div>
-        <button class="lbtn out geo-parent-picker-root my-[var(--ds-space-legacy-10)]" type="button" data-i18n="No parent (root location)">
+        <button class="lbtn out geo-parent-picker-root my-[var(--ds-space-100)]" type="button" data-i18n="No parent (root location)">
           No parent (root location)
         </button>
         <div id="geo-parent-picker-tree-pane" role="tabpanel">
           <div
-            class="geo-tree geo-parent-picker-tree min-h-0 flex-1 pt-0 px-2 pb-[var(--ds-space-legacy-10)] overflow-auto max-h-[360px]"
+            class="geo-tree geo-parent-picker-tree min-h-0 flex-1 pt-0 px-2 pb-[var(--ds-space-100)] overflow-auto max-h-[360px]"
             id="geo-parent-picker-tree"
             role="tree"
             aria-label="Locations"></div>
@@ -188,7 +188,7 @@
           role="tabpanel"
           hidden>
           <div
-            class="flex items-center gap-[var(--ds-space-legacy-5)] p-2"
+            class="flex items-center gap-[var(--ds-space-050)] p-2"
             role="toolbar"
             aria-label="Flow canvas controls">
             <button

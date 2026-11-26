@@ -20,7 +20,7 @@ test('flag title uses the ADS 14px / 20px type', async ({page}) => {
   expect(title).toEqual({fontSize: '14px', lineHeight: '20px'})
 })
 
-for (const [width, bottom, start] of [[560, '72px', '16px'], [561, '48px', '80px']]) {
+for (const [width, bottom, start] of [[560, '64px', '16px'], [561, '48px', '80px']]) {
   test(`flag placement switches to the phone layout at 560px (${width}px)`, async ({page}) => {
     await showFlag(page, width)
     const placement = await page.locator('#toasts').evaluate(element => {

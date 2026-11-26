@@ -53,7 +53,7 @@ Each item is decided in DESIGN.md. "Applied" means it is in the code on this bra
 | #26 | The four Profile field grids use `minmax(min(260px, 100%), 1fr)`. | Applied (a8b4c88, with bca612e and c8c2b46) |
 | #27 | Every off-scale radius moves to an ADS step: 1→2, 3→4, 5→6, 7→8, 9→8, 10→12, 11→12, 14→12. No `xxlarge` token. `legacy-999` is renamed to `full` and stays 999px. | Applied (#34) |
 | #28 | Set D for font sizes and line heights. 17 of 22 roles change size, and line heights follow ADS. | Applied (#35) |
-| #29 | Every `legacy-*` spacing value moves to an ADS step. Ties go to the smaller step. No spacing value stays custom. | Not applied |
+| #29 | Every `legacy-*` spacing value moves to an ADS step. Ties go to the smaller step. No spacing value stays custom. | Applied (#36); 13 border overlaps read `--ds-border-width` instead of 0 |
 | #30 | The visible switch moves to ADS 32×16 with a 12px thumb. The 34×20 dialog toggles and `switchRow` stay open. | Not applied |
 | #31 | The 33 sized modals move to the nearest ADS width: 4 to 400px, 17 to 600px, 7 to 800px, 5 to 968px. Radius 12px. | Not applied |
 | #32 | `.ibtn` and `.lbtn` read `--ds-button-*` tokens set to today's values. 0 of 4284 measured values changed. The 187 inline button class strings stay. | Tokens applied (4c8a4c7); ADS steps follow #27 and #29 |

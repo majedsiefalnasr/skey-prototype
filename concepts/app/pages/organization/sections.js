@@ -33,7 +33,7 @@ function table(headers, rows, emptyCopy = 'No matching records') {
     DATA_LIST_CONFIG instance inside a dialog/panel (real Filter/Search/
     Columns/sort/pagination UX), instead of the plain table() helper. */
 function dataListMount(id) {
-  return `<div class="canvas [overflow:visible]! mt-0!" id="organization-${id}-canvas"></div><div class="fnav fnav-list flex items-center gap-5 [padding:var(--ds-space-legacy-9)_0_0]" id="organization-${id}-fnav"></div>`
+  return `<div class="canvas [overflow:visible]! mt-0!" id="organization-${id}-canvas"></div><div class="fnav fnav-list flex items-center gap-5 [padding:var(--ds-space-100)_0_0]" id="organization-${id}-fnav"></div>`
 }
 
 function sectionMessage(title, body, dataListIcon, icon = 'i-help') {
@@ -52,10 +52,10 @@ function statPill(text, tone, icon) {
       : tone === 'danger'
         ? 'bg-[var(--danger-soft-bg)] text-[var(--danger-soft-ink)]'
         : 'bg-[var(--line-2)] text-muted'
-  return `<span class="inline-flex items-center gap-1 rounded-full [padding:var(--ds-space-legacy-3)_var(--ds-space-legacy-10)] text-xs font-semibold [flex:none] ${toneClass}">${icon || ''}${text}</span>`
+  return `<span class="inline-flex items-center gap-1 rounded-full [padding:var(--ds-space-025)_var(--ds-space-100)] text-xs font-semibold [flex:none] ${toneClass}">${icon || ''}${text}</span>`
 }
 
-const LIVE_PILL = `<span class="inline-flex items-center gap-1.5 rounded-full [padding:var(--ds-space-legacy-3)_var(--ds-space-legacy-10)] text-xs font-semibold [flex:none] bg-[var(--success-soft-bg)] text-[var(--success-soft-ink)]"><span class="[width:6px] [height:6px] rounded-full [background:currentColor]"></span>Live</span>`
+const LIVE_PILL = `<span class="inline-flex items-center gap-1.5 rounded-full [padding:var(--ds-space-025)_var(--ds-space-100)] text-xs font-semibold [flex:none] bg-[var(--success-soft-bg)] text-[var(--success-soft-ink)]"><span class="[width:6px] [height:6px] rounded-full [background:currentColor]"></span>Live</span>`
 
 /** Card header: icon chip, title + subtitle stacked, and a trailing
     pill (trend delta, "Live", or none) plus a decorative overflow-menu
@@ -136,7 +136,7 @@ function statGaugeCard(
 ) {
   const detailRow = detailPillIcon
     ? `<div class="flex justify-center">${statPill(detail, 'neutral', dataListIcon(detailPillIcon, 13))}</div>`
-    : `<small class="inline-flex items-center gap-1 rounded-full [padding:var(--ds-space-legacy-3)_var(--ds-space-legacy-10)] text-xs font-semibold [flex:none] bg-[var(--line-2)] text-muted">${detail}</small>`
+    : `<small class="inline-flex items-center gap-1 rounded-full [padding:var(--ds-space-025)_var(--ds-space-100)] text-xs font-semibold [flex:none] bg-[var(--line-2)] text-muted">${detail}</small>`
   const gaugeCenter = `<div data-organization-gauge-center class="flex min-h-0 w-full flex-1 flex-col items-center justify-center">${radialGauge(progress, 200, scaleMax, value, label)}${detailRow}</div>`
   const body = `${statHeader(label, subtitle, icon, dataListIcon, headerPill)}${gaugeCenter}${extra || ''}`
   return statCardShell(section, tone, body)
@@ -166,7 +166,7 @@ function recentActiveUsers(users, encodeHtml) {
   const avatars = shown
     .map(
       (user, index) =>
-        `<div class="relative [flex:none]"><span class="flex items-center justify-center [width:44px] [height:44px] rounded-full text-body font-bold ${AVATAR_TONE_CLASS[index % AVATAR_TONE_CLASS.length]}">${encodeHtml(initialsOf(user))}</span><span class="absolute [bottom:var(--ds-space-legacy-1)] [inset-inline-end:var(--ds-space-legacy-1)] [width:10px] [height:10px] rounded-full [background:var(--success-fill)] [border:2px_solid_var(--surface)]"></span></div>`
+        `<div class="relative [flex:none]"><span class="flex items-center justify-center [width:44px] [height:44px] rounded-full text-body font-bold ${AVATAR_TONE_CLASS[index % AVATAR_TONE_CLASS.length]}">${encodeHtml(initialsOf(user))}</span><span class="absolute [bottom:var(--ds-space-0)] [inset-inline-end:var(--ds-space-0)] [width:10px] [height:10px] rounded-full [background:var(--success-fill)] [border:2px_solid_var(--surface)]"></span></div>`
     )
     .join('')
   const overflowAvatar =
@@ -436,7 +436,7 @@ function renderServiceUptime(service, encodeHtml) {
   const segments = service.history
     .map((day, index) => {
       const daysAgo = total - 1 - index
-      return `<span class="org-uptime-seg relative h-full flex-1 min-w-[3px] [padding-inline:var(--ds-space-legacy-0-5)] cursor-default" style="--stat-tone:${day === 'up' ? 'var(--success-fill)' : day === 'degraded' ? 'var(--warn-ink)' : 'var(--danger)'}"><span class="block h-full w-full rounded-xs transition-transform ${SEGMENT_TONE[day]} [.org-uptime-seg:hover_&]:[outline:2px_solid_var(--stat-tone)] [.org-uptime-seg:hover_&]:[outline-offset:1px] [.org-uptime-seg:hover_&]:scale-y-110"></span><span class="org-uptime-tip pointer-events-none absolute [inset-block-end:calc(100%+var(--ds-space-legacy-7))] [inset-inline-start:50%] [translate:-50%_0] whitespace-nowrap rounded [padding:var(--ds-space-075)_var(--ds-space-legacy-9)] text-xs opacity-0 [transition:opacity_0.1s] [background:var(--tooltip-bg)] [color:var(--tooltip-ink)] [z-index:40] grid gap-0.5 [.org-uptime-seg:hover_&]:opacity-100"><strong class="text-dense font-semibold">${encodeHtml(segmentDayLabel(daysAgo))} · ${encodeHtml(segmentDate(daysAgo))}</strong><span class="opacity-80">${encodeHtml(STATUS_LABEL[day])} — ${encodeHtml(STATUS_DETAIL[day])}</span></span></span>`
+      return `<span class="org-uptime-seg relative h-full flex-1 min-w-[3px] [padding-inline:var(--ds-space-0)] cursor-default" style="--stat-tone:${day === 'up' ? 'var(--success-fill)' : day === 'degraded' ? 'var(--warn-ink)' : 'var(--danger)'}"><span class="block h-full w-full rounded-xs transition-transform ${SEGMENT_TONE[day]} [.org-uptime-seg:hover_&]:[outline:2px_solid_var(--stat-tone)] [.org-uptime-seg:hover_&]:[outline-offset:1px] [.org-uptime-seg:hover_&]:scale-y-110"></span><span class="org-uptime-tip pointer-events-none absolute [inset-block-end:calc(100%+var(--ds-space-075))] [inset-inline-start:50%] [translate:-50%_0] whitespace-nowrap rounded [padding:var(--ds-space-075)_var(--ds-space-100)] text-xs opacity-0 [transition:opacity_0.1s] [background:var(--tooltip-bg)] [color:var(--tooltip-ink)] [z-index:40] grid gap-0.5 [.org-uptime-seg:hover_&]:opacity-100"><strong class="text-dense font-semibold">${encodeHtml(segmentDayLabel(daysAgo))} · ${encodeHtml(segmentDate(daysAgo))}</strong><span class="opacity-80">${encodeHtml(STATUS_LABEL[day])} — ${encodeHtml(STATUS_DETAIL[day])}</span></span></span>`
     })
     .join('')
   return `<div class="border-t border-line py-3.5 first:border-t-0 first:pt-0"><div class="mb-2 flex flex-wrap items-center justify-between gap-2"><div><strong class="block text-body-lg">${encodeHtml(service.name)}</strong><small class="text-muted">${encodeHtml(service.detail)}</small></div>${badge(STATUS_LABEL[service.status], STATUS_BADGE_TONE[service.status])}</div><div class="org-uptime-track flex h-9 items-stretch [&:has(.org-uptime-seg:hover)_.org-uptime-seg>span:first-child]:opacity-60 [&_.org-uptime-seg:hover>span:first-child]:opacity-100!" role="img" aria-label="${encodeHtml(service.name)} uptime over the last 90 days, ${service.uptime}">${segments}</div><div class="mt-1.5 flex items-center justify-between text-xs text-muted"><span>90 days ago</span><span class="font-semibold text-ink">${service.uptime} uptime</span><span data-i18n="Today">Today</span></div></div>`

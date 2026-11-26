@@ -12,7 +12,7 @@ const DATA_FILTER_DATE_RELATIVE_CLASS =
 const DATA_FILTER_DATE_RANGE_CLASS =
   'data-filter-date-range flex items-center gap-1.5 border-t border-line pt-2 pb-1 px-1.5 mt-1'
 const DATA_FILTER_DATE_CONTROL_CLASS =
-  'min-h-[32px] rounded-md border border-line bg-surface px-2 py-[var(--ds-space-legacy-5)] font-[inherit] text-dense text-ink'
+  'min-h-[32px] rounded-md border border-line bg-surface px-2 py-[var(--ds-space-050)] font-[inherit] text-dense text-ink'
 
 /** Owns list dates state and its DOM bindings. */
 export function createListDates({t, formatLocaleDate, getAppLocale, dataListIcon} = {}) {

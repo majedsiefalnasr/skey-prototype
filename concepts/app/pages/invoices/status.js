@@ -21,7 +21,7 @@ export function createStatus({getState} = {}) {
     let lead = pop.querySelector('.poplead')
     if (!lead) {
       lead = document.createElement('p')
-      lead.className = 'poplead [.stpop_&]:[font-size:12.5px] [.stpop_&]:text-muted [.stpop_&]:[margin-bottom:var(--ds-space-legacy-13)]!'
+      lead.className = 'poplead [.stpop_&]:[font-size:12.5px] [.stpop_&]:text-muted [.stpop_&]:[margin-bottom:var(--ds-space-150)]!'
       pop.querySelector('.rows').before(lead)
     }
     lead.hidden = !creating
@@ -44,9 +44,9 @@ export function createStatus({getState} = {}) {
           ? 'Not yet'
           : 'Never happened on this invoice'
       const link = on && c.link ? `<a class="lnk [.strow_&]:text-xs [.strow_&]:text-accent [.strow_&]:[text-decoration:none] [.strow_&]:[display:inline-block] [.strow_&]:[margin-top:var(--ds-space-025)]!" href="#">${c.link} →</a>` : ''
-      return `<div class="strow ${cls} flex [gap:var(--ds-space-legacy-11)] relative [padding-bottom:var(--ds-space-legacy-14)] [&:last-of-type]:[padding-bottom:var(--ds-space-025)]"><span class="stdot2 [width:20px] [height:20px] rounded-full [flex:none] flex items-center justify-center [border:2px_solid_var(--line)] bg-surface [z-index:1] [color:var(--inverse)] [.strow.done_&]:[background:var(--accent)] [.strow.done_&]:[border-color:var(--accent)] [.strow.cur_&]:[border-color:var(--accent)]">${icon}</span>
-        <div><div class="t [.strow_&]:font-semibold [.strow_&]:[font-size:13px] [.strow_&]:flex [.strow_&]:items-center [.strow_&]:[gap:var(--ds-space-legacy-7)] [.strow_&]:flex-wrap [.strow.off_&]:text-muted [.dcard_&]:font-semibold [.dcard_&]:[font-size:13px] [.dcard_&]:flex [.dcard_&]:items-center [.dcard_&]:gap-1.5 [.dcard_&]:flex-wrap">${c.name}${badge}<span class="tag-derived">derived</span></div>
-        <div class="m [.strow_&]:text-xs [.strow_&]:text-muted [.strow_&]:[margin-top:var(--ds-space-legacy-1)]!">${meta}</div>${link}</div></div>`
+      return `<div class="strow ${cls} flex [gap:var(--ds-space-150)] relative [padding-bottom:var(--ds-space-150)] [&:last-of-type]:[padding-bottom:var(--ds-space-025)]"><span class="stdot2 [width:20px] [height:20px] rounded-full [flex:none] flex items-center justify-center [border:2px_solid_var(--line)] bg-surface [z-index:1] [color:var(--inverse)] [.strow.done_&]:[background:var(--accent)] [.strow.done_&]:[border-color:var(--accent)] [.strow.cur_&]:[border-color:var(--accent)]">${icon}</span>
+        <div><div class="t [.strow_&]:font-semibold [.strow_&]:[font-size:13px] [.strow_&]:flex [.strow_&]:items-center [.strow_&]:[gap:var(--ds-space-075)] [.strow_&]:flex-wrap [.strow.off_&]:text-muted [.dcard_&]:font-semibold [.dcard_&]:[font-size:13px] [.dcard_&]:flex [.dcard_&]:items-center [.dcard_&]:gap-1.5 [.dcard_&]:flex-wrap">${c.name}${badge}<span class="tag-derived">derived</span></div>
+        <div class="m [.strow_&]:text-xs [.strow_&]:text-muted [.strow_&]:[margin-top:var(--ds-space-0)]!">${meta}</div>${link}</div></div>`
     }).join('')
   }
 

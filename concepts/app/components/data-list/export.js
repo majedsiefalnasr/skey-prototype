@@ -13,7 +13,7 @@ export function createListExport({trapFocus, releaseFocus, toast, getDataListSta
     return columns
       .map(
         column =>
-          `<label class="flex items-center gap-[var(--ds-space-legacy-7)] px-0.5 py-1 text-dense text-ink"><input type="checkbox" data-export-column="${encodeHtml(column.key)}"${listState.hiddenColumns.has(column.key) ? '' : ' checked'}><span>${encodeHtml(column.label)}</span></label>`
+          `<label class="flex items-center gap-[var(--ds-space-075)] px-0.5 py-1 text-dense text-ink"><input type="checkbox" data-export-column="${encodeHtml(column.key)}"${listState.hiddenColumns.has(column.key) ? '' : ' checked'}><span>${encodeHtml(column.label)}</span></label>`
       )
       .join('')
   }
