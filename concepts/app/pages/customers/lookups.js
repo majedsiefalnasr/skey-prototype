@@ -40,6 +40,8 @@
 // geo/kanban/export overlays keep their own Escape handling in
 // legacy-app.js.
 
+import {nextTab} from '../../core/tabs.js'
+
 export const CUSTOMER_LOOKUP_LABELS = {
   operationUnit: 'Operation Unit',
   customerType: 'Customer Type',
@@ -713,19 +715,10 @@ export function createLookups({refs, deps}) {
 
   const onUnitDrawerScrimKeydown = event => {
     const tab = event.target.closest('[data-customer-unit-tab]')
-    if (!tab || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
+    const target = tab && nextTab(tab, event.key)
+    if (!target) return
     event.preventDefault()
-    const tabs = [...unitDrawerScrim.querySelectorAll('[data-customer-unit-tab]')]
-    const index = tabs.indexOf(tab)
-    const nextIndex =
-      event.key === 'Home'
-        ? 0
-        : event.key === 'End'
-          ? tabs.length - 1
-          : event.key === 'ArrowRight'
-            ? (index + 1) % tabs.length
-            : (index - 1 + tabs.length) % tabs.length
-    setUnitTab(tabs[nextIndex].dataset.customerUnitTab, {focus: true})
+    setUnitTab(target.dataset.customerUnitTab, {focus: true})
   }
   unitDrawerScrim.addEventListener('keydown', onUnitDrawerScrimKeydown)
 

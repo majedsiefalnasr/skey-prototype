@@ -4,6 +4,7 @@ import {
   NAV_ICONS,
   NAV_RECENTS,
 } from '../../prototype/fixtures/navigation.js'
+import {nextTab} from '../../core/tabs.js'
 export function createHome({
   buildRailAndPanel,
   findNavGroup,
@@ -445,6 +446,7 @@ export function createHome({
       tab.setAttribute('role', 'tab')
       tab.dataset.lpQuickTab = list.label
       tab.setAttribute('aria-selected', String(index === 0))
+      tab.tabIndex = index === 0 ? 0 : -1
       tab.setAttribute('aria-controls', 'launchpad-quick-panel')
       tab.className =
         'inline-flex min-h-8 items-center justify-center gap-1.5 rounded-md px-2 py-1 text-dense font-semibold text-muted'
@@ -453,10 +455,22 @@ export function createHome({
       tab.addEventListener(
         'click',
         () => {
-          tabs
-            .querySelectorAll('[role="tab"]')
-            .forEach(b => b.setAttribute('aria-selected', String(b === tab)))
+          tabs.querySelectorAll('[role="tab"]').forEach(b => {
+            b.setAttribute('aria-selected', String(b === tab))
+            b.tabIndex = b === tab ? 0 : -1
+          })
           renderQuickList(list)
+        },
+        {signal: pageAbort.signal}
+      )
+      tab.addEventListener(
+        'keydown',
+        event => {
+          const target = nextTab(tab, event.key)
+          if (!target) return
+          event.preventDefault()
+          target.click()
+          target.focus()
         },
         {signal: pageAbort.signal}
       )

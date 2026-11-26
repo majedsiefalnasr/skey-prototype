@@ -1,5 +1,6 @@
 import {GEO_ROWS} from '../../prototype/fixtures/geography.js'
 import {encodeHtml} from '../../core/locale.js'
+import {nextTab} from '../../core/tabs.js'
 export function createGeographyPickers({queryId, dataListIcon, geoLocationIcon, layoutGeoFlowPositions, geoFlowLineageCodes, geoDescendantCodes, geoParentPickerScrim, geoHierarchyScrim, trapFocus, releaseFocus}) {
 const pageAbort = new AbortController()
 
@@ -164,6 +165,7 @@ function setGeoParentPickerView(view) {
           document.querySelectorAll('[data-geo-parent-picker-view]').forEach(tab => {
             const active = tab.dataset.geoParentPickerView === view
             tab.setAttribute('aria-selected', String(active))
+            tab.tabIndex = active ? 0 : -1
           })
           queryId('geo-parent-picker-tree-pane').hidden = view !== 'tree'
           queryId('geo-parent-picker-flow-pane').hidden = view !== 'flow'
@@ -260,6 +262,15 @@ geoHierarchyScrim.addEventListener('click', event => {
           ) {
             closeGeoHierarchyDialog()
           }
+        }, {signal: pageAbort.signal})
+
+geoParentPickerScrim.addEventListener('keydown', event => {
+          const view = event.target.closest('[data-geo-parent-picker-view]')
+          const target = view && nextTab(view, event.key)
+          if (!target) return
+          event.preventDefault()
+          setGeoParentPickerView(target.dataset.geoParentPickerView)
+          target.focus()
         }, {signal: pageAbort.signal})
 
 geoParentPickerScrim.addEventListener('click', event => {

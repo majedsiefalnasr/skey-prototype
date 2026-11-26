@@ -1,5 +1,6 @@
 import {EMAIL_DATA, NOTIF_DATA} from '../../prototype/fixtures/messages.js'
 import {uiLocale} from '../../core/locale.js'
+import {nextTab} from '../../core/tabs.js'
 import {notificationItems} from './state.js'
 
 const EMAIL_AVATAR_TONE_1_CLASS = 'bg-[var(--avatar-tone-1-bg)]! text-[var(--avatar-tone-1-ink)]!'
@@ -110,16 +111,9 @@ let notificationSnapshot = ''
         document.querySelectorAll('.notif-tabs button').forEach(tab => {
           tab.addEventListener('click', () => selectNotificationTab(tab), {signal: pageAbort.signal})
           tab.addEventListener('keydown', event => {
-            const tabs = [...event.currentTarget.closest('.notif-tabs').querySelectorAll('button')]
-            const current = tabs.indexOf(event.currentTarget)
-            let next = current
-            if (event.key === 'ArrowRight') next += 1
-            else if (event.key === 'ArrowLeft') next -= 1
-            else if (event.key === 'Home') next = 0
-            else if (event.key === 'End') next = tabs.length - 1
-            else return
+            const target = nextTab(event.currentTarget, event.key)
+            if (!target) return
             event.preventDefault()
-            const target = tabs[(next + tabs.length) % tabs.length]
             selectNotificationTab(target)
             target.focus()
           }, {signal: pageAbort.signal})

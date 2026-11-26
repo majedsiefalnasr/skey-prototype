@@ -1,6 +1,7 @@
 import {uiLocale} from '../../core/locale.js'
 import {maxWidthQuery} from '../../core/breakpoints.js'
 import {encodeHtml} from '../../core/locale.js'
+import {nextTab} from '../../core/tabs.js'
 import {GEO_ROWS} from '../../prototype/fixtures/geography.js'
 import {createGeographyHierarchy, enableFlowPan} from './hierarchy.js'
 import {createGeographyPickers} from './pickers.js'
@@ -265,6 +266,19 @@ export function createGeography({
       const parentCode = event.target.value
       const parentRow = GEO_ROWS.find(item => item.code === parentCode)
       queryId('geo-field-level').value = (parentRow?.level || 0) + 1
+    },
+    {signal: pageAbort.signal}
+  )
+
+  document.addEventListener(
+    'keydown',
+    event => {
+      const view = event.target.closest?.('#geo-hierarchy-panel [data-geo-view]')
+      const target = view && nextTab(view, event.key)
+      if (!target) return
+      event.preventDefault()
+      setGeoHierarchyView(target.dataset.geoView, {focusFlow: false})
+      target.focus()
     },
     {signal: pageAbort.signal}
   )

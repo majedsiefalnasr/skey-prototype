@@ -1,4 +1,5 @@
 import {ACTIVITY, CARDS, STATUSES} from '../../prototype/fixtures/invoices.js'
+import {nextTab} from '../../core/tabs.js'
 
 const ACTIVITY_DRAWER_NOTE_CLASS = 'drnote px-4 py-3 text-xs text-faint'
 const ACTIVITY_SECONDARY_BUTTON_CLASS =
@@ -142,7 +143,10 @@ export function createInvoiceActivity({state, trapFocus, releaseFocus, closePop,
   const selectTab = name => {
     document
       .querySelectorAll('.drtab')
-      .forEach(t => t.setAttribute('aria-selected', String(t.dataset.tab === name)))
+      .forEach(t => {
+        t.setAttribute('aria-selected', String(t.dataset.tab === name))
+        t.tabIndex = t.dataset.tab === name ? 0 : -1
+      })
     document.querySelectorAll('[data-panel]').forEach(p => (p.hidden = p.dataset.panel !== name))
     document.querySelectorAll('[data-for]').forEach(b => (b.hidden = b.dataset.for !== name))
   }
@@ -163,9 +167,20 @@ export function createInvoiceActivity({state, trapFocus, releaseFocus, closePop,
   }
   document
     .querySelectorAll('.drtab')
-    .forEach(t =>
+    .forEach(t => {
       t.addEventListener('click', () => selectTab(t.dataset.tab), {signal: pageAbort.signal})
-    )
+      t.addEventListener(
+        'keydown',
+        event => {
+          const target = nextTab(t, event.key)
+          if (!target) return
+          event.preventDefault()
+          selectTab(target.dataset.tab)
+          target.focus()
+        },
+        {signal: pageAbort.signal}
+      )
+    })
   document.addEventListener(
     'click',
     e => {

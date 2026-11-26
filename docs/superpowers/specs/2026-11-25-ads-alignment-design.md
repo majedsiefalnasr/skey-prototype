@@ -57,7 +57,7 @@ Each item is decided in DESIGN.md. "Applied" means it is in the code on this bra
 | #30 | The visible switch moves to ADS 32×16 with a 12px thumb. The 34×20 dialog toggles and `switchRow` stay open. | Applied (#41); 34×20 open |
 | #31 | The 33 sized modals move to the nearest ADS width: 4 to 400px, 17 to 600px, 7 to 800px, 5 to 968px. Radius 12px. | Applied (#42) |
 | #32 | `.ibtn` and `.lbtn` read `--ds-button-*` tokens set to today's values. 0 of 4284 measured values changed. The 187 inline button class strings stay. | Tokens applied (4c8a4c7); sizes applied (#37): label buttons 32px tall on desktop |
-| #33 | The four underline tablists move to ADS padding (6px 8px) and weight 500. The four segmented view switches keep their look. All eight get Arrow, Home and End keys that follow the reading direction. | Not applied |
+| #33 | The four underline tablists move to ADS padding (6px 8px) and weight 500. The four segmented view switches keep their look. All eight get Arrow, Home and End keys that follow the reading direction. | Applied (#43) |
 
 ## Open before implementation
 

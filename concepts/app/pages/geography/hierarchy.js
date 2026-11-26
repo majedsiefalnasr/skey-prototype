@@ -323,13 +323,13 @@ function syncGeoTreePanelToggle() {
           toggleButton.querySelector('use')?.setAttribute('href', collapsed ? '#i-next' : '#i-prev')
         }
 
-function setGeoHierarchyView(view) {
+function setGeoHierarchyView(view, {focusFlow = true} = {}) {
           if (!['tree', 'flow'].includes(view)) return
           geoState.hierarchyView = view
           syncGeoHierarchyView()
           if (view === 'flow') {
             requestAnimationFrame(() => {
-              queryId('geo-flow-viewport')?.focus()
+              if (focusFlow) queryId('geo-flow-viewport')?.focus()
               // Center on every switch into Flow (not just the first time
               // -- the tree may have changed since the last visit),
               // instead of leaving the viewport scrolled to (0,0), which

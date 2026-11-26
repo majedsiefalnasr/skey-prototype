@@ -1,5 +1,6 @@
 import {enableFlowPan} from './hierarchy.js'
 import {encodeHtml} from '../../core/locale.js'
+import {nextTab} from '../../core/tabs.js'
 import {UNIT_ROWS} from '../../prototype/fixtures/customers.js'
 
 /** Owns unit picker state and its DOM bindings. */
@@ -109,6 +110,7 @@ export function createUnitPicker({trapFocus, releaseFocus, dataListIcon} = {}) {
     document.querySelectorAll('[data-unit-picker-view]').forEach(tab => {
       const active = tab.dataset.unitPickerView === view
       tab.setAttribute('aria-selected', String(active))
+      tab.tabIndex = active ? 0 : -1
     })
     document.getElementById('unit-picker-tree-pane').hidden = view !== 'tree'
     document.getElementById('unit-picker-flow-pane').hidden = view !== 'flow'
@@ -144,6 +146,15 @@ export function createUnitPicker({trapFocus, releaseFocus, dataListIcon} = {}) {
   }
 
   const unitPickerScrim = document.getElementById('unit-picker-scrim')
+
+  unitPickerScrim.addEventListener('keydown', event => {
+    const view = event.target.closest('[data-unit-picker-view]')
+    const target = view && nextTab(view, event.key)
+    if (!target) return
+    event.preventDefault()
+    setUnitPickerView(target.dataset.unitPickerView)
+    target.focus()
+  })
 
   unitPickerScrim.addEventListener('click', event => {
     const view = event.target.closest('[data-unit-picker-view]')
