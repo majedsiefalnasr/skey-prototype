@@ -38,7 +38,7 @@ test('related previews preserve the note, URL, focus, and read-only controls', a
     await page.screenshot({path: info.outputPath(`related-${type}-preview.png`), animations: 'disabled'})
     const bounds = await preview(page).locator('[data-preview-box]').boundingBox()
     expect(Math.abs(bounds.x + bounds.width / 2 - page.viewportSize().width / 2)).toBeLessThan(2)
-    expect(bounds.width).toBeLessThanOrEqual(520)
+    expect(bounds.width).toBeLessThanOrEqual(600)
     const spacing = await page.evaluate(() => ['.dhd', '.dlg-inner', '.dbody', '.dfoot'].map(selector => [
       getComputedStyle(document.querySelector(`#collab-preview ${selector}`)).padding,
       getComputedStyle(document.querySelector(`#customer-type-add-scrim ${selector}`)).padding,

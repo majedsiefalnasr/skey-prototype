@@ -652,7 +652,7 @@
 
   /* ---- keyboard shortcuts sheet (concepts/app/shell/shell-6.css) ---- */
   .kbdsheet {
-    width: min(520px, 94vw);
+    width: min(600px, 94vw);
     background: var(--surface);
     border-radius: 12px;
     box-shadow: var(--shadow-2);
@@ -1784,7 +1784,7 @@
 
   /* "Customize your sidebar" dialog: two-column For You builder. */
   .cs-dlg {
-    width: min(980px, 96vw);
+    width: min(968px, 96vw);
   }
   .cs-body {
     display: flex;
