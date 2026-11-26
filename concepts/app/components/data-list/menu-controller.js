@@ -325,7 +325,10 @@ export function createListMenus({t, toast, computeDataListLayoutDirty, applyData
     'keydown',
     event => {
       if (event.key !== 'Escape') return
-      const openMenus = [...document.querySelectorAll('.data-menu[open], .data-page-manage[open]')]
+      const modal = event.target.closest?.('[aria-modal="true"]')
+      const openMenus = [...document.querySelectorAll('.data-menu[open], .data-page-manage[open]')].filter(
+        menu => !modal || modal.contains(menu)
+      )
       if (!openMenus.length) return
       /* Innermost wins: an open manage/language submenu closes before its
          parent menu; with focus outside every popover, the last open one

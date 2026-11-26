@@ -1,0 +1,560 @@
+{
+ "issue": 31,
+ "decision": "Escape closes the topmost modal (.dlg, .kbdsheet) when no popup is open inside it and nothing else handled the key, as in @atlaskit/modal-dialog. It presses the header close button, or clicks the backdrop of an unsaved-changes guard, which keeps editing.",
+ "before": "commit 18fff47",
+ "method": "Chromium, desktop 1440x900, reduced motion. Each dialog is opened from its real trigger, Escape is pressed once, and the probe records whether the dialog closed, how many modal layers closed and where focus went.",
+ "summaryBefore": {
+  "dialogs": 36,
+  "closed": 25,
+  "closedMoreThanOneLayer": 0,
+  "focusOnBody": 0
+ },
+ "summaryAfter": {
+  "dialogs": 36,
+  "closed": 36,
+  "closedMoreThanOneLayer": 0,
+  "focusOnBody": 0
+ },
+ "dialogs": [
+  {
+   "name": "Find value",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\""
+   }
+  },
+  {
+   "name": "Add Customer Type",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\""
+   }
+  },
+  {
+   "name": "Export",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "summary.inline-flex \"Manage\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "summary.inline-flex \"Manage\""
+   }
+  },
+  {
+   "name": "Filter records",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Save filter",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "input#save-filter-name \"\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Manage filters",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "summary.inline-flex \"Probe filter\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "summary.inline-flex \"Probe filter\""
+   }
+  },
+  {
+   "name": "Change invoice status (list)",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "button.ibtn \"Close\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "summary.inline-flex \"Actions for invoice 144\""
+   }
+  },
+  {
+   "name": "Deactivate customer",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "button.ibtn \"Close\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "summary.inline-flex \"Actions for customer 200002\""
+   }
+  },
+  {
+   "name": "Deactivate location",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "button.ibtn \"Close\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "summary.inline-flex \"Actions for location ALX\""
+   }
+  },
+  {
+   "name": "Location hierarchy",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Location details",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "button.lbtn \"Modify\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.geo-flow-node \"View Egypt\""
+   }
+  },
+  {
+   "name": "Delete this tree",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "input#geo-delete-tree-confirm-input \"\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Choose parent location",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Choose operation unit",
+   "before": {
+    "closed": true,
+    "layersBefore": 2,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 2,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Add Geo. Location",
+   "before": {
+    "closed": true,
+    "layersBefore": 2,
+    "layersClosed": 1,
+    "focusAfter": "button#customer-unit-location-trigger.customer-lookup-trigger \"More options for Geo. Location\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 2,
+    "layersClosed": 1,
+    "focusAfter": "button#customer-unit-location-trigger.customer-lookup-trigger \"More options for Geo. Location\""
+   }
+  },
+  {
+   "name": "Customer contact",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Change password",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "button.ibtn \"Close\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Set / change PIN code",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "button.ibtn \"Close\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Post invoice",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"Transactions\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"Transactions\""
+   }
+  },
+  {
+   "name": "Revoke session",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Delete invoice",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.ibtn \"More actions\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.ibtn \"More actions\""
+   }
+  },
+  {
+   "name": "Display Journal Entry",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"Transactions\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"Transactions\""
+   }
+  },
+  {
+   "name": "Cancel document",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"Transactions\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"Transactions\""
+   }
+  },
+  {
+   "name": "Change invoice status (record)",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.lbtn \"Transition\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.lbtn \"Transition\""
+   }
+  },
+  {
+   "name": "Screen Parameters",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "button.ibtn \"Close\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"More\""
+   }
+  },
+  {
+   "name": "Print Settings",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"Procedure\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"Procedure\""
+   }
+  },
+  {
+   "name": "Keyboard shortcuts",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+   }
+  },
+  {
+   "name": "Customize your sidebar",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+   }
+  },
+  {
+   "name": "Log out",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+   }
+  },
+  {
+   "name": "You have unsaved work",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "You have unsaved customer changes",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Save this table layout?",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "button#list-layout-discard.lbtn \"Leave without saving\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Email search filters",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Notification dialog",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.flex \"Sales Invoice 126 was posted\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.flex \"Sales Invoice 126 was posted\""
+   }
+  },
+  {
+   "name": "Collab confirm",
+   "before": {
+    "closed": true,
+    "layersBefore": 2,
+    "layersClosed": 1,
+    "focusAfter": "button.ibtn \"More actions\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 2,
+    "layersClosed": 1,
+    "focusAfter": "button.ibtn \"More actions\""
+   }
+  },
+  {
+   "name": "Related record preview",
+   "before": {
+    "closed": true,
+    "layersBefore": 2,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 2,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  }
+ ]
+}

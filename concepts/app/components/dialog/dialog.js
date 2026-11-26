@@ -18,11 +18,20 @@
 // returnFocus() applies the same fallback for overlays that keep their own
 // focus handling, such as the collaboration confirm.
 //
+// Escape closes the topmost trapped modal (.dlg or .kbdsheet) when nothing
+// else handled the key: its handler did not close it, call preventDefault()
+// or stop the event. It presses the single close button in the dialog
+// header, or clicks the backdrop of a dialog without one (the unsaved-changes
+// guards), so the dialog's own close logic runs. A popup open inside the
+// dialog keeps the key for itself.
+//
 // createDialogFocus(document) returns {trapFocus, releaseFocus, dispose}.
 
 const FOCUSABLE =
   'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),summary,[tabindex]:not([tabindex="-1"])'
 const MENU = '[role="menu"], .mlist'
+const ESCAPE_CLOSES = '.dlg, .kbdsheet'
+const OPEN_POPUP = '[aria-haspopup]:not([aria-haspopup="dialog"])[aria-expanded="true"], details.data-menu[open], .mlist.open'
 
 const rendered = element => Boolean(element?.isConnected && element.getClientRects().length)
 const isMenuItem = element =>
@@ -88,13 +97,21 @@ export function returnFocus(element, document, within = null) {
   return false
 }
 
+function closeByEscape(box) {
+  const header = box.querySelector('.dhd, .kh')
+  const buttons = header ? [...header.querySelectorAll('button.ibtn')].filter(rendered) : []
+  if (buttons.length === 1) buttons[0].click()
+  else box.parentElement?.click()
+}
+
 /**
  * @param {Document} document
  */
 export function createDialogFocus(document) {
   const stack = []
   let trapped = null,
-    lastFocused = null
+    lastFocused = null,
+    escaping = null
 
   const trapFocus = box => {
     if (!box) return
@@ -142,6 +159,27 @@ export function createDialogFocus(document) {
       }
     },
     {capture: true, signal: controller.signal}
+  )
+  const view = document.defaultView
+  view?.addEventListener(
+    'keydown',
+    e => {
+      escaping = null
+      if (e.key !== 'Escape' || e.isComposing || !trapped?.matches(ESCAPE_CLOSES)) return
+      if (!trapped.querySelector(OPEN_POPUP)) escaping = trapped
+    },
+    {capture: true, signal: controller.signal}
+  )
+  view?.addEventListener(
+    'keydown',
+    e => {
+      const box = escaping
+      escaping = null
+      if (e.key !== 'Escape' || !box || e.defaultPrevented || box !== trapped || !rendered(box)) return
+      e.preventDefault()
+      closeByEscape(box)
+    },
+    {signal: controller.signal}
   )
 
   function dispose() {
