@@ -49,7 +49,7 @@ Each item is decided in DESIGN.md. "Applied" means it is in the code on this bra
 | #21 | `legacy-480` moves to `xs`, `legacy-1240` to `lg`, `legacy-561` is removed and the Flag value becomes `--breakpoint-flag` (35rem). `legacy-1200`, `legacy-1299` and `legacy-1600` stay custom and documented. | Not applied |
 | #23 | The document scrolls, not `.page-content`. Pinned parts use sticky or fixed. Table headers stick inside their own box. One CSS variable sets the top bar offset. | Not applied; waits for the Playwright baseline repair and its own approval |
 | #24 | Page grid follows the atlassian.design Grid page: 1296px maximum including margins. Boxed inset at 768 to 1023px moves from 48px to 32px (44px to 28px compact). | Not applied |
-| #25 | Numeric spacing utilities read `--ds-space-*` through `@theme inline`. Off-scale utilities move to ADS steps by the #29 rule. A unit test guards it. | Not applied; after #29 |
+| #25 | Numeric spacing utilities read `--ds-space-*` through `@theme inline`. Off-scale utilities move to ADS steps by the #29 rule. A unit test guards it. | Applied (#38); plain CSS literals not covered |
 | #26 | The four Profile field grids use `minmax(min(260px, 100%), 1fr)`. | Applied (a8b4c88, with bca612e and c8c2b46) |
 | #27 | Every off-scale radius moves to an ADS step: 1→2, 3→4, 5→6, 7→8, 9→8, 10→12, 11→12, 14→12. No `xxlarge` token. `legacy-999` is renamed to `full` and stays 999px. | Applied (#34) |
 | #28 | Set D for font sizes and line heights. 17 of 22 roles change size, and line heights follow ADS. | Applied (#35) |

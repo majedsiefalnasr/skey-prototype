@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {mkdtemp, readFile, stat} from 'node:fs/promises';
+import {mkdtemp, readdir, readFile, stat} from 'node:fs/promises';
 import {test} from 'node:test';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
@@ -283,4 +283,55 @@ test('Task 7 final Tailwind budget: compiled output stays within baseline + 10%'
       `(baseline ${FINAL_TAILWIND_BASELINE_BYTES} + 10%): ${output.size} bytes. If this growth is an ` +
       'intentional, reviewed dynamic-utility addition, name it in docs/tailwind-migration-report.md and raise the baseline.'
   );
+});
+
+const adsSpacingSteps = new Set(['0', '0.5', '1', '1.5', '2', '3', '4', '5', '6', '8', '10', '12', '16']);
+const spacingUtility = /^-?(?:p[xytrblse]?|m[xytrblse]?|gap(?:-[xy])?|space-[xy])-(\d+(?:\.\d+)?|px)$/;
+const spacingArbitraryPixels = /^-?(?:p[xytrblse]?|m[xytrblse]?|gap(?:-[xy])?|space-[xy])-\[(\d+(?:\.\d+)?)px\]$/;
+// build.test.mjs holds legacy shell markup as fixture input for the build rewrite, so it is not scanned.
+const guardExcludedFiles = new Set(['tests/tailwind.test.mjs', 'tests/build.test.mjs']);
+// Reviewed off-scale utilities that stay for #40: the mobile page gutter must match the 10px .phead gutter in shell.css.
+const offScaleSpacingExceptions = new Set([
+  'concepts/app/pages/for-you/templates.html [@media(max-width:theme(--breakpoint-legacy-620))]:px-2.5',
+  'concepts/app/pages/placeholder/templates.html [@media(max-width:theme(--breakpoint-legacy-620))]:px-2.5',
+]);
+
+async function sourceFiles(directory) {
+  const entries = await readdir(directory, {withFileTypes: true});
+  const files = await Promise.all(entries.map(entry => {
+    const full = path.join(directory, entry.name);
+    if (entry.isDirectory()) return sourceFiles(full);
+    return /\.(?:js|mjs|html)$/.test(entry.name) ? [full] : [];
+  }));
+  return files.flat();
+}
+
+test('spacing utilities read ADS steps (#25): no off-scale numeric utility is written', async () => {
+  const root = process.cwd();
+  const violations = [];
+  const usedExceptions = new Set();
+  for (const scope of ['concepts', 'tests', 'scripts']) {
+    for (const file of await sourceFiles(path.join(root, scope))) {
+      const relative = path.relative(root, file);
+      if (guardExcludedFiles.has(relative)) continue;
+      const source = await readFile(file, 'utf8');
+      for (const [token] of source.matchAll(/[^\s"'`]+/g)) {
+        const utility = token.split(':').at(-1).replace(/[!,;)}>]+$/, '');
+        const key = `${relative} ${token}`;
+        const numeric = utility.match(spacingUtility);
+        const pixels = utility.match(spacingArbitraryPixels);
+        const offScale = numeric
+          ? !adsSpacingSteps.has(numeric[1])
+          : pixels && !adsSpacingSteps.has(String(Number(pixels[1]) / 4));
+        if (!offScale) continue;
+        if (offScaleSpacingExceptions.has(key)) {
+          usedExceptions.add(key);
+          continue;
+        }
+        violations.push(key);
+      }
+    }
+  }
+  assert.deepEqual(violations, [], 'Off-scale spacing utilities must move to ADS steps (DESIGN.md Spacing).');
+  assert.deepEqual([...offScaleSpacingExceptions].filter(key => !usedExceptions.has(key)), [], 'Stale spacing exception.');
 });

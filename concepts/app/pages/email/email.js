@@ -177,7 +177,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
 
   /* ---------- folders ---------- */
   /* Row geometry is the shell's `.nc2-icn` spec — h-9, an 18px icon, gap-2,
-     ps-11 and a hover wash — so the mailbox rail and the nav rail sit at the
+     11px inline-start padding and a hover wash — so the mailbox rail and the nav rail sit at the
      same sizes side by side. `ef-lbl` / `ef-act` are the pieces the collapsed
      rail hides; see the `.email-folders` rules in styles/tailwind/email.css. */
   const EF_ROW_CLASS =
