@@ -148,6 +148,12 @@ export function createUnitPicker({trapFocus, releaseFocus, dataListIcon} = {}) {
   const unitPickerScrim = document.getElementById('unit-picker-scrim')
 
   unitPickerScrim.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      event.stopPropagation()
+      closeUnitPicker()
+      return
+    }
     const view = event.target.closest('[data-unit-picker-view]')
     const target = view && nextTab(view, event.key)
     if (!target) return

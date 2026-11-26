@@ -99,23 +99,13 @@ export function createLookups({refs, deps}) {
       unitLocation: 'contains',
     },
   }
-  const layerFocusStack = []
-
   function trapLayer(box) {
     if (!box) return
-    layerFocusStack.push(document.activeElement)
     trapFocus(box)
   }
 
   function releaseLayer() {
-    layerFocusStack.pop()
-    const returnTo = parentUnitDrawerScrim.classList.contains('open')
-      ? parentUnitDrawerScrim.querySelector('.customer-unit-drawer')
-      : unitDrawerScrim.classList.contains('open')
-        ? unitDrawerScrim.querySelector('.customer-unit-drawer')
-        : null
-    if (returnTo && document.contains(returnTo)) returnTo.focus()
-    else releaseFocus()
+    releaseFocus()
   }
 
   function closeLookupMenu({restoreFocus = false} = {}) {

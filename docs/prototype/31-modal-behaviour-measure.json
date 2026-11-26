@@ -1,0 +1,3994 @@
+{
+ "issue": 31,
+ "before": "d4604c7",
+ "after": "d4604c7 plus the #31 focus stack, menu-button return and unit picker stacking",
+ "method": [
+  "Each dialog is opened from its real trigger at 1440x900, LTR, Chromium, on a fresh page per phase.",
+  "Location hierarchy is opened at 1100x900, where its trigger opens the dialog.",
+  "open: role, aria-modal, name, focus on open, Tab and Shift+Tab containment.",
+  "open.covered: sample points, of 5, where another element is on top of the dialog.",
+  "open.at390: the open dialog after resizing the viewport to 390x844.",
+  "escape, backdrop, close: whether it closed after 400ms, where focus went (trigger = the element clicked to open it), and whether the trigger is present, hidden or removed."
+ ],
+ "notMeasured": [
+  "Kanban blocked: the Kanban view option is hidden",
+  "RTL",
+  "touch devices",
+  "dialogs opened directly at 390px"
+ ],
+ "summary": {
+  "before": {
+   "dialogs": 36,
+   "closedBy": {
+    "escape": 25,
+    "backdrop": 35,
+    "close": 35
+   },
+   "focusOnBodyAfterClose": {
+    "escape": 15,
+    "backdrop": 20,
+    "close": 20
+   },
+   "coveredOnOpen": [
+    "Choose operation unit"
+   ],
+   "tabLeavesDialog": [],
+   "escapeDoesNotClose": [
+    "Save filter",
+    "Manage filters",
+    "Change invoice status (list)",
+    "Deactivate customer",
+    "Deactivate location",
+    "Location details",
+    "Delete this tree",
+    "Change password",
+    "Set / change PIN code",
+    "Screen Parameters",
+    "Save this table layout?"
+   ],
+   "focusOnBodyAfterCloseButton": [
+    "Export",
+    "Manage filters",
+    "Change invoice status (list)",
+    "Deactivate customer",
+    "Deactivate location",
+    "Location hierarchy",
+    "Location details",
+    "Add Geo. Location",
+    "Post invoice",
+    "Delete invoice",
+    "Display Journal Entry",
+    "Cancel document",
+    "Change invoice status (record)",
+    "Screen Parameters",
+    "Print Settings",
+    "Keyboard shortcuts",
+    "Customize your sidebar",
+    "Log out",
+    "Notification dialog",
+    "Collab confirm"
+   ],
+   "fullScreenAt390": 0
+  },
+  "after": {
+   "dialogs": 36,
+   "closedBy": {
+    "escape": 25,
+    "backdrop": 36,
+    "close": 36
+   },
+   "focusOnBodyAfterClose": {
+    "escape": 0,
+    "backdrop": 0,
+    "close": 0
+   },
+   "coveredOnOpen": [],
+   "tabLeavesDialog": [],
+   "escapeDoesNotClose": [
+    "Save filter",
+    "Manage filters",
+    "Change invoice status (list)",
+    "Deactivate customer",
+    "Deactivate location",
+    "Location details",
+    "Delete this tree",
+    "Change password",
+    "Set / change PIN code",
+    "Screen Parameters",
+    "Save this table layout?"
+   ],
+   "focusOnBodyAfterCloseButton": [],
+   "fullScreenAt390": 0
+  }
+ },
+ "dialogs": [
+  {
+   "name": "Find value",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Find Customer Type",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 11,
+     "focusOnOpen": "input#customer-lookup-search-query \"\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 42,
+      "width": 342,
+      "height": 760,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\"",
+     "triggerAfter": "hidden",
+     "closeControl": "Close search",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Find Customer Type",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 11,
+     "focusOnOpen": "input#customer-lookup-search-query \"\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 42,
+      "width": 342,
+      "height": 760,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\"",
+     "triggerAfter": "hidden",
+     "closeControl": "Close search",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Add Customer Type",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Add Customer Type",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 7,
+     "focusOnOpen": "input#customer-type-name \"\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 221,
+      "width": 342,
+      "height": 403,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\"",
+     "triggerAfter": "hidden",
+     "closeControl": "Close Add Customer Type",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Add Customer Type",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 7,
+     "focusOnOpen": "input#customer-type-name \"\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 221,
+      "width": 342,
+      "height": 403,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\"",
+     "triggerAfter": "hidden",
+     "closeControl": "Close Add Customer Type",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Export",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Export",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 31,
+     "focusOnOpen": "button.ibtn \"Close export dialog\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 42,
+      "width": 342,
+      "height": 760,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "present",
+     "closeControl": "Close export dialog",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Export",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 31,
+     "focusOnOpen": "button.ibtn \"Close export dialog\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 42,
+      "width": 342,
+      "height": 760,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "summary.inline-flex \"Manage\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "summary.inline-flex \"Manage\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "summary.inline-flex \"Manage\"",
+     "triggerAfter": "present",
+     "closeControl": "Close export dialog",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Filter records",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Filter invoices",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 14,
+     "focusOnOpen": "button.ibtn \"Close filter locations\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 140,
+      "width": 342,
+      "height": 564,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close filter locations",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Filter invoices",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 14,
+     "focusOnOpen": "button.ibtn \"Close filter locations\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 140,
+      "width": 342,
+      "height": 564,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close filter locations",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Save filter",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Save filter",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 16,
+     "focusOnOpen": "input#save-filter-name \"\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 224,
+      "width": 342,
+      "height": 395,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "input#save-filter-name \"\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close save filter",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Save filter",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 16,
+     "focusOnOpen": "input#save-filter-name \"\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 224,
+      "width": 342,
+      "height": 395,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "input#save-filter-name \"\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close save filter",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Manage filters",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Manage filters",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 25,
+     "focusOnOpen": "button.ibtn \"Close manage filters\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 168,
+      "width": 342,
+      "height": 507,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "summary.inline-flex \"Probe filter\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "present",
+     "closeControl": "Close manage filters",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Manage filters",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 25,
+     "focusOnOpen": "button.ibtn \"Close manage filters\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 168,
+      "width": 342,
+      "height": 507,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "summary.inline-flex \"Probe filter\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "summary.inline-flex \"Probe filter\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "summary.inline-flex \"Probe filter\"",
+     "triggerAfter": "present",
+     "closeControl": "Close manage filters",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Change invoice status (list)",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Open invoice 144",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 315,
+      "width": 342,
+      "height": 214,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "button.ibtn \"Close\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "present",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Open invoice 144",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 315,
+      "width": 342,
+      "height": 214,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "button.ibtn \"Close\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "summary.inline-flex \"Actions for invoice 144\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "summary.inline-flex \"Actions for invoice 144\"",
+     "triggerAfter": "present",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Deactivate customer",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Deactivate customer 200002",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 253,
+      "width": 342,
+      "height": 338,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "button.ibtn \"Close\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "present",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Deactivate customer 200002",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 253,
+      "width": 342,
+      "height": 338,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "button.ibtn \"Close\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "summary.inline-flex \"Actions for customer 200002\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "summary.inline-flex \"Actions for customer 200002\"",
+     "triggerAfter": "present",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Deactivate location",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Deactivate location ALX",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 252,
+      "width": 342,
+      "height": 340,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "button.ibtn \"Close\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "present",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Deactivate location ALX",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 252,
+      "width": 342,
+      "height": 340,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "button.ibtn \"Close\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "summary.inline-flex \"Actions for location ALX\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "summary.inline-flex \"Actions for location ALX\"",
+     "triggerAfter": "present",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Location hierarchy",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Location hierarchy",
+     "labelledByResolves": null,
+     "focusInside": true,
+     "focusableCount": 16,
+     "focusOnOpen": "button.ibtn \"Refresh hierarchy\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 104,
+      "width": 342,
+      "height": 636,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "present",
+     "closeControl": "Close location hierarchy",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Location hierarchy",
+     "labelledByResolves": null,
+     "focusInside": true,
+     "focusableCount": 16,
+     "focusOnOpen": "button.ibtn \"Refresh hierarchy\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 104,
+      "width": 342,
+      "height": 636,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close location hierarchy",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Location details",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Location details",
+     "labelledByResolves": null,
+     "focusInside": true,
+     "focusableCount": 8,
+     "focusOnOpen": "button.lbtn \"Modify\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 94,
+      "width": 342,
+      "height": 656,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "button.lbtn \"Modify\"",
+     "triggerAfter": "removed",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "removed",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "removed",
+     "closeControl": "Close location details",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Location details",
+     "labelledByResolves": null,
+     "focusInside": true,
+     "focusableCount": 8,
+     "focusOnOpen": "button.lbtn \"Modify\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 94,
+      "width": 342,
+      "height": 656,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "button.lbtn \"Modify\"",
+     "triggerAfter": "removed",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button.geo-flow-node \"View Egypt\"",
+     "triggerAfter": "removed",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button.geo-flow-node \"View Egypt\"",
+     "triggerAfter": "removed",
+     "closeControl": "Close location details",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Delete this tree",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Delete this tree",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "input#geo-delete-tree-confirm-input \"\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 265,
+      "width": 342,
+      "height": 314,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "input#geo-delete-tree-confirm-input \"\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Delete this tree",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "input#geo-delete-tree-confirm-input \"\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 265,
+      "width": 342,
+      "height": 314,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "input#geo-delete-tree-confirm-input \"\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Choose parent location",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Choose parent location",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 20,
+     "focusOnOpen": "button.ibtn \"Close parent location picker\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 138,
+      "width": 342,
+      "height": 568,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close parent location picker",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Choose parent location",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 20,
+     "focusOnOpen": "button.ibtn \"Close parent location picker\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 138,
+      "width": 342,
+      "height": 568,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close parent location picker",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Choose operation unit",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Choose operation unit",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 10,
+     "focusOnOpen": "button.ibtn \"Close operation unit picker\"",
+     "covered": 5,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 203,
+      "width": 342,
+      "height": 438,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": false,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "div#customer-unit-drawer-scrim.customer-overlay"
+     }
+    },
+    "close": {
+     "closed": false,
+     "focusAfter": "select#customer-unit-location \"Select location Cairo Alexandria\"",
+     "triggerAfter": "present",
+     "closeControl": "Close operation unit picker",
+     "forced": true,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Choose operation unit",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 10,
+     "focusOnOpen": "button.ibtn \"Close operation unit picker\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 203,
+      "width": 342,
+      "height": 438,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close operation unit picker",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Add Geo. Location",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Add Geo. Location",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 9,
+     "focusOnOpen": "input#customer-location-code \"\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 79,
+      "width": 342,
+      "height": 686,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": "Close Add Geo. Location",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Add Geo. Location",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 9,
+     "focusOnOpen": "input#customer-location-code \"\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 79,
+      "width": 342,
+      "height": 686,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "button#customer-unit-location-trigger.customer-lookup-trigger \"More options for Geo. Location\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button#customer-unit-location-trigger.customer-lookup-trigger \"More options for Geo. Location\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button#customer-unit-location-trigger.customer-lookup-trigger \"More options for Geo. Location\"",
+     "triggerAfter": "hidden",
+     "closeControl": "Close Add Geo. Location",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Customer contact",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Add contact info",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 38,
+     "focusOnOpen": "input#customer-field-contactEditor_name \"\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 8,
+      "top": 42,
+      "width": 374,
+      "height": 760,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Add contact info",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 38,
+     "focusOnOpen": "input#customer-field-contactEditor_name \"\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 8,
+      "top": 42,
+      "width": 374,
+      "height": 760,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Change password",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Change password",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 6,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 202,
+      "width": 342,
+      "height": 440,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "button.ibtn \"Close\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Change password",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 6,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 202,
+      "width": 342,
+      "height": 440,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "button.ibtn \"Close\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Set / change PIN code",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Set / change PIN code",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 6,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 202,
+      "width": 342,
+      "height": 440,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "button.ibtn \"Close\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Set / change PIN code",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 6,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 202,
+      "width": 342,
+      "height": 440,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "button.ibtn \"Close\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Post invoice",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Posting details · invoice 140",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 4,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 232,
+      "width": 342,
+      "height": 380,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Posting details · invoice 140",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 4,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 232,
+      "width": 342,
+      "height": 380,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "button \"Transactions\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button \"Transactions\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button \"Transactions\"",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Revoke session",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Revoke application session",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 4,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 124,
+      "width": 342,
+      "height": 597,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Revoke application session",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 4,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 124,
+      "width": 342,
+      "height": 597,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Delete invoice",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Delete invoice 144",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 179,
+      "width": 342,
+      "height": 485,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Delete invoice 144",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 179,
+      "width": 342,
+      "height": 485,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "button.ibtn \"More actions\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button.ibtn \"More actions\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button.ibtn \"More actions\"",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Display Journal Entry",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Display Journal Entry",
+     "labelledByResolves": null,
+     "focusInside": true,
+     "focusableCount": 35,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 42,
+      "width": 342,
+      "height": 760,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Display Journal Entry",
+     "labelledByResolves": null,
+     "focusInside": true,
+     "focusableCount": 35,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 42,
+      "width": 342,
+      "height": 760,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "button \"Transactions\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button \"Transactions\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button \"Transactions\"",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Cancel document",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Cancel document 140",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 98,
+      "width": 342,
+      "height": 649,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Cancel document 140",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 98,
+      "width": 342,
+      "height": 649,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "button \"Transactions\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button \"Transactions\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button \"Transactions\"",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Change invoice status (record)",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Mark invoice 140 as pending",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 4,
+     "focusOnOpen": "textarea#sf-reason \"\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 261,
+      "width": 342,
+      "height": 322,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Mark invoice 140 as pending",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 4,
+     "focusOnOpen": "textarea#sf-reason \"\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 261,
+      "width": 342,
+      "height": 322,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "button.lbtn \"Transition\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button.lbtn \"Transition\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button.lbtn \"Transition\"",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Screen Parameters",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Screen Parameters ( Sales Invoice )",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 18,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 42,
+      "width": 342,
+      "height": 760,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "button.ibtn \"Close\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Screen Parameters ( Sales Invoice )",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 18,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 42,
+      "width": 342,
+      "height": 760,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "button.ibtn \"Close\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button \"More\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button \"More\"",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Print Settings",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Print Settings",
+     "labelledByResolves": null,
+     "focusInside": true,
+     "focusableCount": 10,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 79,
+      "width": 342,
+      "height": 686,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Print Settings",
+     "labelledByResolves": null,
+     "focusInside": true,
+     "focusableCount": 10,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 79,
+      "width": 342,
+      "height": 686,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "button \"Procedure\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button \"Procedure\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button \"Procedure\"",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Keyboard shortcuts",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Keyboard shortcuts",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 1,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 260,
+      "width": 342,
+      "height": 323,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Keyboard shortcuts",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 1,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 260,
+      "width": 342,
+      "height": 323,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\"",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Customize your sidebar",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Customize your sidebar",
+     "labelledByResolves": null,
+     "focusInside": true,
+     "focusableCount": 43,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 42,
+      "width": 342,
+      "height": 760,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Customize your sidebar",
+     "labelledByResolves": null,
+     "focusInside": true,
+     "focusableCount": 43,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 42,
+      "width": 342,
+      "height": 760,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\"",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Log out",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Log out?",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 317,
+      "width": 342,
+      "height": 210,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Log out?",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "button.ibtn \"Close\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 317,
+      "width": 342,
+      "height": 210,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\"",
+     "triggerAfter": "hidden",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "You have unsaved work",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "You have unsaved work",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 4,
+     "focusOnOpen": "button#g-discard.lbtn \"Leave without saving\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 278,
+      "width": 342,
+      "height": 288,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Stay here",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "You have unsaved work",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 4,
+     "focusOnOpen": "button#g-discard.lbtn \"Leave without saving\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 278,
+      "width": 342,
+      "height": 288,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Stay here",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "You have unsaved customer changes",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "You have unsaved customer changes",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "button#customer-g-discard.lbtn \"Leave without saving\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 266,
+      "width": 342,
+      "height": 311,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Stay here",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "You have unsaved customer changes",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "button#customer-g-discard.lbtn \"Leave without saving\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 266,
+      "width": 342,
+      "height": 311,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Stay here",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Save this table layout?",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Save this table layout?",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "button#list-layout-discard.lbtn \"Leave without saving\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 272,
+      "width": 342,
+      "height": 300,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "button#list-layout-discard.lbtn \"Leave without saving\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Keep editing",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Save this table layout?",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "button#list-layout-discard.lbtn \"Leave without saving\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 272,
+      "width": 342,
+      "height": 300,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": false,
+     "focusAfter": "button#list-layout-discard.lbtn \"Leave without saving\"",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Keep editing",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Email search filters",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Search filters",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 10,
+     "focusOnOpen": "input \"\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 12,
+      "top": 184,
+      "width": 366,
+      "height": 476,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close filters",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Search filters",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 10,
+     "focusOnOpen": "input \"\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 12,
+      "top": 184,
+      "width": 366,
+      "height": 476,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close filters",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Notification dialog",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Sales Invoice 126 was posted",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 4,
+     "focusOnOpen": "button.ibtn \"Mark as unread\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 16,
+      "top": 215,
+      "width": 358,
+      "height": 414,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "removed",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "removed",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "removed",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Sales Invoice 126 was posted",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 4,
+     "focusOnOpen": "button.ibtn \"Mark as unread\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 16,
+      "top": 215,
+      "width": 358,
+      "height": 414,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "button.flex \"Sales Invoice 126 was posted\"",
+     "triggerAfter": "removed",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button.flex \"Sales Invoice 126 was posted\"",
+     "triggerAfter": "removed",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button.flex \"Sales Invoice 126 was posted\"",
+     "triggerAfter": "removed",
+     "closeControl": "Close",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Collab confirm",
+   "triggerInMenu": true,
+   "before": {
+    "open": {
+     "role": "alertdialog",
+     "ariaModal": "true",
+     "label": "Delete this note?",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 2,
+     "focusOnOpen": "button.lbtn \"Delete\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 319,
+      "width": 342,
+      "height": 207,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "body",
+     "triggerAfter": "hidden",
+     "closeControl": "Cancel",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "alertdialog",
+     "ariaModal": "true",
+     "label": "Delete this note?",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 2,
+     "focusOnOpen": "button.lbtn \"Delete\"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 319,
+      "width": 342,
+      "height": 207,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "button.ibtn \"More actions\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "button.ibtn \"More actions\"",
+     "triggerAfter": "hidden",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "button.ibtn \"More actions\"",
+     "triggerAfter": "hidden",
+     "closeControl": "Cancel",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  },
+  {
+   "name": "Related record preview",
+   "triggerInMenu": false,
+   "before": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Payment scheduled for Sales Invoice 126",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "div.dlg \"Payment scheduled for Sales Invoice 126 \"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 42,
+      "width": 342,
+      "height": 760,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close preview",
+     "forced": false,
+     "backdropPoint": null
+    }
+   },
+   "after": {
+    "open": {
+     "role": "dialog",
+     "ariaModal": "true",
+     "label": "Payment scheduled for Sales Invoice 126",
+     "labelledByResolves": true,
+     "focusInside": true,
+     "focusableCount": 3,
+     "focusOnOpen": "div.dlg \"Payment scheduled for Sales Invoice 126 \"",
+     "covered": 0,
+     "tabStaysInside": true,
+     "shiftTabStaysInside": true,
+     "at390": {
+      "open": true,
+      "left": 24,
+      "top": 42,
+      "width": 342,
+      "height": 760,
+      "fullscreen": false,
+      "overflowsViewport": false,
+      "radius": "12px"
+     }
+    },
+    "escape": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": null
+    },
+    "backdrop": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": null,
+     "forced": false,
+     "backdropPoint": {
+      "x": 4,
+      "y": 450,
+      "hit": "scrim"
+     }
+    },
+    "close": {
+     "closed": true,
+     "focusAfter": "trigger",
+     "triggerAfter": "present",
+     "closeControl": "Close preview",
+     "forced": false,
+     "backdropPoint": null
+    }
+   }
+  }
+ ]
+}

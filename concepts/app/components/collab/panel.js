@@ -10,6 +10,7 @@ const {t} = uiLocale
 // to themselves with their own keydown handler and stopPropagation, so the
 // shared trap — still pointed at the panel — never pulls focus back.
 import {escapeHtml, icon} from './fields.js'
+import {returnFocus} from '../dialog/dialog.js'
 
 const FOCUSABLE =
   'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),summary,[tabindex]:not([tabindex="-1"])'
@@ -65,7 +66,7 @@ export function createConfirm() {
         cancel.removeEventListener('click', onCancel)
         dialog.removeEventListener('click', onBackdrop)
         dialog.classList.remove('open')
-        if (returnTo && document.contains(returnTo)) returnTo.focus()
+        returnFocus(returnTo, document)
         resolve(result)
       }
       const onOk = () => finish(true)

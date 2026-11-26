@@ -191,12 +191,17 @@ export function createNotificationsPage({t, listInstance, detailList, dialogs}) 
 
   function closeModal() {
     if (!modal || modal.hidden) return
+    const closedId = activeId
     hideDetailList()
     activeId = null
     modal.hidden = true
     modal.classList.add('hidden')
     document.body.style.overflow = ''
     dialogs.releaseFocus()
+    const active = document.activeElement
+    if (closedId != null && (active === document.body || modal.contains(active))) {
+      document.querySelector(`#notifications-list-canvas [data-list-open-record="${CSS.escape(String(closedId))}"]`)?.focus()
+    }
   }
 
   function bind() {
