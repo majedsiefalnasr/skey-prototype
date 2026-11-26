@@ -864,6 +864,25 @@
     max-height: calc(90vh / var(--ui-scale, 1)) !important;
     max-width: calc((100vw - 32px) / var(--ui-scale, 1));
   }
+  @media (width < theme(--breakpoint-xs)) {
+    :is(.dscrim, .customer-overlay, .notification-modal, [data-mail-filter-dialog]):has(.dlg, .kbdsheet) {
+      padding: 0;
+    }
+    :is(.dscrim, .customer-overlay, .notification-modal, [data-mail-filter-dialog]) :is(.dlg, .kbdsheet) {
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none !important;
+      border-radius: 0;
+    }
+    .dlg > .dlg-inner,
+    .dlg-inner > .dbody {
+      flex: 1 1 auto;
+    }
+    body:has(:is(.dscrim, .customer-overlay, .notification-modal, [data-mail-filter-dialog]):is(.open, :not(.hidden)) :is(.dlg, .kbdsheet)) #kit-pill {
+      visibility: hidden;
+    }
+  }
   #profile-section-appearance {
     display: flex;
     flex-direction: column;

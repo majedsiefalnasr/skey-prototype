@@ -81,7 +81,8 @@ test('event and mail previews open above notes without navigating', async ({page
     await expect(page).toHaveURL(/\/help-screens\/notes$/)
     await expect(panel(page)).toBeVisible()
     await page.screenshot({path: info.outputPath(`related-${type}-preview.png`), animations: 'disabled'})
-    await preview(page).click({position: {x: 2, y: 2}})
+    if (page.viewportSize().width < 480) await preview(page).locator('[data-preview-close]').click()
+    else await preview(page).click({position: {x: 2, y: 2}})
     await expect(preview(page)).toBeHidden()
     await panel(page).locator('[data-panel-close]').click()
   }

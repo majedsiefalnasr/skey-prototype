@@ -1,0 +1,5406 @@
+{
+ "issue": 31,
+ "decision": "Below 30rem (480px) every sized modal (.dlg, .kbdsheet) fills the viewport with no radius, as in @atlaskit/modal-dialog. 30rem and wider is unchanged.",
+ "before": "commit 07d40ca",
+ "method": "Chromium, app shell. Each dialog is forced open by showing its backdrop as flex and hiding sibling dialogs; dialogs were not opened from their triggers and carry no data. States: 390x844 LTR, RTL and --ui-scale 1.25, 479x844, 480x844, 768x1024 and 1440x900.",
+ "summaryBefore": {
+  "390-ltr-x1": {
+   "dialogs": 37,
+   "fullScreen": 0,
+   "radius0": 0,
+   "widths": [
+    342,
+    358,
+    366,
+    374
+   ],
+   "horizontalScroll": 0,
+   "dialogsWithContentOutsideViewport": [
+    "Add Customer Type",
+    "Cancel document 126",
+    "You have unsaved work"
+   ]
+  },
+  "390-rtl-x1": {
+   "dialogs": 37,
+   "fullScreen": 0,
+   "radius0": 0,
+   "widths": [
+    342,
+    358,
+    366,
+    374
+   ],
+   "horizontalScroll": 0,
+   "dialogsWithContentOutsideViewport": [
+    "Add Customer Type",
+    "Cancel document 126",
+    "You have unsaved work"
+   ]
+  },
+  "390-ltr-x1.25": {
+   "dialogs": 37,
+   "fullScreen": 0,
+   "radius0": 0,
+   "widths": [
+    342,
+    358,
+    366,
+    374
+   ],
+   "horizontalScroll": 0,
+   "dialogsWithContentOutsideViewport": [
+    "Add Customer Type",
+    "Post invoice 126",
+    "Delete invoice 126",
+    "Cancel document 126",
+    "Change invoice status",
+    "You have unsaved work"
+   ]
+  },
+  "479-ltr-x1": {
+   "dialogs": 37,
+   "fullScreen": 0,
+   "radius0": 0,
+   "widths": [
+    400,
+    431,
+    447,
+    455,
+    460
+   ],
+   "horizontalScroll": 0,
+   "dialogsWithContentOutsideViewport": [
+    "Add Customer Type"
+   ]
+  },
+  "480-ltr-x1": {
+   "dialogs": 37,
+   "fullScreen": 0,
+   "radius0": 0,
+   "widths": [
+    400,
+    432,
+    448,
+    456,
+    461
+   ],
+   "horizontalScroll": 0,
+   "dialogsWithContentOutsideViewport": [
+    "Add Customer Type"
+   ]
+  },
+  "768-ltr-x1": {
+   "dialogs": 37,
+   "fullScreen": 0,
+   "radius0": 0,
+   "widths": [
+    400,
+    600,
+    720
+   ],
+   "horizontalScroll": 0,
+   "dialogsWithContentOutsideViewport": [
+    "Add Customer Type"
+   ]
+  },
+  "1440-ltr-x1": {
+   "dialogs": 37,
+   "fullScreen": 0,
+   "radius0": 0,
+   "widths": [
+    400,
+    600,
+    800,
+    968
+   ],
+   "horizontalScroll": 0,
+   "dialogsWithContentOutsideViewport": [
+    "Add Customer Type"
+   ]
+  }
+ },
+ "summaryAfter": {
+  "390-ltr-x1": {
+   "dialogs": 37,
+   "fullScreen": 37,
+   "radius0": 37,
+   "widths": [
+    390
+   ],
+   "horizontalScroll": 0,
+   "dialogsWithContentOutsideViewport": [
+    "Add Customer Type",
+    "You have unsaved work"
+   ]
+  },
+  "390-rtl-x1": {
+   "dialogs": 37,
+   "fullScreen": 37,
+   "radius0": 37,
+   "widths": [
+    390
+   ],
+   "horizontalScroll": 0,
+   "dialogsWithContentOutsideViewport": [
+    "Add Customer Type",
+    "You have unsaved work"
+   ]
+  },
+  "390-ltr-x1.25": {
+   "dialogs": 37,
+   "fullScreen": 37,
+   "radius0": 37,
+   "widths": [
+    390
+   ],
+   "horizontalScroll": 0,
+   "dialogsWithContentOutsideViewport": [
+    "Add Customer Type",
+    "Cancel document 126",
+    "Change invoice status",
+    "You have unsaved work"
+   ]
+  },
+  "479-ltr-x1": {
+   "dialogs": 37,
+   "fullScreen": 37,
+   "radius0": 37,
+   "widths": [
+    479
+   ],
+   "horizontalScroll": 0,
+   "dialogsWithContentOutsideViewport": [
+    "Add Customer Type"
+   ]
+  },
+  "480-ltr-x1": {
+   "dialogs": 37,
+   "fullScreen": 0,
+   "radius0": 0,
+   "widths": [
+    400,
+    432,
+    448,
+    456,
+    461
+   ],
+   "horizontalScroll": 0,
+   "dialogsWithContentOutsideViewport": [
+    "Add Customer Type"
+   ]
+  },
+  "768-ltr-x1": {
+   "dialogs": 37,
+   "fullScreen": 0,
+   "radius0": 0,
+   "widths": [
+    400,
+    600,
+    720
+   ],
+   "horizontalScroll": 0,
+   "dialogsWithContentOutsideViewport": [
+    "Add Customer Type"
+   ]
+  },
+  "1440-ltr-x1": {
+   "dialogs": 37,
+   "fullScreen": 0,
+   "radius0": 0,
+   "widths": [
+    400,
+    600,
+    800,
+    968
+   ],
+   "horizontalScroll": 0,
+   "dialogsWithContentOutsideViewport": [
+    "Add Customer Type"
+   ]
+  }
+ },
+ "changedAt480AndWider": 0,
+ "rows": [
+  {
+   "state": "390-ltr-x1",
+   "name": "Find value",
+   "backdrop": "customer-lookup-search-scrim",
+   "before": {
+    "left": 24,
+    "top": 219,
+    "width": 342,
+    "height": 405,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Add Customer Type",
+   "backdrop": "customer-type-add-scrim",
+   "before": {
+    "left": 24,
+    "top": 221,
+    "width": 342,
+    "height": 403,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Export",
+   "backdrop": "data-export-scrim",
+   "before": {
+    "left": 24,
+    "top": 206,
+    "width": 342,
+    "height": 432,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Filter records",
+   "backdrop": "geo-filter-scrim",
+   "before": {
+    "left": 24,
+    "top": 338,
+    "width": 342,
+    "height": 168,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Save filter",
+   "backdrop": "save-filter-scrim",
+   "before": {
+    "left": 24,
+    "top": 259,
+    "width": 342,
+    "height": 325,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Manage filters",
+   "backdrop": "manage-filters-scrim",
+   "before": {
+    "left": 24,
+    "top": 336,
+    "width": 342,
+    "height": 172,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Status change not allowed",
+   "backdrop": "kanban-blocked-scrim",
+   "before": {
+    "left": 24,
+    "top": 336,
+    "width": 342,
+    "height": 172,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Change invoice status",
+   "backdrop": "invoice-status-scrim",
+   "before": {
+    "left": 24,
+    "top": 335,
+    "width": 342,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Deactivate customer",
+   "backdrop": "customer-status-scrim",
+   "before": {
+    "left": 24,
+    "top": 326,
+    "width": 342,
+    "height": 192,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Deactivate location",
+   "backdrop": "geo-status-scrim",
+   "before": {
+    "left": 24,
+    "top": 326,
+    "width": 342,
+    "height": 192,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Location hierarchy",
+   "backdrop": "geo-hierarchy-scrim",
+   "before": {
+    "left": 24,
+    "top": 386,
+    "width": 342,
+    "height": 72,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Location details",
+   "backdrop": "geo-flow-node-scrim",
+   "before": {
+    "left": 24,
+    "top": 362,
+    "width": 342,
+    "height": 120,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Delete this tree",
+   "backdrop": "geo-delete-tree-scrim",
+   "before": {
+    "left": 24,
+    "top": 265,
+    "width": 342,
+    "height": 314,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Choose parent location",
+   "backdrop": "geo-parent-picker-scrim",
+   "before": {
+    "left": 24,
+    "top": 314,
+    "width": 342,
+    "height": 216,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Choose operation unit",
+   "backdrop": "unit-picker-scrim",
+   "before": {
+    "left": 24,
+    "top": 323,
+    "width": 342,
+    "height": 198,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Add Geo. Location",
+   "backdrop": "customer-location-add-scrim",
+   "before": {
+    "left": 24,
+    "top": 79,
+    "width": 342,
+    "height": 686,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "dlg flex min-h-0 flex-col over",
+   "backdrop": "customer-contact-dialog",
+   "before": {
+    "left": 8,
+    "top": 339,
+    "width": 374,
+    "height": 166,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Change password",
+   "backdrop": "change-password-scrim",
+   "before": {
+    "left": 24,
+    "top": 202,
+    "width": 342,
+    "height": 440,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Set / change PIN code",
+   "backdrop": "set-pin-scrim",
+   "before": {
+    "left": 24,
+    "top": 202,
+    "width": 342,
+    "height": 440,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Revoke session",
+   "backdrop": "organization-session-dialog",
+   "before": {
+    "left": 24,
+    "top": 174,
+    "width": 342,
+    "height": 496,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Post invoice 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 154,
+    "width": 342,
+    "height": 535,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Delete invoice 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 179,
+    "width": 342,
+    "height": 485,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Display Journal Entry",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 195,
+    "width": 342,
+    "height": 454,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Cancel document 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 98,
+    "width": 342,
+    "height": 649,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Change invoice status",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 334,
+    "width": 342,
+    "height": 177,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Screen Parameters",
+   "backdrop": "screen-parameters-scrim",
+   "before": {
+    "left": 24,
+    "top": 344,
+    "width": 342,
+    "height": 157,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "You have unsaved work",
+   "backdrop": "gscrim",
+   "before": {
+    "left": 24,
+    "top": 288,
+    "width": 342,
+    "height": 269,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "You have unsaved customer changes",
+   "backdrop": "customer-gscrim",
+   "before": {
+    "left": 24,
+    "top": 298,
+    "width": 342,
+    "height": 249,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Save this table layout?",
+   "backdrop": "list-layout-guard",
+   "before": {
+    "left": 24,
+    "top": 272,
+    "width": 342,
+    "height": 300,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Keyboard shortcuts",
+   "backdrop": "kscrim",
+   "before": {
+    "left": 24,
+    "top": 260,
+    "width": 342,
+    "height": 323,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Print Settings",
+   "backdrop": "pscrim",
+   "before": {
+    "left": 24,
+    "top": 79,
+    "width": 342,
+    "height": 686,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Customize your sidebar",
+   "backdrop": "cscrim",
+   "before": {
+    "left": 24,
+    "top": 209,
+    "width": 342,
+    "height": 427,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Log out?",
+   "backdrop": "loscrim",
+   "before": {
+    "left": 24,
+    "top": 317,
+    "width": 342,
+    "height": 210,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "notification-modal-dlg",
+   "backdrop": "notification-modal",
+   "before": {
+    "left": 16,
+    "top": 346,
+    "width": 358,
+    "height": 152,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "dlg flex max-h-[90vh] w-[min(6",
+   "backdrop": "collab-preview",
+   "before": {
+    "left": 24,
+    "top": 342,
+    "width": 342,
+    "height": 160,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "dlg [width:min(400px,_96vw)] r",
+   "backdrop": "collab-confirm",
+   "before": {
+    "left": 24,
+    "top": 353,
+    "width": 342,
+    "height": 139,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-ltr-x1",
+   "name": "Search filters",
+   "backdrop": "data-mail-filter-dialog",
+   "before": {
+    "left": 12,
+    "top": 184,
+    "width": 366,
+    "height": 476,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Find value",
+   "backdrop": "customer-lookup-search-scrim",
+   "before": {
+    "left": 24,
+    "top": 219,
+    "width": 342,
+    "height": 405,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Add Customer Type",
+   "backdrop": "customer-type-add-scrim",
+   "before": {
+    "left": 24,
+    "top": 221,
+    "width": 342,
+    "height": 403,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Export",
+   "backdrop": "data-export-scrim",
+   "before": {
+    "left": 24,
+    "top": 206,
+    "width": 342,
+    "height": 432,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Filter records",
+   "backdrop": "geo-filter-scrim",
+   "before": {
+    "left": 24,
+    "top": 338,
+    "width": 342,
+    "height": 168,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Save filter",
+   "backdrop": "save-filter-scrim",
+   "before": {
+    "left": 24,
+    "top": 259,
+    "width": 342,
+    "height": 325,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Manage filters",
+   "backdrop": "manage-filters-scrim",
+   "before": {
+    "left": 24,
+    "top": 336,
+    "width": 342,
+    "height": 172,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Status change not allowed",
+   "backdrop": "kanban-blocked-scrim",
+   "before": {
+    "left": 24,
+    "top": 336,
+    "width": 342,
+    "height": 172,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Change invoice status",
+   "backdrop": "invoice-status-scrim",
+   "before": {
+    "left": 24,
+    "top": 335,
+    "width": 342,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Deactivate customer",
+   "backdrop": "customer-status-scrim",
+   "before": {
+    "left": 24,
+    "top": 326,
+    "width": 342,
+    "height": 192,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Deactivate location",
+   "backdrop": "geo-status-scrim",
+   "before": {
+    "left": 24,
+    "top": 326,
+    "width": 342,
+    "height": 192,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Location hierarchy",
+   "backdrop": "geo-hierarchy-scrim",
+   "before": {
+    "left": 24,
+    "top": 386,
+    "width": 342,
+    "height": 72,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Location details",
+   "backdrop": "geo-flow-node-scrim",
+   "before": {
+    "left": 24,
+    "top": 362,
+    "width": 342,
+    "height": 120,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Delete this tree",
+   "backdrop": "geo-delete-tree-scrim",
+   "before": {
+    "left": 24,
+    "top": 265,
+    "width": 342,
+    "height": 314,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Choose parent location",
+   "backdrop": "geo-parent-picker-scrim",
+   "before": {
+    "left": 24,
+    "top": 314,
+    "width": 342,
+    "height": 216,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Choose operation unit",
+   "backdrop": "unit-picker-scrim",
+   "before": {
+    "left": 24,
+    "top": 323,
+    "width": 342,
+    "height": 198,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Add Geo. Location",
+   "backdrop": "customer-location-add-scrim",
+   "before": {
+    "left": 24,
+    "top": 79,
+    "width": 342,
+    "height": 686,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "dlg flex min-h-0 flex-col over",
+   "backdrop": "customer-contact-dialog",
+   "before": {
+    "left": 8,
+    "top": 339,
+    "width": 374,
+    "height": 166,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Change password",
+   "backdrop": "change-password-scrim",
+   "before": {
+    "left": 24,
+    "top": 202,
+    "width": 342,
+    "height": 440,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Set / change PIN code",
+   "backdrop": "set-pin-scrim",
+   "before": {
+    "left": 24,
+    "top": 202,
+    "width": 342,
+    "height": 440,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Revoke session",
+   "backdrop": "organization-session-dialog",
+   "before": {
+    "left": 24,
+    "top": 174,
+    "width": 342,
+    "height": 496,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Post invoice 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 154,
+    "width": 342,
+    "height": 535,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Delete invoice 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 179,
+    "width": 342,
+    "height": 485,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Display Journal Entry",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 195,
+    "width": 342,
+    "height": 454,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Cancel document 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 98,
+    "width": 342,
+    "height": 649,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Change invoice status",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 334,
+    "width": 342,
+    "height": 177,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Screen Parameters",
+   "backdrop": "screen-parameters-scrim",
+   "before": {
+    "left": 24,
+    "top": 344,
+    "width": 342,
+    "height": 157,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "You have unsaved work",
+   "backdrop": "gscrim",
+   "before": {
+    "left": 24,
+    "top": 288,
+    "width": 342,
+    "height": 269,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "You have unsaved customer changes",
+   "backdrop": "customer-gscrim",
+   "before": {
+    "left": 24,
+    "top": 298,
+    "width": 342,
+    "height": 249,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Save this table layout?",
+   "backdrop": "list-layout-guard",
+   "before": {
+    "left": 24,
+    "top": 272,
+    "width": 342,
+    "height": 300,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Keyboard shortcuts",
+   "backdrop": "kscrim",
+   "before": {
+    "left": 24,
+    "top": 260,
+    "width": 342,
+    "height": 323,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Print Settings",
+   "backdrop": "pscrim",
+   "before": {
+    "left": 24,
+    "top": 79,
+    "width": 342,
+    "height": 686,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Customize your sidebar",
+   "backdrop": "cscrim",
+   "before": {
+    "left": 24,
+    "top": 209,
+    "width": 342,
+    "height": 427,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Log out?",
+   "backdrop": "loscrim",
+   "before": {
+    "left": 24,
+    "top": 317,
+    "width": 342,
+    "height": 210,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "notification-modal-dlg",
+   "backdrop": "notification-modal",
+   "before": {
+    "left": 16,
+    "top": 346,
+    "width": 358,
+    "height": 152,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "dlg flex max-h-[90vh] w-[min(6",
+   "backdrop": "collab-preview",
+   "before": {
+    "left": 24,
+    "top": 342,
+    "width": 342,
+    "height": 160,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "dlg [width:min(400px,_96vw)] r",
+   "backdrop": "collab-confirm",
+   "before": {
+    "left": 24,
+    "top": 353,
+    "width": 342,
+    "height": 139,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-rtl-x1",
+   "name": "Search filters",
+   "backdrop": "data-mail-filter-dialog",
+   "before": {
+    "left": 12,
+    "top": 184,
+    "width": 366,
+    "height": 476,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Find value",
+   "backdrop": "customer-lookup-search-scrim",
+   "before": {
+    "left": 24,
+    "top": 219,
+    "width": 342,
+    "height": 405,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Add Customer Type",
+   "backdrop": "customer-type-add-scrim",
+   "before": {
+    "left": 24,
+    "top": 221,
+    "width": 342,
+    "height": 403,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Export",
+   "backdrop": "data-export-scrim",
+   "before": {
+    "left": 24,
+    "top": 206,
+    "width": 342,
+    "height": 432,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Filter records",
+   "backdrop": "geo-filter-scrim",
+   "before": {
+    "left": 24,
+    "top": 338,
+    "width": 342,
+    "height": 168,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Save filter",
+   "backdrop": "save-filter-scrim",
+   "before": {
+    "left": 24,
+    "top": 259,
+    "width": 342,
+    "height": 325,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Manage filters",
+   "backdrop": "manage-filters-scrim",
+   "before": {
+    "left": 24,
+    "top": 336,
+    "width": 342,
+    "height": 172,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Status change not allowed",
+   "backdrop": "kanban-blocked-scrim",
+   "before": {
+    "left": 24,
+    "top": 336,
+    "width": 342,
+    "height": 172,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Change invoice status",
+   "backdrop": "invoice-status-scrim",
+   "before": {
+    "left": 24,
+    "top": 302,
+    "width": 342,
+    "height": 240,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 30
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Deactivate customer",
+   "backdrop": "customer-status-scrim",
+   "before": {
+    "left": 24,
+    "top": 302,
+    "width": 342,
+    "height": 240,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 30
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Deactivate location",
+   "backdrop": "geo-status-scrim",
+   "before": {
+    "left": 24,
+    "top": 302,
+    "width": 342,
+    "height": 240,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 30
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Location hierarchy",
+   "backdrop": "geo-hierarchy-scrim",
+   "before": {
+    "left": 24,
+    "top": 386,
+    "width": 342,
+    "height": 72,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Location details",
+   "backdrop": "geo-flow-node-scrim",
+   "before": {
+    "left": 24,
+    "top": 362,
+    "width": 342,
+    "height": 120,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Delete this tree",
+   "backdrop": "geo-delete-tree-scrim",
+   "before": {
+    "left": 24,
+    "top": 265,
+    "width": 342,
+    "height": 314,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Choose parent location",
+   "backdrop": "geo-parent-picker-scrim",
+   "before": {
+    "left": 24,
+    "top": 314,
+    "width": 342,
+    "height": 216,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Choose operation unit",
+   "backdrop": "unit-picker-scrim",
+   "before": {
+    "left": 24,
+    "top": 323,
+    "width": 342,
+    "height": 198,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Add Geo. Location",
+   "backdrop": "customer-location-add-scrim",
+   "before": {
+    "left": 24,
+    "top": 79,
+    "width": 342,
+    "height": 686,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "dlg flex min-h-0 flex-col over",
+   "backdrop": "customer-contact-dialog",
+   "before": {
+    "left": 8,
+    "top": 339,
+    "width": 374,
+    "height": 166,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Change password",
+   "backdrop": "change-password-scrim",
+   "before": {
+    "left": 24,
+    "top": 137,
+    "width": 342,
+    "height": 571,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 30
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Set / change PIN code",
+   "backdrop": "set-pin-scrim",
+   "before": {
+    "left": 24,
+    "top": 122,
+    "width": 342,
+    "height": 600,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 30
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Revoke session",
+   "backdrop": "organization-session-dialog",
+   "before": {
+    "left": 24,
+    "top": 63,
+    "width": 342,
+    "height": 717,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 30
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Post invoice 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 42,
+    "width": 342,
+    "height": 760,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 30
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Delete invoice 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 72,
+    "width": 342,
+    "height": 700,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 30
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Display Journal Entry",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 106,
+    "width": 342,
+    "height": 633,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 30
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Cancel document 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 42,
+    "width": 342,
+    "height": 760,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 30
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Change invoice status",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 300,
+    "width": 342,
+    "height": 244,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 30
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Screen Parameters",
+   "backdrop": "screen-parameters-scrim",
+   "before": {
+    "left": 24,
+    "top": 313,
+    "width": 342,
+    "height": 219,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "You have unsaved work",
+   "backdrop": "gscrim",
+   "before": {
+    "left": 24,
+    "top": 230,
+    "width": 342,
+    "height": 385,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 10
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "You have unsaved customer changes",
+   "backdrop": "customer-gscrim",
+   "before": {
+    "left": 24,
+    "top": 256,
+    "width": 342,
+    "height": 332,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 10
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Save this table layout?",
+   "backdrop": "list-layout-guard",
+   "before": {
+    "left": 24,
+    "top": 210,
+    "width": 342,
+    "height": 424,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 10
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Keyboard shortcuts",
+   "backdrop": "kscrim",
+   "before": {
+    "left": 24,
+    "top": 260,
+    "width": 342,
+    "height": 323,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Print Settings",
+   "backdrop": "pscrim",
+   "before": {
+    "left": 24,
+    "top": 42,
+    "width": 342,
+    "height": 760,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 10
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Customize your sidebar",
+   "backdrop": "cscrim",
+   "before": {
+    "left": 24,
+    "top": 96,
+    "width": 342,
+    "height": 653,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 10
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Log out?",
+   "backdrop": "loscrim",
+   "before": {
+    "left": 24,
+    "top": 267,
+    "width": 342,
+    "height": 310,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 10
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "notification-modal-dlg",
+   "backdrop": "notification-modal",
+   "before": {
+    "left": 16,
+    "top": 346,
+    "width": 358,
+    "height": 152,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "dlg flex max-h-[90vh] w-[min(6",
+   "backdrop": "collab-preview",
+   "before": {
+    "left": 24,
+    "top": 322,
+    "width": 342,
+    "height": 200,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 10
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "dlg [width:min(400px,_96vw)] r",
+   "backdrop": "collab-confirm",
+   "before": {
+    "left": 24,
+    "top": 335,
+    "width": 342,
+    "height": 173,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 30
+   }
+  },
+  {
+   "state": "390-ltr-x1.25",
+   "name": "Search filters",
+   "backdrop": "data-mail-filter-dialog",
+   "before": {
+    "left": 12,
+    "top": 184,
+    "width": 366,
+    "height": 476,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 390,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Find value",
+   "backdrop": "customer-lookup-search-scrim",
+   "before": {
+    "left": 24,
+    "top": 219,
+    "width": 431,
+    "height": 405,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Add Customer Type",
+   "backdrop": "customer-type-add-scrim",
+   "before": {
+    "left": 24,
+    "top": 230,
+    "width": 431,
+    "height": 385,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Export",
+   "backdrop": "data-export-scrim",
+   "before": {
+    "left": 24,
+    "top": 234,
+    "width": 431,
+    "height": 376,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Filter records",
+   "backdrop": "geo-filter-scrim",
+   "before": {
+    "left": 24,
+    "top": 338,
+    "width": 431,
+    "height": 168,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Save filter",
+   "backdrop": "save-filter-scrim",
+   "before": {
+    "left": 24,
+    "top": 269,
+    "width": 431,
+    "height": 307,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Manage filters",
+   "backdrop": "manage-filters-scrim",
+   "before": {
+    "left": 24,
+    "top": 336,
+    "width": 431,
+    "height": 172,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Status change not allowed",
+   "backdrop": "kanban-blocked-scrim",
+   "before": {
+    "left": 24,
+    "top": 345,
+    "width": 431,
+    "height": 154,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Change invoice status",
+   "backdrop": "invoice-status-scrim",
+   "before": {
+    "left": 24,
+    "top": 335,
+    "width": 431,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Deactivate customer",
+   "backdrop": "customer-status-scrim",
+   "before": {
+    "left": 24,
+    "top": 335,
+    "width": 431,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Deactivate location",
+   "backdrop": "geo-status-scrim",
+   "before": {
+    "left": 24,
+    "top": 335,
+    "width": 431,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Location hierarchy",
+   "backdrop": "geo-hierarchy-scrim",
+   "before": {
+    "left": 24,
+    "top": 386,
+    "width": 431,
+    "height": 72,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Location details",
+   "backdrop": "geo-flow-node-scrim",
+   "before": {
+    "left": 24,
+    "top": 362,
+    "width": 431,
+    "height": 120,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Delete this tree",
+   "backdrop": "geo-delete-tree-scrim",
+   "before": {
+    "left": 24,
+    "top": 274,
+    "width": 431,
+    "height": 296,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Choose parent location",
+   "backdrop": "geo-parent-picker-scrim",
+   "before": {
+    "left": 24,
+    "top": 314,
+    "width": 431,
+    "height": 216,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Choose operation unit",
+   "backdrop": "unit-picker-scrim",
+   "before": {
+    "left": 24,
+    "top": 323,
+    "width": 431,
+    "height": 198,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Add Geo. Location",
+   "backdrop": "customer-location-add-scrim",
+   "before": {
+    "left": 24,
+    "top": 79,
+    "width": 431,
+    "height": 686,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "dlg flex min-h-0 flex-col over",
+   "backdrop": "customer-contact-dialog",
+   "before": {
+    "left": 10,
+    "top": 339,
+    "width": 460,
+    "height": 166,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Change password",
+   "backdrop": "change-password-scrim",
+   "before": {
+    "left": 40,
+    "top": 202,
+    "width": 400,
+    "height": 440,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Set / change PIN code",
+   "backdrop": "set-pin-scrim",
+   "before": {
+    "left": 40,
+    "top": 211,
+    "width": 400,
+    "height": 422,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Revoke session",
+   "backdrop": "organization-session-dialog",
+   "before": {
+    "left": 40,
+    "top": 184,
+    "width": 400,
+    "height": 476,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Post invoice 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 175,
+    "width": 431,
+    "height": 495,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Delete invoice 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 219,
+    "width": 431,
+    "height": 406,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Display Journal Entry",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 224,
+    "width": 431,
+    "height": 397,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Cancel document 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 134,
+    "width": 431,
+    "height": 576,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Change invoice status",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 335,
+    "width": 431,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Screen Parameters",
+   "backdrop": "screen-parameters-scrim",
+   "before": {
+    "left": 24,
+    "top": 353,
+    "width": 431,
+    "height": 139,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "You have unsaved work",
+   "backdrop": "gscrim",
+   "before": {
+    "left": 24,
+    "top": 288,
+    "width": 431,
+    "height": 269,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "You have unsaved customer changes",
+   "backdrop": "customer-gscrim",
+   "before": {
+    "left": 24,
+    "top": 309,
+    "width": 431,
+    "height": 225,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Save this table layout?",
+   "backdrop": "list-layout-guard",
+   "before": {
+    "left": 24,
+    "top": 283,
+    "width": 431,
+    "height": 278,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Keyboard shortcuts",
+   "backdrop": "kscrim",
+   "before": {
+    "left": 24,
+    "top": 269,
+    "width": 431,
+    "height": 306,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Print Settings",
+   "backdrop": "pscrim",
+   "before": {
+    "left": 24,
+    "top": 80,
+    "width": 431,
+    "height": 683,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Customize your sidebar",
+   "backdrop": "cscrim",
+   "before": {
+    "left": 24,
+    "top": 230,
+    "width": 431,
+    "height": 384,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Log out?",
+   "backdrop": "loscrim",
+   "before": {
+    "left": 40,
+    "top": 317,
+    "width": 400,
+    "height": 210,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "notification-modal-dlg",
+   "backdrop": "notification-modal",
+   "before": {
+    "left": 16,
+    "top": 346,
+    "width": 447,
+    "height": 152,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "dlg flex max-h-[90vh] w-[min(6",
+   "backdrop": "collab-preview",
+   "before": {
+    "left": 24,
+    "top": 342,
+    "width": 431,
+    "height": 160,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "dlg [width:min(400px,_96vw)] r",
+   "backdrop": "collab-confirm",
+   "before": {
+    "left": 40,
+    "top": 353,
+    "width": 400,
+    "height": 139,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 24
+   }
+  },
+  {
+   "state": "479-ltr-x1",
+   "name": "Search filters",
+   "backdrop": "data-mail-filter-dialog",
+   "before": {
+    "left": 12,
+    "top": 184,
+    "width": 455,
+    "height": 476,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 0,
+    "top": 0,
+    "width": 479,
+    "height": 844,
+    "radius": "0px",
+    "footerGap": 8
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Find value",
+   "backdrop": "customer-lookup-search-scrim",
+   "before": {
+    "left": 24,
+    "top": 219,
+    "width": 432,
+    "height": 405,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 219,
+    "width": 432,
+    "height": 405,
+    "radius": "12px",
+    "footerGap": 227
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Add Customer Type",
+   "backdrop": "customer-type-add-scrim",
+   "before": {
+    "left": 24,
+    "top": 230,
+    "width": 432,
+    "height": 385,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 230,
+    "width": 432,
+    "height": 385,
+    "radius": "12px",
+    "footerGap": 238
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Export",
+   "backdrop": "data-export-scrim",
+   "before": {
+    "left": 24,
+    "top": 234,
+    "width": 432,
+    "height": 376,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 234,
+    "width": 432,
+    "height": 376,
+    "radius": "12px",
+    "footerGap": 242
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Filter records",
+   "backdrop": "geo-filter-scrim",
+   "before": {
+    "left": 24,
+    "top": 338,
+    "width": 432,
+    "height": 168,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 338,
+    "width": 432,
+    "height": 168,
+    "radius": "12px",
+    "footerGap": 346
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Save filter",
+   "backdrop": "save-filter-scrim",
+   "before": {
+    "left": 24,
+    "top": 269,
+    "width": 432,
+    "height": 307,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 269,
+    "width": 432,
+    "height": 307,
+    "radius": "12px",
+    "footerGap": 277
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Manage filters",
+   "backdrop": "manage-filters-scrim",
+   "before": {
+    "left": 24,
+    "top": 336,
+    "width": 432,
+    "height": 172,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 336,
+    "width": 432,
+    "height": 172,
+    "radius": "12px",
+    "footerGap": 344
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Status change not allowed",
+   "backdrop": "kanban-blocked-scrim",
+   "before": {
+    "left": 24,
+    "top": 345,
+    "width": 432,
+    "height": 154,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 345,
+    "width": 432,
+    "height": 154,
+    "radius": "12px",
+    "footerGap": 353
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Change invoice status",
+   "backdrop": "invoice-status-scrim",
+   "before": {
+    "left": 24,
+    "top": 335,
+    "width": 432,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 335,
+    "width": 432,
+    "height": 174,
+    "radius": "12px",
+    "footerGap": 359
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Deactivate customer",
+   "backdrop": "customer-status-scrim",
+   "before": {
+    "left": 24,
+    "top": 335,
+    "width": 432,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 335,
+    "width": 432,
+    "height": 174,
+    "radius": "12px",
+    "footerGap": 359
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Deactivate location",
+   "backdrop": "geo-status-scrim",
+   "before": {
+    "left": 24,
+    "top": 335,
+    "width": 432,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 335,
+    "width": 432,
+    "height": 174,
+    "radius": "12px",
+    "footerGap": 359
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Location hierarchy",
+   "backdrop": "geo-hierarchy-scrim",
+   "before": {
+    "left": 24,
+    "top": 386,
+    "width": 432,
+    "height": 72,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 386,
+    "width": 432,
+    "height": 72,
+    "radius": "12px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Location details",
+   "backdrop": "geo-flow-node-scrim",
+   "before": {
+    "left": 24,
+    "top": 362,
+    "width": 432,
+    "height": 120,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 362,
+    "width": 432,
+    "height": 120,
+    "radius": "12px",
+    "footerGap": 370
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Delete this tree",
+   "backdrop": "geo-delete-tree-scrim",
+   "before": {
+    "left": 24,
+    "top": 274,
+    "width": 432,
+    "height": 296,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 274,
+    "width": 432,
+    "height": 296,
+    "radius": "12px",
+    "footerGap": 282
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Choose parent location",
+   "backdrop": "geo-parent-picker-scrim",
+   "before": {
+    "left": 24,
+    "top": 314,
+    "width": 432,
+    "height": 216,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 314,
+    "width": 432,
+    "height": 216,
+    "radius": "12px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Choose operation unit",
+   "backdrop": "unit-picker-scrim",
+   "before": {
+    "left": 24,
+    "top": 323,
+    "width": 432,
+    "height": 198,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 323,
+    "width": 432,
+    "height": 198,
+    "radius": "12px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Add Geo. Location",
+   "backdrop": "customer-location-add-scrim",
+   "before": {
+    "left": 24,
+    "top": 79,
+    "width": 432,
+    "height": 686,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 79,
+    "width": 432,
+    "height": 686,
+    "radius": "12px",
+    "footerGap": 87
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "dlg flex min-h-0 flex-col over",
+   "backdrop": "customer-contact-dialog",
+   "before": {
+    "left": 10,
+    "top": 339,
+    "width": 461,
+    "height": 166,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 10,
+    "top": 339,
+    "width": 461,
+    "height": 166,
+    "radius": "12px",
+    "footerGap": 347
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Change password",
+   "backdrop": "change-password-scrim",
+   "before": {
+    "left": 40,
+    "top": 202,
+    "width": 400,
+    "height": 440,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 40,
+    "top": 202,
+    "width": 400,
+    "height": 440,
+    "radius": "12px",
+    "footerGap": 226
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Set / change PIN code",
+   "backdrop": "set-pin-scrim",
+   "before": {
+    "left": 40,
+    "top": 211,
+    "width": 400,
+    "height": 422,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 40,
+    "top": 211,
+    "width": 400,
+    "height": 422,
+    "radius": "12px",
+    "footerGap": 235
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Revoke session",
+   "backdrop": "organization-session-dialog",
+   "before": {
+    "left": 40,
+    "top": 184,
+    "width": 400,
+    "height": 476,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 40,
+    "top": 184,
+    "width": 400,
+    "height": 476,
+    "radius": "12px",
+    "footerGap": 208
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Post invoice 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 175,
+    "width": 432,
+    "height": 495,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 175,
+    "width": 432,
+    "height": 495,
+    "radius": "12px",
+    "footerGap": 199
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Delete invoice 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 219,
+    "width": 432,
+    "height": 406,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 219,
+    "width": 432,
+    "height": 406,
+    "radius": "12px",
+    "footerGap": 243
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Display Journal Entry",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 224,
+    "width": 432,
+    "height": 397,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 224,
+    "width": 432,
+    "height": 397,
+    "radius": "12px",
+    "footerGap": 248
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Cancel document 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 134,
+    "width": 432,
+    "height": 576,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 134,
+    "width": 432,
+    "height": 576,
+    "radius": "12px",
+    "footerGap": 158
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Change invoice status",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 335,
+    "width": 432,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 335,
+    "width": 432,
+    "height": 174,
+    "radius": "12px",
+    "footerGap": 359
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Screen Parameters",
+   "backdrop": "screen-parameters-scrim",
+   "before": {
+    "left": 24,
+    "top": 353,
+    "width": 432,
+    "height": 139,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 353,
+    "width": 432,
+    "height": 139,
+    "radius": "12px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "You have unsaved work",
+   "backdrop": "gscrim",
+   "before": {
+    "left": 24,
+    "top": 288,
+    "width": 432,
+    "height": 269,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 288,
+    "width": 432,
+    "height": 269,
+    "radius": "12px",
+    "footerGap": 296
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "You have unsaved customer changes",
+   "backdrop": "customer-gscrim",
+   "before": {
+    "left": 24,
+    "top": 309,
+    "width": 432,
+    "height": 225,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 309,
+    "width": 432,
+    "height": 225,
+    "radius": "12px",
+    "footerGap": 317
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Save this table layout?",
+   "backdrop": "list-layout-guard",
+   "before": {
+    "left": 24,
+    "top": 283,
+    "width": 432,
+    "height": 278,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 283,
+    "width": 432,
+    "height": 278,
+    "radius": "12px",
+    "footerGap": 291
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Keyboard shortcuts",
+   "backdrop": "kscrim",
+   "before": {
+    "left": 24,
+    "top": 269,
+    "width": 432,
+    "height": 306,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 269,
+    "width": 432,
+    "height": 306,
+    "radius": "12px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Print Settings",
+   "backdrop": "pscrim",
+   "before": {
+    "left": 24,
+    "top": 80,
+    "width": 432,
+    "height": 683,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 80,
+    "width": 432,
+    "height": 683,
+    "radius": "12px",
+    "footerGap": 88
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Customize your sidebar",
+   "backdrop": "cscrim",
+   "before": {
+    "left": 24,
+    "top": 230,
+    "width": 432,
+    "height": 384,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 230,
+    "width": 432,
+    "height": 384,
+    "radius": "12px",
+    "footerGap": 238
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Log out?",
+   "backdrop": "loscrim",
+   "before": {
+    "left": 40,
+    "top": 317,
+    "width": 400,
+    "height": 210,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 40,
+    "top": 317,
+    "width": 400,
+    "height": 210,
+    "radius": "12px",
+    "footerGap": 325
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "notification-modal-dlg",
+   "backdrop": "notification-modal",
+   "before": {
+    "left": 16,
+    "top": 346,
+    "width": 448,
+    "height": 152,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 16,
+    "top": 346,
+    "width": 448,
+    "height": 152,
+    "radius": "12px",
+    "footerGap": 370
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "dlg flex max-h-[90vh] w-[min(6",
+   "backdrop": "collab-preview",
+   "before": {
+    "left": 24,
+    "top": 342,
+    "width": 432,
+    "height": 160,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 342,
+    "width": 432,
+    "height": 160,
+    "radius": "12px",
+    "footerGap": 350
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "dlg [width:min(400px,_96vw)] r",
+   "backdrop": "collab-confirm",
+   "before": {
+    "left": 40,
+    "top": 353,
+    "width": 400,
+    "height": 139,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 40,
+    "top": 353,
+    "width": 400,
+    "height": 139,
+    "radius": "12px",
+    "footerGap": 377
+   }
+  },
+  {
+   "state": "480-ltr-x1",
+   "name": "Search filters",
+   "backdrop": "data-mail-filter-dialog",
+   "before": {
+    "left": 12,
+    "top": 184,
+    "width": 456,
+    "height": 476,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 12,
+    "top": 184,
+    "width": 456,
+    "height": 476,
+    "radius": "12px",
+    "footerGap": 192
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Find value",
+   "backdrop": "customer-lookup-search-scrim",
+   "before": {
+    "left": 24,
+    "top": 345,
+    "width": 720,
+    "height": 333,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 345,
+    "width": 720,
+    "height": 333,
+    "radius": "12px",
+    "footerGap": 353
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Add Customer Type",
+   "backdrop": "customer-type-add-scrim",
+   "before": {
+    "left": 84,
+    "top": 320,
+    "width": 600,
+    "height": 385,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 320,
+    "width": 600,
+    "height": 385,
+    "radius": "12px",
+    "footerGap": 328
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Export",
+   "backdrop": "data-export-scrim",
+   "before": {
+    "left": 24,
+    "top": 324,
+    "width": 720,
+    "height": 376,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 324,
+    "width": 720,
+    "height": 376,
+    "radius": "12px",
+    "footerGap": 332
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Filter records",
+   "backdrop": "geo-filter-scrim",
+   "before": {
+    "left": 24,
+    "top": 428,
+    "width": 720,
+    "height": 168,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 428,
+    "width": 720,
+    "height": 168,
+    "radius": "12px",
+    "footerGap": 436
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Save filter",
+   "backdrop": "save-filter-scrim",
+   "before": {
+    "left": 24,
+    "top": 359,
+    "width": 720,
+    "height": 307,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 359,
+    "width": 720,
+    "height": 307,
+    "radius": "12px",
+    "footerGap": 367
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Manage filters",
+   "backdrop": "manage-filters-scrim",
+   "before": {
+    "left": 24,
+    "top": 435,
+    "width": 720,
+    "height": 154,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 435,
+    "width": 720,
+    "height": 154,
+    "radius": "12px",
+    "footerGap": 443
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Status change not allowed",
+   "backdrop": "kanban-blocked-scrim",
+   "before": {
+    "left": 24,
+    "top": 435,
+    "width": 720,
+    "height": 154,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 435,
+    "width": 720,
+    "height": 154,
+    "radius": "12px",
+    "footerGap": 443
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Change invoice status",
+   "backdrop": "invoice-status-scrim",
+   "before": {
+    "left": 84,
+    "top": 425,
+    "width": 600,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 425,
+    "width": 600,
+    "height": 174,
+    "radius": "12px",
+    "footerGap": 449
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Deactivate customer",
+   "backdrop": "customer-status-scrim",
+   "before": {
+    "left": 84,
+    "top": 425,
+    "width": 600,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 425,
+    "width": 600,
+    "height": 174,
+    "radius": "12px",
+    "footerGap": 449
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Deactivate location",
+   "backdrop": "geo-status-scrim",
+   "before": {
+    "left": 84,
+    "top": 425,
+    "width": 600,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 425,
+    "width": 600,
+    "height": 174,
+    "radius": "12px",
+    "footerGap": 449
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Location hierarchy",
+   "backdrop": "geo-hierarchy-scrim",
+   "before": {
+    "left": 84,
+    "top": 476,
+    "width": 600,
+    "height": 72,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 476,
+    "width": 600,
+    "height": 72,
+    "radius": "12px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Location details",
+   "backdrop": "geo-flow-node-scrim",
+   "before": {
+    "left": 84,
+    "top": 452,
+    "width": 600,
+    "height": 120,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 452,
+    "width": 600,
+    "height": 120,
+    "radius": "12px",
+    "footerGap": 460
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Delete this tree",
+   "backdrop": "geo-delete-tree-scrim",
+   "before": {
+    "left": 84,
+    "top": 374,
+    "width": 600,
+    "height": 276,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 374,
+    "width": 600,
+    "height": 276,
+    "radius": "12px",
+    "footerGap": 382
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Choose parent location",
+   "backdrop": "geo-parent-picker-scrim",
+   "before": {
+    "left": 84,
+    "top": 413,
+    "width": 600,
+    "height": 198,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 413,
+    "width": 600,
+    "height": 198,
+    "radius": "12px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Choose operation unit",
+   "backdrop": "unit-picker-scrim",
+   "before": {
+    "left": 24,
+    "top": 413,
+    "width": 720,
+    "height": 198,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 413,
+    "width": 720,
+    "height": 198,
+    "radius": "12px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Add Geo. Location",
+   "backdrop": "customer-location-add-scrim",
+   "before": {
+    "left": 24,
+    "top": 242,
+    "width": 720,
+    "height": 540,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 242,
+    "width": 720,
+    "height": 540,
+    "radius": "12px",
+    "footerGap": 250
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "dlg flex min-h-0 flex-col over",
+   "backdrop": "customer-contact-dialog",
+   "before": {
+    "left": 24,
+    "top": 432,
+    "width": 720,
+    "height": 160,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 432,
+    "width": 720,
+    "height": 160,
+    "radius": "12px",
+    "footerGap": 440
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Change password",
+   "backdrop": "change-password-scrim",
+   "before": {
+    "left": 184,
+    "top": 292,
+    "width": 400,
+    "height": 440,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 184,
+    "top": 292,
+    "width": 400,
+    "height": 440,
+    "radius": "12px",
+    "footerGap": 316
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Set / change PIN code",
+   "backdrop": "set-pin-scrim",
+   "before": {
+    "left": 184,
+    "top": 301,
+    "width": 400,
+    "height": 422,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 184,
+    "top": 301,
+    "width": 400,
+    "height": 422,
+    "radius": "12px",
+    "footerGap": 325
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Revoke session",
+   "backdrop": "organization-session-dialog",
+   "before": {
+    "left": 184,
+    "top": 274,
+    "width": 400,
+    "height": 476,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 184,
+    "top": 274,
+    "width": 400,
+    "height": 476,
+    "radius": "12px",
+    "footerGap": 298
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Post invoice 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 84,
+    "top": 284,
+    "width": 600,
+    "height": 456,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 284,
+    "width": 600,
+    "height": 456,
+    "radius": "12px",
+    "footerGap": 308
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Delete invoice 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 84,
+    "top": 328,
+    "width": 600,
+    "height": 368,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 328,
+    "width": 600,
+    "height": 368,
+    "radius": "12px",
+    "footerGap": 352
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Display Journal Entry",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 24,
+    "top": 365,
+    "width": 720,
+    "height": 294,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 365,
+    "width": 720,
+    "height": 294,
+    "radius": "12px",
+    "footerGap": 389
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Cancel document 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 84,
+    "top": 274,
+    "width": 600,
+    "height": 476,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 274,
+    "width": 600,
+    "height": 476,
+    "radius": "12px",
+    "footerGap": 298
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Change invoice status",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 84,
+    "top": 425,
+    "width": 600,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 425,
+    "width": 600,
+    "height": 174,
+    "radius": "12px",
+    "footerGap": 449
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Screen Parameters",
+   "backdrop": "screen-parameters-scrim",
+   "before": {
+    "left": 24,
+    "top": 443,
+    "width": 720,
+    "height": 139,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 443,
+    "width": 720,
+    "height": 139,
+    "radius": "12px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "You have unsaved work",
+   "backdrop": "gscrim",
+   "before": {
+    "left": 84,
+    "top": 389,
+    "width": 600,
+    "height": 247,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 389,
+    "width": 600,
+    "height": 247,
+    "radius": "12px",
+    "footerGap": 397
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "You have unsaved customer changes",
+   "backdrop": "customer-gscrim",
+   "before": {
+    "left": 84,
+    "top": 420,
+    "width": 600,
+    "height": 183,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 420,
+    "width": 600,
+    "height": 183,
+    "radius": "12px",
+    "footerGap": 428
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Save this table layout?",
+   "backdrop": "list-layout-guard",
+   "before": {
+    "left": 84,
+    "top": 405,
+    "width": 600,
+    "height": 215,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 405,
+    "width": 600,
+    "height": 215,
+    "radius": "12px",
+    "footerGap": 413
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Keyboard shortcuts",
+   "backdrop": "kscrim",
+   "before": {
+    "left": 84,
+    "top": 359,
+    "width": 600,
+    "height": 306,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 359,
+    "width": 600,
+    "height": 306,
+    "radius": "12px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Print Settings",
+   "backdrop": "pscrim",
+   "before": {
+    "left": 24,
+    "top": 267,
+    "width": 720,
+    "height": 491,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 267,
+    "width": 720,
+    "height": 491,
+    "radius": "12px",
+    "footerGap": 275
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Customize your sidebar",
+   "backdrop": "cscrim",
+   "before": {
+    "left": 24,
+    "top": 338,
+    "width": 720,
+    "height": 347,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 24,
+    "top": 338,
+    "width": 720,
+    "height": 347,
+    "radius": "12px",
+    "footerGap": 346
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Log out?",
+   "backdrop": "loscrim",
+   "before": {
+    "left": 184,
+    "top": 407,
+    "width": 400,
+    "height": 210,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 184,
+    "top": 407,
+    "width": 400,
+    "height": 210,
+    "radius": "12px",
+    "footerGap": 415
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "notification-modal-dlg",
+   "backdrop": "notification-modal",
+   "before": {
+    "left": 84,
+    "top": 436,
+    "width": 600,
+    "height": 152,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 436,
+    "width": 600,
+    "height": 152,
+    "radius": "12px",
+    "footerGap": 460
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "dlg flex max-h-[90vh] w-[min(6",
+   "backdrop": "collab-preview",
+   "before": {
+    "left": 84,
+    "top": 432,
+    "width": 600,
+    "height": 160,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 432,
+    "width": 600,
+    "height": 160,
+    "radius": "12px",
+    "footerGap": 440
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "dlg [width:min(400px,_96vw)] r",
+   "backdrop": "collab-confirm",
+   "before": {
+    "left": 184,
+    "top": 443,
+    "width": 400,
+    "height": 139,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 184,
+    "top": 443,
+    "width": 400,
+    "height": 139,
+    "radius": "12px",
+    "footerGap": 467
+   }
+  },
+  {
+   "state": "768-ltr-x1",
+   "name": "Search filters",
+   "backdrop": "data-mail-filter-dialog",
+   "before": {
+    "left": 84,
+    "top": 274,
+    "width": 600,
+    "height": 476,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 84,
+    "top": 274,
+    "width": 600,
+    "height": 476,
+    "radius": "12px",
+    "footerGap": 282
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Find value",
+   "backdrop": "customer-lookup-search-scrim",
+   "before": {
+    "left": 236,
+    "top": 283,
+    "width": 968,
+    "height": 333,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 236,
+    "top": 283,
+    "width": 968,
+    "height": 333,
+    "radius": "12px",
+    "footerGap": 291
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Add Customer Type",
+   "backdrop": "customer-type-add-scrim",
+   "before": {
+    "left": 420,
+    "top": 258,
+    "width": 600,
+    "height": 385,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 258,
+    "width": 600,
+    "height": 385,
+    "radius": "12px",
+    "footerGap": 266
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Export",
+   "backdrop": "data-export-scrim",
+   "before": {
+    "left": 320,
+    "top": 262,
+    "width": 800,
+    "height": 376,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 320,
+    "top": 262,
+    "width": 800,
+    "height": 376,
+    "radius": "12px",
+    "footerGap": 270
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Filter records",
+   "backdrop": "geo-filter-scrim",
+   "before": {
+    "left": 320,
+    "top": 366,
+    "width": 800,
+    "height": 168,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 320,
+    "top": 366,
+    "width": 800,
+    "height": 168,
+    "radius": "12px",
+    "footerGap": 374
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Save filter",
+   "backdrop": "save-filter-scrim",
+   "before": {
+    "left": 320,
+    "top": 297,
+    "width": 800,
+    "height": 307,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 320,
+    "top": 297,
+    "width": 800,
+    "height": 307,
+    "radius": "12px",
+    "footerGap": 305
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Manage filters",
+   "backdrop": "manage-filters-scrim",
+   "before": {
+    "left": 320,
+    "top": 373,
+    "width": 800,
+    "height": 154,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 320,
+    "top": 373,
+    "width": 800,
+    "height": 154,
+    "radius": "12px",
+    "footerGap": 381
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Status change not allowed",
+   "backdrop": "kanban-blocked-scrim",
+   "before": {
+    "left": 320,
+    "top": 373,
+    "width": 800,
+    "height": 154,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 320,
+    "top": 373,
+    "width": 800,
+    "height": 154,
+    "radius": "12px",
+    "footerGap": 381
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Change invoice status",
+   "backdrop": "invoice-status-scrim",
+   "before": {
+    "left": 420,
+    "top": 363,
+    "width": 600,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 363,
+    "width": 600,
+    "height": 174,
+    "radius": "12px",
+    "footerGap": 387
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Deactivate customer",
+   "backdrop": "customer-status-scrim",
+   "before": {
+    "left": 420,
+    "top": 363,
+    "width": 600,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 363,
+    "width": 600,
+    "height": 174,
+    "radius": "12px",
+    "footerGap": 387
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Deactivate location",
+   "backdrop": "geo-status-scrim",
+   "before": {
+    "left": 420,
+    "top": 363,
+    "width": 600,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 363,
+    "width": 600,
+    "height": 174,
+    "radius": "12px",
+    "footerGap": 387
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Location hierarchy",
+   "backdrop": "geo-hierarchy-scrim",
+   "before": {
+    "left": 420,
+    "top": 414,
+    "width": 600,
+    "height": 72,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 414,
+    "width": 600,
+    "height": 72,
+    "radius": "12px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Location details",
+   "backdrop": "geo-flow-node-scrim",
+   "before": {
+    "left": 420,
+    "top": 390,
+    "width": 600,
+    "height": 120,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 390,
+    "width": 600,
+    "height": 120,
+    "radius": "12px",
+    "footerGap": 398
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Delete this tree",
+   "backdrop": "geo-delete-tree-scrim",
+   "before": {
+    "left": 420,
+    "top": 312,
+    "width": 600,
+    "height": 276,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 312,
+    "width": 600,
+    "height": 276,
+    "radius": "12px",
+    "footerGap": 320
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Choose parent location",
+   "backdrop": "geo-parent-picker-scrim",
+   "before": {
+    "left": 420,
+    "top": 351,
+    "width": 600,
+    "height": 198,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 351,
+    "width": 600,
+    "height": 198,
+    "radius": "12px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Choose operation unit",
+   "backdrop": "unit-picker-scrim",
+   "before": {
+    "left": 320,
+    "top": 351,
+    "width": 800,
+    "height": 198,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 320,
+    "top": 351,
+    "width": 800,
+    "height": 198,
+    "radius": "12px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Add Geo. Location",
+   "backdrop": "customer-location-add-scrim",
+   "before": {
+    "left": 320,
+    "top": 180,
+    "width": 800,
+    "height": 540,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 320,
+    "top": 180,
+    "width": 800,
+    "height": 540,
+    "radius": "12px",
+    "footerGap": 188
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "dlg flex min-h-0 flex-col over",
+   "backdrop": "customer-contact-dialog",
+   "before": {
+    "left": 236,
+    "top": 370,
+    "width": 968,
+    "height": 160,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 236,
+    "top": 370,
+    "width": 968,
+    "height": 160,
+    "radius": "12px",
+    "footerGap": 378
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Change password",
+   "backdrop": "change-password-scrim",
+   "before": {
+    "left": 520,
+    "top": 230,
+    "width": 400,
+    "height": 440,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 520,
+    "top": 230,
+    "width": 400,
+    "height": 440,
+    "radius": "12px",
+    "footerGap": 254
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Set / change PIN code",
+   "backdrop": "set-pin-scrim",
+   "before": {
+    "left": 520,
+    "top": 239,
+    "width": 400,
+    "height": 422,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 520,
+    "top": 239,
+    "width": 400,
+    "height": 422,
+    "radius": "12px",
+    "footerGap": 263
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Revoke session",
+   "backdrop": "organization-session-dialog",
+   "before": {
+    "left": 520,
+    "top": 212,
+    "width": 400,
+    "height": 476,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 520,
+    "top": 212,
+    "width": 400,
+    "height": 476,
+    "radius": "12px",
+    "footerGap": 236
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Post invoice 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 420,
+    "top": 222,
+    "width": 600,
+    "height": 456,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 222,
+    "width": 600,
+    "height": 456,
+    "radius": "12px",
+    "footerGap": 246
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Delete invoice 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 420,
+    "top": 266,
+    "width": 600,
+    "height": 368,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 266,
+    "width": 600,
+    "height": 368,
+    "radius": "12px",
+    "footerGap": 290
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Display Journal Entry",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 236,
+    "top": 303,
+    "width": 968,
+    "height": 294,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 236,
+    "top": 303,
+    "width": 968,
+    "height": 294,
+    "radius": "12px",
+    "footerGap": 327
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Cancel document 126",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 420,
+    "top": 212,
+    "width": 600,
+    "height": 476,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 212,
+    "width": 600,
+    "height": 476,
+    "radius": "12px",
+    "footerGap": 236
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Change invoice status",
+   "backdrop": "rscrim",
+   "before": {
+    "left": 420,
+    "top": 363,
+    "width": 600,
+    "height": 174,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 363,
+    "width": 600,
+    "height": 174,
+    "radius": "12px",
+    "footerGap": 387
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Screen Parameters",
+   "backdrop": "screen-parameters-scrim",
+   "before": {
+    "left": 236,
+    "top": 379,
+    "width": 968,
+    "height": 143,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 236,
+    "top": 379,
+    "width": 968,
+    "height": 143,
+    "radius": "12px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "You have unsaved work",
+   "backdrop": "gscrim",
+   "before": {
+    "left": 420,
+    "top": 327,
+    "width": 600,
+    "height": 247,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 327,
+    "width": 600,
+    "height": 247,
+    "radius": "12px",
+    "footerGap": 335
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "You have unsaved customer changes",
+   "backdrop": "customer-gscrim",
+   "before": {
+    "left": 420,
+    "top": 358,
+    "width": 600,
+    "height": 183,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 358,
+    "width": 600,
+    "height": 183,
+    "radius": "12px",
+    "footerGap": 366
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Save this table layout?",
+   "backdrop": "list-layout-guard",
+   "before": {
+    "left": 420,
+    "top": 343,
+    "width": 600,
+    "height": 215,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 343,
+    "width": 600,
+    "height": 215,
+    "radius": "12px",
+    "footerGap": 351
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Keyboard shortcuts",
+   "backdrop": "kscrim",
+   "before": {
+    "left": 420,
+    "top": 297,
+    "width": 600,
+    "height": 306,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 297,
+    "width": 600,
+    "height": 306,
+    "radius": "12px",
+    "footerGap": null
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Print Settings",
+   "backdrop": "pscrim",
+   "before": {
+    "left": 320,
+    "top": 205,
+    "width": 800,
+    "height": 491,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 320,
+    "top": 205,
+    "width": 800,
+    "height": 491,
+    "radius": "12px",
+    "footerGap": 213
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Customize your sidebar",
+   "backdrop": "cscrim",
+   "before": {
+    "left": 236,
+    "top": 295,
+    "width": 968,
+    "height": 309,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 236,
+    "top": 295,
+    "width": 968,
+    "height": 309,
+    "radius": "12px",
+    "footerGap": 303
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Log out?",
+   "backdrop": "loscrim",
+   "before": {
+    "left": 520,
+    "top": 345,
+    "width": 400,
+    "height": 210,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 520,
+    "top": 345,
+    "width": 400,
+    "height": 210,
+    "radius": "12px",
+    "footerGap": 353
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "notification-modal-dlg",
+   "backdrop": "notification-modal",
+   "before": {
+    "left": 420,
+    "top": 374,
+    "width": 600,
+    "height": 152,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 374,
+    "width": 600,
+    "height": 152,
+    "radius": "12px",
+    "footerGap": 398
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "dlg flex max-h-[90vh] w-[min(6",
+   "backdrop": "collab-preview",
+   "before": {
+    "left": 420,
+    "top": 370,
+    "width": 600,
+    "height": 160,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 370,
+    "width": 600,
+    "height": 160,
+    "radius": "12px",
+    "footerGap": 378
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "dlg [width:min(400px,_96vw)] r",
+   "backdrop": "collab-confirm",
+   "before": {
+    "left": 520,
+    "top": 381,
+    "width": 400,
+    "height": 139,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 520,
+    "top": 381,
+    "width": 400,
+    "height": 139,
+    "radius": "12px",
+    "footerGap": 405
+   }
+  },
+  {
+   "state": "1440-ltr-x1",
+   "name": "Search filters",
+   "backdrop": "data-mail-filter-dialog",
+   "before": {
+    "left": 420,
+    "top": 212,
+    "width": 600,
+    "height": 476,
+    "radius": "12px"
+   },
+   "after": {
+    "left": 420,
+    "top": 212,
+    "width": 600,
+    "height": 476,
+    "radius": "12px",
+    "footerGap": 220
+   }
+  }
+ ]
+}

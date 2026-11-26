@@ -63,7 +63,7 @@ Each item is decided in DESIGN.md. "Applied" means it is in the code on this bra
 
 - #18: the Flag visual check.
 - #31: Escape does not close 11 dialogs, and an open background menu takes Escape first. Focus return and the unit picker stacking are applied (#31).
-- #31: the dialog below 480px. ADS makes it full screen; the current 94 to 96vw needs its own decision.
+- #31: the dialog below 480px is full screen, as in ADS (applied in #31).
 - #33: the Customer record guided tablist is unreachable because `setLayout` always sets `scroll`. It is not part of this decision.
 - #26 follow-up: the same 260px grid in 12 other places. Invoices record still clips 7 fields at 320px. Not approved for change.
 - Playwright baseline repair, which #23 waits for.
