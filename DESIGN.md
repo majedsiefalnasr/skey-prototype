@@ -36,11 +36,11 @@ Components use short aliases defined in the same file. Each alias points to one 
 
 ### Font sizes
 
-Font sizes are role-based tokens in the `@theme` block of `concepts/app/styles/tailwind.css`, used as utilities such as `text-body` and `text-caption`. Each token keeps the exact size the prototype already used, so changing one token updates every use. There are 22 tokens, from `--text-badge` (9.5px) to `--text-display-lg` (36px). The 96 raw `font-size` literals in `concepts/app/styles` are not tokenised yet.
+Font sizes are role-based tokens in the `@theme` block of `concepts/app/styles/tailwind.css`, used as utilities such as `text-body` and `text-caption`. Each role also has a line height token, such as `--text-body--line-height`, so the utility sets both. An element with its own `leading-*` class keeps its line height. There are 22 tokens, from `--text-badge` (12px) to `--text-display-lg` (32px), and several roles share a size. The 96 raw `font-size` literals in `concepts/app/styles` are not tokenised yet.
 
-Decided in #28 on 2026-11-25, not yet applied. Role names stay and only their values change. Each role gets a line height token, set to today's value first and then to the ADS value below. An element with its own `leading-*` class keeps its line height. Sizes and line heights are in px.
+Decided in #28 on 2026-11-25, applied in #35. Role names stay and only their values changed. The ADS line heights were applied directly. The planned first step, which kept the earlier line heights, was skipped because they differed between elements that share `body`, `dense` or `subtitle`. Sizes and line heights are in px.
 
-| Role | Type | Size now | New size | New line height |
+| Role | Type | Size before | Size | Line height |
 | --- | --- | --- | --- | --- |
 | `badge` | body | 9.5 | 12 | 16 |
 | `caption-xs` | body | 10 | 12 | 16 |
@@ -65,7 +65,11 @@ Decided in #28 on 2026-11-25, not yet applied. Role names stay and only their va
 | `display` | heading | 28 | 28 | 32 |
 | `display-lg` | heading | 36 | 32 | 36 |
 
-The comparison covered 8 screens at 390, 768, 1024 and 1440px. It found 627 size changes, 501 box height changes and 2 newly clipped elements, on Home at 768px. Line height was not measured separately from size. Nine of the 17 roles that change size did not appear on any measured screen: `caption-xs`, `stat-delta`, `caption-md`, `heading-sm`, `avatar-lg`, `card-title`, `metric`, `display-sm` and `display-lg`. Check them visually when they are applied. Dialogs and menus were not measured. Measurements are in `docs/prototype/28-font-size-measure.json` on branch `prototype/28-font-size-comparison`.
+Measured when applied, on 29 screen states at 390, 768, 1024 and 1440px, and at 390px right-to-left. All 6,465 size changes match the table. 2,664 element boxes changed height by more than 1px (661 taller, 2,003 shorter), and no control at 390px dropped below 44px or 24px. No new page overflow, off-screen element or horizontal scroll appeared. `stat-delta` appears only in the hidden Performance section and `heading-md` was not opened. Dialogs were not measured. Totals are in `docs/prototype/35-font-size-measure.json`. The earlier comparison is in `docs/prototype/28-font-size-measure.json` on branch `prototype/28-font-size-comparison`.
+
+Two fixes landed with the change. Between `sm` and `md` (768 to 1023px) the gap in a Home app tile is 12px instead of 20px, so "Dashboard" and "Customers" are not cut at 768px. The notification badge is 16px high with a 12px line height, so its digit stays inside the border.
+
+Accepted truncation: "Wholesale customer" on customer cards at 390 to 1024px and one email stack subject at 1440px now end with an ellipsis. On invoice cards at 390px, titles and document numbers were already cut before this change; they now lose a few more pixels, and in right-to-left more of them are cut (9 to 14 on a touch viewport). Three long Home app names also end with an ellipsis after two lines where they did not before: one at 767px, and one each at 768 and 800px in compact density.
 
 ### Radius
 
@@ -101,7 +105,7 @@ The overridden class is still in the markup of these elements, so changing its t
 | Select | ADS Select | Native `<select>` (90 uses) | Accepted |
 | Switch | Regular 32×16, thumb 12px | 30×17, thumb 13px | Decided in #30, not applied yet |
 | Radius | ADS scale: 2, 4, 6, 8 and 12px | ADS tokens; radius literals in plain CSS do not read them | Tokenised, literals remain |
-| Font sizes | ADS type scale | 22 role-based tokens with the sizes already in use | Implemented, no visual change |
+| Font sizes | ADS type scale | 22 role-based tokens at ADS sizes (12 to 32px) with ADS line heights; elements with `leading-*` classes and raw `font-size` literals keep their own values | Applied (#35) |
 | Spacing | ADS scale | ADS tokens plus `legacy-*` tokens for 0.5, 1, 3, 5, 7, 9, 10, 11, 13, 14, 15, 17, 18, 22, 26, 28, 30, 34, 46, 54, 68 and 72px | Tokenised, not normalised; accepted padding changes are listed under [Spacing](#spacing) |
 | Record identity card | Not specified; stacks below `lg` (1440px) | Profile, Customer, People and the contact dialog stack the fields above the photo below 1440px | Implemented (#11, #1), no overlap measured at 390 to 1440px |
 | Viewport breakpoints | `xs` 30, `sm` 48, `md` 64, `lg` 90, `xl` 110.5rem (480, 768, 1024, 1440, 1768px at a 16px root) | ADS steps as `--breakpoint-xs` to `--breakpoint-xl`, plus 9 `--breakpoint-legacy-*` tokens named by pixel value at a 16px root for values that have not moved to a step. All are written in `rem`, like ADS | Below `sm` (48rem, 768px) follows ADS; the rest is tokenised, not normalised (#12) |

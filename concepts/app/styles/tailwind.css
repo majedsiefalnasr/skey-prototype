@@ -239,28 +239,50 @@
 }
 
 @theme {
-  --text-badge: 9.5px;
-  --text-caption-xs: 10px;
-  --text-stat-delta: 10.5px;
-  --text-caption: 11px;
-  --text-caption-md: 11.5px;
+  --text-badge: 12px;
+  --text-badge--line-height: 16px;
+  --text-caption-xs: 12px;
+  --text-caption-xs--line-height: 16px;
+  --text-stat-delta: 12px;
+  --text-stat-delta--line-height: 16px;
+  --text-caption: 12px;
+  --text-caption--line-height: 16px;
+  --text-caption-md: 12px;
+  --text-caption-md--line-height: 16px;
   --text-small: 12px;
-  --text-dense: 12.5px;
-  --text-body: 13px;
-  --text-body-lg: 13.5px;
+  --text-small--line-height: 16px;
+  --text-dense: 12px;
+  --text-dense--line-height: 16px;
+  --text-body: 14px;
+  --text-body--line-height: 20px;
+  --text-body-lg: 14px;
+  --text-body-lg--line-height: 20px;
   --text-subtitle: 14px;
-  --text-heading-sm: 14.5px;
-  --text-heading: 15px;
+  --text-subtitle--line-height: 20px;
+  --text-heading-sm: 14px;
+  --text-heading-sm--line-height: 20px;
+  --text-heading: 16px;
+  --text-heading--line-height: 20px;
   --text-heading-md: 16px;
-  --text-avatar-lg: 17px;
-  --text-card-title: 18px;
-  --text-subject: 19px;
+  --text-heading-md--line-height: 20px;
+  --text-avatar-lg: 16px;
+  --text-avatar-lg--line-height: 20px;
+  --text-card-title: 16px;
+  --text-card-title--line-height: 20px;
+  --text-subject: 20px;
+  --text-subject--line-height: 24px;
   --text-title: 20px;
-  --text-metric: 22px;
-  --text-page-title: 23px;
-  --text-display-sm: 26px;
+  --text-title--line-height: 24px;
+  --text-metric: 24px;
+  --text-metric--line-height: 28px;
+  --text-page-title: 24px;
+  --text-page-title--line-height: 28px;
+  --text-display-sm: 24px;
+  --text-display-sm--line-height: 28px;
   --text-display: 28px;
-  --text-display-lg: 36px;
+  --text-display--line-height: 32px;
+  --text-display-lg: 32px;
+  --text-display-lg--line-height: 36px;
 }
 
 @theme {

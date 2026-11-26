@@ -33,7 +33,7 @@ export function createHome({
     const tile = document.createElement('button')
     tile.type = 'button'
     tile.className =
-      'lp-tile group grid min-h-[116px] grid-cols-[40px_minmax(0,1fr)_14px] content-start items-start gap-5 rounded-xl border border-line bg-surface p-4 text-start transition-[border-color,background-color] duration-[120ms] ease-out hover:border-[var(--accent-line)] focus-visible:border-accent'
+      'lp-tile group grid min-h-[116px] grid-cols-[40px_minmax(0,1fr)_14px] content-start items-start gap-5 sm:max-md:gap-3 rounded-xl border border-line bg-surface p-4 text-start transition-[border-color,background-color] duration-[120ms] ease-out hover:border-[var(--accent-line)] focus-visible:border-accent'
     tile.dataset.tone = meta.tone
     tile.dataset.i18nOriginal = label
     tile.innerHTML =
