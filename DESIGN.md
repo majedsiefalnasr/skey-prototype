@@ -130,6 +130,10 @@ Applied in #46. The `.menu > button` rule also skips `.ibtn`, so icon triggers s
 
 Still open: `.menu > button` triggers that are neither `.ibtn` nor `.lbtn` keep the 6px 10px padding, which is not an ADS step. The compact (26px) and comfortable (36px) density overrides are not tokens.
 
+### Menus
+
+Applied in #53. A menu inside the page grows from its trigger. If it would cross a side of `.page-content`, which clips it, it moves horizontally back inside, 8px from that edge; a menu that fits does not move. The position is set when the menu opens, so a width change while it is open applies on the next open. Menus in dialogs and the app switcher keep their fixed positioning. Only the invoice record header menus were measured (`docs/prototype/53-header-menus-measure.json`).
+
 ## Deviations
 
 | Area | ADS | Prototype | Status |
