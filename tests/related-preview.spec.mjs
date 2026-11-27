@@ -39,11 +39,12 @@ test('related previews preserve the note, URL, focus, and read-only controls', a
     const bounds = await preview(page).locator('[data-preview-box]').boundingBox()
     expect(Math.abs(bounds.x + bounds.width / 2 - page.viewportSize().width / 2)).toBeLessThan(2)
     expect(bounds.width).toBeLessThanOrEqual(600)
-    const spacing = await page.evaluate(() => ['.dhd', '.dlg-inner', '.dbody', '.dfoot'].map(selector => [
+    const spacing = await page.evaluate(() => ['.dhd', '.dlg-inner', '.dfoot'].map(selector => [
       getComputedStyle(document.querySelector(`#collab-preview ${selector}`)).padding,
       getComputedStyle(document.querySelector(`#customer-type-add-scrim ${selector}`)).padding,
     ]))
     for (const [actual, expected] of spacing) expect(actual).toBe(expected)
+    await expect(preview(page).locator('.dbody')).toHaveCSS('padding', '16px 20px')
     await page.keyboard.press('Escape')
     await expect(preview(page)).toBeHidden()
     await expect(panel(page)).toBeVisible()

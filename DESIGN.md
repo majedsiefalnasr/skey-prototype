@@ -118,6 +118,8 @@ The spacing token commit (`fd27932`) changed some paddings. These elements carri
 
 Two classes that set the same property under the same variant are ordered by their text in the generated CSS, so renaming a value can change which one wins. In the files #36 changed, 36 such pairs remain with a `--ds-space-*` value, and none of them changed its winner.
 
+Decided in #54 on 2026-11-27: the related-item preview body keeps `16px 20px`. It does not follow the Add Customer Type body, which is in the table above. The two dialogs still share their header, inner and footer padding.
+
 ### Buttons
 
 `.ibtn` (icon) and `.lbtn` (label) in `concepts/app/styles/tailwind/shell.css` read the `--ds-button-*` tokens in `concepts/app/styles/tailwind/base.css`: 6px gap, 6px radius, 32px icon button, 4px 8px icon padding, and 6px 12px label padding. These are the ADS default button values (`@atlaskit/button` 25.8.3): 32px tall, 14px / 20px text, weight 500.
