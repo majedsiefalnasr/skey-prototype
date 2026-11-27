@@ -162,7 +162,7 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
 
   function renderInvoiceSnapshotCard(row, config, listState) {
     const card = dataRecordCardContext('invoice', row, config, listState)
-    return `<article class="${DATA_RECORD_CARD_CLASS} data-record-card-invoice @container/invoice-card" role="listitem" data-list-row-key="${encodeHtml(card.key)}" aria-selected="${card.selected}">${renderSnapshotCardHeader('invoice', row, config, card)}<div class="data-record-card-snapshot grid grid-cols-[minmax(0,1fr)_auto] items-end gap-5 rounded-md bg-[var(--line-2)] px-3 py-3 [&>div]:min-w-0 [&_small]:block [&_small]:text-small [&_small]:text-muted [&_span]:block [&_span]:text-small [&_span]:text-muted"><div><span>Customer</span><strong class="my-0.5! block truncate text-body text-ink">${encodeHtml(row.custName)}</strong><small>${encodeHtml(row.custNo)}</small></div><div class="data-record-card-snapshot-value text-end"><span>Total</span><strong class="my-0.5! block truncate text-card-title text-accent">${encodeHtml(row.currency)} ${encodeHtml(row.total)}</strong></div></div><dl class="data-record-card-meta m-0! grid grid-cols-2 gap-x-3 gap-y-2">${[
+    return `<article class="${DATA_RECORD_CARD_CLASS} data-record-card-invoice @container/invoice-card grid-cols-[minmax(0,1fr)]" role="listitem" data-list-row-key="${encodeHtml(card.key)}" aria-selected="${card.selected}">${renderSnapshotCardHeader('invoice', row, config, card)}<div class="data-record-card-snapshot grid grid-cols-[minmax(0,1fr)_auto] items-end gap-5 @max-[16rem]/invoice-card:grid-cols-[minmax(0,1fr)] @max-[16rem]/invoice-card:gap-2 rounded-md bg-[var(--line-2)] px-3 py-3 [&>div]:min-w-0 [&_small]:block [&_small]:text-small [&_small]:text-muted [&_span]:block [&_span]:text-small [&_span]:text-muted"><div><span>Customer</span><strong class="my-0.5! block truncate text-body text-ink">${encodeHtml(row.custName)}</strong><small>${encodeHtml(row.custNo)}</small></div><div class="data-record-card-snapshot-value text-end @max-[16rem]/invoice-card:text-start"><span>Total</span><strong class="my-0.5! block truncate text-card-title text-accent">${encodeHtml(row.currency)} ${encodeHtml(row.total)}</strong></div></div><dl class="data-record-card-meta m-0! grid grid-cols-2 gap-x-3 gap-y-2">${[
       ['Document date', row.date],
       ['Payment', row.pay],
       ['Sub-type', row.subtype],
@@ -170,7 +170,7 @@ export function createListCards({dataListIcon, getSharedViewDeps, invoiceStatusK
       .map(dataRecordCardFactMarkup)
       .join(
         ''
-      )}</dl><footer class="data-record-card-operations-actions flex flex-nowrap items-center gap-1.5 border-t border-line pt-2">${renderContextCardActions('invoice')}${renderCardFooterEndActions('invoice', row, config)}</footer></article>`
+      )}</dl><footer class="data-record-card-operations-actions flex flex-wrap items-center gap-1.5 border-t border-line pt-2">${renderContextCardActions('invoice')}${renderCardFooterEndActions('invoice', row, config)}</footer></article>`
   }
 
   function renderCustomerSnapshotCard(row, config, listState) {

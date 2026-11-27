@@ -1,0 +1,133 @@
+{
+ "issue": 45,
+ "cause": [
+  "The title and the document number shared one header row with the checkbox, icon and status badge, and both were truncated.",
+  "The card grid had no column template and the footer could not wrap, so the card content could be wider than the card."
+ ],
+ "fix": "The title and number can wrap. A card narrower than 21rem gives them their own row, and one narrower than 16rem stacks the totals. The card grid column can shrink and the footer wraps.",
+ "before": "commit 550302d",
+ "method": "Chromium, reduced motion, invoice card view, left to right and right to left, pointer and touch emulation, default, compact and comfortable density, at 320, 360, 390, 480, 600, 768, 1024, 1280, 1440px by 844px. One reading is one state with all 8 cards.",
+ "readings": 108,
+ "before_totals": {
+  "readingsWithATitleCut": 42,
+  "readingsWithANumberCut": 45,
+  "readingsWithContentOutsideACard": 30,
+  "readingsWithSidewaysScroll": 16
+ },
+ "after_totals": {
+  "readingsWithATitleCut": 0,
+  "readingsWithANumberCut": 0,
+  "readingsWithContentOutsideACard": 0,
+  "readingsWithSidewaysScroll": 0
+ },
+ "cardHeightPxAtDefaultDensity": [
+  {
+   "viewport": 320,
+   "pointer": {
+    "before": "323",
+    "after": "507"
+   },
+   "touch": {
+    "before": "339",
+    "after": "555-581"
+   }
+  },
+  {
+   "viewport": 360,
+   "pointer": {
+    "before": "323",
+    "after": "453"
+   },
+   "touch": {
+    "before": "339",
+    "after": "489"
+   }
+  },
+  {
+   "viewport": 390,
+   "pointer": {
+    "before": "323",
+    "after": "453"
+   },
+   "touch": {
+    "before": "339",
+    "after": "489"
+   }
+  },
+  {
+   "viewport": 480,
+   "pointer": {
+    "before": "323",
+    "after": "367"
+   },
+   "touch": {
+    "before": "339",
+    "after": "391"
+   }
+  },
+  {
+   "viewport": 600,
+   "pointer": {
+    "before": "323",
+    "after": "323"
+   },
+   "touch": {
+    "before": "339",
+    "after": "339"
+   }
+  },
+  {
+   "viewport": 768,
+   "pointer": {
+    "before": "323",
+    "after": "367"
+   },
+   "touch": {
+    "before": "339",
+    "after": "391"
+   }
+  },
+  {
+   "viewport": 1024,
+   "pointer": {
+    "before": "323",
+    "after": "367"
+   },
+   "touch": {
+    "before": "339",
+    "after": "391"
+   }
+  },
+  {
+   "viewport": 1280,
+   "pointer": {
+    "before": "323",
+    "after": "323"
+   },
+   "touch": {
+    "before": "339",
+    "after": "339"
+   }
+  },
+  {
+   "viewport": 1440,
+   "pointer": {
+    "before": "323",
+    "after": "367"
+   },
+   "touch": {
+    "before": "339",
+    "after": "391"
+   }
+  }
+ ],
+ "acceptedChanges": [
+  "Cards are taller where the card is narrow, including the three-column grid at 1440px.",
+  "Where the footer wraps, the overflow menu button moves to its own row."
+ ],
+ "notMeasured": [
+  "Physical devices, Safari, Firefox, dark and high-contrast modes",
+  "Text zoom, interface scale values other than the default, document numbers longer than 15 digits",
+  "Geography, People, Customer and Notification cards, which are unchanged"
+ ]
+}
