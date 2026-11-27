@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict'
-import {mkdir, mkdtemp, readFile, rm, stat, symlink, writeFile} from 'node:fs/promises'
+import {mkdir, mkdtemp, readdir, readFile, rename, rm, stat, symlink, writeFile} from 'node:fs/promises'
 import http from 'node:http'
 import {tmpdir} from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
-import {assemble, build, removePreviousDist} from '../scripts/build.mjs'
+import {assemble, build, removePreviousDist, swapDist} from '../scripts/build.mjs'
 import {serve} from '../scripts/serve.mjs'
 
 // assemble() resolves includes relative to a fixed `concepts/` sourceRoot
@@ -367,6 +367,81 @@ test('removePreviousDist: warns instead of failing when the replaced dist/ canno
   })
   assert.equal(warnings.length, 1)
   assert.match(warnings[0], /\.dist-old-fixture.*ENOTEMPTY/)
+})
+
+async function withSwapFixture(run) {
+  const root = await mkdtemp(path.join(tmpdir(), 'swap-dist-'))
+  try {
+    for (const name of ['dist', 'first', 'second']) {
+      await mkdir(path.join(root, name))
+      await writeFile(path.join(root, name, 'owner.txt'), name)
+    }
+    await run({
+      root,
+      target: path.join(root, 'dist'),
+      owner: () => readFile(path.join(root, 'dist', 'owner.txt'), 'utf8'),
+    })
+  } finally {
+    await rm(root, {recursive: true, force: true})
+  }
+}
+
+test('swapDist: concurrent builds both publish when their swaps interleave', async () => {
+  await withSwapFixture(async ({root, target, owner}) => {
+    let waiting = 2
+    let release
+    const bothMovedAside = new Promise(resolve => {
+      release = resolve
+    })
+    const swap = name => {
+      let held = false
+      return swapDist(path.join(root, name), target, {
+        move: async (from, to) => {
+          if (from !== target && !held) {
+            held = true
+            waiting -= 1
+            if (waiting === 0) release()
+            await bothMovedAside
+          }
+          return rename(from, to)
+        },
+      })
+    }
+    const results = await Promise.allSettled([swap('first'), swap('second')])
+    assert.deepEqual(
+      results.map(result => result.reason?.code || result.status),
+      ['fulfilled', 'fulfilled']
+    )
+    assert.match(await owner(), /^(first|second)$/)
+    assert.deepEqual(await readdir(root), ['dist'])
+  })
+})
+
+test('swapDist: reports a dist/ it cannot move aside', async () => {
+  await withSwapFixture(async ({root, target, owner}) => {
+    const swap = swapDist(path.join(root, 'first'), target, {
+      move: async (from, to) => {
+        if (from === target) throw Object.assign(new Error('EACCES'), {code: 'EACCES'})
+        return rename(from, to)
+      },
+    })
+    await assert.rejects(swap, {code: 'EACCES'})
+    assert.equal(await owner(), 'dist')
+  })
+})
+
+test('swapDist: restores the previous dist/ when publishing fails', async () => {
+  await withSwapFixture(async ({root, target, owner}) => {
+    const staging = path.join(root, 'first')
+    const swap = swapDist(staging, target, {
+      move: async (from, to) => {
+        if (from === staging) throw Object.assign(new Error('EIO'), {code: 'EIO'})
+        return rename(from, to)
+      },
+    })
+    await assert.rejects(swap, {code: 'EIO'})
+    assert.equal(await owner(), 'dist')
+  })
 })
 
 test('build: produces dist/concepts/app-shell.html with no unresolved include directives', async () => {

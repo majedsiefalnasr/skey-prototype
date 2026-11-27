@@ -9,6 +9,7 @@
 // including file and must stay inside `concepts/`.
 
 import {readFile, realpath, mkdir, writeFile, readdir, lstat, rm, rename} from 'node:fs/promises';
+import {randomUUID} from 'node:crypto';
 import path from 'node:path';
 import {compileTailwind} from './tailwind.mjs';
 import {ROUTE_PATHS} from '../concepts/app/core/routes.js';
@@ -116,10 +117,49 @@ export async function removePreviousDist(directory, {remove = rm, warn = console
   }
 }
 
+const SWAP_ATTEMPTS = 10;
+
+/**
+ * Replace `target` with the `staging` directory by renaming, rather than
+ * deleting it first and rebuilding into it (which would leave a half-built or
+ * empty dist/ visible to a concurrent request/build). A concurrent build can
+ * publish its own `target` between the two renames, so that one is moved aside
+ * too and the publish is retried.
+ * @param {string} staging
+ * @param {string} target
+ * @param {{move?: typeof rename}} [options]
+ */
+export async function swapDist(staging, target, {move = rename} = {}) {
+  const replaced = [];
+  try {
+    for (let attempt = 1; ; attempt += 1) {
+      const previous = path.join(path.dirname(target), `.dist-old-${process.pid}-${randomUUID()}`);
+      try {
+        await move(target, previous);
+        replaced.push(previous);
+      } catch (error) {
+        if (error.code !== 'ENOENT') throw error;
+      }
+      try {
+        await move(staging, target);
+        return;
+      } catch (error) {
+        const occupied = error.code === 'ENOTEMPTY' || error.code === 'EEXIST';
+        if (occupied && attempt < SWAP_ATTEMPTS) continue;
+        // Roll back so a failed swap never leaves dist/ missing.
+        if (!occupied && replaced.length) await move(replaced.pop(), target);
+        throw error;
+      }
+    }
+  } finally {
+    for (const directory of replaced) await removePreviousDist(directory);
+  }
+}
+
 /**
  * Build the production-shaped output: copy the public-path allowlist into
  * a fresh staging directory, assemble `concepts/app-shell.html` (expanding
- * its includes) into the staged copy, then atomically replace `dist/`.
+ * its includes) into the staged copy, then swap it in as `dist/`.
  * @returns {Promise<void>}
  */
 export async function build() {
@@ -168,25 +208,7 @@ export async function build() {
       await writeFile(path.join(routeDir, 'index.html'), appDoc, 'utf8');
     }
 
-    // Atomically swap staging in for the previous dist/, rather than
-    // deleting dist/ first and rebuilding into it (which would leave a
-    // half-built or empty dist/ visible to a concurrent request/build).
-    const finalDist = path.join(repoRoot, 'dist');
-    const previous = path.join(repoRoot, `.dist-old-${process.pid}-${Date.now()}`);
-    let hadPrevious = true;
-    try {
-      await rename(finalDist, previous);
-    } catch {
-      hadPrevious = false;
-    }
-    try {
-      await rename(staging, finalDist);
-    } catch (error) {
-      // Roll back so a failed swap never leaves dist/ missing.
-      if (hadPrevious) await rename(previous, finalDist);
-      throw error;
-    }
-    if (hadPrevious) await removePreviousDist(previous);
+    await swapDist(staging, path.join(repoRoot, 'dist'));
   } finally {
     await rm(staging, {recursive: true, force: true});
   }
