@@ -21,6 +21,8 @@ test('Arabic invoice Manage menu translates preferences without changing border 
   await expect(page.locator('.list-view .inv-grid')).toHaveClass(/borders-none/);
   await page.locator('#rtl').evaluate(el => {el.checked=false;el.dispatchEvent(new Event('change',{bubbles:true}));});
   await expect(page.locator('.list-view .inv-grid')).toHaveClass(/borders-none/);
+  await page.mouse.move(0, 0);
+  await expect(menu.locator('.data-manage-submenu[open]')).toHaveCount(0);
   await page.keyboard.press('Escape');
   await expect(menu).toHaveJSProperty('open', false);
   await menu.locator(':scope > summary').click();

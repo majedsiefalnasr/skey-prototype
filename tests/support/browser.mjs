@@ -4,7 +4,7 @@
 // Notifications -> Email, #simulate-loading, #rtl, .skeleton-overlay) — no
 // new testing hooks are added to the application markup.
 
-import {test} from '@playwright/test';
+import {expect, test} from '@playwright/test';
 
 /** @typedef {import('@playwright/test').Page} Page */
 
@@ -177,6 +177,19 @@ async function openEmailFromNotifications(page) {
   // different class used only by the full email page view once open.
   await page.locator('#notif-body .notif-row').first().click();
   await waitForSkeletonToAppear(page);
+}
+
+/**
+ * Below `md` the side navigation is hidden until its top bar button opens it
+ * over the page (#60). Open it through that button; wider viewports keep it
+ * in the layout, so there is nothing to do there.
+ * @param {Page} page
+ */
+export async function openSideNavigation(page) {
+  const side = page.locator('.side');
+  if (page.viewportSize().width >= 1024 || (await side.isVisible())) return;
+  await page.locator('.gtop .side-toggle').click();
+  await expect(side).toBeVisible();
 }
 
 /**

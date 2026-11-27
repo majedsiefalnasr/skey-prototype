@@ -1,5 +1,5 @@
 import {test, expect} from '@playwright/test';
-import {settle} from './support/browser.mjs';
+import {openSideNavigation, settle} from './support/browser.mjs';
 
 // For You routing: every app owns a base path that lands on its For You
 // screen, inner screens nest under the owning app, shell screens live
@@ -61,6 +61,7 @@ const isRtl = page =>
  *  icon's centre. Click the icon's padding-start edge instead — it is clear
  *  of the handle in both writing directions and on both pointer types. */
 async function clickRailIcon(page, label) {
+  await openSideNavigation(page);
   const icon = page.locator(`.nc2-icn[aria-label="${label}"]`);
   await expect(icon).toBeVisible();
   const box = await icon.boundingBox();
@@ -179,10 +180,9 @@ test('the launchpad app tile opens the app’s For You screen', async ({page}) =
   await expect(page.locator('.nc1-item[data-label="For You"].current')).toHaveCount(1);
   // The pinned row owns the landing too: clicking it again must stay on
   // this app's base (a stale currentAppLabel would send it to /dashboard).
-  // On compact viewports activateByLabel keeps the collapsed rail's panel
-  // hidden (on-demand flyout), so open it via the same app's rail icon —
-  // same landing, panel comes up — then click the row. The row is already
-  // active in the DOM either way.
+  // Below `md` the side navigation is closed here, so open it via the same
+  // app's rail icon — same landing, panel comes up — then click the row. The
+  // row is already active in the DOM either way.
   if (!(await page.locator('.nc1-item[data-label="For You"]').isVisible())) {
     await clickRailIcon(page, 'Sales Systems Management');
     await settle(page);

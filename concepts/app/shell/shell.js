@@ -27,6 +27,9 @@ export function createShell({
     handle.setAttribute('aria-label', 'Collapse sidebar')
     handle.addEventListener('click', toggleSideCollapse)
     side.appendChild(handle)
+    const sideScrim = document.createElement('div')
+    sideScrim.className = 'side-scrim'
+    sideScrim.setAttribute('aria-hidden', 'true')
     const content = document.createElement('main')
     content.className = 'content flex min-h-0 min-w-0 flex-1 flex-col'
     content.id = 'app-main'
@@ -76,7 +79,7 @@ export function createShell({
       pageFooter.append(footer)
     })
     content.append(pageActionBar, pageContent, pageFooter)
-    body.append(side, content)
+    body.append(side, sideScrim, content)
     frame.append(body)
     d.querySelector('.mount').append(frame)
     d.querySelectorAll('.pager-mount').forEach(m => m.append(T('t-pager')))

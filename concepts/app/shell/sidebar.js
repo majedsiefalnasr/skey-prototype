@@ -214,7 +214,10 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
         btn.setAttribute('aria-expanded', String(open))
       })
     } else {
-      btn.addEventListener('click', () => setNavCurrent(root, label))
+      btn.addEventListener('click', () => {
+        closeCompactSide()
+        setNavCurrent(root, label)
+      })
     }
     return node
   }
@@ -451,11 +454,12 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     ) => {
       if (!btn || !group) return
       if (!keepLayout) {
+        closeCompactSide()
         side.classList.toggle('collapsed', compactShell.matches)
         updateSideWidth(side)
       }
       activate(btn, group, {withForYou, targetRoute, keepOverlay})
-      if (compactShell.matches) panel.hidden = true
+      if (compactShell.matches && sideCollapsed) panel.hidden = true
     }
     /* selects an app's rail icon + opens its panel from outside the rail itself —
         used by the topbar app-switcher, the launchpad tiles, and boot */
@@ -557,6 +561,31 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     sideCollapsed = !sideCollapsed
     applySideCollapsedState()
   }
+
+  /* Below `md` the open side navigation covers the page, so it closes once
+     it has done its job. Focus it was holding goes back to its button. */
+  function closeCompactSide({focusToggle = false} = {}) {
+    if (!compactShell.matches || sideCollapsed) return
+    const heldFocus = Boolean(document.activeElement?.closest('.side'))
+    toggleSideCollapse()
+    if (focusToggle || heldFocus) document.querySelector('.gtop .side-toggle')?.focus()
+  }
+
+  document.addEventListener('click', event => {
+    if (clickedCollapseToggle(event)) return
+    const outside = event
+      .composedPath()
+      .some(el => el instanceof Element && el.matches('.side-scrim, .gtop'))
+    if (outside) closeCompactSide()
+  })
+
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape' || event.defaultPrevented) return
+    if (!compactShell.matches || sideCollapsed) return
+    if (event.target !== document.body && !event.target.closest?.('.side, .side-toggle')) return
+    event.preventDefault()
+    closeCompactSide({focusToggle: true})
+  })
 
   compactShell.addEventListener('change', event => {
     sideCollapsed = event.matches

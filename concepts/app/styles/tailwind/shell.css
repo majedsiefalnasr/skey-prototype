@@ -176,6 +176,9 @@
   .side.collapsed {
     width: var(--rail-w);
   }
+  .side-scrim {
+    display: none;
+  }
   .side.wide {
     width: calc(var(--rail-w) + 264px);
   }
@@ -3970,9 +3973,28 @@
       width: min(calc(var(--rail-w) + 264px), calc(100% - 44px));
     }
     .side.collapsed {
-      position: relative;
-      inset: auto;
-      box-shadow: none;
+      display: none;
+    }
+    .side:not(.collapsed) + .side-scrim {
+      display: block;
+      position: absolute;
+      inset: 0;
+      z-index: 57;
+      background: var(--scrim);
+    }
+    .side:not(.collapsed) .nc3-panel {
+      flex: 1;
+      min-width: 0;
+    }
+    .side:not(.collapsed) > .side-handle {
+      display: none;
+    }
+    .gtop .side-toggle .tip {
+      inset-inline-start: 0;
+      translate: none;
+    }
+    .gtop .side-toggle[aria-pressed='false'] .tip {
+      display: none;
     }
     .canvas {
       align-items: flex-start;
@@ -4190,6 +4212,12 @@
     .side-handle {
       inset-inline-end: -12px;
       width: 24px;
+    }
+    @media (width < theme(--breakpoint-md)) {
+      .side:not(.collapsed) .nc2-rail:is(:hover, :focus-within) {
+        width: var(--rail-w);
+        box-shadow: none;
+      }
     }
     .side-handle::before {
       inset-inline-start: 11px;
