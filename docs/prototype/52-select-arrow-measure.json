@@ -1,0 +1,42 @@
+{
+ "issue": 52,
+ "cause": "The select arrow is placed by page direction, but its space used logical padding, which follows each select's own direction.",
+ "fix": "Physical padding keyed on page direction: padding-right for the arrow space, and padding-left under [dir=rtl].",
+ "before": "commit c531154",
+ "method": "Chromium, reduced motion, touch emulation, left to right and right to left. Invoice, customer and geography lists and records, Add Operation Unit and Add Parent Unit, each opened at 1440px and read at 1440, 390 and 320px. Every select with a custom arrow is read, hidden ones included. One reading is one select in one state at one width.",
+ "selectsWithoutRoomBefore": {
+  "rightToLeft": {"selects": 90, "withoutRoom": 49, "visibleAmongThem": 34},
+  "leftToRight": {"selects": 90, "withoutRoom": 3, "visibleAmongThem": 1}
+ },
+ "readings": {
+  "rightToLeft": {
+   "total": 1647,
+   "correctBefore": 825,
+   "correctBeforeAndUnchanged": 825,
+   "withoutRoomBefore": 822,
+   "withoutRoomBeforeAndNowMirrored": 822,
+   "withoutRoomAfter": 0,
+   "textUnderArrowBefore": 6,
+   "textUnderArrowAfter": 0,
+   "selectWidthChanged": 0,
+   "arrowMoved": 0
+  },
+  "leftToRight": {
+   "total": 1647,
+   "correctBefore": 1596,
+   "correctBeforeAndUnchanged": 1596,
+   "withoutRoomBefore": 51,
+   "withoutRoomBeforeAndNowMirrored": 51,
+   "withoutRoomAfter": 0,
+   "textUnderArrowBefore": 3,
+   "textUnderArrowAfter": 0,
+   "selectWidthChanged": 0,
+   "arrowMoved": 0
+  }
+ },
+ "notMeasured": [
+  "Selects that are only rendered when another dialog or page is opened",
+  "Physical devices, dark and high-contrast modes"
+ ],
+ "preExistingNotFixed": "Long selected values are still cut off at 320px."
+}

@@ -79,7 +79,7 @@ test('geography editing excludes descendants as parents and preserves undo', asy
   await expect(name).toHaveAttribute('readonly', '');
 });
 
-test('geography details uses the shared record header and field structure', async ({page}) => {
+test('geography details uses the shared record header and field structure', async ({page}, info) => {
   await openSurface(page, 'geo-record');
 
   const header = page.locator('#geo-record-chrome .phead');
@@ -106,7 +106,7 @@ test('geography details uses the shared record header and field structure', asyn
   });
   expect(selectMetrics.appearance).toBe('none');
   expect(selectMetrics.backgroundImage).not.toBe('none');
-  expect(selectMetrics.paddingRight).toBe('28px');
+  expect(info.project.use.rtl ? selectMetrics.paddingLeft : selectMetrics.paddingRight).toBe('28px');
 
   const parentSelect = details.locator('#geo-field-parent');
   await expect(parentSelect).toHaveCSS('border-start-end-radius', '0px');
