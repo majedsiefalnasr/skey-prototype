@@ -297,7 +297,7 @@ test.describe('user menu', () => {
     await settle(page);
     await expect(page.locator('.user-pop')).toHaveClass(/open/);
     await expect(page.locator('.user-card')).toBeFocused();
-    for (let press = 0; press < 4; press++) await page.keyboard.press('ArrowDown');
+    for (let press = 0; press < 3; press++) await page.keyboard.press('ArrowDown');
     await expect(page.locator('.language-submenu > summary')).toBeFocused();
     await page.keyboard.press('ArrowDown');
     await expect(page.locator('.user-pop .help-kbd')).toBeFocused();
