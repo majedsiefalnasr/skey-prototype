@@ -31,8 +31,8 @@
   .geo-workspace.tree-collapsed .geo-tree-header {
     flex-direction: column;
     justify-content: flex-start;
-    gap: 10px;
-    padding: var(--ds-space-150) 5px;
+    gap: var(--ds-space-100);
+    padding: var(--ds-space-150) var(--ds-space-050);
   }
   .geo-workspace.tree-collapsed
     :is(.geo-tree-header > div:first-child, .geo-tree-refresh, .geo-hierarchy-content) {
@@ -104,7 +104,7 @@
     grid-template-columns: 28px minmax(0, 1fr);
     gap: var(--ds-space-100);
     align-items: center;
-    padding: var(--ds-space-100) 9px;
+    padding: var(--ds-space-100) var(--ds-space-100);
     border: 1px solid var(--line);
     border-radius: 7px;
     color: var(--ink);
@@ -303,8 +303,8 @@
     .geo-workspace .geo-tree-header {
       flex-direction: column;
       justify-content: flex-start;
-      gap: 10px;
-      padding: var(--ds-space-150) 5px;
+      gap: var(--ds-space-100);
+      padding: var(--ds-space-150) var(--ds-space-050);
     }
     .geo-workspace
       :is(.geo-tree-header > div:first-child, .geo-tree-refresh, .geo-hierarchy-content) {

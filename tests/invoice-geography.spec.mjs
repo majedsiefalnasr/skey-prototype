@@ -133,7 +133,7 @@ test('geography detail fields match shared spacing and input-style modes', async
 
   await setInputStyle('floated');
   await expect(geographyField).toHaveCSS('position', 'relative');
-  await expect(geographyField).toHaveCSS('padding-top', '14px');
+  await expect(geographyField).toHaveCSS('padding-top', '12px');
   await expect(geographyLabel).toHaveCSS('position', 'absolute');
   await expect(geographyInput).toHaveCSS('padding-top', '8px');
 

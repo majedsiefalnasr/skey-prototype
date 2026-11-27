@@ -16,7 +16,7 @@ export const DRIVER_BASE_CSS = `.driver-popover{all:unset;font-family:var(--driv
 // ring — driver's overlay cutout is the only highlight.
 export const ATLASSIAN_SPOTLIGHT_CSS = `
 .driver-popover.skey-spotlight{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-2,0 18px 44px rgba(8,12,20,.25));min-width:0;width:320px;max-width:calc(100vw - 24px);padding:var(--ds-space-200);font-family:inherit;text-align:start}
-.skey-spotlight .driver-popover-title{font-size:14px;font-weight:600;line-height:1.45;margin:0;padding-inline-end:28px}
+.skey-spotlight .driver-popover-title{font-size:14px;font-weight:600;line-height:1.45;margin:0;padding-inline-end:var(--ds-space-300)}
 .skey-spotlight .driver-popover-description{font-size:13px;line-height:1.55;color:var(--muted)}
 .skey-spotlight .driver-popover-close-btn{color:var(--muted);width:28px;height:28px;font-size:16px;line-height:1;border-radius:6px;top:8px;left:auto;right:8px}
 [dir="rtl"] .skey-spotlight .driver-popover-close-btn{left:8px;right:auto}

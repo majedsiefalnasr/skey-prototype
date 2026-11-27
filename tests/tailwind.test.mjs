@@ -292,11 +292,6 @@ const spacingUtility = /^-?(?:p[xytrblse]?|m[xytrblse]?|gap(?:-[xy])?|space-[xy]
 const spacingArbitraryPixels = /^-?(?:p[xytrblse]?|m[xytrblse]?|gap(?:-[xy])?|space-[xy])-\[(\d+(?:\.\d+)?)px\]$/;
 // build.test.mjs holds legacy shell markup as fixture input for the build rewrite, so it is not scanned.
 const guardExcludedFiles = new Set(['tests/tailwind.test.mjs', 'tests/build.test.mjs']);
-// Reviewed off-scale utilities that stay for #40: the mobile page gutter must match the 10px .phead gutter in shell.css.
-const offScaleSpacingExceptions = new Set([
-  'concepts/app/pages/for-you/templates.html [@media(max-width:theme(--breakpoint-legacy-620))]:px-2.5',
-  'concepts/app/pages/placeholder/templates.html [@media(max-width:theme(--breakpoint-legacy-620))]:px-2.5',
-]);
 
 async function sourceFiles(directory) {
   const entries = await readdir(directory, {withFileTypes: true});
@@ -311,7 +306,6 @@ async function sourceFiles(directory) {
 test('spacing utilities read ADS steps (#25): no off-scale numeric utility is written', async () => {
   const root = process.cwd();
   const violations = [];
-  const usedExceptions = new Set();
   for (const scope of ['concepts', 'tests', 'scripts']) {
     for (const file of await sourceFiles(path.join(root, scope))) {
       const relative = path.relative(root, file);
@@ -319,21 +313,55 @@ test('spacing utilities read ADS steps (#25): no off-scale numeric utility is wr
       const source = await readFile(file, 'utf8');
       for (const [token] of source.matchAll(/[^\s"'`]+/g)) {
         const utility = token.split(':').at(-1).replace(/[!,;)}>]+$/, '');
-        const key = `${relative} ${token}`;
         const numeric = utility.match(spacingUtility);
         const pixels = utility.match(spacingArbitraryPixels);
         const offScale = numeric
           ? !adsSpacingSteps.has(numeric[1])
           : pixels && !adsSpacingSteps.has(String(Number(pixels[1]) / 4));
-        if (!offScale) continue;
-        if (offScaleSpacingExceptions.has(key)) {
-          usedExceptions.add(key);
-          continue;
-        }
-        violations.push(key);
+        if (offScale) violations.push(`${relative} ${token}`);
       }
     }
   }
   assert.deepEqual(violations, [], 'Off-scale spacing utilities must move to ADS steps (DESIGN.md Spacing).');
-  assert.deepEqual([...offScaleSpacingExceptions].filter(key => !usedExceptions.has(key)), [], 'Stale spacing exception.');
+});
+
+const spacingDeclaration = /(?<![\w-])((?:padding|margin|gap|row-gap|column-gap)(?:-(?:top|right|bottom|left|inline|block)(?:-(?:start|end))?)?|--page-pad)\s*:([^;{}"'`\]]+)/g;
+const spacingStyleWrite = /(?:\.style\.|setProperty\(\s*['"])((?:padding|margin|gap|rowGap|columnGap|row-gap|column-gap)[\w-]*)(?:\s*=|['"]\s*,)\s*(?:['"`])([^'"`]*)/g;
+// Each entry allows one literal: the sr-only label offset, the room for the interface scale bubble, the density preview's row
+// separator and the boxed layout width.
+const spacingPixelExceptions = [
+  'concepts/app/styles/tailwind/email.css margin: -1px',
+  'concepts/app/styles/tailwind/shell.css padding-top: 28px',
+  'concepts/app/styles/tailwind/shell.css gap: 1px',
+  'concepts/app/styles/tailwind/shell.css padding-inline: calc(max(var(--ds-space-400), (100% - 1296px) / 2) + var(--page-pad, var(--ds-space-200))) !important',
+];
+// The prototype controls are demo chrome, not product UI.
+const spacingPixelExcludedFiles = new Set(['concepts/app/prototype/controls.css']);
+
+test('spacing declarations read ADS tokens (#57): no px literal in padding, margin or gap', async () => {
+  const root = process.cwd();
+  const remaining = new Set(spacingPixelExceptions);
+  const violations = [];
+  const entries = await readdir(path.join(root, 'concepts'), {recursive: true, withFileTypes: true});
+  for (const entry of entries) {
+    if (!entry.isFile() || !/\.(?:css|js|mjs|html)$/.test(entry.name)) continue;
+    const relative = path.relative(root, path.join(entry.parentPath, entry.name));
+    if (relative.includes('/third-party/') || spacingPixelExcludedFiles.has(relative)) continue;
+    let source = await readFile(path.join(root, relative), 'utf8');
+    // The vendored driver.js stylesheet stays verbatim; only the app's restyle is checked.
+    if (relative.endsWith('/driver-style.js')) {
+      const start = source.indexOf('export const ATLASSIAN_SPOTLIGHT_CSS');
+      assert.ok(start >= 0, 'Spotlight restyle not found.');
+      source = source.slice(start);
+    }
+    source = source.replace(/\/\*[\s\S]*?\*\/|<!--[\s\S]*?-->|^\s*\/\/.*$/gm, '');
+    for (const [, property, value] of [...source.matchAll(spacingDeclaration), ...source.matchAll(spacingStyleWrite)]) {
+      const literals = [...value.replaceAll('_', ' ').matchAll(/(?<![\w.#])(\d*\.?\d+)px\b/g)];
+      if (!literals.some(([, digits]) => Number(digits) !== 0)) continue;
+      const key = `${relative} ${property}: ${value.trim()}`;
+      if (!remaining.delete(key)) violations.push(key);
+    }
+  }
+  assert.deepEqual(violations, [], 'Spacing px literals must read --ds-space-* tokens (DESIGN.md Spacing).');
+  assert.deepEqual([...remaining], [], 'Stale spacing exception.');
 });

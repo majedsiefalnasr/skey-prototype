@@ -67,7 +67,7 @@
   .email-sel-card[data-deck-edge] {
     margin-inline: calc(var(--deck-k, 1) * var(--ds-space-150));
     margin-bottom: calc(var(--ds-space-100) * -1);
-    padding-bottom: 10px;
+    padding-bottom: var(--ds-space-100);
     height: 56px;
   }
 
@@ -170,15 +170,15 @@
     }
     /* Density and touch parity with the shell rail. */
     body.density-compact .email-folders {
-      padding: 5px var(--ds-space-050);
+      padding: var(--ds-space-050) var(--ds-space-050);
     }
     body.density-compact .ef-row {
       height: 30px;
       padding-inline-start: var(--ds-space-100);
-      gap: 7px;
+      gap: var(--ds-space-075);
     }
     body.density-compact .ef-scroll {
-      gap: 1px;
+      gap: var(--ds-space-0);
       padding-block: var(--ds-space-050);
     }
     body.density-compact .ef-sep {

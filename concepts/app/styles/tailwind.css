@@ -140,7 +140,7 @@
   .organization-view[data-settings-navigation-style='standard'] .organization-nav button {
     flex: none;
     min-height: 40px;
-    padding: var(--ds-space-100) 14px;
+    padding: var(--ds-space-100) var(--ds-space-150);
     border: 0;
     border-bottom: 2px solid transparent;
     border-radius: 0;

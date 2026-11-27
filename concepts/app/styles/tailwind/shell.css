@@ -372,7 +372,7 @@
     background: var(--tooltip-bg);
     color: var(--tooltip-ink);
     font-size: 12px;
-    padding: 3px var(--ds-space-100);
+    padding: var(--ds-space-025) var(--ds-space-100);
     border-radius: 4px;
     white-space: nowrap;
     opacity: 0;
@@ -440,7 +440,7 @@
     font-size: 11px;
     font-weight: 600;
     border-radius: 5px;
-    padding: 1px 7px;
+    padding: var(--ds-space-0) var(--ds-space-075);
     text-transform: uppercase;
     letter-spacing: 0.02em;
   }
@@ -472,7 +472,7 @@
     background: var(--derived-bg);
     color: var(--derived-ink);
     border-radius: 4px;
-    padding: 1px var(--ds-space-075);
+    padding: var(--ds-space-0) var(--ds-space-075);
   }
   .missing {
     color: var(--faint);
@@ -485,7 +485,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--ds-space-075);
-    padding: var(--ds-space-075) 10px;
+    padding: var(--ds-space-075) var(--ds-space-100);
     border-radius: 6px;
   }
   .menu > button:not(.main):not(.car):hover {
@@ -548,8 +548,8 @@
     display: flex;
     width: 100%;
     align-items: center;
-    gap: 10px;
-    padding: var(--ds-space-100) 10px;
+    gap: var(--ds-space-100);
+    padding: var(--ds-space-100) var(--ds-space-100);
     border-radius: 6px;
     text-align: start;
   }
@@ -566,7 +566,7 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--faint);
-    padding: var(--ds-space-075) 10px var(--ds-space-025);
+    padding: var(--ds-space-075) var(--ds-space-100) var(--ds-space-025);
   }
   .mlist button.dan {
     color: var(--danger);
@@ -575,7 +575,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--ds-space-075);
-    padding: var(--ds-space-075) 11px;
+    padding: var(--ds-space-075) var(--ds-space-150);
     border: 1px solid var(--line);
     border-radius: 7px;
     font-size: 13px;
@@ -607,13 +607,13 @@
   /* ---- inline error/warning banners (concepts/app/styles/app-6.css) ---- */
   .inlineerr {
     display: flex;
-    gap: 10px;
+    gap: var(--ds-space-100);
     align-items: flex-start;
     border: 1px solid var(--danger-soft-line);
     background: var(--danger-soft-bg);
     border-radius: 9px;
-    padding: 11px 13px;
-    margin-bottom: 14px;
+    padding: var(--ds-space-150) var(--ds-space-150);
+    margin-bottom: var(--ds-space-150);
     font-size: 12.5px;
     color: var(--danger-soft-ink);
   }
@@ -623,7 +623,7 @@
   }
   .inlineerr b {
     display: block;
-    margin-bottom: 3px;
+    margin-bottom: var(--ds-space-025);
   }
   .inlineerr a {
     color: var(--danger-soft-ink);
@@ -631,13 +631,13 @@
   }
   .warnbox {
     display: flex;
-    gap: 10px;
+    gap: var(--ds-space-100);
     align-items: flex-start;
     border: 1px solid var(--warn-line);
     background: var(--warn-bg);
     border-radius: 9px;
-    padding: 11px 13px;
-    margin-bottom: 14px;
+    padding: var(--ds-space-150) var(--ds-space-150);
+    margin-bottom: var(--ds-space-150);
     font-size: 12.5px;
     color: var(--warn-ink);
   }
@@ -647,7 +647,7 @@
   }
   .warnbox b {
     display: block;
-    margin-bottom: 3px;
+    margin-bottom: var(--ds-space-025);
   }
 
   /* ---- keyboard shortcuts sheet (concepts/app/shell/shell-6.css) ---- */
@@ -661,8 +661,8 @@
   .kbdsheet .kh {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 14px var(--ds-space-200);
+    gap: var(--ds-space-100);
+    padding: var(--ds-space-150) var(--ds-space-200);
     border-bottom: 1px solid var(--line);
   }
   .kbdsheet .kh h3 {
@@ -674,17 +674,17 @@
   .kbdsheet dl {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: var(--ds-space-025) 18px;
+    gap: var(--ds-space-025) var(--ds-space-200);
     align-items: center;
   }
   .kbdsheet dt {
     font-size: 13px;
-    padding: 7px 0;
+    padding: var(--ds-space-075) 0;
     border-bottom: 1px solid var(--line-2);
   }
   .kbdsheet dd {
     margin: 0;
-    padding: 7px 0;
+    padding: var(--ds-space-075) 0;
     border-bottom: 1px solid var(--line-2);
     text-align: end;
   }
@@ -698,7 +698,7 @@
     background: var(--line-2);
     border: 1px solid var(--line);
     border-radius: 5px;
-    padding: var(--ds-space-025) 7px;
+    padding: var(--ds-space-025) var(--ds-space-075);
     color: var(--ink);
   }
 
@@ -751,8 +751,8 @@
   #adv-search-scrim .as-fields {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    padding: var(--ds-space-150) 14px;
+    gap: var(--ds-space-100);
+    padding: var(--ds-space-150) var(--ds-space-150);
     border-bottom: 1px solid var(--line);
     background: var(--line-2);
   }
@@ -786,13 +786,13 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--faint);
-    padding: 9px var(--ds-space-150) 3px;
+    padding: var(--ds-space-100) var(--ds-space-150) var(--ds-space-025);
   }
   #adv-search-scrim .as-item {
     display: flex;
     width: 100%;
     align-items: center;
-    gap: 11px;
+    gap: var(--ds-space-150);
     padding: var(--ds-space-100) var(--ds-space-150);
     border-radius: 8px;
     text-align: start;
@@ -828,13 +828,13 @@
   #adv-search-scrim .as-item .s {
     font-size: 12px;
     color: var(--muted);
-    margin-top: 1px;
+    margin-top: var(--ds-space-0);
   }
   #adv-search-scrim .as-foot {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: var(--ds-space-100) 14px;
+    gap: var(--ds-space-200);
+    padding: var(--ds-space-100) var(--ds-space-150);
     border-top: 1px solid var(--line);
     background: var(--line-2);
     font-size: 12px;
@@ -847,8 +847,8 @@
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 4px;
-    padding: 1px var(--ds-space-075);
-    margin-inline-end: 5px;
+    padding: var(--ds-space-0) var(--ds-space-075);
+    margin-inline-end: var(--ds-space-050);
   }
   #adv-search-scrim .adv-search-close {
     margin-inline-start: auto;
@@ -916,7 +916,7 @@
   }
   .appearance-theme-card {
     min-width: 0;
-    padding: 5px;
+    padding: var(--ds-space-050);
     border: 2px solid var(--line);
     border-radius: 10px;
     display: flex;
@@ -983,7 +983,7 @@
     height: 16px;
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: var(--ds-space-025);
     padding-inline: var(--ds-space-075);
     border-bottom: 1px solid var(--preview-line);
     background: var(--preview-surface);
@@ -1070,8 +1070,8 @@
   .theme-choice-label {
     display: flex;
     align-items: center;
-    gap: 7px;
-    padding: 0 3px 3px;
+    gap: var(--ds-space-075);
+    padding: 0 var(--ds-space-025) var(--ds-space-025);
     font-size: 12px;
     font-weight: 600;
   }
@@ -1117,11 +1117,11 @@
     border-top: 1px solid var(--line);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--ds-space-100);
   }
   .appearance-contrast-row > span:last-child {
     display: grid;
-    gap: 1px;
+    gap: var(--ds-space-0);
   }
   .appearance-contrast-row strong {
     font-size: 13px;
@@ -1168,7 +1168,7 @@
     color: var(--inverse);
     background: var(--accent);
     border-radius: 4px;
-    padding: var(--ds-space-025) 7px;
+    padding: var(--ds-space-025) var(--ds-space-075);
     font-size: 14px;
     font-weight: 700;
     white-space: nowrap;
@@ -1225,14 +1225,14 @@
     border-radius: 999px;
   }
   .appearance-scale-ticks {
-    padding-inline: 10px;
+    padding-inline: var(--ds-space-100);
     color: var(--muted);
     font-size: 11px;
     font-variant-numeric: tabular-nums;
   }
   .appearance-scale-ticks span {
     position: relative;
-    padding-top: 5px;
+    padding-top: var(--ds-space-050);
   }
   .appearance-scale-ticks span::before {
     content: '';
@@ -1249,12 +1249,12 @@
   }
   .appearance-option-card {
     min-width: 0;
-    padding: 5px;
+    padding: var(--ds-space-050);
     border: 2px solid var(--line);
     border-radius: 10px;
     flex-direction: column;
     align-items: stretch;
-    gap: 7px;
+    gap: var(--ds-space-075);
   }
   .appearance-option-card:hover {
     border-color: var(--ds-border-bold);
@@ -1279,11 +1279,11 @@
     display: grid;
     grid-template-columns: 18px minmax(0, 1fr);
     align-items: start;
-    gap: 7px;
-    padding: 1px 3px 3px;
+    gap: var(--ds-space-075);
+    padding: var(--ds-space-0) var(--ds-space-025) var(--ds-space-025);
   }
   .appearance-option-label > .theme-choice-radio {
-    margin-top: 1px;
+    margin-top: var(--ds-space-0);
   }
   .layout-preview-chrome,
   .density-preview-chrome,
@@ -1300,7 +1300,7 @@
     height: 16px;
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: var(--ds-space-025);
     padding-inline: var(--ds-space-075);
     border-bottom: 1px solid var(--line);
     background: var(--surface);
@@ -1456,7 +1456,7 @@
   }
   .card-style-preview-line {
     height: 4px;
-    margin: 7px var(--ds-space-100) 0;
+    margin: var(--ds-space-075) var(--ds-space-100) 0;
     background: var(--line);
   }
   .card-style-preview-line.short {
@@ -1485,12 +1485,12 @@
     display: grid;
     align-content: center;
     gap: var(--ds-space-100);
-    padding: 10px var(--ds-space-150);
+    padding: var(--ds-space-100) var(--ds-space-150);
   }
   .input-style-preview-field {
     position: relative;
     display: grid;
-    gap: 3px;
+    gap: var(--ds-space-025);
   }
   .input-style-preview-label {
     display: block;
@@ -1571,8 +1571,8 @@
   .dfoot {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: var(--ds-space-150) 18px;
+    gap: var(--ds-space-100);
+    padding: var(--ds-space-150) var(--ds-space-200);
     border-top: 1px solid var(--line);
     background: var(--line-2);
   }
@@ -1752,8 +1752,8 @@
   .dlg[data-tone] .dhd {
     background: transparent;
     border-bottom: none;
-    padding-inline: 18px var(--ds-space-100);
-    padding-block: 10px 14px;
+    padding-inline: var(--ds-space-200) var(--ds-space-100);
+    padding-block: var(--ds-space-100) var(--ds-space-150);
   }
   .dlg[data-tone] .dhd > .ibtn {
     color: var(--ink);
@@ -1849,7 +1849,7 @@
     font-size: 13px;
     color: var(--muted);
     line-height: 1.55;
-    margin-bottom: 14px;
+    margin-bottom: var(--ds-space-150);
     flex: none;
   }
   .cs-cols {
@@ -1872,7 +1872,7 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--ds-space-100);
-    padding: 9px var(--ds-space-150);
+    padding: var(--ds-space-100) var(--ds-space-150);
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
@@ -1884,7 +1884,7 @@
   }
   #cs-add-group {
     font-size: 12px;
-    padding: var(--ds-space-050) 9px;
+    padding: var(--ds-space-050) var(--ds-space-100);
   }
   .cs-tree {
     list-style: none;
@@ -1962,7 +1962,7 @@
   }
   .cs-tree-sub {
     list-style: none;
-    padding-inline-start: 22px;
+    padding-inline-start: var(--ds-space-250);
     border-inline-start: 1px solid var(--line);
     margin-inline-start: var(--ds-space-250);
   }
@@ -1983,7 +1983,7 @@
     display: block;
     font-size: 12.5px;
     color: var(--faint);
-    padding: 10px var(--ds-space-050);
+    padding: var(--ds-space-100) var(--ds-space-050);
   }
   .cs-group {
     border: 1px solid var(--line);
@@ -2044,7 +2044,7 @@
     color: var(--faint);
     background: var(--hover-overlay);
     border-radius: 999px;
-    padding: 1px 7px;
+    padding: var(--ds-space-0) var(--ds-space-075);
   }
   .cs-group-name {
     flex: 1;
@@ -2055,7 +2055,7 @@
     font-weight: 600;
     font-size: 13px;
     color: var(--ink);
-    padding: 3px 5px;
+    padding: var(--ds-space-025) var(--ds-space-050);
     border-radius: 5px;
   }
   .cs-group-name:hover,
@@ -2093,7 +2093,7 @@
     display: flex;
     align-items: center;
     gap: var(--ds-space-100);
-    padding: 5px var(--ds-space-075);
+    padding: var(--ds-space-050) var(--ds-space-075);
     border-radius: 6px;
     font-size: 12.5px;
     color: var(--ink);
@@ -2156,113 +2156,113 @@
   /* Comfortable deliberately adds breathing room to content and controls. It is
      not a font-size mode (that is Interface scale), so text stays the same size. */
   body.density-comfortable .gtop {
-    padding-block: 13px;
+    padding-block: var(--ds-space-150);
   }
   body.density-comfortable .canvas {
     margin-block: var(--ds-space-250);
   }
   body.density-comfortable .d1 .arow {
-    padding-block: 11px;
+    padding-block: var(--ds-space-150);
   }
   body.density-comfortable .d1 .phead {
-    padding-block: var(--ds-space-200) 22px;
+    padding-block: var(--ds-space-200) var(--ds-space-250);
   }
   body.density-comfortable .side {
     padding-block: var(--ds-space-100);
   }
   body.density-comfortable .nc1-item,
   body.density-comfortable .nc-fav {
-    padding-block: 7px;
+    padding-block: var(--ds-space-075);
   }
   body.density-comfortable .rec-card-body {
     gap: var(--ds-space-200) var(--ds-space-250);
-    padding: 18px;
+    padding: var(--ds-space-200);
   }
   body.density-comfortable .rec-card {
-    margin-bottom: 18px;
+    margin-bottom: var(--ds-space-200);
   }
   body.density-comfortable .rec-field label {
-    margin-bottom: 5px;
+    margin-bottom: var(--ds-space-050);
   }
   body.density-comfortable .rec-field input,
   body.density-comfortable .rec-field textarea {
     min-height: 38px;
-    padding: 9px 11px;
+    padding: var(--ds-space-100) var(--ds-space-150);
   }
 
   body.density-comfortable .rec-field select {
     min-height: 38px;
-    padding-block: 9px;
+    padding-block: var(--ds-space-100);
   }
   body.density-comfortable .inv-grid th,
   body.density-comfortable .inv-grid td {
-    padding: 13px 18px;
+    padding: var(--ds-space-150) var(--ds-space-200);
   }
   body.density-comfortable .data-list-controls {
-    gap: 14px;
-    margin-bottom: 14px;
+    gap: var(--ds-space-150);
+    margin-bottom: var(--ds-space-150);
   }
   body.density-comfortable .data-list-toolbar {
     min-height: 50px;
-    padding: 10px 13px;
+    padding: var(--ds-space-100) var(--ds-space-150);
   }
   body.density-comfortable .data-toolbar-button,
   body.density-comfortable .data-menu > summary,
   body.density-comfortable .data-page-manage > summary {
     min-height: 34px;
-    padding: 7px 10px;
+    padding: var(--ds-space-075) var(--ds-space-100);
   }
   body.density-comfortable .data-filter-chip {
     min-height: 34px;
-    padding: var(--ds-space-075) 10px;
+    padding: var(--ds-space-075) var(--ds-space-100);
   }
   body.density-comfortable .fnav,
   body.density-comfortable .fnav-list {
-    padding-block: 11px;
+    padding-block: var(--ds-space-150);
   }
   body.density-comfortable .profile-layout,
   body.density-comfortable .customer-scroll-layout {
-    gap: 26px;
+    gap: var(--ds-space-300);
   }
   body.density-comfortable .profile-scroll-nav,
   body.density-comfortable .customer-scroll-nav {
-    padding: 11px;
-    gap: 3px;
+    padding: var(--ds-space-150);
+    gap: var(--ds-space-025);
   }
   body.density-comfortable .profile-scroll-nav button {
     min-height: 42px;
-    padding: 11px 11px;
+    padding: var(--ds-space-150) var(--ds-space-150);
   }
   body.density-compact .rec-card-hd {
-    padding: 5px var(--ds-space-100);
+    padding: var(--ds-space-050) var(--ds-space-100);
     font-size: 12px;
   }
   body.density-compact .rec-card {
     margin-bottom: var(--ds-space-075);
   }
   body.density-compact .rec-field label {
-    margin-bottom: 1px;
+    margin-bottom: var(--ds-space-0);
     font-size: 12px;
   }
   body.density-compact .rec-field input,
   body.density-compact .rec-field textarea {
-    padding: 3px var(--ds-space-075);
+    padding: var(--ds-space-025) var(--ds-space-075);
   }
   body.density-compact .rec-field select {
-    padding-block: 3px;
+    padding-block: var(--ds-space-025);
   }
   body.density-compact .profile-layout,
   body.density-compact .customer-scroll-layout {
-    gap: 14px;
+    gap: var(--ds-space-150);
   }
   body.density-compact .profile-scroll-nav,
   body.density-compact .customer-scroll-nav {
-    padding: 5px;
+    padding: var(--ds-space-050);
     gap: 0;
   }
   body.density-compact .profile-scroll-nav button {
     min-height: 30px;
-    padding: 5px 7px;
+    padding: var(--ds-space-050) var(--ds-space-075);
   }
   body.density-compact .rec-settlement {
     gap: var(--ds-space-100);
@@ -2274,7 +2274,7 @@
     padding: var(--ds-space-075) var(--ds-space-100);
   }
   body.density-compact .rec-adjustment-row {
-    gap: 5px;
+    gap: var(--ds-space-050);
     padding: var(--ds-space-075);
   }
   @media (width < theme(--breakpoint-md)) {
@@ -2316,20 +2316,20 @@
     margin-bottom: var(--ds-space-075);
   }
   body.density-compact .rec-items-hd {
-    margin-bottom: 5px;
+    margin-bottom: var(--ds-space-050);
   }
   body.density-compact .inv-grid th,
   body.density-compact .inv-grid td {
-    padding: 3px var(--ds-space-075);
+    padding: var(--ds-space-025) var(--ds-space-075);
   }
   body.density-compact .inv-grid td input {
-    padding: var(--ds-space-025) 5px;
+    padding: var(--ds-space-025) var(--ds-space-050);
   }
   body.density-compact .rec-card-flow {
     gap: var(--ds-space-075);
   }
   body.density-compact .rec-payment-row {
-    gap: 10px;
+    gap: var(--ds-space-100);
     padding: var(--ds-space-075);
   }
   body.density-compact .rec-tabs {
@@ -2337,7 +2337,7 @@
     margin-bottom: var(--ds-space-100);
   }
   body.density-compact .rec-tab {
-    padding: 5px 10px;
+    padding: var(--ds-space-050) var(--ds-space-100);
     font-size: 12.5px;
   }
   body.density-compact .lbtn {
@@ -2348,7 +2348,7 @@
   body.density-compact .ibtn {
     min-width: 26px;
     min-height: 26px;
-    padding: var(--ds-space-025) 5px;
+    padding: var(--ds-space-025) var(--ds-space-050);
   }
   /* List-page content (toolbar, filters, stats, table, cards, kanban, pagination) --
      same scope as the record overrides above, so the compact list view matches the
@@ -2358,8 +2358,8 @@
     padding-block-end: var(--ds-space-100);
   }
   body.density-compact .data-stat-card {
-    gap: 5px;
-    padding: 9px 10px;
+    gap: var(--ds-space-050);
+    padding: var(--ds-space-100) var(--ds-space-100);
   }
   body.density-compact .data-stat-card strong {
     font-size: 19px;
@@ -2373,18 +2373,18 @@
     padding: var(--ds-space-050) 0;
   }
   body.density-compact .data-selection-toolbar {
-    padding-inline: 7px;
+    padding-inline: var(--ds-space-075);
   }
   body.density-compact .data-toolbar-button,
   body.density-compact .data-menu > summary,
   body.density-compact .data-page-manage > summary {
     min-height: 26px;
-    padding: 3px 7px;
+    padding: var(--ds-space-025) var(--ds-space-075);
     font-size: 12px;
   }
   body.density-compact .data-search input {
     min-height: 26px;
-    padding-block: 3px;
+    padding-block: var(--ds-space-025);
   }
   body.density-compact .data-filter-chip {
     min-height: 24px;
@@ -2404,19 +2404,19 @@
     padding-block: var(--ds-space-050);
   }
   body.density-compact .data-responsive-details {
-    gap: var(--ds-space-100) 14px;
-    padding-block: var(--ds-space-100) 10px;
+    gap: var(--ds-space-100) var(--ds-space-150);
+    padding-block: var(--ds-space-100) var(--ds-space-100);
   }
   body.density-compact .data-kanban-board {
     padding: var(--ds-space-100);
     gap: var(--ds-space-100);
   }
   body.density-compact .data-kanban-column {
-    padding: 7px;
+    padding: var(--ds-space-075);
     gap: var(--ds-space-075);
   }
   body.density-compact .data-kanban-card {
-    padding: 7px;
+    padding: var(--ds-space-075);
     gap: var(--ds-space-075);
   }
   body.density-compact .fnav,
@@ -2446,7 +2446,7 @@
   body.density-compact .gtop .right .chip,
   body.density-compact .lp-chrome .right .chip {
     min-height: 28px;
-    padding-block: 3px;
+    padding-block: var(--ds-space-025);
   }
   body.density-compact .gtop .avatar,
   body.density-compact .lp-chrome .avatar {
@@ -2457,7 +2457,7 @@
     padding-block: var(--ds-space-050);
   }
   body.density-compact .nc-group-lbl {
-    padding-block: 9px 3px;
+    padding-block: var(--ds-space-100) var(--ds-space-025);
   }
   body.density-compact .nc-fav,
   body.density-compact .nc1-item {
@@ -2471,10 +2471,10 @@
     height: 30px;
     padding-block: 0;
     padding-inline-start: var(--ds-space-100);
-    gap: 7px;
+    gap: var(--ds-space-075);
   }
   body.density-compact .nc3-title {
-    padding-block: var(--ds-space-075) 3px;
+    padding-block: var(--ds-space-075) var(--ds-space-025);
   }
   /* Page header (title + action buttons) -- sits as a sibling of .canvas on every
      list/record screen, so needs its own rule rather than relying on the .canvas
@@ -2489,10 +2489,10 @@
   body.density-compact .sinp,
   body.density-compact .sctx,
   body.density-compact .sfoot {
-    padding-block: 5px;
+    padding-block: var(--ds-space-050);
   }
   body.density-compact .sitem {
-    padding-block: 5px;
+    padding-block: var(--ds-space-050);
   }
   body.density-compact .sgrp {
     padding-block: var(--ds-space-075) var(--ds-space-025);
@@ -2512,17 +2512,17 @@
   /* Modal dialogs -- generic shell used by every .dlg (filters, manage columns,
      customize sidebar, etc.), plus their form fields. */
   body.density-compact .dlg .dhd {
-    padding-block: 9px;
+    padding-block: var(--ds-space-100);
   }
   body.density-compact .dbody {
-    padding-block: 10px;
+    padding-block: var(--ds-space-100);
   }
   body.density-compact .dfoot {
     padding-block: var(--ds-space-100);
   }
   body.density-compact .fset {
-    padding: var(--ds-space-100) 10px;
-    margin-bottom: 10px;
+    padding: var(--ds-space-100) var(--ds-space-100);
+    margin-bottom: var(--ds-space-100);
   }
   body.density-compact .fld select,
   body.density-compact .fld input {
@@ -2533,7 +2533,7 @@
      "balanced" layout; these cover "operational", "analytical" and "exceptions" so
      every statistics concept compacts the same way. */
   body.density-compact .data-stat-operation {
-    gap: var(--ds-space-075) 10px;
+    gap: var(--ds-space-075) var(--ds-space-100);
     padding: var(--ds-space-100);
   }
   body.density-compact .data-stat-operation-value strong {
@@ -2543,14 +2543,14 @@
     padding-top: var(--ds-space-075);
   }
   body.density-compact .data-stat-analytical {
-    gap: 5px;
-    padding: var(--ds-space-100) 9px;
+    gap: var(--ds-space-050);
+    padding: var(--ds-space-100) var(--ds-space-100);
   }
   body.density-compact .data-stat-analytical > strong {
     font-size: 17px;
   }
   body.density-compact .data-stat-exception-lead {
-    padding: 10px;
+    padding: var(--ds-space-100);
   }
   body.density-compact .data-stat-exception-row {
     padding: var(--ds-space-075) var(--ds-space-100);
@@ -2570,7 +2570,7 @@
     height: 32px;
   }
   body.density-compact .lp-title {
-    margin-top: 14px;
+    margin-top: var(--ds-space-150);
     font-size: clamp(21px, 3vw, 27px);
   }
   body.density-compact .lp-subtitle {
@@ -2584,7 +2584,7 @@
     padding-block: var(--ds-space-100);
   }
   body.density-compact .lp-sections {
-    gap: 18px;
+    gap: var(--ds-space-200);
   }
   body.density-compact .lp-quick-panel {
     margin-top: var(--ds-space-100);
@@ -2593,7 +2593,7 @@
     padding-block: var(--ds-space-050);
   }
   body.density-compact .lp-section-hd {
-    margin-bottom: 9px;
+    margin-bottom: var(--ds-space-100);
     padding-top: var(--ds-space-150);
   }
   body.density-compact .lp-grid {
@@ -2603,7 +2603,7 @@
     grid-template-columns: 32px minmax(0, 1fr) 14px;
     min-height: 90px;
     gap: var(--ds-space-100);
-    padding: 11px;
+    padding: var(--ds-space-150);
   }
   body.density-compact .lp-tile-ic {
     width: 32px;
@@ -2613,7 +2613,7 @@
      same deliberately looser rhythm here as the rest of the application. */
   body.density-comfortable .lp-chrome {
     min-height: 64px;
-    padding-block: 13px;
+    padding-block: var(--ds-space-150);
   }
   body.density-comfortable .lp-hero {
     margin-top: var(--ds-space-800);
@@ -2621,13 +2621,13 @@
   }
   body.density-comfortable .lp-body {
     gap: var(--ds-space-400);
-    padding: var(--ds-space-400) var(--ds-space-600) 56px;
+    padding: var(--ds-space-400) var(--ds-space-600) var(--ds-space-600);
   }
   body.density-comfortable .lp-search {
-    padding-block: 15px;
+    padding-block: var(--ds-space-200);
   }
   body.density-comfortable .lp-sections {
-    gap: 36px;
+    gap: var(--ds-space-400);
   }
   body.density-comfortable .lp-quick-panel {
     margin-top: var(--ds-space-200);
@@ -2637,7 +2637,7 @@
   }
   body.density-comfortable .lp-section-hd {
     margin-bottom: var(--ds-space-200);
-    padding-top: 28px;
+    padding-top: var(--ds-space-300);
   }
   body.density-comfortable .lp-grid {
     gap: var(--ds-space-400);
@@ -2646,7 +2646,7 @@
     grid-template-columns: 44px minmax(0, 1fr) 14px;
     min-height: 120px;
     gap: var(--ds-space-400);
-    padding: 18px;
+    padding: var(--ds-space-200);
   }
   body.density-comfortable .lp-tile-ic {
     width: 44px;
@@ -2656,55 +2656,55 @@
     height: 50px;
   }
   body.density-comfortable .lp-title {
-    margin-top: 34px;
+    margin-top: var(--ds-space-400);
   }
   body.density-comfortable .lp-subtitle {
-    margin-top: 14px;
+    margin-top: var(--ds-space-150);
   }
   /* Comfortable counterparts for every record/list/chrome compact rule above.
      Spacing only -- Comfortable is not a font-size mode, so no rule here
      changes a type size. */
   body.density-comfortable .rec-card-hd {
-    padding: 11px var(--ds-space-200);
+    padding: var(--ds-space-150) var(--ds-space-200);
   }
   body.density-comfortable .rec-settlement {
     gap: var(--ds-space-300);
     margin-bottom: var(--ds-space-200);
   }
   body.density-comfortable .rec-adjustments-hd {
-    padding: 11px var(--ds-space-200);
+    padding: var(--ds-space-150) var(--ds-space-200);
   }
   body.density-comfortable .rec-adjustment-list {
-    padding: 18px;
+    padding: var(--ds-space-200);
   }
   body.density-comfortable .rec-summary-rows {
-    padding: var(--ds-space-200) 18px;
+    padding: var(--ds-space-200) var(--ds-space-200);
   }
   body.density-comfortable .rec-adjustment-row {
-    gap: 11px;
-    padding: 14px;
+    gap: var(--ds-space-150);
+    padding: var(--ds-space-150);
   }
   body.density-comfortable .rec-pinned {
     margin-top: var(--ds-space-400);
-    padding: 18px;
+    padding: var(--ds-space-200);
   }
   body.density-comfortable .rec-pinned-hd {
-    margin-bottom: 14px;
+    margin-bottom: var(--ds-space-150);
   }
   body.density-comfortable .rec-items {
-    margin-bottom: 18px;
+    margin-bottom: var(--ds-space-200);
   }
   body.density-comfortable .rec-items-hd {
-    margin-bottom: 11px;
+    margin-bottom: var(--ds-space-150);
   }
   body.density-comfortable .inv-grid td input {
-    padding: 7px 9px;
+    padding: var(--ds-space-075) var(--ds-space-100);
   }
   body.density-comfortable .rec-card-flow {
-    gap: 28px;
+    gap: var(--ds-space-300);
   }
   body.density-comfortable .rec-payment-row {
-    gap: 22px;
+    gap: var(--ds-space-250);
     padding: var(--ds-space-200);
   }
   body.density-comfortable .rec-tabs {
@@ -2712,10 +2712,10 @@
     margin-bottom: var(--ds-space-200);
   }
   body.density-comfortable .rec-tab {
-    padding: 11px 18px;
+    padding: var(--ds-space-150) var(--ds-space-200);
   }
   body.density-comfortable .lbtn {
-    padding: 9px 14px;
+    padding: var(--ds-space-100) var(--ds-space-150);
   }
   body.density-comfortable .ibtn {
     min-width: 36px;
@@ -2723,12 +2723,12 @@
     padding: var(--ds-space-100) var(--ds-space-150);
   }
   body.density-comfortable .data-statistics {
-    margin-bottom: 14px;
+    margin-bottom: var(--ds-space-150);
     padding-block-end: var(--ds-space-200);
   }
   body.density-comfortable .data-stat-card {
-    gap: 11px;
-    padding: 18px var(--ds-space-250);
+    gap: var(--ds-space-150);
+    padding: var(--ds-space-200) var(--ds-space-250);
   }
   body.density-comfortable .data-search input {
     min-height: 38px;
@@ -2736,7 +2736,7 @@
   }
   body.density-comfortable .data-list-shell .inv-grid th,
   body.density-comfortable .data-list-shell .inv-grid td {
-    padding-block: 13px;
+    padding-block: var(--ds-space-150);
   }
   body.density-comfortable .data-row-menu > summary,
   body.density-comfortable .data-row-expand {
@@ -2748,7 +2748,7 @@
     padding-block: var(--ds-space-100);
   }
   body.density-comfortable .data-responsive-details {
-    gap: var(--ds-space-200) 22px;
+    gap: var(--ds-space-200) var(--ds-space-250);
     padding-block: var(--ds-space-200);
   }
   body.density-comfortable .data-kanban-board {
@@ -2756,12 +2756,12 @@
     gap: var(--ds-space-200);
   }
   body.density-comfortable .data-kanban-column {
-    padding: 14px;
-    gap: 11px;
+    padding: var(--ds-space-150);
+    gap: var(--ds-space-150);
   }
   body.density-comfortable .data-kanban-card {
-    padding: 14px;
-    gap: 11px;
+    padding: var(--ds-space-150);
+    gap: var(--ds-space-150);
   }
   body.density-comfortable .data-pagination-edge,
   body.density-comfortable .data-pagination-prev,
@@ -2775,7 +2775,7 @@
   body.density-comfortable .gtop .right .chip,
   body.density-comfortable .lp-chrome .right .chip {
     min-height: 36px;
-    padding-block: 7px;
+    padding-block: var(--ds-space-075);
   }
   body.density-comfortable .gtop .avatar,
   body.density-comfortable .lp-chrome .avatar {
@@ -2783,29 +2783,29 @@
     height: 38px;
   }
   body.density-comfortable .swrap .sbox {
-    padding-block: 10px;
+    padding-block: var(--ds-space-100);
   }
   body.density-comfortable .nc-group-lbl {
-    padding-block: 19px 5px;
+    padding-block: var(--ds-space-250) var(--ds-space-050);
   }
   body.density-comfortable .nc3-title {
-    padding-block: 11px var(--ds-space-075);
+    padding-block: var(--ds-space-150) var(--ds-space-075);
   }
   body.density-comfortable .sinp,
   body.density-comfortable .sctx,
   body.density-comfortable .sfoot {
-    padding-block: 11px;
+    padding-block: var(--ds-space-150);
   }
   body.density-comfortable .sitem {
-    padding-block: 11px;
+    padding-block: var(--ds-space-150);
   }
   body.density-comfortable .sgrp {
-    padding-block: var(--ds-space-150) 5px;
+    padding-block: var(--ds-space-150) var(--ds-space-050);
   }
   body.density-comfortable .mlist button:not([role='tab']),
   body.density-comfortable .mlist label {
     min-height: 36px;
-    padding-block: 11px;
+    padding-block: var(--ds-space-150);
   }
   body.density-comfortable .data-menu-popover button,
   body.density-comfortable .data-menu-popover label {
@@ -2813,22 +2813,22 @@
     padding-block: var(--ds-space-100);
   }
   body.density-comfortable .dlg .dhd {
-    padding-block: 14px 18px;
+    padding-block: var(--ds-space-150) var(--ds-space-200);
   }
   body.density-comfortable .dbody {
-    padding-block: 22px;
+    padding-block: var(--ds-space-250);
   }
   body.density-comfortable .dfoot {
     padding-block: var(--ds-space-200);
   }
   body.density-comfortable .fset {
-    padding: var(--ds-space-200) 18px;
+    padding: var(--ds-space-200) var(--ds-space-200);
     margin-bottom: var(--ds-space-200);
   }
   body.density-comfortable .fld select,
   body.density-comfortable .fld input {
     min-height: 38px;
-    padding-block: 9px;
+    padding-block: var(--ds-space-100);
   }
   body.density-comfortable .data-stat-operation {
     gap: var(--ds-space-150) var(--ds-space-200);
@@ -2838,14 +2838,14 @@
     padding-top: var(--ds-space-150);
   }
   body.density-comfortable .data-stat-analytical {
-    gap: 11px;
-    padding: 18px 19px;
+    gap: var(--ds-space-150);
+    padding: var(--ds-space-200) var(--ds-space-250);
   }
   body.density-comfortable .data-stat-exception-lead {
     padding: var(--ds-space-250);
   }
   body.density-comfortable .data-stat-exception-row {
-    padding: 14px var(--ds-space-200);
+    padding: var(--ds-space-150) var(--ds-space-200);
   }
   /* Compact rules for the shell surfaces Comfortable already covered. */
   body.density-compact .canvas {
@@ -2864,7 +2864,7 @@
   }
   body.density-comfortable .geo-tree-node {
     min-height: 50px;
-    padding-block: 9px;
+    padding-block: var(--ds-space-100);
   }
   body.density-compact .geo-tree-header {
     min-height: 46px;
@@ -2872,7 +2872,7 @@
   }
   body.density-comfortable .geo-tree-header {
     min-height: 68px;
-    padding-block: 11px;
+    padding-block: var(--ds-space-150);
   }
   body.density-compact .geo-view-switch {
     gap: var(--ds-space-025);
@@ -2889,36 +2889,36 @@
   }
   body.density-comfortable .geo-filter-quick,
   body.density-comfortable .data-export-formats {
-    gap: 9px;
+    gap: var(--ds-space-100);
     margin-bottom: var(--ds-space-250);
   }
   body.density-compact .geo-filter-quick button,
   body.density-compact .data-export-formats button {
-    padding: var(--ds-space-050) 9px;
+    padding: var(--ds-space-050) var(--ds-space-100);
   }
   body.density-comfortable .geo-filter-quick button,
   body.density-comfortable .data-export-formats button {
-    padding: 9px 14px;
+    padding: var(--ds-space-100) var(--ds-space-150);
   }
   body.density-compact .dgrid .dcard {
     gap: var(--ds-space-075);
     padding: var(--ds-space-100);
   }
   body.density-comfortable .dgrid .dcard {
-    gap: 13px;
-    padding: 15px;
+    gap: var(--ds-space-150);
+    padding: var(--ds-space-200);
   }
   body.density-compact .fgrid {
-    gap: var(--ds-space-100) 10px;
+    gap: var(--ds-space-100) var(--ds-space-100);
   }
   body.density-comfortable .fgrid {
-    gap: var(--ds-space-200) 18px;
+    gap: var(--ds-space-200) var(--ds-space-200);
   }
   body.density-compact .fld {
-    gap: 3px;
+    gap: var(--ds-space-025);
   }
   body.density-comfortable .fld {
-    gap: 7px;
+    gap: var(--ds-space-075);
   }
   body.density-compact .pager {
     gap: var(--ds-space-025);
@@ -2944,7 +2944,7 @@
     padding-block: var(--ds-space-075);
   }
   body.density-comfortable .drbar {
-    padding-block: 13px;
+    padding-block: var(--ds-space-150);
   }
   body.density-compact .drfoot {
     padding-block: var(--ds-space-100);
@@ -2953,10 +2953,10 @@
     padding-block: var(--ds-space-200);
   }
   body.density-compact .drhd {
-    padding-block: 9px 0;
+    padding-block: var(--ds-space-100) 0;
   }
   body.density-comfortable .drhd {
-    padding-block: 19px 0;
+    padding-block: var(--ds-space-250) 0;
   }
   body.density-compact .drtabs {
     gap: var(--ds-space-150);
@@ -2967,36 +2967,36 @@
     margin-top: var(--ds-space-200);
   }
   body.density-compact .drtab {
-    padding-block: 5px;
+    padding-block: var(--ds-space-050);
   }
   body.density-comfortable .drtab {
-    padding-block: 11px;
+    padding-block: var(--ds-space-150);
   }
   body.density-compact .drbody .drnote {
-    padding-block: 9px;
+    padding-block: var(--ds-space-100);
   }
   body.density-comfortable .drbody .drnote {
-    padding-block: 17px;
+    padding-block: var(--ds-space-200);
   }
   body.density-compact .drbody .act {
-    padding-block: 9px;
+    padding-block: var(--ds-space-100);
   }
   body.density-comfortable .drbody .act {
-    padding-block: 19px;
+    padding-block: var(--ds-space-250);
   }
   body.density-compact .drbody .daysep {
     padding-block: var(--ds-space-075);
   }
   body.density-comfortable .drbody .daysep {
-    padding-block: 11px;
+    padding-block: var(--ds-space-150);
   }
   body.density-compact .drbody .card {
     gap: var(--ds-space-150);
-    padding-block: 9px;
+    padding-block: var(--ds-space-100);
   }
   body.density-comfortable .drbody .card {
-    gap: 28px;
-    padding-block: 19px;
+    gap: var(--ds-space-300);
+    padding-block: var(--ds-space-250);
   }
   /* Utility-styled surfaces that carry no base CSS of their own, so density has to
      own the same gap/padding the markup utilities would otherwise freeze. */
@@ -3004,21 +3004,21 @@
     gap: var(--ds-space-050);
   }
   body.density-comfortable .recacts {
-    gap: 10px;
+    gap: var(--ds-space-100);
   }
   body.density-compact .dgrid {
     gap: var(--ds-space-075);
   }
   body.density-comfortable .dgrid {
-    gap: 14px;
+    gap: var(--ds-space-150);
   }
   body.density-compact #adv-search-scrim .as-fields {
     gap: var(--ds-space-075);
-    padding: var(--ds-space-100) 10px;
+    padding: var(--ds-space-100) var(--ds-space-100);
   }
   body.density-comfortable #adv-search-scrim .as-fields {
-    gap: 14px;
-    padding: var(--ds-space-200) 18px;
+    gap: var(--ds-space-150);
+    padding: var(--ds-space-200) var(--ds-space-200);
   }
   body.density-compact #adv-search-scrim .as-field {
     gap: var(--ds-space-025);
@@ -3033,18 +3033,18 @@
     gap: var(--ds-space-100);
   }
   body.density-compact .drbody .chips {
-    margin-top: 5px;
+    margin-top: var(--ds-space-050);
     gap: var(--ds-space-050);
   }
   body.density-comfortable .drbody .chips {
-    margin-top: 9px;
-    gap: 10px;
+    margin-top: var(--ds-space-100);
+    gap: var(--ds-space-100);
   }
   body.density-compact .drbody .chip {
-    padding-block: 1px;
+    padding-block: var(--ds-space-0);
   }
   body.density-comfortable .drbody .chip {
-    padding-block: 5px;
+    padding-block: var(--ds-space-050);
   }
   /* .drbody has no padding of its own to tighten, so Comfortable only adds the
      breathing room (same treatment as the sidebar). */
@@ -3053,18 +3053,18 @@
   }
 
   body.density-compact .nc2-rail {
-    padding: 5px var(--ds-space-050);
-    gap: 1px;
+    padding: var(--ds-space-050) var(--ds-space-050);
+    gap: var(--ds-space-0);
   }
   body.density-compact .nc2-rail-sep {
     margin-block: var(--ds-space-025);
   }
   body.density-compact .nc-scroll.nc3-body {
-    padding-block: 1px var(--ds-space-050);
+    padding-block: var(--ds-space-0) var(--ds-space-050);
     padding-inline: var(--ds-space-050);
   }
   body.density-compact .nc1-sub {
-    padding-inline-start: 10px;
+    padding-inline-start: var(--ds-space-100);
   }
   body.density-compact .page-content {
     --page-pad: var(--ds-space-150);
@@ -3078,13 +3078,13 @@
     padding-inline: var(--ds-space-050);
   }
   body.density-compact .d1 .tline {
-    gap: 14px;
+    gap: var(--ds-space-150);
   }
   body.density-compact .phead .r {
-    gap: 3px;
+    gap: var(--ds-space-025);
   }
   body.density-compact .skip-link {
-    padding: var(--ds-space-075) 10px;
+    padding: var(--ds-space-075) var(--ds-space-100);
   }
   body.density-compact :is(.menus-mount, .arow) .menu > button {
     padding: var(--ds-space-050) var(--ds-space-100);
@@ -3094,14 +3094,14 @@
     padding: var(--ds-space-025) var(--ds-space-075);
   }
   body.density-compact .badge {
-    padding: 1px 5px;
+    padding: var(--ds-space-0) var(--ds-space-050);
   }
   body.density-compact .ctx {
-    padding: var(--ds-space-050) 9px;
+    padding: var(--ds-space-050) var(--ds-space-100);
     gap: var(--ds-space-050);
   }
   body.density-compact .gtop .left {
-    gap: 7px;
+    gap: var(--ds-space-075);
   }
   body.density-compact .swrap .sbox .ms-auto {
     padding-block: 0;
@@ -3113,10 +3113,10 @@
   }
   body.density-compact .lp-actions-left,
   body.density-compact .lp-actions {
-    gap: 5px;
+    gap: var(--ds-space-050);
   }
   body.density-compact :is(.gtop .right, .lp-actions .right) {
-    gap: 5px;
+    gap: var(--ds-space-050);
   }
   body.density-compact :is(.gtop .left, .lp-actions-left) .app {
     padding: var(--ds-space-050) var(--ds-space-075);
@@ -3140,8 +3140,8 @@
   }
   body.density-compact .lp-quick-tabs button,
   body.density-compact .geo-view-switch button {
-    padding: 3px 7px;
-    gap: 5px;
+    padding: var(--ds-space-025) var(--ds-space-075);
+    gap: var(--ds-space-050);
     min-height: 28px;
   }
   body.density-compact .lp-quick-more {
@@ -3159,42 +3159,42 @@
     gap: var(--ds-space-050);
   }
   body.density-compact .toastwrap {
-    gap: 7px;
+    gap: var(--ds-space-075);
   }
   body.density-compact #kit-pill {
     padding: var(--ds-space-075) var(--ds-space-150) !important;
-    gap: 5px !important;
+    gap: var(--ds-space-050) !important;
   }
   body.density-compact .data-sort-button {
-    gap: 3px;
+    gap: var(--ds-space-025);
   }
   body.density-compact .data-row-actions {
-    gap: 1px;
+    gap: var(--ds-space-0);
   }
   body.density-compact .data-menu-popover {
     padding: var(--ds-space-050);
-    gap: 1px;
+    gap: var(--ds-space-0);
   }
   body.density-compact .data-manage-copy {
     gap: 0;
   }
   body.density-compact .data-manage-group-label {
-    padding: 5px var(--ds-space-075) 3px;
+    padding: var(--ds-space-050) var(--ds-space-075) var(--ds-space-025);
   }
   body.density-compact .data-menu-separator.my-1 {
     margin-block: var(--ds-space-025);
   }
   body.density-compact .data-menu-separator.my-0.5 {
-    margin-block: 1px;
+    margin-block: var(--ds-space-0);
   }
   body.density-compact .data-toolbar-cluster {
     gap: var(--ds-space-050);
   }
   body.density-compact .data-list-pagination {
-    gap: 7px var(--ds-space-150);
+    gap: var(--ds-space-075) var(--ds-space-150);
   }
   body.density-compact .data-pagination-controls {
-    gap: 3px;
+    gap: var(--ds-space-025);
   }
   body.density-compact .data-pagination-jump {
     padding-inline-start: var(--ds-space-075);
@@ -3220,17 +3220,17 @@
     padding-inline: var(--ds-space-050);
   }
   body.density-compact .customer-avatar-trigger.image-fit-contain img {
-    padding: 3px;
+    padding: var(--ds-space-025);
   }
   body.density-compact .rec-summary-row {
-    gap: 11px;
+    gap: var(--ds-space-150);
   }
   body.density-compact .rec-summary-row.rec-summary-total {
     padding-block-start: var(--ds-space-100);
-    margin-block-start: 1px;
+    margin-block-start: var(--ds-space-0);
   }
   body.density-compact .rec-summary h3 {
-    padding: 9px var(--ds-space-150);
+    padding: var(--ds-space-100) var(--ds-space-150);
   }
   body.density-compact .rec-summary-discount-control {
     gap: var(--ds-space-050);
@@ -3240,10 +3240,10 @@
     padding-block: var(--ds-space-025);
   }
   body.density-compact .rec-summary-discount-value {
-    gap: 3px;
+    gap: var(--ds-space-025);
   }
   body.density-compact .rec-total-qty {
-    padding: var(--ds-space-050) 10px;
+    padding: var(--ds-space-050) var(--ds-space-100);
   }
   body.density-compact .rec-adjustment-actions {
     gap: var(--ds-space-050);
@@ -3256,15 +3256,15 @@
     padding-inline: var(--ds-space-075);
   }
   body.density-compact .stpill {
-    padding: 3px 9px;
-    gap: 7px;
+    padding: var(--ds-space-025) var(--ds-space-100);
+    gap: var(--ds-space-075);
   }
   body.density-compact .stpill .segs {
     gap: var(--ds-space-025);
   }
   body.density-compact .customer-section-heading,
   body.density-compact .customer-section-titlebar {
-    padding: var(--ds-space-075) 10px;
+    padding: var(--ds-space-075) var(--ds-space-100);
     gap: var(--ds-space-100);
   }
   body.density-compact .customer-section-titlebar h2 {
@@ -3275,10 +3275,10 @@
   }
   body.density-compact .customer-field-grid {
     padding: var(--ds-space-100);
-    gap: 7px var(--ds-space-150);
+    gap: var(--ds-space-075) var(--ds-space-150);
   }
   body.density-compact .customer-identity-body {
-    gap: 14px;
+    gap: var(--ds-space-150);
   }
   body.density-compact .customer-identity-photo {
     padding-inline-end: var(--ds-space-100);
@@ -3289,7 +3289,7 @@
     min-height: 268px;
   }
   body.density-compact .customer-table-toolbar {
-    padding: var(--ds-space-100) 10px;
+    padding: var(--ds-space-100) var(--ds-space-100);
     gap: var(--ds-space-075);
   }
   body.density-compact .customer-table-search {
@@ -3300,7 +3300,7 @@
     padding-block: 0;
   }
   body.density-compact .customer-table-pager {
-    padding: 10px;
+    padding: var(--ds-space-100);
   }
   body.density-compact .customer-empty-state {
     padding: var(--ds-space-250);
@@ -3311,8 +3311,8 @@
     gap: var(--ds-space-050);
   }
   body.density-compact .customer-beneficiary-toggle {
-    padding-block: 1px;
-    gap: 14px;
+    padding-block: var(--ds-space-0);
+    gap: var(--ds-space-150);
     min-height: 32px;
   }
   body.density-compact .customer-lookup-trigger {
@@ -3321,17 +3321,17 @@
     min-height: 28px;
   }
   body.density-compact .geo-workspace {
-    gap: 14px;
+    gap: var(--ds-space-150);
   }
   body.density-compact .geo-tree-header-actions {
     gap: var(--ds-space-025);
   }
   body.density-compact .geo-tree-tools {
     padding: var(--ds-space-075);
-    gap: 3px;
+    gap: var(--ds-space-025);
   }
   body.density-compact .geo-tree-search input {
-    padding-block: 3px;
+    padding-block: var(--ds-space-025);
     min-height: 30px;
   }
   body.density-compact .geo-tree {
@@ -3349,23 +3349,23 @@
     padding-block-end: var(--ds-space-150);
   }
   body.density-compact .print-group h4 {
-    margin-block-end: 10px;
+    margin-block-end: var(--ds-space-100);
   }
   body.density-compact .dlg .dhd-subtitle {
-    margin-block-start: 1px;
+    margin-block-start: var(--ds-space-0);
   }
   body.density-compact .dscrim {
     padding: var(--ds-space-250);
   }
   body.density-compact .fld label {
-    gap: 5px;
+    gap: var(--ds-space-050);
   }
   body.density-compact .ctl > .ctl-trigger {
     padding-block: 0;
     min-height: 28px;
   }
   body.density-compact .dgrid .dcard > span {
-    gap: 1px;
+    gap: var(--ds-space-0);
   }
   body.density-compact .dgrid .dcard .t {
     gap: var(--ds-space-050);
@@ -3376,7 +3376,7 @@
     padding-inline: var(--ds-space-100);
   }
   body.density-comfortable .nc1-sub {
-    padding-inline-start: 18px;
+    padding-inline-start: var(--ds-space-200);
   }
   body.density-comfortable .page-content {
     --page-pad: var(--ds-space-250);
@@ -3390,30 +3390,30 @@
     padding-inline: var(--ds-space-100);
   }
   body.density-comfortable .d1 .tline {
-    gap: 26px;
+    gap: var(--ds-space-300);
   }
   body.density-comfortable .phead .r {
     gap: var(--ds-space-075);
   }
   body.density-comfortable .skip-link {
-    padding: 10px 14px;
+    padding: var(--ds-space-100) var(--ds-space-150);
   }
   body.density-comfortable :is(.menus-mount, .arow) .menu > button {
     padding: var(--ds-space-100) var(--ds-space-150);
     gap: var(--ds-space-100);
   }
   body.density-comfortable .tip {
-    padding: var(--ds-space-050) 10px;
+    padding: var(--ds-space-050) var(--ds-space-100);
   }
   body.density-comfortable .badge {
-    padding: var(--ds-space-025) 9px;
+    padding: var(--ds-space-025) var(--ds-space-100);
   }
   body.density-comfortable .ctx {
-    padding: var(--ds-space-100) 13px;
+    padding: var(--ds-space-100) var(--ds-space-150);
     gap: var(--ds-space-100);
   }
   body.density-comfortable .gtop .left {
-    gap: 13px;
+    gap: var(--ds-space-150);
   }
   body.density-comfortable .swrap .sbox .ms-auto {
     padding-block: var(--ds-space-025);
@@ -3425,14 +3425,14 @@
   }
   body.density-comfortable .lp-actions-left,
   body.density-comfortable .lp-actions {
-    gap: 9px;
+    gap: var(--ds-space-100);
   }
   body.density-comfortable :is(.gtop .right, .lp-actions .right) {
-    gap: 9px;
+    gap: var(--ds-space-100);
   }
   body.density-comfortable :is(.gtop .left, .lp-actions-left) .app {
-    padding: var(--ds-space-100) 10px;
-    gap: 10px;
+    padding: var(--ds-space-100) var(--ds-space-100);
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .lp-tile-desc {
     margin-block-start: var(--ds-space-100);
@@ -3441,7 +3441,7 @@
     margin-block-start: var(--ds-space-050);
   }
   body.density-comfortable .lp-keyboard-hint {
-    padding: var(--ds-space-050) 10px;
+    padding: var(--ds-space-050) var(--ds-space-100);
   }
   body.density-comfortable .lp-quick-header {
     gap: var(--ds-space-200);
@@ -3452,8 +3452,8 @@
   }
   body.density-comfortable .lp-quick-tabs button,
   body.density-comfortable .geo-view-switch button {
-    padding: 7px 11px;
-    gap: 9px;
+    padding: var(--ds-space-075) var(--ds-space-150);
+    gap: var(--ds-space-100);
     min-height: 36px;
   }
   body.density-comfortable .lp-quick-more {
@@ -3461,7 +3461,7 @@
     padding-inline: var(--ds-space-100);
   }
   body.density-comfortable .lp-tags {
-    gap: 10px;
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .notif-badge {
     padding-inline: var(--ds-space-050);
@@ -3471,27 +3471,27 @@
     gap: var(--ds-space-100);
   }
   body.density-comfortable .toastwrap {
-    gap: 11px;
+    gap: var(--ds-space-150);
   }
   body.density-comfortable #kit-pill {
-    padding: 10px var(--ds-space-200) !important;
-    gap: 9px !important;
+    padding: var(--ds-space-100) var(--ds-space-200) !important;
+    gap: var(--ds-space-100) !important;
   }
   body.density-comfortable .data-sort-button {
-    gap: 7px;
+    gap: var(--ds-space-075);
   }
   body.density-comfortable .data-row-actions {
-    gap: 3px;
+    gap: var(--ds-space-025);
   }
   body.density-comfortable .data-menu-popover {
     padding: var(--ds-space-100);
-    gap: 3px;
+    gap: var(--ds-space-025);
   }
   body.density-comfortable .data-manage-copy {
     gap: var(--ds-space-025);
   }
   body.density-comfortable .data-manage-group-label {
-    padding: 9px 10px 5px;
+    padding: var(--ds-space-100) var(--ds-space-100) var(--ds-space-050);
   }
   body.density-comfortable .data-menu-separator {
     margin-block: var(--ds-space-075);
@@ -3500,13 +3500,13 @@
     gap: var(--ds-space-100);
   }
   body.density-comfortable .data-list-pagination {
-    gap: 13px var(--ds-space-250);
+    gap: var(--ds-space-150) var(--ds-space-250);
   }
   body.density-comfortable .data-pagination-controls {
-    gap: 5px;
+    gap: var(--ds-space-050);
   }
   body.density-comfortable .data-pagination-jump {
-    padding-inline-start: 10px;
+    padding-inline-start: var(--ds-space-100);
   }
   body.density-comfortable .data-pagination-jump-input {
     min-height: 34px;
@@ -3519,7 +3519,7 @@
     padding-inline: var(--ds-space-075);
   }
   body.density-comfortable .data-stat-card-head {
-    gap: 10px;
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .data-stat-card-head svg {
     padding: var(--ds-space-075);
@@ -3529,17 +3529,17 @@
     padding-inline: var(--ds-space-100);
   }
   body.density-comfortable .customer-avatar-trigger.image-fit-contain img {
-    padding: 7px;
+    padding: var(--ds-space-075);
   }
   body.density-comfortable .rec-summary-row {
-    gap: 21px;
+    gap: var(--ds-space-250);
   }
   body.density-comfortable .rec-summary-row.rec-summary-total {
-    padding-block-start: 14px;
-    margin-block-start: 3px;
+    padding-block-start: var(--ds-space-150);
+    margin-block-start: var(--ds-space-025);
   }
   body.density-comfortable .rec-summary h3 {
-    padding: 13px var(--ds-space-200);
+    padding: var(--ds-space-150) var(--ds-space-200);
   }
   body.density-comfortable .rec-summary-discount-control {
     gap: var(--ds-space-100);
@@ -3549,10 +3549,10 @@
     padding-block: var(--ds-space-075);
   }
   body.density-comfortable .rec-summary-discount-value {
-    gap: 7px;
+    gap: var(--ds-space-075);
   }
   body.density-comfortable .rec-total-qty {
-    padding: var(--ds-space-100) 14px;
+    padding: var(--ds-space-100) var(--ds-space-150);
   }
   body.density-comfortable .rec-adjustment-actions {
     gap: var(--ds-space-100);
@@ -3562,57 +3562,57 @@
     min-height: 80px;
   }
   body.density-comfortable .pager .tot {
-    padding-inline: 10px;
+    padding-inline: var(--ds-space-100);
   }
   body.density-comfortable .stpill {
-    padding: 7px 13px;
-    gap: 11px;
+    padding: var(--ds-space-075) var(--ds-space-150);
+    gap: var(--ds-space-150);
   }
   body.density-comfortable .stpill .segs {
     gap: var(--ds-space-050);
   }
   body.density-comfortable .customer-section-heading,
   body.density-comfortable .customer-section-titlebar {
-    padding: 10px 14px;
+    padding: var(--ds-space-100) var(--ds-space-150);
     gap: var(--ds-space-150);
   }
   body.density-comfortable .customer-section-titlebar h2 {
-    gap: 10px;
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .customer-section-label {
-    gap: 10px;
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .customer-field-grid {
     padding: var(--ds-space-200);
-    gap: 13px var(--ds-space-250);
+    gap: var(--ds-space-150) var(--ds-space-250);
   }
   body.density-comfortable .customer-identity-body {
-    gap: 26px;
+    gap: var(--ds-space-300);
   }
   body.density-comfortable .customer-identity-photo {
     padding-inline-end: var(--ds-space-200);
   }
   body.density-comfortable .customer-photo {
     padding: var(--ds-space-200);
-    gap: 10px;
+    gap: var(--ds-space-100);
     min-height: 292px;
   }
   body.density-comfortable .customer-table-toolbar {
-    padding: var(--ds-space-150) 14px;
-    gap: 10px;
+    padding: var(--ds-space-150) var(--ds-space-150);
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .customer-table-search {
-    padding: var(--ds-space-100) 10px;
-    gap: 10px;
+    padding: var(--ds-space-100) var(--ds-space-100);
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .customer-table-search input {
     padding-block: var(--ds-space-025);
   }
   body.density-comfortable .customer-table-pager {
-    padding: 18px;
+    padding: var(--ds-space-200);
   }
   body.density-comfortable .customer-empty-state {
-    padding: 28px;
+    padding: var(--ds-space-300);
     gap: var(--ds-space-100);
     min-height: 188px;
   }
@@ -3620,8 +3620,8 @@
     gap: var(--ds-space-100);
   }
   body.density-comfortable .customer-beneficiary-toggle {
-    padding-block: 3px;
-    gap: 26px;
+    padding-block: var(--ds-space-025);
+    gap: var(--ds-space-300);
     min-height: 40px;
   }
   body.density-comfortable .customer-lookup-trigger {
@@ -3630,21 +3630,21 @@
     min-height: 36px;
   }
   body.density-comfortable .geo-workspace {
-    gap: 26px;
+    gap: var(--ds-space-300);
   }
   body.density-comfortable .geo-tree-header-actions {
     gap: var(--ds-space-050);
   }
   body.density-comfortable .geo-tree-tools {
-    padding: 10px;
-    gap: 7px;
+    padding: var(--ds-space-100);
+    gap: var(--ds-space-075);
   }
   body.density-comfortable .geo-tree-search input {
-    padding-block: 7px;
+    padding-block: var(--ds-space-075);
     min-height: 38px;
   }
   body.density-comfortable .geo-tree {
-    padding-inline: 10px;
+    padding-inline: var(--ds-space-100);
     padding-block-end: var(--ds-space-150);
   }
   body.density-comfortable .geo-node-copy {
@@ -3652,29 +3652,29 @@
   }
   body.density-comfortable .fnav .end,
   body.density-comfortable .dfoot .end {
-    gap: 10px;
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .print-group {
     padding-block-end: var(--ds-space-250);
   }
   body.density-comfortable .print-group h4 {
-    margin-block-end: 14px;
+    margin-block-end: var(--ds-space-150);
   }
   body.density-comfortable .dlg .dhd-subtitle {
-    margin-block-start: 3px;
+    margin-block-start: var(--ds-space-025);
   }
   body.density-comfortable .dscrim {
-    padding: 28px;
+    padding: var(--ds-space-300);
   }
   body.density-comfortable .fld label {
-    gap: 9px;
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .ctl > .ctl-trigger {
     padding-block: var(--ds-space-025);
     min-height: 36px;
   }
   body.density-comfortable .dgrid .dcard > span {
-    gap: 3px;
+    gap: var(--ds-space-025);
   }
   body.density-comfortable .dgrid .dcard .t {
     gap: var(--ds-space-100);
@@ -3689,7 +3689,7 @@
      others' rules don't leak, matching the density-mode policy category above. */
   body.style-floated .rec-field {
     position: relative;
-    padding-top: 14px;
+    padding-top: var(--ds-space-150);
   }
   body.style-floated .rec-field label {
     position: absolute;
@@ -3741,7 +3741,7 @@
   body.style-inline .rec-field select,
   body.style-inline .rec-field textarea {
     min-width: 0;
-    padding: 3px var(--ds-space-025);
+    padding: var(--ds-space-025) var(--ds-space-025);
     border: none;
     border-bottom: 1px solid transparent;
     border-radius: 0;
@@ -3844,7 +3844,7 @@
   }
   body.style-floated .customer-record-canvas .customer-beneficiary-toggle {
     position: static;
-    padding: var(--ds-space-100) 10px;
+    padding: var(--ds-space-100) var(--ds-space-100);
   }
   body.style-inline .customer-record-canvas .customer-beneficiary-toggle {
     display: flex;
@@ -4034,18 +4034,18 @@
     }
     .lp-hero,
     .lp-view[data-mode='switcher'] .lp-hero {
-      padding: 22px var(--ds-space-200) 0;
+      padding: var(--ds-space-250) var(--ds-space-200) 0;
     }
     .lp-logo {
       height: 32px;
     }
     .lp-title,
     .lp-view[data-mode='switcher'] .lp-title {
-      margin-top: 14px;
+      margin-top: var(--ds-space-150);
       font-size: 23px;
     }
     .lp-subtitle {
-      margin-top: 7px;
+      margin-top: var(--ds-space-075);
       font-size: 13px;
     }
     .lp-body {
@@ -4055,21 +4055,21 @@
     .lp-search {
       min-height: 48px;
       border-radius: 12px;
-      padding: 10px var(--ds-space-150);
+      padding: var(--ds-space-100) var(--ds-space-150);
     }
     .lp-keyboard-hint {
       display: none;
     }
     .lp-sections {
-      gap: 18px;
+      gap: var(--ds-space-200);
     }
     .lp-tag {
       min-height: 44px;
       padding: var(--ds-space-100) var(--ds-space-150);
     }
     .lp-section-hd {
-      margin-bottom: 10px;
-      padding-top: 14px;
+      margin-bottom: var(--ds-space-100);
+      padding-top: var(--ds-space-150);
     }
     .lp-grid {
       grid-template-columns: 1fr;
@@ -4079,7 +4079,7 @@
       grid-template-columns: 40px minmax(0, 1fr) 14px;
       min-height: 56px;
       align-items: center;
-      padding: var(--ds-space-100) 10px;
+      padding: var(--ds-space-100) var(--ds-space-100);
       border-radius: 10px;
     }
     .lp-tile-desc {
@@ -4094,7 +4094,7 @@
     }
     .d1 .phead {
       flex-direction: column;
-      padding-inline: 10px;
+      padding-inline: var(--ds-space-100);
     }
     .d1 .phead .r {
       width: 100%;
@@ -4103,7 +4103,8 @@
     }
     .d1 .fnav {
       gap: var(--ds-space-100);
-      padding: 7px 10px;
+      /* 12px, not the nearest 8px: the sidebar resize handle reaches 11px past the rail. */
+      padding: var(--ds-space-075) var(--ds-space-150);
     }
     .d1 .fnav .end {
       width: 100%;
