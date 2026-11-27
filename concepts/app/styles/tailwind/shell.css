@@ -481,7 +481,7 @@
   .menu {
     position: relative;
   }
-  .menu > button:not(.lbtn) {
+  .menu > button:not(.lbtn, .ibtn) {
     display: inline-flex;
     align-items: center;
     gap: 6px;

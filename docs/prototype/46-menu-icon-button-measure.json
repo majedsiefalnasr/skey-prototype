@@ -1,0 +1,41 @@
+{
+ "issue": 46,
+ "cause": "`.menu > button:not(.lbtn)` set `padding: 6px 10px`, which beat the `.ibtn` padding of 4px 8px, so icon triggers in a `.menu` were wider than the 32px icon button.",
+ "fix": "The rule is now `.menu > button:not(.lbtn, .ibtn)`. One `:not()` list keeps the earlier specificity, so the compact and comfortable density rules still win. The 6px 10px padding of the other `.menu > button` triggers is unchanged.",
+ "before": "commit 2395737",
+ "method": "Chromium, reduced motion, left to right at 390 (touch), 768, 1024 and 1440px and right to left at 390px (touch), by 900px. States: launchpad; invoice list, view, edit, create, compact view and comfortable view; customer list, view and edit; geography list and record; email; People record; the AI Assistant drawer. For each state the probe read every visible `.menu > button`, the box of every visible link, button and field, elements past the viewport edge, clipped elements and sideways scroll, then clicked each `.menu > button.ibtn` and read its list.",
+ "states": 75,
+ "menuIconButtons": {
+  "readings": 288,
+  "pointer": {
+   "36x32 to 32x32": 138,
+   "35x32 to 32x32": 3,
+   "34x32 to 32x32": 3,
+   "unchangedAssistantToolbar28px": 6,
+   "unchangedCompact26px": 12,
+   "unchangedComfortable40x36": 12
+  },
+  "touch": {
+   "unchanged44px": 94,
+   "unchangedAssistantToolbar28px": 4,
+   "unchangedCompact26px": 8,
+   "unchangedComfortable40x36": 8
+  }
+ },
+ "otherMenuButtons": {"readings": 320, "changedSizePaddingRadiusOrGap": 0},
+ "neighbours": {
+  "movedControlReadings": {"4px": 149, "8px": 78, "3px": 9, "2px": 3},
+  "widened": "The top-bar app button and search field take up to 8px of the freed width."
+ },
+ "page": {"newOrWorseOffScreen": 0, "newOrWorseClipped": 0, "sidewaysScrollChanges": 0},
+ "menus": {
+  "clicked": 275,
+  "listShownBeforeAndAfter": 172,
+  "noListBeforeAndAfter": 103,
+  "noListReason": "Switch app opens the launchpad, not a list (75). At 390px the click order of this probe left Help closed (28); Help was checked on its own at 390px on 8 surfaces in both directions and opens at the same position before and after.",
+  "moved": "The System Alerts menu moved 4px with its bell at 768, 1024 and 1440px (36 readings).",
+  "newOrFurtherOffScreen": 0,
+  "alreadyPastTheEdge": "Invoice create, 390px right to left: More actions is 6.3px past the edge, before and after."
+ },
+ "bellBadge": "With a pointer the badge covers 10.2px of the bell icon width instead of 8.2px. On touch it is unchanged."
+}
