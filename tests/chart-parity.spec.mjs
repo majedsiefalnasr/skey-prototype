@@ -6,6 +6,7 @@ import {openSurface, settle, openListChart, FIXTURE_TIME_EPOCH_MS} from './suppo
 // Real, integrity-checked ApexCharts bytes; no spy or replacement renderer.
 // Compare directly with the immutable Git baseline so no new golden can mask drift.
 test('real chart matches baseline through theme changes and cleans up on navigation', async ({page, context}, testInfo) => {
+  test.skip(true, 'Charts are hidden in the prototype: the toolbar chart button is hidden (#54).');
   test.skip(testInfo.project.name !== 'desktop', 'Real chart comparison runs once at desktop size.');
   const body = await readChart();
   const baselineServer = await serve({root: '.baseline', port: 0});
