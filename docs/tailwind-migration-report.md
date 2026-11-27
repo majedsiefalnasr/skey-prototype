@@ -1092,3 +1092,18 @@ was 284,821 bytes), so this addendum records the measured HEAD output
 plus the reviewed People growth and raises
 `FINAL_TAILWIND_BASELINE_BYTES` to **292,292**. No other page's
 utilities were changed for this work.
+
+## Addendum: 2026-11-27 spacing tokens in authored CSS (#56)
+
+On-scale `padding`, `margin` and `gap` px literals in the authored CSS now
+read `var(--ds-space-*)`, as decided in #25. A token reference is longer
+than the literal, and the minifier no longer merges or shortens those
+declarations. No selector or rule was added.
+
+Measured as the size of `dist/concepts/app/styles/tailwind.css`:
+
+* before (`a823fdb`): **315,967 bytes**, under the 321,522-byte ceiling
+* after: **324,348 bytes**
+* reviewed growth: **8,381 bytes** (2.7%)
+
+`FINAL_TAILWIND_BASELINE_BYTES` is raised to **324,348**.

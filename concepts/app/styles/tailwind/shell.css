@@ -63,7 +63,7 @@
     display: inline-block;
     width: 1px;
     height: 1em;
-    margin-inline-start: 2px;
+    margin-inline-start: var(--ds-space-025);
     background: currentColor;
     vertical-align: -0.12em;
     animation: lp-search-caret-blink 0.8s steps(1, end) infinite;
@@ -372,7 +372,7 @@
     background: var(--tooltip-bg);
     color: var(--tooltip-ink);
     font-size: 12px;
-    padding: 3px 8px;
+    padding: 3px var(--ds-space-100);
     border-radius: 4px;
     white-space: nowrap;
     opacity: 0;
@@ -390,7 +390,7 @@
   .crumbs {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--ds-space-075);
     font-size: 13px;
   }
   .crumbs a,
@@ -407,7 +407,7 @@
   }
   .canvas {
     flex: 1;
-    margin: 12px 0;
+    margin: var(--ds-space-150) 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -472,7 +472,7 @@
     background: var(--derived-bg);
     color: var(--derived-ink);
     border-radius: 4px;
-    padding: 1px 6px;
+    padding: 1px var(--ds-space-075);
   }
   .missing {
     color: var(--faint);
@@ -484,8 +484,8 @@
   .menu > button:not(.lbtn, .ibtn) {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 10px;
+    gap: var(--ds-space-075);
+    padding: var(--ds-space-075) 10px;
     border-radius: 6px;
   }
   .menu > button:not(.main):not(.car):hover {
@@ -510,7 +510,7 @@
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 9px;
-    padding: 4px;
+    padding: var(--ds-space-050);
     box-shadow: var(--shadow-2);
     display: none;
   }
@@ -549,7 +549,7 @@
     width: 100%;
     align-items: center;
     gap: 10px;
-    padding: 8px 10px;
+    padding: var(--ds-space-100) 10px;
     border-radius: 6px;
     text-align: start;
   }
@@ -559,14 +559,14 @@
   .mlist hr {
     border: none;
     border-top: 1px solid var(--line);
-    margin: 4px 6px;
+    margin: var(--ds-space-050) var(--ds-space-075);
   }
   .mlist .glbl {
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--faint);
-    padding: 6px 10px 2px;
+    padding: var(--ds-space-075) 10px var(--ds-space-025);
   }
   .mlist button.dan {
     color: var(--danger);
@@ -574,8 +574,8 @@
   .ctx {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 11px;
+    gap: var(--ds-space-075);
+    padding: var(--ds-space-075) 11px;
     border: 1px solid var(--line);
     border-radius: 7px;
     font-size: 13px;
@@ -618,7 +618,7 @@
     color: var(--danger-soft-ink);
   }
   .inlineerr svg {
-    margin-top: 2px;
+    margin-top: var(--ds-space-025);
     flex: none;
   }
   .inlineerr b {
@@ -642,7 +642,7 @@
     color: var(--warn-ink);
   }
   .warnbox svg {
-    margin-top: 2px;
+    margin-top: var(--ds-space-025);
     flex: none;
   }
   .warnbox b {
@@ -662,19 +662,19 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 14px 16px;
+    padding: 14px var(--ds-space-200);
     border-bottom: 1px solid var(--line);
   }
   .kbdsheet .kh h3 {
     font-size: 15px;
   }
   .kbdsheet .kb {
-    padding: 8px 16px 16px;
+    padding: var(--ds-space-100) var(--ds-space-200) var(--ds-space-200);
   }
   .kbdsheet dl {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 2px 18px;
+    gap: var(--ds-space-025) 18px;
     align-items: center;
   }
   .kbdsheet dt {
@@ -698,7 +698,7 @@
     background: var(--line-2);
     border: 1px solid var(--line);
     border-radius: 5px;
-    padding: 2px 7px;
+    padding: var(--ds-space-025) 7px;
     color: var(--ink);
   }
 
@@ -738,8 +738,8 @@
   #adv-search-scrim .as-inp {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
+    gap: var(--ds-space-100);
+    padding: var(--ds-space-100) var(--ds-space-150);
     border-bottom: 1px solid var(--line);
   }
   #adv-search-scrim .as-inp input {
@@ -752,14 +752,14 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    padding: 12px 14px;
+    padding: var(--ds-space-150) 14px;
     border-bottom: 1px solid var(--line);
     background: var(--line-2);
   }
   #adv-search-scrim .as-field {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--ds-space-050);
   }
   #adv-search-scrim .as-field label {
     font-size: 12px;
@@ -771,7 +771,7 @@
   #adv-search-scrim .as-field select {
     border: 1px solid var(--line);
     border-radius: 6px;
-    padding: 6px 8px;
+    padding: var(--ds-space-075) var(--ds-space-100);
     font: 13px inherit;
     color: var(--ink);
     background: var(--surface);
@@ -779,21 +779,21 @@
   #adv-search-scrim .as-list {
     flex: 1;
     overflow: auto;
-    padding: 6px;
+    padding: var(--ds-space-075);
   }
   #adv-search-scrim .as-grp {
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--faint);
-    padding: 9px 12px 3px;
+    padding: 9px var(--ds-space-150) 3px;
   }
   #adv-search-scrim .as-item {
     display: flex;
     width: 100%;
     align-items: center;
     gap: 11px;
-    padding: 8px 12px;
+    padding: var(--ds-space-100) var(--ds-space-150);
     border-radius: 8px;
     text-align: start;
   }
@@ -834,7 +834,7 @@
     display: flex;
     align-items: center;
     gap: 15px;
-    padding: 8px 14px;
+    padding: var(--ds-space-100) 14px;
     border-top: 1px solid var(--line);
     background: var(--line-2);
     font-size: 12px;
@@ -847,7 +847,7 @@
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 4px;
-    padding: 1px 6px;
+    padding: 1px var(--ds-space-075);
     margin-inline-end: 5px;
   }
   #adv-search-scrim .adv-search-close {
@@ -921,7 +921,7 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--ds-space-100);
     text-align: start;
     background: var(--surface);
   }
@@ -984,7 +984,7 @@
     display: flex;
     align-items: center;
     gap: 3px;
-    padding-inline: 6px;
+    padding-inline: var(--ds-space-075);
     border-bottom: 1px solid var(--preview-line);
     background: var(--preview-surface);
   }
@@ -1044,7 +1044,7 @@
     inset-block-start: 39px;
     inset-inline: calc(28% + 8px) 8px;
     display: grid;
-    gap: 6px;
+    gap: var(--ds-space-075);
   }
   .theme-preview-lines i {
     display: block;
@@ -1112,8 +1112,8 @@
     transform: rotate(-45deg) translateY(-1px);
   }
   .appearance-contrast-row {
-    margin-top: 12px;
-    padding-top: 12px;
+    margin-top: var(--ds-space-150);
+    padding-top: var(--ds-space-150);
     border-top: 1px solid var(--line);
     display: flex;
     align-items: center;
@@ -1142,8 +1142,8 @@
   }
   .appearance-scale-control {
     display: grid;
-    gap: 8px;
-    padding: 4px 8px 0;
+    gap: var(--ds-space-100);
+    padding: var(--ds-space-050) var(--ds-space-100) 0;
   }
   .appearance-scale-head,
   .appearance-scale-ticks {
@@ -1168,7 +1168,7 @@
     color: var(--inverse);
     background: var(--accent);
     border-radius: 4px;
-    padding: 2px 7px;
+    padding: var(--ds-space-025) 7px;
     font-size: 14px;
     font-weight: 700;
     white-space: nowrap;
@@ -1301,7 +1301,7 @@
     display: flex;
     align-items: center;
     gap: 3px;
-    padding-inline: 6px;
+    padding-inline: var(--ds-space-075);
     border-bottom: 1px solid var(--line);
     background: var(--surface);
   }
@@ -1399,7 +1399,7 @@
     align-content: center;
   }
   .density-preview-default .density-preview-rows {
-    gap: 4px;
+    gap: var(--ds-space-050);
   }
   .density-preview-compact .density-preview-rows {
     gap: 1px;
@@ -1456,7 +1456,7 @@
   }
   .card-style-preview-line {
     height: 4px;
-    margin: 7px 8px 0;
+    margin: 7px var(--ds-space-100) 0;
     background: var(--line);
   }
   .card-style-preview-line.short {
@@ -1477,15 +1477,15 @@
     background: var(--bg);
   }
   .card-style-preview-fieldset .card-style-preview-line:first-of-type {
-    margin-top: 12px;
+    margin-top: var(--ds-space-150);
   }
   .input-style-preview-default,
   .input-style-preview-floated,
   .input-style-preview-inline {
     display: grid;
     align-content: center;
-    gap: 8px;
-    padding: 10px 12px;
+    gap: var(--ds-space-100);
+    padding: 10px var(--ds-space-150);
   }
   .input-style-preview-field {
     position: relative;
@@ -1507,7 +1507,7 @@
     background: var(--surface);
   }
   .input-style-preview-floated .input-style-preview-field {
-    padding-top: 4px;
+    padding-top: var(--ds-space-050);
   }
   .input-style-preview-floated .input-style-preview-label {
     position: absolute;
@@ -1523,7 +1523,7 @@
   .input-style-preview-inline .input-style-preview-field {
     grid-template-columns: 34% 1fr;
     align-items: end;
-    gap: 6px;
+    gap: var(--ds-space-075);
   }
   .input-style-preview-inline .input-style-preview-label {
     width: 100%;
@@ -1572,7 +1572,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 12px 18px;
+    padding: var(--ds-space-150) 18px;
     border-top: 1px solid var(--line);
     background: var(--line-2);
   }
@@ -1731,7 +1731,7 @@
   .dfoot .end {
     margin-inline-start: auto;
     display: flex;
-    gap: 8px;
+    gap: var(--ds-space-100);
   }
   .dfoot .sum {
     font-size: 12px;
@@ -1752,14 +1752,14 @@
   .dlg[data-tone] .dhd {
     background: transparent;
     border-bottom: none;
-    padding-inline: 18px 8px;
+    padding-inline: 18px var(--ds-space-100);
     padding-block: 10px 14px;
   }
   .dlg[data-tone] .dhd > .ibtn {
     color: var(--ink);
   }
   .dlg[data-tone] .dhd-subtitle {
-    margin-top: 2px;
+    margin-top: var(--ds-space-025);
     font-size: 12.5px;
     font-weight: 400;
     color: var(--muted);
@@ -1855,7 +1855,7 @@
   .cs-cols {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: var(--ds-space-200);
     min-height: 0;
     flex: 1;
   }
@@ -1871,8 +1871,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
-    padding: 9px 12px;
+    gap: var(--ds-space-100);
+    padding: 9px var(--ds-space-150);
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
@@ -1884,19 +1884,19 @@
   }
   #cs-add-group {
     font-size: 12px;
-    padding: 4px 9px;
+    padding: var(--ds-space-050) 9px;
   }
   .cs-tree {
     list-style: none;
     overflow: auto;
     max-height: 52vh;
-    padding: 6px;
+    padding: var(--ds-space-075);
   }
   .cs-tree-row {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 6px 8px;
+    gap: var(--ds-space-100);
+    padding: var(--ds-space-075) var(--ds-space-100);
     border-radius: 6px;
     font-size: 13px;
     color: var(--ink);
@@ -1964,7 +1964,7 @@
     list-style: none;
     padding-inline-start: 22px;
     border-inline-start: 1px solid var(--line);
-    margin-inline-start: 20px;
+    margin-inline-start: var(--ds-space-250);
   }
   .cs-tree-sub[hidden] {
     display: none;
@@ -1973,17 +1973,17 @@
     list-style: none;
     overflow: auto;
     max-height: 52vh;
-    padding: 8px;
+    padding: var(--ds-space-100);
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--ds-space-100);
   }
   .cs-groups:empty::after {
     content: 'No groups yet — add one, then drag screens in from the left.';
     display: block;
     font-size: 12.5px;
     color: var(--faint);
-    padding: 10px 4px;
+    padding: 10px var(--ds-space-050);
   }
   .cs-group {
     border: 1px solid var(--line);
@@ -2000,8 +2000,8 @@
   .cs-group-hd {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 6px 6px 4px;
+    gap: var(--ds-space-075);
+    padding: var(--ds-space-075) var(--ds-space-075) var(--ds-space-075) var(--ds-space-050);
     border-bottom: 1px solid var(--line);
   }
   .cs-group-hd .cs-grip {
@@ -2080,20 +2080,20 @@
   .cs-group-items {
     list-style: none;
     min-height: 30px;
-    padding: 4px;
+    padding: var(--ds-space-050);
   }
   .cs-group-items:empty::after {
     content: 'Drag screens here';
     display: block;
     font-size: 12px;
     color: var(--faint);
-    padding: 8px 6px;
+    padding: var(--ds-space-100) var(--ds-space-075);
   }
   .cs-group-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 5px 6px;
+    gap: var(--ds-space-100);
+    padding: 5px var(--ds-space-075);
     border-radius: 6px;
     font-size: 12.5px;
     color: var(--ink);
@@ -2150,8 +2150,8 @@
      between shell buttons and record/list content, so most content rules stay scoped
      to avoid double-shrinking shell buttons that get their own compact rule below. */
   body.density-compact .rec-card-body {
-    gap: 4px 8px;
-    padding: 6px;
+    gap: var(--ds-space-050) var(--ds-space-100);
+    padding: var(--ds-space-075);
   }
   /* Comfortable deliberately adds breathing room to content and controls. It is
      not a font-size mode (that is Interface scale), so text stays the same size. */
@@ -2159,23 +2159,23 @@
     padding-block: 13px;
   }
   body.density-comfortable .canvas {
-    margin-block: 20px;
+    margin-block: var(--ds-space-250);
   }
   body.density-comfortable .d1 .arow {
     padding-block: 11px;
   }
   body.density-comfortable .d1 .phead {
-    padding-block: 16px 22px;
+    padding-block: var(--ds-space-200) 22px;
   }
   body.density-comfortable .side {
-    padding-block: 8px;
+    padding-block: var(--ds-space-100);
   }
   body.density-comfortable .nc1-item,
   body.density-comfortable .nc-fav {
     padding-block: 7px;
   }
   body.density-comfortable .rec-card-body {
-    gap: 16px 20px;
+    gap: var(--ds-space-200) var(--ds-space-250);
     padding: 18px;
   }
   body.density-comfortable .rec-card {
@@ -2214,7 +2214,7 @@
   }
   body.density-comfortable .data-filter-chip {
     min-height: 34px;
-    padding: 6px 10px;
+    padding: var(--ds-space-075) 10px;
   }
   body.density-comfortable .fnav,
   body.density-comfortable .fnav-list {
@@ -2234,11 +2234,11 @@
     padding: 11px 11px;
   }
   body.density-compact .rec-card-hd {
-    padding: 5px 8px;
+    padding: 5px var(--ds-space-100);
     font-size: 12px;
   }
   body.density-compact .rec-card {
-    margin-bottom: 6px;
+    margin-bottom: var(--ds-space-075);
   }
   body.density-compact .rec-field label {
     margin-bottom: 1px;
@@ -2246,7 +2246,7 @@
   }
   body.density-compact .rec-field input,
   body.density-compact .rec-field textarea {
-    padding: 3px 6px;
+    padding: 3px var(--ds-space-075);
   }
   body.density-compact .rec-field select {
     padding-block: 3px;
@@ -2265,17 +2265,17 @@
     padding: 5px 7px;
   }
   body.density-compact .rec-settlement {
-    gap: 8px;
-    margin-bottom: 8px;
+    gap: var(--ds-space-100);
+    margin-bottom: var(--ds-space-100);
   }
   body.density-compact .rec-adjustments-hd,
   body.density-compact .rec-adjustment-list,
   body.density-compact .rec-summary-rows {
-    padding: 6px 8px;
+    padding: var(--ds-space-075) var(--ds-space-100);
   }
   body.density-compact .rec-adjustment-row {
     gap: 5px;
-    padding: 6px;
+    padding: var(--ds-space-075);
   }
   @media (width < theme(--breakpoint-md)) {
     .rec-settlement {
@@ -2306,56 +2306,56 @@
     }
   }
   body.density-compact .rec-pinned {
-    margin-top: 8px;
-    padding: 6px;
+    margin-top: var(--ds-space-100);
+    padding: var(--ds-space-075);
   }
   body.density-compact .rec-pinned-hd {
-    margin-bottom: 6px;
+    margin-bottom: var(--ds-space-075);
   }
   body.density-compact .rec-items {
-    margin-bottom: 6px;
+    margin-bottom: var(--ds-space-075);
   }
   body.density-compact .rec-items-hd {
     margin-bottom: 5px;
   }
   body.density-compact .inv-grid th,
   body.density-compact .inv-grid td {
-    padding: 3px 6px;
+    padding: 3px var(--ds-space-075);
   }
   body.density-compact .inv-grid td input {
-    padding: 2px 5px;
+    padding: var(--ds-space-025) 5px;
   }
   body.density-compact .rec-card-flow {
-    gap: 6px;
+    gap: var(--ds-space-075);
   }
   body.density-compact .rec-payment-row {
     gap: 10px;
-    padding: 6px;
+    padding: var(--ds-space-075);
   }
   body.density-compact .rec-tabs {
     gap: 0;
-    margin-bottom: 8px;
+    margin-bottom: var(--ds-space-100);
   }
   body.density-compact .rec-tab {
     padding: 5px 10px;
     font-size: 12.5px;
   }
   body.density-compact .lbtn {
-    padding: 4px 8px;
+    padding: var(--ds-space-050) var(--ds-space-100);
     font-size: 12.5px;
     line-height: inherit;
   }
   body.density-compact .ibtn {
     min-width: 26px;
     min-height: 26px;
-    padding: 2px 5px;
+    padding: var(--ds-space-025) 5px;
   }
   /* List-page content (toolbar, filters, stats, table, cards, kanban, pagination) --
      same scope as the record overrides above, so the compact list view matches the
      compact record view. */
   body.density-compact .data-statistics {
-    margin-bottom: 6px;
-    padding-block-end: 8px;
+    margin-bottom: var(--ds-space-075);
+    padding-block-end: var(--ds-space-100);
   }
   body.density-compact .data-stat-card {
     gap: 5px;
@@ -2365,12 +2365,12 @@
     font-size: 19px;
   }
   body.density-compact .data-list-controls {
-    gap: 6px;
-    margin-bottom: 6px;
+    gap: var(--ds-space-075);
+    margin-bottom: var(--ds-space-075);
   }
   body.density-compact .data-list-toolbar {
     min-height: 36px;
-    padding: 4px 0;
+    padding: var(--ds-space-050) 0;
   }
   body.density-compact .data-selection-toolbar {
     padding-inline: 7px;
@@ -2388,11 +2388,11 @@
   }
   body.density-compact .data-filter-chip {
     min-height: 24px;
-    padding: 2px 6px;
+    padding: var(--ds-space-025) var(--ds-space-075);
   }
   body.density-compact .data-list-shell .inv-grid th,
   body.density-compact .data-list-shell .inv-grid td {
-    padding-block: 4px;
+    padding-block: var(--ds-space-050);
   }
   body.density-compact .data-row-menu > summary,
   body.density-compact .data-row-expand {
@@ -2401,27 +2401,27 @@
   }
   body.density-compact .data-group-toggle {
     min-height: 30px;
-    padding-block: 4px;
+    padding-block: var(--ds-space-050);
   }
   body.density-compact .data-responsive-details {
-    gap: 8px 14px;
-    padding-block: 8px 10px;
+    gap: var(--ds-space-100) 14px;
+    padding-block: var(--ds-space-100) 10px;
   }
   body.density-compact .data-kanban-board {
-    padding: 8px;
-    gap: 8px;
+    padding: var(--ds-space-100);
+    gap: var(--ds-space-100);
   }
   body.density-compact .data-kanban-column {
     padding: 7px;
-    gap: 6px;
+    gap: var(--ds-space-075);
   }
   body.density-compact .data-kanban-card {
     padding: 7px;
-    gap: 6px;
+    gap: var(--ds-space-075);
   }
   body.density-compact .fnav,
   body.density-compact .fnav-list {
-    padding-block: 6px;
+    padding-block: var(--ds-space-075);
   }
   /* These two footers sit flush against their content (`[padding:9px_0_0]`),
      so Compact must not invent bottom padding for them. */
@@ -2436,12 +2436,12 @@
   body.density-compact .data-pagination-size select {
     min-width: 26px;
     min-height: 26px;
-    padding-block: 2px;
+    padding-block: var(--ds-space-025);
   }
   /* Shell chrome (topbar, sidebar nav) -- .lbtn/.ibtn above already cover the icon
      buttons in here; this only adds what's specific to the shell. */
   body.density-compact .gtop {
-    padding-block: 6px;
+    padding-block: var(--ds-space-075);
   }
   body.density-compact .gtop .right .chip,
   body.density-compact .lp-chrome .right .chip {
@@ -2454,14 +2454,14 @@
     height: 24px;
   }
   body.density-compact .swrap .sbox {
-    padding-block: 4px;
+    padding-block: var(--ds-space-050);
   }
   body.density-compact .nc-group-lbl {
     padding-block: 9px 3px;
   }
   body.density-compact .nc-fav,
   body.density-compact .nc1-item {
-    padding-block: 4px;
+    padding-block: var(--ds-space-050);
     font-size: 12.5px;
   }
   body.density-compact .nc1-node .nc1-node .nc1-item {
@@ -2470,17 +2470,17 @@
   body.density-compact .nc2-icn {
     height: 30px;
     padding-block: 0;
-    padding-inline-start: 8px;
+    padding-inline-start: var(--ds-space-100);
     gap: 7px;
   }
   body.density-compact .nc3-title {
-    padding-block: 6px 3px;
+    padding-block: var(--ds-space-075) 3px;
   }
   /* Page header (title + action buttons) -- sits as a sibling of .canvas on every
      list/record screen, so needs its own rule rather than relying on the .canvas
      scope above. */
   body.density-compact .d1 .phead {
-    padding-block: 8px 0;
+    padding-block: var(--ds-space-100) 0;
   }
   body.density-compact .d1 .tline h1 {
     font-size: 20px;
@@ -2495,18 +2495,18 @@
     padding-block: 5px;
   }
   body.density-compact .sgrp {
-    padding-block: 6px 2px;
+    padding-block: var(--ds-space-075) var(--ds-space-025);
   }
   /* Dropdown / overflow menus (topbar menus, row "..." menus, manage menus) */
   body.density-compact .mlist button:not([role='tab']),
   body.density-compact .mlist label {
     min-height: 28px;
-    padding-block: 4px;
+    padding-block: var(--ds-space-050);
   }
   body.density-compact .data-menu-popover button,
   body.density-compact .data-menu-popover label {
     min-height: 28px;
-    padding-block: 4px;
+    padding-block: var(--ds-space-050);
     font-size: 13px;
   }
   /* Modal dialogs -- generic shell used by every .dlg (filters, manage columns,
@@ -2518,33 +2518,33 @@
     padding-block: 10px;
   }
   body.density-compact .dfoot {
-    padding-block: 8px;
+    padding-block: var(--ds-space-100);
   }
   body.density-compact .fset {
-    padding: 8px 10px;
+    padding: var(--ds-space-100) 10px;
     margin-bottom: 10px;
   }
   body.density-compact .fld select,
   body.density-compact .fld input {
     min-height: 28px;
-    padding-block: 4px;
+    padding-block: var(--ds-space-050);
   }
   /* Remaining list-page statistics concepts -- .data-stat-card above covers the
      "balanced" layout; these cover "operational", "analytical" and "exceptions" so
      every statistics concept compacts the same way. */
   body.density-compact .data-stat-operation {
-    gap: 6px 10px;
-    padding: 8px;
+    gap: var(--ds-space-075) 10px;
+    padding: var(--ds-space-100);
   }
   body.density-compact .data-stat-operation-value strong {
     font-size: 17px;
   }
   body.density-compact .data-stat-operation-cue {
-    padding-top: 6px;
+    padding-top: var(--ds-space-075);
   }
   body.density-compact .data-stat-analytical {
     gap: 5px;
-    padding: 8px 9px;
+    padding: var(--ds-space-100) 9px;
   }
   body.density-compact .data-stat-analytical > strong {
     font-size: 17px;
@@ -2553,18 +2553,18 @@
     padding: 10px;
   }
   body.density-compact .data-stat-exception-row {
-    padding: 6px 8px;
+    padding: var(--ds-space-075) var(--ds-space-100);
   }
   /* App launchpad -- the start screen (home + app switcher), covers the whole frame
      so its own header/hero/tiles need explicit compact rules rather than inheriting
      from .canvas or .gtop. */
   body.density-compact .lp-chrome {
     min-height: 46px;
-    padding-block: 6px;
+    padding-block: var(--ds-space-075);
   }
   body.density-compact .lp-hero {
-    margin-top: 24px;
-    padding-block-start: 24px;
+    margin-top: var(--ds-space-300);
+    padding-block-start: var(--ds-space-300);
   }
   body.density-compact .lp-logo {
     height: 32px;
@@ -2574,35 +2574,35 @@
     font-size: clamp(21px, 3vw, 27px);
   }
   body.density-compact .lp-subtitle {
-    margin-top: 6px;
+    margin-top: var(--ds-space-075);
   }
   body.density-compact .lp-body {
-    padding: 16px 16px 32px;
-    gap: 16px;
+    padding: var(--ds-space-200) var(--ds-space-200) var(--ds-space-400);
+    gap: var(--ds-space-200);
   }
   body.density-compact .lp-search {
-    padding-block: 8px;
+    padding-block: var(--ds-space-100);
   }
   body.density-compact .lp-sections {
     gap: 18px;
   }
   body.density-compact .lp-quick-panel {
-    margin-top: 8px;
+    margin-top: var(--ds-space-100);
   }
   body.density-compact .lp-tag {
-    padding-block: 4px;
+    padding-block: var(--ds-space-050);
   }
   body.density-compact .lp-section-hd {
     margin-bottom: 9px;
-    padding-top: 12px;
+    padding-top: var(--ds-space-150);
   }
   body.density-compact .lp-grid {
-    gap: 8px;
+    gap: var(--ds-space-100);
   }
   body.density-compact .lp-tile {
     grid-template-columns: 32px minmax(0, 1fr) 14px;
     min-height: 90px;
-    gap: 8px;
+    gap: var(--ds-space-100);
     padding: 11px;
   }
   body.density-compact .lp-tile-ic {
@@ -2616,12 +2616,12 @@
     padding-block: 13px;
   }
   body.density-comfortable .lp-hero {
-    margin-top: 64px;
-    padding-block-start: 64px;
+    margin-top: var(--ds-space-800);
+    padding-block-start: var(--ds-space-800);
   }
   body.density-comfortable .lp-body {
-    gap: 32px;
-    padding: 32px 48px 56px;
+    gap: var(--ds-space-400);
+    padding: var(--ds-space-400) var(--ds-space-600) 56px;
   }
   body.density-comfortable .lp-search {
     padding-block: 15px;
@@ -2630,22 +2630,22 @@
     gap: 36px;
   }
   body.density-comfortable .lp-quick-panel {
-    margin-top: 16px;
+    margin-top: var(--ds-space-200);
   }
   body.density-comfortable .lp-tag {
-    padding-block: 12px;
+    padding-block: var(--ds-space-150);
   }
   body.density-comfortable .lp-section-hd {
-    margin-bottom: 16px;
+    margin-bottom: var(--ds-space-200);
     padding-top: 28px;
   }
   body.density-comfortable .lp-grid {
-    gap: 32px;
+    gap: var(--ds-space-400);
   }
   body.density-comfortable .lp-tile {
     grid-template-columns: 44px minmax(0, 1fr) 14px;
     min-height: 120px;
-    gap: 32px;
+    gap: var(--ds-space-400);
     padding: 18px;
   }
   body.density-comfortable .lp-tile-ic {
@@ -2665,27 +2665,27 @@
      Spacing only -- Comfortable is not a font-size mode, so no rule here
      changes a type size. */
   body.density-comfortable .rec-card-hd {
-    padding: 11px 16px;
+    padding: 11px var(--ds-space-200);
   }
   body.density-comfortable .rec-settlement {
-    gap: 24px;
-    margin-bottom: 16px;
+    gap: var(--ds-space-300);
+    margin-bottom: var(--ds-space-200);
   }
   body.density-comfortable .rec-adjustments-hd {
-    padding: 11px 16px;
+    padding: 11px var(--ds-space-200);
   }
   body.density-comfortable .rec-adjustment-list {
     padding: 18px;
   }
   body.density-comfortable .rec-summary-rows {
-    padding: 16px 18px;
+    padding: var(--ds-space-200) 18px;
   }
   body.density-comfortable .rec-adjustment-row {
     gap: 11px;
     padding: 14px;
   }
   body.density-comfortable .rec-pinned {
-    margin-top: 32px;
+    margin-top: var(--ds-space-400);
     padding: 18px;
   }
   body.density-comfortable .rec-pinned-hd {
@@ -2705,11 +2705,11 @@
   }
   body.density-comfortable .rec-payment-row {
     gap: 22px;
-    padding: 16px;
+    padding: var(--ds-space-200);
   }
   body.density-comfortable .rec-tabs {
-    gap: 4px;
-    margin-bottom: 16px;
+    gap: var(--ds-space-050);
+    margin-bottom: var(--ds-space-200);
   }
   body.density-comfortable .rec-tab {
     padding: 11px 18px;
@@ -2720,19 +2720,19 @@
   body.density-comfortable .ibtn {
     min-width: 36px;
     min-height: 36px;
-    padding: 8px 12px;
+    padding: var(--ds-space-100) var(--ds-space-150);
   }
   body.density-comfortable .data-statistics {
     margin-bottom: 14px;
-    padding-block-end: 16px;
+    padding-block-end: var(--ds-space-200);
   }
   body.density-comfortable .data-stat-card {
     gap: 11px;
-    padding: 18px 20px;
+    padding: 18px var(--ds-space-250);
   }
   body.density-comfortable .data-search input {
     min-height: 38px;
-    padding-block: 8px;
+    padding-block: var(--ds-space-100);
   }
   body.density-comfortable .data-list-shell .inv-grid th,
   body.density-comfortable .data-list-shell .inv-grid td {
@@ -2745,15 +2745,15 @@
   }
   body.density-comfortable .data-group-toggle {
     min-height: 42px;
-    padding-block: 8px;
+    padding-block: var(--ds-space-100);
   }
   body.density-comfortable .data-responsive-details {
-    gap: 16px 22px;
-    padding-block: 16px;
+    gap: var(--ds-space-200) 22px;
+    padding-block: var(--ds-space-200);
   }
   body.density-comfortable .data-kanban-board {
-    padding: 16px;
-    gap: 16px;
+    padding: var(--ds-space-200);
+    gap: var(--ds-space-200);
   }
   body.density-comfortable .data-kanban-column {
     padding: 14px;
@@ -2770,7 +2770,7 @@
   body.density-comfortable .data-pagination-size select {
     min-width: 36px;
     min-height: 36px;
-    padding-block: 6px;
+    padding-block: var(--ds-space-075);
   }
   body.density-comfortable .gtop .right .chip,
   body.density-comfortable .lp-chrome .right .chip {
@@ -2789,7 +2789,7 @@
     padding-block: 19px 5px;
   }
   body.density-comfortable .nc3-title {
-    padding-block: 11px 6px;
+    padding-block: 11px var(--ds-space-075);
   }
   body.density-comfortable .sinp,
   body.density-comfortable .sctx,
@@ -2800,7 +2800,7 @@
     padding-block: 11px;
   }
   body.density-comfortable .sgrp {
-    padding-block: 12px 5px;
+    padding-block: var(--ds-space-150) 5px;
   }
   body.density-comfortable .mlist button:not([role='tab']),
   body.density-comfortable .mlist label {
@@ -2810,7 +2810,7 @@
   body.density-comfortable .data-menu-popover button,
   body.density-comfortable .data-menu-popover label {
     min-height: 36px;
-    padding-block: 8px;
+    padding-block: var(--ds-space-100);
   }
   body.density-comfortable .dlg .dhd {
     padding-block: 14px 18px;
@@ -2819,11 +2819,11 @@
     padding-block: 22px;
   }
   body.density-comfortable .dfoot {
-    padding-block: 16px;
+    padding-block: var(--ds-space-200);
   }
   body.density-comfortable .fset {
-    padding: 16px 18px;
-    margin-bottom: 16px;
+    padding: var(--ds-space-200) 18px;
+    margin-bottom: var(--ds-space-200);
   }
   body.density-comfortable .fld select,
   body.density-comfortable .fld input {
@@ -2831,28 +2831,28 @@
     padding-block: 9px;
   }
   body.density-comfortable .data-stat-operation {
-    gap: 12px 16px;
-    padding: 16px;
+    gap: var(--ds-space-150) var(--ds-space-200);
+    padding: var(--ds-space-200);
   }
   body.density-comfortable .data-stat-operation-cue {
-    padding-top: 12px;
+    padding-top: var(--ds-space-150);
   }
   body.density-comfortable .data-stat-analytical {
     gap: 11px;
     padding: 18px 19px;
   }
   body.density-comfortable .data-stat-exception-lead {
-    padding: 20px;
+    padding: var(--ds-space-250);
   }
   body.density-comfortable .data-stat-exception-row {
-    padding: 14px 16px;
+    padding: 14px var(--ds-space-200);
   }
   /* Compact rules for the shell surfaces Comfortable already covered. */
   body.density-compact .canvas {
-    margin-block: 6px;
+    margin-block: var(--ds-space-075);
   }
   body.density-compact .d1 .arow {
-    padding-block: 4px;
+    padding-block: var(--ds-space-050);
   }
   /* Surfaces that had no density rules in either direction: the geography
      workspace, dialog form grids, the in-record pager, list quick-filters and
@@ -2860,7 +2860,7 @@
      moves them the same way as the rest of the application. */
   body.density-compact .geo-tree-node {
     min-height: 34px;
-    padding-block: 4px;
+    padding-block: var(--ds-space-050);
   }
   body.density-comfortable .geo-tree-node {
     min-height: 50px;
@@ -2868,51 +2868,51 @@
   }
   body.density-compact .geo-tree-header {
     min-height: 46px;
-    padding-block: 6px;
+    padding-block: var(--ds-space-075);
   }
   body.density-comfortable .geo-tree-header {
     min-height: 68px;
     padding-block: 11px;
   }
   body.density-compact .geo-view-switch {
-    gap: 2px;
-    padding: 2px;
+    gap: var(--ds-space-025);
+    padding: var(--ds-space-025);
   }
   body.density-comfortable .geo-view-switch {
-    gap: 4px;
-    padding: 4px;
+    gap: var(--ds-space-050);
+    padding: var(--ds-space-050);
   }
   body.density-compact .geo-filter-quick,
   body.density-compact .data-export-formats {
-    gap: 4px;
-    margin-bottom: 8px;
+    gap: var(--ds-space-050);
+    margin-bottom: var(--ds-space-100);
   }
   body.density-comfortable .geo-filter-quick,
   body.density-comfortable .data-export-formats {
     gap: 9px;
-    margin-bottom: 20px;
+    margin-bottom: var(--ds-space-250);
   }
   body.density-compact .geo-filter-quick button,
   body.density-compact .data-export-formats button {
-    padding: 4px 9px;
+    padding: var(--ds-space-050) 9px;
   }
   body.density-comfortable .geo-filter-quick button,
   body.density-comfortable .data-export-formats button {
     padding: 9px 14px;
   }
   body.density-compact .dgrid .dcard {
-    gap: 6px;
-    padding: 8px;
+    gap: var(--ds-space-075);
+    padding: var(--ds-space-100);
   }
   body.density-comfortable .dgrid .dcard {
     gap: 13px;
     padding: 15px;
   }
   body.density-compact .fgrid {
-    gap: 8px 10px;
+    gap: var(--ds-space-100) 10px;
   }
   body.density-comfortable .fgrid {
-    gap: 16px 18px;
+    gap: var(--ds-space-200) 18px;
   }
   body.density-compact .fld {
     gap: 3px;
@@ -2921,10 +2921,10 @@
     gap: 7px;
   }
   body.density-compact .pager {
-    gap: 2px;
+    gap: var(--ds-space-025);
   }
   body.density-comfortable .pager {
-    gap: 6px;
+    gap: var(--ds-space-075);
   }
   body.density-compact .pager button {
     min-width: 26px;
@@ -2941,16 +2941,16 @@
     min-height: 36px;
   }
   body.density-compact .drbar {
-    padding-block: 6px;
+    padding-block: var(--ds-space-075);
   }
   body.density-comfortable .drbar {
     padding-block: 13px;
   }
   body.density-compact .drfoot {
-    padding-block: 8px;
+    padding-block: var(--ds-space-100);
   }
   body.density-comfortable .drfoot {
-    padding-block: 16px;
+    padding-block: var(--ds-space-200);
   }
   body.density-compact .drhd {
     padding-block: 9px 0;
@@ -2959,12 +2959,12 @@
     padding-block: 19px 0;
   }
   body.density-compact .drtabs {
-    gap: 12px;
-    margin-top: 8px;
+    gap: var(--ds-space-150);
+    margin-top: var(--ds-space-100);
   }
   body.density-comfortable .drtabs {
-    gap: 24px;
-    margin-top: 16px;
+    gap: var(--ds-space-300);
+    margin-top: var(--ds-space-200);
   }
   body.density-compact .drtab {
     padding-block: 5px;
@@ -2985,13 +2985,13 @@
     padding-block: 19px;
   }
   body.density-compact .drbody .daysep {
-    padding-block: 6px;
+    padding-block: var(--ds-space-075);
   }
   body.density-comfortable .drbody .daysep {
     padding-block: 11px;
   }
   body.density-compact .drbody .card {
-    gap: 12px;
+    gap: var(--ds-space-150);
     padding-block: 9px;
   }
   body.density-comfortable .drbody .card {
@@ -3001,40 +3001,40 @@
   /* Utility-styled surfaces that carry no base CSS of their own, so density has to
      own the same gap/padding the markup utilities would otherwise freeze. */
   body.density-compact .recacts {
-    gap: 4px;
+    gap: var(--ds-space-050);
   }
   body.density-comfortable .recacts {
     gap: 10px;
   }
   body.density-compact .dgrid {
-    gap: 6px;
+    gap: var(--ds-space-075);
   }
   body.density-comfortable .dgrid {
     gap: 14px;
   }
   body.density-compact #adv-search-scrim .as-fields {
-    gap: 6px;
-    padding: 8px 10px;
+    gap: var(--ds-space-075);
+    padding: var(--ds-space-100) 10px;
   }
   body.density-comfortable #adv-search-scrim .as-fields {
     gap: 14px;
-    padding: 16px 18px;
+    padding: var(--ds-space-200) 18px;
   }
   body.density-compact #adv-search-scrim .as-field {
-    gap: 2px;
+    gap: var(--ds-space-025);
   }
   body.density-comfortable #adv-search-scrim .as-field {
-    gap: 6px;
+    gap: var(--ds-space-075);
   }
   body.density-compact .lockbanner {
-    gap: 4px;
+    gap: var(--ds-space-050);
   }
   body.density-comfortable .lockbanner {
-    gap: 8px;
+    gap: var(--ds-space-100);
   }
   body.density-compact .drbody .chips {
     margin-top: 5px;
-    gap: 4px;
+    gap: var(--ds-space-050);
   }
   body.density-comfortable .drbody .chips {
     margin-top: 9px;
@@ -3049,33 +3049,33 @@
   /* .drbody has no padding of its own to tighten, so Comfortable only adds the
      breathing room (same treatment as the sidebar). */
   body.density-comfortable .drbody {
-    padding-block: 8px;
+    padding-block: var(--ds-space-100);
   }
 
   body.density-compact .nc2-rail {
-    padding: 5px 4px;
+    padding: 5px var(--ds-space-050);
     gap: 1px;
   }
   body.density-compact .nc2-rail-sep {
-    margin-block: 2px;
+    margin-block: var(--ds-space-025);
   }
   body.density-compact .nc-scroll.nc3-body {
-    padding-block: 1px 4px;
-    padding-inline: 4px;
+    padding-block: 1px var(--ds-space-050);
+    padding-inline: var(--ds-space-050);
   }
   body.density-compact .nc1-sub {
     padding-inline-start: 10px;
   }
   body.density-compact .page-content {
-    --page-pad: 12px;
-    padding-inline: 12px;
+    --page-pad: var(--ds-space-150);
+    padding-inline: var(--ds-space-150);
   }
   body.density-compact .crumbs {
-    gap: 4px;
+    gap: var(--ds-space-050);
   }
   body.density-compact .crumbs button {
     padding-block: 0;
-    padding-inline: 4px;
+    padding-inline: var(--ds-space-050);
   }
   body.density-compact .d1 .tline {
     gap: 14px;
@@ -3084,32 +3084,32 @@
     gap: 3px;
   }
   body.density-compact .skip-link {
-    padding: 6px 10px;
+    padding: var(--ds-space-075) 10px;
   }
   body.density-compact :is(.menus-mount, .arow) .menu > button {
-    padding: 4px 8px;
-    gap: 4px;
+    padding: var(--ds-space-050) var(--ds-space-100);
+    gap: var(--ds-space-050);
   }
   body.density-compact .tip {
-    padding: 2px 6px;
+    padding: var(--ds-space-025) var(--ds-space-075);
   }
   body.density-compact .badge {
     padding: 1px 5px;
   }
   body.density-compact .ctx {
-    padding: 4px 9px;
-    gap: 4px;
+    padding: var(--ds-space-050) 9px;
+    gap: var(--ds-space-050);
   }
   body.density-compact .gtop .left {
     gap: 7px;
   }
   body.density-compact .swrap .sbox .ms-auto {
     padding-block: 0;
-    padding-inline: 4px;
+    padding-inline: var(--ds-space-050);
   }
   body.density-compact .recacts .car {
-    padding: 4px 8px;
-    gap: 4px;
+    padding: var(--ds-space-050) var(--ds-space-100);
+    gap: var(--ds-space-050);
   }
   body.density-compact .lp-actions-left,
   body.density-compact .lp-actions {
@@ -3119,24 +3119,24 @@
     gap: 5px;
   }
   body.density-compact :is(.gtop .left, .lp-actions-left) .app {
-    padding: 4px 6px;
-    gap: 6px;
+    padding: var(--ds-space-050) var(--ds-space-075);
+    gap: var(--ds-space-075);
   }
   body.density-compact .lp-tile-desc {
-    margin-block-start: 4px;
+    margin-block-start: var(--ds-space-050);
   }
   body.density-compact .lp-tile-go {
-    margin-block-start: 2px;
+    margin-block-start: var(--ds-space-025);
   }
   body.density-compact .lp-keyboard-hint {
-    padding: 2px 6px;
+    padding: var(--ds-space-025) var(--ds-space-075);
   }
   body.density-compact .lp-quick-header {
-    gap: 8px;
+    gap: var(--ds-space-100);
   }
   body.density-compact .lp-quick-tabs {
-    padding: 2px;
-    gap: 2px;
+    padding: var(--ds-space-025);
+    gap: var(--ds-space-025);
   }
   body.density-compact .lp-quick-tabs button,
   body.density-compact .geo-view-switch button {
@@ -3146,23 +3146,23 @@
   }
   body.density-compact .lp-quick-more {
     padding-block: 0;
-    padding-inline: 4px;
+    padding-inline: var(--ds-space-050);
   }
   body.density-compact .lp-tags {
-    gap: 6px;
+    gap: var(--ds-space-075);
   }
   body.density-compact .notif-badge {
-    padding-inline: 2px;
+    padding-inline: var(--ds-space-025);
   }
   body.density-compact .avatar-btn {
-    padding: 4px 8px;
-    gap: 4px;
+    padding: var(--ds-space-050) var(--ds-space-100);
+    gap: var(--ds-space-050);
   }
   body.density-compact .toastwrap {
     gap: 7px;
   }
   body.density-compact #kit-pill {
-    padding: 6px 12px !important;
+    padding: var(--ds-space-075) var(--ds-space-150) !important;
     gap: 5px !important;
   }
   body.density-compact .data-sort-button {
@@ -3172,52 +3172,52 @@
     gap: 1px;
   }
   body.density-compact .data-menu-popover {
-    padding: 4px;
+    padding: var(--ds-space-050);
     gap: 1px;
   }
   body.density-compact .data-manage-copy {
     gap: 0;
   }
   body.density-compact .data-manage-group-label {
-    padding: 5px 6px 3px;
+    padding: 5px var(--ds-space-075) 3px;
   }
   body.density-compact .data-menu-separator.my-1 {
-    margin-block: 2px;
+    margin-block: var(--ds-space-025);
   }
   body.density-compact .data-menu-separator.my-0.5 {
     margin-block: 1px;
   }
   body.density-compact .data-toolbar-cluster {
-    gap: 4px;
+    gap: var(--ds-space-050);
   }
   body.density-compact .data-list-pagination {
-    gap: 7px 12px;
+    gap: 7px var(--ds-space-150);
   }
   body.density-compact .data-pagination-controls {
     gap: 3px;
   }
   body.density-compact .data-pagination-jump {
-    padding-inline-start: 6px;
+    padding-inline-start: var(--ds-space-075);
   }
   body.density-compact .data-pagination-jump-input {
     min-height: 26px;
     padding-block: 0;
   }
   body.density-compact .data-pagination-size {
-    gap: 4px;
+    gap: var(--ds-space-050);
   }
   body.density-compact .data-pagination-ellipsis {
-    padding-inline: 2px;
+    padding-inline: var(--ds-space-025);
   }
   body.density-compact .data-stat-card-head {
-    gap: 6px;
+    gap: var(--ds-space-075);
   }
   body.density-compact .data-stat-card-head svg {
-    padding: 2px;
+    padding: var(--ds-space-025);
   }
   body.density-compact .customer-record-link {
     padding-block: 0;
-    padding-inline: 4px;
+    padding-inline: var(--ds-space-050);
   }
   body.density-compact .customer-avatar-trigger.image-fit-contain img {
     padding: 3px;
@@ -3226,75 +3226,75 @@
     gap: 11px;
   }
   body.density-compact .rec-summary-row.rec-summary-total {
-    padding-block-start: 8px;
+    padding-block-start: var(--ds-space-100);
     margin-block-start: 1px;
   }
   body.density-compact .rec-summary h3 {
-    padding: 9px 12px;
+    padding: 9px var(--ds-space-150);
   }
   body.density-compact .rec-summary-discount-control {
-    gap: 4px;
+    gap: var(--ds-space-050);
   }
   body.density-compact .rec-summary-discount-control :is(input, select) {
     min-height: 26px;
-    padding-block: 2px;
+    padding-block: var(--ds-space-025);
   }
   body.density-compact .rec-summary-discount-value {
     gap: 3px;
   }
   body.density-compact .rec-total-qty {
-    padding: 4px 10px;
+    padding: var(--ds-space-050) 10px;
   }
   body.density-compact .rec-adjustment-actions {
-    gap: 4px;
+    gap: var(--ds-space-050);
   }
   body.density-compact .rec-adjustment-empty {
-    padding: 8px;
+    padding: var(--ds-space-100);
     min-height: 64px;
   }
   body.density-compact .pager .tot {
-    padding-inline: 6px;
+    padding-inline: var(--ds-space-075);
   }
   body.density-compact .stpill {
     padding: 3px 9px;
     gap: 7px;
   }
   body.density-compact .stpill .segs {
-    gap: 2px;
+    gap: var(--ds-space-025);
   }
   body.density-compact .customer-section-heading,
   body.density-compact .customer-section-titlebar {
-    padding: 6px 10px;
-    gap: 8px;
+    padding: var(--ds-space-075) 10px;
+    gap: var(--ds-space-100);
   }
   body.density-compact .customer-section-titlebar h2 {
-    gap: 6px;
+    gap: var(--ds-space-075);
   }
   body.density-compact .customer-section-label {
-    gap: 6px;
+    gap: var(--ds-space-075);
   }
   body.density-compact .customer-field-grid {
-    padding: 8px;
-    gap: 7px 12px;
+    padding: var(--ds-space-100);
+    gap: 7px var(--ds-space-150);
   }
   body.density-compact .customer-identity-body {
     gap: 14px;
   }
   body.density-compact .customer-identity-photo {
-    padding-inline-end: 8px;
+    padding-inline-end: var(--ds-space-100);
   }
   body.density-compact .customer-photo {
-    padding: 8px;
-    gap: 6px;
+    padding: var(--ds-space-100);
+    gap: var(--ds-space-075);
     min-height: 268px;
   }
   body.density-compact .customer-table-toolbar {
-    padding: 8px 10px;
-    gap: 6px;
+    padding: var(--ds-space-100) 10px;
+    gap: var(--ds-space-075);
   }
   body.density-compact .customer-table-search {
-    padding: 4px 6px;
-    gap: 6px;
+    padding: var(--ds-space-050) var(--ds-space-075);
+    gap: var(--ds-space-075);
   }
   body.density-compact .customer-table-search input {
     padding-block: 0;
@@ -3303,12 +3303,12 @@
     padding: 10px;
   }
   body.density-compact .customer-empty-state {
-    padding: 20px;
-    gap: 4px;
+    padding: var(--ds-space-250);
+    gap: var(--ds-space-050);
     min-height: 172px;
   }
   body.density-compact .customer-footer-note {
-    gap: 4px;
+    gap: var(--ds-space-050);
   }
   body.density-compact .customer-beneficiary-toggle {
     padding-block: 1px;
@@ -3317,17 +3317,17 @@
   }
   body.density-compact .customer-lookup-trigger {
     padding-block: 0;
-    padding-inline: 4px;
+    padding-inline: var(--ds-space-050);
     min-height: 28px;
   }
   body.density-compact .geo-workspace {
     gap: 14px;
   }
   body.density-compact .geo-tree-header-actions {
-    gap: 2px;
+    gap: var(--ds-space-025);
   }
   body.density-compact .geo-tree-tools {
-    padding: 6px;
+    padding: var(--ds-space-075);
     gap: 3px;
   }
   body.density-compact .geo-tree-search input {
@@ -3335,18 +3335,18 @@
     min-height: 30px;
   }
   body.density-compact .geo-tree {
-    padding-inline: 6px;
-    padding-block-end: 8px;
+    padding-inline: var(--ds-space-075);
+    padding-block-end: var(--ds-space-100);
   }
   body.density-compact .geo-node-copy {
     gap: 0;
   }
   body.density-compact .fnav .end,
   body.density-compact .dfoot .end {
-    gap: 4px;
+    gap: var(--ds-space-050);
   }
   body.density-compact .print-group {
-    padding-block-end: 12px;
+    padding-block-end: var(--ds-space-150);
   }
   body.density-compact .print-group h4 {
     margin-block-end: 10px;
@@ -3355,7 +3355,7 @@
     margin-block-start: 1px;
   }
   body.density-compact .dscrim {
-    padding: 20px;
+    padding: var(--ds-space-250);
   }
   body.density-compact .fld label {
     gap: 5px;
@@ -3368,60 +3368,60 @@
     gap: 1px;
   }
   body.density-compact .dgrid .dcard .t {
-    gap: 4px;
+    gap: var(--ds-space-050);
   }
 
   body.density-comfortable .nc-scroll.nc3-body {
-    padding-block: 4px 8px;
-    padding-inline: 8px;
+    padding-block: var(--ds-space-050) var(--ds-space-100);
+    padding-inline: var(--ds-space-100);
   }
   body.density-comfortable .nc1-sub {
     padding-inline-start: 18px;
   }
   body.density-comfortable .page-content {
-    --page-pad: 20px;
-    padding-inline: 20px;
+    --page-pad: var(--ds-space-250);
+    padding-inline: var(--ds-space-250);
   }
   body.density-comfortable .crumbs {
-    gap: 8px;
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .crumbs button {
-    padding-block: 2px;
-    padding-inline: 8px;
+    padding-block: var(--ds-space-025);
+    padding-inline: var(--ds-space-100);
   }
   body.density-comfortable .d1 .tline {
     gap: 26px;
   }
   body.density-comfortable .phead .r {
-    gap: 6px;
+    gap: var(--ds-space-075);
   }
   body.density-comfortable .skip-link {
     padding: 10px 14px;
   }
   body.density-comfortable :is(.menus-mount, .arow) .menu > button {
-    padding: 8px 12px;
-    gap: 8px;
+    padding: var(--ds-space-100) var(--ds-space-150);
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .tip {
-    padding: 4px 10px;
+    padding: var(--ds-space-050) 10px;
   }
   body.density-comfortable .badge {
-    padding: 2px 9px;
+    padding: var(--ds-space-025) 9px;
   }
   body.density-comfortable .ctx {
-    padding: 8px 13px;
-    gap: 8px;
+    padding: var(--ds-space-100) 13px;
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .gtop .left {
     gap: 13px;
   }
   body.density-comfortable .swrap .sbox .ms-auto {
-    padding-block: 2px;
-    padding-inline: 8px;
+    padding-block: var(--ds-space-025);
+    padding-inline: var(--ds-space-100);
   }
   body.density-comfortable .recacts .car {
-    padding: 8px 12px;
-    gap: 8px;
+    padding: var(--ds-space-100) var(--ds-space-150);
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .lp-actions-left,
   body.density-comfortable .lp-actions {
@@ -3431,24 +3431,24 @@
     gap: 9px;
   }
   body.density-comfortable :is(.gtop .left, .lp-actions-left) .app {
-    padding: 8px 10px;
+    padding: var(--ds-space-100) 10px;
     gap: 10px;
   }
   body.density-comfortable .lp-tile-desc {
-    margin-block-start: 8px;
+    margin-block-start: var(--ds-space-100);
   }
   body.density-comfortable .lp-tile-go {
-    margin-block-start: 4px;
+    margin-block-start: var(--ds-space-050);
   }
   body.density-comfortable .lp-keyboard-hint {
-    padding: 4px 10px;
+    padding: var(--ds-space-050) 10px;
   }
   body.density-comfortable .lp-quick-header {
-    gap: 16px;
+    gap: var(--ds-space-200);
   }
   body.density-comfortable .lp-quick-tabs {
-    padding: 4px;
-    gap: 4px;
+    padding: var(--ds-space-050);
+    gap: var(--ds-space-050);
   }
   body.density-comfortable .lp-quick-tabs button,
   body.density-comfortable .geo-view-switch button {
@@ -3457,24 +3457,24 @@
     min-height: 36px;
   }
   body.density-comfortable .lp-quick-more {
-    padding-block: 2px;
-    padding-inline: 8px;
+    padding-block: var(--ds-space-025);
+    padding-inline: var(--ds-space-100);
   }
   body.density-comfortable .lp-tags {
     gap: 10px;
   }
   body.density-comfortable .notif-badge {
-    padding-inline: 4px;
+    padding-inline: var(--ds-space-050);
   }
   body.density-comfortable .avatar-btn {
-    padding: 8px 12px;
-    gap: 8px;
+    padding: var(--ds-space-100) var(--ds-space-150);
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .toastwrap {
     gap: 11px;
   }
   body.density-comfortable #kit-pill {
-    padding: 10px 16px !important;
+    padding: 10px var(--ds-space-200) !important;
     gap: 9px !important;
   }
   body.density-comfortable .data-sort-button {
@@ -3484,23 +3484,23 @@
     gap: 3px;
   }
   body.density-comfortable .data-menu-popover {
-    padding: 8px;
+    padding: var(--ds-space-100);
     gap: 3px;
   }
   body.density-comfortable .data-manage-copy {
-    gap: 2px;
+    gap: var(--ds-space-025);
   }
   body.density-comfortable .data-manage-group-label {
     padding: 9px 10px 5px;
   }
   body.density-comfortable .data-menu-separator {
-    margin-block: 6px;
+    margin-block: var(--ds-space-075);
   }
   body.density-comfortable .data-toolbar-cluster {
-    gap: 8px;
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .data-list-pagination {
-    gap: 13px 20px;
+    gap: 13px var(--ds-space-250);
   }
   body.density-comfortable .data-pagination-controls {
     gap: 5px;
@@ -3510,23 +3510,23 @@
   }
   body.density-comfortable .data-pagination-jump-input {
     min-height: 34px;
-    padding-block: 2px;
+    padding-block: var(--ds-space-025);
   }
   body.density-comfortable .data-pagination-size {
-    gap: 8px;
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .data-pagination-ellipsis {
-    padding-inline: 6px;
+    padding-inline: var(--ds-space-075);
   }
   body.density-comfortable .data-stat-card-head {
     gap: 10px;
   }
   body.density-comfortable .data-stat-card-head svg {
-    padding: 6px;
+    padding: var(--ds-space-075);
   }
   body.density-comfortable .customer-record-link {
-    padding-block: 2px;
-    padding-inline: 8px;
+    padding-block: var(--ds-space-025);
+    padding-inline: var(--ds-space-100);
   }
   body.density-comfortable .customer-avatar-trigger.image-fit-contain img {
     padding: 7px;
@@ -3539,26 +3539,26 @@
     margin-block-start: 3px;
   }
   body.density-comfortable .rec-summary h3 {
-    padding: 13px 16px;
+    padding: 13px var(--ds-space-200);
   }
   body.density-comfortable .rec-summary-discount-control {
-    gap: 8px;
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .rec-summary-discount-control :is(input, select) {
     min-height: 34px;
-    padding-block: 6px;
+    padding-block: var(--ds-space-075);
   }
   body.density-comfortable .rec-summary-discount-value {
     gap: 7px;
   }
   body.density-comfortable .rec-total-qty {
-    padding: 8px 14px;
+    padding: var(--ds-space-100) 14px;
   }
   body.density-comfortable .rec-adjustment-actions {
-    gap: 8px;
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .rec-adjustment-empty {
-    padding: 16px;
+    padding: var(--ds-space-200);
     min-height: 80px;
   }
   body.density-comfortable .pager .tot {
@@ -3569,12 +3569,12 @@
     gap: 11px;
   }
   body.density-comfortable .stpill .segs {
-    gap: 4px;
+    gap: var(--ds-space-050);
   }
   body.density-comfortable .customer-section-heading,
   body.density-comfortable .customer-section-titlebar {
     padding: 10px 14px;
-    gap: 12px;
+    gap: var(--ds-space-150);
   }
   body.density-comfortable .customer-section-titlebar h2 {
     gap: 10px;
@@ -3583,41 +3583,41 @@
     gap: 10px;
   }
   body.density-comfortable .customer-field-grid {
-    padding: 16px;
-    gap: 13px 20px;
+    padding: var(--ds-space-200);
+    gap: 13px var(--ds-space-250);
   }
   body.density-comfortable .customer-identity-body {
     gap: 26px;
   }
   body.density-comfortable .customer-identity-photo {
-    padding-inline-end: 16px;
+    padding-inline-end: var(--ds-space-200);
   }
   body.density-comfortable .customer-photo {
-    padding: 16px;
+    padding: var(--ds-space-200);
     gap: 10px;
     min-height: 292px;
   }
   body.density-comfortable .customer-table-toolbar {
-    padding: 12px 14px;
+    padding: var(--ds-space-150) 14px;
     gap: 10px;
   }
   body.density-comfortable .customer-table-search {
-    padding: 8px 10px;
+    padding: var(--ds-space-100) 10px;
     gap: 10px;
   }
   body.density-comfortable .customer-table-search input {
-    padding-block: 2px;
+    padding-block: var(--ds-space-025);
   }
   body.density-comfortable .customer-table-pager {
     padding: 18px;
   }
   body.density-comfortable .customer-empty-state {
     padding: 28px;
-    gap: 8px;
+    gap: var(--ds-space-100);
     min-height: 188px;
   }
   body.density-comfortable .customer-footer-note {
-    gap: 8px;
+    gap: var(--ds-space-100);
   }
   body.density-comfortable .customer-beneficiary-toggle {
     padding-block: 3px;
@@ -3625,15 +3625,15 @@
     min-height: 40px;
   }
   body.density-comfortable .customer-lookup-trigger {
-    padding-block: 2px;
-    padding-inline: 8px;
+    padding-block: var(--ds-space-025);
+    padding-inline: var(--ds-space-100);
     min-height: 36px;
   }
   body.density-comfortable .geo-workspace {
     gap: 26px;
   }
   body.density-comfortable .geo-tree-header-actions {
-    gap: 4px;
+    gap: var(--ds-space-050);
   }
   body.density-comfortable .geo-tree-tools {
     padding: 10px;
@@ -3645,17 +3645,17 @@
   }
   body.density-comfortable .geo-tree {
     padding-inline: 10px;
-    padding-block-end: 12px;
+    padding-block-end: var(--ds-space-150);
   }
   body.density-comfortable .geo-node-copy {
-    gap: 2px;
+    gap: var(--ds-space-025);
   }
   body.density-comfortable .fnav .end,
   body.density-comfortable .dfoot .end {
     gap: 10px;
   }
   body.density-comfortable .print-group {
-    padding-block-end: 20px;
+    padding-block-end: var(--ds-space-250);
   }
   body.density-comfortable .print-group h4 {
     margin-block-end: 14px;
@@ -3670,17 +3670,17 @@
     gap: 9px;
   }
   body.density-comfortable .ctl > .ctl-trigger {
-    padding-block: 2px;
+    padding-block: var(--ds-space-025);
     min-height: 36px;
   }
   body.density-comfortable .dgrid .dcard > span {
     gap: 3px;
   }
   body.density-comfortable .dgrid .dcard .t {
-    gap: 8px;
+    gap: var(--ds-space-100);
   }
   body.density-compact .nc-group-lbl:first-child {
-    padding-top: 4px;
+    padding-top: var(--ds-space-050);
   }
 
   /* ---- prototype input-style mode (concepts/app/styles/overrides-2.css) ----
@@ -3696,7 +3696,7 @@
     inset-inline-start: 8px;
     top: 22px;
     margin: 0;
-    padding: 0 4px;
+    padding: 0 var(--ds-space-050);
     background: var(--surface);
     font-size: 13px;
     color: var(--muted);
@@ -3717,7 +3717,7 @@
   body.style-floated .rec-field input,
   body.style-floated .rec-field select,
   body.style-floated .rec-field textarea {
-    padding-top: 8px;
+    padding-top: var(--ds-space-100);
   }
   /* inline: no visible input border/background at rest -- reads as plain text with a
      label beside it, and every field in a card uses the same fixed label-column width
@@ -3729,7 +3729,7 @@
     display: grid;
     grid-template-columns: 130px 1fr;
     align-items: baseline;
-    gap: 8px;
+    gap: var(--ds-space-100);
   }
   body.style-inline .rec-field label {
     margin-bottom: 0;
@@ -3741,7 +3741,7 @@
   body.style-inline .rec-field select,
   body.style-inline .rec-field textarea {
     min-width: 0;
-    padding: 3px 2px;
+    padding: 3px var(--ds-space-025);
     border: none;
     border-bottom: 1px solid transparent;
     border-radius: 0;
@@ -3767,7 +3767,7 @@
      stable when the prototype switches input presentations. */
   body.style-floated .customer-record-canvas .customer-photo {
     position: static;
-    padding: 12px;
+    padding: var(--ds-space-150);
   }
   body.style-floated .customer-record-canvas .customer-photo label,
   body.style-inline .customer-record-canvas .customer-photo label {
@@ -3783,7 +3783,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     place-items: center;
-    gap: 8px;
+    gap: var(--ds-space-100);
     align-items: center;
   }
   /* Inline lookup fields keep select and trailing menu trigger together as one
@@ -3828,7 +3828,7 @@
     border: none;
     border-radius: 0;
     background: none;
-    padding: 4px 2px;
+    padding: var(--ds-space-050) var(--ds-space-025);
   }
   body.style-inline .inv-grid td input:is(:hover, :focus-visible) {
     border-bottom: 1px solid var(--line);
@@ -3844,7 +3844,7 @@
   }
   body.style-floated .customer-record-canvas .customer-beneficiary-toggle {
     position: static;
-    padding: 8px 10px;
+    padding: var(--ds-space-100) 10px;
   }
   body.style-inline .customer-record-canvas .customer-beneficiary-toggle {
     display: flex;
@@ -3864,7 +3864,7 @@
     .customer-record-canvas .customer-guided {
       display: grid;
       grid-template-columns: minmax(320px, 2fr) minmax(0, 3fr);
-      gap: 24px;
+      gap: var(--ds-space-300);
       align-items: start;
     }
     .customer-record-canvas .customer-guided > .customer-identity-section {
@@ -3875,7 +3875,7 @@
     }
     .customer-record-canvas .customer-guided .customer-identity-photo,
     [dir='rtl'] .customer-record-canvas .customer-guided .customer-identity-photo {
-      padding: 12px 12px 0;
+      padding: var(--ds-space-150) var(--ds-space-150) 0;
     }
     .customer-record-canvas .customer-guided .customer-identity-body > .customer-field-grid {
       grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -3896,8 +3896,8 @@
     .gtop {
       display: grid;
       grid-template-columns: 44px 44px minmax(0, 1fr) auto;
-      gap: 8px;
-      padding: 8px;
+      gap: var(--ds-space-100);
+      padding: var(--ds-space-100);
     }
     .gtop .left {
       /* Give identity the whole first-row allocation. Navigation moves
@@ -3919,7 +3919,7 @@
     .gtop .right {
       grid-column: 4;
       grid-row: 1;
-      gap: 2px;
+      gap: var(--ds-space-025);
     }
     .gtop .right .chip {
       width: 36px;
@@ -3963,7 +3963,7 @@
     .canvas {
       align-items: flex-start;
       justify-content: flex-start;
-      margin: 8px;
+      margin: var(--ds-space-100);
       text-align: start;
     }
     #canvas-root,
@@ -4005,13 +4005,13 @@
   @media (max-width: theme(--breakpoint-legacy-620)) {
     .lp-chrome {
       min-height: 52px;
-      gap: 6px;
-      padding: 6px 8px;
+      gap: var(--ds-space-075);
+      padding: var(--ds-space-075) var(--ds-space-100);
     }
     .lp-actions,
     .lp-actions-left {
       position: static;
-      gap: 2px;
+      gap: var(--ds-space-025);
     }
     .lp-actions-left {
       max-width: 42%;
@@ -4020,7 +4020,7 @@
       max-width: 100%;
     }
     .lp-actions .right {
-      gap: 2px;
+      gap: var(--ds-space-025);
     }
     .lp-actions .chip {
       display: none;
@@ -4034,7 +4034,7 @@
     }
     .lp-hero,
     .lp-view[data-mode='switcher'] .lp-hero {
-      padding: 22px 16px 0;
+      padding: 22px var(--ds-space-200) 0;
     }
     .lp-logo {
       height: 32px;
@@ -4049,13 +4049,13 @@
       font-size: 13px;
     }
     .lp-body {
-      gap: 16px;
-      padding: 16px 16px 32px;
+      gap: var(--ds-space-200);
+      padding: var(--ds-space-200) var(--ds-space-200) var(--ds-space-400);
     }
     .lp-search {
       min-height: 48px;
       border-radius: 12px;
-      padding: 10px 12px;
+      padding: 10px var(--ds-space-150);
     }
     .lp-keyboard-hint {
       display: none;
@@ -4065,7 +4065,7 @@
     }
     .lp-tag {
       min-height: 44px;
-      padding: 8px 12px;
+      padding: var(--ds-space-100) var(--ds-space-150);
     }
     .lp-section-hd {
       margin-bottom: 10px;
@@ -4073,17 +4073,17 @@
     }
     .lp-grid {
       grid-template-columns: 1fr;
-      gap: 8px;
+      gap: var(--ds-space-100);
     }
     .lp-tile {
       grid-template-columns: 40px minmax(0, 1fr) 14px;
       min-height: 56px;
       align-items: center;
-      padding: 8px 10px;
+      padding: var(--ds-space-100) 10px;
       border-radius: 10px;
     }
     .lp-tile-desc {
-      margin-top: 2px;
+      margin-top: var(--ds-space-025);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -4102,7 +4102,7 @@
       margin-top: 0;
     }
     .d1 .fnav {
-      gap: 8px;
+      gap: var(--ds-space-100);
       padding: 7px 10px;
     }
     .d1 .fnav .end {
@@ -4111,7 +4111,7 @@
       flex-wrap: wrap;
     }
     .rec-pinned {
-      padding: 8px;
+      padding: var(--ds-space-100);
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -4144,7 +4144,7 @@
       min-height: 44px;
     }
     .nc2-rail {
-      padding-inline: 4px;
+      padding-inline: var(--ds-space-050);
     }
     .nc2-icn {
       width: 44px;

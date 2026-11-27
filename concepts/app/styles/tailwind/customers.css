@@ -51,7 +51,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 10px 12px;
+  padding: 10px var(--ds-space-150);
 }
 .customer-image-popover-copy > div { min-width: 0; }
 .customer-image-popover-copy strong, .customer-image-popover-copy span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -65,7 +65,7 @@
 #customer-lookup-search-scrim.is-over-drawer { z-index: 240; }
 .customer-record-footer .customer-footer-note::before {
         content: '|';
-        margin-inline-end: 4px;
+        margin-inline-end: var(--ds-space-050);
         color: var(--line);
       }
 .customer-record-canvas .customer-section-heading[aria-expanded='false'] > svg {
@@ -119,8 +119,8 @@
         display: inline-flex;
         width: auto;
         align-items: center;
-        gap: 6px;
-        padding: 7px 12px;
+        gap: var(--ds-space-075);
+        padding: 7px var(--ds-space-150);
         border: 1px dashed var(--line);
         border-radius: 7px;
         color: var(--accent);
@@ -162,7 +162,7 @@
       }
 body.cards-fieldset .prototype-surface-card {
         overflow: visible;
-        margin-top: 16px;
+        margin-top: var(--ds-space-200);
         border-radius: 8px;
       }
 body.cards-fieldset .prototype-surface-card-header {
@@ -171,8 +171,8 @@ body.cards-fieldset .prototype-surface-card-header {
         width: max-content;
         max-width: calc(100% - 32px);
         min-height: 22px;
-        margin: 0 16px calc(var(--ds-space-150) * -1);
-        padding: 0 8px;
+        margin: 0 var(--ds-space-200) calc(var(--ds-space-150) * -1);
+        padding: 0 var(--ds-space-100);
         border: 0;
         background: var(--surface);
       }
@@ -196,7 +196,7 @@ body.style-floated
         inset-inline-start: 8px;
         z-index: 1;
         margin: 0;
-        padding: 0 4px;
+        padding: 0 var(--ds-space-050);
         background: var(--surface);
         pointer-events: none;
         transition: 0.12s ease;
@@ -237,7 +237,7 @@ body.style-floated
 body.style-inline .customer-overlay label.rec-field:not(.customer-dialog-toggle) {
         display: grid;
         grid-template-columns: 120px minmax(0, 1fr);
-        gap: 8px;
+        gap: var(--ds-space-100);
         align-items: baseline;
       }
 body.style-inline
@@ -274,13 +274,13 @@ body
 }
 body.cards-fieldset .rec-card {
         overflow: visible;
-        margin-top: 16px;
+        margin-top: var(--ds-space-200);
         border-radius: 8px;
         box-shadow: none;
       }
 body.cards-fieldset .customer-record-canvas .customer-section {
         overflow: visible;
-        margin-top: 16px;
+        margin-top: var(--ds-space-200);
         border-radius: 8px;
         box-shadow: none;
       }
@@ -298,8 +298,8 @@ body.cards-fieldset .rec-card-hd {
         width: max-content;
         max-width: calc(100% - 32px);
         min-height: 22px;
-        margin: 0 16px calc(var(--ds-space-150) * -1);
-        padding: 0 8px;
+        margin: 0 var(--ds-space-200) calc(var(--ds-space-150) * -1);
+        padding: 0 var(--ds-space-100);
         color: var(--ink);
         background: var(--surface);
       }
@@ -309,8 +309,8 @@ body.cards-fieldset .customer-record-canvas .customer-section-heading {
         width: max-content;
         max-width: calc(100% - 32px);
         min-height: 22px;
-        margin: 0 16px calc(var(--ds-space-150) * -1);
-        padding: 0 8px;
+        margin: 0 var(--ds-space-200) calc(var(--ds-space-150) * -1);
+        padding: 0 var(--ds-space-100);
         color: var(--ink);
         background: var(--surface);
       }
@@ -320,8 +320,8 @@ body.cards-fieldset .customer-record-canvas .customer-section-titlebar {
         width: max-content;
         max-width: calc(100% - 32px);
         min-height: 22px;
-        margin: 0 16px calc(var(--ds-space-150) * -1);
-        padding: 0 8px;
+        margin: 0 var(--ds-space-200) calc(var(--ds-space-150) * -1);
+        padding: 0 var(--ds-space-100);
         color: var(--ink);
         background: var(--surface);
       }
@@ -377,7 +377,7 @@ body.cards-fieldset
         top: -11px;
         z-index: 1;
         min-height: 22px;
-        padding: 0 8px;
+        padding: 0 var(--ds-space-100);
         background: var(--surface);
       }
 body.cards-fieldset
@@ -389,7 +389,7 @@ body.cards-fieldset
         top: -11px;
         z-index: 1;
         min-height: 22px;
-        padding: 0 8px;
+        padding: 0 var(--ds-space-100);
         background: var(--surface);
       }
 body.cards-fieldset

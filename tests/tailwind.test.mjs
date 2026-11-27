@@ -267,8 +267,10 @@ test('Tailwind input has explicit sources and the generated output includes expe
 // reuses the Customer record's titlebar/grid tokens and measured +90
 // bytes over HEAD's already-over-budget 292202-byte output; the baseline
 // now records that reviewed output -- see the report's 2026-10-25
-// addendum.
-const FINAL_TAILWIND_BASELINE_BYTES = 292292;
+// addendum. #56 then moved the on-scale px spacing in the authored CSS to
+// `var(--ds-space-*)`, which is longer than the literal: 315967 to 324348
+// bytes -- see the report's 2026-11-27 addendum.
+const FINAL_TAILWIND_BASELINE_BYTES = 324348;
 const FINAL_TAILWIND_CEILING_BYTES = Math.ceil(FINAL_TAILWIND_BASELINE_BYTES * 1.1);
 
 test('Task 7 final Tailwind budget: compiled output stays within baseline + 10%', async () => {

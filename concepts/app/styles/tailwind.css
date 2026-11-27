@@ -116,7 +116,7 @@
   .profile-view[data-settings-navigation-style='standard'] .profile-layout,
   .organization-view[data-settings-navigation-style='standard'] .organization-layout {
     grid-template-columns: minmax(0, 1fr);
-    gap: 16px;
+    gap: var(--ds-space-200);
   }
 
   .profile-view[data-settings-navigation-style='standard'] .profile-scroll-nav,
@@ -125,7 +125,7 @@
     top: 0;
     z-index: 2;
     display: flex;
-    gap: 2px;
+    gap: var(--ds-space-025);
     padding: 0;
     overflow-x: auto;
     border: 0;
@@ -140,7 +140,7 @@
   .organization-view[data-settings-navigation-style='standard'] .organization-nav button {
     flex: none;
     min-height: 40px;
-    padding: 8px 14px;
+    padding: var(--ds-space-100) 14px;
     border: 0;
     border-bottom: 2px solid transparent;
     border-radius: 0;
@@ -172,7 +172,7 @@
      shared .rec-card rules untouched, including body.cards-fieldset. */
   .profile-view[data-profile-card-style='simple'] .rec-card {
     margin: 0 !important;
-    padding-block: 16px;
+    padding-block: var(--ds-space-200);
     overflow: visible !important;
     border: 0 !important;
     border-radius: 0 !important;
@@ -191,7 +191,7 @@
     max-width: none !important;
     min-height: 0 !important;
     margin: 0 !important;
-    padding: 0 0 12px !important;
+    padding: 0 0 var(--ds-space-150) !important;
     color: var(--faint) !important;
     background: transparent !important;
     font-size: 12px !important;
