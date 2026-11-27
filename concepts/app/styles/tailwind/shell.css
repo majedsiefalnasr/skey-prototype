@@ -1671,7 +1671,9 @@
     max-width: 1296px;
   }
   /* From sm up, a record footer row wraps instead of squeezing its status text,
-     and a narrow row gives that text the last line (#49). */
+     and a narrow row gives that text the last line. The customer row holds fewer
+     controls than the invoice row, so it keeps one line down to a smaller width
+     (#49). The narrow rules repeat the base :is() list to match its specificity. */
   @media (width >= theme(--breakpoint-sm)) {
     .page-footer :is([data-page-footer='record'], [data-page-footer='customer-record']) {
       container: record-footer / inline-size;
@@ -1683,13 +1685,22 @@
       flex: 1 1 12rem;
     }
     @container record-footer (width < 860px) {
-      .page-footer :is([data-page-footer='record'], [data-page-footer='customer-record'])
+      .page-footer [data-page-footer='record']
         > :is(.lockbanner, .customer-footer-note, .pos[data-unsaved]) {
         order: 1;
         flex-basis: 100%;
       }
-      .page-footer :is([data-page-footer='record'], [data-page-footer='customer-record'])
-        > :is(.lockbanner, .customer-footer-note)::before {
+      .page-footer [data-page-footer='record'] > .lockbanner::before {
+        content: none;
+      }
+    }
+    @container record-footer (width < 740px) {
+      .page-footer [data-page-footer='customer-record']
+        > :is(.lockbanner, .customer-footer-note, .pos[data-unsaved]) {
+        order: 1;
+        flex-basis: 100%;
+      }
+      .page-footer [data-page-footer='customer-record'] > .customer-footer-note::before {
         content: none;
       }
     }

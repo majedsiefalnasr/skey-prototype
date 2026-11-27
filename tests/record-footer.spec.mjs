@@ -1,6 +1,7 @@
 // Invoice and customer record footers keep every control inside their padding
 // and their status text readable (#49). From `sm` (768px) up the row wraps, and
-// a row narrower than 860px puts the status text on its own last line.
+// a narrow row puts the status text on its own last line: below 860px for the
+// invoice and below 740px for the customer record.
 
 import {test, expect} from '@playwright/test'
 import {boot, openSurface, settle} from './support/browser.mjs'
@@ -13,6 +14,10 @@ const STATES = [
   {name: 'edited invoice', surface: 'record', status: 'open', mode: 'edit'},
   {name: 'new invoice', surface: 'record', status: 'open', mode: 'create'},
   {name: 'customer record', surface: 'customer-record'},
+]
+const LAST_LINE_LIMITS = [
+  {name: 'posted invoice', surface: 'record', note: '.lockbanner', limit: 860},
+  {name: 'customer record', surface: 'customer-record', note: '.customer-footer-note', limit: 740},
 ]
 
 async function setControl(page, id, value) {
@@ -65,6 +70,41 @@ function readFooter(page) {
         .filter(element => element.scrollWidth > element.clientWidth + 1)
         .map(element => element.className),
     }
+  })
+}
+
+for (const {name, surface, note, limit} of LAST_LINE_LIMITS) {
+  test(`${name} status text takes the last line only below a ${limit}px row`, async ({page}) => {
+    await boot(page, BASE_URL)
+    await openSurface(page, surface)
+    await settle(page)
+    if (surface === 'record') {
+      await setControl(page, 'st', 'posted')
+      await setControl(page, 'mode', 'record')
+    }
+    const readings = []
+    for (const width of WIDTHS) {
+      await page.setViewportSize({width, height: 900})
+      for (const layout of ['fluid', 'boxed']) {
+        await setControl(page, 'content-layout', layout)
+        await settle(page)
+        const reading = await page.locator(`.page-footer > .fnav ${note}:visible`).evaluate(element => {
+          const row = element.parentElement
+          const style = getComputedStyle(row)
+          return {
+            row: row.getBoundingClientRect().width - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight),
+            order: getComputedStyle(element).order,
+            basis: getComputedStyle(element).flexBasis,
+          }
+        })
+        readings.push({width, layout, ...reading})
+      }
+    }
+    expect(readings.filter(reading => {
+      const narrow = reading.row < limit
+      return reading.order !== (narrow ? '1' : '0') || (reading.basis === '100%') !== narrow
+    })).toEqual([])
+    expect([...new Set(readings.map(reading => reading.row < limit))].sort()).toEqual([false, true])
   })
 }
 

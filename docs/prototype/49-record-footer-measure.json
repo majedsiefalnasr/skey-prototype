@@ -4,7 +4,7 @@
   "From 768px the record footer was a single row that could not wrap.",
   "The pager and the actions did not shrink, so the lock message and record position shrank to their longest words and the row then ran past the footer."
  ],
- "fix": "From sm (48rem) up the invoice and customer record footer rows wrap with an 8px row gap and a 12px column gap. The status message has a 12rem flex basis. A row narrower than 860px puts the message on its own last line without the separator.",
+ "fix": "From sm (48rem) up the invoice and customer record footer rows wrap with an 8px row gap and a 12px column gap. The status message has a 12rem flex basis. A narrow row puts the message on its own last line without the separator: below 860px for the invoice and below 740px for the customer record.",
  "before": "commit 550302d",
  "method": "Chromium, reduced motion, pointer and touch emulation, left to right and right to left, Fluid and Boxed layout, at 390, 768, 816, 840, 868, 900, 912, 920, 940, 1023, 1024, 1100, 1176, 1184, 1280 and 1440px by 900px. Invoice states: posted, posted at 125% interface scale, deactivated, draft, open, edit and create. A reading fails when a control crosses the row padding or a status text takes more than three lines.",
  "from768": {
@@ -48,8 +48,8 @@
     "withTextOverThreeLines": 0,
     "withOverlap": 0,
     "withSidewaysScroll": 0,
-    "meanRowHeightPx": 71,
-    "maxRowHeightPx": 82
+    "meanRowHeightPx": 59,
+    "maxRowHeightPx": 108
    }
   }
  },
@@ -101,7 +101,9 @@
   "rowHeightsChanged": 0
  },
  "passingBeforeAndTallerAfter": {
-  "readings": 362,
+  "readings": 302,
+  "invoice": 273,
+  "customer": 29,
   "largestGrowthPx": 52
  },
  "postedInvoiceRowHeightPx": {
@@ -186,7 +188,7 @@
    }
   ]
  },
- "layoutTest": "tests/record-footer.spec.mjs fails on e558f74 (17 of 55 desktop tests) and passes with the fix.",
+ "layoutTest": "tests/record-footer.spec.mjs: on e558f74 the fit tests fail (17 of 55 desktop tests). The customer last-line test fails while the customer row uses the 860px limit. All pass with the fix.",
  "knownRemaining": [
   "At 125% interface scale, 1024px, left to right, Boxed, the page content scrolls 12px sideways (230 to 286px before). The scroll stays when the footer is removed.",
   "Below 768px, unchanged by this fix: 13 readings have a control past the row padding, and 5 scroll sideways."
