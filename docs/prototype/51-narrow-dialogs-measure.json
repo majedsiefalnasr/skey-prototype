@@ -1,0 +1,809 @@
+{
+ "issue": 51,
+ "cause": "The same cause as #50: a toggle kept grid-column: span 3 below the sm breakpoint (48rem), where the form grid has one column.",
+ "fix": "Reset the toggle to grid-column: auto below sm in Add Parent Unit and Add Customer Type.",
+ "before": "commit d7427b8",
+ "method": "Chromium, reduced motion, touch emulation, left to right and right to left. Each dialog is opened from the customer record (Add Parent Unit at 1440px) and then resized. Field boxes are read from the first visible .customer-form-grid.",
+ "addOperationUnitUnchanged": "12 of 12 readings",
+ "dialogs": [
+  {
+   "dialog": "Add Parent Unit",
+   "readings": [
+    {
+     "viewport": 320,
+     "direction": "rtl",
+     "gridWidth": 166,
+     "before": {
+      "columns": "0px 59.7344px 58.2656px",
+      "fieldWidths": [
+       0,
+       60,
+       58,
+       0,
+       60,
+       58,
+       0,
+       150,
+       0
+      ],
+      "overlappingFieldPairs": 2
+     },
+     "after": {
+      "columns": "150px",
+      "fieldWidths": [
+       150,
+       150,
+       150,
+       150,
+       150,
+       150,
+       150,
+       150,
+       150
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": false
+    },
+    {
+     "viewport": 320,
+     "direction": "ltr",
+     "gridWidth": 166,
+     "before": {
+      "columns": "0px 61.3281px 56.6719px",
+      "fieldWidths": [
+       0,
+       61,
+       57,
+       0,
+       61,
+       57,
+       0,
+       150,
+       0
+      ],
+      "overlappingFieldPairs": 2
+     },
+     "after": {
+      "columns": "150px",
+      "fieldWidths": [
+       150,
+       150,
+       150,
+       150,
+       150,
+       150,
+       150,
+       150,
+       150
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": false
+    },
+    {
+     "viewport": 390,
+     "direction": "rtl",
+     "gridWidth": 208,
+     "before": {
+      "columns": "0px 80.7344px 79.2656px",
+      "fieldWidths": [
+       0,
+       81,
+       79,
+       0,
+       81,
+       79,
+       0,
+       192,
+       0
+      ],
+      "overlappingFieldPairs": 2
+     },
+     "after": {
+      "columns": "192px",
+      "fieldWidths": [
+       192,
+       192,
+       192,
+       192,
+       192,
+       192,
+       192,
+       192,
+       192
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": false
+    },
+    {
+     "viewport": 390,
+     "direction": "ltr",
+     "gridWidth": 208,
+     "before": {
+      "columns": "0px 82.3281px 77.6719px",
+      "fieldWidths": [
+       0,
+       82,
+       78,
+       0,
+       82,
+       78,
+       0,
+       192,
+       0
+      ],
+      "overlappingFieldPairs": 2
+     },
+     "after": {
+      "columns": "192px",
+      "fieldWidths": [
+       192,
+       192,
+       192,
+       192,
+       192,
+       192,
+       192,
+       192,
+       192
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": false
+    },
+    {
+     "viewport": 480,
+     "direction": "rtl",
+     "gridWidth": 262,
+     "before": {
+      "columns": "0px 107.734px 106.266px",
+      "fieldWidths": [
+       0,
+       108,
+       106,
+       0,
+       108,
+       106,
+       0,
+       246,
+       0
+      ],
+      "overlappingFieldPairs": 2
+     },
+     "after": {
+      "columns": "246px",
+      "fieldWidths": [
+       246,
+       246,
+       246,
+       246,
+       246,
+       246,
+       246,
+       246,
+       246
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": false
+    },
+    {
+     "viewport": 480,
+     "direction": "ltr",
+     "gridWidth": 262,
+     "before": {
+      "columns": "0px 109.328px 104.672px",
+      "fieldWidths": [
+       0,
+       109,
+       105,
+       0,
+       109,
+       105,
+       0,
+       246,
+       0
+      ],
+      "overlappingFieldPairs": 2
+     },
+     "after": {
+      "columns": "246px",
+      "fieldWidths": [
+       246,
+       246,
+       246,
+       246,
+       246,
+       246,
+       246,
+       246,
+       246
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": false
+    },
+    {
+     "viewport": 767,
+     "direction": "rtl",
+     "gridWidth": 434,
+     "before": {
+      "columns": "10.1875px 204px 172px",
+      "fieldWidths": [
+       10,
+       204,
+       172,
+       10,
+       204,
+       172,
+       10,
+       418,
+       10
+      ],
+      "overlappingFieldPairs": 2
+     },
+     "after": {
+      "columns": "418.188px",
+      "fieldWidths": [
+       418,
+       418,
+       418,
+       418,
+       418,
+       418,
+       418,
+       418,
+       418
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": false
+    },
+    {
+     "viewport": 767,
+     "direction": "ltr",
+     "gridWidth": 434,
+     "before": {
+      "columns": "10.1875px 204px 172px",
+      "fieldWidths": [
+       10,
+       204,
+       172,
+       10,
+       204,
+       172,
+       10,
+       418,
+       10
+      ],
+      "overlappingFieldPairs": 2
+     },
+     "after": {
+      "columns": "418.188px",
+      "fieldWidths": [
+       418,
+       418,
+       418,
+       418,
+       418,
+       418,
+       418,
+       418,
+       418
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": false
+    },
+    {
+     "viewport": 768,
+     "direction": "rtl",
+     "gridWidth": 435,
+     "before": {
+      "columns": "128.922px 128.938px 128.938px",
+      "fieldWidths": [
+       129,
+       129,
+       129,
+       129,
+       129,
+       129,
+       129,
+       419,
+       419
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "after": {
+      "columns": "128.922px 128.938px 128.938px",
+      "fieldWidths": [
+       129,
+       129,
+       129,
+       129,
+       129,
+       129,
+       129,
+       419,
+       419
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": true
+    },
+    {
+     "viewport": 768,
+     "direction": "ltr",
+     "gridWidth": 435,
+     "before": {
+      "columns": "128.922px 128.938px 128.938px",
+      "fieldWidths": [
+       129,
+       129,
+       129,
+       129,
+       129,
+       129,
+       129,
+       419,
+       419
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "after": {
+      "columns": "128.922px 128.938px 128.938px",
+      "fieldWidths": [
+       129,
+       129,
+       129,
+       129,
+       129,
+       129,
+       129,
+       419,
+       419
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": true
+    },
+    {
+     "viewport": 1440,
+     "direction": "rtl",
+     "gridWidth": 838,
+     "before": {
+      "columns": "263.328px 263.328px 263.344px",
+      "fieldWidths": [
+       263,
+       263,
+       263,
+       263,
+       263,
+       263,
+       263,
+       822,
+       822
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "after": {
+      "columns": "263.328px 263.328px 263.344px",
+      "fieldWidths": [
+       263,
+       263,
+       263,
+       263,
+       263,
+       263,
+       263,
+       822,
+       822
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": true
+    },
+    {
+     "viewport": 1440,
+     "direction": "ltr",
+     "gridWidth": 838,
+     "before": {
+      "columns": "263.328px 263.328px 263.344px",
+      "fieldWidths": [
+       263,
+       263,
+       263,
+       263,
+       263,
+       263,
+       263,
+       822,
+       822
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "after": {
+      "columns": "263.328px 263.328px 263.344px",
+      "fieldWidths": [
+       263,
+       263,
+       263,
+       263,
+       263,
+       263,
+       263,
+       822,
+       822
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": true
+    }
+   ]
+  },
+  {
+   "dialog": "Add Customer Type",
+   "readings": [
+    {
+     "viewport": 320,
+     "direction": "rtl",
+     "gridWidth": 280,
+     "before": {
+      "columns": "76px 172px 0px",
+      "fieldWidths": [
+       76,
+       172,
+       280,
+       76
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "after": {
+      "columns": "280px",
+      "fieldWidths": [
+       280,
+       280,
+       280,
+       280
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": false
+    },
+    {
+     "viewport": 320,
+     "direction": "ltr",
+     "gridWidth": 280,
+     "before": {
+      "columns": "76px 172px 0px",
+      "fieldWidths": [
+       76,
+       172,
+       280,
+       76
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "after": {
+      "columns": "280px",
+      "fieldWidths": [
+       280,
+       280,
+       280,
+       280
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": false
+    },
+    {
+     "viewport": 390,
+     "direction": "rtl",
+     "gridWidth": 350,
+     "before": {
+      "columns": "146px 172px 0px",
+      "fieldWidths": [
+       146,
+       172,
+       350,
+       146
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "after": {
+      "columns": "350px",
+      "fieldWidths": [
+       350,
+       350,
+       350,
+       350
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": false
+    },
+    {
+     "viewport": 390,
+     "direction": "ltr",
+     "gridWidth": 350,
+     "before": {
+      "columns": "146px 172px 0px",
+      "fieldWidths": [
+       146,
+       172,
+       350,
+       146
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "after": {
+      "columns": "350px",
+      "fieldWidths": [
+       350,
+       350,
+       350,
+       350
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": false
+    },
+    {
+     "viewport": 480,
+     "direction": "rtl",
+     "gridWidth": 392,
+     "before": {
+      "columns": "188px 172px 0px",
+      "fieldWidths": [
+       188,
+       172,
+       392,
+       188
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "after": {
+      "columns": "392px",
+      "fieldWidths": [
+       392,
+       392,
+       392,
+       392
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": false
+    },
+    {
+     "viewport": 480,
+     "direction": "ltr",
+     "gridWidth": 392,
+     "before": {
+      "columns": "188px 172px 0px",
+      "fieldWidths": [
+       188,
+       172,
+       392,
+       188
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "after": {
+      "columns": "392px",
+      "fieldWidths": [
+       392,
+       392,
+       392,
+       392
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": false
+    },
+    {
+     "viewport": 767,
+     "direction": "rtl",
+     "gridWidth": 560,
+     "before": {
+      "columns": "356px 172px 0px",
+      "fieldWidths": [
+       356,
+       172,
+       560,
+       356
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "after": {
+      "columns": "560px",
+      "fieldWidths": [
+       560,
+       560,
+       560,
+       560
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": false
+    },
+    {
+     "viewport": 767,
+     "direction": "ltr",
+     "gridWidth": 560,
+     "before": {
+      "columns": "356px 172px 0px",
+      "fieldWidths": [
+       356,
+       172,
+       560,
+       356
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "after": {
+      "columns": "560px",
+      "fieldWidths": [
+       560,
+       560,
+       560,
+       560
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": false
+    },
+    {
+     "viewport": 768,
+     "direction": "rtl",
+     "gridWidth": 560,
+     "before": {
+      "columns": "176px 176px 176px",
+      "fieldWidths": [
+       176,
+       176,
+       560,
+       560
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "after": {
+      "columns": "176px 176px 176px",
+      "fieldWidths": [
+       176,
+       176,
+       560,
+       560
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": true
+    },
+    {
+     "viewport": 768,
+     "direction": "ltr",
+     "gridWidth": 560,
+     "before": {
+      "columns": "176px 176px 176px",
+      "fieldWidths": [
+       176,
+       176,
+       560,
+       560
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "after": {
+      "columns": "176px 176px 176px",
+      "fieldWidths": [
+       176,
+       176,
+       560,
+       560
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": true
+    },
+    {
+     "viewport": 1440,
+     "direction": "rtl",
+     "gridWidth": 560,
+     "before": {
+      "columns": "176px 176px 176px",
+      "fieldWidths": [
+       176,
+       176,
+       560,
+       560
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "after": {
+      "columns": "176px 176px 176px",
+      "fieldWidths": [
+       176,
+       176,
+       560,
+       560
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": true
+    },
+    {
+     "viewport": 1440,
+     "direction": "ltr",
+     "gridWidth": 560,
+     "before": {
+      "columns": "176px 176px 176px",
+      "fieldWidths": [
+       176,
+       176,
+       560,
+       560
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "after": {
+      "columns": "176px 176px 176px",
+      "fieldWidths": [
+       176,
+       176,
+       560,
+       560
+      ],
+      "overlappingFieldPairs": 0
+     },
+     "unchanged": true
+    }
+   ]
+  }
+ ],
+ "preExistingNotFixed": {
+  "note": "Add Parent Unit at 320px and 390px after the fix. Pixels by which an element extends past its container. The change does not touch the drawer footer or the toggle width.",
+  "readings": [
+   {
+    "viewport": 320,
+    "direction": "rtl",
+    "drawerWidth": 192,
+    "footerButtonsPastDrawer": {
+     "إلغاء": 22,
+     "إضافة وحدة رئيسية": 0
+    },
+    "toggleTrackPastCard": 0
+   },
+   {
+    "viewport": 320,
+    "direction": "ltr",
+    "drawerWidth": 192,
+    "footerButtonsPastDrawer": {
+     "Cancel": 37,
+     "Add Parent Unit": 0
+    },
+    "toggleTrackPastCard": 2
+   },
+   {
+    "viewport": 390,
+    "direction": "rtl",
+    "drawerWidth": 234,
+    "footerButtonsPastDrawer": {
+     "إلغاء": 0,
+     "إضافة وحدة رئيسية": 0
+    },
+    "toggleTrackPastCard": 0
+   },
+   {
+    "viewport": 390,
+    "direction": "ltr",
+    "drawerWidth": 234,
+    "footerButtonsPastDrawer": {
+     "Cancel": 0,
+     "Add Parent Unit": 0
+    },
+    "toggleTrackPastCard": 0
+   }
+  ]
+ }
+}
