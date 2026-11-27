@@ -31,6 +31,7 @@ Skey ERP supports dense, keyboard-first document work in a bilingual ERP environ
 - The launchpad and application shell must support both LTR and RTL locales.
 - Keyboard access, information density, and persistent record state are product requirements.
 - This repository is a working audit and prototype that informs a later Figma redesign.
+- Hidden, disabled or removed features, such as the print and chart toolbar buttons, the kanban view, the Performance section and comfortable density, are treated as absent. Do not review, measure, test or improve them unless asked.
 
 ## Brand Commitments
 
