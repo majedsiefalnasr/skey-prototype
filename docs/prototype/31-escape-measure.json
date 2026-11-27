@@ -2,7 +2,7 @@
  "issue": 31,
  "decision": "Escape closes the topmost modal (.dlg, .kbdsheet) when no popup is open inside it and nothing else handled the key, as in @atlaskit/modal-dialog. It presses the header close button, or clicks the backdrop of an unsaved-changes guard, which keeps editing.",
  "before": "commit 18fff47",
- "method": "Chromium, reduced motion. Each dialog is opened from its real trigger, Escape is pressed once, and the probe records whether the dialog closed, how many modal layers closed and where focus went. Before: desktop 1440x900 LTR. After: desktop 1440x900 LTR and RTL, and 390x844 touch LTR and RTL. At 390px three triggers are covered by other elements (the geography flow node by its action buttons, the operation unit picker button by the next field), so those dialogs were opened with a dispatched click after focusing the trigger.",
+ "method": "Chromium, reduced motion. Each dialog is opened from its real trigger, Escape is pressed once, and the probe records whether the dialog closed, how many modal layers closed and where focus went. Before: desktop 1440x900 LTR. After: desktop 1440x900 LTR and RTL, and 390x844 touch LTR and RTL. At 390px three dialogs were opened with a dispatched click after focusing the trigger, because the probe mouse click could not reach it: for Location details and Delete this tree, hovering the geography flow node shows its action toolbar over its centre (an emulated finger tap does reach the node); for Choose operation unit, the next field covers the picker button, also to a finger tap.",
  "summaryBefore": {
   "dialogs": 36,
   "closed": 25,

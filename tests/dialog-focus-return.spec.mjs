@@ -133,7 +133,8 @@ test('Escape over the phone location hierarchy closes only the top dialog', asyn
   await expect(hierarchy).toBeVisible()
   await visible(page, '#geo-hierarchy-panel [data-geo-view="flow"]').click()
   await visible(page, '[data-geo-flow-fullscreen]').click()
-  // The node's action buttons cover it at 390px, so the click is dispatched.
+  // A mouse click hovers the node first, and its action toolbar then covers
+  // the centre, so the click is dispatched. A finger tap reaches the node.
   const node = visible(page, '#geo-flow-pane [data-geo-node]')
   await node.focus()
   await node.dispatchEvent('click')
