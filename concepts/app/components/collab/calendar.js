@@ -183,7 +183,7 @@ const CONFLICT_CLASS = '![border-color:var(--danger)] ![background-color:var(--d
 
 const itemButton = (item, index, extraClass = '', style = '', timeLabel = formatTime(item.start), enhanced = false, plainBorder = enhanced) => {
   const content = enhanced
-    ? `<span class="event-month-title" dir="auto">${icon(item.allDay ? 'i-cal' : 'i-clock', 12)}<span>${escapeHtml(item.title)}</span></span><span class="event-month-time">${escapeHtml(item.allDay ? t('All day') : timeLabel)}</span>`
+    ? `<span class="event-month-title" dir="auto" title="${escapeHtml(item.title)}">${icon(item.allDay ? 'i-cal' : 'i-clock', 12)}<span>${escapeHtml(item.title)}</span></span><span class="event-month-time">${escapeHtml(item.allDay ? t('All day') : timeLabel)}</span>`
     : `${item.allDay ? '' : `<span class="font-semibold">${escapeHtml(timeLabel)}</span> `}<span dir="auto">${escapeHtml(item.title)}</span><span class="sr-only"> (${escapeHtml(t(item.label))})</span>`
   const paintClass = `${ITEM_CLASS} ${plainBorder ? '' : 'border-s-[3px]'} ${item.conflict ? CONFLICT_CLASS : ''} ${extraClass}`
   // Timed events keep a normal coarse-pointer button. Only its painted

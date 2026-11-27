@@ -114,7 +114,7 @@ export function createMenus({showLaunchpad, getLaunchpadEnabled} = {}) {
      when the trigger sits too close to the edge the menu grows toward. */
   function keepInsidePage(list) {
     list.style.translate = ''
-    const page = list.closest('.page-content')
+    const page = list.closest('.page-content, .page-action-bar')
     if (!page) return
     const start = page.getBoundingClientRect().left + page.clientLeft
     const end = start + page.clientWidth

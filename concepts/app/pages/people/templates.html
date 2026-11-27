@@ -1,7 +1,7 @@
 <template class="people-tpl">
   <div class="people-view collab-view flex min-h-0 flex-1 flex-col" hidden>
-    <div class="phead flex items-start gap-5 px-4 [.d1_&]:[padding:var(--ds-space-150)_0]">
-      <div class="l min-w-0 flex-1">
+    <div class="phead flex items-start gap-5 px-4 [.d1_&]:[padding:var(--ds-space-150)_0] flex-wrap">
+      <div class="l min-w-0 flex-[1_1_20rem]">
         <nav class="flex items-center gap-1.5 text-body text-muted [&_a]:text-accent [&_a]:no-underline [&_a:hover]:underline" aria-label="Breadcrumb">
           <a href="/" data-home-link data-i18n="Home">Home</a><span class="sep" aria-hidden="true">›</span>
           <a href="#" data-collab-home data-i18n="Help Screens">Help Screens</a><span aria-hidden="true">›</span
@@ -26,8 +26,8 @@
     <div class="fnav fnav-list" data-people-list-fnav></div>
   </div>
   <div class="people-record-view collab-view flex min-h-0 min-w-0 flex-1 flex-col" hidden>
-    <header class="phead flex items-start gap-5 px-4 [.d1_&]:[padding:var(--ds-space-150)_0]">
-      <div class="l min-w-0 flex-1">
+    <header class="phead flex items-start gap-5 px-4 [.d1_&]:[padding:var(--ds-space-150)_0] flex-wrap">
+      <div class="l min-w-0 flex-[1_1_20rem]">
         <nav class="crumbs" aria-label="Breadcrumb">
           <a href="/" data-home-link data-i18n="Home">Home</a><span class="sep">›</span>
           <a href="/help-screens/people-data" data-people-back data-i18n="People Data">People Data</a><span class="sep">›</span>

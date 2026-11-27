@@ -64,8 +64,8 @@ export function createGeography({
       <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('Procedure')} ${dataListIcon('i-caret', 12)}</button><div class="mlist" role="menu"><button role="menuitem" type="button" data-geo-record-action="save"${editing ? '' : ' disabled'}>${dataListIcon('i-save', 14)} ${t('Save')}</button><button role="menuitem" type="button" data-geo-record-action="print">${dataListIcon('i-print', 14)} ${t('Print')}</button><button role="menuitem" type="button" data-geo-record-action="undo"${editing ? '' : ' disabled'}>${dataListIcon('i-undo', 14)} ${t('Undo')}</button></div></div>
       <div class="menu"><button type="button" aria-haspopup="menu" aria-expanded="false">${t('More')} ${dataListIcon('i-caret', 12)}</button><div class="mlist" role="menu"><button role="menuitem" type="button" data-geo-record-action="parameters">${dataListIcon('i-sliders', 14)} ${t('Screen Parameters')}</button><button role="menuitem" type="button" data-geo-record-action="help">${dataListIcon('i-help', 14)} ${t('Help')}</button></div></div>
     </div>
-    <div class="phead [.d1_&]:[padding:var(--ds-space-150)_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5 px-4">
-      <div class="l [.d1_.phead_&]:[flex:1]">
+    <div class="phead [.d1_&]:[padding:var(--ds-space-150)_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5 px-4 flex-wrap">
+      <div class="l min-w-0 flex-[1_1_20rem]">
         <nav class="crumbs [.d3_.otitle_&]:[margin-bottom:var(--ds-space-025)]!" aria-label="Breadcrumb"><a href="/" data-home-link>${t('Home')}</a><span class="sep">›</span><button class="geo-back-list" type="button">${t('Geographical Structure')}</button><span class="sep">›</span><span aria-current="page">${geoState.mode === 'create' ? t('New') : t('All')}</span></nav>
         <div class="tline [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-5 [.d1_&]:mt-2! [.d1_&]:flex-wrap [.d1_&_h1]:[font-size:23px] [.d1_&_h1]:font-semibold"><h1>${title}</h1>${row.active ? '' : `<span class="badge danger">${t('Inactive')}</span>`}</div>
       </div>
@@ -119,6 +119,7 @@ export function createGeography({
     pager.querySelector('.pg-n').onclick = () => setPosition(position + 1)
     pager.querySelector('.pg-l').onclick = () => setPosition(rows.length)
     input.onchange = () => setPosition(input.value)
+    queryId('geo-record-position').toggleAttribute('data-unsaved', creating)
     queryId('geo-record-position').textContent = creating
       ? t('New location', 'New location')
       : `${t('Record', 'Record')} ${position} ${t('of', 'of')} ${rows.length}`

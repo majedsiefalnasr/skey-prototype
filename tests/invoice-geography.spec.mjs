@@ -1,5 +1,5 @@
 import {test, expect} from '@playwright/test';
-import {boot, openSurface} from './support/browser.mjs';
+import {boot, openSurface, recordAction} from './support/browser.mjs';
 const localized = (english, arabic) => test.info().project.use.rtl ? arabic : english;
 
 test('invoice create footer contains pager, status and related actions in both locales', async ({page}, info) => {
@@ -215,7 +215,7 @@ test('invoice keyboard line entry registers once after returning from the list',
 
 test('invoice print settings and activity drawer retain their document context', async ({page}) => {
   await openSurface(page, 'record');
-  await page.locator('.content').getByRole('button', {name: localized('Print', 'طباعة'), exact: true}).click();
+  await (await recordAction(page, '[data-act="Print"]')).item.click();
   await expect(page.locator('#pscrim')).toHaveClass(/open/);
   await expect(page.locator('#pscrim .dhd-subtitle')).toContainText(localized('Sales Invoice', 'فاتورة مبيعات'));
   const printGroups = page.locator('#pscrim .print-group');
@@ -225,7 +225,7 @@ test('invoice print settings and activity drawer retain their document context',
   await expect(printGroups.nth(1).getByRole('heading')).toHaveText(localized('Document', 'المستند'));
   await expect(printGroups.nth(1)).toHaveCSS('border-top-style', 'solid');
   await page.locator('#pscrim').getByRole('button', {name: 'Close', exact: true}).click();
-  await page.locator('.dr-open[data-tab="stages"]').first().click();
+  await (await recordAction(page, '.dr-open[data-tab="stages"]')).item.click();
   await expect(page.locator('#drawer')).toHaveClass(/open/);
   await expect(page.locator('.drtab[data-tab="stages"]')).toHaveAttribute('aria-selected', 'true');
   await page.locator('#drawer .dr-close').click();
@@ -234,7 +234,7 @@ test('invoice print settings and activity drawer retain their document context',
 test('invoice print settings groups reflow at narrow widths', async ({page}) => {
   await page.setViewportSize({width: 390, height: 844});
   await openSurface(page, 'record');
-  await page.locator('.content').getByRole('button', {name: localized('Print', 'طباعة'), exact: true}).click();
+  await (await recordAction(page, '[data-act="Print"]')).item.click();
 
   const columnCount = locator =>
     locator.evaluate(element => getComputedStyle(element).gridTemplateColumns.split(' ').length);

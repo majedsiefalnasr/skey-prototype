@@ -258,3 +258,29 @@ export async function openListChart(page) {
     {polling: 120}
   );
 }
+
+/**
+ * A record action bar button, or its stand-in in the bar's last menu when the
+ * bar is too narrow to show it (#48). `item` is the control to activate and
+ * `trigger` is the control that holds focus once a dialog it opens closes.
+ * Opens the menu when the action has moved into it.
+ * @param {Page} page
+ * @param {string} selector the action button inside the visible action bar
+ */
+export async function recordAction(page, selector) {
+  await page.waitForFunction(selector => {
+    const shown = [...document.querySelectorAll('.page-action-bar [data-page-action-bar]')].find(bar => bar.getClientRects().length);
+    const button = shown?.querySelector(`:scope > ${selector}`);
+    return Boolean(button && (button.hidden || button.getClientRects().length));
+  }, selector);
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  const bar = page.locator('.page-action-bar [data-page-action-bar]:visible');
+  const button = bar.locator(`:scope > ${selector}`);
+  if (await button.isVisible()) return {item: button, trigger: button};
+  const name = (await button.textContent()).replace(/\s+/g, ' ').trim();
+  const trigger = bar.locator('.menu > button[aria-haspopup="menu"]').last();
+  await trigger.click();
+  const item = bar.locator('[data-overflow-item][role="menuitem"]').filter({hasText: name}).first();
+  await item.waitFor({state: 'visible'});
+  return {item, trigger};
+}

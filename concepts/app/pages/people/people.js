@@ -124,6 +124,7 @@ export function createPeople({store, toast, panel: conversionPanel, confirm, goH
     for (const [selector, boundary] of [['.pg-f', position <= 1], ['.pg-p', position <= 1], ['.pg-n', position >= people.length], ['.pg-l', position >= people.length]]) {
       pager.querySelector(selector).disabled = locked || boundary
     }
+    recordFooter.querySelector('[data-person-position]').toggleAttribute('data-unsaved', !position)
     recordFooter.querySelector('[data-person-position]').textContent = position
       ? `${uiLocale.t('Record')} ${position} ${uiLocale.t('of')} ${people.length}`
       : uiLocale.t('New person')

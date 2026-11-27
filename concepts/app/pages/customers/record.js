@@ -332,8 +332,8 @@ export function createCustomerRecord({root, deps}) {
       <div class="sp [.d1_.arow_&]:[flex:1]"></div>
       <button type="button" class="lbtn" data-customer-action="accounts-movement"><svg width="15" height="15" aria-hidden="true"><use href="#i-flow" /></svg> ${t('Accounts Movement')}</button>
     </div>
-    <div class="phead [.d1_&]:[padding:var(--ds-space-150)_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5 px-4">
-      <div class="l [.d1_.phead_&]:[flex:1]">
+    <div class="phead [.d1_&]:[padding:var(--ds-space-150)_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5 px-4 flex-wrap">
+      <div class="l min-w-0 flex-[1_1_20rem]">
         <nav class="crumbs [.d3_.otitle_&]:[margin-bottom:var(--ds-space-025)]!" aria-label="Breadcrumb"><a href="/" data-home-link>${t('Home')}</a><span class="sep">›</span><button class="customer-back" type="button">${t('Customers')}</button><span class="sep">›</span><span aria-current="page">${creating ? t('New') : t('All')}</span></nav>
         <div class="tline [.d1_&]:flex [.d1_&]:items-center [.d1_&]:gap-5 [.d1_&]:mt-2! [.d1_&]:flex-wrap [.d1_&_h1]:[font-size:23px] [.d1_&_h1]:font-semibold"><h1>${title}</h1>${customerData.deactivationFrom ? `<span class="badge danger">${t('Inactive')}</span>` : ''}</div>
         ${deactivationNote}

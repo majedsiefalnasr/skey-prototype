@@ -39,7 +39,7 @@ export function createHome({
     tile.dataset.i18nOriginal = label
     tile.innerHTML =
       `<span class="lp-tile-ic flex size-10 items-center justify-center rounded-xl bg-[color-mix(in_srgb,var(--lp-tone,var(--accent))_11%,var(--surface))] text-[var(--lp-tone,var(--accent))]"><svg width="20" height="20" aria-hidden="true"><use href="#${icon}"/></svg></span>` +
-      '<span class="lp-tile-copy min-w-0"><span class="lp-tile-lbl line-clamp-2 overflow-hidden text-body-lg font-bold leading-[1.35] text-ink"></span><span class="lp-tile-desc mt-1.5 line-clamp-2 overflow-hidden text-xs leading-[1.4] text-muted"></span><span class="lp-current mt-2 inline-flex text-caption font-bold text-accent" hidden></span></span>' +
+      '<span class="lp-tile-copy min-w-0"><span class="lp-tile-lbl text-body-lg font-bold leading-[1.35] text-ink"></span><span class="lp-tile-desc mt-1.5 text-xs leading-[1.4] text-muted"></span><span class="lp-current mt-2 inline-flex text-caption font-bold text-accent" hidden></span></span>' +
       '<svg class="lp-tile-go mt-0.5 text-faint opacity-0 transition-opacity duration-100 group-hover:text-accent group-hover:opacity-100 group-focus-visible:text-accent group-focus-visible:opacity-100" width="14" height="14" aria-hidden="true"><use href="#i-next"/></svg>'
     const tileLabel = tile.querySelector('.lp-tile-lbl')
     const tileDescription = tile.querySelector('.lp-tile-desc')

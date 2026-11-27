@@ -1573,6 +1573,7 @@
   }
   .dfoot {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: var(--ds-space-100);
     padding: var(--ds-space-150) var(--ds-space-200);
@@ -1734,6 +1735,8 @@
   .dfoot .end {
     margin-inline-start: auto;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     gap: var(--ds-space-100);
   }
   .dfoot .sum {
@@ -4025,17 +4028,85 @@
       flex: none;
       min-height: 40px;
     }
-    .d1 .arow {
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      overflow-y: hidden;
-      overscroll-behavior-inline: contain;
-    }
     .d1 .arow .sp {
       min-width: 8px;
     }
     .notif-pop {
       max-width: calc(100vw - 16px);
+    }
+  }
+  /* Below sm the command bar's menus tighten so they stay on one line down to
+     360px; the bar's actions have already moved into More. */
+  @media (width < theme(--breakpoint-sm)) {
+    .d1 .arow {
+      column-gap: 0;
+      padding-inline: var(--ds-space-150);
+    }
+    .d1 .arow .sp {
+      min-width: 0;
+    }
+    .d1 .arow .menu > button {
+      padding-inline: var(--ds-space-050);
+    }
+    /* The status and payment badges share a line under the title. */
+    .d1 .phead .tline {
+      column-gap: var(--ds-space-100);
+    }
+    /* The record pager already reads "N of M", so the footer keeps the repeated
+       position for screen readers only, with no separator left in front of the
+       status text. */
+    .page-footer .pos:not([data-unsaved]) {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    .page-footer .fnav > :is(.lockbanner, .customer-footer-note)::before {
+      content: none;
+    }
+  }
+  /* From 620px the record navigation and its actions fit on one line, so the
+     status text takes the last line. Narrower rows keep the text above the
+     actions, clear of the corner control. */
+  @media (width >= theme(--breakpoint-legacy-620)) and (width < theme(--breakpoint-sm)) {
+    .page-footer .fnav > :is(.lockbanner, .customer-footer-note, .pos[data-unsaved]) {
+      order: 1;
+      flex-basis: 100%;
+    }
+  }
+  /* From 620px the whole top bar fits on one line; below that the identity and
+     search take a row each. */
+  .gtop .shell-search-short {
+    display: none;
+  }
+  @media (width >= theme(--breakpoint-legacy-620)) and (width < theme(--breakpoint-md)) {
+    /* The search button is too narrow here for its full prompt or the keyboard
+       hint; its accessible name keeps the prompt. */
+    .gtop .sbox :is(.shell-search-label, .shell-search-hint) {
+      display: none;
+    }
+    .gtop .shell-search-short {
+      display: inline;
+    }
+    .gtop {
+      grid-template-columns: 44px 44px auto minmax(0, 1fr) auto;
+    }
+    .gtop .left .app {
+      grid-column: 3;
+      max-width: 14rem;
+    }
+    .gtop .side-toggle,
+    .gtop .app-switcher-menu {
+      grid-row: 1;
+    }
+    .gsearch {
+      grid-column: 4;
+      grid-row: 1;
+    }
+    .gtop .right {
+      grid-column: 5;
     }
   }
   @media (max-width: theme(--breakpoint-legacy-620)) {
@@ -4120,16 +4191,13 @@
     }
     .lp-tile-desc {
       margin-top: var(--ds-space-025);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     }
     .lp-tile-go {
       margin-top: 0;
       opacity: 1;
     }
     .d1 .phead {
-      flex-direction: column;
+      flex-wrap: wrap;
       padding-inline: var(--ds-space-100);
     }
     .d1 .phead .r {

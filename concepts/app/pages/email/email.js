@@ -466,7 +466,7 @@ export function createEmail({root, store, toast, related, confirm, users, curren
             <span class="flex items-baseline justify-between gap-2"><b class="truncate text-body ${m.unread ? 'font-bold' : 'font-medium'} text-ink" dir="auto">${m.unread ? `<span class="sr-only">${t("Unread.")} </span>` : ''}${escapeHtml(counterpart(m))}</b><span class="flex-none text-xs text-faint">${escapeHtml(formatTime(stampOf(m)))}</span></span>
             <span class="mt-0.5 flex items-center gap-1.5 text-dense text-muted">
               ${m.folder === 'drafts' ? `<span class="badge warn">${t("Draft")}</span>` : ''}
-              <span class="email-list-subj min-w-0 flex-1 truncate" dir="auto">${escapeHtml(subject)}</span>
+              <span class="email-list-subj min-w-0 flex-1 truncate" dir="auto" title="${escapeHtml(subject)}">${escapeHtml(subject)}</span>
               ${m.starred ? `<span class="text-accent">${icon('i-spark', 11)}<span class="sr-only">${t("Starred")}</span></span>` : ''}
               ${m.attachments?.length ? `<span>${icon('i-clip', 11)}<span class="sr-only">${t("Has attachments")}</span></span>` : ''}
               ${relatedCount ? `<span class="inline-flex items-center gap-0.5">${icon('i-flow', 11)}${relatedCount}<span class="sr-only"> ${t("related items")}</span></span>` : ''}
