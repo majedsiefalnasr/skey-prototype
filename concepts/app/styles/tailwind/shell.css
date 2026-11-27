@@ -3723,7 +3723,7 @@
      label beside it, and every field in a card uses the same fixed label-column width
      (grid, not flex/%) so labels and inputs line up into true columns. */
   body.style-inline .rec-card-body {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
   }
   body.style-inline .rec-field {
     display: grid;
@@ -3763,6 +3763,20 @@
   body.style-inline .rec-field textarea:disabled {
     background: none;
   }
+  @media (width < theme(--breakpoint-inline-labels)) {
+    body.style-inline
+      :is(.rec-card-body, .customer-field-grid)
+      .rec-field:not(.customer-photo, .customer-dialog-toggle) {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--ds-space-025);
+    }
+    body.style-inline
+      :is(.rec-card-body, .customer-field-grid)
+      .rec-field
+      label.customer-dialog-toggle {
+      white-space: normal;
+    }
+  }
   /* Customer photo is an upload affordance, not a text field -- keep its composition
      stable when the prototype switches input presentations. */
   body.style-floated .customer-record-canvas .customer-photo {
@@ -3797,7 +3811,7 @@
     align-items: end;
   }
   body.style-inline .customer-record-canvas .customer-identity-body > .customer-field-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   }
   body.style-inline .customer-record-canvas .customer-lookup-control select,
   body.style-inline .customer-overlay .customer-lookup-control select {

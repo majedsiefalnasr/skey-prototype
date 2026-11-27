@@ -1,0 +1,66 @@
+{
+  "issue": 58,
+  "before": "commit 9d617ad",
+  "change": [
+    "13 grid minimums read min(260px, 100%) or min(280px, 100%): the 12 listed in #58, and body.style-inline .customer-record-canvas .customer-identity-body > .customer-field-grid in shell.css (280px), which is not listed and clipped the Customer and People identity fields with inline labels. The chart grid is excluded because charts are hidden.",
+    "Below 390px (--breakpoint-inline-labels, 24.375rem), inline labels sit above their values in record and Profile fields. The Customer photo, switch boxes and dialog fields keep their layout.",
+    "Below 390px with inline labels, a switch label inside a record field wraps, so its switch stays inside the box."
+  ],
+  "grids": {
+    "method": "Chromium, reduced motion, transitions off, fixed clock, two static builds. Invoice, customer, people and geography records and Profile, with default, floating and inline labels, at 320, 360, 375, 390, 768, 1024 and 1440px, left to right and right to left; touch below 768px. Collapsed cards and inactive tab panels were revealed one at a time. Each grid: column track, content width, direct field boxes, and fields or their controls past the card by more than 0.5px.",
+    "states": 210,
+    "grid_readings": 882,
+    "field_readings_past_card": {"before": 658, "after": 0},
+    "grid_readings_with_horizontal_scroll": {"before": 90, "after": 0},
+    "changed_grid_readings": 202,
+    "changed_grid_readings_at_or_above_minimum": "2: the Customer grid with inline labels at 375px, both directions, where the fields now stack.",
+    "page_horizontal_scroll_after": 0,
+    "page_errors": 0,
+    "unmatched_states": 0
+  },
+  "before_by_width": {
+    "invoice_six_grids": "All layout styles. At 320px the 260px column sits in a 194px grid and fields pass the card by 53px; at 360px in 234px, by 13px. At 375px the column is 11px wider than the grid and stays inside the card padding.",
+    "customer_and_people_identity_grid_inline_labels": "A 280px column in a grid 194, 234, 249 and 264px wide at 320 to 390px; fields pass the card by 73, 33, 18 and 3px."
+  },
+  "fields_and_controls": {
+    "method": "The same screens at 320, 360, 375, 389, 390, 768, 1024 and 1440px, left to right and right to left, all three label styles: every record field box, every text input, select and textarea inside its card, cut labels, and dialog field columns.",
+    "states": 240,
+    "field_readings": 8256,
+    "field_readings_past_card": {"before": 702, "after": 0},
+    "control_readings_under_48px": {"before": 98, "after": 2},
+    "controls_narrower_than_before_with_inline_labels_below_390px": 0,
+    "cut_labels": {"before": 40, "after": 20, "new": 0},
+    "changed_at_or_above_390px": "None, apart from the Customer and People identity fields with inline labels at 390px.",
+    "dialog_column_differences": 0,
+    "page_horizontal_scroll_after": 0,
+    "page_errors": 0,
+    "narrowest_visible_control_with_inline_labels_px": {
+      "note": "Each pair is before and after.",
+      "320": {"invoice": [69, 194], "customer": [56, 134], "geography": [4, 100], "profile": [32, 170]},
+      "360": {"invoice": [109, 234], "customer": [82, 174], "geography": [4, 140], "profile": [72, 210]},
+      "375": {"invoice": [122, 249], "customer": [82, 189], "geography": [17, 155], "profile": [87, 225]},
+      "389": {"invoice": [125, 263], "customer": [82, 203], "geography": [31, 169], "profile": [101, 239]},
+      "390": {"invoice": [126, 126], "customer": [82, 66], "geography": [32, 32], "profile": [102, 102]}
+    },
+    "grid_change_alone": "Left the Customer Operation Unit select 4px visible at 320px with inline labels. Stacking the labels fixes it."
+  },
+  "field_box_overflow": {
+    "method": "The same screens at 320, 360, 375, 389, 390, 768 and 1440px: parts that leave their own field box by more than 1px, excluding absolute parts, checkboxes and radios.",
+    "states": 210,
+    "field_readings": 7224,
+    "readings_with_overflow": {"before": 46, "after": 32},
+    "larger_than_before": "3: the invoice tax switch text with floating labels at 320px, and at 360px right to left. It wraps onto two lines inside its bordered box; checked on a screenshot at 320px."
+  },
+  "remaining_older_defects": [
+    "The invoice tax switch is hidden with inline labels at 390, 768 and 1440px, both directions, before and after: the label is 130px wide and cuts it off.",
+    "The Inactivation In Sales Order text overflows its switch box with inline labels at 320px, before and after (screenshot).",
+    "At 320px with inline labels, the geography Location details panel covers part of the General card after scrolling, before and after (screenshot).",
+    "The geography Parent Location control is 32px wide with inline labels at 390px, before and after."
+  ],
+  "not_measured": "Hidden features, including charts and comfortable density. Compact density. Widths below 320px. Other interface scales.",
+  "tests": {
+    "unit": "206 of 206 pass.",
+    "layout": "tests/record-field-grid.spec.mjs: 16 pass on mobile-touch and mobile-rtl; 10 of the 16 fail on the build of 9d617ad. With the switch rules reverted on purpose, its switch check fails.",
+    "playwright": "desktop, mobile-touch and mobile-rtl, without parity.spec.mjs and zz-probe-t34.spec.mjs: 1656 passed, 291 skipped, 3 mobile-rtl tests hit the 30s timeout (account-rail, appearance-persistence, breakpoint-layout). Rerun on their own with two repeats, all 22 runs passed. No screenshot baseline changed."
+  }
+}

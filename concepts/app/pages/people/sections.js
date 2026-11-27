@@ -16,7 +16,7 @@ export const PERSON_SECTION_CLASS =
 // two detail surfaces share one visual contract without growing Tailwind.
 export const PERSON_TITLEBAR_CLASS =
   'customer-section-titlebar w-full [padding:var(--ds-space-100)_var(--ds-space-150)] bg-[var(--line-2)] [font-size:12.5px] font-bold text-start flex gap-2 justify-between items-center'
-const FIELD_GRID_CLASS = 'customer-field-grid grid [grid-template-columns:repeat(auto-fit,_minmax(260px,_1fr))] [gap:var(--ds-space-100)_var(--ds-space-200)] [padding:var(--ds-space-150)] [gap:var(--ds-space-050)_var(--ds-space-100)] [padding:var(--ds-space-075)] max-sm:[grid-template-columns:minmax(0,_1fr)]'
+const FIELD_GRID_CLASS = 'customer-field-grid grid [grid-template-columns:repeat(auto-fit,_minmax(min(260px,_100%),_1fr))] [gap:var(--ds-space-100)_var(--ds-space-200)] [padding:var(--ds-space-150)] [gap:var(--ds-space-050)_var(--ds-space-100)] [padding:var(--ds-space-075)] max-sm:[grid-template-columns:minmax(0,_1fr)]'
 const READ_ONLY_VALUE_CLASS =
   'flex min-h-9 items-center rounded-md border border-line bg-[var(--line-2)] px-2 py-1.5 text-body text-ink [overflow-wrap:anywhere]'
 const IDENTITY_BODY_CLASS =

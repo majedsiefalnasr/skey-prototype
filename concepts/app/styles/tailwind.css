@@ -306,6 +306,7 @@
   --breakpoint-xl: 110.5rem;
   --breakpoint-2xl: initial;
   --breakpoint-flag: 35rem;
+  --breakpoint-inline-labels: 24.375rem;
   --breakpoint-legacy-620: 38.75rem;
   --breakpoint-legacy-1200: 75rem;
   --breakpoint-legacy-1299: 81.1875rem;
