@@ -5,7 +5,9 @@
 // unit drawer that opens it, and Escape closes the picker alone. Escape also
 // closes dialogs that had no handler of their own: through the header close
 // button, through the dialog rather than a menu behind it, and through the
-// backdrop of an unsaved-changes guard, which keeps the change.
+// backdrop of an unsaved-changes guard, which keeps the change. Below the
+// geography breakpoint the location hierarchy is itself a dialog, and Escape
+// on a dialog above it closes that dialog alone.
 
 import {test, expect} from '@playwright/test'
 import {boot, openSurface, settle} from './support/browser.mjs'
@@ -120,4 +122,25 @@ test('Escape on the table layout guard keeps editing', async ({page}) => {
   await expect(page.locator('.list-view')).toBeVisible()
   await add.click()
   await expect(guard).toBeVisible()
+})
+
+test('Escape over the phone location hierarchy closes only the top dialog', async ({page}) => {
+  await page.setViewportSize({width: 390, height: 844})
+  await openSurface(page, 'geo-record')
+  await settle(page)
+  await visible(page, '[data-geo-tree-collapse]').click()
+  const hierarchy = page.locator('#geo-hierarchy-scrim .dlg')
+  await expect(hierarchy).toBeVisible()
+  await visible(page, '#geo-hierarchy-panel [data-geo-view="flow"]').click()
+  await visible(page, '[data-geo-flow-fullscreen]').click()
+  // The node's action buttons cover it at 390px, so the click is dispatched.
+  const node = visible(page, '#geo-flow-pane [data-geo-node]')
+  await node.focus()
+  await node.dispatchEvent('click')
+  const details = page.locator('#geo-flow-node-scrim .dlg')
+  await expect(details).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(details).toBeHidden()
+  await expect(hierarchy).toBeVisible()
+  await expect(node).toBeFocused()
 })

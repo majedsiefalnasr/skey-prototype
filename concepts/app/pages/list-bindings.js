@@ -36,12 +36,14 @@ export function createPageListBindings({getShowContentView, renderGeoRecord, clo
 
   document.addEventListener('keydown', event => {
     if (event.key !== 'Escape') return
-    if (getGeoFilterScrim().classList.contains('open')) closeDataFilterModal()
-    else if (geoParentPickerScrim.classList.contains('open')) closeGeoParentPicker()
-    else if (getUnitPickerScrim().classList.contains('open')) closeUnitPicker()
-    else if (geoHierarchyScrim.classList.contains('open')) closeGeoHierarchyDialog()
-    else if (getKanbanBlockedScrim().classList.contains('open')) closeKanbanBlockedDialog()
-    else if (getDataExportScrim().classList.contains('open')) closeDataExport()
+    const modal = event.target.closest?.('[aria-modal="true"]')
+    const owns = scrim => scrim.classList.contains('open') && (!modal || scrim.contains(modal))
+    if (owns(getGeoFilterScrim())) closeDataFilterModal()
+    else if (owns(geoParentPickerScrim)) closeGeoParentPicker()
+    else if (owns(getUnitPickerScrim())) closeUnitPicker()
+    else if (owns(geoHierarchyScrim)) closeGeoHierarchyDialog()
+    else if (owns(getKanbanBlockedScrim())) closeKanbanBlockedDialog()
+    else if (owns(getDataExportScrim())) closeDataExport()
   })
 
   document.getElementById('list-add').addEventListener('click', () => {
