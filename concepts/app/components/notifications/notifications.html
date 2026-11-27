@@ -3,7 +3,7 @@
               id="notifications-popover"
               role="dialog"
               aria-labelledby="notifications-title"
-              style="min-width: 340px">
+              style="min-width: min(340px, calc(100vw - 16px))">
               <div class="notif-hd flex items-center gap-2 px-3 pb-3 pt-3">
                 <b id="notifications-title" class="flex-1 text-heading-sm text-ink">Notifications</b>
                 <label class="switch relative inline-flex h-[var(--ds-switch-height)] w-[var(--ds-switch-width)] flex-none" for="notif-unread-only"
@@ -23,6 +23,6 @@
                   Email
                 </button>
               </div>
-              <div class="notif-body p-2" id="notif-body"></div>
+              <div class="notif-body relative p-2" id="notif-body"></div>
             </div>
           </div>

@@ -222,6 +222,7 @@ Prototype breakpoints:
 
 - `1439px` (stack below ADS `lg`, 1440px): record identity card in Profile, Customer, People and the contact dialog.
 - Below `sm` (768px): Profile, Customer, People and Organization section navigation.
+- Below `xs` (480px): the System Alerts menu anchors to the end of the top-bar actions, 8px from the viewport edge, because the bell leaves less room than the menu is wide. From `xs` up it stays anchored to the bell (#47, `docs/prototype/47-notifications-menu-measure.json`).
 - `560px` (`--breakpoint-flag`): Flag moves to the phone layout, and pages reserve room under it.
 - `1200px` (`--breakpoint-legacy-1200`): the Geography side tree and the Organization performance grid. Moving to `lg` would collapse the Geography tree into a 44px rail with a modal at 1280 and 1366px.
 - `1299px` (`--breakpoint-legacy-1299`): the Organization gauges. Moving to `lg` would stack the cards at 1366px (371px to 753px).
