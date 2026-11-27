@@ -1,0 +1,198 @@
+{
+ "issue": 49,
+ "cause": [
+  "From 768px the record footer was a single row that could not wrap.",
+  "The pager and the actions did not shrink, so the lock message and record position shrank to their longest words and the row then ran past the footer."
+ ],
+ "fix": "From sm (48rem) up the invoice and customer record footer rows wrap with an 8px row gap and a 12px column gap. The status message has a 12rem flex basis. A row narrower than 860px puts the message on its own last line without the separator.",
+ "before": "commit 550302d",
+ "method": "Chromium, reduced motion, pointer and touch emulation, left to right and right to left, Fluid and Boxed layout, at 390, 768, 816, 840, 868, 900, 912, 920, 940, 1023, 1024, 1100, 1176, 1184, 1280 and 1440px by 900px. Invoice states: posted, posted at 125% interface scale, deactivated, draft, open, edit and create. A reading fails when a control crosses the row padding or a status text takes more than three lines.",
+ "from768": {
+  "invoice": {
+   "before": {
+    "readings": 840,
+    "failing": 339,
+    "withAControlPastThePadding": 176,
+    "withTextOverThreeLines": 338,
+    "withOverlap": 0,
+    "withSidewaysScroll": 136,
+    "meanRowHeightPx": 106,
+    "maxRowHeightPx": 332
+   },
+   "after": {
+    "readings": 840,
+    "failing": 0,
+    "withAControlPastThePadding": 0,
+    "withTextOverThreeLines": 0,
+    "withOverlap": 0,
+    "withSidewaysScroll": 2,
+    "meanRowHeightPx": 78,
+    "maxRowHeightPx": 190
+   }
+  },
+  "customer": {
+   "before": {
+    "readings": 120,
+    "failing": 7,
+    "withAControlPastThePadding": 2,
+    "withTextOverThreeLines": 7,
+    "withOverlap": 0,
+    "withSidewaysScroll": 0,
+    "meanRowHeightPx": 55,
+    "maxRowHeightPx": 103
+   },
+   "after": {
+    "readings": 120,
+    "failing": 0,
+    "withAControlPastThePadding": 0,
+    "withTextOverThreeLines": 0,
+    "withOverlap": 0,
+    "withSidewaysScroll": 0,
+    "meanRowHeightPx": 71,
+    "maxRowHeightPx": 82
+   }
+  }
+ },
+ "below768": {
+  "invoice": {
+   "before": {
+    "readings": 56,
+    "failing": 12,
+    "withAControlPastThePadding": 12,
+    "withTextOverThreeLines": 0,
+    "withOverlap": 0,
+    "withSidewaysScroll": 5,
+    "meanRowHeightPx": 171,
+    "maxRowHeightPx": 314
+   },
+   "after": {
+    "readings": 56,
+    "failing": 12,
+    "withAControlPastThePadding": 12,
+    "withTextOverThreeLines": 0,
+    "withOverlap": 0,
+    "withSidewaysScroll": 5,
+    "meanRowHeightPx": 171,
+    "maxRowHeightPx": 314
+   }
+  },
+  "customer": {
+   "before": {
+    "readings": 8,
+    "failing": 1,
+    "withAControlPastThePadding": 1,
+    "withTextOverThreeLines": 0,
+    "withOverlap": 0,
+    "withSidewaysScroll": 0,
+    "meanRowHeightPx": 145,
+    "maxRowHeightPx": 164
+   },
+   "after": {
+    "readings": 8,
+    "failing": 1,
+    "withAControlPastThePadding": 1,
+    "withTextOverThreeLines": 0,
+    "withOverlap": 0,
+    "withSidewaysScroll": 0,
+    "meanRowHeightPx": 145,
+    "maxRowHeightPx": 164
+   }
+  },
+  "rowHeightsChanged": 0
+ },
+ "passingBeforeAndTallerAfter": {
+  "readings": 362,
+  "largestGrowthPx": 52
+ },
+ "postedInvoiceRowHeightPx": {
+  "order": "LTR Fluid / LTR Boxed / RTL Fluid / RTL Boxed",
+  "rows": [
+   {
+    "viewport": 768,
+    "pointer": {
+     "before": "266/266/85/121",
+     "after": "71/71/71/71"
+    },
+    "touch": {
+     "before": "266/266/157/175",
+     "after": "82/134/82/82"
+    }
+   },
+   {
+    "viewport": 900,
+    "pointer": {
+     "before": "66/85/50/50",
+     "after": "71/71/71/71"
+    },
+    "touch": {
+     "before": "103/139/56/66",
+     "after": "82/82/82/82"
+    }
+   },
+   {
+    "viewport": 1023,
+    "pointer": {
+     "before": "50/50/45/50",
+     "after": "48/48/45/45"
+    },
+    "touch": {
+     "before": "56/66/56/56",
+     "after": "56/66/56/56"
+    }
+   },
+   {
+    "viewport": 1024,
+    "pointer": {
+     "before": "266/266/85/175",
+     "after": "71/71/71/71"
+    },
+    "touch": {
+     "before": "266/266/175/175",
+     "after": "82/134/82/82"
+    }
+   },
+   {
+    "viewport": 1100,
+    "pointer": {
+     "before": "103/266/66/69",
+     "after": "71/71/71/71"
+    },
+    "touch": {
+     "before": "193/266/69/157",
+     "after": "82/82/82/82"
+    }
+   },
+   {
+    "viewport": 1280,
+    "pointer": {
+     "before": "50/50/45/50",
+     "after": "48/66/45/48"
+    },
+    "touch": {
+     "before": "56/66/56/56",
+     "after": "66/108/56/56"
+    }
+   },
+   {
+    "viewport": 1440,
+    "pointer": {
+     "before": "50/50/45/45",
+     "after": "48/48/45/45"
+    },
+    "touch": {
+     "before": "56/56/56/56",
+     "after": "56/56/56/56"
+    }
+   }
+  ]
+ },
+ "layoutTest": "tests/record-footer.spec.mjs fails on e558f74 (17 of 55 desktop tests) and passes with the fix.",
+ "knownRemaining": [
+  "At 125% interface scale, 1024px, left to right, Boxed, the page content scrolls 12px sideways (230 to 286px before). The scroll stays when the footer is removed.",
+  "Below 768px, unchanged by this fix: 13 readings have a control past the row padding, and 5 scroll sideways."
+ ],
+ "notMeasured": [
+  "Physical devices, Safari, Firefox, dark and high-contrast modes",
+  "Compact and comfortable density"
+ ]
+}

@@ -1670,6 +1670,30 @@
     width: calc(100% - 64px);
     max-width: 1296px;
   }
+  /* From sm up, a record footer row wraps instead of squeezing its status text,
+     and a narrow row gives that text the last line (#49). */
+  @media (width >= theme(--breakpoint-sm)) {
+    .page-footer :is([data-page-footer='record'], [data-page-footer='customer-record']) {
+      container: record-footer / inline-size;
+      flex-wrap: wrap;
+      gap: var(--ds-space-100) var(--ds-space-150);
+    }
+    .page-footer :is([data-page-footer='record'], [data-page-footer='customer-record'])
+      > :is(.lockbanner, .customer-footer-note, .pos[data-unsaved]) {
+      flex: 1 1 12rem;
+    }
+    @container record-footer (width < 860px) {
+      .page-footer :is([data-page-footer='record'], [data-page-footer='customer-record'])
+        > :is(.lockbanner, .customer-footer-note, .pos[data-unsaved]) {
+        order: 1;
+        flex-basis: 100%;
+      }
+      .page-footer :is([data-page-footer='record'], [data-page-footer='customer-record'])
+        > :is(.lockbanner, .customer-footer-note)::before {
+        content: none;
+      }
+    }
+  }
   /* Launchpad is deliberately fixed-wide in every layout mode. Its dashboard
      rhythm should not expand with an application page's Fluid content choice. */
   .lp-body {

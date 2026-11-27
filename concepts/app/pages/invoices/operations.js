@@ -774,6 +774,7 @@ const recordPagers = new Map(
               )
             )
               return
+            el.toggleAttribute('data-unsaved', creating)
             el.textContent = creating
               ? t(
                   'Not saved yet — this invoice takes its number and its place in the list when you save'
