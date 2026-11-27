@@ -352,7 +352,11 @@ async function measure(page, routeId) {
             scrollHeight: round(primary.scrollHeight),
             dy: round(primary.scrollHeight - primary.clientHeight),
             inFlowBottom: inFlowBottom(primary),
-            tipInflation: round(primary.scrollHeight - inFlowBottom(primary)),
+            /* `scrollHeight` never drops below `clientHeight`: free space
+               under content that already fits is not inflation. */
+            tipInflation: round(
+              primary.scrollHeight - Math.max(inFlowBottom(primary), primary.clientHeight)
+            ),
             childPaths: [...primary.children]
               .filter(isShown)
               .map(el => `${pathOf(el)} (flex:${getComputedStyle(el).flex} h:${round(el.getBoundingClientRect().height)})`),
