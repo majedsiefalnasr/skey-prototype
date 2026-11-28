@@ -491,6 +491,9 @@
     padding: var(--ds-space-075) var(--ds-space-100);
     border-radius: 6px;
   }
+  :is(.menus-mount, .arow) .menu > button:not(.lbtn, .ibtn) {
+    padding: var(--ds-button-label-padding-block) var(--ds-button-label-padding-inline);
+  }
   .menu > button:not(.main):not(.car):hover {
     background: var(--line-2);
   }

@@ -1,0 +1,39 @@
+{
+ "issue": 46,
+ "item": "Label menu trigger padding",
+ "date": "2026-11-28",
+ "before": "991fe5e",
+ "after": "working tree on feat/ads-alignment",
+ "change": "New rule :is(.menus-mount, .arow) .menu > button:not(.lbtn, .ibtn) with padding var(--ds-button-label-padding-block) var(--ds-button-label-padding-inline) (6px 12px). The general .menu > button:not(.lbtn, .ibtn) rule keeps var(--ds-space-075) var(--ds-space-100) (6px 8px).",
+ "states": "Home, Invoice and Customer lists; Invoice, Customer, Geography and People records. Widths 360, 390, 480, 621, 640, 768, 900, 960, 1023, 1024, 1100, 1280 and 1440px, left to right and right to left. Touch below 1024px.",
+ "summary": {
+  "before": {
+   "states": 182,
+   "pageScroll": 0,
+   "barClippedOrOverflow": 0,
+   "headOverflow": 0,
+   "movedToMore": 46
+  },
+  "after": {
+   "states": 182,
+   "pageScroll": 0,
+   "barClippedOrOverflow": 0,
+   "headOverflow": 0,
+   "movedToMore": 48
+  }
+ },
+ "regressions": [],
+ "movedToMoreChanged": [
+  "ltr 1100 home 0->1",
+  "ltr 1100 invoice-rec 0->1"
+ ],
+ "triggerSizeDeltas": {
+  "<768 0w 0h": 150,
+  ">=768 8w 0h": 224,
+  ">=768 0w 0h": 16
+ },
+ "notes": [
+  "The 16 unchanged readings from 768px up are the icon-only split-button caret in the Customer record heading (29 or 27 by 32px with a pointer, 44px on touch). It sits outside the command bars and keeps 6px 8px.",
+  "A first version applied 6px 12px to every .menu > button:not(.lbtn, .ibtn). It widened the account picture from 48px to 56px, which left the System Alerts menu 6px from the edge at 320px (tests/notifications-menu.spec.mjs, mobile-touch and mobile-rtl), and shifted the email Move to button (tests/messaging.spec.mjs email-reading.png). The rule was narrowed to the command bars."
+ ]
+}
