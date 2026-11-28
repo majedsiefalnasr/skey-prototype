@@ -732,7 +732,7 @@ precedence in this repo:
 
 ### Verification
 
-Method (reproducible with `node tmp-sweep.mjs`, kept out of `git`): for
+Method (reproducible with `node scripts/density-sweep.mjs` against the dev server on port 4173): for
 each of 8 surfaces (launchpad, invoice list/record, customers list/record,
 geography list/record, email) every *visible* element is read at the three
 densities for `paddingTop/Right/Bottom/Left`, `marginTop/Bottom`,

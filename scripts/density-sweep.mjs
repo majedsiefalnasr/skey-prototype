@@ -1,5 +1,5 @@
 import {chromium} from 'playwright';
-import {openSurface, settle} from './tests/support/browser.mjs';
+import {openSurface, settle} from '../tests/support/browser.mjs';
 
 const BASE = 'http://127.0.0.1:4173';
 const PROPS = ['paddingTop','paddingRight','paddingBottom','paddingLeft','marginTop','marginBottom','rowGap','columnGap','minHeight'];
