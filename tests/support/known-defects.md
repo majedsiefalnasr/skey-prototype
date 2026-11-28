@@ -1,5 +1,9 @@
 # Known defects (baseline ledger)
 
+**Branch status — 2026-11-28 (#59):** the current status of every entry on
+`feat/ads-alignment` is in [Status on feat/ads-alignment](#status-on-featads-alignment-59-2026-11-28)
+at the end of this file. The sections before it are historical records.
+
 **Delivery update — 2026-10-17:** the preservation-only wording below describes
 the original component refactor. The approved
 `docs/superpowers/plans/2026-10-17-skey-demo-prototype-delivery.md` explicitly
@@ -299,3 +303,35 @@ This combines a prior-build sweep with final-build focused evidence; G7 is
 still unrun. Historical 55/76 counts above remain historical records.
 See `docs/superpowers/reports/2026-10-17-delivery-regression-comparison.json`
 and the consolidated acceptance record for exact names and provenance.
+
+## Status on feat/ads-alignment (#59, 2026-11-28)
+
+Full run of all 7 projects, `parity.spec.mjs` included, against one frozen
+static build of the #59 tree (`node scripts/serve.mjs --root <copy of dist>`,
+`--workers=4 --retries=0`): **3,750 passed, 83 failed, 878 skipped**.
+`zz-probe-t34.spec.mjs` was left out. The 83 failing tests and the two
+`switch-size` tests below were rerun by name against a frozen build of
+`1e332a3`: all 83 fail there too, and no test fails only on the #59 tree.
+The touch rail fix landed after that build, so `mobile-touch` and
+`mobile-rtl` were rerun on a rebuilt copy: 1,054 passed, 18 failed (the same
+`parity` screenshots), 278 skipped. Unit tests: 206 passed.
+
+| Entry | Status | Evidence in the run |
+|---|---|---|
+| #1–5, #7–11 | Fixed (2026-10-17) | Their regression specs pass: `visual-qa-batch1`, `a11y-ledger`, `mail-draft-exit`, `navigation-honesty`, `routing`, `invoice-selection`, `invoice-journey`, `invoice-geography` |
+| #6 | Fixed | The three null-root tests in `lifecycle.spec.mjs` pass on all 7 projects |
+| #12 | Fixed; chart check not run | `chart-parity.spec.mjs` is skipped because charts are hidden in the prototype (#54) |
+| #13 | Fixed | "assistant proposal answers and closes with Escape" passes on all 7 projects |
+| #14, #15 | Superseded | All 63 `parity.spec.mjs` screenshots fail (9 surfaces × 7 projects). The baselines date from 2026-10-20 and predate the ADS changes; the launchpad search panel differs most, from the blur added in `b0852df`. Awaiting a decision to re-capture |
+| #16 | No longer fails | "toolbar data-menus dismiss with Escape and outside click" passes on all 7 projects |
+| #17 | 20 remain, screenshots only | `data-list-component.spec.mjs` (4 invoice list views) and `messaging.spec.mjs` (notification email) fail on `desktop-dark`, both high-contrast projects and `desktop-reduced-motion`. The reduced-motion captures match the approved `desktop` images byte for byte; the dark differences are shifted columns. Awaiting a decision to re-capture |
+| #18 | Build cause fixed (#55) | The four named tests pass on all 7 projects |
+| #19 | Fixed | `signin-pages.spec.mjs` and `signin-gate.spec.mjs` pass on all 7 projects |
+
+Fixed in #59 from the defects recorded in its comments (details in
+`DESIGN.md`, after the #60 entry): the high-contrast switch thumb (the two
+`switch-size` failures on `1e332a3`), floating labels over read-only People
+values, switch fields cut off with inline labels on the Invoice and Customer
+records, and four side navigation limits left by #60. Two Geography defects
+did not reproduce on `1e332a3`, and the record pager at 390px with a 125%
+interface scale fits the screen.
