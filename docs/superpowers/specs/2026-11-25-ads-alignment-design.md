@@ -56,7 +56,7 @@ Each item is decided in DESIGN.md. "Applied" means it is in the code on this bra
 | #20 | Decide each value group after a live comparison with ADS, in the order radius, type and line height, spacing. The select arrow padding gets its own 28px token. | Recorded |
 | #22 | ADR 0001: ADS is the default for tokens, behaviour, sizes and breakpoints. | Applied (cf66d4d) |
 | #21 | `legacy-480` moves to `xs`, `legacy-1240` to `lg`, `legacy-561` is removed and the Flag value becomes `--breakpoint-flag` (35rem). `legacy-1200`, `legacy-1299` and `legacy-1600` stay custom and documented. | Applied (#39); three `md` follow-ups open (#48) |
-| #23 | The document scrolls, not `.page-content`. Pinned parts use sticky or fixed. Table headers stick inside their own box. One CSS variable sets the top bar offset. | Not applied (#44); waits for its own approval |
+| #23 | The document scrolls, not `.page-content`. Pinned parts use sticky or fixed. Table headers stick inside their own box. One CSS variable sets the top bar offset. | Not applied: accepted as a prototype deviation (#44) |
 | #24 | Page grid follows the atlassian.design Grid page: 1296px maximum including margins. Boxed inset at 768 to 1023px moves from 48px to 32px (44px to 28px compact). | Applied (#40) |
 | #25 | Numeric spacing utilities read `--ds-space-*` through `@theme inline`. Off-scale utilities, `px`, plain CSS px, inline styles and negative values move to ADS steps by the #29 rule. A unit test guards it. | Applied (#38, #56, #57); three px literals stay, listed in DESIGN.md |
 | #26 | The four Profile field grids use `minmax(min(260px, 100%), 1fr)`. | Applied (a8b4c88, with bca612e and c8c2b46); the other record field grids applied (#58) |
