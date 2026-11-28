@@ -114,18 +114,18 @@ export const calendarToolbar = ({mode, date, modes = CALENDAR_MODES, presets = f
     ${
       presets
         ? `<div class="menu">
-            <button type="button" class="border border-line bg-surface text-[13px] text-ink" data-cal-preset aria-haspopup="menu" aria-expanded="false">${escapeHtml(t(presetLabel(mode, date, today)))}${icon('i-caret', 11)}</button>
+            <button type="button" class="border border-line bg-surface text-body text-ink" data-cal-preset aria-haspopup="menu" aria-expanded="false">${escapeHtml(t(presetLabel(mode, date, today)))}${icon('i-caret', 11)}</button>
             <div class="mlist" role="menu" aria-label="${escapeHtml(t("Jump to range"))}" data-cal-preset-menu>${RANGE_PRESETS.map(
               ([id, label]) => `<button type="button" role="menuitem" data-preset="${id}">${escapeHtml(t(label))}</button>`
             ).join('')}</div>
           </div>
-          <span class="inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-2 py-1 text-[13px] text-ink" data-cal-range>${icon(
+          <span class="inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-2 py-1 text-body text-ink" data-cal-range>${icon(
             'i-cal',
             13
           )}<span dir="ltr">${escapeHtml(rangeText(mode, date))}</span></span>`
         : ''
     }
-    <h2 class="${titleHidden ? 'sr-only' : 'min-w-[180px] text-[15px] font-semibold text-ink'}" data-cal-title aria-live="polite">${escapeHtml(calendarTitle(mode, date))}</h2>
+    <h2 class="${titleHidden ? 'sr-only' : 'min-w-[180px] text-heading font-semibold text-ink'}" data-cal-title aria-live="polite">${escapeHtml(calendarTitle(mode, date))}</h2>
     <span class="ms-auto">${segmented({label: t("Calendar view"), views: modes, current: mode, dataAttr: 'data-cal-modes'})}</span>
   </div>`
 
@@ -183,14 +183,14 @@ const CONFLICT_CLASS = '![border-color:var(--danger)] ![background-color:var(--d
 
 const itemButton = (item, index, extraClass = '', style = '', timeLabel = formatTime(item.start), enhanced = false, plainBorder = enhanced) => {
   const content = enhanced
-    ? `<span class="event-month-title" dir="auto">${icon(item.allDay ? 'i-cal' : 'i-clock', 12)}<span>${escapeHtml(item.title)}</span></span><span class="event-month-time">${escapeHtml(item.allDay ? t('All day') : timeLabel)}</span>`
+    ? `<span class="event-month-title" dir="auto" title="${escapeHtml(item.title)}">${icon(item.allDay ? 'i-cal' : 'i-clock', 12)}<span>${escapeHtml(item.title)}</span></span><span class="event-month-time">${escapeHtml(item.allDay ? t('All day') : timeLabel)}</span>`
     : `${item.allDay ? '' : `<span class="font-semibold">${escapeHtml(timeLabel)}</span> `}<span dir="auto">${escapeHtml(item.title)}</span><span class="sr-only"> (${escapeHtml(t(item.label))})</span>`
   const paintClass = `${ITEM_CLASS} ${plainBorder ? '' : 'border-s-[3px]'} ${item.conflict ? CONFLICT_CLASS : ''} ${extraClass}`
   // Timed events keep a normal coarse-pointer button. Only its painted
   // child represents duration; the larger transparent target is not a
   // second, misleading duration block. Month/all-day chips are unchanged.
   return `<button type="button" class="${style ? 'cal-timed-event flex w-full items-start border-0 bg-transparent p-0 text-start focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]' : paintClass}" ${style ? `style="${style}"` : ''} data-cal-item="${index}"${item.conflict ? ' data-cal-conflict="true"' : ''} aria-label="${escapeHtml(itemLabel(item))}">
-    ${style ? `<span class="cal-event-paint ${paintClass} max-[720px]:truncate min-[721px]:[align-content:safe_center]" style="height:var(--cal-event-height)">${content}</span>` : content}
+    ${style ? `<span class="cal-event-paint ${paintClass} max-sm:truncate min-sm:[align-content:safe_center]" style="height:var(--cal-event-height)">${content}</span>` : content}
   </button>`
 }
 
@@ -381,12 +381,12 @@ function renderTimeGrid(host, {days, todayKey, nowKey, items, enhanced}) {
       }).join('')}
     </div>
     <div class="grid border-b border-line" style="${columns}" data-allday-row aria-label="${escapeHtml(t("All-day"))}">
-      <div class="px-1.5 py-1 text-[11px] text-muted">${t("All day")}</div>
+      <div class="px-1.5 py-1 text-caption text-muted">${t("All day")}</div>
       ${allDay.map(entries => `<div class="grid min-h-8 gap-0.5 border-s border-line p-1">${entries.map(({item, index}) => itemButton(item, index, 'truncate', '', undefined, false, enhanced)).join('')}</div>`).join('')}
     </div>
     <div class="relative max-h-[560px] overflow-auto" data-timed>
       <div class="grid" style="${columns}">
-        <div>${hours.map(hour => `<div class="h-12 pe-1.5 text-end text-[11px] text-muted">${pad(hour)}:00</div>`).join('')}</div>
+        <div>${hours.map(hour => `<div class="h-12 pe-1.5 text-end text-caption text-muted">${pad(hour)}:00</div>`).join('')}</div>
         ${days
           .map(day => {
             const timed = items

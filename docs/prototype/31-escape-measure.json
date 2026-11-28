@@ -1,0 +1,1470 @@
+{
+ "issue": 31,
+ "decision": "Escape closes the topmost modal (.dlg, .kbdsheet) when no popup is open inside it and nothing else handled the key, as in @atlaskit/modal-dialog. It presses the header close button, or clicks the backdrop of an unsaved-changes guard, which keeps editing.",
+ "before": "commit 18fff47",
+ "method": "Chromium, reduced motion. Each dialog is opened from its real trigger, Escape is pressed once, and the probe records whether the dialog closed, how many modal layers closed and where focus went. Before: desktop 1440x900 LTR. After: desktop 1440x900 LTR and RTL, and 390x844 touch LTR and RTL. At 390px three dialogs were opened with a dispatched click after focusing the trigger, because the probe mouse click could not reach it: for Location details and Delete this tree, hovering the geography flow node shows its action toolbar over its centre (an emulated finger tap does reach the node); for Choose operation unit, the next field covers the picker button, also to a finger tap.",
+ "summaryBefore": {
+  "dialogs": 36,
+  "closed": 25,
+  "closedMoreThanOneLayer": 0,
+  "focusOnBody": 0
+ },
+ "summaryAfter": {
+  "dialogs": 36,
+  "closed": 36,
+  "closedMoreThanOneLayer": 0,
+  "focusOnBody": 0
+ },
+ "summaryAfterByConfiguration": {
+  "desktop": {
+   "dialogs": 36,
+   "closed": 36,
+   "closedMoreThanOneLayer": 0,
+   "focusOnBody": 0
+  },
+  "desktop-rtl": {
+   "dialogs": 36,
+   "closed": 36,
+   "closedMoreThanOneLayer": 0,
+   "focusOnBody": 0
+  },
+  "mobile-touch": {
+   "dialogs": 36,
+   "closed": 36,
+   "closedMoreThanOneLayer": 0,
+   "focusOnBody": 0
+  },
+  "mobile-rtl": {
+   "dialogs": 36,
+   "closed": 36,
+   "closedMoreThanOneLayer": 0,
+   "focusOnBody": 0
+  }
+ },
+ "dialogs": [
+  {
+   "name": "Find value",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\""
+   }
+  },
+  {
+   "name": "Add Customer Type",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\""
+   }
+  },
+  {
+   "name": "Export",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "summary.inline-flex \"Manage\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "summary.inline-flex \"Manage\""
+   }
+  },
+  {
+   "name": "Filter records",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Save filter",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "input#save-filter-name \"\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Manage filters",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "summary.inline-flex \"Probe filter\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "summary.inline-flex \"Probe filter\""
+   }
+  },
+  {
+   "name": "Change invoice status (list)",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "button.ibtn \"Close\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "summary.inline-flex \"Actions for invoice 144\""
+   }
+  },
+  {
+   "name": "Deactivate customer",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "button.ibtn \"Close\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "summary.inline-flex \"Actions for customer 200002\""
+   }
+  },
+  {
+   "name": "Deactivate location",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "button.ibtn \"Close\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "summary.inline-flex \"Actions for location ALX\""
+   }
+  },
+  {
+   "name": "Location hierarchy",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Location details",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "button.lbtn \"Modify\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.geo-flow-node \"View Egypt\""
+   }
+  },
+  {
+   "name": "Delete this tree",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "input#geo-delete-tree-confirm-input \"\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Choose parent location",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Choose operation unit",
+   "before": {
+    "closed": true,
+    "layersBefore": 2,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 2,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Add Geo. Location",
+   "before": {
+    "closed": true,
+    "layersBefore": 2,
+    "layersClosed": 1,
+    "focusAfter": "button#customer-unit-location-trigger.customer-lookup-trigger \"More options for Geo. Location\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 2,
+    "layersClosed": 1,
+    "focusAfter": "button#customer-unit-location-trigger.customer-lookup-trigger \"More options for Geo. Location\""
+   }
+  },
+  {
+   "name": "Customer contact",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Change password",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "button.ibtn \"Close\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Set / change PIN code",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "button.ibtn \"Close\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Post invoice",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"Transactions\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"Transactions\""
+   }
+  },
+  {
+   "name": "Revoke session",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Delete invoice",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.ibtn \"More actions\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.ibtn \"More actions\""
+   }
+  },
+  {
+   "name": "Display Journal Entry",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"Transactions\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"Transactions\""
+   }
+  },
+  {
+   "name": "Cancel document",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"Transactions\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"Transactions\""
+   }
+  },
+  {
+   "name": "Change invoice status (record)",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.lbtn \"Transition\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.lbtn \"Transition\""
+   }
+  },
+  {
+   "name": "Screen Parameters",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "button.ibtn \"Close\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"More\""
+   }
+  },
+  {
+   "name": "Print Settings",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"Procedure\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button \"Procedure\""
+   }
+  },
+  {
+   "name": "Keyboard shortcuts",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+   }
+  },
+  {
+   "name": "Customize your sidebar",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+   }
+  },
+  {
+   "name": "Log out",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+   }
+  },
+  {
+   "name": "You have unsaved work",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "You have unsaved customer changes",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Save this table layout?",
+   "before": {
+    "closed": false,
+    "layersBefore": 1,
+    "layersClosed": 0,
+    "focusAfter": "button#list-layout-discard.lbtn \"Leave without saving\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Email search filters",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  },
+  {
+   "name": "Notification dialog",
+   "before": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.flex \"Sales Invoice 126 was posted\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 1,
+    "layersClosed": 1,
+    "focusAfter": "button.flex \"Sales Invoice 126 was posted\""
+   }
+  },
+  {
+   "name": "Collab confirm",
+   "before": {
+    "closed": true,
+    "layersBefore": 2,
+    "layersClosed": 1,
+    "focusAfter": "button.ibtn \"More actions\""
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 2,
+    "layersClosed": 1,
+    "focusAfter": "button.ibtn \"More actions\""
+   }
+  },
+  {
+   "name": "Related record preview",
+   "before": {
+    "closed": true,
+    "layersBefore": 2,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   },
+   "after": {
+    "closed": true,
+    "layersBefore": 2,
+    "layersClosed": 1,
+    "focusAfter": "trigger"
+   }
+  }
+ ],
+ "otherConfigurations": [
+  {
+   "project": "desktop-rtl",
+   "name": "Filter records",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Export",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "summary.inline-flex \"إدارة\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Add Customer Type",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.customer-lookup-trigger \"More options for نوع العميل\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Find value",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.customer-lookup-trigger \"More options for نوع العميل\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Deactivate customer",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "summary.inline-flex \"Actions for customer 200002\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Save filter",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Manage filters",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "summary.inline-flex \"Probe filter\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Change invoice status (list)",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "summary.inline-flex \"Actions for invoice 144\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Location hierarchy",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Deactivate location",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "summary.inline-flex \"Actions for location ALX\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Delete this tree",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Location details",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.geo-flow-node \"View Egypt\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Choose parent location",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Customer contact",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Add Geo. Location",
+   "closed": true,
+   "layersBefore": 2,
+   "layersClosed": 1,
+   "focusAfter": "button#customer-unit-location-trigger.customer-lookup-trigger \"More options for Geo. Location\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Choose operation unit",
+   "closed": true,
+   "layersBefore": 2,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Change password",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Set / change PIN code",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Revoke session",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Post invoice",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button \"العمليات\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Display Journal Entry",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button \"العمليات\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Delete invoice",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.ibtn \"More actions\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Cancel document",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button \"العمليات\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Change invoice status (record)",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.lbtn \"تغيير الحالة\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Customize your sidebar",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Keyboard shortcuts",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Screen Parameters",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button \"المزيد\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Print Settings",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button \"الإجراء\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Log out",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "You have unsaved work",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "You have unsaved customer changes",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Save this table layout?",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Notification dialog",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.flex \"Sales Invoice 126 was posted\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Email search filters",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Collab confirm",
+   "closed": true,
+   "layersBefore": 2,
+   "layersClosed": 1,
+   "focusAfter": "button.ibtn \"More actions\""
+  },
+  {
+   "project": "desktop-rtl",
+   "name": "Related record preview",
+   "closed": true,
+   "layersBefore": 2,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Filter records",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Export",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "summary.inline-flex \"Manage\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Find value",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Add Customer Type",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.customer-lookup-trigger \"More options for Customer Type\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Deactivate customer",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "summary.inline-flex \"Actions for customer 200002\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Save filter",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Manage filters",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "summary.inline-flex \"Probe filter\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Change invoice status (list)",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "summary.inline-flex \"Actions for invoice 144\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Deactivate location",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "summary.inline-flex \"Actions for location ALX\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Location hierarchy",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Choose parent location",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Location details",
+   "closed": true,
+   "layersBefore": 2,
+   "layersClosed": 1,
+   "focusAfter": "button.geo-flow-node \"View Egypt\"",
+   "openedByDispatchedClick": [
+    "View Egypt"
+   ]
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Delete this tree",
+   "closed": true,
+   "layersBefore": 2,
+   "layersClosed": 1,
+   "focusAfter": "trigger",
+   "openedByDispatchedClick": [
+    "View Egypt"
+   ]
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Add Geo. Location",
+   "closed": true,
+   "layersBefore": 2,
+   "layersClosed": 1,
+   "focusAfter": "button#customer-unit-location-trigger.customer-lookup-trigger \"More options for Geo. Location\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Change password",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Choose operation unit",
+   "closed": true,
+   "layersBefore": 2,
+   "layersClosed": 1,
+   "focusAfter": "trigger",
+   "openedByDispatchedClick": [
+    "Choose Parent Unit from hierarchy"
+   ]
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Customer contact",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Set / change PIN code",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Post invoice",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button \"Transactions\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Revoke session",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Delete invoice",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.ibtn \"More actions\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Display Journal Entry",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button \"Transactions\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Cancel document",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button \"Transactions\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Keyboard shortcuts",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Change invoice status (record)",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.lbtn \"Transition\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Print Settings",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button \"Procedure\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Screen Parameters",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button \"More\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Log out",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Customize your sidebar",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "You have unsaved customer changes",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-touch",
+   "name": "You have unsaved work",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Email search filters",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Notification dialog",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.flex \"Sales Invoice 126 was posted\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Collab confirm",
+   "closed": true,
+   "layersBefore": 2,
+   "layersClosed": 1,
+   "focusAfter": "button.ibtn \"More actions\""
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Save this table layout?",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-touch",
+   "name": "Related record preview",
+   "closed": true,
+   "layersBefore": 2,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Export",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "summary.inline-flex \"إدارة\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Add Customer Type",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.customer-lookup-trigger \"More options for نوع العميل\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Find value",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.customer-lookup-trigger \"More options for نوع العميل\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Filter records",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Save filter",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Manage filters",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "summary.inline-flex \"Probe filter\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Change invoice status (list)",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "summary.inline-flex \"Actions for invoice 144\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Location hierarchy",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Deactivate location",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "summary.inline-flex \"Actions for location ALX\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Deactivate customer",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "summary.inline-flex \"Actions for customer 200002\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Choose parent location",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Location details",
+   "closed": true,
+   "layersBefore": 2,
+   "layersClosed": 1,
+   "focusAfter": "button.geo-flow-node \"View Egypt\"",
+   "openedByDispatchedClick": [
+    "View Egypt"
+   ]
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Add Geo. Location",
+   "closed": true,
+   "layersBefore": 2,
+   "layersClosed": 1,
+   "focusAfter": "button#customer-unit-location-trigger.customer-lookup-trigger \"More options for Geo. Location\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Delete this tree",
+   "closed": true,
+   "layersBefore": 2,
+   "layersClosed": 1,
+   "focusAfter": "trigger",
+   "openedByDispatchedClick": [
+    "View Egypt"
+   ]
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Choose operation unit",
+   "closed": true,
+   "layersBefore": 2,
+   "layersClosed": 1,
+   "focusAfter": "trigger",
+   "openedByDispatchedClick": [
+    "Choose Parent Unit from hierarchy"
+   ]
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Customer contact",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Change password",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Set / change PIN code",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Revoke session",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Post invoice",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button \"العمليات\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Delete invoice",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.ibtn \"More actions\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Cancel document",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button \"العمليات\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Display Journal Entry",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button \"العمليات\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Change invoice status (record)",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.lbtn \"تغيير الحالة\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Customize your sidebar",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Keyboard shortcuts",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Screen Parameters",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button \"المزيد\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Print Settings",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button \"الإجراء\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Log out",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.avatar-btn \"Majed Sief Alnasr\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Save this table layout?",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "You have unsaved customer changes",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "You have unsaved work",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Email search filters",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Notification dialog",
+   "closed": true,
+   "layersBefore": 1,
+   "layersClosed": 1,
+   "focusAfter": "button.flex \"Sales Invoice 126 was posted\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Collab confirm",
+   "closed": true,
+   "layersBefore": 2,
+   "layersClosed": 1,
+   "focusAfter": "button.ibtn \"More actions\""
+  },
+  {
+   "project": "mobile-rtl",
+   "name": "Related record preview",
+   "closed": true,
+   "layersBefore": 2,
+   "layersClosed": 1,
+   "focusAfter": "trigger"
+  }
+ ]
+}

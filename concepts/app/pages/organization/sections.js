@@ -1,6 +1,6 @@
 import {uiLocale} from '../../core/locale.js'
 const tableClass =
-  'w-full border-collapse text-[12.5px] [&_th]:sticky [&_th]:top-0 [&_th]:z-[1] [&_th]:bg-[linear-gradient(var(--line-2),var(--line-2)),var(--surface)] [&_th]:px-3 [&_th]:py-2 [&_th]:text-start [&_th]:font-semibold [&_th]:text-muted [&_td]:border-t [&_td]:border-line [&_td]:px-3 [&_td]:py-2.5 [&_td]:align-middle'
+  'w-full border-collapse text-dense [&_th]:sticky [&_th]:top-0 [&_th]:z-[1] [&_th]:bg-[linear-gradient(var(--line-2),var(--line-2)),var(--surface)] [&_th]:px-3 [&_th]:py-2 [&_th]:text-start [&_th]:font-semibold [&_th]:text-muted [&_td]:border-t [&_td]:border-line [&_td]:px-3 [&_td]:py-2 [&_td]:align-middle'
 
 /** The section keys this render pass actually mounts — set by
     renderOrganizationSections() before any body renders, since a body can
@@ -9,12 +9,12 @@ const tableClass =
 let navigableSections = new Set()
 
 function card(title, body, options = '') {
-  return `<section class="org-card [border:1px_solid_var(--line)] rounded-lg overflow-hidden bg-surface ${options}"><div class="org-card-hd flex items-center justify-between gap-2.5 [padding:8px_12px] [font-size:12.5px] font-bold bg-[var(--line-2)]"><span data-i18n="${title}">${title}</span></div><div class="rec-card-body [padding:12px]">${body}</div></section>`
+  return `<section class="org-card [border:1px_solid_var(--line)] rounded-lg overflow-hidden bg-surface ${options}"><div class="org-card-hd flex items-center justify-between gap-2 [padding:var(--ds-space-100)_var(--ds-space-150)] [font-size:12.5px] font-bold bg-[var(--line-2)]"><span data-i18n="${title}">${title}</span></div><div class="rec-card-body [padding:var(--ds-space-150)]">${body}</div></section>`
 }
 
 function heading(key, sections, encodeHtml) {
   const section = sections[key]
-  return `<header class="mb-3"><h2 class="m-0 text-[18px] font-semibold text-ink" data-i18n="${encodeHtml(section.title)}">${encodeHtml(section.title)}</h2><p class="mt-1 mb-0 text-[12.5px] text-muted" data-i18n="${encodeHtml(section.description)}">${encodeHtml(section.description)}</p></header>`
+  return `<header class="mb-3"><h2 class="m-0 text-card-title font-semibold text-ink" data-i18n="${encodeHtml(section.title)}">${encodeHtml(section.title)}</h2><p class="mt-1 mb-0 text-dense text-muted" data-i18n="${encodeHtml(section.description)}">${encodeHtml(section.description)}</p></header>`
 }
 
 function badge(value, tone = 'gray') {
@@ -33,11 +33,11 @@ function table(headers, rows, emptyCopy = 'No matching records') {
     DATA_LIST_CONFIG instance inside a dialog/panel (real Filter/Search/
     Columns/sort/pagination UX), instead of the plain table() helper. */
 function dataListMount(id) {
-  return `<div class="canvas [overflow:visible]! mt-0!" id="organization-${id}-canvas"></div><div class="fnav fnav-list flex items-center gap-5 [padding:9px_0_0]" id="organization-${id}-fnav"></div>`
+  return `<div class="canvas [overflow:visible]! mt-0!" id="organization-${id}-canvas"></div><div class="fnav fnav-list flex items-center gap-5 [padding:var(--ds-space-100)_0_0]" id="organization-${id}-fnav"></div>`
 }
 
 function sectionMessage(title, body, dataListIcon, icon = 'i-help') {
-  return `<aside data-organization-section-message role="note" class="mb-3 flex items-start gap-3 rounded-md bg-[var(--info-soft-bg)] p-3 text-ink"><span class="mt-0.5 flex size-6 flex-none items-center justify-center text-[var(--info-soft-ink)]">${dataListIcon(icon, 17)}</span><div class="min-w-0"><strong class="block text-[13px] font-semibold" data-i18n="${title}">${title}</strong><p class="mt-1 mb-0 text-xs leading-5 text-muted" data-i18n="${body}">${body}</p></div></aside>`
+  return `<aside data-organization-section-message role="note" class="mb-3 flex items-start gap-3 rounded-md bg-[var(--info-soft-bg)] p-3 text-ink"><span class="mt-0.5 flex size-6 flex-none items-center justify-center text-[var(--info-soft-ink)]">${dataListIcon(icon, 17)}</span><div class="min-w-0"><strong class="block text-body font-semibold" data-i18n="${title}">${title}</strong><p class="mt-1 mb-0 text-xs leading-5 text-muted" data-i18n="${body}">${body}</p></div></aside>`
 }
 
 /** Small rounded pill — a trend delta ("↑12%"), a live indicator, or a
@@ -52,17 +52,17 @@ function statPill(text, tone, icon) {
       : tone === 'danger'
         ? 'bg-[var(--danger-soft-bg)] text-[var(--danger-soft-ink)]'
         : 'bg-[var(--line-2)] text-muted'
-  return `<span class="inline-flex items-center gap-1 rounded-full [padding:3px_10px] text-xs font-semibold [flex:none] ${toneClass}">${icon || ''}${text}</span>`
+  return `<span class="inline-flex items-center gap-1 rounded-full [padding:var(--ds-space-025)_var(--ds-space-100)] text-xs font-semibold [flex:none] ${toneClass}">${icon || ''}${text}</span>`
 }
 
-const LIVE_PILL = `<span class="inline-flex items-center gap-1.5 rounded-full [padding:3px_10px] text-xs font-semibold [flex:none] bg-[var(--success-soft-bg)] text-[var(--success-soft-ink)]"><span class="[width:6px] [height:6px] rounded-full [background:currentColor]"></span>Live</span>`
+const LIVE_PILL = `<span class="inline-flex items-center gap-1.5 rounded-full [padding:var(--ds-space-025)_var(--ds-space-100)] text-xs font-semibold [flex:none] bg-[var(--success-soft-bg)] text-[var(--success-soft-ink)]"><span class="[width:6px] [height:6px] rounded-full [background:currentColor]"></span>Live</span>`
 
 /** Card header: icon chip, title + subtitle stacked, and a trailing
     pill (trend delta, "Live", or none) plus a decorative overflow-menu
     dot — the two-line label the app's plain single-line statHeader
     didn't carry. */
 function statHeader(label, subtitle, icon, dataListIcon, pill) {
-  return `<div class="flex min-w-0 gap-2.5 items-start justify-between"><div class="flex min-w-0 gap-2.5 items-center"><span class="flex [flex:none] items-center justify-center [width:34px] [height:34px] rounded-lg [background:color-mix(in_srgb,_var(--stat-tone)_14%,_transparent)] [color:var(--stat-tone)]">${dataListIcon(icon, 18)}</span><div class="min-w-0"><strong class="block overflow-hidden text-ink text-[13.5px] font-bold text-ellipsis whitespace-nowrap" data-i18n="${label}">${label}</strong><span class="block overflow-hidden text-muted text-xs text-ellipsis whitespace-nowrap" data-i18n="${subtitle}">${subtitle}</span></div></div><div class="flex [flex:none] items-center gap-1.5">${pill || ''}</div></div>`
+  return `<div class="flex min-w-0 gap-2 items-start justify-between"><div class="flex min-w-0 gap-2 items-center"><span class="flex [flex:none] items-center justify-center [width:34px] [height:34px] rounded-lg [background:color-mix(in_srgb,_var(--stat-tone)_14%,_transparent)] [color:var(--stat-tone)]">${dataListIcon(icon, 18)}</span><div class="min-w-0"><strong class="block overflow-hidden text-ink text-body-lg font-bold text-ellipsis whitespace-nowrap" data-i18n="${label}">${label}</strong><span class="block overflow-hidden text-muted text-xs text-ellipsis whitespace-nowrap" data-i18n="${subtitle}">${subtitle}</span></div></div><div class="flex [flex:none] items-center gap-1.5">${pill || ''}</div></div>`
 }
 
 /** Overview stat card. Cards whose target section is still navigable
@@ -71,7 +71,7 @@ function statHeader(label, subtitle, icon, dataListIcon, pill) {
     plain div with the same look, so the metric stays on the overview
     without offering an entry point to a tab the nav no longer shows. */
 function statCardShell(section, tone, body) {
-  const classes = `org-stat-card flex h-full w-full min-w-0 flex-col gap-4 [--stat-tone:var(--accent)] [padding:16px] [border:1px_solid_var(--line)] [border-radius:12px] bg-surface [box-shadow:var(--shadow-1)] text-start [&[data-tone=success]]:[--stat-tone:var(--success)] [&[data-tone=warning]]:[--stat-tone:var(--st-pend-ink)] [&[data-tone=danger]]:[--stat-tone:var(--danger)]${navigableSections.has(section) ? ' hover:[border-color:var(--stat-tone)] focus-visible:[outline:2px_solid_var(--focus)]' : ''}`
+  const classes = `org-stat-card flex h-full w-full min-w-0 flex-col gap-4 [--stat-tone:var(--accent)] [padding:var(--ds-space-200)] [border:1px_solid_var(--line)] [border-radius:var(--ds-radius-xlarge)] bg-surface [box-shadow:var(--shadow-1)] text-start [&[data-tone=success]]:[--stat-tone:var(--success)] [&[data-tone=warning]]:[--stat-tone:var(--st-pend-ink)] [&[data-tone=danger]]:[--stat-tone:var(--danger)]${navigableSections.has(section) ? ' hover:[border-color:var(--stat-tone)] focus-visible:[outline:2px_solid_var(--focus)]' : ''}`
   if (!navigableSections.has(section)) return `<div data-tone="${tone}" class="${classes}">${body}</div>`
   return `<button type="button" data-organization-open-section="${section}" data-tone="${tone}" class="${classes}">${body}</button>`
 }
@@ -109,7 +109,7 @@ function radialGauge(progress, size, scaleMax, value, detail) {
     scaleMax === undefined
       ? ''
       : `<div class="flex items-center justify-between text-xs text-muted px-1 -mt-1.5"><span>0</span><span>${scaleMax}</span></div>`
-  return `<div class="w-[80%] max-w-[440px] mb-2"><div class="relative"><svg class="w-full h-auto" viewBox="0 0 ${size} ${size * 0.56}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${ticks}</svg><div class="absolute inset-x-0 top-[52%] grid place-items-center text-center px-2"><strong class="[font-variant-numeric:tabular-nums] block text-ink text-[36px] font-bold leading-[1.1] tracking-[-0.01em] overflow-hidden text-ellipsis whitespace-nowrap max-w-full">${value}</strong><small class="mt-0.5 block overflow-hidden text-muted text-xs text-ellipsis whitespace-nowrap max-w-full">${detail}</small></div></div>${scale}</div>`
+  return `<div class="w-[80%] max-w-[440px] mb-2"><div class="relative"><svg class="w-full h-auto" viewBox="0 0 ${size} ${size * 0.56}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${ticks}</svg><div class="absolute inset-x-0 top-[52%] grid place-items-center text-center px-2"><strong class="[font-variant-numeric:tabular-nums] block text-ink text-display-lg font-bold leading-[1.1] tracking-[-0.01em] overflow-hidden text-ellipsis whitespace-nowrap max-w-full">${value}</strong><small class="mt-0.5 block overflow-hidden text-muted text-xs text-ellipsis whitespace-nowrap max-w-full">${detail}</small></div></div>${scale}</div>`
 }
 
 /** Gauge card: header row, a large arc with the value + repeated label
@@ -136,7 +136,7 @@ function statGaugeCard(
 ) {
   const detailRow = detailPillIcon
     ? `<div class="flex justify-center">${statPill(detail, 'neutral', dataListIcon(detailPillIcon, 13))}</div>`
-    : `<small class="inline-flex items-center gap-1 rounded-full [padding:3px_10px] text-xs font-semibold [flex:none] bg-[var(--line-2)] text-muted">${detail}</small>`
+    : `<small class="inline-flex items-center gap-1 rounded-full [padding:var(--ds-space-025)_var(--ds-space-100)] text-xs font-semibold [flex:none] bg-[var(--line-2)] text-muted">${detail}</small>`
   const gaugeCenter = `<div data-organization-gauge-center class="flex min-h-0 w-full flex-1 flex-col items-center justify-center">${radialGauge(progress, 200, scaleMax, value, label)}${detailRow}</div>`
   const body = `${statHeader(label, subtitle, icon, dataListIcon, headerPill)}${gaugeCenter}${extra || ''}`
   return statCardShell(section, tone, body)
@@ -166,7 +166,7 @@ function recentActiveUsers(users, encodeHtml) {
   const avatars = shown
     .map(
       (user, index) =>
-        `<div class="relative [flex:none]"><span class="flex items-center justify-center [width:44px] [height:44px] rounded-full text-[13px] font-bold ${AVATAR_TONE_CLASS[index % AVATAR_TONE_CLASS.length]}">${encodeHtml(initialsOf(user))}</span><span class="absolute [bottom:1px] [inset-inline-end:1px] [width:10px] [height:10px] rounded-full [background:var(--success-fill)] [border:2px_solid_var(--surface)]"></span></div>`
+        `<div class="relative [flex:none]"><span class="flex items-center justify-center [width:44px] [height:44px] rounded-full text-body font-bold ${AVATAR_TONE_CLASS[index % AVATAR_TONE_CLASS.length]}">${encodeHtml(initialsOf(user))}</span><span class="absolute [bottom:var(--ds-space-0)] [inset-inline-end:var(--ds-space-0)] [width:10px] [height:10px] rounded-full [background:var(--success-fill)] [border:2px_solid_var(--surface)]"></span></div>`
     )
     .join('')
   const overflowAvatar =
@@ -177,7 +177,7 @@ function recentActiveUsers(users, encodeHtml) {
   // the whole card in a <button> that navigates to the same section, so
   // this is a visual affordance riding on that same click, not a second
   // interactive element (invalid HTML nested inside the card's button).
-  return `<div class="mt-2 border-t border-line pt-3"><div class="mb-2.5 flex items-center justify-between"><strong class="text-[12.5px] font-bold text-ink" data-i18n="Recent active users">Recent active users</strong><span class="inline-flex items-center gap-1 text-xs font-semibold text-accent">View all →</span></div><div class="flex items-center gap-2">${avatars}${overflowAvatar}</div></div>`
+  return `<div class="mt-2 border-t border-line pt-3"><div class="mb-2 flex items-center justify-between"><strong class="text-dense font-bold text-ink" data-i18n="Recent active users">Recent active users</strong><span class="inline-flex items-center gap-1 text-xs font-semibold text-accent">View all →</span></div><div class="flex items-center gap-2">${avatars}${overflowAvatar}</div></div>`
 }
 
 function sparklinePoints(trend, width, height) {
@@ -260,7 +260,7 @@ function statusDot(label, text, encodeHtml) {
       : fraction.percent >= 80
         ? 'var(--st-pend-ink)'
         : 'var(--danger)'
-  return `<div class="flex items-center gap-2.5 py-2 first:pt-0 last:pb-0"><span class="[width:8px] [height:8px] rounded-full [flex:none]" style="background:${tone}"></span><span class="text-xs text-muted" data-i18n="${label}">${label}</span><strong class="ms-auto text-[13px]">${encodeHtml(text)}</strong></div>`
+  return `<div class="flex items-center gap-2 py-2 first:pt-0 last:pb-0"><span class="[width:8px] [height:8px] rounded-full [flex:none]" style="background:${tone}"></span><span class="text-xs text-muted" data-i18n="${label}">${label}</span><strong class="ms-auto text-body">${encodeHtml(text)}</strong></div>`
 }
 
 function relativeTimestamp(timestamp) {
@@ -279,7 +279,7 @@ function renderOverview(data, role, encodeHtml, dataListIcon) {
     data.applicationSessions.filter(row => !row.protected).map(row => row.user)
   ).size
   const blockingSessions = data.databaseSessions.filter(row => row.blocking !== 'No').length
-  // Two fraction-of-a-whole gauges side by side from 800px up (stacked
+  // Two fraction-of-a-whole gauges side by side from 1300px up (stacked
   // below it), Active users first. The trend cards that used to fill the
   // remaining bento cells are gone; Operational status owns the row
   // underneath.
@@ -318,14 +318,14 @@ function renderOverview(data, role, encodeHtml, dataListIcon) {
       : ''
 
   // Gauge cards need real width, so they span the full row between
-  // 800–1299px and only sit side by side from 1300px up. Without the
+  // 768–1299px and only sit side by side from 1300px up. Without the
   // privileged Database sessions card (manager), the lone gauge takes
   // the whole row at every width.
   const alone = databaseSessionsCard
     ? ''
-    : '[@media((min-width:800px))]:col-span-2'
+    : 'min-sm:col-span-2'
   const stacked = databaseSessionsCard
-    ? '[@media((min-width:800px)_and_(max-width:1299px))]:col-span-2'
+    ? '[@media((min-width:theme(--breakpoint-sm))_and_(max-width:theme(--breakpoint-legacy-1299)))]:col-span-2'
     : alone
   const statCells = [
     statGridCell(activeUsersCard, stacked),
@@ -335,12 +335,12 @@ function renderOverview(data, role, encodeHtml, dataListIcon) {
   const healthNow = healthTrend[healthTrend.length - 1]
   const healthTone =
     healthNow >= 95 ? 'var(--success)' : healthNow >= 80 ? 'var(--st-pend-ink)' : 'var(--danger)'
-  const operationalStatus = `<div class="flex items-start justify-between gap-3"><div><span class="block text-xs text-muted" data-i18n="Composite health, last 7 days">Composite health, last 7 days</span><strong class="mt-1 block text-[26px] font-bold [line-height:1.1]" style="color:${healthTone}">${healthNow}%</strong><span class="text-xs text-muted">${encodeHtml(data.details.environment)} · ${encodeHtml(data.details.defaultBranch)}</span></div><div class="w-[130px] [flex:none]" style="--stat-tone:${healthTone}">${sparklineChart(healthTrend)}</div></div><dl class="m-0 mt-3 divide-y divide-line border-t border-line">${statusDot('Background jobs', data.health.backgroundJobs, encodeHtml)}${statusDot('Integrations', data.health.integrations, encodeHtml)}</dl><div class="mt-3 grid grid-cols-2 gap-x-4 gap-y-2.5 border-t border-line pt-3 text-xs"><div><dt class="text-muted" data-i18n="Queue depth">Queue depth</dt><dd class="m-0 mt-0.5 font-semibold text-[13px]">${data.health.queueDepth} ${uiLocale.t("operations")}</dd></div><div><dt class="text-muted" data-i18n="Last deploy">Last deploy</dt><dd class="m-0 mt-0.5 font-semibold text-[13px]">${encodeHtml(relativeTimestamp(data.health.lastDeploy))}</dd></div><div><dt class="text-muted" data-i18n="Last backup">Last backup</dt><dd class="m-0 mt-0.5 font-semibold text-[13px]">${encodeHtml(relativeTimestamp(data.health.lastBackup))}</dd></div><div><dt class="text-muted" data-i18n="Next maintenance">Next maintenance</dt><dd class="m-0 mt-0.5 font-semibold text-[13px]">${encodeHtml(data.health.nextMaintenance.slice(0, 10))}</dd></div></div>`
+  const operationalStatus = `<div class="flex items-start justify-between gap-3"><div><span class="block text-xs text-muted" data-i18n="Composite health, last 7 days">Composite health, last 7 days</span><strong class="mt-1 block text-display-sm font-bold [line-height:1.1]" style="color:${healthTone}">${healthNow}%</strong><span class="text-xs text-muted">${encodeHtml(data.details.environment)} · ${encodeHtml(data.details.defaultBranch)}</span></div><div class="w-[130px] [flex:none]" style="--stat-tone:${healthTone}">${sparklineChart(healthTrend)}</div></div><dl class="m-0 mt-3 divide-y divide-line border-t border-line">${statusDot('Background jobs', data.health.backgroundJobs, encodeHtml)}${statusDot('Integrations', data.health.integrations, encodeHtml)}</dl><div class="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-line pt-3 text-xs"><div><dt class="text-muted" data-i18n="Queue depth">Queue depth</dt><dd class="m-0 mt-0.5 font-semibold text-body">${data.health.queueDepth} ${uiLocale.t("operations")}</dd></div><div><dt class="text-muted" data-i18n="Last deploy">Last deploy</dt><dd class="m-0 mt-0.5 font-semibold text-body">${encodeHtml(relativeTimestamp(data.health.lastDeploy))}</dd></div><div><dt class="text-muted" data-i18n="Last backup">Last backup</dt><dd class="m-0 mt-0.5 font-semibold text-body">${encodeHtml(relativeTimestamp(data.health.lastBackup))}</dd></div><div><dt class="text-muted" data-i18n="Next maintenance">Next maintenance</dt><dd class="m-0 mt-0.5 font-semibold text-body">${encodeHtml(data.health.nextMaintenance.slice(0, 10))}</dd></div></div>`
 
   // The "Recent activity" card (audit-log rows + its "View audit log"
   // shortcut) is gone with the hidden Audit log tab — Operational status
   // now owns the full width below the stat grid.
-  return `<div data-organization-stat-grid class="mb-4 grid grid-cols-1 gap-3 [@media((min-width:800px))]:grid-cols-2">${statCells}</div>${card('Operational status', operationalStatus)}`
+  return `<div data-organization-stat-grid class="mb-4 grid grid-cols-1 gap-3 min-sm:grid-cols-2">${statCells}</div>${card('Operational status', operationalStatus)}`
 }
 
 /** Organization settings is a read-only reference view for every role:
@@ -359,12 +359,12 @@ function renderSettings(details, encodeHtml) {
   ]
     .map(
       ([key, label]) =>
-        `<div class="grid min-w-0 gap-1"><dt class="text-xs text-muted" data-i18n="${label}">${label}</dt><dd class="m-0 break-words text-[13px] font-semibold text-ink">${encodeHtml(details[key])}</dd></div>`
+        `<div class="grid min-w-0 gap-1"><dt class="text-xs text-muted" data-i18n="${label}">${label}</dt><dd class="m-0 break-words text-body font-semibold text-ink">${encodeHtml(details[key])}</dd></div>`
     )
     .join('')
   return card(
     'Organization identity and defaults',
-    `<dl class="m-0 grid grid-cols-2 gap-x-4 gap-y-3 [@media((max-width:720px))]:grid-cols-1">${fields}</dl><p class="mt-4 mb-0 text-xs text-muted">${uiLocale.t("Read-only view of the organization’s legal identity, regional defaults, and fiscal configuration.")}</p>`
+    `<dl class="m-0 grid grid-cols-2 gap-x-4 gap-y-3 max-sm:grid-cols-1">${fields}</dl><p class="mt-4 mb-0 text-xs text-muted">${uiLocale.t("Read-only view of the organization’s legal identity, regional defaults, and fiscal configuration.")}</p>`
   )
 }
 
@@ -410,7 +410,7 @@ function renderStatusBanner(services) {
       : worst === 'degraded'
         ? 'Some systems degraded'
         : 'Service disruption in progress'
-  return `<div class="mb-4 flex items-center gap-2.5 rounded-lg px-4 py-3 font-semibold ${tone}"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm3.7 6.2-4.6 4.6a.8.8 0 0 1-1.13 0L6.3 10.6a.8.8 0 1 1 1.13-1.13l1.1 1.1 4.04-4.04a.8.8 0 1 1 1.13 1.13Z" fill="currentColor"/></svg><span data-i18n="${copy}">${copy}</span></div>`
+  return `<div class="mb-4 flex items-center gap-2 rounded-lg px-4 py-3 font-semibold ${tone}"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm3.7 6.2-4.6 4.6a.8.8 0 0 1-1.13 0L6.3 10.6a.8.8 0 1 1 1.13-1.13l1.1 1.1 4.04-4.04a.8.8 0 1 1 1.13 1.13Z" fill="currentColor"/></svg><span data-i18n="${copy}">${copy}</span></div>`
 }
 
 function segmentDayLabel(daysAgo) {
@@ -436,10 +436,10 @@ function renderServiceUptime(service, encodeHtml) {
   const segments = service.history
     .map((day, index) => {
       const daysAgo = total - 1 - index
-      return `<span class="org-uptime-seg relative h-full flex-1 min-w-[3px] [padding-inline:0.5px] cursor-default" style="--stat-tone:${day === 'up' ? 'var(--success-fill)' : day === 'degraded' ? 'var(--warn-ink)' : 'var(--danger)'}"><span class="block h-full w-full rounded-[1px] transition-transform ${SEGMENT_TONE[day]} [.org-uptime-seg:hover_&]:[outline:2px_solid_var(--stat-tone)] [.org-uptime-seg:hover_&]:[outline-offset:1px] [.org-uptime-seg:hover_&]:scale-y-110"></span><span class="org-uptime-tip pointer-events-none absolute [inset-block-end:calc(100%+7px)] [inset-inline-start:50%] [translate:-50%_0] whitespace-nowrap rounded [padding:6px_9px] text-xs opacity-0 [transition:opacity_0.1s] [background:var(--tooltip-bg)] [color:var(--tooltip-ink)] [z-index:40] grid gap-0.5 [.org-uptime-seg:hover_&]:opacity-100"><strong class="text-[12.5px] font-semibold">${encodeHtml(segmentDayLabel(daysAgo))} · ${encodeHtml(segmentDate(daysAgo))}</strong><span class="opacity-80">${encodeHtml(STATUS_LABEL[day])} — ${encodeHtml(STATUS_DETAIL[day])}</span></span></span>`
+      return `<span class="org-uptime-seg relative h-full flex-1 min-w-[3px] [padding-inline:var(--ds-space-0)] cursor-default" style="--stat-tone:${day === 'up' ? 'var(--success-fill)' : day === 'degraded' ? 'var(--warn-ink)' : 'var(--danger)'}"><span class="block h-full w-full rounded-xs transition-transform ${SEGMENT_TONE[day]} [.org-uptime-seg:hover_&]:[outline:2px_solid_var(--stat-tone)] [.org-uptime-seg:hover_&]:[outline-offset:1px] [.org-uptime-seg:hover_&]:scale-y-110"></span><span class="org-uptime-tip pointer-events-none absolute [inset-block-end:calc(100%+var(--ds-space-075))] [inset-inline-start:50%] [translate:-50%_0] whitespace-nowrap rounded [padding:var(--ds-space-075)_var(--ds-space-100)] text-xs opacity-0 [transition:opacity_0.1s] [background:var(--tooltip-bg)] [color:var(--tooltip-ink)] [z-index:40] grid gap-0.5 [.org-uptime-seg:hover_&]:opacity-100"><strong class="text-dense font-semibold">${encodeHtml(segmentDayLabel(daysAgo))} · ${encodeHtml(segmentDate(daysAgo))}</strong><span class="opacity-80">${encodeHtml(STATUS_LABEL[day])} — ${encodeHtml(STATUS_DETAIL[day])}</span></span></span>`
     })
     .join('')
-  return `<div class="border-t border-line py-3.5 first:border-t-0 first:pt-0"><div class="mb-2 flex flex-wrap items-center justify-between gap-2"><div><strong class="block text-[13.5px]">${encodeHtml(service.name)}</strong><small class="text-muted">${encodeHtml(service.detail)}</small></div>${badge(STATUS_LABEL[service.status], STATUS_BADGE_TONE[service.status])}</div><div class="org-uptime-track flex h-9 items-stretch [&:has(.org-uptime-seg:hover)_.org-uptime-seg>span:first-child]:opacity-60 [&_.org-uptime-seg:hover>span:first-child]:opacity-100!" role="img" aria-label="${encodeHtml(service.name)} uptime over the last 90 days, ${service.uptime}">${segments}</div><div class="mt-1.5 flex items-center justify-between text-xs text-muted"><span>90 days ago</span><span class="font-semibold text-ink">${service.uptime} uptime</span><span data-i18n="Today">Today</span></div></div>`
+  return `<div class="border-t border-line py-3 first:border-t-0 first:pt-0"><div class="mb-2 flex flex-wrap items-center justify-between gap-2"><div><strong class="block text-body-lg">${encodeHtml(service.name)}</strong><small class="text-muted">${encodeHtml(service.detail)}</small></div>${badge(STATUS_LABEL[service.status], STATUS_BADGE_TONE[service.status])}</div><div class="org-uptime-track flex h-9 items-stretch [&:has(.org-uptime-seg:hover)_.org-uptime-seg>span:first-child]:opacity-60 [&_.org-uptime-seg:hover>span:first-child]:opacity-100!" role="img" aria-label="${encodeHtml(service.name)} uptime over the last 90 days, ${service.uptime}">${segments}</div><div class="mt-1.5 flex items-center justify-between text-xs text-muted"><span>90 days ago</span><span class="font-semibold text-ink">${service.uptime} uptime</span><span data-i18n="Today">Today</span></div></div>`
 }
 
 function performancePeriodChange(change, tone) {
@@ -452,7 +452,7 @@ function performancePeriodChange(change, tone) {
       : tone === 'warning'
         ? 'bg-[var(--warn-bg)] text-[var(--warn-ink)]'
         : 'bg-[var(--danger-soft-bg)] text-[var(--danger-soft-ink)]'
-  return `<span data-organization-period-change class="grid flex-none gap-0.5 rounded-lg px-3 py-2 ${toneClass}"><strong class="text-[13px] font-bold">${arrow} ${value}</strong><small class="text-[10.5px] text-muted max-[620px]:hidden" data-i18n="vs. previous period">vs. previous period</small></span>`
+  return `<span data-organization-period-change class="grid flex-none gap-0.5 rounded-lg px-3 py-2 ${toneClass}"><strong class="text-body font-bold">${arrow} ${value}</strong><small class="text-stat-delta text-muted max-legacy-620:hidden" data-i18n="vs. previous period">vs. previous period</small></span>`
 }
 
 function performanceMetricShell(metric, dataListIcon, body) {
@@ -461,14 +461,14 @@ function performanceMetricShell(metric, dataListIcon, body) {
 
 function performanceGaugeCard(metric, dataListIcon) {
   const summaries = metric.summaries
-    .map(summary => `<div data-organization-availability-summary class="flex min-w-0 items-center gap-2 [@media((min-width:640px))]:justify-center"><span class="flex size-7 flex-none items-center justify-center text-muted">${dataListIcon(summary.icon, 17)}</span><span class="min-w-0"><strong class="block text-[13px] font-bold text-ink">${summary.value}</strong><small class="block text-[11px] leading-4 text-muted">${summary.label}</small></span></div>`)
+    .map(summary => `<div data-organization-availability-summary class="flex min-w-0 items-center gap-2 min-sm:justify-center"><span class="flex size-7 flex-none items-center justify-center text-muted">${dataListIcon(summary.icon, 17)}</span><span class="min-w-0"><strong class="block text-body font-bold text-ink">${summary.value}</strong><small class="block text-caption leading-4 text-muted">${summary.label}</small></span></div>`)
     .join('')
-  const gauge = `<div data-organization-performance-gauge class="flex min-h-[220px] flex-1 flex-col items-center justify-center">${radialGauge(metric.progress, 320, metric.scaleMax, metric.value, metric.label)}${statPill('Within target', 'success', dataListIcon('i-check', 12))}</div><div class="grid grid-cols-1 gap-3 border-t border-line pt-4 [@media((min-width:640px))]:grid-cols-3">${summaries}</div>`
+  const gauge = `<div data-organization-performance-gauge class="flex min-h-[220px] flex-1 flex-col items-center justify-center">${radialGauge(metric.progress, 320, metric.scaleMax, metric.value, metric.label)}${statPill('Within target', 'success', dataListIcon('i-check', 12))}</div><div class="grid grid-cols-1 gap-3 border-t border-line pt-4 min-sm:grid-cols-3">${summaries}</div>`
   return performanceMetricShell(metric, dataListIcon, gauge)
 }
 
 function performanceTrendCard(metric, dataListIcon, encodeHtml) {
-  const trend = `<div class="grid flex-1 items-end gap-3 [@media((min-width:1200px))]:grid-cols-[minmax(160px,_0.65fr)_minmax(240px,_1.35fr)]"><div><strong class="block truncate text-[28px] font-bold leading-none tracking-[-0.01em] text-ink [font-variant-numeric:tabular-nums]">${metric.value}</strong><span class="mt-2 inline-flex items-center gap-1.5 text-xs text-muted"><span class="size-1.5 flex-none rounded-full [background:var(--stat-tone)]"></span>${metric.detail}</span></div>${metricTrendChart(metric.trend, metric.unit, encodeHtml)}</div>`
+  const trend = `<div class="grid flex-1 items-end gap-3 [@media((min-width:theme(--breakpoint-legacy-1200)))]:grid-cols-[minmax(160px,_0.65fr)_minmax(240px,_1.35fr)]"><div><strong class="block truncate text-display font-bold leading-none tracking-[-0.01em] text-ink [font-variant-numeric:tabular-nums]">${metric.value}</strong><span class="mt-2 inline-flex items-center gap-1.5 text-xs text-muted"><span class="size-1.5 flex-none rounded-full [background:var(--stat-tone)]"></span>${metric.detail}</span></div>${metricTrendChart(metric.trend, metric.unit, encodeHtml)}</div>`
   return performanceMetricShell(metric, dataListIcon, trend)
 }
 
@@ -488,7 +488,7 @@ function availabilityPerformanceCard(health, dataListIcon) {
       progress: Number.parseFloat(health.availability),
       scaleMax: '100%',
       pill: statPill('Within target', 'success', ''),
-      cardClass: '[@media((min-width:1200px))]:col-start-1 [@media((min-width:1200px))]:row-span-3',
+      cardClass: '[@media((min-width:theme(--breakpoint-legacy-1200)))]:col-start-1 [@media((min-width:theme(--breakpoint-legacy-1200)))]:row-span-3',
       summaries: [
         {icon: 'i-spark', value: `+${health.availabilityChange}%`, label: 'vs. previous period'},
         {icon: 'i-clock', value: estimatedDowntime(health.availability), label: 'Estimated downtime'},
@@ -520,7 +520,7 @@ function renderPerformance(health, services, role, encodeHtml, dataListIcon) {
     role === 'manager'
       ? '<p class="mt-3 mb-0 text-xs text-muted" data-i18n="Technical identifiers are hidden in the manager view; results are summarized by business module.">Technical identifiers are hidden in the manager view; results are summarized by business module.</p>'
       : ''
-  return `<div data-organization-performance-metrics class="mb-4 grid grid-cols-1 gap-3 [@media((min-width:1200px))]:grid-cols-[minmax(0,_1.05fr)_minmax(0,_1.2fr)] [@media((min-width:1200px))]:grid-rows-3">${metrics}</div>${renderStatusBanner(services)}${card('Service uptime', services.map(service => renderServiceUptime(service, encodeHtml)).join(''), 'mb-4')}${table(['Operation', 'Duration', 'State', 'Business area'], detailRows)}${scopeNote}`
+  return `<div data-organization-performance-metrics class="mb-4 grid grid-cols-1 gap-3 [@media((min-width:theme(--breakpoint-legacy-1200)))]:grid-cols-[minmax(0,_1.05fr)_minmax(0,_1.2fr)] [@media((min-width:theme(--breakpoint-legacy-1200)))]:grid-rows-3">${metrics}</div>${renderStatusBanner(services)}${card('Service uptime', services.map(service => renderServiceUptime(service, encodeHtml)).join(''), 'mb-4')}${table(['Operation', 'Duration', 'State', 'Business area'], detailRows)}${scopeNote}`
 }
 
 function renderStaff(dataListIcon) {

@@ -1,0 +1,1211 @@
+{
+  "widths": [
+    390,
+    768,
+    1024,
+    1440
+  ],
+  "measuredAt": "2026-11-26T17:07:48.443Z",
+  "rows": [
+    {
+      "width": 390,
+      "screen": "home",
+      "listIndex": 0,
+      "label": "Invoice sections",
+      "listClass": "rec-tabs",
+      "forced": false,
+      "covered": true,
+      "tabs": 5,
+      "selected": {
+        "text": "Main Data",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 78,
+        "height": 44
+      },
+      "listWidth": 290,
+      "listOverflows": true
+    },
+    {
+      "width": 390,
+      "screen": "home",
+      "listIndex": 2,
+      "label": "launchpad-quick-title",
+      "listClass": "lp-quick-tabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "Starred",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 81.33,
+        "height": 44
+      },
+      "listWidth": 169,
+      "listOverflows": false
+    },
+    {
+      "width": 390,
+      "screen": "invoice-record",
+      "listIndex": 1,
+      "label": "Invoice sections",
+      "listClass": "rec-tabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 5,
+      "selected": {
+        "text": "Main Data",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 78,
+        "height": 44
+      },
+      "listWidth": 290,
+      "listOverflows": true
+    },
+    {
+      "width": 390,
+      "screen": "invoice-activity",
+      "listIndex": 1,
+      "label": "Invoice sections",
+      "listClass": "rec-tabs",
+      "forced": false,
+      "covered": true,
+      "tabs": 5,
+      "selected": {
+        "text": "Main Data",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 78,
+        "height": 44
+      },
+      "listWidth": 290,
+      "listOverflows": true
+    },
+    {
+      "width": 390,
+      "screen": "invoice-activity",
+      "listIndex": 6,
+      "label": null,
+      "listClass": "drtabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "User Log 3",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "width": 100.86,
+        "height": 44
+      },
+      "listWidth": 335,
+      "listOverflows": false
+    },
+    {
+      "width": 390,
+      "screen": "notifications-panel",
+      "listIndex": 0,
+      "label": "Invoice sections",
+      "listClass": "rec-tabs",
+      "forced": false,
+      "covered": true,
+      "tabs": 5,
+      "selected": {
+        "text": "Main Data",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 78,
+        "height": 44
+      },
+      "listWidth": 290,
+      "listOverflows": true
+    },
+    {
+      "width": 390,
+      "screen": "notifications-panel",
+      "listIndex": 1,
+      "label": "Notification type",
+      "listClass": "notif-tabs",
+      "forced": false,
+      "covered": null,
+      "tabs": 2,
+      "selected": {
+        "text": "Direct",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "width": 55.94,
+        "height": 44
+      },
+      "listWidth": 338,
+      "listOverflows": false
+    },
+    {
+      "width": 390,
+      "screen": "notifications-panel",
+      "listIndex": 2,
+      "label": "launchpad-quick-title",
+      "listClass": "lp-quick-tabs",
+      "forced": false,
+      "covered": true,
+      "tabs": 2,
+      "selected": {
+        "text": "Starred",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 81.33,
+        "height": 44
+      },
+      "listWidth": 169,
+      "listOverflows": false
+    },
+    {
+      "width": 390,
+      "screen": "hidden-dialogs",
+      "listIndex": 1,
+      "label": "Notification type",
+      "listClass": "notif-tabs",
+      "forced": true,
+      "covered": true,
+      "tabs": 2,
+      "selected": {
+        "text": "Direct",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "width": 55.94,
+        "height": 44
+      },
+      "listWidth": 330,
+      "listOverflows": false
+    },
+    {
+      "width": 390,
+      "screen": "hidden-dialogs",
+      "listIndex": 3,
+      "label": "Parent picker view",
+      "listClass": "geo-view-switch",
+      "forced": true,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "Tree",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 156.19,
+        "height": 44
+      },
+      "listWidth": 318,
+      "listOverflows": false
+    },
+    {
+      "width": 390,
+      "screen": "hidden-dialogs",
+      "listIndex": 4,
+      "label": "Unit picker view",
+      "listClass": "geo-view-switch",
+      "forced": true,
+      "covered": true,
+      "tabs": 2,
+      "selected": {
+        "text": "Tree",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 156.19,
+        "height": 44
+      },
+      "listWidth": 318,
+      "listOverflows": false
+    },
+    {
+      "width": 390,
+      "screen": "hidden-dialogs",
+      "listIndex": 5,
+      "label": "Operation unit details",
+      "listClass": "rec-tabs",
+      "forced": true,
+      "covered": true,
+      "tabs": 4,
+      "selected": {
+        "text": "Address",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 66.81,
+        "height": 44
+      },
+      "listWidth": 286,
+      "listOverflows": true
+    },
+    {
+      "width": 390,
+      "screen": "hidden-dialogs",
+      "listIndex": 6,
+      "label": null,
+      "listClass": "drtabs",
+      "forced": true,
+      "covered": true,
+      "tabs": 2,
+      "selected": {
+        "text": "User Log 3",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "width": 100.86,
+        "height": 44
+      },
+      "listWidth": 335,
+      "listOverflows": false
+    },
+    {
+      "width": 768,
+      "screen": "home",
+      "listIndex": 0,
+      "label": "Invoice sections",
+      "listClass": "rec-tabs",
+      "forced": false,
+      "covered": true,
+      "tabs": 5,
+      "selected": {
+        "text": "Main Data",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 78,
+        "height": 40
+      },
+      "listWidth": 668,
+      "listOverflows": false
+    },
+    {
+      "width": 768,
+      "screen": "home",
+      "listIndex": 2,
+      "label": "launchpad-quick-title",
+      "listClass": "lp-quick-tabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "Starred",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 81.33,
+        "height": 32
+      },
+      "listWidth": 169,
+      "listOverflows": false
+    },
+    {
+      "width": 768,
+      "screen": "invoice-record",
+      "listIndex": 1,
+      "label": "Invoice sections",
+      "listClass": "rec-tabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 5,
+      "selected": {
+        "text": "Main Data",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 78,
+        "height": 40
+      },
+      "listWidth": 668,
+      "listOverflows": false
+    },
+    {
+      "width": 768,
+      "screen": "invoice-activity",
+      "listIndex": 1,
+      "label": "Invoice sections",
+      "listClass": "rec-tabs",
+      "forced": false,
+      "covered": true,
+      "tabs": 5,
+      "selected": {
+        "text": "Main Data",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 78,
+        "height": 40
+      },
+      "listWidth": 668,
+      "listOverflows": false
+    },
+    {
+      "width": 768,
+      "screen": "invoice-activity",
+      "listIndex": 6,
+      "label": null,
+      "listClass": "drtabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "User Log 3",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "width": 100.86,
+        "height": 34
+      },
+      "listWidth": 528,
+      "listOverflows": false
+    },
+    {
+      "width": 768,
+      "screen": "notifications-panel",
+      "listIndex": 0,
+      "label": "Invoice sections",
+      "listClass": "rec-tabs",
+      "forced": false,
+      "covered": true,
+      "tabs": 5,
+      "selected": {
+        "text": "Main Data",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 78,
+        "height": 40
+      },
+      "listWidth": 668,
+      "listOverflows": false
+    },
+    {
+      "width": 768,
+      "screen": "notifications-panel",
+      "listIndex": 1,
+      "label": "Notification type",
+      "listClass": "notif-tabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "Direct",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "width": 55.94,
+        "height": 34
+      },
+      "listWidth": 338,
+      "listOverflows": false
+    },
+    {
+      "width": 768,
+      "screen": "notifications-panel",
+      "listIndex": 2,
+      "label": "launchpad-quick-title",
+      "listClass": "lp-quick-tabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "Starred",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 81.33,
+        "height": 32
+      },
+      "listWidth": 169,
+      "listOverflows": false
+    },
+    {
+      "width": 768,
+      "screen": "hidden-dialogs",
+      "listIndex": 1,
+      "label": "Notification type",
+      "listClass": "notif-tabs",
+      "forced": true,
+      "covered": true,
+      "tabs": 2,
+      "selected": {
+        "text": "Direct",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "width": 55.94,
+        "height": 34
+      },
+      "listWidth": 330,
+      "listOverflows": false
+    },
+    {
+      "width": 768,
+      "screen": "hidden-dialogs",
+      "listIndex": 3,
+      "label": "Parent picker view",
+      "listClass": "geo-view-switch",
+      "forced": true,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "Tree",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 269,
+        "height": 32
+      },
+      "listWidth": 544,
+      "listOverflows": false
+    },
+    {
+      "width": 768,
+      "screen": "hidden-dialogs",
+      "listIndex": 4,
+      "label": "Unit picker view",
+      "listClass": "geo-view-switch",
+      "forced": true,
+      "covered": true,
+      "tabs": 2,
+      "selected": {
+        "text": "Tree",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 337.63,
+        "height": 32
+      },
+      "listWidth": 681,
+      "listOverflows": false
+    },
+    {
+      "width": 768,
+      "screen": "hidden-dialogs",
+      "listIndex": 5,
+      "label": "Operation unit details",
+      "listClass": "rec-tabs",
+      "forced": true,
+      "covered": true,
+      "tabs": 4,
+      "selected": {
+        "text": "Address",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 66.81,
+        "height": 40
+      },
+      "listWidth": 588,
+      "listOverflows": false
+    },
+    {
+      "width": 768,
+      "screen": "hidden-dialogs",
+      "listIndex": 6,
+      "label": null,
+      "listClass": "drtabs",
+      "forced": true,
+      "covered": true,
+      "tabs": 2,
+      "selected": {
+        "text": "User Log 3",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "width": 100.86,
+        "height": 34
+      },
+      "listWidth": 528,
+      "listOverflows": false
+    },
+    {
+      "width": 1024,
+      "screen": "home",
+      "listIndex": 0,
+      "label": "Invoice sections",
+      "listClass": "rec-tabs",
+      "forced": false,
+      "covered": true,
+      "tabs": 5,
+      "selected": {
+        "text": "Main Data",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 78,
+        "height": 32.84
+      },
+      "listWidth": 676,
+      "listOverflows": false
+    },
+    {
+      "width": 1024,
+      "screen": "home",
+      "listIndex": 2,
+      "label": "launchpad-quick-title",
+      "listClass": "lp-quick-tabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "Starred",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 81.33,
+        "height": 32
+      },
+      "listWidth": 169,
+      "listOverflows": false
+    },
+    {
+      "width": 1024,
+      "screen": "invoice-record",
+      "listIndex": 1,
+      "label": "Invoice sections",
+      "listClass": "rec-tabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 5,
+      "selected": {
+        "text": "Main Data",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 78,
+        "height": 32.84
+      },
+      "listWidth": 676,
+      "listOverflows": false
+    },
+    {
+      "width": 1024,
+      "screen": "invoice-activity",
+      "listIndex": 1,
+      "label": "Invoice sections",
+      "listClass": "rec-tabs",
+      "forced": false,
+      "covered": true,
+      "tabs": 5,
+      "selected": {
+        "text": "Main Data",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 78,
+        "height": 32.84
+      },
+      "listWidth": 676,
+      "listOverflows": false
+    },
+    {
+      "width": 1024,
+      "screen": "invoice-activity",
+      "listIndex": 6,
+      "label": null,
+      "listClass": "drtabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "User Log 3",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "width": 100.86,
+        "height": 34
+      },
+      "listWidth": 528,
+      "listOverflows": false
+    },
+    {
+      "width": 1024,
+      "screen": "notifications-panel",
+      "listIndex": 0,
+      "label": "Invoice sections",
+      "listClass": "rec-tabs",
+      "forced": false,
+      "covered": true,
+      "tabs": 5,
+      "selected": {
+        "text": "Main Data",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 78,
+        "height": 32.84
+      },
+      "listWidth": 676,
+      "listOverflows": false
+    },
+    {
+      "width": 1024,
+      "screen": "notifications-panel",
+      "listIndex": 1,
+      "label": "Notification type",
+      "listClass": "notif-tabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "Direct",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "width": 55.94,
+        "height": 34
+      },
+      "listWidth": 338,
+      "listOverflows": false
+    },
+    {
+      "width": 1024,
+      "screen": "notifications-panel",
+      "listIndex": 2,
+      "label": "launchpad-quick-title",
+      "listClass": "lp-quick-tabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "Starred",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 81.33,
+        "height": 32
+      },
+      "listWidth": 169,
+      "listOverflows": false
+    },
+    {
+      "width": 1024,
+      "screen": "hidden-dialogs",
+      "listIndex": 1,
+      "label": "Notification type",
+      "listClass": "notif-tabs",
+      "forced": true,
+      "covered": true,
+      "tabs": 2,
+      "selected": {
+        "text": "Direct",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "width": 55.94,
+        "height": 34
+      },
+      "listWidth": 330,
+      "listOverflows": false
+    },
+    {
+      "width": 1024,
+      "screen": "hidden-dialogs",
+      "listIndex": 3,
+      "label": "Parent picker view",
+      "listClass": "geo-view-switch",
+      "forced": true,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "Tree",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 269,
+        "height": 32
+      },
+      "listWidth": 544,
+      "listOverflows": false
+    },
+    {
+      "width": 1024,
+      "screen": "hidden-dialogs",
+      "listIndex": 4,
+      "label": "Unit picker view",
+      "listClass": "geo-view-switch",
+      "forced": true,
+      "covered": true,
+      "tabs": 2,
+      "selected": {
+        "text": "Tree",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 369,
+        "height": 32
+      },
+      "listWidth": 744,
+      "listOverflows": false
+    },
+    {
+      "width": 1024,
+      "screen": "hidden-dialogs",
+      "listIndex": 5,
+      "label": "Operation unit details",
+      "listClass": "rec-tabs",
+      "forced": true,
+      "covered": true,
+      "tabs": 4,
+      "selected": {
+        "text": "Address",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 66.81,
+        "height": 40
+      },
+      "listWidth": 793,
+      "listOverflows": false
+    },
+    {
+      "width": 1024,
+      "screen": "hidden-dialogs",
+      "listIndex": 6,
+      "label": null,
+      "listClass": "drtabs",
+      "forced": true,
+      "covered": true,
+      "tabs": 2,
+      "selected": {
+        "text": "User Log 3",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "width": 100.86,
+        "height": 34
+      },
+      "listWidth": 528,
+      "listOverflows": false
+    },
+    {
+      "width": 1440,
+      "screen": "home",
+      "listIndex": 0,
+      "label": "Invoice sections",
+      "listClass": "rec-tabs",
+      "forced": false,
+      "covered": true,
+      "tabs": 5,
+      "selected": {
+        "text": "Main Data",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 78,
+        "height": 32.84
+      },
+      "listWidth": 1092,
+      "listOverflows": false
+    },
+    {
+      "width": 1440,
+      "screen": "home",
+      "listIndex": 2,
+      "label": "launchpad-quick-title",
+      "listClass": "lp-quick-tabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "Starred",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 81.33,
+        "height": 32
+      },
+      "listWidth": 169,
+      "listOverflows": false,
+      "keyboard": {
+        "tabs": 2,
+        "tabIndex": [
+          0,
+          -1
+        ],
+        "arrowRightMovesFocus": true,
+        "arrowRightSelects": true,
+        "arrowLeftMovesFocus": true,
+        "endMovesFocus": true,
+        "homeMovesFocus": true
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "invoice-record",
+      "listIndex": 1,
+      "label": "Invoice sections",
+      "listClass": "rec-tabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 5,
+      "selected": {
+        "text": "Main Data",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 78,
+        "height": 32.84
+      },
+      "listWidth": 1092,
+      "listOverflows": false,
+      "keyboard": {
+        "tabs": 5,
+        "tabIndex": [
+          0,
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "arrowRightMovesFocus": true,
+        "arrowRightSelects": true,
+        "arrowLeftMovesFocus": true,
+        "endMovesFocus": true,
+        "homeMovesFocus": true
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "invoice-activity",
+      "listIndex": 1,
+      "label": "Invoice sections",
+      "listClass": "rec-tabs",
+      "forced": false,
+      "covered": true,
+      "tabs": 5,
+      "selected": {
+        "text": "Main Data",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 78,
+        "height": 32.84
+      },
+      "listWidth": 1092,
+      "listOverflows": false
+    },
+    {
+      "width": 1440,
+      "screen": "invoice-activity",
+      "listIndex": 6,
+      "label": null,
+      "listClass": "drtabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "User Log 3",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "width": 100.86,
+        "height": 34
+      },
+      "listWidth": 528,
+      "listOverflows": false,
+      "keyboard": {
+        "tabs": 2,
+        "tabIndex": [
+          0,
+          -1
+        ],
+        "arrowRightMovesFocus": true,
+        "arrowRightSelects": true,
+        "arrowLeftMovesFocus": true,
+        "endMovesFocus": true,
+        "homeMovesFocus": true
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "geo-record",
+      "listIndex": 2,
+      "label": "Hierarchy view",
+      "listClass": "geo-view-switch",
+      "forced": false,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "Tree",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 189.59,
+        "height": 32
+      },
+      "listWidth": 385,
+      "listOverflows": false,
+      "keyboard": {
+        "tabs": 2,
+        "tabIndex": [
+          0,
+          -1
+        ],
+        "arrowRightMovesFocus": true,
+        "arrowRightSelects": true,
+        "arrowLeftMovesFocus": true,
+        "endMovesFocus": true,
+        "homeMovesFocus": true
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "notifications-panel",
+      "listIndex": 0,
+      "label": "Invoice sections",
+      "listClass": "rec-tabs",
+      "forced": false,
+      "covered": true,
+      "tabs": 5,
+      "selected": {
+        "text": "Main Data",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 78,
+        "height": 32.84
+      },
+      "listWidth": 1092,
+      "listOverflows": false
+    },
+    {
+      "width": 1440,
+      "screen": "notifications-panel",
+      "listIndex": 1,
+      "label": "Notification type",
+      "listClass": "notif-tabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "Direct",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "width": 55.94,
+        "height": 34
+      },
+      "listWidth": 338,
+      "listOverflows": false,
+      "keyboard": {
+        "tabs": 2,
+        "tabIndex": [
+          0,
+          -1
+        ],
+        "arrowRightMovesFocus": true,
+        "arrowRightSelects": true,
+        "arrowLeftMovesFocus": true,
+        "endMovesFocus": true,
+        "homeMovesFocus": true
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "notifications-panel",
+      "listIndex": 2,
+      "label": "launchpad-quick-title",
+      "listClass": "lp-quick-tabs",
+      "forced": false,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "Starred",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 81.33,
+        "height": 32
+      },
+      "listWidth": 169,
+      "listOverflows": false,
+      "keyboard": {
+        "tabs": 2,
+        "tabIndex": [
+          0,
+          -1
+        ],
+        "arrowRightMovesFocus": true,
+        "arrowRightSelects": true,
+        "arrowLeftMovesFocus": true,
+        "endMovesFocus": true,
+        "homeMovesFocus": true
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "hidden-dialogs",
+      "listIndex": 1,
+      "label": "Notification type",
+      "listClass": "notif-tabs",
+      "forced": true,
+      "covered": true,
+      "tabs": 2,
+      "selected": {
+        "text": "Direct",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "width": 55.94,
+        "height": 34
+      },
+      "listWidth": 330,
+      "listOverflows": false
+    },
+    {
+      "width": 1440,
+      "screen": "hidden-dialogs",
+      "listIndex": 3,
+      "label": "Parent picker view",
+      "listClass": "geo-view-switch",
+      "forced": true,
+      "covered": false,
+      "tabs": 2,
+      "selected": {
+        "text": "Tree",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 269,
+        "height": 32
+      },
+      "listWidth": 544,
+      "listOverflows": false,
+      "keyboard": {
+        "tabs": 2,
+        "tabIndex": [
+          0,
+          0
+        ],
+        "arrowRightMovesFocus": true,
+        "arrowRightSelects": true,
+        "arrowLeftMovesFocus": true,
+        "endMovesFocus": true,
+        "homeMovesFocus": true
+      }
+    },
+    {
+      "width": 1440,
+      "screen": "hidden-dialogs",
+      "listIndex": 4,
+      "label": "Unit picker view",
+      "listClass": "geo-view-switch",
+      "forced": true,
+      "covered": true,
+      "tabs": 2,
+      "selected": {
+        "text": "Tree",
+        "padding": "4px 8px 4px 8px",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "lineHeight": "16px",
+        "width": 369,
+        "height": 32
+      },
+      "listWidth": 744,
+      "listOverflows": false
+    },
+    {
+      "width": 1440,
+      "screen": "hidden-dialogs",
+      "listIndex": 5,
+      "label": "Operation unit details",
+      "listClass": "rec-tabs",
+      "forced": true,
+      "covered": true,
+      "tabs": 4,
+      "selected": {
+        "text": "Address",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "lineHeight": "18.85px",
+        "width": 66.81,
+        "height": 40
+      },
+      "listWidth": 1126,
+      "listOverflows": false
+    },
+    {
+      "width": 1440,
+      "screen": "hidden-dialogs",
+      "listIndex": 6,
+      "label": null,
+      "listClass": "drtabs",
+      "forced": true,
+      "covered": true,
+      "tabs": 2,
+      "selected": {
+        "text": "User Log 3",
+        "padding": "6px 8px 6px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "width": 100.86,
+        "height": 34
+      },
+      "listWidth": 528,
+      "listOverflows": false
+    }
+  ]
+}

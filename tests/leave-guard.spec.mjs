@@ -1,5 +1,5 @@
 import {test, expect} from '@playwright/test';
-import {settle} from './support/browser.mjs';
+import {openSideNavigation, settle} from './support/browser.mjs';
 
 // SHL-04 / contract C1: leaving a record page that reports unsaved work goes
 // through the same guard whatever the route (rail leaf, app switcher, browser
@@ -66,6 +66,7 @@ async function expectGuardThenStay(page, value) {
 /** Rail icons sit under the floating resize handle; click the icon's start
  *  edge, which is clear of it in both writing directions. */
 async function clickRailIcon(page, label) {
+  await openSideNavigation(page);
   const icon = page.locator(`.nc2-icn[aria-label="${label}"]`);
   await expect(icon).toBeVisible();
   const box = await icon.boundingBox();
@@ -90,7 +91,7 @@ test('dirty invoice + rail leaf shows guard', async ({page}) => {
   await clickRailIcon(page, 'Customers');
   await expectGuardThenStay(page, value);
 
-  if (page.viewportSize().width >= 900) {
+  if (page.viewportSize().width >= 1024) {
     // The Customers leaf is the route under test: Stay keeps the invoice,
     // Leave shows the Customers list.
     await clickPanelRow(page, 'Customers');
@@ -103,11 +104,9 @@ test('dirty invoice + rail leaf shows guard', async ({page}) => {
     await expect(page.locator('.customer-list-view')).toBeVisible();
     await expect.poll(() => pathOf(page.url())).toBe('/customers/list');
   } else {
-    // Compact viewports: the rail is an on-demand flyout that the guard's Stay
-    // closes again, so another app's leaf cannot be reached while the invoice
-    // is dirty. The rail icon is the only rail route there; Leave lands on the
-    // Customers app.
-    await expect(page.locator('.side.collapsed')).toBeVisible();
+    // Below `md` the guard's Stay leaves the side navigation drawer open, and
+    // the rail icon asks again; Leave lands on the Customers app.
+    await expect(page.locator('.side')).toBeVisible();
     await clickRailIcon(page, 'Customers');
     await expect(guard(page)).toBeVisible();
     await page.locator('#g-discard').click();

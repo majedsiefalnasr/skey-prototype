@@ -1,0 +1,384 @@
+{
+  "issue": 60,
+  "before": "commit 612dcb5",
+  "method": "Chromium, reduced motion, two static builds, /customers/list, height 844, touch below 1024px. Widths in px; 0 means not rendered.",
+  "rows": [
+    {
+      "build": "before",
+      "width": 320,
+      "direction": "ltr",
+      "initial": {
+        "navigation": 52,
+        "content": 268,
+        "backdrop": 0,
+        "documentOverflow": 0
+      },
+      "afterToggle": {
+        "navigation": 276,
+        "content": 320,
+        "backdrop": 0,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "before",
+      "width": 320,
+      "direction": "rtl",
+      "initial": {
+        "navigation": 52,
+        "content": 268,
+        "backdrop": 0,
+        "documentOverflow": 0
+      },
+      "afterToggle": {
+        "navigation": 276,
+        "content": 320,
+        "backdrop": 0,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "before",
+      "width": 390,
+      "direction": "ltr",
+      "initial": {
+        "navigation": 52,
+        "content": 338,
+        "backdrop": 0,
+        "documentOverflow": 0
+      },
+      "afterToggle": {
+        "navigation": 316,
+        "content": 390,
+        "backdrop": 0,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "before",
+      "width": 390,
+      "direction": "rtl",
+      "initial": {
+        "navigation": 52,
+        "content": 338,
+        "backdrop": 0,
+        "documentOverflow": 0
+      },
+      "afterToggle": {
+        "navigation": 316,
+        "content": 390,
+        "backdrop": 0,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "before",
+      "width": 768,
+      "direction": "ltr",
+      "initial": {
+        "navigation": 52,
+        "content": 716,
+        "backdrop": 0,
+        "documentOverflow": 0
+      },
+      "afterToggle": {
+        "navigation": 316,
+        "content": 768,
+        "backdrop": 0,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "before",
+      "width": 768,
+      "direction": "rtl",
+      "initial": {
+        "navigation": 52,
+        "content": 716,
+        "backdrop": 0,
+        "documentOverflow": 0
+      },
+      "afterToggle": {
+        "navigation": 316,
+        "content": 768,
+        "backdrop": 0,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "before",
+      "width": 1023,
+      "direction": "ltr",
+      "initial": {
+        "navigation": 52,
+        "content": 971,
+        "backdrop": 0,
+        "documentOverflow": 0
+      },
+      "afterToggle": {
+        "navigation": 316,
+        "content": 1023,
+        "backdrop": 0,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "before",
+      "width": 1023,
+      "direction": "rtl",
+      "initial": {
+        "navigation": 52,
+        "content": 971,
+        "backdrop": 0,
+        "documentOverflow": 0
+      },
+      "afterToggle": {
+        "navigation": 316,
+        "content": 1023,
+        "backdrop": 0,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "before",
+      "width": 1024,
+      "direction": "ltr",
+      "initial": {
+        "navigation": 316,
+        "content": 708,
+        "backdrop": 0,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "before",
+      "width": 1024,
+      "direction": "rtl",
+      "initial": {
+        "navigation": 316,
+        "content": 708,
+        "backdrop": 0,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "before",
+      "width": 1440,
+      "direction": "ltr",
+      "initial": {
+        "navigation": 316,
+        "content": 1124,
+        "backdrop": 0,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "before",
+      "width": 1440,
+      "direction": "rtl",
+      "initial": {
+        "navigation": 316,
+        "content": 1124,
+        "backdrop": 0,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "after",
+      "width": 320,
+      "direction": "ltr",
+      "initial": {
+        "navigation": 0,
+        "content": 320,
+        "backdrop": 0,
+        "documentOverflow": 0
+      },
+      "afterToggle": {
+        "navigation": 276,
+        "content": 320,
+        "backdrop": 320,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "after",
+      "width": 320,
+      "direction": "rtl",
+      "initial": {
+        "navigation": 0,
+        "content": 320,
+        "backdrop": 0,
+        "documentOverflow": 0
+      },
+      "afterToggle": {
+        "navigation": 276,
+        "content": 320,
+        "backdrop": 320,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "after",
+      "width": 390,
+      "direction": "ltr",
+      "initial": {
+        "navigation": 0,
+        "content": 390,
+        "backdrop": 0,
+        "documentOverflow": 0
+      },
+      "afterToggle": {
+        "navigation": 316,
+        "content": 390,
+        "backdrop": 390,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "after",
+      "width": 390,
+      "direction": "rtl",
+      "initial": {
+        "navigation": 0,
+        "content": 390,
+        "backdrop": 0,
+        "documentOverflow": 0
+      },
+      "afterToggle": {
+        "navigation": 316,
+        "content": 390,
+        "backdrop": 390,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "after",
+      "width": 768,
+      "direction": "ltr",
+      "initial": {
+        "navigation": 0,
+        "content": 768,
+        "backdrop": 0,
+        "documentOverflow": 0
+      },
+      "afterToggle": {
+        "navigation": 316,
+        "content": 768,
+        "backdrop": 768,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "after",
+      "width": 768,
+      "direction": "rtl",
+      "initial": {
+        "navigation": 0,
+        "content": 768,
+        "backdrop": 0,
+        "documentOverflow": 0
+      },
+      "afterToggle": {
+        "navigation": 316,
+        "content": 768,
+        "backdrop": 768,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "after",
+      "width": 1023,
+      "direction": "ltr",
+      "initial": {
+        "navigation": 0,
+        "content": 1023,
+        "backdrop": 0,
+        "documentOverflow": 0
+      },
+      "afterToggle": {
+        "navigation": 316,
+        "content": 1023,
+        "backdrop": 1023,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "after",
+      "width": 1023,
+      "direction": "rtl",
+      "initial": {
+        "navigation": 0,
+        "content": 1023,
+        "backdrop": 0,
+        "documentOverflow": 0
+      },
+      "afterToggle": {
+        "navigation": 316,
+        "content": 1023,
+        "backdrop": 1023,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "after",
+      "width": 1024,
+      "direction": "ltr",
+      "initial": {
+        "navigation": 316,
+        "content": 708,
+        "backdrop": 0,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "after",
+      "width": 1024,
+      "direction": "rtl",
+      "initial": {
+        "navigation": 316,
+        "content": 708,
+        "backdrop": 0,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "after",
+      "width": 1440,
+      "direction": "ltr",
+      "initial": {
+        "navigation": 316,
+        "content": 1124,
+        "backdrop": 0,
+        "documentOverflow": 0
+      }
+    },
+    {
+      "build": "after",
+      "width": 1440,
+      "direction": "rtl",
+      "initial": {
+        "navigation": 316,
+        "content": 1124,
+        "backdrop": 0,
+        "documentOverflow": 0
+      }
+    }
+  ],
+  "historyAt390After": [
+    {
+      "step": "rail icon tapped in the open navigation",
+      "path": "/vendors",
+      "navigationVisible": true
+    },
+    {
+      "step": "Back",
+      "path": "/customers/list",
+      "navigationVisible": true
+    },
+    {
+      "step": "Forward",
+      "path": "/vendors",
+      "navigationVisible": false
+    }
+  ]
+}

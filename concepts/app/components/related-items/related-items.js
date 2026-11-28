@@ -15,7 +15,7 @@ const ROW_CLASS = 'flex min-w-0 items-start gap-2 rounded-lg border border-line 
 const OPEN_CLASS =
   'grid min-w-0 flex-1 grid-cols-[32px_minmax(0,1fr)] items-start gap-3 rounded border-0 bg-transparent p-0 text-start hover:[&_.rel-title]:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]'
 const MENU_ITEM_CLASS =
-  'flex min-h-8 w-full items-center gap-2 rounded-[5px] border-0 bg-transparent px-2 py-1.5 text-start text-[13px] text-ink hover:bg-[var(--line-2)] focus-visible:bg-[var(--line-2)] focus-visible:outline-none'
+  'flex min-h-8 w-full items-center gap-2 rounded-md border-0 bg-transparent px-2 py-1.5 text-start text-body text-ink hover:bg-[var(--line-2)] focus-visible:bg-[var(--line-2)] focus-visible:outline-none'
 
 const typeBadge = type =>
   `<span class="badge gray inline-flex shrink-0 items-center gap-1">${icon(TYPE_META[type].icon, 11)}<span>${escapeHtml(t(TYPE_META[type].label))}</span></span>`
@@ -63,7 +63,7 @@ export function createRelatedItems({store, toast, currentUserId, users = [], ope
   function rowMarkup({ref, entity}, index, readOnly) {
     if (!entity) {
       return `<li class="${ROW_CLASS} border-dashed text-muted" data-related-row data-unavailable>
-        <span class="grid min-w-0 flex-1 grid-cols-[32px_minmax(0,1fr)] items-start gap-3">${typeIcon(ref.type)}<span class="min-w-0"><span class="flex items-start justify-between gap-3"><span class="min-w-0 text-[13px] font-semibold">${t("Unavailable item")}</span>${typeLabel(ref.type)}</span><span class="mt-1 block text-xs">This ${escapeHtml(TYPE_META[ref.type].label.toLowerCase())} was deleted.</span></span></span>
+        <span class="grid min-w-0 flex-1 grid-cols-[32px_minmax(0,1fr)] items-start gap-3">${typeIcon(ref.type)}<span class="min-w-0"><span class="flex items-start justify-between gap-3"><span class="min-w-0 text-body font-semibold">${t("Unavailable item")}</span>${typeLabel(ref.type)}</span><span class="mt-1 block text-xs">This ${escapeHtml(TYPE_META[ref.type].label.toLowerCase())} was deleted.</span></span></span>
         ${readOnly ? '' : `<button type="button" class="ibtn" data-related-remove="${index}" aria-label="${escapeHtml(t("Remove link to unavailable item"))}">${icon('i-x')}</button>`}
       </li>`
     }
@@ -71,7 +71,7 @@ export function createRelatedItems({store, toast, currentUserId, users = [], ope
     return `<li class="${ROW_CLASS}" data-related-row data-type="${ref.type}">
       <button type="button" class="${OPEN_CLASS}" data-related-open="${index}" aria-label="Open ${escapeHtml(t(TYPE_META[ref.type].label))}: ${escapeHtml(title)}">
         ${typeIcon(ref.type)}
-        <span class="min-w-0"><span class="flex items-start justify-between gap-3"><span class="rel-title min-w-0 flex-1 text-[13px] font-semibold leading-5 text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(title)}</span>${typeLabel(ref.type)}</span><span class="mt-1 block text-xs leading-5 text-muted [overflow-wrap:anywhere]">${escapeHtml(metaOf(entity))}</span></span>
+        <span class="min-w-0"><span class="flex items-start justify-between gap-3"><span class="rel-title min-w-0 flex-1 text-body font-semibold leading-5 text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(title)}</span>${typeLabel(ref.type)}</span><span class="mt-1 block text-xs leading-5 text-muted [overflow-wrap:anywhere]">${escapeHtml(metaOf(entity))}</span></span>
       </button>
       ${readOnly ? '' : `<button type="button" class="ibtn" data-related-remove="${index}" aria-label="Remove link to ${escapeHtml(title)}">${icon('i-x')}</button>`}
     </li>`
@@ -86,12 +86,12 @@ export function createRelatedItems({store, toast, currentUserId, users = [], ope
   function render(host, ref, {allowCreate = true, readOnly = false} = {}) {
     const items = sortedRelated(ref)
     host.innerHTML = `<div class="flex items-center gap-2">
-        <h3 class="flex-1 text-[13px] font-semibold text-ink">${t("Related items")} <span class="font-normal text-muted">(${items.length})</span></h3>
+        <h3 class="flex-1 text-body font-semibold text-ink">${t("Related items")} <span class="font-normal text-muted">(${items.length})</span></h3>
       </div>
       ${
         items.length
           ? `<ul class="mt-2 grid list-none gap-1.5 p-0">${items.map((item, index) => rowMarkup(item, index, readOnly)).join('')}</ul>`
-          : `<p class="mt-1.5 text-[13px] text-muted" data-related-empty>${t(readOnly ? 'No related items yet.' : 'No related items yet. Link existing work or create something new from here.')}</p>`
+          : `<p class="mt-1.5 text-body text-muted" data-related-empty>${t(readOnly ? 'No related items yet.' : 'No related items yet. Link existing work or create something new from here.')}</p>`
       }
       ${readOnly ? '' : `<div class="mt-3 flex flex-wrap gap-2">
         <button type="button" class="lbtn" data-related-link>${icon('i-plus')} Link existing…</button>
@@ -176,7 +176,7 @@ export function createRelatedItems({store, toast, currentUserId, users = [], ope
       .filter(([id]) => types.length > 1 || id !== 'all')
       .map(
         ([id, label]) =>
-          `<button type="button" data-type="${id}" aria-pressed="${id === filter}" class="min-h-7 rounded-full border border-line bg-surface px-2.5 text-xs text-ink hover:bg-[var(--line-2)] aria-pressed:border-[var(--accent)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:text-accent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]">${escapeHtml(t(label))}</button>`
+          `<button type="button" data-type="${id}" aria-pressed="${id === filter}" class="min-h-7 rounded-full border border-line bg-surface px-2 text-xs text-ink hover:bg-[var(--line-2)] aria-pressed:border-[var(--accent)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:text-accent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]">${escapeHtml(t(label))}</button>`
       )
       .join('')
 
@@ -197,10 +197,10 @@ export function createRelatedItems({store, toast, currentUserId, users = [], ope
             .map((entity, index) => {
               const title = titleOf(entity)
               const meta = metaOf(entity)
-              return `<li role="option" id="collab-picker-option-${index}" data-index="${index}" aria-selected="${index === active}" aria-label="${escapeHtml(`${TYPE_META[entity.type].label} ${title}, ${meta}`)}" class="flex cursor-pointer items-start gap-2 rounded-md px-2 py-2 hover:bg-[var(--line-2)] aria-selected:bg-[var(--accent-soft)]">${typeBadge(entity.type)}<span class="min-w-0"><span class="block text-[13px] font-medium text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(title)}</span><span class="block text-xs text-muted">${escapeHtml(meta)}</span></span></li>`
+              return `<li role="option" id="collab-picker-option-${index}" data-index="${index}" aria-selected="${index === active}" aria-label="${escapeHtml(`${TYPE_META[entity.type].label} ${title}, ${meta}`)}" class="flex cursor-pointer items-start gap-2 rounded-md px-2 py-2 hover:bg-[var(--line-2)] aria-selected:bg-[var(--accent-soft)]">${typeBadge(entity.type)}<span class="min-w-0"><span class="block text-body font-medium text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(title)}</span><span class="block text-xs text-muted">${escapeHtml(meta)}</span></span></li>`
             })
             .join('')
-        : `<li class="px-2 py-6 text-center text-[13px] text-muted" role="presentation">${query ? `Nothing matches “${escapeHtml(search.value.trim())}”.` : 'Everything here is already linked.'}</li>`
+        : `<li class="px-2 py-6 text-center text-body text-muted" role="presentation">${query ? `Nothing matches “${escapeHtml(search.value.trim())}”.` : 'Everything here is already linked.'}</li>`
       search.setAttribute('aria-activedescendant', options.length ? `collab-picker-option-${active}` : '')
     }
 

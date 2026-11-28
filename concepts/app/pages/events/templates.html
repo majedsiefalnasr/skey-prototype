@@ -1,14 +1,14 @@
 <template class="events-tpl">
   <div class="events-view collab-view flex min-h-0 flex-1 flex-col" hidden>
-    <div class="phead flex items-start gap-5 px-4 [.d1_&]:[padding:11px_0]">
-      <div class="l min-w-0 flex-1">
-        <nav class="flex items-center gap-1.5 text-[13px] text-muted [&_a]:text-accent [&_a]:no-underline [&_a:hover]:underline" aria-label="Breadcrumb">
+    <div class="phead flex items-start gap-5 px-4 [.d1_&]:[padding:var(--ds-space-150)_0] flex-wrap">
+      <div class="l min-w-0 flex-[1_1_20rem]">
+        <nav class="flex items-center gap-1.5 text-body text-muted [&_a]:text-accent [&_a]:no-underline [&_a:hover]:underline" aria-label="Breadcrumb">
           <a href="/" data-home-link data-i18n="Home">Home</a><span class="sep" aria-hidden="true">›</span>
           <a href="#" data-collab-home data-i18n="Help Screens">Help Screens</a><span aria-hidden="true">›</span
           ><span aria-current="page" data-i18n="Events">Events</span>
         </nav>
-        <div class="mt-2"><h1 class="text-[23px] font-semibold leading-tight text-ink [body.density-compact_&]:text-[20px]" data-i18n="Events">Events</h1></div>
-        <p class="mt-0.5 text-[13px] text-muted" data-i18n="Meetings, holidays and other time on the calendar.">Meetings, holidays and other time on the calendar.</p>
+        <div class="mt-2"><h1 class="text-page-title font-semibold leading-tight text-ink [body.density-compact_&]:text-title" data-i18n="Events">Events</h1></div>
+        <p class="mt-0.5 text-body text-muted" data-i18n="Meetings, holidays and other time on the calendar.">Meetings, holidays and other time on the calendar.</p>
       </div>
       <div class="r [.d1_.phead_&]:flex [.d1_.phead_&]:items-center [.d1_.phead_&]:gap-1 [.d1_.phead_&]:mt-1.5!">
         <button type="button" class="lbtn pri" data-collab-new>
@@ -17,7 +17,7 @@
         </button>
       </div>
     </div>
-    <div class="flex flex-wrap items-center gap-2 pb-2 pt-3 [@media(max-width:900px)]:px-2" data-collab-toolbar></div>
-    <div class="min-h-0 flex-1 pb-4 [@media(max-width:900px)]:mx-2 max-[720px]:pb-[calc(1rem+var(--flag-reserve,0px))]" data-collab-body></div>
+    <div class="flex flex-wrap items-center gap-2 pb-2 pt-3" data-collab-toolbar></div>
+    <div class="min-h-0 flex-1 pb-4 [@media(max-width:theme(--breakpoint-flag))]:pb-[calc(var(--ds-space-200)+var(--flag-reserve,0px))]" data-collab-body></div>
   </div>
 </template>

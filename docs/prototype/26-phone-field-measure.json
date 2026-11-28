@@ -1,0 +1,139 @@
+{
+  "base": "http://127.0.0.1:4173",
+  "widths": [
+    320,
+    360,
+    375,
+    390
+  ],
+  "results": [
+    {
+      "width": 320,
+      "screen": "profile",
+      "path": "/system/profile",
+      "fieldCount": 5,
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 320,
+      "screen": "people-record",
+      "path": "/help-screens/people-data",
+      "fieldCount": 0,
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 320,
+      "screen": "customer-record",
+      "path": "/customers/list",
+      "fieldCount": 38,
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 320,
+      "screen": "invoices-list",
+      "path": "/sales-systems-management/sales-invoices",
+      "fieldCount": 1,
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 360,
+      "screen": "profile",
+      "path": "/system/profile",
+      "fieldCount": 5,
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 360,
+      "screen": "people-record",
+      "path": "/help-screens/people-data",
+      "fieldCount": 0,
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 360,
+      "screen": "customer-record",
+      "path": "/customers/list",
+      "fieldCount": 38,
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 360,
+      "screen": "invoices-list",
+      "path": "/sales-systems-management/sales-invoices",
+      "fieldCount": 1,
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 375,
+      "screen": "profile",
+      "path": "/system/profile",
+      "fieldCount": 5,
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 375,
+      "screen": "people-record",
+      "path": "/help-screens/people-data",
+      "fieldCount": 0,
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 375,
+      "screen": "customer-record",
+      "path": "/customers/list",
+      "fieldCount": 38,
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 375,
+      "screen": "invoices-list",
+      "path": "/sales-systems-management/sales-invoices",
+      "fieldCount": 1,
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 390,
+      "screen": "profile",
+      "path": "/system/profile",
+      "fieldCount": 5,
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 390,
+      "screen": "people-record",
+      "path": "/help-screens/people-data",
+      "fieldCount": 0,
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 390,
+      "screen": "customer-record",
+      "path": "/customers/list",
+      "fieldCount": 38,
+      "clippedCount": 0,
+      "clipped": []
+    },
+    {
+      "width": 390,
+      "screen": "invoices-list",
+      "path": "/sales-systems-management/sales-invoices",
+      "fieldCount": 1,
+      "clippedCount": 0,
+      "clipped": []
+    }
+  ]
+}

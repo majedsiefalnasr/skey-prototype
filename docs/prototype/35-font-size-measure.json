@@ -1,0 +1,81 @@
+{
+  "ticket": 35,
+  "method": "Computed font size, line height and box of every visible element under body, before and after the token change. Each reading before the change is traced to its role token with a sentinel value, then compared with the set D size. A box counts as changed when its height moves by more than 1px. Dialogs were not opened.",
+  "screens": [
+    "home",
+    "app-for-you",
+    "placeholder",
+    "invoice-list",
+    "invoice-cards",
+    "invoice-record",
+    "customer-list",
+    "customer-cards",
+    "customer-record",
+    "geo-list",
+    "geo-record",
+    "notes",
+    "activities",
+    "events",
+    "people",
+    "people-record",
+    "email",
+    "email-stack",
+    "email-filter-badge",
+    "notifications",
+    "notifications-panel",
+    "profile",
+    "profile-appearance",
+    "organization-overview",
+    "organization-settings",
+    "organization-users",
+    "organization-application-sessions",
+    "organization-database-sessions",
+    "signin"
+  ],
+  "widths": [390, 768, 1024, 1440],
+  "rtlWidths": [390],
+  "runs": 145,
+  "elementsCompared": 48644,
+  "sizeChanges": 6465,
+  "sizeChangesWithoutRole": 0,
+  "sizeMismatches": 0,
+  "lineHeightChanges": 6924,
+  "heightChanges": {"total": 2664, "taller": 661, "shorter": 2003, "maxTallerPx": 34, "maxShorterPx": 70},
+  "controlsAt390": {"shorter": 4, "droppedBelow44px": 0, "droppedBelow24px": 0},
+  "missing": 0,
+  "newClippedReadings": 12,
+  "newSpills": 0,
+  "newOffScreen": 0,
+  "newHorizontalScroll": 0,
+  "newPageOverflow": 0,
+  "newClipped": [
+    {"screen": "invoice-cards", "widths": ["390", "390-rtl"], "readings": 7},
+    {"screen": "customer-cards", "text": "Wholesale customer", "widths": ["390", "390-rtl", "768", "1024"], "readings": 4},
+    {"screen": "email-stack", "widths": ["1440"], "readings": 1}
+  ],
+  "rolesNotMeasured": ["stat-delta", "heading-md"],
+  "invoiceCardsAt390": {
+    "note": "Titles and document numbers that end with an ellipsis, out of 16, on the first 8 cards.",
+    "pointerLtr": {"before": 15, "after": 16},
+    "touchLtr": {"before": 16, "after": 16},
+    "pointerRtl": {"before": 3, "after": 9},
+    "touchRtl": {"before": 9, "after": 14}
+  },
+  "homeTiles": {
+    "fix": "Tile column gap 20px to 12px from 768 to 1023px.",
+    "widthsChecked": [390, 767, 768, 800, 900, 1023, 1024, 1440],
+    "densities": ["compact", "default"],
+    "defaultDensityLtrNamesCutHorizontally": {"768": {"before": 12, "after": 10}, "800": {"before": 11, "after": 2}},
+    "newlyCutVertically": [
+      {"name": "Fixed Assests System", "width": 767, "density": "default"},
+      {"name": "Customer Relations Management", "width": 768, "density": "compact"},
+      {"name": "Real Estate Management System", "width": 800, "density": "compact"}
+    ]
+  },
+  "notificationBadge": {
+    "digits": ["1", "9", "12", "99", "128"],
+    "heightPx": {"before": 14, "after": 16},
+    "digitToBorderTopPx": {"before": [3, 3.25], "after": [1.25, 1.5]},
+    "digitToBorderBottomPx": {"before": [-0.25, 0], "after": [1.75, 2]}
+  }
+}

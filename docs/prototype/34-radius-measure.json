@@ -1,0 +1,89 @@
+{
+  "ticket": 34,
+  "method": "Computed corner radii of every element, ::before and ::after under body, before and after the token change. Each reading before the change is traced to its legacy token with a sentinel value, then compared with the mapped ADS step. A box counts as changed when its width or height moves by more than 1px. Dialogs and menus were not opened.",
+  "screens": [
+    "home",
+    "app-for-you",
+    "placeholder",
+    "invoice-list",
+    "invoice-record",
+    "customer-list",
+    "customer-record",
+    "geo-list",
+    "geo-record",
+    "notes",
+    "activities",
+    "events",
+    "people",
+    "people-record",
+    "email",
+    "notifications",
+    "profile",
+    "profile-appearance",
+    "organization",
+    "signin"
+  ],
+  "widths": [
+    390,
+    768,
+    1024,
+    1440
+  ],
+  "runs": 80,
+  "radiusRowsCompared": 70864,
+  "boxesCompared": 38745,
+  "perToken": {
+    "1": {
+      "to": 2,
+      "elements": 0,
+      "visible": 0,
+      "maxShownDeltaPx": 0
+    },
+    "3": {
+      "to": 4,
+      "elements": 1248,
+      "visible": 340,
+      "maxShownDeltaPx": 1
+    },
+    "5": {
+      "to": 6,
+      "elements": 3288,
+      "visible": 1894,
+      "maxShownDeltaPx": 1
+    },
+    "7": {
+      "to": 8,
+      "elements": 2032,
+      "visible": 17,
+      "maxShownDeltaPx": 1
+    },
+    "9": {
+      "to": 8,
+      "elements": 564,
+      "visible": 4,
+      "maxShownDeltaPx": 1
+    },
+    "10": {
+      "to": 12,
+      "elements": 116,
+      "visible": 116,
+      "maxShownDeltaPx": 2
+    },
+    "11": {
+      "to": 12,
+      "elements": 80,
+      "visible": 0,
+      "maxShownDeltaPx": 0
+    },
+    "14": {
+      "to": 12,
+      "elements": 3,
+      "visible": 3,
+      "maxShownDeltaPx": 2
+    }
+  },
+  "mismatches": 0,
+  "missing": 0,
+  "added": 0,
+  "boxChanges": 0
+}

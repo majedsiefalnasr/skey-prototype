@@ -21,6 +21,8 @@ test('Arabic invoice Manage menu translates preferences without changing border 
   await expect(page.locator('.list-view .inv-grid')).toHaveClass(/borders-none/);
   await page.locator('#rtl').evaluate(el => {el.checked=false;el.dispatchEvent(new Event('change',{bubbles:true}));});
   await expect(page.locator('.list-view .inv-grid')).toHaveClass(/borders-none/);
+  await page.mouse.move(0, 0);
+  await expect(menu.locator('.data-manage-submenu[open]')).toHaveCount(0);
   await page.keyboard.press('Escape');
   await expect(menu).toHaveJSProperty('open', false);
   await menu.locator(':scope > summary').click();
@@ -123,7 +125,7 @@ test('Arabic customer changes save back with Arabic feedback', async ({page}) =>
   await page.locator('.phead [data-customer-action="modify"]:visible').first().click();
   await page.locator('[data-customer-field="customerName"]').fill('عميل تجريبي معدل');
   await page.locator('.phead [data-customer-action="save"]:visible').first().click();
-  await expect(page.locator('#toasts .toast b').last()).toHaveText('تم حفظ العميل');
+  await expect(page.locator('#toasts .toast h2').last()).toHaveText('تم حفظ العميل');
   await page.locator('.customer-back').click();
   await expect(page.locator(`[data-list-row-key="${number}"]`).first()).toContainText('عميل تجريبي معدل');
 });
@@ -138,7 +140,7 @@ test('receipt voucher action clearly stops at the prototype boundary in Arabic',
   // The related-document action is available from the record footer.
   await page.locator('[data-act="Receipt Voucher"]:visible').first().click();
   await expect(page.locator('#toasts .toast p').last()).toHaveText('لا ينشئ هذا النموذج مستندا مرتبطا.');
-  await expect(page.locator('#toasts .toast b').last()).toContainText('نموذج توضيحي فقط');
+  await expect(page.locator('#toasts .toast h2').last()).toContainText('نموذج توضيحي فقط');
 });
 
 test('new Arabic payment rows keep stable method values and translated labels', async ({page}) => {

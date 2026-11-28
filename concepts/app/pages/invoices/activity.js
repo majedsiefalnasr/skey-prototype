@@ -1,36 +1,37 @@
 import {ACTIVITY, CARDS, STATUSES} from '../../prototype/fixtures/invoices.js'
+import {nextTab} from '../../core/tabs.js'
 
-const ACTIVITY_DRAWER_NOTE_CLASS = 'drnote px-[18px] py-[13px] text-xs text-faint'
+const ACTIVITY_DRAWER_NOTE_CLASS = 'drnote px-4 py-3 text-xs text-faint'
 const ACTIVITY_SECONDARY_BUTTON_CLASS =
-  'inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-[11px] py-1.5 font-medium whitespace-nowrap hover:enabled:bg-[var(--line-2)] disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]'
-const ACTIVITY_CARD_CLASS = 'card flex gap-5 border-b border-[var(--line-2)] px-[18px] py-3.5'
+  'inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-3 py-1.5 font-medium whitespace-nowrap hover:enabled:bg-[var(--line-2)] disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]'
+const ACTIVITY_CARD_CLASS = 'card flex gap-5 border-b border-[var(--line-2)] px-4 py-3'
 const ACTIVITY_CARD_MARKER_CLASS = 'mk flex w-[22px] flex-none justify-center pt-0.5'
 const ACTIVITY_CARD_DOT_CLASS =
   'dot flex size-5 items-center justify-center rounded-full border-2 border-[var(--st-post-ink)] bg-surface text-[var(--st-post-ink)]'
 const ACTIVITY_MAIN_CLASS = 'main min-w-0 flex-1'
 const ACTIVITY_CARD_TITLE_CLASS =
-  't flex flex-wrap items-center gap-[9px] text-[13px] font-semibold'
+  't flex flex-wrap items-center gap-2 text-body font-semibold'
 const ACTIVITY_CARD_GRID_CLASS = 'grid mt-2 gap-x-3 gap-y-1 text-xs'
 const ACTIVITY_CARD_KEY_CLASS = 'k text-xs text-faint'
 const ACTIVITY_CARD_LINK_CLASS = 'lnk mt-1.5 inline-block text-xs text-accent'
 const ACTIVITY_DAY_SEPARATOR_CLASS =
-  'daysep border-y border-[var(--line-2)] bg-[var(--line-2)] px-[18px] py-2 text-xs text-faint'
+  'daysep border-y border-[var(--line-2)] bg-[var(--line-2)] px-4 py-2 text-xs text-faint'
 const ACTIVITY_ENTRY_CLASS =
-  "act relative flex gap-5 px-[18px] py-3.5 before:absolute before:bottom-[-4px] before:start-[34px] before:top-10 before:w-0.5 before:bg-[var(--line-2)] before:content-[''] last:before:hidden"
+  "act relative flex gap-5 px-4 py-3 before:absolute before:bottom-[calc(var(--ds-space-050)*-1)] before:start-[var(--ds-space-400)] before:top-10 before:w-0.5 before:bg-[var(--line-2)] before:content-[''] last:before:hidden"
 const ACTIVITY_AVATAR_CLASS =
   'av z-[1] flex size-[30px] flex-none items-center justify-center rounded-full bg-accent text-xs font-semibold text-inverse'
 const ACTIVITY_SYSTEM_AVATAR_CLASS = 'sys bg-[var(--line-2)]! text-muted!'
-const ACTIVITY_LINE_CLASS = 'line text-[13px] [&_b]:font-semibold'
+const ACTIVITY_LINE_CLASS = 'line text-body [&_b]:font-semibold'
 const ACTIVITY_TIME_CLASS = 'tm ms-1.5 text-xs text-faint'
-const ACTIVITY_CHANGE_CLASS = 'chg mt-[3px] text-xs text-muted [&_s]:text-faint [&_b]:text-ink'
-const ACTIVITY_CHIPS_CLASS = 'chips mt-[7px] flex flex-wrap gap-[7px]'
+const ACTIVITY_CHANGE_CLASS = 'chg mt-0.5 text-xs text-muted [&_s]:text-faint [&_b]:text-ink'
+const ACTIVITY_CHIPS_CLASS = 'chips mt-1.5 flex flex-wrap gap-1.5'
 const ACTIVITY_CHIP_CLASS =
-  'chip inline-flex items-center gap-1.5 rounded-[7px] border border-line bg-surface px-[9px] py-[3px] text-xs'
-const ACTIVITY_TOGGLE_GROUP_CLASS = 'tg mt-2 flex gap-5.5 text-xs'
-const ACTIVITY_TOGGLE_CLASS = 'ntg inline-flex items-center gap-[5px] text-muted'
+  'chip inline-flex items-center gap-1.5 rounded-lg border border-line bg-surface px-2 py-0.5 text-xs'
+const ACTIVITY_TOGGLE_GROUP_CLASS = 'tg mt-2 flex gap-5 text-xs'
+const ACTIVITY_TOGGLE_CLASS = 'ntg inline-flex items-center gap-1 text-muted'
 const ACTIVITY_NOTES_CLASS =
-  'notes mt-[9px] hidden border-s-2 border-[var(--line-2)] ps-3 [&.open]:block'
-const ACTIVITY_NOTE_CLASS = 'note-i flex gap-[9px] py-1.5'
+  'notes mt-2 hidden border-s-2 border-[var(--line-2)] ps-3 [&.open]:block'
+const ACTIVITY_NOTE_CLASS = 'note-i flex gap-2 py-1.5'
 const ACTIVITY_NOTE_AVATAR_CLASS =
   'av2 flex size-6 flex-none items-center justify-center rounded-full bg-[var(--line-2)] text-xs font-semibold text-muted'
 const ACTIVITY_NOTE_WHO_CLASS = 'who text-xs font-semibold'
@@ -142,7 +143,10 @@ export function createInvoiceActivity({state, trapFocus, releaseFocus, closePop,
   const selectTab = name => {
     document
       .querySelectorAll('.drtab')
-      .forEach(t => t.setAttribute('aria-selected', String(t.dataset.tab === name)))
+      .forEach(t => {
+        t.setAttribute('aria-selected', String(t.dataset.tab === name))
+        t.tabIndex = t.dataset.tab === name ? 0 : -1
+      })
     document.querySelectorAll('[data-panel]').forEach(p => (p.hidden = p.dataset.panel !== name))
     document.querySelectorAll('[data-for]').forEach(b => (b.hidden = b.dataset.for !== name))
   }
@@ -163,9 +167,20 @@ export function createInvoiceActivity({state, trapFocus, releaseFocus, closePop,
   }
   document
     .querySelectorAll('.drtab')
-    .forEach(t =>
+    .forEach(t => {
       t.addEventListener('click', () => selectTab(t.dataset.tab), {signal: pageAbort.signal})
-    )
+      t.addEventListener(
+        'keydown',
+        event => {
+          const target = nextTab(t, event.key)
+          if (!target) return
+          event.preventDefault()
+          selectTab(target.dataset.tab)
+          target.focus()
+        },
+        {signal: pageAbort.signal}
+      )
+    })
   document.addEventListener(
     'click',
     e => {

@@ -393,7 +393,7 @@ async function expectTappable(locator, label) {
 
 test('people rows keep a readable name and open their record at every width', async ({page}, info) => {
   await goPeople(page, isRtl(info))
-  const name = page.locator('[data-people-grid] th').first()
+  const name = page.locator('[data-people-grid] th[data-col="nameEn"]')
   expect((await name.boundingBox()).width).toBeGreaterThanOrEqual(190)
   for (const [person, status] of [['Ahmed Ali', 'Lead'], ['Khaled Ibrahim', 'Customer'], ['Sara Mahmoud', null]]) {
     await expectTappable(personRow(page, person), person)

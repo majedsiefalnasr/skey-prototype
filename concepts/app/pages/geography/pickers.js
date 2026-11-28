@@ -1,5 +1,6 @@
 import {GEO_ROWS} from '../../prototype/fixtures/geography.js'
 import {encodeHtml} from '../../core/locale.js'
+import {nextTab} from '../../core/tabs.js'
 export function createGeographyPickers({queryId, dataListIcon, geoLocationIcon, layoutGeoFlowPositions, geoFlowLineageCodes, geoDescendantCodes, geoParentPickerScrim, geoHierarchyScrim, trapFocus, releaseFocus}) {
 const pageAbort = new AbortController()
 
@@ -47,7 +48,7 @@ function renderGeoParentPickerBranch(parentCode = '', level = 1) {
               const chevron = hasChildren
                 ? `<button type="button" class="geo-parent-picker-chevron grid flex-none place-items-center w-5 h-5" data-geo-parent-toggle="${encodeHtml(row.code)}" aria-expanded="${expanded}" aria-label="${encodeHtml(chevronTitle)}" title="${encodeHtml(chevronTitle)}">${dataListIcon('i-caret', 11).replace('<svg', '<svg class="geo-node-chevron"')}</button>`
                 : '<span aria-hidden="true" style="width:11px"></span>'
-              return `<div class="geo-tree-branch relative grid"><span class="geo-tree-node flex w-full min-h-[42px] gap-2 items-center py-1.5 px-2 rounded-md border border-transparent text-start" role="treeitem" aria-level="${level}"${hasChildren ? ` aria-expanded="${expanded}"` : ''}>${chevron}<button type="button" class="geo-parent-picker-row flex min-w-0 flex-1 items-center text-start" data-geo-parent-pick="${encodeHtml(row.code)}"${disabled ? ' disabled aria-disabled="true" title="Cannot choose a location’s own descendant as its parent"' : ''}><span class="geo-node-copy grid min-w-0 flex-1 gap-px [&_strong]:overflow-hidden [&_strong]:text-ellipsis [&_strong]:whitespace-nowrap [&_small]:overflow-hidden [&_small]:text-ellipsis [&_small]:whitespace-nowrap"><strong class="text-[12.5px] font-semibold">${encodeHtml(row.name)}</strong><small class="text-muted text-xs font-normal">${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button></span>${children}</div>`
+              return `<div class="geo-tree-branch relative grid"><span class="geo-tree-node flex w-full min-h-[42px] gap-2 items-center py-1.5 px-2 rounded-md border border-transparent text-start" role="treeitem" aria-level="${level}"${hasChildren ? ` aria-expanded="${expanded}"` : ''}>${chevron}<button type="button" class="geo-parent-picker-row flex min-w-0 flex-1 items-center text-start" data-geo-parent-pick="${encodeHtml(row.code)}"${disabled ? ' disabled aria-disabled="true" title="Cannot choose a location’s own descendant as its parent"' : ''}><span class="geo-node-copy grid min-w-0 flex-1 gap-0 [&_strong]:overflow-hidden [&_strong]:text-ellipsis [&_strong]:whitespace-nowrap [&_small]:overflow-hidden [&_small]:text-ellipsis [&_small]:whitespace-nowrap"><strong class="text-dense font-semibold">${encodeHtml(row.name)}</strong><small class="text-muted text-xs font-normal">${encodeHtml(row.code)} · ${encodeHtml(row.type)}</small></span></button></span>${children}</div>`
             })
             .join('')
         }
@@ -56,7 +57,7 @@ function renderGeoParentPickerTree() {
           const tree = queryId('geo-parent-picker-tree')
           tree.innerHTML =
             renderGeoParentPickerBranch() ||
-            `<div class="geo-hierarchy-empty grid min-h-40 place-items-center p-5 text-muted text-[12.5px] text-center">No locations available.</div>`
+            `<div class="geo-hierarchy-empty grid min-h-40 place-items-center p-5 text-muted text-dense text-center">No locations available.</div>`
         }
 
 function renderGeoParentPickerFlow() {
@@ -164,6 +165,7 @@ function setGeoParentPickerView(view) {
           document.querySelectorAll('[data-geo-parent-picker-view]').forEach(tab => {
             const active = tab.dataset.geoParentPickerView === view
             tab.setAttribute('aria-selected', String(active))
+            tab.tabIndex = active ? 0 : -1
           })
           queryId('geo-parent-picker-tree-pane').hidden = view !== 'tree'
           queryId('geo-parent-picker-flow-pane').hidden = view !== 'flow'
@@ -260,6 +262,15 @@ geoHierarchyScrim.addEventListener('click', event => {
           ) {
             closeGeoHierarchyDialog()
           }
+        }, {signal: pageAbort.signal})
+
+geoParentPickerScrim.addEventListener('keydown', event => {
+          const view = event.target.closest('[data-geo-parent-picker-view]')
+          const target = view && nextTab(view, event.key)
+          if (!target) return
+          event.preventDefault()
+          setGeoParentPickerView(target.dataset.geoParentPickerView)
+          target.focus()
         }, {signal: pageAbort.signal})
 
 geoParentPickerScrim.addEventListener('click', event => {

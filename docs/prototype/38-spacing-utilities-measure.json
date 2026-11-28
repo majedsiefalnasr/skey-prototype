@@ -1,0 +1,33 @@
+{
+  "ticket": 38,
+  "method": "Computed margin, padding, gap and inset of every rendered element, over 140 probe runs covering screen states, viewports and modes. Phase B is compared with the Phase A state (9dec2e2, numeric utilities reading tokens). Each reading is classified as a token-based change or a layout-derived change. A box counts as changed when its width or height moves by more than 1px. Dialogs were not opened.",
+  "phases": {
+    "A": {
+      "commit": "9dec2e2",
+      "result": "Zero of 465,722 elements changed padding, margin or gap."
+    },
+    "B": {
+      "commit": "b012d66",
+      "probe_state": "Probe run before four fixes: search field pe-8, mobile page gutter kept at px-2.5, email compact density at 6px, sign-in Change min-width 44px on coarse pointers. The probe was not re-run on the final state.",
+      "probe_before_fixes": {
+        "readings_changed": 18288,
+        "boxes_moved_over_1px": 29742,
+        "newly_off_screen_elements": 52,
+        "new_scroll": 0,
+        "new_clipping": 0,
+        "noise_floor_boxes": 4,
+        "expected_categories": ["10px to 8px (23411 readings)", "14px to 12px", "22px to 20px", "1px to 0"]
+      },
+      "unit_tests": "202 of 202 pass, including the #25 guard.",
+      "playwright": {
+        "before": {"passed": 1139, "skipped": 228, "failed": 22},
+        "after": {"passed": 1139, "skipped": 228, "failed": 22},
+        "status_changes": 0
+      }
+    }
+  },
+  "open": [
+    "Notification menu clipped at 390px is pre-existing and tracked in #47; its 52 off-screen readings are content inside that menu.",
+    "Plain CSS spacing literals (383 off-scale px values) are not covered by this measurement or by #25."
+  ]
+}

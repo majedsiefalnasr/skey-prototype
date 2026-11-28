@@ -1,0 +1,71 @@
+{
+  "issue": 57,
+  "before": "commit 04276c2",
+  "change": "405 off-scale px values in padding, margin and gap, in the authored CSS files and the spotlight restyle, read the nearest --ds-space-* step, the smaller one on a tie. The mobile gutters of the For you and placeholder screens moved from px-2.5 to px-2 with the .phead gutter.",
+  "kept_literals": [
+    "email.css .email-message-toolbar .email-action-label margin -1px: visually hidden label.",
+    "shell.css .appearance-scale-slider-wrap padding-top 28px: holds the value bubble. At 24px the bubble overlaps the slider by 0.3px; at 28px it clears it by 3.7px.",
+    "shell.css .density-preview-compact .density-preview-rows gap 1px: at 0 the borders of the preview rows merge.",
+    "shell.css boxed layout 1296px: layout width, not spacing."
+  ],
+  "larger_step": "The .d1 .fnav inline padding below 620px is 12px, not 8px. The sidebar resize handle covers the first footer control by 1px at the old 10px (2px right to left), by 3px at 8px (4px right to left) and by none at 12px.",
+  "screens": {
+    "method": "Chromium, reduced motion, transitions off, fixed clock, two static builds. All routes, plus the sales invoice, customer, geography and people records, expanded row details in the invoice and customer lists, and the search palette, shortcut sheet, spotlight tour, appearance section and notifications menu. Default and compact density. Dialogs and menus in the DOM of each route were revealed one at a time. 390px touch left to right and right to left; 768, 1024 and 1440px left to right.",
+    "states_per_width": 63,
+    "readings": 1550,
+    "displayed_element_readings": 169786,
+    "spacing_differences": 22521,
+    "box_differences_over_1px": 75383,
+    "new_truncation": 0,
+    "new_overlap": 0,
+    "new_off_screen": 0,
+    "new_horizontal_scroll": 0,
+    "page_errors": 0,
+    "unmatched_elements": 0,
+    "overlap_rule": "Text and control boxes, cut to their clipping ancestors, compared within one layer: the page, or one dialog, menu or popover."
+  },
+  "checks": {
+    "spotlight_title_to_close_button_px": {"before": 8, "after": 4},
+    "event_month_time_margin_px": {"before": 17, "after": 16, "note": "Still equals the 12px icon and the gap before the title."},
+    "responsive_row_details_rtl_padding": {"before": "12px 54px 14px 16px", "after": "12px 48px 12px 16px"}
+  },
+  "compact_density": "100 changed declarations belong to compact rules. 63 matched a displayed element. None became identical to the default on every element where it differed before; .rec-field label margin-bottom and .d1 .tline gap now match the default on some elements.",
+  "layout_options": {
+    "method": "Same builds and checks at 390px touch left to right and right to left, and at 1440px. Floating labels, inline labels and fieldset cards at default and compact density on the invoice, customer, geography, people and settings routes; create mode for invoices and customers with floating labels; dialogs that hold fields, with floating labels at default density; interface scale 90 and 125% on every state; boxed layout at 1440px; standard settings tabs and the simple profile card.",
+    "states_per_width": 56,
+    "readings": 809,
+    "displayed_element_readings": 195956,
+    "new_off_screen": 0,
+    "new_horizontal_scroll": 0,
+    "page_errors": 0,
+    "unmatched_elements": 0,
+    "flagged_truncation": {
+      "total": 63,
+      "header_search_label_at_390px_125_percent": "55 readings. Already cut by 37px, now 41px.",
+      "record_screens_at_390px_125_percent": "8 readings. The body already clipped 45 to 55px, now 48 to 58px. Traced on the people record to the record pager."
+    },
+    "flagged_overlap": {
+      "total": 26,
+      "triage": "Checked again at 4000px height on the field routes and by screenshot. Each pair is a floating label centred on its field border, a pair that already overlapped before below the fold, or the sticky actions column at 90% scale."
+    },
+    "floating_labels_px": {
+      "raised_label_centre_below_field_top": {"before": -2, "after": 0},
+      "raised_label_clearance_above_field_text": {"before": 3, "after": 1},
+      "resting_label_centre_below_field_centre_customer_create": {"1440": {"before": -1.5, "after": 0.5}, "390": {"before": -5.5, "after": -3.5}}
+    }
+  },
+  "scrolling": "The compact invoice record at 1440 by 900px is 21px shorter and no longer scrolls: scroll height 792px to 776px in a 776px scrollport.",
+  "older_defects_seen": [
+    "People record with floating labels: the label covers the read-only value. Same before and after. The rules that raise the label do not match a read-only paragraph value.",
+    "390px at 125% interface scale: the record pager runs past the screen, and this change adds 2 to 3px."
+  ],
+  "not_measured": "Hidden features: print and chart buttons, kanban, Performance and comfortable density. The tabbed Customer layout option, which has no effect: the record always uses the scroll navigator. Revealed dialogs and menus show only the content already in the DOM. The people list has no expanded row view. No record opened from the notes, activities, events and email lists. 37 compact declarations matched no displayed element.",
+  "tests": {
+    "unit": "206 passed.",
+    "playwright": "desktop, mobile-touch and mobile-rtl, without parity.spec and zz-probe-t34.spec: 1628 passed, 15 failed, 283 skipped. All 15 failures are screenshot differences, 12 data list and 3 email reading. Baselines are not updated.",
+    "changed_expectations": [
+      "scroll-architecture.spec.mjs: tooltip inflation is measured beyond the larger of the content bottom and the scrollport height. The old formula counted free space under content that fits. A tooltip injected past the end reads 51px.",
+      "invoice-geography.spec.mjs: floating-label field padding-top 14px to 12px."
+    ]
+  }
+}

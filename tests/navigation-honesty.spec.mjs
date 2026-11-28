@@ -1,5 +1,5 @@
 import {test, expect} from '@playwright/test';
-import {settle} from './support/browser.mjs';
+import {openSideNavigation, settle} from './support/browser.mjs';
 
 // SHL-03 / SHL-05: a nav leaf, quick-list entry or search result that has no
 // screen opens the "Not in this prototype" placeholder naming that screen and
@@ -24,6 +24,7 @@ const isRtl = page => page.evaluate(() => getComputedStyle(document.body).direct
 /** Same edge-click as routing.spec: the rail widens over the panel's first
  *  264px on hover and the resize handle overlays the icon centre. */
 async function clickRailIcon(page, label) {
+  await openSideNavigation(page);
   const icon = page.locator(`.nc2-icn[aria-label="${label}"]`);
   await expect(icon).toBeVisible();
   const box = await icon.boundingBox();
@@ -39,9 +40,10 @@ async function clickPanelRow(page, label) {
   await row.click({position: {x: rtl ? 8 : box.width - 8, y: box.height / 2}});
 }
 
-/** Brings an app's panel on screen (collapsed on compact viewports) and
+/** Brings an app's panel on screen (in a drawer below `md`) and
  *  clicks one of its rows, expanding a branch first when given. */
 async function openRow(page, app, label, branch) {
+  await openSideNavigation(page);
   if (!(await page.locator(`.nc1-item[data-label="${branch ?? label}"]`).isVisible())) {
     await clickRailIcon(page, app);
     await settle(page);
@@ -49,15 +51,6 @@ async function openRow(page, app, label, branch) {
   if (branch) await clickPanelRow(page, branch);
   await clickPanelRow(page, label);
   await settle(page);
-}
-
-/** On compact viewports the rail panel is an on-demand flyout that stays open
- *  over the page's start edge after a row is chosen; a click on the free
- *  opposite edge closes it, as it would for a user. */
-async function dismissCompactFlyout(page) {
-  if (!(await page.locator('.side.collapsed .nc3-panel:not([hidden])').isVisible())) return;
-  const width = page.viewportSize().width;
-  await page.mouse.click((await isRtl(page)) ? 10 : width - 10, 600);
 }
 
 /** The invoice record names itself in its heading. The brief's
@@ -139,7 +132,6 @@ test('placeholder button returns to the app For You page', async ({page}) => {
   await gotoRoute(page, '/customers');
   await openRow(page, 'Customers', 'Collectors');
   await expectPlaceholder(page, {title: 'Collectors', app: 'Customers'});
-  await dismissCompactFlyout(page);
   await page.locator('[data-placeholder-back]').click();
   await settle(page);
   await expectForYou(page, 'Customers');

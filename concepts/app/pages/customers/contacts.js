@@ -54,7 +54,7 @@ export function renderContactCards(customer, editing) {
   }).join('')
   return `<div class="flex flex-wrap items-center justify-between gap-3 p-3" data-contact-toolbar><span class="text-xs font-medium text-muted">${contacts.length} ${encodeHtml(t(contacts.length === 1 ? 'contact' : 'contacts'))}</span>${addButton}</div>
     <div class="grid grid-cols-1 items-start gap-3 p-3 pt-0" role="list">${cards}</div>
-    <div class="flex items-start gap-2 border-t border-line bg-[var(--line-2)] px-3 py-2.5 text-xs leading-5 text-muted" data-contact-sync-note><span class="mt-0.5 flex-none" aria-hidden="true">${icon('i-info')}</span><p class="m-0!">${encodeHtml(t('The default contact stays in sync with Default Contact Info.'))}</p></div>`
+    <div class="flex items-start gap-2 border-t border-line bg-[var(--line-2)] px-3 py-2 text-xs leading-5 text-muted" data-contact-sync-note><span class="mt-0.5 flex-none" aria-hidden="true">${icon('i-info')}</span><p class="m-0!">${encodeHtml(t('The default contact stays in sync with Default Contact Info.'))}</p></div>`
 }
 
 export function createContactDialog({trapFocus, releaseFocus, onSave}) {
@@ -138,7 +138,7 @@ export function createContactDialog({trapFocus, releaseFocus, onSave}) {
     photoLoading = false
     errors.textContent = ''
     scrim.querySelector('[data-contact-dialog-title]').textContent = t(readOnly ? 'View contact' : contact?.id ? 'Edit contact' : 'Add contact info')
-    body.innerHTML = `<div class="customer-identity-body grid items-start gap-5 [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] [@media((max-width:720px))]:[grid-template-columns:minmax(0,_1fr)]">
+    body.innerHTML = `<div class="customer-identity-body grid items-start gap-5 [grid-template-columns:minmax(0,_1fr)_minmax(150px,_260px)] [@media((max-width:theme(--breakpoint-legacy-1439)))]:[grid-template-columns:minmax(0,_1fr)]">
       <div class="min-w-0">${group(['name', 'title', 'jobTitle', 'classification', 'remarks'])}</div>
       <div class="customer-identity-photo">${field({key: 'photo', label: 'Photo', type: 'photo'})}<input type="file" accept="image/*" hidden data-contact-photo-input></div>
     </div>
@@ -148,7 +148,7 @@ export function createContactDialog({trapFocus, releaseFocus, onSave}) {
     </section>
     <section class="mt-5 border-t border-line pt-4"><h4 class="mb-3! text-sm font-semibold">${encodeHtml(t('Contact connections'))}</h4>
       <div class="flex flex-wrap items-center gap-2 pb-3" data-connection-toolbar>${searchField({attr: 'connection-search', label: 'connections', value: ''})}<div class="ms-auto flex flex-wrap items-center gap-2"><button type="button" class="lbtn out" data-connection-add${readOnly ? ' hidden' : ''}>${icon('i-plus')} ${encodeHtml(t('Add connection'))}</button><button type="button" class="lbtn out" data-connection-remove${readOnly ? ' hidden' : ''}>${icon('i-trash')} ${encodeHtml(t('Remove selected'))}</button></div></div>
-      <div class="inv-grid-wrap overflow-x-auto rounded-lg border border-line"><table class="inv-grid w-full text-[13px] [&_th]:bg-[var(--line-2)] [&_th]:p-2 [&_th]:text-start [&_th]:text-xs [&_th]:text-muted [&_td]:border-t [&_td]:border-line [&_td]:p-2"><thead><tr><th class="data-row-select-cell"><label class="contents [@media(pointer:coarse)]:grid [@media(pointer:coarse)]:size-11 [@media(pointer:coarse)]:place-items-center"><input class="m-0! size-[15px] accent-accent" type="checkbox" data-connection-select-all aria-label="${encodeHtml(t('Select all connections'))}"></label></th><th>#</th><th>${encodeHtml(t('Contact type'))}</th><th>${encodeHtml(t('Description'))}</th><th>${encodeHtml(t('Remarks'))}</th></tr></thead><tbody data-contact-connections></tbody></table></div>
+      <div class="inv-grid-wrap overflow-x-auto rounded-lg border border-line"><table class="inv-grid w-full text-body [&_th]:bg-[var(--line-2)] [&_th]:p-2 [&_th]:text-start [&_th]:text-xs [&_th]:text-muted [&_td]:border-t [&_td]:border-line [&_td]:p-2"><thead><tr><th class="data-row-select-cell"><label class="contents [@media(pointer:coarse)]:grid [@media(pointer:coarse)]:size-11 [@media(pointer:coarse)]:place-items-center"><input class="m-0! size-[15px] accent-accent" type="checkbox" data-connection-select-all aria-label="${encodeHtml(t('Select all connections'))}"></label></th><th>#</th><th>${encodeHtml(t('Contact type'))}</th><th>${encodeHtml(t('Description'))}</th><th>${encodeHtml(t('Remarks'))}</th></tr></thead><tbody data-contact-connections></tbody></table></div>
     </section>`
     inputFor('name').required = true
     inputFor('classification').required = true

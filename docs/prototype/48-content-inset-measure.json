@@ -1,0 +1,1354 @@
+{
+ "issue": 48,
+ "item": "3. Content inset at 621 to 1023px",
+ "date": "2026-11-27",
+ "before": "9df946c",
+ "after": "working tree on feat/ads-alignment",
+ "cause": [
+  "Below md, .canvas took an 8px inline margin (shell.css), and Notes, Events, Activities, Email, For you and placeholder copied it with max-md:mx-2; the collab toolbars with max-md:px-2; kanban.js added 8px to its sizing.",
+  "The page heading matched it with 8px of padding only below 620px, so from 621 to 1023px content sat 8px inside the heading."
+ ],
+ "fix": "Removed the 8px inline inset below md, the heading padding that matched it, and the copies. Content and heading start on the same edge at every width.",
+ "measure": "Distance from the .page-content start edge to the h1 and to the content, [heading, content]. Fluid and boxed, left to right and right to left. The invoice list heading is outside the measured root and is left out.",
+ "misaligned": {
+  "before": {
+   "states": 140,
+   "count": 56,
+   "widths": "390, 620, 621, 1023, 1024"
+  },
+  "after": {
+   "states": 168,
+   "count": 0,
+   "widths": "390, 620, 621, 768, 1023, 1024"
+  }
+ },
+ "edges": {
+  "before": {
+   "fluid ltr 390": {
+    "customers": [
+     24,
+     24
+    ],
+    "email": [
+     24,
+     24
+    ],
+    "notes": [
+     24,
+     24
+    ],
+    "activities": [
+     24,
+     24
+    ],
+    "events": [
+     24,
+     24
+    ],
+    "foryou": [
+     24,
+     24
+    ],
+    "placeholder": [
+     24,
+     24
+    ]
+   },
+   "fluid ltr 620": {
+    "customers": [
+     24,
+     24
+    ],
+    "email": [
+     24,
+     24
+    ],
+    "notes": [
+     24,
+     24
+    ],
+    "activities": [
+     24,
+     24
+    ],
+    "events": [
+     24,
+     24
+    ],
+    "foryou": [
+     24,
+     24
+    ],
+    "placeholder": [
+     24,
+     24
+    ]
+   },
+   "fluid ltr 621": {
+    "customers": [
+     16,
+     24
+    ],
+    "email": [
+     16,
+     24
+    ],
+    "notes": [
+     16,
+     24
+    ],
+    "activities": [
+     16,
+     24
+    ],
+    "events": [
+     16,
+     24
+    ],
+    "foryou": [
+     16,
+     24
+    ],
+    "placeholder": [
+     16,
+     24
+    ]
+   },
+   "fluid ltr 1023": {
+    "customers": [
+     16,
+     24
+    ],
+    "email": [
+     16,
+     24
+    ],
+    "notes": [
+     16,
+     24
+    ],
+    "activities": [
+     16,
+     24
+    ],
+    "events": [
+     16,
+     24
+    ],
+    "foryou": [
+     16,
+     24
+    ],
+    "placeholder": [
+     16,
+     24
+    ]
+   },
+   "fluid ltr 1024": {
+    "customers": [
+     16,
+     16
+    ],
+    "email": [
+     16,
+     16
+    ],
+    "notes": [
+     16,
+     16
+    ],
+    "activities": [
+     16,
+     16
+    ],
+    "events": [
+     16,
+     16
+    ],
+    "foryou": [
+     16,
+     16
+    ],
+    "placeholder": [
+     16,
+     16
+    ]
+   },
+   "fluid rtl 390": {
+    "customers": [
+     24,
+     24
+    ],
+    "email": [
+     24,
+     24
+    ],
+    "notes": [
+     24,
+     24
+    ],
+    "activities": [
+     24,
+     24
+    ],
+    "events": [
+     24,
+     24
+    ],
+    "foryou": [
+     24,
+     24
+    ],
+    "placeholder": [
+     24,
+     24
+    ]
+   },
+   "fluid rtl 620": {
+    "customers": [
+     24,
+     24
+    ],
+    "email": [
+     24,
+     24
+    ],
+    "notes": [
+     24,
+     24
+    ],
+    "activities": [
+     24,
+     24
+    ],
+    "events": [
+     24,
+     24
+    ],
+    "foryou": [
+     24,
+     24
+    ],
+    "placeholder": [
+     24,
+     24
+    ]
+   },
+   "fluid rtl 621": {
+    "customers": [
+     16,
+     24
+    ],
+    "email": [
+     16,
+     24
+    ],
+    "notes": [
+     16,
+     24
+    ],
+    "activities": [
+     16,
+     24
+    ],
+    "events": [
+     16,
+     24
+    ],
+    "foryou": [
+     16,
+     24
+    ],
+    "placeholder": [
+     16,
+     24
+    ]
+   },
+   "fluid rtl 1023": {
+    "customers": [
+     16,
+     24
+    ],
+    "email": [
+     16,
+     24
+    ],
+    "notes": [
+     16,
+     24
+    ],
+    "activities": [
+     16,
+     24
+    ],
+    "events": [
+     16,
+     24
+    ],
+    "foryou": [
+     16,
+     24
+    ],
+    "placeholder": [
+     16,
+     24
+    ]
+   },
+   "fluid rtl 1024": {
+    "customers": [
+     16,
+     16
+    ],
+    "email": [
+     16,
+     16
+    ],
+    "notes": [
+     16,
+     16
+    ],
+    "activities": [
+     16,
+     16
+    ],
+    "events": [
+     16,
+     16
+    ],
+    "foryou": [
+     16,
+     16
+    ],
+    "placeholder": [
+     16,
+     16
+    ]
+   },
+   "boxed ltr 390": {
+    "customers": [
+     40,
+     40
+    ],
+    "email": [
+     40,
+     40
+    ],
+    "notes": [
+     40,
+     40
+    ],
+    "activities": [
+     40,
+     40
+    ],
+    "events": [
+     40,
+     40
+    ],
+    "foryou": [
+     40,
+     40
+    ],
+    "placeholder": [
+     40,
+     40
+    ]
+   },
+   "boxed ltr 620": {
+    "customers": [
+     40,
+     40
+    ],
+    "email": [
+     40,
+     40
+    ],
+    "notes": [
+     40,
+     40
+    ],
+    "activities": [
+     40,
+     40
+    ],
+    "events": [
+     40,
+     40
+    ],
+    "foryou": [
+     40,
+     40
+    ],
+    "placeholder": [
+     40,
+     40
+    ]
+   },
+   "boxed ltr 621": {
+    "customers": [
+     32,
+     40
+    ],
+    "email": [
+     32,
+     40
+    ],
+    "notes": [
+     32,
+     40
+    ],
+    "activities": [
+     32,
+     40
+    ],
+    "events": [
+     32,
+     40
+    ],
+    "foryou": [
+     32,
+     40
+    ],
+    "placeholder": [
+     32,
+     40
+    ]
+   },
+   "boxed ltr 1023": {
+    "customers": [
+     32,
+     40
+    ],
+    "email": [
+     32,
+     40
+    ],
+    "notes": [
+     32,
+     40
+    ],
+    "activities": [
+     32,
+     40
+    ],
+    "events": [
+     32,
+     40
+    ],
+    "foryou": [
+     32,
+     40
+    ],
+    "placeholder": [
+     32,
+     40
+    ]
+   },
+   "boxed ltr 1024": {
+    "customers": [
+     48,
+     48
+    ],
+    "email": [
+     48,
+     48
+    ],
+    "notes": [
+     48,
+     48
+    ],
+    "activities": [
+     48,
+     48
+    ],
+    "events": [
+     48,
+     48
+    ],
+    "foryou": [
+     48,
+     48
+    ],
+    "placeholder": [
+     48,
+     48
+    ]
+   },
+   "boxed rtl 390": {
+    "customers": [
+     40,
+     40
+    ],
+    "email": [
+     40,
+     40
+    ],
+    "notes": [
+     40,
+     40
+    ],
+    "activities": [
+     40,
+     40
+    ],
+    "events": [
+     40,
+     40
+    ],
+    "foryou": [
+     40,
+     40
+    ],
+    "placeholder": [
+     40,
+     40
+    ]
+   },
+   "boxed rtl 620": {
+    "customers": [
+     40,
+     40
+    ],
+    "email": [
+     40,
+     40
+    ],
+    "notes": [
+     40,
+     40
+    ],
+    "activities": [
+     40,
+     40
+    ],
+    "events": [
+     40,
+     40
+    ],
+    "foryou": [
+     40,
+     40
+    ],
+    "placeholder": [
+     40,
+     40
+    ]
+   },
+   "boxed rtl 621": {
+    "customers": [
+     32,
+     40
+    ],
+    "email": [
+     32,
+     40
+    ],
+    "notes": [
+     32,
+     40
+    ],
+    "activities": [
+     32,
+     40
+    ],
+    "events": [
+     32,
+     40
+    ],
+    "foryou": [
+     32,
+     40
+    ],
+    "placeholder": [
+     32,
+     40
+    ]
+   },
+   "boxed rtl 1023": {
+    "customers": [
+     32,
+     40
+    ],
+    "email": [
+     32,
+     40
+    ],
+    "notes": [
+     32,
+     40
+    ],
+    "activities": [
+     32,
+     40
+    ],
+    "events": [
+     32,
+     40
+    ],
+    "foryou": [
+     32,
+     40
+    ],
+    "placeholder": [
+     32,
+     40
+    ]
+   },
+   "boxed rtl 1024": {
+    "customers": [
+     48,
+     48
+    ],
+    "email": [
+     48,
+     48
+    ],
+    "notes": [
+     48,
+     48
+    ],
+    "activities": [
+     48,
+     48
+    ],
+    "events": [
+     48,
+     48
+    ],
+    "foryou": [
+     48,
+     48
+    ],
+    "placeholder": [
+     48,
+     48
+    ]
+   }
+  },
+  "after": {
+   "fluid ltr 390": {
+    "customers": [
+     16,
+     16
+    ],
+    "email": [
+     16,
+     16
+    ],
+    "notes": [
+     16,
+     16
+    ],
+    "activities": [
+     16,
+     16
+    ],
+    "events": [
+     16,
+     16
+    ],
+    "foryou": [
+     16,
+     16
+    ],
+    "placeholder": [
+     16,
+     16
+    ]
+   },
+   "fluid ltr 620": {
+    "customers": [
+     16,
+     16
+    ],
+    "email": [
+     16,
+     16
+    ],
+    "notes": [
+     16,
+     16
+    ],
+    "activities": [
+     16,
+     16
+    ],
+    "events": [
+     16,
+     16
+    ],
+    "foryou": [
+     16,
+     16
+    ],
+    "placeholder": [
+     16,
+     16
+    ]
+   },
+   "fluid ltr 621": {
+    "customers": [
+     16,
+     16
+    ],
+    "email": [
+     16,
+     16
+    ],
+    "notes": [
+     16,
+     16
+    ],
+    "activities": [
+     16,
+     16
+    ],
+    "events": [
+     16,
+     16
+    ],
+    "foryou": [
+     16,
+     16
+    ],
+    "placeholder": [
+     16,
+     16
+    ]
+   },
+   "fluid ltr 768": {
+    "customers": [
+     16,
+     16
+    ],
+    "email": [
+     16,
+     16
+    ],
+    "notes": [
+     16,
+     16
+    ],
+    "activities": [
+     16,
+     16
+    ],
+    "events": [
+     16,
+     16
+    ],
+    "foryou": [
+     16,
+     16
+    ],
+    "placeholder": [
+     16,
+     16
+    ]
+   },
+   "fluid ltr 1023": {
+    "customers": [
+     16,
+     16
+    ],
+    "email": [
+     16,
+     16
+    ],
+    "notes": [
+     16,
+     16
+    ],
+    "activities": [
+     16,
+     16
+    ],
+    "events": [
+     16,
+     16
+    ],
+    "foryou": [
+     16,
+     16
+    ],
+    "placeholder": [
+     16,
+     16
+    ]
+   },
+   "fluid ltr 1024": {
+    "customers": [
+     16,
+     16
+    ],
+    "email": [
+     16,
+     16
+    ],
+    "notes": [
+     16,
+     16
+    ],
+    "activities": [
+     16,
+     16
+    ],
+    "events": [
+     16,
+     16
+    ],
+    "foryou": [
+     16,
+     16
+    ],
+    "placeholder": [
+     16,
+     16
+    ]
+   },
+   "fluid rtl 390": {
+    "customers": [
+     16,
+     16
+    ],
+    "email": [
+     16,
+     16
+    ],
+    "notes": [
+     16,
+     16
+    ],
+    "activities": [
+     16,
+     16
+    ],
+    "events": [
+     16,
+     16
+    ],
+    "foryou": [
+     16,
+     16
+    ],
+    "placeholder": [
+     16,
+     16
+    ]
+   },
+   "fluid rtl 620": {
+    "customers": [
+     16,
+     16
+    ],
+    "email": [
+     16,
+     16
+    ],
+    "notes": [
+     16,
+     16
+    ],
+    "activities": [
+     16,
+     16
+    ],
+    "events": [
+     16,
+     16
+    ],
+    "foryou": [
+     16,
+     16
+    ],
+    "placeholder": [
+     16,
+     16
+    ]
+   },
+   "fluid rtl 621": {
+    "customers": [
+     16,
+     16
+    ],
+    "email": [
+     16,
+     16
+    ],
+    "notes": [
+     16,
+     16
+    ],
+    "activities": [
+     16,
+     16
+    ],
+    "events": [
+     16,
+     16
+    ],
+    "foryou": [
+     16,
+     16
+    ],
+    "placeholder": [
+     16,
+     16
+    ]
+   },
+   "fluid rtl 768": {
+    "customers": [
+     16,
+     16
+    ],
+    "email": [
+     16,
+     16
+    ],
+    "notes": [
+     16,
+     16
+    ],
+    "activities": [
+     16,
+     16
+    ],
+    "events": [
+     16,
+     16
+    ],
+    "foryou": [
+     16,
+     16
+    ],
+    "placeholder": [
+     16,
+     16
+    ]
+   },
+   "fluid rtl 1023": {
+    "customers": [
+     16,
+     16
+    ],
+    "email": [
+     16,
+     16
+    ],
+    "notes": [
+     16,
+     16
+    ],
+    "activities": [
+     16,
+     16
+    ],
+    "events": [
+     16,
+     16
+    ],
+    "foryou": [
+     16,
+     16
+    ],
+    "placeholder": [
+     16,
+     16
+    ]
+   },
+   "fluid rtl 1024": {
+    "customers": [
+     16,
+     16
+    ],
+    "email": [
+     16,
+     16
+    ],
+    "notes": [
+     16,
+     16
+    ],
+    "activities": [
+     16,
+     16
+    ],
+    "events": [
+     16,
+     16
+    ],
+    "foryou": [
+     16,
+     16
+    ],
+    "placeholder": [
+     16,
+     16
+    ]
+   },
+   "boxed ltr 390": {
+    "customers": [
+     32,
+     32
+    ],
+    "email": [
+     32,
+     32
+    ],
+    "notes": [
+     32,
+     32
+    ],
+    "activities": [
+     32,
+     32
+    ],
+    "events": [
+     32,
+     32
+    ],
+    "foryou": [
+     32,
+     32
+    ],
+    "placeholder": [
+     32,
+     32
+    ]
+   },
+   "boxed ltr 620": {
+    "customers": [
+     32,
+     32
+    ],
+    "email": [
+     32,
+     32
+    ],
+    "notes": [
+     32,
+     32
+    ],
+    "activities": [
+     32,
+     32
+    ],
+    "events": [
+     32,
+     32
+    ],
+    "foryou": [
+     32,
+     32
+    ],
+    "placeholder": [
+     32,
+     32
+    ]
+   },
+   "boxed ltr 621": {
+    "customers": [
+     32,
+     32
+    ],
+    "email": [
+     32,
+     32
+    ],
+    "notes": [
+     32,
+     32
+    ],
+    "activities": [
+     32,
+     32
+    ],
+    "events": [
+     32,
+     32
+    ],
+    "foryou": [
+     32,
+     32
+    ],
+    "placeholder": [
+     32,
+     32
+    ]
+   },
+   "boxed ltr 768": {
+    "customers": [
+     32,
+     32
+    ],
+    "email": [
+     32,
+     32
+    ],
+    "notes": [
+     32,
+     32
+    ],
+    "activities": [
+     32,
+     32
+    ],
+    "events": [
+     32,
+     32
+    ],
+    "foryou": [
+     32,
+     32
+    ],
+    "placeholder": [
+     32,
+     32
+    ]
+   },
+   "boxed ltr 1023": {
+    "customers": [
+     32,
+     32
+    ],
+    "email": [
+     32,
+     32
+    ],
+    "notes": [
+     32,
+     32
+    ],
+    "activities": [
+     32,
+     32
+    ],
+    "events": [
+     32,
+     32
+    ],
+    "foryou": [
+     32,
+     32
+    ],
+    "placeholder": [
+     32,
+     32
+    ]
+   },
+   "boxed ltr 1024": {
+    "customers": [
+     48,
+     48
+    ],
+    "email": [
+     48,
+     48
+    ],
+    "notes": [
+     48,
+     48
+    ],
+    "activities": [
+     48,
+     48
+    ],
+    "events": [
+     48,
+     48
+    ],
+    "foryou": [
+     48,
+     48
+    ],
+    "placeholder": [
+     48,
+     48
+    ]
+   },
+   "boxed rtl 390": {
+    "customers": [
+     32,
+     32
+    ],
+    "email": [
+     32,
+     32
+    ],
+    "notes": [
+     32,
+     32
+    ],
+    "activities": [
+     32,
+     32
+    ],
+    "events": [
+     32,
+     32
+    ],
+    "foryou": [
+     32,
+     32
+    ],
+    "placeholder": [
+     32,
+     32
+    ]
+   },
+   "boxed rtl 620": {
+    "customers": [
+     32,
+     32
+    ],
+    "email": [
+     32,
+     32
+    ],
+    "notes": [
+     32,
+     32
+    ],
+    "activities": [
+     32,
+     32
+    ],
+    "events": [
+     32,
+     32
+    ],
+    "foryou": [
+     32,
+     32
+    ],
+    "placeholder": [
+     32,
+     32
+    ]
+   },
+   "boxed rtl 621": {
+    "customers": [
+     32,
+     32
+    ],
+    "email": [
+     32,
+     32
+    ],
+    "notes": [
+     32,
+     32
+    ],
+    "activities": [
+     32,
+     32
+    ],
+    "events": [
+     32,
+     32
+    ],
+    "foryou": [
+     32,
+     32
+    ],
+    "placeholder": [
+     32,
+     32
+    ]
+   },
+   "boxed rtl 768": {
+    "customers": [
+     32,
+     32
+    ],
+    "email": [
+     32,
+     32
+    ],
+    "notes": [
+     32,
+     32
+    ],
+    "activities": [
+     32,
+     32
+    ],
+    "events": [
+     32,
+     32
+    ],
+    "foryou": [
+     32,
+     32
+    ],
+    "placeholder": [
+     32,
+     32
+    ]
+   },
+   "boxed rtl 1023": {
+    "customers": [
+     32,
+     32
+    ],
+    "email": [
+     32,
+     32
+    ],
+    "notes": [
+     32,
+     32
+    ],
+    "activities": [
+     32,
+     32
+    ],
+    "events": [
+     32,
+     32
+    ],
+    "foryou": [
+     32,
+     32
+    ],
+    "placeholder": [
+     32,
+     32
+    ]
+   },
+   "boxed rtl 1024": {
+    "customers": [
+     48,
+     48
+    ],
+    "email": [
+     48,
+     48
+    ],
+    "notes": [
+     48,
+     48
+    ],
+    "activities": [
+     48,
+     48
+    ],
+    "events": [
+     48,
+     48
+    ],
+    "foryou": [
+     48,
+     48
+    ],
+    "placeholder": [
+     48,
+     48
+    ]
+   }
+  }
+ },
+ "records": "Invoice, Customer and Geography records, the invoice list and home at 390, 621, 768 and 1023px: heading, canvas and first card at 24/24, 16/24, 16/24 and 16/24 before; 16/16 at every width after.",
+ "bars": "120 states from 360 to 1440px: no page-level horizontal scroll, no clipped or overflowing command bar, heading or footer, before or after.",
+ "prototypeControls": "Profile Save in the sticky save bar sat with its centre under the Prototype controls launcher below 720px after the shift (it was already half covered before). Below 720px the save bar now keeps its actions 8px clear of the launcher (controls.css). Moving the launcher to the start edge instead was tried and rejected: it covered the Account icon at the foot of the open side rail (tests/account-rail.spec.mjs)."
+}

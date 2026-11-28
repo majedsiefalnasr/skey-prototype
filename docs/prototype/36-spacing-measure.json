@@ -1,0 +1,134 @@
+{
+  "ticket": 36,
+  "method": "Computed margin, padding, gap and inset of every rendered element, before (098f989) and after the token change. Each reading before the change is traced to its legacy token by setting that token to a 1000px sentinel on <html> and reading again; a reading whose change is not a whole or half multiple of the sentinel is layout-derived and not compared. Traced readings are compared with the #29 mapping. A box counts as changed when its width or height moves by more than 1px. Dialogs were not opened.",
+  "screens": [
+    "home",
+    "app-for-you",
+    "placeholder",
+    "invoice-list",
+    "invoice-cards",
+    "invoice-record",
+    "customer-list",
+    "customer-cards",
+    "customer-record",
+    "geo-list",
+    "geo-record",
+    "notes",
+    "activities",
+    "events",
+    "people",
+    "people-record",
+    "email",
+    "notifications",
+    "notifications-panel",
+    "profile",
+    "profile-appearance",
+    "organization-overview",
+    "organization-settings",
+    "organization-users",
+    "organization-application-sessions",
+    "organization-database-sessions",
+    "signin"
+  ],
+  "widths": [
+    390,
+    768,
+    1024,
+    1440
+  ],
+  "rtlWidths": [
+    390
+  ],
+  "runs": 135,
+  "elementsCompared": 53776,
+  "elementsNotMatched": 1036,
+  "readingsTraced": 20338,
+  "readingsByLegacyToken": {
+    "1": 345,
+    "3": 1567,
+    "5": 3288,
+    "7": 2391,
+    "9": 8108,
+    "10": 106,
+    "11": 3966,
+    "14": 260,
+    "17": 4,
+    "18": 3,
+    "26": 6,
+    "28": 185,
+    "30": 62,
+    "72": 108
+  },
+  "tokensNotOnMeasuredScreens": [
+    "0-5",
+    "13",
+    "15",
+    "22",
+    "34",
+    "46",
+    "54",
+    "68"
+  ],
+  "mismatches": 195,
+  "mismatchesAreBorderOverlapsKeptAtMinus1px": true,
+  "borderOverlapReadings": {
+    "lookup button": 20,
+    "dialog toggle input": 175
+  },
+  "selectArrow28": {
+    "keptAt28px": 185,
+    "movedTo24px": 0
+  },
+  "legacy1MovedToZero": {
+    "profile-scroll-nav gap": 20,
+    "organization-nav gap": 50,
+    "organization avatar presence dot": 80
+  },
+  "layoutDerivedReadings": 2415,
+  "untracedChanges": {
+    "note": "Insets of positioned elements and one auto margin that follow layout, not a token.",
+    "top": 770,
+    "right": 68,
+    "left": 114,
+    "bottom": 9,
+    "margin-left": 3
+  },
+  "boxChanges": {
+    "widthChanged": 2733,
+    "heightChanged": 2296,
+    "taller": 777,
+    "shorter": 1519,
+    "maxTallerPx": 35,
+    "maxShorterPx": 188,
+    "largestShorter": "customer-record content at 768 and 1024px, 5810px to 5622px"
+  },
+  "newClipped": [
+    {
+      "run": "invoice-cards@390-rtl",
+      "element": "strong.",
+      "note": "invoice card title, tracked in #45"
+    },
+    {
+      "run": "invoice-cards@390-rtl",
+      "element": "strong.",
+      "note": "invoice card title, tracked in #45"
+    }
+  ],
+  "newOffScreen": 0,
+  "newHorizontalScroll": 0,
+  "precedenceFlips": {
+    "note": "Pairs of same-property classes whose winner changed with the rename; fixed by removing the class that already lost before #36.",
+    "fixed": 23,
+    "remainingPairsChecked": 36,
+    "remainingFlipped": 0
+  },
+  "visualChecks": [
+    "lookup button border at 1440px (doubled at 0, single with --ds-border-width)",
+    "dialog toggle at 390 and 1440px",
+    "Organization and Profile section navigation at 390 and 1440px",
+    "Organization avatar presence dot at 390 and 1440px",
+    "invoice charge row at 390 and 1440px",
+    "customer map at 390px"
+  ],
+  "errors": 0
+}

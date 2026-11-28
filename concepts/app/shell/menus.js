@@ -2,6 +2,8 @@
 
 /** Owns menus state and its DOM bindings. */
 export function createMenus({showLaunchpad, getLaunchpadEnabled} = {}) {
+  const PAGE_MENU_INSET = 8
+
   const closeAllMenus = except =>
     document.querySelectorAll('.menu > button[aria-expanded="true"]').forEach(b => {
       if (b !== except) {
@@ -27,7 +29,7 @@ export function createMenus({showLaunchpad, getLaunchpadEnabled} = {}) {
     closeAllMenus(trigger)
     trigger.setAttribute('aria-expanded', 'true')
     list.classList.add('open')
-    if (needsFixedMenu(trigger, list)) positionFixedMenu(trigger, list)
+    positionOpenMenu(trigger, list)
     const items = enabledMenuItems(list)
     items.forEach(item => (item.tabIndex = -1))
     ;(edge === 'last' ? items.at(-1) : items[0])?.focus()
@@ -97,11 +99,31 @@ export function createMenus({showLaunchpad, getLaunchpadEnabled} = {}) {
       closeAllMenus(trg)
       trg.setAttribute('aria-expanded', String(!open))
       l.classList.toggle('open', !open)
-      if (!open && needsFixedMenu(trg, l)) positionFixedMenu(trg, l)
+      if (!open) positionOpenMenu(trg, l)
       return
     }
     if (!e.target.closest('.menu')) closeAllMenus()
   })
+
+  function positionOpenMenu(trigger, list) {
+    if (needsFixedMenu(trigger, list)) positionFixedMenu(trigger, list)
+    else keepInsidePage(list)
+  }
+
+  /* The scrolling page clips a menu that crosses its side edges, which happens
+     when the trigger sits too close to the edge the menu grows toward. */
+  function keepInsidePage(list) {
+    list.style.translate = ''
+    const page = list.closest('.page-content, .page-action-bar')
+    if (!page) return
+    const start = page.getBoundingClientRect().left + page.clientLeft
+    const end = start + page.clientWidth
+    const box = list.getBoundingClientRect()
+    let shift = 0
+    if (box.left < start) shift = start + PAGE_MENU_INSET - box.left
+    else if (box.right > end) shift = end - PAGE_MENU_INSET - box.right
+    if (shift) list.style.translate = `${shift}px 0`
+  }
 
   function needsFixedMenu(trigger, list) {
     return list.classList.contains('app-switcher-list') || !!trigger.closest('.dlg')

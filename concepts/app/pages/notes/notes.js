@@ -62,7 +62,7 @@ const QUICK_FILTERS = [
 /* The invoices list table, same classes as renderDataList emits — the
    shell, the scroll box and the bordered sticky-header grid. */
 const INV_GRID_CLASS =
-  'inv-grid w-full [border-collapse:collapse] [font-size:13px] [&_th]:text-start [&_th]:[padding:8px_12px] [&_th]:text-muted [&_th]:font-medium [&_th]:[border-bottom:1px_solid_var(--line)] [&_th]:whitespace-nowrap [&_th]:sticky [&_th]:top-0 [&_th]:z-[3] [&_td]:[padding:8px_12px] [&_td]:[border-bottom:1px_solid_var(--line-2)] [&_td]:text-ink [&_td]:whitespace-nowrap [&_td]:[text-overflow:ellipsis] [&_td]:overflow-hidden [&_td]:[max-width:200px] [&_tbody_tr:hover]:[background:var(--hover-overlay)] [&_tbody_tr:hover]:[cursor:pointer]'
+  'inv-grid w-full [border-collapse:collapse] [font-size:13px] [&_th]:text-start [&_th]:[padding:var(--ds-space-100)_var(--ds-space-150)] [&_th]:text-muted [&_th]:font-medium [&_th]:[border-bottom:1px_solid_var(--line)] [&_th]:whitespace-nowrap [&_th]:sticky [&_th]:top-0 [&_th]:z-[3] [&_td]:[padding:var(--ds-space-100)_var(--ds-space-150)] [&_td]:[border-bottom:1px_solid_var(--line-2)] [&_td]:text-ink [&_td]:whitespace-nowrap [&_td]:[text-overflow:ellipsis] [&_td]:overflow-hidden [&_td]:[max-width:200px] [&_tbody_tr:hover]:[background:var(--hover-overlay)] [&_tbody_tr:hover]:[cursor:pointer]'
 
 export function createNotes({store, toast, panel, related, confirm, goHome, beforeAction = async () => true}) {
   const view = () => document.querySelector('.notes-view')
@@ -85,10 +85,10 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
       const count = store.listEntities('note').filter(note => note.groupId === column.id).length
       return `<div class="relative grid min-w-0 gap-2 rounded-lg border border-line bg-surface p-3 transition-[border-color,background-color,box-shadow] ${system ? '' : 'cursor-grab active:cursor-grabbing hover:border-[var(--accent-line)]'} [&.drop-target]:border-[var(--accent)] [&.drop-target]:bg-[var(--accent-soft)] data-[drop-position=before]:[box-shadow:0_-3px_0_var(--accent)] data-[drop-position=after]:[box-shadow:0_3px_0_var(--accent)]" data-stage-id="${escapeHtml(column.id)}"${system ? '' : ' draggable="true"'}>
         <div class="flex items-center gap-2">${system ? `<span class="text-xs text-muted">${t('System group')}</span>` : `<button type="button" class="ibtn cursor-grab touch-none active:cursor-grabbing" draggable="true" data-stage-drag aria-label="${t('Drag to reorder')}">${icon('i-grip', 16)}</button><span class="text-xs text-muted">${t('Drag to reorder')}</span>`}</div>
-        <label class="min-w-0 text-xs text-muted">${t('Group name')}<input class="mt-1 min-w-0 w-full rounded border border-line bg-surface p-2 text-sm text-ink max-[720px]:text-base" data-stage-label maxlength="40" value="${escapeHtml(column.label)}"${system ? ' readonly' : ''}></label>
+        <label class="min-w-0 text-xs text-muted">${t('Group name')}<input class="mt-1 min-w-0 w-full rounded border border-line bg-surface p-2 text-sm text-ink max-sm:text-base" data-stage-label maxlength="40" value="${escapeHtml(column.label)}"${system ? ' readonly' : ''}></label>
         <div class="flex flex-wrap items-center gap-2 text-xs"><label class="flex min-h-8 items-center gap-1"><input type="checkbox" class="size-4 shrink-0 accent-[var(--accent)]" data-stage-hidden${column.hidden ? ' checked' : ''}${system ? ' disabled' : ''}>${t('Hide group')}</label><span class="ms-auto text-muted">${count} ${t('notes')}</span>
           <button type="button" class="lbtn" data-stage-order="-1"${system ? ' disabled' : ''} aria-label="${t('Move earlier')}">↑</button><button type="button" class="lbtn" data-stage-order="1"${system ? ' disabled' : ''} aria-label="${t('Move later')}">↓</button></div>
-        ${system ? `<small class="text-muted">${t('System group — its name, visibility and position are fixed.')}</small>` : `<label class="flex min-h-8 items-center gap-2 text-xs"><input type="checkbox" class="size-4 shrink-0 accent-[var(--accent)]" data-stage-remove>${t('Remove group on save')}</label><label class="min-w-0 text-xs text-muted">${t('Move its notes to')}<select class="ms-2 max-w-full rounded border border-line bg-surface p-1 text-sm text-ink max-[720px]:text-base" data-stage-destination>${original.filter(item => item.id !== column.id).map(item => `<option value="${item.id}">${escapeHtml(item.label)}</option>`).join('')}</select></label>`}
+        ${system ? `<small class="text-muted">${t('System group — its name, visibility and position are fixed.')}</small>` : `<label class="flex min-h-8 items-center gap-2 text-xs"><input type="checkbox" class="size-4 shrink-0 accent-[var(--accent)]" data-stage-remove>${t('Remove group on save')}</label><label class="min-w-0 text-xs text-muted">${t('Move its notes to')}<select class="ms-2 max-w-full rounded border border-line bg-surface p-1 text-sm text-ink max-sm:text-base" data-stage-destination>${original.filter(item => item.id !== column.id).map(item => `<option value="${item.id}">${escapeHtml(item.label)}</option>`).join('')}</select></label>`}
       </div>`
     }
     panel.open({title: 'Manage note groups', description: 'Hidden groups keep their notes. Removing a group moves its notes to your chosen destination.',
@@ -250,7 +250,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
     const count = relatedCount(note)
     return `<span class="flex items-start gap-1.5">
         ${note.pinned ? `<span class="mt-0.5 text-accent">${icon('i-spark', 12)}<span class="sr-only">${t("Pinned.")} </span></span>` : ''}
-        <span class="card-title min-w-0 flex-1 text-[13px] font-semibold text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(titleOf(note))}</span>
+        <span class="card-title min-w-0 flex-1 text-body font-semibold text-ink [overflow-wrap:anywhere]" dir="auto">${escapeHtml(titleOf(note))}</span>
       </span>
       ${excerpt ? `<span class="mt-1 line-clamp-2 block text-xs text-muted" dir="auto">${escapeHtml(excerpt)}</span>` : ''}
       <span class="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-muted">
@@ -278,7 +278,7 @@ export function createNotes({store, toast, panel, related, confirm, goHome, befo
         menuItemRadio({attr: 'view-select', value: id, label: `${entry.label} view`, iconName: entry.icon, checked: state.view === id})
       )
       .join('')
-    host.innerHTML = `<div class="data-list-controls grid gap-2 mb-2.5">${toolbarRow({
+    host.innerHTML = `<div class="data-list-controls grid gap-2 mb-2">${toolbarRow({
       ariaLabel: 'Notes table controls',
       left: `${menuDetails({attr: 'quick-menu', iconName: quick[2], label: quick[1], items: quickItems})}${menuDetails({
         attr: 'filter-menu',

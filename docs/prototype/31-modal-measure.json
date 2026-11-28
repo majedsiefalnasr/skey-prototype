@@ -1,0 +1,977 @@
+{
+  "widths": [
+    390,
+    768,
+    1024,
+    1440
+  ],
+  "count": 46,
+  "rows": [
+    {
+      "index": 0,
+      "id": null,
+      "label": "Search",
+      "classes": "spanel fixed inset-x-0 top-3.5 z-[160] mx-auto hidden max-h-[min(600px,68vh)] w-[min(620px,92vw)] flex-col overflow-hidden rounded-legacy-9 border-[1.5px] border-line bg-surface shadow-[var(--shadow-2)]",
+      "inlineWidth": null,
+      "radius": "9px",
+      "position": "fixed",
+      "width": {
+        "390": 358.8,
+        "768": 620,
+        "1024": 620,
+        "1440": 620
+      },
+      "height": {
+        "390": 171.66,
+        "768": 125.66,
+        "1024": 125.66,
+        "1440": 125.66
+      }
+    },
+    {
+      "index": 1,
+      "id": "notifications-popover",
+      "label": "Notifications",
+      "classes": "mlist mend notif-pop overflow-hidden p-0",
+      "inlineWidth": null,
+      "radius": "9px",
+      "position": "absolute",
+      "width": {
+        "390": 340,
+        "768": 340,
+        "1024": 340,
+        "1440": 340
+      },
+      "height": {
+        "390": 462.02,
+        "768": 454.86,
+        "1024": 454.86,
+        "1440": 454.86
+      }
+    },
+    {
+      "index": 2,
+      "id": null,
+      "label": "Advanced search",
+      "classes": "box",
+      "inlineWidth": null,
+      "radius": "9px",
+      "position": "fixed",
+      "width": {
+        "390": 358.8,
+        "768": 620,
+        "1024": 620,
+        "1440": 620
+      },
+      "height": {
+        "390": 429.86,
+        "768": 413.25,
+        "1024": 413.25,
+        "1440": 413.25
+      }
+    },
+    {
+      "index": 3,
+      "id": null,
+      "label": "Find value",
+      "classes": "dlg customer-search-modal [width:min(1040px,_calc(100vw_-_48px))] rounded-xl overflow-hidden flex flex-col [max-height:90vh] max-sm:[width:calc(100vw_-_24px)]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 366,
+        "768": 720,
+        "1024": 976,
+        "1440": 1040
+      },
+      "height": {
+        "390": 463,
+        "768": 348.77,
+        "1024": 348.77,
+        "1440": 348.77
+      }
+    },
+    {
+      "index": 4,
+      "id": null,
+      "label": "Add Customer Type",
+      "classes": "dlg customer-type-modal [width:min(520px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 374.39,
+        "768": 520,
+        "1024": 520,
+        "1440": 520
+      },
+      "height": {
+        "390": 430.48,
+        "768": 392.95,
+        "1024": 392.95,
+        "1440": 392.95
+      }
+    },
+    {
+      "index": 5,
+      "id": null,
+      "label": "Export",
+      "classes": "dlg data-export-modal [width:min(760px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 374.39,
+        "768": 737.27,
+        "1024": 760,
+        "1440": 760
+      },
+      "height": {
+        "390": 466.89,
+        "768": 386.08,
+        "1024": 386.08,
+        "1440": 386.08
+      }
+    },
+    {
+      "index": 6,
+      "id": null,
+      "label": "Filter records",
+      "classes": "dlg geo-filter-modal [width:min(760px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 374.39,
+        "768": 737.27,
+        "1024": 760,
+        "1440": 760
+      },
+      "height": {
+        "390": 186,
+        "768": 174.17,
+        "1024": 174.17,
+        "1440": 174.17
+      }
+    },
+    {
+      "index": 7,
+      "id": null,
+      "label": "Save filter",
+      "classes": "dlg save-filter-modal [width:min(760px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 374.39,
+        "768": 737.27,
+        "1024": 760,
+        "1440": 760
+      },
+      "height": {
+        "390": 359.72,
+        "768": 322.19,
+        "1024": 322.19,
+        "1440": 322.19
+      }
+    },
+    {
+      "index": 8,
+      "id": null,
+      "label": "Manage filters",
+      "classes": "dlg manage-filters-modal [width:min(760px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 374.39,
+        "768": 737.27,
+        "1024": 760,
+        "1440": 760
+      },
+      "height": {
+        "390": 188,
+        "768": 160.17,
+        "1024": 160.17,
+        "1440": 160.17
+      }
+    },
+    {
+      "index": 9,
+      "id": null,
+      "label": "Change invoice status",
+      "classes": "dlg [width:min(520px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 520,
+        "1024": 520,
+        "1440": 520
+      },
+      "height": {
+        "390": 188,
+        "768": 176.17,
+        "1024": 176.17,
+        "1440": 176.17
+      }
+    },
+    {
+      "index": 10,
+      "id": null,
+      "label": "Deactivate customer",
+      "classes": "dlg [width:min(520px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 520,
+        "1024": 520,
+        "1440": 520
+      },
+      "height": {
+        "390": 204,
+        "768": 176.17,
+        "1024": 176.17,
+        "1440": 176.17
+      }
+    },
+    {
+      "index": 11,
+      "id": null,
+      "label": "Deactivate location",
+      "classes": "dlg [width:min(520px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 520,
+        "1024": 520,
+        "1440": 520
+      },
+      "height": {
+        "390": 204,
+        "768": 176.17,
+        "1024": 176.17,
+        "1440": 176.17
+      }
+    },
+    {
+      "index": 12,
+      "id": null,
+      "label": "Location hierarchy",
+      "classes": "dlg geo-hierarchy-dialog-modal [width:min(560px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 374.39,
+        "768": 560,
+        "1024": 560,
+        "1440": 560
+      },
+      "height": {
+        "390": 84,
+        "768": 72,
+        "1024": 72,
+        "1440": 72
+      }
+    },
+    {
+      "index": 13,
+      "id": null,
+      "label": "Location details",
+      "classes": "dlg geo-flow-node-modal [width:min(640px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 374.39,
+        "768": 640,
+        "1024": 640,
+        "1440": 640
+      },
+      "height": {
+        "390": 132,
+        "768": 120,
+        "1024": 120,
+        "1440": 120
+      }
+    },
+    {
+      "index": 14,
+      "id": null,
+      "label": "Delete this tree",
+      "classes": "dlg [width:min(520px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 374.39,
+        "768": 520,
+        "1024": 520,
+        "1440": 520
+      },
+      "height": {
+        "390": 320.81,
+        "768": 280.44,
+        "1024": 280.44,
+        "1440": 280.44
+      }
+    },
+    {
+      "index": 15,
+      "id": null,
+      "label": "Choose parent location",
+      "classes": "dlg geo-parent-picker-modal [width:min(620px,96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 374.39,
+        "768": 620,
+        "1024": 620,
+        "1440": 620
+      },
+      "height": {
+        "390": 252,
+        "768": 212.17,
+        "1024": 212.17,
+        "1440": 212.17
+      }
+    },
+    {
+      "index": 16,
+      "id": null,
+      "label": "Choose operation unit",
+      "classes": "dlg geo-parent-picker-modal [width:min(760px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 374.39,
+        "768": 737.27,
+        "1024": 760,
+        "1440": 760
+      },
+      "height": {
+        "390": 236,
+        "768": 212.17,
+        "1024": 212.17,
+        "1440": 212.17
+      }
+    },
+    {
+      "index": 17,
+      "id": null,
+      "label": "Add Operation Unit",
+      "classes": "customer-unit-drawer absolute [top:0] [right:0] flex [width:80vw] h-full flex-col bg-surface [box-shadow:var(--shadow-2)]",
+      "inlineWidth": null,
+      "radius": "0px",
+      "position": "absolute",
+      "width": {
+        "390": 312,
+        "768": 614.39,
+        "1024": 819.19,
+        "1440": 1152
+      },
+      "height": {
+        "390": 844,
+        "768": 900,
+        "1024": 900,
+        "1440": 900
+      }
+    },
+    {
+      "index": 18,
+      "id": null,
+      "label": "Add Parent Unit",
+      "classes": "customer-unit-drawer customer-nested-unit-drawer absolute [top:0] [right:0] flex h-full flex-col bg-surface [box-shadow:var(--shadow-2)] [width:60vw]",
+      "inlineWidth": null,
+      "radius": "0px",
+      "position": "absolute",
+      "width": {
+        "390": 234,
+        "768": 460.8,
+        "1024": 614.39,
+        "1440": 864
+      },
+      "height": {
+        "390": 844,
+        "768": 900,
+        "1024": 900,
+        "1440": 900
+      }
+    },
+    {
+      "index": 19,
+      "id": null,
+      "label": "Add Geo. Location",
+      "classes": "dlg customer-location-modal [width:min(720px,_calc(100vw_-_48px))] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 342,
+        "768": 720,
+        "1024": 720,
+        "1440": 720
+      },
+      "height": {
+        "390": 758.78,
+        "768": 551.84,
+        "1024": 551.84,
+        "1440": 551.84
+      }
+    },
+    {
+      "index": 20,
+      "id": null,
+      "label": null,
+      "classes": "dlg flex min-h-0 flex-col overflow-hidden rounded-xl [width:min(1100px,_96vw)] [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 374.39,
+        "768": 737.27,
+        "1024": 983.03,
+        "1440": 1100
+      },
+      "height": {
+        "390": 184,
+        "768": 162.3,
+        "1024": 162.3,
+        "1440": 162.3
+      }
+    },
+    {
+      "index": 21,
+      "id": null,
+      "label": "Change password",
+      "classes": "dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 420,
+        "1024": 420,
+        "1440": 420
+      },
+      "height": {
+        "390": 442.53,
+        "768": 432.83,
+        "1024": 432.83,
+        "1440": 432.83
+      }
+    },
+    {
+      "index": 22,
+      "id": null,
+      "label": "Set / change PIN code",
+      "classes": "dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 420,
+        "1024": 420,
+        "1440": 420
+      },
+      "height": {
+        "390": 442.53,
+        "768": 414.7,
+        "1024": 414.7,
+        "1440": 414.7
+      }
+    },
+    {
+      "index": 23,
+      "id": null,
+      "label": "Revoke session",
+      "classes": "dlg [width:min(470px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 470,
+        "1024": 470,
+        "1440": 470
+      },
+      "height": {
+        "390": 506.84,
+        "768": 439.02,
+        "1024": 439.02,
+        "1440": 439.02
+      }
+    },
+    {
+      "index": 24,
+      "id": "customer-image-popover",
+      "label": null,
+      "classes": "customer-image-popover motion-reduce:[transition:none]",
+      "inlineWidth": null,
+      "radius": "10px",
+      "position": "fixed",
+      "width": {
+        "390": 264,
+        "768": 264,
+        "1024": 264,
+        "1440": 264
+      },
+      "height": {
+        "390": 328,
+        "768": 316,
+        "1024": 316,
+        "1440": 316
+      }
+    },
+    {
+      "index": 25,
+      "id": "stpop",
+      "label": "Document status",
+      "classes": "stpop fixed [z-index:110] [width:352px] bg-surface [border:1px_solid_var(--line)] rounded-xl [box-shadow:var(--shadow-2)] [padding:var(--ds-space-legacy-15)] hidden",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "fixed",
+      "width": {
+        "390": 352,
+        "768": 352,
+        "1024": 352,
+        "1440": 352
+      },
+      "height": {
+        "390": 120,
+        "768": 96.84,
+        "1024": 96.84,
+        "1440": 96.84
+      }
+    },
+    {
+      "index": 26,
+      "id": "drawer",
+      "label": "Log and activity",
+      "classes": "drawer fixed inset-y-0 end-0 z-[140] hidden w-[min(560px,94vw)] flex-col bg-surface shadow-shell [&.open]:flex",
+      "inlineWidth": null,
+      "radius": "0px",
+      "position": "fixed",
+      "width": {
+        "390": 366.59,
+        "768": 560,
+        "1024": 560,
+        "1440": 560
+      },
+      "height": {
+        "390": 844,
+        "768": 900,
+        "1024": 900,
+        "1440": 900
+      }
+    },
+    {
+      "index": 27,
+      "id": null,
+      "label": "Post invoice 126",
+      "classes": "dlg [width:min(640px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh] [&.wide]:[width:min(1180px,_97vw)]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 640,
+        "1024": 640,
+        "1440": 640
+      },
+      "height": {
+        "390": 489.42,
+        "768": 460.16,
+        "1024": 460.16,
+        "1440": 460.16
+      }
+    },
+    {
+      "index": 28,
+      "id": null,
+      "label": "Delete invoice 126",
+      "classes": "dlg [width:min(640px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh] [&.wide]:[width:min(1180px,_97vw)]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 640,
+        "1024": 640,
+        "1440": 640
+      },
+      "height": {
+        "390": 480.22,
+        "768": 370.7,
+        "1024": 370.7,
+        "1440": 370.7
+      }
+    },
+    {
+      "index": 29,
+      "id": null,
+      "label": "Display Journal Entry",
+      "classes": "dlg wide [width:min(640px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh] [&.wide]:[width:min(1180px,_97vw)]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 736,
+        "1024": 992,
+        "1440": 1180
+      },
+      "height": {
+        "390": 456.67,
+        "768": 299.05,
+        "1024": 299.05,
+        "1440": 299.05
+      }
+    },
+    {
+      "index": 30,
+      "id": null,
+      "label": "Cancel document 126",
+      "classes": "dlg [width:min(640px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh] [&.wide]:[width:min(1180px,_97vw)]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 640,
+        "1024": 640,
+        "1440": 640
+      },
+      "height": {
+        "390": 608.97,
+        "768": 480.45,
+        "1024": 480.45,
+        "1440": 480.45
+      }
+    },
+    {
+      "index": 31,
+      "id": null,
+      "label": "Change invoice status",
+      "classes": "dlg [width:min(520px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 520,
+        "1024": 520,
+        "1440": 520
+      },
+      "height": {
+        "390": 188,
+        "768": 176.17,
+        "1024": 176.17,
+        "1440": 176.17
+      }
+    },
+    {
+      "index": 32,
+      "id": null,
+      "label": "Screen Parameters",
+      "classes": "dlg wide [width:min(640px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh] [&.wide]:[width:min(1180px,_97vw)]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 736,
+        "1024": 992,
+        "1440": 1180
+      },
+      "height": {
+        "390": 159,
+        "768": 140.88,
+        "1024": 144.88,
+        "1440": 144.88
+      }
+    },
+    {
+      "index": 33,
+      "id": null,
+      "label": "You have unsaved work",
+      "classes": "dlg [width:min(600px,_94vw)] rounded-xl overflow-hidden flex flex-col",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 600,
+        "1024": 600,
+        "1440": 600
+      },
+      "height": {
+        "390": 294.69,
+        "768": 253.59,
+        "1024": 253.59,
+        "1440": 253.59
+      }
+    },
+    {
+      "index": 34,
+      "id": null,
+      "label": "You have unsaved customer changes",
+      "classes": "dlg [width:min(600px,_94vw)] rounded-xl overflow-hidden flex flex-col",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 600,
+        "1024": 600,
+        "1440": 600
+      },
+      "height": {
+        "390": 274.5,
+        "768": 187.61,
+        "1024": 187.61,
+        "1440": 187.61
+      }
+    },
+    {
+      "index": 35,
+      "id": null,
+      "label": "Save this table layout?",
+      "classes": "dlg [width:min(600px,_94vw)] rounded-xl overflow-hidden flex flex-col",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 600,
+        "1024": 600,
+        "1440": 600
+      },
+      "height": {
+        "390": 324.06,
+        "768": 216.98,
+        "1024": 216.98,
+        "1440": 216.98
+      }
+    },
+    {
+      "index": 36,
+      "id": null,
+      "label": "Keyboard shortcuts",
+      "classes": "kbdsheet",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 366.59,
+        "768": 520,
+        "1024": 520,
+        "1440": 520
+      },
+      "height": {
+        "390": 317.78,
+        "768": 305.78,
+        "1024": 305.78,
+        "1440": 305.78
+      }
+    },
+    {
+      "index": 37,
+      "id": null,
+      "label": "Print Settings",
+      "classes": "dlg [width:min(720px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 720,
+        "1024": 720,
+        "1440": 720
+      },
+      "height": {
+        "390": 707.88,
+        "768": 493.17,
+        "1024": 493.17,
+        "1440": 493.17
+      }
+    },
+    {
+      "index": 38,
+      "id": null,
+      "label": "Customize your sidebar",
+      "classes": "dlg cs-dlg [width:min(720px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 736,
+        "1024": 980,
+        "1440": 980
+      },
+      "height": {
+        "390": 447.92,
+        "768": 347.09,
+        "1024": 308.83,
+        "1440": 308.83
+      }
+    },
+    {
+      "index": 39,
+      "id": null,
+      "label": "Log out?",
+      "classes": "dlg lo-dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 420,
+        "1024": 420,
+        "1440": 420
+      },
+      "height": {
+        "390": 228.3,
+        "768": 216.47,
+        "1024": 216.47,
+        "1440": 216.47
+      }
+    },
+    {
+      "index": 40,
+      "id": null,
+      "label": "AI Assistant",
+      "classes": "ai-drawer fixed inset-y-0 end-0 z-[140] hidden w-[min(560px,94vw)] flex-col bg-surface shadow-shell group-[.open]:flex",
+      "inlineWidth": null,
+      "radius": "0px",
+      "position": "fixed",
+      "width": {
+        "390": 366.59,
+        "768": 560,
+        "1024": 560,
+        "1440": 560
+      },
+      "height": {
+        "390": 844,
+        "768": 900,
+        "1024": 900,
+        "1440": 900
+      }
+    },
+    {
+      "index": 41,
+      "id": "notification-modal",
+      "label": null,
+      "classes": "notification-modal fixed inset-0 z-[200] hidden [&:not(.hidden)]:flex items-center justify-center p-4 [background:var(--scrim)] backdrop-blur-[4px]",
+      "inlineWidth": null,
+      "radius": "0px",
+      "position": "fixed",
+      "width": {
+        "390": 390,
+        "768": 768,
+        "1024": 1024,
+        "1440": 1440
+      },
+      "height": {
+        "390": 844,
+        "768": 900,
+        "1024": 900,
+        "1440": 900
+      }
+    },
+    {
+      "index": 42,
+      "id": "collab-panel",
+      "label": null,
+      "classes": "fixed inset-y-0 end-0 z-[140] hidden w-[min(560px,94vw)] flex-col bg-surface shadow-shell [&.open]:flex",
+      "inlineWidth": null,
+      "radius": "0px",
+      "position": "fixed",
+      "width": {
+        "390": 366.59,
+        "768": 560,
+        "1024": 560,
+        "1440": 560
+      },
+      "height": {
+        "390": 844,
+        "768": 900,
+        "1024": 900,
+        "1440": 900
+      }
+    },
+    {
+      "index": 43,
+      "id": "collab-picker",
+      "label": "Link existing item",
+      "classes": "fixed inset-0 z-[150] hidden place-items-center [background:var(--scrim)] backdrop-blur-[4px] p-4 [&.open]:grid",
+      "inlineWidth": null,
+      "radius": "0px",
+      "position": "fixed",
+      "width": {
+        "390": 390,
+        "768": 768,
+        "1024": 1024,
+        "1440": 1440
+      },
+      "height": {
+        "390": 844,
+        "768": 900,
+        "1024": 900,
+        "1440": 900
+      }
+    },
+    {
+      "index": 44,
+      "id": null,
+      "label": null,
+      "classes": "dlg flex max-h-[90vh] w-[min(520px,96vw)] flex-col overflow-hidden rounded-xl",
+      "inlineWidth": null,
+      "radius": "12px",
+      "position": "static",
+      "width": {
+        "390": 358,
+        "768": 520,
+        "1024": 520,
+        "1440": 520
+      },
+      "height": {
+        "390": 184,
+        "768": 162.3,
+        "1024": 162.3,
+        "1440": 162.3
+      }
+    },
+    {
+      "index": 45,
+      "id": null,
+      "label": "About this prototype",
+      "classes": "box",
+      "inlineWidth": null,
+      "radius": "10px",
+      "position": "static",
+      "width": {
+        "390": 366.59,
+        "768": 720,
+        "1024": 720,
+        "1440": 720
+      },
+      "height": {
+        "390": 99,
+        "768": 81,
+        "1024": 81,
+        "1440": 81
+      }
+    }
+  ]
+}

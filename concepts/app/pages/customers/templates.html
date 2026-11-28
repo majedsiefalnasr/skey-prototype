@@ -2,9 +2,9 @@
   <div
     class="customer-list-view flex-1 min-h-0 [&:not([hidden])]:flex [&:not([hidden])]:flex-col"
     hidden>
-    <div class="phead [.d1_&]:[padding:11px_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5 px-4">
-      <div class="l [.d1_.phead_&]:[flex:1]">
-        <nav class="crumbs [.d3_.otitle_&]:[margin-bottom:3px]!" aria-label="Breadcrumb">
+    <div class="phead [.d1_&]:[padding:var(--ds-space-150)_0] [.d1_&]:flex [.d1_&]:items-start [.d1_&]:gap-5 px-4 flex-wrap">
+      <div class="l min-w-0 flex-[1_1_20rem]">
+        <nav class="crumbs [.d3_.otitle_&]:[margin-bottom:var(--ds-space-025)]!" aria-label="Breadcrumb">
           <a href="/" data-home-link data-i18n="Home">Home</a><span class="sep">›</span>
           <span aria-current="page" data-i18n="Customers">Customers</span>
         </nav>
@@ -31,7 +31,7 @@
     </div>
     <div class="canvas" id="customer-list-canvas"></div>
     <div
-      class="fnav fnav-list [.d4_&]:flex [.d4_&]:items-center [.d4_&]:gap-5 [.d4_&]:[padding:7px_16px] [.d4_&]:bg-surface [.d4_&]:[border-top:1px_solid_var(--line)]"
+      class="fnav fnav-list [.d4_&]:flex [.d4_&]:items-center [.d4_&]:gap-5 [.d4_&]:[padding:var(--ds-space-075)_var(--ds-space-200)] [.d4_&]:bg-surface [.d4_&]:[border-top:1px_solid_var(--line)]"
       id="customer-list-fnav"></div>
   </div>
 </template>
@@ -45,7 +45,7 @@
       class="canvas customer-record-canvas [flex:1] min-h-0 text-start [&_[data-customer-scroll-target]]:[scroll-margin-top:12px]"
       id="customer-record-canvas"></div>
     <div
-      class="fnav customer-record-footer flex max-[720px]:flex-wrap items-center gap-5 [padding:7px_16px] bg-surface [border-top:1px_solid_var(--line)]">
+      class="fnav customer-record-footer flex max-sm:flex-wrap items-center gap-5 [padding:var(--ds-space-075)_var(--ds-space-200)] bg-surface [border-top:1px_solid_var(--line)]">
       <span class="customer-record-pager-mount"></span>
       <span
         class="pos [.d4_.fnav_&]:text-muted [.d4_.fnav_&]:[font-size:13px]"
@@ -58,7 +58,7 @@
         Saved customer. Choose Modify to edit.
       </span>
       <span
-        class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5">
+        class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5">
         <button
           class="ctx [.d4_.cp-act_&]:w-full [.d4_.cp-act_&]:justify-start"
           type="button"

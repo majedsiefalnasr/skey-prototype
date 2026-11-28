@@ -1,10 +1,10 @@
 /* email selector relationships and behavior state that cannot be expressed by one
    element's static utilities. */
 @layer components {
-  @media (max-width: 720px) {
+  @media (width < theme(--breakpoint-sm)) {
     /* Six 44px actions fit the phone's 272px reading pane, including
        padding. Labels remain accessible; file and reply commands stay put. */
-    .email-message-toolbar { flex-wrap: nowrap; gap: 0; padding-inline: 4px; }
+    .email-message-toolbar { flex-wrap: nowrap; gap: 0; padding-inline: var(--ds-space-050); }
     .email-message-toolbar > span:not(.menu) { gap: 0; }
     .email-message-toolbar > span[aria-hidden] { display: none; }
     .email-message-toolbar :is([data-mail-action]:not([role='menuitem']), [data-mail-back], [data-more-trigger]) {
@@ -16,15 +16,15 @@
     }
     .email-message-toolbar [data-mail-action='move'] > svg:last-child { display: none; }
     .email-composer[data-empty-quick-reply] { display: none; }
-    .email-message-scroll { padding-inline: 12px; }
-    .email-reading-hd { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 8px 12px; }
+    .email-message-scroll { padding-inline: var(--ds-space-150); }
+    .email-reading-hd { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: var(--ds-space-100) var(--ds-space-150); }
     .email-reading-who > span { overflow-wrap: anywhere; }
     .email-reading-time { grid-column: 2; }
     .email-message { display: flex; flex-direction: column; }
     /* Expose the file before a long message; the body keeps its own normal
        scrolling space instead of being squeezed by the empty reply box. */
     .email-message > .email-reading-body { order: 1; }
-    .email-composer { flex-wrap: wrap; padding-inline: 12px; }
+    .email-composer { flex-wrap: wrap; padding-inline: var(--ds-space-150); }
     .email-composer > span { flex-basis: 100%; margin-inline-start: 0; }
     .email-compose-row [role='listbox'] { inset-inline-start: 0; min-width: 0; width: 100%; }
     /* Bulk selection on a phone: the selection bar sits above the list;
@@ -65,9 +65,9 @@
   .email-sel-deck { cursor: default; user-select: none; }
   .email-sel-card { position: relative; }
   .email-sel-card[data-deck-edge] {
-    margin-inline: calc(var(--deck-k, 1) * 12px);
-    margin-bottom: -10px;
-    padding-bottom: 10px;
+    margin-inline: calc(var(--deck-k, 1) * var(--ds-space-150));
+    margin-bottom: calc(var(--ds-space-100) * -1);
+    padding-bottom: var(--ds-space-100);
     height: 56px;
   }
 
@@ -98,7 +98,7 @@
      compact breakpoint arrives, the same instant the shell's sidebar
      auto-collapses — below it the mail screen swaps the rail for its mailbox
      select, which is the automatic collapse on small devices. */
-  @media (min-width: 901px) {
+  @media (min-width: theme(--breakpoint-md)) {
     .email-app {
       position: relative;
     }
@@ -110,7 +110,7 @@
       display: flex;
       flex-direction: column;
       width: var(--rail-w);
-      padding-inline: 6px;
+      padding-inline: var(--ds-space-075);
       overflow: hidden;
       background: var(--surface);
       transition: width 120ms ease-out;
@@ -152,10 +152,10 @@
       flex: 1;
       min-height: 0;
       flex-direction: column;
-      gap: 2px;
+      gap: var(--ds-space-025);
       overflow-x: hidden;
       overflow-y: auto;
-      padding-block: 8px;
+      padding-block: var(--ds-space-100);
     }
     /* Collapsed and neither hovered nor focused, labels go invisible and row
        actions stop answering the keyboard; both live past the rail's content
@@ -170,24 +170,24 @@
     }
     /* Density and touch parity with the shell rail. */
     body.density-compact .email-folders {
-      padding: 5px 4px;
+      padding: var(--ds-space-050) var(--ds-space-050);
     }
     body.density-compact .ef-row {
       height: 30px;
-      padding-inline-start: 8px;
-      gap: 7px;
+      padding-inline-start: var(--ds-space-100);
+      gap: var(--ds-space-075);
     }
     body.density-compact .ef-scroll {
-      gap: 1px;
-      padding-block: 4px;
+      gap: var(--ds-space-0);
+      padding-block: var(--ds-space-050);
     }
     body.density-compact .ef-sep {
-      margin-block: 2px;
+      margin-block: var(--ds-space-025);
     }
   }
-  @media (pointer: coarse) and (min-width: 901px) {
+  @media (pointer: coarse) and (min-width: theme(--breakpoint-md)) {
     .email-folders {
-      padding-inline: 4px;
+      padding-inline: var(--ds-space-050);
     }
     .ef-row {
       height: 44px;

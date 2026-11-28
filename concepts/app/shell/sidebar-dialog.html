@@ -1,9 +1,9 @@
 <!-- ===== customize sidebar dialog: build "For You" groups ===== -->
 <div
-  class="dscrim fixed [inset:0] [background:var(--scrim)] backdrop-blur-[4px] [z-index:130] hidden items-center justify-center [padding:24px]"
+  class="dscrim fixed [inset:0] [background:var(--scrim)] backdrop-blur-[4px] [z-index:130] hidden items-center justify-center [padding:var(--ds-space-300)]"
   id="cscrim">
   <div
-    class="dlg cs-dlg [width:min(720px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
+    class="dlg cs-dlg [width:min(968px,_96vw)] rounded-xl overflow-hidden flex flex-col [max-height:90vh]"
     data-tone="default"
     role="dialog"
     aria-modal="true"
@@ -15,14 +15,14 @@
         <p class="dhd-subtitle">Changes apply only to you, not anyone else in this branch</p>
       </div>
       <button
-        class="ibtn c-close [.rec-adjustment-row_&]:[margin-bottom:1px]!"
+        class="ibtn c-close [.rec-adjustment-row_&]:[margin-bottom:var(--ds-space-0)]!"
         aria-label="Close"
         style="margin-inline-start: auto">
         <svg width="15" height="15" aria-hidden="true"><use href="#i-x" /></svg>
       </button>
     </div>
     <div class="dlg-inner">
-      <div class="dbody cs-body [padding:16px_18px] overflow-auto">
+      <div class="dbody cs-body [padding:var(--ds-space-200)_var(--ds-space-200)] overflow-auto">
         <p class="cs-intro">
           Drag a screen — or a whole app for all its screens — from the left into a group on the
           right to build your <b>For You</b> shortcut.
@@ -44,7 +44,7 @@
       <div class="dfoot">
         <span class="sum" id="cs-count"></span>
         <span
-          class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2.5 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5">
+          class="end [.rfoot_&]:ms-auto! [.rfoot_&]:flex [.rfoot_&]:gap-2 [.jbar_&]:ms-auto! [.guard_.gf_&]:ms-auto! [.guard_.gf_&]:flex [.guard_.gf_&]:flex-wrap [.guard_.gf_&]:justify-end [.guard_.gf_&]:gap-2 [.d2_.crow_&]:ms-auto! [.d2_.crow_&]:flex [.d2_.crow_&]:items-center [.d2_.crow_&]:gap-2 [.d3_.fbar_&]:ms-auto! [.d3_.fbar_&]:flex [.d3_.fbar_&]:gap-2 [.d4_.top_&]:ms-auto! [.d4_.top_&]:flex [.d4_.top_&]:items-center [.d4_.top_&]:gap-2 [.customer-record-footer_&]:ms-auto! [.customer-record-footer_&]:flex [.customer-record-footer_&]:gap-1.5">
           <button class="lbtn out c-close">Cancel</button>
           <button class="lbtn pri" id="cs-save">Save changes</button>
         </span>

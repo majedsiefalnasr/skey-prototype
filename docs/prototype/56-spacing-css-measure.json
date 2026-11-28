@@ -1,0 +1,27 @@
+{
+  "issue": 56,
+  "before": "commit a823fdb",
+  "change": "547 on-scale px values read --ds-space-* tokens: 538 in the authored CSS files (including two --page-pad values), 5 in the spotlight restyle and 4 in the pb calc classes. The vendored driver.js base stylesheet stays verbatim; it holds one on-scale value, margin-left 4px, which the restyle overrides.",
+  "static_checks": {
+    "compiled_rules": "Each of the 3,667 style rules of the compiled stylesheet was applied to one probe element, left to right and right to left. Computed padding, margin and gap and all other declarations are identical before and after.",
+    "spotlight_style": "Replacing the tokens with their px values gives the file at a823fdb."
+  },
+  "screens": {
+    "method": "Chromium, reduced motion, fixed clock, two static builds. All routes, plus the sales invoice, customer, geography and people records, at 390px touch left to right and right to left, and at 768, 1024 and 1440px left to right. Computed padding, margin and gap of every element and its ::before and ::after, including elements that are not displayed; box position and size of displayed elements, with a 1px tolerance.",
+    "states": 280,
+    "element_readings": 924982,
+    "displayed_element_readings": 79742,
+    "spacing_differences": 0,
+    "box_differences": 0,
+    "unmatched_elements": "2 map tile images on the customer record at 1440px differed only in their loaded class.",
+    "not_opened": "No record opened from the notes, activities, events and email lists. Dialogs and menus were not opened; their rules are covered by the compiled rule check."
+  },
+  "tokens_reached": "With every spacing token set to a sentinel value, displayed elements whose spacing changed rose from 22,502 to 23,997 readings.",
+  "tests": {
+    "unit": "205 of 205 pass.",
+    "playwright": "desktop, mobile-touch and mobile-rtl projects without parity.spec.mjs: 1643 passed, 0 failed, 283 skipped."
+  },
+  "css_size_bytes": {"before": 315967, "after": 324348},
+  "limit": "Identical at the 16px default browser font size. The tokens are in rem, so a larger browser font size now scales this spacing, as the numeric utilities already do.",
+  "remaining": "408 off-scale px values in the CSS files and 6 in driver-style.js, for #57."
+}

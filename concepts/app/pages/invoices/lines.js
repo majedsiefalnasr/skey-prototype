@@ -23,7 +23,7 @@ export function createInvoiceLines({applyRecordValueDirections, applyState}) {
            '<td><input data-field disabled value="0"></td>' +
            '<td><input data-field disabled value="0"></td>' +
            '<td><input data-field disabled value="0"></td>' +
-           '<td><button type="button" class="ibtn danger rec-remove-item [.rec-adjustment-row_&]:[margin-bottom:1px]!" aria-label="Remove item"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button></td>'
+           '<td><button type="button" class="ibtn danger rec-remove-item [.rec-adjustment-row_&]:[margin-bottom:var(--ds-space-0)]!" aria-label="Remove item"><svg width="14" height="14" aria-hidden="true"><use href="#i-x"/></svg></button></td>'
          const itemFieldNames = [
            'Item',
            'Unit of measure',

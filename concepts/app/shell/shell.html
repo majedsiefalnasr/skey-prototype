@@ -1,15 +1,15 @@
     <!-- ===== shared templates ===== -->
     <template id="t-top">
-      <header class="gtop flex items-center gap-5 border-b border-line py-[9px] pe-4 ps-2">
-        <div class="left flex w-[calc(var(--sidebar-w)-16px)] shrink-0 items-center gap-2.5">
+      <header class="gtop flex items-center gap-5 border-b border-line py-2 pe-4 ps-2">
+        <div class="left flex w-[calc(var(--sidebar-w)-16px)] shrink-0 items-center gap-2">
           <div class="menu app-switcher-menu">
-            <button class="ibtn [.rec-adjustment-row_&]:[margin-bottom:1px]!" aria-label="Switch app" data-i18n-aria-label="Switch app" aria-haspopup="menu" aria-expanded="false">
+            <button class="ibtn [.rec-adjustment-row_&]:[margin-bottom:var(--ds-space-0)]!" aria-label="Switch app" data-i18n-aria-label="Switch app" aria-haspopup="menu" aria-expanded="false">
               <svg width="16" height="16" aria-hidden="true"><use href="#i-grid" /></svg
               ><span class="tip" data-i18n="Switch app">Switch app</span>
             </button>
             <div class="mlist app-switcher-list" role="menu"></div>
           </div>
-          <button class="ibtn side-toggle [.rec-adjustment-row_&]:[margin-bottom:1px]!" aria-label="Collapse sidebar" aria-pressed="false">
+          <button class="ibtn side-toggle [.rec-adjustment-row_&]:[margin-bottom:var(--ds-space-0)]!" aria-label="Collapse sidebar" aria-pressed="false">
             <svg width="16" height="16" aria-hidden="true"><use href="#i-panel" /></svg
             ><span class="tip">Collapse sidebar</span>
           </button>
@@ -20,16 +20,17 @@
         </div>
         <div class="gsearch relative flex flex-1 justify-center">
           <div class="swrap relative w-[min(620px,100%)]">
-            <button class="sbox s-open flex w-full items-center gap-2 rounded-lg border border-line bg-surface px-3 py-[7px] text-start text-muted" aria-label="Search or run an action">
+            <button class="sbox s-open flex w-full items-center gap-2 rounded-lg border border-line bg-surface px-3 py-1.5 text-start text-muted" aria-label="Search or run an action">
               <svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg>
               <span
                 class="shell-search-label search-typing-label"
                 data-search-static="Search or run an action"
                 >Search or run an action</span
               >
-              <span class="ms-auto rounded border border-line bg-[var(--line-2)] px-1.5 py-px font-mono text-[11px] text-muted">⌘K</span>
+              <span class="shell-search-short" data-i18n="Search">Search</span>
+              <span class="shell-search-hint ms-auto rounded border border-line bg-[var(--line-2)] px-1.5 py-0 font-mono text-caption text-muted">⌘K</span>
             </button>
-            <div class="spanel fixed inset-x-0 top-3.5 z-[160] mx-auto hidden max-h-[min(600px,68vh)] w-[min(620px,92vw)] flex-col overflow-hidden rounded-[9px] border-[1.5px] border-line bg-surface shadow-[var(--shadow-2)]" role="dialog" aria-label="Search" data-i18n-aria-label="Search">
+            <div class="spanel fixed inset-x-0 top-3.5 z-[160] mx-auto hidden max-h-[min(600px,68vh)] w-[min(620px,92vw)] flex-col overflow-hidden rounded-lg border-[1.5px] border-line bg-surface shadow-[var(--shadow-2)]" role="dialog" aria-label="Search" data-i18n-aria-label="Search">
               <div class="sinp flex items-center gap-2 border-b border-line px-3 py-2">
                 <svg width="15" height="15" aria-hidden="true"><use href="#i-search" /></svg>
                 <input
@@ -38,45 +39,45 @@
                   placeholder="Search screens, customers and invoices, or type an action"
                   data-i18n-placeholder="Search screens, customers and invoices, or type an action"
                   autocomplete="off" />
-                <span class="rounded border border-line bg-[var(--line-2)] px-1.5 py-px font-mono text-[11px] text-muted">Esc</span>
+                <span class="rounded border border-line bg-[var(--line-2)] px-1.5 py-0 font-mono text-caption text-muted">Esc</span>
               </div>
-              <div class="sctx flex flex-wrap items-center gap-2 border-b border-line bg-[var(--line-2)] px-3.5 py-2 text-xs text-muted">
+              <div class="sctx flex flex-wrap items-center gap-2 border-b border-line bg-[var(--line-2)] px-3 py-2 text-xs text-muted">
                 <span class="sctx-current"><span data-i18n="You are on">You are on</span> <b class="text-ink">Sales Invoice</b><span class="sctx-no"></span></span>
                 <span class="sscope ms-auto inline-flex gap-1" role="group" aria-label="Scope" data-i18n-aria-label="Scope">
-                  <button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="all" aria-pressed="true" data-i18n="Everything">Everything</button>
-                  <button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="screens" aria-pressed="false" data-i18n="Screens">Screens</button>
-                  <button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="records" aria-pressed="false" data-i18n="Records">Records</button>
-                  <button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="actions" aria-pressed="false" data-i18n="Actions">Actions</button>
+                  <button class="rounded-full border border-line bg-surface px-2 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="all" aria-pressed="true" data-i18n="Everything">Everything</button>
+                  <button class="rounded-full border border-line bg-surface px-2 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="screens" aria-pressed="false" data-i18n="Screens">Screens</button>
+                  <button class="rounded-full border border-line bg-surface px-2 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="records" aria-pressed="false" data-i18n="Records">Records</button>
+                  <button class="rounded-full border border-line bg-surface px-2 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="actions" aria-pressed="false" data-i18n="Actions">Actions</button>
                 </span>
               </div>
               <div class="slist flex-1 overflow-auto p-1.5" role="listbox"></div>
-              <div class="sfoot flex items-center gap-[15px] border-t border-line bg-[var(--line-2)] px-3.5 py-2 text-xs text-muted">
-                <span><span class="k rounded border border-line bg-surface px-1.5 py-px font-mono text-[11px] me-[5px]">↑↓</span><span data-i18n="Navigate">Navigate</span></span
-                ><span><span class="k rounded border border-line bg-surface px-1.5 py-px font-mono text-[11px] me-[5px]">↵</span><span data-i18n="Open">Open</span></span>
-                <span class="sfoot-scope"><span class="k rounded border border-line bg-surface px-1.5 py-px font-mono text-[11px] me-[5px]">Tab</span><span data-i18n="Change scope">Change scope</span></span>
+              <div class="sfoot flex items-center gap-4 border-t border-line bg-[var(--line-2)] px-3 py-2 text-xs text-muted">
+                <span><span class="k rounded border border-line bg-surface px-1.5 py-0 font-mono text-caption me-1">↑↓</span><span data-i18n="Navigate">Navigate</span></span
+                ><span><span class="k rounded border border-line bg-surface px-1.5 py-0 font-mono text-caption me-1">↵</span><span data-i18n="Open">Open</span></span>
+                <span class="sfoot-scope"><span class="k rounded border border-line bg-surface px-1.5 py-0 font-mono text-caption me-1">Tab</span><span data-i18n="Change scope">Change scope</span></span>
                 <span class="sfoot-ctx ms-auto"></span>
               </div>
             </div>
           </div>
         </div>
-        <div class="right flex shrink-0 items-center gap-[7px]">
-          <button class="chip inline-flex items-center gap-1.5 rounded-full border border-line px-[11px] py-[5px]" aria-label="AI Assistant" data-i18n-aria-label="AI Assistant" title="AI Assistant">
+        <div class="right flex shrink-0 items-center gap-1.5 max-xs:relative">
+          <button class="chip inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1" aria-label="AI Assistant" data-i18n-aria-label="AI Assistant" title="AI Assistant">
             <svg width="14" height="14" aria-hidden="true"><use href="#i-spark" /></svg> <span data-i18n="AI Assistant">AI Assistant</span>
           </button>
-          <div class="menu">
+          <div class="menu max-xs:static!">
             <button
-              class="ibtn [.rec-adjustment-row_&]:[margin-bottom:1px]!"
+              class="ibtn [.rec-adjustment-row_&]:[margin-bottom:var(--ds-space-0)]!"
               aria-label="System Alerts"
               data-i18n-aria-label="System Alerts"
               aria-haspopup="dialog"
               aria-controls="notifications-popover"
               aria-expanded="false">
               <svg width="16" height="16" aria-hidden="true"><use href="#i-bell" /></svg
-              ><span class="notif-badge absolute top-[3px] end-[3px] min-w-[14px] h-[14px] rounded-full border-2 border-surface bg-[var(--danger-bold)] px-[3px] text-center text-[9.5px] font-bold leading-[14px] text-inverse" id="notif-badge" hidden></span
+              ><span class="notif-badge absolute top-[var(--ds-space-025)] end-[var(--ds-space-025)] min-w-4 h-4 rounded-full border-2 border-surface bg-[var(--danger-bold)] px-0.5 text-center text-badge font-bold leading-3 text-inverse" id="notif-badge" hidden></span
               ><span class="tip" data-i18n="Alerts">Alerts</span>
             </button>
 <!-- include: ../components/notifications/notifications.html -->          <div class="menu">
-            <button class="ibtn [.rec-adjustment-row_&]:[margin-bottom:1px]!" aria-label="Help" data-i18n-aria-label="Help" aria-haspopup="menu" aria-expanded="false">
+            <button class="ibtn [.rec-adjustment-row_&]:[margin-bottom:var(--ds-space-0)]!" aria-label="Help" data-i18n-aria-label="Help" aria-haspopup="menu" aria-expanded="false">
               <svg width="16" height="16" aria-hidden="true"><use href="#i-help" /></svg
               ><span class="tip" data-i18n="Help">Help</span>
             </button>
@@ -103,12 +104,12 @@
               <span class="avatar inline-flex size-8 items-center justify-center rounded-full bg-[var(--line-2)] text-muted" aria-hidden="true"><svg width="17" height="17"><use href="#i-user" /></svg></span>
             </button>
             <div class="mlist mend user-pop" role="menu" style="min-width: 270px">
-              <button role="menuitem" class="user-card profile-menu mb-0.5 flex w-full items-center gap-2.5 px-2.5! pt-2.5! pb-3! text-start" data-profile-section="profile">
-                <span class="avatar inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-[var(--line-2)] text-[12px] font-semibold text-muted" data-user-initials aria-hidden="true"></span>
+              <button role="menuitem" class="user-card profile-menu mb-0.5 flex w-full items-center gap-2 px-2! pt-2! pb-3! text-start" data-profile-section="profile">
+                <span class="avatar inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-[var(--line-2)] text-small font-semibold text-muted" data-user-initials aria-hidden="true"></span>
                 <span class="min-w-0 block">
-                  <b class="block truncate text-[13.5px] text-ink" data-user-name>Majed Sief Alnasr</b>
+                  <b class="block truncate text-body-lg text-ink" data-user-name>Majed Sief Alnasr</b>
                   <span class="block truncate text-xs text-muted" data-user-email>admin@lastchance.local</span>
-                  <span class="mt-1 block text-[11px] text-muted"
+                  <span class="mt-1 block text-caption text-muted"
                     ><span class="badge gray"><span data-active-role-label>Administrator</span></span>
                     · <span data-user-tenant>lastchance</span> / <span data-user-branch>Cairo HQ</span></span
                   >
@@ -124,15 +125,15 @@
                 <span data-i18n="Appearance">Appearance</span>
               </button>
               <details class="data-menu data-manage-submenu language-submenu relative">
-                <summary role="menuitem" class="flex w-full min-h-[32px] items-center gap-[9px] rounded-[5px] px-2 py-1.5 text-[12.5px] font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden [&_svg:last-child]:ms-auto [&_svg:last-child]:text-muted rtl:[&_svg:last-child]:scale-x-[-1]">
+                <summary role="menuitem" class="flex w-full min-h-[32px] items-center gap-2 rounded-md px-2 py-1.5 text-dense font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden [&_svg:last-child]:ms-auto [&_svg:last-child]:text-muted rtl:[&_svg:last-child]:scale-x-[-1]">
                   <svg width="15" height="15" aria-hidden="true"><use href="#i-globe" /></svg>
-                  <span class="data-manage-copy grid min-w-0 gap-px">
-                    <strong class="text-[12.5px] font-semibold" data-i18n="Language">Language</strong>
+                  <span class="data-manage-copy grid min-w-0 gap-0">
+                    <strong class="text-dense font-semibold" data-i18n="Language">Language</strong>
                     <small class="text-xs font-normal text-muted" data-language-current>English</small>
                   </span>
                   <svg width="10" height="10" aria-hidden="true"><use href="#i-next" /></svg>
                 </summary>
-                <div class="data-menu-popover fixed z-[120] grid min-w-[180px] max-w-[min(420px,calc(100vw-16px))] max-h-[min(420px,calc(100vh-16px))] gap-0.5 overflow-auto rounded-lg border border-line bg-surface p-1.5 [box-shadow:var(--shadow-1)] [&>label]:flex [&>label]:w-full [&>label]:min-h-8 [&>label]:cursor-pointer [&>label]:items-center [&>label]:gap-[9px] [&>label]:rounded-[5px] [&>label]:px-2 [&>label]:py-1.5 [&>label]:text-start [&>label]:font-[inherit]! [&>label]:text-[14px]! [&>label]:text-ink! [&>label:hover]:bg-[var(--line-2)]! [&>label:has(input:focus-visible)]:outline-2 [&>label:has(input:focus-visible)]:outline-offset-1 [&>label:has(input:focus-visible)]:outline-accent" role="radiogroup" aria-label="Language" data-i18n-aria-label="Language">
+                <div class="data-menu-popover fixed z-[120] grid min-w-[180px] max-w-[min(420px,calc(100vw-16px))] max-h-[min(420px,calc(100vh-16px))] gap-0.5 overflow-auto rounded-lg border border-line bg-surface p-1.5 [box-shadow:var(--shadow-1)] [&>label]:flex [&>label]:w-full [&>label]:min-h-8 [&>label]:cursor-pointer [&>label]:items-center [&>label]:gap-2 [&>label]:rounded-md [&>label]:px-2 [&>label]:py-1.5 [&>label]:text-start [&>label]:font-[inherit]! [&>label]:text-subtitle! [&>label]:text-ink! [&>label:hover]:bg-[var(--line-2)]! [&>label:has(input:focus-visible)]:outline-2 [&>label:has(input:focus-visible)]:outline-offset-1 [&>label:has(input:focus-visible)]:outline-accent" role="radiogroup" aria-label="Language" data-i18n-aria-label="Language">
                   <label class="data-manage-radio" data-language="en" lang="en"><input type="radio" name="skey-language" value="en" checked><span>English</span><span class="ms-auto text-xs text-muted">EN</span></label>
                   <label class="data-manage-radio" data-language="ar" lang="ar"><input type="radio" name="skey-language" value="ar"><span>العربية</span><span class="ms-auto text-xs text-muted">AR</span></label>
                   <label class="data-manage-radio" data-language="fr" lang="fr"><input type="radio" name="skey-language" value="fr"><span>Français</span><span class="ms-auto text-xs text-muted">FR</span></label>
@@ -168,10 +169,10 @@
               <details class="data-menu data-manage-submenu branch-submenu relative">
                 <summary
                   role="menuitem"
-                  class="flex w-full min-h-[32px] items-center gap-[9px] rounded-[5px] px-2 py-1.5 text-[12.5px] font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden [&_svg:last-child]:ms-auto [&_svg:last-child]:text-muted rtl:[&_svg:last-child]:scale-x-[-1]">
+                  class="flex w-full min-h-[32px] items-center gap-2 rounded-md px-2 py-1.5 text-dense font-normal whitespace-normal text-ink cursor-pointer list-none [&::-webkit-details-marker]:hidden [&_svg:last-child]:ms-auto [&_svg:last-child]:text-muted rtl:[&_svg:last-child]:scale-x-[-1]">
                   <svg width="15" height="15" aria-hidden="true"><use href="#i-location" /></svg>
-                  <span class="data-manage-copy grid min-w-0 gap-px">
-                    <strong class="text-[12.5px] font-semibold" data-i18n="Workspace">Workspace</strong>
+                  <span class="data-manage-copy grid min-w-0 gap-0">
+                    <strong class="text-dense font-semibold" data-i18n="Workspace">Workspace</strong>
                     <small class="text-xs font-normal text-muted"
                       ><span data-user-tenant>lastchance</span> / <span data-user-branch>Cairo HQ</span></small
                     >

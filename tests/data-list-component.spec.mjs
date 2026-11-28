@@ -46,6 +46,13 @@ test('invoice kanban retains list behavior', async () => {
 test('rows-per-page control matches the page-jump field', async ({page}) => {
   await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'list');
+  // Below sm a list of three pages or fewer hides the page-jump field (#48).
+  const viewport = page.viewportSize();
+  if (viewport.width < 768) {
+    await expect(page.locator('#list-fnav .data-pagination-jump')).toBeHidden();
+    await page.setViewportSize({width: 768, height: viewport.height});
+    await settle(page);
+  }
 
   const geometry = await page.locator('#list-fnav').evaluate(footer => {
     const jump = footer.querySelector('.data-pagination-jump-input');

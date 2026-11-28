@@ -22,7 +22,7 @@ export const menuItemCheck = ({attr, value, label, checked, iconName = ''}) =>
   `<button type="button" role="menuitemcheckbox" aria-checked="${checked}" data-${attr}="${escapeHtml(value)}">${iconName ? icon(iconName, 14) : ''}<span>${escapeHtml(t(label))}</span>${checked ? icon('i-check', 13) : ''}</button>`
 
 export const menuGroupLabel = label =>
-  `<span class="px-2 pt-[7px] pb-1 text-xs font-bold text-muted">${escapeHtml(t(label))}</span>`
+  `<span class="px-2 pt-1.5 pb-1 text-xs font-bold text-muted">${escapeHtml(t(label))}</span>`
 
 /** The left-hand menu: quick filters, or the "+ Filter" field menu. */
 export const menuDetails = ({attr, iconName, label, items, end = false}) =>
@@ -40,9 +40,9 @@ export const clearFilterButton = ({attr}) =>
 
 /** The search field — the invoices list's right-cluster input. */
 export const searchField = ({attr, label, value}) =>
-  `<label class="data-search relative flex items-center [&>svg:first-child]:absolute [&>svg:first-child]:start-[9px] [&>svg:first-child]:text-muted [&>svg:first-child]:pointer-events-none">${icon(
+  `<label class="data-search relative flex items-center [&>svg:first-child]:absolute [&>svg:first-child]:start-[var(--ds-space-100)] [&>svg:first-child]:text-muted [&>svg:first-child]:pointer-events-none">${icon(
     'i-search'
-  )}<input type="search" class="w-[clamp(160px,18vw,260px)] min-h-[32px] rounded-md border border-line bg-surface py-[5px] ps-[30px] pe-7 font-[inherit] text-[12.5px] text-ink focus:border-[var(--accent)] focus:outline focus:outline-2 focus:outline-[var(--accent-soft)]" data-${attr} value="${escapeHtml(
+  )}<input type="search" class="w-[clamp(160px,18vw,260px)] min-h-[32px] rounded-md border border-line bg-surface py-1 ps-8 pe-8 font-[inherit] text-dense text-ink focus:border-[var(--accent)] focus:outline focus:outline-2 focus:outline-[var(--accent-soft)]" data-${attr} value="${escapeHtml(
     value
   )}" placeholder="${escapeHtml(t('Search ' + label))}" aria-label="${escapeHtml(t('Search ' + label))}"><button class="data-search-clear absolute end-1 grid size-6 place-items-center rounded p-0 border-0 bg-transparent text-muted cursor-pointer" type="button" data-${attr}-clear aria-label="${escapeHtml(t("Clear search"))}"${
     value ? '' : ' hidden'
@@ -57,7 +57,7 @@ export const viewMenu = ({attr, label, iconName, options}) =>
 
 /** The toolbar row itself — left filter cluster, right search + view. */
 export const toolbarRow = ({ariaLabel, left, right}) =>
-  `<div class="data-list-toolbar flex min-h-[46px] flex-wrap items-center gap-2 py-[7px]" role="toolbar" aria-label="${escapeHtml(ariaLabel)}">
+  `<div class="data-list-toolbar flex min-h-[46px] flex-wrap items-center gap-2 py-1.5" role="toolbar" aria-label="${escapeHtml(ariaLabel)}">
     <div class="flex min-w-0 [flex:1_1_auto] flex-wrap items-center gap-1.5">${left}</div>
     <div class="flex min-w-0 flex-wrap items-center gap-1.5 ms-auto">${right}</div>
   </div>`
@@ -124,7 +124,7 @@ export const collabFilterChip = ({field, filter}) => {
       .map(option => {
         const value = optionValue(option)
         const selected = picked.includes(value)
-        return `<button class="flex min-h-8 w-full cursor-pointer items-center gap-2 rounded-[5px] px-2 text-start text-[12.5px] text-ink hover:bg-[var(--line-2)] aria-selected:bg-[var(--line-2)]" type="button" role="option" aria-selected="${selected}" data-collab-multi-option="${escapeHtml(
+        return `<button class="flex min-h-8 w-full cursor-pointer items-center gap-2 rounded-md px-2 text-start text-dense text-ink hover:bg-[var(--line-2)] aria-selected:bg-[var(--line-2)]" type="button" role="option" aria-selected="${selected}" data-collab-multi-option="${escapeHtml(
           field.key
         )}" data-value="${escapeHtml(value)}"><span class="grid size-4 flex-none place-items-center text-muted" data-collab-multi-check aria-hidden="true">${
           selected ? icon('i-check', 13) : ''
@@ -133,7 +133,7 @@ export const collabFilterChip = ({field, filter}) => {
       .join('')
     return `<span class="${DATA_FILTER_CHIP_CLASS}"><details class="data-menu data-filter-editor relative min-w-0" data-collab-editor-key="${escapeHtml(
       field.key
-    )}">${summary}<div class="${DATA_MENU_POPOVER_CLASS} min-w-[min(240px,calc(100vw-16px))] p-1.5" role="listbox" aria-multiselectable="true" aria-label="${escapeHtml(t(field.label))} filter values"><input type="search" class="mb-1 w-full min-h-[30px] rounded-md border border-line bg-surface px-2 py-1 font-[inherit] text-[12.5px] text-ink" data-collab-filter-search="${escapeHtml(
+    )}">${summary}<div class="${DATA_MENU_POPOVER_CLASS} min-w-[min(240px,calc(100vw-16px))] p-1.5" role="listbox" aria-multiselectable="true" aria-label="${escapeHtml(t(field.label))} filter values"><input type="search" class="mb-1 w-full min-h-[30px] rounded-md border border-line bg-surface px-2 py-1 font-[inherit] text-dense text-ink" data-collab-filter-search="${escapeHtml(
       field.key
     )}" placeholder="Search ${escapeHtml(field.label.toLowerCase())}" aria-label="Search ${escapeHtml(t(field.label))}" autocomplete="off"><div class="grid max-h-52 gap-0.5 overflow-auto" data-collab-multi-options="${escapeHtml(
       field.key
@@ -159,12 +159,12 @@ export const collabFilterChip = ({field, filter}) => {
         item.key
       )}" data-collab-filter-key="${escapeHtml(field.key)}" aria-pressed="${item.key === filter.operator}">${escapeHtml(t(item.label))}</button>`
   ).join('')}</div>`
-  const input = `<input type="text" class="w-full min-h-[36px] rounded-md border border-line bg-surface px-[9px] py-1.5 font-[inherit] text-ink" data-collab-filter-value="${escapeHtml(
+  const input = `<input type="text" class="w-full min-h-[36px] rounded-md border border-line bg-surface px-2 py-1.5 font-[inherit] text-ink" data-collab-filter-value="${escapeHtml(
     field.key
   )}" value="${escapeHtml(filter.value)}" placeholder="Enter ${escapeHtml(field.label.toLowerCase())}" aria-label="${escapeHtml(t(field.label))} filter value">`
   return `<span class="${DATA_FILTER_CHIP_CLASS}"><details class="data-menu data-filter-editor relative min-w-0" data-collab-editor-key="${escapeHtml(
     field.key
-  )}">${summary}<div class="${DATA_MENU_POPOVER_CLASS} min-w-[min(260px,calc(100vw-16px))] p-2.5">${operators}${input}</div></details>${remove}</span>`
+  )}">${summary}<div class="${DATA_MENU_POPOVER_CLASS} min-w-[min(260px,calc(100vw-16px))] p-2">${operators}${input}</div></details>${remove}</span>`
 }
 
 export const collabFilterChips = ({fields, filters}) =>

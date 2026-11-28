@@ -3,26 +3,26 @@
               id="notifications-popover"
               role="dialog"
               aria-labelledby="notifications-title"
-              style="min-width: 340px">
-              <div class="notif-hd flex items-center gap-2 px-3.5 pb-3 pt-3.5">
-                <b id="notifications-title" class="flex-1 text-[14.5px] text-ink">Notifications</b>
-                <label class="switch relative inline-flex h-[17px] w-[30px] flex-none" for="notif-unread-only"
+              style="min-width: min(340px, calc(100vw - 16px))">
+              <div class="notif-hd flex items-center gap-2 px-3 pb-3 pt-3">
+                <b id="notifications-title" class="flex-1 text-heading-sm text-ink">Notifications</b>
+                <label class="switch relative inline-flex h-[var(--ds-switch-height)] w-[var(--ds-switch-width)] flex-none" for="notif-unread-only"
                   ><input
                     class="peer absolute inset-0 m-0 cursor-pointer opacity-0"
                     id="notif-unread-only"
                     type="checkbox"
-                    aria-label="Only show unread" /><span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-[background] duration-[120ms] before:absolute before:start-0.5 before:top-0.5 before:size-[13px] before:rounded-full before:bg-inverse before:transition-[translate] before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[13px] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[13px]"></span
+                    aria-label="Only show unread" /><span class="pointer-events-none absolute inset-0 rounded-full bg-line transition-[background] duration-[120ms] before:absolute before:start-0.5 before:top-0.5 before:size-[var(--ds-switch-thumb-size)] before:rounded-full before:bg-inverse before:transition-[translate] before:duration-[120ms] before:content-[''] peer-checked:bg-accent peer-checked:before:translate-x-[var(--ds-switch-thumb-travel)] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)] rtl:peer-checked:before:-translate-x-[var(--ds-switch-thumb-travel)]"></span
                 ></label>
                 <span class="notif-hd-lbl text-xs text-muted">Only show unread</span>
               </div>
-              <div class="notif-tabs sticky top-0 z-[2] flex gap-0.5 border-b border-line bg-surface px-2.5" role="tablist" aria-label="Notification type">
-                <button role="tab" aria-selected="true" tabindex="0" data-tab="direct" class="w-auto rounded-none border-b-2 border-transparent px-3.5 py-2 text-[13px] font-semibold text-muted aria-selected:border-accent aria-selected:text-accent [&:hover:not([aria-selected=true])]:bg-[var(--line-2)] [&:hover:not([aria-selected=true])]:text-ink focus-visible:outline-2 focus-visible:outline-[var(--focus)] focus-visible:outline-offset-[-2px]">
+              <div class="notif-tabs sticky top-0 z-[2] flex gap-0.5 border-b border-line bg-surface px-2" role="tablist" aria-label="Notification type">
+                <button role="tab" aria-selected="true" tabindex="0" data-tab="direct" class="w-auto rounded-none border-b-2 border-transparent px-2 py-1.5 text-body font-medium text-muted aria-selected:border-accent aria-selected:text-accent [&:hover:not([aria-selected=true])]:bg-[var(--line-2)] [&:hover:not([aria-selected=true])]:text-ink focus-visible:outline-2 focus-visible:outline-[var(--focus)] focus-visible:outline-offset-[-2px]">
                   Direct
                 </button>
-                <button role="tab" aria-selected="false" tabindex="-1" data-tab="email" class="w-auto rounded-none border-b-2 border-transparent px-3.5 py-2 text-[13px] font-semibold text-muted aria-selected:border-accent aria-selected:text-accent [&:hover:not([aria-selected=true])]:bg-[var(--line-2)] [&:hover:not([aria-selected=true])]:text-ink focus-visible:outline-2 focus-visible:outline-[var(--focus)] focus-visible:outline-offset-[-2px]">
+                <button role="tab" aria-selected="false" tabindex="-1" data-tab="email" class="w-auto rounded-none border-b-2 border-transparent px-2 py-1.5 text-body font-medium text-muted aria-selected:border-accent aria-selected:text-accent [&:hover:not([aria-selected=true])]:bg-[var(--line-2)] [&:hover:not([aria-selected=true])]:text-ink focus-visible:outline-2 focus-visible:outline-[var(--focus)] focus-visible:outline-offset-[-2px]">
                   Email
                 </button>
               </div>
-              <div class="notif-body p-2" id="notif-body"></div>
+              <div class="notif-body relative p-2" id="notif-body"></div>
             </div>
           </div>

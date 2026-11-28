@@ -1,0 +1,4128 @@
+{
+  "measuredAt": "2026-11-25T16:33:09.420Z",
+  "base": "http://127.0.0.1:4173",
+  "widths": [
+    390,
+    768,
+    1024,
+    1440
+  ],
+  "routes": [
+    "/",
+    "/dashboard",
+    "/system/profile?section=appearance",
+    "/help-screens/notifications",
+    "/help-screens/notes",
+    "/help-screens/activities",
+    "/help-screens/events",
+    "/help-screens/people-data",
+    "/help-screens/email",
+    "/customers/list",
+    "/sales-systems-management/sales-invoices",
+    "/system-setup/geographical-structure",
+    "/system/organization"
+  ],
+  "results": [
+    {
+      "route": "/",
+      "width": 390,
+      "rows": [
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "width": 768,
+      "rows": []
+    },
+    {
+      "route": "/",
+      "width": 1024,
+      "rows": [
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "rows": [
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/dashboard",
+      "width": 390,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/dashboard",
+      "width": 768,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/dashboard",
+      "width": 1024,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/dashboard",
+      "width": 1440,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/system/profile?section=appearance",
+      "width": 390,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "appearance-high-contrast",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "appearance-launchpad",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/system/profile?section=appearance",
+      "width": 768,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "appearance-high-contrast",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "appearance-launchpad",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/system/profile?section=appearance",
+      "width": 1024,
+      "rows": []
+    },
+    {
+      "route": "/system/profile?section=appearance",
+      "width": 1440,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "appearance-high-contrast",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "appearance-launchpad",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/notifications",
+      "width": 390,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/notifications",
+      "width": 768,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/notifications",
+      "width": 1024,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/notifications",
+      "width": 1440,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/notes",
+      "width": 390,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/notes",
+      "width": 768,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/notes",
+      "width": 1024,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/notes",
+      "width": 1440,
+      "rows": []
+    },
+    {
+      "route": "/help-screens/activities",
+      "width": 390,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/activities",
+      "width": 768,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/activities",
+      "width": 1024,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/activities",
+      "width": 1440,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/events",
+      "width": 390,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "event-reminders-enabled",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/events",
+      "width": 768,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "event-reminders-enabled",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/events",
+      "width": 1024,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "event-reminders-enabled",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/events",
+      "width": 1440,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switch (.switch)",
+          "label": "event-reminders-enabled",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/people-data",
+      "width": 390,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/people-data",
+      "width": 768,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/people-data",
+      "width": 1024,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/people-data",
+      "width": 1440,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/email",
+      "width": 390,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switchRow (role=switch, wrapper)",
+          "label": "Select all",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "switchRow (role=switch, wrapper)",
+          "label": "Unread only",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/email",
+      "width": 768,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switchRow (role=switch, wrapper)",
+          "label": "Select all",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "switchRow (role=switch, wrapper)",
+          "label": "Unread only",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/email",
+      "width": 1024,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switchRow (role=switch, wrapper)",
+          "label": "Select all",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "switchRow (role=switch, wrapper)",
+          "label": "Unread only",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/help-screens/email",
+      "width": 1440,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "switchRow (role=switch, wrapper)",
+          "label": "Select all",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "switchRow (role=switch, wrapper)",
+          "label": "Unread only",
+          "visible": true,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 30,
+          "rectH": 17,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/customers/list",
+      "width": 390,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/customers/list",
+      "width": 768,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/customers/list",
+      "width": 1024,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/customers/list",
+      "width": 1440,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/sales-systems-management/sales-invoices",
+      "width": 390,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/sales-systems-management/sales-invoices",
+      "width": 768,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/sales-systems-management/sales-invoices",
+      "width": 1024,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/sales-systems-management/sales-invoices",
+      "width": 1440,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/system-setup/geographical-structure",
+      "width": 390,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/system-setup/geographical-structure",
+      "width": 768,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/system-setup/geographical-structure",
+      "width": 1024,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/system-setup/geographical-structure",
+      "width": 1440,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/system/organization",
+      "width": 390,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/system/organization",
+      "width": 768,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/system/organization",
+      "width": 1024,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    },
+    {
+      "route": "/system/organization",
+      "width": 1440,
+      "rows": [
+        {
+          "kind": "switch (.switch)",
+          "label": "Only show unread",
+          "visible": false,
+          "declaredW": "30px",
+          "declaredH": "17px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": "13px",
+          "thumbH": "13px",
+          "wrapperClass": "switch relative inline-flex h-[17px] w-[30px] flex-none"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Calculate Tax On Free Qty",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-type-deactivate",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "customer-parent-unit-affected",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        },
+        {
+          "kind": "toggle-track (34x20 dialog)",
+          "label": "Staff only — the customer never sees this",
+          "visible": false,
+          "declaredW": "34px",
+          "declaredH": "20px",
+          "rectW": 0,
+          "rectH": 0,
+          "thumbW": null,
+          "thumbH": null,
+          "wrapperClass": "customer-dialog-toggle-track relative flex-none w-[34px] h-5 rounded-full bg-[va"
+        }
+      ]
+    }
+  ]
+}

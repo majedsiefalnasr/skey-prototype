@@ -774,6 +774,7 @@ const recordPagers = new Map(
               )
             )
               return
+            el.toggleAttribute('data-unsaved', creating)
             el.textContent = creating
               ? t(
                   'Not saved yet — this invoice takes its number and its place in the list when you save'
@@ -874,7 +875,7 @@ const recordPagers = new Map(
             m.innerHTML = CHAIN.map(c => {
               const on = reached(c.id),
                 cur = !creating && c.id === st
-              return `<div class="cp-mini ${on ? (cur ? 'cur' : 'done') : 'off'} flex [gap:9px] [padding-bottom:11px] relative [&:last-child]:[padding-bottom:0]"><span class="cp-dot [width:16px] [height:16px] rounded-full [flex:none] [border:2px_solid_var(--line)] bg-surface [z-index:1] flex items-center justify-center [color:var(--inverse)] [background:var(--accent)] [border-color:var(--accent)]">${on && !cur ? '<svg width="9" height="9"><use href="#i-check"/></svg>' : ''}</span>
+              return `<div class="cp-mini ${on ? (cur ? 'cur' : 'done') : 'off'} flex [gap:var(--ds-space-100)] [padding-bottom:var(--ds-space-150)] relative [&:last-child]:[padding-bottom:0]"><span class="cp-dot [width:16px] [height:16px] rounded-full [flex:none] [border:2px_solid_var(--line)] bg-surface [z-index:1] flex items-center justify-center [color:var(--inverse)] [background:var(--accent)] [border-color:var(--accent)]">${on && !cur ? '<svg width="9" height="9"><use href="#i-check"/></svg>' : ''}</span>
         <div><div class="n [.d4_.cp-mini_&]:text-xs [.d4_.cp-mini_&]:font-semibold [.d4_.cp-mini.off_&]:text-muted [.d4_.cp-mini.off_&]:font-normal">${c.name}</div><div class="d [.dcard_&]:text-xs [.dcard_&]:text-muted [.dcard_&]:[line-height:1.35] [.d4_.cp-mini_&]:text-xs [.d4_.cp-mini_&]:text-muted">${on ? c.when || '—' : creating ? 'Not yet' : 'Not recorded'}</div></div></div>`
             }).join('')
           })

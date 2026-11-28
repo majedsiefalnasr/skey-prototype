@@ -15,7 +15,7 @@
 // normalization routing.spec uses for the floating resize handle and the
 // hover-expanded rail.
 import {test, expect} from '@playwright/test';
-import {settle} from './support/browser.mjs';
+import {openSideNavigation, settle} from './support/browser.mjs';
 
 const baseURL = () => process.env.PARITY_URL ?? 'http://127.0.0.1:4173';
 
@@ -56,6 +56,7 @@ async function gotoRoute(page, path) {
 /** Rail icons sit under the floating resize handle, whose hit area overlays
  *  their centre — click the icon's clear edge instead (routing.spec). */
 async function clickRailIcon(page, selector) {
+  await openSideNavigation(page);
   const icon = page.locator(selector).first();
   await expect(icon).toBeVisible();
   const box = await icon.boundingBox();
@@ -64,9 +65,10 @@ async function clickRailIcon(page, selector) {
   await settle(page);
 }
 
-/** The Account panel is a pinned panel on wide viewports and an on-demand
- *  flyout on the collapsed rail of compact ones — bring it up either way. */
+/** The Account panel is pinned on wide viewports and sits in the side
+ *  navigation drawer below `md` — bring it up either way. */
 async function openAccountPanel(page) {
+  await openSideNavigation(page);
   if (await page.locator('.nc3-panel .nc1-item[data-label="Profile"]').isVisible()) return;
   await clickRailIcon(page, ACCOUNT_ICON);
 }

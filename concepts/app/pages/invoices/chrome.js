@@ -20,7 +20,7 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
     d.querySelectorAll('.lbtn[data-act="Save"]').forEach(btn => {
       const row = btn.parentNode
       const host = document.createElement('span')
-      host.className = 'recacts inline-flex items-center [gap:7px] flex-wrap'
+      host.className = 'recacts inline-flex items-center [gap:var(--ds-space-075)] flex-wrap'
       host.innerHTML =
         '<span class="statuswrap menu relative inline-flex [flex:none]">' +
         '<button class="lbtn out" data-act="Change status" aria-haspopup="menu" aria-expanded="false"><svg width="15" height="15" aria-hidden="true"><use href="#i-flow"/></svg> <span data-i18n="Transition">Transition</span> <svg width="11" height="11" aria-hidden="true"><use href="#i-caret"/></svg></button>' +
@@ -49,15 +49,15 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
       wrap.appendChild(btn)
       btn.classList.add(
         'main',
-        '[.savewrap>&]:[border-radius:6px_0_0_6px]!',
+        '[.savewrap>&]:[border-radius:var(--ds-radius-medium)_0_0_var(--ds-radius-medium)]!',
         '[.savewrap>&]:whitespace-nowrap',
         '[.savewrap>&]:[border-inline-end:none]!',
-        '[[dir=rtl]_.savewrap>&]:[border-radius:0_6px_6px_0]!',
+        '[[dir=rtl]_.savewrap>&]:[border-radius:0_var(--ds-radius-medium)_var(--ds-radius-medium)_0]!',
         '[[dir=rtl]_.savewrap>&]:[border-inline-start:none]!',
         '[[dir=rtl]_.savewrap>&]:[border-inline-end:1px_solid_color-mix(in_srgb,_var(--inverse)_35%,_transparent)]!'
       )
       const car = document.createElement('button')
-      car.className = 'car [.newwrap>&]:[border:1px_solid_var(--line)]! [.newwrap>&]:[border-inline-start:none]! [.newwrap>&]:[border-radius:0_6px_6px_0]! [.newwrap>&]:[padding:6px_7px] [.newwrap>&]:bg-surface [[dir=rtl]_.newwrap>&]:[border-radius:6px_0_0_6px]! [[dir=rtl]_.newwrap>&]:[border-inline-start:none]! [[dir=rtl]_.newwrap>&]:[border-inline-end:none]! [.newwrap>&:hover:not(:disabled)]:bg-[var(--line-2)] [.savewrap>&]:[background:var(--accent)] [.savewrap>&]:[color:var(--inverse)] [.savewrap>&]:[border-inline-start:1px_solid_color-mix(in_srgb,_var(--inverse)_35%,_transparent)]! [.savewrap>&]:[border-radius:0_6px_6px_0]! [.savewrap>&]:[padding:6px_7px] [[dir=rtl]_.savewrap>&]:[border-radius:6px_0_0_6px]! [.savewrap>&:disabled]:[opacity:0.42] [.d2_.genbtn>&]:[border:1px_solid_var(--line)]! [.d2_.genbtn>&]:[border-inline-start:none]! [.d2_.genbtn>&]:[border-radius:0_7px_7px_0]! [.d2_.genbtn>&]:[padding:6px_7px] [.d2_.genbtn>&]:bg-surface [[dir=rtl]_.d2_.genbtn>&]:[border-radius:7px_0_0_7px]! [[dir=rtl]_.d2_.genbtn>&]:[border-inline-start:1px_solid_var(--line)]! [[dir=rtl]_.d2_.genbtn>&]:[border-inline-end:none]!'
+      car.className = 'car [.newwrap>&]:[border:1px_solid_var(--line)]! [.newwrap>&]:[border-inline-start:none]! [.newwrap>&]:[border-radius:0_var(--ds-radius-medium)_var(--ds-radius-medium)_0]! [.newwrap>&]:[padding:var(--ds-space-075)_var(--ds-space-075)] [.newwrap>&]:bg-surface [[dir=rtl]_.newwrap>&]:[border-radius:var(--ds-radius-medium)_0_0_var(--ds-radius-medium)]! [[dir=rtl]_.newwrap>&]:[border-inline-start:none]! [[dir=rtl]_.newwrap>&]:[border-inline-end:none]! [.newwrap>&:hover:not(:disabled)]:bg-[var(--line-2)] [.savewrap>&]:[background:var(--accent)] [.savewrap>&]:[color:var(--inverse)] [.savewrap>&]:[border-inline-start:1px_solid_color-mix(in_srgb,_var(--inverse)_35%,_transparent)]! [.savewrap>&]:[border-radius:0_var(--ds-radius-medium)_var(--ds-radius-medium)_0]! [.savewrap>&]:[padding:var(--ds-space-075)_var(--ds-space-075)] [[dir=rtl]_.savewrap>&]:[border-radius:var(--ds-radius-medium)_0_0_var(--ds-radius-medium)]! [.savewrap>&:disabled]:[opacity:0.42] [.d2_.genbtn>&]:[border:1px_solid_var(--line)]! [.d2_.genbtn>&]:[border-inline-start:none]! [.d2_.genbtn>&]:[border-radius:0_var(--ds-radius-large)_var(--ds-radius-large)_0]! [.d2_.genbtn>&]:[padding:var(--ds-space-075)_var(--ds-space-075)] [.d2_.genbtn>&]:bg-surface [[dir=rtl]_.d2_.genbtn>&]:[border-radius:var(--ds-radius-large)_0_0_var(--ds-radius-large)]! [[dir=rtl]_.d2_.genbtn>&]:[border-inline-start:1px_solid_var(--line)]! [[dir=rtl]_.d2_.genbtn>&]:[border-inline-end:none]!'
       car.setAttribute('aria-haspopup', 'menu')
       car.setAttribute('aria-expanded', 'false')
       car.setAttribute('aria-label', 'Other ways to save')
@@ -71,7 +71,7 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
         '<button role="menuitem" data-save="new" data-i18n="Save and start another">Save and start another</button>'
       wrap.append(car, list)
       const chip = document.createElement('span')
-      chip.className = 'reqchip inline-flex items-center gap-1.5 text-xs font-semibold [background:var(--warn-bg)] [color:var(--warn-ink)] [border-radius:999px] [padding:4px_11px]'
+      chip.className = 'reqchip inline-flex items-center gap-1.5 text-xs font-semibold [background:var(--warn-bg)] [color:var(--warn-ink)] [border-radius:var(--ds-radius-full)] [padding:var(--ds-space-050)_var(--ds-space-150)]'
       chip.hidden = true
       wrap.parentNode.insertBefore(chip, wrap)
     })
@@ -91,7 +91,7 @@ export function createRecordChrome({getShowContentView, getState, renderActivity
     })
     d.querySelectorAll('.pager-mount').forEach(m => {
       const b = document.createElement('button')
-      b.className = 'backlist inline-flex items-center gap-1.5 [padding:6px_11px] [border:1px_solid_var(--line)] [border-radius:7px] bg-surface [font-size:13px] whitespace-nowrap [&:hover]:bg-[var(--line-2)]'
+      b.className = 'backlist inline-flex items-center gap-1.5 [padding:var(--ds-space-075)_var(--ds-space-150)] [border:1px_solid_var(--line)] [border-radius:var(--ds-radius-large)] bg-surface [font-size:13px] whitespace-nowrap [&:hover]:bg-[var(--line-2)]'
       b.hidden = true
       b.innerHTML =
         '<svg width="14" height="14" aria-hidden="true"><use href="#i-prev"/></svg> <span data-i18n="Back to the invoice list">Back to the invoice list</span>'

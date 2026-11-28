@@ -1,16 +1,16 @@
     <!-- ===== log out confirmation ===== -->
     <div
-      class="dscrim fixed [inset:0] [background:var(--scrim)] backdrop-blur-[4px] [z-index:130] hidden items-center justify-center [padding:24px]"
+      class="dscrim fixed [inset:0] [background:var(--scrim)] backdrop-blur-[4px] [z-index:130] hidden items-center justify-center [padding:var(--ds-space-300)]"
       id="loscrim">
       <div
-        class="dlg lo-dlg [width:min(420px,_96vw)] rounded-xl overflow-hidden flex flex-col"
+        class="dlg lo-dlg [width:min(400px,_96vw)] rounded-xl overflow-hidden flex flex-col"
         data-tone="warning"
         role="dialog"
         aria-modal="true"
         aria-labelledby="lo-title"
         aria-describedby="lo-sub">
         <div class="dhd flex items-start gap-3 [&_h3]:[font-size:15px] [&_h3]:font-semibold">
-          <svg width="17" height="17" aria-hidden="true" class="[margin-top:2px]">
+          <svg width="17" height="17" aria-hidden="true" class="[margin-top:var(--ds-space-025)]">
             <use href="#i-signout" />
           </svg>
           <div>
@@ -24,11 +24,11 @@
           </button>
         </div>
         <div class="dlg-inner">
-          <div class="dbody [padding:16px_18px] text-sm [line-height:1.55] text-ink">
-            <p class="text-[12.5px] text-muted" data-i18n="Signed in as">Signed in as</p>
-            <p class="mt-1 text-[13.5px] font-semibold text-ink"><span data-user-name>Majed Sief Alnasr</span><span class="text-[13px] font-normal text-muted"> · <span data-user-email>admin@lastchance.local</span></span></p>
+          <div class="dbody [padding:var(--ds-space-200)_var(--ds-space-200)] text-sm [line-height:1.55] text-ink">
+            <p class="text-dense text-muted" data-i18n="Signed in as">Signed in as</p>
+            <p class="mt-1 text-body-lg font-semibold text-ink"><span data-user-name>Majed Sief Alnasr</span><span class="text-body font-normal text-muted"> · <span data-user-email>admin@lastchance.local</span></span></p>
           </div>
-          <div class="dfoot [padding:12px_18px] flex justify-end gap-2">
+          <div class="dfoot [padding:var(--ds-space-150)_var(--ds-space-200)] flex justify-end gap-2">
             <button type="button" class="lbtn out c-close" data-i18n="Cancel">Cancel</button>
             <button type="button" class="lbtn pri" id="lo-confirm" data-i18n="Log out">Log out</button>
           </div>

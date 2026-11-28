@@ -1,0 +1,167 @@
+{
+  "ticket": 37,
+  "method": "Rendered size, padding, font and border of every visible .ibtn and .lbtn, before (3343f66) and after the change, on 28 screen states at 390, 768, 1024 and 1440px and at 390px right-to-left (headless Chromium, 390px runs as a touch device). Buttons are matched by state, class, variant and label. Forced colors and the two density modes were read on the invoice record at 1440px only. Dialogs were not opened.",
+  "reference": "@atlaskit/button 25.8.3 default button: 32px tall, 6px 12px padding, 14px / 20px text, weight 500, border on an ::after layer.",
+  "buttonsBefore": 936,
+  "buttonsAfter": 936,
+  "unmatched": 0,
+  "errors": 0,
+  "heightsBeforeToAfter": {
+    "desktop ibtn 32 -> 32": 405,
+    "desktop lbtn 34.3 -> 32": 141,
+    "mobile ibtn 44 -> 44": 266,
+    "mobile lbtn 44 -> 44": 106,
+    "desktop lbtn 32.84 -> 32": 15,
+    "desktop lbtn 44 -> 44": 3
+  },
+  "widthChanges": [
+    {
+      "run": "home@768",
+      "label": "Transition",
+      "before": 125.28,
+      "after": 129.28
+    },
+    {
+      "run": "home@1024",
+      "label": "Transition",
+      "before": 125.28,
+      "after": 129.28
+    },
+    {
+      "run": "home@390",
+      "label": "Transition",
+      "before": 125.28,
+      "after": 129.28
+    },
+    {
+      "run": "home@390-rtl",
+      "label": "تغيير الحالة",
+      "before": 124.97,
+      "after": 128.97
+    },
+    {
+      "run": "home@1440",
+      "label": "Transition",
+      "before": 125.28,
+      "after": 129.28
+    },
+    {
+      "run": "invoice-record@390-rtl",
+      "label": "تغيير الحالة",
+      "before": 124.97,
+      "after": 128.97
+    },
+    {
+      "run": "invoice-record@768",
+      "label": "Transition",
+      "before": 125.28,
+      "after": 129.28
+    },
+    {
+      "run": "invoice-record@390",
+      "label": "Transition",
+      "before": 125.28,
+      "after": 129.28
+    },
+    {
+      "run": "invoice-record@1024",
+      "label": "Transition",
+      "before": 125.28,
+      "after": 129.28
+    },
+    {
+      "run": "invoice-record@1440",
+      "label": "Transition",
+      "before": 125.28,
+      "after": 129.28
+    },
+    {
+      "run": "invoice-create@390",
+      "label": "Save",
+      "before": 73.75,
+      "after": 77.75
+    },
+    {
+      "run": "invoice-create@390-rtl",
+      "label": "حفظ",
+      "before": 70.03,
+      "after": 74.03
+    },
+    {
+      "run": "invoice-create@768",
+      "label": "Save",
+      "before": 73.75,
+      "after": 77.75
+    },
+    {
+      "run": "invoice-create@1024",
+      "label": "Save",
+      "before": 73.75,
+      "after": 77.75
+    },
+    {
+      "run": "invoice-create@1440",
+      "label": "Save",
+      "before": 73.75,
+      "after": 77.75
+    },
+    {
+      "run": "customer-record@390",
+      "label": "New",
+      "before": 71.34,
+      "after": 75.34
+    },
+    {
+      "run": "customer-record@390-rtl",
+      "label": "جديد",
+      "before": 72.19,
+      "after": 76.19
+    },
+    {
+      "run": "customer-record@768",
+      "label": "New",
+      "before": 71.34,
+      "after": 75.34
+    },
+    {
+      "run": "customer-record@1440",
+      "label": "New",
+      "before": 71.34,
+      "after": 75.34
+    },
+    {
+      "run": "customer-record@1024",
+      "label": "New",
+      "before": 71.34,
+      "after": 75.34
+    }
+  ],
+  "invoiceRecord1440": {
+    "default": {
+      "before": 34.3,
+      "after": 32
+    },
+    "forcedColors": {
+      "before": 34.3,
+      "after": 32
+    },
+    "densityCompact": {
+      "before": 28.13,
+      "after": 28.13
+    },
+    "densityComfortable": {
+      "before": 40.3,
+      "after": 40
+    }
+  },
+  "mobileOverflow390": "Invoice record and Customer record action bars, left-to-right and right-to-left: bar clientWidth equals scrollWidth, document 390/390, no button off screen, before and after.",
+  "notChanged": [
+    "Sign-in Continue keeps 44px from its own min-h-11.",
+    "Other .menu > button triggers (top bar) stay 36px wide.",
+    "Inline inset is 12px padding plus the 1px border (ADS 12px)."
+  ],
+  "tests": {
+    "unit": "201 of 201 passed",
+    "playwright": "desktop, mobile-touch and mobile-rtl: 1139 passed, 22 failed, 228 skipped before and after, the same tests in each status; no snapshot updated"
+  }
+}

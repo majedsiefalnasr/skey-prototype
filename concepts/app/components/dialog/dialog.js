@@ -1,38 +1,145 @@
-// Shared dialog focus facility — extracted verbatim from the single-file
-// legacy application script (concepts/app/legacy-app.js, the "focus: trap
-// inside an open overlay, restore it on close" block). Every overlay in the
-// app (print settings, appearance, customize, keyboard shortcuts, AI
-// assistant drawer, record pager guard, customer nested drawers, etc.)
-// calls trapFocus()/releaseFocus() from this one shared instance, exactly
-// as before extraction — the algorithm is unchanged, only `document` moved
-// from an ambient global read to the constructor parameter.
+// Shared dialog focus facility, first extracted from the single-file legacy
+// application script (concepts/app/legacy-app.js). Every overlay in the app
+// (print settings, appearance, customize, keyboard shortcuts, AI assistant
+// drawer, record pager guard, customer nested drawers, etc.) calls
+// trapFocus()/releaseFocus() from this one shared instance.
+//
+// Open overlays form a stack (#31), so a dialog opened from another dialog
+// hands focus and the Tab trap back to its parent when it closes.
+// releaseFocus() releases the topmost overlay its caller has already hidden;
+// if every trapped overlay is still rendered, the call is a no-op. Focus
+// returns to the element that opened the overlay, or to the last focused
+// element when a menu dropped focus to <body> before the overlay opened.
+// A menu item hands focus to the button of its outermost menu, because the
+// menu closes around it. An element that was re-rendered is matched by id or
+// aria-label; a hidden one falls back to the nearest visible opener: the
+// details summary, the .menu button, or the [aria-controls] or
+// [aria-haspopup] owner. Failing that, focus goes into the parent overlay.
+// returnFocus() applies the same fallback for overlays that keep their own
+// focus handling, such as the collaboration confirm.
+//
+// Escape closes the topmost trapped modal (.dlg or .kbdsheet) when nothing
+// else handled the key: its handler did not close it, call preventDefault()
+// or stop the event. It presses the single close button in the dialog
+// header, or clicks the backdrop of a dialog without one (the unsaved-changes
+// guards), so the dialog's own close logic runs. A popup open inside the
+// dialog keeps the key for itself.
 //
 // createDialogFocus(document) returns {trapFocus, releaseFocus, dispose}.
 
 const FOCUSABLE =
   'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),summary,[tabindex]:not([tabindex="-1"])'
+const MENU = '[role="menu"], .mlist'
+const ESCAPE_CLOSES = '.dlg, .kbdsheet'
+const OPEN_POPUP = '[aria-haspopup]:not([aria-haspopup="dialog"])[aria-expanded="true"], details.data-menu[open], .mlist.open'
+
+const rendered = element => Boolean(element?.isConnected && element.getClientRects().length)
+const isMenuItem = element =>
+  element.matches('[role^="menuitem"]') || Boolean(element.parentElement?.closest(MENU))
+
+function openerOf(node, document) {
+  if (node.matches('details')) return node.querySelector(':scope > summary')
+  if (node.matches('.menu')) return node.querySelector(':scope > button')
+  const owners = node.id
+    ? [...document.querySelectorAll(`[aria-controls~="${CSS.escape(node.id)}"]`)].filter(rendered)
+    : []
+  if (owners.length === 1) return owners[0]
+  if (node.matches(MENU)) return node.parentElement?.querySelector(':scope > [aria-haspopup]') ?? null
+  return null
+}
+
+function menuButtonOf(item, document) {
+  let button = null
+  for (let node = item.parentElement; node && node !== document.body; node = node.parentElement) {
+    if (node.matches('[role="dialog"], [role="alertdialog"]')) break
+    if (!node.matches(`details, .menu, ${MENU}`)) continue
+    const opener = openerOf(node, document)
+    if (!opener || opener === item) continue
+    button = opener
+    if (!isMenuItem(opener)) break
+  }
+  return button
+}
+
+function replacementOf(element, document) {
+  if (element.isConnected) return null
+  if (element.id) return document.getElementById(element.id)
+  const label = element.getAttribute('aria-label')
+  if (!label) return null
+  const matches = [...document.querySelectorAll(`${element.localName}[aria-label="${CSS.escape(label)}"]`)].filter(rendered)
+  return matches.length === 1 ? matches[0] : null
+}
+
+function returnCandidates(element, document) {
+  if (!element || element === document.body) return []
+  const candidates = isMenuItem(element)
+    ? [menuButtonOf(element, document), element]
+    : [element, replacementOf(element, document)]
+  for (let node = element?.parentElement; node && node !== document.body; node = node.parentElement) {
+    candidates.push(openerOf(node, document))
+  }
+  return candidates.filter(Boolean)
+}
+
+/**
+ * Focus `element`, or its nearest stand-in when it is hidden or gone.
+ * @param {Element | null} element
+ * @param {Document} document
+ * @param {Element | null} [within] only accept a target inside this element
+ * @returns {boolean} whether a target took focus
+ */
+export function returnFocus(element, document, within = null) {
+  for (const candidate of returnCandidates(element, document)) {
+    if (!rendered(candidate) || (within && !within.contains(candidate))) continue
+    candidate.focus()
+    if (document.activeElement === candidate) return true
+  }
+  return false
+}
+
+function closeByEscape(box) {
+  const header = box.querySelector('.dhd, .kh')
+  const buttons = header ? [...header.querySelectorAll('button.ibtn')].filter(rendered) : []
+  if (buttons.length === 1) buttons[0].click()
+  else box.parentElement?.click()
+}
 
 /**
  * @param {Document} document
  */
 export function createDialogFocus(document) {
-  let focusReturn = null,
-    trapped = null
+  const stack = []
+  let trapped = null,
+    lastFocused = null,
+    escaping = null
 
   const trapFocus = box => {
     if (!box) return
-    focusReturn = document.activeElement
+    const existing = stack.findIndex(entry => entry.box === box)
+    const active = document.activeElement === document.body ? lastFocused : document.activeElement
+    const returnTo = existing === -1 ? active : stack.splice(existing, 1)[0].returnTo
+    stack.push({box, returnTo})
     trapped = box
     const first = box.querySelector(FOCUSABLE)
     ;(first || box).focus?.()
   }
   const releaseFocus = () => {
-    trapped = null
-    if (focusReturn && document.contains(focusReturn)) focusReturn.focus()
-    focusReturn = null
+    const index = stack.findLastIndex(entry => !rendered(entry.box))
+    if (index === -1) return
+    const [{returnTo}] = stack.splice(index, 1)
+    if (stack.slice(index).some(entry => rendered(entry.box))) return
+    trapped = stack.findLast(entry => rendered(entry.box))?.box ?? null
+    if (!returnFocus(returnTo, document, trapped) && trapped) (trapped.querySelector(FOCUSABLE) || trapped).focus?.()
   }
 
   const controller = new AbortController()
+  document.addEventListener(
+    'focusin',
+    e => {
+      lastFocused = e.target
+    },
+    {signal: controller.signal}
+  )
   document.addEventListener(
     'keydown',
     e => {
@@ -53,11 +160,32 @@ export function createDialogFocus(document) {
     },
     {capture: true, signal: controller.signal}
   )
+  const view = document.defaultView
+  view?.addEventListener(
+    'keydown',
+    e => {
+      escaping = null
+      if (e.key !== 'Escape' || e.isComposing || !trapped?.matches(ESCAPE_CLOSES)) return
+      if (!trapped.querySelector(OPEN_POPUP)) escaping = trapped
+    },
+    {capture: true, signal: controller.signal}
+  )
+  view?.addEventListener(
+    'keydown',
+    e => {
+      const box = escaping
+      escaping = null
+      if (e.key !== 'Escape' || !box || e.defaultPrevented || box !== trapped || !rendered(box)) return
+      e.preventDefault()
+      closeByEscape(box)
+    },
+    {signal: controller.signal}
+  )
 
   function dispose() {
     controller.abort()
     trapped = null
-    focusReturn = null
+    stack.length = 0
   }
 
   return {trapFocus, releaseFocus, dispose}

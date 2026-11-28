@@ -494,6 +494,12 @@
           inset-inline-start: 4px;
           inset-inline-end: auto;
         }
+        /* Profile's sticky save bar ends in Save, which would sit under the
+           launcher: keep its actions clear of the launcher's 14px + 44px
+           corner, with an 8px gap, measured from the bar's 16px page edge. */
+        .profile-save-bar {
+          padding-inline-end: 50px;
+        }
       }
       @media (prefers-reduced-motion: reduce) {
         #kit,

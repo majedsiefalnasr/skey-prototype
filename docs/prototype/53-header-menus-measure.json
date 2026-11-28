@@ -1,0 +1,32 @@
+{
+ "issue": 53,
+ "cause": [
+  "The invoice record header menus grow from one edge of their trigger. Where the trigger sits too close to the other side, the 210px menu crosses a side of .page-content.",
+  ".page-content scrolls, so it clips the part of the menu outside it."
+ ],
+ "fix": "When a menu inside .page-content opens past one of its sides, it moves horizontally back inside, 8px from that side. A menu that fits does not move. Fixed menus in dialogs and the app switcher are unchanged.",
+ "before": "commit ac15f63",
+ "method": "Chromium, reduced motion, invoice record in view, edit and create modes, left to right and right to left, default density, at 320, 360, 390, 480, 600, 767, 768, 1024 and 1440px by 844px, each with a pointer and with touch emulation. One reading is one open menu: More actions, Transition or Save.",
+ "readings": 216,
+ "before_totals": {
+  "readingsCut": 59,
+  "widthsCut": [320, 360, 390, 480],
+  "moreActions": {"readingsCut": 31, "largestHiddenPx": 152},
+  "transition": {"readingsCut": 19, "largestHiddenPx": 55},
+  "save": {"readingsCut": 9, "largestHiddenPx": 78}
+ },
+ "after_totals": {
+  "readingsCut": 0,
+  "readingsWithAnItemUnreachable": 0,
+  "movedMenusDistanceFromSidePx": 8,
+  "fittingReadings": 157,
+  "fittingReadingsMovedHorizontally": 0,
+  "readingsMovedVertically": 0
+ },
+ "notMeasured": [
+  "Menus outside the invoice record header",
+  "A width change while a menu is open",
+  "Safari, Firefox, physical devices, dark and high-contrast modes",
+  "Compact and comfortable density"
+ ]
+}

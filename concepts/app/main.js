@@ -39,6 +39,7 @@ import {createTopbar} from './shell/topbar.js'
 import {createShell} from './shell/shell.js'
 import {createRecordChrome} from './pages/invoices/chrome.js'
 import {createMenus} from './shell/menus.js'
+import {createActionOverflow} from './shell/action-overflow.js'
 import {createPagers} from './components/record-pager/mount.js'
 import {createStatus} from './pages/invoices/status.js'
 import {createSearch} from './shell/search.js'
@@ -425,6 +426,8 @@ const menus = createMenus({
   showLaunchpad: (...args) => showLaunchpad(...args),
   getLaunchpadEnabled
 })
+
+createActionOverflow(document)
 
 const recordChrome = createRecordChrome({
   getShowContentView: () => showContentView,

@@ -1,0 +1,43 @@
+{
+  "ticket": 40,
+  "method": "098ff8a against the #40 tree. scripts/prototype-grid-measure.mjs (72 rows). A browser probe over 17 screens, including the invoice, customer, People and Geography records: Fluid and Boxed, default and compact density, both directions, at 390, 767, 768, 900, 1023, 1024, 1280, 1440 and 1768px (1224 rows).",
+  "official_script": {
+    "rows": 72,
+    "errors": 0,
+    "changed_rows": 6,
+    "changed_where": "Boxed at 768px only, the one width it samples inside 768 to 1023px"
+  },
+  "probe": {
+    "rows": 1224,
+    "target_rows_boxed_768_to_1023": 204,
+    "changed_rows": 204,
+    "changed_outside_target": 0,
+    "page_inset_px": {
+      "default": [48, 32],
+      "compact": [44, 28]
+    },
+    "action_bar_and_footer_row_inset_px": [32, 16],
+    "heading_shift_px": -16,
+    "kanban_first_column": "Moves 16px toward the start and gets 16 to 32px wider, following the content.",
+    "new_page_overflow": 0,
+    "new_content_overflow": 0,
+    "new_elements_outside_page_content": 0,
+    "new_truncated_text": 0,
+    "footer_rows_taller": 0,
+    "footer_rows_shorter": 9
+  },
+  "unit_tests": "201 of 202 on the full run; the failure was the known ENOTEMPTY build flake. tests/build.test.mjs then passed alone, 21 of 21.",
+  "playwright": {
+    "projects": ["desktop", "mobile-touch", "mobile-rtl"],
+    "excluded": ["parity.spec.mjs", "zz-probe-t34.spec.mjs"],
+    "before": {"passed": 1139, "skipped": 228, "failed": 22},
+    "after": {"passed": 1196, "skipped": 228, "failed": 22},
+    "status_changes_in_existing_tests": 0,
+    "failure_message_differences": 0,
+    "added": "57 tests now in the run: 33 from breakpoint-layout.spec.mjs (#39) and 24 from page-grid.spec.mjs (#40). On 098ff8a (desktop) the page-grid cases at 768 and 1023px fail (4) and those at 767 and 1024px pass (4)."
+  },
+  "open": [
+    "The invoice record footer wraps its lock message to one word per line (about 266px tall) left to right at 768 and 1024px, and at 1100px in Boxed layout. In Boxed layout the Sales Return button runs past the footer edge at 768px (18px before #40, 2px after) and at 1024px (26px, unchanged). The same wrap and cut are on 0056a67, so the defect predates this branch, and #40 does not fix it.",
+    "Content inset below md (item 3 of #48) is unchanged; its Boxed values at 768 and 1023px are now 32px for the heading and 40px for the content."
+  ]
+}

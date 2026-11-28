@@ -31,11 +31,10 @@ export function createProfileScrollNavigator({root, sectionOrder, profileState})
   return {startSpy: () => {}, stopTracking: () => {}, activateSection, isNavigating: () => false}
 }
 
-// Sidebar list styled after the customer record's "Focused" layout nav
-// (pages/customers/layouts.js's customer-focused-nav): a plain vertical
-// list, no icons, active item marked by aria-current and a light
-// accent-tinted highlight, in its own bordered/shadowed card — matches the
-// production Skey ERP customer-detail sidebar.
+// Sidebar section list: a plain vertical list, no icons, active item marked
+// by aria-current and a light accent-tinted highlight, in its own
+// bordered/shadowed card — matches the production Skey ERP customer-detail
+// sidebar.
 export function renderProfileScrollNav(sectionOrder, sections, activeKey, encodeHtml) {
   const nav = sectionOrder
     .map(key => {
@@ -43,5 +42,5 @@ export function renderProfileScrollNav(sectionOrder, sections, activeKey, encode
       return `<button type="button" id="profile-tab-${encodeHtml(key)}" data-profile-scroll-section="${encodeHtml(key)}" aria-controls="profile-section-${encodeHtml(key)}"${current ? ' aria-current="page"' : ''} tabindex="${current ? '0' : '-1'}"><span data-i18n="${encodeHtml(sections[key].title)}">${encodeHtml(sections[key].title)}</span></button>`
     })
     .join('')
-  return `<nav class="profile-scroll-nav [.profile-canvas_&_button:focus-visible]:[outline:2px_solid_var(--accent)] [.profile-canvas_&_button:focus-visible]:[outline-offset:-2px] sticky [top:0] grid [gap:1px] [padding:8px] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [.profile-canvas_&_button]:[min-height:36px] [.profile-canvas_&_button]:[padding:8px_9px] [.profile-canvas_&_button]:[border:0] [.profile-canvas_&_button]:rounded-md [.profile-canvas_&_button]:text-ink [.profile-canvas_&_button]:[background:transparent] [.profile-canvas_&_button]:[font:inherit] [.profile-canvas_&_button]:text-start [.profile-canvas_&_button]:[cursor:pointer] [.profile-canvas_&_button:hover]:bg-[var(--line-2)] [.profile-canvas_&_button[aria-current=page]]:bg-[var(--accent-soft)] [.profile-canvas_&_button[aria-current=page]]:text-[var(--accent)] [.profile-canvas_&_button[aria-current=page]]:font-semibold [@media((max-width:720px))]:sticky [@media((max-width:720px))]:[top:0] [@media((max-width:720px))]:[z-index:2] [@media((max-width:720px))]:flex [@media((max-width:720px))]:overflow-x-auto [@media((max-width:720px))]:whitespace-nowrap [@media((max-width:720px))]:[.profile-canvas_&_button]:[flex:none]" aria-label="Profile sections" data-i18n-aria-label="Profile sections">${nav}</nav>`
+  return `<nav class="profile-scroll-nav [.profile-canvas_&_button:focus-visible]:[outline:2px_solid_var(--accent)] [.profile-canvas_&_button:focus-visible]:[outline-offset:-2px] sticky [top:0] grid [gap:var(--ds-space-0)] [padding:var(--ds-space-100)] [border:1px_solid_var(--line)] rounded-lg bg-surface [box-shadow:var(--shadow-1)] [.profile-canvas_&_button]:[min-height:36px] [.profile-canvas_&_button]:[padding:var(--ds-space-100)_var(--ds-space-100)] [.profile-canvas_&_button]:[border:0] [.profile-canvas_&_button]:rounded-md [.profile-canvas_&_button]:text-ink [.profile-canvas_&_button]:[background:transparent] [.profile-canvas_&_button]:[font:inherit] [.profile-canvas_&_button]:text-start [.profile-canvas_&_button]:[cursor:pointer] [.profile-canvas_&_button:hover]:bg-[var(--line-2)] [.profile-canvas_&_button[aria-current=page]]:bg-[var(--accent-soft)] [.profile-canvas_&_button[aria-current=page]]:text-[var(--accent)] [.profile-canvas_&_button[aria-current=page]]:font-semibold max-sm:sticky max-sm:[top:0] max-sm:[z-index:2] max-sm:flex max-sm:overflow-x-auto max-sm:whitespace-nowrap max-sm:[.profile-canvas_&_button]:[flex:none]" aria-label="Profile sections" data-i18n-aria-label="Profile sections">${nav}</nav>`
 }

@@ -4,7 +4,7 @@
 // Notifications -> Email, #simulate-loading, #rtl, .skeleton-overlay) — no
 // new testing hooks are added to the application markup.
 
-import {test} from '@playwright/test';
+import {expect, test} from '@playwright/test';
 
 /** @typedef {import('@playwright/test').Page} Page */
 
@@ -180,6 +180,19 @@ async function openEmailFromNotifications(page) {
 }
 
 /**
+ * Below `md` the side navigation is hidden until its top bar button opens it
+ * over the page (#60). Open it through that button; wider viewports keep it
+ * in the layout, so there is nothing to do there.
+ * @param {Page} page
+ */
+export async function openSideNavigation(page) {
+  const side = page.locator('.side');
+  if (page.viewportSize().width >= 1024 || (await side.isVisible())) return;
+  await page.locator('.gtop .side-toggle').click();
+  await expect(side).toBeVisible();
+}
+
+/**
  * Wait for the page to reach a visually stable, screenshot-ready state:
  * any skeleton loading overlay has resolved, web fonts are loaded, and two
  * animation frames have elapsed so layout/paint have settled.
@@ -244,4 +257,30 @@ export async function openListChart(page) {
     undefined,
     {polling: 120}
   );
+}
+
+/**
+ * A record action bar button, or its stand-in in the bar's last menu when the
+ * bar is too narrow to show it (#48). `item` is the control to activate and
+ * `trigger` is the control that holds focus once a dialog it opens closes.
+ * Opens the menu when the action has moved into it.
+ * @param {Page} page
+ * @param {string} selector the action button inside the visible action bar
+ */
+export async function recordAction(page, selector) {
+  await page.waitForFunction(selector => {
+    const shown = [...document.querySelectorAll('.page-action-bar [data-page-action-bar]')].find(bar => bar.getClientRects().length);
+    const button = shown?.querySelector(`:scope > ${selector}`);
+    return Boolean(button && (button.hidden || button.getClientRects().length));
+  }, selector);
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  const bar = page.locator('.page-action-bar [data-page-action-bar]:visible');
+  const button = bar.locator(`:scope > ${selector}`);
+  if (await button.isVisible()) return {item: button, trigger: button};
+  const name = (await button.textContent()).replace(/\s+/g, ' ').trim();
+  const trigger = bar.locator('.menu > button[aria-haspopup="menu"]').last();
+  await trigger.click();
+  const item = bar.locator('[data-overflow-item][role="menuitem"]').filter({hasText: name}).first();
+  await item.waitFor({state: 'visible'});
+  return {item, trigger};
 }

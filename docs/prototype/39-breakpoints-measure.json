@@ -1,0 +1,141 @@
+{
+  "ticket": 39,
+  "method": "scripts/prototype-breakpoints-measure.mjs on aab9c6f and on the #39 tree: default mode at 390, 520, 768, 1024, 1280, 1366 and 1440px (42 rows), md mode at 640 to 1101px (27 rows). Extra browser probes for search width, statistics cards and content positions. Left to right unless stated.",
+  "breakpoints": {
+    "rows": 42,
+    "unchanged": 35,
+    "statistics_520": {
+      "columns": [
+        1,
+        2
+      ],
+      "track_px": [
+        420,
+        206
+      ]
+    },
+    "card_grids_3_to_2_columns": {
+      "people": {
+        "1280": {
+          "card_px": [
+            289,
+            444
+          ],
+          "truncated": [
+            4,
+            0
+          ]
+        },
+        "1366": {
+          "card_px": [
+            318,
+            487
+          ],
+          "truncated": [
+            2,
+            0
+          ]
+        }
+      },
+      "customers": {
+        "1280": {
+          "card_px": [
+            289,
+            443
+          ],
+          "truncated": [
+            1,
+            0
+          ]
+        },
+        "1366": {
+          "card_px": [
+            317,
+            486
+          ]
+        }
+      },
+      "invoices": {
+        "1280": {
+          "card_px": [
+            289,
+            443
+          ],
+          "truncated": [
+            13,
+            0
+          ]
+        },
+        "1366": {
+          "card_px": [
+            317,
+            486
+          ]
+        }
+      }
+    },
+    "new_page_overflow": 0
+  },
+  "md_follow_ups": {
+    "rows_changed_by_39": 0,
+    "search_width_px": {
+      "901": 566,
+      "960": 625,
+      "1023": 688
+    },
+    "toolbar_901_to_1023": "Two rows, 84px tall, Group by in the overflow menu on invoices, no overlap and no page overflow in LTR and RTL. Screenshots checked at 960px LTR and 901px RTL.",
+    "statistics_card_px": {
+      "1024": [
+        163,
+        106
+      ],
+      "1060": [
+        172,
+        106
+      ],
+      "1100": [
+        182,
+        106
+      ]
+    },
+    "statistics_truncated": {
+      "1024 LTR": [
+        "Across the current view"
+      ]
+    },
+    "content_start_px_from_page_content_621_to_1023_fluid": {
+      "heading": 16,
+      "collab_body": 24,
+      "collab_toolbar": 24,
+      "customers_list": 24,
+      "email": 24,
+      "for_you": 24,
+      "placeholder": 24
+    }
+  },
+  "unit_tests": "202 of 202 pass. The first run failed once on the known ENOTEMPTY build flake.",
+  "playwright": {
+    "projects": [
+      "desktop",
+      "mobile-touch",
+      "mobile-rtl"
+    ],
+    "excluded": [
+      "parity.spec.mjs",
+      "zz-probe-t34.spec.mjs"
+    ],
+    "before": {
+      "passed": 1139,
+      "skipped": 228,
+      "failed": 22
+    },
+    "after": {
+      "passed": 1139,
+      "skipped": 228,
+      "failed": 22
+    },
+    "status_changes": 0,
+    "failure_message_differences": 0,
+    "added": "tests/breakpoint-layout.spec.mjs, run after the full suite: with flag-layout.spec.mjs 42 of 42 pass. On aab9c6f (desktop) its 7 cases for the moved values fail and 4 pass."
+  }
+}

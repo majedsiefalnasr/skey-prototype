@@ -1,5 +1,6 @@
 import {test, expect} from '@playwright/test';
 import {LIST_ROWS, RULES, statusKeyFromLabel} from '../concepts/app/prototype/fixtures/invoices.js';
+import {recordAction} from './support/browser.mjs';
 
 async function boot(page, info) {
   await page.addInitScript(() => sessionStorage.setItem('skey-proto-state', JSON.stringify({'signed-in': true, launchpad: true, 'simulate-loading': false})));
@@ -57,11 +58,11 @@ test('saved Draft edits and selected invoice dialog identities preserve existing
   await page.locator('[data-act="Posting"]:visible').first().click();
   await expect(page.locator('#pf-title')).toHaveText(info.project.use.rtl ? 'تفاصيل الترحيل · الفاتورة 143' : 'Posting details · invoice 143');
   await page.locator('#rscrim .dlg:not([hidden]) .r-close').first().click();
-  await page.locator('.p-open:visible').first().click();
+  await (await recordAction(page, '[data-act="Print"]')).item.click();
   await expect(page.locator('#pscrim .dhd-subtitle')).toContainText('143');
   await expect(page.locator('#p-subj')).toHaveValue(info.project.use.rtl ? 'فاتورة مبيعات 143 · lastchance' : 'Sales Invoice 143 · lastchance');
   await page.locator('#pscrim .p-close').first().click();
-  await page.locator('.dr-open[data-tab="stages"]:visible').click();
+  await (await recordAction(page, '.dr-open[data-tab="stages"]')).item.click();
   await expect(page.locator('#drawer .drhd .sub')).toContainText('001000352026143');
   await expect(page.locator('#drawer .cur-name')).toHaveText('Posted');
 });

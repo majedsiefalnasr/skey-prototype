@@ -10,7 +10,7 @@
 // check separately.
 
 import {test, expect} from '@playwright/test';
-import {boot, openSurface, settle, openRowContextMenu, openListChart} from './support/browser.mjs';
+import {boot, openSurface, settle, openRowContextMenu, openListChart, recordAction} from './support/browser.mjs';
 
 async function visibleControlState(locator, pseudo = null) {
   await expect(locator).toBeVisible();
@@ -214,8 +214,8 @@ test('Arabic locale switch updates direction and field formatting', async ({page
 test('print dialog returns keyboard focus', async ({page}) => {
   await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'record');
-  const trigger = page.locator('.content').getByRole('button', {name: test.info().project.use.rtl ? 'طباعة' : 'Print', exact: true});
-  await trigger.focus();
+  const {item, trigger} = await recordAction(page, '[data-act="Print"]');
+  await item.focus();
   await page.keyboard.press('Enter');
   await expect(page.getByRole('dialog', {name: 'Print Settings'})).toBeVisible();
   await page.keyboard.press('Escape');
@@ -225,8 +225,8 @@ test('print dialog returns keyboard focus', async ({page}) => {
 test('print dialog traps Tab within its focusable controls', async ({page}) => {
   await boot(page, (process.env.PARITY_URL ?? 'http://127.0.0.1:4173'));
   await openSurface(page, 'record');
-  const trigger = page.locator('.content').getByRole('button', {name: test.info().project.use.rtl ? 'طباعة' : 'Print', exact: true});
-  await trigger.focus();
+  const {item} = await recordAction(page, '[data-act="Print"]');
+  await item.focus();
   await page.keyboard.press('Enter');
   const dialog = page.getByRole('dialog', {name: 'Print Settings'});
   await expect(dialog).toBeVisible();

@@ -1,4 +1,5 @@
 import {encodeHtml} from '../core/locale.js'
+import {belowQuery} from '../core/breakpoints.js'
 import {
   NAV_TREE,
   NAV_FAVORITES,
@@ -193,7 +194,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     node.className = 'nc1-node'
     const btn = document.createElement('button')
     btn.type = 'button'
-    btn.className = 'nc1-item flex w-full items-center gap-2 rounded-[3px] px-2 py-1.5 text-start text-[13px] leading-[1.3] text-ink hover:bg-[var(--hover-overlay)]'
+    btn.className = 'nc1-item flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-start text-body leading-[1.3] text-ink hover:bg-[var(--hover-overlay)]'
     btn.dataset.label = label
     btn.innerHTML =
       '<span class="nc1-lbl"></span>' +
@@ -204,7 +205,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     node.appendChild(btn)
     if (isBranch) {
       const sub = document.createElement('div')
-      sub.className = 'nc1-sub ms-[17px] hidden border-s border-line ps-3.5'
+      sub.className = 'nc1-sub ms-4 hidden border-s border-line ps-3'
       childrenOf(entry).forEach(child => sub.appendChild(ncBuildItem(child, depth + 1, root)))
       node.appendChild(sub)
       btn.setAttribute('aria-expanded', 'false')
@@ -213,7 +214,10 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
         btn.setAttribute('aria-expanded', String(open))
       })
     } else {
-      btn.addEventListener('click', () => setNavCurrent(root, label))
+      btn.addEventListener('click', () => {
+        closeCompactSide()
+        setNavCurrent(root, label)
+      })
     }
     return node
   }
@@ -225,13 +229,13 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       const favs = document.createElement('div')
       favs.className = 'nc3-favs shrink-0 border-b border-line pb-1 pt-0.5'
       const favLbl = document.createElement('div')
-      favLbl.className = 'nc-group-lbl px-2.5 pb-1 pt-3.5 text-xs font-semibold uppercase tracking-[.04em] text-faint first:pt-1.5'
+      favLbl.className = 'nc-group-lbl px-2 pb-1 pt-3 text-xs font-semibold uppercase tracking-[.04em] text-faint first:pt-1.5'
       favLbl.textContent = t('Favorites')
       favs.appendChild(favLbl)
       NAV_FAVORITES.forEach(f => {
         const b = document.createElement('button')
         b.type = 'button'
-        b.className = 'nc-fav mx-1.5 flex w-[calc(100%-12px)] items-center gap-[7px] rounded-[3px] px-2 py-[5px] text-start text-[12.5px] text-muted hover:bg-[var(--hover-overlay)]'
+        b.className = 'nc-fav mx-1.5 flex w-[calc(100%-12px)] items-center gap-1.5 rounded-sm px-2 py-1 text-start text-dense text-muted hover:bg-[var(--hover-overlay)]'
         b.dataset.label = f
         b.innerHTML =
           '<svg width="13" height="13" aria-hidden="true"><use href="#i-spark"/></svg><span></span>'
@@ -252,12 +256,12 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     const fillForYou = () => {
       body.innerHTML = ''
       const title = document.createElement('div')
-      title.className = 'nc3-title px-2 pb-1 pt-2 text-[12.5px] font-bold text-ink'
+      title.className = 'nc3-title px-2 pb-1 pt-2 text-dense font-bold text-ink'
       title.textContent = t('For You')
       body.appendChild(title)
       forYouGroups.forEach(g => {
         const lbl = document.createElement('div')
-        lbl.className = 'nc-group-lbl px-2.5 pb-1 pt-3.5 text-xs font-semibold uppercase tracking-[.04em] text-faint first:pt-1.5'
+        lbl.className = 'nc-group-lbl px-2 pb-1 pt-3 text-xs font-semibold uppercase tracking-[.04em] text-faint first:pt-1.5'
         lbl.textContent = g.name
         body.appendChild(lbl)
         g.items.forEach(item => body.appendChild(ncBuildItem(item.label, 0, root)))
@@ -269,7 +273,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
       } else {
         body.innerHTML = ''
         const title = document.createElement('div')
-        title.className = 'nc3-title px-2 pb-1 pt-2 text-[12.5px] font-bold text-ink'
+        title.className = 'nc3-title px-2 pb-1 pt-2 text-dense font-bold text-ink'
         title.textContent = group[0]
         body.appendChild(title)
         if (withForYou) body.appendChild(ncBuildItem('For You', 0, root))
@@ -341,9 +345,9 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     const railIcon = (label, icon, group, opts) => {
       const btn = document.createElement('button')
       btn.type = 'button'
-      btn.className = 'nc2-icn relative inline-flex h-9 w-full min-w-[calc(var(--rail-w)-12px)] shrink-0 items-center gap-2.5 rounded-md ps-[11px] text-muted hover:bg-[var(--hover-overlay)]'
+      btn.className = 'nc2-icn relative inline-flex h-9 w-full min-w-[calc(var(--rail-w)-12px)] shrink-0 items-center gap-2 rounded-md ps-3 text-muted hover:bg-[var(--hover-overlay)]'
       btn.setAttribute('aria-label', t(label))
-      btn.innerHTML = `<svg class="shrink-0" width="18" height="18" aria-hidden="true"><use href="#${icon}"/></svg><span class="nc2-lbl overflow-hidden whitespace-nowrap text-[13px] opacity-0">${encodeHtml(t(label))}</span>`
+      btn.innerHTML = `<svg class="shrink-0" width="18" height="18" aria-hidden="true"><use href="#${icon}"/></svg><span class="nc2-lbl overflow-hidden whitespace-nowrap text-body opacity-0">${encodeHtml(t(label))}</span>`
       /* a mouse click leaves focus sitting on the button, which keeps
          ":focus-within" (and so the hover-expanded rail) engaged until an
          unrelated outside click knocks it loose — blur right away so the rail
@@ -365,12 +369,12 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
        group — an empty pin at the top of every rail, forever, isn't worth it */
     if (forYouGroups.length) {
       const forYouSep = document.createElement('div')
-      forYouSep.className = 'nc2-rail-sep ms-[9px] my-1 h-px w-6 bg-line'
+      forYouSep.className = 'nc2-rail-sep ms-2 my-1 h-px w-6 bg-line'
       railTop.append(railIcon('For You', 'i-user', 'for-you'), forYouSep)
     }
 
     const railSep = document.createElement('div')
-    railSep.className = 'nc2-rail-sep ms-[9px] my-1 h-px w-6 bg-line'
+    railSep.className = 'nc2-rail-sep ms-2 my-1 h-px w-6 bg-line'
     const starredGroup = ['Starred', ...NAV_FAVORITES]
     const recentGroup = ['Recent', ...NAV_RECENTS]
     const starredBtn = railIcon('Starred', 'i-spark', starredGroup)
@@ -400,10 +404,10 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
        scrolling, and the footer's bottom padding keeps it clear of the fixed
        "Prototype controls" pill that sits over the rail's last 48px. */
     const accountSep = document.createElement('div')
-    accountSep.className = 'nc2-rail-sep ms-[9px] my-1 h-px w-6 bg-line'
+    accountSep.className = 'nc2-rail-sep ms-2 my-1 h-px w-6 bg-line'
     const accountBtn = railIcon(NAV_ACCOUNT_GROUP[0], 'i-account', NAV_ACCOUNT_GROUP)
     const railFoot = document.createElement('div')
-    railFoot.className = 'nc2-rail-foot flex shrink-0 flex-col gap-0.5 pb-14'
+    railFoot.className = 'nc2-rail-foot flex shrink-0 flex-col gap-0.5 pb-12'
     railFoot.append(accountSep, accountBtn)
     rail.appendChild(railFoot)
     document.addEventListener('click', e => {
@@ -450,11 +454,12 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     ) => {
       if (!btn || !group) return
       if (!keepLayout) {
+        closeCompactSide()
         side.classList.toggle('collapsed', compactShell.matches)
         updateSideWidth(side)
       }
       activate(btn, group, {withForYou, targetRoute, keepOverlay})
-      if (compactShell.matches) panel.hidden = true
+      if (compactShell.matches && sideCollapsed) panel.hidden = true
     }
     /* selects an app's rail icon + opens its panel from outside the rail itself —
         used by the topbar app-switcher, the launchpad tiles, and boot */
@@ -501,7 +506,7 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     return root
   }
 
-  const compactShell = matchMedia('(max-width: 900px)')
+  const compactShell = matchMedia(belowQuery('md'))
 
   let sideCollapsed = compactShell.matches
 
@@ -548,6 +553,8 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
           'aria-label',
           sideCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
         )
+      const content = side.parentElement?.querySelector(':scope > .content')
+      if (content) content.inert = compactShell.matches && !sideCollapsed
     })
     syncTopbarChrome()
   }
@@ -557,10 +564,37 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     applySideCollapsedState()
   }
 
+  /* Below `md` the open side navigation covers the page, so it closes once
+     it has done its job. Focus it was holding goes back to its button. */
+  function closeCompactSide({focusToggle = false} = {}) {
+    if (!compactShell.matches || sideCollapsed) return
+    const heldFocus = Boolean(document.activeElement?.closest('.side'))
+    toggleSideCollapse()
+    if (focusToggle || heldFocus) document.querySelector('.gtop .side-toggle')?.focus()
+  }
+
+  document.addEventListener('click', event => {
+    if (clickedCollapseToggle(event)) return
+    const outside = event
+      .composedPath()
+      .some(el => el instanceof Element && el.matches('.side-scrim, .gtop'))
+    if (outside) closeCompactSide()
+  })
+
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape' || event.defaultPrevented) return
+    if (!compactShell.matches || sideCollapsed) return
+    if (event.target !== document.body && !event.target.closest?.('.side, .side-toggle')) return
+    event.preventDefault()
+    closeCompactSide({focusToggle: true})
+  })
+
   compactShell.addEventListener('change', event => {
     sideCollapsed = event.matches
     applySideCollapsedState()
   })
+
+  window.addEventListener('popstate', () => closeCompactSide())
 
   return {visibleGroups, childrenOf, leavesOf, findNavGroup, getForYouGroups: () => forYouGroups, setForYouGroups: value => { forYouGroups = value }, getCurrentAppLabel: () => currentAppLabel, getNavCurrentLabel: () => navCurrentLabel, setNavCurrent, openScreen, applyNavCurrent, buildRailAndPanel, getSideCollapsed: () => sideCollapsed, renderSide, applySideCollapsedState, toggleSideCollapse}
 }

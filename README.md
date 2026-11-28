@@ -87,6 +87,8 @@ measured against the frozen baseline described in
 
 - [`docs/app-shell-development.md`](docs/app-shell-development.md) — run, build, and verify
 - [`PRODUCT.md`](PRODUCT.md) — users, purpose, and brand commitments
+- [`DESIGN.md`](DESIGN.md) — design tokens and Atlassian Design System deviations
+- [`docs/adr/0001-prototype-as-design-reference.md`](docs/adr/0001-prototype-as-design-reference.md) — why the prototype, not ADS, is the reference
 - [`audit/app-shell-audit.md`](audit/app-shell-audit.md) — the audit this prototype grew from
 - [`docs/tailwind-migration-report.md`](docs/tailwind-migration-report.md) — utility migration and byte budget
 - [`tests/support/known-defects.md`](tests/support/known-defects.md) — baseline defect ledger

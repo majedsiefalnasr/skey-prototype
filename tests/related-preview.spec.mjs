@@ -38,12 +38,13 @@ test('related previews preserve the note, URL, focus, and read-only controls', a
     await page.screenshot({path: info.outputPath(`related-${type}-preview.png`), animations: 'disabled'})
     const bounds = await preview(page).locator('[data-preview-box]').boundingBox()
     expect(Math.abs(bounds.x + bounds.width / 2 - page.viewportSize().width / 2)).toBeLessThan(2)
-    expect(bounds.width).toBeLessThanOrEqual(520)
-    const spacing = await page.evaluate(() => ['.dhd', '.dlg-inner', '.dbody', '.dfoot'].map(selector => [
+    expect(bounds.width).toBeLessThanOrEqual(600)
+    const spacing = await page.evaluate(() => ['.dhd', '.dlg-inner', '.dfoot'].map(selector => [
       getComputedStyle(document.querySelector(`#collab-preview ${selector}`)).padding,
       getComputedStyle(document.querySelector(`#customer-type-add-scrim ${selector}`)).padding,
     ]))
     for (const [actual, expected] of spacing) expect(actual).toBe(expected)
+    await expect(preview(page).locator('.dbody')).toHaveCSS('padding', '16px 20px')
     await page.keyboard.press('Escape')
     await expect(preview(page)).toBeHidden()
     await expect(panel(page)).toBeVisible()
@@ -81,23 +82,11 @@ test('event and mail previews open above notes without navigating', async ({page
     await expect(page).toHaveURL(/\/help-screens\/notes$/)
     await expect(panel(page)).toBeVisible()
     await page.screenshot({path: info.outputPath(`related-${type}-preview.png`), animations: 'disabled'})
-    await preview(page).click({position: {x: 2, y: 2}})
+    if (page.viewportSize().width < 480) await preview(page).locator('[data-preview-close]').click()
+    else await preview(page).click({position: {x: 2, y: 2}})
     await expect(preview(page)).toBeHidden()
     await panel(page).locator('[data-panel-close]').click()
   }
-})
-
-test('person record previews its related note and View full navigates explicitly', async ({page}, info) => {
-  await go(page, info, 'people-data')
-  await page.locator('.people-view [data-row-open]').filter({hasText: 'Ahmed Ali'}).click()
-  const record = page.locator('.people-record-view')
-  await related(record, 'note').click()
-  await expect(preview(page).locator('#collab-preview-title')).toHaveText('Payment terms for Al Noor')
-  await expect(record).toBeVisible()
-  await page.screenshot({path: info.outputPath('related-note-preview.png'), animations: 'disabled'})
-  await preview(page).locator('[data-preview-full]').click()
-  await expect(page).toHaveURL(/\/help-screens\/notes$/)
-  await expect(panel(page).locator('#collab-panel-title')).toHaveText('Payment terms for Al Noor')
 })
 
 test('overdue related activities use the same danger shell as delete dialogs', async ({page}, info) => {

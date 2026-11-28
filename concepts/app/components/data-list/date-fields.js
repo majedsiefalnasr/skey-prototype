@@ -12,7 +12,7 @@ const DATA_FILTER_DATE_RELATIVE_CLASS =
 const DATA_FILTER_DATE_RANGE_CLASS =
   'data-filter-date-range flex items-center gap-1.5 border-t border-line pt-2 pb-1 px-1.5 mt-1'
 const DATA_FILTER_DATE_CONTROL_CLASS =
-  'min-h-[32px] rounded-md border border-line bg-surface px-2 py-[5px] font-[inherit] text-[12.5px] text-ink'
+  'min-h-[32px] rounded-md border border-line bg-surface px-2 py-1 font-[inherit] text-dense text-ink'
 
 /** Owns list dates state and its DOM bindings. */
 export function createListDates({t, formatLocaleDate, getAppLocale, dataListIcon} = {}) {
@@ -88,7 +88,7 @@ export function createListDates({t, formatLocaleDate, getAppLocale, dataListIcon
       preset === 'range'
         ? `<div class="${DATA_FILTER_DATE_RANGE_CLASS}"><input type="date" class="${DATA_FILTER_DATE_CONTROL_CLASS} flex-1 min-w-0" value="${encodeHtml(dataListDateInputValue(a))}" data-list-date-range-from="${encodeHtml(field.key)}" aria-label="${t('From', 'From')}"><span class="text-xs text-muted">${t('to', 'to')}</span><input type="date" class="${DATA_FILTER_DATE_CONTROL_CLASS} flex-1 min-w-0" value="${encodeHtml(dataListDateInputValue(b))}" data-list-date-range-to="${encodeHtml(field.key)}" aria-label="${t('To', 'To')}"></div>`
         : ''
-    return `<div class="data-filter-date-presets grid gap-px" role="listbox">${options}</div>${relativeControls}${specificControls}${rangeControls}`
+    return `<div class="data-filter-date-presets grid gap-0" role="listbox">${options}</div>${relativeControls}${specificControls}${rangeControls}`
   }
 
   function renderDataFilterModalDateField(field, filter, clearButton = '') {

@@ -10,6 +10,7 @@ const {t} = uiLocale
 // to themselves with their own keydown handler and stopPropagation, so the
 // shared trap — still pointed at the panel — never pulls focus back.
 import {escapeHtml, icon} from './fields.js'
+import {returnFocus} from '../dialog/dialog.js'
 
 const FOCUSABLE =
   'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),summary,[tabindex]:not([tabindex="-1"])'
@@ -65,7 +66,7 @@ export function createConfirm() {
         cancel.removeEventListener('click', onCancel)
         dialog.removeEventListener('click', onBackdrop)
         dialog.classList.remove('open')
-        if (returnTo && document.contains(returnTo)) returnTo.focus()
+        returnFocus(returnTo, document)
         resolve(result)
       }
       const onOk = () => finish(true)
@@ -130,7 +131,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm, root, foote
     menuList.innerHTML = items
       .map(
         (item, index) =>
-          `<button type="button" role="menuitem" tabindex="-1" data-index="${index}" class="flex min-h-8 w-full items-center gap-2 rounded-[5px] border-0 bg-transparent px-2 py-1.5 text-start text-[13px] ${item.danger ? 'text-[color:var(--danger)]' : 'text-ink'} hover:bg-[var(--line-2)] focus-visible:bg-[var(--line-2)] focus-visible:outline-none">${item.icon ? icon(item.icon) : ''}${escapeHtml(t(item.label))}</button>`
+          `<button type="button" role="menuitem" tabindex="-1" data-index="${index}" class="flex min-h-8 w-full items-center gap-2 rounded-md border-0 bg-transparent px-2 py-1.5 text-start text-body ${item.danger ? 'text-[color:var(--danger)]' : 'text-ink'} hover:bg-[var(--line-2)] focus-visible:bg-[var(--line-2)] focus-visible:outline-none">${item.icon ? icon(item.icon) : ''}${escapeHtml(t(item.label))}</button>`
       )
       .join('')
   }
@@ -171,7 +172,7 @@ export function createCollabPanel({trapFocus, releaseFocus, confirm, root, foote
     current = {menu: [], ...options}
     /* The header carries a status chip and a note line — no type badge:
        the record's own title already says what kind of thing it is. */
-    statusBadge.className = `badge inline-flex items-center rounded-full! px-2.5! py-1! ${current.status?.tone || 'gray'}`
+    statusBadge.className = `badge inline-flex items-center rounded-full! px-2! py-1! ${current.status?.tone || 'gray'}`
     statusBadge.textContent = t(current.status?.label) || ''
     statusBadge.hidden = !current.status
     titleEl.textContent = current.ref ? current.title : t(current.title)

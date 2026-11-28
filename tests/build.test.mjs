@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict'
-import {mkdir, mkdtemp, readFile, rm, stat, symlink, writeFile} from 'node:fs/promises'
+import {mkdir, mkdtemp, readdir, readFile, rename, rm, stat, symlink, writeFile} from 'node:fs/promises'
 import http from 'node:http'
 import {tmpdir} from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
-import {assemble, build} from '../scripts/build.mjs'
+import {assemble, build, removePreviousDist, swapDist} from '../scripts/build.mjs'
 import {serve} from '../scripts/serve.mjs'
 
 // assemble() resolves includes relative to a fixed `concepts/` sourceRoot
@@ -105,7 +105,7 @@ function applyTask3ShellUtilities(html) {
     ],
     [
       'class="left"',
-      'class="left flex w-[calc(var(--sidebar-w)-16px)] shrink-0 items-center gap-2.5"',
+      'class="left flex w-[calc(var(--sidebar-w)-16px)] shrink-0 items-center gap-2"',
     ],
     ['class="gsearch"', 'class="gsearch relative flex flex-1 justify-center"'],
     ['class="swrap"', 'class="swrap relative w-[min(620px,100%)]"'],
@@ -115,7 +115,7 @@ function applyTask3ShellUtilities(html) {
     ],
     [
       '<span class="kbd-chip">⌘K</span>',
-      '<span class="ms-auto rounded border border-line bg-[var(--line-2)] px-1.5 py-px font-mono text-[11px] text-muted">⌘K</span>',
+      '<span class="ms-auto rounded border border-line bg-[var(--line-2)] px-1.5 py-0 font-mono text-[11px] text-muted">⌘K</span>',
     ],
     [
       'class="spanel"',
@@ -128,11 +128,11 @@ function applyTask3ShellUtilities(html) {
     ],
     [
       'autocomplete="off" />\n                <span class="kbd-chip" style="margin: 0">Esc</span>',
-      'autocomplete="off" />\n                <span class="rounded border border-line bg-[var(--line-2)] px-1.5 py-px font-mono text-[11px] text-muted">Esc</span>',
+      'autocomplete="off" />\n                <span class="rounded border border-line bg-[var(--line-2)] px-1.5 py-0 font-mono text-[11px] text-muted">Esc</span>',
     ],
     [
       'class="sctx"',
-      'class="sctx flex flex-wrap items-center gap-2 border-b border-line bg-[var(--line-2)] px-3.5 py-2 text-xs text-muted"',
+      'class="sctx flex flex-wrap items-center gap-2 border-b border-line bg-[var(--line-2)] px-3 py-2 text-xs text-muted"',
     ],
     [
       'You are on <b>Sales Invoice</b> · 001000352026126',
@@ -144,28 +144,28 @@ function applyTask3ShellUtilities(html) {
     ],
     [
       '<button data-scope="all" aria-pressed="true">Everything</button>',
-      '<button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="all" aria-pressed="true">Everything</button>',
+      '<button class="rounded-full border border-line bg-surface px-2 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="all" aria-pressed="true">Everything</button>',
     ],
     [
       '<button data-scope="screens" aria-pressed="false">Screens</button>',
-      '<button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="screens" aria-pressed="false">Screens</button>',
+      '<button class="rounded-full border border-line bg-surface px-2 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="screens" aria-pressed="false">Screens</button>',
     ],
     [
       '<button data-scope="records" aria-pressed="false">Records</button>',
-      '<button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="records" aria-pressed="false">Records</button>',
+      '<button class="rounded-full border border-line bg-surface px-2 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="records" aria-pressed="false">Records</button>',
     ],
     [
       '<button data-scope="actions" aria-pressed="false">Actions</button>',
-      '<button class="rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="actions" aria-pressed="false">Actions</button>',
+      '<button class="rounded-full border border-line bg-surface px-2 py-0.5 text-xs text-muted aria-pressed:border-[var(--accent-line)] aria-pressed:bg-[var(--accent-soft)] aria-pressed:font-semibold aria-pressed:text-accent" data-scope="actions" aria-pressed="false">Actions</button>',
     ],
     ['class="slist" role="listbox"', 'class="slist flex-1 overflow-auto p-1.5" role="listbox"'],
     [
       'class="sfoot"',
-      'class="sfoot flex items-center gap-[15px] border-t border-line bg-[var(--line-2)] px-3.5 py-2 text-xs text-muted"',
+      'class="sfoot flex items-center gap-[15px] border-t border-line bg-[var(--line-2)] px-3 py-2 text-xs text-muted"',
     ],
     [
       '                <span><span class="k">↑↓</span>Navigate</span\n                ><span><span class="k">↵</span>Open</span>\n                <span class="sfoot-scope"><span class="k">Tab</span>Change scope</span>',
-      '                <span><span class="k rounded border border-line bg-surface px-1.5 py-px font-mono text-[11px] me-[5px]">↑↓</span>Navigate</span\n                ><span><span class="k rounded border border-line bg-surface px-1.5 py-px font-mono text-[11px] me-[5px]">↵</span>Open</span>\n                <span class="sfoot-scope"><span class="k rounded border border-line bg-surface px-1.5 py-px font-mono text-[11px] me-[5px]">Tab</span>Change scope</span>',
+      '                <span><span class="k rounded border border-line bg-surface px-1.5 py-0 font-mono text-[11px] me-[5px]">↑↓</span>Navigate</span\n                ><span><span class="k rounded border border-line bg-surface px-1.5 py-0 font-mono text-[11px] me-[5px]">↵</span>Open</span>\n                <span class="sfoot-scope"><span class="k rounded border border-line bg-surface px-1.5 py-0 font-mono text-[11px] me-[5px]">Tab</span>Change scope</span>',
     ],
     ['class="sfoot-ctx" style="margin-inline-start: auto"', 'class="sfoot-ctx ms-auto"'],
     ['class="right"', 'class="right flex shrink-0 items-center gap-[7px]"'],
@@ -181,7 +181,7 @@ function applyTask3ShellUtilities(html) {
     ['class="avatar-btn"', 'class="avatar-btn rounded-full"'],
     [
       'class="user-card">\n                <span class="avatar">MS</span>',
-      'class="user-card mb-0.5 flex items-center gap-2.5 px-2.5 pb-3 pt-2.5">\n                <span class="avatar size-9 text-[13px]">MS</span>',
+      'class="user-card mb-0.5 flex items-center gap-2 px-2 pb-3 pt-2">\n                <span class="avatar size-9 text-[13px]">MS</span>',
     ],
     [
       '<div><b>Majed Sief Alnasr</b><span>admin@lastchance</span></div>',
@@ -342,6 +342,106 @@ test('assemble: Task 3 shell utility mapping rejects an unrelated duplicate clas
     () => applyTask3ShellUtilities('<header class="gtop"></header><header class="gtop"></header>'),
     /duplicate intended markup: class="gtop"/
   )
+})
+
+test('removePreviousDist: retries the removal of the replaced dist/', async () => {
+  const calls = []
+  await removePreviousDist('.dist-old-fixture', {
+    remove: async (...args) => calls.push(args),
+    warn: message => assert.fail(message),
+  })
+  assert.equal(calls.length, 1)
+  const [directory, options] = calls[0]
+  assert.equal(directory, '.dist-old-fixture')
+  assert.equal(options.recursive, true)
+  assert.ok(options.maxRetries > 0)
+})
+
+test('removePreviousDist: warns instead of failing when the replaced dist/ cannot be removed', async () => {
+  const warnings = []
+  await removePreviousDist('.dist-old-fixture', {
+    remove: async () => {
+      throw Object.assign(new Error('ENOTEMPTY: directory not empty'), {code: 'ENOTEMPTY'})
+    },
+    warn: message => warnings.push(message),
+  })
+  assert.equal(warnings.length, 1)
+  assert.match(warnings[0], /\.dist-old-fixture.*ENOTEMPTY/)
+})
+
+async function withSwapFixture(run) {
+  const root = await mkdtemp(path.join(tmpdir(), 'swap-dist-'))
+  try {
+    for (const name of ['dist', 'first', 'second']) {
+      await mkdir(path.join(root, name))
+      await writeFile(path.join(root, name, 'owner.txt'), name)
+    }
+    await run({
+      root,
+      target: path.join(root, 'dist'),
+      owner: () => readFile(path.join(root, 'dist', 'owner.txt'), 'utf8'),
+    })
+  } finally {
+    await rm(root, {recursive: true, force: true})
+  }
+}
+
+test('swapDist: concurrent builds both publish when their swaps interleave', async () => {
+  await withSwapFixture(async ({root, target, owner}) => {
+    let waiting = 2
+    let release
+    const bothMovedAside = new Promise(resolve => {
+      release = resolve
+    })
+    const swap = name => {
+      let held = false
+      return swapDist(path.join(root, name), target, {
+        move: async (from, to) => {
+          if (from !== target && !held) {
+            held = true
+            waiting -= 1
+            if (waiting === 0) release()
+            await bothMovedAside
+          }
+          return rename(from, to)
+        },
+      })
+    }
+    const results = await Promise.allSettled([swap('first'), swap('second')])
+    assert.deepEqual(
+      results.map(result => result.reason?.code || result.status),
+      ['fulfilled', 'fulfilled']
+    )
+    assert.match(await owner(), /^(first|second)$/)
+    assert.deepEqual(await readdir(root), ['dist'])
+  })
+})
+
+test('swapDist: reports a dist/ it cannot move aside', async () => {
+  await withSwapFixture(async ({root, target, owner}) => {
+    const swap = swapDist(path.join(root, 'first'), target, {
+      move: async (from, to) => {
+        if (from === target) throw Object.assign(new Error('EACCES'), {code: 'EACCES'})
+        return rename(from, to)
+      },
+    })
+    await assert.rejects(swap, {code: 'EACCES'})
+    assert.equal(await owner(), 'dist')
+  })
+})
+
+test('swapDist: restores the previous dist/ when publishing fails', async () => {
+  await withSwapFixture(async ({root, target, owner}) => {
+    const staging = path.join(root, 'first')
+    const swap = swapDist(staging, target, {
+      move: async (from, to) => {
+        if (from === staging) throw Object.assign(new Error('EIO'), {code: 'EIO'})
+        return rename(from, to)
+      },
+    })
+    await assert.rejects(swap, {code: 'EIO'})
+    assert.equal(await owner(), 'dist')
+  })
 })
 
 test('build: produces dist/concepts/app-shell.html with no unresolved include directives', async () => {

@@ -110,8 +110,7 @@ test('VQA-08: adjacent half-hour activities remain independently tappable',async
   await expect(page.locator('#collab-panel')).toBeHidden();
   // Complete the normal creation flow before testing calendar hit targets;
   // the success flag otherwise overlays the bottom portion of the phone.
-  await page.locator('.toast button[aria-label="Dismiss"]').click();
-  await expect(page.locator('.toast')).toHaveCount(0);
+  await expect(page.locator('.toast')).toHaveCount(0,{timeout:12_000});
   await week(page);
   const call=page.locator('[data-timed] [data-cal-item]').filter({hasText:'Call Al Noor about quotation 884'});
   const adjacent=page.locator('[data-timed] [data-cal-item]').filter({hasText:title});

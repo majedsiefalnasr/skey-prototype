@@ -12,7 +12,7 @@
 // projects, including mobile-rtl, which boots Arabic through the #rtl
 // harness (tests/support/browser.mjs normalizes it per project).
 import {test, expect} from '@playwright/test';
-import {boot, settle} from './support/browser.mjs';
+import {boot, openSideNavigation, settle} from './support/browser.mjs';
 
 const baseURL = () => process.env.PARITY_URL ?? 'http://127.0.0.1:4173';
 
@@ -95,6 +95,7 @@ async function expandSubmenu(page, selector) {
  *  aria-label. Rail icons sit under the floating resize handle, so click
  *  the icon's clear edge, like routing.spec's clickRailIcon. */
 async function openStarredPanel(page) {
+  await openSideNavigation(page);
   const icon = page
     .locator(
       '.nc2-icn[data-i18n-original="Starred"], .nc2-icn[aria-label="Starred"], .nc2-icn[aria-label="المفضلة"]'
@@ -297,7 +298,7 @@ test.describe('user menu', () => {
     await settle(page);
     await expect(page.locator('.user-pop')).toHaveClass(/open/);
     await expect(page.locator('.user-card')).toBeFocused();
-    for (let press = 0; press < 4; press++) await page.keyboard.press('ArrowDown');
+    for (let press = 0; press < 3; press++) await page.keyboard.press('ArrowDown');
     await expect(page.locator('.language-submenu > summary')).toBeFocused();
     await page.keyboard.press('ArrowDown');
     await expect(page.locator('.user-pop .help-kbd')).toBeFocused();
