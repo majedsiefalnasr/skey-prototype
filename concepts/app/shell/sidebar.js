@@ -553,6 +553,8 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
           'aria-label',
           sideCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
         )
+      const content = side.parentElement?.querySelector(':scope > .content')
+      if (content) content.inert = compactShell.matches && !sideCollapsed
     })
     syncTopbarChrome()
   }
@@ -591,6 +593,8 @@ export function createSidebar({t, getShowContentView, getLaunchpadEnabled, build
     sideCollapsed = event.matches
     applySideCollapsedState()
   })
+
+  window.addEventListener('popstate', () => closeCompactSide())
 
   return {visibleGroups, childrenOf, leavesOf, findNavGroup, getForYouGroups: () => forYouGroups, setForYouGroups: value => { forYouGroups = value }, getCurrentAppLabel: () => currentAppLabel, getNavCurrentLabel: () => navCurrentLabel, setNavCurrent, openScreen, applyNavCurrent, buildRailAndPanel, getSideCollapsed: () => sideCollapsed, renderSide, applySideCollapsedState, toggleSideCollapse}
 }

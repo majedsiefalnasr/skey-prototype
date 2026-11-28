@@ -4013,7 +4013,7 @@
       inset-inline-start: 0;
       translate: none;
     }
-    .gtop .side-toggle[aria-pressed='false'] .tip {
+    .gtop .side-toggle[aria-pressed='true'] .tip {
       display: none;
     }
     .canvas {
@@ -4297,11 +4297,9 @@
       inset-inline-end: -12px;
       width: 24px;
     }
-    @media (width < theme(--breakpoint-md)) {
-      .side:not(.collapsed) .nc2-rail:is(:hover, :focus-within) {
-        width: var(--rail-w);
-        box-shadow: none;
-      }
+    .side:not(.collapsed) .nc2-rail:is(:hover, :focus-within) {
+      width: var(--rail-w);
+      box-shadow: none;
     }
     .side-handle::before {
       inset-inline-start: 11px;

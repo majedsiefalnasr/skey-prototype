@@ -2,6 +2,7 @@
 
 import {CURRENT_USER} from '../prototype/fixtures/profile.js'
 import {NAV_FAVORITES} from '../prototype/fixtures/navigation.js'
+import {belowQuery} from '../core/breakpoints.js'
 
 /** Owns topbar state and its DOM bindings. */
 export function createTopbar({toast, t, getSideCollapsed, getLaunchpadEnabled, closeAllMenus, openKbd, openCustomize, navigateToProfileSection, navigateToOrganizationSection, getCurrentNavLabel, renderSide, trapFocus, releaseFocus, onTakeTour, onSignOut} = {}) {
@@ -109,10 +110,11 @@ export function createTopbar({toast, t, getSideCollapsed, getLaunchpadEnabled, c
     document.querySelectorAll('.gtop .app').forEach(a => {
       a.style.order = '2'
     })
+    const compactShell = matchMedia(belowQuery('md')).matches
     document.querySelectorAll('.side-toggle').forEach(b => {
       b.style.order = getSideCollapsed() ? '-1' : '3'
       b.classList.toggle('rail-aligned', getSideCollapsed())
-      b.setAttribute('aria-pressed', String(getSideCollapsed()))
+      b.setAttribute('aria-pressed', String(compactShell ? !getSideCollapsed() : getSideCollapsed()))
       b.setAttribute('aria-label', getSideCollapsed() ? t('Expand sidebar') : t('Collapse sidebar'))
       b.querySelector('.tip').textContent = getSideCollapsed()
         ? t('Expand sidebar')

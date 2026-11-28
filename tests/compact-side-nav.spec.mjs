@@ -48,12 +48,16 @@ for (const width of COMPACT_WIDTHS) {
     const expectClosed = async () => {
       await expect(side).toBeHidden()
       await expect(scrim).toBeHidden()
+      await expect(toggle).toHaveAttribute('aria-pressed', 'false')
+      expect(await content.evaluate(element => element.inert)).toBe(false)
     }
 
     await expectClosed()
     expect(await widthOf(content)).toBe(width)
 
     await openNavigation()
+    await expect(toggle).toHaveAttribute('aria-pressed', 'true')
+    expect(await content.evaluate(element => element.inert)).toBe(true)
     const openWidth = Math.min(OPEN_WIDTH, width - MINIMUM_OUTSIDE)
     expect(await widthOf(side)).toBe(openWidth)
     expect(await reachOf(page)).toBe(openWidth)
@@ -83,6 +87,11 @@ for (const width of COMPACT_WIDTHS) {
     await notes.tap()
     await expectClosed()
     await expect(page.locator('.notes-view')).toBeVisible()
+
+    await openNavigation()
+    await page.goBack()
+    await expectClosed()
+    await expect(page).toHaveURL(/\/help-screens$/)
   })
 }
 
@@ -104,3 +113,15 @@ test('side navigation stays in the layout from 1024px', async ({page}, testInfo)
   await expect(page.locator('.side-scrim')).toBeHidden()
   expect(await widthOf(side)).toBe(52)
 })
+
+for (const width of [1024, 1440]) {
+  test(`a tapped rail icon keeps the rail narrow at ${width}px`, async ({page}, testInfo) => {
+    test.skip(!['mobile-touch', 'mobile-rtl'].includes(testInfo.project.name), 'Needs a touch screen, once per direction.')
+    await boot(page, testInfo, width)
+    const rail = page.locator('.nc2-rail')
+    expect(await widthOf(rail)).toBe(52)
+    await page.locator('.nc2-icn[data-i18n-original="Help Screens"], .nc2-icn[aria-label="Help Screens"]').tap()
+    await expect(page.locator('.nc3-panel .nc1-item[data-label="Notes"]')).toBeVisible()
+    expect(await widthOf(rail)).toBe(52)
+  })
+}
