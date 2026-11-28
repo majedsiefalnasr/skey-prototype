@@ -316,15 +316,21 @@ The touch rail fix landed after that build, so `mobile-touch` and
 `mobile-rtl` were rerun on a rebuilt copy: 1,054 passed, 18 failed (the same
 `parity` screenshots), 278 skipped. Unit tests: 206 passed.
 
+With approval, the 83 screenshots were re-captured from the #59 tree
+(`--update-snapshots=changed`, 83 files). The same 98 tests then passed
+twice in a row (`--repeat-each=2`, 196 passed). `zz-probe-t34.spec.mjs`, a
+leftover probe, was removed; its pager check is covered by
+`invoice-geography.spec.mjs`.
+
 | Entry | Status | Evidence in the run |
 |---|---|---|
 | #1–5, #7–11 | Fixed (2026-10-17) | Their regression specs pass: `visual-qa-batch1`, `a11y-ledger`, `mail-draft-exit`, `navigation-honesty`, `routing`, `invoice-selection`, `invoice-journey`, `invoice-geography` |
 | #6 | Fixed | The three null-root tests in `lifecycle.spec.mjs` pass on all 7 projects |
 | #12 | Fixed; chart check not run | `chart-parity.spec.mjs` is skipped because charts are hidden in the prototype (#54) |
 | #13 | Fixed | "assistant proposal answers and closes with Escape" passes on all 7 projects |
-| #14, #15 | Superseded | All 63 `parity.spec.mjs` screenshots fail (9 surfaces × 7 projects). The baselines date from 2026-10-20 and predate the ADS changes; the launchpad search panel differs most, from the blur added in `b0852df`. Awaiting a decision to re-capture |
+| #14, #15 | Re-captured (2026-11-28) | All 63 `parity.spec.mjs` screenshots failed (9 surfaces × 7 projects). The baselines dated from 2026-10-20 and predated the ADS changes; the launchpad search panel differed most, from the blur added in `b0852df`. Reviewed side by side and re-captured with approval |
 | #16 | No longer fails | "toolbar data-menus dismiss with Escape and outside click" passes on all 7 projects |
-| #17 | 20 remain, screenshots only | `data-list-component.spec.mjs` (4 invoice list views) and `messaging.spec.mjs` (notification email) fail on `desktop-dark`, both high-contrast projects and `desktop-reduced-motion`. The reduced-motion captures match the approved `desktop` images byte for byte; the dark differences are shifted columns. Awaiting a decision to re-capture |
+| #17 | Re-captured (2026-11-28) | The last 20 were screenshots: `data-list-component.spec.mjs` (4 invoice list views) and `messaging.spec.mjs` (notification email) on `desktop-dark`, both high-contrast projects and `desktop-reduced-motion`. The reduced-motion captures matched the approved `desktop` images byte for byte; the dark differences were shifted columns. Reviewed side by side and re-captured with approval |
 | #18 | Build cause fixed (#55) | The four named tests pass on all 7 projects |
 | #19 | Fixed | `signin-pages.spec.mjs` and `signin-gate.spec.mjs` pass on all 7 projects |
 
