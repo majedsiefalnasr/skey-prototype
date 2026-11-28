@@ -3719,13 +3719,15 @@
   body.style-floated .rec-field:has(input[type='date']) label,
   body.style-floated .rec-field:has(input:disabled) label,
   body.style-floated .rec-field:has(textarea) > label,
-  body.style-floated .rec-field:has([data-ms]) > label {
+  body.style-floated .rec-field:has([data-ms]) > label,
+  body.style-floated .rec-field:has(> p) > label {
     top: 4px;
     font-size: 12px;
   }
   body.style-floated .rec-field input,
   body.style-floated .rec-field select,
-  body.style-floated .rec-field textarea {
+  body.style-floated .rec-field textarea,
+  body.style-floated .rec-field > p {
     padding-top: var(--ds-space-100);
   }
   /* inline: no visible input border/background at rest -- reads as plain text with a
@@ -3745,6 +3747,18 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  /* A toggle is its own label and control, so it keeps the full field width
+     instead of sitting in the 130px label column. */
+  body.style-inline .rec-field.customer-dialog-toggle {
+    display: flex;
+  }
+  body.style-inline .rec-field:has(> label.customer-dialog-toggle) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  body.style-inline .rec-field > label.customer-dialog-toggle {
+    white-space: normal;
+    overflow: visible;
   }
   body.style-inline .rec-field input,
   body.style-inline .rec-field select,
