@@ -467,10 +467,10 @@
     opacity: 0.72;
   }
   html[data-contrast-mode='more'] .switch span {
-    border: 1px solid var(--ds-border-bold);
+    box-shadow: inset 0 0 0 var(--ds-border-width) var(--ds-border-bold);
   }
   html[data-contrast-mode='more'] .switch input:checked + span {
-    border-color: var(--accent);
+    box-shadow: inset 0 0 0 var(--ds-border-width) var(--accent);
   }
   html[data-contrast-mode='more'] :is(.nc1-item.current, .nc2-icn.active) {
     outline: 2px solid var(--accent);
