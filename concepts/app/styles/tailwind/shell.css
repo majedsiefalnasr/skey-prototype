@@ -4002,7 +4002,7 @@
     .canvas {
       align-items: flex-start;
       justify-content: flex-start;
-      margin: var(--ds-space-100);
+      margin: var(--ds-space-100) 0;
       text-align: start;
     }
     #canvas-root,
@@ -4198,7 +4198,6 @@
     }
     .d1 .phead {
       flex-wrap: wrap;
-      padding-inline: var(--ds-space-100);
     }
     .d1 .phead .r {
       width: 100%;
